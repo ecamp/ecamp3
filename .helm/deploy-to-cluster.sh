@@ -7,6 +7,17 @@ REPO_DIR=$(realpath "$SCRIPT_DIR"/..)
 
 source "$SCRIPT_DIR"/.env
 
+if [ -z "$version" ] \
+    || [ -z "$instance_name" ] \
+    || [ -z "$POSTGRES_URL" ] \
+    || [ -z "$POSTGRES_ADMIN_URL" ] \
+    ; then
+    echo "Please specify the needed env variables in $SCRIPT_DIR/.env"
+    echo "An example can be seen here:"
+    cat $SCRIPT_DIR/.env-example
+    exit 1
+fi
+
 pull_policy="Always"
 domain="ecamp3.ch"
 values="--set imageTag=${version}"

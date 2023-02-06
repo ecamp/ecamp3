@@ -12,6 +12,15 @@ jq -e ".auths | .\"${registry_name}\" | .auth" < ~/.docker/config.json || $not_l
 
 source "$SCRIPT_DIR"/.env
 
+if [ -z "$docker_hub_account" ] \
+    || [ -z "$version" ] \
+    ; then
+    echo "Please specify the needed env variables in $SCRIPT_DIR/.env"
+    echo "An example can be seen here:"
+    cat $SCRIPT_DIR/.env-example
+    exit 1
+fi
+
 frontend_image_tag="${docker_hub_account}/ecamp3-frontend:${version}"
 docker build "$REPO_DIR" -f "$REPO_DIR"/.docker-hub/frontend/Dockerfile -t "$frontend_image_tag"
 docker push "$frontend_image_tag"
