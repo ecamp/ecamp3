@@ -142,11 +142,8 @@ jobs:
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
             --set imageTag=${{ steps.log-environment.outputs.sha }} \
-            --set sharedCookieDomain=.${{ vars.DOMAIN }} \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
-            --set api.domain=api${{ env.domain }} \
-            --set frontend.domain=app${{ env.domain }} \
-            --set print.domain=print${{ env.domain }} \
+            --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
             --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/${{ secrets.DB_NAME }}?sslmode=require' \
@@ -187,5 +184,5 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://app${{ env.domain }}
+          env_url: https://${{ env.domain }}
           env: ${{ steps.deployment.outputs.env }}

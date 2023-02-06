@@ -6,23 +6,25 @@ metadata:
   labels:
     {{- include "print.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: {{ .Values.print.subpath }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- if .Values.ingress.tls }}
   tls:
     - hosts:
-        - {{ $.Values.print.domain | quote }}
+        - {{ $.Values.domain | quote }}
       secretName: {{ .Values.ingress.tls.secretName }}
   {{- end }}
   rules:
-    - host: {{ .Values.print.domain | quote }}
+    - host: {{ .Values.domain | quote }}
       http:
         paths:
-          - path: /
+          - path: {{ .Values.print.subpath }}(/|$)(.*)
             pathType: Prefix
             backend:
               service:
