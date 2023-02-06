@@ -144,9 +144,7 @@ async function loginJublaDB() {
 }
 
 export async function logout() {
-  Cookies.remove(headerAndPayloadCookieName(), {
-    domain: window.environment.SHARED_COOKIE_DOMAIN,
-  })
+  Cookies.remove(headerAndPayloadCookieName())
   store.commit('logout')
   return router
     .push({ name: 'login' })

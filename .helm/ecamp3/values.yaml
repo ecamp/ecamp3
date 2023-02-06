@@ -5,17 +5,17 @@ chartNameOverride: ""
 imageTag: "latest"
 imagePullSecrets: []
 deploymentTime: ""
+domain:
 deployedVersion: "devel"
 versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
 termsOfServiceLinkTemplate: # 'https://ecamp3.ch/{lang}/tos'
-sharedCookieDomain:
 
 # enable/disable feature across the complete deployment
 featureToggle:
   developer: false # enables various tools/features foreseen for development deployments (language switcher, form controls view, performance measurement view, etc.)
 
 api:
-  domain:
+  subpath: "/api"
   service:
     type: ClusterIP
     port: 3001
@@ -75,7 +75,6 @@ caddy:
       memory: 20Mi
 
 frontend:
-  domain:
   image:
     repository: "docker.io/ecamp/ecamp3-frontend"
     pullPolicy: IfNotPresent
@@ -93,7 +92,7 @@ frontend:
   loginInfoTextKey: 'dev'
 
 print:
-  domain:
+  subpath: "/print"
   image:
     repository: "docker.io/ecamp/ecamp3-print"
     pullPolicy: IfNotPresent
@@ -133,7 +132,7 @@ mail:
   # If using a real mail server, the connection uri to send emails to
   dsn: # smtp://myuser:mypass@mymailserver:1025
   # If the dummy mail server is enabled, the domain where the web interface is available
-  domain:
+  subpath: "/mail"
   image:
     repository: "docker.io/mailhog/mailhog"
     pullPolicy: IfNotPresent

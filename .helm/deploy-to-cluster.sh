@@ -34,13 +34,9 @@ app_jwt_private_key=$(echo -n "$app_jwt_passphrase" | openssl pkey -in "$SCRIPT_
 #use 1 2 instead of "1" to deploy multiple deployments
 for i in 1; do
   values="$values --set imageTag=${version}"
-  values="$values --set sharedCookieDomain=.$domain"
   values="$values --set termsOfServiceLinkTemplate=https://ecamp3.ch/{lang}/tos"
-  values="$values --set api.domain=api-$instance_name-"$i".$domain"
-  values="$values --set frontend.domain=app-$instance_name-"$i".$domain"
-  values="$values --set print.domain=print-$instance_name-"$i".$domain"
+  values="$values --set domain=$instance_name-"$i".$domain"
   values="$values --set mail.dummyEnabled=true"
-  values="$values --set mail.domain=mail-$instance_name-"$i".$domain"
   values="$values --set postgresql.enabled=false"
   values="$values --set postgresql.url=$POSTGRES_URL/ecamp3$instance_name-"$i"?sslmode=require"
   values="$values --set postgresql.adminUrl=$POSTGRES_ADMIN_URL/ecamp3$instance_name-"$i"?sslmode=require"
