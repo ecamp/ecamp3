@@ -19,7 +19,7 @@ if [ -z "$version" ] \
 fi
 
 pull_policy="Always"
-domain="ecamp3.ch"
+domain="${domain:-ecamp3.ch}"
 values="--set imageTag=${version}"
 migrations_dir="dev-data"
 
@@ -55,6 +55,7 @@ for i in 1; do
   values="$values --set-file php.jwt.privateKey=$SCRIPT_DIR/private.pem"
   values="$values --set deploymentTime=$(date -u +%s)"
   values="$values --set deployedVersion=\"$(git rev-parse --short HEAD)\""
+  values="$values --set featureToggle.developer=true"
 
   for imagespec in "frontend" "php" "caddy" "print"; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
