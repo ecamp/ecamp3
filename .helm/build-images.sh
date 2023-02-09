@@ -5,11 +5,6 @@ set -e
 SCRIPT_DIR=$(realpath "$(dirname "$0")")
 REPO_DIR=$(realpath "$SCRIPT_DIR"/..)
 
-# docker hub
-registry_uri=https://index.docker.io/v1/
-not_logged_in="echo \"You need to login to the docker registry $registry_uri\" && exit 1"
-jq -e ".auths | .\"${registry_name}\" | .auth" < ~/.docker/config.json || $not_logged_in
-
 source "$SCRIPT_DIR"/.env
 
 if [ -z "$docker_hub_account" ] \
