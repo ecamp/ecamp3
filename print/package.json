@@ -32,7 +32,7 @@
     "hal-json-vuex": "2.0.0-alpha.15",
     "isomorphic-dompurify": "0.26.0",
     "lodash": "4.17.21",
-    "nuxt": "2.15.8",
+    "nuxt": "2.16.0",
     "puppeteer-core": "19.6.3",
     "runes": "0.4.3"
   },
