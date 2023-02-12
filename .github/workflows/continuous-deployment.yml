@@ -251,7 +251,6 @@ jobs:
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ matrix.deployment.name }}.ecamp3.ch \
             --set mail.dummyEnabled=true \
-            --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), matrix.deployment.name) && 'false' || 'true' }} \

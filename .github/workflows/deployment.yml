@@ -163,7 +163,6 @@ jobs:
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
-            --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/${{ secrets.DB_NAME }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=false \
             --set php.dataMigrationsDir='${{ vars.DATA_MIGRATIONS_DIR }}' \
