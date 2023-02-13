@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15
+    image: postgres:13-alpine@sha256:df217beb4a3a8f25d337f601c77d824ce3d41178c2bdc3bf94166f7868de81e5
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
@@ -148,7 +148,7 @@ services:
       - '3007:8025' # web UI
 
   docker-host:
-    image: qoomon/docker-host@sha256:fa24766ea43912d1eafb8c36813e9cdac7f492ac640e9916450b649af03181aa
+    image: qoomon/docker-host@sha256:74157ce8202abd91f4e21006f0f4e65a557ef167c40cd77a26be79528e6da85d
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
