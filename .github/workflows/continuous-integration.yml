@@ -182,7 +182,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15'
+        image: 'postgres:13-alpine@sha256:df217beb4a3a8f25d337f601c77d824ce3d41178c2bdc3bf94166f7868de81e5'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -255,7 +255,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15'
+        image: 'postgres:13-alpine@sha256:df217beb4a3a8f25d337f601c77d824ce3d41178c2bdc3bf94166f7868de81e5'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
