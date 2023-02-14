@@ -23,7 +23,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
 
         $response = static::createClientWithCredentials()->request('GET', '/day_responsibles');
         $this->assertJsonContains([
-            'totalItems' => 3,
+            'totalItems' => 7,
             '_links' => [
                 'items' => [],
             ],
@@ -34,6 +34,10 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('dayResponsible1')],
             ['href' => $this->getIriFor('dayResponsible1day2period1')],
+            ['href' => $this->getIriFor('dayResponsible1day1period2')],
+            ['href' => $this->getIriFor('dayResponsible1day2period2')],
+            ['href' => $this->getIriFor('dayResponsible1day3period2')],
+            ['href' => $this->getIriFor('dayResponsible2day3period2')],
             ['href' => $this->getIriFor('dayResponsible1day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }

@@ -24,7 +24,7 @@ class ListDaysTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/days');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 7,
+            'totalItems' => 9,
             '_links' => [
                 'items' => [],
             ],
@@ -37,6 +37,8 @@ class ListDaysTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('day2period1')],
             ['href' => $this->getIriFor('day3period1')],
             ['href' => $this->getIriFor('day1period2')],
+            ['href' => $this->getIriFor('day2period2')],
+            ['href' => $this->getIriFor('day3period2')],
             ['href' => $this->getIriFor('day1period1camp2')],
             ['href' => $this->getIriFor('day2period1camp2')],
             ['href' => $this->getIriFor('day1period1campPrototype')],
@@ -95,6 +97,8 @@ class ListDaysTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('day1period1camp2')],
             ['href' => $this->getIriFor('day2period1camp2')],
             ['href' => $this->getIriFor('day1period2')],
+            ['href' => $this->getIriFor('day2period2')],
+            ['href' => $this->getIriFor('day3period2')],
             ['href' => $this->getIriFor('day1period1')],
             ['href' => $this->getIriFor('day2period1')],
             ['href' => $this->getIriFor('day3period1')],
