@@ -50,7 +50,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: CampCreateProcessor::class,
             security: 'is_authenticated()',
-            validationContext: ['groups' => ['Default', 'create']],
+            validationContext: ['groups' => ['Default', 'create', 'Camp:create']],
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
         ),
@@ -247,7 +247,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * If a COUPON_SECRET is configured, a valid Coupon is required.
      */
     #[InputFilter\Trim]
-    #[AssertValidCouponKey()]
+    #[AssertValidCouponKey(groups: ['Camp:create'])]
     #[ApiProperty(readable: false)]
     #[Groups(['create'])]
     #[ORM\Column(type: 'text', length: 128, nullable: true)]
