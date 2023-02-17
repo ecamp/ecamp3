@@ -124,7 +124,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.14.0'
+          node-version: '18.14.1'
 
       - uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3
         with:
@@ -153,7 +153,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.14.0'
+          node-version: '18.14.1'
 
       - uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3
         with:
@@ -306,7 +306,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.14.0'
+          node-version: '18.14.1'
 
       - uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3
         with:
@@ -344,7 +344,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.14.0'
+          node-version: '18.14.1'
 
       - uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812 # v3
         with:
