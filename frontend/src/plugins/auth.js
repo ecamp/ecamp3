@@ -2,6 +2,7 @@ import axios from 'axios'
 import { apiStore, store } from '@/plugins/store'
 import router from '@/router'
 import Cookies from 'js-cookie'
+import { getEnv } from '@/environment.js'
 
 axios.interceptors.response.use(null, (error) => {
   if (error.status === 401) {
@@ -148,7 +149,7 @@ function headerAndPayloadCookieName() {
 }
 
 function cookiePrefix() {
-  return window.environment.COOKIE_PREFIX || ''
+  return getEnv().COOKIE_PREFIX || ''
 }
 
 export const auth = {

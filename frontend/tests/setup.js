@@ -3,7 +3,6 @@ import { cleanup } from '@testing-library/vue'
 import matchers from '@testing-library/jest-dom/matchers'
 import snapshotSerializer from 'jest-serializer-vue-tjw'
 import 'vitest-canvas-mock'
-import './environment'
 
 // extends Vitest's expect method with methods from vue-testing-library
 expect.extend(matchers)

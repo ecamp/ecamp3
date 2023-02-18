@@ -153,8 +153,9 @@ import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
 import { serverErrorToString } from '@/helpers/serverError'
 import { parseTemplate } from 'url-template'
+import { getEnv } from '@/environment.js'
 
-const LOGIN_INFO_TEXT_KEY = window.environment.LOGIN_INFO_TEXT_KEY
+const LOGIN_INFO_TEXT_KEY = getEnv().LOGIN_INFO_TEXT_KEY
 
 export default {
   name: 'Login',
@@ -185,7 +186,7 @@ export default {
     },
     termsOfServiceLink() {
       return (
-        parseTemplate(window.environment.TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
+        parseTemplate(getEnv().TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
           lang: this.$store.state.lang.language.substring(0, 2),
         }) || false
       )

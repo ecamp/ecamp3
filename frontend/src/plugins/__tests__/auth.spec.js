@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { auth } from '@/plugins/auth'
 import Cookies from 'js-cookie'
 import cloneDeep from 'lodash/cloneDeep'
+import { getEnv } from '@/environment'
 
 const storePlugin = await vi.importActual('@/plugins/store')
 const storeLoader = storePlugin.default
@@ -38,7 +39,7 @@ const validJWTPayload =
 //   "user": "/users/1a2b3c4d"
 // }
 
-const envBackup = cloneDeep(window.environment)
+const envBackup = cloneDeep(getEnv())
 
 expect.extend({
   haveUri(actual, expectedUri) {
