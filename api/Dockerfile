@@ -14,7 +14,7 @@ ARG PHP_VERSION=8.1.13
 ARG ALPINE_VERSION=3.16
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.6.2
+ARG CADDY_VERSION=2.6.3
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php
@@ -85,7 +85,7 @@ CMD ["php-fpm"]
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
-COPY --from=composer:2.5@sha256:013450bb533a9049757addd96c41972ad7b0f8f20387223e38c5d413331191c1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.5@sha256:693e9e0b5dc8e8e7599ee9719334ee260498981f4cedb696c16927b0ea0eca98 /usr/bin/composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.json composer.lock symfony.lock ./

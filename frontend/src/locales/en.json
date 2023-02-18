@@ -64,6 +64,10 @@
         "title": "Period | Periods"
       },
       "campPeriodsListItem": {
+        "changePeriodDescription": "Change description",
+        "movePeriod": "Move period",
+        "periodChangeStart": "Add/remove days at start",
+        "periodChangeEnd": "Add/remove days at end",
         "deleteWarning": "Do you really want to delete this period?",
         "lastPeriodNotDeletable": "Last period is not deletable."
       },
@@ -78,6 +82,12 @@
       },
       "dialogMaterialListCreate": {
         "title": "Create material list"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Move period",
+        "periodChangeStart": "Add / remove days at start of this period",
+        "periodChangeEnd": "Add / remove days at end of this period",
+        "periodDuration": "Number of days"
       },
       "dialogPeriodCreate": {
         "title": "Create period"
@@ -313,6 +323,7 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}",
       "greaterThan_time": "{_field_} must be later than {min}"
     }
   },

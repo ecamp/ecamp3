@@ -3,6 +3,7 @@ import * as rules from 'vee-validate/dist/rules'
 import i18n from '@/plugins/i18n'
 import greaterThan_time from './veeValidate/greaterThan_time.js'
 import greaterThanOrEqual_date from './veeValidate/greaterThanOrEqual_date.js'
+import lessThanOrEqual_date from './veeValidate/lessThanOrEqual_date.js'
 
 class VeeValidatePlugin {
   install(Vue) {
@@ -28,9 +29,13 @@ class VeeValidatePlugin {
      * define custom rules
      */
 
+    extend('greaterThan_time', greaterThan_time(Vue.dayjs, i18n))
+
     // check if date (value) is equal or larger than another date (min)
     extend('greaterThanOrEqual_date', greaterThanOrEqual_date(Vue.dayjs, i18n))
-    extend('greaterThan_time', greaterThan_time(Vue.dayjs, i18n))
+
+    // check if date (value) is equal or less than another date (max)
+    extend('lessThanOrEqual_date', lessThanOrEqual_date(Vue.dayjs, i18n))
   }
 }
 

@@ -31,6 +31,9 @@ export default {
     showDialog(visible) {
       if (visible) {
         this.error = null
+        this.$emit('opened')
+      } else {
+        this.$emit('closed')
       }
     },
   },
