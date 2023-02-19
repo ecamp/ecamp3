@@ -23,3 +23,13 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (identifier) => {
+  cy.session(identifier, () => {
+    cy.request({
+      method: 'POST',
+      url: Cypress.env('API_ROOT_URL') + '/authentication_token',
+      body: { identifier, password: 'test' },
+    }).then(({ body }) => {})
+  })
+})
