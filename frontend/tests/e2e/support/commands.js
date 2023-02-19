@@ -30,6 +30,6 @@ Cypress.Commands.add('login', (identifier) => {
       method: 'POST',
       url: Cypress.env('API_ROOT_URL') + '/authentication_token',
       body: { identifier, password: 'test' },
-    }).then(({ body }) => {})
+    })
   })
 })
