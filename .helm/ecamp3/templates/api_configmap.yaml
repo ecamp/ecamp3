@@ -6,7 +6,7 @@ metadata:
     {{- include "api.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
 data:
-  API_DOMAIN: {{ .Values.api.domain | quote }}
+  ADDITIONAL_TRUSTED_HOSTS: {{ .Values.api.domain | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
   SHARED_COOKIE_DOMAIN: {{ .Values.sharedCookieDomain | quote }}
   APP_ENV: {{ .Values.php.appEnv | quote }}
