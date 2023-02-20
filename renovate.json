@@ -6,7 +6,7 @@
   "force": {
     "constraints": {
       "node": "18.14.1",
-      "php": "~8.1.13"
+      "php": "8.1.13"
     }
   },
   "automergeType": "branch",
@@ -172,6 +172,19 @@
       ],
       "matchStrings": [
         "php-version: '(?<currentValue>[0-9.]+)'"
+      ],
+      "depNameTemplate": "php",
+      "lookupNameTemplate": "php/php-src",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$",
+      "extractVersionTemplate": "^php-(?<version>.*)$"
+    },
+    {
+      "fileMatch": [
+        "^renovate.json$"
+      ],
+      "matchStrings": [
+        "\"php\": \"(?<currentValue>[^\"]+).*\".*"
       ],
       "depNameTemplate": "php",
       "lookupNameTemplate": "php/php-src",
