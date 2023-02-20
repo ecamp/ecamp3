@@ -1,7 +1,6 @@
 {
   "extends": [
-    "config:base",
-    "docker:pinDigests"
+    "config:base"
   ],
   "force": {
     "constraints": {
@@ -41,17 +40,6 @@
         "major"
       ],
       "dependencyDashboardApproval": true
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
-      "updateTypes": [
-        "digest",
-        "pin",
-        "pinDigest"
-      ],
-      "enabled": false
     },
     {
       "matchPackageNames": [
@@ -94,6 +82,7 @@
     },
     {
       "matchPackageNames": [
+        "browserless/chrome",
         "caddy",
         "krakjoe/apcu",
         "mailhog/mailhog",
