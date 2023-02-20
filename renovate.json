@@ -82,7 +82,6 @@
     },
     {
       "matchPackageNames": [
-        "browserless/chrome",
         "caddy",
         "krakjoe/apcu",
         "mailhog/mailhog",
@@ -97,7 +96,8 @@
       "matchPackageNames": [
         "browserless/chrome"
       ],
-      "versioning": "regex:(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(puppeteer-)(?<compatibility>.*)$"
+      "versioning": "loose",
+      "automerge": false
     },
     {
       "matchPackageNames": [
