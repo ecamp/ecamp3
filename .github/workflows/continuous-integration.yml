@@ -440,6 +440,9 @@ jobs:
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker-compose logs --tail="all"
 
+      # cypress image runs with root and breaks the cache action, so we chown the files back
+      - run: sudo chown -R $USER_ID .
+
   coveralls-finished:
     name: 'Finish coveralls report'
     needs:
