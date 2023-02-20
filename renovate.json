@@ -48,7 +48,8 @@
       ],
       "updateTypes": [
         "digest",
-        "pin"
+        "pin",
+        "pinDigest"
       ],
       "enabled": false
     },
