@@ -116,6 +116,7 @@ browserless:
   image:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
+    # renovate: datasource=docker depName=browserless/chrome
     tag: "1.56.0-puppeteer-18.0.5"
   service:
     type: ClusterIP
