@@ -43,6 +43,16 @@
       "dependencyDashboardApproval": true
     },
     {
+      "matchDatasources": [
+        "docker"
+      ],
+      "updateTypes": [
+        "digest",
+        "pin"
+      ],
+      "enabled": false
+    },
+    {
       "matchPackageNames": [
         "sass"
       ],
