@@ -94,7 +94,6 @@
     },
     {
       "matchPackageNames": [
-        "browserless/chrome",
         "caddy",
         "krakjoe/apcu",
         "mailhog/mailhog",
@@ -103,11 +102,7 @@
         "python",
         "qoomon/docker-host"
       ],
-      "groupName": "docker-images",
-      "schedule": [
-        "after 10pm every sunday",
-        "before 7am every monday"
-      ]
+      "groupName": "docker-images"
     },
     {
       "matchPackageNames": [
