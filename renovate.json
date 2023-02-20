@@ -112,7 +112,7 @@
       "matchPackageNames": [
         "browserless/chrome"
       ],
-      "versioning": "regex:(?\\d+\\.\\d+.\\d+)-(puppeteer-)(?\\d+)\\.(?\\d+)\\.(?\\d+)$"
+      "versioning": "regex:(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(puppeteer-)(?<compatibility>.*)$"
     },
     {
       "matchPackageNames": [
