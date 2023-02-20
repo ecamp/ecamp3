@@ -143,12 +143,11 @@
     },
     {
       "fileMatch": [
-        "^.helm/ecamp3/values.yml$"
+        "^.helm/ecamp3/values.ya?ml$"
       ],
       "matchStrings": [
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\stag: \"(?<currentValue>.*)\"\\s"
-      ],
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)?\\stag: \"(?<currentValue>.*)\"\\s"
+      ]
     },
     {
       "fileMatch": [
