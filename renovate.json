@@ -1,7 +1,6 @@
 {
   "extends": [
-    "config:base",
-    "docker:pinDigests"
+    "config:base"
   ],
   "force": {
     "constraints": {
@@ -28,7 +27,6 @@
         "minor",
         "patch",
         "pin",
-        "digest",
         "lockFileMaintenance"
       ],
       "automerge": true
