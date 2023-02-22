@@ -49,7 +49,6 @@ export default {
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/vuetify',
-    '@nuxt/postcss8', // used for tailwind
   ],
   /*
    ** Nuxt.js modules
@@ -146,9 +145,11 @@ export default {
       })
     },
     postcss: {
-      plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
       },
     },
   },
