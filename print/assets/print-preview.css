@@ -15,7 +15,7 @@
 
   .tw-break-after-page {
     max-width: 794px; /* page width: A4 width of 210mm at 96dpi */
-    min-height: 1123px; /* page height: A4 height of 297mm at 97dpi */
+    min-height: 1123px; /* page height: A4 height of 297mm at 96dpi */
     background-color: var(--color-paper);
     padding: 57px; /* page margin: 15mmm at 96dpi */
     margin: 35px auto;
