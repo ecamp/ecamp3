@@ -379,6 +379,7 @@ jobs:
   e2e-tests:
     name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
@@ -432,6 +433,7 @@ jobs:
 
       # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
+        timeout-minutes: 5
 
       # run end-to-end tests
       - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:12.6.0
