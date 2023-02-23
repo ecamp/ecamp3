@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:18.14.1
+    image: node:18.14.2
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -94,7 +94,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.14.1
+    image: node:18.14.2
     container_name: 'ecamp3-print'
     volumes:
       - ./.prettierrc:/.prettierrc
