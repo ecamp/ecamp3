@@ -13,6 +13,7 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
+      - ./pdf:/pdf:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
     environment:
       - NODE_ENV=development

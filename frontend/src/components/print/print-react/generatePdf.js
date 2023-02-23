@@ -1,5 +1,6 @@
 import prepareInMainThread from './documents/campPrint/index.js'
 import cloneDeep from 'lodash/cloneDeep.js'
+import pdf from '@/pdf/pdf.mjs'
 
 function browserSupportsWorkerType() {
   let supports = false
@@ -20,6 +21,20 @@ function browserSupportsWorkerType() {
 
 export const generatePdf = async (data) => {
   await prepareInMainThread(data.config)
+
+  try {
+    return {
+      filename: 'my.pdf',
+      blob: await pdf(),
+      error: null,
+    }
+  } catch (e) {
+    return {
+      filename: null,
+      blob: null,
+      error: e.message,
+    }
+  }
 
   const serializableData = prepareDataForSerialization(data)
 

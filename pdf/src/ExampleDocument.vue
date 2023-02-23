@@ -1,5 +1,7 @@
 <template>
-  <page>Hello world!</page>
+  <Document>
+    <Page>Hello world!</Page>
+  </Document>
 </template>
 <script>
 export default {

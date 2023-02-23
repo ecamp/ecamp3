@@ -2,7 +2,7 @@ import FontStore from '@react-pdf/font'
 import renderPDF from '@react-pdf/render'
 import PDFDocument from '@react-pdf/pdfkit'
 import layoutDocument from '@react-pdf/layout'
-import { nodeOpsFor } from './nodeOps.js'
+import { nodeOps } from './nodeOps.js'
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { createRenderer } from '@vue/runtime-core'
 
@@ -15,19 +15,13 @@ const pdf = (root) => {
   // For Vue, we need a "root container" (normally the <div id="app"> DOM element).
   // Vue uses this to keep track of which running Vue app this is. Since we don't do
   // update operations, it should be fine to just pass the doc object.
-  const doc = {
-    box: {},
-    children: [],
-    props: {},
-    style: {},
-    type: 'DOCUMENT',
-  }
+  const container = {}
 
   const render = async (compress = true) => {
-    const { createApp } = createRenderer(nodeOpsFor(doc))
-    createApp(root).mount(doc)
+    const { createApp } = createRenderer(nodeOps)
+    createApp(root).mount(container)
 
-    const props = doc.props || {}
+    const props = container.doc.props || {}
     const { pdfVersion, language, pageLayout, pageMode } = props
 
     const ctx = new PDFDocument({
@@ -40,8 +34,8 @@ const pdf = (root) => {
       pageMode,
     })
 
-    console.log('doc', doc)
-    const layout = await layoutDocument(doc, fontStore)
+    console.log('doc', container.doc)
+    const layout = await layoutDocument(container.doc, fontStore)
 
     return renderPDF(ctx, layout)
   }
