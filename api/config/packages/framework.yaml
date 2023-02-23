@@ -8,9 +8,12 @@ framework:
     trusted_hosts:
         - localhost
         - caddy
-        - '%env(API_DOMAIN)%'
+        - '%env(ADDITIONAL_TRUSTED_HOSTS)%'
     # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
-    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']
+    trusted_headers:
+        - 'x-forwarded-for'
+        - 'x-forwarded-prefix'
+        - 'x-forwarded-proto'
 
     disallow_search_engine_index: true
 

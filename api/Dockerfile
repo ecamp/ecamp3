@@ -85,7 +85,7 @@ CMD ["php-fpm"]
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
-COPY --from=composer:2.5@sha256:693e9e0b5dc8e8e7599ee9719334ee260498981f4cedb696c16927b0ea0eca98 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.json composer.lock symfony.lock ./
