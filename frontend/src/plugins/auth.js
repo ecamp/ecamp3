@@ -113,8 +113,18 @@ async function redirectToOAuthLogin(provider) {
   return apiStore
     .href(apiStore.get(), provider, { callback: encodeURI(returnUrl) })
     .then((url) => {
-      window.location.href = window.environment.API_ROOT_URL + url
+      const apiRootUrl = window.environment.API_ROOT_URL
+      window.location.href = (hasHost(apiRootUrl) ? apiRootUrl : '') + url
     })
+}
+
+function hasHost(rootUrl) {
+  try {
+    const url = new URL(rootUrl)
+    return url.host.length > 0
+  } catch (_) {
+    return false
+  }
 }
 
 async function loginGoogle() {

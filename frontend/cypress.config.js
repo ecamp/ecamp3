@@ -16,7 +16,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
   },
   env: {
-    PRINT_URL: 'http://localhost:3003',
-    API_ROOT_URL: 'http://localhost:3001',
+    PRINT_URL: 'http://localhost:3000/print',
+    API_ROOT_URL: 'http://localhost:3000/api',
   },
 })
