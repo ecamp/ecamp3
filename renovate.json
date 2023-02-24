@@ -105,7 +105,7 @@
       "matchPackageNames": [
         "postgres"
       ],
-      "allowedVersions": "13-alpine"
+      "allowedVersions": "15-alpine"
     }
   ],
   "regexManagers": [
