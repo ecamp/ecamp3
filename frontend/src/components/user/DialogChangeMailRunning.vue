@@ -47,10 +47,8 @@ export default {
       this.status = 'initial'
       this.showDialog = true
 
-      this.$auth
-        .user()
-        .profile()
-        ._meta.load.then((p) => {
+      this.$auth.loadUser().then((u) => {
+        u.profile()._meta.load.then((p) => {
           p.$patch({
             untrustedEmailKey: this.emailVerificationKey,
           })
@@ -61,6 +59,7 @@ export default {
               this.status = 'error'
             })
         })
+      })
     }
   },
 }
