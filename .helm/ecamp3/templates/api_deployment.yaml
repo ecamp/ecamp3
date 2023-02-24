@@ -204,7 +204,6 @@ spec:
             exec:
               command:
                 - docker-healthcheck
-            initialDelaySeconds: 3
             periodSeconds: 10
             timeoutSeconds: 5
           livenessProbe:

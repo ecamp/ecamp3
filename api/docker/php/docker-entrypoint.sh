@@ -6,19 +6,12 @@ if [ "${1#-}" != "$1" ]; then
 	set -- php-fpm "$@"
 fi
 
-if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1" = 'composer' ] || [ "$1" = 'bin/phpunit' ]; then
-	PHP_INI_RECOMMENDED="$PHP_INI_DIR/php.ini-production"
-	if [ "$APP_ENV" != 'prod' ]; then
-		PHP_INI_RECOMMENDED="$PHP_INI_DIR/php.ini-development"
-	fi
+if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1" = 'composer' ] || [ "$1" = 'bin/phpunit' ]; then  
 
-	mkdir -p var/cache var/log
-
-	if [ "$APP_ENV" = 'prod' ]; then
-	  ln -sf "$PHP_INI_RECOMMENDED" "$PHP_INI_DIR/php.ini"
+  if [ "$APP_ENV" = 'prod' ]; then
 	  setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
 	  setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
-	fi
+  fi
 
 	if [ "$APP_ENV" != 'prod' ]; then
     if [ ! -f config/jwt/private.pem ]; then

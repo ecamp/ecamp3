@@ -39,17 +39,14 @@ services:
     volumes:
       - ./.caddy/php-socket:/var/run/php
       - ./api:/srv/api:rw,cached
-      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
-      - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
       - ./.cache/composer:/tmp/composer/cache
     environment:
-      APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
       # XDEBUG_MODE required for step debugging
-      XDEBUG_MODE: ${XDEBUG_MODE}
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
@@ -64,6 +61,8 @@ services:
       retries: 3
       start_period: 30s
     user: ${USER_ID:-1000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   caddy:
     image: ecamp/ecamp3-caddy

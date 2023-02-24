@@ -4,6 +4,7 @@
 
 .cache/
 .git/
+.github/
 /frontend/data
 /frontend/dist
 /frontend/.env.*

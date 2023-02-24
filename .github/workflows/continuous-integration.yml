@@ -426,7 +426,7 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker-compose up -d php caddy frontend print browserless database docker-host
+      - run: docker compose up -d php caddy frontend print browserless database docker-host
 
       # pull cypress while container are starting up
       - run: docker pull cypress/included:12.6.0
@@ -440,7 +440,7 @@ jobs:
         working-directory: frontend
 
       # print docker container logs (good for debugging; can be disabled again lateron)
-      - run: docker-compose logs --tail="all"
+      - run: docker compose logs --tail="all"
 
       # cypress image runs with root and breaks the cache action, so we chown the files back
       - run: sudo chown -R $USER_ID .
