@@ -52,17 +52,35 @@ jobs:
           echo "Git SHA: $REF"
           echo "sha=$REF" | tr -d "\n" >> $GITHUB_OUTPUT
 
-          echo "github: ${{ toJSON(github) }}"
+          echo "github:"
+          <<-HEREDOC
+            ${{ toJSON(github) }}
+          HEREDOC
           echo ""
-          echo "inputs: ${{ toJSON(inputs) }}"
+          echo "inputs:"
+          <<-HEREDOC
+            ${{ toJSON(inputs) }}
+          HEREDOC
           echo ""
-          echo "job: ${{ toJSON(job) }}"
+          echo "job:"
+          <<-HEREDOC
+            ${{ toJSON(job) }}
+          HEREDOC
           echo ""
-          echo "needs: ${{ toJSON(needs) }}"
+          echo "needs:"
+          <<-HEREDOC
+            ${{ toJSON(needs) }}
+          HEREDOC
           echo ""
-          echo "env: ${{ toJSON(env) }}"
+          echo "env:"
+          <<-HEREDOC
+            ${{ toJSON(env) }}
+          HEREDOC
           echo ""
-          echo "vars: ${{ toJSON(vars) }}"
+          echo "vars:"
+          <<-HEREDOC
+            ${{ toJSON(vars) }}
+          HEREDOC
           echo ""
           echo "secrets:"
           cat <<-HEREDOC
