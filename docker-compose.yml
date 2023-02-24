@@ -54,7 +54,6 @@ services:
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
       ADDITIONAL_TRUSTED_HOSTS: ".*"
-      SHARED_COOKIE_DOMAIN: ""
     healthcheck:
       interval: 10s
       timeout: 3s
