@@ -113,7 +113,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:13-alpine
+    image: postgres:15-alpine
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev

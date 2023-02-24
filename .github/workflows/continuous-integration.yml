@@ -178,7 +178,7 @@ jobs:
     name: 'Tests: API'
     runs-on: ubuntu-latest
     env:
-      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
 
     services:
       postgres:
@@ -251,7 +251,7 @@ jobs:
     name: 'API: validate migrations'
     runs-on: ubuntu-latest
     env:
-      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
 
     services:
       postgres:
