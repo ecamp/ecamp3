@@ -50,7 +50,7 @@ export default {
       if (!(typeof this.entity.user === 'function')) {
         return false
       }
-      return this.$store.state.auth.user.id === this.entity.user().id
+      return this.$store.state.auth.user?.id === this.entity.user().id
     },
     displayName() {
       return campCollaborationDisplayName(this.entity, this.$tc.bind(this))

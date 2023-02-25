@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
     <content-card
+      v-if="user"
       max-width="800"
       :title="
         $tc('views.profile.profile') + ': ' + (user._meta.loading ? '' : user.displayName)
@@ -97,7 +98,7 @@ export default {
       return this.$store.state.auth.user
     },
     profile() {
-      return this.user.profile()
+      return this.user?.profile()
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
@@ -108,13 +109,15 @@ export default {
   },
   watch: {
     profile() {
-      if (VueI18n.availableLocales.includes(this.profile.language)) {
-        this.$store.commit('setLanguage', this.profile.language)
+      if (VueI18n.availableLocales.includes(this.profile?.language)) {
+        this.$store.commit('setLanguage', this.profile?.language)
       }
     },
   },
   mounted() {
-    this.api.reload(this.user).then((user) => this.api.reload(user.profile()))
+    if (this.user) {
+      this.api.reload(this.user).then((user) => this.api.reload(user.profile()))
+    }
   },
 }
 </script>
