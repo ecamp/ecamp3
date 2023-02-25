@@ -182,8 +182,6 @@ jobs:
             --set php.oauth.jubladb.clientId='${{ secrets.OAUTH_JUBLADB_CLIENT_ID }}' \
             --set php.oauth.jubladb.clientSecret='${{ secrets.OAUTH_JUBLADB_CLIENT_SECRET }}' \
             --set php.oauth.jubladb.baseUrl='${{ secrets.OAUTH_JUBLADB_BASE_URL }}' \
-            --set browserless.maxConcurrentSessions=3 \
-            --set browserless.maxQueueLength=9 \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set deploymentTime="$(date -u +%s)" \
@@ -191,7 +189,21 @@ jobs:
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
             --set coupon.secret='${{ secrets.COUPON_SECRET }}' \
-            --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }}
+            --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }} \
+            --set browserless.maxConcurrentSessions=${{ vars.BROWSERLESS_MAXCONCURRENTSESSIONS || 3 }} \
+            --set browserless.maxQueueLength=${{ vars.BROWSERLESS_MAXQUEUELENGTH || 9 }} \
+            --set browserless.resources.requests.cpu=${{ vars.BROWSERLESS_CPU || '500m' }} \
+            --set browserless.resources.requests.memory=${{ vars.BROWSERLESS_MEMORY || '800Mi' }} \
+            --set caddy.resources.requests.cpu=50m \
+            --set caddy.resources.limits.cpu=500m \
+            --set php.resources.requests.cpu=${{ vars.PHP_CPU || '1000m' }} \
+            --set php.resources.requests.memory=${{ vars.PHP_MEMORY || '500Mi' }} \
+            --set php.resources.limits.cpu=${{ vars.PHP_CPULIMIT || '1900m' }} \
+            --set frontend.resources.requests.cpu=50m \
+            --set print.resources.requests.cpu=${{ vars.PRINT_CPU || '300m' }} \
+            --set print.resources.requests.memory=${{ vars.PRINT_MEMORY || '150Mi' }} \
+            --set autoscaling.enabled=true \
+            --set autoscaling.targetCPUUtilizationPercentage=90
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
