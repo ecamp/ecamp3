@@ -219,24 +219,13 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to google authentication endpoint in dev setup', async () => {
+    it('forwards to google authentication endpoint', async () => {
       // when
       await auth.loginGoogle()
 
       // then
       expect(window.location.href).toBe(
         '/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback'
-      )
-    })
-
-    it('forwards to google authentication endpoint in kubernetes deployment', async () => {
-      window.environment.API_ROOT_URL = 'https://api-dev.ecamp3.ch'
-      // when
-      await auth.loginGoogle()
-
-      // then
-      expect(window.location.href).toBe(
-        'https://api-dev.ecamp3.ch/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
@@ -255,24 +244,13 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to pbsmidata authentication endpoint in dev setup', async () => {
+    it('forwards to pbsmidata authentication endpoint', async () => {
       // when
       await auth.loginPbsMiData()
 
       // then
       expect(window.location.href).toBe(
         '/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback'
-      )
-    })
-
-    it('forwards to pbsmidata authentication endpoint in kubernetes deployment', async () => {
-      window.environment.API_ROOT_URL = 'https://api-dev.ecamp3.ch'
-      // when
-      await auth.loginPbsMiData()
-
-      // then
-      expect(window.location.href).toBe(
-        'https://api-dev.ecamp3.ch/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
@@ -291,24 +269,13 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to cevidb authentication endpoint in dev setup', async () => {
+    it('forwards to cevidb authentication endpoint', async () => {
       // when
       await auth.loginCeviDB()
 
       // then
       expect(window.location.href).toBe(
         '/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
-      )
-    })
-
-    it('forwards to cevidb authentication endpoint in kubernetes deployment', async () => {
-      window.environment.API_ROOT_URL = 'https://api-dev.ecamp3.ch'
-      // when
-      await auth.loginCeviDB()
-
-      // then
-      expect(window.location.href).toBe(
-        'https://api-dev.ecamp3.ch/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
@@ -327,24 +294,13 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to jubladb authentication endpoint in dev setup', async () => {
+    it('forwards to jubladb authentication endpoint', async () => {
       // when
       await auth.loginJublaDB()
 
       // then
       expect(window.location.href).toBe(
         '/auth/jubladb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
-      )
-    })
-
-    it('forwards to jubladb authentication endpoint in kubernetes setup', async () => {
-      window.environment.API_ROOT_URL = 'https://api-dev.ecamp3.ch'
-      // when
-      await auth.loginJublaDB()
-
-      // then
-      expect(window.location.href).toBe(
-        'https://api-dev.ecamp3.ch/auth/jubladb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
