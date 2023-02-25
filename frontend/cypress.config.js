@@ -16,9 +16,13 @@ module.exports = defineConfig({
         deleteDownloads() {
           const dirPath = config.downloadsFolder
           fs.readdir(dirPath, (err, files) => {
-            for (const file of files) {
-              fs.unlink(path.join(dirPath, file), () => {
-                console.log('Removed ' + file)
+            if (err) {
+              console.log(err)
+            } else {
+              files.forEach((file) => {
+                fs.unlink(path.join(dirPath, file), () => {
+                  console.log('Removed ' + file)
+                })
               })
             }
           })
