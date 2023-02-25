@@ -35,6 +35,7 @@ describe('Nuxt print test', () => {
   })
 
   it('downloads PDF', () => {
+    cy.task('deleteDownloads')
     cy.login('test@example.com')
 
     cy.visit('/camps')
