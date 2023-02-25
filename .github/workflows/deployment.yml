@@ -1,4 +1,4 @@
-name: Deploy alpha, staging or prod
+name: Deploy staging or prod
 
 on:
   repository_dispatch:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:       # Allow triggering manually
     inputs:
       confirmDeployWithoutCI:
-        description: 'I confirm that I want to deploy to ALPHA without running CI on the alpha branch first.'
+        description: 'I confirm that I want to deploy without running CI first.'
         required: true
         type: boolean
 
@@ -15,7 +15,6 @@ jobs:
     name: Determine environment
     if: ${{
       (inputs.confirmDeployWithoutCI == true)
-      || (github.event.client_payload.ref == 'refs/heads/alpha')
       || (github.event.client_payload.ref == 'refs/heads/staging')
       || (github.event.client_payload.ref == 'refs/heads/prod')
       }}
