@@ -119,7 +119,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ecamp/ecamp3-api:${{ env.environment }},ecamp/ecamp3-api:${{ steps.log-environment.outputs.sha }}
+          tags: ecamp/ecamp3-api-php:${{ env.environment }},ecamp/ecamp3-api-php:${{ steps.log-environment.outputs.sha }}
           context: './api'
           target: api_platform_php
           cache-from: type=gha,scope=api
@@ -130,7 +130,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ecamp/ecamp3-caddy:${{ env.environment }},ecamp/ecamp3-caddy:${{ steps.log-environment.outputs.sha }}
+          tags: ecamp/ecamp3-api-caddy:${{ env.environment }},ecamp/ecamp3-api-caddy:${{ steps.log-environment.outputs.sha }}
           context: './api'
           target: api_platform_caddy_prod
           cache-from: type=gha,scope=caddy

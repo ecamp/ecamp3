@@ -24,7 +24,7 @@ api:
 
 php:
   image:
-    repository: "docker.io/ecamp/ecamp3-api"
+    repository: "docker.io/ecamp/ecamp3-api-php"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:
@@ -65,7 +65,7 @@ php:
 
 caddy:
   image:
-    repository: "docker.io/ecamp/ecamp3-caddy"
+    repository: "docker.io/ecamp/ecamp3-api-caddy"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:

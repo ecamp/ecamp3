@@ -205,7 +205,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api:latest,' || '') }}ecamp/ecamp3-api:${{ matrix.deployment.sha }}
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api-php:latest,' || '') }}ecamp/ecamp3-api-php:${{ matrix.deployment.sha }}
           context: './api'
           target: api_platform_php
           cache-from: type=gha,scope=api
@@ -216,7 +216,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-caddy:latest,' || '') }}ecamp/ecamp3-caddy:${{ matrix.deployment.sha }}
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api-caddy:latest,' || '') }}ecamp/ecamp3-api-caddy:${{ matrix.deployment.sha }}
           context: './api'
           target: api_platform_caddy_prod
           cache-from: type=gha,scope=caddy

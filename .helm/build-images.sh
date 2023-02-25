@@ -20,11 +20,11 @@ frontend_image_tag="${docker_hub_account}/ecamp3-frontend:${version}"
 docker build "$REPO_DIR" -f "$REPO_DIR"/.docker-hub/frontend/Dockerfile -t "$frontend_image_tag"
 docker push "$frontend_image_tag"
 
-api_image_tag="${docker_hub_account}/ecamp3-php:${version}"
+api_image_tag="${docker_hub_account}/ecamp3-api-php:${version}"
 docker build "$REPO_DIR"/api -f "$REPO_DIR"/api/Dockerfile -t "$api_image_tag" --target api_platform_php
 docker push "$api_image_tag"
 
-caddy_image_tag="${docker_hub_account}/ecamp3-caddy:${version}"
+caddy_image_tag="${docker_hub_account}/ecamp3-api-caddy:${version}"
 docker build "$REPO_DIR"/api -f "$REPO_DIR"/api/Dockerfile -t "$caddy_image_tag" --target api_platform_caddy_prod
 docker push "$caddy_image_tag"
 
