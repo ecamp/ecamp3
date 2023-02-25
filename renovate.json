@@ -12,7 +12,7 @@
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
-      "on tuesday"
+      "on tuesday and wednesday"
     ]
   },
   "vulnerabilityAlerts": {
