@@ -2,7 +2,6 @@
 
 namespace App\Types\Doctrine;
 
-use DateTime;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
@@ -24,6 +23,12 @@ class UTCDateTimeType extends DateTimeType {
 
     /**
      * {@inheritdoc}
+     *
+     * @param T $value
+     *
+     * @return (T is null ? null : string)
+     *
+     * @template T
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
         if (null === $value) {
@@ -42,7 +47,13 @@ class UTCDateTimeType extends DateTimeType {
     /**
      * {@inheritdoc}
      *
+     * @param T $value
+     *
+     * @return (T is null ? null : \DateTimeInterface)
+     *
      * @throws ConversionException
+     *
+     * @template T
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface {
         if (null === $value || $value instanceof \DateTimeInterface) {
