@@ -8,6 +8,7 @@
     :submit-label="$tc('global.button.update')"
     submit-color="success"
     :cancel-action="close"
+    max-width="700px"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />

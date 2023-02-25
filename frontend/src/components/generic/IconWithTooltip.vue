@@ -1,9 +1,9 @@
 <template>
   <v-tooltip v-if="showIcon" v-model="showTooltip" max-width="300px" color="#333" bottom>
-    <template #activator="dat">
+    <template #activator>
       <v-btn
         icon
-        v-bind="dat.attrs"
+        v-bind="$attrs"
         class="tooltip-activator"
         @click="click"
         @mouseenter="mouseenter"

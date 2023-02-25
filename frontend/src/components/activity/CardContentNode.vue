@@ -23,12 +23,16 @@
         <icon-with-tooltip
           v-if="!editInstanceName && !layoutMode"
           :tooltip-i18n-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
+          width="36"
+          height="36"
         />
 
         <v-btn
           v-if="!editInstanceName && !layoutMode"
           icon
           class="visible-on-hover"
+          width="36"
+          height="36"
           @click="toggleEditInstanceName"
         >
           <v-icon>mdi-pencil</v-icon>
@@ -36,7 +40,15 @@
 
         <dialog-entity-delete v-if="layoutMode && !disabled" :entity="contentNode">
           <template #activator="{ on }">
-            <v-btn icon small color="error" class="float-right" v-on="on">
+            <v-btn
+              icon
+              small
+              color="error"
+              class="float-right"
+              width="36"
+              height="36"
+              v-on="on"
+            >
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
@@ -95,11 +107,6 @@ export default {
 </script>
 
 <style scoped>
-.v-card:deep(button) {
-  width: 36px !important;
-  height: 36px !important;
-}
-
 .v-card:not(:hover):deep(button.visible-on-hover),
 .v-card:not(:hover):deep(button.tooltip-activator) {
   opacity: 0;
