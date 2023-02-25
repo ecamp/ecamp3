@@ -521,6 +521,7 @@
       }
     },
     "campCreate": {
+      "couponKeyHint": "Für die geschlossene Beta ist ein Coupon-Code notwendig. Auf ecamp3.ch/closed-beta findest du heraus wie du so ein Zugangscode erhältst.",
       "create": "Lager erstellen",
       "period": {
         "add": "Weiteren Lagerabschnitt hinzufügen",

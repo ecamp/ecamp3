@@ -503,6 +503,7 @@
       }
     },
     "campCreate": {
+      "couponKeyHint": "For the closed beta a coupon code is necessary. On ecamp3.ch/closed-beta you can find out how to get such an access code.",
       "create": "Create the Camp",
       "period": {
         "add": "Add a period",

@@ -22,6 +22,7 @@
             <e-text-field
               v-model="camp.couponKey"
               :name="$tc('entity.camp.fields.couponKey')"
+              :hint="$tc('views.campCreate.couponKeyHint')"
               vee-rules="required"
               required
             />
