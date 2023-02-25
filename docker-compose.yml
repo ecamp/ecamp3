@@ -1,4 +1,4 @@
-version: "3.4"
+version: '3.4'
 
 services:
   frontend:
@@ -25,13 +25,13 @@ services:
       - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   php:
-    image: ecamp/ecamp3-api
+    image: ecamp/ecamp3-api-php
     build:
       context: ./api
       target: api_platform_php_dev
       cache_from:
-        - ecamp/ecamp3-api
-    container_name: 'ecamp3-api'
+        - ecamp/ecamp3-api-php
+    container_name: 'ecamp3-api-php'
     depends_on:
       - database
       - docker-host
@@ -53,7 +53,7 @@ services:
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
-      ADDITIONAL_TRUSTED_HOSTS: ".*"
+      ADDITIONAL_TRUSTED_HOSTS: '.*'
     healthcheck:
       interval: 10s
       timeout: 3s
@@ -61,16 +61,16 @@ services:
       start_period: 30s
     user: ${USER_ID:-1000}
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   caddy:
-    image: ecamp/ecamp3-caddy
+    image: ecamp/ecamp3-api-caddy
     build:
       context: ./api
       target: api_platform_caddy
       cache_from:
-        - ecamp/ecamp3-caddy
-    container_name: 'ecamp3-caddy'
+        - ecamp/ecamp3-api-caddy
+    container_name: 'ecamp3-api-caddy'
     depends_on:
       - php
     environment:
@@ -137,7 +137,7 @@ services:
   docker-host:
     image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
-    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    cap_add: ['NET_ADMIN', 'NET_RAW']
     restart: on-failure
 
   browserless:
@@ -153,7 +153,7 @@ services:
       - KEEP_ALIVE=true
       - ENABLE_DEBUGGER=false
       - DISABLED_FEATURES=["downloadEndpoint","functionEndpoint","pdfEndpoint","screencastEndpoint","scrapeEndpoint","statsEndpoint","workspaces"]
-      - FUNCTION_ENABLE_INCOGNITO_MODE=true 
+      - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
 volumes:
   db-data-postgres: null

@@ -399,7 +399,7 @@ jobs:
           load: true
           target: api_platform_php_dev
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-api
+          tags: ecamp/ecamp3-api-php
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
 
@@ -413,7 +413,7 @@ jobs:
           load: true
           target: api_platform_caddy
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-caddy
+          tags: ecamp/ecamp3-api-caddy
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
 
