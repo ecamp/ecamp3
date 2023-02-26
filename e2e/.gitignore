@@ -3,12 +3,8 @@ node_modules
 /data
 /dist
 
+/reports/
 selenium-debug.log
-
-# local env files
-.env.local
-.env.*.local
-public/environment.js
 
 # Log files
 npm-debug.log*

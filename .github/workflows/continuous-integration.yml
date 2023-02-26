@@ -430,7 +430,7 @@ jobs:
       
       - uses: cypress-io/github-action@v5
         with:
-          working-directory: frontend
+          working-directory: e2e
           browser: chrome
           wait-on: 'http://localhost:3000, http://localhost:3000/api'
           wait-on-timeout: 300
