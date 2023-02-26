@@ -157,6 +157,7 @@ services:
 
   translation:
     image: node:18.14.2
+    profiles: [ "translation" ]
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated

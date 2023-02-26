@@ -28,7 +28,11 @@ if (!fs.existsSync(target)) {
 }
 
 const sourceLang = path.basename(source).substring(0, 2)
-const targetLang = path.basename(target).substring(0, 2)
+let targetLang = path.basename(target).substring(0, 2)
+
+if (targetLang == 'en') {
+  targetLang = 'en-GB'
+}
 
 ;(async () => {
   let sourceFileContent = fs.readFileSync(source)
