@@ -1,4 +1,11 @@
 {
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
+      }
+    }
+  },
   "contentNode": {
     "laThematicArea": {
       "entity": {
@@ -54,7 +61,6 @@
       "name": "Storia"
     }
   },
-  "global": {},
   "entity": {
     "activity": {
       "fields": {
@@ -65,22 +71,6 @@
       },
       "name": "Attività",
       "new": "Nuova attività"
-    },
-    "category": {
-      "fields": {
-        "color": "Colore",
-        "name": "Nome",
-        "numberingStyle": "Stile della numerazione",
-        "short": "Corte"
-      },
-      "name": "Categorie di attività",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numeri",
-        "A": "A, B, C - maiuscole di blocco",
-        "a": "a, b, c - lettere minuscole",
-        "I": "I, II, III - numeri romani maiuscoli",
-        "i": "i, ii, iii - numeri romani minuscoli"
-      }
     },
     "camp": {
       "collaborators": {
@@ -97,6 +87,22 @@
     },
     "campCollaboration": {
       "inactive": "non attivo"
+    },
+    "category": {
+      "fields": {
+        "color": "Colore",
+        "name": "Nome",
+        "numberingStyle": "Stile della numerazione",
+        "short": "Corte"
+      },
+      "name": "Categorie di attività",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numeri",
+        "A": "A, B, C - maiuscole di blocco",
+        "I": "I, II, III - numeri romani maiuscoli",
+        "a": "a, b, c - lettere minuscole",
+        "i": "i, ii, iii - numeri romani minuscoli"
+      }
     },
     "period": {
       "defaultDescription": "Campo principale",
@@ -116,11 +122,5 @@
       "name": "Inserimento nel programma"
     }
   },
-  "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
-      }
-    }
-  }
+  "global": {}
 }

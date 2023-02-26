@@ -1,4 +1,11 @@
 {
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
+      }
+    }
+  },
   "contentNode": {
     "laThematicArea": {
       "entity": {
@@ -54,7 +61,6 @@
       "name": "Histoire"
     }
   },
-  "global": {},
   "entity": {
     "activity": {
       "fields": {
@@ -65,22 +71,6 @@
       },
       "name": "Activité",
       "new": "Nouvelle activité"
-    },
-    "category": {
-      "fields": {
-        "color": "Couleur",
-        "name": "Nom",
-        "numberingStyle": "Style de numérotation",
-        "short": "Court"
-      },
-      "name": "Catégories d'activités",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numéros",
-        "A": "A, B, C - lettres majuscules",
-        "a": "a, b, c - lettres minuscules",
-        "I": "I, II, III - chiffres romains majuscules",
-        "i": "i, ii, iii - chiffres romains minuscules"
-      }
     },
     "camp": {
       "collaborators": {
@@ -97,6 +87,22 @@
     },
     "campCollaboration": {
       "inactive": "inactif"
+    },
+    "category": {
+      "fields": {
+        "color": "Couleur",
+        "name": "Nom",
+        "numberingStyle": "Style de numérotation",
+        "short": "Court"
+      },
+      "name": "Catégories d'activités",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numéros",
+        "A": "A, B, C - lettres majuscules",
+        "I": "I, II, III - chiffres romains majuscules",
+        "a": "a, b, c - lettres minuscules",
+        "i": "i, ii, iii - chiffres romains minuscules"
+      }
     },
     "period": {
       "defaultDescription": "Camp principal",
@@ -116,11 +122,5 @@
       "name": "Inscription au calendrier"
     }
   },
-  "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
-      }
-    }
-  }
+  "global": {}
 }

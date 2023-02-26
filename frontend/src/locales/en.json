@@ -65,11 +65,11 @@
       },
       "campPeriodsListItem": {
         "changePeriodDescription": "Change description",
-        "movePeriod": "Move period",
-        "periodChangeStart": "Add/remove days at start",
-        "periodChangeEnd": "Add/remove days at end",
         "deleteWarning": "Do you really want to delete this period?",
-        "lastPeriodNotDeletable": "Last period is not deletable."
+        "lastPeriodNotDeletable": "Last period is not deletable.",
+        "movePeriod": "Move period",
+        "periodChangeEnd": "Add/remove days at end",
+        "periodChangeStart": "Add/remove days at start"
       },
       "campSettings": {
         "title": "Settings"
@@ -83,14 +83,14 @@
       "dialogMaterialListCreate": {
         "title": "Create material list"
       },
-      "dialogPeriodDateEdit": {
-        "movePeriod": "Move period",
-        "periodChangeStart": "Add / remove days at start of this period",
-        "periodChangeEnd": "Add / remove days at end of this period",
-        "periodDuration": "Number of days"
-      },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Move period",
+        "periodChangeEnd": "Add / remove days at end of this period",
+        "periodChangeStart": "Add / remove days at start of this period",
+        "periodDuration": "Number of days"
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Move schedule entries"
@@ -323,8 +323,8 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
-      "lessThanOrEqual_date": "{_field_} may not be later than {max}",
-      "greaterThan_time": "{_field_} must be later than {min}"
+      "greaterThan_time": "{_field_} must be later than {min}",
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}"
     }
   },
   "views": {
@@ -347,12 +347,12 @@
       },
       "login": {
         "accountless": "Don't have an account yet?",
-        "infoText": {
-          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!",
-          "alpha": "This is the alpha version of eCamp v3. It may still contain bugs and the data entered here will be deleted when the alpha phase ends.",
-          "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions."
-        },
         "email": "Email",
+        "infoText": {
+          "alpha": "This is the alpha version of eCamp v3. It may still contain bugs and the data entered here will be deleted when the alpha phase ends.",
+          "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
+          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!"
+        },
         "loginCallback": {
           "loginInProgress": "You will be logged in"
         },
