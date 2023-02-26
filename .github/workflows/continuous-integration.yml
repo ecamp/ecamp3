@@ -427,15 +427,13 @@ jobs:
 
       # start necessary containers
       - run: docker compose up -d php caddy frontend print browserless database docker-host
-
-      # wait for backend & frontend to be up and running
-      - run: bash wait-for-container-startup.sh
-        timeout-minutes: 5
       
       - uses: cypress-io/github-action@v5
         with:
           working-directory: frontend
           browser: chrome
+          wait-on: 'http://localhost:3000, http://localhost:3000/api'
+          wait-on-timeout: 300
 
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker compose logs --tail="all"
