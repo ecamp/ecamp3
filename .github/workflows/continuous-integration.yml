@@ -421,7 +421,7 @@ jobs:
         uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: .cache
-          key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}
           restore-keys: |
             docker-compose-
 
@@ -441,9 +441,6 @@ jobs:
 
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker compose logs --tail="all"
-
-      # cypress image runs with root and breaks the cache action, so we chown the files back
-      - run: sudo chown -R $USER_ID .
 
   coveralls-finished:
     name: 'Finish coveralls report'
