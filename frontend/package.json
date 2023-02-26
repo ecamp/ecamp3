@@ -16,8 +16,6 @@
     "dev": "vite --host 0.0.0.0",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
-    "test:e2e:ci": "vue-cli-service test:e2e --headless",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
@@ -87,7 +85,6 @@
     "@testing-library/vue": "5.8.3",
     "@vitejs/plugin-vue2": "2.2.0",
     "@vue/cli-plugin-babel": "5.0.8",
-    "@vue/cli-plugin-e2e-cypress": "5.0.8",
     "@vue/cli-plugin-eslint": "5.0.8",
     "@vue/cli-plugin-unit-jest": "5.0.8",
     "@vue/cli-service": "5.0.8",
