@@ -1,8 +1,21 @@
 {
+  "contentNode": {
+    "storycontext": {
+      "add": "Roten Faden hinzufügen",
+      "name": "Roter Faden"
+    }
+  },
   "entity": {
     "user": {
       "fields": {
         "nickname": "Pfadiname"
+      }
+    }
+  },
+  "views": {
+    "camp": {
+      "story": {
+        "title": "Roter Faden"
       }
     }
   }

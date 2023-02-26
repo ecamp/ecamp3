@@ -111,6 +111,10 @@
       "inactiveCampCollaboratorListItem": {
         "delete": "Vuoi davvero rimuovere questo collaboratore dal campo?",
         "inviteAgain": "Invita di nuovo"
+      },
+      "inactiveCollaboratorListItem": {
+        "delete": "Vuoi davvero eliminare questi dipendenti?",
+        "inviteAgain": "Invita di nuovo"
       }
     },
     "dashboard": {
@@ -171,8 +175,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Attività"
+        },
+        "picassoConfig": {
+          "orientation": "Layout della pagina",
+          "periods": "Sezione/i portante/i"
+        },
         "programConfig": {
-          "dayOverview": "Panoramica della giornata di stampa"
+          "dayOverview": "Panoramica della giornata di stampa",
+          "periods": "Sezione/i portante/i"
+        },
+        "storyConfig": {
+          "periods": "Sezione/i portante/i"
         }
       },
       "documents": {
@@ -183,7 +198,11 @@
           }
         }
       },
+      "localPdfDownloadButton": {
+        "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
+      },
       "printConfigurator": {
+        "add": "Aggiungi contenuti",
         "config": {
           "Activity": "Attività singola",
           "Cover": "Pagina di copertina",
@@ -339,6 +358,9 @@
       },
       "login": {
         "accountless": "Non hanno ancora un conto?",
+        "beta": {
+          "notice": "È qui che nasce il nuovo eCamp.<br>IMPORTANTE: Questo sito web è in costruzione. Ciò significa che tutti i dati sono pubblici e verranno cancellati periodicamente!"
+        },
         "email": "Indirizzo e-mail",
         "infoText": {
           "alpha": "Questa è la versione alfa di eCamp v3. Potrebbe contenere ancora dei bug e i dati inseriti qui saranno cancellati al termine della fase alfa.",

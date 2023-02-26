@@ -111,6 +111,10 @@
       "inactiveCampCollaboratorListItem": {
         "delete": "Do you really want to remove this collaborator from the camp?",
         "inviteAgain": "Invite again"
+      },
+      "inactiveCollaboratorListItem": {
+        "delete": "Do you really want to remove these employees?",
+        "inviteAgain": "Invite again"
       }
     },
     "dashboard": {
@@ -171,8 +175,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Activity"
+        },
+        "picassoConfig": {
+          "orientation": "Page layout",
+          "periods": "Bearing section(s)"
+        },
         "programConfig": {
-          "dayOverview": "print day overview"
+          "dayOverview": "print day overview",
+          "periods": "Bearing section(s)"
+        },
+        "storyConfig": {
+          "periods": "Bearing section(s)"
         }
       },
       "documents": {
@@ -183,7 +198,11 @@
           }
         }
       },
+      "localPdfDownloadButton": {
+        "error": "Something didn't work. Try again, or reload the page."
+      },
       "printConfigurator": {
+        "add": "Add content",
         "config": {
           "Activity": "Single activity",
           "Cover": "Cover page",
@@ -347,6 +366,9 @@
       },
       "login": {
         "accountless": "Don't have an account yet?",
+        "beta": {
+          "notice": "This is where the new eCamp comes into being.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+        },
         "email": "Email",
         "infoText": {
           "alpha": "This is the alpha version of eCamp v3. It may still contain bugs and the data entered here will be deleted when the alpha phase ends.",

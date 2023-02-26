@@ -1,1 +1,9 @@
-{}
+{
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Scout name"
+      }
+    }
+  }
+}
