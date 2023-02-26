@@ -1,1 +1,13 @@
-{}
+{
+  "global": {
+    "margin": {
+      "pageCounter": {
+        "of": "di",
+        "page": "Pagina"
+      }
+    },
+    "page": {
+      "counter": "Pagina ${indice} di ${totale}"
+    }
+  }
+}

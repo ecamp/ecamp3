@@ -108,6 +108,10 @@
         "title": "Mitarbeiter:in deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
       },
+      "inactiveCampCollaboratorListItem": {
+        "delete": "Willst du diese:n Mitarbeiter:in wirklich aus dem Lager entfernen?",
+        "inviteAgain": "Erneut einladen"
+      },
       "inactiveCollaboratorListItem": {
         "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?",
         "inviteAgain": "Erneut einladen"

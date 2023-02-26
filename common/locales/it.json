@@ -7,6 +7,14 @@
     }
   },
   "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Colonna"
+        }
+      },
+      "name": "Layout delle colonne"
+    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -36,12 +44,19 @@
           }
         }
       },
+      "info": "Un'attività del campo Y+S deve trattare almeno uno degli argomenti elencati.{br}Seleziona gli argomenti da trattare in questo blocco.",
       "name": "Area tematica AC"
     },
+    "material": {
+      "info": "Qui puoi inserire i requisiti del materiale per questo blocco.{br}Puoi gestire gli elenchi dei materiali nel menu 'Amministrazione'.{br}Puoi trovare un riepilogo degli acquisti nel menu 'Materiale'.",
+      "name": "Materiale"
+    },
     "notes": {
+      "info": "Qui puoi inserire qualsiasi nota, ad esempio idee, impegni, domande aperte, contatti, collegamenti con i mezzi pubblici, ecc.",
       "name": "Noti"
     },
     "safetyConcept": {
+      "info": "Alcuni blocchi richiedono una riflessione sui rischi. Qui puoi registrare questi pensieri.{br}Registra i rischi che hai identificato e come puoi affrontarli.",
       "name": "Concetto di sicurezza"
     },
     "storyboard": {
@@ -55,9 +70,11 @@
           "name": "Sezione del programma | Sezioni del programma"
         }
       },
+      "info": "Qui puoi pianificare il contenuto di questo blocco.{br}Nella colonna di sinistra [Tempo] puoi registrare la durata dei singoli elementi.{br}Nella colonna di destra [Responsabile] puoi assegnare delle persone.",
       "name": "Programma"
     },
     "storycontext": {
+      "info": "Descrivi come questo blocco si inserisce nella storia del campo.{br}Puoi trovare un riepilogo di tutti gli elementi della storia nel menu \"Storia\".{br}Puoi anche elaborare prima una storia continua nel menu \"Storia\", in modo da incorporare perfettamente il contenuto del blocco nella storia.",
       "name": "Storia"
     }
   },
@@ -74,10 +91,17 @@
     },
     "camp": {
       "collaborators": {
+        "guest": "Ospite",
+        "invite": "Invita",
         "manager": "Manager",
         "member": "Membro"
       },
       "fields": {
+        "addressCity": "Città",
+        "addressName": "Nome",
+        "addressStreet": "Via",
+        "addressZipcode": "Codice postale",
+        "couponKey": "Coupon",
         "motto": "Motto",
         "name": "Nome",
         "title": "Titolo"
@@ -104,6 +128,28 @@
         "i": "i, ii, iii - numeri romani minuscoli"
       }
     },
+    "contentType": {
+      "name": "Tipo di contenuto | Tipi di contenuto"
+    },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Responsabile del giorno"
+      },
+      "name": "Giorno | Giorni"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Articolo",
+        "quantity": "Quantità",
+        "unit": "Unità"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Nome"
+      },
+      "name": "Elenco dei materiali"
+    },
     "period": {
       "defaultDescription": "Campo principale",
       "fields": {
@@ -122,5 +168,24 @@
       "name": "Inserimento nel programma"
     }
   },
-  "global": {}
+  "global": {
+    "datetime": {}
+  },
+  "print": {
+    "cover": {
+      "title": "Pagina di copertina"
+    },
+    "picasso": {
+      "title": "Panoramica del programma per il {period}"
+    },
+    "program": {
+      "title": "Programma"
+    },
+    "story": {
+      "title": "Trama"
+    },
+    "toc": {
+      "title": "Indice dei contenuti"
+    }
+  }
 }

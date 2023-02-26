@@ -7,6 +7,14 @@
     }
   },
   "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Colonne"
+        }
+      },
+      "name": "Disposition des colonnes"
+    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -36,12 +44,19 @@
           }
         }
       },
+      "info": "Une activité de camp Y+S doit aborder au moins un des sujets énumérés.{br}Sélectionne les sujets abordés dans ce bloc.",
       "name": "Domaine thématique AC"
     },
+    "material": {
+      "info": "Tu peux saisir ici les besoins en matériel pour ce bloc.{br}Tu peux gérer les listes de matériel dans le menu 'Admin'.{br}Tu peux trouver un résumé de l'achat dans le menu 'Matériel'.",
+      "name": "Matériau"
+    },
     "notes": {
+      "info": "Tu peux y inscrire tes notes, par exemple des idées, des tâches à faire, des questions ouvertes, des contacts, des correspondances avec les transports publics, etc.",
       "name": "Notes"
     },
     "safetyConcept": {
+      "info": "Certains blocs nécessitent de réfléchir aux risques. Tu peux enregistrer ces réflexions ici.{br}Enregistre les risques que tu as identifiés - et comment tu peux y faire face.",
       "name": "Concept de sécurité"
     },
     "storyboard": {
@@ -55,9 +70,11 @@
           "name": "Section du programme | Sections du programme"
         }
       },
+      "info": "Ici, tu peux planifier le contenu de ce bloc.{br}Dans la colonne de gauche [Temps], tu peux enregistrer la durée des différents éléments.{br}Dans la colonne de droite [Responsable], tu peux assigner des personnes.",
       "name": "Programme"
     },
     "storycontext": {
+      "info": "Décris comment ce bloc s'intègre dans l'histoire du camp.{br}Tu peux trouver un résumé de tous les éléments de l'histoire dans le menu 'Histoire'.{br}Tu peux aussi d'abord élaborer une histoire continue dans le menu 'Histoire' - pour que tu puisses parfaitement intégrer le contenu du bloc dans l'histoire.",
       "name": "Histoire"
     }
   },
@@ -74,10 +91,17 @@
     },
     "camp": {
       "collaborators": {
+        "guest": "Invité",
+        "invite": "Invite",
         "manager": "Directeur",
         "member": "Membre"
       },
       "fields": {
+        "addressCity": "Ville",
+        "addressName": "Nom",
+        "addressStreet": "Rue",
+        "addressZipcode": "Code postal",
+        "couponKey": "Coupon",
         "motto": "Devise",
         "name": "Nom",
         "title": "Titre"
@@ -104,6 +128,28 @@
         "i": "i, ii, iii - chiffres romains minuscules"
       }
     },
+    "contentType": {
+      "name": "Type de contenu | Types de contenu"
+    },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Responsable du jour"
+      },
+      "name": "Jour | Jours"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "quantity": "Quantité",
+        "unit": "Unité"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Nom"
+      },
+      "name": "Liste des matériaux"
+    },
     "period": {
       "defaultDescription": "Camp principal",
       "fields": {
@@ -122,5 +168,24 @@
       "name": "Inscription au calendrier"
     }
   },
-  "global": {}
+  "global": {
+    "datetime": {}
+  },
+  "print": {
+    "cover": {
+      "title": "Page de couverture"
+    },
+    "picasso": {
+      "title": "Aperçu du programme pour {period}"
+    },
+    "program": {
+      "title": "Programme"
+    },
+    "story": {
+      "title": "Storyline"
+    },
+    "toc": {
+      "title": "Table des matières"
+    }
+  }
 }
