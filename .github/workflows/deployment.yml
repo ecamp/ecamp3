@@ -15,6 +15,7 @@ jobs:
     name: Determine environment
     if: ${{
       (inputs.confirmDeployWithoutCI == true)
+      || (github.event.client_payload.ref == 'refs/heads/test-deployment-workflows')
       || (github.event.client_payload.ref == 'refs/heads/staging')
       || (github.event.client_payload.ref == 'refs/heads/prod')
       }}
