@@ -148,6 +148,7 @@ jobs:
 
       - name: Upgrade or install helm release
         run: |
+          set -x
           # Setup authentication
           mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
           # Switch to the helm chart directory
