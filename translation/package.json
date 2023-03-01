@@ -46,7 +46,7 @@
     "translate-frontend-en-it-ch-scout": "node deepl.js ../frontend/src/locales/en-CH-scout.json ../frontend/src/locales/it-CH-scout.json",
     "translate-frontend-en": "npm run translate-frontend-en-de && npm run translate-frontend-en-de-ch-scout && npm run translate-frontend-en-fr && npm run translate-frontend-en-fr-ch-scout && npm run translate-frontend-en-it && npm run translate-frontend-en-it-ch-scout",
     "translate-print-en-de": "node deepl.js ../print/locales/en.json ../print/locales/de.json",
-    "translate-print-en-de-ch-scout": "node deepl.js ../frontend/src/locales/en-CH-scout.json ../print/locales/de-CH-scout.json",
+    "translate-print-en-de-ch-scout": "node deepl.js ../print/src/locales/en-CH-scout.json ../print/locales/de-CH-scout.json",
     "translate-print-en-fr": "node deepl.js ../print/locales/en.json ../print/locales/fr.json",
     "translate-print-en-fr-ch-scout": "node deepl.js ../print/locales/en-CH-scout.json ../print/locales/fr-CH-scout.json",
     "translate-print-en-it": "node deepl.js ../print/locales/en.json ../print/locales/it.json",
