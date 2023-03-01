@@ -1,10 +1,4 @@
 {
-  "contentNode": {
-    "storycontext": {
-      "add": "Add story",
-      "name": "Story"
-    }
-  },
   "entity": {
     "user": {
       "fields": {
@@ -14,12 +8,5 @@
   },
   "global": {
     "language": "English (Scout)"
-  },
-  "views": {
-    "camp": {
-      "story": {
-        "title": "Story"
-      }
-    }
   }
 }

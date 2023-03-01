@@ -108,10 +108,6 @@
         "title": "Mitarbeiter:in deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
       },
-      "inactiveCampCollaboratorListItem": {
-        "delete": "Willst du diese:n Mitarbeiter:in wirklich aus dem Lager entfernen?",
-        "inviteAgain": "Erneut einladen"
-      },
       "inactiveCollaboratorListItem": {
         "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?",
         "inviteAgain": "Erneut einladen"
@@ -366,9 +362,6 @@
       },
       "login": {
         "accountless": "Hast du noch keinen Account?",
-        "beta": {
-          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
-        },
         "email": "E-Mail",
         "infoText": {
           "alpha": "Dies ist die Alpha-Version von eCamp v3. Kann Fehler enthalten, und die eingegebenen Daten werden nach Ende der Alpha-Phase gelöscht.",

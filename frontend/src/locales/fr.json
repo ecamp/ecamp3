@@ -108,10 +108,6 @@
         "title": "Désactiver le collaborateur",
         "warningText": "Veux-tu désactiver '{name}' ?"
       },
-      "inactiveCampCollaboratorListItem": {
-        "delete": "Tu veux vraiment retirer ce collaborateur du camp ?",
-        "inviteAgain": "Invite à nouveau"
-      },
       "inactiveCollaboratorListItem": {
         "delete": "Tu veux vraiment supprimer ces employés ?",
         "inviteAgain": "Invite à nouveau"
@@ -358,9 +354,6 @@
       },
       "login": {
         "accountless": "Vous n'avez pas encore de compte?",
-        "beta": {
-          "notice": "C'est là que le nouveau eCamp voit le jour.<br>IMPORTANT : Ce site Web est en construction. Cela signifie que toutes les données sont publiques et qu'elles seront supprimées périodiquement !"
-        },
         "email": "Courriel",
         "infoText": {
           "alpha": "C'est la version alpha d'eCamp v3. Elle peut encore contenir des bugs et les données saisies ici seront supprimées lorsque la phase alpha sera terminée.",
