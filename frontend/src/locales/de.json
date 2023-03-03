@@ -65,11 +65,11 @@
       },
       "campPeriodsListItem": {
         "changePeriodDescription": "Bezeichnung ändern",
-        "movePeriod": "Lagerabschnitt verschieben",
-        "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen",
-        "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
         "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
-        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
+        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden.",
+        "movePeriod": "Lagerabschnitt verschieben",
+        "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
+        "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen"
       },
       "campSettings": {
         "title": "Einstellungen"
@@ -88,8 +88,8 @@
       },
       "dialogPeriodDateEdit": {
         "movePeriod": "Lagerabschnitt verschieben",
-        "periodChangeStart": "Am Anfang vom Lagerabschnitt Tage hinzufügen / entfernen",
         "periodChangeEnd": "Am Ende vom Lagerabschnitt Tage hinzufügen / entfernen",
+        "periodChangeStart": "Am Anfang vom Lagerabschnitt Tage hinzufügen / entfernen",
         "periodDuration": "Anzahl Tage"
       },
       "dialogPeriodEdit": {
@@ -141,8 +141,8 @@
     },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff",
-        "doubleClickToUnlock": "Doppelklick um zu entsperren"
+        "doubleClickToUnlock": "Doppelklick um zu entsperren",
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
       }
     },
     "layout": {
@@ -175,8 +175,8 @@
           "activity": "Aktivität"
         },
         "picassoConfig": {
-          "periods": "Lagerabschnitt(e)",
-          "orientation": "Seitenlayout"
+          "orientation": "Seitenlayout",
+          "periods": "Lagerabschnitt(e)"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht",
@@ -338,8 +338,8 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
-      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
-      "greaterThan_time": "{_field_} muss später als {min} sein"
+      "greaterThan_time": "{_field_} muss später als {min} sein",
+      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
     }
   },
   "views": {
@@ -362,14 +362,11 @@
       },
       "login": {
         "accountless": "Hast du noch keinen Account?",
-        "infoText": {
-          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!",
-          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen."
-        },
-        "beta": {
-          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
-        },
         "email": "E-Mail",
+        "infoText": {
+          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
+          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!"
+        },
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
         },

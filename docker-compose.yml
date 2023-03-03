@@ -137,7 +137,7 @@ services:
   docker-host:
     image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
-    cap_add: ['NET_ADMIN', 'NET_RAW']
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
 
   browserless:
@@ -154,6 +154,18 @@ services:
       - ENABLE_DEBUGGER=false
       - DISABLED_FEATURES=["downloadEndpoint","functionEndpoint","pdfEndpoint","screencastEndpoint","scrapeEndpoint","statsEndpoint","workspaces"]
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
+
+  translation:
+    image: node:18.14.2
+    profiles: [ "translation" ]
+    container_name: 'ecamp3-translation'
+    volumes:
+      - ./translation:/translation:delegated
+      - ./common:/common:delegated
+      - ./frontend:/frontend:delegated
+      - ./print:/print:delegated
+    working_dir: /translation
+    command: tail -F anything
 
 volumes:
   db-data-postgres: null
