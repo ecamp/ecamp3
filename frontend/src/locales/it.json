@@ -356,7 +356,6 @@
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
-          "alpha": "Questa è la versione alfa di eCamp v3. Potrebbe contenere ancora dei bug e i dati inseriti qui saranno cancellati al termine della fase alfa.",
           "beta": "Questa è la versione beta di eCamp v3, che può essere utilizzata per la pianificazione di un campo reale, ma non per la pianificazione del tempo. Il numero limitato di utenti della versione beta deve aspettarsi interruzioni della manutenzione.",
           "dev": "Questa è la versione di sviluppo di eCamp v3.<br>IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!"
         },
