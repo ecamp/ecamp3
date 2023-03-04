@@ -1,5 +1,28 @@
 {
   "components": {
+    "activity": {
+      "content": {
+        "columnLayout": {
+          "columnOperations": {
+            "addColumn": "Ajoute une colonne",
+            "removeColumn": "Supprime la colonne vide"
+          }
+        },
+        "storyboardDialogRemoveSection": {
+          "deleteWarning": "Tu veux vraiment supprimer cette section ?",
+          "title": "Vraiment supprimer ?"
+        }
+      },
+      "menuCardlessContentNode": {
+        "deletingDisabled": "Doit être vide pour être supprimé"
+      },
+      "scheduleEntry": {
+        "backToContents": "Retour à l'édition du contenu",
+        "changeLayout": "Change la mise en page",
+        "deleteWarning": "Tu veux vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé.",
+        "layout": "Mise en page"
+      }
+    },
     "camp": {
       "campInvitations": {
         "title": "Inviter"
@@ -9,27 +32,90 @@
       }
     },
     "campAdmin": {
+      "campAddress": {
+        "title": "Adresse"
+      },
       "campCategories": {
         "create": "Créer une catégorie d'activité",
         "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
         "deleteCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
+        "editLayout": "Modifier la mise en page",
         "title": "Catégories d'activités"
+      },
+      "campDangerZone": {
+        "deleteCamp": {
+          "description": "Une fois que tu as supprimé un camp, il est impossible de revenir en arrière. Sois certain.",
+          "explanation": "Cette action ne peut pas être annulée. Cette action supprimera définitivement le camp \"{campName}\", les activités, les listes de matériel et supprimera toutes les associations de collaborateurs.",
+          "label": "Veuillez taper \"{campName}\" pour confirmer.",
+          "title": "Supprimer le camp"
+        },
+        "title": "Zone de danger"
+      },
+      "campMaterialLists": {
+        "createMaterialList": "Créer une liste d'articles",
+        "title": "Listes de matériaux"
+      },
+      "campMaterialListsItem": {
+        "deleteError": "Impossible de supprimer la liste d'articles. Vérifie si la liste est vide avant de la supprimer.",
+        "deleteWarning": "Tu veux vraiment supprimer cette liste de matériel ?"
       },
       "campPeriods": {
         "createPeriod": "Créer une période",
         "title": "Période | Périodes"
       },
       "campPeriodsListItem": {
-        "deleteWarning": "Voulez-vous vraiment le supprimer ?"
+        "changePeriodDescription": "Modifier la description",
+        "deleteWarning": "Voulez-vous vraiment le supprimer ?",
+        "lastPeriodNotDeletable": "La dernière période n'est pas supprimable.",
+        "movePeriod": "Période de déménagement",
+        "periodChangeEnd": "Ajoute/supprime des jours à la fin",
+        "periodChangeStart": "Ajoute/supprime des jours au début"
       },
       "campSettings": {
         "title": "Paramètres"
       },
+      "createCampPeriods": {
+        "add": "Ajoute un point"
+      },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
       },
+      "dialogMaterialListCreate": {
+        "title": "Créer une liste d'articles"
+      },
       "dialogPeriodCreate": {
         "title": "Créer une période"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Période de déménagement",
+        "periodChangeEnd": "Ajoute / supprime des jours à la fin de cette période",
+        "periodChangeStart": "Ajoute / supprime des jours au début de cette période",
+        "periodDuration": "Nombre de jours"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Déplacer les entrées du calendrier"
+      }
+    },
+    "collaborator": {
+      "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "Tu ne peux pas attribuer un autre rôle au dernier manager.",
+        "cannotRemoveLastManager": "Tu ne peux pas supprimer le dernier manager.",
+        "deactivate": "Désactiver",
+        "resendEmail": "Renvoyer l'email"
+      },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Désactiver",
+        "title": "Désactiver le collaborateur",
+        "warningText": "Veux-tu désactiver '{name}' ?"
+      },
+      "inactiveCollaboratorListItem": {
+        "delete": "Tu veux vraiment supprimer ces employés ?",
+        "inviteAgain": "Invite à nouveau"
+      }
+    },
+    "dashboard": {
+      "selectFilter": {
+        "clear": "Clair"
       }
     },
     "dialog": {
@@ -38,9 +124,42 @@
         "warningText": "Voulez-vous vraiment le supprimer ?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Ouvre un dialogue pour sélectionner une couleur pour {label}"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Format non valide, veuillez saisir la date au format MM/JJ/AAAA.",
+          "openPicker": "Ouvre un dialogue pour sélectionner une date pour {label}"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Format non valide, veuillez saisir l'heure au format HH:MM AM/PM",
+          "openPicker": "Ouvre un dialogue pour sélectionner une heure pour {label}"
+        }
+      }
+    },
+    "generic": {
+      "lockIcon": {
+        "doubleClickToUnlock": "Double-clique pour déverrouiller",
+        "guestsCannotEdit": "Les invités n'ont pas le droit de modifier"
+      }
+    },
     "layout": {
       "authContainer": {
         "photoCredits": "Photo par Markus Rohner / Lotos"
+      }
+    },
+    "material": {
+      "dialogMaterialItemCreate": {
+        "title": "Créer un élément matériel"
+      },
+      "materialCreateItem": {
+        "campSettingsButton": "Paramètres",
+        "noMaterialListAvailable": "Il n'y a pas encore de listes de matériel pour ce camp. Tu peux les créer dans 'Admin'."
+      },
+      "materialTable": {
+        "addNewItem": "Ajoute un nouvel élément"
       }
     },
     "navigation": {
@@ -50,6 +169,78 @@
         "profile": "Profil"
       }
     },
+    "print": {
+      "config": {
+        "activityConfig": {
+          "activity": "Activité"
+        },
+        "picassoConfig": {
+          "orientation": "Mise en page",
+          "periods": "Section(s) portante(s)"
+        },
+        "programConfig": {
+          "dayOverview": "Aperçu de la journée d'impression",
+          "periods": "Section(s) portante(s)"
+        },
+        "storyConfig": {
+          "periods": "Section(s) portante(s)"
+        }
+      },
+      "documents": {
+        "campPrint": {
+          "filename": {
+            "activitiesOnly": "Activités {camp}",
+            "picassoOnly": "Picasso {camp}"
+          }
+        }
+      },
+      "localPdfDownloadButton": {
+        "error": "Quelque chose n'a pas fonctionné. Essaie à nouveau, ou recharge la page."
+      },
+      "printConfigurator": {
+        "add": "Ajoute du contenu",
+        "config": {
+          "Activity": "Activité unique",
+          "Cover": "Page de couverture",
+          "Picasso": "Picasso",
+          "Program": "Programme",
+          "Story": "Résumé de l'histoire",
+          "Toc": "Table des matières"
+        }
+      },
+      "printNuxt": {
+        "downloadNuxtPdfButton": {
+          "label": "Télécharger le PDF (mise en page #1)"
+        },
+        "downloadNuxtPdfListItem": {
+          "label": "Télécharger le PDF (mise en page #1)"
+        },
+        "generatePdfMixin": {
+          "error": "Quelque chose n'a pas fonctionné. S'il te plaît, essaie à nouveau, ou essaie de recharger la page.",
+          "queueFull": "Toutes nos imprimantes PDF sont occupées en ce moment. Veuillez réessayer plus tard."
+        },
+        "printPreviewNuxt": {
+          "openPreview": "Ouvre l'aperçu dans une nouvelle fenêtre",
+          "previewError": "Quelque chose n'a pas fonctionné. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
+          "previewIframeTitle": "Aperçu avant impression"
+        }
+      },
+      "printReact": {
+        "downloadReactPdfButton": {
+          "label": "Télécharger le PDF (mise en page n°2)"
+        },
+        "downloadReactPdfListItem": {
+          "label": "Télécharger le PDF (mise en page n°2)"
+        },
+        "generatePdfMixin": {
+          "error": "Quelque chose n'a pas fonctionné. S'il te plaît, essaie à nouveau, ou essaie de recharger la page."
+        },
+        "printPreviewReact": {
+          "previewError": "Quelque chose n'a pas fonctionné. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
+          "previewIframeTitle": "Aperçu avant impression"
+        }
+      }
+    },
     "program": {
       "formScheduleEntryItem": {
         "end": "Fin",
@@ -57,6 +248,9 @@
       },
       "formScheduleEntryList": {
         "name": "Prévu"
+      },
+      "periodSwitcher": {
+        "title": "Choisis la période"
       },
       "picasso": {
         "picassoEntry": {
@@ -70,6 +264,20 @@
         "multiLineToast": {
           "generalError": "Une erreur est survenue."
         }
+      }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "error": "Une erreur s'est produite.",
+        "message": "Tu recevras un e-mail de vérification.",
+        "success": "Avant de pouvoir utiliser ta nouvelle adresse e-mail, tu dois la vérifier. Vérifie ta boîte aux lettres maintenant.",
+        "title": "Change l'adresse e-mail"
+      },
+      "dialogChangeMailRunning": {
+        "error": "Une erreur s'est produite.",
+        "message": "Changement d'adresse e-mail ...",
+        "success": "L'adresse e-mail a été modifiée avec succès.",
+        "title": "Changement d'adresse e-mail"
       }
     }
   },
@@ -92,44 +300,71 @@
       "add": "Ajouter",
       "back": "Retour",
       "cancel": "Annuler",
+      "close": "Fermer",
       "content": "Contenu",
       "create": "Créer",
       "delete": "Effacer",
       "edit": "Éditer",
+      "editable": "Editable",
+      "lock": "Serrure",
       "login": "Se connecter",
+      "logout": "Déconnexion",
       "ok": "D'accord",
       "open": "Ouvrir",
       "save": "Sauvegarder",
       "saving": "En train de sauvegarder",
+      "search": "Recherche",
       "submit": "Soumettre",
       "tryagain": "Réessayer",
+      "unlock": "Déverrouiller",
       "update": "Mise à jour"
     },
     "changeLanguage": "Changer la langue",
+    "datetime": {},
     "language": "Français",
+    "loading": "Chargement ...",
     "lokaliseMessage": "Changement de langue grâce à lokalise.com",
     "serverError": {
-      "409": "Oooops... Cette action a provoqué une erreur côté serveur."
+      "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
+      "short": "erreur de serveur"
     },
     "validation": {
-      "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}"
+      "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
+      "greaterThan_time": "{_field_} doit être postérieur à {min}",
+      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieur à {max}"
     }
   },
   "views": {
     "activity": {
+      "category": {
+        "backToContents": "Retour à l'édition du contenu",
+        "changeLayout": "Change la mise en page",
+        "layout": "Mise en page"
+      },
+      "printPreview": "Ouvre l'aperçu avant impression",
       "sideBarProgram": {
         "title": "Activités en ce jour"
       }
     },
     "auth": {
+      "activate": {
+        "error": "L'activation a échoué",
+        "success": "Le compte a été activé avec succès",
+        "title": "Ton compte sera activé"
+      },
       "login": {
         "accountless": "Vous n'avez pas encore de compte?",
         "email": "Courriel",
+        "infoText": {
+          "beta": "Il s'agit de la version bêta d'eCamp v3. Elle peut être utilisée pour une planification réelle du camp, mais pas pour une planification urgente. Le nombre limité d'utilisateurs de la version bêta doit s'attendre à des interruptions de maintenance.",
+          "dev": "Ceci est la version de développement d'eCamp v3.<br>IMPORTANT : Ceci est destiné à un usage de développement uniquement. Toutes les données sont publiques et seront supprimées périodiquement !"
+        },
         "loginCallback": {
           "loginInProgress": "Vous serez connecté"
         },
         "or": "ou avec",
         "password": "Mot de passe",
+        "passwordForgotten": "Tu as oublié ton mot de passe ?",
         "provider": {
           "cevidb": "CeviDB",
           "ecamp": "Connectez-vous avec eCamp",
@@ -144,23 +379,99 @@
         "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
         "passwordConfirmation": "Entrez à nouveau votre mot de passe",
         "register": "S'inscrire",
+        "requiredField": "champ obligatoire",
         "title": "Créer un compte"
       },
       "registerDone": {
+        "message": "Nous t'avons envoyé un courriel. Veuillez compléter votre inscription en cliquant sur le lien d'activation dans l'email.",
         "success": "Enregistré avec succès",
         "title": "Créer un compte"
+      },
+      "resetPassword": {
+        "errorMessage": "La réinitialisation du mot de passe a échoué.",
+        "invalidRequest": "Lien invalide",
+        "password": "Nouveau mot de passe",
+        "passwordConfirmation": "Nouveau mot de passe à nouveau",
+        "send": "Set mot de passe",
+        "successMessage": "Le nouveau mot de passe a été défini avec succès.",
+        "title": "Réinitialiser le mot de passe"
+      },
+      "resetPasswordRequest": {
+        "errorMessage": "La réinitialisation du mot de passe a échoué.",
+        "send": "Envoyer",
+        "successMessage": "Le courrier avec le lien pour réinitialiser ton mot de passe sera livré.",
+        "title": "Réinitialiser le mot de passe"
       }
     },
     "camp": {
       "admin": {
+        "collaborators": "Gérer l'équipe",
         "title": "Admin"
+      },
+      "campProgram": {
+        "guestsCannotEdit": "Un invité ne peut pas modifier le picasso",
+        "reminderLockedCreate": "Glisser pour créer n'est possible qu'en mode déverrouillé.",
+        "reminderLockedMove": "Faire glisser pour se déplacer n'est possible qu'en mode déverrouillé.",
+        "title": "Picasso"
       },
       "collaborators": {
         "email": "Adresse de courriel",
+        "inactiveCollaborators": "Inactif",
         "invite": "Inviter",
         "members": "Membres",
         "openInvitations": "Invitations ouvertes",
         "title": "Team"
+      },
+      "dashboard": {
+        "activities": "Activités",
+        "category": "Catégorie",
+        "clearFilters": "Effacer les filtres",
+        "columns": {
+          "category": "Catégorie",
+          "number": "Numéro",
+          "responsible": "Responsable",
+          "time": "Temps",
+          "title": "Titre"
+        },
+        "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
+        "onlyMyActivities": "Seulement mes activités",
+        "period": "Période",
+        "responsible": "Responsable",
+        "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
+      },
+      "invitation": {
+        "acceptCurrentAuth": "Accepte l'invitation avec le compte courant",
+        "backToHome": "Retour à la maison",
+        "notFound": "Cette invitation est déjà acceptée ou a été supprimée",
+        "openCamp": "Camp ouvert",
+        "register": "Registre",
+        "reject": "Refuser l'invitation",
+        "title": "Invitation au camp \"{campName}\".",
+        "useOtherAuth": "Déconnecte-toi et utilise un autre compte",
+        "userAlreadyInCamp": "Tu participes déjà à ce camp"
+      },
+      "invitationRejected": {
+        "backToHome": "Retour à la maison",
+        "successfullyRejected": "L'invitation a été rejetée avec succès"
+      },
+      "invitationUpdateError": {
+        "backToHome": "Retour à la maison",
+        "error": "Une erreur inattendue s'est produite"
+      },
+      "material": {
+        "downloadXlsx": "Télécharger",
+        "groupByList": "Regroupement par liste d'articles",
+        "showActivityMaterial": "Montre le matériel d'activité",
+        "showActivityMaterialShort": "incl. Activité",
+        "title": "Matériau",
+        "xlsx": {
+          "activity": "Activité",
+          "article": "Article",
+          "filename": "liste des matériaux",
+          "matlist": "Liste des matériaux",
+          "quantity": "Quantité",
+          "unit": "Unité"
+        }
       },
       "navigation": {
         "desktop": {
@@ -183,17 +494,22 @@
           },
           "navSidebar": {
             "itemCampAdmin": "Configuration du camp",
+            "itemCamps": "Mes Camps",
             "itemClose": "Fermer le menu",
             "itemCollaborators": "Team",
             "itemPrinting": "PDF / Imprimer"
           }
         }
       },
+      "print": {
+        "title": "Camp d'impression"
+      },
       "story": {
         "title": "Histoire"
       }
     },
     "campCreate": {
+      "couponKeyHint": "Pour la bêta fermée, un code de coupon est nécessaire. Sur ecamp3.ch/closed-beta, tu trouveras comment obtenir un tel code coupon.",
       "create": "Créer le camp",
       "period": {
         "add": "Ajouter une période",
@@ -203,9 +519,12 @@
     },
     "camps": {
       "create": "Créer un camp",
+      "pastCamps": "Anciens camps",
+      "prototypeCamps": "Prototypes",
       "title": "Mes camps"
     },
     "profile": {
+      "changeEmail": "Changement",
       "profile": "Profil"
     }
   }

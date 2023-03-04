@@ -63,7 +63,7 @@ jobs:
         env:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
           prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
-          never_uninstall: '["dev", "stage", "staging", "prod", "alpha", "beta"]'
+          never_uninstall: '["dev", "devel", "stage", "staging", "prod"]'
         run: |
           TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
           echo "Will uninstall: $TO_UNINSTALL"
