@@ -48,13 +48,13 @@ git checkout -b my-new-feature-branch
 
 ### Code formatting
 
-We use cs-fixer for PHP and ESLint for Javascript to ensure a common code style. Make sure your code is auto-formatted before comitting and pushing to the repository.
+We use cs-fixer for PHP and ESLint and Prettier for Javascript to ensure a common code style. Make sure your code is auto-formatted before comitting and pushing to the repository.
 
 We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting) such that your code is auto-formatted on save.
 
 Alternatively you can
 
-- run php-cs-fixer and ESLint manually before each commit:
+- run php-cs-fixer and ESLint / Prettier manually before each commit:
   ```bash
   docker compose run api composer cs-fix
   docker compose run frontend npm run lint
@@ -65,7 +65,7 @@ Alternatively you can
 ### Before submitting pull requests
 
 - [x] Did cs-fixer run on all changed or new PHP files?
-- [x] Did ESLint run on all changed or new JS / Vue files?
+- [x] Did ESLint / Prettier run on all changed or new JS / Vue files?
 - [x] Are all variables, classes, functions, comments etc. named or written in English?
 - [x] Did you write tests for any new functionality or adapt the existing tests for changed functionality?
 - [x] Are all passwords, credentials and local configuration removed from the code changes?
@@ -117,13 +117,13 @@ git checkout -b my-new-feature-branch
 
 ### Quellcode Formatierung
 
-Wir verwenden php-cs-fixer für PHP und ESLint für JS um einen gemeinsamen Code Style zu etablieren. Bitte stelle sicher, dass dein Code automatisch richtig formatiert wird, bevor du diesen ins Git repo committest.
+Wir verwenden php-cs-fixer für PHP und ESLint und Prettier für JS um einen gemeinsamen Code Style zu etablieren. Bitte stelle sicher, dass dein Code automatisch richtig formatiert wird, bevor du diesen ins Git repo committest.
 
 Wir empfehlen deine [IDE so zu konfigurieren](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting), dass dein Code beim Speichern automatisch richtig formatiert wird.
 
 Alternativ kannst du
 
-- php-cs-fixer und ESLint vor jedem commit manuell laufen lassen:
+- php-cs-fixer und ESLint / Prettier vor jedem commit manuell laufen lassen:
   ```bash
   docker compose run api composer cs-fix
   docker compose run frontend npm run lint
@@ -134,7 +134,7 @@ Alternativ kannst du
 ### Vor dem Einreichen eines Pull Requests
 
 - [x] Wurden alle geänderten oder neuen PHP-Dateien von cs-fixer verarbeitet?
-- [x] Wurden alle geänderten oder neuen JS/Vue-Dateien von ESLint bereinigt?
+- [x] Wurden alle geänderten oder neuen JS/Vue-Dateien von ESLint / Prettier bereinigt?
 - [x] Sind alle Variabeln, Klassen, Funktionen, Kommentare, etc. auf englisch benannt?
 - [x] Hast du für neue Funktionalität Tests geschrieben und für geänderte Funktionalität die Tests angepasst?
 - [x] Wurden alle Passwörter, Zugangsdaten und lokale Konfiguration aus den Code-Änderungen entfernt?
