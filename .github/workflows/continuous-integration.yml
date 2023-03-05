@@ -389,7 +389,7 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v2
 
-      # build API (using cache; provide image to docker-compose)
+      # build API (using cache; provide image to docker compose)
       - name: Build docker image (API/PHP)
         uses: docker/build-push-action@v4
         with:
@@ -403,7 +403,7 @@ jobs:
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
 
-      # build caddy (using cache; provide image to docker-compose)
+      # build caddy (using cache; provide image to docker compose)
       - name: Build docker image (Caddy)
         uses: docker/build-push-action@v4
         with:
