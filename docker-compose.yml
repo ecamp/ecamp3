@@ -99,6 +99,7 @@ services:
       cache_from:
         - ecamp/ecamp3-print
     container_name: 'ecamp3-print'
+    user: ${USER_ID:-1000}
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
@@ -110,7 +111,6 @@ services:
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - USER_ID=${USER_ID:-1000}
       - CI=${CI}
     env_file:
       - ./print/print.env
