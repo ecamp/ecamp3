@@ -3,13 +3,17 @@ framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     http_method_override: false
+    handle_all_throwables: true
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_hosts:
         - localhost
         - caddy
-        - '%env(API_DOMAIN)%'
+        - '%env(ADDITIONAL_TRUSTED_HOSTS)%'
     # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
-    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']
+    trusted_headers:
+        - 'x-forwarded-for'
+        - 'x-forwarded-prefix'
+        - 'x-forwarded-proto'
 
     disallow_search_engine_index: true
 

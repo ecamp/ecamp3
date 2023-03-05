@@ -1,50 +1,64 @@
 {
-    # Debug
-    {$DEBUG}
+	# Debug
+	{$CADDY_DEBUG}
 
-    http_port 3001
-    https_port 3443
-    auto_https disable_redirects
+	auto_https disable_redirects
 }
 
-{$SERVER_NAME}
+:3000 {
+	log {
+		level DEBUG
+	}
 
-log
+	handle_path /api* {
+		# rewriting the uri used for php-fcgi did not work
+		# so we make a hop more to localhost:3001 with the rewritten url where the fcgi happens
+		# this may slow down the request
 
-# Matches requests for HTML documents, for static files,
-# except for known API paths and paths with extensions handled by API Platform
-@pwa expression `(
-        {header.Accept}.matches("\\btext/html\\b")
-        && !{path}.matches("(?i)(?:^/docs|^/graphql|^/bundles/|^/_profiler|^/_wdt|\\.(?:json|html$|csv$|ya?ml$|xml$))")
-    )
-    || {path} == "/favicon.ico"
-    || {path} == "/manifest.json"
-    || {path} == "/robots.txt"
-    || {path}.startsWith("/sitemap")`
+		reverse_proxy localhost:3001 {
+			header_up X-Forwarded-Prefix "/api"
+		}
+	}
 
-route {
-    root * /srv/api/public
-    mercure {
-        # Transport to use (default to Bolt)
-        transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
-        # Publisher JWT key
-        publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
-        # Subscriber JWT key
-        subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
-        # Allow anonymous subscribers (double-check that it's what you want)
-        anonymous
-        # Enable the subscription API (double-check that it's what you want)
-        subscriptions
-        # Extra directives
-        {$MERCURE_EXTRA_DIRECTIVES}
-    }
-    vulcain
-    push
+	handle_path /print* {
+		reverse_proxy print:3003
+	}
 
-    # Add links to the API docs and to the Mercure Hub if not set explicitly (e.g. the PWA)
-    header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation", </.well-known/mercure>; rel="mercure"`
+	handle /mail* {
+		reverse_proxy mail:8025
+	}
 
-    php_fastcgi unix//var/run/php/php-fpm.sock
-    encode zstd gzip
-    file_server
+	handle {
+		reverse_proxy frontend:3000
+	}
+}
+
+:3001 {
+	route {
+		root * /srv/api/public
+		mercure {
+			# Transport to use (default to Bolt)
+			transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
+			# Publisher JWT key
+			publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
+			# Subscriber JWT key
+			subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
+			# Allow anonymous subscribers (double-check that it's what you want)
+			anonymous
+			# Enable the subscription API (double-check that it's what you want)
+			subscriptions
+			# Extra directives
+			{$MERCURE_EXTRA_DIRECTIVES}
+		}
+		vulcain
+
+		# Add links to the API docs and to the Mercure Hub if not set explicitly (e.g. the PWA)
+		header ?Link `</docs.jsonld>; rel="www.w3.org/ns/hydra/core#apiDocumentation", </.well-known/mercure>; rel="mercure"`
+
+		php_fastcgi unix//var/run/php/php-fpm.sock {
+			env HTTP_X_FORWARDED_PREFIX {header.X-Forwarded-Prefix}
+		}
+		encode zstd gzip
+		file_server
+	}
 }

@@ -1,4 +1,4 @@
-FROM node:18.12.1@sha256:9ebe9845301ca70e879f22180dfff496b856bb5f2ec52397462a9f5f903ee654
+FROM node:18.14.2
 
 ENV NPM_CONFIG_CACHE=/home/node/.npm
 

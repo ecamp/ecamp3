@@ -58,7 +58,7 @@ class ReadDayTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'id' => $day->getId(),
             'dayOffset' => $day->dayOffset,
-            'number' => 2,
+            'number' => 4,
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
@@ -79,7 +79,7 @@ class ReadDayTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'id' => $day->getId(),
             'dayOffset' => $day->dayOffset,
-            'number' => 2,
+            'number' => 4,
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
@@ -98,7 +98,7 @@ class ReadDayTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'id' => $day->getId(),
             'dayOffset' => $day->dayOffset,
-            'number' => 2,
+            'number' => 4,
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],

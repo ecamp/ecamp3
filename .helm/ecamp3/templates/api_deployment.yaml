@@ -29,6 +29,7 @@ spec:
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
       containers:
         - name: caddy
           securityContext:
@@ -203,7 +204,6 @@ spec:
             exec:
               command:
                 - docker-healthcheck
-            initialDelaySeconds: 3
             periodSeconds: 10
             timeoutSeconds: 5
           livenessProbe:

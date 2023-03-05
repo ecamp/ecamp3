@@ -1,19 +1,18 @@
 {
   "extends": [
-    "config:base",
-    "docker:pinDigests"
+    "config:base"
   ],
   "force": {
     "constraints": {
-      "node": "18.13.0",
-      "php": "~8.1.13"
+      "node": "18.14.2",
+      "php": "8.1.13"
     }
   },
   "automergeType": "branch",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
-      "on tuesday"
+      "on tuesday and wednesday"
     ]
   },
   "vulnerabilityAlerts": {
@@ -28,7 +27,6 @@
         "minor",
         "patch",
         "pin",
-        "digest",
         "lockFileMaintenance"
       ],
       "automerge": true
@@ -83,6 +81,7 @@
     },
     {
       "matchPackageNames": [
+        "browserless/chrome",
         "caddy",
         "krakjoe/apcu",
         "mailhog/mailhog",
@@ -99,9 +98,21 @@
     },
     {
       "matchPackageNames": [
+        "browserless/chrome"
+      ],
+      "versioning": "loose"
+    },
+    {
+      "matchPackageNames": [
+        "alpine"
+      ],
+      "allowedVersions": "3.16"
+    },
+    {
+      "matchPackageNames": [
         "postgres"
       ],
-      "allowedVersions": "13-alpine"
+      "allowedVersions": "15-alpine"
     }
   ],
   "regexManagers": [
@@ -135,10 +146,31 @@
     },
     {
       "fileMatch": [
+        "^.helm/ecamp3/values.ya?ml$"
+      ],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)?\\s.*tag: \"(?<currentValue>.*)\"\\s"
+      ]
+    },
+    {
+      "fileMatch": [
         "^.github/workflows/.+\\.ya?ml$"
       ],
       "matchStrings": [
         "php-version: '(?<currentValue>[0-9.]+)'"
+      ],
+      "depNameTemplate": "php",
+      "lookupNameTemplate": "php/php-src",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$",
+      "extractVersionTemplate": "^php-(?<version>.*)$"
+    },
+    {
+      "fileMatch": [
+        "^renovate.json$"
+      ],
+      "matchStrings": [
+        "\"php\": \"(?<currentValue>[^\"]+).*\".*"
       ],
       "depNameTemplate": "php",
       "lookupNameTemplate": "php/php-src",

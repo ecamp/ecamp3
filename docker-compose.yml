@@ -1,4 +1,4 @@
-version: "3.4"
+version: '3.9'
 
 services:
   frontend:
@@ -9,7 +9,6 @@ services:
         - ecamp/ecamp3-frontend
     container_name: 'ecamp3-frontend'
     ports:
-      - '3000:3000'
       - '9229:9229' # jest debug
     stdin_open: true
     tty: true
@@ -26,13 +25,13 @@ services:
       - CI=${CI}
 
   php:
-    image: ecamp/ecamp3-api
+    image: ecamp/ecamp3-api-php
     build:
       context: ./api
       target: api_platform_php_dev
       cache_from:
-        - ecamp/ecamp3-api
-    container_name: 'ecamp3-api'
+        - ecamp/ecamp3-api-php
+    container_name: 'ecamp3-api-php'
     depends_on:
       - database
       - docker-host
@@ -44,54 +43,46 @@ services:
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
       - composer-cache:/tmp/composer/cache
     environment:
-      APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
       # XDEBUG_MODE required for step debugging
-      XDEBUG_MODE: ${XDEBUG_MODE}
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
+      ADDITIONAL_TRUSTED_HOSTS: '.*'
     healthcheck:
       interval: 10s
       timeout: 3s
       retries: 3
       start_period: 30s
     user: ${USER_ID:-1000}
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   caddy:
-    image: ecamp/ecamp3-caddy
+    image: ecamp/ecamp3-api-caddy
     build:
       context: ./api
       target: api_platform_caddy
       cache_from:
-        - ecamp/ecamp3-caddy
-    container_name: 'ecamp3-caddy'
+        - ecamp/ecamp3-api-caddy
+    container_name: 'ecamp3-api-caddy'
     depends_on:
       - php
     environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost:3001, localhost:3443, caddy:3001}
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
       MERCURE_EXTRA_DIRECTIVES: demo
     ports:
-      # HTTP
-      - target: 3001
-        published: 3001
+      - target: 3000
+        published: 3000
         protocol: tcp
-      # HTTPS
-      - target: 3443
-        published: 3443
-        protocol: tcp
-      # HTTP/3
-      - target: 3443
-        published: 3443
-        protocol: udp
     restart: unless-stopped
     user: ${USER_ID:-1000}
     volumes:
@@ -108,8 +99,6 @@ services:
       cache_from:
         - ecamp/ecamp3-print
     container_name: 'ecamp3-print'
-    ports:
-      - '3003:3003'
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
@@ -126,7 +115,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15
+    image: postgres:15-alpine
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
@@ -143,19 +132,19 @@ services:
         protocol: tcp
 
   mail:
-    image: mailhog/mailhog@sha256:8d76a3d4ffa32a3661311944007a415332c4bb855657f4f6c57996405c009bea
+    image: mailhog/mailhog
     container_name: 'ecamp3-mail'
-    ports:
-      - '3007:8025' # web UI
+    environment:
+      - MH_UI_WEB_PATH=/mail
 
   docker-host:
-    image: qoomon/docker-host@sha256:fa24766ea43912d1eafb8c36813e9cdac7f492ac640e9916450b649af03181aa
+    image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.56.0-puppeteer-18.0.5
+    image: browserless/chrome:1.57.0-puppeteer-19.2.2
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
@@ -167,7 +156,19 @@ services:
       - KEEP_ALIVE=true
       - ENABLE_DEBUGGER=false
       - DISABLED_FEATURES=["downloadEndpoint","functionEndpoint","pdfEndpoint","screencastEndpoint","scrapeEndpoint","statsEndpoint","workspaces"]
-      - FUNCTION_ENABLE_INCOGNITO_MODE=true 
+      - FUNCTION_ENABLE_INCOGNITO_MODE=true
+
+  translation:
+    image: node:18.14.2
+    profiles: [ "translation" ]
+    container_name: 'ecamp3-translation'
+    volumes:
+      - ./translation:/translation:delegated
+      - ./common:/common:delegated
+      - ./frontend:/frontend:delegated
+      - ./print:/print:delegated
+    working_dir: /translation
+    command: tail -F anything
 
 volumes:
   db-data-postgres: null

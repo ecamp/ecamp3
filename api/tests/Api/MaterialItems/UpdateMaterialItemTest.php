@@ -152,7 +152,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Expected IRI or nested document for attribute "materialList", "NULL" given.',
+            'detail' => 'The type of the "materialList" attribute must be "array" (nested document) or "string" (IRI), "NULL" given.',
         ]);
     }
 

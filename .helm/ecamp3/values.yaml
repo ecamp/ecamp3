@@ -5,17 +5,17 @@ chartNameOverride: ""
 imageTag: "latest"
 imagePullSecrets: []
 deploymentTime: ""
+domain:
 deployedVersion: "devel"
 versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
 termsOfServiceLinkTemplate: # 'https://ecamp3.ch/{lang}/tos'
-sharedCookieDomain:
 
 # enable/disable feature across the complete deployment
 featureToggle:
   developer: false # enables various tools/features foreseen for development deployments (language switcher, form controls view, performance measurement view, etc.)
 
 api:
-  domain:
+  subpath: "/api"
   service:
     type: ClusterIP
     port: 3001
@@ -24,7 +24,7 @@ api:
 
 php:
   image:
-    repository: "docker.io/ecamp/ecamp3-api"
+    repository: "docker.io/ecamp/ecamp3-api-php"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:
@@ -65,7 +65,7 @@ php:
 
 caddy:
   image:
-    repository: "docker.io/ecamp/ecamp3-caddy"
+    repository: "docker.io/ecamp/ecamp3-api-caddy"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:
@@ -75,7 +75,6 @@ caddy:
       memory: 20Mi
 
 frontend:
-  domain:
   image:
     repository: "docker.io/ecamp/ecamp3-frontend"
     pullPolicy: IfNotPresent
@@ -90,9 +89,10 @@ frontend:
     requests:
       cpu: 10m
       memory: 10Mi
+  loginInfoTextKey: 'dev'
 
 print:
-  domain:
+  subpath: "/print"
   image:
     repository: "docker.io/ecamp/ecamp3-print"
     pullPolicy: IfNotPresent
@@ -115,7 +115,8 @@ browserless:
   image:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
-    tag: "1.56.0-puppeteer-18.0.5"
+    # renovate: datasource=docker depName=browserless/chrome
+    tag: "1.57.0-puppeteer-19.2.2"
   service:
     type: ClusterIP
     port: 3000
@@ -132,7 +133,7 @@ mail:
   # If using a real mail server, the connection uri to send emails to
   dsn: # smtp://myuser:mypass@mymailserver:1025
   # If the dummy mail server is enabled, the domain where the web interface is available
-  domain:
+  subpath: "/mail"
   image:
     repository: "docker.io/mailhog/mailhog"
     pullPolicy: IfNotPresent
@@ -156,27 +157,11 @@ mercure:
 
 # Full configuration: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
 postgresql:
-  enabled: true
-  # If bringing your own PostgreSQL, the full uri to use
-  url: postgresql://api-platform:!ChangeMe!@database:5432/api?serverVersion=13&charset=utf8
+  url:
   dropDBOnUninstall: false
-  # If bringing your own PostgreSQL, an uri with privileges to create and drop a database for the application
+  # An uri with privileges to create and drop a database for the application.
+  # Can be left empty if the required database specified in postgresql.url already exists.
   adminUrl:
-  postgresqlUsername: "example"
-  postgresqlPassword: "!ChangeMe!"
-  postgresqlDatabase: "api"
-  # Persistent Volume Storage configuration.
-  # ref: https://kubernetes.io/docs/user-guide/persistent-volumes
-  persistence:
-    enabled: false
-  pullPolicy: IfNotPresent
-  image:
-    repository: bitnami/postgresql
-    tag: 14
-  resources:
-    requests:
-      cpu: 10m
-      memory: 50Mi
 
 recaptcha:
   siteKey:

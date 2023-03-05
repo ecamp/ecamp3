@@ -60,9 +60,9 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
             'left' => 0,
             'width' => 1,
-            'dayNumber' => 2,
+            'dayNumber' => 4,
             'scheduleEntryNumber' => 1,
-            'number' => '2.1',
+            'number' => '4.1',
             'start' => '2023-05-01T08:00:00+00:00',
             'end' => '2023-05-01T09:00:00+00:00',
             '_links' => [
@@ -85,9 +85,9 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             'id' => $scheduleEntry->getId(),
             'left' => 0,
             'width' => 1,
-            'dayNumber' => 2,
+            'dayNumber' => 4,
             'scheduleEntryNumber' => 1,
-            'number' => '2.1',
+            'number' => '4.1',
             'start' => '2023-05-01T08:00:00+00:00',
             'end' => '2023-05-01T09:00:00+00:00',
             '_links' => [
@@ -108,9 +108,9 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             'id' => $scheduleEntry->getId(),
             'left' => 0,
             'width' => 1,
-            'dayNumber' => 2,
+            'dayNumber' => 4,
             'scheduleEntryNumber' => 1,
-            'number' => '2.1',
+            'number' => '4.1',
             'start' => '2023-05-01T08:00:00+00:00',
             'end' => '2023-05-01T09:00:00+00:00',
             '_links' => [

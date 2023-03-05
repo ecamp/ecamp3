@@ -5,19 +5,16 @@ namespace App\Tests\EventListener;
 use App\EventListener\RequestTransactionListener;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-
-use function PHPUnit\Framework\exactly;
-
 use PHPUnit\Framework\MockObject\MockObject;
-
-use function PHPUnit\Framework\never;
-use function PHPUnit\Framework\once;
-
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+
+use function PHPUnit\Framework\exactly;
+use function PHPUnit\Framework\never;
+use function PHPUnit\Framework\once;
 
 /**
  * @internal

@@ -5,13 +5,12 @@ namespace App\Tests\Serializer\Normalizer\Error;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\Error\TranslationInfoOfConstraintViolation;
 use App\Validator\AllowTransition\AssertAllowTransitions;
-
-use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\equalTo;
-
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
+
+use function PHPUnit\Framework\assertThat;
+use function PHPUnit\Framework\equalTo;
 
 /**
  * @internal

@@ -6,6 +6,8 @@ use App\Entity\Camp;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CampCouponService {
+    public const NO_COUPON_KEY_REQUIRED_MESSAGE = 'No Coupon-Key required';
+
     public function __construct(
         private string $secret,
         private EntityManagerInterface $em
@@ -13,8 +15,8 @@ class CampCouponService {
     }
 
     public function createCoupon() {
-        if ('' == $this->secret) {
-            return 'No Coupon-Key required';
+        if (!$this->isActive()) {
+            return self::NO_COUPON_KEY_REQUIRED_MESSAGE;
         }
         $secret = intval($this->secret);
         $min = intval(ceil(78364164096 / $secret));
@@ -30,7 +32,7 @@ class CampCouponService {
         // since we want to have short coupon keys, we implement our own algorithm here.
         // In the long run the CampCouponService will be deleted again.
 
-        if ('' == $this->secret) {
+        if (!$this->isActive()) {
             return true;
         }
 
@@ -56,5 +58,9 @@ class CampCouponService {
         $cnt = $q->getQuery()->getSingleScalarResult();
 
         return 0 == $cnt;
+    }
+
+    public function isActive(): bool {
+        return '' != $this->secret;
     }
 }

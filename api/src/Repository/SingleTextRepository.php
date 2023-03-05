@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method null|SingleText findOneBy(array $criteria, array $orderBy = null)
  * @method SingleText[]    findAll()
  * @method SingleText[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template-extends ContentNodeRepository<SingleText>
  */
 class SingleTextRepository extends ContentNodeRepository {
     public function __construct(EntityManagerInterface $em) {

@@ -1,4 +1,9 @@
 {
+  "contentNode": {
+    "storycontext": {
+      "name": "Filo rosso"
+    }
+  },
   "entity": {
     "user": {
       "fields": {
@@ -8,11 +13,6 @@
   },
   "global": {
     "language": "Italiano (Scout)"
-  },
-  "contentNode": {
-    "storycontext": {
-      "name": "Filo rosso"
-    }
   },
   "views": {
     "camp": {

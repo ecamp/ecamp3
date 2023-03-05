@@ -9,6 +9,7 @@ use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\User;
+use App\Service\CampCouponService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,7 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         ProcessorInterface $decorated,
         private Security $security,
         private EntityManagerInterface $em,
+        private readonly CampCouponService $campCouponService
     ) {
         parent::__construct($decorated);
     }
@@ -27,6 +29,10 @@ class CampCreateProcessor extends AbstractPersistProcessor {
      * @param Camp $data
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): BaseEntity {
+        if (!$this->campCouponService->isActive()) {
+            $data->couponKey = null;
+        }
+
         /** @var User $user */
         $user = $this->security->getUser();
         $data->creator = $user;
@@ -39,7 +45,7 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         }
 
         foreach ($data->periods as $period) {
-            PeriodPersistProcessor::updateDaysAndScheduleEntries($period);
+            PeriodPersistProcessor::addMissingDays($period);
         }
 
         return $data;

@@ -13,7 +13,7 @@ sed -i "s/Version[0-9]*/Version${CURRENT_DATE}/" ${NEW_PHP_FILE}
 # remove the lines between //START PHP CODE and //END PHP Code in ${LAST_PHP_FILE}
 sed -i '/\/\/ START PHP CODE/,/\/\/ END PHP CODE/{/\/\/ START PHP CODE/!{/\/\/ END PHP CODE/!d}}' ${LAST_PHP_FILE}
 
-docker-compose exec database pg_dump \
+docker compose exec database pg_dump \
                                 -U ecamp3 \
                                 -d ecamp3dev \
                                 -a \

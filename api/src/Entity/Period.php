@@ -194,6 +194,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return $this->days->getValues();
     }
 
+    public function getDaysSorted(): array {
+        $days = $this->getDays();
+        usort($days, fn (Day $a, Day $b) => $a->dayOffset <=> $b->dayOffset);
+
+        return $days;
+    }
+
     public function addDay(Day $day): self {
         if (!$this->days->contains($day)) {
             $this->days[] = $day;
@@ -248,12 +255,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     #[RelatedCollectionLink(ContentNode::class, ['period' => '$this'])]
     #[Groups(['read'])]
     public function getContentNodes(): array {
-        return array_values(array_unique(array_merge(...array_map(
+        $listOfDescendantLists = array_map(
             function (ScheduleEntry $scheduleEntry) {
                 return $scheduleEntry->activity->getRootContentNode()->getRootDescendants();
             },
             $this->getScheduleEntries()
-        )), SORT_REGULAR));
+        );
+
+        return array_values(array_unique(array_merge(...array_values($listOfDescendantLists)), SORT_REGULAR));
     }
 
     /**

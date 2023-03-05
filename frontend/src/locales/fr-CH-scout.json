@@ -1,4 +1,9 @@
 {
+  "contentNode": {
+    "storycontext": {
+      "name": "Fil rouge"
+    }
+  },
   "entity": {
     "user": {
       "fields": {
@@ -8,11 +13,6 @@
   },
   "global": {
     "language": "Français (Scout)"
-  },
-  "contentNode": {
-    "storycontext": {
-      "name": "Fil rouge"
-    }
   },
   "views": {
     "camp": {

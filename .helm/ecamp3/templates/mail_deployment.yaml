@@ -1,4 +1,4 @@
-{{- if and .Values.mail.dummyEnabled .Values.mail.domain (not .Values.mail.dsn) }}
+{{- if and .Values.mail.dummyEnabled .Values.mail.subpath (not .Values.mail.dsn) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,6 +23,7 @@ spec:
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
       containers:
         - name: {{ .Chart.Name }}-mail
           securityContext:
@@ -36,10 +37,13 @@ spec:
             - name: mail-smtp
               containerPort: 1025
               protocol: TCP
+          env:
+            - name: MH_UI_WEB_PATH
+              value: {{ .Values.mail.subpath }}
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: /
+              path: {{ .Values.mail.subpath }}
               port: 8025
             initialDelaySeconds: 10
             periodSeconds: 5

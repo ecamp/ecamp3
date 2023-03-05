@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
+<!--suppress XmlDefaultAttributeValue for findUnusedCode -->
 <psalm
     errorLevel="6"
     resolveFromConfigFile="true"
     cacheDirectory="./.cache"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"

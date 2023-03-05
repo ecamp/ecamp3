@@ -6,9 +6,8 @@ metadata:
     {{- include "api.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
 data:
-  API_DOMAIN: {{ .Values.api.domain | quote }}
+  ADDITIONAL_TRUSTED_HOSTS: {{ .Values.domain | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
-  SHARED_COOKIE_DOMAIN: {{ .Values.sharedCookieDomain | quote }}
   APP_ENV: {{ .Values.php.appEnv | quote }}
   APP_DEBUG: {{ .Values.php.appDebug | quote }}
   {{- if .Values.php.dataMigrationsDir }}
@@ -20,7 +19,7 @@ data:
   MERCURE_PUBLIC_URL: {{ .Values.mercure.publicUrl | default "http://127.0.0.1/.well-known/mercure" | quote }}
   {{- if .Values.php.sentryDsn }}
   SENTRY_API_DSN: {{ .Values.php.sentryDsn | quote }}
-  SENTRY_ENVIRONMENT: {{ .Values.frontend.domain | quote }}
+  SENTRY_ENVIRONMENT: {{ .Values.domain | quote }}
   {{- else }}
   SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
