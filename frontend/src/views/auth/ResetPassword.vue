@@ -31,7 +31,8 @@
           name="email"
           append-icon="mdi-at"
           :dense="$vuetify.breakpoint.xsOnly"
-          type="text"
+          type="email"
+          autocomplete="username"
           readonly
         />
 
@@ -44,6 +45,10 @@
           append-icon="mdi-lock-outline"
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
+          autocomplete="new-password"
+          minlength="12"
+          maxlength="128"
+          passwordrules="minlength: 12; maxlength: 128;"
           loading
           autofocus
           @input="debouncedPasswordStrengthCheck"
@@ -66,6 +71,10 @@
           :dense="$vuetify.breakpoint.xsOnly"
           append-icon="mdi-lock-outline"
           type="password"
+          autocomplete="new-password"
+          minlength="12"
+          maxlength="128"
+          passwordrules="minlength: 12; maxlength: 128;"
         />
 
         <v-btn

@@ -26,7 +26,8 @@
         name="email"
         append-icon="mdi-account-outline"
         :dense="$vuetify.breakpoint.xsOnly"
-        type="text"
+        type="email"
+        autocomplete="username"
       />
 
       <e-text-field
@@ -38,6 +39,7 @@
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
         type="password"
+        autocomplete="current-password"
       />
       <small class="ml-2">
         <router-link

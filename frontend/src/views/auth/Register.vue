@@ -10,6 +10,7 @@
           append-icon="mdi-account-outline"
           dense
           type="text"
+          autocomplete="given-name"
         />
 
         <e-text-field
@@ -19,6 +20,7 @@
           append-icon="mdi-account-outline"
           dense
           type="text"
+          autocomplete="family-name"
         />
 
         <e-text-field
@@ -27,7 +29,8 @@
           vee-rules="email|required"
           append-icon="mdi-at"
           dense
-          type="text"
+          type="email"
+          autocomplete="username"
         />
 
         <e-text-field
@@ -39,6 +42,10 @@
           append-icon="mdi-lock-outline"
           dense
           type="password"
+          autocomplete="new-password"
+          minlength="12"
+          maxlength="128"
+          passwordrules="minlength: 12; maxlength: 128;"
           loading
           @input="debouncedPasswordStrengthCheck"
         >
@@ -60,6 +67,10 @@
           dense
           append-icon="mdi-lock-outline"
           type="password"
+          autocomplete="new-password"
+          minlength="12"
+          maxlength="128"
+          passwordrules="minlength: 12; maxlength: 128;"
         />
 
         <e-select
