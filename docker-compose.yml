@@ -111,6 +111,7 @@ services:
       - NUXT_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - USER_ID=${USER_ID:-1000}
+      - CI=${CI}
     env_file:
       - ./print/print.env
 
