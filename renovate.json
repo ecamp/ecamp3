@@ -118,7 +118,7 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "^.github/workflows/continuous-integration.yml$"
+        "^docker-compose.yml$"
       ],
       "matchStrings": [
         "(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"
