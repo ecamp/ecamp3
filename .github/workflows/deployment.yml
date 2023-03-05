@@ -13,11 +13,7 @@ on:
 jobs:
   determine-environment:
     name: Determine environment
-    if: ${{
-      (inputs.confirmDeployWithoutCI == true)
-      || (github.event.client_payload.ref == 'refs/heads/staging')
-      || (github.event.client_payload.ref == 'refs/heads/prod')
-      }}
+    if: ${{ (inputs.confirmDeployWithoutCI == true) || (github.event.action == 'ci-passed' ) }}
     outputs:
       environment: ${{ steps.get-branch-name.outputs.result }}
     runs-on: ubuntu-latest
@@ -28,11 +24,14 @@ jobs:
         with:
           result-encoding: string
           script: |
-            return context.payload.ref.replace('refs/heads/', '')
-  
+            return (context.payload.action === 'ci-passed' ? context.payload.client_payload.ref : context.payload.ref).replace('refs/heads/', '')
+
+      - name: Log detected environment
+        run: echo "${{ steps.get-branch-name.outputs.result }}"
 
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
+    if: ${{ (needs.determine-environment.outputs.environment == 'staging') || (needs.determine-environment.outputs.environment == 'prod') }}
     needs:
       determine-environment
     runs-on: ubuntu-latest
@@ -42,49 +41,17 @@ jobs:
       domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
     steps:
 
+      - name: Determine correct SHA to deploy
+        uses: actions/github-script@v6
+        id: determine-sha
+        with:
+          result-encoding: string
+          script: |
+            return (context.payload.action === 'ci-passed' ? context.payload.client_payload.sha : context.sha)
+
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-
-      - name: log environment
-        id: log-environment
-        run: |
-          REF=$(git rev-parse HEAD)
-          echo "Git SHA: $REF"
-          echo "sha=$REF" | tr -d "\n" >> $GITHUB_OUTPUT
-
-          echo "github:"
-          <<-HEREDOC
-            ${{ toJSON(github) }}
-          HEREDOC
-          echo ""
-          echo "inputs:"
-          <<-HEREDOC
-            ${{ toJSON(inputs) }}
-          HEREDOC
-          echo ""
-          echo "job:"
-          <<-HEREDOC
-            ${{ toJSON(job) }}
-          HEREDOC
-          echo ""
-          echo "needs:"
-          <<-HEREDOC
-            ${{ toJSON(needs) }}
-          HEREDOC
-          echo ""
-          echo "env:"
-          <<-HEREDOC
-            ${{ toJSON(env) }}
-          HEREDOC
-          echo ""
-          echo "vars:"
-          <<-HEREDOC
-            ${{ toJSON(vars) }}
-          HEREDOC
-          echo ""
-          echo "secrets:"
-          cat <<-HEREDOC
-            ${{ toJSON(secrets) }}
-          HEREDOC
+        with:
+          ref: ${{ steps.determine-sha.outputs.result }}
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
@@ -108,7 +75,7 @@ jobs:
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
-          tags: ecamp/ecamp3-frontend:${{ env.environment }},ecamp/ecamp3-frontend:${{ steps.log-environment.outputs.sha }}
+          tags: ecamp/ecamp3-frontend:${{ env.environment }},ecamp/ecamp3-frontend:${{ steps.determine-sha.outputs.result }}
           context: .
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,scope=frontend,mode=max
@@ -118,7 +85,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ecamp/ecamp3-api-php:${{ env.environment }},ecamp/ecamp3-api-php:${{ steps.log-environment.outputs.sha }}
+          tags: ecamp/ecamp3-api-php:${{ env.environment }},ecamp/ecamp3-api-php:${{ steps.determine-sha.outputs.result }}
           context: './api'
           target: api_platform_php
           cache-from: type=gha,scope=api
@@ -129,7 +96,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ecamp/ecamp3-api-caddy:${{ env.environment }},ecamp/ecamp3-api-caddy:${{ steps.log-environment.outputs.sha }}
+          tags: ecamp/ecamp3-api-caddy:${{ env.environment }},ecamp/ecamp3-api-caddy:${{ steps.determine-sha.outputs.result }}
           context: './api'
           target: api_platform_caddy_prod
           cache-from: type=gha,scope=caddy
@@ -140,7 +107,7 @@ jobs:
         with:
           push: true
           file: .docker-hub/print/Dockerfile
-          tags: ecamp/ecamp3-print:${{ env.environment }},ecamp/ecamp3-print:${{ steps.log-environment.outputs.sha }}
+          tags: ecamp/ecamp3-print:${{ env.environment }},ecamp/ecamp3-print:${{ steps.determine-sha.outputs.result }}
           context: .
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max
@@ -158,7 +125,7 @@ jobs:
           sed -i 's/^appVersion:.*$/appVersion: "${{ steps.git-ref.outputs.sha }}"/' Chart.yaml
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
-            --set imageTag=${{ steps.log-environment.outputs.sha }} \
+            --set imageTag=${{ steps.determine-sha.outputs.result }} \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
