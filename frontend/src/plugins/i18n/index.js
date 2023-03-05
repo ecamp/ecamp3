@@ -103,8 +103,13 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
       if (this.availableLocales.includes(language)) {
         return language
       }
+
+      const languageFallback = language.substring(0, 2)
+      if (this.availableLocales.includes(languageFallback)) {
+        return languageFallback
+      }
     }
-    return undefined
+    return 'en'
   },
 })
 

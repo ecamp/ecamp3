@@ -16,6 +16,10 @@ export const mutations = {
    * @param lang Language string
    */
   setLanguage(state, lang) {
+    if (!lang) {
+      return
+    }
+
     state.language = lang
     VueI18n.locale = lang
     Vue.dayjs.locale(lang)
