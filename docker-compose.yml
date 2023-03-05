@@ -17,8 +17,8 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - frontend-npm-cache:/home/node/.npm/_cacache
-      - frontend-node-cache:/home/node/.cache
+      - ./.cache/npm:/home/node/.npm/_cacache:delegated
+      - ./cache/node:/home/node/.cache:delegated
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
@@ -41,7 +41,7 @@ services:
       - ./api:/srv/api:rw,delegated
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
-      - composer-cache:/tmp/composer/cache
+      - ./.cache/composer:/tmp/composer/cache:delegated
     environment:
       DATA_MIGRATIONS_DIR: dev-data
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
@@ -103,8 +103,8 @@ services:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
-      - print-npm-cache:/home/node/.npm/_cacache
-      - print-node-cache:/home/node/.cache
+      - ./.cache/npm:/home/node/.npm/_cacache:delegated
+      - ./.cache/node:/home/node/.cache:delegated
     environment:
       - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
@@ -172,8 +172,3 @@ services:
 
 volumes:
   db-data-postgres: null
-  frontend-node-cache:
-  frontend-npm-cache:
-  print-node-cache:
-  print-npm-cache:
-  composer-cache:

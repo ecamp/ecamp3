@@ -1,7 +1,6 @@
 FROM node:18.14.2
 
 ENV NPM_CONFIG_CACHE=/home/node/.npm
-ENV CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
 RUN mkdir -p /home/node/.cache
 RUN chown node:node /home/node/.cache

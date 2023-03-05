@@ -85,6 +85,7 @@ CMD ["php-fpm"]
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 ENV COMPOSER_HOME=/tmp/composer
+ENV COMPOSER_CACHE_DIR=/tmp/composer/cache
 RUN mkdir -p /tmp/composer/cache
 RUN chmod ugo+w /tmp/composer/cache
 
