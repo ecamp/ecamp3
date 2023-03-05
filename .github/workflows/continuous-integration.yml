@@ -421,29 +421,22 @@ jobs:
         uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: .cache
-          key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}
           restore-keys: |
             docker-compose-
 
       # start necessary containers
       - run: docker compose up -d php caddy frontend print browserless database docker-host
-
-      # pull cypress while container are starting up
-      - run: docker pull cypress/included:12.7.0
-
-      # wait for backend & frontend to be up and running
-      - run: bash wait-for-container-startup.sh
-        timeout-minutes: 5
-
-      # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host cypress/included:12.7.0
-        working-directory: frontend
+      
+      - uses: cypress-io/github-action@v5
+        with:
+          working-directory: e2e
+          browser: chrome
+          wait-on: 'http://localhost:3000, http://localhost:3000/api'
+          wait-on-timeout: 300
 
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker compose logs --tail="all"
-
-      # cypress image runs with root and breaks the cache action, so we chown the files back
-      - run: sudo chown -R $USER_ID .
 
   coveralls-finished:
     name: 'Finish coveralls report'

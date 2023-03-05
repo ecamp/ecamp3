@@ -45,5 +45,6 @@ describe('Nuxt print test', () => {
 
     const downloadsFolder = Cypress.config('downloadsFolder')
     cy.readFile(path.join(downloadsFolder, 'GRGR.pdf'), { timeout: 30000 })
+    cy.task('deleteDownloads')
   })
 })

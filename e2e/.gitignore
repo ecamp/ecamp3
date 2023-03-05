@@ -3,12 +3,11 @@ node_modules
 /data
 /dist
 
-selenium-debug.log
+!/**/.gitkeep
 
-# local env files
-.env.local
-.env.*.local
-public/environment.js
+
+/reports/
+selenium-debug.log
 
 # Log files
 npm-debug.log*
