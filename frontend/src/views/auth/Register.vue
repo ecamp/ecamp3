@@ -171,7 +171,7 @@ export default {
     termsOfServiceLink() {
       return (
         parseTemplate(window.environment.TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
-          lang: this.language.substring(0, 2),
+          lang: (this.language || 'de').substring(0, 2),
         }) || false
       )
     },
