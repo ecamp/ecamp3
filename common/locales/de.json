@@ -1,4 +1,11 @@
 {
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "Kein roter Faden an diesem Tag gefunden…"
+      }
+    }
+  },
   "contentNode": {
     "columnLayout": {
       "entity": {
@@ -9,7 +16,6 @@
       "name": "Spaltenlayout"
     },
     "laThematicArea": {
-      "info": "Eine J+S Lageraktivität muss mindestens eines der aufgeführten Themen behandeln.{br}Erfasse, welche Themen in diesem Block behandelt werden.",
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
@@ -38,6 +44,7 @@
           }
         }
       },
+      "info": "Eine J+S Lageraktivität muss mindestens eines der aufgeführten Themen behandeln.{br}Erfasse, welche Themen in diesem Block behandelt werden.",
       "name": "LA Themenbereich"
     },
     "material": {
@@ -53,7 +60,6 @@
       "name": "Sicherheitskonzept"
     },
     "storyboard": {
-      "info": "Hier kannst du den Inhalt von diesem Block planen.{br}In der linken Spalte [Zeit] kannst du die Dauer der einzelnen Elemente erfassen.{br}In der rechten Spalte [Verantwortlich] kannst du Personen zuteilen.",
       "entity": {
         "section": {
           "controls": "Aktionen",
@@ -65,6 +71,7 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
+      "info": "Hier kannst du den Inhalt von diesem Block planen.{br}In der linken Spalte [Zeit] kannst du die Dauer der einzelnen Elemente erfassen.{br}In der rechten Spalte [Verantwortlich] kannst du Personen zuteilen.",
       "name": "Programmabschnitt"
     },
     "storycontext": {
@@ -191,13 +198,6 @@
     },
     "toc": {
       "title": "Inhaltsverzeichnis"
-    }
-  },
-  "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
-      }
     }
   }
 }

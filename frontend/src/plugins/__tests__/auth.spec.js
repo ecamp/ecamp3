@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { auth } from '@/plugins/auth'
 import storeLoader, { store, apiStore } from '@/plugins/store'
 import Cookies from 'js-cookie'
+import cloneDeep from 'lodash/cloneDeep'
 
 Vue.use(storeLoader)
 
@@ -31,6 +32,8 @@ const validJWTPayload =
 //   "user": "/users/1a2b3c4d"
 // }
 
+const envBackup = cloneDeep(window.environment)
+
 expect.extend({
   haveUri(actual, expectedUri) {
     return {
@@ -44,6 +47,7 @@ describe('authentication logic', () => {
   afterEach(() => {
     jest.restoreAllMocks()
     Cookies.remove('localhost_jwt_hp')
+    window.environment = cloneDeep(envBackup)
   })
 
   describe('isLoggedIn()', () => {
@@ -221,7 +225,7 @@ describe('authentication logic', () => {
 
       // then
       expect(window.location.href).toBe(
-        'http://localhost/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback'
+        '/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
@@ -246,7 +250,7 @@ describe('authentication logic', () => {
 
       // then
       expect(window.location.href).toBe(
-        'http://localhost/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback'
+        '/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
@@ -271,7 +275,7 @@ describe('authentication logic', () => {
 
       // then
       expect(window.location.href).toBe(
-        'http://localhost/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
+        '/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })
@@ -296,7 +300,7 @@ describe('authentication logic', () => {
 
       // then
       expect(window.location.href).toBe(
-        'http://localhost/auth/jubladb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
+        '/auth/jubladb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
       )
     })
   })

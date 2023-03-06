@@ -93,35 +93,35 @@ Create chart name and version as used by the chart label.
 The full URL where the API root will be available.
 */}}
 {{- define "api.url" -}}
-{{- printf "https://%s" .Values.api.domain }}
+{{- printf "https://%s%s" .Values.domain .Values.api.subpath }}
 {{- end }}
 
 {{/*
 The prefix used by API for setting cookie names
 */}}
 {{- define "api.cookiePrefix" -}}
-{{- printf "%s_" (.Values.api.domain | replace "." "_") }}
+{{- printf "%s_" (.Values.domain | replace "." "_") }}
 {{- end }}
 
 {{/*
 The full URL where the frontend will be available.
 */}}
 {{- define "frontend.url" -}}
-{{- printf "https://%s" .Values.frontend.domain }}
+{{- printf "https://%s" .Values.domain }}
 {{- end }}
 
 {{/*
 The full URL where the print service will be available.
 */}}
 {{- define "print.url" -}}
-{{- printf "https://%s" .Values.print.domain }}
+{{- printf "https://%s%s" .Values.domain .Values.print.subpath }}
 {{- end }}
 
 {{/*
 The full URL where the dummy mail catcher service will be available.
 */}}
 {{- define "mail.url" -}}
-{{- printf "https://%s" .Values.mail.domain }}
+{{- printf "https://%s%s" .Values.domain .Values.mail.subpath }}
 {{- end }}
 
 {{/*

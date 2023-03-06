@@ -114,7 +114,7 @@ export default {
       if (!(typeof this.collaborator.user === 'function')) {
         return false
       }
-      return this.$store.state.auth.user.id === this.collaborator.user().id
+      return this.$store.state.auth.user?.id === this.collaborator.user().id
     },
   },
   methods: {

@@ -1,6 +1,9 @@
 **/*.log
 **/*.md
 **/*.php~
+**/*.dist.php
+**/*.dist
+**/*.cache
 **/._*
 **/.dockerignore
 **/.DS_Store
@@ -18,6 +21,7 @@
 .env.*.local
 .env.local
 .env.local.php
+.env.test
 .php_cs.cache
 bin/*
 !bin/console
@@ -25,5 +29,6 @@ build/
 docker/db/data/
 helm/
 public/bundles/
+tests/
 var/
 vendor/

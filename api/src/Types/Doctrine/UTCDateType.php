@@ -12,7 +12,11 @@ class UTCDateType extends DateType {
     /**
      * {@inheritdoc}
      *
-     * @throws ConversionException
+     * @psalm-param T $value
+     *
+     * @return (T is null ? null : string)
+     *
+     * @template T
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
         if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
@@ -25,7 +29,13 @@ class UTCDateType extends DateType {
     /**
      * {@inheritdoc}
      *
+     * @param T $value
+     *
+     * @return (T is null ? null : \DateTimeInterface)
+     *
      * @throws ConversionException
+     *
+     * @template T
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface {
         if (null === $value || $value instanceof \DateTimeInterface) {

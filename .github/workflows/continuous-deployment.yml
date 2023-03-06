@@ -63,7 +63,7 @@ jobs:
         env:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
           prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
-          never_uninstall: '["dev", "stage", "staging", "prod", "alpha", "beta"]'
+          never_uninstall: '["dev", "devel", "stage", "staging", "prod"]'
         run: |
           TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
           echo "Will uninstall: $TO_UNINSTALL"
@@ -110,17 +110,27 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment-name }}
 
+      - name: Find former PR number based on deployment name
+        id: pr-number
+        env:
+          name: ${{ matrix.deployment-name }}
+          regex: '^pr([0-9]+)$'
+        run: |
+          [[ $name =~ $regex ]]
+          echo number=${BASH_REMATCH[1]} >> $GITHUB_OUTPUT
+
       - name: Comment about uninstallation on PR
         uses: thollander/actions-comment-pull-request@v2
-        if: ${{ steps.deployment.outputs.env == 'feature-branch' }}
+        if: steps.pr-number.outputs.number
         with:
-          pr_number: ${{ matrix.deployment.number }}
+          pr_number: ${{ steps.pr-number.outputs.number }}
           message: |
             ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
 
 
-            You can add the `deploy!` label to this PR to trigger a feature branch deployment.
+            If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
           comment_tag: feature-branch-deployment-status
+          create_if_not_exists: false
 
 
   upgrade-or-install-deployment:
@@ -137,6 +147,13 @@ jobs:
       name: ${{ matrix.deployment.env }}
     steps:
 
+      - name: Get link to currently running job logs
+        uses: Tiryoh/gha-jobid-action@v0.1.2
+        id: job-url
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ...
+
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
         id: deployment
@@ -145,16 +162,9 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment.name }}
 
-      - name: Get link to currently running job logs
-        uses: Tiryoh/gha-jobid-action@v0.1.2
-        id: job-url
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ${{ matrix.deployment.number }})
-
       - name: Comment progress on PR
         uses: thollander/actions-comment-pull-request@v2
-        if: ${{ steps.deployment.outputs.env == 'feature-branch' }}
+        if: ${{ matrix.deployment.env == 'feature-branch' }}
         with:
           pr_number: ${{ matrix.deployment.number }}
           message: |
@@ -181,7 +191,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push frontend docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
@@ -191,29 +201,29 @@ jobs:
           cache-to: type=gha,scope=frontend,mode=max
 
       - name: Build and push api docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: api/Dockerfile
-          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api:latest,' || '') }}ecamp/ecamp3-api:${{ matrix.deployment.sha }}
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api-php:latest,' || '') }}ecamp/ecamp3-api-php:${{ matrix.deployment.sha }}
           context: './api'
           target: api_platform_php
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
 
       - name: Build and push caddy docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: api/Dockerfile
-          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-caddy:latest,' || '') }}ecamp/ecamp3-caddy:${{ matrix.deployment.sha }}
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api-caddy:latest,' || '') }}ecamp/ecamp3-api-caddy:${{ matrix.deployment.sha }}
           context: './api'
           target: api_platform_caddy_prod
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Build and push print docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: .docker-hub/print/Dockerfile
@@ -238,14 +248,9 @@ jobs:
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ matrix.deployment.name }} . \
             --set imageTag=${{ matrix.deployment.sha }} \
-            --set sharedCookieDomain=.ecamp3.ch \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
-            --set api.domain=api-${{ matrix.deployment.name }}.ecamp3.ch \
-            --set frontend.domain=app-${{ matrix.deployment.name }}.ecamp3.ch \
-            --set print.domain=print-${{ matrix.deployment.name }}.ecamp3.ch \
+            --set domain=${{ matrix.deployment.name }}.ecamp3.ch \
             --set mail.dummyEnabled=true \
-            --set mail.domain=mail-${{ matrix.deployment.name }}.ecamp3.ch \
-            --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), matrix.deployment.name) && 'false' || 'true' }} \
@@ -273,12 +278,12 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://app-${{ matrix.deployment.name }}.ecamp3.ch
+          env_url: https://${{ matrix.deployment.name }}.ecamp3.ch
           env: ${{ steps.deployment.outputs.env }}
 
       - name: Comment success on PR
         uses: thollander/actions-comment-pull-request@v2
-        if: ${{ success() && steps.deployment.outputs.env == 'feature-branch' }}
+        if: ${{ success() && matrix.deployment.env == 'feature-branch' }}
         with:
           pr_number: ${{ matrix.deployment.number }}
           message: |
@@ -289,7 +294,23 @@ jobs:
             |---------------------------------|------------------------|
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
-            |<span aria-hidden="true">😎</span> **Deployment** | [https://app-${{ matrix.deployment.name }}.ecamp3.ch/](https://app-${{ matrix.deployment.name }}.ecamp3.ch/) |
-            |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://app-${{ matrix.deployment.name }}.ecamp3.ch/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
+            |<span aria-hidden="true">😎</span> **Deployment** | [https://${{ matrix.deployment.name }}.ecamp3.ch/](https://${{ matrix.deployment.name }}.ecamp3.ch/) |
+            |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://${{ matrix.deployment.name }}.ecamp3.ch/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
+            ---
+          comment_tag: feature-branch-deployment-status
+
+      - name: Comment failure on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ failure() && matrix.deployment.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ matrix.deployment.number }}
+          message: |
+            ### <span aria-hidden="true">💥</span> Feature branch deployment failed
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
             ---
           comment_tag: feature-branch-deployment-status

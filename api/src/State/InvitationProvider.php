@@ -11,6 +11,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @template-implements ProviderInterface<Invitation>
+ */
 class InvitationProvider implements ProviderInterface {
     public function __construct(
         private Security $security,

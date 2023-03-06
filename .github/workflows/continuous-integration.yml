@@ -43,7 +43,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -73,7 +73,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -103,7 +103,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -124,9 +124,9 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.13.0'
+          node-version: '18.14.2'
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -153,9 +153,9 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.13.0'
+          node-version: '18.14.2'
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -178,11 +178,11 @@ jobs:
     name: 'Tests: API'
     runs-on: ubuntu-latest
     env:
-      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15'
+        image: 'postgres:15-alpine'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -209,7 +209,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -251,11 +251,11 @@ jobs:
     name: 'API: validate migrations'
     runs-on: ubuntu-latest
     env:
-      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15'
+        image: 'postgres:15-alpine'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -282,7 +282,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -306,9 +306,9 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.13.0'
+          node-version: '18.14.2'
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -344,9 +344,9 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.13.0'
+          node-version: '18.14.2'
 
-      - uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+      - uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -379,6 +379,7 @@ jobs:
   e2e-tests:
     name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
@@ -388,9 +389,9 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v2
 
-      # build API (using cache; provide image to docker-compose)
+      # build API (using cache; provide image to docker compose)
       - name: Build docker image (API/PHP)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           file: api/Dockerfile
           context: './api'
@@ -398,13 +399,13 @@ jobs:
           load: true
           target: api_platform_php_dev
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-api
+          tags: ecamp/ecamp3-api-php
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
 
-      # build caddy (using cache; provide image to docker-compose)
+      # build caddy (using cache; provide image to docker compose)
       - name: Build docker image (Caddy)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           file: api/Dockerfile
           context: './api'
@@ -412,33 +413,30 @@ jobs:
           load: true
           target: api_platform_caddy
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-caddy
+          tags: ecamp/ecamp3-api-caddy
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@58c146cc91c5b9e778e71775dfe9bf1442ad9a12 # v3
+        uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
         with:
           path: .cache
-          key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}
           restore-keys: |
             docker-compose-
 
       # start necessary containers
-      - run: docker-compose up -d php caddy frontend database docker-host
-
-      # pull cypress while container are starting up
-      - run: docker pull cypress/included:12.3.0
-
-      # wait for backend & frontend to be up and running
-      - run: bash wait-for-container-startup.sh
-
-      # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:12.3.0
-        working-directory: frontend
+      - run: docker compose up -d php caddy frontend print browserless database docker-host
+      
+      - uses: cypress-io/github-action@v5
+        with:
+          working-directory: e2e
+          browser: chrome
+          wait-on: 'http://localhost:3000, http://localhost:3000/api'
+          wait-on-timeout: 300
 
       # print docker container logs (good for debugging; can be disabled again lateron)
-      - run: docker-compose logs --tail="all"
+      - run: docker compose logs --tail="all"
 
   coveralls-finished:
     name: 'Finish coveralls report'

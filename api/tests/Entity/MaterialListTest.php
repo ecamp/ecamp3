@@ -5,12 +5,11 @@ namespace App\Tests\Entity;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\equalTo;
-
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @internal

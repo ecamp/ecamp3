@@ -64,8 +64,12 @@
         "title": "Period | Periods"
       },
       "campPeriodsListItem": {
+        "changePeriodDescription": "Change description",
         "deleteWarning": "Do you really want to delete this period?",
-        "lastPeriodNotDeletable": "Last period is not deletable."
+        "lastPeriodNotDeletable": "Last period is not deletable.",
+        "movePeriod": "Move period",
+        "periodChangeEnd": "Add/remove days at end",
+        "periodChangeStart": "Add/remove days at start"
       },
       "campSettings": {
         "title": "Settings"
@@ -81,6 +85,12 @@
       },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Move period",
+        "periodChangeEnd": "Add / remove days at end of this period",
+        "periodChangeStart": "Add / remove days at start of this period",
+        "periodDuration": "Number of days"
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Move schedule entries"
@@ -98,8 +108,8 @@
         "title": "Deactivate collaborator",
         "warningText": "Do you want to deactivate '{name}'?"
       },
-      "inactiveCampCollaboratorListItem": {
-        "delete": "Do you really want to remove this collaborator from the camp?",
+      "inactiveCollaboratorListItem": {
+        "delete": "Do you really want to remove this collaborator?",
         "inviteAgain": "Invite again"
       }
     },
@@ -161,8 +171,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Activity"
+        },
+        "picassoConfig": {
+          "orientation": "Page layout",
+          "periods": "Period(s)"
+        },
         "programConfig": {
-          "dayOverview": "print day overview"
+          "dayOverview": "print day overview",
+          "periods": "Period(s)"
+        },
+        "storyConfig": {
+          "periods": "Period(s)"
         }
       },
       "documents": {
@@ -173,7 +194,11 @@
           }
         }
       },
+      "localPdfDownloadButton": {
+        "error": "Something didn't work. Try again, or reload the page."
+      },
       "printConfigurator": {
+        "add": "Add content",
         "config": {
           "Activity": "Single activity",
           "Cover": "Cover page",
@@ -313,7 +338,8 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
-      "greaterThan_time": "{_field_} must be later than {min}"
+      "greaterThan_time": "{_field_} must be later than {min}",
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}"
     }
   },
   "views": {
@@ -336,10 +362,11 @@
       },
       "login": {
         "accountless": "Don't have an account yet?",
-        "beta": {
-          "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
-        },
         "email": "Email",
+        "infoText": {
+          "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
+          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!"
+        },
         "loginCallback": {
           "loginInProgress": "You will be logged in"
         },
@@ -490,6 +517,7 @@
       }
     },
     "campCreate": {
+      "couponKeyHint": "For the closed beta, a coupon code is required. On ecamp3.ch/closed-beta, you can find out how to get such an coupon code.",
       "create": "Create the Camp",
       "period": {
         "add": "Add a period",

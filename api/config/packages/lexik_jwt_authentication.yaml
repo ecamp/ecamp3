@@ -25,18 +25,16 @@ lexik_jwt_authentication:
     set_cookies:
         '%env(COOKIE_PREFIX)%jwt_hp':
             lifetime: null
-            samesite: lax
+            samesite: strict
             path: /
-            domain: '%env(resolve:SHARED_COOKIE_DOMAIN)%'
             httpOnly: false
             split:
                 - header
                 - payload
         '%env(COOKIE_PREFIX)%jwt_s':
             lifetime: null
-            samesite: lax
+            samesite: strict
             path: /
-            domain: '%env(resolve:SHARED_COOKIE_DOMAIN)%'
             httpOnly: true
             split:
                 - signature

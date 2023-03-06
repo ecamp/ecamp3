@@ -49,7 +49,6 @@ export default {
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/vuetify',
-    '@nuxt/postcss8', // used for tailwind
   ],
   /*
    ** Nuxt.js modules
@@ -90,7 +89,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3001/',
+    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3000/api',
     credentials: true,
   },
   /*
@@ -146,9 +145,11 @@ export default {
       })
     },
     postcss: {
-      plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
       },
     },
   },
