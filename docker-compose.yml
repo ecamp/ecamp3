@@ -165,7 +165,6 @@ services:
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
-      - CYPRESS_PROJECT=.
     volumes:
       - ./e2e:/e2e:delegated
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
