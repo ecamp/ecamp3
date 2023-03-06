@@ -1,12 +1,18 @@
 <template>
-  <tr
+  <component
+    :is="variant !== 'dense' ? 'tr' : 'div'"
+    :role="variant === 'dense' ? 'row' : null"
     class="e-storyboard-row"
     :class="{
       'e-storyboard-row--default': variant === 'default',
       'e-storyboard-row--dense': variant === 'dense',
     }"
   >
-    <td class="e-storyboard-row__handle">
+    <component
+      :is="variant !== 'dense' ? 'td' : 'div'"
+      :role="variant === 'dense' ? 'cell' : null"
+      class="e-storyboard-row__handle"
+    >
       <v-btn
         icon
         small
@@ -18,8 +24,12 @@
       >
         <v-icon>mdi-drag</v-icon>
       </v-btn>
-    </td>
-    <td class="e-storyboard-row__time">
+    </component>
+    <component
+      :is="variant !== 'dense' ? 'td' : 'div'"
+      :role="variant === 'dense' ? 'cell' : null"
+      class="e-storyboard-row__time"
+    >
       <api-text-field
         :label="
           variant === 'dense'
@@ -31,8 +41,13 @@
         :disabled="layoutMode || disabled"
         :filled="layoutMode"
       />
-    </td>
-    <td class="e-storyboard-row__text">
+    </component>
+    <component
+      :is="variant !== 'dense' ? 'td' : 'div'"
+      v-if="variant !== 'dense'"
+      :role="variant === 'dense' ? 'cell' : null"
+      class="e-storyboard-row__text"
+    >
       <api-richtext
         :label="
           variant === 'dense'
@@ -44,8 +59,12 @@
         :disabled="layoutMode || disabled"
         :filled="layoutMode"
       />
-    </td>
-    <td class="e-storyboard-row__responsible">
+    </component>
+    <component
+      :is="variant !== 'dense' ? 'td' : 'div'"
+      :role="variant === 'dense' ? 'cell' : null"
+      class="e-storyboard-row__responsible"
+    >
       <api-text-field
         :label="
           variant === 'dense'
@@ -57,8 +76,31 @@
         :disabled="layoutMode || disabled"
         :filled="layoutMode"
       />
-    </td>
-    <td v-if="!layoutMode && !disabled" class="e-storyboard-row__controls">
+    </component>
+    <component
+      :is="variant !== 'dense' ? 'td' : 'div'"
+      v-if="variant === 'dense'"
+      :role="variant === 'dense' ? 'cell' : null"
+      class="e-storyboard-row__text"
+    >
+      <api-richtext
+        :label="
+          variant === 'dense'
+            ? $tc('contentNode.storyboard.entity.section.fields.column2Html')
+            : null
+        "
+        :fieldname="`data.sections[${itemKey}].column2Html`"
+        rows="4"
+        :disabled="layoutMode || disabled"
+        :filled="layoutMode"
+      />
+    </component>
+    <component
+      :is="variant !== 'dense' ? 'td' : 'div'"
+      v-if="!layoutMode && !disabled"
+      :role="variant === 'dense' ? 'cell' : null"
+      class="e-storyboard-row__controls"
+    >
       <dialog-remove-section @submit="$emit('delete', itemKey)">
         <template #activator="{ on }">
           <v-btn
@@ -73,8 +115,8 @@
           </v-btn>
         </template>
       </dialog-remove-section>
-    </td>
-  </tr>
+    </component>
+  </component>
 </template>
 <script>
 import DialogRemoveSection from './StoryboardDialogRemoveSection.vue'

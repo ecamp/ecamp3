@@ -1,7 +1,7 @@
 <template>
   <card-content-node v-resizeobserver.debounce="onResize" v-bind="$props">
     <template #outer>
-      <component :is="variant === 'default' ? 'table' : 'div'">
+      <component :is="variant === 'default' ? 'table' : 'div'" class="w-full">
         <thead v-if="variant === 'default'">
           <tr>
             <th>

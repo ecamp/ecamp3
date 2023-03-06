@@ -6,30 +6,25 @@
     :animation="200"
     :force-fallback="true"
     :disabled="disabled"
-    class="d-contents"
+    :tag="variant === 'dense' ? 'div' : 'tbody'"
+    :role="variant === 'dense' ? 'rowgroup' : null"
     @sort="onSort"
     @start="dragging = true"
     @end="dragging = false"
   >
     <!-- disable transition for drag&drop as draggable already comes with its own animations -->
-    <transition-group
-      :name="!dragging ? 'flip-list' : null"
-      :tag="variant === 'dense' ? 'div' : 'tbody'"
-      role="rowgroup"
-    >
-      <StoryboardRow
-        v-for="key in localSortedKeys"
-        :key="key"
-        :is-last-section="isLastSection"
-        :variant="variant"
-        :item-key="key"
-        :disabled="disabled"
-        :layout-mode="layoutMode"
-        @delete="deleteItem"
-        @moveDown="moveDown"
-        @moveUp="moveUp"
-      />
-    </transition-group>
+    <StoryboardRow
+      v-for="key in localSortedKeys"
+      :key="key"
+      :is-last-section="isLastSection"
+      :variant="variant"
+      :item-key="key"
+      :disabled="disabled"
+      :layout-mode="layoutMode"
+      @delete="deleteItem"
+      @moveDown="moveDown"
+      @moveUp="moveUp"
+    />
   </draggable>
 </template>
 
