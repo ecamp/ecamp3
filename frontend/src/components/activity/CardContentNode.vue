@@ -43,9 +43,11 @@
         </dialog-entity-delete>
       </v-toolbar>
     </v-card-title>
-    <v-card-text>
-      <slot />
-    </v-card-text>
+    <slot name="outer">
+      <v-card-text>
+        <slot />
+      </v-card-text>
+    </slot>
   </v-card>
 </template>
 

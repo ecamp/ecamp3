@@ -6,6 +6,19 @@
       'e-storyboard-row--dense': variant === 'dense',
     }"
   >
+    <td class="e-storyboard-row__handle">
+      <v-btn
+        icon
+        small
+        class="drag-and-drop-handle"
+        :disabled="isLastSection"
+        :aria-label="$tc('components.activity.content.storyboardRow.move')"
+        @keydown.down="$emit('moveDown', itemKey)"
+        @keydown.up="$emit('moveUp', itemKey)"
+      >
+        <v-icon>mdi-drag</v-icon>
+      </v-btn>
+    </td>
     <td class="e-storyboard-row__time">
       <api-text-field
         :label="
@@ -46,35 +59,6 @@
       />
     </td>
     <td v-if="!layoutMode && !disabled" class="e-storyboard-row__controls">
-      <div class="e-storyboard-row__controls__move">
-        <v-btn
-          v-if="variant === 'dense'"
-          icon
-          small
-          :disabled="isLastSection"
-          @click="$emit('moveUp', itemKey)"
-        >
-          <v-icon>mdi-arrow-up</v-icon>
-        </v-btn>
-        <v-btn
-          v-if="variant !== 'dense'"
-          icon
-          small
-          class="drag-and-drop-handle"
-          :disabled="isLastSection"
-        >
-          <v-icon>mdi-drag</v-icon>
-        </v-btn>
-        <v-btn
-          v-if="variant === 'dense'"
-          icon
-          small
-          :disabled="isLastSection"
-          @click="$emit('moveDown', itemKey)"
-        >
-          <v-icon>mdi-arrow-down</v-icon>
-        </v-btn>
-      </div>
       <dialog-remove-section @submit="$emit('delete', itemKey)">
         <template #activator="{ on }">
           <v-btn
@@ -108,12 +92,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.e-storyboard-row {
-  &:hover .e-storyboard-row__delete {
-    opacity: 1;
-  }
-}
-
 .e-storyboard-row__delete {
   color: rgba(0, 0, 0, 0.54) !important;
 
@@ -125,11 +103,13 @@ export default {
 .e-storyboard-row--dense {
   display: grid;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   grid-template-areas:
-    'time responsible controls'
-    'text text        controls';
-  grid-template-columns: 1fr 1fr min-content;
+    'handle time responsible controls'
+    'handle text text        controls';
+  grid-template-columns: min-content 1fr 1fr min-content;
+  align-items: baseline;
 
   .e-storyboard-row__time {
     grid-area: time;
@@ -143,18 +123,22 @@ export default {
     grid-area: responsible;
   }
 
+  .e-storyboard-row__handle {
+    grid-area: handle;
+    margin-right: -6px;
+    margin-left: 2px;
+  }
+
   .e-storyboard-row__controls {
     grid-area: controls;
     display: grid;
-  }
-
-  .e-storyboard-row__delete {
-    margin-top: auto;
+    margin-left: -6px;
+    margin-right: 2px;
   }
 }
 
 .e-storyboard-row--default {
-  vertical-align: top;
+  vertical-align: baseline;
 
   .e-storyboard-row__time {
     width: 15%;
@@ -175,10 +159,6 @@ export default {
 
   .e-storyboard-row__controls {
     align-content: space-between;
-  }
-
-  .e-storyboard-row__delete {
-    opacity: 0;
   }
 }
 

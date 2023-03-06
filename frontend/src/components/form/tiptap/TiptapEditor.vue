@@ -210,7 +210,7 @@ div.editor {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding-top: 4px;
+  padding-top: 6px;
   max-width: 100%;
   min-width: 0;
   width: 100%;
@@ -220,6 +220,7 @@ div.editor:deep(.editor__content) {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  max-width: 100%;
 }
 
 div.editor:deep(.editor__content .ProseMirror) {

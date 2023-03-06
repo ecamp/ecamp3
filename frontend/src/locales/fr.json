@@ -8,6 +8,12 @@
             "removeColumn": "Supprime la colonne vide"
           }
         },
+        "storyboard": {
+          "reorder": "Reorder"
+        },
+        "storyboardRow": {
+          "move": "Déplacer"
+        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Tu veux vraiment supprimer cette section ?",
           "title": "Vraiment supprimer ?"

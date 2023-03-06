@@ -8,6 +8,12 @@
             "removeColumn": "Remove empty column"
           }
         },
+        "storyboard": {
+          "reorder": "Reorder"
+        },
+        "storyboardRow": {
+          "move": "Move"
+        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Do you really want to remove this section?",
           "title": "Really delete?"

@@ -1,68 +1,75 @@
 <template>
   <card-content-node v-resizeobserver.debounce="onResize" v-bind="$props">
-    <component :is="variant === 'default' ? 'table' : 'div'">
-      <thead v-if="variant === 'default'">
-        <tr>
-          <th scope="col" class="text-left">
-            {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
-          </th>
-          <th scope="col" class="text-left">
-            {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
-          </th>
-          <th scope="col" class="text-left">
-            {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
-          </th>
-          <th>
-            <span class="d-sr-only">
-              {{ $tc('contentNode.storyboard.entity.section.controls') }}
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <StoryboardSortable
-        :entity="contentNode"
-        :disabled="layoutMode || disabled"
-        :items="sections"
-        :layout-mode="layoutMode"
-        :is-last-section="isLastSection"
-        :variant="variant"
-        @sort="updateSections"
-      />
-      <template v-if="!layoutMode && !disabled">
-        <tfoot v-if="variant === 'default'">
+    <template #outer>
+      <component :is="variant === 'default' ? 'table' : 'div'">
+        <thead v-if="variant === 'default'">
           <tr>
-            <td colspan="4">
-              <v-btn
-                block
-                icon
-                class="button-add"
-                color="success"
-                rounded
-                :loading="isAdding"
-                @click="addSection"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </td>
+            <th>
+              <span class="d-sr-only">
+                {{ $tc('components.activity.content.storyboard.reorder') }}
+              </span>
+            </th>
+            <th scope="col" class="text-left">
+              {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
+            </th>
+            <th scope="col" class="text-left">
+              {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
+            </th>
+            <th scope="col" class="text-left">
+              {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
+            </th>
+            <th>
+              <span class="d-sr-only">
+                {{ $tc('contentNode.storyboard.entity.section.controls') }}
+              </span>
+            </th>
           </tr>
-        </tfoot>
-        <v-btn
-          v-else
-          block
-          icon
-          class="button-add"
-          color="success"
-          rounded
-          :loading="isAdding"
-          @click="addSection"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-    </component>
+        </thead>
+        <StoryboardSortable
+          :entity="contentNode"
+          :disabled="layoutMode || disabled"
+          :items="sections"
+          :layout-mode="layoutMode"
+          :is-last-section="isLastSection"
+          :variant="variant"
+          @sort="updateSections"
+        />
+        <template v-if="!layoutMode && !disabled">
+          <tfoot v-if="variant === 'default'">
+            <tr>
+              <td colspan="4">
+                <v-btn
+                  block
+                  icon
+                  class="button-add"
+                  color="success"
+                  rounded
+                  :loading="isAdding"
+                  @click="addSection"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </tfoot>
+          <div v-else class="d-flex mx-1 mb-2">
+            <v-btn
+              block
+              icon
+              class="button-add"
+              color="success"
+              rounded
+              :loading="isAdding"
+              @click="addSection"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </div>
+        </template>
+      </component>
+    </template>
   </card-content-node>
 </template>
-
 <script>
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
