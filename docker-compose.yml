@@ -165,7 +165,6 @@ services:
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
-      - APP_BASE_URL=http://localhost:3000
       - CYPRESS_PROJECT=.
     volumes:
       - ./e2e:/e2e:delegated

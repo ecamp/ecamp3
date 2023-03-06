@@ -5,13 +5,13 @@ If not, please follow the documentation links in the README.md in the root of th
 
 ## Option A: Run end-to-end tests in Docker container (headless)
 ```
-docker compose --profile e2e run e2e
+docker compose --profile e2e run --rm e2e
 ```
 
 ### Run tests using a specific browser
 ```
-# Supported values: firefox, chrome, edge, electron (default)
-docker compose --profile e2e run e2e --browser firefox
+# Supported values: chrome, edge, electron (default), firefox
+docker compose --profile e2e run --rm e2e --browser chrome
 ```
 
 ### Open the cypress UI and visually see the tests run
