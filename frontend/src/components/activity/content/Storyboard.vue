@@ -52,7 +52,7 @@
               </td>
             </tr>
           </tfoot>
-          <div v-else class="d-flex mx-1 mb-2">
+          <div v-else class="d-flex mx-1 mb-3">
             <v-btn
               block
               icon
@@ -78,14 +78,12 @@ import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
 import { v4 as uuidv4 } from 'uuid'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import StoryboardRow from '@/components/activity/content/StoryboardRow.vue'
 import StoryboardSortable from '@/components/activity/content/StoryboardSortable.vue'
 
 export default {
   name: 'Storyboard',
   components: {
     StoryboardSortable,
-    StoryboardRow,
     CardContentNode,
     ApiForm,
     ApiSortable,

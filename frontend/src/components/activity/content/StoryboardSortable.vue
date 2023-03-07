@@ -12,31 +12,44 @@
     @start="dragging = true"
     @end="dragging = false"
   >
-    <!-- disable transition for drag&drop as draggable already comes with its own animations -->
-    <StoryboardRow
-      v-for="key in localSortedKeys"
-      :key="key"
-      :is-last-section="isLastSection"
-      :variant="variant"
-      :item-key="key"
-      :disabled="disabled"
-      :layout-mode="layoutMode"
-      @delete="deleteItem"
-      @moveDown="moveDown"
-      @moveUp="moveUp"
-    />
+    <template v-for="key in localSortedKeys">
+      <StoryboardRowDefault
+        v-if="variant === 'default'"
+        :key="key"
+        :disabled="disabled"
+        :is-last-section="isLastSection"
+        :item-key="key"
+        :layout-mode="layoutMode"
+        @delete="deleteItem"
+        @moveDown="moveDown"
+        @moveUp="moveUp"
+      />
+      <StoryboardRowDense
+        v-else-if="variant === 'dense'"
+        :key="key"
+        :disabled="disabled"
+        :is-last-section="isLastSection"
+        :item-key="key"
+        :layout-mode="layoutMode"
+        @delete="deleteItem"
+        @moveDown="moveDown"
+        @moveUp="moveUp"
+      />
+    </template>
   </draggable>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
 import { isEqual } from 'lodash'
-import StoryboardRow from '@/components/activity/content/StoryboardRow.vue'
+import StoryboardRowDense from './StoryboardRowDense.vue'
+import StoryboardRowDefault from './StoryboardRowDefault.vue'
 
 export default {
   name: 'StoryboardSortable',
   components: {
-    StoryboardRow,
+    StoryboardRowDefault,
+    StoryboardRowDense,
     draggable,
   },
   provide() {
