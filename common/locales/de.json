@@ -62,7 +62,6 @@
     "storyboard": {
       "entity": {
         "section": {
-          "controls": "Aktionen",
           "fields": {
             "column1": "Zeit",
             "column2Html": "Programm",

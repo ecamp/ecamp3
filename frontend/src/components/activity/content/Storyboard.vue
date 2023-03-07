@@ -20,7 +20,7 @@
             </th>
             <th>
               <span class="d-sr-only">
-                {{ $tc('contentNode.storyboard.entity.section.controls') }}
+                {{ $tc('components.activity.content.storyboard.controls') }}
               </span>
             </th>
           </tr>

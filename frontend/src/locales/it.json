@@ -9,6 +9,7 @@
           }
         },
         "storyboard": {
+          "controls": "Azioni",
           "reorder": "Riordino"
         },
         "storyboardRow": {
