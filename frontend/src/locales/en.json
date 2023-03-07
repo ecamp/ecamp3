@@ -12,9 +12,6 @@
           "controls": "Controls",
           "reorder": "Reorder"
         },
-        "storyboardRow": {
-          "move": "Move"
-        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Do you really want to remove this section?",
           "title": "Really delete?"
@@ -322,6 +319,7 @@
       "lock": "Lock",
       "login": "Log in",
       "logout": "Logout",
+      "move": "Move",
       "ok": "OK",
       "open": "Open",
       "save": "Save",

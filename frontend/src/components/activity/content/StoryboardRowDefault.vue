@@ -6,7 +6,7 @@
         small
         class="drag-and-drop-handle"
         :disabled="isLastSection"
-        :aria-label="$tc('components.activity.content.storyboardRow.move')"
+        :aria-label="$tc('global.button.move')"
         @keydown.down="$emit('moveDown', itemKey)"
         @keydown.up="$emit('moveUp', itemKey)"
       >

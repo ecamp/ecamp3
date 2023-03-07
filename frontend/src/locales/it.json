@@ -12,9 +12,6 @@
           "controls": "Azioni",
           "reorder": "Riordino"
         },
-        "storyboardRow": {
-          "move": "Spostamento"
-        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
           "title": "Cancellare davvero?"
@@ -316,6 +313,7 @@
       "lock": "Blocco",
       "login": "Accedi",
       "logout": "Disconnessione",
+      "move": "Spostamento",
       "ok": "Bene",
       "open": "Aprire",
       "save": "Salvare",

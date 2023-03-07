@@ -12,9 +12,6 @@
           "controls": "Aktionen",
           "reorder": "Umsortieren"
         },
-        "storyboardRow": {
-          "move": "Verschieben"
-        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
           "title": "Wirklich löschen?"
@@ -322,6 +319,7 @@
       "lock": "Sperren",
       "login": "Anmelden",
       "logout": "Ausloggen",
+      "move": "Verschieben",
       "ok": "OK",
       "open": "Öffnen",
       "save": "Speichern",
