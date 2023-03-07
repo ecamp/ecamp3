@@ -42,7 +42,7 @@ export const generatePdfMixin = {
       saveAs(
         blob,
         slugify(this.config.documentName, {
-          locale: this.$store.state.lang.language.substr(0, 2),
+          locale: this.$store.state.lang.language.substring(0, 2),
         })
       )
 

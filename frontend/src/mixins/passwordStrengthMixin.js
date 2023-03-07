@@ -6,7 +6,7 @@ export const passwordStrengthMixin = {
     passwordStrengthColor: 'green',
   }),
   methods: {
-    async strength(password, lang = this.$store.state.lang.language.substr(0, 2)) {
+    async strength(password, lang = this.$store.state.lang.language.substring(0, 2)) {
       if (password.length === 0) {
         this.passwordStrength = 0
       } else {
