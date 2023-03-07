@@ -109,7 +109,7 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
         return languageFallback
       }
     }
-    return 'en'
+    return fallbackLocale
   },
 })
 
