@@ -33,7 +33,7 @@
         "symfony/framework-bundle": "6.2.7",
         "symfony/intl": "6.2.7",
         "symfony/mailer": "6.2.7",
-        "symfony/mercure-bundle": "0.3.5",
+        "symfony/mercure-bundle": "0.3.6",
         "symfony/monolog-bundle": "3.8.0",
         "symfony/property-access": "6.2.7",
         "symfony/property-info": "6.2.7",
