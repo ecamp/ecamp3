@@ -5,28 +5,23 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
 <template>
   <content-card :title="$tc('views.camp.material.title')" toolbar>
     <template #title-actions>
-      <e-switch
-        v-model="showActivityMaterial"
-        class="ml-15"
-        :label="
-          $vuetify.breakpoint.smAndUp
-            ? $tc('views.camp.material.showActivityMaterial')
-            : $tc('views.camp.material.showActivityMaterialShort')
-        "
-      />
-
-      <e-switch
-        v-if="$vuetify.breakpoint.smAndUp"
-        v-model="groupByList"
-        class="ml-10"
-        :label="$tc('views.camp.material.groupByList')"
-      />
-
       <v-btn small color="primary" class="ml-5" @click="downloadXlsx">
         <v-icon left>mdi-microsoft-excel</v-icon>
         {{ $tc('views.camp.material.downloadXlsx') }}
       </v-btn>
     </template>
+    <v-card-text>
+      <e-switch
+        v-model="showActivityMaterial"
+        :label="$tc('views.camp.material.showActivityMaterial')"
+      />
+
+      <e-switch
+        v-if="$vuetify.breakpoint.smAndUp"
+        v-model="groupByList"
+        :label="$tc('views.camp.material.groupByList')"
+      />
+    </v-card-text>
     <v-expansion-panels v-model="openPeriods" multiple flat accordion>
       <period-material-lists
         v-for="period in camp().periods().items"

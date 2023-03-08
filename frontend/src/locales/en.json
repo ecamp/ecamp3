@@ -470,7 +470,6 @@
         "downloadXlsx": "Download",
         "groupByList": "Group by material list",
         "showActivityMaterial": "Show activity material",
-        "showActivityMaterialShort": "incl. Activity",
         "title": "Material",
         "xlsx": {
           "activity": "Activity",

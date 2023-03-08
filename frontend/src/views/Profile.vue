@@ -11,7 +11,7 @@
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
           <v-row class="e-form-container">
-            <v-col cols="10">
+            <v-col cols="8" md="10">
               <api-text-field
                 :name="$tc('entity.user.fields.email')"
                 :uri="profile._meta.self"
@@ -20,7 +20,7 @@
                 required
               />
             </v-col>
-            <v-col cols="2">
+            <v-col cols="4" md="2">
               <dialog-change-mail>
                 <template #activator="{ on }">
                   <v-btn block outlined v-on="on">

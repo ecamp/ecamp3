@@ -4,8 +4,9 @@
     :title="$tc('components.user.dialogChangeMail.title')"
     :submit-action="status === 'initial' ? sendChangeMailRequest : null"
     :cancel-action="close"
-    :cancel-label="$tc('global.button.close')"
-    :cancel-visible="status !== 'initial'"
+    :cancel-label="
+      status === 'initial' ? $tc('global.button.cancel') : $tc('global.button.close')
+    "
     submit-color="success"
   >
     <template #activator="scope">

@@ -10,6 +10,7 @@
     submit-icon="mdi-plus"
     submit-color="success"
     :cancel-action="cancelCreate"
+    max-width="700px"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
