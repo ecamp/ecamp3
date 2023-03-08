@@ -416,6 +416,32 @@ jobs:
           tags: ecamp/ecamp3-api-caddy
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
+      
+      # build frontend (using cache; provide image to docker compose)
+      - name: Build docker image (Frontend)
+        uses: docker/build-push-action@v4
+        with:
+          file: frontend/Dockerfile
+          context: './frontend'
+          push: false
+          load: true
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-frontend
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,scope=frontend,mode=max
+
+      # build print (using cache; provide image to docker compose)
+      - name: Build docker image (Print)
+        uses: docker/build-push-action@v4
+        with:
+          file: print/Dockerfile
+          context: './print'
+          push: false
+          load: true
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-print
+          cache-from: type=gha,scope=print
+          cache-to: type=gha,scope=print,mode=max
 
       - name: Restore cache volumes (npm, composer)
         uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
@@ -437,6 +463,7 @@ jobs:
 
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker compose logs --tail="all"
+        if: always()
 
   coveralls-finished:
     name: 'Finish coveralls report'
