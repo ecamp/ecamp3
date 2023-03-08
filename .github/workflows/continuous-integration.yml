@@ -383,6 +383,7 @@ jobs:
     strategy:
       matrix:
         browser:
+          - electron
           - chrome
           - firefox
           - edge
