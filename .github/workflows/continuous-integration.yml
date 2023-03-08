@@ -468,6 +468,15 @@ jobs:
           wait-on: 'http://localhost:3000, http://localhost:3000/api'
           wait-on-timeout: 300
 
+      # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-output
+          path: |
+            ./cypress/screenshots
+            ./cypress/videos
+
       # print docker container logs (good for debugging; can be disabled again later on)
       - run: docker compose logs --tail="all"
         if: always()
