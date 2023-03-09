@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row no-gutters class="mx-2 mb-2">
+    <v-row no-gutters class="mx-2 mb-2" justify="center" align="center">
       <v-col cols="5">
         <e-date-picker
           v-model="localScheduleEntry.start"
@@ -10,7 +10,7 @@
           vee-rules="required"
           :allowed-dates="dateIsInAnyPeriod"
           :filled="false"
-          class="float-left date-picker"
+          class="float-left date-picker mr-3 mt-1"
           required
         />
 
@@ -20,11 +20,13 @@
           vee-id="startDatetime"
           vee-rules="required"
           :filled="false"
-          class="float-left mt-0 ml-3 time-picker"
+          class="float-left mt-1 time-picker"
           required
         />
       </v-col>
-      <v-col cols="1" class="text-center pt-4"> - </v-col>
+      <v-col cols="1" class="text-center pt-4">
+        <v-icon>mdi-ray-start-arrow</v-icon>
+      </v-col>
       <v-col cols="5">
         <e-date-picker
           v-model="localScheduleEntry.end"
@@ -35,7 +37,7 @@
           :min="localScheduleEntry.start"
           :allowed-dates="dateIsInSelectedPeriod"
           :filled="false"
-          class="float-left date-picker"
+          class="float-left date-picker mr-3 mt-1"
           required
         />
 
@@ -46,7 +48,7 @@
           :vee-rules="endTimeValidation"
           :min="minEndTime"
           :filled="false"
-          class="float-left mt-0 ml-3 time-picker"
+          class="float-left mt-1 time-picker"
           required
         />
       </v-col>
@@ -177,10 +179,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .date-picker {
-  width: 120px;
+  width: 130px;
 }
 
 .time-picker {
-  width: 80px;
+  width: 115px;
 }
 </style>

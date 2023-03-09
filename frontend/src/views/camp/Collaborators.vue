@@ -49,11 +49,11 @@ Displays collaborators of a single camp.
       </content-group>
 
       <content-group v-if="isManager" :title="$tc('views.camp.collaborators.invite')">
-        <ValidationObserver v-slot="{ handleSubmit }">
+        <ValidationObserver v-slot="{ handleSubmit }" ref="validation" mode="passive">
           <v-form ref="form" @submit.prevent="handleSubmit(invite)">
             <v-container>
               <v-row align="start">
-                <v-col>
+                <v-col cols="12" md="9">
                   <e-text-field
                     v-model="inviteEmail"
                     :name="$tc('views.camp.collaborators.email')"
@@ -66,7 +66,7 @@ Displays collaborators of a single camp.
                     @keyup="clearMessages"
                   />
                 </v-col>
-                <v-col sm="12" md="3">
+                <v-col sm="9" md="3">
                   <e-select
                     v-model="inviteRole"
                     :items="[
@@ -90,7 +90,7 @@ Displays collaborators of a single camp.
                     vee-rules="required"
                   />
                 </v-col>
-                <v-col>
+                <v-col cols="3">
                   <button-add type="submit" :loading="isSaving" icon="mdi-account-plus">
                     {{ $tc('views.camp.collaborators.invite') }}
                   </button-add>
@@ -185,6 +185,7 @@ export default {
     refreshCamp() {
       this.inviteEmail = null
       this.inviteRole = DEFAULT_INVITE_ROLE
+      this.$refs.validation.reset()
       this.clearMessages()
       this.api.reload(this.camp()._meta.self)
     },

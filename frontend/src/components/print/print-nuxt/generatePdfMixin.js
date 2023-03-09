@@ -25,7 +25,7 @@ export const generatePdfMixin = {
 
       const config = cloneDeep(this.config)
       config.documentName = slugify(config.documentName, {
-        locale: this.$store.state.lang.language.substr(0, 2),
+        locale: this.$store.state.lang.language.substring(0, 2),
       })
 
       this.loading = true

@@ -475,7 +475,6 @@
         "downloadXlsx": "Download",
         "groupByList": "Nach Materialliste gruppieren",
         "showActivityMaterial": "Aktivitätsmaterial anzeigen",
-        "showActivityMaterialShort": "inkl. Aktivität",
         "title": "Material",
         "xlsx": {
           "activity": "Aktivität",
