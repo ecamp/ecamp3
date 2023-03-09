@@ -1,4 +1,4 @@
-FROM node:18.14.2
+FROM node:18.15.0
 
 ENV NPM_CONFIG_CACHE=/home/node/.npm
 
