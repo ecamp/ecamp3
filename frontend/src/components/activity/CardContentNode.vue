@@ -2,7 +2,7 @@
   <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
-        <v-icon class="mr-1">{{ icon }}</v-icon>
+        <v-icon class="mr-2">{{ icon }}</v-icon>
 
         <div v-if="editInstanceName" style="flex: 1" @click.stop @keyup.prevent>
           <api-text-field
@@ -55,9 +55,11 @@
         </dialog-entity-delete>
       </v-toolbar>
     </v-card-title>
-    <v-card-text>
-      <slot />
-    </v-card-text>
+    <slot name="outer">
+      <v-card-text>
+        <slot />
+      </v-card-text>
+    </slot>
   </v-card>
 </template>
 

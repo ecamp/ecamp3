@@ -8,6 +8,10 @@
             "removeColumn": "Leere Spalte entfernen"
           }
         },
+        "storyboard": {
+          "controls": "Aktionen",
+          "reorder": "Verschieben"
+        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
           "title": "Wirklich löschen?"
@@ -315,6 +319,7 @@
       "lock": "Sperren",
       "login": "Anmelden",
       "logout": "Ausloggen",
+      "move": "Verschieben",
       "ok": "OK",
       "open": "Öffnen",
       "save": "Speichern",

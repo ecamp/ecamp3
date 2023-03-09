@@ -8,6 +8,10 @@
             "removeColumn": "Rimuovi la colonna vuota"
           }
         },
+        "storyboard": {
+          "controls": "Azioni",
+          "reorder": "Spostare"
+        },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
           "title": "Cancellare davvero?"
@@ -309,6 +313,7 @@
       "lock": "Blocco",
       "login": "Accedi",
       "logout": "Disconnessione",
+      "move": "Spostamento",
       "ok": "Bene",
       "open": "Aprire",
       "save": "Salvare",

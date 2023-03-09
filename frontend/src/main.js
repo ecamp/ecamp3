@@ -19,6 +19,7 @@ import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 
 import { Resize } from 'vuetify/lib/directives'
+import ResizeObserver from 'v-resize-observer'
 
 if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
   const environment = window.environment.SENTRY_ENVIRONMENT ?? 'http://localhost:3000'
@@ -45,6 +46,7 @@ Vue.use(Toast, {
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
 Vue.directive('resize', Resize)
+Vue.directive('resizeobserver', ResizeObserver.directive)
 
 new Vue({
   router,
