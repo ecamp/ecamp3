@@ -10,7 +10,7 @@
         },
         "storyboard": {
           "controls": "Actions",
-          "reorder": "Reorder"
+          "reorder": "Déplacer"
         },
         "storyboardDialogRemoveSection": {
           "deleteWarning": "Tu veux vraiment supprimer cette section ?",
