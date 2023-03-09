@@ -160,7 +160,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   translation:
-    image: node:18.14.2
+    image: node:18.15.0
     profiles: [ "translation" ]
     container_name: 'ecamp3-translation'
     volumes:
