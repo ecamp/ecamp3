@@ -23,7 +23,8 @@
         vee-rules="email"
         append-icon="mdi-at"
         :dense="$vuetify.breakpoint.xsOnly"
-        type="text"
+        type="email"
+        autocomplete="username"
         autofocus
       />
       <v-btn
