@@ -7,11 +7,13 @@ describe('Nuxt print test', () => {
     cy.login('test@example.com')
 
     cy.request(Cypress.env('API_ROOT_URL') + '/camps.jsonhal').then((response) => {
-      const campUri = response.body._links.items[1].href
+      const body = response.body
+      const campUri = body._links.items[1].href
+      const camp = body._embedded.items[1]
 
       let printConfig = {
         language: 'en',
-        documentName: 'Harry Potter Lager.pdf',
+        documentName: 'camp.pdf',
         camp: campUri,
         contents: [
           {
@@ -26,9 +28,9 @@ describe('Nuxt print test', () => {
           '/?config=' +
           encodeURIComponent(JSON.stringify(printConfig))
       )
-      cy.contains('Sola 2023')
-      cy.contains('Title: Harry Potter Lager')
-      cy.contains('Motto: Harry Potter')
+      cy.contains(camp.name)
+      cy.contains(camp.title)
+      cy.contains(camp.motto)
 
       cy.get('#content_0_cover').should('have.css', 'font-size', '50px') // this ensures Tailwind is properly built and integrated
     })
