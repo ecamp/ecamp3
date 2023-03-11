@@ -83,7 +83,7 @@
     "@babel/eslint-parser": "7.19.1",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/user-event": "14.4.3",
-    "@testing-library/vue": "5.9.0",
+    "@testing-library/vue": "7.0.0",
     "@vitejs/plugin-vue2": "2.2.0",
     "@vue/cli-plugin-babel": "5.0.8",
     "@vue/cli-plugin-eslint": "5.0.8",
