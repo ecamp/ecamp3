@@ -120,7 +120,7 @@
       </v-btn>
       <small class="w-100">
         <i18n
-          path="views.auth.login.acceptTermsOfUseOnOAuthLogin"
+          path="views.auth.login.acceptTermsOfServiceOnOAuthLogin"
           tag="p"
           class="text--secondary text-center w-100 mt-2"
           style="hyphens: auto"

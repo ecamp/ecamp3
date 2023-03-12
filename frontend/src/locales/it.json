@@ -358,7 +358,7 @@
         "title": "Il tuo account sarà attivato"
       },
       "login": {
-        "acceptTermsOfUseOnOAuthLogin": "Effettuando l'accesso tramite uno di questi servizi, si accettano i {termsOfServiceLink}.",
+        "acceptTermsOfServiceOnOAuthLogin": "Effettuando l'accesso tramite uno di questi servizi, si accettano i {termsOfServiceLink}.",
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
@@ -382,7 +382,7 @@
         "termsOfServiceLink": "condizioni di utilizzo"
       },
       "register": {
-        "acceptTermsOfUse": "Accettare le condizioni di utilizzo",
+        "acceptTermsOfService": "Accettare le condizioni di utilizzo",
         "alreadyHaveAnAccount": "Hai già un conto?",
         "passwordConfirmation": "Inserisci di nuovo la password",
         "register": "Registrati",

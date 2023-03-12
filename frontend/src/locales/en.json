@@ -366,7 +366,7 @@
         "title": "Your account will be activated"
       },
       "login": {
-        "acceptTermsOfUseOnOAuthLogin": "By logging in via one of these services, you accept the {termsOfServiceLink}.",
+        "acceptTermsOfServiceOnOAuthLogin": "By logging in via one of these services, you accept the {termsOfServiceLink}.",
         "accountless": "Don't have an account yet?",
         "email": "Email",
         "infoText": {
@@ -390,7 +390,7 @@
         "termsOfServiceLink": "terms of service"
       },
       "register": {
-        "acceptTermsOfUse": "Accept the terms of use",
+        "acceptTermsOfService": "Accept the terms of use",
         "alreadyHaveAnAccount": "Already have an account?",
         "passwordConfirmation": "Enter password again",
         "register": "Register",

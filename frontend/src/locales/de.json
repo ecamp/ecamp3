@@ -366,7 +366,7 @@
         "title": "Dein Account wird aktiviert"
       },
       "login": {
-        "acceptTermsOfUseOnOAuthLogin": "Beim Login via einen diese Services akzeptierst du die {termsOfServiceLink}.",
+        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen diese Services akzeptierst du die {termsOfServiceLink}.",
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
@@ -390,8 +390,8 @@
         "termsOfServiceLink": "Nutzungsbedingungen"
       },
       "register": {
-        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
-        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "acceptTermsOfService": "Nutzungsbedingungen akzeptieren",
+        "alreadyHaveAnAccount": "Hast du bereits ein Konto?",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "requiredField": "Pflichtfelder",
