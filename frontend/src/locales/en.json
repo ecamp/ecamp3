@@ -366,6 +366,7 @@
         "title": "Your account will be activated"
       },
       "login": {
+        "acceptTermsOfUseOnOAuthLogin": "By loggin in via one of these services, you accept the {termsOfServiceLink}.",
         "accountless": "Don't have an account yet?",
         "email": "Email",
         "infoText": {
@@ -385,7 +386,8 @@
           "jubladb": "JublaDB",
           "midata": "MiData"
         },
-        "registernow": "Register now"
+        "registernow": "Register now",
+        "termsOfServiceLink": "terms of service"
       },
       "register": {
         "acceptTermsOfUse": "Accept the terms of use",

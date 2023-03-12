@@ -358,6 +358,7 @@
         "title": "Ton compte sera activé"
       },
       "login": {
+        "acceptTermsOfUseOnOAuthLogin": "En te connectant via l'un de ces services, tu acceptes les {termsOfServiceLink}.",
         "accountless": "Vous n'avez pas encore de compte?",
         "email": "Courriel",
         "infoText": {
@@ -377,7 +378,8 @@
           "jubladb": "Jubla",
           "midata": "MiData"
         },
-        "registernow": "Inscrivez-vous maintenant"
+        "registernow": "Inscrivez-vous maintenant",
+        "termsOfServiceLink": "conditions d'utilisation"
       },
       "register": {
         "acceptTermsOfUse": "Accepter les conditions d'utilisation",
