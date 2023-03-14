@@ -118,6 +118,20 @@
           $tc('views.auth.login.provider.google')
         }}</span>
       </v-btn>
+      <small class="w-100">
+        <i18n
+          path="views.auth.login.acceptTermsOfServiceOnOAuthLogin"
+          tag="p"
+          class="text--secondary text-center w-100 mt-2"
+          style="hyphens: auto"
+        >
+          <template #termsOfServiceLink>
+            <a :href="termsOfServiceLink" target="_blank" style="color: gray">{{
+              $tc('views.auth.login.termsOfServiceLink')
+            }}</a>
+          </template>
+        </i18n>
+      </small>
     </div>
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.login.accountless') }}<br />
@@ -134,6 +148,7 @@ import AuthContainer from '@/components/layout/AuthContainer.vue'
 import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
 import { serverErrorToString } from '@/helpers/serverError'
+import { parseTemplate } from 'url-template'
 
 const LOGIN_INFO_TEXT_KEY = window.environment.LOGIN_INFO_TEXT_KEY
 
@@ -163,6 +178,13 @@ export default {
   computed: {
     infoTextKey() {
       return `views.auth.login.infoText.${LOGIN_INFO_TEXT_KEY ?? 'dev'}`
+    },
+    termsOfServiceLink() {
+      return (
+        parseTemplate(window.environment.TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
+          lang: this.$store.state.lang.language.substring(0, 2),
+        }) || false
+      )
     },
   },
   mounted() {

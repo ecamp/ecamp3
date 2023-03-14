@@ -366,6 +366,7 @@
         "title": "Dein Account wird aktiviert"
       },
       "login": {
+        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen diese Services akzeptierst du die {termsOfServiceLink}.",
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
@@ -385,11 +386,12 @@
           "jubladb": "JublaDB",
           "midata": "MiData"
         },
-        "registernow": "Jetzt registrieren"
+        "registernow": "Jetzt registrieren",
+        "termsOfServiceLink": "Nutzungsbedingungen"
       },
       "register": {
-        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
-        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "acceptTermsOfService": "Nutzungsbedingungen akzeptieren",
+        "alreadyHaveAnAccount": "Hast du bereits ein Konto?",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "requiredField": "Pflichtfelder",
