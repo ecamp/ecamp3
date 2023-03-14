@@ -10,6 +10,7 @@ module.exports = defineConfig({
   screenshotsFolder: 'data/screenshots',
   videosFolder: 'data/videos',
   downloadsFolder: 'data/downloads',
+  trashAssetsBeforeRuns: false,
   e2e: {
     setupNodeEvents(on, config) {
       on('task', {
@@ -20,9 +21,11 @@ module.exports = defineConfig({
               console.log(err)
             } else {
               files.forEach((file) => {
-                fs.unlink(path.join(dirPath, file), () => {
-                  console.log('Removed ' + file)
-                })
+                if (file !== '.gitkeep') {
+                  fs.unlink(path.join(dirPath, file), () => {
+                    console.log('Removed ' + file)
+                  })
+                }
               })
             }
           })

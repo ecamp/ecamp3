@@ -118,15 +118,6 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "^.github/workflows/continuous-integration.yml$"
-      ],
-      "matchStrings": [
-        "(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"
-      ],
-      "datasourceTemplate": "docker"
-    },
-    {
-      "fileMatch": [
         "^api/phpunit.xml.dist$"
       ],
       "matchStrings": [

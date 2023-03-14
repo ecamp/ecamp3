@@ -7,7 +7,7 @@
     "lint": "prettier --write '**/*.js'"
   },
   "devDependencies": {
-    "cypress": "^12.7.0",
+    "cypress": "12.7.0",
     "prettier": "2.8.4"
   },
   "eslintConfig": {
