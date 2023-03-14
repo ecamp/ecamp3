@@ -371,7 +371,7 @@
         "email": "Email",
         "infoText": {
           "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
-          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!"
+          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!<br>Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "You will be logged in"

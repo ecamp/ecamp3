@@ -281,6 +281,13 @@ jobs:
           env_url: https://${{ matrix.deployment.name }}.ecamp3.ch
           env: ${{ steps.deployment.outputs.env }}
 
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        if: always()
+        id: current-time
+        with:
+          timezone: Europe/Zurich
+
       - name: Comment success on PR
         uses: thollander/actions-comment-pull-request@v2
         if: ${{ success() && matrix.deployment.env == 'feature-branch' }}
@@ -292,9 +299,11 @@ jobs:
 
             |  Name | Link |
             |---------------------------------|------------------------|
+            |<span aria-hidden="true">😎</span> **Deployment** | [https://${{ matrix.deployment.name }}.ecamp3.ch/](https://${{ matrix.deployment.name }}.ecamp3.ch/) |
+            |<span aria-hidden="true">🔑</span> Login | `test@example.com` / `test` |
+            |<span aria-hidden="true">🕒</span> Last deployed at | ${{ steps.current-time.outputs.readableTime }} |
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
-            |<span aria-hidden="true">😎</span> **Deployment** | [https://${{ matrix.deployment.name }}.ecamp3.ch/](https://${{ matrix.deployment.name }}.ecamp3.ch/) |
             |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://${{ matrix.deployment.name }}.ecamp3.ch/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
             ---
           comment_tag: feature-branch-deployment-status
@@ -310,6 +319,7 @@ jobs:
 
             |  Name | Link |
             |---------------------------------|------------------------|
+            |<span aria-hidden="true">🕒</span> Last attempted at | ${{ steps.current-time.outputs.readableTime }} |
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
             ---
