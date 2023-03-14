@@ -6,10 +6,18 @@
     v-bind="$attrs"
     v-on="$listeners"
   >
+    <v-icon v-if="iconFirst" :left="!hideLabel" size="150%" :class="{ animate: animate }">
+      {{ icon }}
+    </v-icon>
     <span :class="{ 'd-sr-only': hideLabel }">
       <slot />
     </span>
-    <v-icon :right="!hideLabel" size="150%" :class="{ animate: animate }">
+    <v-icon
+      v-if="!iconFirst"
+      :right="!hideLabel"
+      size="150%"
+      :class="{ animate: animate }"
+    >
       {{ icon }}
     </v-icon>
   </v-btn>
@@ -20,6 +28,7 @@ export default {
   name: 'IconButton',
   props: {
     icon: { type: String, required: true },
+    iconFirst: { type: Boolean, default: false },
     hideLabel: { type: Boolean, default: false },
     color: { type: String, default: 'normal' },
     animate: { type: Boolean, default: false },

@@ -117,6 +117,10 @@
       "prototype": "Camp prototype"
     },
     "campCollaboration": {
+      "fields": {
+        "inviteEmail": "Email",
+        "role": "Role"
+      },
       "inactive": "inactive"
     },
     "category": {

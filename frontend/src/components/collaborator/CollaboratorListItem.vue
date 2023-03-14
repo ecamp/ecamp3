@@ -1,104 +1,111 @@
 <template>
-  <v-list-item class="px-0" two-line>
-    <v-list-item-avatar>
-      <user-avatar :camp-collaboration="collaborator" />
-    </v-list-item-avatar>
+  <v-list-item class="px-0 e-collaborator-item" two-line>
+    <v-list-item-action>
+      <user-avatar size="40" :camp-collaboration="collaborator" />
+    </v-list-item-action>
     <v-list-item-content>
-      <v-list-item-title v-if="collaborator.user">
-        {{ collaborator.user().displayName }}
+      <v-list-item-title>
+        <span v-if="collaborator.user">{{ collaborator.user().displayName }}</span>
+        <span v-else>{{ collaborator.inviteEmail }}</span>
       </v-list-item-title>
-      <v-list-item-subtitle v-else>
-        {{ collaborator.inviteEmail }}
+      <v-list-item-subtitle>
+        {{ $tc(roles[collaborator.role].translation) }} &middot;
+        <template v-for="icon in roles[collaborator.role].icons">
+          <v-icon :key="icon" x-small>{{ icon }}</v-icon
+          >&nbsp;
+        </template>
       </v-list-item-subtitle>
     </v-list-item-content>
-    <v-list-item-action v-if="collaborator.status === 'invited'" class="ml-2">
+    <v-list-item-action v-if="inactive" class="e-collaborator-item__actions">
+      <dialog-entity-delete :entity="collaborator">
+        <template #activator="{ on }">
+          <button-delete :disabled="disabled" v-on="on" />
+        </template>
+        {{
+          $tc('components.collaborator.collaboratorListItem.delete', 0, {
+            name: name,
+          })
+        }}
+        <br />
+      </dialog-entity-delete>
+    </v-list-item-action>
+    <v-list-item-action v-if="inactive" class="e-collaborator-item__actions ml-2">
       <icon-button
-        color="normal"
+        color="primary"
         icon="mdi-refresh"
-        :animate="resendingEmail"
         :disabled="disabled"
+        @click="api.patch(collaborator, { status: 'invited' })"
+      >
+        {{ $tc('components.collaborator.collaboratorListItem.inviteAgain') }}
+      </icon-button>
+    </v-list-item-action>
+    <v-list-item-action v-if="!inactive" class="e-collaborator-item__actions ml-2">
+      <icon-button
+        v-if="collaborator.status === 'invited'"
+        text
+        color="blue-grey"
+        :icon="resendingEmail ? 'mdi-refresh' : 'mdi-email-fast'"
+        :hide-label="$vuetify.breakpoint.xsOnly"
+        :animate="resendingEmail"
+        :disabled="disabled || resendingEmail"
         @click="resendInvitation"
       >
         {{ $tc('components.collaborator.collaboratorListItem.resendEmail') }}
       </icon-button>
     </v-list-item-action>
-    <v-list-item-action class="ml-4">
-      <v-tooltip :disabled="disabled || !isLastManager" top>
-        <template #activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
-            <api-select
-              :value="collaborator.role"
-              :uri="collaborator._meta.self"
-              fieldname="role"
-              :items="[
-                { key: 'member', translation: $tc('entity.camp.collaborators.member') },
-                { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
-                { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
-              ]"
-              item-value="key"
-              item-text="translation"
-              :my="0"
-              dense
-              vee-rules="required"
-              :disabled="disabled || isLastManager"
-            />
-          </div>
+    <v-list-item-action v-if="!inactive" class="e-collaborator-item__actions ml-2">
+      <dialog-collaborator-edit :collaborator="collaborator">
+        <template #activator="{ on }">
+          <button-edit class="my-n1" v-on="on" />
         </template>
-        <span>{{
-          $tc(
-            'components.collaborator.collaboratorListItem.cannotAssignAnotherRoleToLastManager'
-          )
-        }}</span>
-      </v-tooltip>
-    </v-list-item-action>
-    <v-list-item-action class="ml-2">
-      <v-tooltip :disabled="disabled || !isLastManager" top>
-        <template #activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
-            <CollaboratorListItemDeactivate :entity="collaborator">
-              <template #activator="{ on: onDialog }">
-                <button-delete
-                  :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
-                  icon="mdi-cancel"
-                  v-on="onDialog"
-                >
-                  {{ $tc('components.collaborator.collaboratorListItem.deactivate') }}
-                </button-delete>
-              </template>
-            </CollaboratorListItemDeactivate>
-          </div>
-        </template>
-        <span>{{
-          $tc('components.collaborator.collaboratorListItem.cannotRemoveLastManager')
-        }}</span>
-      </v-tooltip>
+      </dialog-collaborator-edit>
     </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
-import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import IconButton from '@/components/buttons/IconButton.vue'
-import CollaboratorListItemDeactivate from '@/components/collaborator/CollaboratorListItemDeactivate.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import DialogCollaboratorEdit from '@/components/collaborator/DialogCollaboratorEdit.vue'
 
 export default {
   name: 'CollaboratorListItem',
   components: {
-    ApiSelect,
+    DialogCollaboratorEdit,
+    ButtonEdit,
     UserAvatar,
     IconButton,
-    CollaboratorListItemDeactivate,
   },
   props: {
     collaborator: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
+    inactive: { type: Boolean, default: false },
   },
   data: () => ({
     resendingEmail: false,
+    roles: {
+      manager: {
+        translation: 'entity.camp.collaborators.manager',
+        icons: ['mdi-eye', 'mdi-pencil', 'mdi-cog'],
+      },
+      member: {
+        translation: 'entity.camp.collaborators.member',
+        icons: ['mdi-eye', 'mdi-pencil'],
+      },
+      guest: {
+        translation: 'entity.camp.collaborators.guest',
+        icons: ['mdi-eye'],
+      },
+    },
   }),
   computed: {
+    name() {
+      return this.collaborator.user
+        ? this.collaborator.user().displayName
+        : this.collaborator.inviteEmail
+    },
     isLastManager() {
       if (this.collaborator.status !== 'established') return false
       if (this.collaborator.role !== 'manager') return false

@@ -102,19 +102,27 @@
     },
     "collaborator": {
       "collaboratorListItem": {
-        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last manager.",
-        "cannotRemoveLastManager": "You cannot remove the last manager.",
+        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
+        "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
-        "resendEmail": "Resend email"
+        "resendEmail": "Resend invite",
+        "delete": "Do you really want to remove this collaborator?",
+        "inviteAgain": "Invite again"
       },
       "collaboratorListItemDeactivate": {
         "deactivate": "Deactivate",
         "title": "Deactivate collaborator",
         "warningText": "Do you want to deactivate '{name}'?"
       },
-      "inactiveCollaboratorListItem": {
-        "delete": "Do you really want to remove this collaborator?",
-        "inviteAgain": "Invite again"
+      "dialogCollaboratorCreate": {
+        "title": "Invite people",
+        "invite": "Send invitation"
+      },
+      "dialogCollaboratorEdit": {
+        "title": "Edit collaborator"
+      },
+      "dialogCollaboratorForm": {
+        "roleHint": "Each camp needs at least one person with administrative rights."
       }
     },
     "dashboard": {
@@ -430,7 +438,7 @@
       "collaborators": {
         "email": "Email address",
         "inactiveCollaborators": "Inactive",
-        "invite": "Invite",
+        "invite": "Invite to team",
         "members": "Members",
         "openInvitations": "Open invitations",
         "title": "Team"

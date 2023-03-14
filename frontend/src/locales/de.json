@@ -102,19 +102,27 @@
     },
     "collaborator": {
       "collaboratorListItem": {
-        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
-        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+        "cannotAssignAnotherRoleToLastManager": "Du kannst der letzten Person mit administrativen Rechten keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst die letzte Person mit administrativen Rechten nicht deaktivieren",
         "deactivate": "Deaktivieren",
-        "resendEmail": "E-Mail erneut senden"
+        "resendEmail": "E-Mail erneut senden",
+        "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
+        "inviteAgain": "Erneut einladen"
       },
       "collaboratorListItemDeactivate": {
         "deactivate": "Deaktivieren",
-        "title": "Mitarbeiter:in deaktivieren",
+        "title": "Person in diesem Lager deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
       },
-      "inactiveCollaboratorListItem": {
-        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?",
-        "inviteAgain": "Erneut einladen"
+      "dialogCollaboratorCreate": {
+        "title": "Person einladen",
+        "invite": "Einladung verschicken"
+      },
+      "dialogCollaboratorEdit": {
+        "title": "Mitarbeitende Person bearbeiten"
+      },
+      "dialogCollaboratorForm": {
+        "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administratorrechten."
       }
     },
     "dashboard": {
@@ -430,7 +438,7 @@
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
-        "invite": "Einladen",
+        "invite": "Ins Team einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
         "title": "Team"

@@ -9,7 +9,7 @@
     v-on="$listeners"
   >
     <v-icon v-if="iconOnly">{{ icon }}</v-icon>
-    <v-icon v-else :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
+    <v-icon v-else-if="!text" :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
 
     <span v-if="!iconOnly" class="d-none d-sm-block">
       <slot>{{ $tc('global.button.delete') }}</slot>
@@ -17,6 +17,7 @@
     <span class="d-sr-only" :class="{ 'd-sm-none': !iconOnly }">
       <slot>{{ $tc('global.button.delete') }}</slot>
     </span>
+    <v-icon v-if="!iconOnly && text" :right="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
   </v-btn>
 </template>
 

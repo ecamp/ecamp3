@@ -93,7 +93,7 @@
       "collaborators": {
         "guest": "Gast",
         "invite": "Einladen",
-        "manager": "Verwalter",
+        "manager": "Administration",
         "member": "Mitglied"
       },
       "fields": {
@@ -110,6 +110,10 @@
       "prototype": "Lagervorlage"
     },
     "campCollaboration": {
+      "fields": {
+        "inviteEmail": "E-Mail",
+        "role": "Rolle"
+      },
       "inactive": "inaktiv"
     },
     "category": {
