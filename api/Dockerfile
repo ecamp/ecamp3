@@ -8,7 +8,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.13
+ARG PHP_VERSION=8.2.3
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.16
