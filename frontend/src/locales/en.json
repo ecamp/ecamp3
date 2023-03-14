@@ -390,7 +390,7 @@
         "termsOfServiceLink": "terms of service"
       },
       "register": {
-        "acceptTermsOfService": "Accept the terms of use",
+        "acceptTermsOfService": "Accept the terms of service",
         "alreadyHaveAnAccount": "Already have an account?",
         "passwordConfirmation": "Enter password again",
         "register": "Register",
