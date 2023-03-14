@@ -380,6 +380,13 @@ jobs:
     name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        browser:
+          - electron
+          - chrome
+          - firefox
+          - edge
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
@@ -400,8 +407,8 @@ jobs:
           target: api_platform_php_dev
           builder: ${{ steps.buildx.outputs.name }}
           tags: ecamp/ecamp3-dev-api-php
-          cache-from: type=gha,scope=api
-          cache-to: type=gha,scope=api,mode=max
+          cache-from: type=gha,scope=${{ matrix.browser }}-api
+          cache-to: type=gha,scope=${{ matrix.browser }}-api,mode=max
 
       # build caddy (using cache; provide image to docker compose)
       - name: Build docker image (Caddy)
@@ -414,8 +421,8 @@ jobs:
           target: api_platform_caddy
           builder: ${{ steps.buildx.outputs.name }}
           tags: ecamp/ecamp3-dev-api-caddy
-          cache-from: type=gha,scope=caddy
-          cache-to: type=gha,scope=caddy,mode=max
+          cache-from: type=gha,scope=${{ matrix.browser }}-caddy
+          cache-to: type=gha,scope=${{ matrix.browser }}-caddy,mode=max
       
       # build frontend (using cache; provide image to docker compose)
       - name: Build docker image (Frontend)
@@ -427,8 +434,8 @@ jobs:
           load: true
           builder: ${{ steps.buildx.outputs.name }}
           tags: ecamp/ecamp3-dev-frontend
-          cache-from: type=gha,scope=frontend
-          cache-to: type=gha,scope=frontend,mode=max
+          cache-from: type=gha,scope=${{ matrix.browser }}-frontend
+          cache-to: type=gha,scope=${{ matrix.browser }}-frontend,mode=max
 
       # build print (using cache; provide image to docker compose)
       - name: Build docker image (Print)
@@ -440,14 +447,14 @@ jobs:
           load: true
           builder: ${{ steps.buildx.outputs.name }}
           tags: ecamp/ecamp3-dev-print
-          cache-from: type=gha,scope=print
-          cache-to: type=gha,scope=print,mode=max
+          cache-from: type=gha,scope=${{ matrix.browser }}-print
+          cache-to: type=gha,scope=${{ matrix.browser }}-print,mode=max
 
       - name: Restore cache volumes (npm, composer)
         uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
         with:
           path: .cache
-          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
           restore-keys: |
             docker-compose-
 
@@ -457,11 +464,20 @@ jobs:
       - uses: cypress-io/github-action@v5
         with:
           working-directory: e2e
-          browser: chrome
+          browser: ${{ matrix.browser }}
           wait-on: 'http://localhost:3000, http://localhost:3000/api'
           wait-on-timeout: 300
 
-      # print docker container logs (good for debugging; can be disabled again lateron)
+      # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-output
+          path: |
+            ./cypress/screenshots
+            ./cypress/videos
+
+      # print docker container logs (good for debugging; can be disabled again later on)
       - run: docker compose logs --tail="all"
         if: always()
 
