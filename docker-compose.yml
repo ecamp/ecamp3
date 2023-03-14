@@ -2,11 +2,11 @@ version: '3.9'
 
 services:
   frontend:
-    image: ecamp/ecamp3-frontend
+    image: ecamp/ecamp3-dev-frontend
     build:
       context: ./frontend
       cache_from:
-        - ecamp/ecamp3-frontend
+        - ecamp/ecamp3-dev-frontend
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -25,12 +25,12 @@ services:
       - CI=${CI}
 
   php:
-    image: ecamp/ecamp3-api-php
+    image: ecamp/ecamp3-dev-api-php
     build:
       context: ./api
       target: api_platform_php_dev
       cache_from:
-        - ecamp/ecamp3-api-php
+        - ecamp/ecamp3-dev-api-php
     container_name: 'ecamp3-api-php'
     depends_on:
       - database
@@ -66,12 +66,12 @@ services:
       - 'host.docker.internal:host-gateway'
 
   caddy:
-    image: ecamp/ecamp3-api-caddy
+    image: ecamp/ecamp3-dev-api-caddy
     build:
       context: ./api
       target: api_platform_caddy
       cache_from:
-        - ecamp/ecamp3-api-caddy
+        - ecamp/ecamp3-dev-api-caddy
     container_name: 'ecamp3-api-caddy'
     depends_on:
       - php
@@ -93,11 +93,11 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: ecamp/ecamp3-print
+    image: ecamp/ecamp3-dev-print
     build:
       context: ./print
       cache_from:
-        - ecamp/ecamp3-print
+        - ecamp/ecamp3-dev-print
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
