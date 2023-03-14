@@ -1,8 +1,4 @@
 const picassoData = (config) => {
-  if (!config.contents.some((c) => c.type === 'Picasso')) {
-    return []
-  }
-
   const camp = config.apiGet(config.camp)
 
   return [
