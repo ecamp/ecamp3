@@ -99,9 +99,12 @@
     "camp": {
       "collaborators": {
         "guest": "Guest",
+        "guestAbilities": "Read-only",
         "invite": "Invite",
         "manager": "Manager",
-        "member": "Member"
+        "managerAbilities": "Read, write & camp management",
+        "member": "Member",
+        "memberAbilities": "Read & write"
       },
       "fields": {
         "addressCity": "City",

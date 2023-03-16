@@ -9,11 +9,18 @@
         <span v-else>{{ collaborator.inviteEmail }}</span>
       </v-list-item-title>
       <v-list-item-subtitle>
-        {{ $tc(roles[collaborator.role].translation) }} &middot;
-        <template v-for="icon in roles[collaborator.role].icons">
-          <v-icon :key="icon" x-small>{{ icon }}</v-icon
-          >&nbsp;
-        </template>
+        {{ $tc(roles[collaborator.role].roleTranslation) }} &middot;
+        <v-tooltip right>
+          <template #activator="{ on }">
+            <button v-on="on">
+              <template v-for="icon in roles[collaborator.role].icons"
+                ><v-icon :key="icon" x-small>{{ icon }}</v-icon
+                >&hairsp;</template
+              >
+            </button>
+          </template>
+          {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
+        </v-tooltip>
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action v-if="inactive" class="e-collaborator-item__actions">
@@ -87,16 +94,19 @@ export default {
     resendingEmail: false,
     roles: {
       manager: {
-        translation: 'entity.camp.collaborators.manager',
-        icons: ['mdi-eye', 'mdi-pencil', 'mdi-cog'],
+        roleTranslation: 'entity.camp.collaborators.manager',
+        abilitiesTranslation: 'entity.camp.collaborators.managerAbilities',
+        icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
       },
       member: {
-        translation: 'entity.camp.collaborators.member',
-        icons: ['mdi-eye', 'mdi-pencil'],
+        roleTranslation: 'entity.camp.collaborators.member',
+        abilitiesTranslation: 'entity.camp.collaborators.memberAbilities',
+        icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
       },
       guest: {
-        translation: 'entity.camp.collaborators.guest',
-        icons: ['mdi-eye'],
+        roleTranslation: 'entity.camp.collaborators.guest',
+        abilitiesTranslation: 'entity.camp.collaborators.guestAbilities',
+        icons: ['mdi-eye-outline'],
       },
     },
   }),

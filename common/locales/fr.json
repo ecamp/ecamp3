@@ -92,9 +92,12 @@
     "camp": {
       "collaborators": {
         "guest": "Invité",
+        "guestAbilities": "Lecture uniquement",
         "invite": "Invite",
-        "manager": "Directeur",
-        "member": "Membre"
+        "manager": "Administration",
+        "managerAbilities": "Lecture, écriture & administration du camp",
+        "member": "Membre",
+        "memberAbilities": "Lecture & écriture"
       },
       "fields": {
         "addressCity": "Ville",
