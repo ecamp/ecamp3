@@ -100,7 +100,7 @@
       "matchPackageNames": [
         "browserless/chrome"
       ],
-      "versioning": "loose"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
     },
     {
       "matchPackageNames": [
