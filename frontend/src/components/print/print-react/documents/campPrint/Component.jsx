@@ -56,6 +56,11 @@ const registerFonts = async () => {
     ],
   })
 
+  Font.registerEmojiSource({
+    formag: 'png',
+    url: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/',
+  })
+
   return await Promise.all([
     Font.load({ fontFamily: 'OpenSans' }),
     Font.load({ fontFamily: 'OpenSans', fontWeight: 600 }),
