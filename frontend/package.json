@@ -17,7 +17,8 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
-    "test:unit:watch": "vue-cli-service test:unit --watch"
+    "test:unit:watch": "vue-cli-service test:unit --watch",
+    "postinstall": "./scripts/install-twemoji.sh"
   },
   "dependencies": {
     "@intlify/core": "9.2.2",
