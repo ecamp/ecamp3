@@ -40,11 +40,12 @@ jobs:
           echo "${{ steps.determine-sha.outputs.result }}"
 
   build-and-push:
-    name: Build and push docker images  
+    name: Build and push docker images
+    if: ${{ (needs.determine-vars.outputs.environment == 'staging') || (needs.determine-vars.outputs.environment == 'prod') }}
     needs: determine-vars
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
-      tag: ${{ env.environment }}
+      tag: ${{ needs.determine-vars.outputs.environment }}
       sha: ${{ needs.determine-vars.outputs.sha }}
     secrets:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
