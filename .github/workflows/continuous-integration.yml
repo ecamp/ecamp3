@@ -416,35 +416,6 @@ jobs:
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
           outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
-          
-      
-      # build frontend (using cache; provide image to docker compose)
-      - name: Build docker image (Frontend)
-        uses: docker/build-push-action@v4
-        with:
-          file: frontend/Dockerfile
-          context: './frontend'
-          push: false
-          load: true
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-frontend
-          cache-from: type=gha,scope=frontend
-          cache-to: type=gha,scope=frontend,mode=max
-          outputs: type=docker,dest=/tmp/ecamp3-dev-frontend.tar
-
-      # build print (using cache; provide image to docker compose)
-      - name: Build docker image (Print)
-        uses: docker/build-push-action@v4
-        with:
-          file: print/Dockerfile
-          context: './print'
-          push: false
-          load: true
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-print
-          cache-from: type=gha,scope=print
-          cache-to: type=gha,scope=print,mode=max
-          outputs: type=docker,dest=/tmp/ecamp3-dev-print.tar
 
       - uses: actions/upload-artifact@v3
         with:
@@ -482,9 +453,7 @@ jobs:
         run: |
           docker load --input /tmp/ecamp3-dev-api-php.tar
           docker load --input /tmp/ecamp3-dev-api-caddy.tar
-          docker load --input /tmp/ecamp3-dev-frontend.tar
-          docker load --input /tmp/ecamp3-dev-print.tar
-          docker image ls -a
+          docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
