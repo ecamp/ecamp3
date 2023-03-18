@@ -11,11 +11,12 @@ on:
         type: boolean
 
 jobs:
-  determine-environment:
+  determine-vars:
     name: Determine environment
     if: ${{ (inputs.confirmDeployWithoutCI == true) || (github.event.action == 'ci-passed' ) }}
     outputs:
       environment: ${{ steps.get-branch-name.outputs.result }}
+      sha: ${{ steps.determine-sha.outputs.result }}
     runs-on: ubuntu-latest
     steps:
 
@@ -26,33 +27,41 @@ jobs:
           script: |
             return (context.payload.action === 'ci-passed' ? context.payload.client_payload.ref : context.payload.ref).replace('refs/heads/', '')
 
-      - name: Log detected environment
-        run: echo "${{ steps.get-branch-name.outputs.result }}"
-
-  upgrade-or-install-deployment:
-    name: Upgrade or install deployment
-    if: ${{ (needs.determine-environment.outputs.environment == 'staging') || (needs.determine-environment.outputs.environment == 'prod') }}
-    needs:
-      determine-environment
-    runs-on: ubuntu-latest
-    environment: ${{ needs.determine-environment.outputs.environment }}
-    env:
-      environment: ${{ needs.determine-environment.outputs.environment }}
-      domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
-    steps:
-
-      - name: Determine correct SHA to deploy
-        uses: actions/github-script@v6
+      - uses: actions/github-script@v6
         id: determine-sha
         with:
           result-encoding: string
           script: |
             return (context.payload.action === 'ci-passed' ? context.payload.client_payload.sha : context.sha)
 
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-        with:
-          ref: ${{ steps.determine-sha.outputs.result }}
+      - name: Log detected environment & sha
+        run: |
+          echo "${{ steps.get-branch-name.outputs.result }}"
+          echo "${{ steps.determine-sha.outputs.result }}"
 
+  build-and-push:
+    name: Build and push docker images  
+    needs: determine-vars
+    uses: ./.github/workflows/reusable-build-and-push.yml
+    with:
+      tag: ${{ env.environment }}
+      sha: ${{ needs.determine-vars.outputs.sha }}
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+  upgrade-or-install-deployment:
+    name: Upgrade or install deployment
+    if: ${{ (needs.determine-vars.outputs.environment == 'staging') || (needs.determine-vars.outputs.environment == 'prod') }}
+    needs:
+      - determine-vars
+      - builnd-and-push
+    runs-on: ubuntu-latest
+    environment: ${{ needs.determine-vars.outputs.environment }}
+    env:
+      environment: ${{ needs.determine-vars.outputs.environment }}
+      domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
+    steps:
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
         id: deployment
@@ -60,14 +69,6 @@ jobs:
           step: start
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ env.environment }}
-
-      - name: Build and push docker images  
-        uses: ./.github/workflows/reusable-build-and-push.yml
-        with:
-          tag: ${{ env.environment }}
-        secrets:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Upgrade or install helm release
         run: |
@@ -82,7 +83,7 @@ jobs:
           sed -i 's/^appVersion:.*$/appVersion: "${{ steps.git-ref.outputs.sha }}"/' Chart.yaml
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
-            --set imageTag=${{ steps.determine-sha.outputs.result }} \
+            --set imageTag=${{ needs.determine-vars.outputs.sha }} \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \

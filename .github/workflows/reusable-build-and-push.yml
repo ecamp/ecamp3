@@ -6,6 +6,9 @@ on:
       tag:
         required: false
         type: string
+      sha:
+        required: true
+        type: string
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -13,11 +16,13 @@ on:
         required: true
 
 jobs:
-
   build-and-push:
     name: Build images and push
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        with:
+          ref: ${{ inputs.sha }}
 
       - name: Determine currently checked out SHA
         id: determine-sha
@@ -39,7 +44,7 @@ jobs:
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
-          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-frontend:{0},', inputs.tag) || '') }}ecamp/ecamp3-frontend:${{ steps.determine-sha.outputs.sha_long }}
+          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-frontend:{0},', inputs.tag) || '') }}ecamp/ecamp3-frontend:${{ inputs.sha }}
           context: .
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,scope=frontend,mode=max
@@ -49,7 +54,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-api-php:{0},', inputs.tag) || '') }}ecamp/ecamp3-api-php:${{ steps.determine-sha.outputs.sha_long }}
+          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-api-php:{0},', inputs.tag) || '') }}ecamp/ecamp3-api-php:${{ inputs.sha }}
           context: './api'
           target: api_platform_php
           cache-from: type=gha,scope=api
@@ -60,7 +65,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-api-caddy:{0},', inputs.tag) || '') }}ecamp/ecamp3-api-caddy:${{ steps.determine-sha.outputs.sha_long }}
+          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-api-caddy:{0},', inputs.tag) || '') }}ecamp/ecamp3-api-caddy:${{ inputs.sha }}
           context: './api'
           target: api_platform_caddy_prod
           cache-from: type=gha,scope=caddy
@@ -71,7 +76,7 @@ jobs:
         with:
           push: true
           file: .docker-hub/print/Dockerfile
-          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-print:{0},', inputs.tag) || '') }}ecamp/ecamp3-print:${{ steps.determine-sha.outputs.sha_long }}
+          tags: ${{ ((inputs.tag != '') && format('ecamp/ecamp3-print:{0},', inputs.tag) || '') }}ecamp/ecamp3-print:${{ inputs.sha }}
           context: .
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max

@@ -132,12 +132,27 @@ jobs:
           comment_tag: feature-branch-deployment-status
           create_if_not_exists: false
 
+  build-and-push:
+    name: Build and push docker images  
+    needs: find-prs-to-deploy
+    uses: ./.github/workflows/reusable-build-and-push.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy) }}
+    with:
+      tag: ${{ ((matrix.deployment.name == 'dev') && 'latest' || '') }}
+      sha: ${{ matrix.deployment.sha }}
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     runs-on: ubuntu-latest
     needs:
       - find-prs-to-deploy
+      - build-and-push
     if: fromJSON(needs.find-prs-to-deploy.outputs.to-deploy)[0] != null
     strategy:
       fail-fast: false
@@ -176,18 +191,6 @@ jobs:
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
           comment_tag: feature-branch-deployment-status
-
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-        with:
-          ref: ${{ matrix.deployment.sha }}
-      
-      - name: Build and push docker images  
-        uses: ./.github/workflows/reusable-build-and-push.yml
-        with:
-          tag: ${{ ((matrix.deployment.name == 'dev') && 'latest' || '') }}
-        secrets:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Upgrade or install helm release
         env:
