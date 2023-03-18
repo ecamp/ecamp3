@@ -56,7 +56,7 @@ jobs:
     if: ${{ (needs.determine-vars.outputs.environment == 'staging') || (needs.determine-vars.outputs.environment == 'prod') }}
     needs:
       - determine-vars
-      - builnd-and-push
+      - build-and-push
     runs-on: ubuntu-latest
     environment: ${{ needs.determine-vars.outputs.environment }}
     env:
