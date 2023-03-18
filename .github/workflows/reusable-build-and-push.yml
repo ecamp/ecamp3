@@ -24,12 +24,6 @@ jobs:
         with:
           ref: ${{ inputs.sha }}
 
-      - name: Determine currently checked out SHA
-        id: determine-sha
-        shell: bash
-        run: |
-          echo "::set-output name=sha_long::$(git rev-parse HEAD)"
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
