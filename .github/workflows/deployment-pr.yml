@@ -64,7 +64,7 @@ jobs:
           prs: ${{ steps.deployment-candidates.outputs.list }}
         run: |
           TO_INSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
-            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))'
+            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))')
           echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
           echo "list=$TO_INSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
 
