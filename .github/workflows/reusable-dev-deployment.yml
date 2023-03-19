@@ -1,0 +1,151 @@
+name: Development deployment
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      sha:
+        required: true
+        type: string
+      env:
+        required: true
+        type: string
+      pr_number:
+        required: false
+        type: string
+
+jobs:
+  dev-deployment:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.env }}
+    steps:
+      - name: Get link to currently running job logs
+        uses: Tiryoh/gha-jobid-action@v0.1.2
+        id: job-url
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          job_name: Upgrade or install deployment (${{ inputs.name }}, ${{ inputs.env }}, ${{ inputs.sha }}, ...
+
+      - name: Create a pending GitHub deployment
+        uses: bobheadxi/deployments@v1.4.0
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          env: ${{ inputs.name }}
+
+      - name: Comment progress on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ inputs.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ inputs.pr_number }}
+          message: |
+            ### <span aria-hidden="true">🏗️</span> Feature branch deployment in progress
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
+          comment_tag: feature-branch-deployment-status
+      
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        with:
+          ref: ${{ inputs.sha }}
+
+      - name: Upgrade or install helm release
+        env:
+          never_uninstall: ${{ needs.find-prs-to-deploy.outputs.never-uninstall }}
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Switch to the helm chart directory
+          cd .helm/ecamp3
+          # Install dependency charts
+          helm dependency update
+          # Set the appVersion, workaround from https://github.com/helm/helm/issues/8194 so that we can
+          # later find out which deployments need to be upgraded
+          sed -i 's/^appVersion:.*$/appVersion: "${{ inputs.sha }}"/' Chart.yaml
+          # Install or upgrade the release
+          helm upgrade --install ecamp3-${{ inputs.name }} . \
+            --set imageTag=${{ inputs.sha }} \
+            --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
+            --set domain=${{ inputs.name }}.ecamp3.ch \
+            --set mail.dummyEnabled=true \
+            --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
+            --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
+            --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), inputs.name) && 'false' || 'true' }} \
+            --set php.dataMigrationsDir='${{ secrets.DATA_MIGRATIONS_DIR }}' \
+            --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
+            --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
+            --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
+            --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
+            --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
+            --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
+            --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
+            --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
+            --set deploymentTime="$(date -u +%s)" \
+            --set deployedVersion="$(git rev-parse --short '${{ inputs.sha }}')" \
+            --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
+            --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
+            --set featureToggle.developer=true \
+            --set coupon.secret='${{ secrets.COUPON_SECRET }}'
+
+      - name: Finish the GitHub deployment
+        uses: bobheadxi/deployments@v1.4.0
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://${{ inputs.name }}.ecamp3.ch
+          env: ${{ steps.deployment.outputs.env }}
+
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        if: always()
+        id: current-time
+        with:
+          timezone: Europe/Zurich
+
+      - name: Comment success on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ success() && inputs.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ inputs.pr_number }}
+          message: |
+            ### <span aria-hidden="true">✅</span> Feature branch deployment ready!
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">😎</span> **Deployment** | [https://${{ inputs.name }}.ecamp3.ch/](https://${{ inputs.name }}.ecamp3.ch/) |
+            |<span aria-hidden="true">🔑</span> Login | `test@example.com` / `test` |
+            |<span aria-hidden="true">🕒</span> Last deployed at | ${{ steps.current-time.outputs.readableTime }} |
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
+            |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://${{ inputs.name }}.ecamp3.ch/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
+            ---
+          comment_tag: feature-branch-deployment-status
+
+      - name: Comment failure on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ failure() && inputs.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ inputs.pr_number }}
+          message: |
+            ### <span aria-hidden="true">💥</span> Feature branch deployment failed
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🕒</span> Last attempted at | ${{ steps.current-time.outputs.readableTime }} |
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
+            ---
+          comment_tag: feature-branch-deployment-status
