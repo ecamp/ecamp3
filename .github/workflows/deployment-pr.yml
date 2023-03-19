@@ -17,33 +17,19 @@ jobs:
 
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
-      - name: Get CI status of the devel branch
-        id: devel-ci
-        run: |
-          DEVEL_GREEN=$(curl -X POST --location "https://api.github.com/graphql" \
-              -H "Accept: application/vnd.github.v3+json" \
-              -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-              -d "{\"query\": \"query { repository(owner: \\\"ecamp\\\", name: \\\"ecamp3\\\") { ref(qualifiedName: \\\"devel\\\") { target { ... on Commit { statusCheckRollup { state } } } } } }\"}" \
-            | jq '.data.repository.ref.target.statusCheckRollup.state=="SUCCESS"')
-          echo "Devel CI has passed (within the last 100 CI workflow runs across all forks): $DEVEL_GREEN"
-          echo "passed=$DEVEL_GREEN" | tr -d "\n" >> $GITHUB_OUTPUT
-
-      - name: Find all open PRs that have a "deploy!" label, plus devel
+      - name: Find all open PRs that have a "deploy!" label
         id: deployment-candidates
         # create a list of JSON objects like:
         # [
-        #  {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ...", "number": "1234"},
-        #  {"name": "dev", "env": "dev", "sha": "...", "number": ""}
+        #  {"name": "pr1234", "sha": "... commit sha ...", "number": "1234"}
         # ]
         run: |
-          DEVEL=$(printf '{"name":"dev","env":"dev","sha":"%s","number":""}' $(git rev-parse devel))
           PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
             -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:ecamp/ecamp3\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
           LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
-            | jq 'map({"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid,number:(.node.number|tostring)})' \
-            | jq ".+[$DEVEL]")
+            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring)})'
           echo "Deployment candidates: $LIST"
           echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
 
@@ -76,11 +62,9 @@ jobs:
         env:
           deployments: ${{ steps.current-deployments.outputs.list }}
           prs: ${{ steps.deployment-candidates.outputs.list }}
-          allow_dev: ${{ steps.devel-ci.outputs.passed }}
         run: |
           TO_INSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
-            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))' \
-            | jq --argjson allow_dev "${{ env.allow_dev }}" 'map(select((.name!="dev")or($allow_dev==true)))')
+            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))'
           echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
           echo "list=$TO_INSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
 
@@ -141,7 +125,6 @@ jobs:
       matrix:
         deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy) }}
     with:
-      tag: ${{ ((matrix.deployment.name == 'dev') && 'latest' || '') }}
       sha: ${{ matrix.deployment.sha }}
     secrets:
       DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
@@ -161,7 +144,8 @@ jobs:
     with:
       name: ${{ matrix.deployment.name }}
       sha: ${{ matrix.deployment.sha }}
-      env: ${{ matrix.deployment.env }}
+      env: feature-branch
       pr_number: ${{ matrix.deployment.number }}
+      dropDBOnUninstall: true
     secrets: inherit
     

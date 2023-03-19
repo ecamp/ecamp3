@@ -7,14 +7,19 @@ on:
         required: true
         type: string
       sha:
-        required: true
+        required: false
         type: string
+        default: ${{ github.sha }}
       env:
         required: true
         type: string
       pr_number:
         required: false
         type: string
+      dropDBOnUninstall:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   dev-deployment:
@@ -78,7 +83,7 @@ jobs:
             --set mail.dummyEnabled=true \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
-            --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), inputs.name) && 'false' || 'true' }} \
+            --set postgresql.dropDBOnUninstall=${{ inputs.dropDBOnUninstall }} \
             --set php.dataMigrationsDir='${{ vars.DATA_MIGRATIONS_DIR }}' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
             --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \

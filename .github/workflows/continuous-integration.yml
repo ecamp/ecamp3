@@ -5,6 +5,7 @@ on:
     branches-ignore:
       - staging
       - prod
+      - devel
     tags-ignore:
       - staging
       - prod

@@ -21,7 +21,6 @@ jobs:
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
       tag: ${{ github.ref_name }}
-      sha: ${{ github.sha }}
     secrets:
       DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}

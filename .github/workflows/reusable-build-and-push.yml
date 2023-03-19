@@ -7,8 +7,9 @@ on:
         required: false
         type: string
       sha:
-        required: true
+        required: false
         type: string
+        default: ${{ github.sha }}
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
