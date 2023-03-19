@@ -191,6 +191,10 @@ jobs:
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
           comment_tag: feature-branch-deployment-status
+      
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        with:
+          ref: ${{ matrix.deployment.sha }}
 
       - name: Upgrade or install helm release
         env:

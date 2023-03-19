@@ -63,6 +63,10 @@ jobs:
       environment: ${{ needs.determine-vars.outputs.environment }}
       domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
     steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        with:
+          ref: ${{ needs.determine-vars.outputs.sha }}
+
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
         id: deployment
@@ -81,7 +85,7 @@ jobs:
           helm dependency update
           # Set the appVersion, workaround from https://github.com/helm/helm/issues/8194 so that we can
           # later find out which deployments need to be upgraded
-          sed -i 's/^appVersion:.*$/appVersion: "${{ steps.git-ref.outputs.sha }}"/' Chart.yaml
+          sed -i 's/^appVersion:.*$/appVersion: "${{ needs.determine-vars.outputs.sha }}"/' Chart.yaml
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
             --set imageTag=${{ needs.determine-vars.outputs.sha }} \
@@ -110,7 +114,7 @@ jobs:
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set deploymentTime="$(date -u +%s)" \
-            --set deployedVersion="$(git rev-parse --short '${{ steps.git-ref.outputs.sha }}')" \
+            --set deployedVersion="$(git rev-parse --short '${{ needs.determine-vars.outputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
             --set coupon.secret='${{ secrets.COUPON_SECRET }}' \
