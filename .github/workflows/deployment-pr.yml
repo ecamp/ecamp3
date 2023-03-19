@@ -27,9 +27,9 @@ jobs:
           PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:{{ github.repository }}\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
+            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:${{ github.repository }}\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
           LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
-            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring)}) )'
+            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring)})' )
           echo "Deployment candidates: $LIST"
           echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
 

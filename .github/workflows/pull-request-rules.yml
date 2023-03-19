@@ -1,4 +1,4 @@
-name: PR
+name: PR (additional rules)
 
 on:
   pull_request:

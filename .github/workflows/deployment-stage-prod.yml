@@ -32,7 +32,7 @@ jobs:
     environment: ${GITHUB_REF_NAME}
     env:
       environment: ${GITHUB_REF_NAME}
-      domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
+      domain: ${{ vars.SUBDOMAIN }}.${{ vars.DOMAIN }}
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
