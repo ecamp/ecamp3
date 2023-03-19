@@ -20,8 +20,8 @@ jobs:
     needs: continuous-integration
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
-      tag: $GITHUB_REF_NAME
-      sha: $GITHUB_SHA
+      tag: ${GITHUB_REF_NAME}
+      sha: ${GITHUB_SHA}
     secrets:
       DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -30,9 +30,9 @@ jobs:
     name: Upgrade or install deployment
     needs: build-and-push
     runs-on: ubuntu-latest
-    environment: $GITHUB_REF_NAME
+    environment: ${GITHUB_REF_NAME}
     env:
-      environment: $GITHUB_REF_NAME
+      environment: ${GITHUB_REF_NAME}
       domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
