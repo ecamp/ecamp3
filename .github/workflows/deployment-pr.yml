@@ -1,4 +1,4 @@
-name: CD for devel and feature branches
+name: CD for feature branches
 
 on:
   schedule:
