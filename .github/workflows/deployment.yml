@@ -1,8 +1,13 @@
 name: Deploy staging or prod
 
 on:
-  repository_dispatch:
-    types: [ ci-passed ]
+  push:
+    branches:
+      - staging
+      - prod
+    tags:
+      - staging
+      - prod
   workflow_dispatch:       # Allow triggering manually
     inputs:
       confirmDeployWithoutCI:
@@ -11,6 +16,10 @@ on:
         type: boolean
 
 jobs:
+  continuous-integration:
+    name: "Continuous integration"
+    uses: ./.github/workflows/reusable-continuous-integration.yml
+
   determine-vars:
     name: Determine environment
     if: ${{ (inputs.confirmDeployWithoutCI == true) || (github.event.action == 'ci-passed' ) }}
@@ -42,7 +51,9 @@ jobs:
   build-and-push:
     name: Build and push docker images
     if: ${{ (needs.determine-vars.outputs.environment == 'staging') || (needs.determine-vars.outputs.environment == 'prod') }}
-    needs: determine-vars
+    needs: 
+      - determine-vars
+      - continuous-integration
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
       tag: ${{ needs.determine-vars.outputs.environment }}
