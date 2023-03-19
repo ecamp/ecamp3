@@ -3,6 +3,7 @@ name: CI (optional checks)
 on:
   push:
   pull_request:
+  merge_group:
   workflow_dispatch:
 
 jobs:
