@@ -20,8 +20,8 @@ jobs:
     needs: continuous-integration
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
-      tag: ${GITHUB_REF_NAME}
-      sha: ${GITHUB_SHA}
+      tag: ${{ github.ref_name }}
+      sha: ${{ github.sha }}
     secrets:
       DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
