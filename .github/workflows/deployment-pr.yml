@@ -119,6 +119,7 @@ jobs:
   build-and-push:
     name: Build and push docker images  
     needs: find-prs-to-deploy
+    if: fromJSON(needs.find-prs-to-deploy.outputs.to-deploy)[0] != null
     uses: ./.github/workflows/reusable-build-and-push.yml
     strategy:
       fail-fast: false

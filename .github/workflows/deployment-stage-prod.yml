@@ -29,9 +29,9 @@ jobs:
     name: Upgrade or install deployment
     needs: build-and-push
     runs-on: ubuntu-latest
-    environment: ${GITHUB_REF_NAME}
+    environment: ${{ github.ref_name }}
     env:
-      environment: ${GITHUB_REF_NAME}
+      environment: ${{ github.ref_name }}
       domain: ${{ vars.SUBDOMAIN }}.${{ vars.DOMAIN }}
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
