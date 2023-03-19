@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46856a6b5454a1f4e17e6bd31df21a0c",
+    "content-hash": "0e4026d2c31eaf5c2e2f5a4374b4a229",
     "packages": [
         {
             "name": "api-platform/core",
@@ -4824,16 +4824,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.14.0",
+            "version": "3.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "60dd3f74ab21cc2bf53f39bf7c342798bc185c23"
+                "reference": "5326a8786b8c7c3a51ea0c6d06e6cb6a9dfa6779"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/60dd3f74ab21cc2bf53f39bf7c342798bc185c23",
-                "reference": "60dd3f74ab21cc2bf53f39bf7c342798bc185c23",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5326a8786b8c7c3a51ea0c6d06e6cb6a9dfa6779",
+                "reference": "5326a8786b8c7c3a51ea0c6d06e6cb6a9dfa6779",
                 "shasum": ""
             },
             "require": {
@@ -4912,7 +4912,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.14.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.16.0"
             },
             "funding": [
                 {
@@ -4924,27 +4924,27 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-03-05T21:31:25+00:00"
+            "time": "2023-03-16T10:37:16+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.6.0",
+            "version": "4.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "59beaa2c480b024cade50770f799de6652ee48ca"
+                "reference": "cd2bc2a1ffd5cacc3031feffb8d422cbc2daf5c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/59beaa2c480b024cade50770f799de6652ee48ca",
-                "reference": "59beaa2c480b024cade50770f799de6652ee48ca",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/cd2bc2a1ffd5cacc3031feffb8d422cbc2daf5c0",
+                "reference": "cd2bc2a1ffd5cacc3031feffb8d422cbc2daf5c0",
                 "shasum": ""
             },
             "require": {
                 "jean85/pretty-package-versions": "^1.5 || ^2.0",
                 "php": "^7.2||^8.0",
                 "sentry/sdk": "^3.3",
-                "sentry/sentry": "^3.12",
+                "sentry/sentry": "^3.15",
                 "symfony/cache-contracts": "^1.1||^2.4||^3.0",
                 "symfony/config": "^4.4.20||^5.0.11||^6.0",
                 "symfony/console": "^4.4.20||^5.0.11||^6.0",
@@ -5006,7 +5006,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache-2.0"
+                "MIT"
             ],
             "authors": [
                 {
@@ -5028,7 +5028,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.6.0"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.7.0"
             },
             "funding": [
                 {
@@ -5040,7 +5040,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-02-14T15:54:14+00:00"
+            "time": "2023-03-14T11:26:22+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
