@@ -1,4 +1,4 @@
-name: Development deployment
+name: '[reusable only] Development deployment'
 
 on:
   workflow_call:

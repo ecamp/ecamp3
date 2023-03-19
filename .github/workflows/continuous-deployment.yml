@@ -1,4 +1,4 @@
-name: Deploy dev and feature branches
+name: CD for devel and feature branches
 
 on:
   schedule:

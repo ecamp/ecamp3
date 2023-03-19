@@ -1,4 +1,4 @@
-name: Build images and push to registry
+name: '[reusable only] Build images and push to registry'
 
 on:
   workflow_call:

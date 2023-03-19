@@ -1,4 +1,4 @@
-name: Deploy staging or prod
+name: CI + CD for staging and prod
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
 jobs:
   continuous-integration:
     name: "Continuous integration"
-    uses: ./.github/workflows/reusable-continuous-integration.yml
+    uses: ./.github/workflows/continuous-integration.yml
 
   build-and-push:
     name: Build and push docker images
