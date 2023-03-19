@@ -8,12 +8,7 @@ on:
     tags:
       - staging
       - prod
-  workflow_dispatch:       # Allow triggering manually
-    inputs:
-      confirmDeployWithoutCI:
-        description: 'I confirm that I want to deploy without running CI first.'
-        required: true
-        type: boolean
+  workflow_dispatch:
 
 jobs:
   continuous-integration:
