@@ -58,6 +58,10 @@ jobs:
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
             --set imageTag=${{ github.sha }} \
+            --set frontend.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-frontend' \
+            --set print.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-print' \
+            --set php.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-php' \
+            --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
