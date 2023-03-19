@@ -33,7 +33,7 @@ jobs:
         id: job-url
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: Upgrade or install deployment (${{ inputs.name }}, ${{ inputs.env }}, ${{ inputs.sha }}, ...
+          job_name: Upgrade or install deployment (${{ inputs.name }}, ${{ inputs.sha }}, ${{ inputs.pr_number }}) / Deploy to Kubernetes
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
