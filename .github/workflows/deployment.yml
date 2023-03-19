@@ -15,63 +15,27 @@ jobs:
     name: "Continuous integration"
     uses: ./.github/workflows/reusable-continuous-integration.yml
 
-  determine-vars:
-    name: Determine environment
-    if: ${{ (inputs.confirmDeployWithoutCI == true) || (github.event.action == 'ci-passed' ) }}
-    outputs:
-      environment: ${{ steps.get-branch-name.outputs.result }}
-      sha: ${{ steps.determine-sha.outputs.result }}
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/github-script@v6
-        id: get-branch-name
-        with:
-          result-encoding: string
-          script: |
-            return (context.payload.action === 'ci-passed' ? context.payload.client_payload.ref : context.payload.ref).replace('refs/heads/', '')
-
-      - uses: actions/github-script@v6
-        id: determine-sha
-        with:
-          result-encoding: string
-          script: |
-            return (context.payload.action === 'ci-passed' ? context.payload.client_payload.sha : context.sha)
-
-      - name: Log detected environment & sha
-        run: |
-          echo "${{ steps.get-branch-name.outputs.result }}"
-          echo "${{ steps.determine-sha.outputs.result }}"
-
   build-and-push:
     name: Build and push docker images
-    if: ${{ (needs.determine-vars.outputs.environment == 'staging') || (needs.determine-vars.outputs.environment == 'prod') }}
-    needs: 
-      - determine-vars
-      - continuous-integration
+    needs: continuous-integration
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
-      tag: ${{ needs.determine-vars.outputs.environment }}
-      sha: ${{ needs.determine-vars.outputs.sha }}
+      tag: $GITHUB_REF_NAME
+      sha: $GITHUB_SHA
     secrets:
       DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
-    if: ${{ (needs.determine-vars.outputs.environment == 'staging') || (needs.determine-vars.outputs.environment == 'prod') }}
-    needs:
-      - determine-vars
-      - build-and-push
+    needs: build-and-push
     runs-on: ubuntu-latest
-    environment: ${{ needs.determine-vars.outputs.environment }}
+    environment: $GITHUB_REF_NAME
     env:
-      environment: ${{ needs.determine-vars.outputs.environment }}
+      environment: $GITHUB_REF_NAME
       domain: ${{ vars.DOMAIN_SUFFIX }}.${{ vars.DOMAIN }}
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-        with:
-          ref: ${{ needs.determine-vars.outputs.sha }}
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
@@ -91,10 +55,10 @@ jobs:
           helm dependency update
           # Set the appVersion, workaround from https://github.com/helm/helm/issues/8194 so that we can
           # later find out which deployments need to be upgraded
-          sed -i 's/^appVersion:.*$/appVersion: "${{ needs.determine-vars.outputs.sha }}"/' Chart.yaml
+          sed -i 's/^appVersion:.*$/appVersion: "$GITHUB_SHA"/' Chart.yaml
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
-            --set imageTag=${{ needs.determine-vars.outputs.sha }} \
+            --set imageTag=$GITHUB_SHA \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
@@ -120,7 +84,7 @@ jobs:
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set deploymentTime="$(date -u +%s)" \
-            --set deployedVersion="$(git rev-parse --short '${{ needs.determine-vars.outputs.sha }}')" \
+            --set deployedVersion="$(git rev-parse --short HEAD)" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
             --set coupon.secret='${{ secrets.COUPON_SECRET }}' \
