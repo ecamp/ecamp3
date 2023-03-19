@@ -55,10 +55,10 @@ jobs:
           helm dependency update
           # Set the appVersion, workaround from https://github.com/helm/helm/issues/8194 so that we can
           # later find out which deployments need to be upgraded
-          sed -i 's/^appVersion:.*$/appVersion: "$GITHUB_SHA"/' Chart.yaml
+          sed -i 's/^appVersion:.*$/appVersion: "${{ github.sha }}"/' Chart.yaml
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ env.environment }} . \
-            --set imageTag=$GITHUB_SHA \
+            --set imageTag=${{ github.sha }} \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
