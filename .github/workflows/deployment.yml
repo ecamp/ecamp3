@@ -48,7 +48,7 @@ jobs:
       tag: ${{ needs.determine-vars.outputs.environment }}
       sha: ${{ needs.determine-vars.outputs.sha }}
     secrets:
-      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
   upgrade-or-install-deployment:

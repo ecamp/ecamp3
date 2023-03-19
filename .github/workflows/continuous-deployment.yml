@@ -144,7 +144,7 @@ jobs:
       tag: ${{ ((matrix.deployment.name == 'dev') && 'latest' || '') }}
       sha: ${{ matrix.deployment.sha }}
     secrets:
-      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
   upgrade-or-install-deployment:
