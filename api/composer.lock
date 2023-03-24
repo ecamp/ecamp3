@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49e99852848e216b6d5e5a26db7c664e",
+    "content-hash": "3529fb9ea41dbb4b00bcb13612020021",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2923,21 +2923,21 @@
         },
         {
             "name": "league/oauth2-google",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-google.git",
-                "reference": "db6d8ad67cdd7d014a1e5dd5c204a319a966de86"
+                "reference": "1b01ba18ba31b29e88771e3e0979e5c91d4afe76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-google/zipball/db6d8ad67cdd7d014a1e5dd5c204a319a966de86",
-                "reference": "db6d8ad67cdd7d014a1e5dd5c204a319a966de86",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-google/zipball/1b01ba18ba31b29e88771e3e0979e5c91d4afe76",
+                "reference": "1b01ba18ba31b29e88771e3e0979e5c91d4afe76",
                 "shasum": ""
             },
             "require": {
                 "league/oauth2-client": "^2.0",
-                "php": ">=7.3"
+                "php": "^7.3 || ^8.0"
             },
             "require-dev": {
                 "eloquent/phony-phpunit": "^6.0 || ^7.1",
@@ -2957,8 +2957,8 @@
             "authors": [
                 {
                     "name": "Woody Gilk",
-                    "email": "woody.gilk@gmail.com",
-                    "homepage": "http://shadowhand.me"
+                    "email": "hello@shadowhand.com",
+                    "homepage": "https://shadowhand.com"
                 }
             ],
             "description": "Google OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
@@ -2972,9 +2972,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/oauth2-google/issues",
-                "source": "https://github.com/thephpleague/oauth2-google/tree/4.0.0"
+                "source": "https://github.com/thephpleague/oauth2-google/tree/4.0.1"
             },
-            "time": "2021-03-04T21:12:06+00:00"
+            "time": "2023-03-17T15:20:52+00:00"
         },
         {
             "name": "lexik/jwt-authentication-bundle",
