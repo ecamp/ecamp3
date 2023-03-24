@@ -2,11 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: ecamp/ecamp3-dev-frontend
-    build:
-      context: ./frontend
-      cache_from:
-        - ecamp/ecamp3-dev-frontend
+    image: node:18.15.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -18,11 +14,13 @@ services:
       - ./frontend:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./cache/node:/home/node/.cache:delegated
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
       - CI=${CI}
+    working_dir: /app
+    command: ./docker-setup.sh
 
   php:
     image: ecamp/ecamp3-dev-api-php
@@ -93,11 +91,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: ecamp/ecamp3-dev-print
-    build:
-      context: ./print
-      cache_from:
-        - ecamp/ecamp3-dev-print
+    image: node:18.15.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -105,15 +99,17 @@ services:
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/node:/home/node/.cache:delegated
     environment:
       - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
       - CI=${CI}
     env_file:
       - ./print/print.env
+    working_dir: /app
+    command: ./docker-setup.sh
 
   database:
     image: postgres:15-alpine
