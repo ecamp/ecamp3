@@ -419,7 +419,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: e2e-tests-tmp-folder
+          name: e2e-tests-images
           path: /tmp/ecamp3-dev-*.tar
 
   e2e-tests-run:
@@ -442,11 +442,11 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Restore tmp folder
         uses: actions/download-artifact@v2
         with:
-          name: e2e-tests-tmp-folder
+          name: e2e-tests-images
           path: /tmp
 
       - name: Load images
@@ -465,7 +465,7 @@ jobs:
 
       # start necessary containers
       - run: docker compose up -d php caddy frontend print browserless database docker-host
-      
+
       - uses: cypress-io/github-action@v5
         with:
           working-directory: e2e
