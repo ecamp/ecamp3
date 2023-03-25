@@ -12,7 +12,7 @@ on:
 
 jobs:
   continuous-integration:
-    name: "Continuous integration"
+    name: 'Continuous integration'
     uses: ./.github/workflows/continuous-integration.yml
 
   build-and-push:

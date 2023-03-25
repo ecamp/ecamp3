@@ -2,3 +2,4 @@ src/common/locales/
 src/locales/
 /dist
 .vscode
+/public/twemoji
