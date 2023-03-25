@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "842936ede1d09e15b3b5391b765a8a7c",
+    "content-hash": "84c2d994a0475cecf38bf5cb1307bc2e",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2655,16 +2655,16 @@
         },
         {
             "name": "knpuniversity/oauth2-client-bundle",
-            "version": "v2.13.1",
+            "version": "v2.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knpuniversity/oauth2-client-bundle.git",
-                "reference": "f7fe73e98f193503b8aaf2e11f50a0d72539dc7c"
+                "reference": "f022a334902fc995815f9d2b586a4a0061101410"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/f7fe73e98f193503b8aaf2e11f50a0d72539dc7c",
-                "reference": "f7fe73e98f193503b8aaf2e11f50a0d72539dc7c",
+                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/f022a334902fc995815f9d2b586a4a0061101410",
+                "reference": "f022a334902fc995815f9d2b586a4a0061101410",
                 "shasum": ""
             },
             "require": {
@@ -2709,9 +2709,9 @@
             ],
             "support": {
                 "issues": "https://github.com/knpuniversity/oauth2-client-bundle/issues",
-                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.13.1"
+                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.14.0"
             },
-            "time": "2023-02-03T13:57:47+00:00"
+            "time": "2023-03-20T14:31:20+00:00"
         },
         {
             "name": "lcobucci/clock",
