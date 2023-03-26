@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84c2d994a0475cecf38bf5cb1307bc2e",
+    "content-hash": "492049eeaa9b0fcc191f2e24ad94e960",
     "packages": [
         {
             "name": "api-platform/core",
@@ -11119,16 +11119,16 @@
         },
         {
             "name": "hautelook/alice-bundle",
-            "version": "2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceBundle.git",
-                "reference": "0dd4e9e5391e0c7acc21602f0fadb66210b33726"
+                "reference": "ebaf24ec0318583d8c022966687e2a4979bb9af8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/0dd4e9e5391e0c7acc21602f0fadb66210b33726",
-                "reference": "0dd4e9e5391e0c7acc21602f0fadb66210b33726",
+                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/ebaf24ec0318583d8c022966687e2a4979bb9af8",
+                "reference": "ebaf24ec0318583d8c022966687e2a4979bb9af8",
                 "shasum": ""
             },
             "require": {
@@ -11143,7 +11143,6 @@
                 "theofidry/alice-data-fixtures": "^1.5"
             },
             "require-dev": {
-                "doctrine/shards": "^1.0",
                 "phpspec/prophecy": "^1.7",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5",
@@ -11187,9 +11186,9 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceBundle/issues",
-                "source": "https://github.com/theofidry/AliceBundle/tree/2.11.0"
+                "source": "https://github.com/theofidry/AliceBundle/tree/2.12.0"
             },
-            "time": "2022-07-03T14:56:03+00:00"
+            "time": "2023-03-26T09:04:39+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
