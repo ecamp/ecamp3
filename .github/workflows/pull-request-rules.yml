@@ -1,8 +1,9 @@
-name: PR
+name: PR (additional rules)
 
 on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
+  merge_group:
   push:
     branches:
       - 'renovate/**'

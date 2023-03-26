@@ -1,4 +1,4 @@
-name: Build images and push to registry
+name: '[reusable only] Build images and push to registry'
 
 on:
   workflow_call:
@@ -7,8 +7,9 @@ on:
         required: false
         type: string
       sha:
-        required: true
+        required: false
         type: string
+        default: ${{ github.sha }}
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
