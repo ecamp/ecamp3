@@ -222,6 +222,108 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $addressCity = null;
 
     /**
+     * The name of the organization which plans and carries out the camp.
+     * Organisator (Name der Jugendorganisation)
+     * Organisateur (nom de l’organisation de jeunesse)
+     * Organizzatore (nome dell’organizzazione giovanile)
+     * This field is required on picassos of Y+S camps.
+     */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
+    #[ApiProperty(example: 'Pfadi Luftig')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $organizer = null;
+
+    /**
+     * Rough categorization of the camp (house, tent, traveling, summer, autumn).
+     * Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)
+     * Forme de camp (camp sous toit, camp sous tente, camp itinérant, camp d’été, camp d’automne)
+     * Tipo di campo (campo sotto tetto, in tenda, itinerante, estivo, autunnale)
+     * This field is required on picassos of Y+S camps.
+     */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
+    #[ApiProperty(example: 'Zeltlager')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $kind = null;
+
+    /**
+     * The name of the Y+S coach who is in charge of the camp.
+     * Name des J+S-Coachs
+     * Nom du coach J+S
+     * Nome del coach G+S
+     * This field is required on picassos of Y+S camps.
+     */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
+    #[ApiProperty(example: 'Albert Anderegg')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $coachName = null;
+
+    /**
+     * The official course number, identifying this course.
+     * Kursnummer
+     * Le numéro du cours
+     * Numero di corso
+     * This field is required on picassos of youth organization courses.
+     */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
+    #[ApiProperty(example: 'PBS AG 123-23')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $courseNumber = null;
+
+    /**
+     * The official name for the type of this course.
+     * Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)
+     * Description (cours de base, d’animation, etc.)
+     * Nome del corso (in caso di corso G+S: tipo di corso G+S)
+     * This field is required on picassos of youth organization courses.
+     */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
+    #[ApiProperty(example: 'PBS AG 123-23')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $courseKind = null;
+
+    /**
+     * The name of the training advisor who is in charge of the course.
+     * Bürgerlicher Name von LKB
+     * Le nom d’origine du CàF
+     * Cognome e nome (non totem) del CaF
+     * This field is required on picassos of youth organization courses.
+     */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
+    #[ApiProperty(example: 'Albert Anderegg')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $trainingAdvisorName = null;
+
+    /**
+     * Whether the Y+S logo should be printed on the picasso of this camp.
+     * J+S-Logo (bei J+S-Kurs)
+     * Le logo J+S (pour des cours J+S)
+     * Logo G+S (solamente per corsi G+S)
+     * The logo is required for Y+S courses.
+     */
+    #[ApiProperty(default: false, example: true)]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    public bool $printYSLogoOnPicasso = false;
+
+    /**
      * The person that created the camp. This value never changes, even when the person
      * leaves the camp.
      */
