@@ -101,10 +101,17 @@
         "addressName": "Name",
         "addressStreet": "Strasse",
         "addressZipcode": "PLZ",
+        "coachName": "Name des J+S-Coachs",
         "couponKey": "Coupon",
+        "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
+        "courseNumber": "Kursnummer",
+        "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",
+        "organizer": "Organisator",
         "motto": "Motto",
         "name": "Name",
-        "title": "Titel"
+        "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
+        "title": "Titel",
+        "trainingAdvisorName": "Bürgerlicher Name der Betreuungsperson"
       },
       "name": "Lager",
       "prototype": "Lagervorlage"
