@@ -13,7 +13,7 @@ jobs:
     name: No "Meeting Discuss" label
     runs-on: ubuntu-latest
     steps:
-      - uses: mheap/github-action-required-labels@179af849240d834567e1a3d6dc781575eede757c # v3
+      - uses: mheap/github-action-required-labels@bddc3b922a9fc4398a96b7da18ec5a1ce7d75b93 # v3
         if: github.event_name == 'pull_request'
         with:
           mode: exactly
