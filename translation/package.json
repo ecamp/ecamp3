@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "deepl-node": "1.8.0"
+    "deepl-node": "1.9.0"
   },
   "scripts": {
     "sort-common-de": "node deepl.js ../common/locales/de.json ../common/locales/de.json",
