@@ -62,10 +62,9 @@ export default {
         }
         this.expandedDays = this.$refs.dayPanels.items
           .map((dayPanel, idx) => {
-            const dayInLocalTimezone = this.$date(
-              dayPanel.$attrs['day-end'].substr(0, 10)
-            )
-            return dayInLocalTimezone.isAfter(this.$date()) ? idx : null
+            const dayInLocalTimezone = this.$date(dayPanel.$attrs['day-date'])
+            const dayEndInLocalTimezone = dayInLocalTimezone.add(1, 'days')
+            return dayEndInLocalTimezone.isAfter(this.$date()) ? idx : null
           })
           .filter((idx) => !!idx)
       })
