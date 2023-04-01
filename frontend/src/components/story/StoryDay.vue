@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel>
+  <v-expansion-panel :day-end="day.end">
     <v-expansion-panel-header>
       <h3>{{ dateLong(day.start) }}</h3>
     </v-expansion-panel-header>

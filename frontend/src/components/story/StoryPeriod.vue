@@ -1,15 +1,18 @@
 <template>
-  <v-expansion-panels v-model="expandedDays" accordion flat multiple>
-    <story-day
-      v-for="day in sortedDays"
-      :key="day._meta.self"
-      :day="day"
-      :editing="editing"
-    />
-  </v-expansion-panels>
+  <div>
+    <v-expansion-panels ref="dayPanels" v-model="expandedDays" accordion flat multiple>
+      <story-day
+        v-for="day in sortedDays"
+        :key="day._meta.self"
+        :day="day"
+        :editing="editing"
+      />
+    </v-expansion-panels>
+  </div>
 </template>
 <script>
 import { sortBy } from 'lodash'
+import { nextTick } from 'vue'
 import StoryDay from './StoryDay.vue'
 
 export default {
@@ -28,32 +31,43 @@ export default {
   watch: {
     period: {
       immediate: true,
-      handler(value) {
-        this.computeExpandedDays(value)
+      async handler(newPeriod, oldPeriod) {
+        const newPeriodId = newPeriod == undefined ? null : newPeriod.id
+        const oldPeriodId = oldPeriod == undefined ? null : oldPeriod.id
+        if (newPeriodId != oldPeriodId) {
+          await this.updateComponentData(newPeriod)
+        }
       },
     },
   },
   methods: {
-    computeExpandedDays(period) {
-      let days = period.days()
-
+    async updateComponentData(period) {
       // show days in store immediately
-      this.sortedDays = sortBy(days.items, (day) => day.dayOffset)
-      this.expandedDays = [...Array(this.sortedDays.length).keys()]
+      this.computeExpandedDays(period)
 
       // reload days of period to ensure all days are loaded
-      days.$reload().then(() => {
-        this.sortedDays = sortBy(this.period.days().items, (day) => day.dayOffset)
+      await period.days().$reload()
 
+      // show reloaded days
+      this.computeExpandedDays(period)
+    },
+    computeExpandedDays(period) {
+      this.sortedDays = sortBy(period.days().items, (day) => day.dayOffset)
+
+      nextTick(() => {
         const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
         if (periodEndInLocalTimezone.isBefore(this.$date())) {
-          this.expandedDays = [...Array(this.sortedDays.length).keys()]
+          this.expandedDays = this.$refs.dayPanels.items.keys()
           return
         }
-        this.expandedDays = this.sortedDays.map((day, idx) => {
-          const dayInLocalTimezone = this.$date(day.end.substr(0, 10))
-          return dayInLocalTimezone.isAfter(this.$date()) ? idx : null
-        })
+        this.expandedDays = this.$refs.dayPanels.items
+          .map((dayPanel, idx) => {
+            const dayInLocalTimezone = this.$date(
+              dayPanel.$attrs['day-end'].substr(0, 10)
+            )
+            return dayInLocalTimezone.isAfter(this.$date()) ? idx : null
+          })
+          .filter((idx) => !!idx)
       })
     },
   },
