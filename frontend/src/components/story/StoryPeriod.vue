@@ -21,13 +21,9 @@ export default {
   },
   data() {
     return {
+      sortedDays: [],
       expandedDays: [],
     }
-  },
-  computed: {
-    sortedDays() {
-      return sortBy(this.period.days().items, (day) => day.dayOffset)
-    },
   },
   watch: {
     period: {
@@ -39,9 +35,17 @@ export default {
   },
   methods: {
     computeExpandedDays(period) {
-      period.days()._meta.load.then(() => {
-        const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
+      let days = period.days()
 
+      // show days in store immediately
+      this.sortedDays = sortBy(days.items, (day) => day.dayOffset)
+      this.expandedDays = [...Array(this.sortedDays.length).keys()]
+
+      // reload days of period to ensure all days are loaded
+      days.$reload().then(() => {
+        this.sortedDays = sortBy(this.period.days().items, (day) => day.dayOffset)
+
+        const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
         if (periodEndInLocalTimezone.isBefore(this.$date())) {
           this.expandedDays = [...Array(this.sortedDays.length).keys()]
           return
