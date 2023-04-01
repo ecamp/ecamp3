@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <v-expansion-panels ref="dayPanels" v-model="expandedDays" accordion flat multiple>
-      <story-day
-        v-for="day in sortedDays"
-        :key="day._meta.self"
-        :day="day"
-        :editing="editing"
-      />
-    </v-expansion-panels>
-  </div>
+  <v-expansion-panels ref="dayPanels" v-model="expandedDays" accordion flat multiple>
+    <story-day
+      v-for="day in sortedDays"
+      :key="day._meta.self"
+      :day="day"
+      :editing="editing"
+    />
+  </v-expansion-panels>
 </template>
 <script>
 import { sortBy } from 'lodash'
