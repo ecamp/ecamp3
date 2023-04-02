@@ -194,7 +194,7 @@
       "title": "Titelseite"
     },
     "picasso": {
-      "title": "Grobprogramm für {period}"
+      "title": "Grobprogramm {period}"
     },
     "program": {
       "title": "Detailprogramm"

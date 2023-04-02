@@ -194,7 +194,7 @@
       "title": "Cover page"
     },
     "picasso": {
-      "title": "Program overview for {period}"
+      "title": "Program overview {period}"
     },
     "program": {
       "title": "Program"

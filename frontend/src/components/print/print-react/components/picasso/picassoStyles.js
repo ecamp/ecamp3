@@ -1,5 +1,6 @@
 import { StyleSheet } from '@react-pdf/renderer'
 
+const picassoHeaderFontSize = 9
 const dayHeaderFontSize = 9
 const dayResponsiblesFontSize = 8
 const scheduleEntryFontSize = 8
@@ -49,7 +50,7 @@ const picassoStyles = StyleSheet.create({
   dayHeaderText: {
     fontSize: dayHeaderFontSize + 'pt',
     fontWeight: 'bold',
-    margin: '0 auto',
+    margin: '0 auto 2pt',
   },
   dayResponsibles: {
     fontSize: dayResponsiblesFontSize + 'pt',

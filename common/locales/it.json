@@ -176,7 +176,7 @@
       "title": "Pagina di copertina"
     },
     "picasso": {
-      "title": "Panoramica del programma per il {period}"
+      "title": "Panoramica del programma {period}"
     },
     "program": {
       "title": "Programma"
