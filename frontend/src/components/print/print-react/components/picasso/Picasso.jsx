@@ -70,7 +70,11 @@ function Picasso(props) {
           </Text>
           <Text>{period.camp().organizer}</Text>
           {period.camp().printYSLogoOnPicasso ? (
-            <YSLogo size={picassoStyles.ysLogo.size} styles={picassoStyles.ysLogo} />
+            <YSLogo
+              size={picassoStyles.ysLogo.size}
+              styles={picassoStyles.ysLogo}
+              locale={props.locale}
+            />
           ) : (
             <React.Fragment />
           )}
