@@ -9,6 +9,20 @@ const timeColumnFontSize = 8
 const timeColumnVerticalOffset = timeColumnFontSize / 2.0 + 2 // this might need to be adjusted if we change the font
 
 const picassoStyles = StyleSheet.create({
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: '-6pt',
+    alignItems: 'baseline',
+  },
+  title: {
+    flexGrow: '1',
+  },
+  ysLogo: {
+    alignSelf: 'flex-start',
+    marginLeft: '3pt',
+    size: 26,
+  },
   calendarContainer: {
     border: '1pt solid grey',
     flexGrow: 1,
