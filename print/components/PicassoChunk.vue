@@ -1,13 +1,23 @@
 <template>
   <div class="tw-break-after-page">
     <div :class="landscape ? 'landscape' : ''">
-      <h1
-        :id="`content_${index}_period_${period.id}`"
-        class="tw-text-2xl tw-font-bold tw-mb-6"
-      >
-        {{ $tc('print.picasso.title') }} {{ $tc('entity.period.name') }}
-        {{ period.description }}
-      </h1>
+      <div class="tw-flex tw-flex-row tw-items-baseline">
+        <h1
+          :id="`content_${index}_period_${period.id}`"
+          class="tw-text-2xl tw-font-bold tw-mb-6 tw-flex-grow tw-d-inline"
+        >
+          {{ $tc('print.picasso.title') }}
+          {{ period.description }}
+        </h1>
+        <span>{{ camp.organizer }}</span>
+        <img
+          v-if="camp.printYSLogoOnPicasso"
+          height="35"
+          width="35"
+          :src="ysLogoUrl"
+          class="tw-self-start tw-ml-2"
+        />
+      </div>
 
       <v-sheet :width="landscape ? 960 : 680">
         <v-calendar
@@ -79,6 +89,14 @@ export default {
     events: { type: Array, required: true },
     index: { type: Number, required: true },
     landscape: { type: Boolean, required: true },
+  },
+  computed: {
+    camp() {
+      return this.period.camp()
+    },
+    ysLogoUrl() {
+      return this.$i18n.locale.match(/it/i) ? './gs-logo.svg' : './js-logo.svg'
+    },
   },
   methods: {
     getActivityColor(scheduleEntry) {
