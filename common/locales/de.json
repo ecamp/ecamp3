@@ -194,6 +194,12 @@
       "title": "Titelseite"
     },
     "picasso": {
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Kursnummer: {courseNumber}",
+        "leaders": "Leitung: {leaders}",
+        "trainingAdvisor": "LKB: {trainingAdvisor}"
+      },
       "title": "Grobprogramm {period}"
     },
     "program": {

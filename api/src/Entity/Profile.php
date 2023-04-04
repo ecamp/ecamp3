@@ -185,4 +185,16 @@ class Profile extends BaseEntity {
 
         return 'Noname-'.substr(md5($this->email), 0, 4);
     }
+
+    public function getLegalName(): ?string {
+        if (!empty($this->firstname) && !empty($this->surname)) {
+            return $this->firstname.' '.$this->surname;
+        }
+
+        if (!empty($this->nickname)) {
+            return $this->nickname;
+        }
+
+        return 'Noname-'.substr(md5($this->email), 0, 4);
+    }
 }

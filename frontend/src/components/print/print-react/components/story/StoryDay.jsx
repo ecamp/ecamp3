@@ -69,7 +69,7 @@ function StoryDay(props) {
                     <Text id={`${props.id}-${props.period.id}-${scheduleEntry.id}`}>
                       {scheduleEntry.number}{' '}
                     </Text>
-                    <CategoryLabel activity={scheduleEntry.activity()} />
+                    <CategoryLabel category={scheduleEntry.activity().category()} />
                     <Text> {chapterTitle}</Text>
                   </View>
                   <RichText richText={chapter.data.html} />

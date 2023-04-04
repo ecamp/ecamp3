@@ -7,7 +7,9 @@ import TimeColumn from './TimeColumn.jsx'
 import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
+import PicassoFooter from './PicassoFooter.jsx'
 import YSLogo from './YSLogo.jsx'
+import Categories from './Categories.jsx'
 
 function Picasso(props) {
   return props.content.options.periods.map((periodUri) => {
@@ -114,6 +116,8 @@ function Picasso(props) {
           })}
           <TimeColumn times={times.slice(0, times.length - 1)} align={'left'} />
         </View>
+        <Categories period={period} />
+        <PicassoFooter period={period} {...props} />
       </Page>
     )
   })

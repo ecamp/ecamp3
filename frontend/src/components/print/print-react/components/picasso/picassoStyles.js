@@ -1,6 +1,6 @@
 import { StyleSheet } from '@react-pdf/renderer'
 
-const picassoHeaderFontSize = 9
+const picassoFooterFontSize = 9
 const dayHeaderFontSize = 9
 const dayResponsiblesFontSize = 8
 const scheduleEntryFontSize = 8
@@ -127,6 +127,38 @@ const picassoStyles = StyleSheet.create({
     height: 0,
     maxHeight: '4pt',
     flexGrow: 1,
+  },
+  categories: {
+    fontSize: picassoFooterFontSize,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: '2pt 0 0',
+    gap: '2pt',
+  },
+  category: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: '2pt',
+    marginRight: '2pt',
+  },
+  picassoFooter: {
+    width: '100%',
+    fontSize: picassoFooterFontSize,
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: '6pt',
+    border: '1pt solid grey',
+    padding: '0 0 3pt',
+  },
+  picassoFooterColumn: {
+    flexGrow: '1',
+    maxWidth: '33%',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    gap: '6pt',
+    lineHeight: 1,
+    padding: '2pt 3pt 3pt',
   },
 })
 
