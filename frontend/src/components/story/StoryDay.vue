@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel :day-date="day.start.substr(0, 10)">
+  <v-expansion-panel ref="panel">
     <v-expansion-panel-header>
       <h3>{{ dateLong(day.start) }}</h3>
     </v-expansion-panel-header>
@@ -100,7 +100,13 @@ export default {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
     },
   },
+  watch: {
+    day(value) {
+      this.updatePanelValue(value)
+    },
+  },
   async mounted() {
+    this.updatePanelValue(this.day)
     // refresh to get new schedule entries
     await this.day.scheduleEntries().$reload()
     // refresh individual schedule entries to get new story content nodes
@@ -112,6 +118,11 @@ export default {
           ._meta.load.then((contentNodes) => this.api.reload(contentNodes))
       )
     )
+  },
+  methods: {
+    updatePanelValue(day) {
+      this.$refs.panel.value = day.start.substr(0, 10)
+    },
   },
 }
 </script>

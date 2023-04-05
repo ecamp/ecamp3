@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels ref="dayPanels" v-model="expandedDays" accordion flat multiple>
+  <v-expansion-panels v-model="expandedDays" accordion flat multiple>
     <story-day
       v-for="day in sortedDays"
       :key="day._meta.self"
@@ -10,7 +10,6 @@
 </template>
 <script>
 import { sortBy } from 'lodash'
-import { nextTick } from 'vue'
 import StoryDay from './StoryDay.vue'
 
 export default {
@@ -22,9 +21,16 @@ export default {
   },
   data() {
     return {
-      sortedDays: [],
       expandedDays: [],
     }
+  },
+  computed: {
+    sortedDays() {
+      if (!this.period.days()._meta.loading) {
+        return sortBy(this.period.days().items, (day) => day.dayOffset)
+      }
+      return []
+    },
   },
   watch: {
     period: {
@@ -50,22 +56,18 @@ export default {
       this.computeExpandedDays(period)
     },
     computeExpandedDays(period) {
-      this.sortedDays = sortBy(period.days().items, (day) => day.dayOffset)
+      const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
+      const periodHasPassed = periodEndInLocalTimezone.isBefore(this.$date())
 
-      nextTick(() => {
-        const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
-        if (periodEndInLocalTimezone.isBefore(this.$date())) {
-          this.expandedDays = this.$refs.dayPanels.items.keys()
-          return
-        }
-        this.expandedDays = this.$refs.dayPanels.items
-          .map((dayPanel, idx) => {
-            const dayInLocalTimezone = this.$date(dayPanel.$attrs['day-date'])
-            const dayEndInLocalTimezone = dayInLocalTimezone.add(1, 'days')
-            return dayEndInLocalTimezone.isAfter(this.$date()) ? idx : null
-          })
-          .filter((idx) => !!idx)
-      })
+      this.expandedDays = this.sortedDays
+        .map((day) => {
+          const dayKey = day.start.substr(0, 10)
+          const dayEndInLocalTimezone = this.$date(day.end.substr(0, 10))
+          const dayEndIsInTheFuture = dayEndInLocalTimezone.isAfter(this.$date())
+
+          return periodHasPassed || dayEndIsInTheFuture ? dayKey : null
+        })
+        .filter((idx) => !!idx)
     },
   },
 }
