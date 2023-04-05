@@ -12,7 +12,7 @@ describe('campCollaborationLegalName', () => {
     ],
     [{ inviteEmail: null, _meta: {} }, ''],
     [{ inviteEmail: null, _meta: { loading: true } }, ''],
-    [{ inviteEmail: null, user: () => ({ _meta: { loading: true } }) }, ''],
+    [{ inviteEmail: null, user: () => ({ _meta: { loading: true }, profile: () => ({}) }) }, ''],
     [
       {
         inviteEmail: null,

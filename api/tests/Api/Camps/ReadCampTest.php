@@ -204,16 +204,20 @@ class ReadCampTest extends ECampApiTestCase {
                                         'required' => ['user'],
                                         'properties' => [
                                             'user' => [
-                                                'type' => 'object',
-                                                'required' => ['_embedded'],
-                                                'properties' => [
-                                                    '_embedded' => [
-                                                        'type' => 'object',
-                                                        'required' => ['profile'],
+                                                'oneOf' => [
+                                                    ['type' => 'null'],
+                                                    ['type' => 'object',
+                                                        'required' => ['_embedded'],
                                                         'properties' => [
-                                                            'profile' => [
+                                                            '_embedded' => [
                                                                 'type' => 'object',
-                                                                'required' => ['_links', 'legalName'],
+                                                                'required' => ['profile'],
+                                                                'properties' => [
+                                                                    'profile' => [
+                                                                        'type' => 'object',
+                                                                        'required' => ['_links', 'legalName'],
+                                                                    ],
+                                                                ],
                                                             ],
                                                         ],
                                                     ],
