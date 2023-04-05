@@ -21,7 +21,7 @@ const picassoStyles = StyleSheet.create({
   ysLogo: {
     alignSelf: 'flex-start',
     marginLeft: '3pt',
-    size: 26,
+    size: 20,
   },
   calendarContainer: {
     border: '1pt solid grey',
