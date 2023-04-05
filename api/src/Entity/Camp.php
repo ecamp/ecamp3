@@ -318,7 +318,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * Logo G+S (solamente per corsi G+S)
      * The logo is required for Y+S courses.
      */
-    #[ApiProperty(default: false, example: true)]
+    #[ApiProperty(default: null, example: true)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $printYSLogoOnPicasso = false;
