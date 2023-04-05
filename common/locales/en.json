@@ -194,6 +194,12 @@
       "title": "Cover page"
     },
     "picasso": {
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Course number: {courseNumber}",
+        "leaders": "Lead: {leaders}",
+        "trainingAdvisor": "Training advisor: {trainingAdvisor}"
+      },
       "title": "Program overview {period}"
     },
     "program": {

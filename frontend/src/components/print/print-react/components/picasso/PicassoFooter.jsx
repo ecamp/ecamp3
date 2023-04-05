@@ -12,7 +12,6 @@ function joinWithoutBlanks(list, separator) {
 function PicassoFooter({ period, locale, $tc }) {
   const camp = period.camp()
   const leaders = camp.campCollaborations().items.filter((campCollaboration) => {
-    console.log(campCollaboration)
     return (
       campCollaboration.status === 'established' && campCollaboration.role === 'manager'
     )
