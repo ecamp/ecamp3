@@ -96,11 +96,11 @@
           >
             <template #courseNumber>{{ camp.courseNumber }}</template>
           </i18n>
-          <span class="tw-self-start">{{ camp.motto }}</span>
+          <span v-if="camp.motto" class="tw-self-start">{{ camp.motto }}</span>
         </div>
         <div class="footer-column">
-          <span>{{ address }}</span>
-          <span>{{ dates }}</span>
+          <span v-if="address">{{ address }}</span>
+          <span v-if="dates">{{ dates }}</span>
         </div>
         <div class="footer-column">
           <i18n tag="span" path="print.picasso.picassoFooter.leaders">

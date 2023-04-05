@@ -55,11 +55,15 @@ function PicassoFooter({ period, locale, $tc }) {
         ) : (
           <React.Fragment />
         )}
-        <Text style={{ alignSelf: 'flex-start' }}>{camp.motto}</Text>
+        {camp.motto ? (
+          <Text style={{ alignSelf: 'flex-start' }}>{camp.motto}</Text>
+        ) : (
+          <React.Fragment />
+        )}
       </View>
       <View style={picassoStyles.picassoFooterColumn}>
-        <Text>{address}</Text>
-        <Text>{dates}</Text>
+        {address ? <Text>{address}</Text> : <React.Fragment />}
+        {dates ? <Text>{dates}</Text> : <React.Fragment />}
       </View>
       <View style={picassoStyles.picassoFooterColumn}>
         <Text>
