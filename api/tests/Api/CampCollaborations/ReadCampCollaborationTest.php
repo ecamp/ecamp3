@@ -121,11 +121,11 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
                         'profile' => [
                             '_links' => [
                                 'self' => $this->getIriFor($campCollaboration->getEmbeddedUser()->getProfile())
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 }

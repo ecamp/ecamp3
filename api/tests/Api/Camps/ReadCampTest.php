@@ -214,12 +214,12 @@ class ReadCampTest extends ECampApiTestCase {
                                                             'profile' => [
                                                                 'type' => 'object',
                                                                 'required' => ['_links', 'legalName'],
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
                                     ],
                                 ],
                             ],
