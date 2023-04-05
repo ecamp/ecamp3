@@ -115,19 +115,6 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
                 'camp' => ['href' => $this->getIriFor('campPrototype')],
                 'user' => ['href' => $this->getIriFor('admin')],
             ],
-            '_embedded' => [
-                'user' => [
-                    '_embedded' => [
-                        'profile' => [
-                            '_links' => [
-                                'self' => [
-                                    'href' => $this->getIriFor($campCollaboration->getEmbeddedUser()->getProfile()),
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
         ]);
     }
 }

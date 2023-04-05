@@ -17,10 +17,16 @@ const picassoData = (config) => {
     camp
       .campCollaborations()
       .$loadItems()
-      .then((campCollaboration) => {
-        return campCollaboration.user
-          ? campCollaboration.user()._meta.load.then((user) => user.profile()._meta.load)
-          : Promise.resolve()
+      .then((campCollaborations) => {
+        return Promise.all(
+          campCollaborations.items.map((campCollaboration) => {
+            return campCollaboration.user
+              ? campCollaboration.user()._meta.load.then((user) => {
+                  return user.profile()._meta.load
+                })
+              : Promise.resolve()
+          })
+        )
       }),
     camp
       .periods()

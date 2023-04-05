@@ -183,7 +183,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ApiProperty(readableLink: true)]
     #[SerializedName('profile')]
-    #[Groups(['User:create', 'User:Profile'])]
+    #[Groups(['User:create'])]
     public function getEmbeddedProfile(): Profile {
         return $this->profile;
     }

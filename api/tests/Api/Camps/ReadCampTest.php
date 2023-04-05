@@ -179,7 +179,7 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertArrayNotHasKey('campPrototypeId', $response->toArray());
     }
 
-    public function testGetSingleCampEmbedsCampCollaborationsAndItsUserAndItsProfile() {
+    public function testGetSingleCampEmbedsCampCollaborationsAndItsUser() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
         $user = static::$fixtures['user2member'];
@@ -202,28 +202,6 @@ class ReadCampTest extends ECampApiTestCase {
                                     '_embedded' => [
                                         'type' => 'object',
                                         'required' => ['user'],
-                                        'properties' => [
-                                            'user' => [
-                                                'oneOf' => [
-                                                    ['type' => 'null'],
-                                                    ['type' => 'object',
-                                                        'required' => ['_embedded'],
-                                                        'properties' => [
-                                                            '_embedded' => [
-                                                                'type' => 'object',
-                                                                'required' => ['profile'],
-                                                                'properties' => [
-                                                                    'profile' => [
-                                                                        'type' => 'object',
-                                                                        'required' => ['_links', 'legalName'],
-                                                                    ],
-                                                                ],
-                                                            ],
-                                                        ],
-                                                    ],
-                                                ],
-                                            ],
-                                        ],
                                     ],
                                 ],
                             ],
