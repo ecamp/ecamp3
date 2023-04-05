@@ -65,7 +65,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'couponKey_unique', columns: ['couponKey'])]
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
-        'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
+        'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User', 'User:Profile'],
         'swagger_definition_name' => 'read',
     ];
 

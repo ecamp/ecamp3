@@ -19,7 +19,7 @@ const picassoData = (config) => {
       .$loadItems()
       .then((campCollaboration) => {
         return campCollaboration.user
-          ? campCollaboration.user()._meta.load
+          ? campCollaboration.user()._meta.load.then((user) => user.profile()._meta.load)
           : Promise.resolve()
       }),
     camp

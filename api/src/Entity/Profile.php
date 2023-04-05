@@ -186,6 +186,12 @@ class Profile extends BaseEntity {
         return 'Noname-'.substr(md5($this->email), 0, 4);
     }
 
+    /**
+     * The legal name of the user, for printing on legally relevant
+     * documents. Falls back to the nickname if not complete.
+     */
+    #[ApiProperty(example: 'Robert Baden-Powell')]
+    #[Groups(['read'])]
     public function getLegalName(): ?string {
         if (!empty($this->firstname) && !empty($this->surname)) {
             return $this->firstname.' '.$this->surname;

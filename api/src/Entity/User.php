@@ -174,16 +174,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->profile->getDisplayName();
     }
 
-    /**
-     * The legal name of the user, for printing on legally relevant
-     * documents. Falls back to the nickname if not complete.
-     */
-    #[ApiProperty(example: 'Robert Baden-Powell')]
-    #[Groups(['read'])]
-    public function getLegalName(): ?string {
-        return $this->profile->getLegalName();
-    }
-
     #[ApiProperty]
     #[SerializedName('profile')]
     #[Groups(['read'])]
@@ -193,7 +183,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ApiProperty(readableLink: true)]
     #[SerializedName('profile')]
-    #[Groups(['User:create'])]
+    #[Groups(['User:create', 'User:Profile'])]
     public function getEmbeddedProfile(): Profile {
         return $this->profile;
     }
