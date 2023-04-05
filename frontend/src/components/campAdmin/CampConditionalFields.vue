@@ -3,7 +3,7 @@ Displays fields which don't apply to all camps, but are required for some
 -->
 
 <template>
-  <v-expansion-panels class="mb-8 mt-2">
+  <v-expansion-panels v-model="openPanels" class="mb-8 mt-2" multiple>
     <v-expansion-panel>
       <v-expansion-panel-header>
         <div class="subtitle-1 conditional-group-title">
@@ -87,6 +87,19 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data: () => ({
+    openPanels: [],
+  }),
+  mounted() {
+    this.camp()._meta.load.then((camp) => {
+      if (camp.organizer || camp.kind || camp.coachName) {
+        this.openPanels.push(0)
+      }
+      if (camp.courseNumber || camp.courseKind || camp.trainingAdvisorName) {
+        this.openPanels.push(1)
+      }
+    })
   },
 }
 </script>
