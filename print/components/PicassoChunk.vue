@@ -1,7 +1,7 @@
 <template>
   <div class="tw-break-after-page">
     <div :class="landscape ? 'landscape' : ''">
-      <div class="tw-flex tw-flex-row tw-items-baseline">
+      <div class="tw-flex tw-flex-row tw-items-baseline fullwidth">
         <h1
           :id="`content_${index}_period_${period.id}`"
           class="tw-text-2xl tw-font-bold tw-mb-6 tw-flex-grow tw-d-inline"
@@ -156,6 +156,14 @@ export default {
   transform: rotate(-90deg);
   position: relative;
   top: 320px;
+
+  .fullwidth {
+    width: 960px;
+  }
+}
+
+.fullwidth {
+  width: 680px;
 }
 
 .v-calendar {
