@@ -21,9 +21,7 @@ const picassoData = (config) => {
         return Promise.all(
           campCollaborations.items.map((campCollaboration) => {
             return campCollaboration.user
-              ? campCollaboration.user()._meta.load.then((user) => {
-                  return user.profile()._meta.load
-                })
+              ? campCollaboration.user()._meta.load
               : Promise.resolve()
           })
         )
@@ -49,6 +47,7 @@ const picassoData = (config) => {
           })
         )
       }),
+    camp.profiles().$loadItems(),
   ]
 }
 

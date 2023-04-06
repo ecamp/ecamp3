@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -30,12 +32,13 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'object.user === user'
         ),
         new GetCollection(
-            security: 'false'
+            security: 'is_authenticated()'
         ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']]
 )]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['user.collaborations.camp'])]
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ORM\Table(name: '`profile`')]
 class Profile extends BaseEntity {

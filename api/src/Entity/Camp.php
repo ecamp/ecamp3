@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\CampRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\State\CampCreateProcessor;
 use App\State\CampRemoveProcessor;
 use App\Util\EntityMap;
@@ -420,6 +421,28 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         }
 
         return $this;
+    }
+
+    /**
+     * All profiles of the users collaborating in this camp.
+     *
+     * @return Profile[]
+     */
+    #[ApiProperty(example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d')]
+    #[RelatedCollectionLink(Profile::class, ['user.collaborations.camp' => '$this'])]
+    #[Groups(['read'])]
+    public function getProfiles(): array {
+        $accessibleCampCollaborations = array_filter(
+            $this->getCampCollaborations(),
+            function (CampCollaboration $campCollaboration) {
+                return CampCollaboration::STATUS_ESTABLISHED === $campCollaboration->status
+                    && $campCollaboration->getEmbeddedUser();
+            }
+        );
+
+        return array_map(function (CampCollaboration $campCollaboration) {
+            return $campCollaboration->getEmbeddedUser()->getProfile();
+        }, $accessibleCampCollaborations);
     }
 
     /**

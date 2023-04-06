@@ -33,20 +33,8 @@ export default {
       this.camp.periods().$loadItems(),
       this.camp.activities().$loadItems(),
       this.camp.categories().$loadItems(),
-      this.camp
-        .campCollaborations()
-        .$loadItems()
-        .then((campCollaborations) => {
-          return Promise.all(
-            campCollaborations.items.map((campCollaboration) => {
-              return campCollaboration.user
-                ? campCollaboration
-                    .user()
-                    ._meta.load.then((user) => user.profile()._meta.load)
-                : Promise.resolve()
-            })
-          )
-        }),
+      this.camp.campCollaborations().$loadItems(),
+      this.camp.profiles().$loadItems(),
     ])
 
     this.periods = this.options.periods.map((periodUri) => {
