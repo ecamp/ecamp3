@@ -7,7 +7,10 @@ describe('campCollaborationLegalName', () => {
     [undefined, ''],
     [{ inviteEmail: 'ecamp@ecamp3.ch', user: null }, ''],
     [
-      { inviteEmail: null, user: () => ({ profile: () => ({ legalName: 'Bi-Pi', _meta: {} }) }) },
+      {
+        inviteEmail: null,
+        user: () => ({ profile: () => ({ legalName: 'Bi-Pi', _meta: {} }) }),
+      },
       'Bi-Pi',
     ],
     [{ inviteEmail: null, _meta: {} }, ''],
