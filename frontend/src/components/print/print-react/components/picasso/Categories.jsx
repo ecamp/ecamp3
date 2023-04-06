@@ -9,7 +9,7 @@ function Categories({ period }) {
   return (
     <View style={picassoStyles.categories}>
       {camp.categories().items.map((category) => (
-        <View style={picassoStyles.category}>
+        <View style={picassoStyles.category} key={category.id}>
           <CategoryLabel category={category} />
           <Text>{category.name}</Text>
         </View>
