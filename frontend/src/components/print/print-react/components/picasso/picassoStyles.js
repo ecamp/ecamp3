@@ -57,7 +57,7 @@ const picassoStyles = StyleSheet.create({
     flexBasis: 0,
     flexGrow: 1,
     overflow: 'hidden',
-    padding: '4pt 0 2pt',
+    padding: '4pt 0 5pt',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -68,7 +68,7 @@ const picassoStyles = StyleSheet.create({
   },
   dayResponsibles: {
     fontSize: dayResponsiblesFontSize + 'pt',
-    margin: '3pt auto',
+    margin: '3pt auto 0',
   },
   dayColumn: {
     flexBasis: 0,
