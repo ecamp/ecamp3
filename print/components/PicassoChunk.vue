@@ -32,7 +32,7 @@
           event-overlap-mode="column"
           first-interval="0"
           interval-count="24"
-          :interval-height="landscape ? 22 : 35"
+          :interval-height="landscape ? 22 : 33"
           interval-width="46"
           event-text-color="black"
           :locale="$i18n.locale"
