@@ -46,6 +46,14 @@
         "editLayout": "Layout bearbeiten",
         "title": "Block-Kategorien"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Weitere Felder für Kurse"
+        },
+        "ysCamp": {
+          "title": "Weitere Felder für J+S-Lager"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",

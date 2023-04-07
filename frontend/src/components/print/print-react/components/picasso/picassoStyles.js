@@ -1,5 +1,6 @@
 import { StyleSheet } from '@react-pdf/renderer'
 
+const picassoFooterFontSize = 9
 const dayHeaderFontSize = 9
 const dayResponsiblesFontSize = 8
 const scheduleEntryFontSize = 8
@@ -8,6 +9,20 @@ const timeColumnFontSize = 8
 const timeColumnVerticalOffset = timeColumnFontSize / 2.0 + 2 // this might need to be adjusted if we change the font
 
 const picassoStyles = StyleSheet.create({
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: '-6pt',
+    alignItems: 'baseline',
+  },
+  title: {
+    flexGrow: '1',
+  },
+  ysLogo: {
+    alignSelf: 'flex-start',
+    marginLeft: '3pt',
+    size: 20,
+  },
   calendarContainer: {
     border: '1pt solid grey',
     flexGrow: 1,
@@ -42,18 +57,18 @@ const picassoStyles = StyleSheet.create({
     flexBasis: 0,
     flexGrow: 1,
     overflow: 'hidden',
-    padding: '4pt 0 2pt',
+    padding: '4pt 0 5pt',
     display: 'flex',
     flexDirection: 'column',
   },
   dayHeaderText: {
     fontSize: dayHeaderFontSize + 'pt',
     fontWeight: 'bold',
-    margin: '0 auto',
+    margin: '0 auto 2pt',
   },
   dayResponsibles: {
     fontSize: dayResponsiblesFontSize + 'pt',
-    margin: '3pt auto',
+    margin: '3pt auto 0',
   },
   dayColumn: {
     flexBasis: 0,
@@ -112,6 +127,38 @@ const picassoStyles = StyleSheet.create({
     height: 0,
     maxHeight: '4pt',
     flexGrow: 1,
+  },
+  categories: {
+    fontSize: picassoFooterFontSize,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: '2pt 0 0',
+    gap: '2pt',
+  },
+  category: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: '2pt',
+    marginRight: '2pt',
+  },
+  picassoFooter: {
+    width: '100%',
+    fontSize: picassoFooterFontSize,
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: '6pt',
+    border: '1pt solid grey',
+    padding: '0 0 3pt',
+  },
+  picassoFooterColumn: {
+    flexGrow: '1',
+    maxWidth: '33%',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    gap: '6pt',
+    lineHeight: 1,
+    padding: '2pt 3pt 3pt',
   },
 })
 

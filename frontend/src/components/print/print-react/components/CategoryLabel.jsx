@@ -8,17 +8,17 @@ function textColor(color) {
   return contrastColor(color)
 }
 
-function CategoryLabel({ activity, style }) {
+function CategoryLabel({ category, style }) {
   return (
     <Text
       style={{
         ...styles.categoryLabel,
-        color: textColor(activity.category().color),
-        backgroundColor: activity.category().color,
+        color: textColor(category.color),
+        backgroundColor: category.color,
         ...style,
       }}
     >
-      {activity.category().short}
+      {category.short}
     </Text>
   )
 }

@@ -46,6 +46,14 @@
         "editLayout": "Edit layout",
         "title": "Activity categories"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Additional fields for courses"
+        },
+        "ysCamp": {
+          "title": "Additional fields for Y+S camps"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Once you delete a camp, there is no going back. Please be certain.",

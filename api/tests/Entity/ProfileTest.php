@@ -64,4 +64,48 @@ class ProfileTest extends TestCase {
         // then
         $this->assertEquals('Noname-b642', $displayName);
     }
+
+    public function testLegalNameUsesFullNameIfPresent() {
+        // given
+
+        // when
+        $displayName = $this->profile->getLegalName();
+
+        // then
+        $this->assertEquals('Robert Baden-Powell', $displayName);
+    }
+
+    public function testLegalNameUsesNicknameWhenFirstnameMissing() {
+        // given
+        $this->profile->firstname = '';
+
+        // when
+        $displayName = $this->profile->getLegalName();
+
+        // then
+        $this->assertEquals('Bi-Pi', $displayName);
+    }
+
+    public function testLegalNameUsesNicknameWhenSurnameMissing() {
+        // given
+        $this->profile->surname = '';
+
+        // when
+        $displayName = $this->profile->getLegalName();
+
+        // then
+        $this->assertEquals('Bi-Pi', $displayName);
+    }
+
+    public function testLegalNameUsesEmailHashAsFallback() {
+        // given
+        $this->profile->nickname = '';
+        $this->profile->firstname = '';
+
+        // when
+        $displayName = $this->profile->getLegalName();
+
+        // then
+        $this->assertEquals('Noname-b642', $displayName);
+    }
 }
