@@ -15,16 +15,16 @@ export const mutations = {
 }
 export const getters = {
   /**
-   * @returns The latest Logged in User Object with a profile()
+   * @returns The latest Logged-in User Object with a profile()
    */
-  getLoggedInUserWithProfile: (authState, _getters, _rootState, rootGetters) => {
-    if (!authState.user) return authState.user
-    let userFromApiStoreById = rootGetters.getUserFromApiStoreById(authState.user.id)
-    if (!userFromApiStoreById) return authState.user
+  getLoggedInUserWithProfile: (_authState, getters) => {
+    let loggedInUser = getters.getLoggedInUser
+    if (typeof loggedInUser?.profile !== 'object') return loggedInUser
+    if (!loggedInUser) return authState.user
     let profileHref =
-      userFromApiStoreById._storeData?.profile?.href ?? userFromApiStoreById.profile.href
+      loggedInUser._storeData?.profile?.href ?? loggedInUser?.profile?.href
     let profile = () => apiStore.get(profileHref)
-    return { ...userFromApiStoreById, profile }
+    return { ...loggedInUser, profile }
   },
   getLoggedInUser: (authState, _getters, _rootState, rootGetters) => {
     if (!authState.user) return authState.user
