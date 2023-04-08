@@ -113,6 +113,16 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     public ?Category $category = null;
 
     /**
+     * The current assigned ProgressLabel.
+     */
+    #[ApiProperty(example: '/progress_labels/1a2b3c4d')]
+    #[AssertBelongsToSameCamp(groups: ['update'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: ActivityProgressLabel::class, inversedBy: 'activities')]
+    #[ORM\JoinColumn(nullable: true)]
+    public ?ActivityProgressLabel $progressLabel = null;
+
+    /**
      * The title of this activity that is shown in the picasso.
      */
     #[InputFilter\Trim]

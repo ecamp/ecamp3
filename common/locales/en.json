@@ -96,6 +96,11 @@
       "name": "Activity | Activities",
       "new": "New activity"
     },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Title"
+      }
+    },
     "camp": {
       "collaborators": {
         "guest": "Guest",

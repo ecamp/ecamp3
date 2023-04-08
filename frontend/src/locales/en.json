@@ -36,6 +36,11 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "title": "Activity planing progress",
+        "create": "Create a label",
+        "deleteWarning": "Do you really want to delete this label?"
+      },
       "campAddress": {
         "title": "Address"
       },
@@ -88,6 +93,9 @@
       },
       "createCampPeriods": {
         "add": "Add a period"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Create activity planing progress label"
       },
       "dialogCategoryCreate": {
         "title": "Create activity category"

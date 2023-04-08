@@ -102,6 +102,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $categories;
 
     /**
+     * All the progress labels within this camp.
+     */
+    #[ApiProperty(writable: false, example: '/progress_labels?camp=%2Fcamps%2F1a2b3c4d')]
+    #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: ActivityProgressLabel::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
+    public Collection $progressLabels;
+
+    /**
      * All the programme that will be carried out during the camp. An activity may be carried out
      * multiple times in the same camp.
      */
@@ -361,6 +369,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         $this->collaborations = new ArrayCollection();
         $this->periods = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->progressLabels = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
     }
@@ -498,6 +507,32 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     }
 
     /**
+     * @return ActivityProgressLabel[]
+     */
+    public function getProgressLabels(): array {
+        return $this->progressLabels->getValues();
+    }
+
+    public function addProgressLabel(ActivityProgressLabel $progressLabel) {
+        if (!$this->progressLabels->contains($progressLabel)) {
+            $this->progressLabels[] = $progressLabel;
+            $progressLabel->camp = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeProgressLabel(ActivityProgressLabel $progressLabel) {
+        if ($this->progressLabels->removeElement($progressLabel)) {
+            if ($progressLabel->camp=== $this) {
+                $progressLabel->camp = null;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Activity[]
      */
     public function getActivities(): array {
@@ -572,6 +607,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
             $this->addCategory($category);
 
             $category->copyFromPrototype($categoryPrototype, $entityMap);
+        }
+
+        // copy ActivityProgressLabels
+        foreach ($prototype->getProgressLabels() as $progressLabelPrototype) {
+            $progressLabel = new ActivityProgressLabel();
+            $this->addProgressLabel($progressLabel);
+
+            $progressLabel->copyFromPrototype($progressLabelPrototype, $entityMap);
         }
     }
 }
