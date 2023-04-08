@@ -83,6 +83,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import DialogChangeMail from '@/components/user/DialogChangeMail.vue'
 import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.vue'
 import VueI18n from '@/plugins/i18n'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -97,9 +98,9 @@ export default {
     emailVerificationKey: { type: String, required: false, default: null },
   },
   computed: {
-    user() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      user: 'getLoggedInUserWithProfile',
+    }),
     profile() {
       return this.user?.profile()
     },
@@ -117,16 +118,9 @@ export default {
       }
     },
   },
-  mounted() {
-    if (this.user) {
-      this.api.reload(this.user).then((user) => this.api.reload(user.profile()))
-    }
-  },
   methods: {
     reloadUser() {
-      this.api.reload(this.user).then((user) => {
-        this.$store.commit('updateUser', user)
-      })
+      this.api.reload(this.user)
     },
   },
 }

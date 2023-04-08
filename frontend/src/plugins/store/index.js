@@ -5,6 +5,12 @@ import HalJsonVuex from 'hal-json-vuex'
 import lang from './lang'
 import auth from './auth'
 
+const rootGetters = {
+  getUserFromApiStoreById: (rootState) => (userId) => {
+    return rootState.api[`/users/${userId}`]
+  },
+}
+
 class StorePlugin {
   install(Vue) {
     Vue.use(Vuex)
@@ -14,6 +20,7 @@ class StorePlugin {
         lang,
         auth,
       },
+      getters: rootGetters,
       strict: process.env.NODE_ENV !== 'production',
     })
 

@@ -34,7 +34,7 @@ export default {
   components: { LanguageSwitcher },
   computed: {
     profile() {
-      return this.$store.state.auth.user
+      return this.$store.getters.getLoggedInUser
     },
     deploymentTime() {
       const timestamp = window.environment.DEPLOYMENT_TIME
