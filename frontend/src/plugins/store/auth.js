@@ -20,7 +20,7 @@ export const getters = {
   getLoggedInUserWithProfile: (_authState, getters) => {
     let loggedInUser = getters.getLoggedInUser
     if (typeof loggedInUser?.profile !== 'object') return loggedInUser
-    if (!loggedInUser) return authState.user
+    if (!loggedInUser) return loggedInUser
     let profileHref =
       loggedInUser._storeData?.profile?.href ?? loggedInUser?.profile?.href
     let profile = () => apiStore.get(profileHref)
