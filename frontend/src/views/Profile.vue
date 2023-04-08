@@ -125,7 +125,7 @@ export default {
   methods: {
     reloadUser() {
       this.api.reload(this.user).then((user) => {
-        this.$store.commit('login', user)
+        this.$store.commit('updateUser', user)
       })
     },
   },
