@@ -90,6 +90,7 @@
       "fields": {
         "category": "Category",
         "location": "Location",
+        "progressLabel": "Progress",
         "responsible": "Responsible",
         "title": "Title"
       },

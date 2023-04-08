@@ -494,7 +494,7 @@ class CreateActivityTest extends ECampApiTestCase {
             Activity::class,
             Get::class,
             $attributes,
-            ['category'],
+            ['category', 'progressLabel'],
             $except
         );
     }

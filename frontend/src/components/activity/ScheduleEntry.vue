@@ -179,12 +179,21 @@ Displays a single scheduleEntry
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
             <v-row dense>
-              <v-col>
+              <v-col class="col col-sm-8 col-12">
                 <api-text-field
                   :name="$tc('entity.activity.fields.location')"
                   :uri="activity._meta.self"
                   fieldname="location"
                   :disabled="layoutMode || !isContributor"
+                  dense
+                />
+              </v-col>
+              <v-col class="col col-sm-4 col-12">
+                <api-select
+                  :name="$tc('entity.activity.fields.progressLabel')"
+                  :uri="activity._meta.self"
+                  fieldname="progressLabel"
+                  :items="progressLabels"
                   dense
                 />
               </v-col>
@@ -270,6 +279,12 @@ export default {
     },
     scheduleEntries() {
       return this.activity.scheduleEntries().items
+    },
+    progressLabels() {
+      return this.camp.progressLabels().items.map((label) => ({
+        value: label._meta.self,
+        text: label.title,
+      }))
     },
     contentNodes() {
       return this.activity.contentNodes()
