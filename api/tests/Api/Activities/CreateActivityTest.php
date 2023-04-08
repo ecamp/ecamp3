@@ -475,6 +475,7 @@ class CreateActivityTest extends ECampApiTestCase {
             Post::class,
             array_merge([
                 'category' => $this->getIriFor('category1'),
+                'progressLabel' => null,
                 'scheduleEntries' => [
                     [
                         'period' => $this->getIriFor('period1'),

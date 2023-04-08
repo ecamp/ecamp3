@@ -524,7 +524,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
 
     public function removeProgressLabel(ActivityProgressLabel $progressLabel) {
         if ($this->progressLabels->removeElement($progressLabel)) {
-            if ($progressLabel->camp=== $this) {
+            if ($progressLabel->camp === $this) {
                 $progressLabel->camp = null;
             }
         }

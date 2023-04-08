@@ -67,7 +67,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'progressLabels')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
-    
+
     /**
      * All the programme this progress label is asigned.
      */

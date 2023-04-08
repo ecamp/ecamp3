@@ -1,0 +1,10 @@
+App\Entity\ActivityProgressLabel:
+  activityProgressLabel1:
+    camp: '@camp1'
+    position: 1
+    title: <word()>
+  activityProgressLabel2:
+    camp: '@camp1'
+    position: 2
+    title: <word()>
+  
