@@ -10,6 +10,10 @@ export const mutations = {
   logout(state) {
     state.user = null
   },
+
+  updateUser(state, user) {
+    state.user = user
+  },
 }
 
 export default {
