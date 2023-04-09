@@ -184,11 +184,16 @@ import { keyBy, groupBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
+import { FormatHalHelperMixin } from '@/mixins/formatHalHelperMixin'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
 }
-
+const URL_PARAM_TO_HAL_TYPE = {
+  category: 'categories',
+  responsible: 'camp_collaborations',
+  period: 'periods',
+}
 export default {
   name: 'Dashboard',
   components: {
@@ -201,7 +206,7 @@ export default {
     ContentCard,
     UserAvatar,
   },
-  mixins: [dateHelperUTCFormatted],
+  mixins: [dateHelperUTCFormatted, FormatHalHelperMixin],
   props: {
     camp: { type: Function, required: true },
   },
@@ -302,10 +307,25 @@ export default {
     multiplePeriods() {
       return Object.keys(this.periods).length > 1
     },
+    urlQuery() {
+      return Object.fromEntries(
+        Object.entries({
+          responsible: this.filter.responsible,
+          category: this.filter.category,
+          period: this.filter.period,
+        })
+          .filter(([_, value]) => !!value)
+          .map(([key, value]) => [
+            key,
+            Array.isArray(value) ? value.map((e) => this.toId(e)) : this.toId(value),
+          ])
+      )
+    },
   },
   watch: {
     'filter.category': 'persistRouterState',
     'filter.responsible': 'persistRouterState',
+    'filter.period': 'persistRouterState',
   },
   async mounted() {
     this.api.reload(this.camp())
@@ -321,31 +341,33 @@ export default {
     this.loading = false
   },
   beforeMount() {
-    let category =
-      this.$route.query?.category && Array.isArray(this.$route.query.category)
-        ? this.$route.query.category
-        : this.$route.query?.category
-        ? [this.$route.query.category]
-        : []
-    let responsible =
-      this.$route.query.responsible && Array.isArray(this.$route.query.responsible)
-        ? this.$route.query.responsible
-        : this.$route.query?.responsible
-        ? [this.$route.query.responsible]
-        : []
-
-    this.filter = { ...this.filter, responsible, category }
+    let fromUrl = Object.fromEntries(
+      Object.entries(this.$route.query)
+        .map(([key, value]) => [key, value, URL_PARAM_TO_HAL_TYPE[key]])
+        .map(([key, value, type]) => {
+          if (typeof value === 'string') {
+            let halUriValue =
+              key === 'period' ? this.toUri(type, value) : [this.toUri(type, value)]
+            return [key, halUriValue]
+          }
+          if (Array.isArray(value)) {
+            let uriValues = value
+              .filter((entry) => !!entry)
+              .map((entry) => this.toUri(type, entry))
+            return [key, uriValues]
+          }
+          return [key, null]
+        })
+    )
+    this.filter = { ...this.filter, ...fromUrl }
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
     persistRouterState() {
-      let query = {
-        ...this.$route.query,
-        responsible: this.filter.responsible,
-        category: this.filter.category,
-      }
+      let query = this.urlQuery
+
       if (filterEquals(query, this.$route.query)) return
       this.$router.replace({ append: true, query })
     },
