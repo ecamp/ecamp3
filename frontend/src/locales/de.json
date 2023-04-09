@@ -36,6 +36,11 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "title": "Block Planungs-Fortschritt",
+        "create": "Label erstellen",
+        "deleteWarning": "Möchtest du dieses Label wirklich löschen?"
+      },
       "campAddress": {
         "title": "Lageradresse"
       },
@@ -88,6 +93,9 @@
       },
       "createCampPeriods": {
         "add": "Weiteren Lagerabschnitt hinzufügen"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Label für Planungs-Fortschritt erstellen"
       },
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -459,6 +467,7 @@
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
+        "progressLabel": "Fortschritt",
         "responsible": "Verantwortlich",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },

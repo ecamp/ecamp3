@@ -36,6 +36,11 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "title": "Progression de la planification des activités",
+        "create": "Créer un label",
+        "deleteWarning": "Tu veux vraiment supprimer ce label?"
+      },
       "campAddress": {
         "title": "Adresse"
       },
@@ -80,6 +85,9 @@
       },
       "createCampPeriods": {
         "add": "Ajoute un point"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Créer un label de progression"
       },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
@@ -443,6 +451,7 @@
         "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
+        "progressLabel": "Progrès",
         "responsible": "Responsable",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },

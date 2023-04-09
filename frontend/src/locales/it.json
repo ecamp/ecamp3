@@ -36,6 +36,11 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "title": "Progressi nella pianificazione delle attività",
+        "create": "Creare un'etichetta",
+        "deleteWarning": "Vuoi davvero cancellare questa etichetta?"
+      },
       "campAddress": {
         "title": "Indirizzo"
       },
@@ -80,6 +85,9 @@
       },
       "createCampPeriods": {
         "add": "Aggiungi un punto"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Creare l'etichetta di progresso della pianificazione"
       },
       "dialogCategoryCreate": {
         "title": "Creare categoria di attività"
@@ -443,6 +451,7 @@
         "noEntries": "Non sono state trovate attività. Prova a cancellare i filtri di selezione e/o a ricaricare la pagina.",
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
+        "progressLabel": "Progressi",
         "responsible": "Responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },

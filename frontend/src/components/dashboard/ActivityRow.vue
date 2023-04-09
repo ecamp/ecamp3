@@ -15,12 +15,18 @@
       <span class="e-subtitle">{{ duration }}</span>
     </td>
     <td style="width: 100%" class="contentrow">
-      <router-link
-        :to="routerLink"
-        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium d-block"
-      >
-        {{ title }}<br />
-      </router-link>
+      <span style="display: inline-block">
+        <router-link
+          :to="routerLink"
+          class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium d-block"
+        >
+          {{ title }}
+        </router-link>
+      </span>
+      <span style="display: inline-block" class="ml-4">
+        <span style="font-size: 0.7em; color: #aaa">{{ progressLabel }}</span>
+      </span>
+      <br />
       <span class="e-subtitle">{{ location }}</span>
     </td>
     <td class="contentrow avatarrow overflow-visible">
@@ -54,6 +60,11 @@ export default {
     },
     title() {
       return this.scheduleEntry.activity().title
+    },
+    progressLabel() {
+      return this.scheduleEntry.activity().progressLabel !== null
+        ? this.scheduleEntry.activity().progressLabel().title
+        : null
     },
     location() {
       return this.scheduleEntry.activity().location

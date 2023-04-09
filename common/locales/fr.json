@@ -83,11 +83,17 @@
       "fields": {
         "category": "Catégorie d'activité",
         "location": "Lieu",
+        "progressLabel": "Progrès",
         "responsible": "Responsable",
         "title": "Titre"
       },
       "name": "Activité",
       "new": "Nouvelle activité"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Titre"
+      }
     },
     "camp": {
       "collaborators": {
