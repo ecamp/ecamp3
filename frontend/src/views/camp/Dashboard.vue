@@ -303,6 +303,10 @@ export default {
       return Object.keys(this.periods).length > 1
     },
   },
+  watch: {
+    'filter.category': 'persistRouterState',
+    'filter.responsible': 'persistRouterState',
+  },
   async mounted() {
     this.api.reload(this.camp())
 
@@ -316,9 +320,34 @@ export default {
     this.loggedInUser = loggedInUser
     this.loading = false
   },
+  beforeMount() {
+    let category =
+      this.$route.query?.category && Array.isArray(this.$route.query.category)
+        ? this.$route.query.category
+        : this.$route.query?.category
+        ? [this.$route.query.category]
+        : []
+    let responsible =
+      this.$route.query.responsible && Array.isArray(this.$route.query.responsible)
+        ? this.$route.query.responsible
+        : this.$route.query?.responsible
+        ? [this.$route.query.responsible]
+        : []
+
+    this.filter = { ...this.filter, responsible, category }
+  },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
+    },
+    persistRouterState() {
+      let query = {
+        ...this.$route.query,
+        responsible: this.filter.responsible,
+        category: this.filter.category,
+      }
+      if (filterEquals(query, this.$route.query)) return
+      this.$router.replace({ append: true, query })
     },
   },
 }
