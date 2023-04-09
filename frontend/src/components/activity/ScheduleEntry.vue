@@ -222,6 +222,7 @@ Displays a single scheduleEntry
 </template>
 
 <script>
+import { sortBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
@@ -281,7 +282,8 @@ export default {
       return this.activity.scheduleEntries().items
     },
     progressLabels() {
-      return this.camp.progressLabels().items.map((label) => ({
+      const labels = sortBy(this.camp.progressLabels().items, (l) => l.position)
+      return labels.map((label) => ({
         value: label._meta.self,
         text: label.title,
       }))
