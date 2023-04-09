@@ -36,6 +36,7 @@ describe('Admin view', () => {
         'camp-address',
         'camp-periods',
         'camp-categories',
+        'camp-activity-progress-labels',
         'camp-material-lists',
       ],
     })
@@ -61,6 +62,7 @@ describe('Admin view', () => {
         'camp-address',
         'camp-periods',
         'camp-categories',
+        'camp-activity-progress-labels',
         'camp-material-lists',
       ],
     })
@@ -86,6 +88,7 @@ describe('Admin view', () => {
         'camp-address',
         'camp-periods',
         'camp-categories',
+        'camp-activity-progress-labels',
         'camp-material-lists',
       ],
     })
@@ -115,6 +118,7 @@ function createCampWithRole(role) {
       ],
     }),
     materialLists: () => {},
+    progressLabels: () => {},
     _meta: { load: Promise.resolve() },
   })
 }
