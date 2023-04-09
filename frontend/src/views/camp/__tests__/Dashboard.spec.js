@@ -1,60 +1,63 @@
 import Dashboard from '../Dashboard.vue'
-import { shallowMount  } from '@vue/test-utils'
-import { groupBy, keyBy, mapValues } from 'lodash'
+import { shallowMount } from '@vue/test-utils'
+import flushPromises from 'flush-promises'
 
 describe('Dashboard view', () => {
   it('Renders View', async () => {
-    const vueWrapper = shallowMount (Dashboard, {
-      propsData: {
-        camp: createCampWithRole('manager'),
-      },
-      mocks: {
-        $store: STORE,
-        $auth: AUTH,
-        $route: ROUTE,
-        $router: ROUTER,
-        $tc: ()=>{},
-        api: { reload: () => Promise.resolve() },
-      },
-      data: () => ({
-        loggedInUser: USER,
-        loading: false,
-        filter: {
-          period: null,
-          responsible: [],
-          category: [],
-        },
-      }),
-      computed: {
-        periods: () => {},
-        multiplePeriods: () => false,
-        campCollaborations: ()=> {},
-        categories: ()=> {},
-        scheduleEntries:()=> [],
-        scheduleEntriesLoading: () => false,
-        days: ()=> {},
-        filteredScheduleEntries: ()=> [],
-        groupedScheduleEntries: ()=> {},
-        showOnlyMyActivities: () => false,
-        loggedInCampCollaboration: () => CAMP_COLLAB
-      },
-      stubs: [
-        'TextAlignBaseline',
-        'FilterDivider',
-        'ActivityRow',
-        'SelectFilter',
-        'BooleanFilter',
-        'CategoryChip',
-        'ContentCard',
-        'UserAvatar',
-      ],
+    const vueWrapper = shallowMount(Dashboard, DEFAULT_DASHBOARD_OPTIONS())
+
+    expect(vueWrapper.html()).toBeTruthy()
+  })
+  it('Loads URL Query into filter', async () => {
+    const query = {
+      responsible: ['fe6557a4b89f'],
+      category: ['505e3fdf9e90', 'a47a60594096'],
+      period: '16b2fcffdd8e',
+    }
+    const vueWrapper = shallowMount(Dashboard, {
+      ...DEFAULT_DASHBOARD_OPTIONS(),
+      mocks: { ...DEFAULT_DASHBOARD_OPTIONS().mocks, $route: { query } },
     })
 
-    expect(vueWrapper.html()).toBeTruthy();
+    const expectedFilterValues = {
+      period: '/periods/16b2fcffdd8e',
+      responsible: ['/camp_collaborations/fe6557a4b89f'],
+      category: ['/categories/505e3fdf9e90', '/categories/a47a60594096'],
+    }
+    await flushPromises()
 
+    expect(vueWrapper.vm.$data.filter).toMatchObject(expectedFilterValues)
+  })
+  it('Parses filter value into URL', async () => {
+    const filter = {
+      period: '/periods/16b2fcffdd8e',
+      responsible: ['/camp_collaborations/fe6557a4b89f'],
+      category: ['/categories/505e3fdf9e90', '/categories/a47a60594096'],
+    }
+    const data = () => ({
+      loggedInUser: USER,
+      loading: false,
+      filter,
+    })
+    const options = { ...DEFAULT_DASHBOARD_OPTIONS(), data }
+    shallowMount(Dashboard, options)
+
+    await flushPromises()
+
+    const expectedURLParams = {
+      responsible: ['fe6557a4b89f'],
+      category: ['505e3fdf9e90', 'a47a60594096'],
+      period: '16b2fcffdd8e',
+    }
+    expect(options.mocks.$router.replace).toHaveBeenCalled()
+    expect(options.mocks.$router.replace).toHaveBeenLastCalledWith({
+      append: true,
+      query: expectedURLParams,
+    })
   })
 })
-const CAMP_COLLAB =  '/camp_collaborations/58dc1b96dcce'
+
+const CAMP_COLLAB = '/camp_collaborations/58dc1b96dcce'
 const USER_URL = '/users/17d341a80579'
 const USER = {
   _meta: {
@@ -70,12 +73,12 @@ const STORE = {
   },
 }
 
-const ROUTE = {
+const ROUTE = () => ({
   query: {},
-}
-const ROUTER = {
+})
+const ROUTER = () => ({
   replace: jest.fn(),
-}
+})
 const AUTH = {
   loadUser: jest.fn(),
 }
@@ -91,38 +94,51 @@ function createCampWithRole(role) {
         },
       ],
     }),
-    materialLists: () => {},
-    _meta: { load: Promise.resolve() },
-    periods: () => ({
-      _meta: { load: Promise.resolve() },
-      items: [
-        {
-          _meta: { self: '/periods/071ca08f6d70', load: Promise.resolve() },
-          scheduleEntries: EMPTY_ITEM_LIST('/schedule_entries/c3d36cd00544'),
-          days: EMPTY_ITEM_LIST,
-        },
-        {
-          _meta: { self: '/periods/16b2fcffdd8e', load: Promise.resolve() },
-          scheduleEntries: EMPTY_ITEM_LIST('/schedule_entries/4bc1873a73f2'),
-          days: EMPTY_ITEM_LIST,
-        },
-      ],
-    }),
-    activities: () => ({ _meta: { load: Promise.resolve() } }),
-    categories: () => ({
-      _meta: { load: Promise.resolve() },
-      items: [
-        { _meta: { self: '/categories/505e3fdf9e90' } },
-        { _meta: { self: '/categories/6adced5270de' } },
-        { _meta: { self: '/categories/9af703a10a9c' } },
-        { _meta: { self: '/categories/a47a60594096' } },
-      ],
-    }),
   })
 }
-const EMPTY_ITEM_LIST = (self) => {
-  return () => ({
-    _meta: { loading: false, self },
-    items: [],
-  })
-}
+
+const DEFAULT_DASHBOARD_OPTIONS = () => ({
+  propsData: {
+    camp: createCampWithRole('manager'),
+  },
+  mocks: {
+    $store: STORE,
+    $auth: AUTH,
+    $route: ROUTE(),
+    $router: ROUTER(),
+    $tc: () => {},
+    api: { reload: () => Promise.resolve() },
+  },
+  data: () => ({
+    loggedInUser: USER,
+    loading: false,
+    filter: {
+      period: null,
+      responsible: [],
+      category: [],
+    },
+  }),
+  computed: {
+    periods: () => {},
+    multiplePeriods: () => false,
+    campCollaborations: () => {},
+    categories: () => {},
+    scheduleEntries: () => [],
+    scheduleEntriesLoading: () => false,
+    days: () => {},
+    filteredScheduleEntries: () => [],
+    groupedScheduleEntries: () => {},
+    showOnlyMyActivities: () => false,
+    loggedInCampCollaboration: () => CAMP_COLLAB,
+  },
+  stubs: [
+    'TextAlignBaseline',
+    'FilterDivider',
+    'ActivityRow',
+    'SelectFilter',
+    'BooleanFilter',
+    'CategoryChip',
+    'ContentCard',
+    'UserAvatar',
+  ],
+})
