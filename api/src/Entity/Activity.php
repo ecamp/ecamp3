@@ -42,7 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            normalizationContext: ['groups' => ['read', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
+            normalizationContext: ['groups' => ['read', 'Activity:ActivityProgressLabel', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
             security: 'is_authenticated()'
         ),
         new Post(
@@ -65,6 +65,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         'groups' => [
             'read',
             'Activity:Category',
+            'Activity:ActivityProgressLabel',
             'Activity:ActivityResponsibles',
             'Activity:ScheduleEntries',
             'Activity:ContentNodes',
@@ -171,6 +172,16 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[Groups('Activity:Category')]
     public function getEmbeddedCategory(): ?Category {
         return $this->category;
+    }
+
+    /**
+     * @return ActivityProgressLabel
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('progressLabel')]
+    #[Groups('Activity:ActivityProgressLabel')]
+    public function getEmbeddedProgressLabel(): ?ActivityProgressLabel {
+        return $this->progressLabel;
     }
 
     /**

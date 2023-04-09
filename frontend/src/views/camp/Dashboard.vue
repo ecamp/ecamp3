@@ -11,6 +11,13 @@
         <FilterDivider />
         <template v-if="!loading">
           <SelectFilter
+            v-if="multiplePeriods"
+            v-model="filter.period"
+            :items="periods"
+            display-field="description"
+            :label="$tc('views.camp.dashboard.period')"
+          />
+          <SelectFilter
             v-model="filter.responsible"
             multiple
             and-filter
@@ -41,17 +48,22 @@
             </template>
           </SelectFilter>
           <SelectFilter
-            v-if="multiplePeriods"
-            v-model="filter.period"
-            :items="periods"
-            display-field="description"
-            :label="$tc('views.camp.dashboard.period')"
-          />
+            v-model="filter.progressLabel"
+            multiple
+            :items="progressLabels"
+            display-field="title"
+            :label="$tc('views.camp.dashboard.progressLabel')"
+          >
+            <template #item="{ item }">
+              {{ progressLabels[item.value].title }}
+            </template>
+          </SelectFilter>
           <v-chip
             v-if="
               filter.period ||
               (filter.responsible && filter.responsible.length > 0) ||
-              (filter.category && filter.category.length > 0)
+              (filter.category && filter.category.length > 0) ||
+              (filter.progressLabel && filter.progressLabel.length > 0)
             "
             label
             outlined
@@ -60,6 +72,7 @@
                 period: null,
                 responsible: [],
                 category: [],
+                progressLabel: [],
               }
             "
           >
@@ -180,7 +193,7 @@ import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
 import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
-import { keyBy, groupBy, mapValues } from 'lodash'
+import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
@@ -213,6 +226,7 @@ export default {
         period: null,
         responsible: [],
         category: [],
+        progressLabel: [],
       },
     }
   },
@@ -225,6 +239,10 @@ export default {
     },
     periods() {
       return keyBy(this.camp().periods().items, '_meta.self')
+    },
+    progressLabels() {
+      const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
+      return keyBy(labels, '_meta.self')
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -263,7 +281,14 @@ export default {
                 .activityResponsibles()
                 .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
-            }))
+            })) &&
+          (this.filter.progressLabel === null ||
+            this.filter.progressLabel.length === 0 ||
+            this.filter.progressLabel?.includes(
+              scheduleEntry.activity().progressLabel !== null
+                ? scheduleEntry.activity().progressLabel()._meta.self
+                : null
+            ))
       )
     },
     groupedScheduleEntries() {
@@ -282,13 +307,15 @@ export default {
         return (
           filterEquals(this.filter.responsible, [this.loggedInCampCollaboration]) &&
           filterEquals(this.filter.category, []) &&
-          filterEquals(this.filter.period, null)
+          filterEquals(this.filter.period, null) &&
+          filterEquals(this.filter.progressLabel, null)
         )
       },
       set(value) {
         this.filter.responsible = value ? [this.loggedInCampCollaboration] : []
         this.filter.category = []
         this.filter.period = null
+        this.filter.progressLabel = null
       },
     },
     loggedInCampCollaboration() {
@@ -311,6 +338,7 @@ export default {
       this.camp().periods()._meta.load,
       this.camp().activities()._meta.load,
       this.camp().categories()._meta.load,
+      this.camp().progressLabels()._meta.load,
     ])
 
     this.loggedInUser = loggedInUser

@@ -467,6 +467,7 @@
         "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
         "onlyMyActivities": "Only my activities",
         "period": "Period",
+        "progressLabel": "Progress",
         "responsible": "Responsible",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
