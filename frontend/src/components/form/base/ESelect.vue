@@ -6,6 +6,7 @@
     :vid="veeId"
     :rules="veeRules"
     :required="required"
+    :immediate="immediateValidation"
     class="e-form-container"
   >
     <v-select
@@ -35,5 +36,8 @@ export default {
   name: 'ESelect',
   components: { ValidationProvider },
   mixins: [formComponentPropsMixin, formComponentMixin],
+  props: {
+    immediateValidation: { type: Boolean, default: false },
+  },
 }
 </script>
