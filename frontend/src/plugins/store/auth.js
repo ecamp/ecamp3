@@ -14,14 +14,12 @@ export const mutations = {
   },
 }
 export const getters = {
-  getLoggedInUser: (authState, _getters, _rootState, rootGetters) => {
-    if (!authState.user) return authState.user
-    // Get the URI of the user - we use URIs instead of just IDs to identify objects uniquely in the frontend
-    userUri = authState.user._meta.self
-    
-    // Let the API store work its magic. We just give it a URI, and it automagically retrieves the requested
-    // data from the store (which acts as a cache), or from the API if it hasn't been fetched before.
-    return apiStore.get(userUri)
+  /**
+   * Since store.auth.user isn't always up to date - uses the logged-in user URI and returns the latest data for that user
+   * @returns {*} the Logged-in user with the latest fetched api data
+   */
+  getLoggedInUser: (authState) => {
+    return authState.user ? apiStore.get(authState.user._meta.self) : authState.user
   },
 }
 
