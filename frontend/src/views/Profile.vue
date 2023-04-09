@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'getLoggedInUserWithProfile',
+      user: 'getLoggedInUser',
     }),
     profile() {
       return this.user?.profile()
