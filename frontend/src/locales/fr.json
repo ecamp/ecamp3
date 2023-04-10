@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "title": "Progression de la planification des activités",
-        "create": "Créer un label",
-        "deleteWarning": "Tu veux vraiment supprimer ce label?"
+        "create": "Créer un statut",
+        "deleteWarning": "Tu veux vraiment supprimer ce statut?"
       },
       "campAddress": {
         "title": "Adresse"
@@ -87,7 +87,7 @@
         "add": "Ajoute un point"
       },
       "dialogActivityProgressLabelCreate": {
-        "title": "Créer un label de progression"
+        "title": "Créer un statut de progression"
       },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"

@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "title": "Progressi nella pianificazione delle attività",
-        "create": "Creare un'etichetta",
-        "deleteWarning": "Vuoi davvero cancellare questa etichetta?"
+        "create": "Creare uno stato",
+        "deleteWarning": "Vuoi davvero cancellare questo stato?"
       },
       "campAddress": {
         "title": "Indirizzo"
@@ -87,7 +87,7 @@
         "add": "Aggiungi un punto"
       },
       "dialogActivityProgressLabelCreate": {
-        "title": "Creare l'etichetta di progresso della pianificazione"
+        "title": "Creare uno stato di progresso della pianificazione"
       },
       "dialogCategoryCreate": {
         "title": "Creare categoria di attività"

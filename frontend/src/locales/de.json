@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "title": "Block Planungs-Fortschritt",
-        "create": "Label erstellen",
-        "deleteWarning": "Möchtest du dieses Label wirklich löschen?"
+        "create": "Status erstellen",
+        "deleteWarning": "Möchtest du dieses Status wirklich löschen?"
       },
       "campAddress": {
         "title": "Lageradresse"
@@ -95,7 +95,7 @@
         "add": "Weiteren Lagerabschnitt hinzufügen"
       },
       "dialogActivityProgressLabelCreate": {
-        "title": "Label für Planungs-Fortschritt erstellen"
+        "title": "Status für Planungs-Fortschritt erstellen"
       },
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
