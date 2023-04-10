@@ -79,7 +79,7 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
                 }
 
                 // persist user object
-                $profile->{"${provider}Id"} = $hitobitoUser->getId();
+                $profile->{"{$provider}Id"} = $hitobitoUser->getId();
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
