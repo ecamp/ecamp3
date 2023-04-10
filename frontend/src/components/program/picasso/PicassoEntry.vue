@@ -64,6 +64,9 @@
       class="e-picasso-entry__drag-bottom"
       @mousedown.stop="$emit('startResize')"
     />
+
+    <!-- Duration Display -->
+    <div class="e-picasso-entry__duration-center">{{ durationText }}</div>
   </div>
 
   <!-- readonly mode: component is a HTML link -->
@@ -104,6 +107,7 @@
 import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
@@ -113,6 +117,7 @@ import { ONE_MINUTE } from '@/helpers/vCalendarDragAndDrop.js'
 export default {
   name: 'PicassoEntry',
   components: { AvatarRow, DialogActivityEdit },
+  mixins: [dateHelperUTCFormatted],
   props: {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
@@ -173,6 +178,23 @@ export default {
     },
     isLongDuration() {
       return this.scrollHeight <= this.clientHeight
+    },
+    durationText() {
+      const start = this.$date(this.scheduleEntry.startTimestamp).utc(true)
+      const end = this.$date(this.scheduleEntry.endTimestamp).utc(true)
+      if (this.dateShort(start) === this.dateShort(end)) {
+        return this.hourShort(start) + ' - ' + this.hourShort(end)
+      } else {
+        return (
+          this.dateShort(start) +
+          ' ' +
+          this.hourShort(start) +
+          ' - ' +
+          this.dateShort(end) +
+          ' ' +
+          this.hourShort(end)
+        )
+      }
     },
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
@@ -272,9 +294,9 @@ export default {
   transition: transform 0.1s;
 
   &:hover {
-    transform: scale(
-      1.02
-    ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    translate: -2px -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
   }
 
   &:active {
@@ -346,6 +368,26 @@ export default {
     margin-left: -8px;
     opacity: 0.8;
     content: '';
+  }
+}
+
+// Duration-Display
+.e-picasso-entry__duration-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: max(2px, 20%);
+  bottom: max(8px, 20%);
+  left: 0;
+  right: 0;
+  user-select: none;
+  opacity: 35%;
+}
+.e-picasso-entry--editable:hover,
+.e-picasso-entry--temporary {
+  .e-picasso-entry__duration-center {
+    opacity: 100%;
   }
 }
 
