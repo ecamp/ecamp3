@@ -40,7 +40,7 @@ export function useDragAndDropNew(enabled, createEntry) {
 
   // resize placeholder entry
   const resizeEntry = (entry, mouse) => {
-    const { min, max } = minMaxTime(mouse, mouseStartTimestamp)
+    const { min, max } = minMaxTime(mouseStartTimestamp, mouse)
 
     entry.startTimestamp = min
     entry.endTimestamp = max
