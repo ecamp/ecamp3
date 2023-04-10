@@ -11,7 +11,7 @@ class ListActivityProgressLabelTest extends ECampApiTestCase {
     public function testListActivityProgressLabelsIsDeniedForAnonymousUser() {
         static::createBasicClient()
             ->request('GET', '/activity_progress_labels')
-    ;
+        ;
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

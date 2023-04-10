@@ -67,7 +67,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
     public function testCreateActivityProgressLabelIsAllowedForManager() {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
@@ -76,7 +76,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
     public function testCreateActivityProgressLabelValidatesMissingCamp() {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload([], ['camp'])])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -92,7 +92,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
     public function testCreateActivityProgressLabelValidatesMissingTitle() {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload([], ['title'])])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
