@@ -7,4 +7,20 @@ App\Entity\ActivityProgressLabel:
     camp: '@camp1'
     position: 2
     title: <word()>
+  activityProgressLabel1Camp2:
+    camp: '@camp2'
+    position: 1
+    title: <word()>
+  activityProgressLabel2Camp2:
+    camp: '@camp2'
+    position: 2
+    title: <word()>
+  activityProgressLabel1campUnrelated:
+    camp: '@campUnrelated'
+    position: 1
+    title: <word()>
+  activityProgressLabel2campUnrelated:
+    camp: '@campUnrelated'
+    position: 2
+    title: <word()>
   

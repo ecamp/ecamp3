@@ -38,7 +38,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            normalizationContext: ['groups' => ['read']],
             security: 'is_authenticated()'
         ),
         new Post(
