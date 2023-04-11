@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip :disabled="hideTooltip" bottom>
+  <v-tooltip :disabled="tooltip == ''" bottom>
     <template #activator="{ on }">
       <v-icon v-if="value" small v-on="{ dblclick: iconDblClick, ...on }">
         mdi-lock-open-variant
@@ -8,14 +8,13 @@
         v-else
         small
         color="grey"
-        :title="$tc('components.generic.lockIcon.doubleClickToUnlock')"
         :class="{ 'e-shake-lock': shake }"
         v-on="{ dblclick: iconDblClick, ...on }"
       >
         mdi-lock
       </v-icon>
     </template>
-    <span>{{ message || $tc('components.generic.lockIcon.guestsCannotEdit') }}</span>
+    <span>{{ tooltip }}</span>
   </v-tooltip>
 </template>
 
@@ -32,7 +31,7 @@ export default {
       required: false,
       default: null,
     },
-    hideTooltip: {
+    disabledForGuest: {
       type: Boolean,
       required: false,
       default: false,
@@ -42,9 +41,25 @@ export default {
       default: false,
     },
   },
+  computed: {
+    tooltip() {
+      if (this.disabledForGuest) {
+        return this.$tc('components.generic.lockIcon.guestsCannotEdit')
+      }
+      if (this.message) {
+        return this.message
+      }
+      if (!this.value) {
+        return this.$tc('components.generic.lockIcon.doubleClickToUnlock')
+      }
+      return ''
+    },
+  },
   methods: {
     iconDblClick() {
-      this.$emit('dblclick')
+      if (!this.disabledForGuest) {
+        this.$emit('dblclick')
+      }
     },
   },
 }
