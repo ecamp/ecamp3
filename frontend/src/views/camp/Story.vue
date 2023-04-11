@@ -3,7 +3,11 @@
     <template #title-actions>
       <period-switcher :period="period" :route-name="'camp/period/story'" />
       <v-spacer />
-      <LockIcon v-model="editing" :hide-tooltip="isContributor" />
+      <LockIcon
+        v-model="editing"
+        :disabled-for-guest="!isContributor"
+        @dblclick="editing = !editing"
+      />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
           <v-btn class="ml-auto" text icon v-bind="attrs" v-on="on">

@@ -10,7 +10,7 @@ Show all activity schedule entries of a single period.
       <LockIcon
         v-model="editMode"
         :shake="showReminder"
-        :hide-tooltip="isContributor"
+        :disabled-for-guest="!isContributor"
         :message="$tc('views.camp.campProgram.guestsCannotEdit')"
         @dblclick="editMode = !editMode"
       />
