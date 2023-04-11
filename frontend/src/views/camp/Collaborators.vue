@@ -92,7 +92,7 @@ Displays collaborators of a single camp.
                     :my="0"
                     dense
                     vee-rules="required"
-                    :immediate-validation="true"
+                    immediate-validation
                   />
                 </v-col>
                 <v-col cols="3">
