@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser'
 import '../../globalWorkerShim.js'
 import 'raf/polyfill' // must be imported before renderPdf
 import { renderPdf } from './renderPdf.js'
+import dayjs from '@/common/helpers/dayjs.js'
 
 // Work around an incompatibility between comlink, vite and react-pdf...
 // Comlink works with a globally defined function 'start'. And apparently the way we import
@@ -18,6 +19,11 @@ self.start = (...args) => {
 }
 
 export const renderPdfInWorker = async (data) => {
+  if (data?.config?.language) {
+    // We need to set the locale again here. Otherwise dayjs falls back to the default
+    // on production deployments
+    dayjs.locale(data.config.language)
+  }
   const result = { ...(await renderPdf(data)) }
   if (result.error) {
     Sentry.captureException(result.error)
