@@ -6,18 +6,18 @@ describe('Admin view', () => {
   /// Is the Vuex "$store"
   let store
 
-  beforeEach(()=> {
+  beforeEach(() => {
     store = createVuexStore({
-      state:{
-        auth:{
+      state: {
+        auth: {
           user: USER,
-        }
+        },
       },
       getters: {
-        getLoggedInUser: state => {
+        getLoggedInUser: (state) => {
           return state.auth.user
-        }
-      }
+        },
+      },
     })
   })
 
@@ -103,7 +103,6 @@ const USER = {
     self: USER_URL,
   },
 }
-
 
 function createCampWithRole(role) {
   return () => ({
