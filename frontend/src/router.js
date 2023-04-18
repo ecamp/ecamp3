@@ -335,7 +335,11 @@ async function requireCamp(to, from, next) {
       next({ query: to.query })
     })
     .catch(() => {
-      next({ name: 'home' })
+      next({
+        name: 'PageNotFound',
+        params: [to.fullPath, ''],
+        replace: true,
+      })
     })
 }
 
