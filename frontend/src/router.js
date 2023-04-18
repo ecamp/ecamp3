@@ -287,6 +287,14 @@ export default new Router({
       name: 'home',
       redirect: { name: 'camps' },
     },
+    {
+      path: '**',
+      name: 'PageNotFound',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/PageNotFound.vue'),
+      },
+    },
   ],
 })
 
