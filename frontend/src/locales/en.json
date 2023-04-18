@@ -548,6 +548,10 @@
     "profile": {
       "changeEmail": "Change",
       "profile": "Profile"
+    },
+    "pageNotFound": {
+      "detail": "Page not found",
+      "title": "Page not found"
     }
   }
 }
