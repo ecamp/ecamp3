@@ -33,9 +33,6 @@ export default {
   name: 'App',
   components: { LanguageSwitcher },
   computed: {
-    profile() {
-      return this.$store.state.auth.user
-    },
     deploymentTime() {
       const timestamp = window.environment.DEPLOYMENT_TIME
       const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()

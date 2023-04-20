@@ -56,6 +56,7 @@
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import Logo from '@/components/navigation/Logo.vue'
 import { campRoute } from '@/router.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'NavTopbar',
@@ -72,9 +73,9 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
   },
   methods: {
     campRoute,
