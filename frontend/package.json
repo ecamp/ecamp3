@@ -58,7 +58,7 @@
     "hal-json-vuex": "2.0.0-alpha.16",
     "html-to-react": "1.5.1",
     "inter-ui": "3.19.3",
-    "js-cookie": "3.0.1",
+    "js-cookie": "3.0.4",
     "lodash": "4.17.21",
     "raf": "3.4.1",
     "react": "18.2.0",
