@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\InputFilter;
 use App\State\ResetPasswordCreateProcessor;
 use App\State\ResetPasswordProvider;
 use App\State\ResetPasswordUpdateProcessor;
@@ -48,6 +49,7 @@ class ResetPassword {
     #[Groups(['read'])]
     public ?string $id = null;
 
+    #[InputFilter\Trim]
     #[ApiProperty(readable: true, writable: true)]
     #[Groups(['create', 'read'])]
     public ?string $email = null;
