@@ -36,9 +36,7 @@ export default {
     period: {
       immediate: true,
       async handler(newPeriod, oldPeriod) {
-        const newPeriodId = newPeriod == undefined ? null : newPeriod.id
-        const oldPeriodId = oldPeriod == undefined ? null : oldPeriod.id
-        if (newPeriodId != oldPeriodId) {
+        if (newPeriod?._meta.self !== oldPeriod?._meta.self) {
           await this.updateComponentData(newPeriod)
         }
       },
@@ -67,7 +65,7 @@ export default {
 
           return periodHasPassed || dayEndIsInTheFuture ? dayKey : null
         })
-        .filter((idx) => !!idx)
+        .filter((dayKey) => !!dayKey)
     },
   },
 }

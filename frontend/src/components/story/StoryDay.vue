@@ -121,6 +121,9 @@ export default {
   },
   methods: {
     updatePanelValue(day) {
+      // Mark the component with the date of the day.
+      // This allows the use of the date in the parent component.
+      // See StoryPeriod.vue: v-expansion-panels.v-model
       this.$refs.panel.value = day.start.substr(0, 10)
     },
   },
