@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels v-model="expandedDays" accordion flat multiple>
     <story-day
-      v-for="day in period.days().items"
+      v-for="day in sortedDays"
       :key="day._meta.self"
       :day="day"
       :editing="editing"
@@ -9,6 +9,7 @@
   </v-expansion-panels>
 </template>
 <script>
+import { sortBy } from 'lodash'
 import StoryDay from './StoryDay.vue'
 
 export default {
@@ -23,28 +24,48 @@ export default {
       expandedDays: [],
     }
   },
+  computed: {
+    sortedDays() {
+      if (!this.period.days()._meta.loading) {
+        return sortBy(this.period.days().items, (day) => day.dayOffset)
+      }
+      return []
+    },
+  },
   watch: {
     period: {
       immediate: true,
-      handler(value) {
-        this.computeExpandedDays(value)
+      async handler(newPeriod, oldPeriod) {
+        if (newPeriod?._meta.self !== oldPeriod?._meta.self) {
+          await this.updateComponentData(newPeriod)
+        }
       },
     },
   },
   methods: {
-    computeExpandedDays(period) {
-      period.days()._meta.load.then((days) => {
-        const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
+    async updateComponentData(period) {
+      // show days in store immediately
+      this.computeExpandedDays(period)
 
-        if (periodEndInLocalTimezone.isBefore(this.$date())) {
-          this.expandedDays = [...Array(days.items.length).keys()]
-          return
-        }
-        this.expandedDays = days.items.map((day, idx) => {
-          const dayInLocalTimezone = this.$date(day.end.substr(0, 10))
-          return dayInLocalTimezone.isAfter(this.$date()) ? idx : null
+      // reload days of period to ensure all days are loaded
+      await period.days().$reload()
+
+      // show reloaded days
+      this.computeExpandedDays(period)
+    },
+    computeExpandedDays(period) {
+      const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
+      const periodHasPassed = periodEndInLocalTimezone.isBefore(this.$date())
+
+      this.expandedDays = this.sortedDays
+        .map((day) => {
+          const dayKey = day.start.substr(0, 10)
+          const dayEndInLocalTimezone = this.$date(day.end.substr(0, 10))
+          const dayEndIsInTheFuture = dayEndInLocalTimezone.isAfter(this.$date())
+
+          return periodHasPassed || dayEndIsInTheFuture ? dayKey : null
         })
-      })
+        .filter((dayKey) => !!dayKey)
     },
   },
 }
