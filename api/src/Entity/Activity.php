@@ -42,7 +42,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            normalizationContext: ['groups' => ['read', 'Activity:ActivityProgressLabel', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
+            normalizationContext: [
+                'groups' => [
+                    'read',
+                    'Activity:ActivityProgressLabel',
+                    'Activity:ActivityResponsibles',
+                    'Activity:ScheduleEntries',
+                ],
+            ],
             security: 'is_authenticated()'
         ),
         new Post(

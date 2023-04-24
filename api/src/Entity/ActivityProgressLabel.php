@@ -16,6 +16,7 @@ use App\Repository\ActivityProgressLabelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -53,6 +54,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityProgressLabelRepository::class)]
+#[ORM\UniqueConstraint(name: 'camp_activity_progress_label', columns: ['campid', 'position'])]
 class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
@@ -65,6 +67,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
      * The camp to which this label belongs.
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'progressLabels')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
@@ -83,6 +86,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
     public Collection $activities;
 
     #[ApiProperty(example: 0)]
+    #[Gedmo\SortablePosition]
     #[Groups(['read', 'write'])]
     #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     public int $position = 0;

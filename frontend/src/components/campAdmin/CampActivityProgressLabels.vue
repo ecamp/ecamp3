@@ -130,28 +130,14 @@ export default {
   },
   methods: {
     moveUp(progressLabel) {
-      let indexMap = [...Array(this.progressLabels.length).keys()]
-      const idx = this.progressLabels.findIndex((l) => l == progressLabel)
-
-      if (idx > 0) {
-        ;[indexMap[idx - 1], indexMap[idx]] = [indexMap[idx], indexMap[idx - 1]]
-        this.updatePositions(indexMap)
-      }
+      progressLabel
+        .$patch({ position: progressLabel.position - 1 })
+        .then(() => this.camp().progressLabels().$reload())
     },
     moveDown(progressLabel) {
-      let indexMap = [...Array(this.progressLabels.length).keys()]
-      const idx = this.progressLabels.findIndex((l) => l == progressLabel)
-
-      if (idx < this.progressLabels.length - 1) {
-        ;[indexMap[idx + 1], indexMap[idx]] = [indexMap[idx], indexMap[idx + 1]]
-        this.updatePositions(indexMap)
-      }
-    },
-    updatePositions(indexMap) {
-      for (let i = 0; i < this.progressLabels.length; i++) {
-        let label = this.progressLabels[indexMap[i]]
-        label.$patch({ position: i + 1 })
-      }
+      progressLabel
+        .$patch({ position: progressLabel.position + 1 })
+        .then(() => this.camp().progressLabels().$reload())
     },
     deleteErrorHandler(e) {
       if (e?.response?.status === 422 /* Validation Error */) {

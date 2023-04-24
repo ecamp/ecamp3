@@ -2,25 +2,25 @@ App\Entity\ActivityProgressLabel:
   activityProgressLabel1:
     camp: '@camp1'
     position: 1
-    title: <word()>
+    title: 'In Planung'
   activityProgressLabel2:
     camp: '@camp1'
     position: 2
-    title: <word()>
+    title: 'Geplant'
   activityProgressLabel1Camp2:
     camp: '@camp2'
     position: 1
-    title: <word()>
+    title: 'In Planung'
   activityProgressLabel2Camp2:
     camp: '@camp2'
     position: 2
-    title: <word()>
+    title: 'Geplant'
   activityProgressLabel1campUnrelated:
     camp: '@campUnrelated'
     position: 1
-    title: <word()>
+    title: 'In Planung'
   activityProgressLabel2campUnrelated:
     camp: '@campUnrelated'
     position: 2
-    title: <word()>
+    title: 'Geplant'
   

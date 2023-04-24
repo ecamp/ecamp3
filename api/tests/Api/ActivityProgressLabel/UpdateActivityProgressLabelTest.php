@@ -77,13 +77,13 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
-                'position' => 3,
+                'position' => 2,
                 'title' => 'NewTitle',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'position' => 3,
+            'position' => 2,
             'title' => 'NewTitle',
             '_links' => [
                 'camp' => [
@@ -98,13 +98,13 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
-                'position' => 3,
+                'position' => 2,
                 'title' => 'NewTitle',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'position' => 3,
+            'position' => 2,
             'title' => 'NewTitle',
             '_links' => [
                 'camp' => [
@@ -142,6 +142,44 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'title',
                     'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+    
+    public function testPatchActivityProgressLabelTitleIsTrimmed() {
+        /** @var ActivityProgressLabel $activityProgressLabel */
+        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
+                'title' => 'NewTitle  ',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'title' => 'NewTitle',
+            '_links' => [
+                'camp' => [
+                    'href' => $this->getIriFor('camp1'),
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchActivityProgressLabelValidatesTitleLength() {
+        /** @var ActivityProgressLabel $activityProgressLabel */
+        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        static::createClientWithCredentials()
+            ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
+                'title' => 'Label 6789 123456789 123456789 12',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
                 ],
             ],
         ]);

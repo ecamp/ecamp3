@@ -105,6 +105,31 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateActivityProgressLabelTitleIsTrimmed() {
+        static::createClientWithCredentials()
+            ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => 'Planned  '])])
+        ;
+        
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateActivityProgressLabelValidatesTitleLength() {
+        static::createClientWithCredentials()
+            ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => 'Label 6789 123456789 123456789 12'])])
+        ;
+        
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ActivityProgressLabel::class,

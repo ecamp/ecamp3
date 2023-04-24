@@ -5,6 +5,7 @@ App\Entity\Activity:
     location: <word()>
     rootContentNode: '@columnLayout3'
     category: '@category2'
+    progressLabel: '@activityProgressLabel2'
   activity1camp2:
     camp: '@camp2'
     title: <word()>

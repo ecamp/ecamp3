@@ -58,6 +58,19 @@ class DeleteActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testDeleteActivityProgressLabelIsDeniedIfItsStillUsed() {
+        $activityProgressLabel = static::$fixtures['activityProgressLabel2'];
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'activities: It\'s not possible to delete a progress label as long as it has an activity linked to it.',
+        ]);
+    }
+
     public function testDeleteActivityProgressLabelIsAllowedForMember() {
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
