@@ -109,7 +109,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => 'Planned  '])])
         ;
-        
+
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
     }
@@ -118,7 +118,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => 'Label 6789 123456789 123456789 12'])])
         ;
-        
+
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [

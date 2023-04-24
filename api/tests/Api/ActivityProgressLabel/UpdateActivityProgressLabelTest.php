@@ -146,7 +146,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
             ],
         ]);
     }
-    
+
     public function testPatchActivityProgressLabelTitleIsTrimmed() {
         /** @var ActivityProgressLabel $activityProgressLabel */
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
