@@ -108,9 +108,9 @@
         "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",
         "organizer": "Organisator",
         "motto": "Motto",
-        "name": "Name",
+        "name": "Lagername",
         "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
-        "title": "Titel",
+        "title": "Lagertitel",
         "trainingAdvisorName": "Bürgerlicher Name der Betreuungsperson"
       },
       "name": "Lager",
