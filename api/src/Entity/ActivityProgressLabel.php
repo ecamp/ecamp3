@@ -54,7 +54,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityProgressLabelRepository::class)]
-#[ORM\UniqueConstraint(name: 'camp_activity_progress_label', columns: ['campid', 'position'])]
+// TODO: Gedmo + UniqueConstraint
+// #[ORM\UniqueConstraint(name: 'camp_activity_progress_label', columns: ['campid', 'position'])]
 class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
@@ -70,7 +71,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'progressLabels')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Camp $camp = null;
 
     /**
@@ -89,7 +90,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
     #[Gedmo\SortablePosition]
     #[Groups(['read', 'write'])]
     #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
-    public int $position = 0;
+    public int $position = -1;
 
     #[InputFilter\Trim]
     #[InputFilter\CleanText]

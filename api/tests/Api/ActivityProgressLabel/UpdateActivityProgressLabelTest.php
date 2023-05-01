@@ -77,13 +77,13 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
-                'position' => 2,
+                'position' => 1,
                 'title' => 'NewTitle',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'position' => 2,
+            'position' => 1,
             'title' => 'NewTitle',
             '_links' => [
                 'camp' => [
@@ -98,13 +98,13 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
-                'position' => 2,
+                'position' => 1,
                 'title' => 'NewTitle',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'position' => 2,
+            'position' => 1,
             'title' => 'NewTitle',
             '_links' => [
                 'camp' => [

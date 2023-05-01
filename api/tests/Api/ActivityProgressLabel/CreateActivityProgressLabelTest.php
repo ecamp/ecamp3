@@ -61,7 +61,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
     }
 
     public function testCreateActivityProgressLabelIsAllowedForManager() {
@@ -70,7 +70,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
     }
 
     public function testCreateActivityProgressLabelValidatesMissingCamp() {
@@ -111,7 +111,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
     }
 
     public function testCreateActivityProgressLabelValidatesTitleLength() {

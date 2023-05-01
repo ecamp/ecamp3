@@ -33,7 +33,7 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  *
  * @template-extends EntityRepository<T2>
  */
-abstract class SortableServiceEntityRepository extends EntityRepository implements ServiceEntityRepositoryInterface {
+abstract class SortableServiceEntityRepository extends SortableRepository implements ServiceEntityRepositoryInterface {
     /**
      * @param string $entityClass The class name of the entity this repository manages
      *
@@ -41,6 +41,5 @@ abstract class SortableServiceEntityRepository extends EntityRepository implemen
      */
     public function __construct(EntityManagerInterface $em, string $entityClass) {
         parent::__construct($em, $em->getClassMetadata($entityClass));
-        new SortableRepository($em, $em->getClassMetadata($entityClass));
     }
 }
