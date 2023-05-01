@@ -212,7 +212,7 @@ jobs:
           sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
           cat frontend/data/coverage/lcov.info | npx coveralls .
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
           COVERALLS_SERVICE_NAME: github
           COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
           CI_PULL_REQUEST: ${{ github.event.number }}
@@ -252,7 +252,7 @@ jobs:
           sed -i "s|SF:|SF:print/|g" print/coverage/lcov.info
           cat print/coverage/lcov.info | npx coveralls .
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
           COVERALLS_SERVICE_NAME: github
           COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
           CI_PULL_REQUEST: ${{ github.event.number }}
