@@ -560,7 +560,6 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('b2ef8a3b319f', NULL, NULL, 'established', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'bae69a1c9fcc', '05ce4b9836e9'),
 	('490f4b599034', NULL, NULL, 'established', 'guest', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '48f00685a292', '05ce4b9836e9'),
 	('83f4171a5c12', 'e.mail@test.com', 'myInviteKey', 'invited', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '05ce4b9836e9'),
-	('c43d5c10b01d', NULL, NULL, 'inactive', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '130684395770', '05ce4b9836e9'),
 	('237abf0bd057', 'e.mail2@test.com', 'myInviteKey2', 'invited', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '6430aecc5422'),
 	('0e524d43e799', NULL, NULL, 'established', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e7b00084dabf', '6430aecc5422'),
 	('2c313fa367b3', NULL, NULL, 'established', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', 'e5027d852487'),
@@ -569,7 +568,9 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('c7b5dd15649f', NULL, NULL, 'established', 'manager', NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', 'c4cca3a51342'),
 	('73558f9c6483', 'e.mail@test.com', '42e0b2299f06ea2bf3cebd3876b15367bacff09ff5572f02cdd05b33fe112a95', 'invited', 'member', NULL, '2022-02-04 22:04:42', '2022-02-04 22:04:42', NULL, 'c4cca3a51342'),
 	('fe6557a4b89f', NULL, NULL, 'established', 'manager', NULL, '2022-02-04 22:05:24', '2022-02-04 22:05:24', 'caeba9f7e728', 'c4cca3a51342'),
-	('58dc1b96dcce', NULL, NULL, 'established', 'member', NULL, '2022-02-04 22:05:02', '2022-02-04 22:05:02', 'bee7cf5b3871', 'c4cca3a51342');
+	('58dc1b96dcce', NULL, NULL, 'established', 'member', NULL, '2022-02-04 22:05:02', '2022-02-04 22:05:02', 'bee7cf5b3871', 'c4cca3a51342'),
+	('ca9072caa314', 'inactive@test.com', 'c3ALTs6kMHzvN2VDKce+o8z+EXk=', 'inactive', 'member', NULL, '2023-05-01 16:38:06', '2023-05-01 16:38:49', NULL, 'c4cca3a51342'),
+	('c43d5c10b01d', NULL, 'WqoeQElg1hB4NvpL1HfGxG5aNDU=', 'inactive', 'manager', NULL, '2022-01-23 16:19:10', '2023-05-01 16:40:37', '130684395770', '05ce4b9836e9');
 
 
 
@@ -577,7 +578,9 @@ INSERT INTO public.activity_responsible (id, createtime, updatetime, activityid,
 	('b4b496570cd5', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '8f1126e31ddb', 'f08468783b7a'),
 	('02527639ad4e', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '7be390586b33', 'b2ef8a3b319f'),
 	('c2e84a852a64', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'c13b91f0e465', '0e524d43e799'),
-	('4df913eee4de', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'd3cfa12d19f2', '2c313fa367b3');
+	('4df913eee4de', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'd3cfa12d19f2', '2c313fa367b3'),
+	('35fc4156a34a', '2023-05-01 16:38:32', '2023-05-01 16:38:32', '7f33c504d878', 'ca9072caa314'),
+	('0de8cf157ce9', '2023-05-01 16:40:31', '2023-05-01 16:40:31', 'fbc7e0c7eb37', 'c43d5c10b01d');
 
 
 
@@ -702,7 +705,8 @@ INSERT INTO public.material_list (id, materiallistprototypeid, name, createtime,
 	('40abf25cb33e', NULL, 'Bi Pi', '2022-02-04 22:36:43', '2022-02-04 22:36:43', 'c4cca3a51342', NULL),
 	('044ad25c2c25', NULL, 'Salamander', '2022-02-04 22:36:50', '2022-02-04 22:36:50', 'c4cca3a51342', NULL),
 	('4e688b4eea5f', NULL, 'Idefix', '2022-02-04 22:37:09', '2022-02-04 22:37:09', 'c4cca3a51342', NULL),
-	('c5ac484eb310', NULL, 'Snoopy', '2022-02-04 22:37:39', '2022-02-04 22:37:39', 'c4cca3a51342', NULL);
+	('c5ac484eb310', NULL, 'Snoopy', '2022-02-04 22:37:39', '2022-02-04 22:37:39', 'c4cca3a51342', NULL),
+	('dc3b1e248619', NULL, NULL, '2023-05-01 16:38:06', '2023-05-01 16:38:06', 'c4cca3a51342', 'ca9072caa314');
 
 
 
