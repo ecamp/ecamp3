@@ -14,7 +14,9 @@ function dayResponsibles(day, $tc) {
   if (responsibles.length === 0) return ''
   const label = $tc('entity.day.fields.dayResponsibles')
   const displayNames = responsibles
-    .map((responsible) => campCollaborationDisplayName(responsible.campCollaboration()))
+    .map((responsible) =>
+      campCollaborationDisplayName(responsible.campCollaboration(), $tc)
+    )
     .join(', ')
   return `${label}: ${displayNames}`
 }
