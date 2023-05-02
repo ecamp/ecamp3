@@ -54,8 +54,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityProgressLabelRepository::class)]
-// TODO: Gedmo + UniqueConstraint
-// #[ORM\UniqueConstraint(name: 'camp_activity_progress_label', columns: ['campid', 'position'])]
+#[ORM\UniqueConstraint(name: 'activity_progress_label_unique', columns: ['campid', 'position'])]
 class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
