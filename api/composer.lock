@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "851de2b228f03c9ef4acef66966f1631",
+    "content-hash": "bc3ffaa2460efd5de01f609baa977523",
     "packages": [
         {
             "name": "api-platform/core",
@@ -3392,16 +3392,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.17.0",
+            "version": "1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "bd810d15957cf165230e65d9e1a130793265e3b7"
+                "reference": "29ae6fae35f4116bbfe4c8b96ccc3f687eb07cd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/bd810d15957cf165230e65d9e1a130793265e3b7",
-                "reference": "bd810d15957cf165230e65d9e1a130793265e3b7",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/29ae6fae35f4116bbfe4c8b96ccc3f687eb07cd9",
+                "reference": "29ae6fae35f4116bbfe4c8b96ccc3f687eb07cd9",
                 "shasum": ""
             },
             "require": {
@@ -3464,9 +3464,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.17.0"
+                "source": "https://github.com/php-http/discovery/tree/1.18.0"
             },
-            "time": "2023-04-26T15:39:13+00:00"
+            "time": "2023-05-03T14:49:12+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -4865,16 +4865,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.17.0",
+            "version": "3.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "95d2e932383cf684f77acff0d2a5aef5ad2f1933"
+                "reference": "2041f2ed3f82a55eaca31079e106c8b17c89dbda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/95d2e932383cf684f77acff0d2a5aef5ad2f1933",
-                "reference": "95d2e932383cf684f77acff0d2a5aef5ad2f1933",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/2041f2ed3f82a55eaca31079e106c8b17c89dbda",
+                "reference": "2041f2ed3f82a55eaca31079e106c8b17c89dbda",
                 "shasum": ""
             },
             "require": {
@@ -4953,7 +4953,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.17.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.18.0"
             },
             "funding": [
                 {
@@ -4965,23 +4965,24 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-03-26T21:54:06+00:00"
+            "time": "2023-05-03T10:21:22+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.7.0",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "cd2bc2a1ffd5cacc3031feffb8d422cbc2daf5c0"
+                "reference": "bd4b1ed18a40dc7b93f64f4b670a97b0db6bf352"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/cd2bc2a1ffd5cacc3031feffb8d422cbc2daf5c0",
-                "reference": "cd2bc2a1ffd5cacc3031feffb8d422cbc2daf5c0",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/bd4b1ed18a40dc7b93f64f4b670a97b0db6bf352",
+                "reference": "bd4b1ed18a40dc7b93f64f4b670a97b0db6bf352",
                 "shasum": ""
             },
             "require": {
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
                 "jean85/pretty-package-versions": "^1.5 || ^2.0",
                 "php": "^7.2||^8.0",
                 "sentry/sdk": "^3.3",
@@ -5069,7 +5070,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.7.0"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.8.0"
             },
             "funding": [
                 {
@@ -5081,7 +5082,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-03-14T11:26:22+00:00"
+            "time": "2023-05-02T09:07:58+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
