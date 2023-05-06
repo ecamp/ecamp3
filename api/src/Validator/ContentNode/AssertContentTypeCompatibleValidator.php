@@ -2,9 +2,9 @@
 
 namespace App\Validator\ContentNode;
 
-use ApiPlatform\Metadata\Util\ClassInfoTrait;
 use App\Entity\ContentNode;
 use App\Entity\ContentType;
+use App\Util\ClassInfoTrait;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
