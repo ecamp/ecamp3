@@ -43,7 +43,7 @@ class CampRemoveProcessorTest extends TestCase {
         $this->em
             ->expects($this->exactly(2))
             ->method('remove')
-            ->withConsecutive(
+            ->willReturnOnConsecutiveCalls(
                 [
                     $activity->getRootContentNode(),
                 ],
