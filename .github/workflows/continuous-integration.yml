@@ -363,8 +363,7 @@ jobs:
         with:
           name: cypress-output
           path: |
-            ./cypress/screenshots
-            ./cypress/videos
+            e2e/data/**/*
 
       # print docker container logs (good for debugging; can be disabled again later on)
       - run: docker compose logs --tail="all"
