@@ -656,8 +656,8 @@ INSERT INTO public.category_contenttype (category_id, contenttype_id) VALUES
 INSERT INTO public.period (id, description, start, "end", createtime, updatetime, campid) VALUES
 	('ff755e56fe79', 'Hauptlager', '2024-02-20', '2024-02-20', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '6430aecc5422'),
 	('a12a9154b43b', 'Hauptlager', '2021-01-01', '2021-01-01', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e5027d852487'),
-	('16b2fcffdd8e', 'Hauptlager', '2023-05-05', '2023-05-08', '2022-02-04 21:59:10', '2022-02-04 21:59:10', 'c4cca3a51342'),
-	('e8c03e4285cb', 'Hauptlager', '2023-07-03', '2023-07-06', '2022-01-23 16:19:10', '2022-09-11 17:51:43', '05ce4b9836e9');
+	('16b2fcffdd8e', 'Hauptlager', '2024-05-10', '2024-05-13', '2022-02-04 21:59:10', '2023-05-09 20:31:54', 'c4cca3a51342'),
+	('e8c03e4285cb', 'Hauptlager', '2024-07-13', '2024-07-16', '2022-01-23 16:19:10', '2023-05-09 20:32:44', '05ce4b9836e9');
 
 
 
