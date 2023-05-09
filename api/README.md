@@ -8,7 +8,7 @@ To use the API, you will need to log in. You can use the "Login" endpoint offere
 
 If you ever need to get an API token for manual use, you can use the following command:
 
-```
+```shell
 docker compose exec php bin/console lexik:jwt:generate-token test@example.com --no-debug
 ```
 
@@ -20,13 +20,23 @@ See https://jwt.io for more info on the structure of JWT tokens, and https://med
 We are using the following toolchain to ensure code quality standards:
 
 - **PHP CS Fixer**\
-  Run `docker compose exec php composer cs-fix` before committing\
+  Run
+  ```shell
+  docker compose exec php composer cs-fix
+  ```
+  before committing\
   cs-check is integrated into CI (pull request will not pass)
 - **Phpstan**\
-  Run `docker compose exec php composer phpstan`\
+  Run
+  ```shell
+  docker compose exec php composer phpstan
+  ```
   phpstan is integrated into CI (pull request will not pass)
 - **Psalm**\
-  Run `docker compose exec php composer psalm`\
+  Run
+  ```shell
+  docker compose exec php composer psalm
+  ```
   psalm is integrated into CI (pull request will not pass)
 
 ### Debugging
@@ -39,8 +49,12 @@ For phpstorm:\
 For vscode:\
 `XDEBUG_CONFIG="client_host=docker-host idekey=VSCODE"`
 
-After you changed the .env file, you need to recreate the container that the change has an effect.\
-`docker compose down && docker compose up`\
-or\
-`docker-compsoe stop php; docker compose rm php; docker compose up`\  
+After you changed the .env file, you need to recreate the container that the change has an effect.
+```shell
+docker compose down && docker compose up
+```
+or
+```shell
+docker-compsoe stop php; docker compose rm php; docker compose up
+```  
 if you don't want to restart the frontend.
