@@ -82,7 +82,6 @@
                 </v-list-item>
               </template>
               {{ $tc('components.campAdmin.campActivityProgressLabels.deleteWarning') }}
-              <br />
               <ul>
                 <li>
                   {{ progressLabel.title }}
@@ -100,19 +99,18 @@
 import { sortBy } from 'lodash'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import DialogActivityProgressLabelCreate from './DialogActivityProgressLabelCreate.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'CampActivityProgressLabels',
   components: {
     ContentGroup,
     DialogActivityProgressLabelCreate,
+    DialogEntityDelete,
   },
   props: {
     camp: { type: Function, required: true },
     disabled: { type: Boolean, default: false },
-  },
-  data() {
-    return {}
   },
   computed: {
     loading() {
@@ -127,7 +125,7 @@ export default {
     progressLabels() {
       if (!this.loading) {
         const progressLabels = this.camp().progressLabels()
-        return sortBy(progressLabels.items, (label) => label.position)
+        return sortBy(progressLabels.allItems, (label) => label.position)
       }
       return []
     },

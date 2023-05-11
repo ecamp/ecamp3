@@ -39,6 +39,7 @@
       "campActivityProgressLabels": {
         "create": "Create a state",
         "deleteWarning": "Do you really want to delete this state?",
+        "deleteError": "Planing progress can't be deleted. It is still used.",
         "moveDown": "Move down",
         "moveUp": "Move up",
         "title": "Activity planing progress"

@@ -39,6 +39,7 @@
       "campActivityProgressLabels": {
         "create": "Créer un statut",
         "deleteWarning": "Tu veux vraiment supprimer ce statut?",
+        "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
         "moveDown": "Vers le bas",
         "moveUp": "Vers le haut",
         "title": "Progression de la planification des activités"

@@ -39,6 +39,7 @@
       "campActivityProgressLabels": {
         "create": "Status erstellen",
         "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
+        "deleteError": "Planungs-Fortschritt konnte nicht gelöscht werden. Der Status wird noch verwendet.",
         "moveDown": "Nach oben",
         "moveUp": "Nach unten",
         "title": "Block Planungs-Fortschritt"
