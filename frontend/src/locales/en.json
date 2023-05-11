@@ -37,9 +37,11 @@
     },
     "campAdmin": {
       "campActivityProgressLabels": {
-        "title": "Activity planing progress",
         "create": "Create a state",
-        "deleteWarning": "Do you really want to delete this state?"
+        "deleteWarning": "Do you really want to delete this state?",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
+        "title": "Activity planing progress"
       },
       "campAddress": {
         "title": "Address"

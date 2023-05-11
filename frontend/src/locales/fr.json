@@ -37,9 +37,11 @@
     },
     "campAdmin": {
       "campActivityProgressLabels": {
-        "title": "Progression de la planification des activités",
         "create": "Créer un statut",
-        "deleteWarning": "Tu veux vraiment supprimer ce statut?"
+        "deleteWarning": "Tu veux vraiment supprimer ce statut?",
+        "moveDown": "Vers le bas",
+        "moveUp": "Vers le haut",
+        "title": "Progression de la planification des activités"
       },
       "campAddress": {
         "title": "Adresse"

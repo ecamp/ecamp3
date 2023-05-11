@@ -52,13 +52,17 @@
               <v-list-item-icon>
                 <v-icon>mdi-arrow-up-bold</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>UP</v-list-item-title>
+              <v-list-item-title>
+                {{ $tc('components.campAdmin.campActivityProgressLabels.moveUp') }}
+              </v-list-item-title>
             </v-list-item>
             <v-list-item @click="moveDown(progressLabel)">
               <v-list-item-icon>
                 <v-icon>mdi-arrow-down-bold</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>DOWN</v-list-item-title>
+              <v-list-item-title>
+                {{ $tc('components.campAdmin.campActivityProgressLabels.moveDown') }}
+              </v-list-item-title>
             </v-list-item>
 
             <v-divider />

@@ -37,9 +37,11 @@
     },
     "campAdmin": {
       "campActivityProgressLabels": {
-        "title": "Progressi nella pianificazione delle attività",
         "create": "Creare uno stato",
-        "deleteWarning": "Vuoi davvero cancellare questo stato?"
+        "deleteWarning": "Vuoi davvero cancellare questo stato?",
+        "moveDown": "Spostare in basso",
+        "moveUp": "Spostare in alto",
+        "title": "Progressi nella pianificazione delle attività"
       },
       "campAddress": {
         "title": "Indirizzo"

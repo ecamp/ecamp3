@@ -37,9 +37,11 @@
     },
     "campAdmin": {
       "campActivityProgressLabels": {
-        "title": "Block Planungs-Fortschritt",
         "create": "Status erstellen",
-        "deleteWarning": "Möchtest du dieses Status wirklich löschen?"
+        "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
+        "moveDown": "Nach oben",
+        "moveUp": "Nach unten",
+        "title": "Block Planungs-Fortschritt"
       },
       "campAddress": {
         "title": "Lageradresse"
