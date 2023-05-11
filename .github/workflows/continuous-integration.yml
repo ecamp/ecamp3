@@ -311,6 +311,7 @@ jobs:
     needs: e2e-tests-build
     timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
         browser:
           - electron
