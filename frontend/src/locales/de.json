@@ -40,8 +40,8 @@
         "create": "Status erstellen",
         "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
         "deleteError": "Planungs-Fortschritt konnte nicht gelöscht werden. Der Status wird noch verwendet.",
-        "moveDown": "Nach oben",
-        "moveUp": "Nach unten",
+        "moveDown": "Nach unten",
+        "moveUp": "Nach oben",
         "title": "Block Planungs-Fortschritt"
       },
       "campAddress": {
