@@ -31,8 +31,8 @@
         >
           <four-zero-four-display />
         </v-col>
-        <v-col offset-sm="0" sm="12" offset="1" cols="10">
-          <h1 class="font-weight-bold text-center">
+        <v-col offset-sm="0" sm="12" offset="2" cols="8">
+          <h1 class="font-weight-bold text-center px-8">
             {{ $tc('views.pageNotFound.detail') }}
           </h1>
         </v-col>
