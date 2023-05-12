@@ -36,17 +36,17 @@
             {{ $tc('views.pageNotFound.detail') }}
           </h1>
         </v-col>
-        <v-col class='justify-center d-flex'>
+        <v-col class="justify-center d-flex">
           <icon-button
-            v-if='hasHistory'
-            class='mr-5'
+            v-if="hasHistory"
+            class="mr-5"
+            icon="mdi-arrow-left"
             @click="$router.go(-1)"
-            icon='mdi-arrow-left'
-          >{{ $tc('views.pageNotFound.back') }}</icon-button>
-          <icon-button
-            @click="$router.push({ name: 'camps' })"
-            icon='mdi-tent'
-          >{{ $tc('views.pageNotFound.goToCamps') }}</icon-button>
+            >{{ $tc('views.pageNotFound.back') }}</icon-button
+          >
+          <icon-button icon="mdi-tent" @click="$router.push({ name: 'camps' })">{{
+            $tc('views.pageNotFound.goToCamps')
+          }}</icon-button>
         </v-col>
       </v-row>
     </content-card>
@@ -59,14 +59,18 @@ import FourZeroFourDisplay from '@/components/navigation/FourZeroFourDisplay.vue
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import IconButton from '@/components/buttons/IconButton.vue'
 
-
 export default {
   name: 'PageNotFound',
   components: {
     FourZeroFourDisplay,
     UserAvatar,
     ContentCard,
-    IconButton
+    IconButton,
+  },
+  data: () => {
+    return {
+      hasHistory: false,
+    }
   },
   computed: {
     user() {
@@ -74,16 +78,11 @@ export default {
       return this.$store.state.auth.user
     },
   },
-  data: () =>{
-    return {
-      hasHistory: false
+  mounted() {
+    if (window.history.length && window.history.length >= 1) {
+      this.hasHistory = true
     }
   },
-  mounted() {
-    if (window.history.length && window.history.length >= 1 ){
-      this.hasHistory = true;
-    }
-  }
 }
 </script>
 
