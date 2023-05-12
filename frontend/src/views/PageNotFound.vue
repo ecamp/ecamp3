@@ -20,12 +20,12 @@
         <v-col
           offset="0"
           offset-sm="1"
-          offset-md="1"
+          offset-md="2"
           offset-lg="2"
           offset-xl="2"
           cols="12"
           sm="10"
-          md="10"
+          md="8"
           lg="8"
           xl="8"
         >
