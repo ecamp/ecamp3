@@ -361,7 +361,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: cypress-output
+          name: cypress-output-${{ matrix.browser }}
           path: |
             e2e/data/**/*
 
