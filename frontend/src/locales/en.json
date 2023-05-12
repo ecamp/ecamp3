@@ -550,8 +550,10 @@
       "profile": "Profile"
     },
     "pageNotFound": {
-      "detail": "Page not found",
-      "title": "Page not found"
+      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist.",
+      "title": "Page not found",
+      "goToCamps": "Camps overview",
+      "back": "Back"
     }
   }
 }

@@ -36,6 +36,18 @@
             {{ $tc('views.pageNotFound.detail') }}
           </h1>
         </v-col>
+        <v-col class='justify-center d-flex'>
+          <icon-button
+            v-if='hasHistory'
+            class='mr-5'
+            @click="$router.go(-1)"
+            icon='mdi-arrow-left'
+          >{{ $tc('views.pageNotFound.back') }}</icon-button>
+          <icon-button
+            @click="$router.push({ name: 'camps' })"
+            icon='mdi-tent'
+          >{{ $tc('views.pageNotFound.goToCamps') }}</icon-button>
+        </v-col>
       </v-row>
     </content-card>
   </v-container>
@@ -45,6 +57,8 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import FourZeroFourDisplay from '@/components/navigation/FourZeroFourDisplay.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
+import IconButton from '@/components/buttons/IconButton.vue'
+
 
 export default {
   name: 'PageNotFound',
@@ -52,6 +66,7 @@ export default {
     FourZeroFourDisplay,
     UserAvatar,
     ContentCard,
+    IconButton
   },
   computed: {
     user() {
@@ -59,6 +74,16 @@ export default {
       return this.$store.state.auth.user
     },
   },
+  data: () =>{
+    return {
+      hasHistory: false
+    }
+  },
+  mounted() {
+    if (window.history.length && window.history.length >= 1 ){
+      this.hasHistory = true;
+    }
+  }
 }
 </script>
 
