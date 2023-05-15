@@ -11,8 +11,7 @@ Show all activity schedule entries of a single period.
         v-model="editMode"
         :shake="showReminder"
         :disabled-for-guest="!isContributor"
-        :message="$tc('views.camp.campProgram.guestsCannotEdit')"
-        @dblclick="editMode = !editMode"
+        @click="editMode = !editMode"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">

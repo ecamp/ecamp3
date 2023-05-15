@@ -6,7 +6,7 @@
       <LockIcon
         v-model="editing"
         :disabled-for-guest="!isContributor"
-        @dblclick="editing = !editing"
+        @click="editing = !editing"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
