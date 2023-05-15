@@ -107,6 +107,7 @@
 import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { timestampToUtcString } from '@/common/helpers/dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
@@ -180,20 +181,12 @@ export default {
       return this.scrollHeight <= this.clientHeight
     },
     durationText() {
-      const start = this.$date(this.scheduleEntry.startTimestamp).utc(true)
-      const end = this.$date(this.scheduleEntry.endTimestamp).utc(true)
+      const start = timestampToUtcString(this.scheduleEntry.startTimestamp)
+      const end = timestampToUtcString(this.scheduleEntry.endTimestamp)
       if (this.dateShort(start) === this.dateShort(end)) {
-        return this.hourShort(start) + ' - ' + this.hourShort(end)
+        return this.rangeTime(start, end)
       } else {
-        return (
-          this.dateShort(start) +
-          ' ' +
-          this.hourShort(start) +
-          ' - ' +
-          this.dateShort(end) +
-          ' ' +
-          this.hourShort(end)
-        )
+        return this.rangeShort(start, end)
       }
     },
     location() {
