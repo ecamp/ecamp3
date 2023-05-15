@@ -27,7 +27,6 @@ Displays a field as a picker (can be used with v-model)
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
-          @click="(...args) => onMenuOpen(on, ...args)"
           @input="debouncedParseValue"
         >
           <template v-if="icon" #prepend>
