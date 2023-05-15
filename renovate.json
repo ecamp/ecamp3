@@ -104,12 +104,6 @@
     },
     {
       "matchPackageNames": [
-        "alpine"
-      ],
-      "allowedVersions": "3.16"
-    },
-    {
-      "matchPackageNames": [
         "postgres"
       ],
       "allowedVersions": "15-alpine"

@@ -265,11 +265,11 @@ class CreatePeriodTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'start',
-                    'message' => 'This value should be less than or equal to Jan 9, 2021, 12:00 AM.',
+                    'message' => 'This value should be less than or equal to Jan 9, 2021, 12:00 AM.',
                 ],
                 [
                     'propertyPath' => 'end',
-                    'message' => 'This value should be greater than or equal to Jan 10, 2021, 12:00 AM.',
+                    'message' => 'This value should be greater than or equal to Jan 10, 2021, 12:00 AM.',
                 ],
             ],
         ]);

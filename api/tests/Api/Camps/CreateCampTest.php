@@ -126,7 +126,7 @@ class CreateCampTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'periods[0].start',
-                    'message' => 'This value should be less than or equal to Jan 8, 2022, 12:00 AM.',
+                    'message' => 'This value should be less than or equal to Jan 8, 2022, 12:00 AM.',
                 ],
             ],
         ]);
