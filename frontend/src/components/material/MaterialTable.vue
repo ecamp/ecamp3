@@ -198,6 +198,8 @@ import ServerErrorContent from '@/components/form/ServerErrorContent.vue'
 import ButtonRetry from '@/components/buttons/ButtonRetry.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import * as Sentry from '@sentry/browser'
+import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'MaterialTable',
@@ -399,6 +401,8 @@ export default {
         // catch server error
         .catch((error) => {
           this.$set(this.newMaterialItems[key], 'serverError', error)
+          this.$toast.error(errorToMultiLineToast(error))
+          Sentry.captureMessage(serverErrorToString(error))
         })
     },
 
