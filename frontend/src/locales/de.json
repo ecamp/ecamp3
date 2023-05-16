@@ -152,7 +152,8 @@
       }
     },
     "generic": {
-      "lockIcon": {
+      "lockButton": {
+        "clickToLock": "Klicken um zu sperren",
         "clickToUnlock": "Klicken um zu entsperren",
         "guestsCannotEdit": "Gäste können nicht bearbeiten"
       }

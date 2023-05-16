@@ -144,7 +144,8 @@
       }
     },
     "generic": {
-      "lockIcon": {
+      "lockButton": {
+        "clickToLock": "Clique pour verrouiller",
         "clickToUnlock": "Clique pour déverrouiller",
         "guestsCannotEdit": "Les invités n'ont pas le droit de modifier"
       }

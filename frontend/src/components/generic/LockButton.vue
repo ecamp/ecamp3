@@ -1,18 +1,19 @@
 <template>
   <v-tooltip :disabled="tooltip == ''" bottom>
     <template #activator="{ on }">
-      <v-icon v-if="value" small v-on="{ click: iconClick, ...on }">
-        mdi-lock-open-variant
-      </v-icon>
-      <v-icon
-        v-else
+      <v-btn
+        icon
         small
-        color="grey"
+        :aria-label="tooltip"
+        :disabled="disabledForGuest"
+        class="e-pointer-events-auto"
         :class="{ 'e-shake-lock': shake }"
-        v-on="{ click: iconClick, ...on }"
+        @click="$emit('click')"
+        v-on="on"
       >
-        mdi-lock
-      </v-icon>
+        <v-icon v-if="value" small>mdi-lock-open-variant</v-icon>
+        <v-icon v-else small>mdi-lock</v-icon>
+      </v-btn>
     </template>
     <span>{{ tooltip }}</span>
   </v-tooltip>
@@ -20,7 +21,7 @@
 
 <script>
 export default {
-  name: 'LockIcon',
+  name: 'LockButton',
   props: {
     value: {
       type: Boolean,
@@ -44,34 +45,27 @@ export default {
   computed: {
     tooltip() {
       if (this.disabledForGuest) {
-        return this.$tc('components.generic.lockIcon.guestsCannotEdit')
+        return this.$tc('components.generic.lockButton.guestsCannotEdit')
       }
       if (this.message) {
         return this.message
       }
       if (!this.value) {
-        return this.$tc('components.generic.lockIcon.clickToUnlock')
+        return this.$tc('components.generic.lockButton.clickToUnlock')
       }
-      return ''
-    },
-  },
-  methods: {
-    iconClick() {
-      if (!this.disabledForGuest) {
-        this.$emit('click')
-      }
+      return this.$tc('components.generic.lockButton.clickToLock')
     },
   },
 }
 </script>
 
 <style scoped>
-.v-icon {
-  cursor: pointer;
-}
-
 .e-shake-lock {
   animation: horizontal-shaking 0.5s linear 1;
+}
+
+.e-pointer-events-auto {
+  pointer-events: auto;
 }
 
 @keyframes horizontal-shaking {

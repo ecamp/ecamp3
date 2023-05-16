@@ -152,7 +152,8 @@
       }
     },
     "generic": {
-      "lockIcon": {
+      "lockButton": {
+        "clickToLock": "Click to lock",
         "clickToUnlock": "Click to unlock",
         "guestsCannotEdit": "Guests have no permission to edit"
       }
