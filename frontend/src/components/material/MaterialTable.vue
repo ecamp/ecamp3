@@ -54,6 +54,7 @@
         dense
         :uri="item.uri"
         fieldname="unit"
+        maxlength="32"
       />
       <span v-if="item.readonly">{{ item.unit }}</span>
     </template>
@@ -65,6 +66,7 @@
         dense
         :uri="item.uri"
         fieldname="article"
+        maxlength="64"
       />
       <span v-if="item.readonly">{{ item.article }}</span>
     </template>

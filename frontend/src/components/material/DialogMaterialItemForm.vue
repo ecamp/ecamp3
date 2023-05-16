@@ -9,11 +9,13 @@
     <e-text-field
       v-model="localMaterialItem.unit"
       :name="$tc('entity.materialItem.fields.unit')"
+      maxlength="32"
     />
     <e-text-field
       v-model="localMaterialItem.article"
       :name="$tc('entity.materialItem.fields.article')"
       vee-rules="required"
+      maxlength="64"
     />
     <e-select
       v-model="localMaterialItem.materialList"
