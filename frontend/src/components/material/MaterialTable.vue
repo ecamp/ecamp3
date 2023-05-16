@@ -377,7 +377,7 @@ export default {
     // retry to save to API (after server error)
     retry(item) {
       // reset error
-      this.$set(this.newMaterialItems[item.id], 'serverError', null)
+      this.$set(this.newMaterialItems[item.id], 'serverError', undefined)
 
       // try to save same data again
       this.postToApi(item.id, this.newMaterialItems[item.id])
