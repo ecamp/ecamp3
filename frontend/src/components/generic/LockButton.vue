@@ -1,19 +1,17 @@
 <template>
   <v-tooltip :disabled="tooltip == ''" bottom>
     <template #activator="{ on }">
-      <v-btn
-        icon
-        small
+      <button
         :aria-label="tooltip"
-        :disabled="disabledForGuest"
-        class="e-pointer-events-auto"
+        :aria-disabled="disabledForGuest"
+        class="v-btn v-btn--icon v-btn--round v-size--small"
         :class="{ 'e-shake-lock': shake }"
-        @click="$emit('click')"
+        @click="onClick"
         v-on="on"
       >
         <v-icon v-if="value" small>mdi-lock-open-variant</v-icon>
         <v-icon v-else small>mdi-lock</v-icon>
-      </v-btn>
+      </button>
     </template>
     <span>{{ tooltip }}</span>
   </v-tooltip>
@@ -56,16 +54,19 @@ export default {
       return this.$tc('components.generic.lockButton.clickToLock')
     },
   },
+  methods: {
+    onClick() {
+      if (!this.disabledForGuest) {
+        this.$emit('click')
+      }
+    },
+  },
 }
 </script>
 
 <style scoped>
 .e-shake-lock {
   animation: horizontal-shaking 0.5s linear 1;
-}
-
-.e-pointer-events-auto {
-  pointer-events: auto;
 }
 
 @keyframes horizontal-shaking {
