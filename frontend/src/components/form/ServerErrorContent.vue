@@ -1,6 +1,7 @@
 <template>
   <div>
-    <ul>
+    <span v-if="errorList.length === 1">{{ errorList[0] }}</span>
+    <ul v-else>
       <li v-for="(error, index) in errorList" :key="index">
         {{ error }}
       </li>
