@@ -1,6 +1,6 @@
 import MultiLineToast from '@/components/toast/MultiLineToast.vue'
 import i18n from '@/plugins/i18n'
-import { transformViolations } from '@/helpers/serverError'
+import { violationsToFlatArray } from '@/helpers/serverError'
 
 function multiLineToast(lines) {
   return {
@@ -12,32 +12,8 @@ function multiLineToast(lines) {
   }
 }
 
-function violationsToFlatArray(e) {
-  const violationsObject = transformViolations(e, i18n)
-  const violations = Object.entries(violationsObject)
-  if (violations.length === 0) {
-    return []
-  }
-  if (violations.length === 1 && violationsObject[0]) {
-    return [violationsObject[0]]
-  }
-  const toArray = (element) => {
-    if (Array.isArray(element)) {
-      return element
-    }
-    return [element]
-  }
-  const result = []
-  for (const [key, value] of Object.entries(violationsObject)) {
-    for (const message of toArray(value)) {
-      result.push(`${key}: ${message}`)
-    }
-  }
-  return result
-}
-
 function errorToMultiLineToast(error) {
-  return multiLineToast(violationsToFlatArray(error))
+  return multiLineToast(violationsToFlatArray(error, i18n))
 }
 
-export { errorToMultiLineToast, multiLineToast, violationsToFlatArray }
+export { errorToMultiLineToast, multiLineToast }
