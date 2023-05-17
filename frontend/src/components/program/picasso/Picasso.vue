@@ -180,18 +180,14 @@ export default {
       timed: true,
       tmpEvent: true,
     })
-    const createEntry = (startTimestamp, endTimestamp, finished) => {
+    const updatePlaceholder = (startTimestamp, endTimestamp) => {
+      placeholder.startTimestamp = startTimestamp
+      placeholder.endTimestamp = endTimestamp
+    }
+    const createEntry = (startTimestamp, endTimestamp) => {
       const start = timestampToUtcString(startTimestamp)
       const end = timestampToUtcString(endTimestamp)
-
-      if (finished) {
-        placeholder.startTimestamp = 0
-        placeholder.endTimestamp = 0
-        emit('newEntry', start, end)
-      } else {
-        placeholder.startTimestamp = startTimestamp
-        placeholder.endTimestamp = endTimestamp
-      }
+      emit('newEntry', start, end)
     }
 
     const showReminder = (move) => {
@@ -213,7 +209,7 @@ export default {
       updateEntry,
       calendarEndTimestamp
     )
-    const dragAndDropNew = useDragAndDropNew(editable, createEntry)
+    const dragAndDropNew = useDragAndDropNew(editable, updatePlaceholder, createEntry)
     const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
 
     // merge mouseleave handlers

@@ -3,10 +3,11 @@ import { toTime, roundTimeToNearestQuarterHour } from '@/helpers/vCalendarDragAn
 /**
  *
  * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
- * @param createEntry {(startTime:number, endTime:number, finished:boolean) => void}
+ * @param updatePlaceholder {(startTime:number, endTime:number) => void}
+ * @param createEntry {(startTime:number, endTime:number) => void}
  * @returns
  */
-export function useDragAndDropNew(enabled, createEntry) {
+export function useDragAndDropNew(enabled, updatePlaceholder, createEntry) {
   /**
    * internal data (not exposed)
    */
@@ -28,10 +29,11 @@ export function useDragAndDropNew(enabled, createEntry) {
     newEntry = null
     mouseStartTimestamp = null
     entryWasClicked = false
+    updatePlaceholder(0, 0)
   }
 
   // this creates a placeholder for a new schedule entry and make it resizable
-  const createNewEntry = (time) => {
+  const startDragOperation = (time) => {
     newEntry = {
       startTimestamp: time,
       endTimestamp: time,
@@ -87,7 +89,7 @@ export function useDragAndDropNew(enabled, createEntry) {
       // No entry is being dragged --> create a placeholder for a new schedule entry
       const mouseTime = toTime(tms)
       mouseStartTimestamp = roundTimeToNearestQuarterHour(mouseTime)
-      createNewEntry(mouseStartTimestamp)
+      startDragOperation(mouseStartTimestamp)
     }
   }
 
@@ -103,7 +105,7 @@ export function useDragAndDropNew(enabled, createEntry) {
       resizeEntry(newEntry, mouseTime)
 
       if (newEntry.endTimestamp - newEntry.startTimestamp > 0) {
-        createEntry(newEntry.startTimestamp, newEntry.endTimestamp, false)
+        updatePlaceholder(newEntry.startTimestamp, newEntry.endTimestamp)
       }
     }
   }
@@ -116,7 +118,7 @@ export function useDragAndDropNew(enabled, createEntry) {
 
     if (newEntry && newEntry.endTimestamp - newEntry.startTimestamp > 0) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
-      createEntry(newEntry.startTimestamp, newEntry.endTimestamp, true)
+      createEntry(newEntry.startTimestamp, newEntry.endTimestamp)
     }
 
     clear()
