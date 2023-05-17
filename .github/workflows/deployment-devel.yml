@@ -1,0 +1,31 @@
+name: CI + CD for devel
+
+on:
+  push:
+    branches:
+      - devel
+  workflow_dispatch:
+
+jobs:
+  continuous-integration:
+    name: "Continuous integration"
+    uses: ./.github/workflows/continuous-integration.yml
+
+  build-and-push:
+    name: Build and push docker images
+    needs: continuous-integration
+    uses: ./.github/workflows/reusable-build-and-push.yml
+    with:
+      tag: latest
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+  upgrade-or-install-deployment:
+    name: Upgrade or install deployment
+    needs: build-and-push
+    uses: ./.github/workflows/reusable-dev-deployment.yml
+    with:
+      name: dev
+      env: dev
+    secrets: inherit

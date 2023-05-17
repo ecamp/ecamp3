@@ -169,4 +169,5 @@ export default {
   env: {
     FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
   },
+  telemetry: false,
 }

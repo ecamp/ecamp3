@@ -105,6 +105,7 @@ import { isAdmin } from '@/plugins/auth'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Camps',
@@ -138,9 +139,9 @@ export default {
         (c) => !c.periods().items.some((p) => new Date(p.end) > new Date())
       )
     },
-    user() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
   },
   async mounted() {
     this.loadCamps()

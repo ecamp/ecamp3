@@ -49,7 +49,7 @@ function ScheduleEntry(props) {
             >
               {scheduleEntry.number}{' '}
             </Text>
-            <CategoryLabel activity={activity} style={{ margin: '4pt 0' }} />
+            <CategoryLabel category={activity.category()} style={{ margin: '4pt 0' }} />
             <Text style={{ margin: '4pt 0', overflow: 'ellipsis' }}>
               {' '}
               {activity.title}

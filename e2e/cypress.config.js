@@ -1,7 +1,5 @@
 const { defineConfig } = require('cypress')
-
-const fs = require('fs')
-const path = require('path')
+const { deleteDownloads } = require('./tasks/deleteDownloads')
 
 module.exports = defineConfig({
   video: false,
@@ -10,24 +8,11 @@ module.exports = defineConfig({
   screenshotsFolder: 'data/screenshots',
   videosFolder: 'data/videos',
   downloadsFolder: 'data/downloads',
+  trashAssetsBeforeRuns: false,
   e2e: {
     setupNodeEvents(on, config) {
       on('task', {
-        deleteDownloads() {
-          const dirPath = config.downloadsFolder
-          fs.readdir(dirPath, (err, files) => {
-            if (err) {
-              console.log(err)
-            } else {
-              files.forEach((file) => {
-                fs.unlink(path.join(dirPath, file), () => {
-                  console.log('Removed ' + file)
-                })
-              })
-            }
-          })
-          return null
-        },
+        deleteDownloads: () => deleteDownloads(config),
       })
     },
     specPattern: 'specs/**/*.cy.{js,jsx,ts,tsx}',

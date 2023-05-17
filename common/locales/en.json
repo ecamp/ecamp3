@@ -111,10 +111,17 @@
         "addressName": "Name",
         "addressStreet": "Street",
         "addressZipcode": "Zipcode",
+        "coachName": "Name of Y+S coach",
         "couponKey": "Coupon",
+        "courseKind": "Course kind (for Y+S courses: Y+S course term)",
+        "courseNumber": "Course number",
+        "kind": "Camp kind (house, tent, traveling, summer, autumn)",
+        "organizer": "Organizer",
         "motto": "Motto",
         "name": "Name",
-        "title": "Title"
+        "printYSLogoOnPicasso": "Print the Y+S logo on the picasso (required for Y+S courses)",
+        "title": "Title",
+        "trainingAdvisorName": "Name of training advisor"
       },
       "name": "Camp | Camps",
       "prototype": "Camp prototype"
@@ -201,7 +208,13 @@
       "title": "Cover page"
     },
     "picasso": {
-      "title": "Program overview for {period}"
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Course number: {courseNumber}",
+        "leaders": "Lead: {leaders}",
+        "trainingAdvisor": "Training advisor: {trainingAdvisor}"
+      },
+      "title": "Program overview {period}"
     },
     "program": {
       "title": "Program"

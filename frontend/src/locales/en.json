@@ -46,6 +46,14 @@
         "editLayout": "Edit layout",
         "title": "Activity categories"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Additional fields for courses"
+        },
+        "ysCamp": {
+          "title": "Additional fields for Y+S camps"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Once you delete a camp, there is no going back. Please be certain.",
@@ -152,8 +160,9 @@
       }
     },
     "generic": {
-      "lockIcon": {
-        "doubleClickToUnlock": "Double click to unlock",
+      "lockButton": {
+        "clickToLock": "Click to lock",
+        "clickToUnlock": "Click to unlock",
         "guestsCannotEdit": "Guests have no permission to edit"
       }
     },
@@ -374,11 +383,12 @@
         "title": "Your account will be activated"
       },
       "login": {
+        "acceptTermsOfServiceOnOAuthLogin": "By logging in via one of these services, you accept the {termsOfServiceLink}.",
         "accountless": "Don't have an account yet?",
         "email": "Email",
         "infoText": {
           "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
-          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!"
+          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!<br>Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "You will be logged in"
@@ -393,10 +403,11 @@
           "jubladb": "JublaDB",
           "midata": "MiData"
         },
-        "registernow": "Register now"
+        "registernow": "Register now",
+        "termsOfServiceLink": "terms of service"
       },
       "register": {
-        "acceptTermsOfUse": "Accept the terms of use",
+        "acceptTermsOfService": "Accept the terms of service",
         "alreadyHaveAnAccount": "Already have an account?",
         "passwordConfirmation": "Enter password again",
         "register": "Register",
@@ -430,7 +441,6 @@
         "title": "Admin"
       },
       "campProgram": {
-        "guestsCannotEdit": "A guest cannot edit the picasso",
         "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"

@@ -1,9 +1,18 @@
-name: CI
+name: CI (mandatory checks)
 
 on:
   push:
+    branches-ignore:
+      - staging
+      - prod
+      - devel
+    tags-ignore:
+      - staging
+      - prod
   pull_request:
+  merge_group:
   workflow_dispatch:
+  workflow_call:
 
 env:
   USER_ID: 1001
@@ -11,30 +20,15 @@ env:
   COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
-  api-validate-composer-lock:
-    name: 'Validate Api Platform composer.lock'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1.13'
-          tools: composer:2.5.0
-          coverage: xdebug
-
-      - run: composer validate -n --no-check-all --no-check-publish --strict
-        working-directory: api
-
   api-cs-check:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.13'
+          php-version: '8.2.5'
           tools: composer:2.5.0
           coverage: xdebug
 
@@ -43,7 +37,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -56,77 +50,17 @@ jobs:
       - run: php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff
         working-directory: api
 
-  api-psalm:
-    name: 'Lint: API (psalm)'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1.13'
-          tools: composer:2.5.0
-          coverage: xdebug
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
-        working-directory: api
-
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
-        working-directory: api
-
-      - run: composer psalm
-        working-directory: api
-
-  api-phpstan:
-    name: 'Lint: API (phpstan)'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1.13'
-          tools: composer:2.5.0
-          coverage: xdebug
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
-        working-directory: api
-
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
-        working-directory: api
-
-      - run: composer phpstan
-        working-directory: api
-
   frontend-eslint:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.15.0'
+          node-version: '18.16.0'
 
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -149,13 +83,13 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.15.0'
+          node-version: '18.16.0'
 
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -196,11 +130,11 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.13'
+          php-version: '8.2.5'
           tools: composer:2.5.0
           coverage: xdebug
 
@@ -209,7 +143,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -247,68 +181,17 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: api
 
-  api-validate-migrations:
-    name: 'API: validate migrations'
-    runs-on: ubuntu-latest
-    env:
-      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
-
-    services:
-      postgres:
-        image: 'postgres:15-alpine'
-        env:
-          POSTGRES_DB: 'ecamp3test'
-          POSTGRES_PASSWORD: 'ecamp3'
-          POSTGRES_USER: 'ecamp3'
-        ports:
-          - '5432:5432'
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1.13'
-          tools: composer:2.5.0
-          coverage: xdebug
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
-        working-directory: api
-
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - run: composer install --prefer-dist --no-progress --no-interaction
-        working-directory: api
-
-      - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
-        working-directory: api
-
-      - run: php bin/console doctrine:schema:validate -v -e test
-        working-directory: api
-
   frontend-tests:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.15.0'
+          node-version: '18.16.0'
 
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -340,13 +223,13 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.15.0'
+          node-version: '18.16.0'
 
-      - uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -376,14 +259,12 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: print
 
-  e2e-tests:
-    name: 'Tests: End-to-end'
+  e2e-tests-build:
+    name: 'Tests: End-to-end (build job)'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-
-      - run: cp .env.ci .env
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - name: Set up Docker Buildx
         id: buildx
@@ -399,9 +280,10 @@ jobs:
           load: true
           target: api_platform_php_dev
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-api-php
+          tags: ecamp/ecamp3-dev-api-php
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
+          outputs: type=docker,dest=/tmp/ecamp3-dev-api-php.tar
 
       # build caddy (using cache; provide image to docker compose)
       - name: Build docker image (Caddy)
@@ -413,55 +295,78 @@ jobs:
           load: true
           target: api_platform_caddy
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-api-caddy
+          tags: ecamp/ecamp3-dev-api-caddy
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
-      
-      # build frontend (using cache; provide image to docker compose)
-      - name: Build docker image (Frontend)
-        uses: docker/build-push-action@v4
-        with:
-          file: frontend/Dockerfile
-          context: './frontend'
-          push: false
-          load: true
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-frontend
-          cache-from: type=gha,scope=frontend
-          cache-to: type=gha,scope=frontend,mode=max
+          outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
 
-      # build print (using cache; provide image to docker compose)
-      - name: Build docker image (Print)
-        uses: docker/build-push-action@v4
+      - uses: actions/upload-artifact@v3
         with:
-          file: print/Dockerfile
-          context: './print'
-          push: false
-          load: true
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-print
-          cache-from: type=gha,scope=print
-          cache-to: type=gha,scope=print,mode=max
+          name: e2e-tests-images
+          path: /tmp/ecamp3-dev-*.tar
+
+  e2e-tests-run:
+    name: 'Tests: End-to-end'
+    runs-on: ubuntu-latest
+    needs: e2e-tests-build
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - electron
+          - chrome
+          - firefox
+          - edge
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+
+      - run: cp .env.ci .env
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Restore tmp folder
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-tests-images
+          path: /tmp
+
+      - name: Load images
+        run: |
+          docker load --input /tmp/ecamp3-dev-api-php.tar
+          docker load --input /tmp/ecamp3-dev-api-caddy.tar
+          docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: .cache
-          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
           restore-keys: |
             docker-compose-
 
       # start necessary containers
       - run: docker compose up -d php caddy frontend print browserless database docker-host
-      
+
       - uses: cypress-io/github-action@v5
         with:
           working-directory: e2e
-          browser: chrome
+          browser: ${{ matrix.browser }}
           wait-on: 'http://localhost:3000, http://localhost:3000/api'
           wait-on-timeout: 300
 
-      # print docker container logs (good for debugging; can be disabled again lateron)
+      # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-output
+          path: |
+            ./cypress/screenshots
+            ./cypress/videos
+
+      # print docker container logs (good for debugging; can be disabled again later on)
       - run: docker compose logs --tail="all"
         if: always()
 
@@ -480,7 +385,7 @@ jobs:
 
   ci-passed-event:
     name: 'Send out CI success event'
-    if: github.event_name == 'push' && (github.repository_owner == 'ecamp' || (github.event.pull_request && github.event.pull_request.number))
+    if: github.event_name == 'push' && (github.event.pull_request && github.event.pull_request.number)
     needs:
       - api-cs-check
       - frontend-eslint
@@ -488,11 +393,10 @@ jobs:
       - api-tests
       - frontend-tests
       - print-tests
-      - e2e-tests
+      - e2e-tests-run
     runs-on: ubuntu-latest
     steps:
       - uses: peter-evans/repository-dispatch@26b39ed245ab8f31526069329e112ab2fb224588 # v2
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
           event-type: ci-passed
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

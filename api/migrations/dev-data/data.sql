@@ -2,17 +2,17 @@
 
 
 
-INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash) VALUES
-	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('e5433660140b', 'joan.doyle@lynch.net', 'Wanda', 'Koelpin', 'sit', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('d36197370d44', 'evonrueden@hotmail.com', 'Clifford', 'Beier', 'sed', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('f9f1a2f9af25', 'reichel.zetta@hotmail.com', 'Zora', 'Steuber', 'Baghira', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL),
-	('0870635edda6', 'lane65@yahoo.com', 'Tremaine', 'Kohler', 'Idefix', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL),
-	('22dce794d4e2', 'ivy.mann@hotmail.com', 'Pat', 'Fadel', 'Snoopy', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL),
-	('4cda72af2704', 'rdooley@gmail.com', 'Karlie', 'Terry', 'ET', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL),
-	('7d03c967be7e', 'hans.muster@example2.com', 'Hans', 'Muster', 'Castor', 'de', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL),
-	('d46337a76a2c', 'fritz.mueller@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash, jubladbid) VALUES
+	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('e5433660140b', 'joan.doyle@lynch.net', 'Wanda', 'Koelpin', 'sit', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('d36197370d44', 'evonrueden@hotmail.com', 'Clifford', 'Beier', 'sed', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('f9f1a2f9af25', 'reichel.zetta@hotmail.com', 'Zora', 'Steuber', 'Baghira', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL, NULL),
+	('0870635edda6', 'lane65@yahoo.com', 'Tremaine', 'Kohler', 'Idefix', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('22dce794d4e2', 'ivy.mann@hotmail.com', 'Pat', 'Fadel', 'Snoopy', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL, NULL),
+	('4cda72af2704', 'rdooley@gmail.com', 'Karlie', 'Terry', 'ET', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('7d03c967be7e', 'hans.muster@example2.com', 'Hans', 'Muster', 'Castor', 'de', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL, NULL),
+	('d46337a76a2c', 'fritz.mueller@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 
@@ -30,12 +30,12 @@ INSERT INTO public."user" (id, state, activationkeyhash, password, createtime, u
 
 
 
-INSERT INTO public.camp (id, campprototypeid, isprototype, name, title, motto, addressname, addressstreet, addresszipcode, addresscity, createtime, updatetime, creatorid, ownerid) VALUES
+INSERT INTO public.camp (id, campprototypeid, isprototype, name, title, motto, addressname, addressstreet, addresszipcode, addresscity, createtime, updatetime, creatorid, ownerid, couponkey, organizer, kind, coachname, coursenumber, coursekind, trainingadvisorname, printyslogoonpicasso) VALUES
 	('6430aecc5422', NULL, false, 'CampUnrelated', 'vero', 'Officia id corporis incidunt saepe provident esse hic eligendi.', 'quos', '57654 Ondricka Trace Suite 792
-Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', '3b41dca5c568'),
-	('05ce4b9836e9', NULL, false, 'Sola 2023', 'Harry Potter Lager', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2022-01-23 16:19:10', '2022-02-04 19:01:39', 'bae69a1c9fcc', '9145944210a7'),
-	('e5027d852487', NULL, true, 'J+S', 'J+S', '', '', '', '', '', '2022-01-23 16:19:10', '2022-02-04 21:45:19', '3b41dca5c568', '3b41dca5c568'),
-	('c4cca3a51342', 'e5027d852487', false, 'Pfila 2023', 'GRGR', 'Grandiose RealityTV Show', NULL, NULL, NULL, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', '9145944210a7');
+Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', '3b41dca5c568', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false),
+	('05ce4b9836e9', NULL, false, 'Sola 2023', 'Harry Potter Lager', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2022-01-23 16:19:10', '2022-02-04 19:01:39', 'bae69a1c9fcc', '9145944210a7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false),
+	('e5027d852487', NULL, true, 'J+S', 'J+S', '', '', '', '', '', '2022-01-23 16:19:10', '2022-02-04 21:45:19', '3b41dca5c568', '3b41dca5c568', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false),
+	('c4cca3a51342', 'e5027d852487', false, 'Pfila 2023', 'GRGR', 'Grandiose RealityTV Show', NULL, NULL, NULL, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', '9145944210a7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false);
 
 
 
@@ -383,31 +383,31 @@ INSERT INTO public.content_node (id, slot, "position", instancename, createtime,
 	('3eaff9779e2b', '2', 0, NULL, '2022-02-04 23:11:49', '2022-02-04 23:11:49', '9b0e779f3238', '3790643b388a', '318e064ea0c9', 'singletext', '{"html": ""}'),
 	('e6a88d775b88', '2', 2, NULL, '2022-02-04 23:11:54', '2022-02-04 23:11:54', '9b0e779f3238', '3790643b388a', '4f0c657fecef', 'singletext', '{"html": ""}'),
 	('c110b87081cc', '2', 1, NULL, '2022-02-04 23:12:02', '2022-02-04 23:12:05', '9b0e779f3238', '3790643b388a', '44dcc7493c65', 'singletext', '{"html": ""}'),
-	('e9b1e194ed58', '1', 0, NULL, '2022-02-04 19:11:47', '2022-02-04 19:11:47', '869c7bbcf042', '60434c561273', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('259021e7e537', '1', 0, NULL, '2022-02-04 19:13:37', '2022-02-04 19:13:37', '3653b3134fc5', 'c8186cf53cba', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('e65a6b99f181', '1', 0, NULL, '2022-02-04 19:15:38', '2022-02-04 19:15:38', '75a94bbedf29', '7996f3bd8e17', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('681d9e648543', '1', 0, NULL, '2022-02-04 19:37:23', '2022-02-04 19:37:23', 'd62d16c6afb6', '2210bc67a4ce', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('1dc712f27811', '1', 0, NULL, '2022-02-04 19:41:39', '2022-02-04 19:41:39', 'cd89a68084ff', '5f33da2c3f83', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('e4ffb5d84c4e', '1', 0, NULL, '2022-02-04 19:43:24', '2022-02-04 19:43:24', 'af6d3bd31bfb', '9e734d837c16', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('48f7bc420ed6', '1', 0, NULL, '2022-02-04 19:46:20', '2022-02-04 19:46:20', '25aa0c832b70', 'e9c6cb975605', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('f65d5c56cc9e', '1', 0, NULL, '2022-02-04 19:47:02', '2022-02-04 19:47:02', '303e8d9d2e2e', 'f71ace6060ae', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('60f7a48c4466', '1', 0, NULL, '2022-02-04 19:47:50', '2022-02-04 19:47:50', '160930523ce2', '1f1f866f0cbb', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('ea0f65060295', '1', 0, NULL, '2022-02-04 19:49:02', '2022-02-04 19:49:02', '656295313d5c', '81dda09111d5', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('d1bc88c0f52e', '1', 0, NULL, '2022-02-04 19:49:34', '2022-02-04 19:49:34', '5bdd84d2ab79', '67be10a1b564', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('e37eb1a06e03', '1', 0, NULL, '2022-02-04 19:50:07', '2022-02-04 19:50:07', 'a29cff2d1d03', 'af6d5af59785', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('d245021c46fa', '1', 0, NULL, '2022-02-04 19:51:36', '2022-02-04 19:51:36', '6127f9640b45', '2d0de0759cd4', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('90bee6cb8815', '1', 0, NULL, '2022-02-04 19:51:56', '2022-02-04 19:51:56', 'e2ba5d9578b7', 'e44cf76f839d', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('0b625c957d44', '1', 0, NULL, '2022-02-04 19:52:59', '2022-02-04 19:52:59', '50172d027864', 'a7c05f91afbc', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('776dcb8f8664', '1', 0, NULL, '2022-02-04 19:53:09', '2022-02-04 19:53:09', '78904734f1c0', '6e929eaf43e5', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('1d40f6697b8c', '1', 0, NULL, '2022-02-04 19:53:15', '2022-02-04 19:53:15', '11d4984c77c6', 'f8e595ca2a2a', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('1dd5c52abd01', '1', 0, NULL, '2022-02-04 21:42:24', '2022-02-04 21:42:24', '8fa1c8e597c3', '0a23aa100e1b', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('9dda4a6262eb', '1', 0, NULL, '2022-02-04 21:43:13', '2022-02-04 21:43:13', 'fb21b1c912fd', '5598534f6d7f', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('a1488a153b81', '1', 0, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '51d2e8dd6747', '48393c2e4cd6', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('8d07e57ba2f9', '1', 0, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', 'd0d0bef87638', 'cdc9597bd2c4', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('3160a58d2234', '1', 0, NULL, '2022-02-04 22:03:09', '2022-02-04 22:03:09', 'f9c28b8f6f31', '58a49366f78d', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('f3776b7ba11e', '1', 0, NULL, '2022-02-04 22:10:06', '2022-02-04 22:10:06', '37616c74811f', '4d88b71250c5', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('799121cc9c4b', '1', 0, NULL, '2022-02-04 22:28:12', '2022-02-04 22:28:12', '980885505aad', '82b8c7554597', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
-	('0a86ef1c4503', '1', 0, NULL, '2022-02-04 23:12:11', '2022-02-04 23:12:11', '9b0e779f3238', '3790643b388a', 'cfccaecd4bad', 'storyboard', '{"sections": {}}'),
+	('e9b1e194ed58', '1', 0, NULL, '2022-02-04 19:11:47', '2022-02-04 19:11:47', '869c7bbcf042', '60434c561273', 'cfccaecd4bad', 'storyboard', '{"sections": {"074b541b-fc56-479f-b0ed-ae32b093927b": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('259021e7e537', '1', 0, NULL, '2022-02-04 19:13:37', '2022-02-04 19:13:37', '3653b3134fc5', 'c8186cf53cba', 'cfccaecd4bad', 'storyboard', '{"sections": {"10cb24cb-a59f-4f98-a927-bc54d8351667": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('e65a6b99f181', '1', 0, NULL, '2022-02-04 19:15:38', '2022-02-04 19:15:38', '75a94bbedf29', '7996f3bd8e17', 'cfccaecd4bad', 'storyboard', '{"sections": {"121df6df-6b91-4028-82c3-94d0cfe62d92": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('681d9e648543', '1', 0, NULL, '2022-02-04 19:37:23', '2022-02-04 19:37:23', 'd62d16c6afb6', '2210bc67a4ce', 'cfccaecd4bad', 'storyboard', '{"sections": {"2ee21cb4-5982-4eb5-9e7e-c13fefb06f64": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('1dc712f27811', '1', 0, NULL, '2022-02-04 19:41:39', '2022-02-04 19:41:39', 'cd89a68084ff', '5f33da2c3f83', 'cfccaecd4bad', 'storyboard', '{"sections": {"5aa0213d-3c82-44c6-a0c5-aa159cd60f7c": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('e4ffb5d84c4e', '1', 0, NULL, '2022-02-04 19:43:24', '2022-02-04 19:43:24', 'af6d3bd31bfb', '9e734d837c16', 'cfccaecd4bad', 'storyboard', '{"sections": {"5b634f79-a7c4-4562-8d0f-f1fb9102d029": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('48f7bc420ed6', '1', 0, NULL, '2022-02-04 19:46:20', '2022-02-04 19:46:20', '25aa0c832b70', 'e9c6cb975605', 'cfccaecd4bad', 'storyboard', '{"sections": {"5d81712b-2d8e-4eba-8f7c-3df7cf25e0d6": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('f65d5c56cc9e', '1', 0, NULL, '2022-02-04 19:47:02', '2022-02-04 19:47:02', '303e8d9d2e2e', 'f71ace6060ae', 'cfccaecd4bad', 'storyboard', '{"sections": {"63ce8be9-922f-4e35-9eaa-f520fff929c8": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('60f7a48c4466', '1', 0, NULL, '2022-02-04 19:47:50', '2022-02-04 19:47:50', '160930523ce2', '1f1f866f0cbb', 'cfccaecd4bad', 'storyboard', '{"sections": {"65231883-2f07-4ff1-aa59-3e1479ed9ffa": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('ea0f65060295', '1', 0, NULL, '2022-02-04 19:49:02', '2022-02-04 19:49:02', '656295313d5c', '81dda09111d5', 'cfccaecd4bad', 'storyboard', '{"sections": {"854922ab-7e1c-42eb-abaf-eb987cd045ca": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('d1bc88c0f52e', '1', 0, NULL, '2022-02-04 19:49:34', '2022-02-04 19:49:34', '5bdd84d2ab79', '67be10a1b564', 'cfccaecd4bad', 'storyboard', '{"sections": {"8a3c3c2d-d22b-4b3f-ab0b-71f430434638": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('e37eb1a06e03', '1', 0, NULL, '2022-02-04 19:50:07', '2022-02-04 19:50:07', 'a29cff2d1d03', 'af6d5af59785', 'cfccaecd4bad', 'storyboard', '{"sections": {"ac8e1b4d-2e0f-4a60-b328-6bec4d24d7c4": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('d245021c46fa', '1', 0, NULL, '2022-02-04 19:51:36', '2022-02-04 19:51:36', '6127f9640b45', '2d0de0759cd4', 'cfccaecd4bad', 'storyboard', '{"sections": {"e1d1ef2c-f2a3-4acd-93b0-ab30d8a7aaf7": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('90bee6cb8815', '1', 0, NULL, '2022-02-04 19:51:56', '2022-02-04 19:51:56', 'e2ba5d9578b7', 'e44cf76f839d', 'cfccaecd4bad', 'storyboard', '{"sections": {"f65c679c-122f-45af-9cfa-3e8dba8591a7": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('0b625c957d44', '1', 0, NULL, '2022-02-04 19:52:59', '2022-02-04 19:52:59', '50172d027864', 'a7c05f91afbc', 'cfccaecd4bad', 'storyboard', '{"sections": {"fcde5fb3-e587-4aaa-a9aa-93812283c957": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('776dcb8f8664', '1', 0, NULL, '2022-02-04 19:53:09', '2022-02-04 19:53:09', '78904734f1c0', '6e929eaf43e5', 'cfccaecd4bad', 'storyboard', '{"sections": {"0b72ad12-1055-480f-b4ca-057a7c8aa00a": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('1d40f6697b8c', '1', 0, NULL, '2022-02-04 19:53:15', '2022-02-04 19:53:15', '11d4984c77c6', 'f8e595ca2a2a', 'cfccaecd4bad', 'storyboard', '{"sections": {"1ad8d919-1ba9-4e4e-9f63-301df1ace506": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('1dd5c52abd01', '1', 0, NULL, '2022-02-04 21:42:24', '2022-02-04 21:42:24', '8fa1c8e597c3', '0a23aa100e1b', 'cfccaecd4bad', 'storyboard', '{"sections": {"4c126a50-f729-46a7-8326-811586922995": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('9dda4a6262eb', '1', 0, NULL, '2022-02-04 21:43:13', '2022-02-04 21:43:13', 'fb21b1c912fd', '5598534f6d7f', 'cfccaecd4bad', 'storyboard', '{"sections": {"7412b417-389b-4458-b3dc-af3626a34b30": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('a1488a153b81', '1', 0, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '51d2e8dd6747', '48393c2e4cd6', 'cfccaecd4bad', 'storyboard', '{"sections": {"7aa56c61-4e96-4f9d-8e24-24bc091f89b3": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('8d07e57ba2f9', '1', 0, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', 'd0d0bef87638', 'cdc9597bd2c4', 'cfccaecd4bad', 'storyboard', '{"sections": {"9981dac4-9816-4cb5-a95f-c11b11f366f1": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('3160a58d2234', '1', 0, NULL, '2022-02-04 22:03:09', '2022-02-04 22:03:09', 'f9c28b8f6f31', '58a49366f78d', 'cfccaecd4bad', 'storyboard', '{"sections": {"999b963b-b423-459f-bdcc-979efbefcfda": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('f3776b7ba11e', '1', 0, NULL, '2022-02-04 22:10:06', '2022-02-04 22:10:06', '37616c74811f', '4d88b71250c5', 'cfccaecd4bad', 'storyboard', '{"sections": {"9bdb971b-0fff-42ea-a81c-43971d83b977": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('799121cc9c4b', '1', 0, NULL, '2022-02-04 22:28:12', '2022-02-04 22:28:12', '980885505aad', '82b8c7554597', 'cfccaecd4bad', 'storyboard', '{"sections": {"c93fc66b-5cd2-4953-b414-83ff27a2bc32": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('0a86ef1c4503', '1', 0, NULL, '2022-02-04 23:12:11', '2022-02-04 23:12:11', '9b0e779f3238', '3790643b388a', 'cfccaecd4bad', 'storyboard', '{"sections": {"effa3fa5-cd07-4e82-a8aa-198ed9a7c1d4": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
 	('764477318be2', '1', 0, NULL, '2022-02-04 19:40:24', '2022-02-04 19:40:24', 'c6eb39db9f9c', 'e5618cc0b5e8', 'cfccaecd4bad', 'storyboard', '{"sections": {"d528c7b4-5655-497f-bca0-fd9a0dc4a490": {"column1": "''00 - ''15", "column3": "Farfalla", "position": 0, "column2Html": "<p>Als Übergang zum TABS erklärt Farfalla was das Pafdivereprechen ist und wie es in Zusammenhang mit den Pfadigesetzen steht. Dann werden die TN darauf hingewiesen, dass sie im Lager die Möglichkeit haben werden das Versprechen abzulegen (jüngere TN Vorversprechen) und sie sich Gedanken machen sollen, ob sie dies tun wollen oder nicht. Bei Fragen sollen sie sich bei Farfalla melden.</p>"}, "fb42521c-27a9-482e-9be2-b696a5447ffb": {"column1": "''15 - ''30", "column3": "", "position": 1, "column2Html": "<p>Wir singen im Kreis ein Bajuschki-Baju und der Ta-Che schliesst den Tag ab (kann selbst entscheiden wie, sicher den TN sagen ab wann Nachtruhe, wie viel Zeit sie zum Zähneputzen etc. haben)</p>"}}}'),
 	('8af65594aee7', '1', 0, NULL, '2022-02-04 22:21:58', '2022-02-04 22:21:58', 'b46ab3cde287', '23b945a9df75', 'cfccaecd4bad', 'storyboard', '{"sections": {"2e2799b3-2887-455e-bf48-19245346cebb": {"column1": "0000", "column3": "", "position": 0, "column2Html": "<p>Aufwecken mit Musik</p>"}, "4879a95b-a048-490b-b916-e1fe40b583d6": {"column1": "0030", "column3": "", "position": 2, "column2Html": "<p>Ende und wir gehen Zmorgen essen</p>"}, "b699a9e0-d0c3-49ee-8836-8091219d6145": {"column1": "0010", "column3": "", "position": 1, "column2Html": "<p>Wir machen ein Triff den Dödel. Alle stehen im Kreis und ein Ball wird gegnseitig zugespielt. Der Ball darf nur mit einer Hand geworfen und gefangen werden. Wenn man den Ball nicht fängt muss man eine runde um den kreis rennen. wenn man wärend dieser runde vom Ball getroffen wird, muss man nochmals rennen. Wenn man einen schlechten passt schiesst muss man auch rennen. Die rennende person kann mehrmals wieder abgeschossen werden</p>"}}}'),
 	('0810d1a172db', '1', 0, NULL, '2022-02-04 19:39:53', '2022-02-04 19:39:53', '02823e618716', 'b570ee7e3999', 'cfccaecd4bad', 'storyboard', '{"sections": {"42ed6f1e-7956-4fd6-8725-f55eded0bbbe": {"column1": "''70-''90", "column3": "Farfalla", "position": 3, "column2Html": "<p>Die Regeln werden zusammengetragen, ergänzt was sonst noch auf den Lagerpakt gehört (TN wird erklärt, dass diese Regeln sicherheitsrelevant sind und daher nicht zwingend aus dem Pfadigesetz abgeleitet werden können) und dann mit allen TN durchgegeangen. Am Schluss unterschreiben alle TN den Lagerpakt.</p>"}, "4f8b6859-33e8-43d3-b44e-7f271931d5c4": {"column1": "''10", "column3": "", "position": 1, "column2Html": "<p>Der Postenlauf beginnt, es gibt vier Posten à zwei Pfadigesetze, jeder Posten ist von mind. einem Leiter besetzt.</p><p>Die TN haben 10'' Zeit pro Posten und dann 5'' zum Wechseln.</p><p>Der gesamte Postenlauf dauert also 60 Minuten. es pfeift wenn gewechselt wird.</p><p>Die letzte Gruppe bei einem Posten hilft dann dem Leiter mit allem Material zurück zum Aufenthaltszelt- / platz zu kommen.</p><p>Beim Posten bespricht die Gruppe zuerst kurz was diese Pfadigesetze genau bedeuten und überlegt sich dann Reglen dazu, die im Lager nützlich sein könnten. Der Postenbetreuer kann Inputs geben, falls die TN keine Idee mehr haben und schreibt die Regeln der TN auf. Am Ende des Postenlaufs streicht er dann alle doppelten Regeln, sodass nur noch die übrigbleiben, die dann auf den Lagerpakt kommen.</p>"}, "67528e31-3b53-47a0-acd8-424047b277c5": {"column1": "''00", "column3": "Farfalla", "position": 0, "column2Html": "<p>Erklärung RF und Postenlauf, die TN absolvieren den Postenlauf in ihren Häuser-Gruppen (So lernen sie sich gleich besser kennen)</p>"}, "79ceddd3-d68b-4d04-8c14-982f38e603bc": {"column1": "''10 - ''70", "column3": "Postenbetreuer", "position": 2, "column2Html": "<p>Posten 1: Offen und ehrlich sein und Freude suchen und weitergeben</p><p>(mögliche Regeln: Sagen wenn etwas kaputt geht, zu seinen Missgeschicken stehen etc.)</p><p>Posten 2: andere verstehen und achten und miteinander teilen</p><p>(Mögliche Regeln: kein Mobbing, einander zuhören, wenn Leiter sprechen ist es still...)</p><p>Posten 3: unsere Hilfe anbieten und uns entscheiden und Verantwortung tragen</p><p>(Mögliche Regeln: den Jüngeren helfen, sein Ämtli sauber und korrekt erledigen etc,)</p><p>Psoten 4: Sorge tragen zur Natur und allem Leben und Schwierigkeiten mit Zuversicht begegnen</p><p>(Mögliche Regeln: Abfall in Abfallsack, wenn man ein Problem hat um Hilfe bitten, aber auch Verstand einsetzen ... )</p>"}}}'),
@@ -560,7 +560,6 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('b2ef8a3b319f', NULL, NULL, 'established', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'bae69a1c9fcc', '05ce4b9836e9'),
 	('490f4b599034', NULL, NULL, 'established', 'guest', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '48f00685a292', '05ce4b9836e9'),
 	('83f4171a5c12', 'e.mail@test.com', 'myInviteKey', 'invited', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '05ce4b9836e9'),
-	('c43d5c10b01d', NULL, NULL, 'inactive', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '130684395770', '05ce4b9836e9'),
 	('237abf0bd057', 'e.mail2@test.com', 'myInviteKey2', 'invited', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '6430aecc5422'),
 	('0e524d43e799', NULL, NULL, 'established', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e7b00084dabf', '6430aecc5422'),
 	('2c313fa367b3', NULL, NULL, 'established', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', 'e5027d852487'),
@@ -569,7 +568,9 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('c7b5dd15649f', NULL, NULL, 'established', 'manager', NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', 'c4cca3a51342'),
 	('73558f9c6483', 'e.mail@test.com', '42e0b2299f06ea2bf3cebd3876b15367bacff09ff5572f02cdd05b33fe112a95', 'invited', 'member', NULL, '2022-02-04 22:04:42', '2022-02-04 22:04:42', NULL, 'c4cca3a51342'),
 	('fe6557a4b89f', NULL, NULL, 'established', 'manager', NULL, '2022-02-04 22:05:24', '2022-02-04 22:05:24', 'caeba9f7e728', 'c4cca3a51342'),
-	('58dc1b96dcce', NULL, NULL, 'established', 'member', NULL, '2022-02-04 22:05:02', '2022-02-04 22:05:02', 'bee7cf5b3871', 'c4cca3a51342');
+	('58dc1b96dcce', NULL, NULL, 'established', 'member', NULL, '2022-02-04 22:05:02', '2022-02-04 22:05:02', 'bee7cf5b3871', 'c4cca3a51342'),
+	('ca9072caa314', 'inactive@test.com', 'c3ALTs6kMHzvN2VDKce+o8z+EXk=', 'inactive', 'member', NULL, '2023-05-01 16:38:06', '2023-05-01 16:38:49', NULL, 'c4cca3a51342'),
+	('c43d5c10b01d', NULL, 'WqoeQElg1hB4NvpL1HfGxG5aNDU=', 'inactive', 'manager', NULL, '2022-01-23 16:19:10', '2023-05-01 16:40:37', '130684395770', '05ce4b9836e9');
 
 
 
@@ -577,7 +578,9 @@ INSERT INTO public.activity_responsible (id, createtime, updatetime, activityid,
 	('b4b496570cd5', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '8f1126e31ddb', 'f08468783b7a'),
 	('02527639ad4e', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '7be390586b33', 'b2ef8a3b319f'),
 	('c2e84a852a64', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'c13b91f0e465', '0e524d43e799'),
-	('4df913eee4de', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'd3cfa12d19f2', '2c313fa367b3');
+	('4df913eee4de', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'd3cfa12d19f2', '2c313fa367b3'),
+	('35fc4156a34a', '2023-05-01 16:38:32', '2023-05-01 16:38:32', '7f33c504d878', 'ca9072caa314'),
+	('0de8cf157ce9', '2023-05-01 16:40:31', '2023-05-01 16:40:31', 'fbc7e0c7eb37', 'c43d5c10b01d');
 
 
 
@@ -653,8 +656,8 @@ INSERT INTO public.category_contenttype (category_id, contenttype_id) VALUES
 INSERT INTO public.period (id, description, start, "end", createtime, updatetime, campid) VALUES
 	('ff755e56fe79', 'Hauptlager', '2024-02-20', '2024-02-20', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '6430aecc5422'),
 	('a12a9154b43b', 'Hauptlager', '2021-01-01', '2021-01-01', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e5027d852487'),
-	('16b2fcffdd8e', 'Hauptlager', '2023-05-05', '2023-05-08', '2022-02-04 21:59:10', '2022-02-04 21:59:10', 'c4cca3a51342'),
-	('e8c03e4285cb', 'Hauptlager', '2023-07-03', '2023-07-06', '2022-01-23 16:19:10', '2022-09-11 17:51:43', '05ce4b9836e9');
+	('16b2fcffdd8e', 'Hauptlager', '2024-05-10', '2024-05-13', '2022-02-04 21:59:10', '2023-05-09 20:31:54', 'c4cca3a51342'),
+	('e8c03e4285cb', 'Hauptlager', '2024-07-13', '2024-07-16', '2022-01-23 16:19:10', '2023-05-09 20:32:44', '05ce4b9836e9');
 
 
 
@@ -702,7 +705,8 @@ INSERT INTO public.material_list (id, materiallistprototypeid, name, createtime,
 	('40abf25cb33e', NULL, 'Bi Pi', '2022-02-04 22:36:43', '2022-02-04 22:36:43', 'c4cca3a51342', NULL),
 	('044ad25c2c25', NULL, 'Salamander', '2022-02-04 22:36:50', '2022-02-04 22:36:50', 'c4cca3a51342', NULL),
 	('4e688b4eea5f', NULL, 'Idefix', '2022-02-04 22:37:09', '2022-02-04 22:37:09', 'c4cca3a51342', NULL),
-	('c5ac484eb310', NULL, 'Snoopy', '2022-02-04 22:37:39', '2022-02-04 22:37:39', 'c4cca3a51342', NULL);
+	('c5ac484eb310', NULL, 'Snoopy', '2022-02-04 22:37:39', '2022-02-04 22:37:39', 'c4cca3a51342', NULL),
+	('dc3b1e248619', NULL, NULL, '2023-05-01 16:38:06', '2023-05-01 16:38:06', 'c4cca3a51342', 'ca9072caa314');
 
 
 

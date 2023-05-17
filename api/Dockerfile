@@ -8,7 +8,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.13
+ARG PHP_VERSION=8.2.5
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.16
@@ -127,7 +127,7 @@ RUN rm $PHP_INI_DIR/conf.d/api-platform.prod.ini; \
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.2.0
+ARG XDEBUG_VERSION=3.2.1
 RUN set -eux; \
 	install-php-extensions xdebug-$XDEBUG_VERSION
 
@@ -136,7 +136,7 @@ RUN set -eux; \
 FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
 
 # renovate: datasource=go depName=github.com/dunglas/mercure/caddy
-ARG MERCURE_CADDY_VERSION=v0.14.5
+ARG MERCURE_CADDY_VERSION=v0.14.6
 # renovate: datasource=go depName=github.com/dunglas/vulcain/caddy
 ARG VULCAIN_CADDY_VERSION=v0.4.3
 # install Mercure and Vulcain modules

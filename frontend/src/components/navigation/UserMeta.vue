@@ -46,6 +46,7 @@
 
 <script>
 import UserAvatar from '../user/UserAvatar.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserMeta',
@@ -57,9 +58,9 @@ export default {
     }
   },
   computed: {
-    authUser() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      authUser: 'getLoggedInUser',
+    }),
   },
   methods: {
     async logout() {

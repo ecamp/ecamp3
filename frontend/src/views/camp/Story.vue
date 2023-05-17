@@ -3,7 +3,11 @@
     <template #title-actions>
       <period-switcher :period="period" :route-name="'camp/period/story'" />
       <v-spacer />
-      <LockIcon v-model="editing" :hide-tooltip="isContributor" />
+      <LockButton
+        v-model="editing"
+        :disabled-for-guest="!isContributor"
+        @click="editing = !editing"
+      />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
           <v-btn class="ml-auto" text icon v-bind="attrs" v-on="on">
@@ -32,7 +36,7 @@ import StoryPeriod from '@/components/story/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
-import LockIcon from '@/components/generic/LockIcon.vue'
+import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 
 export default {
@@ -42,7 +46,7 @@ export default {
     ContentCard,
     DownloadReactPdf,
     DownloadNuxtPdf,
-    LockIcon,
+    LockButton,
     LockUnlockListItem,
   },
   mixins: [campRoleMixin],

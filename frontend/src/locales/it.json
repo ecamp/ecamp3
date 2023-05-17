@@ -144,8 +144,9 @@
       }
     },
     "generic": {
-      "lockIcon": {
-        "doubleClickToUnlock": "Doppio clic per sbloccare",
+      "lockButton": {
+        "clickToLock": "Clic per bloccare",
+        "clickToUnlock": "Clic per sbloccare",
         "guestsCannotEdit": "Gli ospiti non hanno il permesso di modificare"
       }
     },
@@ -358,11 +359,12 @@
         "title": "Il tuo account sarà attivato"
       },
       "login": {
+        "acceptTermsOfServiceOnOAuthLogin": "Effettuando l'accesso tramite uno di questi servizi, si accettano i {termsOfServiceLink}.",
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
           "beta": "Questa è la versione beta di eCamp v3, che può essere utilizzata per la pianificazione di un campo reale, ma non per la pianificazione del tempo. Il numero limitato di utenti della versione beta deve aspettarsi interruzioni della manutenzione.",
-          "dev": "Questa è la versione di sviluppo di eCamp v3.<br>IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!"
+          "dev": "Questa è la versione di sviluppo di eCamp v3.<br>IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!<br>Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Sarai loggato"
@@ -377,10 +379,11 @@
           "jubladb": "JublaDB",
           "midata": "MiData"
         },
-        "registernow": "Iscriviti ora"
+        "registernow": "Iscriviti ora",
+        "termsOfServiceLink": "condizioni di utilizzo"
       },
       "register": {
-        "acceptTermsOfUse": "Accettare le condizioni di utilizzo",
+        "acceptTermsOfService": "Accettare le condizioni di utilizzo",
         "alreadyHaveAnAccount": "Hai già un conto?",
         "passwordConfirmation": "Inserisci di nuovo la password",
         "register": "Registrati",
@@ -414,7 +417,6 @@
         "title": "Admin"
       },
       "campProgram": {
-        "guestsCannotEdit": "Un ospite non può modificare il picasso",
         "reminderLockedCreate": "Trascinare per creare è possibile solo in modalità sbloccata.",
         "reminderLockedMove": "Trascinare per spostarsi è possibile solo in modalità sbloccata.",
         "title": "Picasso"

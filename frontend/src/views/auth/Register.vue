@@ -85,11 +85,11 @@
           v-model="tos"
           :vee-rules="{ required: { allowFalse: false } }"
           class="align-center"
-          :name="$tc('views.auth.register.acceptTermsOfUse')"
+          :name="$tc('views.auth.register.acceptTermsOfService')"
         >
           <template #label>
             <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
-              {{ $tc('views.auth.register.acceptTermsOfUse') }}
+              {{ $tc('views.auth.register.acceptTermsOfService') }}
             </span>
           </template>
           <template #append>

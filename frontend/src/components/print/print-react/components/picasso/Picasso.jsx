@@ -7,6 +7,9 @@ import TimeColumn from './TimeColumn.jsx'
 import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
+import PicassoFooter from './PicassoFooter.jsx'
+import YSLogo from './YSLogo.jsx'
+import Categories from './Categories.jsx'
 
 function Picasso(props) {
   return props.content.options.periods.map((periodUri) => {
@@ -56,16 +59,28 @@ function Picasso(props) {
         style={styles.page}
         key={periodUri}
       >
-        <Text
-          id={`${props.id}-${period.id}`}
-          bookmark={{
-            title: props.$tc('print.picasso.title', { period: period.description }),
-            fit: true,
-          }}
-          style={styles.h1}
-        >
-          {props.$tc('print.picasso.title', { period: period.description })}
-        </Text>
+        <View style={picassoStyles.titleContainer}>
+          <Text
+            id={`${props.id}-${period.id}`}
+            bookmark={{
+              title: props.$tc('print.picasso.title', { period: period.description }),
+              fit: true,
+            }}
+            style={{ ...styles.h1, ...picassoStyles.title }}
+          >
+            {props.$tc('print.picasso.title', { period: period.description })}
+          </Text>
+          <Text>{period.camp().organizer}</Text>
+          {period.camp().printYSLogoOnPicasso ? (
+            <YSLogo
+              size={picassoStyles.ysLogo.size}
+              styles={picassoStyles.ysLogo}
+              locale={props.locale}
+            />
+          ) : (
+            <React.Fragment />
+          )}
+        </View>
         <View style={{ ...picassoStyles.calendarContainer, border: '1pt solid white' }}>
           <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
           {period.days().items.map((day) => (
@@ -101,6 +116,8 @@ function Picasso(props) {
           })}
           <TimeColumn times={times.slice(0, times.length - 1)} align={'left'} />
         </View>
+        <Categories period={period} />
+        <PicassoFooter period={period} {...props} />
       </Page>
     )
   })

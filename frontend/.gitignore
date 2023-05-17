@@ -10,6 +10,9 @@ selenium-debug.log
 .env.*.local
 public/environment.js
 
+# Auto-generated files
+public/twemoji/
+
 # Log files
 npm-debug.log*
 yarn-debug.log*

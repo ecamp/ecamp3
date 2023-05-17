@@ -7,10 +7,12 @@ import VueI18n from '../plugins/i18n/index.js'
 import formBaseComponents from '@/plugins/formBaseComponents'
 import { Wrapper } from '@vue/test-utils'
 import { localize } from 'vee-validate'
+import Vuex from 'vuex'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
 Vue.use(dayjs)
+Vue.use(Vuex)
 
 export const render = (component, options, callback) => {
   const root = document.createElement('div')
@@ -26,6 +28,15 @@ export const render = (component, options, callback) => {
     },
     callback
   )
+}
+
+/**
+ * Set up a Vuex Store
+ * @param {import('vuex').StoreOptions} storeOptions will be in the components this.$store
+ * @return store the Store object (pass this into the options on the render function)
+ */
+export const createVuexStore = (storeOptions) => {
+  return new Vuex.Store(storeOptions)
 }
 
 /**

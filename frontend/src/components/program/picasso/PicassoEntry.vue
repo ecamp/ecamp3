@@ -162,7 +162,7 @@ export default {
     campCollaborationText() {
       if (this.campCollaborations.length === 0) return ''
       return this.campCollaborations
-        .map((item) => campCollaborationDisplayName(item))
+        .map((item) => campCollaborationDisplayName(item, this.$tc.bind(this)))
         .join(', ')
     },
     duration() {

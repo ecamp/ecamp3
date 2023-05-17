@@ -1,16 +1,34 @@
-import { render } from '@/test/renderWithVuetify.js'
+import { createVuexStore, render } from '@/test/renderWithVuetify.js'
 import Admin from '../Admin.vue'
 import flushPromises from 'flush-promises'
 
 describe('Admin view', () => {
+  /// Is the Vuex "$store"
+  let store
+
+  beforeEach(() => {
+    store = createVuexStore({
+      state: {
+        auth: {
+          user: USER,
+        },
+      },
+      getters: {
+        getLoggedInUser: (state) => {
+          return state.auth.user
+        },
+      },
+    })
+  })
+
   it('shows the danger zone when the user has a manager role', async () => {
     const { getByText } = render(Admin, {
       props: {
         camp: createCampWithRole('manager'),
       },
       routes: [],
+      store,
       mocks: {
-        $store: STORE,
         api: { reload: () => Promise.resolve() },
       },
       stubs: [
@@ -34,8 +52,8 @@ describe('Admin view', () => {
         camp: createCampWithRole('member'),
       },
       routes: [],
+      store,
       mocks: {
-        $store: STORE,
         api: { reload: () => Promise.resolve() },
       },
       stubs: [
@@ -59,8 +77,8 @@ describe('Admin view', () => {
         camp: createCampWithRole('guest'),
       },
       routes: [],
+      store,
       mocks: {
-        $store: STORE,
         api: { reload: () => Promise.resolve() },
       },
       stubs: [
@@ -83,14 +101,6 @@ const USER_URL = '/users/17d341a80579'
 const USER = {
   _meta: {
     self: USER_URL,
-  },
-}
-
-const STORE = {
-  state: {
-    auth: {
-      user: USER,
-    },
   },
 }
 

@@ -46,6 +46,14 @@
         "editLayout": "Layout bearbeiten",
         "title": "Block-Kategorien"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Weitere Felder für Kurse"
+        },
+        "ysCamp": {
+          "title": "Weitere Felder für J+S-Lager"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",
@@ -152,9 +160,10 @@
       }
     },
     "generic": {
-      "lockIcon": {
-        "doubleClickToUnlock": "Doppelklick um zu entsperren",
-        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+      "lockButton": {
+        "clickToLock": "Klicken um zu sperren",
+        "clickToUnlock": "Klicken um zu entsperren",
+        "guestsCannotEdit": "Gäste können nicht bearbeiten"
       }
     },
     "layout": {
@@ -374,11 +383,12 @@
         "title": "Dein Account wird aktiviert"
       },
       "login": {
+        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen diese Services akzeptierst du die {termsOfServiceLink}.",
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
           "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
-          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!"
+          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!<br>Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
@@ -393,11 +403,12 @@
           "jubladb": "JublaDB",
           "midata": "MiData"
         },
-        "registernow": "Jetzt registrieren"
+        "registernow": "Jetzt registrieren",
+        "termsOfServiceLink": "Nutzungsbedingungen"
       },
       "register": {
-        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
-        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "acceptTermsOfService": "Nutzungsbedingungen akzeptieren",
+        "alreadyHaveAnAccount": "Hast du bereits ein Konto?",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "requiredField": "Pflichtfelder",
@@ -430,7 +441,6 @@
         "title": "Admin"
       },
       "campProgram": {
-        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
         "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
         "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
         "title": "Grobprogramm"

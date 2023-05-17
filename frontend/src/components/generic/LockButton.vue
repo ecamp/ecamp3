@@ -1,27 +1,25 @@
 <template>
-  <v-tooltip :disabled="hideTooltip" bottom>
+  <v-tooltip :disabled="tooltip == ''" bottom>
     <template #activator="{ on }">
-      <v-icon v-if="value" small v-on="{ dblclick: iconDblClick, ...on }">
-        mdi-lock-open-variant
-      </v-icon>
-      <v-icon
-        v-else
-        small
-        color="grey"
-        :title="$tc('components.generic.lockIcon.doubleClickToUnlock')"
+      <button
+        :aria-label="tooltip"
+        :aria-disabled="disabledForGuest"
+        class="v-btn v-btn--icon v-btn--round v-size--small"
         :class="{ 'e-shake-lock': shake }"
-        v-on="{ dblclick: iconDblClick, ...on }"
+        @click="onClick"
+        v-on="on"
       >
-        mdi-lock
-      </v-icon>
+        <v-icon v-if="value" small>mdi-lock-open-variant</v-icon>
+        <v-icon v-else small>mdi-lock</v-icon>
+      </button>
     </template>
-    <span>{{ message || $tc('components.generic.lockIcon.guestsCannotEdit') }}</span>
+    <span>{{ tooltip }}</span>
   </v-tooltip>
 </template>
 
 <script>
 export default {
-  name: 'LockIcon',
+  name: 'LockButton',
   props: {
     value: {
       type: Boolean,
@@ -32,7 +30,7 @@ export default {
       required: false,
       default: null,
     },
-    hideTooltip: {
+    disabledForGuest: {
       type: Boolean,
       required: false,
       default: false,
@@ -42,19 +40,31 @@ export default {
       default: false,
     },
   },
+  computed: {
+    tooltip() {
+      if (this.disabledForGuest) {
+        return this.$tc('components.generic.lockButton.guestsCannotEdit')
+      }
+      if (this.message) {
+        return this.message
+      }
+      if (!this.value) {
+        return this.$tc('components.generic.lockButton.clickToUnlock')
+      }
+      return this.$tc('components.generic.lockButton.clickToLock')
+    },
+  },
   methods: {
-    iconDblClick() {
-      this.$emit('dblclick')
+    onClick() {
+      if (!this.disabledForGuest) {
+        this.$emit('click')
+      }
     },
   },
 }
 </script>
 
 <style scoped>
-.v-icon {
-  cursor: pointer;
-}
-
 .e-shake-lock {
   animation: horizontal-shaking 0.5s linear 1;
 }
