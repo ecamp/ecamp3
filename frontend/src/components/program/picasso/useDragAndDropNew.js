@@ -1,4 +1,4 @@
-import { toTime, roundTime } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, roundTimeToNearestQuarterHour } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
@@ -31,17 +31,20 @@ export function useDragAndDropNew(enabled, createEntry) {
   }
 
   // this creates a placeholder for a new schedule entry and make it resizable
-  const createNewEntry = (mouse) => {
+  const createNewEntry = (time) => {
     newEntry = {
-      startTimestamp: roundTime(mouse),
-      endTimestamp: roundTime(mouse),
+      startTimestamp: time,
+      endTimestamp: time,
     }
   }
 
   // resize placeholder entry
   const resizeEntry = (entry, mouse) => {
-    const minTimestamp = Math.min(roundTime(mouseStartTimestamp), roundTime(mouse))
-    const maxTimestamp = Math.max(roundTime(mouseStartTimestamp), roundTime(mouse))
+    const dragStart = mouseStartTimestamp
+    const dragEnd = roundTimeToNearestQuarterHour(mouse)
+
+    const minTimestamp = Math.min(dragStart, dragEnd)
+    const maxTimestamp = Math.max(dragStart, dragEnd)
 
     if (minTimestamp !== maxTimestamp) {
       entry.startTimestamp = minTimestamp
@@ -83,8 +86,8 @@ export function useDragAndDropNew(enabled, createEntry) {
     if (!entryWasClicked) {
       // No entry is being dragged --> create a placeholder for a new schedule entry
       const mouseTime = toTime(tms)
-      mouseStartTimestamp = mouseTime
-      createNewEntry(mouseTime)
+      mouseStartTimestamp = roundTimeToNearestQuarterHour(mouseTime)
+      createNewEntry(mouseStartTimestamp)
     }
   }
 

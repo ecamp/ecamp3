@@ -211,7 +211,6 @@ export default {
     const dragAndDropResize = useDragAndDropResize(
       editable,
       updateEntry,
-      calenderStartTimestamp,
       calendarEndTimestamp
     )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)

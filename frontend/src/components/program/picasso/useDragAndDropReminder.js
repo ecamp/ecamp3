@@ -1,4 +1,4 @@
-import { toTime, minMaxTime, ONE_HOUR } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, ONE_HOUR } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
@@ -66,9 +66,9 @@ export function useDragAndDropReminder(enabled, showReminder) {
       return
     }
 
-    const { min, max } = minMaxTime(mouseStartTimestamp, toTime(tms))
+    const mouseMoveDistance = Math.abs(toTime(tms) - mouseStartTimestamp)
 
-    if (max - min >= ONE_HOUR) {
+    if (mouseMoveDistance >= ONE_HOUR) {
       showReminder(entryWasClicked)
     }
   }

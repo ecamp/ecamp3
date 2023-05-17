@@ -1,4 +1,4 @@
-import { toTime, minMaxTime } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, roundTimeUpToNextQuarterHour } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
@@ -8,16 +8,13 @@ import { toTime, minMaxTime } from '@/helpers/vCalendarDragAndDrop.js'
  * @param maxTimestamp {number}  maximum allowed end timestamp (calendar end)
  * @returns
  */
-export function useDragAndDropResize(enabled, update, minTimestamp, maxTimestamp) {
+export function useDragAndDropResize(enabled, update, maxTimestamp) {
   /**
    * internal data (not exposed)
    */
 
   // existing entry that is being resized
   let resizedEntry = null
-
-  // original start time of entry which is being resized
-  let originalStartTimestamp = null
 
   // original end time of entry which is being resized
   let originalEndTimestamp = null
@@ -28,19 +25,17 @@ export function useDragAndDropResize(enabled, update, minTimestamp, maxTimestamp
 
   // resize an entry (existing or new placeholder)
   const resizeEntry = (entry, mouse) => {
-    const { min: newStart, max: newEnd } = minMaxTime(originalStartTimestamp, mouse)
+    const newEndTimestamp = roundTimeUpToNextQuarterHour(mouse)
 
-    if (newStart >= minTimestamp && newEnd <= maxTimestamp && newEnd - newStart > 0) {
+    if (newEndTimestamp <= maxTimestamp && newEndTimestamp - entry.startTimestamp > 0) {
       // TODO review: Here we're changing the store value directly.
-      entry.startTimestamp = newStart
-      entry.endTimestamp = newEnd
+      entry.endTimestamp = newEndTimestamp
     }
   }
 
   const clear = () => {
     resizedEntry = null
     originalEndTimestamp = null
-    originalStartTimestamp = null
   }
 
   /**
@@ -81,7 +76,6 @@ export function useDragAndDropResize(enabled, update, minTimestamp, maxTimestamp
   // start resize operation (needs to be called manually from resize handle)
   const startResize = (event) => {
     resizedEntry = event
-    originalStartTimestamp = event.startTimestamp
     originalEndTimestamp = event.endTimestamp
   }
 
