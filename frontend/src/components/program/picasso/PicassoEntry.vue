@@ -2,8 +2,9 @@
   <!-- edit mode: normal div with drag & drop -->
   <div
     v-if="editable"
-    class="e-picasso-entry e-picasso-entry--editable"
+    class="e-picasso-entry"
     :class="{
+      'e-picasso-entry--editable': !scheduleEntry.tmpEvent,
       'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
     }"
     :style="colorStyles"
@@ -11,7 +12,7 @@
   >
     <!-- edit button & dialog -->
     <dialog-activity-edit
-      v-if="editable && !scheduleEntry.tmpEvent"
+      v-if="!scheduleEntry.tmpEvent"
       ref="editDialog"
       :schedule-entry="scheduleEntry"
       @activityUpdated="$emit('finishEdit')"
@@ -60,7 +61,7 @@
 
     <!-- resize handle -->
     <div
-      v-if="editable"
+      v-if="!scheduleEntry.tmpEvent"
       class="e-picasso-entry__drag-bottom"
       @mousedown.stop="$emit('startResize')"
     />
@@ -379,6 +380,8 @@ export default {
 }
 .e-picasso-entry--editable:hover,
 .e-picasso-entry--temporary {
+  cursor: default;
+
   .e-picasso-entry__duration-center {
     opacity: 100%;
   }
