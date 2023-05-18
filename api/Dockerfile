@@ -136,7 +136,7 @@ RUN set -eux; \
 FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
 
 # renovate: datasource=go depName=github.com/dunglas/mercure/caddy
-ARG MERCURE_CADDY_VERSION=v0.14.6
+ARG MERCURE_CADDY_VERSION=v0.14.7
 # renovate: datasource=go depName=github.com/dunglas/vulcain/caddy
 ARG VULCAIN_CADDY_VERSION=v0.4.3
 # install Mercure and Vulcain modules
