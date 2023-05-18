@@ -1,3 +1,8 @@
+const commonHeaders = {}
+if (process.env.BASIC_AUTH_TOKEN) {
+  commonHeaders['Authorization'] = `Basic ${process.env.BASIC_AUTH_TOKEN}`
+}
+
 export default {
   /*
    ** Nuxt target
@@ -91,6 +96,11 @@ export default {
   axios: {
     baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3000/api',
     credentials: true,
+    headers: {
+      common: {
+        ...commonHeaders,
+      },
+    },
   },
   /*
    ** Sentry module configuration
@@ -168,6 +178,7 @@ export default {
    */
   env: {
     FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
+    BASIC_AUTH_TOKEN: process.env.BASIC_AUTH_TOKEN,
   },
   telemetry: false,
 }

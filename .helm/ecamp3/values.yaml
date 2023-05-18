@@ -192,6 +192,10 @@ securityContext: {}
 
 ingress:
   enabled: true
+  basicAuth:
+    enabled: false
+    username:
+    password:
   annotations:
     # kubernetes.io/tls-acme: "true"
   className: nginx
