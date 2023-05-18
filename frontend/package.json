@@ -104,7 +104,7 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-vue": "9.13.0",
     "flush-promises": "1.0.2",
-    "jest-canvas-mock": "2.5.0",
+    "jest-canvas-mock": "2.5.1",
     "jest-serializer-vue-tjw": "3.19.0",
     "lint-staged": "13.2.2",
     "prettier": "2.8.8",
