@@ -168,5 +168,13 @@ export default {
     // deactivates injecting nuxt Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     injectScripts: false,
   },
+
+  /**
+   * Environment variables available in the server at runtime
+   */
+  privateRuntimeConfig: {
+    BASIC_AUTH_TOKEN: process.env.BASIC_AUTH_TOKEN,
+  },
+
   telemetry: false,
 }
