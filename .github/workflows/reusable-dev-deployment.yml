@@ -84,6 +84,9 @@ jobs:
             --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ inputs.name }}.${{ vars.DOMAIN }} \
+            --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
+            --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
+            --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
             --set mail.dummyEnabled=true \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
