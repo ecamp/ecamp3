@@ -70,6 +70,12 @@ router.use('/pdfChrome', async (req, res) => {
     ]
     await page.setCookie(...cookies)
 
+    const extraHeaders = {}
+    if (process.env.BASIC_AUTH_TOKEN) {
+      extraHeaders['Authorization'] = `Basic ${process.env.BASIC_AUTH_TOKEN}`
+    }
+    await page.setExtraHTTPHeaders(extraHeaders)
+
     /**
      * Debugging puppeteer
      */
@@ -79,7 +85,7 @@ router.use('/pdfChrome', async (req, res) => {
     )
     page.on('response', (response) =>
       console.log('<<', response.status(), response.url())
-    ) 
+    )
     page.on('error', (err) => {
       console.log('error happen at the page: ', err)
     })
