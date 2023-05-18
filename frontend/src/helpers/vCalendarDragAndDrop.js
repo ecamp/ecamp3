@@ -2,10 +2,10 @@
  * helpers for VCalendar DragAndDrop composables
  */
 
-const ONE_MINUTE = 60 * 1000
-const ONE_HOUR = 60 * ONE_MINUTE
-const ONE_DAY = 24 * ONE_HOUR
-const QUARTER_HOUR = 15 * ONE_MINUTE
+const ONE_MINUTE_IN_MILLISECONDS = 60 * 1000
+const ONE_HOUR_IN_MILLISECONDS = 60 * ONE_MINUTE_IN_MILLISECONDS
+const ONE_DAY_IN_MILLISECONDS = 24 * ONE_HOUR_IN_MILLISECONDS
+const QUARTER_HOUR_IN_MILLISECONDS = 15 * ONE_MINUTE_IN_MILLISECONDS
 
 // helper function to convert Vuetify day & time object into timestamp
 const toTime = (tms) => {
@@ -13,18 +13,18 @@ const toTime = (tms) => {
 }
 
 const roundTimeToNearestQuarterHour = (time) => {
-  return Math.round(time / QUARTER_HOUR) * QUARTER_HOUR
+  return Math.round(time / QUARTER_HOUR_IN_MILLISECONDS) * QUARTER_HOUR_IN_MILLISECONDS
 }
 
 const roundTimeUpToNextQuarterHour = (time) => {
-  return time + (QUARTER_HOUR - (time % QUARTER_HOUR))
+  return Math.ceil(time / QUARTER_HOUR_IN_MILLISECONDS) * QUARTER_HOUR_IN_MILLISECONDS
 }
 
 export {
   toTime,
   roundTimeToNearestQuarterHour,
   roundTimeUpToNextQuarterHour,
-  ONE_MINUTE,
-  ONE_HOUR,
-  ONE_DAY,
+  ONE_MINUTE_IN_MILLISECONDS,
+  ONE_HOUR_IN_MILLISECONDS,
+  ONE_DAY_IN_MILLISECONDS,
 }

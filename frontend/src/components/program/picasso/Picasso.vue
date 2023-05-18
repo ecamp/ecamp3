@@ -86,7 +86,7 @@ import {
   utcStringToTimestamp,
 } from '@/common/helpers/dateHelperVCalendar.js'
 import DayResponsibles from './DayResponsibles.vue'
-import { ONE_DAY } from '@/helpers/vCalendarDragAndDrop.js'
+import { ONE_DAY_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import PicassoEntry from './PicassoEntry.vue'
 
@@ -195,7 +195,7 @@ export default {
     }
 
     const calenderStartTimestamp = utcStringToTimestamp(props.start)
-    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY
+    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY_IN_MILLISECONDS
 
     const dragAndDropMove = useDragAndDropMove(
       editable,

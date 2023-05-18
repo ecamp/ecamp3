@@ -109,7 +109,7 @@ import { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
-import { ONE_MINUTE } from '@/helpers/vCalendarDragAndDrop.js'
+import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 
 export default {
   name: 'PicassoEntry',
@@ -170,7 +170,7 @@ export default {
       return this.scheduleEntry.endTimestamp - this.scheduleEntry.startTimestamp
     },
     isTinyDuration() {
-      return this.duration <= 40 * ONE_MINUTE
+      return this.duration <= 40 * ONE_MINUTE_IN_MILLISECONDS
     },
     isLongDuration() {
       return this.scrollHeight <= this.clientHeight
