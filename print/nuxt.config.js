@@ -162,12 +162,5 @@ export default {
     // deactivates injecting nuxt Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     injectScripts: false,
   },
-
-  /**
-   * Environment variables available in application
-   */
-  env: {
-    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
-  },
   telemetry: false,
 }
