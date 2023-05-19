@@ -35,6 +35,7 @@ function measurePerformance(msg) {
 
 // Test route
 router.use('/pdfChrome', async (req, res) => {
+  throw new Error('test')
   let browser = null
 
   try {
