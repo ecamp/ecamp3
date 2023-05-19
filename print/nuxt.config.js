@@ -92,17 +92,6 @@ export default {
     baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3000/api',
     credentials: true,
   },
-  /*
-   ** Sentry module configuration
-   ** See https://sentry.nuxtjs.org/sentry/options
-   */
-  sentry: {
-    dsn: process.env.SENTRY_PRINT_DSN || '',
-    disabled: process.env.NODE_ENV === 'development',
-    config: {
-      environment: process.env.SENTRY_ENVIRONMENT ?? 'http://localhost:3000',
-    },
-  },
 
   /*
    ** vuetify module configuration
@@ -168,6 +157,13 @@ export default {
    */
   privateRuntimeConfig: {
     BASIC_AUTH_TOKEN: process.env.BASIC_AUTH_TOKEN,
+    sentry: {
+      config: {
+        dsn: process.env.SENTRY_PRINT_DSN || '',
+        disabled: process.env.NODE_ENV === 'development',
+        environment: process.env.SENTRY_ENVIRONMENT ?? 'http://localhost:3000',
+      }
+    },
   },
 
   telemetry: false,
