@@ -752,6 +752,33 @@ class CreateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampValidatesTooLongNameAndIncludesTranslationInfo() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'name' => 'This camp name has 33 characters!',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'i18n' => [
+                        'key' => 'symfony.component.validator.constraints.length',
+                        'parameters' => [
+                            'value' => '"This camp name has 33 characters!"',
+                            'limit' => '32',
+                        ],
+                        'translations' => [
+                            'en' => 'This value is too long. It should have 32 characters or less.',
+                            'de' => 'Diese Zeichenkette ist zu lang. Sie sollte höchstens 32 Zeichen haben.',
+                            'fr' => 'Cette chaîne est trop longue. Elle doit avoir au maximum 32 caractères.',
+                            'it' => 'Questo valore è troppo lungo. Dovrebbe essere al massimo di 32 caratteri.',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(Camp::class, Post::class, $attributes, [], $except);
     }
