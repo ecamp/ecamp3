@@ -162,6 +162,14 @@ postgresql:
   # An uri with privileges to create and drop a database for the application.
   # Can be left empty if the required database specified in postgresql.url already exists.
   adminUrl:
+  backup:
+    schedule:
+    s3:
+      endpoint:
+      bucket:
+      accessKeyId:
+      accessKey:
+    encryptionKey:
 
 recaptcha:
   siteKey:

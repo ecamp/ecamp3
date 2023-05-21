@@ -5,7 +5,9 @@ set -e
 SCRIPT_DIR=$(realpath "$(dirname "$0")")
 REPO_DIR=$(realpath "$SCRIPT_DIR"/..)
 
+set -f
 source "$SCRIPT_DIR"/.env
+set +f
 
 if [ -z "$version" ] \
     || [ -z "$instance_name" ] \
@@ -57,9 +59,24 @@ for i in 1; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
   done
+  
+  if [ -n "$BACKUP_SCHEDULE" ]; then
+    set -f
+    values="$values --set postgresql.backup.schedule=$BACKUP_SCHEDULE"
+    set +f
+    values="$values --set postgresql.backup.s3.endpoint=$S3_ENDPOINT"
+    values="$values --set postgresql.backup.s3.bucket=$S3_BUCKET"
+    values="$values --set postgresql.backup.s3.accessKeyId=$S3_ACCESS_KEY_ID"
+    values="$values --set postgresql.backup.s3.accessKey=$S3_ACCESS_KEY"
+    if [ -n $BACKUP_ENCRYPTION_KEY ]; then
+      values="$values --set postgresql.backup.encryptionKey=$BACKUP_ENCRYPTION_KEY"
+    fi
+  fi
 
   helm uninstall ecamp3-"$instance_name"-"$i" || true
+  set -f
   helm upgrade --install ecamp3-"$instance_name"-"$i" $SCRIPT_DIR/ecamp3 $values
+  set +f
 done
 
 rm -f private.pem
