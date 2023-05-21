@@ -1,0 +1,124 @@
+{{- if .Values.postgresql.backup.schedule }}
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "{{ include "dbBackupJob.name" . }}"
+  labels:
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  jobTemplate:
+    metadata:
+      name: {{ include "dbBackupJob.name" . }}
+    spec:
+      template:
+        spec:
+          enableServiceLinks: false
+          containers:
+            - name: create-backup
+              image: postgres:15
+              imagePullPolicy: IfNotPresent
+              command:
+                - sh
+                - "-c"
+                - |
+                  set -e
+
+                  pg_dump $DATABASE_URL --column-inserts --rows-per-insert 10000 > /tmp/backup-dir/pgdump.sql
+                  gzip /tmp/backup-dir/pgdump.sql
+                  if [ -n "${ENCRYPTION_KEY}" ]; then
+                    echo "Encrypting backup"
+                    gpg --passphrase=${ENCRYPTION_KEY} --batch -c /tmp/backup-dir/pgdump.sql.gz
+                  fi
+                  touch /tmp/backup-dir/.backup-complete
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: database-url
+                - name: ENCRYPTION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: encryption-key
+                      optional: true
+              volumeMounts:
+                - mountPath: /tmp/backup-dir
+                  name: backup-dir
+
+            - name: upload-backup
+              image: amazon/aws-cli:2.11.21
+              command:
+                - sh
+                - "-c"
+                - |
+                  set -e
+
+                  while [ ! -f /tmp/backup-dir/.backup-complete ]; do
+                     sleep 0.1
+                  done
+
+                  echo "Uploading dump to $S3_BUCKET"
+                  SRC_FILE=/tmp/backup-dir/pgdump.sql.gz
+
+                  CURRENT_DATE=$(date +"%Y-%m-%d-%H-%M-%p")
+                  DEST_FILE="${CURRENT_DATE}-{{ include "app.name" . }}.sql.gz"
+
+                  if [ -n "${ENCRYPTION_KEY}" ]; then
+                    SRC_FILE="${SRC_FILE}.gpg"
+                    DEST_FILE="${DEST_FILE}.gpg"
+                  fi
+
+                  export AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
+                  export AWS_SECRET_ACCESS_KEY=$S3_ACCESS_KEY
+
+                  set +e
+                  ls -lah /tmp/backup-dir/
+                  aws --endpoint-url $S3_ENDPOINT s3 cp $SRC_FILE s3://$S3_BUCKET/{{ include "app.name" . }}/$DEST_FILE
+                  exit_code=$?
+                  rm -rf /tmp/backup-dir/*
+                  if [ $exit_code = 0 ]; then
+                    echo "uploaded dump successfully"
+                  else
+                    echo "upload failed"
+                    exit $exit_code
+                  fi
+              env:
+                - name: ENCRYPTION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: encryption-key
+                      optional: true
+                - name: S3_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-endpoint
+                - name: S3_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-bucket
+                - name: S3_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-access-key-id
+                - name: S3_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-access-key
+
+              volumeMounts:
+                - mountPath: /tmp/backup-dir
+                  name: backup-dir
+
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-dir
+              emptyDir: { }
+  schedule: {{ .Values.postgresql.backup.schedule | quote }}
+{{- end }}

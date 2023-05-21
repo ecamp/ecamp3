@@ -60,6 +60,17 @@ for i in 1; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
   done
+  
+  if [ -n "$BACKUP_SCHEDULE" ]; then
+    values="$values --set postgresql.backup.schedule=$BACKUP_SCHEDULE"
+    values="$values --set postgresql.backup.s3.endpoint=$S3_ENDPOINT"
+    values="$values --set postgresql.backup.s3.bucket=$S3_BUCKET"
+    values="$values --set postgresql.backup.s3.accessKeyId=$S3_ACCESS_KEY_ID"
+    values="$values --set postgresql.backup.s3.accessKey=$S3_ACCESS_KEY"
+    if [ -n $BACKUP_ENCRYPTION_KEY ]; then
+      values="$values --set postgresql.backup.encryptionKey=$BACKUP_ENCRYPTION_KEY"
+    fi
+  fi
 
   for imagespec in "php" "caddy"; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
