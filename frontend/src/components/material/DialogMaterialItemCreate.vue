@@ -45,7 +45,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         const entityData = {
-          quantity: '',
+          quantity: null,
           unit: '',
           article: '',
           materialList: null,
