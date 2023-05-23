@@ -120,6 +120,7 @@ router.use('/pdfChrome', async (req, res) => {
         right: '15mm',
         top: '15mm',
       },
+      timeout: process.env.RENDER_PDF_TIMEOUT_MS ?? 30000,
     })
 
     measurePerformance()

@@ -105,6 +105,7 @@ print:
     port: 3003
   replicaCount: 1
   renderHTMLTimeoutMs:
+  renderPDFTimeoutMs:
   resources:
     requests:
       cpu: 10m

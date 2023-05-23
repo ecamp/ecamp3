@@ -90,6 +90,7 @@ jobs:
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set print.renderHTMLTimeoutMs='${{ vars.PRINT_RENDER_HTML_TIMEOUT_MS }}' \
+            --set print.renderPDFTimeoutMs='${{ vars.PRINT_RENDER_PDF_TIMEOUT_MS }}' \
             --set deploymentTime="$(date -u +%s)" \
             --set deployedVersion="$(git rev-parse --short HEAD)" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
