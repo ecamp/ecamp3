@@ -112,6 +112,11 @@ export default {
     config: {
       environment: process.env.SENTRY_ENVIRONMENT ?? 'local',
     },
+    serverIntegrations: {
+      CaptureConsole: {
+        levels: ['warn', 'error'],
+      },
+    },
   },
 
   /*
