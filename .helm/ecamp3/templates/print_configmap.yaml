@@ -14,3 +14,6 @@ data:
   {{- if .Values.print.renderHTMLTimeoutMs }}
   RENDER_HTML_TIMEOUT_MS: {{ .Values.print.renderHTMLTimeoutMs | quote }}
   {{- end }}
+  {{- if .Values.print.renderPDFTimeoutMs }}
+  RENDER_PDF_TIMEOUT_MS: {{ .Values.print.renderPDFTimeoutMs | quote }}
+  {{- end }}
