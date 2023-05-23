@@ -104,6 +104,7 @@ print:
     type: ClusterIP
     port: 3003
   replicaCount: 1
+  renderHTMLTimeoutMs:
   resources:
     requests:
       cpu: 10m
