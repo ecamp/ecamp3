@@ -144,12 +144,23 @@ router.use('/pdfChrome', async (req, res) => {
       errorMessage = error.message
     }
 
-    console.error(error)
+    captureError(error)
 
     res.status(status)
     res.contentType('application/problem+json')
     res.send({ status, title: errorMessage })
   }
 })
+
+/**
+ * @param {Error} error
+ */
+function captureError(error) {
+  if (process.sentry) {
+    process.sentry.captureException(error)
+  } else {
+    console.error(error)
+  }
+}
 
 module.exports = router
