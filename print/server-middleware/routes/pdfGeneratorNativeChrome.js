@@ -101,6 +101,7 @@ router.use('/pdfChrome', async (req, res) => {
 
     // HTTP request back to Print Nuxt App
     await page.goto(`${process.env.PRINT_URL}/?config=${req.query.config}`, {
+      timeout: process.env.RENDER_HTML_TIMEOUT_MS ?? 30000,
       waitUntil: 'networkidle0',
     })
 
