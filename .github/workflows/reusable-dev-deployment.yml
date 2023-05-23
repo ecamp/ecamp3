@@ -102,6 +102,7 @@ jobs:
             --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
             --set print.renderHTMLTimeoutMs='${{ vars.PRINT_RENDER_HTML_TIMEOUT_MS }}' \
             --set print.renderPDFTimeoutMs='${{ vars.PRINT_RENDER_PDF_TIMEOUT_MS }}' \
+            --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \
             --set deploymentTime="$(date -u +%s)" \
             --set deployedVersion="$(git rev-parse --short '${{ inputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \

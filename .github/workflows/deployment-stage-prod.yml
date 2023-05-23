@@ -99,6 +99,7 @@ jobs:
             --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }} \
             --set browserless.maxConcurrentSessions=${{ vars.BROWSERLESS_MAXCONCURRENTSESSIONS || 3 }} \
             --set browserless.maxQueueLength=${{ vars.BROWSERLESS_MAXQUEUELENGTH || 9 }} \
+            --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \
             --set browserless.resources.requests.cpu=${{ vars.BROWSERLESS_CPU || '500m' }} \
             --set browserless.resources.requests.memory=${{ vars.BROWSERLESS_MEMORY || '800Mi' }} \
             --set caddy.resources.requests.cpu=50m \
