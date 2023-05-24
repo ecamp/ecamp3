@@ -19,11 +19,16 @@ self.start = (...args) => {
 }
 
 export const renderPdfInWorker = async (data) => {
-  if (data?.config?.language) {
-    // We need to set the locale again here. Otherwise dayjs falls back to the default
-    // on production deployments
-    dayjs.locale(data.config.language)
+  if (!data?.config?.language) {
+    const error = 'language was undefined in react print config'
+    Sentry.captureException(new Error(error))
+    return { error }
   }
+
+  // We need to set the locale again here. Otherwise dayjs falls back to the default
+  // on production deployments
+  dayjs.locale(data.config.language)
+
   const result = { ...(await renderPdf(data)) }
   if (result.error) {
     Sentry.captureException(result.error)
