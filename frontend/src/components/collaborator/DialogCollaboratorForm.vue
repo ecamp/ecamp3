@@ -1,6 +1,6 @@
 <template>
   <e-select
-    :v-model="localCollaboration.role"
+    v-model="localCollaboration.role"
     :name="$tc('entity.campCollaboration.fields.role')"
     fieldname="role"
     :items="[
@@ -27,7 +27,6 @@
     persistent-hint
     item-value="key"
     item-text="role"
-    :my="0"
     vee-rules="required"
   >
     <template #item="{ item, on, attrs }">
