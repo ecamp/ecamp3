@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22a38a02366c07eb25c4bf0e940349b9",
+    "content-hash": "fedd1ebf55ccc441484e142872dd1597",
     "packages": [
         {
             "name": "api-platform/core",
@@ -7326,16 +7326,16 @@
         },
         {
             "name": "symfony/mercure-bundle",
-            "version": "v0.3.6",
+            "version": "v0.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mercure-bundle.git",
-                "reference": "262c922912d94d01230b2c647208d06fc46d4cff"
+                "reference": "d2d67f89536dd274b6cdf10659660af8a2d80be0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mercure-bundle/zipball/262c922912d94d01230b2c647208d06fc46d4cff",
-                "reference": "262c922912d94d01230b2c647208d06fc46d4cff",
+                "url": "https://api.github.com/repos/symfony/mercure-bundle/zipball/d2d67f89536dd274b6cdf10659660af8a2d80be0",
+                "reference": "d2d67f89536dd274b6cdf10659660af8a2d80be0",
                 "shasum": ""
             },
             "require": {
@@ -7391,7 +7391,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/mercure-bundle/issues",
-                "source": "https://github.com/symfony/mercure-bundle/tree/v0.3.6"
+                "source": "https://github.com/symfony/mercure-bundle/tree/v0.3.7"
             },
             "funding": [
                 {
@@ -7403,7 +7403,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-06T22:48:03+00:00"
+            "time": "2023-05-23T16:31:37+00:00"
         },
         {
             "name": "symfony/mime",
