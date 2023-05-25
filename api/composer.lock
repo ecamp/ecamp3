@@ -4865,16 +4865,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.19.0",
+            "version": "3.19.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "83df96628eaf611a7abdb9dc4c04b477101dd3e6"
+                "reference": "dd1057fb37d4484ebb2d1bc9b05fa5969c078436"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/83df96628eaf611a7abdb9dc4c04b477101dd3e6",
-                "reference": "83df96628eaf611a7abdb9dc4c04b477101dd3e6",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/dd1057fb37d4484ebb2d1bc9b05fa5969c078436",
+                "reference": "dd1057fb37d4484ebb2d1bc9b05fa5969c078436",
                 "shasum": ""
             },
             "require": {
@@ -4954,7 +4954,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.19.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.19.1"
             },
             "funding": [
                 {
@@ -4966,7 +4966,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-05-23T11:47:12+00:00"
+            "time": "2023-05-25T06:19:09+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
