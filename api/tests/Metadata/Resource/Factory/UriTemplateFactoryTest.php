@@ -30,6 +30,7 @@ class UriTemplateFactoryTest extends TestCase {
     private MockObject|IriConverterInterface $iriConverter;
     private PaginationOptions $paginationOptions;
     private ResourceNameCollection $resourceNameCollection;
+    private ResourceMetadataCollection $resourceMetadataCollection;
     private ApiResource $apiResource;
 
     protected function setUp(): void {

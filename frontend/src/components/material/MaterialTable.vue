@@ -54,6 +54,7 @@
         dense
         :uri="item.uri"
         fieldname="unit"
+        maxlength="32"
       />
       <span v-if="item.readonly">{{ item.unit }}</span>
     </template>
@@ -65,6 +66,7 @@
         dense
         :uri="item.uri"
         fieldname="article"
+        maxlength="64"
       />
       <span v-if="item.readonly">{{ item.article }}</span>
     </template>
@@ -198,6 +200,8 @@ import ServerErrorContent from '@/components/form/ServerErrorContent.vue'
 import ButtonRetry from '@/components/buttons/ButtonRetry.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import * as Sentry from '@sentry/browser'
+import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'MaterialTable',
@@ -375,7 +379,7 @@ export default {
     // retry to save to API (after server error)
     retry(item) {
       // reset error
-      this.$set(this.newMaterialItems[item.id], 'serverError', null)
+      this.$set(this.newMaterialItems[item.id], 'serverError', undefined)
 
       // try to save same data again
       this.postToApi(item.id, this.newMaterialItems[item.id])
@@ -399,6 +403,8 @@ export default {
         // catch server error
         .catch((error) => {
           this.$set(this.newMaterialItems[key], 'serverError', error)
+          this.$toast.error(errorToMultiLineToast(error))
+          Sentry.captureMessage(serverErrorToString(error))
         })
     },
 

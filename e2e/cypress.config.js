@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress')
+const { moveDownloads } = require('./tasks/moveDownloads')
 const { deleteDownloads } = require('./tasks/deleteDownloads')
 
 module.exports = defineConfig({
@@ -13,6 +14,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         deleteDownloads: () => deleteDownloads(config),
+        moveDownloads: (destSubDir) => moveDownloads(config, destSubDir),
       })
     },
     specPattern: 'specs/**/*.cy.{js,jsx,ts,tsx}',

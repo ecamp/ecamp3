@@ -126,7 +126,7 @@ class CreateCampTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'periods[0].start',
-                    'message' => 'This value should be less than or equal to Jan 8, 2022, 12:00 AM.',
+                    'message' => 'This value should be less than or equal to Jan 8, 2022, 12:00 AM.',
                 ],
             ],
         ]);
@@ -746,6 +746,33 @@ class CreateCampTest extends ECampApiTestCase {
                     [
                         'start' => '2022-01-08',
                         'end' => '2022-01-10',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampValidatesTooLongNameAndIncludesTranslationInfo() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'name' => 'This camp name has 33 characters!',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'i18n' => [
+                        'key' => 'symfony.component.validator.constraints.length',
+                        'parameters' => [
+                            'value' => '"This camp name has 33 characters!"',
+                            'limit' => '32',
+                        ],
+                        'translations' => [
+                            'en' => 'This value is too long. It should have 32 characters or less.',
+                            'de' => 'Diese Zeichenkette ist zu lang. Sie sollte höchstens 32 Zeichen haben.',
+                            'fr' => 'Cette chaîne est trop longue. Elle doit avoir au maximum 32 caractères.',
+                            'it' => 'Questo valore è troppo lungo. Dovrebbe essere al massimo di 32 caratteri.',
+                        ],
                     ],
                 ],
             ],

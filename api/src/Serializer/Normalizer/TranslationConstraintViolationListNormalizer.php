@@ -50,7 +50,10 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
 
                     $translations = $this->translateToAllLocalesService->translate(
                         $violation->getMessageTemplate(),
-                        $violation->getParameters()
+                        array_merge(
+                            $violation->getPlural() ? ['%count%' => $violation->getPlural()] : [],
+                            $violation->getParameters()
+                        )
                     );
 
                     $resultItem = [

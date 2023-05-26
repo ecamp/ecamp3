@@ -14,11 +14,21 @@ services:
                     - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                     - Symfony\Component\Routing\Exception\ResourceNotFoundException
                     - Symfony\Component\Security\Core\Exception\AccessDeniedException
-                    - Symfony\Component\HttpKernel\Exception\HttpException
+                    # The following exceptions should not be reported by the API, because they are client errors (400) and should hence be reported by the client.
+                    # For the moment we keep them in, in order to track some frontend issues in Sentry.
+                    # - Symfony\Component\Serializer\Exception\ExtraAttributesException
+                    # - Symfony\Component\Serializer\Exception\UnexpectedValueException
 
 monolog:
     handlers:
         sentry:
+            type: fingers_crossed
+            action_level: error
+            handler: sentry_main
+            excluded_http_codes: [400, 401, 403, 404, 405, 422] # This exclusions only work for exceptions of type Symfony\Component\HttpKernel\Exception\HttpException
+            buffer_size: 50 # How many messages should be saved? Prevent memory leaks
+
+        sentry_main:
             type: sentry
             level: !php/const Monolog\Logger::ERROR
             hub_id: Sentry\State\HubInterface
