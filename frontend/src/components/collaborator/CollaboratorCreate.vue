@@ -12,7 +12,14 @@
     :cancel-action="close"
   >
     <template #activator="{ on }">
-      <ButtonAdd color="success" icon="mdi-account-plus" icon-first v-on="on">
+      <ButtonAdd
+        color="secondary"
+        text
+        class="my-n2"
+        icon="mdi-account-plus"
+        icon-first
+        v-on="on"
+      >
         {{ $tc('components.collaborator.collaboratorCreate.inviteCta') }}
       </ButtonAdd>
     </template>

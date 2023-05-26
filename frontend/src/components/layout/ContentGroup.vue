@@ -12,6 +12,7 @@ Displays the content wrapped inside a card.
       >
         <v-icon v-if="icon" left>{{ icon }}</v-icon>
         {{ title }}
+        <slot name="title-actions" />
       </component>
     </slot>
     <v-skeleton-loader v-if="!loaded" type="article" />

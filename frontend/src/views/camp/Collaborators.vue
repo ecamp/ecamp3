@@ -5,6 +5,9 @@ Displays collaborators of a single camp.
   <content-card :title="$tc('views.camp.collaborators.title')" toolbar>
     <v-card-text>
       <content-group :title="$tc('views.camp.collaborators.members')">
+        <template #title-actions>
+          <CollaboratorCreate v-if="isManager" :camp="camp()" />
+        </template>
         <v-list class="mx-n2">
           <v-skeleton-loader
             v-if="collaborators.length <= 0"
@@ -45,12 +48,6 @@ Displays collaborators of a single camp.
           />
         </v-list>
       </ContentGroup>
-    </v-card-text>
-    <v-divider class="mt-n6" />
-    <v-card-text>
-      <div class="text-right">
-        <CollaboratorCreate v-if="isManager" :camp="camp()" />
-      </div>
     </v-card-text>
   </content-card>
 </template>
