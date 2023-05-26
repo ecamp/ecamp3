@@ -2,13 +2,11 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-cancel"
-    :title="$tc('components.collaborator.collaboratorListItemDeactivate.title')"
+    :title="$tc('components.collaborator.dialogCollaboratorDeactivate.title')"
     :error="error"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"
-    :submit-label="
-      $tc('components.collaborator.collaboratorListItemDeactivate.deactivate')
-    "
+    :submit-label="$tc('components.collaborator.dialogCollaboratorDeactivate.deactivate')"
     submit-color="error"
     submit-icon="mdi-cancel"
     cancel-icon=""
@@ -19,7 +17,7 @@
     </template>
     <slot>
       {{
-        $tc('components.collaborator.collaboratorListItemDeactivate.warningText', 1, {
+        $tc('components.collaborator.dialogCollaboratorDeactivate.warningText', 1, {
           name: displayName,
         })
       }}
@@ -39,7 +37,7 @@ import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisp
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
-  name: 'CollaboratorListItemDeactivate',
+  name: 'DialogCollaboratorDeactivate',
   components: { DialogForm },
   extends: DialogBase,
   props: {

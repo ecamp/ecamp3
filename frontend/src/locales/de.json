@@ -109,27 +109,26 @@
       }
     },
     "collaborator": {
-      "collaboratorListItem": {
+      "collaboratorCreate": {
+        "invite": "Einladung verschicken",
+        "inviteCta": "Ins Team einladen",
+        "title": "Person einladen"
+      },
+      "collaboratorEdit": {
         "cannotAssignAnotherRoleToLastManager": "Du kannst der letzten Person mit administrativen Rechten keine andere Rolle zuteilen.",
         "cannotRemoveLastManager": "Du kannst die letzte Person mit administrativen Rechten nicht deaktivieren",
         "deactivate": "Deaktivieren",
-        "resendEmail": "E-Mail erneut senden",
         "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
-        "inviteAgain": "Erneut einladen"
+        "inviteAgain": "Erneut einladen",
+        "resendEmail": "E-Mail erneut senden",
+        "title": "Mitarbeitende Person bearbeiten|{user} bearbeiten"
       },
-      "collaboratorListItemDeactivate": {
+      "dialogCollaboratorDeactivate": {
         "deactivate": "Deaktivieren",
         "title": "Person in diesem Lager deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
       },
-      "dialogCollaboratorCreate": {
-        "title": "Person einladen",
-        "invite": "Einladung verschicken"
-      },
-      "dialogCollaboratorEdit": {
-        "title": "Mitarbeitende Person bearbeiten"
-      },
-      "dialogCollaboratorForm": {
+      "settingsCollaboratorForm": {
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administratorrechten."
       }
     },
@@ -383,7 +382,7 @@
         "title": "Dein Account wird aktiviert"
       },
       "login": {
-        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen diese Services akzeptierst du die {termsOfServiceLink}.",
+        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen dieser Services akzeptierst du die {termsOfServiceLink}.",
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
@@ -448,7 +447,6 @@
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
-        "invite": "Ins Team einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
         "title": "Team"

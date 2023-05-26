@@ -1,18 +1,20 @@
 <template>
-  <dialog-form
+  <SettingsForm
     v-model="showDialog"
     :loading="loading"
     :error="error"
     icon="mdi-account-plus"
-    :title="$tc('components.collaborator.dialogCollaboratorCreate.title')"
+    :title="$tc('components.collaborator.collaboratorCreate.title')"
     :submit-action="createCollaboration"
-    :submit-label="$tc('components.collaborator.dialogCollaboratorCreate.invite')"
+    :submit-label="$tc('components.collaborator.collaboratorCreate.invite')"
     submit-icon="mdi-email-fast"
     submit-color="success"
     :cancel-action="close"
   >
-    <template #activator="scope">
-      <slot name="activator" v-bind="scope" />
+    <template #activator="{ on }">
+      <ButtonAdd color="success" icon="mdi-account-plus" icon-first v-on="on">
+        {{ $tc('components.collaborator.collaboratorCreate.inviteCta') }}
+      </ButtonAdd>
     </template>
 
     <e-text-field
@@ -23,20 +25,21 @@
       class="mb-2"
     />
 
-    <dialog-collaborator-form :collaboration="entityData" />
-  </dialog-form>
+    <SettingsCollaboratorForm :collaboration="entityData" />
+  </SettingsForm>
 </template>
 
 <script>
-import DialogForm from '@/components/dialog/DialogForm.vue'
+import SettingsForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import DialogCollaboratorForm from '@/components/collaborator/DialogCollaboratorForm.vue'
+import SettingsCollaboratorForm from '@/components/collaborator/SettingsCollaboratorForm.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
 export default {
-  name: 'DialogCollaboratorCreate',
-  components: { DialogCollaboratorForm, DialogForm },
+  name: 'CollaboratorCreate',
+  components: { ButtonAdd, SettingsCollaboratorForm, SettingsForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },
@@ -64,7 +67,7 @@ export default {
   methods: {
     createCollaboration() {
       return this.create().then(() => {
-        this.api.reload(this.camp.materialLists())
+        this.api.reload(this.camp.campCollaborations())
       })
     },
   },

@@ -28,7 +28,7 @@ export default {
   name: 'IconButton',
   props: {
     icon: { type: String, required: true },
-    iconFirst: { type: Boolean, default: false },
+    iconFirst: { type: Boolean, default: true },
     hideLabel: { type: Boolean, default: false },
     color: { type: String, default: 'normal' },
     animate: { type: Boolean, default: false },

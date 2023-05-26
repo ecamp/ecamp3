@@ -101,20 +101,19 @@
       }
     },
     "collaborator": {
-      "collaboratorListItem": {
+      "collaboratorCreate": {
+        "inviteCta": "Invitare"
+      },
+      "collaboratorEdit": {
         "cannotAssignAnotherRoleToLastManager": "Non puoi assegnare un altro ruolo all'ultimo manager.",
         "cannotRemoveLastManager": "Non è possibile rimuovere l'ultimo gestore.",
         "deactivate": "Disattivare",
         "resendEmail": "Reinvia l'email"
       },
-      "collaboratorListItemDeactivate": {
+      "dialogCollaboratorDeactivate": {
         "deactivate": "Disattivare",
         "title": "Disattiva il collaboratore",
         "warningText": "Vuoi disattivare '{name}'?"
-      },
-      "inactiveCollaboratorListItem": {
-        "delete": "Vuoi davvero eliminare questi dipendenti?",
-        "inviteAgain": "Invita di nuovo"
       }
     },
     "dashboard": {
@@ -326,7 +325,6 @@
       "update": "Aggiornare"
     },
     "changeLanguage": "Cambia lingua",
-    "datetime": {},
     "language": "Italiano",
     "loading": "Caricamento ...",
     "lokaliseMessage": "Cambio di lingua alimentato da lokalise.com",
@@ -424,7 +422,6 @@
       "collaborators": {
         "email": "Indirizzo e-mail",
         "inactiveCollaborators": "Inattivo",
-        "invite": "Invitare",
         "members": "Membri",
         "openInvitations": "Inviti aperti",
         "title": "Team"

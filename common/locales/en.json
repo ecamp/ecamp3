@@ -101,7 +101,7 @@
         "guest": "Guest",
         "guestAbilities": "Read-only",
         "invite": "Invite",
-        "manager": "Manager",
+        "manager": "Administration",
         "managerAbilities": "Read, write & camp management",
         "member": "Member",
         "memberAbilities": "Read & write"
@@ -129,9 +129,14 @@
     "campCollaboration": {
       "fields": {
         "inviteEmail": "Email",
-        "role": "Role"
+        "role": "Role",
+        "status": "Status"
       },
-      "inactive": "inactive"
+      "status": {
+        "established": "Active",
+        "inactive": "Inactive",
+        "invited": "Invited"
+      }
     },
     "category": {
       "fields": {

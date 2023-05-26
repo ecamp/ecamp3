@@ -122,9 +122,14 @@
     "campCollaboration": {
       "fields": {
         "inviteEmail": "E-Mail",
-        "role": "Rolle"
+        "role": "Rolle",
+        "status": "Status"
       },
-      "inactive": "inaktiv"
+      "status": {
+        "established": "Aktiv",
+        "inactive": "Deaktiviert",
+        "invited": "Eingeladen"
+      }
     },
     "category": {
       "fields": {
