@@ -194,6 +194,7 @@ Displays a single scheduleEntry
                   :uri="activity._meta.self"
                   fieldname="progressLabel"
                   :items="progressLabels"
+                  :disabled="layoutMode || !isContributor"
                   dense
                 />
               </v-col>
