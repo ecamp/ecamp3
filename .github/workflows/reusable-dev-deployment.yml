@@ -100,6 +100,7 @@ jobs:
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
+            --set print.ingress.readTimeoutSeconds='${{ vars.PRINT_INGRESS_READ_TIMEOUT_SECONDS }}' \
             --set print.renderHTMLTimeoutMs='${{ vars.PRINT_RENDER_HTML_TIMEOUT_MS }}' \
             --set print.renderPDFTimeoutMs='${{ vars.PRINT_RENDER_PDF_TIMEOUT_MS }}' \
             --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \

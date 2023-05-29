@@ -93,6 +93,8 @@ frontend:
 
 print:
   subpath: "/print"
+  ingress:
+    readTimeoutSeconds:
   image:
     repository: "docker.io/ecamp/ecamp3-print"
     pullPolicy: IfNotPresent
