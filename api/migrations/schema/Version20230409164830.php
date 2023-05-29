@@ -86,6 +86,19 @@ final class Version20230409164830 extends AbstractMigration {
             WHERE   c.id = \'497f974e7d5d\'
         ');
 
+        // Basic
+        $this->addSql('INSERT INTO activity_progress_label (id, campId, position, title, createTime, updateTime) 
+            SELECT  encode(gen_random_bytes(6), \'hex\'), \'f92fe1cd1ae9\', 1, \'In Planung\', 
+                    date_trunc(\'second\', now()::timestamp), date_trunc(\'second\', now()::timestamp)
+            FROM    camp c
+            WHERE   c.id = \'f92fe1cd1ae9\'
+            UNION
+            SELECT  encode(gen_random_bytes(6), \'hex\'), \'f92fe1cd1ae9\', 2, \'Planung abgeschlossen\', 
+                    date_trunc(\'second\', now()::timestamp), date_trunc(\'second\', now()::timestamp)
+            FROM    camp c
+            WHERE   c.id = \'f92fe1cd1ae9\'
+        ');
+
         // All ohter camps
         $this->addSql('INSERT INTO activity_progress_label (id, campId, position, title, createTime, updateTime) 
             SELECT  encode(gen_random_bytes(6), \'hex\')
