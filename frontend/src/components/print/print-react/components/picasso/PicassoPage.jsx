@@ -48,16 +48,9 @@ function PicassoPage(props) {
 
   const period = props.period
   const days = props.days
-  const startDate = props.start.hour(times[0][0])
-  const endDate = props.end.hour(times[0][0])
   const orientation = props.content.options.orientation
   const anyDayResponsibles = days.some((day) => day.dayResponsibles().items.length > 0)
-  const scheduleEntries = period.scheduleEntries().items.filter((scheduleEntry) => {
-    return (
-      utcStringToTimestamp(scheduleEntry.start) < endDate &&
-      utcStringToTimestamp(scheduleEntry.end) > startDate
-    )
-  })
+  const scheduleEntries = period.scheduleEntries().items
 
   return (
     <Page
