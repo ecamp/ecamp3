@@ -30,7 +30,6 @@
     <v-list-item-action class="e-collaborator-item__actions ml-2">
       <button-edit
         v-if="editable"
-        icon-first
         color="primary--text"
         text
         class="my-n1 v-btn--has-bg"

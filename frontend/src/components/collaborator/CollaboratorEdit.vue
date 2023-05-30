@@ -16,7 +16,6 @@
           <ButtonDelete
             class="v-btn--has-bg"
             :disabled="disabled"
-            icon-first
             v-bind="attrs"
             v-on="on"
           />
@@ -33,7 +32,6 @@
         text
         class="v-btn--has-bg"
         color="blue-grey darken-2"
-        icon-first
         :icon="
           resendingEmail
             ? 'mdi-refresh'
@@ -83,7 +81,6 @@
                   <IconButton
                     color="secondary"
                     text
-                    icon-first
                     :aria-disabled="
                       (disabled && !isOwnCampCollaboration) || isLastManager
                     "
@@ -110,7 +107,6 @@
           v-if="inactive"
           color="secondary"
           text
-          icon-first
           icon="mdi-refresh"
           :animate="resendingEmail"
           :disabled="disabled || resendingEmail"
