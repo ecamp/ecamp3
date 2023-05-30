@@ -97,6 +97,10 @@ body {
   cursor: move;
 }
 
+.vertical-baseline {
+  vertical-align: baseline;
+}
+
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }

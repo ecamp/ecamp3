@@ -16,6 +16,13 @@ Displays collaborators of a single camp.
           />
           <CollaboratorEdit
             v-for="collaborator in establishedCollaborators"
+            v-else-if="isManager"
+            :key="collaborator._meta.self"
+            :collaborator="collaborator"
+          />
+          <CollaboratorListItem
+            v-for="collaborator in establishedCollaborators"
+            v-else
             :key="collaborator._meta.self"
             :collaborator="collaborator"
           />
@@ -27,8 +34,16 @@ Displays collaborators of a single camp.
         :title="$tc('views.camp.collaborators.openInvitations')"
       >
         <v-list class="mx-n2">
-          <CollaboratorEdit
+          <template v-if="isManager">
+            <CollaboratorEdit
+              v-for="collaborator in invitedCollaborators"
+              :key="collaborator._meta.self"
+              :collaborator="collaborator"
+            />
+          </template>
+          <CollaboratorListItem
             v-for="collaborator in invitedCollaborators"
+            v-else
             :key="collaborator._meta.self"
             :collaborator="collaborator"
           />
@@ -40,8 +55,17 @@ Displays collaborators of a single camp.
         :title="$tc('views.camp.collaborators.inactiveCollaborators')"
       >
         <v-list class="mx-n2">
-          <CollaboratorEdit
+          <template v-if="isManager">
+            <CollaboratorEdit
+              v-for="collaborator in inactiveCollaborators"
+              :key="collaborator._meta.self"
+              :collaborator="collaborator"
+              inactive
+            />
+          </template>
+          <CollaboratorListItem
             v-for="collaborator in inactiveCollaborators"
+            v-else
             :key="collaborator._meta.self"
             :collaborator="collaborator"
             inactive
@@ -58,12 +82,14 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { transformViolations } from '@/helpers/serverError'
+import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
 export default {
   name: 'Collaborators',
   components: {
+    CollaboratorListItem,
     CollaboratorCreate,
     CollaboratorEdit,
     ContentGroup,

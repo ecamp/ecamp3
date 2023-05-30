@@ -5,8 +5,7 @@
     </v-list-item-action>
     <v-list-item-content>
       <v-list-item-title>
-        <span v-if="collaborator.user">{{ collaborator.user().displayName }}</span>
-        <span v-else>{{ collaborator.inviteEmail }}</span>
+        {{ name }}
       </v-list-item-title>
       <v-list-item-subtitle>
         <v-tooltip right>
@@ -16,7 +15,9 @@
               }}<span>
                 &middot;
                 <template v-for="icon in roles[collaborator.role].icons"
-                  ><v-icon :key="icon" x-small>{{ icon }}</v-icon
+                  ><v-icon :key="icon" x-small class="vertical-baseline">{{
+                    icon
+                  }}</v-icon
                   >&thinsp;</template
                 ></span
               >
@@ -27,7 +28,13 @@
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action class="e-collaborator-item__actions ml-2">
-      <button-edit icon-first color="primary--text" text class="my-n1 v-btn--has-bg" />
+      <button-edit
+        v-if="editable"
+        icon-first
+        color="primary--text"
+        text
+        class="my-n1 v-btn--has-bg"
+      />
     </v-list-item-action>
   </v-list-item>
 </template>
@@ -44,8 +51,7 @@ export default {
   },
   props: {
     collaborator: { type: Object, required: true },
-    disabled: { type: Boolean, default: false },
-    inactive: { type: Boolean, default: false },
+    editable: { type: Boolean, default: false },
   },
   data: () => ({
     roles: {
@@ -71,23 +77,6 @@ export default {
       return this.collaborator.user
         ? this.collaborator.user().displayName
         : this.collaborator.inviteEmail
-    },
-    isLastManager() {
-      if (this.collaborator.status !== 'established') return false
-      if (this.collaborator.role !== 'manager') return false
-      const camp = this.collaborator.camp()
-      return (
-        camp
-          ?.campCollaborations()
-          ?.items?.filter((collaborator) => collaborator.status === 'established')
-          .filter((collaborator) => collaborator.role === 'manager').length <= 1
-      )
-    },
-    isOwnCampCollaboration() {
-      if (!(typeof this.collaborator.user === 'function')) {
-        return false
-      }
-      return this.$store.state.auth.user?.id === this.collaborator.user().id
     },
   },
 }
