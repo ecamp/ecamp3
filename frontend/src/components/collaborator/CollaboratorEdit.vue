@@ -76,7 +76,7 @@
         >
           <template #activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
-              <DialogCollaboratorDeactivate :entity="collaborator" x="left" y="bottom">
+              <PromptCollaboratorDeactivate :entity="collaborator" x="left" y="bottom">
                 <template #activator="{ on: onDialog, attrs: attrsDialog }">
                   <IconButton
                     color="secondary"
@@ -96,7 +96,7 @@
                     {{ $tc('components.collaborator.collaboratorEdit.deactivate') }}
                   </IconButton>
                 </template>
-              </DialogCollaboratorDeactivate>
+              </PromptCollaboratorDeactivate>
             </div>
           </template>
           <span>{{
@@ -126,7 +126,7 @@ import CollaboratorForm from '@/components/collaborator/CollaboratorForm.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import IconButton from '@/components/buttons/IconButton.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
-import DialogCollaboratorDeactivate from '@/components/collaborator/DialogCollaboratorDeactivate.vue'
+import PromptCollaboratorDeactivate from '@/components/collaborator/PromptCollaboratorDeactivate.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
@@ -138,9 +138,9 @@ export default {
     ButtonDelete,
     CollaboratorListItem,
     DetailPane,
-    DialogCollaboratorDeactivate,
     CollaboratorForm,
     IconButton,
+    PromptCollaboratorDeactivate,
   },
   extends: DialogBase,
   mixins: [campRoleMixin],
