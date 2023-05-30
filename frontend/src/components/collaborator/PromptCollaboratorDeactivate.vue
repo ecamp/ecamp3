@@ -1,8 +1,6 @@
 <template>
   <PopoverPrompt
     v-model="showDialog"
-    icon="mdi-cancel"
-    :title="$tc('components.collaborator.promptCollaboratorDeactivate.title')"
     :error="error"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"

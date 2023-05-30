@@ -129,7 +129,6 @@
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Deaktivieren",
-        "title": "Person in diesem Lager deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
       }
     },

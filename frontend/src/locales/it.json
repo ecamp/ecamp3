@@ -129,7 +129,6 @@
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Disattivare",
-        "title": "Disattiva il collaboratore",
         "warningText": "Vuoi disattivare '{name}'?"
       }
     },

@@ -18,7 +18,6 @@
     <v-alert
       :border="y === 'top' ? 'bottom' : 'bottom'"
       colored-border
-      icon="mdi-cancel"
       type="error"
       class="mb-0"
       :class="{
