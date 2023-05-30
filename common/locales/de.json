@@ -127,7 +127,7 @@
       },
       "status": {
         "established": "Aktiv",
-        "inactive": "Deaktiviert",
+        "inactive": "Inaktiv",
         "invited": "Eingeladen"
       }
     },
