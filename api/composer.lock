@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c50c50d7c0a70f4b545cb66a875edcc2",
+    "content-hash": "029052ac4932c09ee269f1a5e9c94ef5",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10190,16 +10190,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.4.0",
+            "version": "v15.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "99290f7945a5b39ad823f7600fa196de62597e9d"
+                "reference": "0dd4dd8ebe1bc8f3d61b4daedcf66987f39772e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/99290f7945a5b39ad823f7600fa196de62597e9d",
-                "reference": "99290f7945a5b39ad823f7600fa196de62597e9d",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/0dd4dd8ebe1bc8f3d61b4daedcf66987f39772e7",
+                "reference": "0dd4dd8ebe1bc8f3d61b4daedcf66987f39772e7",
                 "shasum": ""
             },
             "require": {
@@ -10217,7 +10217,7 @@
                 "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "1.10.15",
-                "phpstan/phpstan-phpunit": "1.3.11",
+                "phpstan/phpstan-phpunit": "1.3.13",
                 "phpstan/phpstan-strict-rules": "1.5.1",
                 "phpunit/phpunit": "^9.5",
                 "psr/http-message": "^1 || ^2",
@@ -10251,7 +10251,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.4.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.5.0"
             },
             "funding": [
                 {
@@ -10259,7 +10259,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-05-11T10:26:08+00:00"
+            "time": "2023-05-30T13:10:49+00:00"
         },
         {
             "name": "willdurand/negotiation",
