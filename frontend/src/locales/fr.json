@@ -353,6 +353,11 @@
       "update": "Mise à jour"
     },
     "changeLanguage": "Changer la langue",
+    "collaborationAbilities": {
+      "guest": "Lecture uniquement",
+      "manager": "Lecture, écriture & administration du camp",
+      "member": "Lecture & écriture"
+    },
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },

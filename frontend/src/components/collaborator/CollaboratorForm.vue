@@ -28,19 +28,19 @@
               {
                 key: 'manager',
                 role: $tc('entity.camp.collaborators.manager'),
-                abilities: $tc('entity.camp.collaborators.managerAbilities'),
+                abilities: $tc('global.collaborationAbilities.manager'),
                 icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
               },
               {
                 key: 'member',
                 role: $tc('entity.camp.collaborators.member'),
-                abilities: $tc('entity.camp.collaborators.memberAbilities'),
+                abilities: $tc('global.collaborationAbilities.member'),
                 icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
               },
               {
                 key: 'guest',
                 role: $tc('entity.camp.collaborators.guest'),
-                abilities: $tc('entity.camp.collaborators.guestAbilities'),
+                abilities: $tc('global.collaborationAbilities.guest'),
                 icons: ['mdi-eye-outline'],
               },
             ]"

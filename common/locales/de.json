@@ -92,12 +92,9 @@
     "camp": {
       "collaborators": {
         "guest": "Gast",
-        "guestAbilities": "Nur Leserecht",
         "invite": "Einladen",
         "manager": "Administration",
-        "managerAbilities": "Vollständige Lageradministration, sowie Lese- & Schreibrecht",
-        "member": "Mitglied",
-        "memberAbilities": "Lese- & Schreibrecht"
+        "member": "Mitglied"
       },
       "fields": {
         "addressCity": "Ort",

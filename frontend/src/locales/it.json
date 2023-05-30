@@ -353,6 +353,11 @@
       "update": "Aggiornare"
     },
     "changeLanguage": "Cambia lingua",
+    "collaborationAbilities": {
+      "guest": "Solo lettura",
+      "manager": "Lettura, scrittura e amministrazione del campo",
+      "member": "Lettura e scrittura"
+    },
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },

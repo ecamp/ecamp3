@@ -353,6 +353,11 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "collaborationAbilities": {
+      "guest": "Read-only",
+      "manager": "Read, write & camp management",
+      "member": "Read & write"
+    },
     "datetime": {
       "vuetifyTimePickerFormat": "ampm"
     },

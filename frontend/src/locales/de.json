@@ -353,6 +353,11 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "collaborationAbilities": {
+      "guest": "Nur Leserecht",
+      "manager": "Vollständige Lageradministration, sowie Lese- & Schreibrecht",
+      "member": "Lese- & Schreibrecht"
+    },
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },

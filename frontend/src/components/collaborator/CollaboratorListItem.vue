@@ -56,17 +56,17 @@ export default {
     roles: {
       manager: {
         roleTranslation: 'entity.camp.collaborators.manager',
-        abilitiesTranslation: 'entity.camp.collaborators.managerAbilities',
+        abilitiesTranslation: 'global.collaborationAbilities.manager',
         icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
       },
       member: {
         roleTranslation: 'entity.camp.collaborators.member',
-        abilitiesTranslation: 'entity.camp.collaborators.memberAbilities',
+        abilitiesTranslation: 'global.collaborationAbilities.member',
         icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
       },
       guest: {
         roleTranslation: 'entity.camp.collaborators.guest',
-        abilitiesTranslation: 'entity.camp.collaborators.guestAbilities',
+        abilitiesTranslation: 'global.collaborationAbilities.guest',
         icons: ['mdi-eye-outline'],
       },
     },
