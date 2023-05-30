@@ -172,7 +172,18 @@
     }
   },
   "global": {
-    "datetime": {}
+    "datetime": {
+      "dateLong": "dd D.MM.YYYY",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd D.MM.YYYY HH:mm",
+      "duration": {
+        "hoursAndMinutes": "{hours}h {minutes}min",
+        "hoursOnly": "{hours}h",
+        "minutesOnly": "{minutes}min"
+      },
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
+    }
   },
   "print": {
     "cover": {

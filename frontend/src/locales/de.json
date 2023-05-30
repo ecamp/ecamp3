@@ -121,8 +121,8 @@
         "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
         "inviteAgain": "Erneut einladen",
         "resendEmail": "E-Mail erneut senden",
-        "resentEmail": "E-Mail gesendet",
-        "title": "Mitarbeitende Person bearbeiten|{user} bearbeiten"
+        "resentEmail": "Einladung gesendet",
+        "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administratorrechten."

@@ -46,6 +46,14 @@
         "editLayout": "Modifica il layout",
         "title": "Categorie di attività"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Altri campi per i corsi"
+        },
+        "ysCamp": {
+          "title": "Altri campi per i campi G+S"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Una volta eliminato un campo, non è più possibile tornare indietro. Siate certi.",
@@ -102,13 +110,22 @@
     },
     "collaborator": {
       "collaboratorCreate": {
-        "inviteCta": "Invitare"
+        "invite": "Inviare l'invito",
+        "inviteCta": "Invitare",
+        "title": "Invitare una persona"
       },
       "collaboratorEdit": {
         "cannotAssignAnotherRoleToLastManager": "Non puoi assegnare un altro ruolo all'ultimo manager.",
         "cannotRemoveLastManager": "Non è possibile rimuovere l'ultimo gestore.",
         "deactivate": "Disattivare",
-        "resendEmail": "Reinvia l'email"
+        "delete": "Vuoi davvero rimuovere la persona '{name}'?",
+        "inviteAgain": "Invitare di nuovo",
+        "resendEmail": "Reinvia l'email",
+        "resentEmail": "Invito inviato",
+        "title": "Éditer {user}"
+      },
+      "collaboratorForm": {
+        "roleHint": "Ogni campo ha bisogno di almeno una persona con diritti di amministratore."
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Disattivare",
@@ -257,6 +274,12 @@
         "title": "Scegli il periodo"
       },
       "picasso": {
+        "picasso": {
+          "datetime": {
+            "fullDate": "dd DD. MMMM YYYY",
+            "smallDate": "dd D.MM. | dd D. MMM | dd D. MMM YY"
+          }
+        },
         "picassoEntry": {
           "location": "Luogo:",
           "responsible": "Responsable:"
@@ -331,6 +354,9 @@
       "update": "Aggiornare"
     },
     "changeLanguage": "Cambia lingua",
+    "datetime": {
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "language": "Italiano",
     "loading": "Caricamento ...",
     "lokaliseMessage": "Cambio di lingua alimentato da lokalise.com",
@@ -472,7 +498,6 @@
         "downloadXlsx": "Scarica",
         "groupByList": "Raggruppa per elenco di materiali",
         "showActivityMaterial": "Mostra il materiale dell'attività",
-        "showActivityMaterialShort": "incl. Attività",
         "title": "Materiale",
         "xlsx": {
           "activity": "Attività",

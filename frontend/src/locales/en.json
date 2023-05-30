@@ -118,10 +118,11 @@
         "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
         "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
-        "delete": "Do you really want to remove this collaborator?",
+        "delete": "Do you really want to remove collaborator '{name}'?",
         "inviteAgain": "Invite again",
         "resendEmail": "Resend invite",
-        "title": "Edit collaborator|Edit {user}"
+        "resentEmail": "Invitation sent",
+        "title": "Edit {user}"
       },
       "collaboratorForm": {
         "roleHint": "Each camp needs at least one person with administrative rights."
