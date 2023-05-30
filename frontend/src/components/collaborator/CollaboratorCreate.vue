@@ -1,5 +1,5 @@
 <template>
-  <SettingsForm
+  <DetailPane
     v-model="showDialog"
     :loading="loading"
     :error="error"
@@ -32,21 +32,21 @@
       class="mb-2"
     />
 
-    <SettingsCollaboratorForm :collaboration="entityData" />
-  </SettingsForm>
+    <CollaboratorForm :collaboration="entityData" />
+  </DetailPane>
 </template>
 
 <script>
-import SettingsForm from '@/components/dialog/DialogForm.vue'
-import DialogBase from '@/components/dialog/DialogBase.vue'
-import SettingsCollaboratorForm from '@/components/collaborator/SettingsCollaboratorForm.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import DetailPane from '@/components/generic/DetailPane.vue'
+import DialogBase from '@/components/dialog/DialogBase.vue'
+import CollaboratorForm from '@/components/collaborator/CollaboratorForm.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
 export default {
   name: 'CollaboratorCreate',
-  components: { ButtonAdd, SettingsCollaboratorForm, SettingsForm },
+  components: { ButtonAdd, DetailPane, CollaboratorForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },

@@ -121,15 +121,16 @@
         "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
         "inviteAgain": "Erneut einladen",
         "resendEmail": "E-Mail erneut senden",
+        "resentEmail": "E-Mail gesendet",
         "title": "Mitarbeitende Person bearbeiten|{user} bearbeiten"
       },
-      "dialogCollaboratorDeactivate": {
+      "collaboratorForm": {
+        "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administratorrechten."
+      },
+      "promptCollaboratorDeactivate": {
         "deactivate": "Deaktivieren",
         "title": "Person in diesem Lager deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
-      },
-      "settingsCollaboratorForm": {
-        "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administratorrechten."
       }
     },
     "dashboard": {
@@ -283,6 +284,12 @@
           "location": "Ort:",
           "responsible": "Verantwortlich: "
         }
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Wirklich löschen?",
+        "warningText": "Möchtest du das wirklich löschen?"
       }
     },
     "toast": {

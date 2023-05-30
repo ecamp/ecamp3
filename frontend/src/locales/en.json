@@ -123,13 +123,13 @@
         "resendEmail": "Resend invite",
         "title": "Edit collaborator|Edit {user}"
       },
-      "dialogCollaboratorDeactivate": {
+      "collaboratorForm": {
+        "roleHint": "Each camp needs at least one person with administrative rights."
+      },
+      "promptCollaboratorDeactivate": {
         "deactivate": "Deactivate",
         "title": "Deactivate collaborator",
         "warningText": "Do you want to deactivate '{name}'?"
-      },
-      "settingsCollaboratorForm": {
-        "roleHint": "Each camp needs at least one person with administrative rights."
       }
     },
     "dashboard": {
@@ -283,6 +283,12 @@
           "location": "Location:",
           "responsible": "Responsible: "
         }
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Really delete?",
+        "warningText": "Do you really want to delete this?"
       }
     },
     "toast": {

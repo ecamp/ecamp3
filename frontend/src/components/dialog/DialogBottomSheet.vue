@@ -4,7 +4,6 @@
     eager
     v-bind="$attrs"
     :value="value"
-    :max-width="maxWidth"
     v-on="$listeners"
     @input="onInput"
   >
@@ -50,7 +49,7 @@
 
           <slot name="afterErrors" />
 
-          <div class="d-flex flex-wrap">
+          <div class="d-flex flex-wrap justify-end">
             <v-card-actions>
               <slot name="moreActions" />
             </v-card-actions>
@@ -70,7 +69,7 @@
                 v-if="submitAction != null"
                 :color="submitColor"
                 type="submit"
-                :loading="isSaving"
+                :loading="currentlySaving"
                 :disabled="!submitEnabled"
               >
                 <v-icon v-if="!!submitIcon" left>
@@ -86,54 +85,23 @@
     </ValidationObserver>
   </v-bottom-sheet>
 </template>
-
 <script>
 import { ValidationObserver } from 'vee-validate'
 import ServerError from '@/components/form/ServerError.vue'
+import DialogUiBase from '@/components/dialog/DialogUiBase.vue'
 
 export default {
-  name: 'SettingsForm',
-  components: { ValidationObserver, ServerError },
+  name: 'DialogBottomSheet',
+  components: { ServerError, ValidationObserver },
+  extends: DialogUiBase,
   props: {
-    value: { type: Boolean, required: true },
-
     icon: { type: String, default: '', required: false },
     title: { type: String, default: '', required: false },
-
-    submitAction: { type: Function, default: null, require: false },
-    submitIcon: { type: String, default: 'mdi-send-variant', required: false },
-    submitLabel: {
-      type: String,
-      default: function () {
-        return this.$tc('global.button.submit')
-      },
-      required: false,
-    },
-    submitColor: { type: String, default: 'primary', required: false },
-    submitEnabled: { type: Boolean, default: true, required: false },
-
-    cancelAction: { type: Function, default: null, required: false },
-    cancelIcon: { type: String, default: 'mdi-window-close', required: false },
-    cancelLabel: {
-      type: String,
-      default: function () {
-        return this.$tc('global.button.cancel')
-      },
-      required: false,
-    },
-    cancelColor: { type: String, default: 'secondary', required: false },
-    cancelEnabled: { type: Boolean, default: true, required: false },
-    cancelVisible: { type: Boolean, default: true, required: false },
-
-    loading: { type: Boolean, default: false, required: false },
-    error: { type: [Object, String, Error], default: null, required: false },
-
-    maxWidth: { type: String, default: '600px', required: false },
   },
-  data() {
-    return {
-      isSaving: false,
-    }
+  computed: {
+    currentlySaving() {
+      return this.isSaving || this.savingOverride
+    },
   },
   watch: {
     value(visible) {
@@ -145,11 +113,14 @@ export default {
   methods: {
     async doSubmit() {
       this.isSaving = true
+      this.$emit('update:savingOverride', true)
       await this.submitAction()
       this.isSaving = false
+      this.$emit('update:savingOverride', false)
     },
     doCancel() {
       this.isSaving = false
+      this.$emit('update:savingOverride', false)
       if (this.cancelAction != null) {
         this.cancelAction()
       }
@@ -163,7 +134,6 @@ export default {
   },
 }
 </script>
-
 <style scoped>
 .error-area:empty {
   display: none;

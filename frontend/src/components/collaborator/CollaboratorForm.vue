@@ -11,7 +11,61 @@
         <slot name="statusChange" />
       </template>
     </e-text-field>
+    <v-tooltip v-if="readonlyRole" eager bottom>
+      <span id="readonly">
+        {{ $tc('components.collaborator.collaboratorForm.roleHint') }}
+      </span>
+      <template #activator="{ on }">
+        <div tabindex="0" class="mt-3" v-on="on">
+          <e-select
+            v-model="localCollaboration.role"
+            fieldname="role"
+            readonly
+            aria-readonly="true"
+            aria-describedby="readonly"
+            :name="$tc('entity.campCollaboration.fields.role')"
+            :items="[
+              {
+                key: 'manager',
+                role: $tc('entity.camp.collaborators.manager'),
+                abilities: $tc('entity.camp.collaborators.managerAbilities'),
+                icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
+              },
+              {
+                key: 'member',
+                role: $tc('entity.camp.collaborators.member'),
+                abilities: $tc('entity.camp.collaborators.memberAbilities'),
+                icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
+              },
+              {
+                key: 'guest',
+                role: $tc('entity.camp.collaborators.guest'),
+                abilities: $tc('entity.camp.collaborators.guestAbilities'),
+                icons: ['mdi-eye-outline'],
+              },
+            ]"
+            :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
+            item-value="key"
+            item-text="role"
+            vee-rules="required"
+          >
+            <template #selection="{ item }">
+              <span
+                >{{ item.role }} &middot;
+                <span class="grey--text"
+                  ><template v-for="icon in item.icons"
+                    ><v-icon :key="icon" x-small>{{ icon }}</v-icon
+                    >&thinsp;</template
+                  ></span
+                >
+              </span>
+            </template>
+          </e-select>
+        </div>
+      </template>
+    </v-tooltip>
     <e-select
+      v-else
       v-model="localCollaboration.role"
       :name="$tc('entity.campCollaboration.fields.role')"
       fieldname="role"
@@ -35,7 +89,7 @@
           icons: ['mdi-eye-outline'],
         },
       ]"
-      :hint="$tc('components.collaborator.settingsCollaboratorForm.roleHint')"
+      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
       item-value="key"
       item-text="role"
@@ -78,6 +132,7 @@ export default {
   props: {
     collaboration: { type: Object, required: true },
     status: { type: [String, Boolean], required: false, default: false },
+    readonlyRole: { type: [String, Boolean], required: false, default: false },
   },
   computed: {
     localCollaboration() {

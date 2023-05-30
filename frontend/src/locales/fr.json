@@ -110,7 +110,7 @@
         "deactivate": "Désactiver",
         "resendEmail": "Renvoyer l'email"
       },
-      "dialogCollaboratorDeactivate": {
+      "promptCollaboratorDeactivate": {
         "deactivate": "Désactiver",
         "title": "Désactiver le collaborateur",
         "warningText": "Veux-tu désactiver '{name}' ?"
@@ -261,6 +261,12 @@
           "location": "Location:",
           "responsible": "Responsabile:"
         }
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Vraiment effacer?",
+        "warningText": "Voulez-vous vraiment le supprimer ?"
       }
     },
     "toast": {

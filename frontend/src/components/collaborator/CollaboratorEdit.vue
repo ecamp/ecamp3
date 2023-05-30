@@ -1,5 +1,5 @@
 <template>
-  <SettingsForm
+  <DetailPane
     v-model="showDialog"
     :loading="loading"
     :error="error"
@@ -11,9 +11,15 @@
     :cancel-action="close"
   >
     <template #moreActions>
-      <DialogEntityDelete v-if="inactive" :entity="collaborator">
-        <template #activator="{ on }">
-          <ButtonDelete class="v-btn--has-bg" :disabled="disabled" icon-first v-on="on" />
+      <PromptEntityDelete v-if="inactive" :entity="collaborator" x="left" y="top">
+        <template #activator="{ on, attrs }">
+          <ButtonDelete
+            class="v-btn--has-bg"
+            :disabled="disabled"
+            icon-first
+            v-bind="attrs"
+            v-on="on"
+          />
         </template>
         {{
           $tc('components.collaborator.collaboratorEdit.delete', 0, {
@@ -21,19 +27,29 @@
           })
         }}
         <br />
-      </DialogEntityDelete>
+      </PromptEntityDelete>
       <IconButton
         v-if="collaborator.status === 'invited'"
         text
         class="v-btn--has-bg"
         color="blue-grey darken-2"
         icon-first
-        :icon="resendingEmail ? 'mdi-refresh' : 'mdi-email-fast'"
+        :icon="
+          resendingEmail
+            ? 'mdi-refresh'
+            : emailSent
+            ? 'mdi-email-check'
+            : 'mdi-email-fast'
+        "
         :animate="resendingEmail"
-        :disabled="disabled || resendingEmail"
+        :disabled="disabled || resendingEmail || emailSent"
         @click="resendInvitation"
       >
-        {{ $tc('components.collaborator.collaboratorEdit.resendEmail') }}
+        {{
+          emailSent && !resendingEmail
+            ? $tc('components.collaborator.collaboratorEdit.resentEmail')
+            : $tc('components.collaborator.collaboratorEdit.resendEmail')
+        }}
       </IconButton>
     </template>
 
@@ -42,31 +58,43 @@
         <CollaboratorListItem
           :collaborator="collaborator"
           :disabled="!isManager"
-          inactive
+          editable
           v-on="on"
         />
       </slot>
     </template>
 
-    <SettingsCollaboratorForm :collaboration="entityData" :status="collaborator.status">
+    <CollaboratorForm
+      :collaboration="entityData"
+      :status="collaborator.status"
+      :readonly-role="isLastManager"
+    >
       <template #statusChange>
         <v-tooltip
           v-if="collaborator.status !== 'inactive'"
           :disabled="disabled || !isLastManager"
           top
+          eager
         >
           <template #activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
-              <DialogCollaboratorDeactivate :entity="collaborator">
-                <template #activator="{ on: onDialog }">
+              <DialogCollaboratorDeactivate :entity="collaborator" x="left" y="bottom">
+                <template #activator="{ on: onDialog, attrs: attrsDialog }">
                   <IconButton
                     color="secondary"
                     text
                     icon-first
-                    :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
+                    :aria-disabled="
+                      (disabled && !isOwnCampCollaboration) || isLastManager
+                    "
                     :icon-only="false"
                     icon="mdi-cancel"
-                    v-on="onDialog"
+                    v-bind="attrsDialog"
+                    v-on="
+                      (disabled && !isOwnCampCollaboration) || isLastManager
+                        ? on
+                        : onDialog
+                    "
                   >
                     {{ $tc('components.collaborator.collaboratorEdit.deactivate') }}
                   </IconButton>
@@ -91,32 +119,32 @@
           {{ $tc('components.collaborator.collaboratorEdit.inviteAgain') }}
         </IconButton>
       </template>
-    </SettingsCollaboratorForm>
-  </SettingsForm>
+    </CollaboratorForm>
+  </DetailPane>
 </template>
 
 <script>
+import DetailPane from '@/components/generic/DetailPane.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import SettingsCollaboratorForm from '@/components/collaborator/SettingsCollaboratorForm.vue'
+import CollaboratorForm from '@/components/collaborator/CollaboratorForm.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import IconButton from '@/components/buttons/IconButton.vue'
-import SettingsForm from '@/components/dialog/SettingsForm.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import DialogCollaboratorDeactivate from '@/components/collaborator/DialogCollaboratorDeactivate.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
+import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
 export default {
   name: 'CollaboratorEdit',
   components: {
-    CollaboratorListItem,
-    DialogCollaboratorDeactivate,
-    DialogEntityDelete,
+    PromptEntityDelete,
     ButtonDelete,
-    SettingsForm,
+    CollaboratorListItem,
+    DetailPane,
+    DialogCollaboratorDeactivate,
+    CollaboratorForm,
     IconButton,
-    SettingsCollaboratorForm,
   },
   extends: DialogBase,
   mixins: [campRoleMixin],
@@ -128,6 +156,7 @@ export default {
   data() {
     return {
       resendingEmail: false,
+      emailSent: false,
       entityProperties: ['camp', 'inviteEmail', 'role', 'status'],
       entityUri: '/camp_collaborations',
     }
@@ -162,6 +191,7 @@ export default {
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
+        this.emailSent = false
         this.entityUri = this.collaborator._meta.self
         this.setEntityData({
           role: this.collaborator.role,
@@ -174,6 +204,7 @@ export default {
   },
   methods: {
     resendInvitation() {
+      this.emailSent = true
       this.resendingEmail = true
       this.api
         .href(this.api.get(), 'campCollaborations', {
@@ -181,14 +212,17 @@ export default {
           action: 'resend_invitation',
         })
         .then((postUrl) => this.api.patch(postUrl, {}))
-        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
+        .catch((e) => {
+          this.emailSent = false
+          this.$toast.error(errorToMultiLineToast(e))
+        })
         .finally(() => {
           this.resendingEmail = false
         })
     },
     reinvite() {
       this.resendingEmail = true
-      this.api.patch(this.collaborator, { status: 'invited' }).then(() => {
+      this.api.patch(this.collaborator, { status: 'invited' }).finally(() => {
         this.resendingEmail = false
       })
     },
