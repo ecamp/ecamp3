@@ -36,7 +36,6 @@
           v-if="cancelVisible && cancelAction != null"
           :color="cancelColor"
           text
-          block
           :disabled="!cancelEnabled"
           class="v-btn--has-bg"
           @click="doCancel"
@@ -47,7 +46,6 @@
           v-if="submitAction !== null"
           :color="submitColor"
           type="submit"
-          block
           :loading="isSaving"
           @click="doSubmit"
         >
@@ -141,9 +139,13 @@ export default {
 }
 
 .ec-prompt-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.ec-prompt-buttons .v-btn {
+  flex-grow: 1;
 }
 
 .ec-popover-prompt ::v-deep .ec-activator .v-btn {
