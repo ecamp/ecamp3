@@ -9,6 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @extends Voter<string,mixed>
+ */
 class CampIsPrototypeVoter extends Voter {
     use GetCampFromContentNodeTrait;
 
