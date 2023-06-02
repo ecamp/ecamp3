@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Text } from '@react-pdf/renderer'
+import { Text, View } from '@react-pdf/renderer'
 import htmlToReact from 'html-to-react'
 
 function addKeys(children) {
@@ -16,6 +16,23 @@ function getNumbering(liNode) {
   return `${number}. `
 }
 
+const preprocessingInstructions = [
+  {
+    shouldPreprocessNode: function (node) {
+      return (
+        node.type === 'tag' &&
+        node.name === 'li' &&
+        node.children.length > 0 &&
+        node.children[0].name === 'p' &&
+        node.children[0].children.length > 0
+      )
+    },
+    preprocessNode: function (node) {
+      const bullet = node.parent.name === 'ol' ? getNumbering(node) : '• '
+      node.children[0].children[0].data = bullet + node.children[0].children[0].data
+    },
+  },
+]
 const richTextRules = [
   {
     shouldProcessNode: function (node) {
@@ -90,7 +107,7 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'ul'
     },
     processNode: function (node, children) {
-      return addKeys(children)
+      return <View>{addKeys(children)}</View>
     },
   },
   {
@@ -98,7 +115,7 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'ol'
     },
     processNode: function (node, children) {
-      return addKeys(children)
+      return <View>{addKeys(children)}</View>
     },
   },
   {
@@ -106,8 +123,7 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'li'
     },
     processNode: function (node, children) {
-      const bullet = node.parent.name === 'ol' ? getNumbering(node) : '• '
-      return <Text style={{ marginLeft: '4pt' }}>{[bullet, ...addKeys(children)]}</Text>
+      return <View style={{ marginLeft: '6pt' }}>{addKeys(children)}</View>
     },
   },
 
@@ -135,7 +151,12 @@ const richTextRules = [
 function RichText({ richText }) {
   if (!richText) return <React.Fragment />
   const htmlToReactParser = new htmlToReact.Parser()
-  return htmlToReactParser.parseWithInstructions(richText, () => true, richTextRules)
+  return htmlToReactParser.parseWithInstructions(
+    richText,
+    () => true,
+    richTextRules,
+    preprocessingInstructions
+  )
 }
 
 export default RichText
