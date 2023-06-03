@@ -170,9 +170,9 @@
   },
   "global": {
     "datetime": {
-      "dateLong": "dd D.MM.YYYY",
+      "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "dateTimeLong": "dd D.MM.YYYY HH:mm",
+      "dateTimeLong": "dd L HH:mm",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}min",
         "hoursOnly": "{hours}h",

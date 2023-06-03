@@ -106,9 +106,9 @@
         "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
         "courseNumber": "Kursnummer",
         "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",
-        "organizer": "Organisator",
         "motto": "Motto",
         "name": "Lagername",
+        "organizer": "Organisator",
         "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
         "title": "Lagertitel",
         "trainingAdvisorName": "Bürgerlicher Name der Betreuungsperson"
