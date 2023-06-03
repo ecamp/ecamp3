@@ -7,12 +7,11 @@ Show all activity schedule entries of a single period.
     <template #title-actions>
       <period-switcher :period="period" />
       <v-spacer />
-      <LockIcon
+      <LockButton
         v-model="editMode"
         :shake="showReminder"
         :disabled-for-guest="!isContributor"
-        :message="$tc('views.camp.campProgram.guestsCannotEdit')"
-        @dblclick="editMode = !editMode"
+        @click="editMode = !editMode"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
@@ -64,7 +63,7 @@ import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
-import LockIcon from '@/components/generic/LockIcon.vue'
+import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 
 export default {
@@ -76,7 +75,7 @@ export default {
     ContentCard,
     Picasso,
     ScheduleEntries,
-    LockIcon,
+    LockButton,
     LockUnlockListItem,
   },
   mixins: [campRoleMixin],

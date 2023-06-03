@@ -152,8 +152,9 @@
       }
     },
     "generic": {
-      "lockIcon": {
-        "doubleClickToUnlock": "Double click to unlock",
+      "lockButton": {
+        "clickToLock": "Click to lock",
+        "clickToUnlock": "Click to unlock",
         "guestsCannotEdit": "Guests have no permission to edit"
       }
     },
@@ -432,7 +433,6 @@
         "title": "Admin"
       },
       "campProgram": {
-        "guestsCannotEdit": "A guest cannot edit the picasso",
         "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"

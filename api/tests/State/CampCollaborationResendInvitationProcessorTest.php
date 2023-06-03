@@ -8,10 +8,8 @@ use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\Profile;
 use App\Entity\User;
-use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\State\CampCollaborationResendInvitationProcessor;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
@@ -62,8 +60,6 @@ class CampCollaborationResendInvitationProcessorTest extends TestCase {
         $this->security = $this->createMock(Security::class);
         $this->security->expects(self::any())->method('getUser')->willReturn($this->user);
         $this->pwHashFactory = $this->createMock(PasswordHasherFactory::class);
-        $this->profileRepository = $this->createMock(ProfileRepository::class);
-        $this->em = $this->createMock(EntityManagerInterface::class);
         $this->mailService = $this->createMock(MailService::class);
 
         $this->processor = new CampCollaborationResendInvitationProcessor(

@@ -144,8 +144,9 @@
       }
     },
     "generic": {
-      "lockIcon": {
-        "doubleClickToUnlock": "Doppio clic per sbloccare",
+      "lockButton": {
+        "clickToLock": "Clic per bloccare",
+        "clickToUnlock": "Clic per sbloccare",
         "guestsCannotEdit": "Gli ospiti non hanno il permesso di modificare"
       }
     },
@@ -416,7 +417,6 @@
         "title": "Admin"
       },
       "campProgram": {
-        "guestsCannotEdit": "Un ospite non può modificare il picasso",
         "reminderLockedCreate": "Trascinare per creare è possibile solo in modalità sbloccata.",
         "reminderLockedMove": "Trascinare per spostarsi è possibile solo in modalità sbloccata.",
         "title": "Picasso"

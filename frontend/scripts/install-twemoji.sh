@@ -17,7 +17,7 @@ then
 else
   echo 'twemoji are already present, updating them to the latest version...'
   cd public/twemoji
-  git pull
+  git pull || echo 'Could not update twemoji. Skipping for now...'
 fi
 
 echo 'twemoji images should be up to date now.'

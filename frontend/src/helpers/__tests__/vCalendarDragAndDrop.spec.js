@@ -1,8 +1,7 @@
 import {
   toTime,
-  roundTimeDown,
-  roundTimeUp,
-  minMaxTime,
+  roundTimeToNearestQuarterHour,
+  roundTimeUpToNextQuarterHour,
 } from '@/helpers/vCalendarDragAndDrop.js'
 
 describe('toTime', () => {
@@ -66,35 +65,24 @@ describe('toTime', () => {
   })
 })
 
-describe('roundTimeDown', () => {
+describe('roundTimeToNearestQuarterHour', () => {
   it.each([
     [1649190120000, 1649189700000],
     [1683447600000, 1683447300000],
     [1683543980000, 1683543600000],
-    [1683547980999, 1683547200000],
+    [1683547980999, 1683548100000],
   ])('maps %p to %p', (input, expected) => {
-    expect(roundTimeDown(input)).toEqual(expected)
+    expect(roundTimeToNearestQuarterHour(input)).toEqual(expected)
   })
 })
 
-describe('roundTimeUp', () => {
+describe('roundTimeUpToNextQuarterHour', () => {
   it.each([
     [1649190120000, 1649190600000],
     [1683447600000, 1683448200000],
     [1683543980000, 1683544500000],
     [1683547980999, 1683548100000],
   ])('maps %p to %p', (input, expected) => {
-    expect(roundTimeUp(input)).toEqual(expected)
-  })
-})
-
-describe('minMaxTime', () => {
-  it.each([
-    [[1649190120000, 1639190120000], { min: 1639190700000, max: 1649189700000 }],
-    [[1683447600000, 1683427600000], { min: 1683428400000, max: 1683447300000 }],
-    [[1683543980000, 1683546980000], { min: 1683543600000, max: 1683547200000 }],
-    [[1683547980999, 1683597980999], { min: 1683547200000, max: 1683598500000 }],
-  ])('maps %p to %p', (input, expected) => {
-    expect(minMaxTime(...input)).toEqual(expected)
+    expect(roundTimeUpToNextQuarterHour(input)).toEqual(expected)
   })
 })

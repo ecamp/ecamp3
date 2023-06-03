@@ -9,7 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 require_once __DIR__.'/helpers.php';
 
-final class Version202211261414 extends AbstractMigration {
+final class Version202305011841 extends AbstractMigration {
     public function getDescription(): string {
         return '';
     }

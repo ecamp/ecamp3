@@ -5,7 +5,7 @@
   "force": {
     "constraints": {
       "node": "18.16.0",
-      "php": "8.2.5"
+      "php": "8.2.6"
     }
   },
   "automergeType": "branch",
@@ -101,12 +101,6 @@
         "browserless/chrome"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
-    },
-    {
-      "matchPackageNames": [
-        "alpine"
-      ],
-      "allowedVersions": "3.16"
     },
     {
       "matchPackageNames": [

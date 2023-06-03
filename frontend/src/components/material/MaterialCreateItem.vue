@@ -11,7 +11,6 @@
         ref="quantity"
         v-model="materialItem.quantity"
         dense
-        vee-rules="numeric"
         type="number"
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity"
@@ -23,6 +22,7 @@
         dense
         :name="$tc('entity.materialItem.fields.unit')"
         fieldname="unit"
+        maxlength="32"
       />
     </td>
     <td>
@@ -32,6 +32,7 @@
         vee-rules="required"
         :name="$tc('entity.materialItem.fields.article')"
         fieldname="article"
+        maxlength="64"
       />
     </td>
     <td :colspan="columns - 4">
