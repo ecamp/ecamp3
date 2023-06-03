@@ -24,27 +24,9 @@
             aria-readonly="true"
             aria-describedby="readonly"
             :name="$tc('entity.campCollaboration.fields.role')"
-            :items="[
-              {
-                key: 'manager',
-                role: $tc('entity.camp.collaborators.manager'),
-                abilities: $tc('global.collaborationAbilities.manager'),
-                icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
-              },
-              {
-                key: 'member',
-                role: $tc('entity.camp.collaborators.member'),
-                abilities: $tc('global.collaborationAbilities.member'),
-                icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
-              },
-              {
-                key: 'guest',
-                role: $tc('entity.camp.collaborators.guest'),
-                abilities: $tc('global.collaborationAbilities.guest'),
-                icons: ['mdi-eye-outline'],
-              },
-            ]"
+            :items="items"
             :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
+            persistent-hint
             item-value="key"
             item-text="role"
             vee-rules="required"
@@ -69,26 +51,7 @@
       v-model="localCollaboration.role"
       :name="$tc('entity.campCollaboration.fields.role')"
       fieldname="role"
-      :items="[
-        {
-          key: 'manager',
-          role: $tc('entity.camp.collaborators.manager'),
-          abilities: $tc('entity.camp.collaborators.managerAbilities'),
-          icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
-        },
-        {
-          key: 'member',
-          role: $tc('entity.camp.collaborators.member'),
-          abilities: $tc('entity.camp.collaborators.memberAbilities'),
-          icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
-        },
-        {
-          key: 'guest',
-          role: $tc('entity.camp.collaborators.guest'),
-          abilities: $tc('entity.camp.collaborators.guestAbilities'),
-          icons: ['mdi-eye-outline'],
-        },
-      ]"
+      :items="items"
       :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
       item-value="key"
@@ -135,6 +98,28 @@ export default {
     readonlyRole: { type: [String, Boolean], required: false, default: false },
   },
   computed: {
+    items() {
+      return [
+        {
+          key: 'manager',
+          role: this.$tc('entity.camp.collaborators.manager'),
+          abilities: this.$tc('global.collaborationAbilities.manager'),
+          icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
+        },
+        {
+          key: 'member',
+          role: this.$tc('entity.camp.collaborators.member'),
+          abilities: this.$tc('global.collaborationAbilities.member'),
+          icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
+        },
+        {
+          key: 'guest',
+          role: this.$tc('entity.camp.collaborators.guest'),
+          abilities: this.$tc('global.collaborationAbilities.guest'),
+          icons: ['mdi-eye-outline'],
+        },
+      ]
+    },
     localCollaboration() {
       return this.collaboration
     },
