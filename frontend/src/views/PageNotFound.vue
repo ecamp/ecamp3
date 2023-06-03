@@ -20,7 +20,7 @@
         <p id="error-title" class="font-weight-bold text-center px-8 text-h4">
           {{ $tc('views.pageNotFound.detail') }}
         </p>
-        <v-img contain class='error-image' src="/public/fourZeroFour.svg"></v-img>
+        <v-img contain class="error-image" src="/public/fourZeroFour.svg"></v-img>
       </v-card-text>
 
       <v-card-actions class="justify-center">
@@ -35,7 +35,7 @@
           $tc('views.pageNotFound.goToCamps')
         }}</icon-button>
         <!-- This doesnt work for some reason: -->
-        <v-icon size="32">$vuetify.icons.four</v-icon>
+        <v-icon size="32">$vuetify.icons.fourZeroFour</v-icon>
       </v-card-actions>
     </content-card>
   </v-container>
@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.error-image{
+.error-image {
   padding: 32px;
   margin: auto;
   max-width: 640px;

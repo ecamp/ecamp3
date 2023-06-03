@@ -26,7 +26,7 @@ class VuetifyLoaderPlugin {
           ecamp: { component: eCampLogo },
           cevi: { component: CeviLogo },
           jubla: { component: JublaLogo },
-          four: { component: FourZeroFour },
+          fourZeroFour: { component: FourZeroFour },
         },
       },
       theme: {
