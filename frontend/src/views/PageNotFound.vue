@@ -20,7 +20,9 @@
         <p id="error-title" class="font-weight-bold text-center px-8 text-h4">
           {{ $tc('views.pageNotFound.detail') }}
         </p>
+        <v-img contain class='error-image' src="/public/fourZeroFour.svg"></v-img>
       </v-card-text>
+
       <v-card-actions class="justify-center">
         <icon-button
           v-if="hasHistory"
@@ -32,42 +34,9 @@
         <icon-button icon="mdi-tent" @click="$router.push({ name: 'camps' })">{{
           $tc('views.pageNotFound.goToCamps')
         }}</icon-button>
+        <!-- This doesnt work for some reason: -->
         <v-icon size="32">$vuetify.icons.four</v-icon>
-
-
       </v-card-actions>
-      <!--v-row>
-        <v-col
-          offset="0"
-          offset-sm="1"
-          offset-md="2"
-          offset-lg="2"
-          offset-xl="2"
-          cols="12"
-          sm="10"
-          md="8"
-          lg="8"
-          xl="8"
-        >
-        </v-col>
-        <v-col offset-sm="0" sm="12" offset="2" cols="8">
-          <h1 class="font-weight-bold text-center px-8">
-            {{ $tc('views.pageNotFound.detail') }}
-          </h1>
-        </v-col>
-        <v-col class="justify-center d-flex">
-          <icon-button
-            v-if="hasHistory"
-            class="mr-5"
-            icon="mdi-arrow-left"
-            @click="$router.go(-1)"
-            >{{ $tc('views.pageNotFound.back') }}</icon-button
-          >
-          <icon-button icon="mdi-tent" @click="$router.push({ name: 'camps' })">{{
-            $tc('views.pageNotFound.goToCamps')
-          }}</icon-button>
-        </v-col>
-      </v-row-->
     </content-card>
   </v-container>
 </template>
@@ -76,12 +45,10 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import IconButton from '@/components/buttons/IconButton.vue'
-import FourZeroFourImage from '@/assets/FourZeroFourImage.svg'
 
 export default {
   name: 'PageNotFound',
   components: {
-    FourZeroFourImage,
     UserAvatar,
     ContentCard,
     IconButton,
@@ -106,19 +73,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#ttt {
-}
-#error-title {
-  font-size: 2em;
-}
-@media #{map-get($display-breakpoints, 'lg-and-down')} {
-  #error-title {
-    font-size: 3em;
-  }
-}
-@media #{map-get($display-breakpoints, 'md-and-down')} {
-  #error-title {
-    font-size: 2em;
-  }
+.error-image{
+  padding: 32px;
+  margin: auto;
+  max-width: 640px;
 }
 </style>
