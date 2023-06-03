@@ -533,6 +533,12 @@
     "profile": {
       "changeEmail": "Changement",
       "profile": "Profil"
+    },
+    "pageNotFound" : {
+      "detail" : "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe",
+      "title" : "Page introuvable",
+      "goToCamps" : "Mes camps",
+      "back" : "Retour"
     }
   }
 }

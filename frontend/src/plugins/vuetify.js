@@ -9,6 +9,7 @@ import CeviLogo from '@/assets/CeviLogo.svg'
 import JublaLogo from '@/assets/JublaLogo.svg'
 import i18n from '@/plugins/i18n'
 import colors from 'vuetify/lib/util/colors'
+import FourZeroFourImage from '@/assets/FourZeroFourImage.svg'
 
 class VuetifyLoaderPlugin {
   install(Vue) {
@@ -25,6 +26,7 @@ class VuetifyLoaderPlugin {
           ecamp: { component: eCampLogo },
           cevi: { component: CeviLogo },
           jubla: { component: JublaLogo },
+          four: { component: FourZeroFourImage },
         },
       },
       theme: {
