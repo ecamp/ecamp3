@@ -12,8 +12,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
     public function testGetSingleMaterialItemIsDeniedForAnonymousUser() {
         /** @var MaterialItem $materialItem */
         $materialItem = static::$fixtures['materialItem1'];
-        static::createBasicClient()->request('GET', '/material_items/'.$materialItem->getId())
-        ;
+        static::createBasicClient()->request('GET', '/material_items/'.$materialItem->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

@@ -91,7 +91,8 @@ class CreateCategoryTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $newestColumnLayout = $this->getEntityManager()->getRepository(ContentNode::class)
-            ->findBy(['contentType' => static::$fixtures['contentTypeColumnLayout']], ['createTime' => 'DESC'])[0];
+            ->findBy(['contentType' => static::$fixtures['contentTypeColumnLayout']], ['createTime' => 'DESC'])[0]
+        ;
         $this->assertJsonContains(['_links' => [
             'rootContentNode' => ['href' => '/content_node/column_layouts/'.$newestColumnLayout->getId()],
         ]]);

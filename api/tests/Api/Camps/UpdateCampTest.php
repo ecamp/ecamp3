@@ -90,8 +90,7 @@ class UpdateCampTest extends ECampApiTestCase {
         $camp = static::$fixtures['campPrototype'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
-        ;
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',

@@ -12,8 +12,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsDeniedForAnonymousUser() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createBasicClient()->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
-        ;
+        static::createBasicClient()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
