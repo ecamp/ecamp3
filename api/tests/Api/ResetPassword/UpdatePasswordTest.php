@@ -32,7 +32,8 @@ class UpdatePasswordTest extends ECampApiTestCase {
             ->where('u.id = :id')
             ->setParameter('hash', '$2y$13$QjJWNEV/CM1Urnx2kCdJF.Fxj6dFmELvVSxcXkjuzpKYYZYFRmS9q')
             ->setParameter('id', $this->user->getId())
-            ->getQuery()->execute();
+            ->getQuery()->execute()
+        ;
     }
 
     public function testPatchResetPasswordValidatesBlankPassword() {
