@@ -33,3 +33,7 @@ Cypress.Commands.add('login', (identifier) => {
     })
   })
 })
+
+Cypress.Commands.add('moveDownloads', () => {
+  cy.task('moveDownloads', `${Cypress.spec.name}/${Cypress.currentTest.title}`)
+})

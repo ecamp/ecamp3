@@ -2,17 +2,17 @@
 
 
 
-INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash) VALUES
-	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('e5433660140b', 'joan.doyle@lynch.net', 'Wanda', 'Koelpin', 'sit', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('d36197370d44', 'evonrueden@hotmail.com', 'Clifford', 'Beier', 'sed', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('f9f1a2f9af25', 'reichel.zetta@hotmail.com', 'Zora', 'Steuber', 'Baghira', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL),
-	('0870635edda6', 'lane65@yahoo.com', 'Tremaine', 'Kohler', 'Idefix', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL),
-	('22dce794d4e2', 'ivy.mann@hotmail.com', 'Pat', 'Fadel', 'Snoopy', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL),
-	('4cda72af2704', 'rdooley@gmail.com', 'Karlie', 'Terry', 'ET', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL),
-	('7d03c967be7e', 'hans.muster@example2.com', 'Hans', 'Muster', 'Castor', 'de', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL),
-	('d46337a76a2c', 'fritz.mueller@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash, jubladbid) VALUES
+	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('e5433660140b', 'joan.doyle@lynch.net', 'Wanda', 'Koelpin', 'sit', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('d36197370d44', 'evonrueden@hotmail.com', 'Clifford', 'Beier', 'sed', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('f9f1a2f9af25', 'reichel.zetta@hotmail.com', 'Zora', 'Steuber', 'Baghira', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL, NULL),
+	('0870635edda6', 'lane65@yahoo.com', 'Tremaine', 'Kohler', 'Idefix', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('22dce794d4e2', 'ivy.mann@hotmail.com', 'Pat', 'Fadel', 'Snoopy', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL, NULL),
+	('4cda72af2704', 'rdooley@gmail.com', 'Karlie', 'Terry', 'ET', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('7d03c967be7e', 'hans.muster@example2.com', 'Hans', 'Muster', 'Castor', 'de', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL, NULL),
+	('d46337a76a2c', 'fritz.mueller@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 
@@ -30,12 +30,12 @@ INSERT INTO public."user" (id, state, activationkeyhash, password, createtime, u
 
 
 
-INSERT INTO public.camp (id, campprototypeid, isprototype, name, title, motto, addressname, addressstreet, addresszipcode, addresscity, createtime, updatetime, creatorid, ownerid) VALUES
+INSERT INTO public.camp (id, campprototypeid, isprototype, name, title, motto, addressname, addressstreet, addresszipcode, addresscity, createtime, updatetime, creatorid, ownerid, couponkey, organizer, kind, coachname, coursenumber, coursekind, trainingadvisorname, printyslogoonpicasso) VALUES
 	('6430aecc5422', NULL, false, 'CampUnrelated', 'vero', 'Officia id corporis incidunt saepe provident esse hic eligendi.', 'quos', '57654 Ondricka Trace Suite 792
-Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', '3b41dca5c568'),
-	('05ce4b9836e9', NULL, false, 'Sola 2023', 'Harry Potter Lager', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2022-01-23 16:19:10', '2022-02-04 19:01:39', 'bae69a1c9fcc', '9145944210a7'),
-	('e5027d852487', NULL, true, 'J+S', 'J+S', '', '', '', '', '', '2022-01-23 16:19:10', '2022-02-04 21:45:19', '3b41dca5c568', '3b41dca5c568'),
-	('c4cca3a51342', 'e5027d852487', false, 'Pfila 2023', 'GRGR', 'Grandiose RealityTV Show', NULL, NULL, NULL, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', '9145944210a7');
+Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', '3b41dca5c568', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false),
+	('05ce4b9836e9', NULL, false, 'Sola 2023', 'Harry Potter Lager', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2022-01-23 16:19:10', '2022-02-04 19:01:39', 'bae69a1c9fcc', '9145944210a7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false),
+	('e5027d852487', NULL, true, 'J+S', 'J+S', '', '', '', '', '', '2022-01-23 16:19:10', '2022-02-04 21:45:19', '3b41dca5c568', '3b41dca5c568', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false),
+	('c4cca3a51342', 'e5027d852487', false, 'Pfila 2023', 'GRGR', 'Grandiose RealityTV Show', NULL, NULL, NULL, NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', '9145944210a7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false);
 
 
 
@@ -560,7 +560,6 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('b2ef8a3b319f', NULL, NULL, 'established', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'bae69a1c9fcc', '05ce4b9836e9'),
 	('490f4b599034', NULL, NULL, 'established', 'guest', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '48f00685a292', '05ce4b9836e9'),
 	('83f4171a5c12', 'e.mail@test.com', 'myInviteKey', 'invited', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '05ce4b9836e9'),
-	('c43d5c10b01d', NULL, NULL, 'inactive', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '130684395770', '05ce4b9836e9'),
 	('237abf0bd057', 'e.mail2@test.com', 'myInviteKey2', 'invited', 'member', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '6430aecc5422'),
 	('0e524d43e799', NULL, NULL, 'established', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e7b00084dabf', '6430aecc5422'),
 	('2c313fa367b3', NULL, NULL, 'established', 'manager', NULL, '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', 'e5027d852487'),
@@ -569,7 +568,9 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('c7b5dd15649f', NULL, NULL, 'established', 'manager', NULL, '2022-02-04 21:59:10', '2022-02-04 21:59:10', '9145944210a7', 'c4cca3a51342'),
 	('73558f9c6483', 'e.mail@test.com', '42e0b2299f06ea2bf3cebd3876b15367bacff09ff5572f02cdd05b33fe112a95', 'invited', 'member', NULL, '2022-02-04 22:04:42', '2022-02-04 22:04:42', NULL, 'c4cca3a51342'),
 	('fe6557a4b89f', NULL, NULL, 'established', 'manager', NULL, '2022-02-04 22:05:24', '2022-02-04 22:05:24', 'caeba9f7e728', 'c4cca3a51342'),
-	('58dc1b96dcce', NULL, NULL, 'established', 'member', NULL, '2022-02-04 22:05:02', '2022-02-04 22:05:02', 'bee7cf5b3871', 'c4cca3a51342');
+	('58dc1b96dcce', NULL, NULL, 'established', 'member', NULL, '2022-02-04 22:05:02', '2022-02-04 22:05:02', 'bee7cf5b3871', 'c4cca3a51342'),
+	('ca9072caa314', 'inactive@test.com', 'c3ALTs6kMHzvN2VDKce+o8z+EXk=', 'inactive', 'member', NULL, '2023-05-01 16:38:06', '2023-05-01 16:38:49', NULL, 'c4cca3a51342'),
+	('c43d5c10b01d', NULL, 'WqoeQElg1hB4NvpL1HfGxG5aNDU=', 'inactive', 'manager', NULL, '2022-01-23 16:19:10', '2023-05-01 16:40:37', '130684395770', '05ce4b9836e9');
 
 
 
@@ -577,7 +578,9 @@ INSERT INTO public.activity_responsible (id, createtime, updatetime, activityid,
 	('b4b496570cd5', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '8f1126e31ddb', 'f08468783b7a'),
 	('02527639ad4e', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '7be390586b33', 'b2ef8a3b319f'),
 	('c2e84a852a64', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'c13b91f0e465', '0e524d43e799'),
-	('4df913eee4de', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'd3cfa12d19f2', '2c313fa367b3');
+	('4df913eee4de', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'd3cfa12d19f2', '2c313fa367b3'),
+	('35fc4156a34a', '2023-05-01 16:38:32', '2023-05-01 16:38:32', '7f33c504d878', 'ca9072caa314'),
+	('0de8cf157ce9', '2023-05-01 16:40:31', '2023-05-01 16:40:31', 'fbc7e0c7eb37', 'c43d5c10b01d');
 
 
 
@@ -653,8 +656,8 @@ INSERT INTO public.category_contenttype (category_id, contenttype_id) VALUES
 INSERT INTO public.period (id, description, start, "end", createtime, updatetime, campid) VALUES
 	('ff755e56fe79', 'Hauptlager', '2024-02-20', '2024-02-20', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '6430aecc5422'),
 	('a12a9154b43b', 'Hauptlager', '2021-01-01', '2021-01-01', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e5027d852487'),
-	('16b2fcffdd8e', 'Hauptlager', '2023-05-05', '2023-05-08', '2022-02-04 21:59:10', '2022-02-04 21:59:10', 'c4cca3a51342'),
-	('e8c03e4285cb', 'Hauptlager', '2023-07-03', '2023-07-06', '2022-01-23 16:19:10', '2022-09-11 17:51:43', '05ce4b9836e9');
+	('16b2fcffdd8e', 'Hauptlager', '2024-05-10', '2024-05-13', '2022-02-04 21:59:10', '2023-05-09 20:31:54', 'c4cca3a51342'),
+	('e8c03e4285cb', 'Hauptlager', '2024-07-13', '2024-07-16', '2022-01-23 16:19:10', '2023-05-09 20:32:44', '05ce4b9836e9');
 
 
 
@@ -702,7 +705,8 @@ INSERT INTO public.material_list (id, materiallistprototypeid, name, createtime,
 	('40abf25cb33e', NULL, 'Bi Pi', '2022-02-04 22:36:43', '2022-02-04 22:36:43', 'c4cca3a51342', NULL),
 	('044ad25c2c25', NULL, 'Salamander', '2022-02-04 22:36:50', '2022-02-04 22:36:50', 'c4cca3a51342', NULL),
 	('4e688b4eea5f', NULL, 'Idefix', '2022-02-04 22:37:09', '2022-02-04 22:37:09', 'c4cca3a51342', NULL),
-	('c5ac484eb310', NULL, 'Snoopy', '2022-02-04 22:37:39', '2022-02-04 22:37:39', 'c4cca3a51342', NULL);
+	('c5ac484eb310', NULL, 'Snoopy', '2022-02-04 22:37:39', '2022-02-04 22:37:39', 'c4cca3a51342', NULL),
+	('dc3b1e248619', NULL, NULL, '2023-05-01 16:38:06', '2023-05-01 16:38:06', 'c4cca3a51342', 'ca9072caa314');
 
 
 

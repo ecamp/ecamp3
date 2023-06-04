@@ -144,8 +144,9 @@
       }
     },
     "generic": {
-      "lockIcon": {
-        "doubleClickToUnlock": "Double-clique pour déverrouiller",
+      "lockButton": {
+        "clickToLock": "Clique pour verrouiller",
+        "clickToUnlock": "Clique pour déverrouiller",
         "guestsCannotEdit": "Les invités n'ont pas le droit de modifier"
       }
     },
@@ -416,7 +417,6 @@
         "title": "Admin"
       },
       "campProgram": {
-        "guestsCannotEdit": "Un invité ne peut pas modifier le picasso",
         "reminderLockedCreate": "Glisser pour créer n'est possible qu'en mode déverrouillé.",
         "reminderLockedMove": "Faire glisser pour se déplacer n'est possible qu'en mode déverrouillé.",
         "title": "Picasso"

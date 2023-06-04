@@ -1,1 +1,12 @@
-{}
+{
+  "entity": {
+    "camp": {
+      "fields": {
+        "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
+        "courseNumber": "Kursnummer",
+        "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
+        "trainingAdvisorName": "Bürgerlicher Name von LKB"
+      }
+    }
+  }
+}

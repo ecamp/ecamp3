@@ -67,7 +67,7 @@ class CampCreateProcessorTest extends TestCase {
         $this->em
             ->expects($this->exactly(2))
             ->method('persist')
-            ->withConsecutive(
+            ->willReturnOnConsecutiveCalls(
                 [
                     self::campCollaborationWith(
                         $user,

@@ -35,16 +35,19 @@
             :name="$tc('entity.user.fields.firstname')"
             :uri="profile._meta.self"
             fieldname="firstname"
+            @finished="reloadUser()"
           />
           <api-text-field
             :name="$tc('entity.user.fields.surname')"
             :uri="profile._meta.self"
             fieldname="surname"
+            @finished="reloadUser()"
           />
           <api-text-field
             :name="$tc('entity.user.fields.nickname')"
             :uri="profile._meta.self"
             fieldname="nickname"
+            @finished="reloadUser()"
           />
           <api-select
             :name="$tc('entity.user.fields.language')"
@@ -80,6 +83,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import DialogChangeMail from '@/components/user/DialogChangeMail.vue'
 import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.vue'
 import VueI18n from '@/plugins/i18n'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -94,9 +98,9 @@ export default {
     emailVerificationKey: { type: String, required: false, default: null },
   },
   computed: {
-    user() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
     profile() {
       return this.user?.profile()
     },
@@ -114,10 +118,10 @@ export default {
       }
     },
   },
-  mounted() {
-    if (this.user) {
-      this.api.reload(this.user).then((user) => this.api.reload(user.profile()))
-    }
+  methods: {
+    reloadUser() {
+      this.api.reload(this.user)
+    },
   },
 }
 </script>

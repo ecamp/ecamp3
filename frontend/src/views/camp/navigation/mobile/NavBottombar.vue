@@ -25,6 +25,7 @@
 
 <script>
 import { campRoute } from '@/router'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'NavBottombar',
@@ -37,9 +38,9 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
   },
   methods: {
     campRoute,

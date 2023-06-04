@@ -1,12 +1,13 @@
-import { toTime, roundTimeDown, minMaxTime } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, roundTimeToNearestQuarterHour } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
  * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
- * @param createEntry {(startTime:number, endTime:number, finished:boolean) => void}
+ * @param updatePlaceholder {(startTime:number, endTime:number) => void}
+ * @param createEntry {(startTime:number, endTime:number) => void}
  * @returns
  */
-export function useDragAndDropNew(enabled, createEntry) {
+export function useDragAndDropNew(enabled, updatePlaceholder, createEntry) {
   /**
    * internal data (not exposed)
    */
@@ -28,22 +29,29 @@ export function useDragAndDropNew(enabled, createEntry) {
     newEntry = null
     mouseStartTimestamp = null
     entryWasClicked = false
+    updatePlaceholder(0, 0)
   }
 
   // this creates a placeholder for a new schedule entry and make it resizable
-  const createNewEntry = (mouse) => {
+  const startDragOperation = (time) => {
     newEntry = {
-      startTimestamp: roundTimeDown(mouse),
-      endTimestamp: roundTimeDown(mouse),
+      startTimestamp: time,
+      endTimestamp: time,
     }
   }
 
   // resize placeholder entry
   const resizeEntry = (entry, mouse) => {
-    const { min, max } = minMaxTime(mouse, mouseStartTimestamp)
+    const dragStart = mouseStartTimestamp
+    const dragEnd = roundTimeToNearestQuarterHour(mouse)
 
-    entry.startTimestamp = min
-    entry.endTimestamp = max
+    const minTimestamp = Math.min(dragStart, dragEnd)
+    const maxTimestamp = Math.max(dragStart, dragEnd)
+
+    if (minTimestamp !== maxTimestamp) {
+      entry.startTimestamp = minTimestamp
+      entry.endTimestamp = maxTimestamp
+    }
   }
 
   /**
@@ -80,8 +88,8 @@ export function useDragAndDropNew(enabled, createEntry) {
     if (!entryWasClicked) {
       // No entry is being dragged --> create a placeholder for a new schedule entry
       const mouseTime = toTime(tms)
-      mouseStartTimestamp = mouseTime
-      createNewEntry(mouseTime)
+      mouseStartTimestamp = roundTimeToNearestQuarterHour(mouseTime)
+      startDragOperation(mouseStartTimestamp)
     }
   }
 
@@ -96,7 +104,9 @@ export function useDragAndDropNew(enabled, createEntry) {
       const mouseTime = toTime(tms)
       resizeEntry(newEntry, mouseTime)
 
-      createEntry(newEntry.startTimestamp, newEntry.endTimestamp, false)
+      if (newEntry.endTimestamp - newEntry.startTimestamp > 0) {
+        updatePlaceholder(newEntry.startTimestamp, newEntry.endTimestamp)
+      }
     }
   }
 
@@ -108,7 +118,7 @@ export function useDragAndDropNew(enabled, createEntry) {
 
     if (newEntry && newEntry.endTimestamp - newEntry.startTimestamp > 0) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
-      createEntry(newEntry.startTimestamp, newEntry.endTimestamp, true)
+      createEntry(newEntry.startTimestamp, newEntry.endTimestamp)
     }
 
     clear()

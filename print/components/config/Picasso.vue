@@ -34,6 +34,7 @@ export default {
       this.camp.activities().$loadItems(),
       this.camp.categories().$loadItems(),
       this.camp.campCollaborations().$loadItems(),
+      this.camp.profiles().$loadItems(),
     ])
 
     this.periods = this.options.periods.map((periodUri) => {

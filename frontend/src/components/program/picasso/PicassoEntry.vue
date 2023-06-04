@@ -2,8 +2,9 @@
   <!-- edit mode: normal div with drag & drop -->
   <div
     v-if="editable"
-    class="e-picasso-entry e-picasso-entry--editable"
+    class="e-picasso-entry"
     :class="{
+      'e-picasso-entry--editable': !scheduleEntry.tmpEvent,
       'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
     }"
     :style="colorStyles"
@@ -11,7 +12,7 @@
   >
     <!-- edit button & dialog -->
     <dialog-activity-edit
-      v-if="editable && !scheduleEntry.tmpEvent"
+      v-if="!scheduleEntry.tmpEvent"
       ref="editDialog"
       :schedule-entry="scheduleEntry"
       @activityUpdated="$emit('finishEdit')"
@@ -60,7 +61,7 @@
 
     <!-- resize handle -->
     <div
-      v-if="editable"
+      v-if="!scheduleEntry.tmpEvent"
       class="e-picasso-entry__drag-bottom"
       @mousedown.stop="$emit('startResize')"
     />
@@ -108,7 +109,7 @@ import { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
-import { ONE_MINUTE } from '@/helpers/vCalendarDragAndDrop.js'
+import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 
 export default {
   name: 'PicassoEntry',
@@ -162,14 +163,14 @@ export default {
     campCollaborationText() {
       if (this.campCollaborations.length === 0) return ''
       return this.campCollaborations
-        .map((item) => campCollaborationDisplayName(item))
+        .map((item) => campCollaborationDisplayName(item, this.$tc.bind(this)))
         .join(', ')
     },
     duration() {
       return this.scheduleEntry.endTimestamp - this.scheduleEntry.startTimestamp
     },
     isTinyDuration() {
-      return this.duration <= 40 * ONE_MINUTE
+      return this.duration <= 40 * ONE_MINUTE_IN_MILLISECONDS
     },
     isLongDuration() {
       return this.scrollHeight <= this.clientHeight
@@ -347,6 +348,10 @@ export default {
     opacity: 0.8;
     content: '';
   }
+}
+
+.e-picasso-entry--temporary {
+  cursor: default;
 }
 
 .e-picasso-entry small {

@@ -46,6 +46,11 @@ App\Entity\CampCollaboration:
     camp: '@camp2'
     status: established
     role: guest
+  campCollaboration4camp2member:
+    user: '@user8memberOnlyInCamp2'
+    camp: '@camp2'
+    status: established
+    role: member
   campCollaboration2invitedCampUnrelated:
     camp: '@campUnrelated'
     inviteKey: "myInviteKey2"

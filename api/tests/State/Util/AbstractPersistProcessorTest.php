@@ -42,6 +42,20 @@ class AbstractPersistProcessorTest extends TestCase {
         );
 
         $this->processor->method('onBefore')->willReturnArgument(0);
+
+        set_error_handler(
+            /**
+             * @throws WarningException
+             */
+            static function (int $errno, string $errstr): never {
+                throw new WarningException();
+            },
+            E_WARNING
+        );
+    }
+
+    protected function tearDown(): void {
+        restore_error_handler();
     }
 
     public function testThrowsIfOnePropertyChangeListenerIsOfWrongType() {
@@ -96,7 +110,7 @@ class AbstractPersistProcessorTest extends TestCase {
         );
         $this->closure->expects(self::never())->method('call');
 
-        $this->expectWarning();
+        $this->expectException(WarningException::class);
         $this->processor->process($toPersist, new Patch(), [], $context);
     }
 
@@ -155,4 +169,7 @@ class MyEntity extends BaseEntity {
 }
 
 class MyEmptyEntity extends BaseEntity {
+}
+
+class WarningException extends \Exception {
 }

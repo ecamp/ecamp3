@@ -1,4 +1,4 @@
-import { toTime, roundTimeDown } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, roundTimeToNearestQuarterHour } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
@@ -50,7 +50,7 @@ export function useDragAndDropMove(
     const end = draggedEntry.endTimestamp
     const duration = end - start
 
-    const newStart = roundTimeDown(mouse - mouseOffset)
+    const newStart = roundTimeToNearestQuarterHour(mouse - mouseOffset)
     const newEnd = newStart + duration
 
     if (newStart >= minTimestamp && newEnd <= maxTimestamp) {

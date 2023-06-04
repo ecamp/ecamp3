@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
@@ -30,12 +32,13 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'object.user === user'
         ),
         new GetCollection(
-            security: 'false'
+            security: 'is_authenticated()'
         ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']]
 )]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['user.collaborations.camp'])]
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ORM\Table(name: '`profile`')]
 class Profile extends BaseEntity {
@@ -181,6 +184,24 @@ class Profile extends BaseEntity {
             }
 
             return $this->firstname;
+        }
+
+        return 'Noname-'.substr(md5($this->email), 0, 4);
+    }
+
+    /**
+     * The legal name of the user, for printing on legally relevant
+     * documents. Falls back to the nickname if not complete.
+     */
+    #[ApiProperty(example: 'Robert Baden-Powell')]
+    #[Groups(['read'])]
+    public function getLegalName(): ?string {
+        if (!empty($this->firstname) && !empty($this->surname)) {
+            return $this->firstname.' '.$this->surname;
+        }
+
+        if (!empty($this->nickname)) {
+            return $this->nickname;
         }
 
         return 'Noname-'.substr(md5($this->email), 0, 4);

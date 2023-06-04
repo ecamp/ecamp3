@@ -22,7 +22,7 @@ import { Resize } from 'vuetify/lib/directives'
 import ResizeObserver from 'v-resize-observer'
 
 if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
-  const environment = window.environment.SENTRY_ENVIRONMENT ?? 'http://localhost:3000'
+  const environment = window.environment.SENTRY_ENVIRONMENT ?? 'local'
   Sentry.init({
     Vue,
     dsn: window.environment.SENTRY_FRONTEND_DSN,

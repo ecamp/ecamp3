@@ -86,7 +86,7 @@ import {
   utcStringToTimestamp,
 } from '@/common/helpers/dateHelperVCalendar.js'
 import DayResponsibles from './DayResponsibles.vue'
-import { ONE_DAY } from '@/helpers/vCalendarDragAndDrop.js'
+import { ONE_DAY_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import PicassoEntry from './PicassoEntry.vue'
 
@@ -180,18 +180,14 @@ export default {
       timed: true,
       tmpEvent: true,
     })
-    const createEntry = (startTimestamp, endTimestamp, finished) => {
+    const updatePlaceholder = (startTimestamp, endTimestamp) => {
+      placeholder.startTimestamp = startTimestamp
+      placeholder.endTimestamp = endTimestamp
+    }
+    const createEntry = (startTimestamp, endTimestamp) => {
       const start = timestampToUtcString(startTimestamp)
       const end = timestampToUtcString(endTimestamp)
-
-      if (finished) {
-        placeholder.startTimestamp = 0
-        placeholder.endTimestamp = 0
-        emit('newEntry', start, end)
-      } else {
-        placeholder.startTimestamp = startTimestamp
-        placeholder.endTimestamp = endTimestamp
-      }
+      emit('newEntry', start, end)
     }
 
     const showReminder = (move) => {
@@ -199,7 +195,7 @@ export default {
     }
 
     const calenderStartTimestamp = utcStringToTimestamp(props.start)
-    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY
+    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY_IN_MILLISECONDS
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
@@ -211,10 +207,9 @@ export default {
     const dragAndDropResize = useDragAndDropResize(
       editable,
       updateEntry,
-      calenderStartTimestamp,
       calendarEndTimestamp
     )
-    const dragAndDropNew = useDragAndDropNew(editable, createEntry)
+    const dragAndDropNew = useDragAndDropNew(editable, updatePlaceholder, createEntry)
     const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
 
     // merge mouseleave handlers

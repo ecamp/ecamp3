@@ -179,7 +179,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'The data is either an empty string or null, you should pass a string that can be parsed with the passed format or a valid DateTime string.',
+            'detail' => 'The data is either not an string, an empty string, or null; you should pass a string that can be parsed with the passed format or a valid DateTime string.',
         ]);
     }
 
@@ -194,7 +194,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'start',
-                    'message' => 'This value should be greater than or equal to May 1, 2023, 12:00 AM.',
+                    'message' => 'This value should be greater than or equal to May 1, 2023, 12:00 AM.',
                 ],
             ],
         ]);
@@ -208,7 +208,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'The data is either an empty string or null, you should pass a string that can be parsed with the passed format or a valid DateTime string.',
+            'detail' => 'The data is either not an string, an empty string, or null; you should pass a string that can be parsed with the passed format or a valid DateTime string.',
         ]);
     }
 
@@ -224,7 +224,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'end',
-                    'message' => 'This value should be greater than May 1, 2023, 12:40 AM.',
+                    'message' => 'This value should be greater than May 1, 2023, 12:40 AM.',
                 ],
             ],
         ]);
@@ -264,7 +264,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'end',
-                    'message' => 'This value should be less than or equal to May 4, 2023, 12:00 AM.',
+                    'message' => 'This value should be less than or equal to May 4, 2023, 12:00 AM.',
                 ],
             ],
         ]);

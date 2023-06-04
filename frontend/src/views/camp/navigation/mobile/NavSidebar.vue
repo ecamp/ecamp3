@@ -82,6 +82,7 @@
 import { campRoute } from '@/router'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'NavSidebar',
@@ -94,9 +95,9 @@ export default {
     camp: { type: Function, required: true },
   },
   computed: {
-    user() {
-      return this.$store.state.auth.user
-    },
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
   },
   methods: {
     campRoute,

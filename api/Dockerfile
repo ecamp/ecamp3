@@ -8,10 +8,10 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.2.4
+ARG PHP_VERSION=8.2.6
 
 # renovate: datasource=docker depName=alpine
-ARG ALPINE_VERSION=3.16
+ARG ALPINE_VERSION=3.18
 
 # renovate: datasource=docker depName=caddy
 ARG CADDY_VERSION=2.6.4
@@ -136,7 +136,7 @@ RUN set -eux; \
 FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
 
 # renovate: datasource=go depName=github.com/dunglas/mercure/caddy
-ARG MERCURE_CADDY_VERSION=v0.14.6
+ARG MERCURE_CADDY_VERSION=v0.14.7
 # renovate: datasource=go depName=github.com/dunglas/vulcain/caddy
 ARG VULCAIN_CADDY_VERSION=v0.4.3
 # install Mercure and Vulcain modules

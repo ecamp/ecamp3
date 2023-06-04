@@ -49,7 +49,11 @@ Displays collaborators of a single camp.
       </content-group>
 
       <content-group v-if="isManager" :title="$tc('views.camp.collaborators.invite')">
-        <ValidationObserver v-slot="{ handleSubmit }" ref="validation" mode="passive">
+        <ValidationObserver
+          v-slot="{ handleSubmit, passed }"
+          ref="validation"
+          mode="passive"
+        >
           <v-form ref="form" @submit.prevent="handleSubmit(invite)">
             <v-container>
               <v-row align="start">
@@ -88,10 +92,16 @@ Displays collaborators of a single camp.
                     :my="0"
                     dense
                     vee-rules="required"
+                    immediate-validation
                   />
                 </v-col>
                 <v-col cols="3">
-                  <button-add type="submit" :loading="isSaving" icon="mdi-account-plus">
+                  <button-add
+                    type="submit"
+                    :disabled="!passed"
+                    :loading="isSaving"
+                    icon="mdi-account-plus"
+                  >
                     {{ $tc('views.camp.collaborators.invite') }}
                   </button-add>
                 </v-col>
