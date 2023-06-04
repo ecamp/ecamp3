@@ -1,10 +1,10 @@
 <template>
   <div class="tw-break-after-page">
-    <div :class="landscape ? 'landscape' : ''">
+    <div :class="landscape ? 'landscape' : 'portrait'">
       <div class="tw-flex tw-flex-row tw-items-baseline fullwidth">
         <h1
           :id="`content_${index}_period_${period.id}`"
-          class="tw-text-2xl tw-font-bold tw-mb-6 tw-flex-grow tw-d-inline"
+          class="text-2xl-relative tw-font-bold tw-mb-1 tw-flex-grow tw-d-inline"
         >
           {{ $tc('print.picasso.title') }}
           {{ period.description }}
@@ -12,14 +12,14 @@
         <span>{{ camp.organizer }}</span>
         <img
           v-if="camp.printYSLogoOnPicasso"
-          height="35"
-          width="35"
+          :height="landscape ? 24 : 35"
+          :width="landscape ? 24 : 35"
           :src="ysLogoUrl"
           class="tw-self-start tw-ml-2"
         />
       </div>
 
-      <v-sheet :width="landscape ? 960 : 680">
+      <v-sheet width="680">
         <v-calendar
           ref="calendar"
           :events="events"
@@ -32,7 +32,7 @@
           event-overlap-mode="column"
           first-interval="0"
           interval-count="24"
-          :interval-height="landscape ? 22 : 33"
+          :interval-height="landscape ? 13 : 32"
           interval-width="46"
           event-text-color="black"
           :locale="$i18n.locale"
@@ -46,14 +46,14 @@
               {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
             </span>
 
-            <span v-if="hasDayResponsibles(date)" class="tw-text-sm tw-italic">
+            <span v-if="hasDayResponsibles(date)" class="text-xs-relative tw-italic">
               {{ $tc('entity.day.fields.dayResponsibles') }}:
               {{ dayResponsiblesCommaSeparated(date) }}
             </span>
           </template>
 
           <template #event="{ event }">
-            <div class="tw-float-left tw-text-xs tw-font-weight-medium">
+            <div class="tw-float-left tw-font-weight-medium">
               <!-- link jumps to first instance of scheduleEntry within the document -->
               <a
                 :href="`#scheduleEntry_${event.id}`"
@@ -64,7 +64,7 @@
               </a>
             </div>
             <span
-              class="tw-float-right tw-text-xs tw-italic ml-1"
+              class="tw-float-right tw-italic ml-1"
               :style="{ color: getActivityTextColor(event) }"
             >
               {{ activityResponsiblesCommaSeparated(event) }}
@@ -72,7 +72,7 @@
           </template>
         </v-calendar>
       </v-sheet>
-      <div class="categories fullwidth">
+      <div class="categories fullwidth text-sm-relative">
         <div
           v-for="category in camp.categories().items"
           :key="category.id"
@@ -84,7 +84,7 @@
           </div>
         </div>
       </div>
-      <div class="footer fullwidth">
+      <div class="footer fullwidth text-sm-relative">
         <div class="footer-column">
           <span v-if="camp.courseKind || camp.kind">
             {{ joinWithoutBlanks([camp.courseKind, camp.kind], ', ') }}
@@ -240,13 +240,26 @@ export default {
 
 <style lang="scss">
 .landscape {
-  transform: rotate(-90deg);
-  position: relative;
-  top: 320px;
+  --font-scale: 0.67;
+  font-size: calc(10pt * var(--font-scale));
 
-  .fullwidth {
-    width: 960px;
-  }
+  transform: rotate(-90deg);
+  scale: 1.48;
+  position: relative;
+  top: 275px;
+
+  width: 680px;
+  height: 459px;
+  overflow: visible;
+}
+
+.portrait {
+  --font-scale: 1;
+  font-size: 10pt;
+
+  width: 680px; /* 794px minus 114px (=2*15mm margin) */
+  height: 1009px; /* 1123 px minus 114px (=2*15mm margin) */
+  overflow: visible;
 }
 
 .fullwidth {
@@ -270,6 +283,7 @@ export default {
 }
 
 .v-calendar .v-event-timed {
+  font-size: calc(8pt * var(--font-scale));
   padding: 2px;
   white-space: normal;
   overflow-wrap: break-word;
@@ -282,12 +296,19 @@ export default {
   }
 }
 
+.v-calendar-daily__interval-text {
+  font-size: calc(8pt * var(--font-scale));
+}
+
+.v-calendar-daily_head-day-label {
+  font-size: calc(10pt * var(--font-scale));
+}
+
 .categories {
-  font-size: 12px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 3px 0 0;
+  margin-top: 1em;
   gap: 3px;
 
   .category {
@@ -299,10 +320,9 @@ export default {
   }
 }
 .footer {
-  font-size: 12px;
   display: flex;
   flex-direction: row;
-  margin-top: 8px;
+  margin-top: 0.75em;
   border: 1px solid grey;
   padding: 0 0 4px;
 
@@ -313,9 +333,27 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    line-height: 1.2;
+    line-height: 1.1;
     gap: 6px;
     padding: 3px 4px 4px;
   }
+}
+/**
+ * the following classes use the same naming pattern & values as tailwind
+ * however using em instead of rem
+ */
+.text-2xl-relative {
+  font-size: 1.5em;
+  line-height: 2em;
+}
+
+.text-sm-relative {
+  font-size: 0.875em;
+  line-height: 1.25em;
+}
+
+.text-xs-relative {
+  font-size: 0.75em;
+  line-height: 1em;
 }
 </style>

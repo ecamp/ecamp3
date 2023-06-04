@@ -103,15 +103,15 @@ router.use('/pdfChrome', async (req, res) => {
     const pdf = await page.pdf({
       printBackground: true,
       format: 'A4',
-      scale: 1.5,
+      scale: 1,
       displayHeaderFooter: true,
       headerTemplate: `<div id="header-template" style="font-size:8pt; text-align: center; width: 100%; font-family: "Open Sans", sans-serif;">eCamp3</span></div>`,
       footerTemplate: `<div id="footer-template" style="font-size:8pt; text-align: center; width: 100%; font-family: "Open Sans", sans-serif;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>`,
       margin: {
-        bottom: '20mm',
+        bottom: '15mm',
         left: '15mm',
         right: '15mm',
-        top: '20mm',
+        top: '15mm',
       },
     })
 
