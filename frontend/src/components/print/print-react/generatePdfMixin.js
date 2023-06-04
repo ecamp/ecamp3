@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
+import * as Sentry from '@sentry/browser'
 
 const RENDER_IN_WORKER = true
 
@@ -35,6 +36,7 @@ export const generatePdfMixin = {
 
       if (error) {
         this.$toast.error(this.$tc('components.print.printReact.generatePdfMixin.error'))
+        Sentry.captureException(new Error(error))
         this.loading = false
         return
       }
