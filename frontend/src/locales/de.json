@@ -125,7 +125,7 @@
         "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
-        "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administratorrechten."
+        "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Deaktivieren",
