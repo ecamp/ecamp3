@@ -10,7 +10,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">
+    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit, valid }">
       <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
       <v-form @submit.prevent="handleSubmit(doSubmit)">
         <v-card rounded="b-0">
@@ -71,6 +71,7 @@
                 type="submit"
                 :loading="currentlySaving"
                 :disabled="!submitEnabled"
+                :aria-disabled="!valid"
               >
                 <v-icon v-if="!!submitIcon" left>
                   {{ submitIcon }}

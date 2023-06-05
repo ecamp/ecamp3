@@ -1,7 +1,7 @@
 <template>
   <auth-container>
     <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
-    <validation-observer v-slot="{ handleSubmit }">
+    <validation-observer v-slot="{ handleSubmit, valid }">
       <v-form @submit.prevent="handleSubmit(register)">
         <e-text-field
           v-model="firstname"
@@ -115,7 +115,7 @@
           </small>
         </p>
 
-        <v-btn type="submit" color="primary" block x-large>
+        <v-btn type="submit" :aria-disabled="!valid" color="primary" block x-large>
           <v-progress-circular v-if="registering" indeterminate size="24" />
           <v-spacer />
           <span>{{ $tc('views.auth.register.register') }}</span>
