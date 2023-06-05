@@ -203,7 +203,6 @@ const urlParamKeys = ['period', 'responsible', 'category']
 /**
  * Map for url param keys to hal types
  * @type {{(typeof urlParamKeys[number]):HalType }}
- * @ {{('period'|'responsible'|'category'):HalType}}
  */
 const URL_PARAM_TO_HAL_TYPE = {
   category: 'categories',
