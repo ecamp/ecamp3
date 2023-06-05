@@ -46,6 +46,14 @@
         "editLayout": "Modifier la mise en page",
         "title": "Catégories d'activités"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Autres champs pour les cours"
+        },
+        "ysCamp": {
+          "title": "Autres champs pour les camps J+S"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Une fois que tu as supprimé un camp, il est impossible de revenir en arrière. Sois certain.",
@@ -101,20 +109,27 @@
       }
     },
     "collaborator": {
-      "collaboratorListItem": {
+      "collaboratorCreate": {
+        "invite": "Envoyer l'invitation",
+        "inviteCta": "Inviter",
+        "title": "Inviter une personne"
+      },
+      "collaboratorEdit": {
         "cannotAssignAnotherRoleToLastManager": "Tu ne peux pas attribuer un autre rôle au dernier manager.",
         "cannotRemoveLastManager": "Tu ne peux pas supprimer le dernier manager.",
         "deactivate": "Désactiver",
-        "resendEmail": "Renvoyer l'email"
+        "delete": "Tu veux vraiment supprimer la personne '{name}' ?",
+        "inviteAgain": "Inviter de nouveau",
+        "resendEmail": "Renvoyer l'email",
+        "resentEmail": "Invitation envoyée",
+        "title": "Modificare {user}"
       },
-      "collaboratorListItemDeactivate": {
+      "collaboratorForm": {
+        "roleHint": "Chaque camp nécessite au moins une personne disposant de droits d'administrateur."
+      },
+      "promptCollaboratorDeactivate": {
         "deactivate": "Désactiver",
-        "title": "Désactiver le collaborateur",
         "warningText": "Veux-tu désactiver '{name}' ?"
-      },
-      "inactiveCollaboratorListItem": {
-        "delete": "Tu veux vraiment supprimer ces employés ?",
-        "inviteAgain": "Invite à nouveau"
       }
     },
     "dashboard": {
@@ -258,10 +273,22 @@
         "title": "Choisis la période"
       },
       "picasso": {
+        "picasso": {
+          "datetime": {
+            "fullDate": "dd DD. MMMM YYYY",
+            "smallDate": "dd D.MM. | dd D. MMM | dd D. MMM YY"
+          }
+        },
         "picassoEntry": {
           "location": "Location:",
           "responsible": "Responsabile:"
         }
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Vraiment effacer?",
+        "warningText": "Voulez-vous vraiment le supprimer ?"
       }
     },
     "toast": {
@@ -326,7 +353,14 @@
       "update": "Mise à jour"
     },
     "changeLanguage": "Changer la langue",
-    "datetime": {},
+    "collaborationAbilities": {
+      "guest": "Lecture uniquement",
+      "manager": "Lecture, écriture & administration du camp",
+      "member": "Lecture & écriture"
+    },
+    "datetime": {
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "language": "Français",
     "loading": "Chargement ...",
     "lokaliseMessage": "Changement de langue grâce à lokalise.com",
@@ -424,7 +458,6 @@
       "collaborators": {
         "email": "Adresse de courriel",
         "inactiveCollaborators": "Inactif",
-        "invite": "Inviter",
         "members": "Membres",
         "openInvitations": "Invitations ouvertes",
         "title": "Team"
@@ -469,7 +502,6 @@
         "downloadXlsx": "Télécharger",
         "groupByList": "Regroupement par liste d'articles",
         "showActivityMaterial": "Montre le matériel d'activité",
-        "showActivityMaterialShort": "incl. Activité",
         "title": "Matériau",
         "xlsx": {
           "activity": "Activité",

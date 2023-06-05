@@ -109,20 +109,27 @@
       }
     },
     "collaborator": {
-      "collaboratorListItem": {
-        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last manager.",
-        "cannotRemoveLastManager": "You cannot remove the last manager.",
-        "deactivate": "Deactivate",
-        "resendEmail": "Resend email"
+      "collaboratorCreate": {
+        "invite": "Send invitation",
+        "inviteCta": "Invite to team",
+        "title": "Invite people"
       },
-      "collaboratorListItemDeactivate": {
+      "collaboratorEdit": {
+        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
+        "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
-        "title": "Deactivate collaborator",
+        "delete": "Do you really want to remove collaborator '{name}'?",
+        "inviteAgain": "Invite again",
+        "resendEmail": "Resend invite",
+        "resentEmail": "Invitation sent",
+        "title": "Edit {user}"
+      },
+      "collaboratorForm": {
+        "roleHint": "Each camp needs at least one person with administrative rights."
+      },
+      "promptCollaboratorDeactivate": {
+        "deactivate": "Deactivate",
         "warningText": "Do you want to deactivate '{name}'?"
-      },
-      "inactiveCollaboratorListItem": {
-        "delete": "Do you really want to remove this collaborator?",
-        "inviteAgain": "Invite again"
       }
     },
     "dashboard": {
@@ -278,6 +285,12 @@
         }
       }
     },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Really delete?",
+        "warningText": "Do you really want to delete this?"
+      }
+    },
     "toast": {
       "toasts": {
         "multiLineToast": {
@@ -340,6 +353,11 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "collaborationAbilities": {
+      "guest": "Read-only",
+      "manager": "Read, write & camp management",
+      "member": "Read & write"
+    },
     "datetime": {
       "vuetifyTimePickerFormat": "ampm"
     },
@@ -440,7 +458,6 @@
       "collaborators": {
         "email": "Email address",
         "inactiveCollaborators": "Inactive",
-        "invite": "Invite",
         "members": "Members",
         "openInvitations": "Open invitations",
         "title": "Team"

@@ -46,6 +46,14 @@
         "editLayout": "Modifica il layout",
         "title": "Categorie di attività"
       },
+      "campConditionalFields": {
+        "course": {
+          "title": "Altri campi per i corsi"
+        },
+        "ysCamp": {
+          "title": "Altri campi per i campi G+S"
+        }
+      },
       "campDangerZone": {
         "deleteCamp": {
           "description": "Una volta eliminato un campo, non è più possibile tornare indietro. Siate certi.",
@@ -101,20 +109,27 @@
       }
     },
     "collaborator": {
-      "collaboratorListItem": {
+      "collaboratorCreate": {
+        "invite": "Inviare l'invito",
+        "inviteCta": "Invitare",
+        "title": "Invitare una persona"
+      },
+      "collaboratorEdit": {
         "cannotAssignAnotherRoleToLastManager": "Non puoi assegnare un altro ruolo all'ultimo manager.",
         "cannotRemoveLastManager": "Non è possibile rimuovere l'ultimo gestore.",
         "deactivate": "Disattivare",
-        "resendEmail": "Reinvia l'email"
+        "delete": "Vuoi davvero rimuovere la persona '{name}'?",
+        "inviteAgain": "Invitare di nuovo",
+        "resendEmail": "Reinvia l'email",
+        "resentEmail": "Invito inviato",
+        "title": "Éditer {user}"
       },
-      "collaboratorListItemDeactivate": {
+      "collaboratorForm": {
+        "roleHint": "Ogni campo ha bisogno di almeno una persona con diritti di amministratore."
+      },
+      "promptCollaboratorDeactivate": {
         "deactivate": "Disattivare",
-        "title": "Disattiva il collaboratore",
         "warningText": "Vuoi disattivare '{name}'?"
-      },
-      "inactiveCollaboratorListItem": {
-        "delete": "Vuoi davvero eliminare questi dipendenti?",
-        "inviteAgain": "Invita di nuovo"
       }
     },
     "dashboard": {
@@ -258,10 +273,22 @@
         "title": "Scegli il periodo"
       },
       "picasso": {
+        "picasso": {
+          "datetime": {
+            "fullDate": "dd DD. MMMM YYYY",
+            "smallDate": "dd D.MM. | dd D. MMM | dd D. MMM YY"
+          }
+        },
         "picassoEntry": {
           "location": "Luogo:",
           "responsible": "Responsable:"
         }
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Davvero cancellare?",
+        "warningText": "Volete davvero cancellarlo?"
       }
     },
     "toast": {
@@ -326,7 +353,14 @@
       "update": "Aggiornare"
     },
     "changeLanguage": "Cambia lingua",
-    "datetime": {},
+    "collaborationAbilities": {
+      "guest": "Solo lettura",
+      "manager": "Lettura, scrittura e amministrazione del campo",
+      "member": "Lettura e scrittura"
+    },
+    "datetime": {
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "language": "Italiano",
     "loading": "Caricamento ...",
     "lokaliseMessage": "Cambio di lingua alimentato da lokalise.com",
@@ -424,7 +458,6 @@
       "collaborators": {
         "email": "Indirizzo e-mail",
         "inactiveCollaborators": "Inattivo",
-        "invite": "Invitare",
         "members": "Membri",
         "openInvitations": "Inviti aperti",
         "title": "Team"
@@ -469,7 +502,6 @@
         "downloadXlsx": "Scarica",
         "groupByList": "Raggruppa per elenco di materiali",
         "showActivityMaterial": "Mostra il materiale dell'attività",
-        "showActivityMaterialShort": "incl. Attività",
         "title": "Materiale",
         "xlsx": {
           "activity": "Attività",

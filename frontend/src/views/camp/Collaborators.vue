@@ -2,142 +2,98 @@
 Displays collaborators of a single camp.
 -->
 <template>
-  <content-card :title="$tc('views.camp.collaborators.title')">
+  <content-card :title="$tc('views.camp.collaborators.title')" toolbar>
     <v-card-text>
       <content-group :title="$tc('views.camp.collaborators.members')">
-        <v-list>
+        <template #title-actions>
+          <CollaboratorCreate v-if="isManager" :camp="camp()" />
+        </template>
+        <v-list class="mx-n2">
           <v-skeleton-loader
             v-if="collaborators.length <= 0"
             type="list-item-avatar-two-line@3"
             class="px-0"
           />
-          <collaborator-list-item
+          <CollaboratorEdit
             v-for="collaborator in establishedCollaborators"
+            v-else-if="isManager"
             :key="collaborator._meta.self"
             :collaborator="collaborator"
-            :disabled="!isManager"
+          />
+          <CollaboratorListItem
+            v-for="collaborator in establishedCollaborators"
+            v-else
+            :key="collaborator._meta.self"
+            :collaborator="collaborator"
           />
         </v-list>
       </content-group>
 
-      <content-group
+      <ContentGroup
         v-if="invitedCollaborators.length > 0"
         :title="$tc('views.camp.collaborators.openInvitations')"
       >
-        <v-list>
-          <collaborator-list-item
+        <v-list class="mx-n2">
+          <template v-if="isManager">
+            <CollaboratorEdit
+              v-for="collaborator in invitedCollaborators"
+              :key="collaborator._meta.self"
+              :collaborator="collaborator"
+            />
+          </template>
+          <CollaboratorListItem
             v-for="collaborator in invitedCollaborators"
+            v-else
             :key="collaborator._meta.self"
             :collaborator="collaborator"
-            :disabled="!isManager"
           />
         </v-list>
-      </content-group>
+      </ContentGroup>
 
-      <content-group
+      <ContentGroup
         v-if="inactiveCollaborators.length > 0"
         :title="$tc('views.camp.collaborators.inactiveCollaborators')"
       >
-        <v-list>
-          <inactive-collaborator-list-item
+        <v-list class="mx-n2">
+          <template v-if="isManager">
+            <CollaboratorEdit
+              v-for="collaborator in inactiveCollaborators"
+              :key="collaborator._meta.self"
+              :collaborator="collaborator"
+              inactive
+            />
+          </template>
+          <CollaboratorListItem
             v-for="collaborator in inactiveCollaborators"
+            v-else
             :key="collaborator._meta.self"
             :collaborator="collaborator"
-            :disabled="!isManager"
+            inactive
           />
         </v-list>
-      </content-group>
-
-      <content-group v-if="isManager" :title="$tc('views.camp.collaborators.invite')">
-        <ValidationObserver
-          v-slot="{ handleSubmit, passed }"
-          ref="validation"
-          mode="passive"
-        >
-          <v-form ref="form" @submit.prevent="handleSubmit(invite)">
-            <v-container>
-              <v-row align="start">
-                <v-col cols="12" md="9">
-                  <e-text-field
-                    v-model="inviteEmail"
-                    :name="$tc('views.camp.collaborators.email')"
-                    vee-rules="required|email"
-                    :error-messages="inviteEmailMessages"
-                    :error-count="2"
-                    single-line
-                    aria-autocomplete="none"
-                    :placeholder="$tc('views.camp.collaborators.email')"
-                    @keyup="clearMessages"
-                  />
-                </v-col>
-                <v-col sm="9" md="3">
-                  <e-select
-                    v-model="inviteRole"
-                    :items="[
-                      {
-                        key: 'member',
-                        translation: $tc('entity.camp.collaborators.member'),
-                      },
-                      {
-                        key: 'manager',
-                        translation: $tc('entity.camp.collaborators.manager'),
-                      },
-                      {
-                        key: 'guest',
-                        translation: $tc('entity.camp.collaborators.guest'),
-                      },
-                    ]"
-                    item-value="key"
-                    item-text="translation"
-                    :my="0"
-                    dense
-                    vee-rules="required"
-                    immediate-validation
-                  />
-                </v-col>
-                <v-col cols="3">
-                  <button-add
-                    type="submit"
-                    :disabled="!passed"
-                    :loading="isSaving"
-                    icon="mdi-account-plus"
-                  >
-                    {{ $tc('views.camp.collaborators.invite') }}
-                  </button-add>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-        </ValidationObserver>
-      </content-group>
+      </ContentGroup>
     </v-card-text>
   </content-card>
 </template>
 <script>
+import CollaboratorCreate from '@/components/collaborator/CollaboratorCreate.vue'
+import CollaboratorEdit from '@/components/collaborator/CollaboratorEdit.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
-import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
-import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
-import ETextField from '@/components/form/base/ETextField.vue'
-import ESelect from '@/components/form/base/ESelect.vue'
-import InactiveCollaboratorListItem from '@/components/collaborator/InactiveCollaboratorListItem.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { transformViolations } from '@/helpers/serverError'
-import { ValidationObserver } from 'vee-validate'
+import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
 export default {
   name: 'Collaborators',
   components: {
-    ButtonAdd,
     CollaboratorListItem,
+    CollaboratorCreate,
+    CollaboratorEdit,
     ContentGroup,
     ContentCard,
-    ETextField,
-    ESelect,
-    InactiveCollaboratorListItem,
-    ValidationObserver,
   },
   mixins: [campRoleMixin],
   props: {
