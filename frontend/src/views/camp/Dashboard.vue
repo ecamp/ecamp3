@@ -180,7 +180,7 @@ import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
 import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
-import { keyBy, groupBy, mapValues } from 'lodash'
+import { groupBy, keyBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
@@ -388,10 +388,7 @@ export default {
     this.loading = false
   },
   beforeMount() {
-    /**
-     * @type {{[p: UrlParamKey]: (HalUri[]|HalUri)}}
-     */
-    let fromUrl = Object.fromEntries(
+    this.filter.url = Object.fromEntries(
       /**
        * @type {[UrlParamKey,(HalUri[])|HalUri]}
        */
@@ -416,8 +413,6 @@ export default {
           return !!value
         })
     )
-    // set unvertified filter values from url
-    this.filter.url = fromUrl
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
