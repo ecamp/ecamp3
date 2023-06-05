@@ -184,11 +184,27 @@ import { keyBy, groupBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
-import { FormatHalHelperMixin } from '@/mixins/formatHalHelperMixin'
+import { halUriToId, idToHalUri } from '@/helpers/formatHalHelper.js'
+import { mapGetters } from 'vuex'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
 }
+/**
+ * Allowed Url param keys
+ * @typedef {'period'|'responsible'|'category'} UrlParamKey
+ */
+/**
+ * The Allowed Url parameter keys
+ * @type {UrlParamKey[]} UrlParamKeys
+ */
+const urlParamKeys = ['period', 'responsible', 'category']
+
+/**
+ * Map for url param keys to hal types
+ * @type {{(typeof urlParamKeys[number]):HalType }}
+ * @ {{('period'|'responsible'|'category'):HalType}}
+ */
 const URL_PARAM_TO_HAL_TYPE = {
   category: 'categories',
   responsible: 'camp_collaborations',
@@ -206,14 +222,16 @@ export default {
     ContentCard,
     UserAvatar,
   },
-  mixins: [dateHelperUTCFormatted, FormatHalHelperMixin],
+  mixins: [dateHelperUTCFormatted],
   props: {
     camp: { type: Function, required: true },
   },
   data() {
     return {
-      loggedInUser: null,
       loading: true,
+      /**
+       * Contains the Values declared initially. In the unverified values from the Url params will be written in the filter.url
+       * @type {{period:null|HalUri,responsible:HalUri[],category: HalUri[],url?:{period?:null|HalUri,responsible?:HalUri[],category?: HalUri[]}}} Filter*/
       filter: {
         period: null,
         responsible: [],
@@ -317,10 +335,13 @@ export default {
           .filter(([_, value]) => !!value)
           .map(([key, value]) => [
             key,
-            Array.isArray(value) ? value.map((e) => this.toId(e)) : this.toId(value),
+            Array.isArray(value) ? value.map((e) => halUriToId(e)) : halUriToId(value),
           ])
       )
     },
+    ...mapGetters({
+      loggedInUser: 'getLoggedInUser',
+    }),
   },
   watch: {
     'filter.category': 'persistRouterState',
@@ -330,36 +351,74 @@ export default {
   async mounted() {
     this.api.reload(this.camp())
 
-    const [loggedInUser] = await Promise.all([
-      this.$auth.loadUser(),
-      this.camp().periods()._meta.load,
+    const loadingDataPromise = Promise.all([
+      this.loggedInUser._meta.load,
       this.camp().activities()._meta.load,
-      this.camp().categories()._meta.load,
     ])
 
-    this.loggedInUser = loggedInUser
+    // Once camp data is loaded validate and map values from url param to filter
+    await Promise.all([
+      this.camp().categories()._meta.load,
+      this.camp().periods()._meta.load,
+      this.camp().campCollaborations()._meta.load,
+      loadingDataPromise,
+    ]).then(([categories, periods, collaborators]) => {
+      const availableCategoryIds = categories.allItems.map((value) => value._meta.self)
+      const availablePeriodsIds = periods.allItems.map((value) => value._meta.self)
+      const availableCollaboratorIds = collaborators.allItems.map(
+        (value) => value._meta.self
+      )
+
+      const category = (this.filter.url?.category ?? []).filter((value) =>
+        availableCategoryIds.includes(value)
+      )
+      const responsible = (this.filter.url?.responsible ?? []).filter((value) =>
+        availableCollaboratorIds.includes(value)
+      )
+      const period = availablePeriodsIds.includes(this.filter.url?.period)
+        ? this.filter.url.period
+        : null
+
+      this.filter = {
+        category,
+        responsible,
+        period,
+      }
+    })
+
     this.loading = false
   },
   beforeMount() {
+    /**
+     * @type {{[p: UrlParamKey]: (HalUri[]|HalUri)}}
+     */
     let fromUrl = Object.fromEntries(
+      /**
+       * @type {[UrlParamKey,(HalUri[])|HalUri]}
+       */
       Object.entries(this.$route.query)
+        .filter(([key, value]) => urlParamKeys.includes(key) && !!value)
         .map(([key, value]) => [key, value, URL_PARAM_TO_HAL_TYPE[key]])
         .map(([key, value, type]) => {
           if (typeof value === 'string') {
             let halUriValue =
-              key === 'period' ? this.toUri(type, value) : [this.toUri(type, value)]
+              key === 'period' ? idToHalUri(type, value) : [idToHalUri(type, value)]
             return [key, halUriValue]
           }
           if (Array.isArray(value)) {
             let uriValues = value
               .filter((entry) => !!entry)
-              .map((entry) => this.toUri(type, entry))
+              .map((entry) => idToHalUri(type, entry))
             return [key, uriValues]
           }
           return [key, null]
         })
+        .filter(([_, value]) => {
+          return !!value
+        })
     )
-    this.filter = { ...this.filter, ...fromUrl }
+    // set unvertified filter values from url
+    this.filter.url = fromUrl
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {

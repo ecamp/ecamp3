@@ -26,7 +26,7 @@ describe('Dashboard view', () => {
     }
     await flushPromises()
 
-    expect(vueWrapper.vm.$data.filter).toMatchObject(expectedFilterValues)
+    expect(vueWrapper.vm.$data.filter.url).toMatchObject(expectedFilterValues)
   })
   it('Parses filter value into URL', async () => {
     const filter = {
@@ -40,9 +40,10 @@ describe('Dashboard view', () => {
       filter,
     })
     const options = { ...DEFAULT_DASHBOARD_OPTIONS(), data }
-    shallowMount(Dashboard, options)
+    const wrapper = shallowMount(Dashboard, options)
 
     await flushPromises()
+    wrapper.vm.persistRouterState()
 
     const expectedURLParams = {
       responsible: ['fe6557a4b89f'],
