@@ -1,11 +1,9 @@
 <template>
-  <v-dialog
+  <v-bottom-sheet
     content-class="ec-dialog-form"
-    :fullscreen="$vuetify.breakpoint.xsOnly"
     eager
     v-bind="$attrs"
     :value="value"
-    :max-width="maxWidth"
     v-on="$listeners"
     @input="onInput"
   >
@@ -15,7 +13,7 @@
     <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">
       <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
       <v-form @submit.prevent="handleSubmit(doSubmit)">
-        <v-card>
+        <v-card rounded="b-0">
           <v-toolbar dense elevation="0" class="ec-dialog-toolbar">
             <v-icon left>
               {{ icon }}
@@ -24,7 +22,7 @@
               {{ title }}
             </v-toolbar-title>
             <v-btn
-              v-if="$vuetify.breakpoint.smAndUp && cancelAction != null"
+              v-if="cancelAction != null"
               icon
               class="ml-auto"
               :title="$tc('global.button.cancel')"
@@ -39,7 +37,7 @@
             <slot v-else />
           </div>
 
-          <v-card-text>
+          <v-card-text class="py-0 error-area">
             <!-- error message via slot -->
             <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
               <slot name="error" />
@@ -49,52 +47,56 @@
             <server-error v-else :server-error="error" />
           </v-card-text>
 
-          <v-card-actions>
-            <slot name="moreActions" />
+          <slot name="afterErrors" />
+
+          <div class="d-flex flex-wrap justify-end">
+            <v-card-actions>
+              <slot name="moreActions" />
+            </v-card-actions>
             <v-spacer />
-            <v-btn
-              v-if="cancelVisible && cancelAction != null"
-              :color="cancelColor"
-              text
-              :disabled="!cancelEnabled"
-              @click="doCancel"
-            >
-              {{ cancelLabel }}
-            </v-btn>
-            <v-btn
-              v-if="submitAction != null"
-              :color="submitColor"
-              type="submit"
-              :loading="currentlySaving"
-              :disabled="!submitEnabled"
-            >
-              <v-icon v-if="!!submitIcon" left>
-                {{ submitIcon }}
-              </v-icon>
-              {{ submitLabel }}
-            </v-btn>
-            <slot name="actions" />
-          </v-card-actions>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                v-if="cancelVisible && cancelAction != null"
+                :color="cancelColor"
+                text
+                :disabled="!cancelEnabled"
+                @click="doCancel"
+              >
+                {{ cancelLabel }}
+              </v-btn>
+              <v-btn
+                v-if="submitAction != null"
+                :color="submitColor"
+                type="submit"
+                :loading="currentlySaving"
+                :disabled="!submitEnabled"
+              >
+                <v-icon v-if="!!submitIcon" left>
+                  {{ submitIcon }}
+                </v-icon>
+                {{ submitLabel }}
+              </v-btn>
+              <slot name="actions" />
+            </v-card-actions>
+          </div>
         </v-card>
       </v-form>
     </ValidationObserver>
-  </v-dialog>
+  </v-bottom-sheet>
 </template>
-
 <script>
 import { ValidationObserver } from 'vee-validate'
 import ServerError from '@/components/form/ServerError.vue'
 import DialogUiBase from '@/components/dialog/DialogUiBase.vue'
 
 export default {
-  name: 'DialogForm',
-  components: { ValidationObserver, ServerError },
+  name: 'DialogBottomSheet',
+  components: { ServerError, ValidationObserver },
   extends: DialogUiBase,
   props: {
     icon: { type: String, default: '', required: false },
     title: { type: String, default: '', required: false },
-
-    maxWidth: { type: String, default: '600px', required: false },
   },
   computed: {
     currentlySaving() {
@@ -132,17 +134,8 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-@media #{map-get($display-breakpoints, 'xs-only')} {
-  .ec-dialog-form {
-    .v-form,
-    .v-form > .v-sheet {
-      height: 100%;
-    }
-  }
-}
-.ec-dialog-toolbar {
-  border-bottom: 1px solid #cfd8dc !important;
+<style scoped>
+.error-area:empty {
+  display: none;
 }
 </style>

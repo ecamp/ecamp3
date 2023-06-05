@@ -1,20 +1,25 @@
 <template>
-  <v-btn class="px-3 px-sm-4" color="primary" v-bind="$attrs" v-on="$listeners">
-    <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
-    <span class="d-none d-sm-block">
-      <slot>{{ $tc('global.button.edit') }}</slot>
-    </span>
-    <span class="d-sr-only d-sm-none">
-      <slot>{{ $tc('global.button.edit') }}</slot>
-    </span>
-  </v-btn>
+  <IconButton
+    class="px-3 px-sm-4"
+    color="primary"
+    :icon="icon"
+    :hide-label="hideLabel || $vuetify.breakpoint.xsOnly"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <slot>{{ $tc('global.button.edit') }}</slot>
+  </IconButton>
 </template>
 
 <script>
+import IconButton from '@/components/buttons/IconButton.vue'
+
 export default {
   name: 'ButtonEdit',
+  components: { IconButton },
   props: {
     icon: { type: String, default: 'mdi-pencil' },
+    hideLabel: { type: Boolean, default: false },
   },
 }
 </script>

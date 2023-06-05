@@ -524,8 +524,7 @@ at position 10: Trailing data',
             'start' => '2023-04-17',
             'end' => '2023-04-18',
             'moveScheduleEntries' => false,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
-        ;
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
 
         /** @var Period $period */

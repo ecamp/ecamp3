@@ -23,7 +23,7 @@ Displays the content wrapped inside a card.
       </v-toolbar-items>
 
       <slot name="title">
-        <v-toolbar-title class="font-weight-bold">
+        <v-toolbar-title tag="h1" class="font-weight-bold">
           {{ title }}
         </v-toolbar-title>
       </slot>

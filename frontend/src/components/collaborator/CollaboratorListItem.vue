@@ -1,138 +1,88 @@
 <template>
-  <v-list-item class="px-0" two-line>
-    <v-list-item-avatar>
-      <user-avatar :camp-collaboration="collaborator" />
-    </v-list-item-avatar>
+  <v-list-item class="px-2 rounded e-collaborator-item" two-line v-on="$listeners">
+    <v-list-item-action>
+      <user-avatar size="40" :camp-collaboration="collaborator" omit-sr />
+    </v-list-item-action>
     <v-list-item-content>
-      <v-list-item-title v-if="collaborator.user">
-        {{ collaborator.user().displayName }}
+      <v-list-item-title>
+        {{ name }}
       </v-list-item-title>
-      <v-list-item-subtitle v-else>
-        {{ collaborator.inviteEmail }}
+      <v-list-item-subtitle>
+        <v-tooltip right>
+          <template #activator="{ on }">
+            <button v-on="on">
+              {{ $tc(roles[collaborator.role].roleTranslation)
+              }}<span>
+                &middot;
+                <template v-for="icon in roles[collaborator.role].icons"
+                  ><v-icon :key="icon" x-small class="vertical-baseline">{{
+                    icon
+                  }}</v-icon
+                  >&thinsp;</template
+                ></span
+              >
+            </button>
+          </template>
+          {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
+        </v-tooltip>
       </v-list-item-subtitle>
     </v-list-item-content>
-    <v-list-item-action v-if="collaborator.status === 'invited'" class="ml-2">
-      <icon-button
-        color="normal"
-        icon="mdi-refresh"
-        :animate="resendingEmail"
-        :disabled="disabled"
-        @click="resendInvitation"
-      >
-        {{ $tc('components.collaborator.collaboratorListItem.resendEmail') }}
-      </icon-button>
-    </v-list-item-action>
-    <v-list-item-action class="ml-4">
-      <v-tooltip :disabled="disabled || !isLastManager" top>
-        <template #activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
-            <api-select
-              :value="collaborator.role"
-              :uri="collaborator._meta.self"
-              fieldname="role"
-              :items="[
-                { key: 'member', translation: $tc('entity.camp.collaborators.member') },
-                { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
-                { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
-              ]"
-              item-value="key"
-              item-text="translation"
-              :my="0"
-              dense
-              vee-rules="required"
-              :disabled="disabled || isLastManager"
-            />
-          </div>
-        </template>
-        <span>{{
-          $tc(
-            'components.collaborator.collaboratorListItem.cannotAssignAnotherRoleToLastManager'
-          )
-        }}</span>
-      </v-tooltip>
-    </v-list-item-action>
-    <v-list-item-action class="ml-2">
-      <v-tooltip :disabled="disabled || !isLastManager" top>
-        <template #activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
-            <CollaboratorListItemDeactivate :entity="collaborator">
-              <template #activator="{ on: onDialog }">
-                <button-delete
-                  :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
-                  icon="mdi-cancel"
-                  v-on="onDialog"
-                >
-                  {{ $tc('components.collaborator.collaboratorListItem.deactivate') }}
-                </button-delete>
-              </template>
-            </CollaboratorListItemDeactivate>
-          </div>
-        </template>
-        <span>{{
-          $tc('components.collaborator.collaboratorListItem.cannotRemoveLastManager')
-        }}</span>
-      </v-tooltip>
+    <v-list-item-action class="e-collaborator-item__actions ml-2">
+      <button-edit
+        v-if="editable"
+        color="primary--text"
+        text
+        class="my-n1 v-btn--has-bg"
+      />
     </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
-import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
-import IconButton from '@/components/buttons/IconButton.vue'
-import CollaboratorListItemDeactivate from '@/components/collaborator/CollaboratorListItemDeactivate.vue'
-import { errorToMultiLineToast } from '@/components/toast/toasts'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 
 export default {
   name: 'CollaboratorListItem',
   components: {
-    ApiSelect,
+    ButtonEdit,
     UserAvatar,
-    IconButton,
-    CollaboratorListItemDeactivate,
   },
   props: {
     collaborator: { type: Object, required: true },
-    disabled: { type: Boolean, default: false },
+    editable: { type: Boolean, default: false },
   },
   data: () => ({
-    resendingEmail: false,
+    roles: {
+      manager: {
+        roleTranslation: 'entity.camp.collaborators.manager',
+        abilitiesTranslation: 'global.collaborationAbilities.manager',
+        icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
+      },
+      member: {
+        roleTranslation: 'entity.camp.collaborators.member',
+        abilitiesTranslation: 'global.collaborationAbilities.member',
+        icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
+      },
+      guest: {
+        roleTranslation: 'entity.camp.collaborators.guest',
+        abilitiesTranslation: 'global.collaborationAbilities.guest',
+        icons: ['mdi-eye-outline'],
+      },
+    },
   }),
   computed: {
-    isLastManager() {
-      if (this.collaborator.status !== 'established') return false
-      if (this.collaborator.role !== 'manager') return false
-      const camp = this.collaborator.camp()
-      return (
-        camp
-          ?.campCollaborations()
-          ?.items?.filter((collaborator) => collaborator.status === 'established')
-          .filter((collaborator) => collaborator.role === 'manager').length <= 1
-      )
-    },
-    isOwnCampCollaboration() {
-      if (!(typeof this.collaborator.user === 'function')) {
-        return false
-      }
-      return this.$store.state.auth.user?.id === this.collaborator.user().id
-    },
-  },
-  methods: {
-    resendInvitation() {
-      this.resendingEmail = true
-      this.api
-        .href(this.api.get(), 'campCollaborations', {
-          id: this.collaborator.id,
-          action: 'resend_invitation',
-        })
-        .then((postUrl) => this.api.patch(postUrl, {}))
-        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
-        .finally(() => {
-          this.resendingEmail = false
-        })
+    name() {
+      return this.collaborator.user
+        ? this.collaborator.user().displayName
+        : this.collaborator.inviteEmail
     },
   },
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-list-item--link:before {
+  border-radius: 6px;
+}
+</style>

@@ -45,8 +45,7 @@ class DeleteCampTest extends ECampApiTestCase {
 
     public function testDeleteCampIsDeniedForCollaboratorThatIsNotOwner() {
         $camp = static::$fixtures['camp2'];
-        static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId())
-        ;
+        static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',

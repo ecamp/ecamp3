@@ -109,20 +109,27 @@
       }
     },
     "collaborator": {
-      "collaboratorListItem": {
-        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
-        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
-        "deactivate": "Deaktivieren",
-        "resendEmail": "E-Mail erneut senden"
+      "collaboratorCreate": {
+        "invite": "Einladung verschicken",
+        "inviteCta": "Ins Team einladen",
+        "title": "Person einladen"
       },
-      "collaboratorListItemDeactivate": {
+      "collaboratorEdit": {
+        "cannotAssignAnotherRoleToLastManager": "Du kannst der letzten Person mit administrativen Rechten keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst die letzte Person mit administrativen Rechten nicht deaktivieren",
         "deactivate": "Deaktivieren",
-        "title": "Mitarbeiter:in deaktivieren",
+        "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
+        "inviteAgain": "Erneut einladen",
+        "resendEmail": "E-Mail erneut senden",
+        "resentEmail": "Einladung gesendet",
+        "title": "{user} bearbeiten"
+      },
+      "collaboratorForm": {
+        "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
+      },
+      "promptCollaboratorDeactivate": {
+        "deactivate": "Deaktivieren",
         "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
-      },
-      "inactiveCollaboratorListItem": {
-        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?",
-        "inviteAgain": "Erneut einladen"
       }
     },
     "dashboard": {
@@ -278,6 +285,12 @@
         }
       }
     },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Wirklich löschen?",
+        "warningText": "Möchtest du das wirklich löschen?"
+      }
+    },
     "toast": {
       "toasts": {
         "multiLineToast": {
@@ -340,6 +353,11 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "collaborationAbilities": {
+      "guest": "Nur Leserecht",
+      "manager": "Vollständige Lageradministration, sowie Lese- & Schreibrecht",
+      "member": "Lese- & Schreibrecht"
+    },
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
@@ -375,7 +393,7 @@
         "title": "Dein Account wird aktiviert"
       },
       "login": {
-        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen diese Services akzeptierst du die {termsOfServiceLink}.",
+        "acceptTermsOfServiceOnOAuthLogin": "Beim Login via einen dieser Services akzeptierst du die {termsOfServiceLink}.",
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
@@ -440,7 +458,6 @@
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
-        "invite": "Einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
         "title": "Team"

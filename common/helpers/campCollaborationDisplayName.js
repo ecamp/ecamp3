@@ -14,7 +14,7 @@ export default function (campCollaboration, tc, indicateInactive = true) {
       : campCollaboration.inviteEmail || ''
 
   if (campCollaboration.status === 'inactive' && indicateInactive) {
-    text += ' (' + tc('entity.campCollaboration.inactive') + ')'
+    text += ' (' + tc('entity.campCollaboration.status.inactive') + ')'
   }
 
   return text

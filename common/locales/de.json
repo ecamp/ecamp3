@@ -93,7 +93,7 @@
       "collaborators": {
         "guest": "Gast",
         "invite": "Einladen",
-        "manager": "Verwalter",
+        "manager": "Administration",
         "member": "Mitglied"
       },
       "fields": {
@@ -106,9 +106,9 @@
         "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
         "courseNumber": "Kursnummer",
         "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",
-        "organizer": "Organisator",
         "motto": "Motto",
         "name": "Lagername",
+        "organizer": "Organisator",
         "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
         "title": "Lagertitel",
         "trainingAdvisorName": "Bürgerlicher Name der Betreuungsperson"
@@ -117,7 +117,16 @@
       "prototype": "Lagervorlage"
     },
     "campCollaboration": {
-      "inactive": "inaktiv"
+      "fields": {
+        "inviteEmail": "E-Mail",
+        "role": "Rolle",
+        "status": "Status"
+      },
+      "status": {
+        "established": "Aktiv",
+        "inactive": "Inaktiv",
+        "invited": "Eingeladen"
+      }
     },
     "category": {
       "fields": {

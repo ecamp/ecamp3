@@ -93,7 +93,7 @@
       "collaborators": {
         "guest": "Ospite",
         "invite": "Invita",
-        "manager": "Manager",
+        "manager": "Amministrazione",
         "member": "Membro"
       },
       "fields": {
@@ -169,7 +169,18 @@
     }
   },
   "global": {
-    "datetime": {}
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L HH:mm",
+      "duration": {
+        "hoursAndMinutes": "{hours}h {minutes}min",
+        "hoursOnly": "{hours}h",
+        "minutesOnly": "{minutes}min"
+      },
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
+    }
   },
   "print": {
     "cover": {
