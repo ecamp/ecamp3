@@ -20,7 +20,7 @@
         <v-img contain class="error-image" src="@/assets/FourZeroFour.svg"></v-img>
         <p
           id="error-title"
-          class="font-weight-bold text-center px-8 text-xs-h6 text-sm-h5 text-md-h4 text-lg-h3 text-xl-h1"
+          class="font-weight-bold text-center px-8 text-xs-h6 text-sm-h5 text-md-h4"
         >
           {{ $tc('views.pageNotFound.detail') }}
         </p>
