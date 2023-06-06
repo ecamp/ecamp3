@@ -123,15 +123,11 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    // TODO: enable again when webpack supports node 18 with sourcemaps.
-    // extend(config, ctx) {
-    //   // include source map in development mode
-    //   // eslint-disable-next-line no-constant-condition
-    //   if (ctx.isDev) {
-    //     config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
-    //   }
-    // },
-    extend(config) {
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+
       // TODO: remove once we update to nuxt 3
       config.module.rules.push({
         test: /colorjs\.io/,
