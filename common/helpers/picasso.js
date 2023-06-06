@@ -47,42 +47,42 @@ export function splitDaysIntoPages(days, maxDaysPerPage) {
 export function calculateBedtime(scheduleEntries, dayjs, firstDay, lastDay, timeBucketSize = 1) {
   if (!scheduleEntries.length) return { bedtime: 24, getUpTime: 0 }
 
-  const scheduleEntryBoundaries = scheduleEntries.flatMap((scheduleEntry) => [
-    bucketize(dayjs.utc(scheduleEntry.start), timeBucketSize),
-    bucketize(dayjs.utc(scheduleEntry.end), timeBucketSize),
-  ])
-  const activeTimes = countBy(scheduleEntryBoundaries, undefined)
-  const sortedActiveTimes = sortBy(Object.keys(activeTimes).map(activeTime => parseFloat(activeTime)))
-  // Use two copies of the active times, to work around problems coming from the circularity of the day's hours
-  const activeTimesAsc = sortedActiveTimes.concat(sortedActiveTimes.map(time => time + 24))
+  const scheduleEntryBounds = sortBy(scheduleEntries.flatMap((scheduleEntry) => [
+    { hours: toHours(dayjs.utc(scheduleEntry.start)), type: 'start' },
+    { hours: toHours(dayjs.utc(scheduleEntry.end)), type: 'end' },
+    // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
+    { hours: toHours(dayjs.utc(scheduleEntry.start)) + 24, type: 'start' },
+    { hours: toHours(dayjs.utc(scheduleEntry.end)) + 24, type: 'end' },
+  ]), (boundary) => boundary.hours)
+
+  const gaps = scheduleEntryBounds.reduce((gaps, current, index) => {
+    if (index === 0) return gaps
+    const previous = scheduleEntryBounds[index - 1]
+    const duration = current.hours - previous.hours
+    if (duration === 0) return gaps
+    gaps.push({
+      start: previous.hours,
+      end: current.hours,
+      duration,
+    })
+    return gaps
+  }, [])
 
   // The first and last day on our picasso impose some constraints on the range of bedtimes we can choose.
   const { earliestBedtime, latestGetUpTime } =
     bedtimeConstraintsFromFirstAndLastDay(scheduleEntries, firstDay, lastDay, dayjs, timeBucketSize)
 
-  // Times during the night which could be sleep times, in descending likeliness
-  const sleepTimeCandidates = [28, 26, 29, 24, 30]
-  let bedtime = 24
-  let getUpTime = 24
-  sleepTimeCandidates
-    .filter(time => time <= latestGetUpTime && time >= earliestBedtime)
-    .forEach(time => {
-      if (activeTimes[time % 24]) return
-      const gapStart = activeTimesAsc.findLast(activeTime => activeTime <= time)
-      const gapEnd = activeTimesAsc.find(activeTime => activeTime >= time)
-      if ((gapEnd - gapStart) > (getUpTime - bedtime)) {
-        bedtime = gapStart
-        getUpTime = gapEnd
-      }
-    })
+  const largestBedtimeGap = maxBy(gaps.filter((gap) => {
+    // Prevent bedtimes which would hide some schedule entry on the first or last day
+    if (gap.start < earliestBedtime || gap.end > latestGetUpTime) return false
+    // Prevent bedtimes which are not during the night
+    if (gap.start > 30 || gap.end < 24) return false
+    return true
+  }), (gap) => gap.duration)
 
-  if (getUpTime - bedtime < 2) return { bedtime: 24, getUpTime: 0 }
-
-  // Show an hour more than strictly necessary, to make sure that schedule entries starting late
-  // in the evening and/or ending early in the morning are still clearly visible on both ends.
   return {
-    bedtime: bedtime + 1,
-    getUpTime: getUpTime - 24 - 1 // convert getUpTime into the morning hours
+    bedtime: optimalQuantizedBedtime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize),
+    getUpTime: optimalQuantizedGetUpTime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize) - 24
   }
 }
 
@@ -105,23 +105,58 @@ function bedtimeConstraintsFromFirstAndLastDay(scheduleEntries, firstDay, lastDa
 function earliestScheduleEntryStartOnFirstDay(scheduleEntries, firstDay, dayjs, timeBucketSize) {
   const firstScheduleEntry = minBy(scheduleEntries, (scheduleEntry) => dayjs.utc(scheduleEntry.start).unix())
   if (!isOnDay(firstScheduleEntry.start, firstDay, dayjs)) return null
-  return bucketize(dayjs.utc(firstScheduleEntry.start), timeBucketSize)
+  return toHours(dayjs.utc(firstScheduleEntry.start))
 }
 
 function latestScheduleEntryEndOnLastDay(scheduleEntries, lastDay, dayjs, timeBucketSize) {
   const lastScheduleEntry = maxBy(scheduleEntries, (scheduleEntry) => dayjs.utc(scheduleEntry.end).unix())
   if (!isOnDay(lastScheduleEntry.end, lastDay, dayjs)) return null
-  return bucketize(dayjs.utc(lastScheduleEntry.end), timeBucketSize)
+  return toHours(dayjs.utc(lastScheduleEntry.end))
 }
 
 function isOnDay(scheduleEntryTime, dayStart, dayjs) {
   return dayjs.utc(scheduleEntryTime).format('YYYY-MM-DD') === dayjs.utc(dayStart).format('YYYY-MM-DD')
 }
 
-function bucketize(boundary, timeBucketSize) {
-  return roundDownTo(boundary.hour() + boundary.minute() / 60, timeBucketSize) % 24
+function optimalQuantizedBedtime(gap, scheduleEntryBounds, timeBucketSize) {
+  const bedtime = Math.ceil(gap.start / timeBucketSize) * timeBucketSize
+  if (!equals(bedtime, gap.start)) {
+    // If the rounding already provides a margin, we are done
+    return bedtime
+  }
+  if (scheduleEntryBounds.some((bound) => bound.type === 'start' && equals(bound.hours, bedtime))) {
+    // If the rounding doesn't create a margin, and there exists a schedule entry starting at the bedtime,
+    // we need to push the bedtime a little later
+    return bedtime + timeBucketSize
+  }
+  // If there is no schedule entry starting at the bedtime (i.e. only schedule entries ending then),
+  // we can safely cut off at that exact point
+  return bedtime
 }
 
-function roundDownTo(number, stepSize) {
-  return Math.floor(number / stepSize) * stepSize
+function optimalQuantizedGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
+  const getUpTime = Math.floor(gap.end / timeBucketSize) * timeBucketSize
+  if (!equals(getUpTime, gap.end)) {
+    // If the rounding already provides a margin, we are done
+    return getUpTime
+  }
+  if (scheduleEntryBounds.some((bound) => bound.type === 'end' && equals(bound.hours, getUpTime))) {
+    // If the rounding doesn't create a margin, and there exists a schedule entry ending at the getUpTime,
+    // we need to push the getUpTime a little earlier
+    return getUpTime - timeBucketSize
+  }
+  // If there is no schedule entry starting at the getUpTime (i.e. only schedule entries ending then),
+  // we can safely cut off at that exact point
+  return getUpTime
+}
+
+/**
+ * Float equality comparison
+ */
+function equals(number1, number2) {
+  return Math.abs(number1 - number2) < Number.EPSILON
+}
+
+function toHours(dateTime) {
+  return dateTime.hour() + dateTime.minute() / 60
 }

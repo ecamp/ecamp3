@@ -34,12 +34,12 @@ describe('calculateBedtime', () => {
     [
       'single schedule entry',
       [[{ start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T10:00:00+00:00' }], dayjs, 1],
-      { getUpTime: 7, bedtime: 11 },
+      { getUpTime: 8, bedtime: 10 },
     ],
     [
       'single schedule entry, not ending on full hours',
       [[{ start: '2022-01-02T08:15:00+00:00', end: '2022-01-02T09:35:00+00:00' }], dayjs, 1],
-      { getUpTime: 7, bedtime: 10 },
+      { getUpTime: 8, bedtime: 10 },
     ],
     [
       'two schedule entries, forcing the gap to end before the first schedule entry even though there is a larger gap during the day',
@@ -47,7 +47,7 @@ describe('calculateBedtime', () => {
         { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T10:00:00+00:00' },
         { start: '2022-01-02T20:00:00+00:00', end: '2022-01-02T23:00:00+00:00' },
       ], dayjs, 1],
-      { getUpTime: 7, bedtime: 24 }
+      { getUpTime: 8, bedtime: 23 }
     ],
     [
       'schedule entry across midnight',
@@ -56,7 +56,7 @@ describe('calculateBedtime', () => {
         { start: '2022-01-02T20:00:00+00:00', end: '2022-01-02T23:00:00+00:00' },
         { start: '2022-01-02T23:00:00+00:00', end: '2022-01-03T02:00:00+00:00' },
       ], dayjs, 1],
-      { getUpTime: 7, bedtime: 27 }
+      { getUpTime: 8, bedtime: 26 }
     ],
     [
       'schedule entry through the night, end is not cut off',
@@ -75,8 +75,9 @@ describe('calculateBedtime', () => {
         { start: '2022-01-02T23:00:00+00:00', end: '2022-01-03T02:00:00+00:00' },
         { start: '2022-01-03T12:00:00+00:00', end: '2022-01-04T12:00:00+00:00' },
       ], dayjs, 1],
-      { getUpTime: 7, bedtime: 27 }
-    ]
+      { getUpTime: 8, bedtime: 26 }
+    ],
+    // TODO extend specs with more edge cases for schedule entries starting/ending at proposed bedtimes
   ])('%p', (title, input, expected) => {
     expect(calculateBedtime(...input)).toEqual(expected)
   })

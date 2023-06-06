@@ -22,6 +22,7 @@ import Categories from './Categories.jsx'
  */
 function generateTimes({ getUpTime, bedtime, timeStep }) {
   const times = []
+  // TODO improve this loop to use float multiplication instead of float summing, and use proper float comparisons
   for (let time = getUpTime; time % 24 !== bedtime % 24; time += timeStep) {
     if (time > 100) throw new Error('infinite loop')
     // TODO The weight could also be generated depending on the schedule entries present in the camp:
