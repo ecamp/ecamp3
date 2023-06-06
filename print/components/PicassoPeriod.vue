@@ -93,8 +93,8 @@ export default {
       const chunkSize = this.landscape ? 7 : 4
 
       return splitDaysIntoPages(this.period.days().items, chunkSize).map((chunk) => ({
-        start: this.$date.utc(chunk.days[0].start),
-        end: this.$date.utc(chunk.days[chunk.days.length - 1].start),
+        start: this.$date.utc(chunk[0].start),
+        end: this.$date.utc(chunk[chunk.length - 1].start),
       }))
     },
   },

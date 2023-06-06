@@ -10,42 +10,32 @@ import DayHeader from './DayHeader.jsx'
 import PicassoFooter from './PicassoFooter.jsx'
 import YSLogo from './YSLogo.jsx'
 import Categories from './Categories.jsx'
-import { utcStringToTimestamp } from '@/common/helpers/dateHelperVCalendar.js'
+
+/**
+ * Generates an array of time row descriptions, used for labeling the vertical axis of the picasso.
+ * Format of each array element: [hour, weight] where weight determines how tall the time row is rendered.
+ *
+ * @param getUpTime the first time row (the very top of the picasso)
+ * @param bedtime the last time row (the very bottom of the picasso)
+ * @param timeStep size of the time rows, in hours
+ * @returns {*[[hour: number, weight: number]]}
+ */
+function generateTimes({ getUpTime, bedtime, timeStep }) {
+  const times = []
+  for (let time = getUpTime; time % 24 !== bedtime % 24; time += timeStep) {
+    if (time > 100) throw new Error('infinite loop')
+    // TODO The weight could also be generated depending on the schedule entries present in the camp:
+    // e.g. give less weight to hours that contain no schedule entries.
+    const weight = 1
+    times.push([time, weight])
+  }
+  // this last hour is only needed for defining the length of the day. The weight should be 0.
+  times.push([bedtime, 0])
+  return times
+}
 
 function PicassoPage(props) {
-  // Format: [hour, weight] where weight determines how tall the hour is rendered.
-  // TODO This could also be generated depending on the schedule entries present in the camp:
-  // e.g. give less weight to hours that contain no schedule entries, or detect which hour is best
-  // for the "midnight" cutoff (so far everything also works with hours smaller than 0 or greater
-  // than 23)
-  const times = [
-    [0, 1],
-    [1, 1],
-    [2, 1],
-    [3, 1],
-    [4, 1],
-    [5, 1],
-    [6, 1],
-    [7, 2],
-    [8, 2],
-    [9, 2],
-    [10, 2],
-    [11, 2],
-    [12, 2],
-    [13, 2],
-    [14, 2],
-    [15, 2],
-    [16, 2],
-    [17, 2],
-    [18, 2],
-    [19, 2],
-    [20, 2],
-    [21, 2],
-    [22, 2],
-    [23, 1],
-    [24, 0], // this last hour is only needed for defining the length of the day, the weight should be 0
-  ]
-
+  const times = generateTimes(props)
   const period = props.period
   const days = props.days
   const orientation = props.content.options.orientation
