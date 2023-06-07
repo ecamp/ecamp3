@@ -77,7 +77,54 @@ describe('calculateBedtime', () => {
       ], dayjs, 1],
       { getUpTime: 8, bedtime: 26 }
     ],
-    // TODO extend specs with more edge cases for schedule entries starting/ending at proposed bedtimes
+    [
+      'schedule entry starting at bedtime on a full hour moves the bedtime later, to avoid hiding the schedule entry completely',
+      [[
+        { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+        { start: '2022-01-02T22:00:00+00:00', end: '2022-01-02T08:30:00+00:00' },
+      ], dayjs, 1],
+      { getUpTime: 8, bedtime: 23 }
+    ],
+    [
+      'schedule entry starting around bedtime on a half hour does not move the bedtime, because it is already visible enough',
+      [[
+        { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+        { start: '2022-01-02T21:30:00+00:00', end: '2022-01-02T08:30:00+00:00' },
+      ], dayjs, 1],
+      { getUpTime: 8, bedtime: 22 }
+    ],
+    [
+      'schedule entry starting around bedtime on a quarter hour moves the bedtime later, to make sure it is visible for at least half an hour',
+      [[
+        { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+        { start: '2022-01-02T21:45:00+00:00', end: '2022-01-02T08:30:00+00:00' },
+      ], dayjs, 1],
+      { getUpTime: 8, bedtime: 23 }
+    ],
+    [
+      'schedule entry ending at getUpTime on a full hour moves the getUpTime earlier, to avoid hiding the schedule entry completely',
+      [[
+        { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+        { start: '2022-01-02T21:30:00+00:00', end: '2022-01-02T08:00:00+00:00' },
+      ], dayjs, 1],
+      { getUpTime: 7, bedtime: 22 }
+    ],
+    [
+      'schedule entry ending around getUpTime on a half hour does not move the getUpTime, because it is already visible enough',
+      [[
+        { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+        { start: '2022-01-02T21:30:00+00:00', end: '2022-01-02T08:30:00+00:00' },
+      ], dayjs, 1],
+      { getUpTime: 8, bedtime: 22 }
+    ],
+    [
+      'schedule entry starting around getUpTime on a quarter hour moves the getUpTime earlier, to make sure it is visible for at least half an hour',
+      [[
+        { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+        { start: '2022-01-02T21:30:00+00:00', end: '2022-01-02T08:15:00+00:00' },
+      ], dayjs, 1],
+      { getUpTime: 7, bedtime: 22 }
+    ],
   ])('%p', (title, input, expected) => {
     expect(calculateBedtime(...input)).toEqual(expected)
   })
