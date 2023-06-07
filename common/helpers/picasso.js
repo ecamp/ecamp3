@@ -45,8 +45,19 @@ export function splitDaysIntoPages(days, maxDaysPerPage) {
  * @param timeBucketSize size of the time buckets into which the schedule entry boundaries are quantized, in hours
  * @returns {{bedtime: number, getUpTime: number}}
  */
-export function calculateBedtime(scheduleEntries, dayjs, firstDayStart, lastDayEnd, timeBucketSize = 1) {
-  const scheduleEntryBounds = getScheduleEntryBounds(scheduleEntries, dayjs, firstDayStart.unix(), lastDayEnd.unix())
+export function calculateBedtime(
+  scheduleEntries,
+  dayjs,
+  firstDayStart,
+  lastDayEnd,
+  timeBucketSize = 1
+) {
+  const scheduleEntryBounds = getScheduleEntryBounds(
+    scheduleEntries,
+    dayjs,
+    firstDayStart.unix(),
+    lastDayEnd.unix()
+  )
   if (!scheduleEntryBounds.length) return { bedtime: 24, getUpTime: 0 }
 
   const gaps = scheduleEntryBounds.reduce((gaps, current, index) => {
@@ -63,69 +74,99 @@ export function calculateBedtime(scheduleEntries, dayjs, firstDayStart, lastDayE
   }, [])
 
   // The first and last day on our picasso impose some constraints on the range of bedtimes we can choose.
-  const { earliestBedtime, latestGetUpTime } =
-    bedtimeConstraintsFromFirstAndLastDay(scheduleEntryBounds, firstDayStart, lastDayEnd, dayjs, timeBucketSize)
+  const { earliestBedtime, latestGetUpTime } = bedtimeConstraintsFromFirstAndLastDay(
+    scheduleEntryBounds,
+    firstDayStart,
+    lastDayEnd,
+    dayjs,
+    timeBucketSize
+  )
 
-  const largestBedtimeGap = maxBy(gaps.filter((gap) => {
-    // Prevent bedtimes which would hide some schedule entry on the first or last day
-    if (gap.start < earliestBedtime || gap.end > latestGetUpTime) return false
-    // Prevent bedtimes which are not during the night
-    if (gap.start > 30 || gap.end < 24) return false
-    return true
-  }), (gap) => gap.duration)
+  const largestBedtimeGap = maxBy(
+    gaps.filter((gap) => {
+      // Prevent bedtimes which would hide some schedule entry on the first or last day
+      if (gap.start < earliestBedtime || gap.end > latestGetUpTime) return false
+      // Prevent bedtimes which are not during the night
+      if (gap.start > 30 || gap.end < 24) return false
+      return true
+    }),
+    (gap) => gap.duration
+  )
 
   return {
     bedtime: optimalBedtime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize),
-    getUpTime: optimalGetUpTime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize) - 24
+    getUpTime:
+      optimalGetUpTime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize) - 24,
   }
 }
 
-function getScheduleEntryBounds (scheduleEntries, dayjs, firstDayStartTimestamp, lastDayEndTimestamp) {
-  return sortBy(scheduleEntries.flatMap((scheduleEntry) => {
-    const result = []
-    const start = dayjs.utc(scheduleEntry.start)
-    if (start.unix() >= firstDayStartTimestamp && start.unix() <= lastDayEndTimestamp) {
-      const hours = start.hour() + start.minute() / 60
-      result.push(
-        { hours, time: start, type: 'start' },
-        // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
-        // TODO can we be more efficient, e.g. by only putting a copy of the earliest bound 24 hours later?
-        { hours: hours + 24, time: start.add(24, 'hours'), type: 'start' }
-      )
-    }
+function getScheduleEntryBounds(
+  scheduleEntries,
+  dayjs,
+  firstDayStartTimestamp,
+  lastDayEndTimestamp
+) {
+  return sortBy(
+    scheduleEntries.flatMap((scheduleEntry) => {
+      const result = []
+      const start = dayjs.utc(scheduleEntry.start)
+      if (start.unix() >= firstDayStartTimestamp && start.unix() <= lastDayEndTimestamp) {
+        const hours = start.hour() + start.minute() / 60
+        result.push(
+          { hours, time: start, type: 'start' },
+          // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
+          // TODO can we be more efficient, e.g. by only putting a copy of the earliest bound 24 hours later?
+          { hours: hours + 24, time: start.add(24, 'hours'), type: 'start' }
+        )
+      }
 
-    const end = dayjs.utc(scheduleEntry.end)
-    if (end.unix() >= firstDayStartTimestamp && end.unix() <= lastDayEndTimestamp) {
-      const hours = end.hour() + end.minute() / 60
-      result.push(
-        { hours, time: end, type: 'end' },
-        // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
-        { hours: hours + 24, time: end.add(24, 'hours'), type: 'end' }
-      )
-    }
-    return result
-  }), (bound) => bound.hours)
+      const end = dayjs.utc(scheduleEntry.end)
+      if (end.unix() >= firstDayStartTimestamp && end.unix() <= lastDayEndTimestamp) {
+        const hours = end.hour() + end.minute() / 60
+        result.push(
+          { hours, time: end, type: 'end' },
+          // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
+          { hours: hours + 24, time: end.add(24, 'hours'), type: 'end' }
+        )
+      }
+      return result
+    }),
+    (bound) => bound.hours
+  )
 }
 
-function bedtimeConstraintsFromFirstAndLastDay(scheduleEntryBounds, firstDayStart, lastDayEnd) {
+function bedtimeConstraintsFromFirstAndLastDay(
+  scheduleEntryBounds,
+  firstDayStart,
+  lastDayEnd
+) {
   // The start of the very first schedule entry on the first day (if any) must always be displayed on the first day.
   // We must make sure that our calculated "get up time" lies before this, so we do not accidentally hide a
   // schedule entry.
-  const latestGetUpTime = earliestScheduleEntryBoundOnFirstDay(scheduleEntryBounds, firstDayStart)
+  const latestGetUpTime = earliestScheduleEntryBoundOnFirstDay(
+    scheduleEntryBounds,
+    firstDayStart
+  )
 
   // Similarly, the end of the very last schedule entry end must always be displayed on the last day.
   // So we must make sure that our calculated "go to bed time" lies after this.
-  const earliestBedtime = latestScheduleEntryBoundOnLastDay(scheduleEntryBounds, lastDayEnd.subtract(1, 'second'))
+  const earliestBedtime = latestScheduleEntryBoundOnLastDay(
+    scheduleEntryBounds,
+    lastDayEnd.subtract(1, 'second')
+  )
 
   return {
     earliestBedtime: earliestBedtime === undefined ? 0 : earliestBedtime,
-    latestGetUpTime: latestGetUpTime === undefined ? 36 : latestGetUpTime + 24
+    latestGetUpTime: latestGetUpTime === undefined ? 36 : latestGetUpTime + 24,
   }
 }
 
 function earliestScheduleEntryBoundOnFirstDay(scheduleEntryBounds, firstDayStart) {
   const earliestBound = minBy(scheduleEntryBounds, (bound) => bound.time.unix())
-  if (earliestBound.hours < 24 && (earliestBound.time.diff(firstDayStart, 'minute') / 60) < 24) {
+  if (
+    earliestBound.hours < 24 &&
+    earliestBound.time.diff(firstDayStart, 'minute') / 60 < 24
+  ) {
     return earliestBound.hours
   }
   return undefined
@@ -133,7 +174,7 @@ function earliestScheduleEntryBoundOnFirstDay(scheduleEntryBounds, firstDayStart
 
 function latestScheduleEntryBoundOnLastDay(scheduleEntryBounds, lastDayEnd) {
   const latestBound = maxBy(scheduleEntryBounds, (bound) => bound.time.unix())
-  if (latestBound.hours < 24 && (lastDayEnd.diff(latestBound.time, 'minute') / 60) < 24) {
+  if (latestBound.hours < 24 && lastDayEnd.diff(latestBound.time, 'minute') / 60 < 24) {
     return latestBound.hours
   }
   return undefined
@@ -141,10 +182,13 @@ function latestScheduleEntryBoundOnLastDay(scheduleEntryBounds, lastDayEnd) {
 
 function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
   const bedtime = Math.ceil(gap.start / timeBucketSize) * timeBucketSize
-  if (scheduleEntryBounds.some((bound) =>
-    bound.type === 'start' &&
-    bound.hours <= bedtime &&
-    bound.hours > bedtime - (timeBucketSize / 2))
+  if (
+    scheduleEntryBounds.some(
+      (bound) =>
+        bound.type === 'start' &&
+        bound.hours <= bedtime &&
+        bound.hours > bedtime - timeBucketSize / 2
+    )
   ) {
     // There exists a schedule entry which starts at the bedtime or less than half a time bucket before it.
     // Move the bedtime later, so that this schedule entry is still clearly visible.
@@ -157,10 +201,13 @@ function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
 function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
   const getUpTime = Math.floor(gap.end / timeBucketSize) * timeBucketSize
 
-  if (scheduleEntryBounds.some((bound) =>
-    bound.type === 'end' &&
-    bound.hours >= getUpTime &&
-    bound.hours < getUpTime + (timeBucketSize / 2))
+  if (
+    scheduleEntryBounds.some(
+      (bound) =>
+        bound.type === 'end' &&
+        bound.hours >= getUpTime &&
+        bound.hours < getUpTime + timeBucketSize / 2
+    )
   ) {
     // There exists a schedule entry which ends at the getUpTime or less than half a time bucket after it.
     // Move the getUpTime later, so that this schedule entry is still clearly visible.
