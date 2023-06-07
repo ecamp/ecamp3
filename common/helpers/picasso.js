@@ -81,8 +81,8 @@ export function calculateBedtime(scheduleEntries, dayjs, firstDay, lastDay, time
   }), (gap) => gap.duration)
 
   return {
-    bedtime: optimalQuantizedBedtime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize),
-    getUpTime: optimalQuantizedGetUpTime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize) - 24
+    bedtime: optimalBedtime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize),
+    getUpTime: optimalGetUpTime(largestBedtimeGap, scheduleEntryBounds, timeBucketSize) - 24
   }
 }
 
@@ -118,35 +118,34 @@ function isOnDay(scheduleEntryTime, dayStart, dayjs) {
   return dayjs.utc(scheduleEntryTime).format('YYYY-MM-DD') === dayjs.utc(dayStart).format('YYYY-MM-DD')
 }
 
-function optimalQuantizedBedtime(gap, scheduleEntryBounds, timeBucketSize) {
+function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
   const bedtime = Math.ceil(gap.start / timeBucketSize) * timeBucketSize
-  if (!equals(bedtime, gap.start)) {
-    // If the rounding already provides a margin, we are done
-    return bedtime
-  }
-  if (scheduleEntryBounds.some((bound) => bound.type === 'start' && equals(bound.hours, bedtime))) {
-    // If the rounding doesn't create a margin, and there exists a schedule entry starting at the bedtime,
-    // we need to push the bedtime a little later
+  if (scheduleEntryBounds.some((bound) =>
+    bound.type === 'start' &&
+    bound.hours <= bedtime &&
+    bound.hours > bedtime - (timeBucketSize / 2))
+  ) {
+    // There exists a schedule entry which starts at the bedtime or less than half a time bucket before it.
+    // Move the bedtime later, so that this schedule entry is still clearly visible.
     return bedtime + timeBucketSize
   }
-  // If there is no schedule entry starting at the bedtime (i.e. only schedule entries ending then),
-  // we can safely cut off at that exact point
+  // There is already a large enough margin, or there are no schedule entries starting around the bedtime.
   return bedtime
 }
 
-function optimalQuantizedGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
+function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
   const getUpTime = Math.floor(gap.end / timeBucketSize) * timeBucketSize
-  if (!equals(getUpTime, gap.end)) {
-    // If the rounding already provides a margin, we are done
-    return getUpTime
-  }
-  if (scheduleEntryBounds.some((bound) => bound.type === 'end' && equals(bound.hours, getUpTime))) {
-    // If the rounding doesn't create a margin, and there exists a schedule entry ending at the getUpTime,
-    // we need to push the getUpTime a little earlier
+
+  if (scheduleEntryBounds.some((bound) =>
+    bound.type === 'end' &&
+    bound.hours >= getUpTime &&
+    bound.hours < getUpTime + (timeBucketSize / 2))
+  ) {
+    // There exists a schedule entry which ends at the getUpTime or less than half a time bucket after it.
+    // Move the getUpTime later, so that this schedule entry is still clearly visible.
     return getUpTime - timeBucketSize
   }
-  // If there is no schedule entry starting at the getUpTime (i.e. only schedule entries ending then),
-  // we can safely cut off at that exact point
+  // There is already a large enough margin, or there are no schedule entries ending around the getUpTime.
   return getUpTime
 }
 
