@@ -13,11 +13,12 @@ function Picasso(props) {
     const { getUpTime, bedtime } = calculateBedtime(
       period.scheduleEntries().items,
       dayjs,
-      period.days().items[0].start,
-      period.days().items[period.days().items.length - 1].start,
+      dayjs.utc(period.days().items[0].start),
+      dayjs.utc(period.days().items[period.days().items.length - 1].end),
       timeStep
     )
 
+    // TODO handle config without selected period
     return (
       <React.Fragment>
         {picassoPages.map((days) => (

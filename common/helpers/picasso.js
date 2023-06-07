@@ -1,4 +1,3 @@
-import countBy from 'lodash/countBy'
 import minBy from 'lodash/minBy'
 import maxBy from 'lodash/maxBy'
 import sortBy from 'lodash/sortBy'
@@ -37,23 +36,18 @@ export function splitDaysIntoPages(days, maxDaysPerPage) {
  *
  * @param scheduleEntries set of schedule entries to consider
  * @param dayjs a dayjs helper object, needed to do time calculations
- * @param firstDay string description of the first day displayed. Is used to make sure that schedule entries starting on
- * this day may not be assigned to the preceding day, because that would mean they would become invisible on the picasso
- * @param lastDay string description of the last day displayed. Is used to make sure that schedule entries ending on
- * this day may not be assigned to the following day, because that would mean they would become invisible on the picasso
+ * @param firstDayStart dayjs object describing the start of the first day displayed. Is used to make sure that schedule
+ * entries starting on this day may not be assigned to the preceding day, because that would mean they would become
+ * invisible on the picasso
+ * @param lastDayEnd dayjs object describing the end of the last day displayed. Is used to make sure that schedule
+ * entries ending on this day may not be assigned to the following day, because that would mean they would become
+ * invisible on the picasso
  * @param timeBucketSize size of the time buckets into which the schedule entry boundaries are quantized, in hours
  * @returns {{bedtime: number, getUpTime: number}}
  */
-export function calculateBedtime(scheduleEntries, dayjs, firstDay, lastDay, timeBucketSize = 1) {
-  if (!scheduleEntries.length) return { bedtime: 24, getUpTime: 0 }
-
-  const scheduleEntryBounds = sortBy(scheduleEntries.flatMap((scheduleEntry) => [
-    { hours: toHours(dayjs.utc(scheduleEntry.start)), type: 'start' },
-    { hours: toHours(dayjs.utc(scheduleEntry.end)), type: 'end' },
-    // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
-    { hours: toHours(dayjs.utc(scheduleEntry.start)) + 24, type: 'start' },
-    { hours: toHours(dayjs.utc(scheduleEntry.end)) + 24, type: 'end' },
-  ]), (boundary) => boundary.hours)
+export function calculateBedtime(scheduleEntries, dayjs, firstDayStart, lastDayEnd, timeBucketSize = 1) {
+  const scheduleEntryBounds = getScheduleEntryBounds(scheduleEntries, dayjs, firstDayStart.unix(), lastDayEnd.unix())
+  if (!scheduleEntryBounds.length) return { bedtime: 24, getUpTime: 0 }
 
   const gaps = scheduleEntryBounds.reduce((gaps, current, index) => {
     if (index === 0) return gaps
@@ -70,7 +64,7 @@ export function calculateBedtime(scheduleEntries, dayjs, firstDay, lastDay, time
 
   // The first and last day on our picasso impose some constraints on the range of bedtimes we can choose.
   const { earliestBedtime, latestGetUpTime } =
-    bedtimeConstraintsFromFirstAndLastDay(scheduleEntries, firstDay, lastDay, dayjs, timeBucketSize)
+    bedtimeConstraintsFromFirstAndLastDay(scheduleEntryBounds, firstDayStart, lastDayEnd, dayjs, timeBucketSize)
 
   const largestBedtimeGap = maxBy(gaps.filter((gap) => {
     // Prevent bedtimes which would hide some schedule entry on the first or last day
@@ -86,36 +80,63 @@ export function calculateBedtime(scheduleEntries, dayjs, firstDay, lastDay, time
   }
 }
 
-function bedtimeConstraintsFromFirstAndLastDay(scheduleEntries, firstDay, lastDay, dayjs, timeBucketSize) {
+function getScheduleEntryBounds (scheduleEntries, dayjs, firstDayStartTimestamp, lastDayEndTimestamp) {
+  return sortBy(scheduleEntries.flatMap((scheduleEntry) => {
+    const result = []
+    const start = dayjs.utc(scheduleEntry.start)
+    if (start.unix() >= firstDayStartTimestamp && start.unix() <= lastDayEndTimestamp) {
+      const hours = start.hour() + start.minute() / 60
+      result.push(
+        { hours, time: start, type: 'start' },
+        // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
+        // TODO can we be more efficient, e.g. by only putting a copy of the earliest bound 24 hours later?
+        { hours: hours + 24, time: start.add(24, 'hours'), type: 'start' }
+      )
+    }
+
+    const end = dayjs.utc(scheduleEntry.end)
+    if (end.unix() >= firstDayStartTimestamp && end.unix() <= lastDayEndTimestamp) {
+      const hours = end.hour() + end.minute() / 60
+      result.push(
+        { hours, time: end, type: 'end' },
+        // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
+        { hours: hours + 24, time: end.add(24, 'hours'), type: 'end' }
+      )
+    }
+    return result
+  }), (bound) => bound.hours)
+}
+
+function bedtimeConstraintsFromFirstAndLastDay(scheduleEntryBounds, firstDayStart, lastDayEnd) {
   // The start of the very first schedule entry on the first day (if any) must always be displayed on the first day.
   // We must make sure that our calculated "get up time" lies before this, so we do not accidentally hide a
   // schedule entry.
-  const latestGetUpTime = earliestScheduleEntryStartOnFirstDay(scheduleEntries, firstDay, dayjs, timeBucketSize)
+  const latestGetUpTime = earliestScheduleEntryBoundOnFirstDay(scheduleEntryBounds, firstDayStart)
 
   // Similarly, the end of the very last schedule entry end must always be displayed on the last day.
   // So we must make sure that our calculated "go to bed time" lies after this.
-  const earliestBedtime = latestScheduleEntryEndOnLastDay(scheduleEntries, lastDay, dayjs, timeBucketSize)
+  const earliestBedtime = latestScheduleEntryBoundOnLastDay(scheduleEntryBounds, lastDayEnd.subtract(1, 'second'))
 
   return {
-    earliestBedtime: earliestBedtime === null ? 0 : earliestBedtime,
-    latestGetUpTime: latestGetUpTime === null ? 36 : latestGetUpTime + 24
+    earliestBedtime: earliestBedtime === undefined ? 0 : earliestBedtime,
+    latestGetUpTime: latestGetUpTime === undefined ? 36 : latestGetUpTime + 24
   }
 }
 
-function earliestScheduleEntryStartOnFirstDay(scheduleEntries, firstDay, dayjs, timeBucketSize) {
-  const firstScheduleEntry = minBy(scheduleEntries, (scheduleEntry) => dayjs.utc(scheduleEntry.start).unix())
-  if (!isOnDay(firstScheduleEntry.start, firstDay, dayjs)) return null
-  return toHours(dayjs.utc(firstScheduleEntry.start))
+function earliestScheduleEntryBoundOnFirstDay(scheduleEntryBounds, firstDayStart) {
+  const earliestBound = minBy(scheduleEntryBounds, (bound) => bound.time.unix())
+  if (earliestBound.hours < 24 && (earliestBound.time.diff(firstDayStart, 'minute') / 60) < 24) {
+    return earliestBound.hours
+  }
+  return undefined
 }
 
-function latestScheduleEntryEndOnLastDay(scheduleEntries, lastDay, dayjs, timeBucketSize) {
-  const lastScheduleEntry = maxBy(scheduleEntries, (scheduleEntry) => dayjs.utc(scheduleEntry.end).unix())
-  if (!isOnDay(lastScheduleEntry.end, lastDay, dayjs)) return null
-  return toHours(dayjs.utc(lastScheduleEntry.end))
-}
-
-function isOnDay(scheduleEntryTime, dayStart, dayjs) {
-  return dayjs.utc(scheduleEntryTime).format('YYYY-MM-DD') === dayjs.utc(dayStart).format('YYYY-MM-DD')
+function latestScheduleEntryBoundOnLastDay(scheduleEntryBounds, lastDayEnd) {
+  const latestBound = maxBy(scheduleEntryBounds, (bound) => bound.time.unix())
+  if (latestBound.hours < 24 && (lastDayEnd.diff(latestBound.time, 'minute') / 60) < 24) {
+    return latestBound.hours
+  }
+  return undefined
 }
 
 function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
@@ -147,15 +168,4 @@ function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
   }
   // There is already a large enough margin, or there are no schedule entries ending around the getUpTime.
   return getUpTime
-}
-
-/**
- * Float equality comparison
- */
-function equals(number1, number2) {
-  return Math.abs(number1 - number2) < Number.EPSILON
-}
-
-function toHours(dateTime) {
-  return dateTime.hour() + dateTime.minute() / 60
 }

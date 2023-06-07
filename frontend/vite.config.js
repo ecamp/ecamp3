@@ -56,7 +56,6 @@ export default defineConfig(({ mode }) => ({
       'dayjs/plugin/localizedFormat',
       'dayjs/plugin/utc',
       'lodash/keyBy.js',
-      'lodash/countBy.js',
       'lodash/sortBy.js',
       'lodash/minBy.js',
       'lodash/maxBy.js',
