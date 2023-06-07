@@ -147,7 +147,7 @@ function DayColumn({ times, scheduleEntries, day, styles }) {
             style={{
               ...picassoStyles.dayGridRow,
               flexGrow: weight,
-              ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
+              ...(index % 2 === 1 ? { backgroundColor: 'lightgrey' } : {}),
             }}
           />
         ))}
