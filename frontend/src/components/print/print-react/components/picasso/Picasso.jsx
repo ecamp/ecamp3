@@ -18,7 +18,6 @@ function Picasso(props) {
       timeStep
     )
 
-    // TODO handle config without selected period
     return (
       <React.Fragment>
         {picassoPages.map((days) => (
