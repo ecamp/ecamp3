@@ -22,13 +22,11 @@ import Categories from './Categories.jsx'
  */
 function generateTimes({ getUpTime, bedtime, timeStep }) {
   const times = []
-  // TODO improve this loop to use float multiplication instead of float summing, and use proper float comparisons
-  for (let time = getUpTime; time % 24 !== bedtime % 24; time += timeStep) {
-    if (time > 100) throw new Error('infinite loop')
+  for (let i = 0; getUpTime + i * timeStep < bedtime; i++) {
     // TODO The weight could also be generated depending on the schedule entries present in the camp:
-    // e.g. give less weight to hours that contain no schedule entries.
+    //   e.g. give less weight to hours that contain no schedule entries.
     const weight = 1
-    times.push([time, weight])
+    times.push([getUpTime + i * timeStep, weight])
   }
   // this last hour is only needed for defining the length of the day. The weight should be 0.
   times.push([bedtime, 0])
