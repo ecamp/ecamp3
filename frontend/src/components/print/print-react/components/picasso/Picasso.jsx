@@ -22,6 +22,7 @@ function Picasso(props) {
       <React.Fragment>
         {picassoPages.map((days) => (
           <PicassoPage
+            key={days[0].id}
             period={period}
             days={days}
             bedtime={bedtime}
