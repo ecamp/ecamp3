@@ -565,6 +565,12 @@
     "profile": {
       "changeEmail": "Ändern",
       "profile": "Profil"
+    },
+    "pageNotFound": {
+      "detail": "Die Seite, welche du aufgerufen hast, existiert nicht. Stelle sicher, dass die aufgerufene Seite existiert.",
+      "title": "Seite nicht gefunden",
+      "goToCamps": "Meine Lager",
+      "back": "Zurück"
     }
   }
 }

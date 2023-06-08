@@ -565,6 +565,12 @@
     "profile": {
       "changeEmail": "Cambiamento",
       "profile": "Profilo"
+    },
+    "pageNotFound": {
+      "detail": "La pagina chiamata non esiste. Assicurarsi che la pagina chiamata esista",
+      "title": "Pagina non trovata",
+      "goToCamps": "I miei campi",
+      "back": "Indietro"
     }
   }
 }
