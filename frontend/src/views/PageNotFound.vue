@@ -17,7 +17,12 @@
       </template>
 
       <v-card-text class="justify-center">
-        <img class="error-image" src="@/assets/FourZeroFour.svg" alt="404 error image" />
+        <v-img
+          contain
+          class="error-image"
+          :src="require('@/assets/FourZeroFour.svg?url')"
+          alt="404 error image"
+        />
         <p
           id="error-title"
           class="font-weight-bold text-center px-8 text-xs-h6 text-sm-h5 text-md-h4"
