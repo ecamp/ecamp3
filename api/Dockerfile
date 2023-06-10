@@ -14,7 +14,7 @@ ARG PHP_VERSION=8.2.7
 ARG ALPINE_VERSION=3.18
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.6.4
+ARG CADDY_TARGET_VERSION=2.6.4
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php
@@ -133,18 +133,23 @@ RUN set -eux; \
 
 # "caddy" stage
 # depends on the "php" stage above
-FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
+FROM caddy:2.7-builder-alpine AS api_platform_caddy_builder
+
+ARG CADDY_TARGET_VERSION
+ENV CADDY_VERSION=v${CADDY_TARGET_VERSION}
 
 # renovate: datasource=go depName=github.com/dunglas/mercure/caddy
 ARG MERCURE_CADDY_VERSION=v0.14.10
+
 # renovate: datasource=go depName=github.com/dunglas/vulcain/caddy
 ARG VULCAIN_CADDY_VERSION=v0.4.3
+
 # install Mercure and Vulcain modules
-RUN xcaddy build \
+RUN xcaddy build ${CADDY_VERSION} \
 	--with github.com/dunglas/mercure/caddy@$MERCURE_CADDY_VERSION \
 	--with github.com/dunglas/vulcain/caddy@$VULCAIN_CADDY_VERSION
 
-FROM caddy:${CADDY_VERSION} AS api_platform_caddy
+FROM caddy:${CADDY_TARGET_VERSION} AS api_platform_caddy
 
 WORKDIR /srv/api
 
