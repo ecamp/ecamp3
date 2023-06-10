@@ -240,13 +240,11 @@ export default {
 
 <style lang="scss">
 .landscape {
-  --font-scale: 0.67;
-  font-size: calc(10pt * var(--font-scale));
+  $landscape-scale: 1.48;
+  font-size: calc(10pt / #{$landscape-scale});
 
-  transform: rotate(-90deg);
-  scale: 1.48;
-  position: relative;
-  top: 275px;
+  transform-origin: top left;
+  transform: scale($landscape-scale, $landscape-scale) translateY(680px) rotate(-90deg);
 
   width: 680px;
   height: 459px;
@@ -254,7 +252,6 @@ export default {
 }
 
 .portrait {
-  --font-scale: 1;
   font-size: 10pt;
 
   width: 680px; /* 794px minus 114px (=2*15mm margin) */
@@ -283,7 +280,7 @@ export default {
 }
 
 .v-calendar .v-event-timed {
-  font-size: calc(8pt * var(--font-scale));
+  font-size: 0.8em;
   padding: 2px;
   white-space: normal;
   overflow-wrap: break-word;
@@ -297,11 +294,11 @@ export default {
 }
 
 .v-calendar-daily__interval-text {
-  font-size: calc(8pt * var(--font-scale));
+  font-size: 0.8em;
 }
 
 .v-calendar-daily_head-day-label {
-  font-size: calc(10pt * var(--font-scale));
+  font-size: 1em;
 }
 
 .categories {
