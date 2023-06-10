@@ -19,7 +19,7 @@
         />
       </div>
 
-      <v-sheet width="680">
+      <v-sheet class="fullwidth">
         <v-calendar
           ref="calendar"
           :events="events"
@@ -239,28 +239,33 @@ export default {
 </script>
 
 <style lang="scss">
+$portrait-content-width: 680; /* 794px minus 114px (=2*15mm margin) */
+$portrait-content-height: 1009; /* 1123px minus 114px (=2*15mm margin) */
+
+/* render a landscape picasso which fits into $portrait-content-width and then scale it up during rotation */
+$landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width});
+
 .landscape {
-  $landscape-scale: 1.48;
   font-size: calc(10pt / #{$landscape-scale});
 
   transform-origin: top left;
-  transform: scale($landscape-scale, $landscape-scale) translateY(680px) rotate(-90deg);
+  transform: scale($landscape-scale, $landscape-scale)
+    translateY(#{$portrait-content-width}px) rotate(-90deg);
 
-  width: 680px;
-  height: 459px;
+  width: #{$portrait-content-width}px;
+  height: calc(#{$portrait-content-width} / #{$landscape-scale} * 1px);
   overflow: visible;
 }
 
 .portrait {
   font-size: 10pt;
-
-  width: 680px; /* 794px minus 114px (=2*15mm margin) */
-  height: 1009px; /* 1123 px minus 114px (=2*15mm margin) */
+  width: #{$portrait-content-width}px;
+  height: #{$portrait-content-height}px;
   overflow: visible;
 }
 
 .fullwidth {
-  width: 680px;
+  width: $portrait-content-width;
 }
 
 .v-calendar {
