@@ -42,8 +42,11 @@ export default {
 
                     @page {
                       font-family: "Open Sans", sans-serif;
-                      size: A4 portrait;
-                      margin: 10mm 10mm 10mm 10mm;
+                      size: A4 portrait;              
+                      margin-bottom: 15mm;
+                      margin-left: 15mm;
+                      margin-right: 15mm;
+                      margin-top: 15mm;
 
                       @top-center {
                         content: 'eCamp3';
