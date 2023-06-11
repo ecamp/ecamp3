@@ -565,6 +565,12 @@
     "profile": {
       "changeEmail": "Change",
       "profile": "Profile"
+    },
+    "pageNotFound": {
+      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist.",
+      "title": "Page not found",
+      "goToCamps": "Camps overview",
+      "back": "Back"
     }
   }
 }

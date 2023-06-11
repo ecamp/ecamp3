@@ -287,6 +287,14 @@ export default new Router({
       name: 'home',
       redirect: { name: 'camps' },
     },
+    {
+      path: '**',
+      name: 'PageNotFound',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/PageNotFound.vue'),
+      },
+    },
   ],
 })
 
@@ -327,7 +335,11 @@ async function requireCamp(to, from, next) {
       next({ query: to.query })
     })
     .catch(() => {
-      next({ name: 'home' })
+      next({
+        name: 'PageNotFound',
+        params: [to.fullPath, ''],
+        replace: true,
+      })
     })
 }
 
