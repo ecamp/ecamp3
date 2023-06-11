@@ -131,7 +131,7 @@ const DEFAULT_DASHBOARD_OPTIONS = () => ({
     groupedScheduleEntries: () => {},
     showOnlyMyActivities: () => false,
     loggedInCampCollaboration: () => CAMP_COLLAB,
-    syncUrlQuerActive: () => true,
+    syncUrlQueryActive: () => true,
   },
   stubs: [
     'TextAlignBaseline',

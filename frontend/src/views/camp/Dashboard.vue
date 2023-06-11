@@ -345,7 +345,7 @@ export default {
     /**
      * Is True until the Component gets unmounted or there is a Navigation to another page
      */
-    syncUrlQuerActive() {
+    syncUrlQueryActive() {
       return this.isActive && this.$router.currentRoute.name === 'camp/dashboard'
     },
   },
@@ -357,7 +357,6 @@ export default {
   async mounted() {
     this.isActive = true
     this.api.reload(this.camp())
-
 
     // Once camp data is loaded validate and map values from url param to filter
     await Promise.all([
@@ -383,7 +382,7 @@ export default {
         ? this.filter.url.period
         : null
 
-      if (!this.syncUrlQuerActive) {
+      if (!this.syncUrlQueryActive) {
         return
       }
 
@@ -430,7 +429,7 @@ export default {
     persistRouterState() {
       let query = this.urlQuery
       if (filterEquals(query, this.$route.query)) return
-      if (!this.syncUrlQuerActive) {
+      if (!this.syncUrlQueryActive) {
         return
       }
       this.$router.replace({ append: true, query }).then((value) => console.log(value))
