@@ -343,7 +343,8 @@ export default {
       loggedInUser: 'getLoggedInUser',
     }),
     /**
-     * Is True until the Component gets unmounted or there is a Navigation to another page
+     * True if the Filter should be synced with the URL based on Navigation & Component state
+     * @return {boolean}
      */
     syncUrlQueryActive() {
       return this.isActive && this.$router.currentRoute.name === 'camp/dashboard'

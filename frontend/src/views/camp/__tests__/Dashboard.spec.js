@@ -37,6 +37,7 @@ describe('Dashboard view', () => {
     const data = () => ({
       loggedInUser: USER,
       loading: false,
+      isActive: true,
       filter,
     })
     const options = { ...DEFAULT_DASHBOARD_OPTIONS(), data }
