@@ -228,6 +228,7 @@ export default {
   data() {
     return {
       loading: true,
+      isActive: false,
       /**
        * Contains the Values declared initially. In the unverified values from the Url params will be written in the filter.url
        * @type {{period:null|HalUri,responsible:HalUri[],category: HalUri[],url?:{period?:null|HalUri,responsible?:HalUri[],category?: HalUri[]}}} Filter*/
@@ -341,6 +342,12 @@ export default {
     ...mapGetters({
       loggedInUser: 'getLoggedInUser',
     }),
+    /**
+     * Is True until the Component gets unmounted or there is a Navigation to another page
+     */
+    syncUrlQuerActive() {
+      return this.isActive && this.$router.currentRoute.name === 'camp/dashboard'
+    },
   },
   watch: {
     'filter.category': 'persistRouterState',
@@ -348,6 +355,7 @@ export default {
     'filter.period': 'persistRouterState',
   },
   async mounted() {
+    this.isActive = true
     this.api.reload(this.camp())
 
     const loadingDataPromise = Promise.all([
@@ -377,6 +385,11 @@ export default {
       const period = availablePeriodsIds.includes(this.filter.url?.period)
         ? this.filter.url.period
         : null
+
+      if (!this.syncUrlQuerActive) {
+        alert('Sync Aborted')
+        return
+      }
 
       this.filter = {
         category,
@@ -420,9 +433,12 @@ export default {
     },
     persistRouterState() {
       let query = this.urlQuery
-
       if (filterEquals(query, this.$route.query)) return
-      this.$router.replace({ append: true, query })
+      if (!this.syncUrlQuerActive) {
+        alert('AAA')
+        return
+      }
+      this.$router.replace({ append: true, query }).then((value) => console.log(value))
     },
   },
 }
