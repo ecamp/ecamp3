@@ -358,17 +358,14 @@ export default {
     this.isActive = true
     this.api.reload(this.camp())
 
-    const loadingDataPromise = Promise.all([
-      this.loggedInUser._meta.load,
-      this.camp().activities()._meta.load,
-    ])
 
     // Once camp data is loaded validate and map values from url param to filter
     await Promise.all([
       this.camp().categories()._meta.load,
       this.camp().periods()._meta.load,
       this.camp().campCollaborations()._meta.load,
-      loadingDataPromise,
+      this.loggedInUser._meta.load,
+      this.camp().activities()._meta.load,
     ]).then(([categories, periods, collaborators]) => {
       const availableCategoryIds = categories.allItems.map((value) => value._meta.self)
       const availablePeriodsIds = periods.allItems.map((value) => value._meta.self)
@@ -387,7 +384,6 @@ export default {
         : null
 
       if (!this.syncUrlQuerActive) {
-        alert('Sync Aborted')
         return
       }
 
@@ -435,7 +431,6 @@ export default {
       let query = this.urlQuery
       if (filterEquals(query, this.$route.query)) return
       if (!this.syncUrlQuerActive) {
-        alert('AAA')
         return
       }
       this.$router.replace({ append: true, query }).then((value) => console.log(value))
