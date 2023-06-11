@@ -429,10 +429,7 @@ export default {
     },
     persistRouterState() {
       let query = this.urlQuery
-      if (filterEquals(query, this.$route.query)) return
-      if (!this.syncUrlQueryActive) {
-        return
-      }
+      if (filterEquals(query, this.$route.query) || !this.syncUrlQueryActive) return
       this.$router.replace({ append: true, query }).then((value) => console.log(value))
     },
   },
