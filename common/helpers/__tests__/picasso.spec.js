@@ -169,6 +169,21 @@ describe('calculateBedtime', () => {
       { getUpTime: 8, bedtime: 23 },
     ],
     [
+      'very short schedule entry starting around bedtime does not move the bedtime later, because it would not gain more visibility',
+      [
+        [
+          { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+          { start: '2022-01-02T21:45:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+          { start: '2022-01-02T20:00:00+00:00', end: '2022-01-03T08:30:00+00:00' },
+        ],
+        dayjs,
+        dayjs.utc('2022-01-02T00:00:00+00:00'),
+        dayjs.utc('2022-01-04T00:00:00+00:00'),
+        1,
+      ],
+      { getUpTime: 8, bedtime: 22 },
+    ],
+    [
       'schedule entry ending at getUpTime on a full hour moves the getUpTime earlier, to avoid hiding the schedule entry completely',
       [
         [
@@ -197,7 +212,7 @@ describe('calculateBedtime', () => {
       { getUpTime: 8, bedtime: 22 },
     ],
     [
-      'schedule entry starting around getUpTime on a quarter hour moves the getUpTime earlier, to make sure it is visible for at least half an hour',
+      'schedule entry ending around getUpTime on a quarter hour moves the getUpTime earlier, to make sure it is visible for at least half an hour',
       [
         [
           { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
@@ -209,6 +224,21 @@ describe('calculateBedtime', () => {
         1,
       ],
       { getUpTime: 7, bedtime: 22 },
+    ],
+    [
+      'very short schedule entry ending around getUpTime does not move the getUpTime earlier, because it would not gain more visibility',
+      [
+        [
+          { start: '2022-01-02T08:00:00+00:00', end: '2022-01-02T22:00:00+00:00' },
+          { start: '2022-01-03T08:00:00+00:00', end: '2022-01-03T08:15:00+00:00' },
+          { start: '2022-01-02T21:30:00+00:00', end: '2022-01-03T09:00:00+00:00' },
+        ],
+        dayjs,
+        dayjs.utc('2022-01-02T00:00:00+00:00'),
+        dayjs.utc('2022-01-04T00:00:00+00:00'),
+        1,
+      ],
+      { getUpTime: 8, bedtime: 22 },
     ],
     [
       'empty first day, schedule entries only towards end of last day, latestGetUpTime falls back to a sensible value',

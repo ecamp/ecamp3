@@ -110,23 +110,24 @@ function getScheduleEntryBounds(
     scheduleEntries.flatMap((scheduleEntry) => {
       const result = []
       const start = dayjs.utc(scheduleEntry.start)
+      const end = dayjs.utc(scheduleEntry.end)
+      const startHours = start.hour() + start.minute() / 60
+      const endHours = end.hour() + end.minute() / 60
+      const duration = end.diff(start, 'minute') / 60
       if (start.unix() >= firstDayStartTimestamp && start.unix() <= lastDayEndTimestamp) {
-        const hours = start.hour() + start.minute() / 60
         result.push(
-          { hours, time: start, type: 'start' },
+          { hours: startHours, time: start, type: 'start', duration },
           // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
           // TODO can we be more efficient, e.g. by only putting a copy of the earliest bound 24 hours later?
-          { hours: hours + 24, time: start.add(24, 'hours'), type: 'start' }
+          { hours: startHours + 24, time: start.add(24, 'hours'), type: 'start', duration }
         )
       }
 
-      const end = dayjs.utc(scheduleEntry.end)
       if (end.unix() >= firstDayStartTimestamp && end.unix() <= lastDayEndTimestamp) {
-        const hours = end.hour() + end.minute() / 60
         result.push(
-          { hours, time: end, type: 'end' },
+          { hours: endHours, time: end, type: 'end', duration },
           // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
-          { hours: hours + 24, time: end.add(24, 'hours'), type: 'end' }
+          { hours: endHours + 24, time: end.add(24, 'hours'), type: 'end', duration }
         )
       }
       return result
@@ -187,7 +188,8 @@ function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
       (bound) =>
         bound.type === 'start' &&
         bound.hours <= bedtime &&
-        bound.hours > bedtime - timeBucketSize / 2
+        bound.hours > bedtime - timeBucketSize / 2 &&
+        bound.duration > (bedtime - bound.hours)
     )
   ) {
     // There exists a schedule entry which starts at the bedtime or less than half a time bucket before it.
@@ -206,7 +208,8 @@ function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
       (bound) =>
         bound.type === 'end' &&
         bound.hours >= getUpTime &&
-        bound.hours < getUpTime + timeBucketSize / 2
+        bound.hours < getUpTime + timeBucketSize / 2 &&
+        bound.duration > (bound.hours - getUpTime)
     )
   ) {
     // There exists a schedule entry which ends at the getUpTime or less than half a time bucket after it.
