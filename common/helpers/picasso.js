@@ -106,39 +106,30 @@ function getScheduleEntryBounds(
   firstDayStartTimestamp,
   lastDayEndTimestamp
 ) {
-  return sortBy(
-    scheduleEntries.flatMap((scheduleEntry) => {
-      const result = []
+  const bounds = scheduleEntries
+    .flatMap((scheduleEntry) => {
       const start = dayjs.utc(scheduleEntry.start)
       const end = dayjs.utc(scheduleEntry.end)
       const startHours = start.hour() + start.minute() / 60
       const endHours = end.hour() + end.minute() / 60
       const duration = end.diff(start, 'minute') / 60
-      if (start.unix() >= firstDayStartTimestamp && start.unix() <= lastDayEndTimestamp) {
-        result.push(
-          { hours: startHours, time: start, type: 'start', duration },
-          // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
-          // TODO can we be more efficient, e.g. by only putting a copy of the earliest bound 24 hours later?
-          {
-            hours: startHours + 24,
-            time: start.add(24, 'hours'),
-            type: 'start',
-            duration,
-          }
-        )
-      }
-
-      if (end.unix() >= firstDayStartTimestamp && end.unix() <= lastDayEndTimestamp) {
-        result.push(
-          { hours: endHours, time: end, type: 'end', duration },
-          // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
-          { hours: endHours + 24, time: end.add(24, 'hours'), type: 'end', duration }
-        )
-      }
-      return result
-    }),
-    (bound) => bound.hours
-  )
+      return [
+        { hours: startHours, time: start, type: 'start', duration },
+        { hours: endHours, time: end, type: 'end', duration },
+      ]
+    })
+    .filter(
+      (bound) =>
+        bound.time.unix() >= firstDayStartTimestamp &&
+        bound.time.unix() <= lastDayEndTimestamp
+    )
+  // Add a copy of all bounds 24 hours later, to simplify working with the circular characteristics of daytimes
+  const shifted = bounds.map((bound) => ({
+    ...bound,
+    hours: bound.hours + 24,
+    time: bound.time.add(24, 'hours'),
+  }))
+  return sortBy([...bounds, ...shifted], (bound) => bound.hours)
 }
 
 function bedtimeConstraintsFromFirstAndLastDay(
@@ -207,7 +198,6 @@ function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
 
 function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
   const getUpTime = Math.floor(gap.end / timeBucketSize) * timeBucketSize
-
   if (
     scheduleEntryBounds.some(
       (bound) =>
