@@ -210,6 +210,21 @@ describe('calculateBedtime', () => {
       ],
       { getUpTime: 7, bedtime: 22 },
     ],
+    [
+      'empty first day, schedule entries only towards end of last day, latestGetUpTime falls back to a sensible value',
+      [
+        [
+          { start: '2022-01-03T18:00:00+00:00', end: '2022-01-03T19:00:00+00:00' },
+          { start: '2022-01-03T20:00:00+00:00', end: '2022-01-03T21:00:00+00:00' },
+          { start: '2022-01-03T22:00:00+00:00', end: '2022-01-03T23:00:00+00:00' },
+        ],
+        dayjs,
+        dayjs.utc('2022-01-02T00:00:00+00:00'),
+        dayjs.utc('2022-01-04T00:00:00+00:00'),
+        1,
+      ],
+      { getUpTime: 18, bedtime: 23 },
+    ],
   ])('%p', (title, input, expected) => {
     expect(calculateBedtime(...input)).toEqual(expected)
   })

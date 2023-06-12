@@ -157,7 +157,7 @@ function bedtimeConstraintsFromFirstAndLastDay(
 
   return {
     earliestBedtime: earliestBedtime === undefined ? 0 : earliestBedtime,
-    latestGetUpTime: latestGetUpTime === undefined ? 36 : latestGetUpTime + 24,
+    latestGetUpTime: latestGetUpTime === undefined ? 48 : latestGetUpTime + 24,
   }
 }
 
