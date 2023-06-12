@@ -166,6 +166,11 @@ export default {
       immediate: true,
     },
   },
+  mounted() {
+    this.camp()
+      .periods()
+      .items.forEach((period) => period.days().$reload())
+  },
   methods: {
     defaultContents() {
       const contents = [
