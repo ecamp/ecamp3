@@ -18,6 +18,7 @@
 <script>
 import { utcStringToTimestamp } from '~/../common/helpers/dateHelperVCalendar.js'
 import { splitDaysIntoPages } from '../../common/helpers/picasso.js'
+import { sortBy } from 'lodash'
 
 export default {
   props: {
@@ -92,7 +93,10 @@ export default {
     periodChunks() {
       const chunkSize = this.landscape ? 7 : 4
 
-      return splitDaysIntoPages(this.period.days().items, chunkSize).map((chunk) => ({
+      return splitDaysIntoPages(
+        sortBy(this.period.days().items, (day) => this.$date.utc(day.start).unix()),
+        chunkSize
+      ).map((chunk) => ({
         start: this.$date.utc(chunk[0].start),
         end: this.$date.utc(chunk[chunk.length - 1].start),
       }))
