@@ -119,7 +119,12 @@ function getScheduleEntryBounds(
           { hours: startHours, time: start, type: 'start', duration },
           // Add a copy 24 hours later, to simplify working with the circular characteristics of daytimes
           // TODO can we be more efficient, e.g. by only putting a copy of the earliest bound 24 hours later?
-          { hours: startHours + 24, time: start.add(24, 'hours'), type: 'start', duration }
+          {
+            hours: startHours + 24,
+            time: start.add(24, 'hours'),
+            type: 'start',
+            duration,
+          }
         )
       }
 
@@ -189,7 +194,7 @@ function optimalBedtime(gap, scheduleEntryBounds, timeBucketSize) {
         bound.type === 'start' &&
         bound.hours <= bedtime &&
         bound.hours > bedtime - timeBucketSize / 2 &&
-        bound.duration > (bedtime - bound.hours)
+        bound.duration > bedtime - bound.hours
     )
   ) {
     // There exists a schedule entry which starts at the bedtime or less than half a time bucket before it.
@@ -209,7 +214,7 @@ function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
         bound.type === 'end' &&
         bound.hours >= getUpTime &&
         bound.hours < getUpTime + timeBucketSize / 2 &&
-        bound.duration > (bound.hours - getUpTime)
+        bound.duration > bound.hours - getUpTime
     )
   ) {
     // There exists a schedule entry which ends at the getUpTime or less than half a time bucket after it.
