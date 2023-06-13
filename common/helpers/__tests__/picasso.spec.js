@@ -2,29 +2,26 @@ import { splitDaysIntoPages, calculateBedtime } from '../picasso.js'
 import dayjs from '@/common/helpers/dayjs.js'
 
 describe('splitPicassoIntoPages', () => {
+  function daysBetween(start, end) {
+    // Generates an array [start, start + 1, start + 2, ..., end - 1, end]
+    return [...Array(end - start + 1).keys()].map((day) => day + start)
+  }
+
   it.each([
     [[[], 1], []],
     [[[], 8], []],
     [[[], 0], []],
     [
-      [[1, 2, 3], 2],
-      [[1, 2], [3]],
+      [daysBetween(1, 3), 2],
+      [daysBetween(1, 2), daysBetween(3, 3)],
     ],
     [
-      [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 8],
-      [
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [9, 10, 11, 12, 13, 14, 15],
-      ],
+      [daysBetween(1, 15), 8],
+      [daysBetween(1, 8), daysBetween(9, 15)],
     ],
     [
-      [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 4],
-      [
-        [1, 2, 3, 4],
-        [5, 6, 7, 8],
-        [9, 10, 11],
-        [12, 13, 14],
-      ],
+      [daysBetween(1, 14), 4],
+      [daysBetween(1, 4), daysBetween(5, 8), daysBetween(9, 11), daysBetween(12, 14)],
     ],
   ])('maps %p to %p', (input, expected) => {
     expect(splitDaysIntoPages(...input)).toEqual(expected)
