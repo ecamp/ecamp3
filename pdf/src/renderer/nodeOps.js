@@ -50,7 +50,8 @@ function insert(child, parent, anchor) {
       throw Error('Tag <Document> can only be used at the top level.')
     }
     if (parent.doc !== undefined) {
-      throw Error('Only one <Document> tag can be used.')
+      // Ignore this case, this can happen during hot reloading. Just keep the last document component.
+      //throw Error('Only one <Document> tag can be used.')
     }
     parent.doc = child
     child.parent = null
