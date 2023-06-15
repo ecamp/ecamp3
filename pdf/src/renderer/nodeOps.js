@@ -41,6 +41,7 @@ function insert(child, parent, anchor) {
       props: {},
       style: {},
       type: 'TEXT',
+      parent: parent,
     })
     return
   }
@@ -86,9 +87,24 @@ function setElementText(element, text) {
   insert(createText(text), element, null)
 }
 
-function parentNode() {
-  console.log('parentNode')
-  return null
+// Operations which Vue uses while hot reloading.
+function parentNode(element) {
+  console.log('parentNode', element)
+  return element.parent || null
+}
+
+function nextSibling(element) {
+  console.log('nextSibling', element)
+  if (!element.parent) return null
+  const nextSiblingIndex = element.parent.children.findIndex((el) => el === element) + 1
+  return element.parent.children[nextSiblingIndex] || null
+}
+
+function remove(element) {
+  console.log('remove', element)
+  if (!element.parent) return null
+  const index = element.parent.children.findIndex((el) => el === element)
+  element.parent.children.splice(index, 1)
 }
 
 function createComment() {
@@ -96,9 +112,6 @@ function createComment() {
 }
 function setText() {
   noop('setText')
-}
-function nextSibling() {
-  noop('nextSibling')
 }
 function querySelector() {
   noop('querySelector')
@@ -114,9 +127,6 @@ function insertStaticContent() {
 }
 function forcePatchProp() {
   noop('forcePatchProp')
-}
-function remove() {
-  noop('remove')
 }
 
 const nodeOps = {

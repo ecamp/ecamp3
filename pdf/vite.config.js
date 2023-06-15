@@ -5,7 +5,16 @@ import Components from 'unplugin-vue-components/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), Components({ dirs: './src/renderer/components' })],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('pdf-'),
+        },
+      },
+    }),
+    Components({ dirs: './src/renderer/components' }),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
