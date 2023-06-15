@@ -10,8 +10,6 @@ import DayHeader from './DayHeader.jsx'
 import PicassoFooter from './PicassoFooter.jsx'
 import YSLogo from './YSLogo.jsx'
 import Categories from './Categories.jsx'
-import dayjs from '@/common/helpers/dayjs.js'
-import { calculateBedtime } from '@/common/helpers/picasso.js'
 
 /**
  * Generates an array of time row descriptions, used for labeling the vertical axis of the picasso.
@@ -41,14 +39,11 @@ function PicassoPage(props) {
   const orientation = props.content.options.orientation
   const anyDayResponsibles = days.some((day) => day.dayResponsibles().items.length > 0)
   const scheduleEntries = period.scheduleEntries().items
-  const { getUpTime, bedtime } = calculateBedtime(
-    scheduleEntries,
-    dayjs,
-    dayjs.utc(days[0].start).add(props.getUpTime, 'hours'),
-    dayjs.utc(days[days.length - 1].start).add(props.bedtime, 'hours'),
-    props.timeStep
-  )
-  const times = generateTimes({ getUpTime, bedtime, timeStep: props.timeStep })
+  const times = generateTimes({
+    getUpTime: props.getUpTime,
+    bedtime: props.bedtime,
+    timeStep: props.timeStep,
+  })
 
   return (
     <Page
