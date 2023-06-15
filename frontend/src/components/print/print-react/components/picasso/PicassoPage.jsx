@@ -21,15 +21,16 @@ import Categories from './Categories.jsx'
  * @returns {*[[hour: number, weight: number]]}
  */
 function generateTimes({ getUpTime, bedtime, timeStep }) {
-  const times = []
+  const times = [[getUpTime - timeStep / 2, 0.5]]
   for (let i = 0; getUpTime + i * timeStep < bedtime; i++) {
     // TODO The weight could also be generated depending on the schedule entries present in the camp:
     //   e.g. give less weight to hours that contain no schedule entries.
     const weight = 1
     times.push([getUpTime + i * timeStep, weight])
   }
+  times.push([bedtime, 0.5])
   // this last hour is only needed for defining the length of the day. The weight should be 0.
-  times.push([bedtime, 0])
+  times.push([bedtime + timeStep / 2, 0])
   return times
 }
 
