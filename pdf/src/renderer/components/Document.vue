@@ -17,6 +17,7 @@ export default {
     language: { type: String, default: undefined },
     pageMode: { type: String, default: 'useNone' },
     pageLayout: { type: String, default: 'singlePage' },
+    onRender: { type: Function, default: undefined },
   },
 }
 </script>

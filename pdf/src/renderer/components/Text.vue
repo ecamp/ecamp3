@@ -7,16 +7,14 @@
 export default {
   name: 'Text',
   props: {
-    title: { type: String, default: undefined },
-    author: { type: String, default: undefined },
-    subject: { type: String, default: undefined },
-    keywords: { type: String, default: undefined },
-    creator: { type: String, default: undefined },
-    producer: { type: String, default: undefined },
-    pdfVersion: { type: String, default: undefined },
-    language: { type: String, default: undefined },
-    pageMode: { type: String, default: undefined },
-    pageLayout: { type: String, default: undefined },
+    wrap: { type: Boolean, default: true },
+    render: { type: Function, default: undefined },
+    styles: { type: [Object, Array], default: undefined },
+    debug: { type: Boolean, default: false },
+    fixed: { type: Boolean, default: false },
+    hyphenationCallback: { type: Function, default: undefined },
+    id: { type: String, default: undefined },
+    bookmark: { type: String, default: undefined },
   },
 }
 </script>

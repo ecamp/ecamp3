@@ -11,6 +11,7 @@ function noop(fn) {
 
 function patchProp(el, key, prevVal, nextVal) {
   console.log('patchProp', el, key, prevVal, nextVal)
+  el.props[key] = nextVal
 }
 
 function insert(child, parent, anchor) {
@@ -46,14 +47,16 @@ function insert(child, parent, anchor) {
       throw Error('Only one <Document> tag can be used.')
     }
     parent.doc = child
+    child.parent = null
     return
   }
   parent.children.push(child)
+  child.parent = parent
 }
 
 function createElement(tag) {
   console.log('createElement', tag)
-  if (!tag in htmlToPdfElementMap) {
+  if (!(tag in htmlToPdfElementMap)) {
     throw Error(`Tag <${tag}> cannot be used inside a pdf!`)
   }
   return {

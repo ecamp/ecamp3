@@ -1,6 +1,8 @@
 <template>
   <Document>
-    <Page>Hello world!</Page>
+    <Page orientation="portrait">
+      <Text debug>Hello world!</Text>
+    </Page>
   </Document>
 </template>
 <script>
