@@ -1,7 +1,9 @@
 <template>
   <Document>
     <Page orientation="portrait">
-      <Text :style="{ color: 'red' }">Hello world!</Text>
+      <View :style="{ backgroundColor: '#dddddd', margin: '20pt' }">
+        <Text :style="{ color: 'red' }">Hello world!</Text>
+      </View>
     </Page>
   </Document>
 </template>
