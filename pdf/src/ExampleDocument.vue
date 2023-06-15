@@ -1,7 +1,7 @@
 <template>
   <Document>
     <Page orientation="portrait">
-      <Text debug>Hello world!</Text>
+      <Text :style="{ color: 'red' }">Hello world!</Text>
     </Page>
   </Document>
 </template>

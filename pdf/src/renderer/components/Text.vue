@@ -9,7 +9,8 @@ export default {
   props: {
     wrap: { type: Boolean, default: true },
     render: { type: Function, default: undefined },
-    styles: { type: [Object, Array], default: undefined },
+    // "style" is not an allowed prop name in Vue, even though we don't render to HTML
+    //style: { type: [Object, Array], default: undefined },
     debug: { type: Boolean, default: false },
     fixed: { type: Boolean, default: false },
     hyphenationCallback: { type: Function, default: undefined },

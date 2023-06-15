@@ -11,7 +11,12 @@ function noop(fn) {
 
 function patchProp(el, key, prevVal, nextVal) {
   console.log('patchProp', el, key, prevVal, nextVal)
-  el.props[key] = nextVal
+  if (key === 'style') {
+    // React-pdf treats style as a separate attribute
+    el.style = nextVal
+  } else {
+    el.props[key] = nextVal
+  }
 }
 
 function insert(child, parent, anchor) {
