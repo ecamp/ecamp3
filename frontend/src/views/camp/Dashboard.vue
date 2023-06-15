@@ -285,9 +285,7 @@ export default {
           (this.filter.progressLabel === null ||
             this.filter.progressLabel.length === 0 ||
             this.filter.progressLabel?.includes(
-              scheduleEntry.activity().progressLabel !== null
-                ? scheduleEntry.activity().progressLabel()._meta.self
-                : null
+              scheduleEntry.activity().progressLabel?.()._meta.self
             ))
       )
     },

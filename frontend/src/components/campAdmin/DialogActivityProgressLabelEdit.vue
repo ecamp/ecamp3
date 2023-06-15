@@ -3,7 +3,7 @@
     v-model="showDialog"
     :loading="loading"
     :error="error"
-    icon="mdi-package-variant"
+    icon="mdi-progress-check"
     :title="progressLabel.title"
     :submit-action="update"
     submit-color="success"

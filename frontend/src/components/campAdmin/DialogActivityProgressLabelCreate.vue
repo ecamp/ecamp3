@@ -3,7 +3,7 @@
     v-model="showDialog"
     :loading="loading"
     :error="error"
-    icon="mdi-package-variant"
+    icon="mdi-progress-check"
     :title="$tc('components.campAdmin.dialogActivityProgressLabelCreate.title')"
     :submit-action="createDialogActivityProgressLabelCreate"
     submit-color="success"

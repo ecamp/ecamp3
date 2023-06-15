@@ -83,7 +83,7 @@
       "fields": {
         "category": "Block Kategorie",
         "location": "Ort",
-        "progressLabel": "Fortschritt",
+        "progressLabel": "Status",
         "responsible": "Verantwortlich",
         "title": "Titel"
       },

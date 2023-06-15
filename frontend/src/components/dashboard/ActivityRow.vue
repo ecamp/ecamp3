@@ -23,11 +23,24 @@
           {{ title }}
         </router-link>
       </span>
-      <span style="display: inline-block" class="ml-4">
-        <span style="font-size: 0.7em; color: #aaa">{{ progressLabel }}</span>
+
+      <span
+        v-if="$vuetify.breakpoint.mdAndUp"
+        class="e-subtitle"
+        style="font-size: 0.7em"
+      >
+        {{ progressLabel }}
       </span>
+
       <br />
       <span class="e-subtitle">{{ location }}</span>
+
+      <template v-if="!$vuetify.breakpoint.mdAndUp">
+        <br />
+        <span class="e-subtitle" style="font-size: 0.7em">
+          {{ progressLabel }}
+        </span>
+      </template>
     </td>
     <td class="contentrow avatarrow overflow-visible">
       <AvatarRow :camp-collaborations="collaborators" max-size="28" class="ml-auto" />
@@ -62,9 +75,7 @@ export default {
       return this.scheduleEntry.activity().title
     },
     progressLabel() {
-      return this.scheduleEntry.activity().progressLabel !== null
-        ? this.scheduleEntry.activity().progressLabel().title
-        : null
+      return this.scheduleEntry.activity().progressLabel?.().title
     },
     location() {
       return this.scheduleEntry.activity().location

@@ -39,10 +39,10 @@
       "campActivityProgressLabels": {
         "create": "Status erstellen",
         "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
-        "deleteError": "Planungs-Fortschritt konnte nicht gelöscht werden. Der Status wird noch verwendet.",
+        "deleteError": "Status konnte nicht gelöscht werden. Der Status wird noch verwendet.",
         "moveDown": "Nach unten",
         "moveUp": "Nach oben",
-        "title": "Block Planungs-Fortschritt"
+        "title": "Block-Status"
       },
       "campAddress": {
         "title": "Lageradresse"
@@ -98,7 +98,7 @@
         "add": "Weiteren Lagerabschnitt hinzufügen"
       },
       "dialogActivityProgressLabelCreate": {
-        "title": "Status für Planungs-Fortschritt erstellen"
+        "title": "Block-Status erstellen"
       },
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -470,7 +470,7 @@
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
-        "progressLabel": "Fortschritt",
+        "progressLabel": "Status",
         "responsible": "Verantwortlich",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },

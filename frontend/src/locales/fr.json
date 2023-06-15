@@ -42,7 +42,7 @@
         "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
         "moveDown": "Vers le bas",
         "moveUp": "Vers le haut",
-        "title": "Progression de la planification des activités"
+        "title": "Statut des activités"
       },
       "campAddress": {
         "title": "Adresse"
@@ -90,7 +90,7 @@
         "add": "Ajoute un point"
       },
       "dialogActivityProgressLabelCreate": {
-        "title": "Créer un statut de progression"
+        "title": "Créer un statut"
       },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
@@ -454,7 +454,7 @@
         "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
-        "progressLabel": "Progrès",
+        "progressLabel": "Statut",
         "responsible": "Responsable",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },

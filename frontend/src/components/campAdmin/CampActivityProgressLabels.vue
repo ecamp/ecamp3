@@ -25,9 +25,12 @@
         :key="progressLabel._meta.self"
         class="px-0"
       >
-        <v-list-item-content class="pt-0 pb-2">
+        <v-list-item-avatar>
+          <v-avatar color="grey lighten-2" size="32">{{ idx + 1 }}</v-avatar>
+        </v-list-item-avatar>
+        <v-list-item-content>
           <v-list-item-title>
-            {{ idx + 1 }}) {{ progressLabel.title }}
+            {{ progressLabel.title }}
           </v-list-item-title>
         </v-list-item-content>
 

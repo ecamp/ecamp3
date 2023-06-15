@@ -83,7 +83,7 @@
       "fields": {
         "category": "Categoria di attività",
         "location": "Posto",
-        "progressLabel": "Progressi",
+        "progressLabel": "Stato",
         "responsible": "Responsabile",
         "title": "Titolo"
       },
