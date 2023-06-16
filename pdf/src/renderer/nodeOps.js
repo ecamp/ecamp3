@@ -1,4 +1,5 @@
 import { styleStore } from './styleStore.js'
+import camelCase from 'lodash/camelCase.js'
 
 const htmlToPdfElementMap = {
   'pdf-document': 'DOCUMENT',
@@ -13,8 +14,12 @@ function noop(fn) {
 
 function patchProp(el, key, prevVal, nextVal) {
   if (key === 'style') {
-    // React-pdf treats style as a separate attribute
-    el.style = Object.assign(el.style, nextVal)
+    // React-pdf treats style as a separate attribute, not as a normal prop.
+    // Also, they use camelCase property names instead of the kebab-case which CSS uses.
+    const transformed = Object.fromEntries(
+      Object.entries(nextVal).map(([key, value]) => [camelCase(key), value])
+    )
+    el.style = Object.assign(el.style, transformed)
   } else if (key === 'class') {
     const styles = nextVal.split(' ').map((styleClass) => styleStore[styleClass] || {})
     el.style = Object.assign(el.style, ...styles)

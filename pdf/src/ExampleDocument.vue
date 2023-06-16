@@ -1,7 +1,7 @@
 <template>
   <Document>
-    <Page orientation="portrait" :style="{ fontFamily: 'OpenSans' }">
-      <View :style="{ backgroundColor: '#dddddd', margin: '20pt' }">
+    <Page orientation="portrait" style="font-family: OpenSans">
+      <View class="container">
         <Text :style="{ color: 'red' }"
           >{{ $tc('print.toc.title') }} {{ config.camp.name }}</Text
         >
@@ -90,6 +90,10 @@ export const prepare = async (config) => {
 }
 </script>
 <pdf-style>
+.container {
+  background-color: #dddddd;
+  margin: 20pt;
+}
 .green {
   color: green;
 }

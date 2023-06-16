@@ -1,5 +1,5 @@
-const css = require('css')
-const camelCase = require('lodash/camelCase')
+import { parse } from 'css'
+import camelCase from 'lodash/camelCase.js'
 
 const vuePdfStylePlugin = {
   name: 'vue-pdf-style-plugin',
@@ -7,16 +7,16 @@ const vuePdfStylePlugin = {
     if (!/vue&type=pdf-style/.test(id)) {
       return
     }
-    const parsed = css.parse(code)
+    const parsed = parse(code)
     const rules = parsed.stylesheet.rules
-    const transformedRules = transformRules(rules)
+    const transformedRules = transformCssRules(rules)
     return `export default (component) => {
       component.pdfStyle = ${JSON.stringify(transformedRules)};
     }`
   },
 }
 
-function transformRules(rules) {
+function transformCssRules(rules) {
   return rules.reduce((transformed, rule) => {
     rule.selectors.forEach((selector) => {
       if (!/^\.[a-zA-Z][a-zA-Z0-9_-]*$/.test(selector)) {
