@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/browser'
 import '../../globalWorkerShim.js'
-import 'raf/polyfill' // must be imported before renderPdf
 import { renderPdf } from './renderPdf.js'
 import dayjs, { dayjsLocaleMap } from '@/common/helpers/dayjs.js'
 

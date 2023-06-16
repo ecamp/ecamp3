@@ -59,7 +59,6 @@ export default defineConfig(({ mode }) => ({
       'lodash/sortBy.js',
       'lodash/minBy.js',
       'lodash/maxBy.js',
-      'raf/polyfill',
       'vee-validate',
       'vue',
       'vue-toastification',
