@@ -26,6 +26,9 @@ export default defineConfig({
       entry: './src/index.js',
       name: 'ecamp3-pdf',
     },
+    // If we quickly delete and then recreate a source file, in Firefox the whole browser tab crashes during HMR.
+    // So don't delete the output file on every build, just overwrite the old output file.
+    emptyOutDir: false,
     minify: false, // for better developer experience when using the bundled script, do not minify
     rollupOptions: {
       external: (id) => id.startsWith('@react-pdf/'),
