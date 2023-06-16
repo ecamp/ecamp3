@@ -10,7 +10,6 @@ function noop(fn) {
 }
 
 function patchProp(el, key, prevVal, nextVal) {
-  console.log('patchProp', el, key, prevVal, nextVal)
   if (key === 'style') {
     // React-pdf treats style as a separate attribute
     el.style = nextVal
@@ -19,8 +18,7 @@ function patchProp(el, key, prevVal, nextVal) {
   }
 }
 
-function insert(child, parent, anchor) {
-  console.log('insert', child, parent, anchor)
+function insert(child, parent, _) {
   if (child.type === 'TEXT_INSTANCE' && child.value === '') {
     return
   }
@@ -62,7 +60,6 @@ function insert(child, parent, anchor) {
 }
 
 function createElement(tag) {
-  console.log('createElement', tag)
   if (!(tag in htmlToPdfElementMap)) {
     throw Error(`Tag <${tag}> cannot be used inside a pdf!`)
   }
@@ -76,7 +73,6 @@ function createElement(tag) {
 }
 
 function createText(text) {
-  console.log('createText', text)
   return {
     type: 'TEXT_INSTANCE',
     value: text,

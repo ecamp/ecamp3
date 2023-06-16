@@ -19,7 +19,17 @@ const pdf = (root, props) => {
 
   const render = async (compress = true) => {
     const { createApp } = createRenderer(nodeOps)
-    createApp(root, props).mount(container)
+    const app = createApp(root, props)
+    app.use(
+      {
+        install(app, options) {
+          app.config.globalProperties.api = options.store
+          app.config.globalProperties.$tc = options.$tc
+        },
+      },
+      props
+    )
+    app.mount(container)
 
     const documentProps = container.doc.props || {}
     const { pdfVersion, language, pageLayout, pageMode } = documentProps
