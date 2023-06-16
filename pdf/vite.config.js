@@ -26,6 +26,7 @@ export default defineConfig({
       entry: './src/index.js',
       name: 'ecamp3-pdf',
     },
+    minify: false, // for better developer experience when using the bundled script, do not minify
     rollupOptions: {
       external: (id) => id.startsWith('@react-pdf/'),
     },
