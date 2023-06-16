@@ -26,5 +26,8 @@ export default defineConfig({
       entry: './src/index.js',
       name: 'ecamp3-pdf',
     },
+    rollupOptions: {
+      external: (id) => id.startsWith('@react-pdf/'),
+    },
   },
 })
