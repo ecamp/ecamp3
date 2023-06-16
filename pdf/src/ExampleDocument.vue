@@ -3,9 +3,11 @@
     <Page orientation="portrait">
       <View :style="{ backgroundColor: '#dddddd', margin: '20pt' }">
         <Text :style="{ color: 'red' }"
-          >{{ $tc('print.cover.title') }} {{ displayText }}
-          {{ firstConfiguredPeriodDescription }}</Text
+          >{{ $tc('print.toc.title') }} {{ config.camp.name }}</Text
         >
+        <View v-for="period in selectedPeriods" :key="period._meta.self">
+          <Text>{{ period.description }}</Text>
+        </View>
       </View>
     </Page>
   </Document>
@@ -17,13 +19,14 @@ export default {
     config: { type: Object, required: true },
   },
   computed: {
-    displayText() {
-      return 'Hello world! ' + this.config.camp.name
-    },
-    firstConfiguredPeriodDescription() {
-      const periodUri = this.config.contents.find((content) => content.type === 'Picasso')
-        .options.periods[0]
-      return this.api.get(periodUri).description
+    selectedPeriods() {
+      return this.config.contents
+        .flatMap((content) => {
+          return content?.options?.periods || []
+        })
+        .map((periodUri) => {
+          return this.api.get(periodUri)
+        })
     },
   },
 }
