@@ -8,7 +8,7 @@ import { createRenderer } from '@vue/runtime-core'
 
 const fontStore = new FontStore()
 
-const pdf = (root) => {
+const pdf = (root, props) => {
   // For react-pdf, we need an object which will describe the structure of our
   // pdf document. Our nodeOps will read the Vue component tree and convert it to
   // the react-pdf-specific data structure inside doc.
@@ -19,10 +19,10 @@ const pdf = (root) => {
 
   const render = async (compress = true) => {
     const { createApp } = createRenderer(nodeOps)
-    createApp(root).mount(container)
+    createApp(root, props).mount(container)
 
-    const props = container.doc.props || {}
-    const { pdfVersion, language, pageLayout, pageMode } = props
+    const documentProps = container.doc.props || {}
+    const { pdfVersion, language, pageLayout, pageMode } = documentProps
 
     const ctx = new PDFDocument({
       compress,

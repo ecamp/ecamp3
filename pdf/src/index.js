@@ -1,4 +1,4 @@
 import { pdf } from './renderer/index.js'
-import Doc from './ExampleDocument.vue'
+import ExampleDocument from './ExampleDocument.vue'
 
-export default () => pdf(Doc).toBlob()
+export default (props = {}) => pdf(ExampleDocument, props)

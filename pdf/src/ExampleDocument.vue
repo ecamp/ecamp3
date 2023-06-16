@@ -10,18 +10,13 @@
 <script>
 export default {
   name: 'ExampleDocument',
+  props: {
+    config: { type: Object, required: true },
+  },
   computed: {
     displayText() {
-      return 'Hellooo world!'
+      return 'Hello world! ' + this.config.camp.name
     },
   },
-}
-
-if (import.meta.hot) {
-  import.meta.hot.accept(() => {
-    // Quick fix for hot reloading in the demo: Tell vite that reloading this component alone isn't enough.
-    // It needs to also reload the importer of this component.
-    import.meta.hot.invalidate()
-  })
 }
 </script>
