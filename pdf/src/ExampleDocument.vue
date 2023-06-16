@@ -6,7 +6,8 @@
           >{{ $tc('print.toc.title') }} {{ config.camp.name }}</Text
         >
         <View v-for="period in selectedPeriods" :key="period._meta.self">
-          <Text>{{ period.description }}</Text>
+          <Text class="green bold">{{ period.description }}</Text>
+          <SubComponent />
         </View>
       </View>
     </Page>
@@ -14,9 +15,13 @@
 </template>
 <script>
 import { Font } from './renderer/index.js'
+import SubComponent from './SubComponent.vue'
+import PdfComponent from './PdfComponent.js'
 
 export default {
   name: 'ExampleDocument',
+  components: { SubComponent },
+  extends: PdfComponent,
   props: {
     config: { type: Object, required: true },
   },
@@ -84,3 +89,11 @@ export const prepare = async (config) => {
   return await registerFonts(config)
 }
 </script>
+<pdf-style>
+.green {
+  color: green;
+}
+.bold {
+  font-weight: bold;
+}
+</pdf-style>

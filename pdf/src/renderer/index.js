@@ -44,7 +44,6 @@ const pdf = (root, props) => {
       pageMode,
     })
 
-    console.log('doc', container.doc)
     const layout = await layoutDocument(container.doc, fontStore)
 
     return renderPDF(ctx, layout)

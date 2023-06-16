@@ -1,3 +1,5 @@
+import { styleStore } from './styleStore.js'
+
 const htmlToPdfElementMap = {
   'pdf-document': 'DOCUMENT',
   'pdf-page': 'PAGE',
@@ -12,7 +14,10 @@ function noop(fn) {
 function patchProp(el, key, prevVal, nextVal) {
   if (key === 'style') {
     // React-pdf treats style as a separate attribute
-    el.style = nextVal
+    el.style = Object.assign(el.style, nextVal)
+  } else if (key === 'class') {
+    const styles = nextVal.split(' ').map((styleClass) => styleStore[styleClass] || {})
+    el.style = Object.assign(el.style, ...styles)
   } else {
     el.props[key] = nextVal
   }
@@ -59,14 +64,14 @@ function insert(child, parent, _) {
   child.parent = parent
 }
 
-function createElement(tag) {
+function createElement(tag, isSVG, isCustomizedBuiltIn, vnodeProps) {
   if (!(tag in htmlToPdfElementMap)) {
     throw Error(`Tag <${tag}> cannot be used inside a pdf!`)
   }
   return {
     box: {},
     children: [],
-    props: {},
+    props: vnodeProps,
     style: {},
     type: htmlToPdfElementMap[tag],
   }

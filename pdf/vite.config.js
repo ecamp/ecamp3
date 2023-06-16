@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
+import vuePdfStylePlugin from './vue-pdf-style-plugin.js'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +15,7 @@ export default defineConfig({
       },
     }),
     Components({ dirs: './src/renderer/components' }),
+    vuePdfStylePlugin,
   ],
   resolve: {
     alias: {
