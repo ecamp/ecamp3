@@ -31,7 +31,7 @@ export default defineConfig({
     emptyOutDir: false,
     minify: false, // for better developer experience when using the bundled script, do not minify
     rollupOptions: {
-      external: (id) => id.startsWith('@react-pdf/') || id.includes('assets/fonts'),
+      external: (id) => id.startsWith('@react-pdf/'),
     },
   },
 })
