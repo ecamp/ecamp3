@@ -217,5 +217,4 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
             ],
         ]);
     }
-
 }

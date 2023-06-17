@@ -60,8 +60,7 @@ class DeleteActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testDeleteActivityProgressLabelIsDeniedIfItsStillUsed() {
         $activityProgressLabel = static::$fixtures['activityProgressLabel2'];
-        static::createClientWithCredentials()->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId())
-        ;
+        static::createClientWithCredentials()->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId());
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -75,7 +74,7 @@ class DeleteActivityProgressLabelTest extends ECampApiTestCase {
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
-        
+
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',
