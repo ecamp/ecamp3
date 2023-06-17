@@ -60,8 +60,7 @@ class DeleteActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testDeleteActivityProgressLabelIsDeniedIfItsStillUsed() {
         $activityProgressLabel = static::$fixtures['activityProgressLabel2'];
-        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
-            ->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId())
+        static::createClientWithCredentials()->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
 
         $this->assertResponseStatusCodeSame(422);
@@ -71,13 +70,17 @@ class DeleteActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testDeleteActivityProgressLabelIsAllowedForMember() {
+    public function testDeleteActivityProgressLabelIsDeniedForMember() {
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertNull($this->getEntityManager()->getRepository(ActivityProgressLabel::class)->find($activityProgressLabel->getId()));
+        
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testDeleteActivityProgressLabelIsAllowedForManager() {

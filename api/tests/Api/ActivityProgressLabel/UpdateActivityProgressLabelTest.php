@@ -72,7 +72,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchActivityProgressLabelIsAllowedForMember() {
+    public function testPatchActivityProgressLabelIsDeniedForMember() {
         /** @var ActivityProgressLabel $activityProgressLabel */
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
@@ -81,15 +81,10 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
                 'title' => 'NewTitle',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
-            'position' => 1,
-            'title' => 'NewTitle',
-            '_links' => [
-                'camp' => [
-                    'href' => $this->getIriFor('camp1'),
-                ],
-            ],
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 
@@ -150,7 +145,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
     public function testPatchActivityProgressLabelTitleIsTrimmed() {
         /** @var ActivityProgressLabel $activityProgressLabel */
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
-        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+        static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'title' => 'NewTitle  ',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -184,4 +179,43 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testPatchActivityProgressLabelValidatesTitleIsNotBlack() {
+        /** @var ActivityProgressLabel $activityProgressLabel */
+        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        static::createClientWithCredentials()
+            ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
+                'title' => '',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchActivityProgressLabelFiltersTitleByCleanText() {
+        /** @var ActivityProgressLabel $activityProgressLabel */
+        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        static::createClientWithCredentials()
+            ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
+                'title' => "New\r\nTitle",
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'title' => 'NewTitle',
+            '_links' => [
+                'camp' => [
+                    'href' => $this->getIriFor('camp1'),
+                ],
+            ],
+        ]);
+    }
+
 }

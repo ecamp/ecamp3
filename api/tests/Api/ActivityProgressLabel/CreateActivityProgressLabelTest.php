@@ -55,13 +55,16 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateActivityProgressLabelIsAllowedForMember() {
+    public function testCreateActivityProgressLabelIsDeniedForMember() {
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload()])
         ;
 
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testCreateActivityProgressLabelIsAllowedForManager() {
@@ -109,9 +112,9 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => 'Planned  '])])
         ;
-
+        
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2, 'title' => 'Planned']));
     }
 
     public function testCreateActivityProgressLabelValidatesTitleLength() {
@@ -129,6 +132,39 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testCreateActivityProgressLabelValidatesTitleIsNotBlack() {
+        static::createClientWithCredentials()
+            ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => ''])])
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateActivityProgressLabelFiltersTitleByCleanText() {
+        static::createClientWithCredentials()
+            ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => "New\r\nTitle"])])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'title' => 'NewTitle',
+            '_links' => [
+                'camp' => [
+                    'href' => $this->getIriFor('camp1'),
+                ],
+            ],
+        ]);
+    }
+
 
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
