@@ -1,20 +1,18 @@
 <template>
-  <pdf-view v-bind="$props">
+  <pdf-canvas v-bind="$props">
     <slot />
-  </pdf-view>
+  </pdf-canvas>
 </template>
 <script>
-// https://react-pdf.org/components#view
+// https://react-pdf.org/components#canvas
 export default {
-  name: 'View',
+  name: 'Canvas',
   props: {
-    wrap: { type: Boolean, default: true },
     // "style" is not an allowed prop name in Vue, even though we don't render to HTML
     //style: { type: [Object, Array], default: undefined },
-    render: { type: Function, default: undefined },
+    paint: { type: Function, default: undefined },
     debug: { type: Boolean, default: false },
     fixed: { type: Boolean, default: false },
-    id: { type: String, default: undefined },
     bookmark: { type: String, default: undefined },
   },
 }

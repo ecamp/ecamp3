@@ -4,8 +4,12 @@
   </pdf-text>
 </template>
 <script>
+import { presentationAttributesMixin } from './presentationAttributesMixin.js'
+
+// https://react-pdf.org/components#text
 export default {
   name: 'Text',
+  mixins: [presentationAttributesMixin],
   props: {
     wrap: { type: Boolean, default: true },
     render: { type: Function, default: undefined },
@@ -16,6 +20,10 @@ export default {
     hyphenationCallback: { type: Function, default: undefined },
     id: { type: String, default: undefined },
     bookmark: { type: String, default: undefined },
+    // Props used inside SVG images:
+    // https://react-pdf.org/svg#text
+    x: { type: [String, Number], default: undefined },
+    y: { type: [String, Number], default: undefined },
   },
 }
 </script>

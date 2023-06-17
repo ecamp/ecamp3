@@ -4,6 +4,7 @@
   </pdf-page>
 </template>
 <script>
+// https://react-pdf.org/components#page
 export default {
   name: 'Page',
   props: {
