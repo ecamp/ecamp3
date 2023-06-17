@@ -6,6 +6,8 @@
     :class="{
       'e-picasso-entry--editable': !scheduleEntry.tmpEvent,
       'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
+      'e-picasso-entry--resizing': isResizing,
+      'e-picasso-entry--moving': isMoving,
     }"
     :style="colorStyles"
     v-on="listeners"
@@ -38,8 +40,8 @@
 
     <template v-if="location">
       <br v-if="!isTinyDuration" />
-      <small
-        ><span class="d-sr-only">{{
+      <small class="e-picasso-entry__location">
+        <span class="d-sr-only">{{
           $tc('components.program.picasso.picassoEntry.location')
         }}</span>
         {{ location }}
@@ -49,8 +51,8 @@
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
         <br v-if="isLongDuration" />
-        <small
-          ><span class="d-sr-only">{{
+        <small class="e-picasso-entry__responsible">
+          <span class="d-sr-only">{{
             $tc('components.program.picasso.picassoEntry.responsible')
           }}</span
           >{{ campCollaborationText }}</small
@@ -65,6 +67,11 @@
       class="e-picasso-entry__drag-bottom"
       @mousedown.stop="$emit('startResize')"
     />
+
+    <!-- Duration Display -->
+    <div class="e-picasso-entry__duration">
+      {{ durationText }}
+    </div>
   </div>
 
   <!-- readonly mode: component is a HTML link -->
@@ -90,12 +97,12 @@
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
         <br v-if="isLongDuration" />
-        <small
+        <small class="e-picasso-entry__responsible"
           ><span class="d-sr-only">{{
             $tc('components.program.picasso.picassoEntry.responsible')
           }}</span
-          >{{ campCollaborationText }}</small
-        >
+          >{{ campCollaborationText }}
+        </small>
       </template>
       <AvatarRow v-else :camp-collaborations="campCollaborations" />
     </template>
@@ -105,6 +112,8 @@
 import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { timestampToUtcString } from '@/common/helpers/dateHelperVCalendar.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
@@ -114,6 +123,7 @@ import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 export default {
   name: 'PicassoEntry',
   components: { AvatarRow, DialogActivityEdit },
+  mixins: [dateHelperUTCFormatted],
   props: {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
@@ -136,6 +146,12 @@ export default {
     clientHeight: 0,
   }),
   computed: {
+    isResizing() {
+      return this.scheduleEntry.isResizing
+    },
+    isMoving() {
+      return this.scheduleEntry.isMoving
+    },
     activity() {
       return this.scheduleEntry.activity()
     },
@@ -174,6 +190,15 @@ export default {
     },
     isLongDuration() {
       return this.scrollHeight <= this.clientHeight
+    },
+    durationText() {
+      const start = timestampToUtcString(this.scheduleEntry.startTimestamp)
+      const end = timestampToUtcString(this.scheduleEntry.endTimestamp)
+      if (this.dateShort(start) === this.dateShort(end)) {
+        return this.rangeTime(start, end)
+      } else {
+        return this.rangeShort(start, end)
+      }
     },
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
@@ -233,6 +258,7 @@ export default {
 
 <style scoped lang="scss">
 .e-picasso-entry {
+  user-select: none;
   display: block;
   height: 100%;
   padding: 1px;
@@ -273,9 +299,9 @@ export default {
   transition: transform 0.1s;
 
   &:hover {
-    transform: scale(
-      1.02
-    ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    translate: -1.5px -1.5px;
+    width: calc(100% + 3px);
+    height: calc(100% + 3px);
   }
 
   &:active {
@@ -325,6 +351,25 @@ export default {
   hyphenate-limit-zone: 8%;
 }
 
+.e-picasso-entry {
+  .e-picasso-entry__title,
+  .e-picasso-entry__location,
+  .e-picasso-entry__responsible,
+  .e-avatarrow {
+    transition: opacity 0.25s ease-in-out;
+  }
+}
+.e-picasso-entry--resizing,
+.e-picasso-entry--moving,
+.e-picasso-entry--temporary {
+  .e-picasso-entry__title,
+  .e-picasso-entry__location,
+  .e-picasso-entry__responsible,
+  .e-avatarrow {
+    opacity: 20%;
+  }
+}
+
 // resize handle
 .e-picasso-entry__drag-bottom {
   position: absolute;
@@ -347,6 +392,27 @@ export default {
     margin-left: -8px;
     opacity: 0.8;
     content: '';
+  }
+}
+// Duration-Display
+.e-picasso-entry__duration {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+.e-picasso-entry--resizing,
+.e-picasso-entry--moving,
+.e-picasso-entry--temporary {
+  .e-picasso-entry__duration {
+    opacity: 1;
   }
 }
 

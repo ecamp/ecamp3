@@ -57,9 +57,14 @@ export function useDragAndDropMove(
       draggedEntry.startTimestamp = newStart
       draggedEntry.endTimestamp = newEnd
     }
+    draggedEntry.isMoving = true
   }
 
   const clear = () => {
+    if (draggedEntry) {
+      draggedEntry.isMoving = false
+    }
+
     mouseOffset = null
     draggedEntry = null
     startX = null

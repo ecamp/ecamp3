@@ -238,6 +238,8 @@ export default {
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
         timed: true,
+        isResizing: false,
+        isMoving: false,
       }))
 
       // add placeholder for drag & drop (create new entry)
