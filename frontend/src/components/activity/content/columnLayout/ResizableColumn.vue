@@ -61,8 +61,7 @@ export default {
   },
   computed: {
     widthClass() {
-      if (this.$vuetify.breakpoint.smAndDown) return 'col-12'
-      return 'col-md-' + this.width
+      return 'ec-col ec-col-' + this.width
     },
   },
   updated() {
@@ -73,16 +72,15 @@ export default {
 
 <style scoped lang="scss">
 .resizable-col {
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    &.top-border {
-      border-top: 1px solid rgba(0, 0, 0, 0.32);
-    }
+  .ec-col {
+    flex: 0 0 100%;
   }
 
-  &:not(.layout-mode) {
-    @media #{map-get($display-breakpoints, 'md-and-up')} {
-      & + .resizable-col:not(.layout-mode) {
-        border-left: 1px solid rgba(0, 0, 0, 0.12);
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    $step: (600-200) / 12;
+    @for $i from 1 through 12 {
+      &.ec-col-#{$i} {
+        flex: $i 0 #{200 + $step * $i}px;
       }
     }
   }

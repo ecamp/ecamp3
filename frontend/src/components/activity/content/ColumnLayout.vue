@@ -1,5 +1,10 @@
 <template>
-  <v-row v-if="!contentNode.loading" no-gutters>
+  <v-row
+    v-if="!contentNode.loading"
+    no-gutters
+    class="ec-columnlayout"
+    :class="{ 'ec-columnlayout--layoutmode': layoutMode }"
+  >
     <resizable-column
       v-for="(_, slot) in columns"
       :key="slot"
@@ -154,3 +159,20 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.ec-columnlayout {
+  background-color: rgba(0, 0, 0, 0.32);
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+}
+
+.ec-columnlayout:not(.ec-columnlayout--layoutmode) {
+  gap: 1px;
+}
+
+::v-deep .resizable-col {
+  background-color: white;
+}
+</style>

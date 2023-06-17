@@ -5,7 +5,7 @@
       v-model="localContentNodeIds"
       :disabled="!draggingEnabled"
       group="contentNodes"
-      class="draggable-area d-flex flex-column pb-10"
+      class="draggable-area d-flex flex-column"
       :class="{ 'min-height': layoutMode }"
       :invert-swap="true"
       @start="startDrag"
