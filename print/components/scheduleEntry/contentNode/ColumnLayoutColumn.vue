@@ -1,7 +1,7 @@
 <template>
-  <td :style="columnStyles" class="tw-align-top">
+  <div :style="columnStyles" :class="widthClass" class="tw-align-top">
     <content-node v-for="child in children" :key="child.id" :content-node="child" />
-  </td>
+  </div>
 </template>
 
 <script>
@@ -17,12 +17,11 @@ export default {
         (column) => column.slot === this.columnSlot
       )
     },
-    width() {
-      return this.column.width
+    widthClass() {
+      return 'ec-col ec-col-' + this.column.width
     },
     columnStyles() {
       return {
-        width: (this.width / 12.0) * 100.0 + '%',
         borderLeft: this.columnSlot === this.firstSlot ? 'none' : '1px solid black',
         padding:
           '4px ' +
@@ -46,3 +45,16 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.ec-col {
+  flex: 0 0 100%;
+}
+
+$step: (500-100) / 12;
+@for $i from 1 through 12 {
+  .ec-col-#{$i} {
+    flex: $i 0 #{100 + $step * $i}px;
+  }
+}
+</style>

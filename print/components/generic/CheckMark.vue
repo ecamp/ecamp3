@@ -7,9 +7,8 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     xml:space="preserve"
-    width="8"
-    height="8"
-    :style="{ transform: `scale(${scale})`, marginTop: '-0.15em', display: 'inline' }"
+    viewBox="0 0 8 8"
+    :width="size"
   >
     <metadata id="metadata13">
       <rdf:RDF>
@@ -40,3 +39,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+svg {
+  height: auto;
+}
+</style>

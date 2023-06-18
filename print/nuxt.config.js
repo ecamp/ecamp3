@@ -26,7 +26,12 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/tailwind.css', '~/assets/typography.css', '~/assets/print-preview.css'],
+  css: [
+    '~/assets/tailwind.css',
+    '~/assets/typography.css',
+    '~/assets/fonts/inter.css',
+    '~/assets/print-preview.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -92,6 +97,7 @@ export default {
    */
   router: {
     middleware: 'i18n',
+    base: process.env.BASE_URL || '/print',
   },
 
   /*
@@ -133,6 +139,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
+    transpile: ['colorjs.io'],
     extend(config, ctx) {
       if (ctx.isDev) {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'

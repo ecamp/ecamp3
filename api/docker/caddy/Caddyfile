@@ -20,7 +20,7 @@
 		}
 	}
 
-	handle_path /print* {
+	handle /print* {
 		reverse_proxy print:3003
 	}
 

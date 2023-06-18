@@ -1,0 +1,144 @@
+/* static fonts */
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('InterDisplay-Thin.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url('InterDisplay-ThinItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('InterDisplay-ExtraLight.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url('InterDisplay-ExtraLightItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('InterDisplay-Light.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('InterDisplay-LightItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('InterDisplay-Regular.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('InterDisplay-Italic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('InterDisplay-Medium.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('InterDisplay-MediumItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 580;
+  font-display: swap;
+  src: url('InterDisplay-SemiBold.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 580;
+  font-display: swap;
+  src: url('InterDisplay-SemiBoldItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 660;
+  font-display: swap;
+  src: url('InterDisplay-Bold.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 660;
+  font-display: swap;
+  src: url('InterDisplay-BoldItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 780;
+  font-display: swap;
+  src: url('InterDisplay-ExtraBold.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 780;
+  font-display: swap;
+  src: url('InterDisplay-ExtraBoldItalic.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('InterDisplay-Black.otf?v=4.0') format('opentype');
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('InterDisplay-BlackItalic.otf?v=4.0') format('opentype');
+}

@@ -30,3 +30,21 @@ export default {
   },
 }
 </script>
+
+<style>
+:root {
+  --tw-prose-body: #000 !important;
+}
+
+.theme--light.v-application {
+  color: #000;
+}
+
+.tw-prose ol {
+  padding-left: 16px;
+}
+
+.tw-prose li ::marker {
+  color: #000;
+}
+</style>
