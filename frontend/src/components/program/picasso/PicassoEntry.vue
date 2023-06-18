@@ -97,8 +97,8 @@
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
         <br v-if="isLongDuration" />
-        <small class="e-picasso-entry__responsible"
-          ><span class="d-sr-only">{{
+        <small>
+          <span class="d-sr-only">{{
             $tc('components.program.picasso.picassoEntry.responsible')
           }}</span
           >{{ campCollaborationText }}
@@ -400,10 +400,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   position: absolute;
   opacity: 0;
   transition: opacity 0.25s ease-in-out;
