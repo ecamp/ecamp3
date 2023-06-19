@@ -1,10 +1,10 @@
 <template>
   <div class="tw-break-after-page tw-text-center">
-    <div :id="`content_${index}_cover`" class="tw-font-medium tw-mt-20 tw-text-xl">
+    <div class="tw-font-medium tw-mt-20 tw-text-xl">
       {{ camp.name }}
     </div>
 
-    <div class="tw-my-12 tw-text-6xl tw-font-semibold">
+    <div :id="`content_${index}_cover`" class="tw-my-12 tw-text-6xl tw-font-semibold">
       {{ camp.title }}
     </div>
     <div class="tw-text-3xl">
