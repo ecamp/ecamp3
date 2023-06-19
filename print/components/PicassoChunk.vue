@@ -53,13 +53,15 @@
           </template>
 
           <template #event="{ event }">
-            <div class="tw-float-left tw-font-weight-medium tw-tabular-nums">
+            <div
+              class="tw-float-left tw-font-weight-medium tw-tabular-nums tw-font-medium"
+            >
               <!-- link jumps to first instance of scheduleEntry within the document -->
               <a
                 :href="`#scheduleEntry_${event.id}`"
                 :style="{ color: getActivityTextColor(event) }"
               >
-                ({{ event.number }})&nbsp; {{ event.activity().category().short }}:&nbsp;
+                {{ event.number }} {{ event.activity().category().short }}:
                 {{ event.activity().title }}
               </a>
             </div>
@@ -294,7 +296,8 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
 
 .v-calendar .v-event-timed {
   font-size: 0.8em;
-
+  padding: 0 1px;
+  hyphens: auto;
   white-space: normal;
   overflow-wrap: break-word;
   overflow-y: hidden;

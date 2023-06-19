@@ -28,6 +28,13 @@ export default {
     this.config = JSON.parse(query.config || '{}')
     this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
   },
+  head() {
+    return {
+      htmlAttrs: {
+        lang: this.$i18n.locale,
+      },
+    }
+  },
 }
 </script>
 
