@@ -1,6 +1,6 @@
 import wrap from '../../minimalHalJsonVuex.js'
 import createI18n from '../../i18n.js'
-import pdf, { prepare } from '@/pdf/pdf.mjs'
+import pdf from '@/pdf/pdf.mjs'
 
 export const renderPdf = async ({ config, storeData, translationData }) => {
   const result = {
@@ -13,7 +13,9 @@ export const renderPdf = async ({ config, storeData, translationData }) => {
     const { translate } = createI18n(translationData, storeData.lang.language)
     const store = wrap(storeData.api)
 
-    await prepare(config)
+    if (typeof pdf.prepare === 'function') {
+      await pdf.prepare(config)
+    }
 
     config.camp = store.get(config.camp)
     const props = { config, store, $tc: translate, locale: storeData.lang.language }

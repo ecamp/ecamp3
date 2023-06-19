@@ -10,9 +10,18 @@ const vuePdfStylePlugin = {
     const parsed = parse(code)
     const rules = parsed.stylesheet.rules
     const transformedRules = transformCssRules(rules)
-    return `export default (component) => {
-      component.pdfStyle = ${JSON.stringify(transformedRules)};
-    }`
+    return {
+      code: `export default (component) => {
+        component.pdfStyle = ${JSON.stringify(transformedRules)};
+      }`,
+      // The following line fixes the warning "Sourcemap is likely to be incorrect: a plugin
+      // (vue-pdf-style-plugin) was used to transform files, but didn't generate a sourcemap
+      // for the transformation."
+      // But at the same time, vite in the frontend complains on HMR updates and refuses to update:
+      // "Multiple conflicting contents for sourcemap source".
+      // So for now, let's just live with the more harmless warning in the pdf module.
+      //map: null,
+    }
   },
 }
 

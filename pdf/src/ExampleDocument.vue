@@ -17,6 +17,12 @@
 import { Font } from './renderer/index.js'
 import SubComponent from './SubComponent.vue'
 import PdfComponent from './PdfComponent.js'
+import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
+import OpenSansItalic from '@/assets/fonts/OpenSans/OpenSans-Italic.ttf'
+import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
+import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf'
+import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
+import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
 
 export default {
   name: 'ExampleDocument',
@@ -39,24 +45,6 @@ export default {
 }
 
 const registerFonts = async () => {
-  const [
-    OpenSans,
-    OpenSansItalic,
-    OpenSansSemiBold,
-    OpenSansSemiBoldItalic,
-    OpenSansBold,
-    OpenSansBoldItalic,
-  ] = (
-    await Promise.all([
-      import('../public/fonts/OpenSans/OpenSans-Regular.ttf'),
-      import('../public/fonts/OpenSans/OpenSans-Italic.ttf'),
-      import('../public/fonts/OpenSans/OpenSans-SemiBold.ttf'),
-      import('../public/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf'),
-      import('../public/fonts/OpenSans/OpenSans-Bold.ttf'),
-      import('../public/fonts/OpenSans/OpenSans-BoldItalic.ttf'),
-    ])
-  ).map((module) => module.default)
-
   Font.register({
     family: 'OpenSans',
     fonts: [
