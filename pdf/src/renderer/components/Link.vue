@@ -14,7 +14,7 @@ export default {
     //style: { type: [Object, Array], default: undefined },
     debug: { type: Boolean, default: false },
     fixed: { type: Boolean, default: false },
-    bookmark: { type: String, default: undefined },
+    bookmark: { type: [String, Object], default: undefined },
   },
 }
 </script>

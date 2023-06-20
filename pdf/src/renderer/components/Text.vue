@@ -1,5 +1,5 @@
 <template>
-  <pdf-text v-bind="$props">
+  <pdf-text v-bind="presentProps">
     <slot />
   </pdf-text>
 </template>
@@ -19,7 +19,7 @@ export default {
     fixed: { type: Boolean, default: false },
     hyphenationCallback: { type: Function, default: undefined },
     id: { type: String, default: undefined },
-    bookmark: { type: String, default: undefined },
+    bookmark: { type: [String, Object], default: undefined },
     // Props used inside SVG images:
     // https://react-pdf.org/svg#text
     x: { type: [String, Number], default: undefined },

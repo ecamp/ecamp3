@@ -48,6 +48,7 @@ function patchProp(el, key, prevVal, nextVal) {
 }
 
 function insert(child, parent, _) {
+  if (!child) return
   if (child.type === 'TEXT_INSTANCE' && child.value === '') {
     return
   }
@@ -90,7 +91,9 @@ function insert(child, parent, _) {
 
 function createElement(tag, isSVG, isCustomizedBuiltIn, vnodeProps) {
   if (!(tag in htmlToPdfElementMap)) {
-    throw Error(`Tag <${tag}> cannot be used inside a pdf!`)
+    throw Error(
+      `Tag <${tag}> cannot be used inside a pdf. Did you forget to import a Vue component?`
+    )
   }
   return {
     box: {},
@@ -134,7 +137,7 @@ function remove(element) {
 }
 
 function createComment() {
-  noop('createComment')
+  //noop('createComment')
 }
 function setText() {
   noop('setText')

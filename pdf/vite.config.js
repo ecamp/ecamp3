@@ -41,9 +41,17 @@ export default defineConfig({
       // Not sure whether it is a good idea to install Vue 3 along with Vue 2 in the frontend, so Vue 3
       // is installed and compiled into the pdf module for now.
       external: (id) =>
+        id.includes('assets/fonts/') ||
         id.includes('@react-pdf/') ||
+        id.includes('colorjs.io') ||
+        id.includes('dayjs') ||
         id.includes('lodash') ||
-        id.includes('assets/fonts/'),
+        id.includes('runes') ||
+        // With vuetify, we are pulling tricks here. The v-calendar and its layout algorithms which we use
+        // are only in Vuetify 2, but Vuetify 2 does not allow being installed along with Vue 3.
+        // To work around this, we declare vuetify as external here, and don't list it in the pdf module's
+        // (peer) dependencies.
+        id.includes('vuetify'),
     },
   },
 })

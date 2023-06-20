@@ -1,5 +1,5 @@
 <template>
-  <pdf-rect v-bind="$props">
+  <pdf-rect v-bind="presentProps">
     <slot />
   </pdf-rect>
 </template>

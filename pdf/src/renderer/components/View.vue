@@ -15,7 +15,7 @@ export default {
     debug: { type: Boolean, default: false },
     fixed: { type: Boolean, default: false },
     id: { type: String, default: undefined },
-    bookmark: { type: String, default: undefined },
+    bookmark: { type: [String, Object], default: undefined },
   },
 }
 </script>

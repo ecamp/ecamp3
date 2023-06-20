@@ -11,7 +11,7 @@ export default {
     width: { type: [String, Number], default: undefined },
     height: { type: [String, Number], default: undefined },
     viewBox: { type: String, default: undefined },
-    preserveAspectRatio: { type: String, default: undefined },
+    preserveAspectRatio: { type: String, default: '' },
     // "style" is not an allowed prop name in Vue, even though we don't render to HTML
     //style: { type: [Object, Array], default: undefined },
   },

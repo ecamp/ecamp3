@@ -18,12 +18,16 @@
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}"
   },
   "dependencies": {
-    "@react-pdf/font": "^2.3.1",
-    "@react-pdf/layout": "^3.2.1",
-    "@react-pdf/pdfkit": "^3.0.0",
-    "@react-pdf/render": "^3.2.1",
-    "@vue/runtime-core": "^3.2.41",
-    "lodash": "^4.17.21"
+    "@vue/runtime-core": "^3.2.41"
+  },
+  "peerDependencies": {
+    "@react-pdf/font": "2.3.1",
+    "@react-pdf/layout": "3.2.1",
+    "@react-pdf/pdfkit": "3.0.0",
+    "@react-pdf/render": "3.2.1",
+    "colorjs.io": "0.4.5",
+    "lodash": "4.17.21",
+    "runes": "0.4.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -49,7 +53,7 @@
       "jest": true
     },
     "extends": [
-      "plugin:vue/recommended",
+      "plugin:vue/vue3-recommended",
       "eslint:recommended",
       "plugin:prettier/recommended",
       "@vue/eslint-config-prettier"

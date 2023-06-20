@@ -13,7 +13,7 @@ export default {
     paint: { type: Function, default: undefined },
     debug: { type: Boolean, default: false },
     fixed: { type: Boolean, default: false },
-    bookmark: { type: String, default: undefined },
+    bookmark: { type: [String, Object], default: undefined },
   },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <pdf-polyline v-bind="$props">
+  <pdf-polyline v-bind="presentProps">
     <slot />
   </pdf-polyline>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <pdf-polygon v-bind="$props">
+  <pdf-polygon v-bind="presentProps">
     <slot />
   </pdf-polygon>
 </template>

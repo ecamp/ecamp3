@@ -14,7 +14,7 @@ export default {
     styles: { type: [Object, Array], default: undefined },
     debug: { type: Boolean, default: false },
     dpi: { type: Number, default: 72 },
-    bookmark: { type: String, default: undefined },
+    bookmark: { type: [String, Object], default: undefined },
   },
 }
 </script>

@@ -1,17 +1,15 @@
 <template>
-  <Text :class="{ blue: true, red: '123' }">I'm blue</Text>
+  <Link class="toc-entry" :href="`#${id}`">
+    <Text>{{ $tc('print.toc.title') }}</Text>
+  </Link>
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
 
 export default {
-  name: 'SubComponent',
+  name: 'Toc',
   extends: PdfComponent,
 }
 </script>
-
 <pdf-style>
-.blue {
-  color: blue;
-}
 </pdf-style>

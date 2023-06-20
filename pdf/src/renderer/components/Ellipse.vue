@@ -1,5 +1,5 @@
 <template>
-  <pdf-ellipse v-bind="$props">
+  <pdf-ellipse v-bind="presentProps">
     <slot />
   </pdf-ellipse>
 </template>
