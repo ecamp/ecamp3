@@ -231,6 +231,10 @@ div.editor:deep(.editor__content .ProseMirror) {
   line-height: 1.5;
 }
 
+.theme--light.v-input--is-disabled div.editor:deep(.editor__content .ProseMirror) {
+  color: rgba(0, 0, 0, 0.38);
+}
+
 div.editor:deep(.editor__content .ProseMirror p) {
   letter-spacing: -0.011em;
 }
