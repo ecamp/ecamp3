@@ -3,6 +3,11 @@ FROM node:lts-alpine AS build-stage
 
 COPY common /common
 
+# Build the pdf module
+COPY pdf /pdf
+WORKDIR /pdf
+RUN npm ci && npm run build
+
 WORKDIR /app
 COPY frontend/package*.json ./
 COPY frontend/public ./public
@@ -11,6 +16,7 @@ COPY frontend/scripts ./scripts
 # so they do not increase the image layer size
 RUN apk --no-cache add --virtual native-deps g++ make python3 git && npm ci && apk del native-deps
 COPY frontend .
+COPY /pdf/dist ./pdf
 RUN npm run build
 
 # production stage
