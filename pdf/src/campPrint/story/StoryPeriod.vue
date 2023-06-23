@@ -10,7 +10,7 @@
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import StoryDay from './StoryDay.vue'
-import sortBy from 'lodash/sortBy'
+import sortBy from 'lodash/sortBy.js'
 
 export default {
   name: 'StoryPeriod',

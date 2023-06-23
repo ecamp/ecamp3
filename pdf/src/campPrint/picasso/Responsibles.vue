@@ -18,8 +18,8 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import { campCollaborationColor, contrastColor } from '@/common/helpers/colors.js'
-import campCollaborationInitials from '@/common/helpers/campCollaborationInitials.js'
+import { campCollaborationColor, contrastColor } from '../../../common/helpers/colors.js'
+import campCollaborationInitials from '../../../common/helpers/campCollaborationInitials.js'
 
 export default {
   name: 'Responsibles',

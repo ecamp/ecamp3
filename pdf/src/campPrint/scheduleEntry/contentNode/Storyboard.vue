@@ -29,7 +29,7 @@
 import PdfComponent from '@/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
 import RichText from '../../RichText.vue'
-import sortBy from 'lodash/sortBy'
+import sortBy from 'lodash/sortBy.js'
 
 export default {
   name: 'Storyboard',

@@ -5,7 +5,7 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import { contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '../../common/helpers/colors.js'
 
 export default {
   name: 'CategoryLabel',

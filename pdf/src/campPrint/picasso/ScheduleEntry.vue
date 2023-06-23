@@ -18,7 +18,7 @@
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import Responsibles from './Responsibles.vue'
-import { contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '../../../common/helpers/colors.js'
 
 export default {
   name: 'ScheduleEntry',

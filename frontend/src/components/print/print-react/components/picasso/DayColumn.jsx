@@ -6,7 +6,7 @@ import dayjs from '@/common/helpers/dayjs.js'
 import picassoStyles from './picassoStyles.js'
 import vuetifyLayouter, * as vuetifyLayouterInMainThread from 'vuetify/es5/components/VCalendar/modes/column.js'
 import vuetifyEvents, * as vuetifyEventsInMainThread from 'vuetify/es5/components/VCalendar/util/events.js'
-import { utcStringToTimestamp } from '../../../../../../../common/helpers/dateHelperVCalendar.js'
+import { utcStringToTimestamp } from '../../../../../common/helpers/dateHelperVCalendar.js'
 import keyBy from 'lodash/keyBy.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)

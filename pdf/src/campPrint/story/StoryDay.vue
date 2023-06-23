@@ -23,10 +23,10 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateLong } from '../../../common/helpers/dateHelperUTCFormatted.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import RichText from '../RichText.vue'
-import sortBy from 'lodash/sortBy'
+import sortBy from 'lodash/sortBy.js'
 
 export default {
   name: 'StoryDay',

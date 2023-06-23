@@ -1,4 +1,4 @@
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from './dayjs.js'
 
 // converts a timestamp (local timezone) into ISO String format (UTC timezone)
 function timestampToUtcString(timestamp) {

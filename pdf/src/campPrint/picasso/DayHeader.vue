@@ -8,7 +8,7 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from '../../../common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'DayHeader',

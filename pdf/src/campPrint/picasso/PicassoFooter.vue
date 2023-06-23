@@ -32,7 +32,7 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import campCollaborationLegalName from '@/common/helpers/campCollaborationLegalName.js'
+import campCollaborationLegalName from '../../../common/helpers/campCollaborationLegalName.js'
 
 export default {
   name: 'PicassoFooter',

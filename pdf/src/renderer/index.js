@@ -2,7 +2,7 @@ import FontStore from '@react-pdf/font'
 import renderPDF from '@react-pdf/render'
 import PDFDocument from '@react-pdf/pdfkit'
 import layoutDocument from '@react-pdf/layout'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '../../common/helpers/dayjs.js'
 import { nodeOps } from './nodeOps.js'
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { createRenderer } from '@vue/runtime-core'

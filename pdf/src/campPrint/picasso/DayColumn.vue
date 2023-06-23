@@ -27,7 +27,7 @@ import PdfComponent from '@/PdfComponent.js'
 import ScheduleEntry from './ScheduleEntry.vue'
 import vuetifyLayouter, * as vuetifyLayouterInMainThread from 'vuetify/es5/components/VCalendar/modes/column.js'
 import vuetifyEvents, * as vuetifyEventsInMainThread from 'vuetify/es5/components/VCalendar/util/events.js'
-import { utcStringToTimestamp } from '@/common/helpers/dateHelperVCalendar.js'
+import { utcStringToTimestamp } from '../../../common/helpers/dateHelperVCalendar.js'
 import keyBy from 'lodash/keyBy.js'
 
 export default {

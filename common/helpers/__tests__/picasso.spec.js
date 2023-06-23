@@ -1,5 +1,5 @@
 import { splitDaysIntoPages, calculateBedtime } from '../picasso.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '../../common/helpers/dayjs.js'
 
 describe('splitPicassoIntoPages', () => {
   function daysBetween(start, end) {
