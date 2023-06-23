@@ -163,7 +163,7 @@ export default {
         .getHTML()
         .replace(this.regex.emptyParagraph, '')
         .replace(this.regex.lineBreak1, '<br />')
-        .replace(this.regex.lineBreak1, '<br />')
+        .replace(this.regex.lineBreak2, '<br />')
     },
   },
   watch: {
