@@ -147,7 +147,7 @@ export default {
         camp: this.camp()._meta.self,
         contents: this.defaultContents(),
       },
-      previewTab: 1,
+      previewTab: null,
     }
   },
   computed: {
