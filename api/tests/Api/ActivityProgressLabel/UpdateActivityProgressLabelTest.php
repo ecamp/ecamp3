@@ -180,7 +180,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchActivityProgressLabelValidatesTitleIsNotBlack() {
+    public function testPatchActivityProgressLabelValidatesTitleIsNotBlank() {
         /** @var ActivityProgressLabel $activityProgressLabel */
         $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
         static::createClientWithCredentials()

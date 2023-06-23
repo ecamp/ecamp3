@@ -133,7 +133,7 @@ class CreateActivityProgressLabelTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateActivityProgressLabelValidatesTitleIsNotBlack() {
+    public function testCreateActivityProgressLabelValidatesTitleIsNotBlank() {
         static::createClientWithCredentials()
             ->request('POST', '/activity_progress_labels', ['json' => $this->getExampleWritePayload(['title' => ''])])
         ;
