@@ -14,6 +14,7 @@
       <v-divider class="blue-grey darken-2" />
       <v-list>
         <SidebarListItem
+          v-if="user && !user._meta.loading"
           :title="user.displayName"
           :subtitle="user.profile().firstname + ' ' + user.profile().surname"
           :to="{ name: 'profile', query: { isDetail: true } }"
@@ -33,7 +34,7 @@
 
       <v-divider />
 
-      <v-list>
+      <v-list v-if="!camp()._meta.loading">
         <SidebarListItem
           :title="camp().name"
           :subtitle="camp().motto"

@@ -111,6 +111,9 @@ function createCampWithRole(role) {
         {
           role: role,
           user: () => USER,
+          _meta: {
+            loading: false,
+          },
         },
       ],
     }),
