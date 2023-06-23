@@ -1,4 +1,4 @@
-import prepareInMainThread from './documents/campPrint/index.js'
+import { prepareInMainThread } from '@/pdf/pdf.mjs'
 import cloneDeep from 'lodash/cloneDeep.js'
 
 export const generatePdf = async (data) => {

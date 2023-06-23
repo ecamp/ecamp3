@@ -2,7 +2,7 @@
   <Document>
     <Page orientation="portrait" style="font-family: OpenSans">
       <View class="container">
-        <Text :style="{ color: 'red' }"
+        <Text style="color: red"
           >{{ $tc('print.toc.title') }} {{ config.camp.name }}</Text
         >
         <View v-for="period in selectedPeriods" :key="period._meta.self">

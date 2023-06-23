@@ -32,7 +32,7 @@ export const renderPdfInWorker = async (data) => {
   const result = { ...(await renderPdf(data)) }
   if (result.error) {
     Sentry.captureException(result.error)
-    result.error = result.error.message
+    result.error = `Error in PDF worker code. To get the full stack trace, set RENDER_IN_WORKER to false. Error message was: ${result.error.message}`
   }
   return result
 }

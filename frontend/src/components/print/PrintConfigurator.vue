@@ -169,7 +169,10 @@ export default {
   mounted() {
     this.camp()
       .periods()
-      .items.forEach((period) => period.days().$reload())
+      .items.forEach((period) => {
+        period.days().$reload()
+        period.contentNodes().$reload()
+      })
   },
   methods: {
     defaultContents() {

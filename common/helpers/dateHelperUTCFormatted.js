@@ -1,4 +1,4 @@
-import dayjs from './dayjs.js'
+import dayjs from '@/common/helpers/dayjs.js'
 
 function dateShort(dateTimeString, tc) {
   return dayjs.utc(dateTimeString).format(tc('global.datetime.dateShort'))

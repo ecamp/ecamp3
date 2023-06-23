@@ -43,12 +43,12 @@ function patchProp(el, key, prevVal, nextVal) {
     const styles = nextVal.split(' ').map((styleClass) => styleStore[styleClass] || {})
     el.style = Object.assign(el.style, ...styles)
   } else {
-    el.props[key] = nextVal
+    el.props[camelCase(key)] = nextVal
   }
 }
 
 function insert(child, parent, _) {
-  if (!child) return
+  if (!child || !parent) return
   if (child.type === 'TEXT_INSTANCE' && child.value === '') {
     return
   }
@@ -95,10 +95,13 @@ function createElement(tag, isSVG, isCustomizedBuiltIn, vnodeProps) {
       `Tag <${tag}> cannot be used inside a pdf. Did you forget to import a Vue component?`
     )
   }
+  const camelCasedProps = Object.fromEntries(
+    Object.entries(vnodeProps).map(([key, value]) => [camelCase(key), value])
+  )
   return {
     box: {},
     children: [],
-    props: vnodeProps,
+    props: camelCasedProps,
     style: {},
     type: htmlToPdfElementMap[tag],
   }
@@ -112,26 +115,26 @@ function createText(text) {
 }
 
 function setElementText(element, text) {
-  console.log('setElementText', element, text)
+  //console.log('setElementText', element, text)
   insert(createText(text), element, null)
 }
 
 // Operations which Vue uses while hot reloading.
 function parentNode(element) {
-  console.log('parentNode', element)
-  return element.parent || null
+  //console.log('parentNode', element)
+  return element?.parent || null
 }
 
 function nextSibling(element) {
-  console.log('nextSibling', element)
-  if (!element.parent) return null
+  //console.log('nextSibling', element)
+  if (!element?.parent) return null
   const nextSiblingIndex = element.parent.children.findIndex((el) => el === element) + 1
   return element.parent.children[nextSiblingIndex] || null
 }
 
 function remove(element) {
-  console.log('remove', element)
-  if (!element.parent) return null
+  //console.log('remove', element)
+  if (!element?.parent) return null
   const index = element.parent.children.findIndex((el) => el === element)
   element.parent.children.splice(index, 1)
 }
