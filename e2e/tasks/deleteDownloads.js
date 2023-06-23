@@ -15,7 +15,7 @@ function deleteDownloads(config) {
           console.log(`not deleting directory ${path.join(dirPath, file.name)}`)
           return
         }
-        fs.unlink(path.join(dirPath, file), () => {
+        fs.unlink(path.join(dirPath, file.name), () => {
           console.log('Removed ' + file)
         })
       })
