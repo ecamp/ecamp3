@@ -24,6 +24,7 @@ const components = {
 }
 
 function PDFDocument(props) {
+  // TODO if no valid configs are present, render an empty page to avoid an error
   return (
     <Document>
       {props.config.contents.map((content, idx) => {
