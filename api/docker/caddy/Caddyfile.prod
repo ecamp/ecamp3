@@ -6,9 +6,9 @@
     https_port 3443
     auto_https off
   	# enable Prometheus metrics endpoint https://caddyserver.com/docs/metrics
-  	servers {
-  		metrics
-  	}
+    servers {
+        metrics
+    }
 }
 
 {$SERVER_NAME}
