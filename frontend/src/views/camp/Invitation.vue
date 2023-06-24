@@ -4,9 +4,8 @@
       <v-icon :size="$vuetify.breakpoint.smAndUp ? 300 : 200" class="tent"
         >$vuetify.icons.tentDay
       </v-icon>
-      <img src="../../assets/invitation/tree-left.svg" alt="" class="tree l h-full" />
-      <img src="../../assets/invitation/tree-right.svg" alt="" class="tree r h-full" />
-      <div class="localnav justify-space-between d-flex col">
+      <div class="trees"></div>
+      <div class="localnav justify-space-between d-flex w-100 pa-2">
         <ButtonBack v-if="!$vuetify.breakpoint.mdAndUp" text dark visible-label />
         <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" just-avatar />
       </div>
@@ -385,34 +384,22 @@ export default {
   background-position-x: -2px;
 }
 
-.tree {
-  transition: height 0.5s ease;
-  bottom: 0;
+.trees {
   position: absolute;
-
-  &.l {
-    height: 40%;
-    left: 0;
-    @media #{map-get($display-breakpoints, 'sm-and-up')} {
-      height: 44%;
-    }
-    @media #{map-get($display-breakpoints, 'md-and-up')} {
-      height: 49%;
-    }
-    @media #{map-get($display-breakpoints, 'lg-and-up')} {
-      height: 100%;
-    }
+  inset: 0;
+  background-image: url('../../assets/invitation/tree-left.svg'),
+    url('../../assets/invitation/tree-right.svg');
+  background-position: left bottom, right bottom;
+  transition: background-size 0.5s ease;
+  background-size: auto 40%, auto 65%;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    background-size: auto 44%, auto 65%;
   }
-
-  &.r {
-    height: 65%;
-    right: 0;
-    @media #{map-get($display-breakpoints, 'md-and-up')} {
-      height: 75%;
-    }
-    @media #{map-get($display-breakpoints, 'lg-and-up')} {
-      height: 90%;
-    }
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    background-size: auto 49%, auto 75%;
+  }
+  @media #{map-get($display-breakpoints, 'lg-and-up')} {
+    background-size: auto 100%, auto 90%;
   }
 }
 </style>
