@@ -49,7 +49,7 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
         return $this->decorated->normalize($object, $format, $context);
     }
 
-    public function setSerializer(SerializerInterface $serializer) {
+    public function setSerializer(SerializerInterface $serializer): void {
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
         }
