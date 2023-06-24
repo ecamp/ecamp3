@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Status erstellen",
+        "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
+        "deleteError": "Status konnte nicht gelöscht werden. Der Status wird noch verwendet.",
+        "moveDown": "Nach unten",
+        "moveUp": "Nach oben",
+        "title": "Block-Status"
+      },
       "campAddress": {
         "title": "Lageradresse"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Weiteren Lagerabschnitt hinzufügen"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Block-Status erstellen"
       },
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -476,6 +487,7 @@
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
+        "progressLabel": "Status",
         "responsible": "Verantwortlich",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },

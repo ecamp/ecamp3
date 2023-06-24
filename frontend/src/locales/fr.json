@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Créer un statut",
+        "deleteWarning": "Tu veux vraiment supprimer ce statut?",
+        "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
+        "moveDown": "Vers le bas",
+        "moveUp": "Vers le haut",
+        "title": "Statut des activités"
+      },
       "campAddress": {
         "title": "Adresse"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Ajoute un point"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Créer un statut"
       },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
@@ -476,6 +487,7 @@
         "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
+        "progressLabel": "Statut",
         "responsible": "Responsable",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },

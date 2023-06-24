@@ -22,7 +22,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         </v-col>
         <v-col cols="12" lg="6">
           <camp-categories :camp="camp" :disabled="!isManager" />
-
+          <camp-activity-progress-labels :camp="camp" :disabled="!isManager" />
           <camp-material-lists :camp="camp" :disabled="!isManager" />
         </v-col>
       </v-row>
@@ -41,6 +41,7 @@ import CampAddress from '@/components/campAdmin/CampAddress.vue'
 import CampPeriods from '@/components/campAdmin/CampPeriods.vue'
 import CampMaterialLists from '@/components/campAdmin/CampMaterialLists.vue'
 import CampCategories from '@/components/campAdmin/CampCategories.vue'
+import CampActivityProgressLabels from '@/components/campAdmin/CampActivityProgressLabels.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import CampDangerZone from '@/components/campAdmin/CampDangerZone.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
@@ -55,6 +56,7 @@ export default {
     CampPeriods,
     CampMaterialLists,
     CampCategories,
+    CampActivityProgressLabels,
   },
   mixins: [campRoleMixin],
   props: {
@@ -66,6 +68,7 @@ export default {
   mounted() {
     this.api.reload(this.camp())
     this.api.reload(this.camp().materialLists())
+    this.api.reload(this.camp().progressLabels())
   },
 }
 </script>

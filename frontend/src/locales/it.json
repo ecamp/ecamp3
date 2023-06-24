@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Creare uno stato",
+        "deleteWarning": "Vuoi davvero cancellare questo stato?",
+        "deleteError": "Lo stato non può essere cancellato. Viene ancora utilizzato.",
+        "moveDown": "Spostare in basso",
+        "moveUp": "Spostare in alto",
+        "title": "Stati delle attività"
+      },
       "campAddress": {
         "title": "Indirizzo"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Aggiungi un punto"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Creare uno stato"
       },
       "dialogCategoryCreate": {
         "title": "Creare categoria di attività"
@@ -476,6 +487,7 @@
         "noEntries": "Non sono state trovate attività. Prova a cancellare i filtri di selezione e/o a ricaricare la pagina.",
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
+        "progressLabel": "Stati",
         "responsible": "Responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },

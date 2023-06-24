@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Create a state",
+        "deleteWarning": "Do you really want to delete this state?",
+        "deleteError": "State can't be deleted. It is still used.",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
+        "title": "Activity state"
+      },
       "campAddress": {
         "title": "Address"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Add a period"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Create activity state"
       },
       "dialogCategoryCreate": {
         "title": "Create activity category"
@@ -476,6 +487,7 @@
         "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
         "onlyMyActivities": "Only my activities",
         "period": "Period",
+        "progressLabel": "State",
         "responsible": "Responsible",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
