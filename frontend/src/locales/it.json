@@ -482,21 +482,15 @@
       "invitation": {
         "acceptCurrentAuth": "Accetta l'invito con un conto corrente",
         "backToHome": "Torna a casa",
-        "notFound": "Questo invito è già stato accettato o è stato cancellato",
+        "error": "Si è verificato un errore inatteso",
+        "notFound": "Questo invito è già stato accettato o cancellato",
         "openCamp": "Campo aperto",
         "register": "Registro",
         "reject": "Rifiuta l'invito",
+        "successfullyRejected": "L'invito è stato rifiutato con successo",
         "title": "Invito",
         "useOtherAuth": "Esci e usa un altro account",
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
-      },
-      "invitationRejected": {
-        "backToHome": "Torna a casa",
-        "successfullyRejected": "L'invito è stato rifiutato con successo"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Torna a casa",
-        "error": "Si è verificato un errore inatteso"
       },
       "material": {
         "downloadXlsx": "Scarica",

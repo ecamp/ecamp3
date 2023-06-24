@@ -482,21 +482,15 @@
       "invitation": {
         "acceptCurrentAuth": "Accepte l'invitation avec le compte courant",
         "backToHome": "Retour à la maison",
-        "notFound": "Cette invitation est déjà acceptée ou a été supprimée",
+        "error": "Une erreur inattendue s'est produite",
+        "notFound": "Cette invitation est déjà acceptée ou supprimée",
         "openCamp": "Camp ouvert",
         "register": "Registre",
         "reject": "Refuser l'invitation",
+        "successfullyRejected": "L'invitation a été rejetée avec succès",
         "title": "Invitation",
         "useOtherAuth": "Déconnecte-toi et utilise un autre compte",
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
-      },
-      "invitationRejected": {
-        "backToHome": "Retour à la maison",
-        "successfullyRejected": "L'invitation a été rejetée avec succès"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Retour à la maison",
-        "error": "Une erreur inattendue s'est produite"
       },
       "material": {
         "downloadXlsx": "Télécharger",

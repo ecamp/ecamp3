@@ -5,38 +5,48 @@
         >$vuetify.icons.tentDay
       </v-icon>
       <div class="trees"></div>
-      <div class="localnav justify-space-between d-flex w-100 pa-2">
+      <div class="localnav justify-space-between d-flex w-100 py-2">
         <ButtonBack v-if="!$vuetify.breakpoint.mdAndUp" text dark visible-label />
-        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" just-avatar />
+        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only />
       </div>
       <h1 class="wood text-center align-self-end">
         <span class="rope"></span>
         <span class="rope l"></span>
-        <span class="subtitle-2 font-weight-bold">{{
-          $tc('views.camp.invitation.title')
-        }}</span>
         <v-skeleton-loader
-          v-if="invitation()._meta.loading"
+          v-if="invite?._meta.loading"
           type="image"
           width="200"
           height="48"
         />
-        <span v-else>{{ invitation().campTitle }}</span>
+        <template v-else-if="variant === 'default' && invitationFound !== false">
+          <span class="subtitle-2 font-weight-bold">{{
+            $tc('views.camp.invitation.title')
+          }}</span>
+          <span v-if="!invite?._meta.loading">{{ invite?.campTitle }}</span>
+        </template>
+        <span v-else-if="variant === 'rejected'">{{
+          $tc('views.camp.invitation.successfullyRejected')
+        }}</span>
+        <span v-else-if="variant === 'error'">{{
+          $tc('views.camp.invitation.error')
+        }}</span>
+        <span v-else>{{ $tc('views.camp.invitation.notFound') }}</span>
       </h1>
       <div
-        v-if="!invitation()._meta.loading"
+        v-if="variant === 'default' && !invite?._meta.loading && invitationFound === true"
         class="invitation-actions flex-column d-grid gap-2 align-self-start justify-items-center mx-2"
       >
         <div v-if="authUser">
           <v-alert
-            v-if="invitation().userAlreadyInCamp"
+            v-if="invite?.userAlreadyInCamp"
             border="left"
             colored-border
             color="primary"
+            class="mb-1"
             :icon="$vuetify.breakpoint.smAndUp ? 'mdi-information-outline' : false"
             type="info"
           >
-            {{ $tc('views.camp.invitation.userAlreadyInCamp') }}<br />
+            {{ $tc('views.camp.invitation.userAlreadyInCamp') }}
             <div class="mt-2 d-flex flex-wrap gap-2">
               <v-btn small color="primary" :to="campLink" elevation="0">
                 {{ $tc('views.camp.invitation.openCamp') }}
@@ -69,12 +79,12 @@
             {{ $tc('views.camp.invitation.register') }}
           </v-btn>
         </div>
-        <v-btn dark text @click="rejectInvitation">
+        <v-btn dark text :small="invite?.userAlreadyInCamp" @click="rejectInvitation">
           {{ $tc('views.camp.invitation.reject') }}
         </v-btn>
       </div>
       <div class="justify-center d-flex col gap-2">
-        <v-btn v-if="authUser" text dark>
+        <v-btn v-if="authUser" text dark :to="{ name: 'home' }">
           <v-icon left>mdi-tent</v-icon>
           {{ $tc('views.camp.invitation.backToHome') }}
         </v-btn>
@@ -88,6 +98,7 @@ import { loginRoute } from '@/router'
 import VueRouter from 'vue-router'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import ButtonBack from '@/components/buttons/ButtonBack.vue'
+import UserMeta from '@/components/navigation/UserMeta.vue'
 
 const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
@@ -98,18 +109,22 @@ const ignoreNavigationFailure = (e) => {
 
 export default {
   name: 'Invitation',
-  components: { ButtonBack },
+  components: { ButtonBack, UserMeta },
   props: {
-    invitation: { type: Function, required: true },
+    invitation: { type: Function, required: false, default: null },
+    variant: { type: String, default: 'default' },
   },
   data: () => ({
     invitationFound: undefined,
   }),
   computed: {
+    invite() {
+      return this.invitationFound === true ? this.invitation?.() : null
+    },
     campLink() {
       return {
         name: 'camp/program',
-        params: { campId: this.invitation().campId },
+        params: { campId: this.invite?.campId },
       }
     },
     loginLink() {
@@ -118,9 +133,6 @@ export default {
     ready() {
       return this.invitationFound !== undefined
     },
-    userDisplayName() {
-      return this.invitation().userDisplayName
-    },
     authUser() {
       return this.$store.state.auth.user
     },
@@ -128,17 +140,19 @@ export default {
   mounted() {
     this.invitationFound = undefined
 
-    // Content of api response depends on authenticated user --> reload every time this component is mounted
-    this.invitation()
-      .$reload()
-      .then(
-        () => {
-          this.invitationFound = true
-        },
-        () => {
-          this.invitationFound = false
-        }
-      )
+    if (this.variant === 'default') {
+      // Content of api response depends on authenticated user --> reload every time this component is mounted
+      this.invitation?.()
+        .$reload()
+        .then(
+          () => {
+            this.invitationFound = true
+          },
+          () => {
+            this.invitationFound = false
+          }
+        )
+    }
   },
   methods: {
     useAnotherAccount() {
@@ -386,6 +400,7 @@ export default {
 
 .trees {
   position: absolute;
+  pointer-events: none;
   inset: 0;
   background-image: url('../../assets/invitation/tree-left.svg'),
     url('../../assets/invitation/tree-right.svg');

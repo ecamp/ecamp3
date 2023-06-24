@@ -5,14 +5,22 @@
     offset-y
     dark
     right
-    content-class="ec-usermenu"
+    :content-class="
+      ['ec-usermenu', $vuetify.breakpoint.xsOnly && 'rounded-lg mt-2'].join(' ')
+    "
     transition="slide-y-transition"
     :close-on-content-click="false"
     z-index="5"
   >
     <template #activator="{ on, value, attrs }">
       <v-toolbar-items v-if="!justAvatar">
-        <v-btn right text v-bind="attrs" :class="{ 'v-btn--open': value }" v-on="on">
+        <v-btn
+          right
+          text
+          v-bind="attrs"
+          :class="[btnClasses, { 'v-btn--open': value }]"
+          v-on="on"
+        >
           <user-avatar v-if="authUser" :user="authUser" :size="40" />
           <span class="sr-only-sm-and-down mx-3">
             {{ authUser.displayName }}
@@ -35,7 +43,12 @@
       </v-btn>
     </template>
     <v-list dense class="user-nav" tag="ul" light color="blue-grey lighten-5">
-      <v-list-item tag="li" block :to="{ name: 'profile' }" @click="open = false">
+      <v-list-item
+        tag="li"
+        block
+        :to="{ name: 'profile', query: { isDetail: true } }"
+        @click="open = false"
+      >
         <v-icon left>mdi-account</v-icon>
         <span>{{ $tc('components.navigation.userMeta.profile') }}</span>
       </v-list-item>
@@ -66,9 +79,14 @@ export default {
   name: 'UserMeta',
   components: { UserAvatar },
   props: {
-    justAvatar: {
+    avatarOnly: {
       type: Boolean,
       default: false,
+    },
+    btnClasses: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   data() {
