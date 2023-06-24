@@ -3,6 +3,14 @@
 	{$CADDY_DEBUG}
 
 	auto_https disable_redirects
+	# make it possible to connect from host to admin endpoint inside container
+	# https://caddyserver.com/docs/caddyfile/options#admin
+	# https://caddy.community/t/question-on-admin-api-from-a-docker-container/8724/11
+	admin 0.0.0.0:2019
+	# enable Prometheus metrics endpoint https://caddyserver.com/docs/metrics
+	servers {
+		metrics
+	}
 }
 
 :3000 {

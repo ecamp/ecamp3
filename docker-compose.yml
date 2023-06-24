@@ -81,6 +81,9 @@ services:
       - target: 3000
         published: 3000
         protocol: tcp
+      - target: 2019
+        published: 2019
+        protocol: tcp
     restart: unless-stopped
     user: ${USER_ID:-1000}
     volumes:
