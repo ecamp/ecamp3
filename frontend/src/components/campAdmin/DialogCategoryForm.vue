@@ -24,21 +24,12 @@
       :name="$tc('entity.category.fields.numberingStyle')"
       vee-rules="required"
     />
-
-    <e-select
-      v-model="localCategory.preferredContentTypes"
-      :items="contentTypes"
-      :disabled="contentTypesLoading"
-      :loading="contentTypesLoading"
-      :name="$tc('entity.contentType.name', 2)"
-      multiple
-    />
   </div>
 </template>
 
 <script>
-import { camelCase } from 'lodash'
 import ESelect from '../form/base/ESelect.vue'
+
 export default {
   name: 'DialogCategoryForm',
   components: { ESelect },
@@ -59,24 +50,6 @@ export default {
         value: i,
         text: this.$tc('entity.category.numberingStyles.' + i),
       }))
-    },
-    contentTypes() {
-      if (this.contentTypesLoading) {
-        return []
-      }
-      return this.api
-        .get()
-        .contentTypes()
-        .items.map((ct) => ({
-          value: ct._meta.self,
-          text: this.$tc('contentNode.' + camelCase(ct.name) + '.name'),
-        }))
-        .sort(function (a, b) {
-          return a.text.localeCompare(b.text)
-        })
-    },
-    contentTypesLoading() {
-      return this.api.get().contentTypes()._meta.loading
     },
   },
 }
