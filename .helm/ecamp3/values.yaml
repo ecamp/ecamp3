@@ -19,6 +19,8 @@ api:
   service:
     type: ClusterIP
     port: 3001
+  metrics:
+    port: 2019
   # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
   replicaCount: 1
 
