@@ -26,12 +26,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
-    '~/assets/tailwind.css',
-    '~/assets/typography.css',
-    '~/assets/fonts/inter.css',
-    '~/assets/print-preview.css',
-  ],
+  css: ['~/assets/tailwind.css', '~/assets/typography.css', '~/assets/print-preview.css'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins

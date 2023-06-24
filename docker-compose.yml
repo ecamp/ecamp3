@@ -141,7 +141,9 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.59.0-puppeteer-20.2.1
+    build:
+        context: ./print/browserless
+        dockerfile: Dockerfile
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
