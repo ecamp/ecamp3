@@ -92,7 +92,6 @@ export default {
    */
   router: {
     middleware: 'i18n',
-    base: process.env.BASE_URL || '/print',
   },
 
   /*
