@@ -90,6 +90,7 @@
         "add": "Weiteren Lagerabschnitt hinzufügen"
       },
       "dialogCategoryCreate": {
+        "editLayoutAfterCreating": "Die Kategorie wurde erfolgreich erstellt. Bitte lege nun fest, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.",
         "title": "Block-Kategorie erstellen"
       },
       "dialogMaterialListCreate": {

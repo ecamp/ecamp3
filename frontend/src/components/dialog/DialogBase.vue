@@ -112,9 +112,10 @@ export default {
       this.$emit('submit')
       return promise
     },
-    onSuccess() {
+    onSuccess(response) {
       this.$emit('success')
       this.close()
+      return response
     },
     close() {
       this.showDialog = false
