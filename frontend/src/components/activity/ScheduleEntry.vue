@@ -5,6 +5,7 @@ Displays a single scheduleEntry
 <template>
   <content-card
     toolbar
+    back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
   >
     <template #title>
