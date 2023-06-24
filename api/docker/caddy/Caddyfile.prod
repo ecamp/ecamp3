@@ -1,10 +1,14 @@
 {
-    # Debug
-    {$CADDY_DEBUG}
+	# Debug
+	{$CADDY_DEBUG}
 
-    http_port 3001
-    https_port 3443
-    auto_https off
+	http_port 3001
+	https_port 3443
+	auto_https off
+	# enable Prometheus metrics endpoint https://caddyserver.com/docs/metrics
+	servers {
+		metrics
+	}
 }
 
 {$SERVER_NAME}
@@ -12,29 +16,29 @@
 log
 
 route {
-    root * /srv/api/public
-    mercure {
-        # Transport to use (default to Bolt)
-        transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
-        # Publisher JWT key
-        publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
-        # Subscriber JWT key
-        subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
-        # Allow anonymous subscribers (double-check that it's what you want)
-        anonymous
-        # Enable the subscription API (double-check that it's what you want)
-        subscriptions
-        # Extra directives
-        {$MERCURE_EXTRA_DIRECTIVES}
-    }
-    vulcain
+	root * /srv/api/public
+	mercure {
+		# Transport to use (default to Bolt)
+		transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
+		# Publisher JWT key
+		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
+		# Subscriber JWT key
+		subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
+		# Allow anonymous subscribers (double-check that it's what you want)
+		anonymous
+		# Enable the subscription API (double-check that it's what you want)
+		subscriptions
+		# Extra directives
+		{$MERCURE_EXTRA_DIRECTIVES}
+	}
+	vulcain
 
-    # Add links to the API docs and to the Mercure Hub if not set explicitly (e.g. the PWA)
-    header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation", </.well-known/mercure>; rel="mercure"`
+	# Add links to the API docs and to the Mercure Hub if not set explicitly (e.g. the PWA)
+	header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation", </.well-known/mercure>; rel="mercure"`
 
-    php_fastcgi unix//var/run/php/php-fpm.sock {
-        env HTTP_X_FORWARDED_PREFIX {header.X-Forwarded-Prefix}
-    }
-    encode zstd gzip
-    file_server
+	php_fastcgi unix//var/run/php/php-fpm.sock {
+		env HTTP_X_FORWARDED_PREFIX {header.X-Forwarded-Prefix}
+	}
+	encode zstd gzip
+	file_server
 }
