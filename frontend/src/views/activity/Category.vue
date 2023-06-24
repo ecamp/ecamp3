@@ -30,6 +30,15 @@
       <v-card-text class="px-0 py-0">
         <v-skeleton-loader v-if="loading" type="article" />
 
+        <div
+          v-if="!loading && category().rootContentNode().children().items.length === 0"
+          class="text-center blue lighten-4 blue--text py-4 px-2 text--darken-4 create-layout-help"
+        >
+          <i18n path="views.activity.category.createLayoutHelp">
+            <template #categoryShort>{{ category().short }}</template>
+            <template #br><br /></template>
+          </i18n>
+        </div>
         <root-node
           v-if="!loading"
           :content-node="category().rootContentNode()"
@@ -93,4 +102,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-application .create-layout-help {
+  border-bottom: 1px solid #90caf9 !important;
+}
+</style>

@@ -379,6 +379,7 @@
       "category": {
         "changeLayout": "Cambia il layout",
         "contents": "Contenuti",
+        "createLayoutHelp": "Qui si può definire la forma predefinita delle nuove attività {categoryShort}.{br}Nota: se si dispone già di attività {categoryShort} in campo, questi non verranno adattati automaticamente.",
         "editContents": "Definire il contenuto predefinito",
         "layout": "Layout"
       },

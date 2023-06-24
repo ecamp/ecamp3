@@ -90,7 +90,6 @@
         "add": "Weiteren Lagerabschnitt hinzufügen"
       },
       "dialogCategoryCreate": {
-        "editLayoutAfterCreating": "Die Kategorie wurde erfolgreich erstellt. Bitte lege nun fest, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.",
         "title": "Block-Kategorie erstellen"
       },
       "dialogMaterialListCreate": {
@@ -380,6 +379,7 @@
       "category": {
         "changeLayout": "Layout für neue Blöcke ändern",
         "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
         "editContents": "Standard-Inhalte für neue Blöcke eingeben",
         "layout": "Layout"
       },

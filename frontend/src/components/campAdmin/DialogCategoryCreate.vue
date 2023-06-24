@@ -60,13 +60,7 @@ export default {
     async createCategory() {
       const createdCategory = await this.create()
       await this.api.reload(this.camp.categories())
-      await this.$router.push(categoryRoute(this.camp, createdCategory))
-      this.$toast.success(
-        this.$tc('components.campAdmin.dialogCategoryCreate.editLayoutAfterCreating', 1, {
-          categoryShort: createdCategory.short,
-        }),
-        { position: 'bottom-center', timeout: false }
-      )
+      this.$router.push(categoryRoute(this.camp, createdCategory))
     },
   },
 }
