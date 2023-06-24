@@ -486,7 +486,7 @@
         "openCamp": "Camp ouvert",
         "register": "Registre",
         "reject": "Refuser l'invitation",
-        "title": "Invitation au camp \"{campName}\".",
+        "title": "Invitation",
         "useOtherAuth": "Déconnecte-toi et utilise un autre compte",
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
       },
@@ -562,15 +562,15 @@
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
     },
+    "pageNotFound": {
+      "back": "Retour",
+      "detail": "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe",
+      "goToCamps": "Mes camps",
+      "title": "Page introuvable"
+    },
     "profile": {
       "changeEmail": "Changement",
       "profile": "Profil"
-    },
-    "pageNotFound" : {
-      "detail" : "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe",
-      "title" : "Page introuvable",
-      "goToCamps" : "Mes camps",
-      "back" : "Retour"
     }
   }
 }

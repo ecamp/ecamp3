@@ -11,7 +11,7 @@
     z-index="5"
   >
     <template #activator="{ on, value, attrs }">
-      <v-toolbar-items>
+      <v-toolbar-items v-if="!justAvatar">
         <v-btn right text v-bind="attrs" :class="{ 'v-btn--open': value }" v-on="on">
           <user-avatar v-if="authUser" :user="authUser" :size="40" />
           <span class="sr-only-sm-and-down mx-3">
@@ -19,6 +19,20 @@
           </span>
         </v-btn>
       </v-toolbar-items>
+      <v-btn
+        v-else
+        fab
+        text
+        v-bind="attrs"
+        :class="{ 'v-btn--open': value }"
+        class="ma-n2"
+        v-on="on"
+      >
+        <user-avatar v-if="authUser" :user="authUser" :size="40" />
+        <span class="sr-only-sm-and-down mx-3">
+          {{ authUser.displayName }}
+        </span>
+      </v-btn>
     </template>
     <v-list dense class="user-nav" tag="ul" light color="blue-grey lighten-5">
       <v-list-item tag="li" block :to="{ name: 'profile' }" @click="open = false">
@@ -51,6 +65,12 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'UserMeta',
   components: { UserAvatar },
+  props: {
+    justAvatar: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       open: false,

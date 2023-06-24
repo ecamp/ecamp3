@@ -486,7 +486,7 @@
         "openCamp": "Lager öffnen",
         "register": "Registrieren",
         "reject": "Einladung ablehnen",
-        "title": "Einladung zum Lager \"{campName}\"",
+        "title": "Einladung",
         "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
         "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
       },
@@ -562,15 +562,15 @@
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
     },
+    "pageNotFound": {
+      "back": "Zurück",
+      "detail": "Die Seite, welche du aufgerufen hast, existiert nicht. Stelle sicher, dass die aufgerufene Seite existiert.",
+      "goToCamps": "Meine Lager",
+      "title": "Seite nicht gefunden"
+    },
     "profile": {
       "changeEmail": "Ändern",
       "profile": "Profil"
-    },
-    "pageNotFound": {
-      "detail": "Die Seite, welche du aufgerufen hast, existiert nicht. Stelle sicher, dass die aufgerufene Seite existiert.",
-      "title": "Seite nicht gefunden",
-      "goToCamps": "Meine Lager",
-      "back": "Zurück"
     }
   }
 }

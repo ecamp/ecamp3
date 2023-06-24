@@ -1,66 +1,94 @@
 <template>
-  <auth-container>
-    <div v-if="!ready" class="text-center">
-      <v-progress-circular size="64" indeterminate color="primary" />
-    </div>
-    <div v-else-if="invitationFound === true">
-      <h1 class="display-1">
-        {{ $tc('views.camp.invitation.title', 0, { campName: invitation().campTitle }) }}
+  <div class="bg">
+    <div class="hill">
+      <v-icon :size="$vuetify.breakpoint.smAndUp ? 300 : 200" class="tent"
+        >$vuetify.icons.tentDay
+      </v-icon>
+      <img src="../../assets/invitation/tree-left.svg" alt="" class="tree l h-full" />
+      <img src="../../assets/invitation/tree-right.svg" alt="" class="tree r h-full" />
+      <div class="localnav justify-space-between d-flex col">
+        <ButtonBack v-if="!$vuetify.breakpoint.mdAndUp" text dark visible-label />
+        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" just-avatar />
+      </div>
+      <h1 class="wood text-center align-self-end">
+        <span class="rope"></span>
+        <span class="rope l"></span>
+        <span class="subtitle-2 font-weight-bold">{{
+          $tc('views.camp.invitation.title')
+        }}</span>
+        <v-skeleton-loader
+          v-if="invitation()._meta.loading"
+          type="image"
+          width="200"
+          height="48"
+        />
+        <span v-else>{{ invitation().campTitle }}</span>
       </h1>
-
-      <v-spacer />
-      <div v-if="authUser">
-        <v-btn
-          v-if="!invitation().userAlreadyInCamp"
-          color="primary"
-          x-large
-          class="my-4"
-          block
-          @click="acceptInvitation"
-        >
-          {{ $tc('views.camp.invitation.acceptCurrentAuth') }}<br />
-        </v-btn>
-        <div v-else>
-          <v-alert type="warning">
-            {{ $tc('views.camp.invitation.userAlreadyInCamp') }}
+      <div
+        v-if="!invitation()._meta.loading"
+        class="invitation-actions flex-column d-grid gap-2 align-self-start justify-items-center mx-2"
+      >
+        <div v-if="authUser">
+          <v-alert
+            v-if="invitation().userAlreadyInCamp"
+            border="left"
+            colored-border
+            color="primary"
+            :icon="$vuetify.breakpoint.smAndUp ? 'mdi-information-outline' : false"
+            type="info"
+          >
+            {{ $tc('views.camp.invitation.userAlreadyInCamp') }}<br />
+            <div class="mt-2 d-flex flex-wrap gap-2">
+              <v-btn small color="primary" :to="campLink" elevation="0">
+                {{ $tc('views.camp.invitation.openCamp') }}
+              </v-btn>
+              <v-btn
+                color="primary"
+                text
+                small
+                class="v-btn--has-bg"
+                @click="useAnotherAccount"
+              >
+                {{ $tc('views.camp.invitation.useOtherAuth') }}
+              </v-btn>
+            </div>
           </v-alert>
-          <v-spacer />
-          <v-btn color="primary" x-large class="my-4" block :to="campLink">
-            {{ $tc('views.camp.invitation.openCamp') }}
+          <div v-else class="d-grid gap-2 grid-cols-fill">
+            <v-btn color="primary" x-large @click="acceptInvitation">
+              {{ $tc('views.camp.invitation.acceptCurrentAuth') }}<br />
+            </v-btn>
+            <v-btn dark text class="mt-2" @click="useAnotherAccount">
+              {{ $tc('views.camp.invitation.useOtherAuth') }}
+            </v-btn>
+          </div>
+        </div>
+        <div v-else class="d-grid gap-2 grid-cols-2">
+          <v-btn color="primary" x-large :to="loginLink">
+            {{ $tc('global.button.login') }}
+          </v-btn>
+          <v-btn color="secondary" x-large :to="{ name: 'register' }">
+            {{ $tc('views.camp.invitation.register') }}
           </v-btn>
         </div>
-        <v-btn color="primary" x-large class="my-4" block @click="useAnotherAccount">
-          {{ $tc('views.camp.invitation.useOtherAuth') }}
+        <v-btn dark text @click="rejectInvitation">
+          {{ $tc('views.camp.invitation.reject') }}
         </v-btn>
       </div>
-      <div v-else>
-        <v-btn color="primary" x-large class="my-4" block :to="loginLink">
-          {{ $tc('global.button.login') }}
-        </v-btn>
-        <v-btn color="primary" x-large class="my-4" block :to="{ name: 'register' }">
-          {{ $tc('views.camp.invitation.register') }}
+      <div class="justify-center d-flex col gap-2">
+        <v-btn v-if="authUser" text dark>
+          <v-icon left>mdi-tent</v-icon>
+          {{ $tc('views.camp.invitation.backToHome') }}
         </v-btn>
       </div>
-      <v-btn color="red" x-large class="my-4" block @click="rejectInvitation">
-        {{ $tc('views.camp.invitation.reject') }}
-      </v-btn>
     </div>
-    <v-alert v-else-if="invitationFound === false" type="error">
-      {{ $tc('views.camp.invitation.notFound') }}
-    </v-alert>
-    <div class="mb-4 mt-8">
-      <router-link color="primary" x-large block :to="{ name: 'home' }">
-        {{ $tc('views.camp.invitation.backToHome') }}
-      </router-link>
-    </div>
-  </auth-container>
+  </div>
 </template>
 
 <script>
-import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { loginRoute } from '@/router'
 import VueRouter from 'vue-router'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import ButtonBack from '@/components/buttons/ButtonBack.vue'
 
 const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
@@ -71,7 +99,7 @@ const ignoreNavigationFailure = (e) => {
 
 export default {
   name: 'Invitation',
-  components: { AuthContainer },
+  components: { ButtonBack },
   props: {
     invitation: { type: Function, required: true },
   },
@@ -163,4 +191,228 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.bg {
+  height: 100%;
+  background-image: radial-gradient(
+    circle at bottom,
+    #edf6fb,
+    hsl(195deg 100% 90.32%),
+    #3298e0
+  );
+  background-blend-mode: screen;
+  background-size: contain, 1470px;
+  background-repeat: no-repeat, repeat-x;
+  background-position: bottom, center top;
+}
+
+.hill {
+  height: 100%;
+  background-image: radial-gradient(
+      150vmax 80% at bottom,
+      #2c5b23,
+      #84b444 70.1%,
+      transparent 70.2%
+    ),
+    url(../../assets/invitation/edge-left.svg),
+    url(../../assets/invitation/edge-right.svg);
+  background-size: auto, 40%, 40%;
+  grid-template-rows: auto 2fr auto 3fr auto;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  background-position: bottom center, bottom 58% left -5%, bottom 58% right -5%;
+}
+
+@media #{map-get($display-breakpoints, 'sm-and-up')} {
+  .hill {
+    background-image: radial-gradient(
+        150vmax 75% at bottom,
+        #2c5b23,
+        #84b444 70.1%,
+        transparent 70.2%
+      ),
+      url(../../assets/invitation/edge-left.svg),
+      url(../../assets/invitation/edge-right.svg);
+    grid-template-rows: auto 1fr auto 1fr auto;
+    background-size: auto, min(40%, 800px), min(40%, 800px);
+    background-position: bottom center, bottom 54% left, bottom 54% right;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'md-and-up')} {
+  .hill {
+    transition: background-position 0.5s ease-in-out;
+    background-position: bottom center, bottom 55% left, bottom 55% right;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'lg-and-up')} {
+  .hill {
+    background-position: bottom center, bottom 56% left, bottom 56% right;
+  }
+}
+
+.tent {
+  margin: auto;
+  max-width: 100%;
+  position: relative;
+}
+
+.tent::before {
+  content: '';
+  display: block;
+  position: absolute;
+  background: red;
+}
+
+.wood {
+  background: linear-gradient(to left, #6236002b, #462c061f, #542e002b),
+    linear-gradient(to right top, #4d31191f, #502f122b, #cab09b26, #d9b18a4f),
+    linear-gradient(
+      to bottom,
+      #b67543 1%,
+      #a4632724,
+      #b67543 3%,
+      #a4632724,
+      #b67543 15%,
+      #a4632724,
+      #b67543 40%,
+      #a4632724,
+      #b67543,
+      #a4632724 55%,
+      #b67543,
+      #a4632724,
+      #b67543 68%,
+      #a4632724,
+      #b67543 70%,
+      #a4632724,
+      #b67543 80%,
+      #a4632724
+    ),
+    linear-gradient(191deg, #d49c67, #ac6127);
+  background-blend-mode: darken, screen, normal, normal;
+  padding: 20px;
+  color: white;
+  display: grid;
+  border-radius: 4px;
+  box-shadow: inset -1px -2px 2px #6d340a, inset 0px 3px 1px #e7c29f;
+  margin: 0 16px;
+  position: relative;
+  text-shadow: -1px -1px 1px #5d2f0c;
+  order: -1;
+}
+
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .wood {
+    font-size: 22px;
+  }
+}
+
+.localnav {
+  order: -2;
+  gap: 8px;
+}
+
+.invitation-actions {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.rope,
+.rope::before,
+.rope::after {
+  position: absolute;
+  left: min(5%, 42px);
+  bottom: calc(100% - 10px);
+}
+
+.rope::after {
+  content: '';
+  z-index: 0;
+  height: 40vh;
+  position: absolute;
+  width: 10px;
+  z-index: 1;
+  border-radius: 50px;
+  background-image: linear-gradient(0deg, #2d0b0396, #ffffff 8%, #ffffff 48%, #000000cc),
+    linear-gradient(90deg, #583c175c, #c1916054, #5f401712),
+    linear-gradient(309deg, #552302, transparent, #552302, transparent, #552302),
+    linear-gradient(319deg, #efd0b3, #c19160);
+  background-size: cover, cover, 10px 12px, cover;
+  background-repeat: repeat;
+  background-blend-mode: multiply, normal, normal, normal;
+}
+
+.rope::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 16px;
+  border-radius: 50%;
+  background: #70370c;
+  margin: -1px 0;
+  opacity: 0.8;
+  z-index: 0;
+  box-shadow: 0 3px 4px 1px #70370c;
+}
+
+.rope.l,
+.rope.l::before,
+.rope.l::after {
+  position: absolute;
+  left: auto;
+  right: min(5%, 42px);
+}
+
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .rope,
+  .rope::before,
+  .rope::after {
+    left: 25%;
+  }
+
+  .rope.l,
+  .rope.l::before,
+  .rope.l::after {
+    left: auto;
+    right: 25%;
+  }
+}
+
+.rope.l::after {
+  background-position-x: -2px;
+}
+
+.tree {
+  transition: height 0.5s ease;
+  bottom: 0;
+  position: absolute;
+
+  &.l {
+    height: 40%;
+    left: 0;
+    @media #{map-get($display-breakpoints, 'sm-and-up')} {
+      height: 44%;
+    }
+    @media #{map-get($display-breakpoints, 'md-and-up')} {
+      height: 49%;
+    }
+    @media #{map-get($display-breakpoints, 'lg-and-up')} {
+      height: 100%;
+    }
+  }
+
+  &.r {
+    height: 65%;
+    right: 0;
+    @media #{map-get($display-breakpoints, 'md-and-up')} {
+      height: 75%;
+    }
+    @media #{map-get($display-breakpoints, 'lg-and-up')} {
+      height: 90%;
+    }
+  }
+}
+</style>
