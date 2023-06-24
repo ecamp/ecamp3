@@ -54,7 +54,7 @@ describe('An EColorPicker', () => {
     expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
   })
 
-  it('does not open the picker when the text field is clicked', async () => {
+  it('opens the picker when the text field is clicked', async () => {
     // given
     render(EColorPicker, {
       props: { value: COLOR1, name: 'test' },
@@ -65,10 +65,9 @@ describe('An EColorPicker', () => {
     await user.click(inputField)
 
     // then
-    // menu should not appear
-    await expect(screen.findByText('Schliessen')).rejects.toThrow(
-      /Unable to find an element with the text/
-    )
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
   })
 
   it('opens the picker when the icon button is clicked', async () => {
