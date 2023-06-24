@@ -2,13 +2,7 @@
   <v-container fluid>
     <content-card :title="$tc('views.camps.title')" max-width="800" toolbar>
       <template #title-actions>
-        <v-btn
-          class="d-sm-none"
-          icon
-          :to="{ name: 'profile', query: { isDetail: true } }"
-        >
-          <user-avatar :user="user" :size="36" />
-        </v-btn>
+        <UserMeta avatar-only btn-classes="mr-n4" />
       </template>
       <v-list class="py-0">
         <template v-if="loading">
@@ -104,13 +98,13 @@ import { campRoute } from '@/router.js'
 import { isAdmin } from '@/plugins/auth'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
-import UserAvatar from '@/components/user/UserAvatar.vue'
 import { mapGetters } from 'vuex'
+import UserMeta from '@/components/navigation/UserMeta.vue'
 
 export default {
   name: 'Camps',
   components: {
-    UserAvatar,
+    UserMeta,
     ContentCard,
     ButtonAdd,
   },

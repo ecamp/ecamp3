@@ -496,21 +496,15 @@
       "invitation": {
         "acceptCurrentAuth": "Accept invitation with current account",
         "backToHome": "Back to home",
-        "notFound": "This invitation is already accepted or was deleted",
+        "error": "An unexpected error occurred",
+        "notFound": "This invitation was already accepted or deleted",
         "openCamp": "Open camp",
         "register": "Register",
         "reject": "Deny invitation",
-        "title": "Invitation to camp \"{campName}\"",
+        "successfullyRejected": "The invitation was successfully rejected",
+        "title": "Invitation",
         "useOtherAuth": "Logout & use another account",
         "userAlreadyInCamp": "You are already participating in this camp"
-      },
-      "invitationRejected": {
-        "backToHome": "Back to home",
-        "successfullyRejected": "The invitation was successfully rejected"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Back to home",
-        "error": "An unexpected error occurred"
       },
       "material": {
         "downloadXlsx": "Download",
@@ -576,15 +570,15 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
     },
+    "pageNotFound": {
+      "back": "Back",
+      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist.",
+      "goToCamps": "Camps overview",
+      "title": "Page not found"
+    },
     "profile": {
       "changeEmail": "Change",
       "profile": "Profile"
-    },
-    "pageNotFound": {
-      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist.",
-      "title": "Page not found",
-      "goToCamps": "Camps overview",
-      "back": "Back"
     }
   }
 }

@@ -45,6 +45,9 @@ body {
 .w-100 {
   width: 100%;
 }
+.h-full {
+  height: 100%;
+}
 .v-application {
   ul.v-list {
     padding-left: 0;
@@ -117,6 +120,18 @@ body {
   display: contents;
 }
 
+.d-grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-cols-fill {
+  grid-template-columns: repeat(auto-fill, 1fr);
+}
+
 .currentColor--text {
   color: currentColor !important;
 }
@@ -125,4 +140,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.justify-items-center {
+  justify-items: center;
 }

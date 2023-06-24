@@ -1,17 +1,26 @@
 <template>
   <v-btn
-    icon
+    :icon="!visibleLabel"
     :aria-label="$tc('global.button.back')"
     v-bind="$attrs"
     @click="$router.go(-1)"
   >
-    <v-icon>mdi-arrow-left</v-icon>
+    <v-icon :left="visibleLabel">mdi-arrow-left</v-icon>
+    <template v-if="visibleLabel">
+      {{ $tc('global.button.back') }}
+    </template>
   </v-btn>
 </template>
 
 <script>
 export default {
   name: 'ButtonBack',
+  props: {
+    visibleLabel: {
+      type: Boolean,
+      default: false,
+    },
+  },
 }
 </script>
 
