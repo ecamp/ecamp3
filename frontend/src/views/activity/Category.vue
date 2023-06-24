@@ -21,15 +21,24 @@
         </v-btn>
         <v-btn v-else color="success" outlined @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-check</v-icon>
-            {{ $tc('views.activity.category.backToContents') }}
+            <v-icon left>mdi-file-document-arrow-right-outline</v-icon>
+            {{ $tc('views.activity.category.editContents') }}
           </template>
-          <template v-else>{{ $tc('global.button.back') }}</template>
+          <template v-else>{{ $tc('views.activity.category.contents') }}</template>
         </v-btn>
       </template>
       <v-card-text class="px-0 py-0">
         <v-skeleton-loader v-if="loading" type="article" />
 
+        <div
+          v-if="!loading && category().rootContentNode().children().items.length === 0"
+          class="text-center blue lighten-4 blue--text py-4 px-2 text--darken-4 create-layout-help"
+        >
+          <i18n path="views.activity.category.createLayoutHelp">
+            <template #categoryShort>{{ category().short }}</template>
+            <template #br><br /></template>
+          </i18n>
+        </div>
         <root-node
           v-if="!loading"
           :content-node="category().rootContentNode()"
@@ -93,4 +102,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-application .create-layout-help {
+  border-bottom: 1px solid #90caf9 !important;
+}
+</style>

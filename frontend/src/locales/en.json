@@ -388,8 +388,10 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Back to editing content",
-        "changeLayout": "Change layout",
+        "changeLayout": "Change layout for new activities",
+        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
+        "contents": "Contents",
+        "editContents": "Set default contents for new activities",
         "layout": "Layout"
       },
       "printPreview": "Open print preview",

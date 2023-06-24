@@ -388,8 +388,10 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Zurück zum Bearbeiten des Inhalts",
-        "changeLayout": "Layout ändern",
+        "changeLayout": "Layout für neue Blöcke ändern",
+        "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
+        "editContents": "Standard-Inhalte für neue Blöcke eingeben",
         "layout": "Layout"
       },
       "printPreview": "Druckvorschau öffnen",
