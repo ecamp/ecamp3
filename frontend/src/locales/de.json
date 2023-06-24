@@ -409,7 +409,7 @@
         "email": "E-Mail",
         "infoText": {
           "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
-          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!<br>Login: test@example.com / test"
+          "dev": "Dies ist die Entwickler-Version von eCamp v3.{br}WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!{br}Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
