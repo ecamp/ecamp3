@@ -13,7 +13,7 @@
         <span class="rope"></span>
         <span class="rope l"></span>
         <v-skeleton-loader
-          v-if="invite?._meta.loading"
+          v-if="variant === 'default' && invitationFound === undefined"
           type="image"
           width="200"
           height="48"
@@ -33,7 +33,7 @@
         <span v-else>{{ $tc('views.camp.invitation.notFound') }}</span>
       </h1>
       <div
-        v-if="variant === 'default' && !invite?._meta.loading && invitationFound === true"
+        v-if="variant === 'default' && invitationFound === true"
         class="invitation-actions flex-column d-grid gap-2 align-self-start justify-items-center mx-2"
       >
         <div v-if="authUser">
