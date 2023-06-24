@@ -50,7 +50,7 @@ export default {
         .$loadItems(),
       this.period.days().$loadItems(),
       this.period.scheduleEntries().$loadItems(),
-      this.$api.get().contentNodes({ period: this.period._meta.self }).$loadItems(),
+      this.period.camp().categories().$loadItems(),
     ])
 
     this.days = this.period.days().items
