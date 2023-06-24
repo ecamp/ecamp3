@@ -77,7 +77,8 @@
       },
       "campMaterialListsItem": {
         "deleteError": "Could not delete the material list. Check if the list is empty before deleting it.",
-        "deleteWarning": "Do you really want to delete this material list?"
+        "deleteWarning": "Do you really want to delete this material list?",
+        "materialsCount": "No entries|1 entry|{count} entries"
       },
       "campPeriods": {
         "createPeriod": "Create period",

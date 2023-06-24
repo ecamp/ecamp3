@@ -246,11 +246,6 @@ export default new Router({
           },
         },
         {
-          path: 'material',
-          name: 'camp/material',
-          component: () => import('./views/camp/Material.vue'),
-        },
-        {
           path: 'dashboard',
           name: 'camp/dashboard',
           component: () => import('./views/camp/Dashboard.vue'),
@@ -261,6 +256,48 @@ export default new Router({
           redirect: { name: 'camp/dashboard' },
         },
       ],
+    },
+    {
+      path: '/camps/:campId/:campTitle?/material',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/Camp.vue'),
+        aside: () => import('./views/material/SideBarMateriallists.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+          period: periodFromRoute(route),
+          layout: 'full',
+        }),
+      },
+      children: [
+        {
+          name: 'camp/material',
+          path: '',
+          component: () => import('./views/camp/Material.vue'),
+        },
+      ],
+    },
+    {
+      name: 'materialList',
+      path: '/camps/:campId/:campTitle?/material/:materialId/:materialName?',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/material/Material.vue'),
+        aside: () => import('./views/material/SideBarMateriallists.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+        }),
+      },
     },
     {
       path: '/camps/:campId/:campTitle/admin/category/:categoryId/:categoryName?',
@@ -423,6 +460,25 @@ export function campRoute(camp, subroute = 'dashboard', query = {}) {
   return {
     name: 'camp/' + subroute,
     params: { campId: camp.id, campTitle: slugify(camp.title) },
+    query,
+  }
+}
+
+/**
+ * @param camp
+ * @param materialList
+ * @param query
+ */
+export function materialRoute(camp, materialList, query = {}) {
+  if (!camp?._meta || camp.meta?.loading) return {}
+  return {
+    name: 'materialList',
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      materialId: materialList.id,
+      materialName: slugify(materialList.name),
+    },
     query,
   }
 }

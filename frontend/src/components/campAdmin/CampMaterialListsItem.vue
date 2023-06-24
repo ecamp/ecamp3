@@ -1,17 +1,20 @@
 <template>
-  <v-list-item v-if="!materialList._meta.loading">
+  <v-list-item class="px-2 rounded" two-line v-on="$listeners">
     <v-list-item-content class="pt-0 pb-2">
       <v-list-item-title>{{ materialList.name }}</v-list-item-title>
+      <v-list-item-subtitle>{{
+        $tc(
+          'components.campAdmin.campMaterialListsItem.materialsCount',
+          materialList.materialItems().totalItems,
+          {
+            count: materialList.materialItems().totalItems,
+          }
+        )
+      }}</v-list-item-subtitle>
     </v-list-item-content>
 
     <v-list-item-action v-if="!disabled" style="display: inline">
-      <v-item-group>
-        <dialog-material-list-edit :material-list="materialList">
-          <template #activator="{ on }">
-            <button-edit class="mr-1" v-on="on" />
-          </template>
-        </dialog-material-list-edit>
-      </v-item-group>
+      <button-edit color="primary--text" text class="my-n1 v-btn--has-bg" />
     </v-list-item-action>
 
     <v-menu v-if="!disabled" offset-y>

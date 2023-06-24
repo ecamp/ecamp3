@@ -1,5 +1,5 @@
 <template>
-  <dialog-form
+  <DetailEdit
     v-model="showDialog"
     :loading="loading"
     :error="error"
@@ -12,18 +12,35 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
+
+    <template #moreActions>
+      <dialog-entity-delete :entity="materialList" :error-handler="deleteErrorHandler">
+        <template #activator="{ on }">
+          <button-delete v-on="on" />
+        </template>
+        {{ $tc('components.campAdmin.campMaterialListsItem.deleteWarning') }} <br />
+        <ul>
+          <li>
+            {{ materialList.name }}
+          </li>
+        </ul>
+      </dialog-entity-delete>
+    </template>
     <dialog-material-list-form :material-list="entityData" />
-  </dialog-form>
+  </DetailEdit>
 </template>
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogMaterialListForm from './DialogMaterialListForm.vue'
+import DetailEdit from '@/components/generic/DetailPane.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 
 export default {
   name: 'DialogMaterialListEdit',
-  components: { DialogForm, DialogMaterialListForm },
+  components: { ButtonDelete, DialogEntityDelete, DetailEdit, DialogMaterialListForm },
   extends: DialogBase,
   props: {
     materialList: { type: Object, required: true },

@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel>
+  <v-expansion-panel :value="true">
     <v-expansion-panel-header>
       <h3 class="grey--text text--darken-1">
         {{ period.description }}
@@ -30,7 +30,7 @@ export default {
   props: {
     period: { type: Object, required: true },
     showActivityMaterial: { type: Boolean, required: true },
-    groupByList: { type: Boolean, required: true },
+    groupByList: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
   },
   data() {

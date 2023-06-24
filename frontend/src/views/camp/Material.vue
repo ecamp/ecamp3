@@ -15,12 +15,6 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
         v-model="showActivityMaterial"
         :label="$tc('views.camp.material.showActivityMaterial')"
       />
-
-      <e-switch
-        v-if="$vuetify.breakpoint.smAndUp"
-        v-model="groupByList"
-        :label="$tc('views.camp.material.groupByList')"
-      />
     </v-card-text>
     <v-expansion-panels v-model="openPeriods" multiple flat accordion>
       <period-material-lists
@@ -28,7 +22,6 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
         :key="period._meta.self"
         :period="period"
         :show-activity-material="showActivityMaterial"
-        :group-by-list="groupByList || $vuetify.breakpoint.xs"
         :disabled="!isContributor"
       />
     </v-expansion-panels>

@@ -77,7 +77,8 @@
       },
       "campMaterialListsItem": {
         "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist.",
-        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?"
+        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
+        "materialsCount": "Keine Einträge | 1 Eintrag | {count} Einträge"
       },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
@@ -397,6 +398,9 @@
       "printPreview": "Druckvorschau öffnen",
       "sideBarProgram": {
         "title": "Tagesübersicht"
+      },
+      "sideBarMateriallists": {
+        "title": "Materiallisten"
       }
     },
     "auth": {
@@ -569,6 +573,11 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
+    },
+    "material": {
+      "material": {
+        "title": "Material: {name}"
+      }
     },
     "pageNotFound": {
       "backToHome": "Zurück zur Startseite",

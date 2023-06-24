@@ -40,6 +40,7 @@
         v-if="!item.readonly"
         :disabled="layoutMode || disabled"
         dense
+        :outlined="false"
         :uri="item.uri"
         fieldname="quantity"
         type="number"
@@ -52,6 +53,7 @@
         v-if="!item.readonly"
         :disabled="layoutMode || disabled"
         dense
+        :outlined="false"
         :uri="item.uri"
         fieldname="unit"
         maxlength="32"
@@ -64,6 +66,7 @@
         v-if="!item.readonly"
         :disabled="layoutMode || disabled"
         dense
+        :outlined="false"
         :uri="item.uri"
         fieldname="article"
         maxlength="64"
@@ -76,6 +79,7 @@
         v-if="!item.readonly"
         :disabled="layoutMode || disabled"
         dense
+        :outlined="false"
         :uri="item.uri"
         fieldname="materialList"
         :items="materialLists"
@@ -253,10 +257,9 @@ export default {
         {
           text: this.$tc('entity.materialItem.fields.quantity'),
           value: 'quantity',
-          align: 'start',
+          align: 'end',
           sortable: false,
           groupable: false,
-          width: '10%',
         },
         {
           text: this.$tc('entity.materialItem.fields.unit'),

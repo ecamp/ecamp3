@@ -3,20 +3,22 @@
     v-if="materialLists.length > 0"
     ref="validation"
     tag="tr"
-    class="newItemRow"
+    class="newItemRow align-top"
     @keyup.enter="submitForm"
   >
-    <td>
+    <td style="vertical-align: top">
       <e-text-field
         ref="quantity"
         v-model="materialItem.quantity"
         dense
         type="number"
+        :hint="$tc('entity.materialItem.fields.quantity')"
+        persistent-hint
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity"
       />
     </td>
-    <td>
+    <td style="vertical-align: top">
       <e-text-field
         v-model="materialItem.unit"
         dense
@@ -25,7 +27,7 @@
         maxlength="32"
       />
     </td>
-    <td>
+    <td style="vertical-align: top">
       <e-text-field
         v-model="materialItem.article"
         dense
@@ -35,7 +37,7 @@
         maxlength="64"
       />
     </td>
-    <td :colspan="columns - 4">
+    <td :colspan="columns - 4" style="vertical-align: top">
       <e-select
         v-model="materialItem.materialList"
         dense
@@ -45,7 +47,7 @@
         :items="materialLists"
       />
     </td>
-    <td>
+    <td style="vertical-align: top">
       <button-add hide-label @click="submitForm" />
     </td>
   </ValidationObserver>
