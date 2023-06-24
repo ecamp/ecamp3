@@ -12,5 +12,9 @@ spec:
       targetPort: api-http
       protocol: TCP
       name: api-http
+    - port: {{ .Values.api.metrics.port }}
+      targetPort: api-metrics
+      protocol: TCP
+      name: api-metrics
   selector:
     {{- include "api.selectorLabels" . | nindent 4 }}

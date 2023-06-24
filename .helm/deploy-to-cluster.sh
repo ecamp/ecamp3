@@ -56,9 +56,14 @@ for i in 1; do
   values="$values --set deployedVersion=\"$(git rev-parse --short HEAD)\""
   values="$values --set featureToggle.developer=true"
 
-  for imagespec in "frontend" "php" "caddy" "print"; do
+  for imagespec in "frontend" "print"; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
+  done
+
+  for imagespec in "php" "caddy"; do
+    values="$values --set $imagespec.image.pullPolicy=$pull_policy"
+    values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-api-$imagespec"
   done
 
   helm uninstall ecamp3-"$instance_name"-"$i" || true
