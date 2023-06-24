@@ -98,6 +98,7 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
      * All content nodes that are part of this content node tree.
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[Groups(['ColumnLayout:EmbeddedRootDescendants'])]
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'root')]
     public Collection $rootDescendants;
 

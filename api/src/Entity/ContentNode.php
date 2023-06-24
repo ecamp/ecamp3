@@ -58,7 +58,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants')]
+    #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')] // TODO make not null in the DB using a migration, and get fixtures to run
     public ?ColumnLayout $root = null;
 
@@ -85,7 +85,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * All content nodes that are direct children of this content node.
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
-    #[Groups(['read'])]
+    #[Groups(['ContentNode:Children'])]
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
 

@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\ActivityRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\State\ActivityCreateProcessor;
 use App\State\ActivityRemoveProcessor;
 use App\Validator\AssertBelongsToSameCamp;
@@ -61,7 +62,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    normalizationContext: ['groups' => ['read']],
+    forceEager: false
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
@@ -95,7 +97,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         example: [['period' => '/periods/1a2b3c4a', 'start' => '2023-05-01T15:00:00+00:00', 'end' => '2023-05-01T16:00:00+00:00']],
     )]
     #[Groups(['read', 'create'])]
-    #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'id' => 'ASC'])]
     public Collection $scheduleEntries;
 
@@ -116,7 +118,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '/categories/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'activities')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'activities', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     public ?Category $category = null;
 
@@ -126,7 +128,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '/progress_labels/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: ActivityProgressLabel::class, inversedBy: 'activities')]
+    #[ORM\ManyToOne(targetEntity: ActivityProgressLabel::class, inversedBy: 'activities', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: true)]
     public ?ActivityProgressLabel $progressLabel = null;
 
@@ -158,7 +160,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false)]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: ActivityResponsible::class, mappedBy: 'activity', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ActivityResponsible::class, mappedBy: 'activity', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $activityResponsibles;
 
     public function __construct() {
@@ -189,6 +191,17 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[Groups('Activity:ActivityProgressLabel')]
     public function getEmbeddedProgressLabel(): ?ActivityProgressLabel {
         return $this->progressLabel;
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty]
+    #[SerializedName('contentNodes')]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
+    #[Groups(['read'])]
+    public function getEmptyContentNodes() {
+        return [];
     }
 
     /**

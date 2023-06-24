@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,7 +15,7 @@ trait HasRootContentNodeTrait {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, readableLink: true, example: '/content_nodes/1a2b3c4d')]
-    #[ORM\OneToOne(targetEntity: ColumnLayout::class, cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: ColumnLayout::class, cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, unique: true)]
     public ?ColumnLayout $rootContentNode = null;
 
@@ -41,9 +40,7 @@ trait HasRootContentNodeTrait {
      *
      * @return ContentNode[]
      */
-    #[ApiProperty(example: '["/content_nodes/1a2b3c4d"]')]
-    #[Groups(['read'])]
-    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
+    #[Assert\DisableAutoMapping]
     public function getContentNodes(): array {
         return $this->rootContentNode?->getRootDescendants() ?? [];
     }
