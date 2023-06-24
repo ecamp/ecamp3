@@ -378,8 +378,9 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Zurück zum Bearbeiten des Inhalts",
-        "changeLayout": "Layout ändern",
+        "changeLayout": "Layout für neue Blöcke ändern",
+        "contents": "Inhalte",
+        "editContents": "Standard-Inhalte für neue Blöcke eingeben",
         "layout": "Layout"
       },
       "printPreview": "Druckvorschau öffnen",

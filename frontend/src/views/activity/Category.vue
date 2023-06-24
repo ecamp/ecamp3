@@ -21,10 +21,10 @@
         </v-btn>
         <v-btn v-else color="success" outlined @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-check</v-icon>
-            {{ $tc('views.activity.category.backToContents') }}
+            <v-icon left>mdi-file-document-arrow-right-outline</v-icon>
+            {{ $tc('views.activity.category.editContents') }}
           </template>
-          <template v-else>{{ $tc('global.button.back') }}</template>
+          <template v-else>{{ $tc('views.activity.category.contents') }}</template>
         </v-btn>
       </template>
       <v-card-text class="px-0 py-0">

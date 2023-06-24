@@ -377,8 +377,9 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Torna alla modifica dei contenuti",
         "changeLayout": "Cambia il layout",
+        "contents": "Contenuti",
+        "editContents": "Definire il contenuto predefinito",
         "layout": "Layout"
       },
       "printPreview": "Apri l'anteprima di stampa",
