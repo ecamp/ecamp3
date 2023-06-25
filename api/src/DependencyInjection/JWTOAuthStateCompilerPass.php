@@ -16,7 +16,7 @@ class JWTOAuthStateCompilerPass implements CompilerPassInterface {
      * our JWT-based session substitute.
      * See JWTStateOAuth2Client for more info.
      */
-    public function process(ContainerBuilder $container) {
+    public function process(ContainerBuilder $container): void {
         foreach (array_keys($container->getExtensionConfig('knpu_oauth2_client')[0]['clients']) as $id) {
             $definition = $container->getDefinition('knpu.oauth2.client.'.$id);
             if (JWTStateOAuth2Client::class !== $definition->getClass()) {
