@@ -41,7 +41,7 @@ export default {
                     }
 
                     @page {
-                      font-family: "InterDisplay", sans-serif;
+                      font-family: "Helvetica", sans-serif;
                       size: A4 portrait;              
                       margin-bottom: 15mm;
                       margin-left: 15mm;

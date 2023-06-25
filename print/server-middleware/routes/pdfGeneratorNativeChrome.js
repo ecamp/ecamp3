@@ -112,8 +112,8 @@ router.use('/pdfChrome', async (req, res) => {
       format: 'A4',
       scale: 1,
       displayHeaderFooter: true,
-      headerTemplate: `<div id="header-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Inter Display, Helvetica, sans-serif; font-weight: 500"><span>eCamp3 Beta</span></div>`,
-      footerTemplate: `<div id="footer-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Inter Display, Helvetica, sans-serif; font-weight: 500"><span class="pageNumber"></span> / <span class="totalPages"></span></div>`,
+      headerTemplate: `<div id="header-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span>eCamp3 Beta</span></div>`,
+      footerTemplate: `<div id="footer-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span class="pageNumber"></span> / <span class="totalPages"></span></div>`,
       margin: {
         bottom: '15mm',
         left: '15mm',
