@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 481,
+  "id": 25,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -44,7 +44,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "description": "Zeigt pro Tag, wie viele Perioden am laufen sind",
       "fieldConfig": {
@@ -125,7 +125,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -171,7 +171,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -225,7 +225,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -261,7 +261,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -307,7 +307,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -343,7 +343,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -418,7 +418,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -454,7 +454,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -500,7 +500,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -536,7 +536,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -582,7 +582,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -618,7 +618,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "description": "",
       "fieldConfig": {
@@ -665,7 +665,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -714,7 +714,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -788,7 +788,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -824,7 +824,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -869,7 +869,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -905,7 +905,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "t1Yi8_X4z"
+        "uid": "QafBY9XVz"
       },
       "description": "",
       "fieldConfig": {
@@ -955,7 +955,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "t1Yi8_X4z"
+            "uid": "QafBY9XVz"
           },
           "format": "table",
           "group": [],
@@ -1376,7 +1376,8 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 36,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1389,7 +1390,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "eCamp3",
-  "uid": "2ojoU_u4z",
-  "version": 6,
+  "uid": "SfJlY9XVk",
+  "version": 2,
   "weekStart": ""
 }
