@@ -80,6 +80,24 @@ services:
     App\Serializer\SerializerContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
 
+    App\Serializer\Normalizer\HalItemNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: -890 }
+            
+    api_platform.hal.normalizer.item:
+        class: App\Serializer\Normalizer\HalItemNormalizer
+        arguments:
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+            - '@api_platform.name_converter'
+            - '@serializer.mapping.class_metadata_factory'
+            - []
+            - '@api_platform.metadata.resource.metadata_collection_factory'
+            - '@api_platform.security.resource_access_checker'
+
     App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory:
         decorates: 'api_platform.metadata.property.metadata_factory'
         # Priority should be 1 lower than the one of SerializerPropertyMetadataFactory, see
