@@ -44,7 +44,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "description": "Zeigt pro Tag, wie viele Perioden am laufen sind",
       "fieldConfig": {
@@ -125,7 +125,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -171,7 +171,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -225,7 +225,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -261,7 +261,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -307,7 +307,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -343,7 +343,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -418,7 +418,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -454,7 +454,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -500,7 +500,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -536,7 +536,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -582,7 +582,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -618,7 +618,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "description": "",
       "fieldConfig": {
@@ -665,7 +665,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -714,7 +714,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -789,7 +789,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -825,7 +825,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -871,7 +871,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -907,7 +907,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "EVsze0-Vk"
+        "uid": "hGVDUrXVk"
       },
       "description": "",
       "fieldConfig": {
@@ -958,7 +958,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "EVsze0-Vk"
+            "uid": "hGVDUrXVk"
           },
           "format": "table",
           "group": [],
@@ -1383,7 +1383,8 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 36,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1396,7 +1397,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "eCamp3",
-  "uid": "ZonXm1a4z",
-  "version": 21,
+  "uid": "PxIt89u4z",
+  "version": 1,
   "weekStart": ""
 }
