@@ -10,8 +10,11 @@
       style="hypens: auto"
       color="warning"
     >
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="$tc(infoTextKey)" />
+      <div>
+        <i18n :path="infoTextKey">
+          <template #br><br /></template>
+        </i18n>
+      </div>
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
       {{ error }}
