@@ -13,7 +13,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           <camp-conditional-fields :camp="camp" :disabled="!isManager" />
 
           <v-btn
-            v-if="$vuetify.breakpoint.xsOnly"
+            v-if="!$vuetify.breakpoint.mdAndUp"
             :to="{ name: 'camp/collaborators', query: { isDetail: true } }"
           >
             {{ $tc('views.camp.admin.collaborators') }}
