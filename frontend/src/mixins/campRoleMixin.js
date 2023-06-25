@@ -18,7 +18,7 @@ export const campRoleMixin = {
         .filter((coll) => typeof coll.user === 'function')
         .find((coll) => coll.user()._meta.self === currentUserLink)
 
-      if (result._meta.loading) return null
+      if (result?._meta.loading) return null
       return result?.role
     },
     _campCollaborations() {
