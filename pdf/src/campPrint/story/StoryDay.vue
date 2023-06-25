@@ -2,11 +2,8 @@
   <Text :id="`${id}-${period.id}-${day.id}`" class="h2"
     >{{ $tc('entity.day.name') }} {{ day.number }} ({{ date }})</Text
   >
-  <template
-    v-for="{ scheduleEntry, storyChapters } in entriesWithStory"
-    :key="scheduleEntry.id"
-  >
-    <template v-for="(chapter, idx) in storyChapters" :key="idx">
+  <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
+    <template v-for="chapter in storyChapters">
       <View class="h3 story-chapter-title" :min-presence-ahead="30">
         <Text :id="`${id}-${period.id}-${scheduleEntry.id}`">
           {{ scheduleEntry.number }}

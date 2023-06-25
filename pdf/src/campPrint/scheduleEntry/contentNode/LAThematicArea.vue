@@ -1,7 +1,7 @@
 <template>
   <View class="content-node">
     <InstanceName :content-node="contentNode" />
-    <template v-for="(data, key) in contentNode.data.options" :key="key">
+    <template v-for="(data, key) in contentNode.data.options">
       <View v-if="data.checked" class="la-thematic-area-entry">
         <Checkmark :size="8" />
         <Text style="margin-left: 2pt">{{ translation(key) }}</Text>

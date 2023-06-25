@@ -5,7 +5,6 @@
         :is="components[content.type]"
         v-if="content.type in components"
         :id="`entry-${idx}`"
-        :key="idx"
         :config="config"
         :content="content"
       ></component>

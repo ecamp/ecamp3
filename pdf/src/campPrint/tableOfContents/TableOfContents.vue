@@ -8,10 +8,9 @@
         :is="entryComponents[entry.type]"
         v-if="entry.type in entryComponents"
         :id="`entry-${index}`"
-        :key="index"
         :entry="entry"
       ></component>
-      <Text v-else :key="`unknown-${index}`">{{ entry.type }}</Text>
+      <Text v-else>{{ entry.type }}</Text>
     </template>
   </Page>
 </template>

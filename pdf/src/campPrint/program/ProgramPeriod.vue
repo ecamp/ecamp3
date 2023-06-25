@@ -3,7 +3,6 @@
   <ScheduleEntry
     v-for="scheduleEntry in sortedScheduleEntries"
     :id="`${id}-${period.id}-${scheduleEntry.id}`"
-    :key="scheduleEntry.id"
     :schedule-entry="scheduleEntry"
   />
 </template>

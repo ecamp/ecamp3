@@ -3,7 +3,6 @@
     <View class="picasso-time-column-container">
       <View
         v-for="{ time, weight } in displayedTimes"
-        :key="time"
         class="picasso-time-column-row"
         :style="{
           flexGrow: weight,

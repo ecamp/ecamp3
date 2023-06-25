@@ -5,7 +5,6 @@
     </Link>
     <Link
       v-for="scheduleEntry in scheduleEntries"
-      :key="scheduleEntry.id"
       class="toc-entry toc-sub-entry"
       :href="`#${id}-${period.id}-${scheduleEntry.id}`"
     >

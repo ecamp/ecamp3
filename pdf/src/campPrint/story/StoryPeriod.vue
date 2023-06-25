@@ -5,7 +5,7 @@
     class="h1"
     >{{ $tc('print.story.title') }}: {{ period.description }}</Text
   >
-  <StoryDay v-for="day in days" :id="id" :key="day.id" :period="period" :day="day" />
+  <StoryDay v-for="day in days" :id="id" :period="period" :day="day" />
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'

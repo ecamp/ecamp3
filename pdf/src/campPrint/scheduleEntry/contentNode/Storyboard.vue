@@ -12,7 +12,7 @@
         <Text>{{ $tc('contentNode.storyboard.entity.section.fields.column3') }}</Text>
       </View>
     </View>
-    <View v-for="section in sections" :key="section.key" class="storyboard-row">
+    <View v-for="section in sections" class="storyboard-row">
       <View class="storyboard-cell storyboard-column-1">
         <Text>{{ section.column1 }}</Text>
       </View>

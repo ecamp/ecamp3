@@ -2,7 +2,6 @@
   <PicassoPeriod
     v-for="period in periods"
     :id="id"
-    :key="period.id"
     :config="config"
     :content="content"
     :period="period"

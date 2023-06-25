@@ -1,11 +1,7 @@
 <template>
   <View class="content-node material">
     <InstanceName :content-node="contentNode" />
-    <View
-      v-for="item in contentNode.materialItems().items"
-      :key="item.id"
-      class="material-item"
-    >
+    <View v-for="item in contentNode.materialItems().items" class="material-item">
       <View class="material-item-column material-item-column-1">
         <Text>{{ item.quantity }} {{ item.unit }} {{ item.article }}</Text>
       </View>

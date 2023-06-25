@@ -1,6 +1,6 @@
 <template>
   <View class="picasso-categories">
-    <View v-for="category in categories" :key="category.id" class="picasso-category">
+    <View v-for="category in categories" class="picasso-category">
       <CategoryLabel :category="category" style="margin-right: 2pt" />
       <Text>{{ category.name }}</Text>
     </View>

@@ -5,7 +5,7 @@
         <Text style="color: red"
           >{{ $tc('print.toc.title') }} {{ config.camp.name }}</Text
         >
-        <View v-for="period in selectedPeriods" :key="period._meta.self">
+        <View v-for="period in selectedPeriods">
           <Text class="green bold">{{ period.description }}</Text>
           <SubComponent />
         </View>

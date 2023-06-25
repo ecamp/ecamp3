@@ -2,7 +2,6 @@
   <PicassoPage
     v-for="pageDays in pages"
     :id="id"
-    :key="pageDays[0].id"
     :config="config"
     :content="content"
     :period="period"

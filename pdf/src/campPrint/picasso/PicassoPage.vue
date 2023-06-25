@@ -16,7 +16,6 @@
       <TimeColumnSpacer :times="times.slice(0, times.length - 1)" />
       <DayHeader
         v-for="day in days"
-        :key="day.id"
         :day="day"
         :show-day-responsibles="anyDayResponsibles"
         class="picasso-day-header"
@@ -28,7 +27,6 @@
       <TimeColumn :times="times.slice(0, times.length - 1)" align="right" />
       <DayColumn
         v-for="day in days"
-        :key="day.id"
         :times="times"
         :day="day"
         :schedule-entries="scheduleEntries"

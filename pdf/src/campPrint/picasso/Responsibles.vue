@@ -2,7 +2,6 @@
   <View class="picasso-schedule-entry-responsibles-avatars">
     <View
       v-for="(activityResponsible, index) in activity.activityResponsibles().items"
-      :key="activityResponsible.campCollaboration().id"
       class="picasso-schedule-entry-responsible-avatar"
       :class="{ 'picasso-schedule-entry-responsibles-avatar-overlap': index !== last }"
       :style="{ backgroundColor: colorFor(activityResponsible) }"

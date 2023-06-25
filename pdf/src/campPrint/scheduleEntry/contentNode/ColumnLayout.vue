@@ -1,11 +1,7 @@
 <template>
   <View v-if="columns.length" class="column-layout-container">
-    <View
-      v-for="{ slot, width } in columns"
-      :key="slot"
-      :style="columnStyle(slot, width)"
-    >
-      <template v-for="child in children[slot]" :key="child.id">
+    <View v-for="{ slot, width } in columns" :style="columnStyle(slot, width)">
+      <template v-for="child in children[slot]">
         <component :is="contentNodeComponent" :content-node="child" />
       </template>
     </View>

@@ -1,5 +1,5 @@
 <template>
-  <ProgramPeriod v-for="period in periods" :id="id" :key="period.id" :period="period" />
+  <ProgramPeriod v-for="period in periods" :id="id" :period="period" />
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'

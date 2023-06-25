@@ -1,6 +1,6 @@
 <template>
   <Page :id="id" class="page">
-    <StoryPeriod v-for="period in periods" :id="id" :key="period.id" :period="period" />
+    <StoryPeriod v-for="period in periods" :id="id" :period="period" />
   </Page>
 </template>
 <script>

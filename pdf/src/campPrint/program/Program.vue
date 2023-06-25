@@ -1,6 +1,6 @@
 <template>
   <Page :id="id" class="page program-page">
-    <ProgramPeriod v-for="period in periods" :id="id" :key="period.id" :period="period" />
+    <ProgramPeriod v-for="period in periods" :id="id" :period="period" />
   </Page>
 </template>
 <script>

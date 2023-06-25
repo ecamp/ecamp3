@@ -3,7 +3,6 @@
     <View class="picasso-day-column-grid">
       <View
         v-for="([_, weight], index) in times"
-        :key="index"
         class="picasso-day-column-grid-row"
         :class="{ 'picasso-day-column-grid-row-grey': index % 2 === 1 }"
         :style="{ flexGrow: weight }"
@@ -12,7 +11,6 @@
     <View class="picasso-day-column-schedule-entry-container">
       <ScheduleEntry
         v-for="scheduleEntry in relevantScheduleEntries"
-        :key="scheduleEntry.id"
         :schedule-entry="scheduleEntry"
         :style="{
           ...positionStyles[scheduleEntry.id],
