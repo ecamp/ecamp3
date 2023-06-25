@@ -572,7 +572,7 @@
     },
     "pageNotFound": {
       "backToHome": "Torna a casa",
-      "detail": "La pagina chiamata non esiste. Assicurarsi che la pagina chiamata esista"
+      "detail": "Ops. Hai perso la strada…{br}Purtroppo questo link non funziona."
     },
     "profile": {
       "changeEmail": "Cambiamento",

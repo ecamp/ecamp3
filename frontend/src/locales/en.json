@@ -572,7 +572,7 @@
     },
     "pageNotFound": {
       "backToHome": "Back to home",
-      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist."
+      "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
     },
     "profile": {
       "changeEmail": "Change",

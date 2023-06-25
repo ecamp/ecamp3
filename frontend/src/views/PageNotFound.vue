@@ -8,7 +8,9 @@
       <ShootingStar class="shootingstar" />
       <TentNight class="tent" />
       <p class="white--text text-center px-3 mb-n8">
-        {{ $tc('views.pageNotFound.detail') }}
+        <i18n path="views.pageNotFound.detail">
+          <template #br><br /></template>
+        </i18n>
       </p>
       <div class="absolute bottom-0 justify-center d-flex col gap-2">
         <v-btn v-if="user" text dark :to="{ name: 'home' }">

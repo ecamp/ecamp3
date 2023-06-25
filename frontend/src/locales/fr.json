@@ -572,7 +572,7 @@
     },
     "pageNotFound": {
       "backToHome": "Retour à la maison",
-      "detail": "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe"
+      "detail": "Hop là ! Tu t'es égaré...{br}Ce lien ne fonctionne malheureusement pas."
     },
     "profile": {
       "changeEmail": "Changement",
