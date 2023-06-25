@@ -83,7 +83,20 @@ services:
     App\Serializer\Normalizer\HalItemNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: -890 }
-            
+        arguments:
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+            - '@api_platform.name_converter'
+            - '@serializer.mapping.class_metadata_factory'
+            - []
+            - '@api_platform.metadata.resource.metadata_collection_factory'
+            - '@api_platform.security.resource_access_checker'
+            - '@api_platform.filter_locator'
+            - '@Rize\UriTemplate'
+
     api_platform.hal.normalizer.item:
         class: App\Serializer\Normalizer\HalItemNormalizer
         arguments:
@@ -97,6 +110,8 @@ services:
             - []
             - '@api_platform.metadata.resource.metadata_collection_factory'
             - '@api_platform.security.resource_access_checker'
+            - '@api_platform.filter_locator'
+            - '@Rize\UriTemplate'
 
     App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory:
         decorates: 'api_platform.metadata.property.metadata_factory'
