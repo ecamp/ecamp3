@@ -13,6 +13,11 @@ module.exports = {
         DEFAULT: {
           css: {
             color: '#000',
+            p: {
+              marginTop: '0!important',
+              marginBottom: '0.3em!important',
+              minHeight: '0.6em!important',
+            },
           },
         },
       }),
