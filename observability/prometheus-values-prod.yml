@@ -21,6 +21,17 @@ kubeScheduler:
   enabled: false
 prometheus:
   enabled: true
+  additionalServiceMonitors:
+    - name: "caddy"
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: ecamp3-prod
+          app.kubernetes.io/name: ecamp3-api
+      namespaceSelector:
+        matchNames:
+          - default
+      endpoints:
+        - port: "api-metrics"
   prometheusSpec:
     storageSpec:
       volumeClaimTemplate:
