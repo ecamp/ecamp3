@@ -83,6 +83,15 @@ body {
   }
 }
 
+.v-text-field--outlined.v-input--is-readonly:not(.v-input--is-focused):not(
+    .v-input--has-state
+  )
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgb(0, 0, 0, 0.18);
+}
+
 .v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot:before,
 .v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot:after {
   border-color: transparent !important;
