@@ -1,12 +1,14 @@
 <template>
   <content-node-content :content-node="contentNode" :icon-path="mdiPackageVariant">
     <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
-    <div v-for="item in items" v-else :key="item.id" class="item">
-      <div class="material-row">
-        <div class="item">{{ item.quantity }} {{ item.unit }} {{ item.article }}</div>
-        <div class="list-name">{{ item.materialList().name }}</div>
-      </div>
-    </div>
+    <table v-else>
+      <tr v-for="item in items" :key="item.id" class="item tw-tabular-nums">
+        <td align="right">{{ item.quantity }}</td>
+        <td>{{ item.unit || (item.quantity && '×') }}</td>
+        <td width="100%">{{ item.article }}</td>
+        <td>{{ item.materialList().name }}</td>
+      </tr>
+    </table>
   </content-node-content>
 </template>
 
@@ -46,6 +48,10 @@ export default {
 .item {
   flex-basis: 7000px;
   padding-right: 4px;
+
+  td:not(:last-child) {
+    padding-right: 4px;
+  }
 }
 
 .list-name {

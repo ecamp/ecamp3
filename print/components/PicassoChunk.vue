@@ -46,20 +46,22 @@
               {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
             </span>
 
-            <span v-if="hasDayResponsibles(date)" class="text-xs-relative tw-italic">
+            <span v-if="hasDayResponsibles(date)" class="text-xs-relative">
               {{ $tc('entity.day.fields.dayResponsibles') }}:
               {{ dayResponsiblesCommaSeparated(date) }}
             </span>
           </template>
 
           <template #event="{ event }">
-            <div class="tw-float-left tw-font-weight-medium">
+            <div
+              class="tw-float-left tw-font-weight-medium tw-tabular-nums tw-font-medium"
+            >
               <!-- link jumps to first instance of scheduleEntry within the document -->
               <a
                 :href="`#scheduleEntry_${event.id}`"
                 :style="{ color: getActivityTextColor(event) }"
               >
-                ({{ event.number }})&nbsp; {{ event.activity().category().short }}:&nbsp;
+                {{ event.number }} {{ event.activity().category().short }}:
                 {{ event.activity().title }}
               </a>
             </div>
@@ -264,6 +266,14 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
   overflow: visible;
 }
 
+.v-calendar-daily_head-day {
+  background-color: #cfd8dc;
+}
+
+.v-calendar .v-event-timed-container {
+  margin-right: 4px;
+}
+
 .fullwidth {
   width: $portrait-content-width;
 }
@@ -286,7 +296,8 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
 
 .v-calendar .v-event-timed {
   font-size: 0.8em;
-  padding: 2px;
+  padding: 0 1px;
+  hyphens: auto;
   white-space: normal;
   overflow-wrap: break-word;
   overflow-y: hidden;
@@ -298,8 +309,19 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
   }
 }
 
+.theme--light.v-calendar-events .v-event-timed {
+  border: none !important;
+  outline: 0.1mm solid black !important;
+  line-height: 1.3;
+}
+
 .v-calendar-daily__interval-text {
   font-size: 0.8em;
+  font-feature-settings: 'tnum';
+}
+
+.v-calendar-daily__day-interval:nth-child(2n) {
+  background-color: #eceff1;
 }
 
 .v-calendar-daily_head-day-label {
@@ -321,6 +343,7 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
     margin-right: 3px;
   }
 }
+
 .footer {
   display: flex;
   flex-direction: row;
@@ -340,6 +363,7 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
     padding: 3px 4px 4px;
   }
 }
+
 /**
  * the following classes use the same naming pattern & values as tailwind
  * however using em instead of rem

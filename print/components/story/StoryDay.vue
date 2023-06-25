@@ -1,19 +1,25 @@
 <template>
   <div class="tw-mb-4">
-    <div class="tw-text-2xl tw-mb-2 tw-break-after-avoid">
-      <h1>{{ $tc('entity.day.name') }} {{ day.number }} ({{ dateLong(day.start) }})</h1>
+    <div
+      class="tw-text-xl tw-mb-2 tw-break-after-avoid tw-border-b-2 tw-border-b-gray-400"
+    >
+      <h2 class="tw-py-1 tw-flex tw-gap-2 tw-justify-between">
+        <span class="tw-font-semibold">
+          {{ $tc('entity.day.name') }} {{ day.number }}
+        </span>
+        <span class="tw-tabular-nums">{{ dateLong(day.start) }}</span>
+      </h2>
     </div>
 
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.self" class="tw-mb-3">
-          <h4 class="tw-text-lg tw-font-bold tw-break-after-avoid">
-            <span class="d-inline-flex align-center">
-              <span>{{ scheduleEntry.number }}</span>
-              <category-label
-                :category="scheduleEntry.activity().category()"
-                class="tw-ml-1"
-              />
+          <h4
+            class="tw-text-lg tw-font-semibold tw-break-after-avoid tw-flex tw-align-baseline tw-gap-2"
+          >
+            <span class="tw-inline-flex tw-items-baseline tw-gap-2">
+              <category-label :category="scheduleEntry.activity().category()" />
+              <span class="tw-tabular-nums">{{ scheduleEntry.number }}</span>
             </span>
 
             <span>{{ scheduleEntry.activity().title }}</span>
@@ -29,8 +35,6 @@
     <p v-else>
       {{ $tc('components.story.storyDay.noStory') }}
     </p>
-
-    <hr />
   </div>
 </template>
 

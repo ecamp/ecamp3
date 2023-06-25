@@ -28,5 +28,5 @@ function moveDownloads(config, destSubDir) {
 }
 
 module.exports = {
-  moveDownloads
+  moveDownloads,
 }

@@ -1,23 +1,28 @@
 <template>
   <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
-  <div v-else class="tw-mb-20 tw-mt-1 tw-break-inside-avoid">
+  <div v-else class="tw-mb-20 tw-mt-1">
     <div
       :id="`scheduleEntry_${scheduleEntry.id}`"
-      class="schedule-entry-title tw-float-left"
+      class="schedule-entry-title tw-break-after-avoid tw-flex tw-items-baseline tw-justify-between tw-gap-2 tw-border-b-4 tw-border-b-black tw-pb-2"
+      :style="{ borderColor: scheduleEntry.activity().category().color }"
     >
       <h2
         :id="`content_${index}_scheduleEntry_${scheduleEntry.id}`"
-        class="tw-text-xl tw-font-bold tw-pt-1"
+        class="tw-text-3xl tw-font-semibold tw-pt-1 flex gap-3"
       >
-        {{ scheduleEntry.number }}
         <category-label :category="scheduleEntry.activity().category()" />
-        {{ scheduleEntry.activity().title }}
+        <span class="tw-tabular-nums">
+          {{ scheduleEntry.number }}
+        </span>
+        <span>
+          {{ scheduleEntry.activity().title }}
+        </span>
       </h2>
+      <div class="tw-text-lg">
+        {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
+      </div>
     </div>
-    <div class="tw-float-right">
-      {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
-    </div>
-    <div class="header tw-clear-both tw-mb-4">
+    <div class="header tw-break-inside-avoid tw-break-after-avoid tw-mb-4">
       <table class="header-table">
         <tr>
           <th class="header-row left-col">
@@ -98,16 +103,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.schedule-entry-title {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 0.5rem;
-
-  h2 {
-    flex-grow: 1;
-  }
-}
-
 .header-table {
   border-spacing: 0;
   width: 100%;
@@ -121,8 +116,8 @@ export default {
 }
 
 .left-col {
-  border-right: 1px solid black;
-  font-weight: bold;
+  border-right: 1px solid #ddd;
+  font-weight: 600;
   text-align: left;
   width: 10%;
   padding-left: 0;
