@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "create": "Creare uno stato",
-        "deleteWarning": "Vuoi davvero cancellare questo stato?",
         "deleteError": "Lo stato non può essere cancellato. Viene ancora utilizzato.",
+        "deleteWarning": "Vuoi davvero cancellare questo stato?",
         "moveDown": "Spostare in basso",
         "moveUp": "Spostare in alto",
         "title": "Stati delle attività"
@@ -571,10 +571,8 @@
       "title": "I miei campi"
     },
     "pageNotFound": {
-      "back": "Indietro",
-      "detail": "La pagina chiamata non esiste. Assicurarsi che la pagina chiamata esista",
-      "goToCamps": "I miei campi",
-      "title": "Pagina non trovata"
+      "backToHome": "Torna a casa",
+      "detail": "Ops. Hai perso la strada…{br}Purtroppo questo link non funziona."
     },
     "profile": {
       "changeEmail": "Cambiamento",

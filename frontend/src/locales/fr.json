@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "create": "Créer un statut",
-        "deleteWarning": "Tu veux vraiment supprimer ce statut?",
         "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
+        "deleteWarning": "Tu veux vraiment supprimer ce statut?",
         "moveDown": "Vers le bas",
         "moveUp": "Vers le haut",
         "title": "Statut des activités"
@@ -571,10 +571,8 @@
       "title": "Mes camps"
     },
     "pageNotFound": {
-      "back": "Retour",
-      "detail": "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe",
-      "goToCamps": "Mes camps",
-      "title": "Page introuvable"
+      "backToHome": "Retour à la maison",
+      "detail": "Hop là ! Tu t'es égaré...{br}Ce lien ne fonctionne malheureusement pas."
     },
     "profile": {
       "changeEmail": "Changement",
