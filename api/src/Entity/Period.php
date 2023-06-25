@@ -54,8 +54,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
     ],
+    normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    forceEager: false
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
@@ -70,7 +71,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: Day::class, mappedBy: 'period', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Day::class, mappedBy: 'period', orphanRemoval: true, cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\OrderBy(['dayOffset' => 'ASC'])]
     public Collection $days;
 
@@ -99,7 +100,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Valid(groups: ['Period:delete'])]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'periods')]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'periods', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     public ?Camp $camp = null;
 

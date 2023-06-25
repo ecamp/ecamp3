@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use App\Entity\ContentNode\ColumnLayout;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait HasRootContentNodeTrait {
@@ -33,6 +35,17 @@ trait HasRootContentNodeTrait {
     public function getRootContentNode(): ?ColumnLayout {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty]
+    #[SerializedName('contentNodes')]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
+    #[Groups(['read'])]
+    public function getEmptyContentNodes() {
+        return [];
     }
 
     /**

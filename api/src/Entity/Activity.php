@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\ActivityRepository;
-use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\State\ActivityCreateProcessor;
 use App\State\ActivityRemoveProcessor;
 use App\Validator\AssertBelongsToSameCamp;
@@ -191,17 +190,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[Groups('Activity:ActivityProgressLabel')]
     public function getEmbeddedProgressLabel(): ?ActivityProgressLabel {
         return $this->progressLabel;
-    }
-
-    /**
-     * @return ContentNode[]
-     */
-    #[ApiProperty]
-    #[SerializedName('contentNodes')]
-    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
-    #[Groups(['read'])]
-    public function getEmptyContentNodes() {
-        return [];
     }
 
     /**

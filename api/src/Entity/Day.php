@@ -36,7 +36,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
-    order: ['period.start', 'dayOffset']
+    order: ['period.start', 'dayOffset'],
+    forceEager: false
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
@@ -71,7 +72,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'days')]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'days', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 

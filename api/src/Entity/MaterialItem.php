@@ -46,7 +46,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    normalizationContext: ['groups' => ['read']],
+    forceEager: false
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['materialList', 'materialNode'])]
 #[ApiFilter(filterClass: MaterialItemPeriodFilter::class)]
@@ -59,7 +60,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems')]
+    #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
 
@@ -70,7 +71,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'materialItems')]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'materialItems', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?Period $period = null;
 
