@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "create": "Create a state",
-        "deleteWarning": "Do you really want to delete this state?",
         "deleteError": "State can't be deleted. It is still used.",
+        "deleteWarning": "Do you really want to delete this state?",
         "moveDown": "Move down",
         "moveUp": "Move up",
         "title": "Activity state"
@@ -389,8 +389,8 @@
     "activity": {
       "category": {
         "changeLayout": "Change layout for new activities",
-        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
         "contents": "Contents",
+        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
         "editContents": "Set default contents for new activities",
         "layout": "Layout"
       },
@@ -571,10 +571,8 @@
       "title": "My Camps"
     },
     "pageNotFound": {
-      "back": "Back",
-      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist.",
-      "goToCamps": "Camps overview",
-      "title": "Page not found"
+      "backToHome": "Back to home",
+      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist."
     },
     "profile": {
       "changeEmail": "Change",
