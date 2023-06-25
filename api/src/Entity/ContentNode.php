@@ -35,7 +35,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            normalizationContext: [
+                ['groups' => ['ContentNode:Children']],
+            ]
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

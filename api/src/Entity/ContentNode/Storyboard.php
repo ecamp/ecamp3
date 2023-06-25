@@ -20,13 +20,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+            normalizationContext: [
+                ['groups' => ['ContentNode:Children']],
+            ]
         ),
         new Patch(
             processor: StoryboardPersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'update']],
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            validationContext: ['groups' => ['Default', 'update']]
+            validationContext: ['groups' => ['Default', 'update']],
+            normalizationContext: [
+                ['groups' => ['ContentNode:Children']],
+            ]
         ),
         new Delete(
             security: '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null'
@@ -38,7 +44,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: StoryboardPersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            validationContext: ['groups' => ['Default', 'create']]
+            validationContext: ['groups' => ['Default', 'create']],
+            normalizationContext: [
+                ['groups' => ['ContentNode:Children']],
+            ]
         ),
     ],
     denormalizationContext: ['groups' => ['write']],
