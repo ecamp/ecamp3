@@ -90,11 +90,17 @@
       "fields": {
         "category": "Category",
         "location": "Location",
+        "progressLabel": "State",
         "responsible": "Responsible",
         "title": "Title"
       },
       "name": "Activity | Activities",
       "new": "New activity"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Title"
+      }
     },
     "camp": {
       "collaborators": {

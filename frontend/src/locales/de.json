@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Status erstellen",
+        "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
+        "deleteError": "Status konnte nicht gelöscht werden. Der Status wird noch verwendet.",
+        "moveDown": "Nach unten",
+        "moveUp": "Nach oben",
+        "title": "Block-Status"
+      },
       "campAddress": {
         "title": "Lageradresse"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Weiteren Lagerabschnitt hinzufügen"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Block-Status erstellen"
       },
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -377,8 +388,10 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Zurück zum Bearbeiten des Inhalts",
-        "changeLayout": "Layout ändern",
+        "changeLayout": "Layout für neue Blöcke ändern",
+        "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
+        "editContents": "Standard-Inhalte für neue Blöcke eingeben",
         "layout": "Layout"
       },
       "printPreview": "Druckvorschau öffnen",
@@ -476,27 +489,22 @@
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
+        "progressLabel": "Status",
         "responsible": "Verantwortlich",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
         "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
         "backToHome": "Zurück zur Startseite",
+        "error": "Ein unerwarteter Fehler ist aufgetreten",
         "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
         "openCamp": "Lager öffnen",
         "register": "Registrieren",
         "reject": "Einladung ablehnen",
-        "title": "Einladung zum Lager \"{campName}\"",
+        "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt",
+        "title": "Einladung",
         "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
         "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
-      },
-      "invitationRejected": {
-        "backToHome": "Zurück zur Startseite",
-        "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Zurück zur Startseite",
-        "error": "Ein unerwarteter Fehler ist aufgetreten"
       },
       "material": {
         "downloadXlsx": "Download",
@@ -562,15 +570,15 @@
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
     },
+    "pageNotFound": {
+      "back": "Zurück",
+      "detail": "Die Seite, welche du aufgerufen hast, existiert nicht. Stelle sicher, dass die aufgerufene Seite existiert.",
+      "goToCamps": "Meine Lager",
+      "title": "Seite nicht gefunden"
+    },
     "profile": {
       "changeEmail": "Ändern",
       "profile": "Profil"
-    },
-    "pageNotFound": {
-      "detail": "Die Seite, welche du aufgerufen hast, existiert nicht. Stelle sicher, dass die aufgerufene Seite existiert.",
-      "title": "Seite nicht gefunden",
-      "goToCamps": "Meine Lager",
-      "back": "Zurück"
     }
   }
 }

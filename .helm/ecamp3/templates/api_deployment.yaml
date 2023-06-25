@@ -51,7 +51,10 @@ spec:
                   key: mercure-jwt-secret
           ports:
             - name: api-http
-              containerPort: 3001
+              containerPort: {{ .Values.api.service.port }}
+              protocol: TCP
+            - name: api-metrics
+              containerPort: {{ .Values.api.metrics.port }}
               protocol: TCP
           volumeMounts:
             - mountPath: /var/run/php

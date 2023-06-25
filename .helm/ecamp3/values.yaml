@@ -19,6 +19,8 @@ api:
   service:
     type: ClusterIP
     port: 3001
+  metrics:
+    port: 2019
   # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
   replicaCount: 1
 
@@ -93,6 +95,8 @@ frontend:
 
 print:
   subpath: "/print"
+  ingress:
+    readTimeoutSeconds:
   image:
     repository: "docker.io/ecamp/ecamp3-print"
     pullPolicy: IfNotPresent
@@ -104,6 +108,8 @@ print:
     type: ClusterIP
     port: 3003
   replicaCount: 1
+  renderHTMLTimeoutMs:
+  renderPDFTimeoutMs:
   resources:
     requests:
       cpu: 10m

@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Créer un statut",
+        "deleteWarning": "Tu veux vraiment supprimer ce statut?",
+        "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
+        "moveDown": "Vers le bas",
+        "moveUp": "Vers le haut",
+        "title": "Statut des activités"
+      },
       "campAddress": {
         "title": "Adresse"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Ajoute un point"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Créer un statut"
       },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
@@ -377,8 +388,10 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Retour à l'édition du contenu",
-        "changeLayout": "Change la mise en page",
+        "changeLayout": "Modifier la mise en page",
+        "contents": "Contenu",
+        "createLayoutHelp": "Ici, tu peux définir l'apparence par défaut des nouveaux activités {categoryShort}.{br}Attention : Si tu as déjà des activités {categoryShort} dans le camp, ils ne seront pas automatiquement adaptés.",
+        "editContents": "Définir le contenu par défaut",
         "layout": "Mise en page"
       },
       "printPreview": "Ouvre l'aperçu avant impression",
@@ -476,27 +489,22 @@
         "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
+        "progressLabel": "Statut",
         "responsible": "Responsable",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },
       "invitation": {
         "acceptCurrentAuth": "Accepte l'invitation avec le compte courant",
         "backToHome": "Retour à la maison",
-        "notFound": "Cette invitation est déjà acceptée ou a été supprimée",
+        "error": "Une erreur inattendue s'est produite",
+        "notFound": "Cette invitation est déjà acceptée ou supprimée",
         "openCamp": "Camp ouvert",
         "register": "Registre",
         "reject": "Refuser l'invitation",
-        "title": "Invitation au camp \"{campName}\".",
+        "successfullyRejected": "L'invitation a été rejetée avec succès",
+        "title": "Invitation",
         "useOtherAuth": "Déconnecte-toi et utilise un autre compte",
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
-      },
-      "invitationRejected": {
-        "backToHome": "Retour à la maison",
-        "successfullyRejected": "L'invitation a été rejetée avec succès"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Retour à la maison",
-        "error": "Une erreur inattendue s'est produite"
       },
       "material": {
         "downloadXlsx": "Télécharger",
@@ -562,15 +570,15 @@
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
     },
+    "pageNotFound": {
+      "back": "Retour",
+      "detail": "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe",
+      "goToCamps": "Mes camps",
+      "title": "Page introuvable"
+    },
     "profile": {
       "changeEmail": "Changement",
       "profile": "Profil"
-    },
-    "pageNotFound" : {
-      "detail" : "La page que tu as consultée n'existe pas. Assurez-vous que la page que vous avez consultée existe",
-      "title" : "Page introuvable",
-      "goToCamps" : "Mes camps",
-      "back" : "Retour"
     }
   }
 }

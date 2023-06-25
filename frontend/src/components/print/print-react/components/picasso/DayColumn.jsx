@@ -20,12 +20,12 @@ function getWeightsSum(times) {
 
 function percentage(seconds, times) {
   const hours = seconds / 3600.0
-  let matchingTimeIndex = times.findIndex(([time, _]) => time >= hours) - 1
+  let matchingTimeIndex = times.findIndex(([time, _]) => time > hours) - 1
   matchingTimeIndex = Math.min(
     Math.max(matchingTimeIndex === -2 ? times.length : matchingTimeIndex, 0),
     times.length - 1
   )
-  const remainder = hours - times[matchingTimeIndex][0]
+  const remainder = (hours - times[matchingTimeIndex][0]) / times[matchingTimeIndex][1]
   const weightsSum =
     getWeightsSum(times.slice(0, matchingTimeIndex)) +
     remainder * times[Math.min(matchingTimeIndex, times.length)][1]
@@ -147,7 +147,7 @@ function DayColumn({ times, scheduleEntries, day, styles }) {
             style={{
               ...picassoStyles.dayGridRow,
               flexGrow: weight,
-              ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
+              ...(index % 2 === 1 ? { backgroundColor: 'lightgrey' } : {}),
             }}
           />
         ))}

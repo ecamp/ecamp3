@@ -1,10 +1,12 @@
 <template>
-  <v-expansion-panels v-model="expandedDays" accordion flat multiple>
+  <v-skeleton-loader v-if="loading" class="mt-2 mt-sm-3" type="list-item-three-line" />
+  <v-expansion-panels v-else v-model="expandedDays" accordion flat multiple>
     <story-day
       v-for="day in sortedDays"
       :key="day._meta.self"
       :day="day"
       :editing="editing"
+      :period-story-chapters="periodStoryChapters.items"
     />
   </v-expansion-panels>
 </template>
@@ -22,6 +24,8 @@ export default {
   data() {
     return {
       expandedDays: [],
+      contentTypeStorycontext: null,
+      loading: true,
     }
   },
   computed: {
@@ -30,6 +34,12 @@ export default {
         return sortBy(this.period.days().items, (day) => day.dayOffset)
       }
       return []
+    },
+    periodStoryChapters() {
+      return this.api.get().contentNodes({
+        period: this.period._meta.self,
+        contentType: this.contentTypeStorycontext._meta.self,
+      })
     },
   },
   watch: {
@@ -44,11 +54,32 @@ export default {
   },
   methods: {
     async updateComponentData(period) {
-      // show days in store immediately
-      this.computeExpandedDays(period)
+      this.loading = true
 
-      // reload days of period to ensure all days are loaded
-      await period.days().$reload()
+      if (!this.contentTypeStorycontext) {
+        this.contentTypeStorycontext = (
+          await this.api.get().contentTypes().$loadItems()
+        ).items.find((contentType) => contentType.name === 'Storycontext')
+      }
+
+      // Reload data after changing period
+      this.periodStoryChapters.$reload()
+      this.period.scheduleEntries().$reload()
+      this.period
+        .days()
+        .$reload()
+        .then(() => this.computeExpandedDays(period))
+
+      // ensures we have loaded all relevant data, but this will not wait for the $reloads above
+      await Promise.all([
+        this.periodStoryChapters.$loadItems(),
+        this.period.scheduleEntries().$loadItems(),
+        this.period.days().$loadItems(),
+        this.period.camp().activities().$loadItems(),
+        this.period.camp().categories().$loadItems(),
+      ])
+
+      this.loading = false
 
       // show reloaded days
       this.computeExpandedDays(period)

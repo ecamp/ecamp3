@@ -5,6 +5,7 @@ Displays a single scheduleEntry
 <template>
   <content-card
     toolbar
+    back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
   >
     <template #title>
@@ -179,11 +180,21 @@ Displays a single scheduleEntry
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
             <v-row dense>
-              <v-col>
+              <v-col class="col col-sm-8 col-12">
                 <api-text-field
                   :name="$tc('entity.activity.fields.location')"
                   :uri="activity._meta.self"
                   fieldname="location"
+                  :disabled="layoutMode || !isContributor"
+                  dense
+                />
+              </v-col>
+              <v-col class="col col-sm-4 col-12">
+                <api-select
+                  :name="$tc('entity.activity.fields.progressLabel')"
+                  :uri="activity._meta.self"
+                  fieldname="progressLabel"
+                  :items="progressLabels"
                   :disabled="layoutMode || !isContributor"
                   dense
                 />
@@ -213,6 +224,7 @@ Displays a single scheduleEntry
 </template>
 
 <script>
+import { sortBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
@@ -270,6 +282,13 @@ export default {
     },
     scheduleEntries() {
       return this.activity.scheduleEntries().items
+    },
+    progressLabels() {
+      const labels = sortBy(this.camp.progressLabels().items, (l) => l.position)
+      return labels.map((label) => ({
+        value: label._meta.self,
+        text: label.title,
+      }))
     },
     contentNodes() {
       return this.activity.contentNodes()

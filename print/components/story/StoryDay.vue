@@ -13,7 +13,7 @@
 
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-        <div v-for="chapter in storyChapters" :key="chapter._meta.uri" class="tw-mb-3">
+        <div v-for="chapter in storyChapters" :key="chapter._meta.self" class="tw-mb-3">
           <h4
             class="tw-text-lg tw-font-semibold tw-break-after-avoid tw-flex tw-align-baseline tw-gap-2"
           >

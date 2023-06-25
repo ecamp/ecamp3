@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Creare uno stato",
+        "deleteWarning": "Vuoi davvero cancellare questo stato?",
+        "deleteError": "Lo stato non può essere cancellato. Viene ancora utilizzato.",
+        "moveDown": "Spostare in basso",
+        "moveUp": "Spostare in alto",
+        "title": "Stati delle attività"
+      },
       "campAddress": {
         "title": "Indirizzo"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Aggiungi un punto"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Creare uno stato"
       },
       "dialogCategoryCreate": {
         "title": "Creare categoria di attività"
@@ -377,8 +388,10 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Torna alla modifica dei contenuti",
         "changeLayout": "Cambia il layout",
+        "contents": "Contenuti",
+        "createLayoutHelp": "Qui si può definire la forma predefinita delle nuove attività {categoryShort}.{br}Nota: se si dispone già di attività {categoryShort} in campo, questi non verranno adattati automaticamente.",
+        "editContents": "Definire il contenuto predefinito",
         "layout": "Layout"
       },
       "printPreview": "Apri l'anteprima di stampa",
@@ -476,27 +489,22 @@
         "noEntries": "Non sono state trovate attività. Prova a cancellare i filtri di selezione e/o a ricaricare la pagina.",
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
+        "progressLabel": "Stati",
         "responsible": "Responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },
       "invitation": {
         "acceptCurrentAuth": "Accetta l'invito con un conto corrente",
         "backToHome": "Torna a casa",
-        "notFound": "Questo invito è già stato accettato o è stato cancellato",
+        "error": "Si è verificato un errore inatteso",
+        "notFound": "Questo invito è già stato accettato o cancellato",
         "openCamp": "Campo aperto",
         "register": "Registro",
         "reject": "Rifiuta l'invito",
-        "title": "Invito al campo \"{campName}\".",
+        "successfullyRejected": "L'invito è stato rifiutato con successo",
+        "title": "Invito",
         "useOtherAuth": "Esci e usa un altro account",
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
-      },
-      "invitationRejected": {
-        "backToHome": "Torna a casa",
-        "successfullyRejected": "L'invito è stato rifiutato con successo"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Torna a casa",
-        "error": "Si è verificato un errore inatteso"
       },
       "material": {
         "downloadXlsx": "Scarica",
@@ -562,15 +570,15 @@
       "prototypeCamps": "Prototipi",
       "title": "I miei campi"
     },
+    "pageNotFound": {
+      "back": "Indietro",
+      "detail": "La pagina chiamata non esiste. Assicurarsi che la pagina chiamata esista",
+      "goToCamps": "I miei campi",
+      "title": "Pagina non trovata"
+    },
     "profile": {
       "changeEmail": "Cambiamento",
       "profile": "Profilo"
-    },
-    "pageNotFound": {
-      "detail": "La pagina chiamata non esiste. Assicurarsi che la pagina chiamata esista",
-      "title": "Pagina non trovata",
-      "goToCamps": "I miei campi",
-      "back": "Indietro"
     }
   }
 }

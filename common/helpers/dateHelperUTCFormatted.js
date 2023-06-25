@@ -38,6 +38,12 @@ function timeDurationShort(start, end, tc) {
 }
 
 // short format of dateTime range
+// doesn't show any date
+function rangeTime(start, end, tc) {
+  return hourShort(start, tc) + ' - ' + hourShort(end, tc)
+}
+
+// short format of dateTime range
 // doesn't repeat end date if on the same day
 function rangeShort(start, end, tc) {
   let result = ''
@@ -92,6 +98,7 @@ export {
   hourShort,
   hourLong,
   dateRange,
+  rangeTime,
   rangeShort,
   rangeLongEnd,
 }

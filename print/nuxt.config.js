@@ -112,6 +112,11 @@ export default {
     config: {
       environment: process.env.SENTRY_ENVIRONMENT ?? 'local',
     },
+    serverIntegrations: {
+      CaptureConsole: {
+        levels: ['warn', 'error'],
+      },
+    },
   },
 
   /*
@@ -177,4 +182,17 @@ export default {
   },
 
   telemetry: false,
+
+  hooks: {
+    /**
+     * this may not work anymore with nuxt3
+     */
+    'render:routeDone'(url, result, context) {
+      const fetchErrors = Object.entries(context.nuxt.fetch)
+      const errors = fetchErrors.map(([, entry]) => entry._error).filter((error) => error)
+      if (errors.length > 0) {
+        console.error(`fetch errors during rendering: `, errors)
+      }
+    },
+  },
 }

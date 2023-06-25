@@ -4,14 +4,9 @@
       <h3>{{ dateLong(day.start) }}</h3>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-skeleton-loader
-        v-if="loading"
-        class="mt-2 mt-sm-3"
-        type="list-item-three-line"
-      />
-      <template v-else-if="entriesWithStory.length">
+      <template v-if="entriesWithStory.length">
         <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-          <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
+          <div v-for="chapter in storyChapters" :key="chapter._meta.self">
             <h4 class="mt-3 mt-sm-5">
               <span class="d-inline-flex align-center">
                 <span class="tabular-nums">{{ scheduleEntry.number }}</span>
@@ -72,28 +67,29 @@ export default {
   props: {
     day: { type: Object, required: true },
     editing: { type: Boolean, default: false },
+    periodStoryChapters: { type: Array, required: true },
   },
   computed: {
-    loading() {
-      return (
-        this.day.scheduleEntries()._meta.loading ||
-        this.sortedScheduleEntries.some(
-          (entry) => entry.activity().contentNodes()._meta.loading
-        )
-      )
+    // returns scheduleEntries of current day without the need for an additional API call
+    scheduleEntries() {
+      return this.day
+        .period()
+        .scheduleEntries()
+        .items.filter((scheduleEntry) => {
+          return scheduleEntry.day()._meta.self === this.day._meta.self
+        })
     },
     sortedScheduleEntries() {
-      return sortBy(
-        this.day.scheduleEntries().items,
-        (scheduleEntry) => scheduleEntry.start
-      )
+      return sortBy(this.scheduleEntries, (scheduleEntry) => scheduleEntry.start)
     },
     entries() {
       return this.sortedScheduleEntries.map((scheduleEntry) => ({
         scheduleEntry: scheduleEntry,
-        storyChapters: (
-          scheduleEntry.activity().contentNodes() || { items: [] }
-        ).items.filter((contentNode) => contentNode.contentTypeName === 'Storycontext'),
+        storyChapters: this.periodStoryChapters.filter(
+          (contentNode) =>
+            contentNode.root()._meta.self ===
+            scheduleEntry.activity().rootContentNode()._meta.self
+        ),
       }))
     },
     entriesWithStory() {
@@ -107,17 +103,6 @@ export default {
   },
   async mounted() {
     this.updatePanelValue(this.day)
-    // refresh to get new schedule entries
-    await this.day.scheduleEntries().$reload()
-    // refresh individual schedule entries to get new story content nodes
-    await Promise.all(
-      this.day.scheduleEntries().items.map((entry) =>
-        entry
-          .activity()
-          .contentNodes()
-          ._meta.load.then((contentNodes) => this.api.reload(contentNodes))
-      )
-    )
   },
   methods: {
     updatePanelValue(day) {

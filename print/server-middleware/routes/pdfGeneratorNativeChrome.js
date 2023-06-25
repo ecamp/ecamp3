@@ -101,6 +101,7 @@ router.use('/pdfChrome', async (req, res) => {
 
     // HTTP request back to Print Nuxt App
     await page.goto(`${process.env.PRINT_URL}/?config=${req.query.config}`, {
+      timeout: process.env.RENDER_HTML_TIMEOUT_MS ?? 30000,
       waitUntil: 'networkidle0',
     })
 
@@ -119,6 +120,7 @@ router.use('/pdfChrome', async (req, res) => {
         right: '15mm',
         top: '15mm',
       },
+      timeout: process.env.RENDER_PDF_TIMEOUT_MS ?? 30000,
     })
 
     measurePerformance()
@@ -144,12 +146,23 @@ router.use('/pdfChrome', async (req, res) => {
       errorMessage = error.message
     }
 
-    console.error(error)
+    captureError(error)
 
     res.status(status)
     res.contentType('application/problem+json')
     res.send({ status, title: errorMessage })
   }
 })
+
+/**
+ * @param {Error} error
+ */
+function captureError(error) {
+  if (process.sentry) {
+    process.sentry.captureException(error)
+  } else {
+    console.error(error)
+  }
+}
 
 module.exports = router

@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:18.16.0
+    image: node:18.16.1
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -81,6 +81,9 @@ services:
       - target: 3000
         published: 3000
         protocol: tcp
+      - target: 2019
+        published: 2019
+        protocol: tcp
     restart: unless-stopped
     user: ${USER_ID:-1000}
     volumes:
@@ -91,7 +94,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.16.0
+    image: node:18.16.1
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -158,7 +161,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:12.14.0
+    image: cypress/included:12.15.0
     profiles: [ "e2e" ]
     container_name: 'ecamp3-e2e'
     environment:
@@ -170,7 +173,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:18.16.0
+    image: node:18.16.1
     profiles: [ "translation" ]
     container_name: 'ecamp3-translation'
     volumes:
