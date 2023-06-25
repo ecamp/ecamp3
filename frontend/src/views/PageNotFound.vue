@@ -97,6 +97,7 @@ export default {
   max-height: 80vw;
   width: auto;
   margin: 0 auto;
+  z-index: 2;
 }
 
 .shootingstar {
