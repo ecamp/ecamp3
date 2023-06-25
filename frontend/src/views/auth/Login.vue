@@ -12,7 +12,7 @@
     >
       <div>
         <i18n :path="infoTextKey">
-          <template #br><br class="linebreak" /></template>
+          <template #br><br /></template>
         </i18n>
       </div>
     </v-alert>
