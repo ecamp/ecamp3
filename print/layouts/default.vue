@@ -41,7 +41,7 @@ export default {
                     }
 
                     @page {
-                      font-family: "Open Sans", sans-serif;
+                      font-family: "InterDisplay", sans-serif;
                       size: A4 portrait;              
                       margin-bottom: 15mm;
                       margin-left: 15mm;
@@ -73,17 +73,8 @@ export default {
 
     header.link = [
       {
-        rel: 'preconnect',
-        href: 'https://fonts.googleapis.com',
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossorigin: true,
-      },
-      {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Open+Sans&display=block',
+        href: './fonts/inter/inter.css',
       },
     ]
 
