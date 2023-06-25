@@ -2,28 +2,33 @@
   <div class="sky">
     <div class="hill">
       <div class="d-flex absolute w-100 top-0 localnav">
-        <ButtonBack v-if="!$vuetify.breakpoint.mdAndUp" visible-label text dark />
+        <ButtonBack
+          v-if="!$vuetify.breakpoint.mdAndUp && hasHistory"
+          visible-label
+          text
+          dark
+        />
         <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only />
       </div>
       <ShootingStar class="shootingstar" />
       <TentNight class="tent" />
-      <p class="white--text text-center px-3 mb-n8">
-        <i18n path="views.pageNotFound.detail">
-          <template #br><br /></template>
-        </i18n>
-      </p>
-      <div class="absolute bottom-0 justify-center d-flex col gap-2">
-        <v-btn v-if="user" text dark :to="{ name: 'home' }">
-          <v-icon left>mdi-tent</v-icon>
-          {{ $tc('views.pageNotFound.backToHome') }}
-        </v-btn>
+      <div class="relative">
+        <p class="white--text text-center px-3 d-flex justify-center mb-n8 relative">
+          <i18n path="views.pageNotFound.detail">
+            <template #br><br /></template>
+          </i18n>
+          <br />
+          <v-btn text dark :to="{ name: 'home' }" class="absolute bottom-n100">
+            <v-icon left>mdi-tent</v-icon>
+            {{ $tc('views.pageNotFound.backToHome') }}
+          </v-btn>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import TentNight from '@/assets/tents/TentNight.vue'
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import ButtonBack from '@/components/buttons/ButtonBack.vue'
@@ -36,11 +41,6 @@ export default {
     return {
       hasHistory: false,
     }
-  },
-  computed: {
-    ...mapGetters({
-      user: 'getLoggedInUser',
-    }),
   },
   mounted() {
     if (window.history.length && window.history.length >= 1) {
@@ -69,10 +69,10 @@ export default {
 
 @keyframes sky-translate {
   0% {
-    background-position: bottom, 50% top;
+    background-position: bottom, calc(50% + 120px) top;
   }
   100% {
-    background-position: top, calc(50% - 1780px) top;
+    background-position: top, calc(50% + 120px - 1780px) top;
   }
 }
 
