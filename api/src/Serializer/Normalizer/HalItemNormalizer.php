@@ -27,8 +27,7 @@ use Symfony\Component\Serializer\Mapping\AttributeMetadataInterface;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class HalItemNormalizer extends AbstractItemNormalizer
-{
+final class HalItemNormalizer extends AbstractItemNormalizer {
     use CacheKeyTrait;
     use ClassInfoTrait;
     use ContextTrait;
@@ -41,16 +40,14 @@ final class HalItemNormalizer extends AbstractItemNormalizer
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool {
         return self::FORMAT === $format && parent::supportsNormalization($data, $format, $context);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-    {
+    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
         $resourceClass = $this->getObjectClass($object);
         if ($this->getOutputClass($context)) {
             return parent::normalize($object, $format, $context);
@@ -91,8 +88,7 @@ final class HalItemNormalizer extends AbstractItemNormalizer
     /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
-    {
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool {
         // prevent the use of lower priority normalizers (e.g. serializer.normalizer.object) for this format
         return self::FORMAT === $format;
     }
@@ -102,24 +98,21 @@ final class HalItemNormalizer extends AbstractItemNormalizer
      *
      * @throws LogicException
      */
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): never
-    {
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): never {
         throw new LogicException(sprintf('%s is a read-only format.', self::FORMAT));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getAttributes($object, $format = null, array $context = []): array
-    {
+    protected function getAttributes($object, $format = null, array $context = []): array {
         return $this->getComponents($object, $format, $context)['states'];
     }
 
     /**
      * Gets HAL components of the resource: states, links and embedded.
      */
-    private function getComponents(object $object, ?string $format, array $context): array
-    {
+    private function getComponents(object $object, ?string $format, array $context): array {
         $cacheKey = $this->getObjectClass($object).'-'.$context['cache_key'];
 
         if (isset($this->componentsCache[$cacheKey])) {
@@ -154,6 +147,7 @@ final class HalItemNormalizer extends AbstractItemNormalizer
 
             if (!$isOne && !$isMany) {
                 $components['states'][] = $attribute;
+
                 continue;
             }
 
@@ -175,8 +169,7 @@ final class HalItemNormalizer extends AbstractItemNormalizer
     /**
      * Populates _links and _embedded keys.
      */
-    private function populateRelation(array $data, object $object, ?string $format, array $context, array $components, string $type): array
-    {
+    private function populateRelation(array $data, object $object, ?string $format, array $context, array $components, string $type): array {
         $class = $this->getObjectClass($object);
 
         $attributesMetadata = \array_key_exists($class, $this->attributesMetadataCache) ?
@@ -198,13 +191,15 @@ final class HalItemNormalizer extends AbstractItemNormalizer
 
             if ('one' === $relation['cardinality']) {
                 if ('links' === $type) {
-                    if ($attributeValue !== null) {
+                    if (null !== $attributeValue) {
                         $data[$key][$relationName]['href'] = $this->getRelationIri($attributeValue);
+
                         continue;
                     }
                 }
 
                 $data[$key][$relationName] = $attributeValue;
+
                 continue;
             }
 
@@ -227,8 +222,7 @@ final class HalItemNormalizer extends AbstractItemNormalizer
      *
      * @throws UnexpectedValueException
      */
-    private function getRelationIri(mixed $rel): string
-    {
+    private function getRelationIri(mixed $rel): string {
         if (!(\is_array($rel) || \is_string($rel))) {
             throw new UnexpectedValueException('Expected relation to be an IRI or array');
         }
@@ -241,8 +235,7 @@ final class HalItemNormalizer extends AbstractItemNormalizer
      *
      * @param AttributeMetadataInterface[] $attributesMetadata
      */
-    private function isMaxDepthReached(array $attributesMetadata, string $class, string $attribute, array &$context): bool
-    {
+    private function isMaxDepthReached(array $attributesMetadata, string $class, string $attribute, array &$context): bool {
         if (
             !($context[self::ENABLE_MAX_DEPTH] ?? false)
             || !isset($attributesMetadata[$attribute])
