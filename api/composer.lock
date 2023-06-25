@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9589d431daa9ab01cdf27cf1b40f5aa",
+    "content-hash": "a720397a28150caec7f05de855277ef1",
     "packages": [
         {
             "name": "api-platform/core",
@@ -11102,16 +11102,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.19.1",
+            "version": "v3.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "14772488aa1f31bd7ed767c390b96841ca687435"
+                "reference": "210dd89560edb27a8e0d5086b734ac5b5fd4e0e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/14772488aa1f31bd7ed767c390b96841ca687435",
-                "reference": "14772488aa1f31bd7ed767c390b96841ca687435",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/210dd89560edb27a8e0d5086b734ac5b5fd4e0e4",
+                "reference": "210dd89560edb27a8e0d5086b734ac5b5fd4e0e4",
                 "shasum": ""
             },
             "require": {
@@ -11186,7 +11186,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.19.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.19.2"
             },
             "funding": [
                 {
@@ -11194,7 +11194,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-24T17:16:35+00:00"
+            "time": "2023-06-25T16:42:58+00:00"
         },
         {
             "name": "hautelook/alice-bundle",
