@@ -261,6 +261,19 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
+     * A link to all the DayResponsibles in this period.
+     * The list is anyway replaced by a RelatedCollectionLink, thus we don't need to fetch the data now.
+     *
+     * @return DayResponsible[]
+     */
+    #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[RelatedCollectionLink(DayResponsible::class, ['day.period' => '$this'])]
+    #[Groups(['read'])]
+    public function getDayResponsibles(): array {
+        return [];
+    }
+
+    /**
      * @return MaterialItem[]
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]

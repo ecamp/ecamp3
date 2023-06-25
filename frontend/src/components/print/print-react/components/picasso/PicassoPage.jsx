@@ -10,6 +10,7 @@ import DayHeader from './DayHeader.jsx'
 import PicassoFooter from './PicassoFooter.jsx'
 import YSLogo from './YSLogo.jsx'
 import Categories from './Categories.jsx'
+import { filterDayResponsiblesByDay } from '../../../../../common/helpers/dayResponsibles.js'
 
 /**
  * Generates an array of time row descriptions, used for labeling the vertical axis of the picasso.
@@ -38,7 +39,9 @@ function PicassoPage(props) {
   const period = props.period
   const days = props.days
   const orientation = props.content.options.orientation
-  const anyDayResponsibles = days.some((day) => day.dayResponsibles().items.length > 0)
+  const anyDayResponsibles = days.some(
+    (day) => filterDayResponsiblesByDay(day).length > 0
+  )
   const scheduleEntries = period.scheduleEntries().items
   const times = generateTimes({
     getUpTime: props.getUpTime,

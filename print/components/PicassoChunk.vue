@@ -126,7 +126,10 @@
 
 <script>
 import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
-import { dayResponsiblesCommaSeparated } from '@/../common/helpers/dayResponsibles.js'
+import {
+  dayResponsiblesCommaSeparated,
+  filterDayResponsiblesByDay,
+} from '@/../common/helpers/dayResponsibles.js'
 import { contrastColor } from '@/../common/helpers/colors.js'
 import CategoryLabel from './generic/CategoryLabel.vue'
 import dayjs from '@/../common/helpers/dayjs.js'
@@ -225,7 +228,7 @@ export default {
     hasDayResponsibles(date) {
       const day = this.getDayByDate(date)
       if (!day) return false
-      return day.dayResponsibles().items.length > 0
+      return filterDayResponsiblesByDay(day).length > 0
     },
 
     getDayByDate(date) {

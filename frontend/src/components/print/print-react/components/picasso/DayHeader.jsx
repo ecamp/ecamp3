@@ -3,21 +3,19 @@ import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
 import dayjs from '@/common/helpers/dayjs.js'
 import picassoStyles from './picassoStyles.js'
-import campCollaborationDisplayName from '../../../../../common/helpers/campCollaborationDisplayName.js'
+import {
+  dayResponsiblesCommaSeparated,
+  filterDayResponsiblesByDay,
+} from '../../../../../common/helpers/dayResponsibles.js'
 
 function renderDate(day) {
   return dayjs.utc(day.start).hour(0).minute(0).second(0).format('ddd LL')
 }
 
 function dayResponsibles(day, $tc) {
-  const responsibles = day.dayResponsibles().items
-  if (responsibles.length === 0) return ''
+  if (filterDayResponsiblesByDay(day).length === 0) return ''
   const label = $tc('entity.day.fields.dayResponsibles')
-  const displayNames = responsibles
-    .map((responsible) =>
-      campCollaborationDisplayName(responsible.campCollaboration(), $tc)
-    )
-    .join(', ')
+  const displayNames = dayResponsiblesCommaSeparated(day, $tc)
   return `${label}: ${displayNames}`
 }
 

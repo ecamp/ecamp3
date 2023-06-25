@@ -58,26 +58,18 @@ export default {
           )
         }),
       this.camp.categories().$loadItems(),
+      this.period.days().$loadItems(),
       this.period
-        .days()
+        .dayResponsibles()
         .$loadItems()
-        .then((days) => {
+        .then((dayResponsibles) => {
           return Promise.all(
-            days.items.map((day) =>
-              day
-                .dayResponsibles()
-                .$loadItems()
-                .then((dayResponsibles) => {
-                  return Promise.all(
-                    dayResponsibles.items.map((dayResponsible) => {
-                      if (dayResponsible.campCollaboration().user === null) {
-                        return Promise.resolve(null)
-                      }
-                      return dayResponsible.campCollaboration().user()._meta.load
-                    })
-                  )
-                })
-            )
+            dayResponsibles.items.map((dayResponsible) => {
+              if (dayResponsible.campCollaboration().user === null) {
+                return Promise.resolve(null)
+              }
+              return dayResponsible.campCollaboration().user()._meta.load
+            })
           )
         }),
     ])
