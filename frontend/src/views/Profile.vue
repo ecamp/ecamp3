@@ -59,7 +59,7 @@
             {{ $tc('global.lokaliseMessage') }}
           </p>
           <v-btn
-            v-if="$vuetify.breakpoint.xsOnly"
+            v-if="!$vuetify.breakpoint.mdAndUp"
             color="red"
             block
             large
