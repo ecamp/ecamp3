@@ -37,7 +37,7 @@
     </v-menu>
   </v-toolbar-items>
   <v-toolbar-title v-else>
-    <h1 class="text-h6">
+    <h1 class="subtitle-1">
       {{ period().description }}
     </h1>
   </v-toolbar-title>
