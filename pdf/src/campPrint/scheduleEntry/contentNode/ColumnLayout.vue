@@ -51,7 +51,7 @@ export default {
   methods: {
     columnStyle(slot, width) {
       return {
-        borderLeft: slot === this.firstSlot ? 'none' : '1px solid black',
+        borderLeft: slot === this.firstSlot ? 'none' : '1pt solid black',
         padding:
           '2pt ' +
           (slot === this.lastSlot ? '0' : '1%') +

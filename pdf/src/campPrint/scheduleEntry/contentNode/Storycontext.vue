@@ -1,7 +1,9 @@
 <template>
   <View class="content-node">
     <InstanceName :content-node="contentNode" />
-    <RichText :rich-text="contentNode.data.html" />
+    <View style="line-height: 1.4">
+      <RichText :rich-text="contentNode.data.html" />
+    </View>
   </View>
 </template>
 <script>

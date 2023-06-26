@@ -1,34 +1,45 @@
 <template>
-  <View class="picasso-schedule-entry-responsibles-avatars">
+  <View v-if="avatars" class="responsibles-avatars">
     <View
       v-for="(activityResponsible, index) in activity.activityResponsibles().items"
-      class="picasso-schedule-entry-responsible-avatar"
-      :class="{ 'picasso-schedule-entry-responsibles-avatar-overlap': index !== last }"
+      class="responsibles-avatar"
+      :class="{ 'responsibles-avatar-overlap': index !== last }"
       :style="{ backgroundColor: colorFor(activityResponsible) }"
     >
       <Text
-        class="picasso-schedule-entry-responsible-initials"
+        class="responsibles-initials"
         :style="{ color: fontColorFor(activityResponsible) }"
       >
         {{ initialsFor(activityResponsible) }}
       </Text>
     </View>
   </View>
+  <Text v-else>
+    {{ responsibles }}
+  </Text>
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import { campCollaborationColor, contrastColor } from '../../../common/helpers/colors.js'
 import campCollaborationInitials from '../../../common/helpers/campCollaborationInitials.js'
+import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'Responsibles',
   extends: PdfComponent,
   props: {
     activity: { type: Object, required: true },
+    avatars: { type: Boolean, default: false },
   },
   computed: {
     last() {
       return this.activity.activityResponsibles().items.length - 1
+    },
+    responsibles() {
+      return this.activity
+        .activityResponsibles()
+        .items.map(this.displayNameFor)
+        .join(', ')
     },
   },
   methods: {
@@ -41,16 +52,22 @@ export default {
     initialsFor(activityResponsible) {
       return campCollaborationInitials(activityResponsible.campCollaboration())
     },
+    displayNameFor(activityResponsible) {
+      return campCollaborationDisplayName(
+        activityResponsible.campCollaboration(),
+        this.$tc.bind(this)
+      )
+    },
   },
 }
 </script>
 <pdf-style>
-.picasso-schedule-entry-responsibles-avatars {
+.responsibles-avatars {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
 }
-.picasso-schedule-entry-responsible-avatar {
+.responsibles-avatar {
   border-radius: 50%;
   width: 12pt;
   height: 12pt;
@@ -58,10 +75,10 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
-.picasso-schedule-entry-responsibles-avatar-overlap {
+.responsibles-avatar-overlap {
   margin-right: -2pt;
 }
-.picasso-schedule-entry-responsible-initials {
+.responsibles-initials {
   font-size: 6pt;
   text-align: center;
   line-height: 1.4;

@@ -1,20 +1,22 @@
 <template>
-  <Text :id="`${id}-${period.id}-${day.id}`" class="h2"
-    >{{ $tc('entity.day.name') }} {{ day.number }} ({{ date }})</Text
-  >
+  <View :id="`${id}-${period.id}-${day.id}`" class="story-day-title-container">
+    <Text class="story-day-title">{{ $tc('entity.day.name') }} {{ day.number }}</Text>
+    <Text class="story-day-date">{{ date }}</Text>
+  </View>
   <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
     <template v-for="chapter in storyChapters">
-      <View class="h3 story-chapter-title" :min-presence-ahead="30">
-        <Text :id="`${id}-${period.id}-${scheduleEntry.id}`">
-          {{ scheduleEntry.number }}
-        </Text>
+      <View class="story-chapter-title" :min-presence-ahead="30">
         <CategoryLabel
           :category="scheduleEntry.activity().category()"
-          style="margin: 0 3pt"
+          style="font-size: 10pt"
         />
-        <Text>{{ chapter.title }}</Text>
+        <Text :id="`${id}-${period.id}-${scheduleEntry.id}`" style="margin: 0 3pt">
+          {{ scheduleEntry.number }} {{ chapter.title }}
+        </Text>
       </View>
-      <RichText :rich-text="chapter.data.html" />
+      <View style="line-height: 1.6">
+        <RichText :rich-text="chapter.data.html" />
+      </View>
     </template>
   </template>
 </template>
@@ -24,6 +26,7 @@ import { dateLong } from '../../../common/helpers/dateHelperUTCFormatted.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import RichText from '../RichText.vue'
 import sortBy from 'lodash/sortBy.js'
+import { isEmptyHtml } from '../helpers.js'
 
 export default {
   name: 'StoryDay',
@@ -55,7 +58,7 @@ export default {
               contentNode.contentTypeName === 'Storycontext' &&
               contentNode.root()._meta.self ===
                 scheduleEntry.activity().rootContentNode()._meta.self &&
-              !this.isEmptyHtml(contentNode.data.html)
+              !isEmptyHtml(contentNode.data.html)
           )
           .map((chapter) => ({
             ...chapter,
@@ -68,13 +71,6 @@ export default {
     },
   },
   methods: {
-    isEmptyHtml(html) {
-      if (html === null) {
-        return true
-      }
-
-      return html.trim() === '' || html.trim() === '<p></p>'
-    },
     chapterTitle(chapter, scheduleEntry) {
       return (
         scheduleEntry.activity().title +
@@ -85,9 +81,28 @@ export default {
 }
 </script>
 <pdf-style>
+.story-day-title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2pt solid #aaaaaa;
+  padding-bottom: 2pt;
+  margin-bottom: 1pt;
+}
+.story-day-title {
+  font-size: 14;
+  font-weight: semibold;
+  margin: 10pt 0 3pt;
+}
+.story-day-date {
+  font-size: 11pt;
+}
 .story-chapter-title {
   display: flex;
   flex-direction: row;
-  margin-top: 10pt;
+  align-items: center;
+  font-weight: bold;
+  margin: 10pt 0 4.5pt;
 }
 </pdf-style>

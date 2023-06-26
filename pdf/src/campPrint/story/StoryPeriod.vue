@@ -2,7 +2,7 @@
   <Text
     :id="`${id}-${period.id}`"
     :bookmark="{ title: $tc('print.story.title') + ': ' + period.description, fit: true }"
-    class="h1"
+    class="story-period-title"
     >{{ $tc('print.story.title') }}: {{ period.description }}</Text
   >
   <StoryDay v-for="day in days" :id="id" :period="period" :day="day" />
@@ -27,4 +27,9 @@ export default {
 }
 </script>
 <pdf-style>
+.story-period-title {
+  font-size: 10pt;
+  font-weight: bold;
+  text-align: center;
+}
 </pdf-style>

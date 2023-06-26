@@ -1,5 +1,10 @@
 <template>
-  <View :id="`${id}-${period.id}`" :bookmark="{ title: period.description, fit: true }" />
+  <Text
+    :id="`${id}-${period.id}`"
+    :bookmark="{ title: period.description, fit: true }"
+    class="program-period-title"
+    >{{ $tc('print.program.title') }}: {{ period.description }}</Text
+  >
   <ScheduleEntry
     v-for="scheduleEntry in sortedScheduleEntries"
     :id="`${id}-${period.id}-${scheduleEntry.id}`"
@@ -29,4 +34,9 @@ export default {
 }
 </script>
 <pdf-style>
+.program-period-title {
+  font-size: 10pt;
+  font-weight: bold;
+  text-align: center;
+}
 </pdf-style>

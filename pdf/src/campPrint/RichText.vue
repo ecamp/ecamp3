@@ -82,7 +82,7 @@ const rules = [
         node.children[0].children[0].content =
           `${number}. ` + node.children[0].children[0].content
       }
-      return h(View, { style: { marginLeft: '6pt' } }, visitChildren(node.children, node))
+      return h(View, { style: { marginLeft: '4pt' } }, visitChildren(node.children, node))
     },
   },
 ]
@@ -105,7 +105,7 @@ export default {
 </script>
 <pdf-style>
 .p {
-  margin-bottom: 3pt;
+  margin-bottom: 2pt;
 }
 .bold {
   font-weight: bold;

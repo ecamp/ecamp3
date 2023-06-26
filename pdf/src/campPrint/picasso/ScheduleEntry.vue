@@ -10,6 +10,7 @@
       <Responsibles
         class="picasso-schedule-entry-responsibles"
         :activity="scheduleEntry.activity()"
+        avatars
       />
       <View class="picasso-schedule-entry-spacer" />
     </View>
@@ -17,7 +18,7 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import Responsibles from './Responsibles.vue'
+import Responsibles from '../Responsibles.vue'
 import { contrastColor } from '../../../common/helpers/colors.js'
 
 export default {

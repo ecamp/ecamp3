@@ -1,17 +1,19 @@
 <template>
   <Page size="A4" class="page">
-    <Text :id="id" :bookmark="$tc('print.toc.title')" class="h1">{{
+    <Text :id="id" :bookmark="$tc('print.toc.title')" class="toc-title">{{
       $tc('print.toc.title')
     }}</Text>
-    <template v-for="(entry, index) in config.contents">
-      <component
-        :is="entryComponents[entry.type]"
-        v-if="entry.type in entryComponents"
-        :id="`entry-${index}`"
-        :entry="entry"
-      ></component>
-      <Text v-else>{{ entry.type }}</Text>
-    </template>
+    <View style="line-height: 1.6">
+      <template v-for="(entry, index) in config.contents">
+        <component
+          :is="entryComponents[entry.type]"
+          v-if="entry.type in entryComponents"
+          :id="`entry-${index}`"
+          :entry="entry"
+        ></component>
+        <Text v-else>{{ entry.type }}</Text>
+      </template>
+    </View>
   </Page>
 </template>
 <script>
@@ -45,10 +47,19 @@ export default {
 }
 </script>
 <pdf-style>
+.toc-title {
+  font-weight: semibold;
+  font-size: 14pt;
+  border-bottom: 2pt solid #aaaaaa;
+  padding-bottom: 2pt;
+  margin-bottom: 8pt;
+}
 .toc-entry {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  color: black;
+  text-decoration: none;
 }
 .toc-sub-entry {
   margin-left: 10pt;

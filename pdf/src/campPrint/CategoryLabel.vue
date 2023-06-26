@@ -25,9 +25,9 @@ export default {
 </script>
 <pdf-style>
 .category-label {
-  padding: 0 8pt 2pt;
+  padding: 2pt 8pt 4pt;
   border-radius: 50%;
-  margin-bottom: 0;
   align-self: center;
+  line-height: 1;
 }
 </pdf-style>

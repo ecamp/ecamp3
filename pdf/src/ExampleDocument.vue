@@ -1,6 +1,6 @@
 <template>
   <Document>
-    <Page orientation="portrait" style="font-family: OpenSans">
+    <Page orientation="portrait" style="font-family: InterDisplay">
       <View class="container">
         <Text style="color: red"
           >{{ $tc('print.toc.title') }} {{ config.camp.name }}</Text
@@ -17,12 +17,11 @@
 import { Font } from './renderer/index.js'
 import SubComponent from './SubComponent.vue'
 import PdfComponent from '@/PdfComponent.js'
-import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
-import OpenSansItalic from '@/assets/fonts/OpenSans/OpenSans-Italic.ttf'
-import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
-import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf'
-import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
-import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
+import InterDisplay from '@/assets/fonts/Inter/InterDisplay-Regular.ttf'
+import InterDisplayItalic from '@/assets/fonts/Inter/InterDisplay-Italic.ttf'
+import InterDisplaySemiBold from '@/assets/fonts/Inter/InterDisplay-SemiBold.ttf'
+import InterDisplayBold from '@/assets/fonts/Inter/InterDisplay-Bold.ttf'
+import InterDisplayBoldItalic from '@/assets/fonts/Inter/InterDisplay-BoldItalic.ttf'
 
 export default {
   name: 'ExampleDocument',
@@ -46,15 +45,14 @@ export default {
 
 const registerFonts = async () => {
   Font.register({
-    family: 'OpenSans',
+    family: 'InterDisplay',
     fonts: [
       // For now it seems that only ttf is supported, not woff or woff2
-      { src: OpenSans },
-      { src: OpenSansSemiBold, fontWeight: 'semibold' },
-      { src: OpenSansBold, fontWeight: 'bold' },
-      { src: OpenSansItalic, fontStyle: 'italic' },
-      { src: OpenSansSemiBoldItalic, fontWeight: 'semibold', fontStyle: 'italic' },
-      { src: OpenSansBoldItalic, fontWeight: 'bold', fontStyle: 'italic' },
+      { src: InterDisplay },
+      { src: InterDisplaySemiBold, fontWeight: 'semibold' },
+      { src: InterDisplayBold, fontWeight: 'bold' },
+      { src: InterDisplayItalic, fontStyle: 'italic' },
+      { src: InterDisplayBoldItalic, fontWeight: 'bold', fontStyle: 'italic' },
     ],
   })
 
@@ -64,12 +62,12 @@ const registerFonts = async () => {
   })
 
   return await Promise.all([
-    Font.load({ fontFamily: 'OpenSans' }),
-    Font.load({ fontFamily: 'OpenSans', fontWeight: 600 }),
-    Font.load({ fontFamily: 'OpenSans', fontWeight: 700 }),
-    Font.load({ fontFamily: 'OpenSans', fontStyle: 'italic' }),
-    Font.load({ fontFamily: 'OpenSans', fontWeight: 600, fontStyle: 'italic' }),
-    Font.load({ fontFamily: 'OpenSans', fontWeight: 700, fontStyle: 'italic' }),
+    Font.load({ fontFamily: 'InterDisplay' }),
+    Font.load({ fontFamily: 'InterDisplay', fontWeight: 600 }),
+    Font.load({ fontFamily: 'InterDisplay', fontWeight: 700 }),
+    Font.load({ fontFamily: 'InterDisplay', fontStyle: 'italic' }),
+    Font.load({ fontFamily: 'InterDisplay', fontWeight: 600, fontStyle: 'italic' }),
+    Font.load({ fontFamily: 'InterDisplay', fontWeight: 700, fontStyle: 'italic' }),
   ])
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <Link v-for="period in periods" :href="`#${id}-${period.id}`">
+  <Link v-for="period in periods" class="toc-entry" :href="`#${id}-${period.id}`">
     <Text>{{ $tc('print.story.title') }}: {{ period.description }}</Text>
   </Link>
 </template>

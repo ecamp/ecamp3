@@ -1,10 +1,10 @@
 <template>
   <Page size="A4" :orientation="orientation" class="page">
     <View class="picasso-title-container">
-      <Text :id="`${id}-${period.id}`" :bookmark="bookmark" class="h1 picasso-title">
+      <Text :id="`${id}-${period.id}`" :bookmark="bookmark" class="picasso-title">
         {{ $tc('print.picasso.title', { period: period.description }) }}
       </Text>
-      <Text>{{ period.camp().organizer }}</Text>
+      <Text class="picasso-organizer">{{ period.camp().organizer }}</Text>
       <YSLogo
         v-if="period.camp().printYSLogoOnPicasso"
         :size="20"
@@ -12,7 +12,7 @@
         class="picasso-ys-logo"
       />
     </View>
-    <View class="picasso-calendar-container picasso-calendar-header-container">
+    <View class="picasso-calendar-header-container">
       <TimeColumnSpacer :times="times.slice(0, times.length - 1)" />
       <DayHeader
         v-for="day in days"
@@ -118,14 +118,24 @@ export default {
 }
 .picasso-title {
   flex-grow: 1;
+  font-weight: bold;
+  font-size: 14pt;
+}
+.picasso-organizer {
+  font-size: 10pt;
 }
 .picasso-ys-logo {
-  align-self: flex-start;
+  align-self: flex-end;
   margin-left: 3pt;
   size: 20;
 }
 .picasso-calendar-header-container {
-  border: 1pt solid white;
+  border-left: 1pt solid white;
+  border-right: 1pt solid white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  line-height: 1;
 }
 .picasso-calendar-container {
   border: 1pt solid grey;
