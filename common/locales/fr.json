@@ -1,208 +1,229 @@
 {
-  "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
-      }
-    }
-  },
-  "contentNode": {
-    "columnLayout": {
-      "entity": {
-        "column": {
-          "name": "Colonne"
+    "components": {
+        "story": {
+            "storyDay": {
+                "noStory": "Aucun file rouge trouvé ce jour-là..."
+            }
         }
-      },
-      "name": "Disposition des colonnes"
     },
-    "laThematicArea": {
-      "entity": {
-        "option": {
-          "campsiteAndSurroundings": {
-            "description": "Aménagement d’un camp/des environs, démontage, aménagement d’une place de jeu et fabrication d’engins de sport.",
-            "name": "Campement/Environs"
-          },
-          "natureAndEnvironment": {
-            "description": "Faune et flore, protection de l’environnement dans le cadre du camp, météorologie et astronomie, techniques de transmission, préparation et allumage d’un feu.",
-            "name": "Nature et environment"
-          },
-          "outdoorTechnique": {
-            "description": "Planification d’une randonnée, lecture de carte (p. ex. check-list NORDA), croquis, utilisation d’instruments (p.ex. boussole, récepteur GPS, alti- mètre, etc.), orientation dans le terrain.",
-            "name": "Techniques de plein air"
-          },
-          "pioneeringTechnique": {
-            "description": "Aménagement d’un bivouac, construction d’un igloo, connaissance du matériel et de l’équipement, entretien du matériel, construction et démontage des installations, cordages et nœuds, tyroliennes, ponts de cordes, descentes en rappel.",
-            "name": "Technique de pionnier"
-          },
-          "preventionAndIntegration": {
-            "description": "Activités favorisant la prévention et l’intégration ou développant les compétences des participants dans ce domaine.",
-            "name": "Prévention et intégration"
-          },
-          "security": {
-            "description": "Sécurité lors des activités au camp, mesures à prendre en cas d’accident et alerte, premiers secours, réflexions sur la sécurité.",
-            "name": "Sécurité"
-          }
+    "contentNode": {
+        "columnLayout": {
+            "entity": {
+                "column": {
+                    "name": "Colonne"
+                }
+            },
+            "name": "Disposition des colonnes"
+        },
+        "laThematicArea": {
+            "entity": {
+                "option": {
+                    "campsiteAndSurroundings": {
+                        "description": "Aménagement d’un camp/des environs, démontage, aménagement d’une place de jeu et fabrication d’engins de sport.",
+                        "name": "Campement/Environs"
+                    },
+                    "natureAndEnvironment": {
+                        "description": "Faune et flore, protection de l’environnement dans le cadre du camp, météorologie et astronomie, techniques de transmission, préparation et allumage d’un feu.",
+                        "name": "Nature et environment"
+                    },
+                    "outdoorTechnique": {
+                        "description": "Planification d’une randonnée, lecture de carte (p. ex. check-list NORDA), croquis, utilisation d’instruments (p.ex. boussole, récepteur GPS, alti- mètre, etc.), orientation dans le terrain.",
+                        "name": "Techniques de plein air"
+                    },
+                    "pioneeringTechnique": {
+                        "description": "Aménagement d’un bivouac, construction d’un igloo, connaissance du matériel et de l’équipement, entretien du matériel, construction et démontage des installations, cordages et nœuds, tyroliennes, ponts de cordes, descentes en rappel.",
+                        "name": "Technique de pionnier"
+                    },
+                    "preventionAndIntegration": {
+                        "description": "Activités favorisant la prévention et l’intégration ou développant les compétences des participants dans ce domaine.",
+                        "name": "Prévention et intégration"
+                    },
+                    "security": {
+                        "description": "Sécurité lors des activités au camp, mesures à prendre en cas d’accident et alerte, premiers secours, réflexions sur la sécurité.",
+                        "name": "Sécurité"
+                    }
+                }
+            },
+            "info": "Une activité de camp J+S doit aborder au moins un des sujets énumérés.{br}Sélectionne les sujets abordés dans ce bloc.",
+            "name": "Domaine thématique AC"
+        },
+        "material": {
+            "info": "Tu peux saisir ici les besoins en matériel pour ce bloc.{br}Tu peux gérer les listes de matériel dans le menu 'Admin'.{br}Tu peux trouver un résumé des achats dans le menu 'Matériel'.",
+            "name": "Matériel"
+        },
+        "notes": {
+            "info": "Tu peux y inscrire tes notes, par exemple des idées, des tâches à faire, des questions ouvertes, des contacts, des correspondances avec les transports publics, etc.",
+            "name": "Notes"
+        },
+        "safetyConcept": {
+            "info": "Certains blocs nécessitent de réfléchir aux risques. Tu peux enregistrer ces réflexions ici.{br}Enregistre les risques que tu as identifiés - et comment tu peux y faire face.",
+            "name": "Concept de sécurité"
+        },
+        "storyboard": {
+            "entity": {
+                "section": {
+                    "fields": {
+                        "column1": "Heure",
+                        "column2Html": "Programme",
+                        "column3": "Responsable"
+                    },
+                    "name": "Section du programme | Sections du programme"
+                }
+            },
+            "info": "Ici, tu peux planifier le contenu de ce bloc.{br}Dans la colonne de gauche [Temps], tu peux enregistrer la durée des différents éléments.{br}Dans la colonne de droite [Responsable], tu peux assigner des personnes.",
+            "name": "Programme"
+        },
+        "storycontext": {
+            "info": "Décris comment ce bloc s'intègre dans l'histoire du camp.{br}Tu peux trouver un résumé de tous les éléments de l'histoire dans le menu 'Histoire'.{br}Tu peux aussi d'abord élaborer une histoire continue dans le menu 'Histoire' - pour que tu puisses parfaitement intégrer le contenu du bloc dans l'histoire.",
+            "name": "Histoire"
         }
-      },
-      "info": "Une activité de camp Y+S doit aborder au moins un des sujets énumérés.{br}Sélectionne les sujets abordés dans ce bloc.",
-      "name": "Domaine thématique AC"
     },
-    "material": {
-      "info": "Tu peux saisir ici les besoins en matériel pour ce bloc.{br}Tu peux gérer les listes de matériel dans le menu 'Admin'.{br}Tu peux trouver un résumé de l'achat dans le menu 'Matériel'.",
-      "name": "Matériau"
-    },
-    "notes": {
-      "info": "Tu peux y inscrire tes notes, par exemple des idées, des tâches à faire, des questions ouvertes, des contacts, des correspondances avec les transports publics, etc.",
-      "name": "Notes"
-    },
-    "safetyConcept": {
-      "info": "Certains blocs nécessitent de réfléchir aux risques. Tu peux enregistrer ces réflexions ici.{br}Enregistre les risques que tu as identifiés - et comment tu peux y faire face.",
-      "name": "Concept de sécurité"
-    },
-    "storyboard": {
-      "entity": {
-        "section": {
-          "fields": {
-            "column1": "Heure",
-            "column2Html": "Programme",
-            "column3": "Responsable"
-          },
-          "name": "Section du programme | Sections du programme"
+    "entity": {
+        "activity": {
+            "fields": {
+                "category": "Catégorie d'activité",
+                "location": "Lieu",
+                "progressLabel": "Statut",
+                "responsible": "Responsable",
+                "title": "Titre"
+            },
+            "name": "Activité",
+            "new": "Nouvelle activité"
+        },
+        "activityProgressLabel": {
+            "fields": {
+                "title": "Titre"
+            }
+        },
+        "camp": {
+            "collaborators": {
+                "guest": "Invité",
+                "invite": "Inviter",
+                "manager": "Administration",
+                "member": "Membre"
+            },
+            "fields": {
+                "addressCity": "Ville",
+                "addressName": "Nom",
+                "addressStreet": "Rue",
+                "addressZipcode": "Code postal",
+                "couponKey": "Coupon",
+                "courseKind": "Type de cours (pour les cours J+S: durée du cours)",
+                "courseNumber": "Numéro de cours",
+                "kind": "Type de camp (chalet, tente, à l'étranger, été, automne)",
+                "motto": "Thème",
+                "name": "Nom du camp",
+                "organizer": "Organisateur",
+                "printYSLogoOnPicasso": "Imprimer le logo J+S sur le picasso (requis pour les cours J+S)",
+                "title": "Titre du camp",
+                "trainingAdvisorName": "Non du coach J+S"
+            },
+            "name": "Camp",
+            "prototype": "Modèle de camp"
+        },
+        "campCollaboration": {
+            "fields": {
+                "inviteEmail": "E-mail",
+                "role": "Role",
+                "status": "Statut"
+            },
+            "status": {
+                "established": "Actif",
+                "inactive": "Inactif",
+                "invited": "Invité"
+            }
+        },
+        "category": {
+            "fields": {
+                "color": "Couleur",
+                "name": "Nom",
+                "numberingStyle": "Style de numérotation",
+                "short": "Abréviation"
+            },
+            "name": "Catégories d'activités",
+            "numberingStyles": {
+                "1": "1, 2, 3 - numéros",
+                "A": "A, B, C - lettres majuscules",
+                "I": "I, II, III - chiffres romains majuscules",
+                "a": "a, b, c - lettres minuscules",
+                "i": "i, ii, iii - chiffres romains minuscules"
+            }
+        },
+        "contentType": {
+            "name": "Type de contenu | Types de contenu"
+        },
+        "day": {
+            "fields": {
+                "dayResponsibles": "Responsable du jour"
+            },
+            "name": "Jour | Jours"
+        },
+        "materialItem": {
+            "fields": {
+                "article": "Article",
+                "quantity": "Quantité",
+                "unit": "Unité"
+            }
+        },
+        "materialList": {
+            "fields": {
+                "name": "Nom"
+            },
+            "name": "Liste de matériel"
+        },
+        "period": {
+            "defaultDescription": "Camp principal",
+            "fields": {
+                "description": "Description",
+                "end": "Fin",
+                "start": "Début"
+            },
+            "name": "Période | Périodes"
+        },
+        "scheduleEntry": {
+            "fields": {
+                "duration": "Durée",
+                "nr": "No.",
+                "time": "Moment"
+            },
+            "name": "Inscription au calendrier"
         }
-      },
-      "info": "Ici, tu peux planifier le contenu de ce bloc.{br}Dans la colonne de gauche [Temps], tu peux enregistrer la durée des différents éléments.{br}Dans la colonne de droite [Responsable], tu peux assigner des personnes.",
-      "name": "Programme"
     },
-    "storycontext": {
-      "info": "Décris comment ce bloc s'intègre dans l'histoire du camp.{br}Tu peux trouver un résumé de tous les éléments de l'histoire dans le menu 'Histoire'.{br}Tu peux aussi d'abord élaborer une histoire continue dans le menu 'Histoire' - pour que tu puisses parfaitement intégrer le contenu du bloc dans l'histoire.",
-      "name": "Histoire"
+    "global": {
+        "datetime": {
+            "dateLong": "dd L",
+            "dateShort": "dd D.M.",
+            "dateTimeLong": "dd L HH:mm",
+            "duration": {
+                "hoursAndMinutes": "{hours}h {minutes}min",
+                "hoursOnly": "{hours}h",
+                "minutesOnly": "{minutes}min"
+            },
+            "hourLong": "HH:mm",
+            "hourShort": "H:mm"
+        }
+    },
+    "print": {
+        "cover": {
+            "title": "Page de couverture"
+        },
+        "picasso": {
+            "picassoFooter": {
+                "coach": "Coach: {coach}",
+                "courseNumber": "Numéro de cours: {courseNumber}",
+                "leaders": "Responsable: {leaders}",
+                "trainingAdvisor": "Conseiller à la formation: {trainingAdvisor}"
+            },
+            "title": "Aperçu du programme {period}"
+        },
+        "program": {
+            "title": "Programme"
+        },
+        "story": {
+            "title": "Histoire"
+        },
+        "toc": {
+            "title": "Table des matières"
+        }
     }
-  },
-  "entity": {
-    "activity": {
-      "fields": {
-        "category": "Catégorie d'activité",
-        "location": "Lieu",
-        "progressLabel": "Statut",
-        "responsible": "Responsable",
-        "title": "Titre"
-      },
-      "name": "Activité",
-      "new": "Nouvelle activité"
-    },
-    "activityProgressLabel": {
-      "fields": {
-        "title": "Titre"
-      }
-    },
-    "camp": {
-      "collaborators": {
-        "guest": "Invité",
-        "invite": "Invite",
-        "manager": "Administration",
-        "member": "Membre"
-      },
-      "fields": {
-        "addressCity": "Ville",
-        "addressName": "Nom",
-        "addressStreet": "Rue",
-        "addressZipcode": "Code postal",
-        "couponKey": "Coupon",
-        "motto": "Devise",
-        "name": "Nom",
-        "title": "Titre"
-      },
-      "name": "Camp",
-      "prototype": "Modèle de camp"
-    },
-    "campCollaboration": {
-      "inactive": "inactif"
-    },
-    "category": {
-      "fields": {
-        "color": "Couleur",
-        "name": "Nom",
-        "numberingStyle": "Style de numérotation",
-        "short": "Court"
-      },
-      "name": "Catégories d'activités",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numéros",
-        "A": "A, B, C - lettres majuscules",
-        "I": "I, II, III - chiffres romains majuscules",
-        "a": "a, b, c - lettres minuscules",
-        "i": "i, ii, iii - chiffres romains minuscules"
-      }
-    },
-    "contentType": {
-      "name": "Type de contenu | Types de contenu"
-    },
-    "day": {
-      "fields": {
-        "dayResponsibles": "Responsable du jour"
-      },
-      "name": "Jour | Jours"
-    },
-    "materialItem": {
-      "fields": {
-        "article": "Article",
-        "quantity": "Quantité",
-        "unit": "Unité"
-      }
-    },
-    "materialList": {
-      "fields": {
-        "name": "Nom"
-      },
-      "name": "Liste des matériaux"
-    },
-    "period": {
-      "defaultDescription": "Camp principal",
-      "fields": {
-        "description": "Description",
-        "end": "Fin",
-        "start": "Début"
-      },
-      "name": "Période | Périodes"
-    },
-    "scheduleEntry": {
-      "fields": {
-        "duration": "Durée",
-        "nr": "No.",
-        "time": "Moment"
-      },
-      "name": "Inscription au calendrier"
-    }
-  },
-  "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
-      "duration": {
-        "hoursAndMinutes": "{hours}h {minutes}min",
-        "hoursOnly": "{hours}h",
-        "minutesOnly": "{minutes}min"
-      },
-      "hourLong": "HH:mm",
-      "hourShort": "H:mm"
-    }
-  },
-  "print": {
-    "cover": {
-      "title": "Page de couverture"
-    },
-    "picasso": {
-      "title": "Aperçu du programme {period}"
-    },
-    "program": {
-      "title": "Programme"
-    },
-    "story": {
-      "title": "Storyline"
-    },
-    "toc": {
-      "title": "Table des matières"
-    }
-  }
 }
