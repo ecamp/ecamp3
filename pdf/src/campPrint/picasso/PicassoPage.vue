@@ -8,7 +8,7 @@
       <YSLogo
         v-if="period.camp().printYSLogoOnPicasso"
         :size="20"
-        :locale="config.locale"
+        :locale="config.language"
         class="picasso-ys-logo"
       />
     </View>
