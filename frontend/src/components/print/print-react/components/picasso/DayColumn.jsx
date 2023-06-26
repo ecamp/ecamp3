@@ -25,7 +25,10 @@ function percentage(seconds, times) {
     Math.max(matchingTimeIndex === -2 ? times.length : matchingTimeIndex, 0),
     times.length - 1
   )
-  const remainder = (hours - times[matchingTimeIndex][0]) / times[matchingTimeIndex][1]
+  const remainder =
+    times[matchingTimeIndex][1] !== 0
+      ? (hours - times[matchingTimeIndex][0]) / times[matchingTimeIndex][1]
+      : 0 // avoid division by zero, in case the schedule entry ends on a later day
   const weightsSum =
     getWeightsSum(times.slice(0, matchingTimeIndex)) +
     remainder * times[Math.min(matchingTimeIndex, times.length)][1]
