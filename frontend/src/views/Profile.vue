@@ -23,10 +23,9 @@
             <template #append>
               <dialog-change-mail>
                 <template #activator="{ on }">
-                  <v-btn text class="v-btn--has-bg" v-on="on">
-                    <v-icon left> mdi-pencil </v-icon>
+                  <ButtonEdit text class="v-btn--has-bg" v-on="on">
                     {{ $tc('views.profile.changeEmail') }}
-                  </v-btn>
+                  </ButtonEdit>
                 </template>
               </dialog-change-mail>
             </template>
@@ -85,10 +84,12 @@ import DialogChangeMail from '@/components/user/DialogChangeMail.vue'
 import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.vue'
 import VueI18n from '@/plugins/i18n'
 import { mapGetters } from 'vuex'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 
 export default {
   name: 'Home',
   components: {
+    ButtonEdit,
     ApiSelect,
     ApiTextField,
     ContentCard,
