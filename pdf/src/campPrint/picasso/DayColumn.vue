@@ -155,12 +155,15 @@ export default {
     },
     percentage(seconds) {
       const hours = seconds / 3600.0
-      let matchingTimeIndex = this.times.findIndex(([time, _]) => time >= hours) - 1
+      let matchingTimeIndex = this.times.findIndex(([time, _]) => time > hours) - 1
       matchingTimeIndex = Math.min(
         Math.max(matchingTimeIndex === -2 ? this.times.length : matchingTimeIndex, 0),
         this.times.length - 1
       )
-      const remainder = hours - this.times[matchingTimeIndex][0]
+      const remainder =
+        this.times[matchingTimeIndex][1] !== 0
+          ? (hours - this.times[matchingTimeIndex][0]) / this.times[matchingTimeIndex][1]
+          : 0 // avoid division by zero, in case the schedule entry ends on a later day
       const positionWeightsSum =
         this.weightsSum(this.times.slice(0, matchingTimeIndex)) +
         remainder * this.times[Math.min(matchingTimeIndex, this.times.length)][1]

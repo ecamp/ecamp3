@@ -8,7 +8,10 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import campCollaborationDisplayName from '../../../common/helpers/campCollaborationDisplayName.js'
+import {
+  dayResponsiblesCommaSeparated,
+  filterDayResponsiblesByDay,
+} from '../../../common/helpers/dayResponsibles.js'
 
 export default {
   name: 'DayHeader',
@@ -22,14 +25,9 @@ export default {
       return this.$date.utc(this.day.start).hour(0).minute(0).second(0).format('ddd LL')
     },
     dayResponsibles() {
-      const responsibles = this.day.dayResponsibles().items
-      if (responsibles.length === 0) return ''
+      if (filterDayResponsiblesByDay(this.day).length === 0) return ''
       const label = this.$tc('entity.day.fields.dayResponsibles')
-      const displayNames = responsibles
-        .map((responsible) =>
-          campCollaborationDisplayName(responsible.campCollaboration(), this.$tc)
-        )
-        .join(', ')
+      const displayNames = dayResponsiblesCommaSeparated(this.day, this.$tc)
       return `${label}: ${displayNames}`
     },
   },

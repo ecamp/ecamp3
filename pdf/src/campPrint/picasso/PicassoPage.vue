@@ -47,6 +47,7 @@ import TimeColumn from './TimeColumn.vue'
 import DayColumn from './DayColumn.vue'
 import Categories from './Categories.vue'
 import PicassoFooter from './PicassoFooter.vue'
+import { filterDayResponsiblesByDay } from '../../../common/helpers/dayResponsibles.js'
 
 export default {
   name: 'PicassoPage',
@@ -101,7 +102,7 @@ export default {
       return this.content.options.orientation === 'L' ? 'landscape' : 'portrait'
     },
     anyDayResponsibles() {
-      return this.days.some((day) => day.dayResponsibles().items.length > 0)
+      return this.days.some((day) => filterDayResponsiblesByDay(day).length > 0)
     },
     scheduleEntries() {
       return this.period.scheduleEntries().items
