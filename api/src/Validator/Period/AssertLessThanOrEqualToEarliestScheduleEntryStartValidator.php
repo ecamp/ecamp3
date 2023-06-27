@@ -13,7 +13,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidator extends Constra
     public function __construct(private EntityManagerInterface $em) {
     }
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertLessThanOrEqualToEarliestScheduleEntryStart) {
             throw new UnexpectedTypeException($constraint, AssertLessThanOrEqualToEarliestScheduleEntryStart::class);
         }

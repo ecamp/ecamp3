@@ -11,7 +11,7 @@ class AssertValidCouponKeyValidator extends ConstraintValidator {
     public function __construct(private CampCouponService $couponService) {
     }
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertValidCouponKey) {
             throw new UnexpectedTypeException($constraint, AssertValidCouponKey::class);
         }

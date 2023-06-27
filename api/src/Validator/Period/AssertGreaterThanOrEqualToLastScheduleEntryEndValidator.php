@@ -13,7 +13,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
     public function __construct(private EntityManagerInterface $em) {
     }
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertGreaterThanOrEqualToLastScheduleEntryEnd) {
             throw new UnexpectedTypeException($constraint, AssertGreaterThanOrEqualToLastScheduleEntryEnd::class);
         }
