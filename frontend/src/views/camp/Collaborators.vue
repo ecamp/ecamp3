@@ -19,6 +19,7 @@ Displays collaborators of a single camp.
             v-else-if="isManager"
             :key="collaborator._meta.self"
             :collaborator="collaborator"
+            @success="reloadCollaborations"
           />
           <CollaboratorListItem
             v-for="collaborator in establishedCollaborators"
@@ -39,6 +40,7 @@ Displays collaborators of a single camp.
               v-for="collaborator in invitedCollaborators"
               :key="collaborator._meta.self"
               :collaborator="collaborator"
+              @success="reloadCollaborations"
             />
           </template>
           <CollaboratorListItem
@@ -61,6 +63,7 @@ Displays collaborators of a single camp.
               :key="collaborator._meta.self"
               :collaborator="collaborator"
               inactive
+              @success="reloadCollaborations"
             />
           </template>
           <CollaboratorListItem
@@ -85,6 +88,7 @@ import { transformViolations } from '@/helpers/serverError'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
+const ROLE_ORDER = ['manager', 'member', 'guest']
 
 export default {
   name: 'Collaborators',
@@ -113,13 +117,19 @@ export default {
       return this.camp().campCollaborations().items
     },
     establishedCollaborators() {
-      return this.collaborators.filter((c) => c.status === 'established')
+      return this.collaborators
+        .filter((c) => c.status === 'established')
+        .sort((a, b) => ROLE_ORDER.indexOf(a.role) - ROLE_ORDER.indexOf(b.role))
     },
     invitedCollaborators() {
-      return this.collaborators.filter((c) => c.status === 'invited')
+      return this.collaborators
+        .filter((c) => c.status === 'invited')
+        .sort((a, b) => ROLE_ORDER.indexOf(a.role) - ROLE_ORDER.indexOf(b.role))
     },
     inactiveCollaborators() {
-      return this.collaborators.filter((c) => c.status === 'inactive')
+      return this.collaborators
+        .filter((c) => c.status === 'inactive')
+        .sort((a, b) => ROLE_ORDER.indexOf(a.role) - ROLE_ORDER.indexOf(b.role))
     },
   },
   created() {
@@ -141,6 +151,9 @@ export default {
         .finally(() => {
           this.isSaving = false
         })
+    },
+    reloadCollaborations() {
+      this.api.reload(this.camp().campCollaborations()._meta.self)
     },
     handleError(e) {
       const violations = transformViolations(e, this.$i18n)
