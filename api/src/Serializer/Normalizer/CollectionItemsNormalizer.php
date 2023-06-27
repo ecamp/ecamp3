@@ -36,7 +36,7 @@ class CollectionItemsNormalizer implements NormalizerInterface, NormalizerAwareI
         return $data;
     }
 
-    public function setNormalizer(NormalizerInterface $normalizer) {
+    public function setNormalizer(NormalizerInterface $normalizer): void {
         if ($this->decorated instanceof NormalizerAwareInterface) {
             $this->decorated->setNormalizer($normalizer);
         }

@@ -16,7 +16,7 @@ class AssertContentTypeCompatibleValidator extends ConstraintValidator {
     public function __construct() {
     }
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertContentTypeCompatible) {
             throw new UnexpectedTypeException($constraint, AssertContentTypeCompatible::class);
         }
