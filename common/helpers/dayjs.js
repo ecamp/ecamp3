@@ -22,4 +22,11 @@ dayjs.extend(isBetween)
 dayjs.extend(duration)
 dayjs.extend(formatDatePeriod)
 
+export const dayjsLocaleMap = {
+  de: 'de-ch',
+  en: 'en-gb',
+  it: 'it-ch',
+  fr: 'fr-ch',
+}
+
 export default dayjs

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueI18n from '@/plugins/i18n'
 import { localeChanged } from 'vee-validate'
+import { dayjsLocaleMap } from '@/common/helpers/dayjs.js'
 
 const LANG_KEY = 'language'
 
@@ -22,12 +23,6 @@ export const mutations = {
 
     state.language = lang
     VueI18n.locale = lang
-    const dayjsLocaleMap = {
-      de: 'de-ch',
-      en: 'en-gb',
-      it: 'it-ch',
-      fr: 'fr-ch',
-    }
     Vue.dayjs.locale(
       Object.keys(dayjsLocaleMap).includes(lang) ? dayjsLocaleMap[lang] : lang
     )
