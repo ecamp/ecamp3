@@ -26,7 +26,10 @@ export default defineConfig({
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: './src/index.js',
+      entry: {
+        pdf: './src/index.js',
+        prepareInMainThread: './src/prepareInMainThread.js',
+      },
       name: 'ecamp3-pdf',
       formats: ['es'],
     },
