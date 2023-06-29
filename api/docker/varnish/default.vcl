@@ -1,13 +1,34 @@
 vcl 4.0;
 
 import std;
+import xkey;
+
 
 backend default {
   .host = "caddy";
   .port = "3000";
 }
 
+# Hosts allowed to send BAN requests
+acl purgers {
+  "php";
+}
+
 sub vcl_recv {
+  # Support xkey purge requests
+  # see https://raw.githubusercontent.com/varnish/varnish-modules/master/src/vmod_xkey.vcc
+  if (req.method == "PURGE") {
+    if (client.ip !~ purgers) {
+      return (synth(403, "Forbidden"));
+    }
+	  if (req.http.xkey) {
+		  set req.http.n-gone = xkey.purge(req.http.xkey);
+		  return (synth(200, "Invalidated "+req.http.n-gone+" objects"));
+	  } else {
+		  return (purge);
+	  }
+  }
+  
   # exclude other services (frontend, print, etc.)
   if (req.url !~ "^/api") {
     return(pass);
