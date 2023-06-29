@@ -490,6 +490,7 @@
         "onlyMyActivities": "Only my activities",
         "period": "Period",
         "progressLabel": "State",
+        "progressLabelNone": "No state",
         "responsible": "Responsible",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },

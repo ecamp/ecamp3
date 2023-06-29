@@ -490,6 +490,7 @@
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
         "progressLabel": "Status",
+        "progressLabelNone": "Kein Status",
         "responsible": "Verantwortlich",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },

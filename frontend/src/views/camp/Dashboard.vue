@@ -242,7 +242,13 @@ export default {
     },
     progressLabels() {
       const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
-      return keyBy(labels, '_meta.self')
+      return {
+        none: {
+          title: this.$tc('views.camp.dashboard.progressLabelNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(labels, '_meta.self'),
+      }
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -286,7 +292,9 @@ export default {
             this.filter.progressLabel.length === 0 ||
             this.filter.progressLabel?.includes(
               scheduleEntry.activity().progressLabel?.()._meta.self
-            ))
+            ) ||
+            (scheduleEntry.activity().progressLabel === null &&
+              this.filter.progressLabel?.includes('none')))
       )
     },
     groupedScheduleEntries() {

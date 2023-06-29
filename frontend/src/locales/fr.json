@@ -490,6 +490,7 @@
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
         "progressLabel": "Statut",
+        "progressLabelNone": "Pas de statut",
         "responsible": "Responsable",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },
