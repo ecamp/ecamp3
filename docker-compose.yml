@@ -93,6 +93,18 @@ services:
       - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/public:/srv/api/public:ro
 
+  http-cache:
+    image: varnish:7.3.0-alpine
+    container_name: 'ecamp3-http-cache'
+    volumes:
+      - ./api/docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
+    tmpfs:
+      - /var/lib/varnish/varnishd:exec
+    ports:
+      - target: 80
+        published: 3004
+        protocol: tcp
+
   print:
     image: node:18.16.1
     container_name: 'ecamp3-print'

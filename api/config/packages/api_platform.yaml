@@ -23,10 +23,16 @@ api_platform:
     mercure:
         #hub_url: '%env(resolve:MERCURE_SUBSCRIBE_URL)%'
         include_type: true
+    http_cache:
+        public: true
+        invalidation:
+            enabled: false
     defaults:
         stateless: true
         cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
+            max_age: 0
+            shared_max_age: 3600
+            vary: ['Content-Type', 'Authorization', 'Origin', 'Cookie']
         pagination_enabled: false
         itemOperations: [ 'get', 'patch', 'delete' ]
         collection_operations:
