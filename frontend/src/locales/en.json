@@ -492,6 +492,7 @@
         "progressLabel": "State",
         "progressLabelNone": "No state",
         "responsible": "Responsible",
+        "responsibleNone": "No responsibles",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
       "invitation": {

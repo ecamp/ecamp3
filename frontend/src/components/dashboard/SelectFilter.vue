@@ -24,13 +24,18 @@
         dense
         :input-value="item.selected"
         color="primary"
-        @click.prevent="toggle(item.value)"
+        @click.prevent="toggle(item.value, item.exclusiveNone)"
       >
         <v-list-item-title>
-          <slot name="item" v-bind="{ item, self }">{{ item.text }} </slot>
+          <slot name="item" v-bind="{ item, self }">{{ item.text }}</slot>
         </v-list-item-title>
-        <v-list-item-action v-if="multiple">
+        <v-list-item-action v-if="multiple && !item.exclusiveNone">
           <v-checkbox v-model="item.selected" dense />
+        </v-list-item-action>
+        <v-list-item-action v-if="item.exclusiveNone">
+          <v-radio-group v-model="item.selected">
+            <v-radio dense :value="true" />
+          </v-radio-group>
         </v-list-item-action>
       </v-list-item>
     </v-list>
@@ -50,6 +55,7 @@ export default {
     displayField: { type: [String, Function], required: true },
     valueField: { type: String, default: '_meta.self' },
     andFilter: { type: Boolean, default: false },
+    exclusiveNone: { type: Boolean, default: false },
   },
   computed: {
     active() {
@@ -60,10 +66,11 @@ export default {
         Object.values(this.items).map((item) => {
           const text = this.displayValue(item)
           const value = get(item, this.valueField)
+          const exclusiveNone = get(item, 'exclusiveNone')
           const selected = this.multiple
             ? this.value?.includes(value)
             : this.value === value
-          return { text, value, selected }
+          return { text, value, selected, exclusiveNone }
         }),
         'value'
       )
@@ -82,6 +89,9 @@ export default {
   },
   methods: {
     displayValue(item) {
+      if (item.exclusiveNone) {
+        return item.label
+      }
       if (typeof this.displayField === 'function') {
         return this.displayField(item)
       }
@@ -90,15 +100,23 @@ export default {
     clear() {
       this.$emit('input', null)
     },
-    toggle(item) {
-      if (this.multiple) {
-        const newValue = this.value?.includes(item)
-          ? this.value.filter((value) => value !== item)
-          : (this.value || []).concat([item])
-        this.$emit('input', newValue)
-      } else {
+    toggle(item, none = false) {
+      if (this.exclusiveNone && none) {
         const newValue = this.value === item ? null : item
-        this.$emit('input', newValue)
+        this.$emit('input', this.multiple ? [newValue] : newValue)
+      } else {
+        if (this.multiple) {
+          const filteredValue = this.exclusiveNone
+            ? this.value?.filter((value) => value !== 'none')
+            : this.value
+          const newValue = filteredValue?.includes(item)
+            ? filteredValue.filter((value) => value !== item)
+            : (filteredValue || []).concat([item])
+          this.$emit('input', newValue)
+        } else {
+          const newValue = this.value === item ? null : item
+          this.$emit('input', newValue)
+        }
       }
     },
   },
