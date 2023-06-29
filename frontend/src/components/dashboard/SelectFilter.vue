@@ -55,7 +55,6 @@ export default {
     displayField: { type: [String, Function], required: true },
     valueField: { type: String, default: '_meta.self' },
     andFilter: { type: Boolean, default: false },
-    exclusiveNone: { type: Boolean, default: false },
   },
   computed: {
     active() {
@@ -101,12 +100,12 @@ export default {
       this.$emit('input', null)
     },
     toggle(item, none = false) {
-      if (this.exclusiveNone && none) {
+      if (this.andFilter && none) {
         const newValue = this.value === item ? null : item
         this.$emit('input', this.multiple ? [newValue] : newValue)
       } else {
         if (this.multiple) {
-          const filteredValue = this.exclusiveNone
+          const filteredValue = this.andFilter
             ? this.value?.filter((value) => value !== 'none')
             : this.value
           const newValue = filteredValue?.includes(item)

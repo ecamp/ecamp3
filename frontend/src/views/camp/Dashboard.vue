@@ -24,7 +24,6 @@
             :items="campCollaborations"
             :display-field="campCollaborationDisplayName"
             :label="$tc('views.camp.dashboard.responsible')"
-            exclusive-none
           >
             <template #item="{ item }">
               <template v-if="item.exclusiveNone">
