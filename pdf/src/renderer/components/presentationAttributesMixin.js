@@ -17,7 +17,7 @@ export const presentationAttributesMixin = {
   },
   computed: {
     presentProps() {
-      // Props are stronger than style in react-pdf, so we must not pass props which
+      // Props take precedence over style in react-pdf, so we must not pass props which
       // have an undefined value set, in order to let style attributes through.
       return Object.fromEntries(
         Object.entries(this.$props).filter(([_, value]) => value !== undefined)

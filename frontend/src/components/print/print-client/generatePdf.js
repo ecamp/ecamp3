@@ -9,14 +9,10 @@ export const generatePdf = async (data) => {
   if (data.renderInWorker) {
     // ComlinkWorker is provided by vite-plugin-comlink
     // eslint-disable-next-line no-undef
-    const instance = new ComlinkWorker(
-      new URL('./documents/campPrint/renderPdf.worker.js', import.meta.url)
-    )
+    const instance = new ComlinkWorker(new URL('./renderPdf.worker.js', import.meta.url))
     return await instance.renderPdfInWorker(serializableData)
   } else {
-    return await (
-      await import('./documents/campPrint/renderPdf.js')
-    ).renderPdf(serializableData)
+    return await (await import('./renderPdf.js')).renderPdf(serializableData)
   }
 }
 

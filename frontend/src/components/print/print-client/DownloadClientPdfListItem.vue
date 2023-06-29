@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-printer</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc('components.print.printReact.downloadReactPdfListItem.label') }}
+      {{ $tc('components.print.printClient.downloadClientPdfListItem.label') }}
     </v-list-item-title>
   </v-list-item>
 </template>
@@ -14,7 +14,7 @@
 import { generatePdfMixin } from './generatePdfMixin.js'
 
 export default {
-  name: 'DownloadReactPdfListItem',
+  name: 'DownloadClientPdfListItem',
   mixins: [generatePdfMixin],
 }
 </script>

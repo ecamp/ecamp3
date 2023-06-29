@@ -2,13 +2,14 @@
   <div style="position: relative">
     <iframe
       :src="urlWithPagemodes"
-      :title="$tc('components.print.printReact.printPreviewReact.previewIframeTitle')"
+      :title="$tc('components.print.printClient.printPreviewClient.previewIframeTitle')"
       class="d-block"
       v-bind="$attrs"
+      height="800px"
     />
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
-        {{ $tc('components.print.printReact.printPreviewReact.previewError') }}
+        {{ $tc('components.print.printClient.printPreviewClient.previewError') }}
       </div>
       <v-progress-circular v-else indeterminate />
     </v-overlay>
@@ -21,7 +22,7 @@ import { generatePdf } from './generatePdf.js'
 const RENDER_IN_WORKER = true
 
 export default {
-  name: 'PrintPreviewReact',
+  name: 'PrintPreviewClient',
   props: {
     config: {
       type: Object,
@@ -42,7 +43,7 @@ export default {
     },
     urlWithPagemodes() {
       if (!this.url) return null
-      return this.url + '#navpanes=0&pagemode=none&zoom=page-fit'
+      return this.url + '#navpanes=0&pagemode=none&zoom=100'
     },
   },
   watch: {

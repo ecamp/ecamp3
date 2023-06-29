@@ -2,7 +2,7 @@
 
 const path = require('path')
 
-describe('React print test', () => {
+describe('Client print test', () => {
   it('downloads PDF', () => {
     cy.task('deleteDownloads')
     cy.login('test@example.com')

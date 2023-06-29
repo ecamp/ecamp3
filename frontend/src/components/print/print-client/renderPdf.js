@@ -1,5 +1,5 @@
-import wrap from '../../minimalHalJsonVuex.js'
-import createI18n from '../../i18n.js'
+import wrap from './minimalHalJsonVuex.js'
+import createI18n from './i18n.js'
 import { render, prepare } from '@/pdf/pdf.mjs'
 
 export const renderPdf = async ({ config, storeData, translationData }) => {

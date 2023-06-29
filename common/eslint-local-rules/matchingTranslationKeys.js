@@ -98,11 +98,10 @@ module.exports = (path, utils, fs) => {
     if (
       !(
         filename.endsWith('.vue') ||
-        filename.endsWith('.js') ||
-        filename.endsWith('.jsx')
+        filename.endsWith('.js')
       )
     ) {
-      // We only process .vue component, .js and .jsx files
+      // We only process .vue components and .js files
       return false
     }
     if (

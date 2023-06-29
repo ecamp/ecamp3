@@ -24,7 +24,7 @@ export const generatePdfMixin = {
 
       this.loading = true
 
-      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download button
+      // lazy load generatePdf to avoid loading the complete client print module when showing PDF download button
       const generatePdfModule = await import('./generatePdf.js')
 
       const { blob, error } = await generatePdfModule.generatePdf({
@@ -35,7 +35,7 @@ export const generatePdfMixin = {
       })
 
       if (error) {
-        this.$toast.error(this.$tc('components.print.printReact.generatePdfMixin.error'))
+        this.$toast.error(this.$tc('components.print.printClient.generatePdfMixin.error'))
         Sentry.captureException(new Error(error))
         this.loading = false
         return
