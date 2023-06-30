@@ -2,10 +2,12 @@
 
 namespace App\Security\Voter;
 
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -17,6 +19,8 @@ class CampIsPrototypeVoter extends Voter {
 
     public function __construct(
         private EntityManagerInterface $em,
+        private RequestStack $requestStack,
+        private IriConverterInterface $iriConverter,
     ) {
     }
 
@@ -35,6 +39,17 @@ class CampIsPrototypeVoter extends Voter {
             return true;
         }
 
-        return $camp->isPrototype;
+        if ($camp->isPrototype) {
+            // Add Camp to cache tags
+            $request = $this->requestStack->getCurrentRequest();
+            $resources = [
+                $this->iriConverter->getIriFromResource($camp),
+            ];
+            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + (array) $resources);
+
+            return true;
+        }
+
+        return false;
     }
 }

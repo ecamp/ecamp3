@@ -2,12 +2,14 @@
 
 namespace App\Security\Voter;
 
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -26,6 +28,8 @@ class CampRoleVoter extends Voter {
 
     public function __construct(
         private EntityManagerInterface $em,
+        private RequestStack $requestStack,
+        private IriConverterInterface $iriConverter,
     ) {
     }
 
@@ -49,12 +53,25 @@ class CampRoleVoter extends Voter {
             return true;
         }
 
-        return $camp->collaborations
+        $campCollaboration = $camp->collaborations
             ->filter(self::withStatus(CampCollaboration::STATUS_ESTABLISHED))
             ->filter(self::ofUser($user))
             ->filter(self::withRole($attribute))
-            ->exists(fn () => true)
+            ->first()
         ;
+
+        if ($campCollaboration) {
+            // Add CampCollaboration to cache tags
+            $request = $this->requestStack->getCurrentRequest();
+            $resources = [
+                $this->iriConverter->getIriFromResource($campCollaboration),
+            ];
+            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + (array) $resources);
+
+            return true;
+        }
+
+        return false;
     }
 
     private static function withStatus($status) {
