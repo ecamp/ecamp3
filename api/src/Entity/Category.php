@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
@@ -58,6 +59,20 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
     order: ['camp.id', 'short'],
+)]
+#[ApiResource(
+    uriTemplate: '/camps/{campId}/categories.{_format}',
+    uriVariables: [
+        'campId' => new Link(
+            fromClass: Camp::class,
+            fromProperty: 'categories'
+        ),
+    ],
+    operations: [
+        new GetCollection(
+            security: 'is_authenticated()',
+        ),
+    ]
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]

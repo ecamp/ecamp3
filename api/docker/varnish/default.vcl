@@ -2,6 +2,7 @@ vcl 4.0;
 
 import std;
 import xkey;
+import cookie;
 
 
 backend default {
@@ -47,6 +48,15 @@ sub vcl_recv {
   # exclude any format other than HAL
   if (req.url !~ "\.jsonhal$" && req.http.Accept !~ "application/hal\+json"){
     return(pass);
+  }
+}
+
+sub vcl_hash {
+  if (req.http.Cookie) {
+    # Include JWT cookies in cache hash 
+    cookie.parse(req.http.Cookie);
+    cookie.keep("localhost_jwt_hp,localhost_jwt_s");
+    hash_data(cookie.get_string());
   }
 }
 

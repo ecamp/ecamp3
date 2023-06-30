@@ -14,7 +14,9 @@ use ApiPlatform\Exception\OperationNotFoundException;
 use ApiPlatform\Exception\RuntimeException;
 use ApiPlatform\HttpCache\PurgerInterface;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Util\ClassInfoTrait;
+use App\Entity\Category;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -33,7 +35,7 @@ final class PurgeHttpCacheListener {
     private readonly PropertyAccessorInterface $propertyAccessor;
     private array $tags = [];
 
-    public function __construct(private readonly PurgerInterface $purger, private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null) {
+    public function __construct(private readonly PurgerInterface $purger, private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor, private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory) {
         $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
     }
 
@@ -67,17 +69,17 @@ final class PurgeHttpCacheListener {
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             $this->gatherResourceAndItemTags($entity, false);
-            $this->gatherRelationTags($em, $entity);
+            // $this->gatherRelationTags($em, $entity);
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
             $this->gatherResourceAndItemTags($entity, true);
-            $this->gatherRelationTags($em, $entity);
+            // $this->gatherRelationTags($em, $entity);
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             $this->gatherResourceAndItemTags($entity, true);
-            $this->gatherRelationTags($em, $entity);
+            // $this->gatherRelationTags($em, $entity);
         }
     }
 
@@ -102,6 +104,15 @@ final class PurgeHttpCacheListener {
 
             if ($purgeItem) {
                 $this->addTagForItem($entity);
+            }
+
+            // purge camp specific collection
+            // this is only an POC/example for category; later this could filter for instances of BelongsToCampInterface
+            if (Category::class === $resourceClass) {
+                $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+                $operation = $resourceMetadataCollection->getOperation('_api_/camps/{campId}/categories.{_format}_get_collection');
+                $iri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::ABS_PATH, $operation, ['uri_variables' => ['campId' => $entity->getCamp()->getId()]]);
+                $this->tags[$iri] = $iri;
             }
         } catch (OperationNotFoundException|InvalidArgumentException) {
         }
