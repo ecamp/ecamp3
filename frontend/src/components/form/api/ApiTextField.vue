@@ -18,7 +18,7 @@ Displays a field as a e-text-field + write access via API wrapper
       @input="wrapper.on.input"
     >
       <template #append>
-        <api-wrapper-append :wrapper="wrapper" />
+        <api-wrapper-append :wrapper="wrapper" :resettable="resettable" />
       </template>
     </e-text-field>
   </api-wrapper>

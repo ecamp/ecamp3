@@ -16,7 +16,7 @@ Displays a field as a color picker + write access via API wrapper
       @input="wrapper.on.input"
     >
       <template #append>
-        <api-wrapper-append :wrapper="wrapper" />
+        <api-wrapper-append :wrapper="wrapper" :resettable="resettable" />
       </template>
     </e-color-picker>
   </api-wrapper>
