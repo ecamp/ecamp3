@@ -31,6 +31,7 @@ export const apiPropsMixin = {
     /* enable/disable edit mode */
     readonly: { type: Boolean, required: false, default: false }, // vuetify readonly: same look and feel as normal, but no changes possible
     disabled: { type: Boolean, required: false, default: false }, // vuetify disabled: input greyed out, not focusable
+    resettable: { type: Boolean, required: false, default: false }, // reset field to previous value
 
     /* enable/disable auto save */
     autoSave: { type: Boolean, default: true, required: false },
