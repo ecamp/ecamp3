@@ -151,6 +151,18 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
 
+    api_platform.doctrine.listener.http_cache.purge:
+        class: App\EventListener\PurgeHttpCacheListener
+        arguments:
+            - '@api_platform.http_cache.purger'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
+
     # Entity Filter
     App\Doctrine\FilterByCurrentUserExtension:
         tags:
