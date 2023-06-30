@@ -34,15 +34,6 @@ export default {
 <style scoped>
 /*noinspection CssUnusedSymbol*/
 .v-icon.animate {
-  animation: spin 0.5s infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  animation: spin-only 0.5s infinite;
 }
 </style>
