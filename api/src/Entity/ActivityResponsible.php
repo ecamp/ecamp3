@@ -50,7 +50,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\NotNull]
     #[ApiProperty(example: '/activities/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: 'activityResponsibles')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Activity $activity = null;
@@ -60,7 +60,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
     #[AssertBelongsToSameCamp]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: CampCollaboration::class, inversedBy: 'activityResponsibles')]
     #[ORM\JoinColumn(nullable: false)]
     public ?CampCollaboration $campCollaboration = null;

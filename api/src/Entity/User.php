@@ -169,7 +169,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * A displayable name of the user.
      */
     #[ApiProperty(example: 'Robert Baden-Powell')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getDisplayName(): ?string {
         return $this->profile->getDisplayName();
     }
