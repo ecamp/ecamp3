@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/browser'
-import './globalWorkerShim.js'
 import { renderPdf } from './renderPdf.js'
 import dayjs, { dayjsLocaleMap } from '@/common/helpers/dayjs.js'
 

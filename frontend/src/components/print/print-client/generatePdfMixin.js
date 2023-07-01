@@ -1,6 +1,7 @@
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 import * as Sentry from '@sentry/browser'
+import { generatePdf } from './generatePdf.js'
 
 const RENDER_IN_WORKER = true
 
@@ -24,10 +25,7 @@ export const generatePdfMixin = {
 
       this.loading = true
 
-      // lazy load generatePdf to avoid loading the complete client print module when showing PDF download button
-      const generatePdfModule = await import('./generatePdf.js')
-
-      const { blob, error } = await generatePdfModule.generatePdf({
+      const { blob, error } = await generatePdf({
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
