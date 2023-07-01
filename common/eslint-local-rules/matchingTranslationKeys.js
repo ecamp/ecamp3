@@ -95,12 +95,7 @@ module.exports = (path, utils, fs) => {
   }
 
   function shouldProcessFile(filename) {
-    if (
-      !(
-        filename.endsWith('.vue') ||
-        filename.endsWith('.js')
-      )
-    ) {
+    if (!(filename.endsWith('.vue') || filename.endsWith('.js'))) {
       // We only process .vue components and .js files
       return false
     }
