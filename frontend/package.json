@@ -52,7 +52,7 @@
     "axios": "1.4.0",
     "colorjs.io": "0.4.5",
     "comlink": "4.4.1",
-    "dayjs": "1.11.8",
+    "dayjs": "1.11.9",
     "deepmerge": "4.3.1",
     "file-saver": "2.0.5",
     "hal-json-vuex": "2.0.0-alpha.16",
