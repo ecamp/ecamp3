@@ -68,7 +68,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Gedmo\SortableGroup]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'progressLabels')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Camp $camp = null;
@@ -87,7 +87,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
 
     #[ApiProperty(example: 0)]
     #[Gedmo\SortablePosition]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
     public int $position = -1;
 
@@ -96,7 +96,7 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Planned')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text')]
     public ?string $title = null;
 

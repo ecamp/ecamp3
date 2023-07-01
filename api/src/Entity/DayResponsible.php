@@ -51,7 +51,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\NotNull]
     #[ApiProperty(example: '/days/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: Day::class, inversedBy: 'dayResponsibles')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Day $day = null;
@@ -61,7 +61,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: CampCollaboration::class, inversedBy: 'dayResponsibles')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?CampCollaboration $campCollaboration = null;

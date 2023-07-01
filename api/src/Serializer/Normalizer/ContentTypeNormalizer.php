@@ -29,7 +29,7 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
     public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
         $data = $this->decorated->normalize($object, $format, $context);
 
-        if ($object instanceof ContentType && isset($object->entityClass)) {
+        if ($object instanceof ContentType && isset($data['contentNodes'], $object->entityClass)) {
             // get uri for the respective ContentNode entity and add ContentType as query parameter
             [$uriTemplate, $templated] = $this->uriTemplateFactory->createFromResourceClass($object->entityClass);
             $uri = $this->uriTemplate->expand($uriTemplate, ['contentType' => $this->iriConverter->getIriFromResource($object)]);

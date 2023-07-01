@@ -58,7 +58,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
      */
     #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
@@ -69,7 +69,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertBelongsToSameCamp]
     #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?Period $period = null;
@@ -80,7 +80,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertBelongsToSameCamp]
     #[AssertEitherisNull(other: 'period')]
     #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: MaterialNode::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?MaterialNode $materialNode = null;
@@ -93,7 +93,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[Assert\NotBlank]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Volleyball')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: false)]
     public ?string $article = null;
 
@@ -101,7 +101,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
      * The number of items or the amount in the unit of items that are required.
      */
     #[ApiProperty(example: 1.5)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'float', nullable: true)]
     public ?float $quantity = null;
 
@@ -112,7 +112,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[InputFilter\CleanText]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'kg')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $unit = null;
 

@@ -8,11 +8,17 @@ use App\Entity\ActivityResponsible;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\Category;
+use App\Entity\ContentNode;
+use App\Entity\ContentType;
 use App\Entity\Day;
+use App\Entity\DayResponsible;
+use App\Entity\MaterialItem;
+use App\Entity\MaterialList;
 use App\Entity\Period;
 use App\Entity\ScheduleEntry;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Context\Normalizer\JsonSerializableNormalizerContextBuilder;
@@ -28,8 +34,6 @@ class PrintDataController extends AbstractController {
 
     #[Route('/print/camp/{campId}', 'print-camp')]
     public function camp($campId) {
-        // api_platform.hal.normalizer.item
-
         /** @var Camp */
         $camp = $this->em->find(Camp::class, $campId);
 
@@ -49,6 +53,11 @@ class PrintDataController extends AbstractController {
         $users = $q->getQuery()->getResult();
 
         $q = $this->em->createQueryBuilder();
+        $q->select('c');
+        $q->from(ContentType::class, 'c');
+        $contentTypes = $q->getQuery()->getResult();
+
+        $q = $this->em->createQueryBuilder();
         $q->select('p');
         $q->from(Period::class, 'p');
         $q->where('p.camp = ?1');
@@ -62,6 +71,15 @@ class PrintDataController extends AbstractController {
         $q->where('p.camp = ?1');
         $q->setParameter(1, $campId);
         $days = $q->getQuery()->getResult();
+
+        $q = $this->em->createQueryBuilder();
+        $q->select('dr');
+        $q->from(DayResponsible::class, 'dr');
+        $q->join('dr.day', 'd');
+        $q->join('d.period', 'p');
+        $q->where('p.camp = ?1');
+        $q->setParameter(1, $campId);
+        $dayResponsibles = $q->getQuery()->getResult();
 
         $q = $this->em->createQueryBuilder();
         $q->select('c');
@@ -86,6 +104,14 @@ class PrintDataController extends AbstractController {
         $scheduleEntries = $q->getQuery()->getResult();
 
         $q = $this->em->createQueryBuilder();
+        $q->select('c');
+        $q->from(ContentNode::class, 'c');
+        $q->join(Activity::class, 'a', Join::WITH, 'a.rootContentNode = c.root');
+        $q->where('a.camp = ?1');
+        $q->setParameter(1, $campId);
+        $contentNodes = $q->getQuery()->getResult();
+
+        $q = $this->em->createQueryBuilder();
         $q->select('l');
         $q->from(ActivityProgressLabel::class, 'l');
         $q->where('l.camp = ?1');
@@ -100,6 +126,21 @@ class PrintDataController extends AbstractController {
         $q->setParameter(1, $campId);
         $activityResponsibles = $q->getQuery()->getResult();
 
+        $q = $this->em->createQueryBuilder();
+        $q->select('m');
+        $q->from(MaterialList::class, 'm');
+        $q->where('m.camp = ?1');
+        $q->setParameter(1, $campId);
+        $materialLists = $q->getQuery()->getResult();
+
+        $q = $this->em->createQueryBuilder();
+        $q->select('mi');
+        $q->from(MaterialItem::class, 'mi');
+        $q->join('mi.materialList', 'm');
+        $q->where('m.camp = ?1');
+        $q->setParameter(1, $campId);
+        $materialItems = $q->getQuery()->getResult();
+
         $contextBuilder = (new ObjectNormalizerContextBuilder())
             ->withContext([])
             ->withGroups(['print'])
@@ -111,42 +152,89 @@ class PrintDataController extends AbstractController {
         $campJson = $this->normalizer->normalize($camp, 'jsonhal', $contextBuilder->toArray());
         $campCollaborationsJons = $this->normalizer->normalize($campCollaborations, 'jsonhal', $contextBuilder->toArray());
         $usersJson = $this->normalizer->normalize($users, 'jsonhal', $contextBuilder->toArray());
-        $periodsJson = $this->normalizer->normalize($periods, 'jsonhal', $contextBuilder->toArray());
-        $daysJson = $this->normalizer->normalize($days, 'jsonhal', $contextBuilder->toArray());
         $categoriesJson = $this->normalizer->normalize($categories, 'jsonhal', $contextBuilder->toArray());
         $activityProgressLabelsJson = $this->normalizer->normalize($activityProgressLabels, 'jsonhal', $contextBuilder->toArray());
+        $contentTypesJson = $this->normalizer->normalize($contentTypes, 'jsonhal', $contextBuilder->toArray());
+
+        $periodsJson = $this->normalizer->normalize($periods, 'jsonhal', $contextBuilder->toArray());
+        $daysJson = $this->normalizer->normalize($days, 'jsonhal', $contextBuilder->toArray());
+        $dayResponsiblesJson = $this->normalizer->normalize($dayResponsibles, 'jsonhal', $contextBuilder->toArray());
+
         $activitiesJson = $this->normalizer->normalize($activities, 'jsonhal', $contextBuilder->toArray());
         $activityResponsiblesJson = $this->normalizer->normalize($activityResponsibles, 'jsonhal', $contextBuilder->toArray());
         $scheduleEntriesJson = $this->normalizer->normalize($scheduleEntries, 'jsonhal', $contextBuilder->toArray());
+        $contentNodesJson = $this->normalizer->normalize($contentNodes, 'jsonhal', $contextBuilder->toArray());
+
+        $materialListsJson = $this->normalizer->normalize($materialLists, 'jsonhal', $contextBuilder->toArray());
+        $materialItemsJson = $this->normalizer->normalize($materialItems, 'jsonhal', $contextBuilder->toArray());
 
         return new \Symfony\Component\HttpFoundation\JsonResponse([
             'camp' => array_merge_recursive(
                 $campJson,
-                $this->createLinkCollection('periods', $periodsJson),
-                $this->createLinkCollection('categories', $categoriesJson),
                 $this->createLinkCollection('campCollaborations', $campCollaborationsJons),
+                $this->createLinkCollection('categories', $categoriesJson),
+                $this->createLinkCollection('activityProgressLabels', $activityProgressLabelsJson),
+                $this->createLinkCollection('periods', $periodsJson),
+                $this->createLinkCollection('activities', $activitiesJson),
+                $this->createLinkCollection('materialLists', $materialListsJson),
             ),
-            'campCollaborations' => $campCollaborationsJons,
+            'campCollaborations' => array_map(
+                fn ($c) => array_merge_recursive(
+                    $c,
+                    $this->createLinkCollectionFiltered($c, 'activityResponsibles', $activityResponsiblesJson, 'campCollaboration'),
+                    $this->createLinkCollectionFiltered($c, 'dayResponsibles', $dayResponsiblesJson, 'campCollaboration'),
+                ),
+                $campCollaborationsJons,
+            ),
             'users' => $usersJson,
+            'categories' => $categoriesJson,
+            'activityProgressLabels' => $activityProgressLabelsJson,
+            'contentTypes' => $contentTypesJson,
+
             'periods' => array_map(
                 fn ($p) => array_merge_recursive(
                     $p,
                     $this->createLinkCollectionFiltered($p, 'days', $daysJson, 'period'),
+                    $this->createLinkCollectionFiltered($p, 'scheduleEntries', $scheduleEntriesJson, 'period'),
                 ),
                 $periodsJson
             ),
-            'days' => $daysJson,
-            'categories' => $categoriesJson,
-            'activityProgressLabels' => $activityProgressLabelsJson,
+            'days' => array_map(
+                fn ($d) => array_merge_recursive(
+                    $d,
+                    $this->createLinkCollectionFiltered($d, 'dayResponsibles', $dayResponsiblesJson, 'day'),
+                ),
+                $daysJson,
+            ),
+            'dayResponsibles' => $dayResponsiblesJson,
+
             'activities' => array_map(
                 fn ($a) => array_merge_recursive(
                     $a,
-                    $this->createLinkCollectionFiltered($a, 'activityResponsibles', $activityResponsiblesJson, 'activity')
+                    $this->createLinkCollectionFiltered($a, 'activityResponsibles', $activityResponsiblesJson, 'activity'),
+                    $this->createLinkCollectionFiltered($a, 'scheduleEntries', $scheduleEntriesJson, 'activity'),
                 ),
                 $activitiesJson
             ),
             'activityResponsibles' => $activityResponsiblesJson,
             'scheduleEntries' => $scheduleEntriesJson,
+            'contentNodes' => array_map(
+                fn ($c) => array_merge_recursive(
+                    $c,
+                    $this->createLinkCollectionFiltered($c, 'children', $contentNodesJson, 'parent'),
+                    ('Material' == $c['contentTypeName']) ? $this->createLinkCollectionFiltered($c, 'materialItems', $materialItemsJson, 'materialNode') : []
+                ),
+                $contentNodesJson
+            ),
+
+            'materialLists' => array_map(
+                fn ($ml) => array_merge_recursive(
+                    $ml,
+                    $this->createLinkCollectionFiltered($ml, 'materialItems', $materialItemsJson, 'materialList')
+                ),
+                $materialListsJson,
+            ),
+            'materialItems' => $materialItemsJson,
         ]);
     }
 
@@ -172,8 +260,10 @@ class PrintDataController extends AbstractController {
     private function createLinkCollectionFiltered($item, $listName, $childrenList, $parentLink) {
         $children = [];
         foreach ($childrenList as $child) {
-            if ($child['_links'][$parentLink]['href'] == $item['_links']['self']['href']) {
-                $children[] = $child;
+            if (null != $child['_links'][$parentLink]) {
+                if ($child['_links'][$parentLink]['href'] == $item['_links']['self']['href']) {
+                    $children[] = $child;
+                }
             }
         }
 
