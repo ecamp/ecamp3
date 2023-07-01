@@ -159,7 +159,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'string', length: 32)]
     public string $name;
 
@@ -171,7 +171,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text')]
     public string $title;
 
@@ -182,7 +182,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $motto = null;
 
@@ -193,7 +193,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $addressName = null;
 
@@ -204,7 +204,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $addressStreet = null;
 
@@ -215,7 +215,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $addressZipcode = null;
 
@@ -226,7 +226,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $addressCity = null;
 
@@ -241,7 +241,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Pfadi Luftig')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $organizer = null;
 
@@ -256,7 +256,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Zeltlager')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $kind = null;
 
@@ -271,7 +271,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Albert Anderegg')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $coachName = null;
 
@@ -286,7 +286,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'PBS AG 123-23')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $courseNumber = null;
 
@@ -301,7 +301,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'PBS AG 123-23')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $courseKind = null;
 
@@ -316,7 +316,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Albert Anderegg')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $trainingAdvisorName = null;
 
@@ -328,7 +328,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * The logo is required for Y+S courses.
      */
     #[ApiProperty(default: null, example: true)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $printYSLogoOnPicasso = false;
 

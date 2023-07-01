@@ -98,7 +98,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Valid(groups: ['Period:delete'])]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'periods')]
     #[ORM\JoinColumn(nullable: false)]
     public ?Camp $camp = null;
@@ -113,7 +113,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Hauptlager')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $description = null;
 
@@ -128,7 +128,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
         denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'date')]
     public ?\DateTimeInterface $start = null;
 
@@ -145,7 +145,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
         denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(name: '`end`', type: 'date')]
     public ?\DateTimeInterface $end = null;
 
