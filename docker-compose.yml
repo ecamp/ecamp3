@@ -96,6 +96,8 @@ services:
   http-cache:
     image: varnish:7.3.0-alpine
     container_name: 'ecamp3-http-cache'
+    depends_on:
+      - caddy
     volumes:
       - ./api/docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
