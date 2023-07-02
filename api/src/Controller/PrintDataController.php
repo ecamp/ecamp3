@@ -26,216 +26,306 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class PrintDataController extends AbstractController {
+    private array $contextBuilder;
+
     public function __construct(
         private EntityManagerInterface $em,
         private NormalizerInterface $normalizer
     ) {
+        $this->contextBuilder = (new JsonSerializableNormalizerContextBuilder())
+            ->withContext(
+                (new ObjectNormalizerContextBuilder())
+                    ->withContext([])
+                    ->withGroups(['print'])
+            )
+            ->toArray()
+        ;
     }
 
     #[Route('/print/camp/{campId}', 'print-camp')]
     public function camp($campId) {
-        /** @var Camp */
-        $camp = $this->em->find(Camp::class, $campId);
+        // General-Data
+        $contentTypesJson = $this->getContentTypeData();
 
-        $q = $this->em->createQueryBuilder();
-        $q->select('c');
-        $q->from(CampCollaboration::class, 'c');
-        $q->where('c.camp = ?1');
-        $q->setParameter(1, $campId);
-        $campCollaborations = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('u');
-        $q->from(User::class, 'u');
-        $q->join('u.collaborations', 'c');
-        $q->where('c.camp = ?1');
-        $q->setParameter(1, $campId);
-        $users = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('c');
-        $q->from(ContentType::class, 'c');
-        $contentTypes = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('p');
-        $q->from(Period::class, 'p');
-        $q->where('p.camp = ?1');
-        $q->setParameter(1, $campId);
-        $periods = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('d');
-        $q->from(Day::class, 'd');
-        $q->join('d.period', 'p');
-        $q->where('p.camp = ?1');
-        $q->setParameter(1, $campId);
-        $days = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('dr');
-        $q->from(DayResponsible::class, 'dr');
-        $q->join('dr.day', 'd');
-        $q->join('d.period', 'p');
-        $q->where('p.camp = ?1');
-        $q->setParameter(1, $campId);
-        $dayResponsibles = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('c');
-        $q->from(Category::class, 'c');
-        $q->where('c.camp = ?1');
-        $q->setParameter(1, $campId);
-        $categories = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('a');
-        $q->from(Activity::class, 'a');
-        $q->where('a.camp = ?1');
-        $q->setParameter(1, $campId);
-        $activities = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('s');
-        $q->from(ScheduleEntry::class, 's');
-        $q->join('s.activity', 'a');
-        $q->where('a.camp = ?1');
-        $q->setParameter(1, $campId);
-        $scheduleEntries = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('c');
-        $q->from(ContentNode::class, 'c');
-        $q->join(Activity::class, 'a', Join::WITH, 'a.rootContentNode = c.root');
-        $q->where('a.camp = ?1');
-        $q->setParameter(1, $campId);
-        $contentNodes = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('l');
-        $q->from(ActivityProgressLabel::class, 'l');
-        $q->where('l.camp = ?1');
-        $q->setParameter(1, $campId);
-        $activityProgressLabels = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('r');
-        $q->from(ActivityResponsible::class, 'r');
-        $q->join('r.activity', 'a');
-        $q->where('a.camp = ?1');
-        $q->setParameter(1, $campId);
-        $activityResponsibles = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('m');
-        $q->from(MaterialList::class, 'm');
-        $q->where('m.camp = ?1');
-        $q->setParameter(1, $campId);
-        $materialLists = $q->getQuery()->getResult();
-
-        $q = $this->em->createQueryBuilder();
-        $q->select('mi');
-        $q->from(MaterialItem::class, 'mi');
-        $q->join('mi.materialList', 'm');
-        $q->where('m.camp = ?1');
-        $q->setParameter(1, $campId);
-        $materialItems = $q->getQuery()->getResult();
-
-        $contextBuilder = (new ObjectNormalizerContextBuilder())
-            ->withContext([])
-            ->withGroups(['print'])
-        ;
-        $contextBuilder = (new JsonSerializableNormalizerContextBuilder())
-            ->withContext($contextBuilder)
-        ;
-
-        $campJson = $this->normalizer->normalize($camp, 'jsonhal', $contextBuilder->toArray());
-        $campCollaborationsJons = $this->normalizer->normalize($campCollaborations, 'jsonhal', $contextBuilder->toArray());
-        $usersJson = $this->normalizer->normalize($users, 'jsonhal', $contextBuilder->toArray());
-        $categoriesJson = $this->normalizer->normalize($categories, 'jsonhal', $contextBuilder->toArray());
-        $activityProgressLabelsJson = $this->normalizer->normalize($activityProgressLabels, 'jsonhal', $contextBuilder->toArray());
-        $contentTypesJson = $this->normalizer->normalize($contentTypes, 'jsonhal', $contextBuilder->toArray());
-
-        $periodsJson = $this->normalizer->normalize($periods, 'jsonhal', $contextBuilder->toArray());
-        $daysJson = $this->normalizer->normalize($days, 'jsonhal', $contextBuilder->toArray());
-        $dayResponsiblesJson = $this->normalizer->normalize($dayResponsibles, 'jsonhal', $contextBuilder->toArray());
-
-        $activitiesJson = $this->normalizer->normalize($activities, 'jsonhal', $contextBuilder->toArray());
-        $activityResponsiblesJson = $this->normalizer->normalize($activityResponsibles, 'jsonhal', $contextBuilder->toArray());
-        $scheduleEntriesJson = $this->normalizer->normalize($scheduleEntries, 'jsonhal', $contextBuilder->toArray());
-        $contentNodesJson = $this->normalizer->normalize($contentNodes, 'jsonhal', $contextBuilder->toArray());
-
-        $materialListsJson = $this->normalizer->normalize($materialLists, 'jsonhal', $contextBuilder->toArray());
-        $materialItemsJson = $this->normalizer->normalize($materialItems, 'jsonhal', $contextBuilder->toArray());
+        // Camp-Data
+        $camp = $this->getCampData($campId);
+        $campCollaborations = $this->getCampCollaborationData($campId);
+        $users = $this->getUserData($campId);
+        $categories = $this->getCategoryData($campId);
+        $activityProgressLabels = $this->getActivityProgressLabelData($campId);
+        $periods = $this->getPeriodData($campId);
+        $days = $this->getDayData($campId);
+        $dayResponsibles = $this->getDayResponsibleData($campId);
+        $activities = $this->getActivityData($campId);
+        $activityResponsibles = $this->getActivityResponsibleData($campId);
+        $scheduleEntries = $this->getScheduleEntryData($campId);
+        $contentNodes = $this->getContentNodeData($campId);
+        $materialLists = $this->getMaterialListData($campId);
+        $materialItems = $this->getMaterialItemData($campId);
 
         return new \Symfony\Component\HttpFoundation\JsonResponse([
             'camp' => array_merge_recursive(
-                $campJson,
-                $this->createLinkCollection('campCollaborations', $campCollaborationsJons),
-                $this->createLinkCollection('categories', $categoriesJson),
-                $this->createLinkCollection('activityProgressLabels', $activityProgressLabelsJson),
-                $this->createLinkCollection('periods', $periodsJson),
-                $this->createLinkCollection('activities', $activitiesJson),
-                $this->createLinkCollection('materialLists', $materialListsJson),
+                $camp,
+                $this->createLinkCollection('campCollaborations', $campCollaborations),
+                $this->createLinkCollection('categories', $categories),
+                $this->createLinkCollection('activityProgressLabels', $activityProgressLabels),
+                $this->createLinkCollection('periods', $periods),
+                $this->createLinkCollection('activities', $activities),
+                $this->createLinkCollection('materialLists', $materialLists),
             ),
             'campCollaborations' => array_map(
                 fn ($c) => array_merge_recursive(
                     $c,
-                    $this->createLinkCollectionFiltered($c, 'activityResponsibles', $activityResponsiblesJson, 'campCollaboration'),
-                    $this->createLinkCollectionFiltered($c, 'dayResponsibles', $dayResponsiblesJson, 'campCollaboration'),
+                    $this->createLinkCollectionFiltered($c, 'activityResponsibles', $activityResponsibles, 'campCollaboration'),
+                    $this->createLinkCollectionFiltered($c, 'dayResponsibles', $dayResponsibles, 'campCollaboration'),
                 ),
-                $campCollaborationsJons,
+                $campCollaborations,
             ),
-            'users' => $usersJson,
-            'categories' => $categoriesJson,
-            'activityProgressLabels' => $activityProgressLabelsJson,
+            'users' => $users,
+            'categories' => $categories,
+            'activityProgressLabels' => $activityProgressLabels,
             'contentTypes' => $contentTypesJson,
 
             'periods' => array_map(
                 fn ($p) => array_merge_recursive(
                     $p,
-                    $this->createLinkCollectionFiltered($p, 'days', $daysJson, 'period'),
-                    $this->createLinkCollectionFiltered($p, 'scheduleEntries', $scheduleEntriesJson, 'period'),
+                    $this->createLinkCollectionFiltered($p, 'days', $days, 'period'),
+                    $this->createLinkCollectionFiltered($p, 'scheduleEntries', $scheduleEntries, 'period'),
                 ),
-                $periodsJson
+                $periods
             ),
             'days' => array_map(
                 fn ($d) => array_merge_recursive(
                     $d,
-                    $this->createLinkCollectionFiltered($d, 'dayResponsibles', $dayResponsiblesJson, 'day'),
+                    $this->createLinkCollectionFiltered($d, 'dayResponsibles', $dayResponsibles, 'day'),
                 ),
-                $daysJson,
+                $days,
             ),
-            'dayResponsibles' => $dayResponsiblesJson,
+            'dayResponsibles' => $dayResponsibles,
 
             'activities' => array_map(
                 fn ($a) => array_merge_recursive(
                     $a,
-                    $this->createLinkCollectionFiltered($a, 'activityResponsibles', $activityResponsiblesJson, 'activity'),
-                    $this->createLinkCollectionFiltered($a, 'scheduleEntries', $scheduleEntriesJson, 'activity'),
+                    $this->createLinkCollectionFiltered($a, 'activityResponsibles', $activityResponsibles, 'activity'),
+                    $this->createLinkCollectionFiltered($a, 'scheduleEntries', $scheduleEntries, 'activity'),
                 ),
-                $activitiesJson
+                $activities
             ),
-            'activityResponsibles' => $activityResponsiblesJson,
-            'scheduleEntries' => $scheduleEntriesJson,
+            'activityResponsibles' => $activityResponsibles,
+            'scheduleEntries' => $scheduleEntries,
             'contentNodes' => array_map(
                 fn ($c) => array_merge_recursive(
                     $c,
-                    $this->createLinkCollectionFiltered($c, 'children', $contentNodesJson, 'parent'),
-                    ('Material' == $c['contentTypeName']) ? $this->createLinkCollectionFiltered($c, 'materialItems', $materialItemsJson, 'materialNode') : []
+                    $this->createLinkCollectionFiltered($c, 'children', $contentNodes, 'parent'),
+                    ('Material' == $c['contentTypeName']) ? $this->createLinkCollectionFiltered($c, 'materialItems', $materialItems, 'materialNode') : []
                 ),
-                $contentNodesJson
+                $contentNodes
             ),
 
             'materialLists' => array_map(
                 fn ($ml) => array_merge_recursive(
                     $ml,
-                    $this->createLinkCollectionFiltered($ml, 'materialItems', $materialItemsJson, 'materialList')
+                    $this->createLinkCollectionFiltered($ml, 'materialItems', $materialItems, 'materialList')
                 ),
-                $materialListsJson,
+                $materialLists,
             ),
-            'materialItems' => $materialItemsJson,
+            'materialItems' => $materialItems,
         ]);
+    }
+
+    private function getContentTypeData(): array {
+        $contentTypes = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(ContentType::class, 'c')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($contentTypes, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getCampData($campId): array {
+        /** @var Camp */
+        $camp = $this->em->find(Camp::class, $campId);
+
+        return $this->normalizer->normalize($camp, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getCampCollaborationData($campId): array {
+        $campCollaborations = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(CampCollaboration::class, 'c')
+            ->where('c.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($campCollaborations, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getUserData($campId): array {
+        $users = $this->em->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->join('u.collaborations', 'c')
+            ->where('c.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($users, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getCategoryData($campId): array {
+        $categories = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(Category::class, 'c')
+            ->where('c.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($categories, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getActivityProgressLabelData($campId): array {
+        $activityProgressLabels = $this->em->createQueryBuilder()
+            ->select('l')
+            ->from(ActivityProgressLabel::class, 'l')
+            ->where('l.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($activityProgressLabels, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getPeriodData($campId): array {
+        $periods = $this->em->createQueryBuilder()
+            ->select('p')
+            ->from(Period::class, 'p')
+            ->where('p.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($periods, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getDayData($campId): array {
+        $days = $this->em->createQueryBuilder()
+            ->select('d')
+            ->from(Day::class, 'd')
+            ->join('d.period', 'p')
+            ->where('p.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($days, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getDayResponsibleData($campId): array {
+        $dayResponsibles = $this->em->createQueryBuilder()
+            ->select('dr')
+            ->from(DayResponsible::class, 'dr')
+            ->join('dr.day', 'd')
+            ->join('d.period', 'p')
+            ->where('p.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($dayResponsibles, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getActivityData($campId): array {
+        $activities = $this->em->createQueryBuilder()
+            ->select('a')
+            ->from(Activity::class, 'a')
+            ->where('a.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($activities, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getActivityResponsibleData($campId): array {
+        $activityResponsibles = $this->em->createQueryBuilder()
+            ->select('r')
+            ->from(ActivityResponsible::class, 'r')
+            ->join('r.activity', 'a')
+            ->where('a.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($activityResponsibles, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getScheduleEntryData($campId): array {
+        $scheduleEntries = $this->em->createQueryBuilder()
+            ->select('s')
+            ->from(ScheduleEntry::class, 's')
+            ->join('s.activity', 'a')
+            ->where('a.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($scheduleEntries, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getContentNodeData($campId): array {
+        $contentNodes = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(ContentNode::class, 'c')
+            ->join(Activity::class, 'a', Join::WITH, 'a.rootContentNode = c.root')
+            ->where('a.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($contentNodes, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getMaterialListData($campId): array {
+        $materialLists = $this->em->createQueryBuilder()
+            ->select('m')
+            ->from(MaterialList::class, 'm')
+            ->where('m.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($materialLists, 'jsonhal', $this->contextBuilder);
+    }
+
+    private function getMaterialItemData($campId): array {
+        $materialItems = $this->em->createQueryBuilder()
+            ->select('mi')
+            ->from(MaterialItem::class, 'mi')
+            ->join('mi.materialList', 'm')
+            ->where('m.camp = ?1')
+            ->setParameter(1, $campId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $this->normalizer->normalize($materialItems, 'jsonhal', $this->contextBuilder);
     }
 
     private function createLinkCollection($listName, $list) {
