@@ -185,11 +185,46 @@
       "dialogMaterialItemCreate": {
         "title": "Ajouter du matériel"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Modifier un élément matériel"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Créer une liste de matériel"
+      },
+      "dialogMaterialListDelete": {
+        "description": "Voulez-vous vraiment supprimer la liste des matériaux {entity}?"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifier la liste d'articles"
+      },
       "materialCreateItem": {
+        "add": {
+          "activity": "Ajouter à l'activité",
+          "period": "Ajouter à la {br} section du camp"
+        },
         "campSettingsButton": "Paramètres",
         "noMaterialListAvailable": "Il n'y a pas encore de liste de matériel pour ce camp. Tu peux les créer dans 'Admin'."
       },
-      "materialTable": {
+      "materialLists": {
+        "materialsCount": "Pas des éléments | Un élément | {count} éléments",
+        "overview": "Aperçu général"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Télécharger",
+        "title": "Aperçu général",
+        "xlsx": {
+          "activity": "Activité",
+          "article": "Article",
+          "filename": "Liste de matériel",
+          "matlist": "",
+          "quantity": "Quantité",
+          "unit": "Unité"
+        }
+      },
+      "materialTableDesktop": {
+        "addNewItem": "Ajoute un nouvel élément"
+      },
+      "materialTableMobile": {
         "addNewItem": "Ajoute un nouvel élément"
       }
     },
@@ -299,7 +334,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment le supprimer ?"
+        "warningText": "Veux-tu vraiment le supprimer? | Veux-tu vraiment supprimer \"{entity}\"?"
       }
     },
     "toast": {
@@ -507,18 +542,9 @@
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
       },
       "material": {
-        "downloadXlsx": "Télécharger",
         "groupByList": "Regrouper par liste de matériel",
         "showActivityMaterial": "Montrer le matériel des activités",
-        "title": "Matériel",
-        "xlsx": {
-          "activity": "Activité",
-          "article": "Article",
-          "filename": "Liste de matériel",
-          "matlist": "Liste de matériel",
-          "quantity": "Quantité",
-          "unit": "Unité"
-        }
+        "title": "Matériel"
       },
       "navigation": {
         "desktop": {
@@ -569,6 +595,18 @@
       "pastCamps": "Anciens camps",
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
+    },
+    "material": {
+      "material": {
+        "title": "Matériel: {name} "
+      },
+      "materialOverview": {
+        "downloadXlsx": "Télécharger",
+        "title": "Aperçu général"
+      },
+      "sideBarMateriallists": {
+        "title": "Listes de matériaux"
+      }
     },
     "pageNotFound": {
       "backToHome": "Retour à l'accueil",

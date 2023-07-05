@@ -4,7 +4,7 @@
     :loading="loading"
     :error="error"
     icon="mdi-package-variant"
-    :title="materialList.name"
+    :title="$tc('components.material.dialogMaterialListEdit.title')"
     :submit-action="update"
     submit-color="success"
     :cancel-action="close"
@@ -14,17 +14,16 @@
     </template>
 
     <template #moreActions>
-      <dialog-entity-delete :entity="materialList" :error-handler="deleteErrorHandler">
+      <PromptEntityDelete :entity="materialList">
         <template #activator="{ on }">
           <button-delete v-on="on" />
         </template>
-        {{ $tc('components.campAdmin.campMaterialListsItem.deleteWarning') }} <br />
-        <ul>
-          <li>
-            {{ materialList.name }}
-          </li>
-        </ul>
-      </dialog-entity-delete>
+        <i18n path="components.material.dialogMaterialListDelete.description">
+          <template #entity
+            ><strong>{{ materialList.name }}</strong></template
+          >
+        </i18n>
+      </PromptEntityDelete>
     </template>
     <dialog-material-list-form :material-list="entityData" />
   </DetailEdit>
@@ -32,15 +31,19 @@
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogMaterialListForm from './DialogMaterialListForm.vue'
 import DetailEdit from '@/components/generic/DetailPane.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
 export default {
   name: 'DialogMaterialListEdit',
-  components: { ButtonDelete, DialogEntityDelete, DetailEdit, DialogMaterialListForm },
+  components: {
+    PromptEntityDelete,
+    ButtonDelete,
+    DetailEdit,
+    DialogMaterialListForm,
+  },
   extends: DialogBase,
   props: {
     materialList: { type: Object, required: true },

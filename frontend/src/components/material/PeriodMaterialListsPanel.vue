@@ -5,12 +5,12 @@
         {{ period.description }}
       </h3>
     </v-expansion-panel-header>
-    <v-expansion-panel-content>
-      <material-table
+    <v-expansion-panel-content :class="{ 'px-0': $vuetify.breakpoint.xsOnly }">
+      <MaterialTable
         :camp="camp"
-        :material-item-collection="period.materialItems()"
+        :material-item-collection="materialItems"
+        :material-list="materialList"
         :period="period"
-        :show-activity-material="showActivityMaterial"
         :group-by-list="groupByList"
         enable-grouping
         :disabled="disabled"
@@ -28,8 +28,9 @@ export default {
     MaterialTable,
   },
   props: {
+    camp: { type: Object, required: true },
+    materialList: { type: Object, required: true },
     period: { type: Object, required: true },
-    showActivityMaterial: { type: Boolean, required: true },
     groupByList: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
   },
@@ -39,8 +40,11 @@ export default {
     }
   },
   computed: {
-    camp() {
-      return this.period.camp()
+    materialItems() {
+      return this.api.get().materialItems({
+        period: this.period._meta.self,
+        materialList: this.materialList._meta.self,
+      })
     },
   },
   // reload data every time user navigates to material table
@@ -49,3 +53,12 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  ::v-deep .v-expansion-panel-content__wrap {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+</style>

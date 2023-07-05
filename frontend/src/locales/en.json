@@ -77,8 +77,7 @@
       },
       "campMaterialListsItem": {
         "deleteError": "Could not delete the material list. Check if the list is empty before deleting it.",
-        "deleteWarning": "Do you really want to delete this material list?",
-        "materialsCount": "No entries|1 entry|{count} entries"
+        "deleteWarning": "Do you really want to delete this material list?"
       },
       "campPeriods": {
         "createPeriod": "Create period",
@@ -186,11 +185,46 @@
       "dialogMaterialItemCreate": {
         "title": "Create material item"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Edit material item"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Create material list"
+      },
+      "dialogMaterialListDelete": {
+        "description": "Do you really want to delete material list {entity}?"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Edit material list"
+      },
       "materialCreateItem": {
+        "add": {
+          "activity": "Add to activity",
+          "period": "Add to period"
+        },
         "campSettingsButton": "Settings",
         "noMaterialListAvailable": "There are no material lists for this camp yet. You can create them in 'Admin'."
       },
-      "materialTable": {
+      "materialLists": {
+        "materialsCount": "No entries | 1 entry | {count} entries",
+        "overview": "General overview"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Download",
+        "title": "General overview",
+        "xlsx": {
+          "activity": "Activity",
+          "article": "Article",
+          "filename": "material-list",
+          "matlist": "Material list",
+          "quantity": "Quantity",
+          "unit": "Unit"
+        }
+      },
+      "materialTableDesktop": {
+        "addNewItem": "Add new item"
+      },
+      "materialTableMobile": {
         "addNewItem": "Add new item"
       }
     },
@@ -300,7 +334,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Really delete?",
-        "warningText": "Do you really want to delete this?"
+        "warningText": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
       }
     },
     "toast": {
@@ -508,18 +542,9 @@
         "userAlreadyInCamp": "You are already participating in this camp"
       },
       "material": {
-        "downloadXlsx": "Download",
         "groupByList": "Group by material list",
         "showActivityMaterial": "Show activity material",
-        "title": "Material",
-        "xlsx": {
-          "activity": "Activity",
-          "article": "Article",
-          "filename": "material-list",
-          "matlist": "Material list",
-          "quantity": "Quantity",
-          "unit": "Unit"
-        }
+        "title": "Material"
       },
       "navigation": {
         "desktop": {
@@ -570,6 +595,18 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
+    },
+    "material": {
+      "material": {
+        "title": "Material: {name}"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Download",
+        "title": "General overview"
+      },
+      "sideBarMateriallists": {
+        "title": "Material lists"
+      }
     },
     "pageNotFound": {
       "backToHome": "Back to home",

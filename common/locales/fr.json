@@ -161,7 +161,9 @@
     "materialItem": {
       "fields": {
         "article": "Article",
+        "list": "Liste",
         "quantity": "Quantité",
+        "reference": "Activité / Section",
         "unit": "Unité"
       }
     },

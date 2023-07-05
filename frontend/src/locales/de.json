@@ -77,8 +77,7 @@
       },
       "campMaterialListsItem": {
         "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist.",
-        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
-        "materialsCount": "Keine Einträge | 1 Eintrag | {count} Einträge"
+        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?"
       },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
@@ -186,11 +185,46 @@
       "dialogMaterialItemCreate": {
         "title": "Materialeintrag erstellen"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Materialeintrag bearbeiten"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Materialliste erstellen"
+      },
+      "dialogMaterialListDelete": {
+        "description": "Möchtest du die Materialliste {entity} wirklich löschen?"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Materialliste bearbeiten"
+      },
       "materialCreateItem": {
+        "add": {
+          "activity": "Zur Aktivität {br} hinzufügen",
+          "period": "Zum Lagerabschnitt {br} hinzufügen"
+        },
         "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
-      "materialTable": {
+      "materialLists": {
+        "materialsCount": "Keine Einträge | 1 Eintrag | {count} Einträge",
+        "overview": "Gesamtübersicht"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Download",
+        "title": "Gesamtübersicht",
+        "xlsx": {
+          "activity": "Aktivität",
+          "article": "Artikel",
+          "filename": "Materialliste",
+          "matlist": "Liste",
+          "quantity": "Menge",
+          "unit": "Mass"
+        }
+      },
+      "materialTableDesktop": {
+        "addNewItem": "Eintrag hinzufügen"
+      },
+      "materialTableMobile": {
         "addNewItem": "Eintrag hinzufügen"
       }
     },
@@ -300,7 +334,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
+        "warningText": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
       }
     },
     "toast": {
@@ -398,9 +432,6 @@
       "printPreview": "Druckvorschau öffnen",
       "sideBarProgram": {
         "title": "Tagesübersicht"
-      },
-      "sideBarMateriallists": {
-        "title": "Materiallisten"
       }
     },
     "auth": {
@@ -511,18 +542,9 @@
         "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
       },
       "material": {
-        "downloadXlsx": "Download",
         "groupByList": "Nach Materialliste gruppieren",
         "showActivityMaterial": "Aktivitätsmaterial anzeigen",
-        "title": "Material",
-        "xlsx": {
-          "activity": "Aktivität",
-          "article": "Artikel",
-          "filename": "Materialliste",
-          "matlist": "Liste",
-          "quantity": "Menge",
-          "unit": "Einheit"
-        }
+        "title": "Material"
       },
       "navigation": {
         "desktop": {
@@ -577,6 +599,13 @@
     "material": {
       "material": {
         "title": "Material: {name}"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Download",
+        "title": "Gesamtübersicht"
+      },
+      "sideBarMateriallists": {
+        "title": "Materiallisten"
       }
     },
     "pageNotFound": {

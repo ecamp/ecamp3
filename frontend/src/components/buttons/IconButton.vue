@@ -1,48 +1,37 @@
 <template>
   <v-btn
     class="px-3 px-sm-4"
+    :class="{ 'v-btn--has-bg': bg }"
     min-width="0"
     :color="color"
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <v-icon v-if="!iconLast" :left="!hideLabel" size="150%" :class="{ animate: animate }">
+    <GenericIcon v-if="!iconLast" :left="!hideLabel" size="150%" :spin="animate">
       {{ icon }}
-    </v-icon>
+    </GenericIcon>
     <span :class="{ 'd-sr-only': hideLabel }">
       <slot />
     </span>
-    <v-icon v-if="iconLast" :right="!hideLabel" size="150%" :class="{ animate: animate }">
+    <GenericIcon v-if="iconLast" :right="!hideLabel" size="150%" :spin="animate">
       {{ icon }}
-    </v-icon>
+    </GenericIcon>
   </v-btn>
 </template>
 
 <script>
+import GenericIcon from '@/components/generic/GenericIcon.vue'
+
 export default {
   name: 'IconButton',
+  components: { GenericIcon },
   props: {
     icon: { type: String, required: true },
     iconLast: { type: Boolean, default: false },
     hideLabel: { type: Boolean, default: false },
     color: { type: String, default: 'normal' },
+    bg: { type: Boolean, default: false },
     animate: { type: Boolean, default: false },
   },
 }
 </script>
-
-<style scoped>
-/*noinspection CssUnusedSymbol*/
-.v-icon.animate {
-  animation: spin 0.5s infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

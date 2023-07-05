@@ -185,11 +185,46 @@
       "dialogMaterialItemCreate": {
         "title": "Crea un oggetto materiale"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Modifica dell'elemento materiale"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Creare l'elenco dei materiali"
+      },
+      "dialogMaterialListDelete": {
+        "description": "Si vuole davvero cancellare l'elenco di materiali {entità}?"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifica dell'elenco dei materiali"
+      },
       "materialCreateItem": {
+        "add": {
+          "activity": "Aggiungi all'attività",
+          "period": "Aggiungi alla {br} sezione del campo"
+        },
         "campSettingsButton": "Impostazioni",
         "noMaterialListAvailable": "Non ci sono ancora liste di materiali per questo campo. Puoi crearle in \"Amministrazione\"."
       },
-      "materialTable": {
+      "materialLists": {
+        "materialsCount": "Nessuna voce | 1 voce | {count} voci",
+        "overview": "Panoramica generale"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Scarica",
+        "title": "Panoramica generale",
+        "xlsx": {
+          "activity": "Attività",
+          "article": "Articolo",
+          "filename": "elenco dei materiali",
+          "matlist": "",
+          "quantity": "Quantità",
+          "unit": "Unità"
+        }
+      },
+      "materialTableDesktop": {
+        "addNewItem": "Aggiungi un nuovo elemento"
+      },
+      "materialTableMobile": {
         "addNewItem": "Aggiungi un nuovo elemento"
       }
     },
@@ -299,7 +334,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Davvero cancellare?",
-        "warningText": "Volete davvero cancellarlo?"
+        "warningText": "Volete davvero cancellarlo? | Volete davvero cancellarlo \"{entity}\"?"
       }
     },
     "toast": {
@@ -507,18 +542,9 @@
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
       },
       "material": {
-        "downloadXlsx": "Scarica",
         "groupByList": "Raggruppa per elenco di materiali",
         "showActivityMaterial": "Mostra il materiale dell'attività",
-        "title": "Materiale",
-        "xlsx": {
-          "activity": "Attività",
-          "article": "Articolo",
-          "filename": "elenco dei materiali",
-          "matlist": "Elenco dei materiali",
-          "quantity": "Quantità",
-          "unit": "Unità"
-        }
+        "title": "Materiale"
       },
       "navigation": {
         "desktop": {
@@ -569,6 +595,18 @@
       "pastCamps": "Campi passati",
       "prototypeCamps": "Prototipi",
       "title": "I miei campi"
+    },
+    "material": {
+      "material": {
+        "title": "Materiale: {name}"
+      },
+      "materialOverview": {
+        "downloadXlsx": "Scarica",
+        "title": "Panoramica generale"
+      },
+      "sideBarMateriallists": {
+        "title": "Liste di materiali"
+      }
     },
     "pageNotFound": {
       "backToHome": "Torna a casa",

@@ -56,6 +56,7 @@ body {
   .e-title-link {
     color: #000;
     text-decoration-color: #1976d2;
+    text-decoration-line: underline;
 
     &:hover {
       text-decoration-thickness: 2px;
@@ -190,4 +191,8 @@ body {
 
 .justify-items-center {
   justify-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
 }

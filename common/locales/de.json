@@ -162,8 +162,10 @@
     "materialItem": {
       "fields": {
         "article": "Artikel",
+        "list": "Liste",
         "quantity": "Menge",
-        "unit": "Einheit"
+        "reference": "Aktivität / Abschnitt",
+        "unit": "Mass"
       }
     },
     "materialList": {

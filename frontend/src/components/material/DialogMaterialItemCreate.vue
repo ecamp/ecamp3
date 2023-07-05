@@ -16,6 +16,7 @@
     <dialog-material-item-form
       :material-lists="camp.materialLists"
       :material-item="entityData"
+      :material-list="materialList"
     />
   </dialog-form>
 </template>
@@ -31,6 +32,7 @@ export default {
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },
+    materialList: { type: Object, required: false, default: null },
 
     // API collection on which to post the new item
     materialItemCollection: { type: Object, required: true },
@@ -48,7 +50,7 @@ export default {
           quantity: null,
           unit: '',
           article: '',
-          materialList: null,
+          materialList: this.materialList?._meta.self,
         }
 
         this.setEntityData(entityData)
