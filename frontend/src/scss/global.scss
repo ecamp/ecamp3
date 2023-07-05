@@ -179,6 +179,15 @@ body {
   top: 0;
 }
 
+@keyframes spin-only {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .justify-items-center {
   justify-items: center;
 }
