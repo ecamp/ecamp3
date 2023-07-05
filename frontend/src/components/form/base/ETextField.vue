@@ -19,6 +19,7 @@
       :label="label || name"
       :class="[inputClass]"
       :type="type"
+      :inputmode="inputmode"
       v-on="inputListeners"
     >
       <!-- passing through all slots -->
@@ -44,6 +45,10 @@ export default {
       type: String,
       default: 'text',
     },
+    inputmode: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -62,7 +67,11 @@ export default {
         {
           input: function (value) {
             vm.$data.preventValidationOnBlur = false
-            if (vm.type === 'number') {
+            if (
+              vm.type === 'number' ||
+              vm.inputmode === 'numeric' ||
+              vm.inputmode === 'decimal'
+            ) {
               vm.$emit('input', parseFloat(value))
             } else {
               vm.$emit('input', value)
