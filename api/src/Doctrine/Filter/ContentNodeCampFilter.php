@@ -7,6 +7,7 @@ use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use App\Entity\Activity;
+use App\Entity\Camp;
 use App\Entity\ContentNode;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -15,8 +16,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
-final class ContentNodePeriodFilter extends AbstractFilter {
-    public const PERIOD_QUERY_NAME = 'period';
+final class ContentNodeCampFilter extends AbstractFilter {
+    public const CAMP_QUERY_NAME = 'camp';
 
     public function __construct(
         private IriConverterInterface $iriConverter,
@@ -31,8 +32,8 @@ final class ContentNodePeriodFilter extends AbstractFilter {
     // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
     public function getDescription(string $resourceClass): array {
         $description = [];
-        $description['period'] = [
-            'property' => self::PERIOD_QUERY_NAME,
+        $description['camp'] = [
+            'property' => self::CAMP_QUERY_NAME,
             'type' => Type::BUILTIN_TYPE_STRING,
             'required' => false,
         ];
@@ -50,31 +51,31 @@ final class ContentNodePeriodFilter extends AbstractFilter {
         array $context = []
     ): void {
         if (ContentNode::class !== $resourceClass && !is_subclass_of($resourceClass, ContentNode::class)) {
-            throw new \Exception("ContentNodePeriodFilter can only be applied to entities of type ContentNode (received: {$resourceClass}).");
+            throw new \Exception("ContentNodeCampFilter can only be applied to entities of type ContentNode (received: {$resourceClass}).");
         }
 
-        if (self::PERIOD_QUERY_NAME !== $property) {
+        if (self::CAMP_QUERY_NAME !== $property) {
             return;
         }
 
         // load period from query parameter value
-        $period = $this->iriConverter->getResourceFromIri($value);
+        $camp = $this->iriConverter->getResourceFromIri($value);
 
         // generate alias to avoid interference with other filters
-        $periodParameterName = $queryNameGenerator->generateParameterName($property);
+        $campParameterName = $queryNameGenerator->generateParameterName($property);
         $rootJoinAlias = $queryNameGenerator->generateJoinAlias('root');
+        $campJoinAlias = $queryNameGenerator->generateJoinAlias('camp');
         $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
-        $scheduleEntryJoinAlias = $queryNameGenerator->generateJoinAlias('scheduleEntry');
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
 
         $queryBuilder
             ->join("{$rootAlias}.root", $rootJoinAlias)
             ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
-            ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
-            ->andWhere($queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
+            ->join(Camp::class, $campJoinAlias, Join::WITH, "{$campJoinAlias}.id = {$activityJoinAlias}.camp")
+            ->andWhere($queryBuilder->expr()->eq("{$campJoinAlias}.id", ":{$campParameterName}"))
         ;
 
-        $queryBuilder->setParameter($periodParameterName, $period);
+        $queryBuilder->setParameter($campParameterName, $camp);
     }
 }
