@@ -490,7 +490,9 @@
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
         "progressLabel": "Stati",
+        "progressLabelNone": "Nessuno stato",
         "responsible": "Responsabile",
+        "responsibleNone": "Nessuna responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },
       "invitation": {

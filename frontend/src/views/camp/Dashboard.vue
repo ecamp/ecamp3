@@ -26,13 +26,18 @@
             :label="$tc('views.camp.dashboard.responsible')"
           >
             <template #item="{ item }">
-              <TextAlignBaseline class="mr-1">
-                <UserAvatar
-                  :camp-collaboration="campCollaborations[item.value]"
-                  size="20"
-                />
-              </TextAlignBaseline>
-              {{ item.text }}
+              <template v-if="item.exclusiveNone">
+                {{ item.text }}
+              </template>
+              <template v-else>
+                <TextAlignBaseline class="mr-1">
+                  <UserAvatar
+                    :camp-collaboration="campCollaborations[item.value]"
+                    size="20"
+                  />
+                </TextAlignBaseline>
+                {{ item.text }}
+              </template>
             </template>
           </SelectFilter>
           <SelectFilter
@@ -232,7 +237,14 @@ export default {
   },
   computed: {
     campCollaborations() {
-      return keyBy(this.camp().campCollaborations().items, '_meta.self')
+      return {
+        none: {
+          exclusiveNone: true,
+          label: this.$tc('views.camp.dashboard.responsibleNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(this.camp().campCollaborations().items, '_meta.self'),
+      }
     },
     categories() {
       return keyBy(this.camp().categories().items, '_meta.self')
@@ -242,7 +254,13 @@ export default {
     },
     progressLabels() {
       const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
-      return keyBy(labels, '_meta.self')
+      return {
+        none: {
+          title: this.$tc('views.camp.dashboard.progressLabelNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(labels, '_meta.self'),
+      }
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -281,11 +299,13 @@ export default {
                 .activityResponsibles()
                 .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
-            })) &&
+            }) ||
+            (this.filter.responsible[0] === 'none' &&
+              scheduleEntry.activity().activityResponsibles().items.length === 0)) &&
           (this.filter.progressLabel === null ||
             this.filter.progressLabel.length === 0 ||
             this.filter.progressLabel?.includes(
-              scheduleEntry.activity().progressLabel?.()._meta.self
+              scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
             ))
       )
     },
