@@ -75,10 +75,7 @@ const rules = [
       if (parent.name === 'ul') {
         node.children[0].children[0].content = '• ' + node.children[0].children[0].content
       } else if (parent.name === 'ol') {
-        const number =
-          parent.children
-            .filter((child) => child.type === 'tag' && child.name === 'li')
-            .indexOf(node) + 1
+        const number = calculateListNumber(node, parent)
         node.children[0].children[0].content =
           `${number}. ` + node.children[0].children[0].content
       }
@@ -86,6 +83,17 @@ const rules = [
     },
   },
 ]
+
+function calculateListNumber(node, parent) {
+  const index = parent.children
+    .filter((child) => child.type === 'tag' && child.name === 'li')
+    .indexOf(node)
+  if (parent.attrs.start !== undefined) {
+    const start = parseInt(parent.attrs.start)
+    if (!isNaN(start)) return start + index
+  }
+  return index + 1
+}
 
 export default {
   name: 'RichText',
