@@ -23,9 +23,7 @@
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import ScheduleEntry from './ScheduleEntry.vue'
-import vuetifyLayouter, * as vuetifyLayouterInMainThread from 'vuetify/es5/components/VCalendar/modes/column.js'
-import vuetifyEvents, * as vuetifyEventsInMainThread from 'vuetify/es5/components/VCalendar/util/events.js'
-import { utcStringToTimestamp } from '../../../common/helpers/dateHelperVCalendar.js'
+import { arrange } from './scheduleEntryLayout.js'
 import keyBy from 'lodash/keyBy.js'
 
 export default {
@@ -63,41 +61,7 @@ export default {
       })
     },
     leftAndWidth() {
-      // Work around vite limitations with importing vuetify helpers in main thread vs. worker
-      const parseEvent =
-        vuetifyEvents?.parseEvent || vuetifyEventsInMainThread?.parseEvent
-      const layouter = vuetifyLayouter?.column || vuetifyLayouterInMainThread?.column
-
-      const dayStart = this.$date.utc(this.day.start).hour(this.times[0][0])
-      const events = this.scheduleEntries
-        .map((entry) => ({
-          ...entry,
-          startTimestamp: utcStringToTimestamp(entry.start),
-          endTimestamp: utcStringToTimestamp(entry.end),
-          timed: true,
-        }))
-        .map((evt, index) =>
-          parseEvent(evt, index, 'startTimestamp', 'endTimestamp', true, false)
-        )
-      return keyBy(
-        layouter(
-          events, // schedule entries in vuetify format
-          -1, // we don't want to reset the grouping on any weekday
-          60 // threshold for allowed overlap between two schedule entries before they stack next to each other
-        )(
-          {
-            year: dayStart.year(),
-            month: dayStart.month(),
-            day: dayStart.day(),
-            hour: dayStart.hour(),
-            minute: dayStart.minute(),
-          }, // day start timestamp object
-          events,
-          true, // timed true, we don't want all-day events
-          false // categoryMode false, we use calendar type 'week', not 'category'
-        ),
-        'event.input.id'
-      )
+      return keyBy(arrange(this.relevantScheduleEntries), 'id')
     },
     positionStyles() {
       return keyBy(
