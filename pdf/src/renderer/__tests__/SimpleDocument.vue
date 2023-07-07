@@ -8,10 +8,6 @@
   </Document>
 </template>
 <script>
-import Document from '../components/Document.vue'
-import Page from '../components/Page.vue'
-import View from '../components/View.vue'
-import Text from '../components/Text.vue'
 export default {
   name: 'SimpleComponent',
 }
