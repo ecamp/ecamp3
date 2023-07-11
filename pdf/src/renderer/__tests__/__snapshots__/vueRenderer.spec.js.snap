@@ -9449,7 +9449,7 @@ exports[`rendering a full camp > renders the picasso 1`] = `
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "baseline",
+                "alignItems": "center",
                 "flexDirection": "row",
                 "gap": "2pt",
                 "marginBottom": "3pt",
@@ -9509,7 +9509,7 @@ exports[`rendering a full camp > renders the picasso 1`] = `
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "baseline",
+                "alignItems": "center",
                 "flexDirection": "row",
                 "gap": "2pt",
                 "marginBottom": "3pt",
@@ -9569,7 +9569,7 @@ exports[`rendering a full camp > renders the picasso 1`] = `
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "baseline",
+                "alignItems": "center",
                 "flexDirection": "row",
                 "gap": "2pt",
                 "marginBottom": "3pt",
@@ -9629,7 +9629,7 @@ exports[`rendering a full camp > renders the picasso 1`] = `
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "baseline",
+                "alignItems": "center",
                 "flexDirection": "row",
                 "gap": "2pt",
                 "marginBottom": "3pt",

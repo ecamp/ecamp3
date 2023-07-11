@@ -34,7 +34,7 @@ export default {
 }
 .picasso-category {
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   gap: 2pt;
   margin-right: 6pt;
   margin-bottom: 3pt;
