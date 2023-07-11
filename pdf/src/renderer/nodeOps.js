@@ -32,7 +32,12 @@ function noop(fn) {
 }
 
 function patchProp(el, key, prevVal, nextVal) {
-  if (key === 'style') {
+  if (
+    ['debug', 'fixed'].includes(key) &&
+    Object.values(htmlToPdfElementMap).includes(el.type)
+  ) {
+    el.props[camelCase(key)] = nextVal !== false
+  } else if (key === 'style') {
     // React-pdf treats style as a separate attribute, not as a normal prop.
     // Also, they use camelCase property names instead of the kebab-case which CSS uses.
     const transformed = Object.fromEntries(
