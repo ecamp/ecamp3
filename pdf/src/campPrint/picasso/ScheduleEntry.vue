@@ -4,9 +4,11 @@
     :style="{ backgroundColor: color, color: textColor }"
   >
     <View class="picasso-schedule-entry-spacer" />
-    <Text class="picasso-schedule-entry-title">
-      {{ category }} {{ scheduleEntry.number }} {{ title }}
-    </Text>
+    <Link class="picasso-schedule-entry-link" :href="linkTarget">
+      <Text class="picasso-schedule-entry-title">
+        {{ category }} {{ scheduleEntry.number }} {{ title }}
+      </Text>
+    </Link>
     <View class="picasso-schedule-entry-spacer" />
     <View class="picasso-schedule-entry-responsibles-container">
       <View class="picasso-schedule-entry-spacer" />
@@ -44,10 +46,17 @@ export default {
     title() {
       return this.scheduleEntry.activity().title
     },
+    linkTarget() {
+      return `#scheduleEntry_${this.scheduleEntry.id}`
+    },
   },
 }
 </script>
 <pdf-style>
+.picasso-schedule-entry-link {
+  text-decoration: none;
+  color: black;
+}
 .picasso-schedule-entry {
   position: absolute;
   padding: 0 4pt;

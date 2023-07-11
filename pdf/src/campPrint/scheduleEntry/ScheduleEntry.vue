@@ -4,7 +4,7 @@
       class="schedule-entry-header-title"
       :style="{ borderBottomColor: activity.category().color }"
     >
-      <View class="schedule-entry-title">
+      <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
         <CategoryLabel
           :category="activity.category()"
           class="schedule-entry-category-label"
