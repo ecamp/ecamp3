@@ -1,5 +1,8 @@
 <template>
-  <View class="picasso-schedule-entry" :style="{ backgroundColor: color }">
+  <View
+    class="picasso-schedule-entry"
+    :style="{ backgroundColor: color, color: textColor }"
+  >
     <View class="picasso-schedule-entry-spacer" />
     <Text class="picasso-schedule-entry-title">
       {{ category }} {{ scheduleEntry.number }} {{ title }}
