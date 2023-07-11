@@ -1305,6 +1305,7 @@ exports[`rendering a full camp > renders a single activity 1`] = `
   "parent": null,
   "props": {
     "locale": "de",
+    "pdfVersion": "1.7",
     "store": {
       "get": [Function],
       "href": [Function],
@@ -1406,6 +1407,7 @@ exports[`rendering a full camp > renders the cover page 1`] = `
   "parent": null,
   "props": {
     "locale": "de",
+    "pdfVersion": "1.7",
     "store": {
       "get": [Function],
       "href": [Function],
@@ -10237,6 +10239,7 @@ exports[`rendering a full camp > renders the picasso 1`] = `
   "parent": null,
   "props": {
     "locale": "de",
+    "pdfVersion": "1.7",
     "store": {
       "get": [Function],
       "href": [Function],
@@ -36011,6 +36014,7 @@ exports[`rendering a full camp > renders the program 1`] = `
   "parent": null,
   "props": {
     "locale": "de",
+    "pdfVersion": "1.7",
     "store": {
       "get": [Function],
       "href": [Function],
@@ -37214,6 +37218,7 @@ exports[`rendering a full camp > renders the story overview 1`] = `
   "parent": null,
   "props": {
     "locale": "de",
+    "pdfVersion": "1.7",
     "store": {
       "get": [Function],
       "href": [Function],
@@ -37326,6 +37331,7 @@ exports[`rendering a full camp > renders the table of contents 1`] = `
   "parent": null,
   "props": {
     "locale": "de",
+    "pdfVersion": "1.7",
     "store": {
       "get": [Function],
       "href": [Function],

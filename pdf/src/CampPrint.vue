@@ -1,5 +1,5 @@
 <template>
-  <Document>
+  <Document pdf-version="1.7">
     <template v-for="(content, idx) in config.contents">
       <component
         :is="components[content.type]"
@@ -50,7 +50,6 @@ const registerFonts = async () => {
   Font.register({
     family: 'InterDisplay',
     fonts: [
-      // For now it seems that only ttf is supported, not woff or woff2
       { src: InterDisplay },
       { src: InterDisplaySemiBold, fontWeight: 'semibold' },
       { src: InterDisplayBold, fontWeight: 'bold' },
