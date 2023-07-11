@@ -1,30 +1,30 @@
 import { styleStore } from './styleStore.js'
 import camelCase from 'lodash/camelCase.js'
 
-const htmlToPdfElementMap = {
-  'pdf-document': 'DOCUMENT',
-  'pdf-page': 'PAGE',
-  'pdf-view': 'VIEW',
-  'pdf-image': 'IMAGE',
-  'pdf-text': 'TEXT',
-  'pdf-link': 'LINK',
-  'pdf-note': 'NOTE',
-  'pdf-canvas': 'CANVAS',
-  'pdf-svg': 'SVG',
-  'pdf-line': 'LINE',
-  'pdf-polyline': 'POLYLINE',
-  'pdf-polygon': 'POLYGON',
-  'pdf-path': 'PATH',
-  'pdf-rect': 'RECT',
-  'pdf-circle': 'CIRCLE',
-  'pdf-ellipse': 'ELLIPSE',
-  'pdf-tspan': 'TSPAN',
-  'pdf-g': 'G',
-  'pdf-stop': 'STOP',
-  'pdf-defs': 'DEFS',
-  'pdf-clip-path': 'CLIP_PATH',
-  'pdf-linear-gradient': 'CLIP_LINEAR_GRADIENT',
-  'pdf-radial-gradient': 'CLIP_RADIAL_GRADIENT',
+export const htmlToPdfElementMap = {
+  Document: 'DOCUMENT',
+  Page: 'PAGE',
+  View: 'VIEW',
+  Image: 'IMAGE',
+  Text: 'TEXT',
+  Link: 'LINK',
+  Note: 'NOTE',
+  Canvas: 'CANVAS',
+  Svg: 'SVG',
+  Line: 'LINE',
+  Polyline: 'POLYLINE',
+  Polygon: 'POLYGON',
+  Path: 'PATH',
+  Rect: 'RECT',
+  Circle: 'CIRCLE',
+  Ellipse: 'ELLIPSE',
+  Tspan: 'TSPAN',
+  G: 'G',
+  Stop: 'STOP',
+  Defs: 'DEFS',
+  ClipPath: 'CLIP_PATH',
+  LinearGradient: 'LINEAR_GRADIENT',
+  RadialGradient: 'RADIAL_GRADIENT',
 }
 
 function noop(fn) {
@@ -36,7 +36,7 @@ function patchProp(el, key, prevVal, nextVal) {
     // React-pdf treats style as a separate attribute, not as a normal prop.
     // Also, they use camelCase property names instead of the kebab-case which CSS uses.
     const transformed = Object.fromEntries(
-      Object.entries(nextVal).map(([key, value]) => [camelCase(key), value])
+      Object.entries(nextVal || {}).map(([key, value]) => [camelCase(key), value])
     )
     el.style = Object.assign(el.style, transformed)
   } else if (key === 'class') {
@@ -61,7 +61,7 @@ function insert(child, parent, _) {
     )
   }
   if (child.type === 'TEXT_INSTANCE' && parent.type !== 'TEXT') {
-    // Plain text instances have to be wrapped inside <text> elements in react-pdf.
+    // Plain text instances have to be wrapped inside <Text> elements in react-pdf.
     // For convenience, we automate this here.
     parent.children.push({
       box: {},
@@ -96,14 +96,14 @@ function createElement(tag, isSVG, isCustomizedBuiltIn, vnodeProps) {
     )
   }
   const camelCasedProps = Object.fromEntries(
-    Object.entries(vnodeProps).map(([key, value]) => [camelCase(key), value])
+    Object.entries(vnodeProps || {}).map(([key, value]) => [camelCase(key), value])
   )
   return {
-    box: {},
-    children: [],
-    props: camelCasedProps,
-    style: {},
     type: htmlToPdfElementMap[tag],
+    box: {},
+    style: {},
+    props: camelCasedProps,
+    children: [],
   }
 }
 

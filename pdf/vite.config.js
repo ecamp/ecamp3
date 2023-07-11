@@ -1,8 +1,8 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite'
 import vuePdfStylePlugin from './vue-pdf-style-plugin.js'
+import { htmlToPdfElementMap } from './src/renderer/nodeOps.js'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,11 +10,10 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => tag.startsWith('pdf-'),
+          isCustomElement: (tag) => Object.keys(htmlToPdfElementMap).includes(tag),
         },
       },
     }),
-    Components({ dirs: './src/renderer/components' }),
     vuePdfStylePlugin,
   ],
   resolve: {
