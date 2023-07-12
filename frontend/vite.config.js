@@ -104,18 +104,10 @@ export default defineConfig(({ mode }) => ({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: [
-          '@import "./node_modules/vuetify/src/styles/styles.sass";', // original default variables from vuetify
-          '@import "@/scss/variables.scss";', // vuetify variable overrides
-          '',
-        ].join('\n'),
+        additionalData: '@import "./node_modules/vuetify/src/styles/styles.sass";\n', // original default variables from vuetify
       },
       sass: {
-        additionalData: [
-          '@import "./node_modules/vuetify/src/styles/styles.sass"', // original default variables from vuetify
-          '@import "@/scss/variables.scss"', // vuetify variable overrides
-          '',
-        ].join('\n'),
+        additionalData: '@import "./src/scss/variables.scss"\n', // vuetify variable overrides
       },
     },
   },
