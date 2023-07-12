@@ -65,7 +65,7 @@
     "vue-jest": "3.0.7",
     "vue-server-renderer": "2.7.14",
     "vue-template-compiler": "2.7.14",
-    "webpack": "4.46.0"
+    "webpack": "5.88.1"
   },
   "eslintConfig": {
     "root": true,
