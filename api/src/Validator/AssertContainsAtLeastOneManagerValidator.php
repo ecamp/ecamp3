@@ -13,7 +13,7 @@ class AssertContainsAtLeastOneManagerValidator extends ConstraintValidator {
     public function __construct() {
     }
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertContainsAtLeastOneManager) {
             throw new UnexpectedTypeException($constraint, AssertContainsAtLeastOneManager::class);
         }

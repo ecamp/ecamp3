@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(section, key) in sections" :key="key" class="tw-break-inside-avoid">
+        <tr v-for="(section, key) in sections" :key="key">
           <td class="column column1 tw-tabular-nums tw-text-right">
             {{ section.column1 }}
           </td>
@@ -75,6 +75,7 @@ export default {
 }
 
 .column1 {
+  text-align: left;
   padding-right: 4px;
 }
 

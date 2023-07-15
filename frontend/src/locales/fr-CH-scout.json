@@ -4,10 +4,19 @@
       "name": "Fil rouge"
     }
   },
+  "components": {
+    "print": {
+      "printConfigurator": {
+        "config": {
+          "Story": "Fil rouge"
+        }
+      }
+    }
+  },
   "entity": {
     "user": {
       "fields": {
-        "nickname": "Nom de Scout"
+        "nickname": "Totem"
       }
     }
   },

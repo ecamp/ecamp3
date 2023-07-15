@@ -5,8 +5,8 @@
       <tr v-for="item in items" :key="item.id" class="item tw-tabular-nums">
         <td align="right">{{ item.quantity }}</td>
         <td>{{ item.unit || (item.quantity && '×') }}</td>
-        <td width="100%">{{ item.article }}</td>
-        <td>{{ item.materialList().name }}</td>
+        <td width="65%">{{ item.article }}</td>
+        <td width="30%">{{ item.materialList().name }}</td>
       </tr>
     </table>
   </content-node-content>

@@ -13,7 +13,7 @@
     z-index="5"
   >
     <template #activator="{ on, value, attrs }">
-      <v-toolbar-items v-if="!justAvatar">
+      <v-toolbar-items v-if="!avatarOnly">
         <v-btn
           right
           text
@@ -32,8 +32,7 @@
         fab
         text
         v-bind="attrs"
-        :class="{ 'v-btn--open': value }"
-        class="ma-n2"
+        :class="[btnClasses, { 'v-btn--open': value }]"
         v-on="on"
       >
         <user-avatar v-if="authUser" :user="authUser" :size="40" />

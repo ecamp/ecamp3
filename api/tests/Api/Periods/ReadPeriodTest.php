@@ -64,6 +64,8 @@ class ReadPeriodTest extends ECampApiTestCase {
                 'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
                 'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
+                'contentNodes' => ['href' => '/content_nodes?period=%2Fperiods%2F'.$period->getId()],
+                'dayResponsibles' => ['href' => '/day_responsibles?day.period=%2Fperiods%2F'.$period->getId()],
             ],
         ]);
     }

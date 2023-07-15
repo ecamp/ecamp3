@@ -38,8 +38,8 @@
     "campAdmin": {
       "campActivityProgressLabels": {
         "create": "Status erstellen",
-        "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
         "deleteError": "Status konnte nicht gelöscht werden. Der Status wird noch verwendet.",
+        "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
         "moveDown": "Nach unten",
         "moveUp": "Nach oben",
         "title": "Block-Status"
@@ -411,7 +411,7 @@
         "email": "E-Mail",
         "infoText": {
           "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
-          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!<br>Login: test@example.com / test"
+          "dev": "Dies ist die Entwickler-Version von eCamp v3.{br}WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!{br}Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
@@ -490,7 +490,9 @@
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
         "progressLabel": "Status",
+        "progressLabelNone": "Kein Status",
         "responsible": "Verantwortlich",
+        "responsibleNone": "Keine Verantwortlichen",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
@@ -571,10 +573,8 @@
       "title": "Meine Lager"
     },
     "pageNotFound": {
-      "back": "Zurück",
-      "detail": "Die Seite, welche du aufgerufen hast, existiert nicht. Stelle sicher, dass die aufgerufene Seite existiert.",
-      "goToCamps": "Meine Lager",
-      "title": "Seite nicht gefunden"
+      "backToHome": "Zurück zur Startseite",
+      "detail": "Hoppla. Du bist vom Weg abgekommen…{br}Dieser Link funktioniert leider nicht."
     },
     "profile": {
       "changeEmail": "Ändern",

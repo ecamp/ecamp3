@@ -2,7 +2,7 @@
   "components": {
     "story": {
       "storyDay": {
-        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
+        "noStory": "Aucun file rouge trouvé ce jour-là..."
       }
     }
   },
@@ -44,12 +44,12 @@
           }
         }
       },
-      "info": "Une activité de camp Y+S doit aborder au moins un des sujets énumérés.{br}Sélectionne les sujets abordés dans ce bloc.",
+      "info": "Une activité de camp J+S doit aborder au moins un des sujets énumérés.{br}Sélectionne les sujets abordés dans ce bloc.",
       "name": "Domaine thématique AC"
     },
     "material": {
-      "info": "Tu peux saisir ici les besoins en matériel pour ce bloc.{br}Tu peux gérer les listes de matériel dans le menu 'Admin'.{br}Tu peux trouver un résumé de l'achat dans le menu 'Matériel'.",
-      "name": "Matériau"
+      "info": "Tu peux saisir ici les besoins en matériel pour ce bloc.{br}Tu peux gérer les listes de matériel dans le menu 'Admin'.{br}Tu peux trouver un résumé des achats dans le menu 'Matériel'.",
+      "name": "Matériel"
     },
     "notes": {
       "info": "Tu peux y inscrire tes notes, par exemple des idées, des tâches à faire, des questions ouvertes, des contacts, des correspondances avec les transports publics, etc.",
@@ -98,7 +98,7 @@
     "camp": {
       "collaborators": {
         "guest": "Invité",
-        "invite": "Invite",
+        "invite": "Inviter",
         "manager": "Administration",
         "member": "Membre"
       },
@@ -108,22 +108,37 @@
         "addressStreet": "Rue",
         "addressZipcode": "Code postal",
         "couponKey": "Coupon",
-        "motto": "Devise",
-        "name": "Nom",
-        "title": "Titre"
+        "courseKind": "Type de cours (pour les cours J+S: description du cours)",
+        "courseNumber": "Numéro de cours",
+        "kind": "Type de camp (chalet, tente, itinérant, été, automne)",
+        "motto": "Thème",
+        "name": "Nom du camp",
+        "organizer": "Organisateur",
+        "printYSLogoOnPicasso": "Imprimer le logo J+S sur le programme général (requis pour les cours J+S)",
+        "title": "Titre du camp",
+        "trainingAdvisorName": "Nom du coach J+S"
       },
       "name": "Camp",
       "prototype": "Modèle de camp"
     },
     "campCollaboration": {
-      "inactive": "inactif"
+      "fields": {
+        "inviteEmail": "E-mail",
+        "role": "Role",
+        "status": "Statut"
+      },
+      "status": {
+        "established": "Actif",
+        "inactive": "Inactif",
+        "invited": "Invité"
+      }
     },
     "category": {
       "fields": {
         "color": "Couleur",
         "name": "Nom",
         "numberingStyle": "Style de numérotation",
-        "short": "Court"
+        "short": "Abréviation"
       },
       "name": "Catégories d'activités",
       "numberingStyles": {
@@ -154,7 +169,7 @@
       "fields": {
         "name": "Nom"
       },
-      "name": "Liste des matériaux"
+      "name": "Liste de matériel"
     },
     "period": {
       "defaultDescription": "Camp principal",
@@ -178,13 +193,13 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}min",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}min"
       },
-      "hourLong": "HH:mm",
+      "hourLong": "LT",
       "hourShort": "H:mm"
     }
   },
@@ -193,13 +208,19 @@
       "title": "Page de couverture"
     },
     "picasso": {
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Numéro de cours: {courseNumber}",
+        "leaders": "Responsable: {leaders}",
+        "trainingAdvisor": "Conseiller à la formation: {trainingAdvisor}"
+      },
       "title": "Aperçu du programme {period}"
     },
     "program": {
       "title": "Programme"
     },
     "story": {
-      "title": "Storyline"
+      "title": "Histoire"
     },
     "toc": {
       "title": "Table des matières"
