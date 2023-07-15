@@ -1,4 +1,4 @@
-name: CD for feature branches
+name: CD for feature branches 
 
 on:
   pull_request_target:
