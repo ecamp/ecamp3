@@ -355,7 +355,7 @@ jobs:
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}
-          wait-on: 'http://localhost:3000, http://localhost:3000/api'
+          wait-on: 'http://localhost:3000, http://localhost:3000/api, http://localhost:3000/print/health'
           wait-on-timeout: 300
 
       # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
