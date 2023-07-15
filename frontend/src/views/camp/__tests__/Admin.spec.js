@@ -108,7 +108,7 @@ const USER = {
 }
 
 function createCampWithRole(role) {
-  return () => ({
+  const camp = {
     campCollaborations: () => ({
       items: [
         {
@@ -122,6 +122,9 @@ function createCampWithRole(role) {
     }),
     materialLists: () => {},
     progressLabels: () => {},
-    _meta: { load: Promise.resolve() },
-  })
+  }
+  camp._meta = {
+    load: Promise.resolve(camp),
+  }
+  return () => camp
 }

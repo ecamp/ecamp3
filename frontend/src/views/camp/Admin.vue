@@ -45,10 +45,12 @@ import CampActivityProgressLabels from '@/components/campAdmin/CampActivityProgr
 import ContentCard from '@/components/layout/ContentCard.vue'
 import CampDangerZone from '@/components/campAdmin/CampDangerZone.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
+import CampConditionalFields from '@/components/campAdmin/CampConditionalFields.vue'
 
 export default {
   name: 'Admin',
   components: {
+    CampConditionalFields,
     CampDangerZone,
     ContentCard,
     CampSettings,
