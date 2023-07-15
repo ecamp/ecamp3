@@ -73,10 +73,6 @@ services:
     container_name: 'ecamp3-api-caddy'
     depends_on:
       - php
-    environment:
-      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
-      MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       - target: 3000
         published: 3000

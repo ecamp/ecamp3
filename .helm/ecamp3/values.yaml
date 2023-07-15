@@ -21,7 +21,6 @@ api:
     port: 3001
   metrics:
     port: 2019
-  # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
   replicaCount: 1
 
 php:
@@ -152,14 +151,6 @@ mail:
     requests:
       cpu: 10m
       memory: 10Mi
-
-
-# You may prefer using the managed version in production: https://mercure.rocks
-mercure:
-  publicUrl: https://chart-example.local/.well-known/mercure
-  # Change me!
-  jwtSecret: "!ChangeMe!"
-  corsAllowedOrigins: "^https?://.*?\\.chart-example\\.local$"
 
 # Full configuration: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
 postgresql:
