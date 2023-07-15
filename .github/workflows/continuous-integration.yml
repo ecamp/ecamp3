@@ -179,8 +179,7 @@ jobs:
                                   --json_path api/build/logs/coveralls-upload.json
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}-${{ github.run_attempt }}
+          CI_JOB_ID: ${{ github.run_id }}-${{ github.run_attempt }}
           CI_PULL_REQUEST: ${{ github.event.number }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: api
@@ -380,8 +379,10 @@ jobs:
       - frontend-tests
       - print-tests
     runs-on: ubuntu-latest
+    env:
+      COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - uses: coverallsapp/github-action@master
+      - uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
