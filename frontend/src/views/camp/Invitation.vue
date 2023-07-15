@@ -22,7 +22,7 @@
           <span class="subtitle-2 font-weight-bold">{{
             $tc('views.camp.invitation.title')
           }}</span>
-          <span v-if="!invite?._meta.loading">{{ invite?.campTitle }}</span>
+          <span v-if="ready">{{ invite.campTitle }}</span>
         </template>
         <span v-else-if="variant === 'rejected'">{{
           $tc('views.camp.invitation.successfullyRejected')
@@ -38,7 +38,7 @@
       >
         <div v-if="authUser">
           <v-alert
-            v-if="invite?.userAlreadyInCamp"
+            v-if="invite.userAlreadyInCamp"
             border="left"
             colored-border
             color="primary"
@@ -79,7 +79,7 @@
             {{ $tc('views.camp.invitation.register') }}
           </v-btn>
         </div>
-        <v-btn dark text :small="invite?.userAlreadyInCamp" @click="rejectInvitation">
+        <v-btn dark text :small="invite.userAlreadyInCamp" @click="rejectInvitation">
           {{ $tc('views.camp.invitation.reject') }}
         </v-btn>
       </div>
