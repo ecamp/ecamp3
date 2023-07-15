@@ -63,16 +63,22 @@ export default {
   background-blend-mode: screen;
   background-size: contain, 1470px;
   background-repeat: no-repeat, repeat-x;
-  background-position: bottom, center top;
+  background-position:
+    bottom,
+    center top;
   animation: 350s linear infinite sky-translate;
 }
 
 @keyframes sky-translate {
   0% {
-    background-position: bottom, calc(50% + 120px) top;
+    background-position:
+      bottom,
+      calc(50% + 120px) top;
   }
   100% {
-    background-position: top, calc(50% + 120px - 1780px) top;
+    background-position:
+      top,
+      calc(50% + 120px - 1780px) top;
   }
 }
 

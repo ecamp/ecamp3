@@ -406,7 +406,9 @@ export default {
       z-index: 2;
       min-width: fit-content;
       overflow: hidden;
-      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px, rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+      box-shadow:
+        rgba(0, 0, 0, 0.1) 0 4px 6px -1px,
+        rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
     }
 
     .v-calendar-daily__pane,
