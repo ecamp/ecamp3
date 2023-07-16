@@ -21,3 +21,6 @@
 .idea/
 *.tmproj
 .vscode/
+
+files/db_backup_job/.env
+files/db_backup_job/docker-compose.yml

@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  create-backup:
+    image: postgres:15
+    volumes:
+      - ./create-backup.sh:/create-backup.sh
+      - backup-storage:/tmp/backup-dir
+    command:
+      - sh
+      - "-x"
+      - /create-backup.sh
+    env_file: .env
+  
+  upload-backup:
+    image: amazon/aws-cli:2.11.21
+    volumes:
+      - ./upload-backup.sh:/upload-backup.sh
+      - backup-storage:/tmp/backup-dir
+    entrypoint:
+      - sh
+      - /upload-backup.sh
+    env_file: .env
+
+volumes:
+  backup-storage:

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+pg_dump $DATABASE_URL --column-inserts --rows-per-insert 10000 > /tmp/backup-dir/pgdump.sql
+gzip /tmp/backup-dir/pgdump.sql
+if [ -n "${ENCRYPTION_KEY}" ]; then
+    echo "Encrypting backup"
+    gpg --passphrase=${ENCRYPTION_KEY} --batch -c /tmp/backup-dir/pgdump.sql.gz
+fi
+touch /tmp/backup-dir/.backup-complete

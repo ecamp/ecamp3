@@ -21,16 +21,8 @@ spec:
               command:
                 - sh
                 - "-c"
-                - |
-                  set -e
-
-                  pg_dump $DATABASE_URL --column-inserts --rows-per-insert 10000 > /tmp/backup-dir/pgdump.sql
-                  gzip /tmp/backup-dir/pgdump.sql
-                  if [ -n "${ENCRYPTION_KEY}" ]; then
-                    echo "Encrypting backup"
-                    gpg --passphrase=${ENCRYPTION_KEY} --batch -c /tmp/backup-dir/pgdump.sql.gz
-                  fi
-                  touch /tmp/backup-dir/.backup-complete
+                - |{{ range .Files.Lines "files/db_backup_job/create-backup.sh" }}
+                  {{ . }}{{ end }}
               env:
                 - name: DATABASE_URL
                   valueFrom:
@@ -52,39 +44,11 @@ spec:
               command:
                 - sh
                 - "-c"
-                - |
-                  set -e
-
-                  while [ ! -f /tmp/backup-dir/.backup-complete ]; do
-                     sleep 0.1
-                  done
-
-                  echo "Uploading dump to $S3_BUCKET"
-                  SRC_FILE=/tmp/backup-dir/pgdump.sql.gz
-
-                  CURRENT_DATE=$(date +"%Y-%m-%d-%H-%M-%p")
-                  DEST_FILE="${CURRENT_DATE}-{{ include "app.name" . }}.sql.gz"
-
-                  if [ -n "${ENCRYPTION_KEY}" ]; then
-                    SRC_FILE="${SRC_FILE}.gpg"
-                    DEST_FILE="${DEST_FILE}.gpg"
-                  fi
-
-                  export AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
-                  export AWS_SECRET_ACCESS_KEY=$S3_ACCESS_KEY
-
-                  set +e
-                  ls -lah /tmp/backup-dir/
-                  aws --endpoint-url $S3_ENDPOINT s3 cp $SRC_FILE s3://$S3_BUCKET/{{ include "app.name" . }}/$DEST_FILE
-                  exit_code=$?
-                  rm -rf /tmp/backup-dir/*
-                  if [ $exit_code = 0 ]; then
-                    echo "uploaded dump successfully"
-                  else
-                    echo "upload failed"
-                    exit $exit_code
-                  fi
+                - |{{ range .Files.Lines "files/db_backup_job/upload-backup.sh" }}
+                  {{ . }}{{ end }}
               env:
+                - name: APP_NAME
+                  value: {{ include "app.name" . }}
                 - name: ENCRYPTION_KEY
                   valueFrom:
                     secretKeyRef:
