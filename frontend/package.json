@@ -42,7 +42,7 @@
     "@tiptap/extension-text": "2.0.4",
     "@tiptap/extension-underline": "2.0.4",
     "@tiptap/vue-2": "2.0.4",
-    "@zxcvbn-ts/core": "3.0.2",
+    "@zxcvbn-ts/core": "3.0.3",
     "@zxcvbn-ts/language-common": "3.0.3",
     "@zxcvbn-ts/language-de": "3.0.1",
     "@zxcvbn-ts/language-en": "3.0.1",
