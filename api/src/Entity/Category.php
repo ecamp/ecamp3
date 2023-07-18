@@ -57,6 +57,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            name: 'BelongsToCamp_App\Entity\Category_get_collection',
             uriTemplate: '/camps/{campId}/categories.{_format}',
             uriVariables: [
                 'campId' => new Link(
