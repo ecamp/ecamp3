@@ -163,12 +163,18 @@ services:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
 
-    # Entity Filter
+    # Entity Filters
     App\Doctrine\FilterByCurrentUserExtension:
         tags:
             # FilterEagerLoadingExtension has Priority -17 and breaks the DQL generated in ContentNodeRepository => Priority -20 ensures this runs after FilterEagerLoadingExtension
             - { name: api_platform.doctrine.orm.query_extension.collection, priority: -20 }
             - { name: api_platform.doctrine.orm.query_extension.item }
+
+    App\Doctrine\FilterByCampExtension:
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: -19 }
+            - { name: api_platform.doctrine.orm.query_extension.item }
+
 
     App\Metadata\Resource\Factory\UriTemplateFactory:
         arguments:

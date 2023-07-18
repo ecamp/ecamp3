@@ -55,24 +55,20 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
+        new GetCollection(
+            security: 'is_authenticated()',
+            uriTemplate: '/camps/{campId}/categories.{_format}',
+            uriVariables: [
+                'campId' => new Link(
+                    fromClass: Camp::class,
+                    expandedValue: '{campId}'
+                ),
+            ],
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
     order: ['camp.id', 'short'],
-)]
-#[ApiResource(
-    uriTemplate: '/camps/{campId}/categories.{_format}',
-    uriVariables: [
-        'campId' => new Link(
-            fromClass: Camp::class,
-            fromProperty: 'categories'
-        ),
-    ],
-    operations: [
-        new GetCollection(
-            security: 'is_authenticated()',
-        ),
-    ]
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
