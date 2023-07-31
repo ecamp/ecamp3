@@ -30,7 +30,7 @@ spec:
               {{ . }}{{ end }}
           env:
             - name: APP_NAME
-              value: {{ include "app.name" . }}
+              value: {{ .Values.postgresql.restore.sourceAppName | default (include "app.name" .) }}
             - name: SOURCE_FILE
               value: {{ .Values.postgresql.restore.sourceFile }}
             - name: ENCRYPTION_KEY

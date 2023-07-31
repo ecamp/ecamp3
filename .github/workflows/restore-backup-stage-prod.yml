@@ -1,0 +1,51 @@
+name: DB Restore for staging and prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      sourceFile:
+        type: string
+        description: |
+          The sourceFile of the backup in the bucket to restore, e.g.
+          ecamp-aws-setup-ecamp3devbucket58b42731-1kxz0xdiuxni8/dev/2023-07-17-12-55-33-dev.sql.gz.gpg
+        required: true
+        default: latest
+      branch:
+        type: string
+        description: |
+          Are you really sure that you want to delete the data of this deployment
+          and restore the database with the given backup file?
+          Repeat the branch name to confirm. (e.g. staging or prod)
+        required: true
+
+jobs:
+  check-parameters:
+    name: Check the given parameters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if branch string matches branch
+        run: |
+          if [ "${{ inputs.branch }}" != "${{ github.ref_name }}" ]; then
+            echo "the given branch name is: ${{ inputs.branch }}"
+            echo "but the workflow ran on ${{ github.ref_name }}"
+            echo "thus exiting because they are not equal."
+            exit 1
+          fi
+
+  build-and-push:
+    name: Build and push docker images
+    needs: check-parameters
+    uses: ./.github/workflows/reusable-build-and-push.yml
+    with:
+      tag: ${{ github.ref_name }}
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+  upgrade-or-install-deployment:
+    name: Upgrade or install deployment
+    needs: build-and-push
+    uses: ./.github/workflows/reusable-stage-prod-deployment.yml
+    with:
+      sourceFile: ${{ inputs.sourceFile }}
+    secrets: inherit

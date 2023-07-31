@@ -170,6 +170,7 @@ postgresql:
   restore:
     # null => no restore, latest => restore latest backup, s3 key => restore this backup
     sourceFile:
+    sourceAppName:
     s3:
       endpoint:
       bucket:

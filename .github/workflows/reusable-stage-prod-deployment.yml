@@ -2,6 +2,10 @@ name: '[reusable only] Staging and Prod deployment'
 
 on:
   workflow_call:
+    inputs:
+      sourceFile:
+        type: string
+        required: false
 
 jobs:
   upgrade-or-install-deployment:
@@ -48,6 +52,19 @@ jobs:
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/${{ secrets.DB_NAME }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=false \
+            --set postgresql.backup.schedule=${{ vars.BACKUP_SCHEDULE != null && format('''{0}''', vars.BACKUP_SCHEDULE) || null }} \
+            --set postgresql.backup.s3.endpoint='${{ vars.BACKUP_S3_ENDPOINT }}' \
+            --set postgresql.backup.s3.bucket='${{ vars.BACKUP_S3_BUCKET }}' \
+            --set postgresql.backup.s3.accessKeyId='${{ secrets.BACKUP_S3_ACCESS_KEY_ID }}' \
+            --set postgresql.backup.s3.accessKey='${{ secrets.BACKUP_S3_ACCESS_KEY }}' \
+            --set postgresql.backup.s3.encryptionKey='${{ secrets.BACKUP_ENCRYPTION_KEY }}' \
+            --set postgresql.restore.sourceFile=${{ inputs.restoreSourceFile != null && format('''{0}''', inputs.restoreSourceFile) || null }} \
+            --set postgresql.restore.sourceAppName=${{ vars.RESTORE_SOURCE_APP != null && format('''{0}''', vars.RESTORE_SOURCE_APP) || null }} \
+            --set postgresql.restore.s3.endpoint='${{ vars.RESTORE_S3_ENDPOINT }}' \
+            --set postgresql.restore.s3.bucket='${{ vars.RESTORE_S3_BUCKET }}' \
+            --set postgresql.restore.s3.accessKeyId='${{ secrets.RESTORE_S3_ACCESS_KEY_ID }}' \
+            --set postgresql.restore.s3.accessKey='${{ secrets.RESTORE_S3_ACCESS_KEY }}' \
+            --set postgresql.restore.s3.encryptionKey='${{ secrets.RESTORE_ENCRYPTION_KEY }}' \
             --set php.dataMigrationsDir='${{ vars.DATA_MIGRATIONS_DIR }}' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
             --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
