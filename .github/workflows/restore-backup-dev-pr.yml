@@ -1,0 +1,46 @@
+name: DB Restore for dev and feature branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      sourceFile:
+        type: string
+        description: |
+          The sourceFile of the backup in the bucket to restore, e.g.
+          ecamp-aws-setup-ecamp3devbucket58b42731-1kxz0xdiuxni8/dev/2023-07-17-12-55-33-dev.sql.gz.gpg
+        required: true
+        default: latest
+      pr_number:
+        type: number
+        description: |
+          The pr number if it is a pr (3898), else null
+        required: false
+      env:
+        type: environment
+        description: The environment, if name is dev then dev, else feature-branch
+        required: true
+        default: dev
+
+
+jobs:
+  build-and-push:
+    if: contains(github.event.pull_request.labels.*.name, 'deploy!')
+    name: Build and push docker images
+    uses: ./.github/workflows/reusable-build-and-push.yml
+    with:
+      sha: ${{ github.sha }}
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+  upgrade-or-install-deployment:
+    name: Upgrade or install deployment
+    needs: build-and-push
+    uses: ./.github/workflows/reusable-dev-deployment.yml
+    with:
+      name: ${{ inputs.pr_number == null && 'dev' || format('pr{0}', inputs.pr_number) }}
+      sha: ${{ github.sha }}
+      env: ${{ inputs.env }}
+      pr_number: ${{ inputs.pr_number }}
+      dropDBOnUninstall: ${{ inputs.pr_number != null }}
+    secrets: inherit
