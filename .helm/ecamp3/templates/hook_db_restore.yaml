@@ -1,0 +1,94 @@
+{{- if .Values.postgresql.restore.sourceFile }}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "hookDbRestore.name" . }}"
+  labels:
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ include "hookDbRestore.name" . }}"
+      labels:
+        {{- include "api.selectorLabels" . | nindent 8 }}
+    spec:
+      enableServiceLinks: false
+      restartPolicy: Never
+      containers:
+        - name: download-backup
+          image: amazon/aws-cli:2.11.21
+          command:
+            - sh
+            - "-c"
+            - |{{ range .Files.Lines "files/hook_db_restore/download-backup.sh" }}
+              {{ . }}{{ end }}
+          env:
+            - name: APP_NAME
+              value: {{ include "app.name" . }}
+            - name: SOURCE_FILE
+              value: {{ .Values.postgresql.restore.sourceFile }}
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: encryption-key
+                  optional: true
+            - name: S3_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-endpoint
+            - name: S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-bucket
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-access-key-id
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-access-key
+
+          volumeMounts:
+            - mountPath: /tmp/backup-dir
+              name: backup-dir
+
+        - name: restore-backup
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - "-c"
+            - |{{ range .Files.Lines "files/hook_db_restore/restore-backup.sh" }}
+              {{ . }}{{ end }}
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: database-url
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: encryption-key
+                  optional: true
+          volumeMounts:
+            - mountPath: /tmp/backup-dir
+              name: backup-dir
+
+      volumes:
+        - name: backup-dir
+          emptyDir: { }
+{{- end }}

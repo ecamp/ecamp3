@@ -24,3 +24,5 @@
 
 files/db_backup_job/.env
 files/db_backup_job/docker-compose.yml
+files/hook_db_restore/.env
+files/hook_db_restore/docker-compose.yml

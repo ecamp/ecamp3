@@ -167,6 +167,15 @@ postgresql:
       accessKeyId:
       accessKey:
     encryptionKey:
+  restore:
+    # null => no restore, latest => restore latest backup, s3 key => restore this backup
+    sourceFile:
+    s3:
+      endpoint:
+      bucket:
+      accessKeyId:
+      accessKey:
+    encryptionKey:
 
 recaptcha:
   siteKey:

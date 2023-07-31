@@ -63,12 +63,23 @@ for i in 1; do
   
   if [ -n "$BACKUP_SCHEDULE" ]; then
     values="$values --set postgresql.backup.schedule=$BACKUP_SCHEDULE"
-    values="$values --set postgresql.backup.s3.endpoint=$S3_ENDPOINT"
-    values="$values --set postgresql.backup.s3.bucket=$S3_BUCKET"
-    values="$values --set postgresql.backup.s3.accessKeyId=$S3_ACCESS_KEY_ID"
-    values="$values --set postgresql.backup.s3.accessKey=$S3_ACCESS_KEY"
+    values="$values --set postgresql.backup.s3.endpoint=$BACKUP_S3_ENDPOINT"
+    values="$values --set postgresql.backup.s3.bucket=$BACKUP_S3_BUCKET"
+    values="$values --set postgresql.backup.s3.accessKeyId=$BACKUP_S3_ACCESS_KEY_ID"
+    values="$values --set postgresql.backup.s3.accessKey=$BACKUP_S3_ACCESS_KEY"
     if [ -n $BACKUP_ENCRYPTION_KEY ]; then
       values="$values --set postgresql.backup.encryptionKey=$BACKUP_ENCRYPTION_KEY"
+    fi
+  fi
+  
+  if [ -n "$RESTORE_SOURCE_FILE" ]; then
+    values="$values --set postgresql.restore.sourceFile=$RESTORE_SOURCE_FILE"
+    values="$values --set postgresql.restore.s3.endpoint=$RESTORE_S3_ENDPOINT"
+    values="$values --set postgresql.restore.s3.bucket=$RESTORE_S3_BUCKET"
+    values="$values --set postgresql.restore.s3.accessKeyId=$RESTORE_S3_ACCESS_KEY_ID"
+    values="$values --set postgresql.restore.s3.accessKey=$RESTORE_S3_ACCESS_KEY"
+    if [ -n $RESTORE_ENCRYPTION_KEY ]; then
+      values="$values --set postgresql.restore.encryptionKey=$RESTORE_ENCRYPTION_KEY"
     fi
   fi
 

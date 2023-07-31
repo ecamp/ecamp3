@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  download-backup:
+    image: amazon/aws-cli:2.11.21
+    volumes:
+      - ./download-backup.sh:/download-backup.sh
+      - backup-storage:/tmp/backup-dir
+    entrypoint:
+      - sh
+      - "-x"
+      - /download-backup.sh
+    env_file: .env
+  
+  restore-backup:
+    image: postgres:15
+    volumes:
+      - ./restore-backup.sh:/restore-backup.sh
+      - backup-storage:/tmp/backup-dir
+    command:
+      - sh
+      - /restore-backup.sh
+    env_file: .env
+
+volumes:
+  backup-storage:
