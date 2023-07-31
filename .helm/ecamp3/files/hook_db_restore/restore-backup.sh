@@ -48,46 +48,47 @@ EOF
 psql $DATABASE_URL < $sql_file_for_restore
 
 
-
-cat << 'EOF' | psql $DATABASE_URL
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
-INSERT INTO camp_collaboration (id, status, role, createtime,
-                                updatetime, userid, campid)
-    (WITH interesting_camps as ((SELECT c.id
-                                 FROM camp c
-                                          JOIN activity a on c.id = a.campid
-                                 GROUP BY c.id, c.title
-                                 ORDER BY count(a.id) DESC
-                                 LIMIT 10)
-                                UNION
-                                (SELECT id
-                                 FROM ((SELECT c.id
-                                        FROM camp c
-                                                 JOIN activity a on c.id = a.campid
-                                        GROUP BY c.id, c.title
-                                        ORDER BY count(a.id) DESC)
-                                       INTERSECT
-                                       (SELECT c.id
-                                        FROM camp c
-                                                 JOIN period p on c.id = p.campid
-                                        WHERE p."end" >= now())) as a
-                                 LIMIT 10))
-     SELECT encode(gen_random_bytes(6), 'hex'),
-            'established',
-            'manager',
-            now(),
-            now(),
-            u.id,
-            ic.id
-     FROM interesting_camps ic,
-          profile p
-              JOIN "user" u ON p.id = u.profileid
-     WHERE p.email IN (
-         'support@ecamp3.ch'
-         )
-       AND ic.id NOT IN (SELECT campid FROM camp_collaboration WHERE userid = u.id));
+if [ "$INVITE_SUPPORT_ACCOUNT_TO_INTERESTING_CAMPS" = "true" ]; then
+  cat << 'EOF' | psql $DATABASE_URL
+  CREATE EXTENSION IF NOT EXISTS pgcrypto;
+  
+  INSERT INTO camp_collaboration (id, status, role, createtime,
+                                  updatetime, userid, campid)
+      (WITH interesting_camps as ((SELECT c.id
+                                   FROM camp c
+                                            JOIN activity a on c.id = a.campid
+                                   GROUP BY c.id, c.title
+                                   ORDER BY count(a.id) DESC
+                                   LIMIT 10)
+                                  UNION
+                                  (SELECT id
+                                   FROM ((SELECT c.id
+                                          FROM camp c
+                                                   JOIN activity a on c.id = a.campid
+                                          GROUP BY c.id, c.title
+                                          ORDER BY count(a.id) DESC)
+                                         INTERSECT
+                                         (SELECT c.id
+                                          FROM camp c
+                                                   JOIN period p on c.id = p.campid
+                                          WHERE p."end" >= now())) as a
+                                   LIMIT 10))
+       SELECT encode(gen_random_bytes(6), 'hex'),
+              'established',
+              'manager',
+              now(),
+              now(),
+              u.id,
+              ic.id
+       FROM interesting_camps ic,
+            profile p
+                JOIN "user" u ON p.id = u.profileid
+       WHERE p.email IN (
+           'support@ecamp3.ch'
+           )
+         AND ic.id NOT IN (SELECT campid FROM camp_collaboration WHERE userid = u.id));
 EOF
+fi
 
 rm -rf $working_dir/*
 rm -rf $complete_marker

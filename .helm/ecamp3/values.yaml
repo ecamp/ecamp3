@@ -175,6 +175,7 @@ postgresql:
       bucket:
       accessKeyId:
       accessKey:
+    inviteSupportAccountToInterestingCamps: false
     encryptionKey:
 
 recaptcha:

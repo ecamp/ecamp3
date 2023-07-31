@@ -81,6 +81,7 @@ for i in 1; do
     if [ -n $RESTORE_ENCRYPTION_KEY ]; then
       values="$values --set postgresql.restore.encryptionKey=$RESTORE_ENCRYPTION_KEY"
     fi
+    values="$values --set postgresql.restore.inviteSupportAccountToInterestingCamps=$RESTORE_INVITE_SUPPORT_ACCOUNT_TO_INTERESTING_CAMPS"
   fi
 
   for imagespec in "php" "caddy"; do

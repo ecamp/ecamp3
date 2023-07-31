@@ -84,6 +84,8 @@ spec:
                   name: {{ include "hookDbRestore.name" . }}
                   key: encryption-key
                   optional: true
+            - name: INVITE_SUPPORT_ACCOUNT_TO_INTERESTING_CAMPS
+              value: {{ .Values.postgresql.restore.inviteSupportAccountToInterestingCamps }}
           volumeMounts:
             - mountPath: /tmp/backup-dir
               name: backup-dir
