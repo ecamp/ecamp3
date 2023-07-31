@@ -11,6 +11,7 @@ describe('Login test', () => {
   it('can login with default user', () => {
     cy.visit('/')
 
+    cy.focused().should('match', '[type="email"]')
     cy.get('[type="email"]').type('test@example.com')
     cy.get('[type="password"]').type('test')
     cy.get('[type="submit').click()
