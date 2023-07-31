@@ -49,3 +49,9 @@ the setup for aws.
    ```shell
    docker compose run --rm aws-setup pulumi stack output --show-secrets
    ```
+
+7. Lint
+
+   ```shell
+   docker compose run --rm aws-setup npm run lint
+   ```
