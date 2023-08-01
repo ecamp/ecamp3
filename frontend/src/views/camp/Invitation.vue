@@ -1,9 +1,11 @@
 <template>
   <div class="bg">
     <div class="hill">
-      <v-icon :size="$vuetify.breakpoint.smAndUp ? 300 : 200" class="tent"
-        >$vuetify.icons.tentDay
-      </v-icon>
+      <!--v-icon :size="$vuetify.breakpoint.smAndUp ? 300 : 200"
+        >
+      </v-icon-->
+      <TentDay class="tent" />
+
       <div class="trees"></div>
       <div class="localnav justify-space-between d-flex w-100 py-2">
         <ButtonBack v-if="!$vuetify.breakpoint.mdAndUp" text dark visible-label />
@@ -99,6 +101,7 @@ import VueRouter from 'vue-router'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import ButtonBack from '@/components/buttons/ButtonBack.vue'
 import UserMeta from '@/components/navigation/UserMeta.vue'
+import TentDay from '@/assets/tents/TentDay.vue'
 
 const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
@@ -109,7 +112,7 @@ const ignoreNavigationFailure = (e) => {
 
 export default {
   name: 'Invitation',
-  components: { ButtonBack, UserMeta },
+  components: { TentDay, ButtonBack, UserMeta },
   props: {
     invitation: { type: Function, required: false, default: null },
     variant: { type: String, default: 'default' },
@@ -269,6 +272,7 @@ export default {
 .tent {
   margin: auto;
   max-width: 100%;
+  height: 50vh;
   position: relative;
 }
 
