@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['day'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['day', 'day.period'])]
 #[UniqueEntity(
     fields: ['campCollaboration', 'day'],
     message: 'This campCollaboration (user) is already responsible for this day.',

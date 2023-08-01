@@ -31,9 +31,15 @@ export function useDragAndDropResize(enabled, update, maxTimestamp) {
       // TODO review: Here we're changing the store value directly.
       entry.endTimestamp = newEndTimestamp
     }
+
+    entry.isResizing = true
   }
 
   const clear = () => {
+    if (resizedEntry) {
+      resizedEntry.isResizing = false
+    }
+
     resizedEntry = null
     originalEndTimestamp = null
   }

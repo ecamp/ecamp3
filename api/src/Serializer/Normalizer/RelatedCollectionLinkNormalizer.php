@@ -123,7 +123,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $data;
     }
 
-    public function setSerializer(SerializerInterface $serializer) {
+    public function setSerializer(SerializerInterface $serializer): void {
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
         }

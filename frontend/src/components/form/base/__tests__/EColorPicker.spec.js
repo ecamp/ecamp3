@@ -70,13 +70,29 @@ describe('An EColorPicker', () => {
     })
   })
 
+  it('opens the picker when the icon button is clicked', async () => {
+    // given
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
+
+    // when
+    await user.click(button)
+
+    // then
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
+  })
+
   it('closes the picker when clicking the close button', async () => {
     // given
     render(EColorPicker, {
       props: { value: COLOR1, name: 'test' },
     })
-    const inputField = await screen.findByDisplayValue(COLOR1)
-    await user.click(inputField)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
+    await user.click(button)
     await waitFor(async () => {
       expect(await screen.findByText('Schliessen')).toBeVisible()
     })
@@ -96,8 +112,8 @@ describe('An EColorPicker', () => {
     render(EColorPicker, {
       props: { value: COLOR1, name: 'test' },
     })
-    const inputField = await screen.findByDisplayValue(COLOR1)
-    await user.click(inputField)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
+    await user.click(button)
     await waitFor(async () => {
       expect(await screen.findByText('Schliessen')).toBeVisible()
     })
@@ -116,8 +132,8 @@ describe('An EColorPicker', () => {
     render(EColorPicker, {
       props: { value: COLOR1, name: 'test' },
     })
-    const inputField = await screen.findByDisplayValue(COLOR1)
-    await user.click(inputField)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
+    await user.click(button)
     await waitFor(async () => {
       expect(await screen.findByText('Schliessen')).toBeVisible()
     })
@@ -136,8 +152,8 @@ describe('An EColorPicker', () => {
     const { container } = render(EColorPicker, {
       props: { value: COLOR1, name: 'test' },
     })
-    const inputField = await screen.findByDisplayValue(COLOR1)
-    await user.click(inputField)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
+    await user.click(button)
     await waitFor(async () => {
       expect(await screen.findByText('Schliessen')).toBeVisible()
     })
@@ -191,10 +207,11 @@ describe('An EColorPicker', () => {
       props: { value: COLOR1, name: 'test' },
     })
     await screen.findByDisplayValue(COLOR1)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
 
     // when
     // click the button to open the picker
-    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
+    await user.click(button)
     // click inside the color picker canvas to select a different color
     const canvas = container.querySelector('canvas')
     await user.click(canvas, { clientX: 10, clientY: 10 })
@@ -239,8 +256,9 @@ describe('An EColorPicker', () => {
       props: { value: COLOR1, name: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     // click the button to open the picker
-    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
+    await user.click(button)
 
     // when
     await user.clear(inputField)

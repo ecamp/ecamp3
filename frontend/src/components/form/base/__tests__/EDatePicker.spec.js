@@ -71,7 +71,7 @@ describe('An EDatePicker', () => {
       expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
     })
 
-    it('opens the picker when the text field is clicked', async () => {
+    it('does not open the picker when the text field is clicked', async () => {
       // given
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test' },
@@ -80,6 +80,23 @@ describe('An EDatePicker', () => {
 
       // when
       await user.click(inputField)
+
+      // then
+      // menu should not appear
+      await expect(screen.findByText(data.date1Heading)).rejects.toThrow(
+        /Unable to find an element with the text/
+      )
+    })
+
+    it('opens the picker when the icon button is clicked', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const button = await screen.getByLabelText(data.labelText)
+
+      // when
+      await user.click(button)
 
       // then
       await waitFor(async () => {
@@ -92,8 +109,8 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.date1)
-      await user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.date1Heading)).toBeVisible()
       })
@@ -113,8 +130,8 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.date1)
-      await user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.date1Heading)).toBeVisible()
       })
@@ -133,8 +150,8 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.date1)
-      await user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.date1Heading)).toBeVisible()
       })
@@ -153,8 +170,8 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.date1)
-      await user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.date1Heading)).toBeVisible()
       })
@@ -169,13 +186,13 @@ describe('An EDatePicker', () => {
       })
     })
 
-    it('re-opens the picker when clicking the text field again after selecting a date', async () => {
+    it('re-opens the picker when clicking the button again after selecting a date', async () => {
       // given
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.date1)
-      await user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.date1Heading)).toBeVisible()
       })
@@ -186,7 +203,7 @@ describe('An EDatePicker', () => {
       })
 
       // when
-      await user.click(inputField)
+      await user.click(button)
 
       // then
       await waitFor(async () => {
@@ -229,10 +246,11 @@ describe('An EDatePicker', () => {
         props: { value: DATE1_ISO, name: 'test' },
       })
       await screen.findByDisplayValue(data.date1)
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
       // click the button to open the picker
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
       // click the 19th day of the month
       await user.click(screen.getByText('19'))
 
@@ -293,9 +311,10 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: '', name: 'test', min: '2111-01-01' },
       })
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
 
       // then
       await waitFor(async () => {
@@ -308,9 +327,10 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test', min: '2111-01-01' },
       })
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
 
       // then
       await expect(async () => {
@@ -323,9 +343,10 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: '', name: 'test', min: '1999-01-01' },
       })
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
 
       // then
       await expect(async () => {
@@ -338,9 +359,10 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: '', name: 'test', max: '1999-01-01' },
       })
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
 
       // then
       await waitFor(async () => {
@@ -353,9 +375,10 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: '', name: 'test', max: '2111-01-01' },
       })
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
 
       // then
       await expect(async () => {
@@ -368,9 +391,10 @@ describe('An EDatePicker', () => {
       render(EDatePicker, {
         props: { value: DATE1_ISO, name: 'test', max: '1999-01-01' },
       })
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
 
       // then
       await expect(async () => {

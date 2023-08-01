@@ -7,6 +7,7 @@ import GoogleLogo from '@/assets/GoogleLogo.svg'
 import eCampLogo from '@/assets/eCampLogo.svg'
 import CeviLogo from '@/assets/CeviLogo.svg'
 import JublaLogo from '@/assets/JublaLogo.svg'
+import TentDay from '@/assets/tents/TentDay.svg'
 import i18n from '@/plugins/i18n'
 import colors from 'vuetify/lib/util/colors'
 
@@ -25,6 +26,7 @@ class VuetifyLoaderPlugin {
           ecamp: { component: eCampLogo },
           cevi: { component: CeviLogo },
           jubla: { component: JublaLogo },
+          tentDay: { component: TentDay },
         },
       },
       theme: {

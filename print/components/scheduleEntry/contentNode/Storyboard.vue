@@ -1,28 +1,32 @@
 <template>
   <content-node-content :content-node="contentNode" :icon-path="mdiScriptTextOutline">
     <table class="tw-w-full">
-      <tr>
-        <th class="column column1 header tw-w-1/12">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
-        </th>
-        <th class="column column2 header tw-w-10/12">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
-        </th>
-        <th class="column column3 header tw-w-1/12">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
-        </th>
-      </tr>
-      <tr v-for="(section, key) in sections" :key="key">
-        <td class="column column1">
-          {{ section.column1 }}
-        </td>
-        <td class="column column2">
-          <rich-text :rich-text="section.column2Html" />
-        </td>
-        <td class="column column3">
-          {{ section.column3 }}
-        </td>
-      </tr>
+      <thead class="tw-break-after-avoid">
+        <tr>
+          <th class="column column1 header tw-w-1/12 tw-text-left">
+            {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
+          </th>
+          <th class="column column2 header tw-w-10/12">
+            {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
+          </th>
+          <th class="column column3 header tw-w-1/12">
+            {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(section, key) in sections" :key="key">
+          <td class="column column1 tw-tabular-nums tw-text-right">
+            {{ section.column1 }}
+          </td>
+          <td class="column column2">
+            <rich-text :rich-text="section.column2Html" />
+          </td>
+          <td class="column column3">
+            {{ section.column3 }}
+          </td>
+        </tr>
+      </tbody>
     </table>
   </content-node-content>
 </template>
@@ -61,21 +65,23 @@ export default {
 .header {
   padding-bottom: 0;
   border-bottom: 1px solid rgb(148 163 184);
-  font-weight: normal;
-  font-style: italic;
+  font-weight: 600;
 }
 
 .column {
+  padding-top: 2px;
   padding-bottom: 8px;
   vertical-align: top;
 }
 
 .column1 {
+  text-align: left;
   padding-right: 4px;
 }
 
 .column2 {
-  border-left: 1px solid rgb(148 163 184);
+  text-align: left;
+  border-left: 0.5px solid rgb(148 163 184);
   padding-left: 4px;
   padding-right: 4px;
 }

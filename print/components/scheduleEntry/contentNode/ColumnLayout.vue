@@ -1,14 +1,12 @@
 <template>
-  <table class="tw-w-full">
-    <tr>
-      <column-layout-column
-        v-for="column in contentNode.data.columns"
-        :key="column.slot"
-        :content-node="contentNode"
-        :column-slot="column.slot"
-      />
-    </tr>
-  </table>
+  <div class="tw-flex tw-flex-wrap">
+    <column-layout-column
+      v-for="column in contentNode.data.columns"
+      :key="column.slot"
+      :content-node="contentNode"
+      :column-slot="column.slot"
+    />
+  </div>
 </template>
 
 <script>

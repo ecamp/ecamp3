@@ -70,6 +70,12 @@ router.use('/pdfChrome', async (req, res) => {
     ]
     await page.setCookie(...cookies)
 
+    const extraHeaders = {}
+    if (process.env.BASIC_AUTH_TOKEN) {
+      extraHeaders['Authorization'] = `Basic ${process.env.BASIC_AUTH_TOKEN}`
+      await page.setExtraHTTPHeaders(extraHeaders)
+    }
+
     /**
      * Debugging puppeteer
      */
@@ -79,7 +85,7 @@ router.use('/pdfChrome', async (req, res) => {
     )
     page.on('response', (response) =>
       console.log('<<', response.status(), response.url())
-    ) 
+    )
     page.on('error', (err) => {
       console.log('error happen at the page: ', err)
     })
@@ -95,6 +101,7 @@ router.use('/pdfChrome', async (req, res) => {
 
     // HTTP request back to Print Nuxt App
     await page.goto(`${process.env.PRINT_URL}/?config=${req.query.config}`, {
+      timeout: process.env.RENDER_HTML_TIMEOUT_MS ?? 30000,
       waitUntil: 'networkidle0',
     })
 
@@ -105,14 +112,15 @@ router.use('/pdfChrome', async (req, res) => {
       format: 'A4',
       scale: 1,
       displayHeaderFooter: true,
-      headerTemplate: `<div id="header-template" style="font-size:8pt; text-align: center; width: 100%; font-family: "Open Sans", sans-serif;">eCamp3</span></div>`,
-      footerTemplate: `<div id="footer-template" style="font-size:8pt; text-align: center; width: 100%; font-family: "Open Sans", sans-serif;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>`,
+      headerTemplate: `<div id="header-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span>eCamp3 Beta</span></div>`,
+      footerTemplate: `<div id="footer-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span class="pageNumber"></span> / <span class="totalPages"></span></div>`,
       margin: {
         bottom: '15mm',
         left: '15mm',
         right: '15mm',
         top: '15mm',
       },
+      timeout: process.env.RENDER_PDF_TIMEOUT_MS ?? 30000,
     })
 
     measurePerformance()
@@ -138,12 +146,23 @@ router.use('/pdfChrome', async (req, res) => {
       errorMessage = error.message
     }
 
-    console.error(error)
+    captureError(error)
 
     res.status(status)
     res.contentType('application/problem+json')
     res.send({ status, title: errorMessage })
   }
 })
+
+/**
+ * @param {Error} error
+ */
+function captureError(error) {
+  if (process.sentry) {
+    process.sentry.captureException(error)
+  } else {
+    console.error(error)
+  }
+}
 
 module.exports = router

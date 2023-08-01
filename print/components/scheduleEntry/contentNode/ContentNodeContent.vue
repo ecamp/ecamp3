@@ -1,13 +1,17 @@
-<!-- 
+<!--
 component to render ContentNode with actual content (non-layout nodes)
 -->
 <template>
   <div class="tw-mb-3">
-    <h3 class="tw-text-lg">
+    <h3
+      class="tw-text-lg tw-break-after-avoid tw-font-semibold tw-border-b-black tw-border-b-2 tw-flex tw-items-center tw-py-1 tw-mb-2 tw-gap-2"
+    >
       <v-icon v-if="iconPath" :size="16">{{ iconPath }}</v-icon>
       {{ instanceOrContentTypeName }}
     </h3>
-    <slot />
+    <div class="tw-min-h-[50px]">
+      <slot />
+    </div>
   </div>
 </template>
 

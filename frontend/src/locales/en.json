@@ -36,6 +36,14 @@
       }
     },
     "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Create a state",
+        "deleteError": "State can't be deleted. It is still used.",
+        "deleteWarning": "Do you really want to delete this state?",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
+        "title": "Activity state"
+      },
       "campAddress": {
         "title": "Address"
       },
@@ -88,6 +96,9 @@
       },
       "createCampPeriods": {
         "add": "Add a period"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Create activity state"
       },
       "dialogCategoryCreate": {
         "title": "Create activity category"
@@ -377,8 +388,10 @@
   "views": {
     "activity": {
       "category": {
-        "backToContents": "Back to editing content",
-        "changeLayout": "Change layout",
+        "changeLayout": "Change layout for new activities",
+        "contents": "Contents",
+        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
+        "editContents": "Set default contents for new activities",
         "layout": "Layout"
       },
       "printPreview": "Open print preview",
@@ -398,7 +411,7 @@
         "email": "Email",
         "infoText": {
           "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
-          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!<br>Login: test@example.com / test"
+          "dev": "This is the development version of eCamp v3.{br}IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!{br}Login: test@example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "You will be logged in"
@@ -476,27 +489,24 @@
         "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
         "onlyMyActivities": "Only my activities",
         "period": "Period",
+        "progressLabel": "State",
+        "progressLabelNone": "No state",
         "responsible": "Responsible",
+        "responsibleNone": "No responsibles",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
       "invitation": {
         "acceptCurrentAuth": "Accept invitation with current account",
         "backToHome": "Back to home",
-        "notFound": "This invitation is already accepted or was deleted",
+        "error": "An unexpected error occurred",
+        "notFound": "This invitation was already accepted or deleted",
         "openCamp": "Open camp",
         "register": "Register",
         "reject": "Deny invitation",
-        "title": "Invitation to camp \"{campName}\"",
+        "successfullyRejected": "The invitation was successfully rejected",
+        "title": "Invitation",
         "useOtherAuth": "Logout & use another account",
         "userAlreadyInCamp": "You are already participating in this camp"
-      },
-      "invitationRejected": {
-        "backToHome": "Back to home",
-        "successfullyRejected": "The invitation was successfully rejected"
-      },
-      "invitationUpdateError": {
-        "backToHome": "Back to home",
-        "error": "An unexpected error occurred"
       },
       "material": {
         "downloadXlsx": "Download",
@@ -562,15 +572,13 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
     },
+    "pageNotFound": {
+      "backToHome": "Back to home",
+      "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
+    },
     "profile": {
       "changeEmail": "Change",
       "profile": "Profile"
-    },
-    "pageNotFound": {
-      "detail": "The page you requested doesn't exist. Make sure the page you are trying to visit does exist.",
-      "title": "Page not found",
-      "goToCamps": "Camps overview",
-      "back": "Back"
     }
   }
 }

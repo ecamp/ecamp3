@@ -50,7 +50,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          title: this.$tc('entity.activity.new'),
+          title: this.entityData?.title || this.$tc('entity.activity.new'),
           location: '',
           scheduleEntries: [
             {
@@ -63,8 +63,9 @@ export default {
           ],
         })
       } else {
-        // clear form on exit
-        this.clearEntityData()
+        // clear the variable parts of the form on exit
+        this.entityData.location = ''
+        this.entityData.scheduleEntries = []
       }
     },
   },

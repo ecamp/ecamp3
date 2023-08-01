@@ -40,9 +40,11 @@ export const generatePdfMixin = {
           responseType: 'arraybuffer',
           withCredentials: true,
           headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0',
+            common: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
           },
         })
 

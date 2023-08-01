@@ -1,5 +1,10 @@
 <template>
-  <span class="category-label" :style="style()">{{ category.short }}</span>
+  <span class="tw-inline-flex tw-items-center">
+    <span class="tw-select-none">&#8203;</span>
+    <span class="category-label tw-tabular-nums" :style="style()">{{
+      category.short
+    }}</span>
+  </span>
 </template>
 
 <script>
@@ -25,7 +30,10 @@ export default {
 
 <style lang="scss">
 .category-label {
-  padding: 0.1rem 0.6rem;
+  font-size: 80%;
+  letter-spacing: 0.05em;
+  padding: 0.35em 0.65em;
+  line-height: 80%;
   border-radius: 999px;
 }
 </style>

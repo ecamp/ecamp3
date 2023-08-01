@@ -90,7 +90,7 @@ describe('An ETimePicker', () => {
       screen.getByLabelText(data.labelText)
     })
 
-    it('opens the picker when the text field is clicked', async () => {
+    it('does not open the picker when the text field is clicked', async () => {
       // given
       render(ETimePicker, {
         props: { value: TIME1_ISO, name: 'test' },
@@ -99,6 +99,23 @@ describe('An ETimePicker', () => {
 
       // when
       await user.click(inputField)
+
+      // then
+      // menu should not appear
+      await expect(screen.findByText(data.closeButton)).rejects.toThrow(
+        /Unable to find an element with the text/
+      )
+    })
+
+    it('opens the picker when the icon button is clicked', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const button = await screen.getByLabelText(data.labelText)
+
+      // when
+      await user.click(button)
 
       // then
       await waitFor(async () => {
@@ -111,8 +128,8 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: { value: TIME1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.time1)
-      user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.closeButton)).toBeVisible()
       })
@@ -132,8 +149,8 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: { value: TIME1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.time1)
-      user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.closeButton)).toBeVisible()
       })
@@ -152,8 +169,8 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: { value: TIME1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.time1)
-      user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.closeButton)).toBeVisible()
       })
@@ -172,8 +189,8 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: { value: TIME1_ISO, name: 'test' },
       })
-      const inputField = await screen.findByDisplayValue(data.time1)
-      user.click(inputField)
+      const button = await screen.getByLabelText(data.labelText)
+      await user.click(button)
       await waitFor(async () => {
         expect(await screen.findByText(data.closeButton)).toBeVisible()
       })
@@ -228,10 +245,11 @@ describe('An ETimePicker', () => {
         props: { value: TIME1_ISO, name: 'test' },
       })
       await screen.findByDisplayValue(data.time1)
+      const button = await screen.getByLabelText(data.labelText)
 
       // when
       // click the button to open the picker
-      await user.click(screen.getByLabelText(data.labelText))
+      await user.click(button)
       // Click the 0th hour. We can only click this one, because
       // testing library is missing the vuetify styles, and all the
       // number elements overlap

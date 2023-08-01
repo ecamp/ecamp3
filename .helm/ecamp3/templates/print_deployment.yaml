@@ -74,3 +74,10 @@ spec:
                   key: browser-ws-endpoint
             - name: NUXT_PORT
               value: "3003"
+            {{- if and .Values.ingress.enabled .Values.ingress.basicAuth.enabled }}
+            - name: BASIC_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "print.name" . }}
+                  key: basic-auth-token
+            {{- end }}

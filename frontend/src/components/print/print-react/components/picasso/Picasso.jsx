@@ -1,124 +1,39 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Page, Text, View } from '@react-pdf/renderer'
-import styles from '../styles.js'
-import picassoStyles from './picassoStyles.js'
-import TimeColumn from './TimeColumn.jsx'
-import DayColumn from './DayColumn.jsx'
-import TimeColumnSpacer from './TimeColumnSpacer.jsx'
-import DayHeader from './DayHeader.jsx'
-import PicassoFooter from './PicassoFooter.jsx'
-import YSLogo from './YSLogo.jsx'
-import Categories from './Categories.jsx'
+import PicassoPage from './PicassoPage.jsx'
+import { calculateBedtime, splitDaysIntoPages } from '@/common/helpers/picasso.js'
+import dayjs from '@/common/helpers/dayjs.js'
+import sortBy from 'lodash/sortBy.js'
 
 function Picasso(props) {
   return props.content.options.periods.map((periodUri) => {
-    // Format: [hour, weight] where weight determines how tall the hour is rendered.
-    // TODO This could also be generated depending on the schedule entries present in the camp:
-    // e.g. give less weight to hours that contain no schedule entries, or detect which hour is best
-    // for the "midnight" cutoff (so far everything also works with hours smaller than 0 or greater
-    // than 23)
-    const times = [
-      [0, 1],
-      [1, 1],
-      [2, 1],
-      [3, 1],
-      [4, 1],
-      [5, 1],
-      [6, 1],
-      [7, 2],
-      [8, 2],
-      [9, 2],
-      [10, 2],
-      [11, 2],
-      [12, 2],
-      [13, 2],
-      [14, 2],
-      [15, 2],
-      [16, 2],
-      [17, 2],
-      [18, 2],
-      [19, 2],
-      [20, 2],
-      [21, 2],
-      [22, 2],
-      [23, 1],
-      [24, 0], // this last hour is only needed for defining the length of the day, the weight should be 0
-    ]
-
     const period = props.store.get(periodUri)
-    const orientation = props.content.options.orientation
-    const anyDayResponsibles = period
-      .days()
-      .items.some((day) => day.dayResponsibles().items.length > 0)
+    const days = sortBy(period.days().items, (day) => dayjs.utc(day.start).unix())
+    const maxDaysPerPage = props.content.options.orientation === 'L' ? 8 : 4
+    const picassoPages = splitDaysIntoPages(days, maxDaysPerPage)
+    const timeStep = 1
+    const { getUpTime, bedtime } = calculateBedtime(
+      period.scheduleEntries().items,
+      dayjs,
+      dayjs.utc(days[0].start),
+      dayjs.utc(days[days.length - 1].end),
+      timeStep
+    )
 
     return (
-      <Page
-        size="A4"
-        orientation={orientation === 'L' ? 'landscape' : 'portrait'}
-        style={styles.page}
-        key={periodUri}
-      >
-        <View style={picassoStyles.titleContainer}>
-          <Text
-            id={`${props.id}-${period.id}`}
-            bookmark={{
-              title: props.$tc('print.picasso.title', { period: period.description }),
-              fit: true,
-            }}
-            style={{ ...styles.h1, ...picassoStyles.title }}
-          >
-            {props.$tc('print.picasso.title', { period: period.description })}
-          </Text>
-          <Text>{period.camp().organizer}</Text>
-          {period.camp().printYSLogoOnPicasso ? (
-            <YSLogo
-              size={picassoStyles.ysLogo.size}
-              styles={picassoStyles.ysLogo}
-              locale={props.locale}
-            />
-          ) : (
-            <React.Fragment />
-          )}
-        </View>
-        <View style={{ ...picassoStyles.calendarContainer, border: '1pt solid white' }}>
-          <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
-          {period.days().items.map((day) => (
-            <DayHeader
-              day={day}
-              showDayResponsibles={anyDayResponsibles}
-              key={day.id}
-              styles={{
-                borderLeft: day.id === period.days().items[0].id ? '1pt solid white' : '',
-                borderRight: '1pt solid white',
-              }}
-              {...props}
-            />
-          ))}
-          <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
-        </View>
-        <View style={picassoStyles.calendarContainer}>
-          <TimeColumn times={times.slice(0, times.length - 1)} align={'right'} />
-          {period.days().items.map((day) => {
-            return (
-              <DayColumn
-                key={day.id}
-                styles={{
-                  borderLeft:
-                    day.id === period.days().items[0].id ? '1pt solid grey' : '',
-                  borderRight: '1pt solid grey',
-                }}
-                times={times}
-                day={day}
-                scheduleEntries={period.scheduleEntries().items}
-              />
-            )
-          })}
-          <TimeColumn times={times.slice(0, times.length - 1)} align={'left'} />
-        </View>
-        <Categories period={period} />
-        <PicassoFooter period={period} {...props} />
-      </Page>
+      <React.Fragment>
+        {picassoPages.map((days) => (
+          <PicassoPage
+            key={days[0].id}
+            period={period}
+            days={days}
+            bedtime={bedtime}
+            getUpTime={getUpTime}
+            timeStep={timeStep}
+            {...props}
+          />
+        ))}
+      </React.Fragment>
     )
   })
 }

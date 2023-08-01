@@ -4,6 +4,7 @@ import {
   hourShort,
   hourLong,
   timeDurationShort,
+  rangeTime,
   rangeShort,
   rangeLongEnd,
   dateRange,
@@ -25,6 +26,9 @@ export const dateHelperUTCFormatted = {
     },
     timeDurationShort(start, end) {
       return timeDurationShort(start, end, this.$tc.bind(this))
+    },
+    rangeTime(start, end) {
+      return rangeTime(start, end, this.$tc.bind(this))
     },
     rangeShort(start, end) {
       return rangeShort(start, end, this.$tc.bind(this))

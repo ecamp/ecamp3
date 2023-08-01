@@ -163,7 +163,7 @@ export default {
         .getHTML()
         .replace(this.regex.emptyParagraph, '')
         .replace(this.regex.lineBreak1, '<br />')
-        .replace(this.regex.lineBreak1, '<br />')
+        .replace(this.regex.lineBreak2, '<br />')
     },
   },
   watch: {
@@ -229,6 +229,10 @@ div.editor:deep(.editor__content .ProseMirror) {
   outline: none;
   color: rgba(0, 0, 0, 0.87);
   line-height: 1.5;
+}
+
+.theme--light.v-input--is-disabled div.editor:deep(.editor__content .ProseMirror) {
+  color: rgba(0, 0, 0, 0.38);
 }
 
 div.editor:deep(.editor__content .ProseMirror p) {

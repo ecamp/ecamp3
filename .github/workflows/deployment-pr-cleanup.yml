@@ -1,0 +1,103 @@
+name: CD for feature branches (cleanup job)
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Run every 30 minutes
+  workflow_dispatch: # Allow triggering manually
+
+jobs:
+  find-prs-to-undeploy:
+    name: Find PRs to uninstall
+    runs-on: ubuntu-latest
+    outputs:
+      to-uninstall: ${{ steps.to-uninstall.outputs.list }}
+      never-uninstall: ${{ steps.to-uninstall.outputs.never_uninstall }}
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Find all open PRs that have a "deploy!" label
+        id: deployment-candidates
+        # create a list of JSON objects like:
+        # [
+        #  {"name": "pr1234", "sha": "... commit sha ...", "number": "1234"}
+        # ]
+        run: |
+          PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:${{ github.repository }}\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
+          LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
+            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring)})' )
+          echo "Deployment candidates: $LIST"
+          echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
+
+      - name: Read the list of all currently active deployments
+        id: current-deployments
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Read list of deployments using helm, and remove the leading ecamp3- from each of the names.
+          # Creates a list of objects like [{"name": "pr1234", "sha": "... commit sha ..."}, {"name": "dev", "sha": "..."}]
+          LIST=$(helm list -o json | jq 'map(.name|=sub("^ecamp3-";""))' | jq 'map({name:.name,sha:.app_version})')
+          echo "Currently active deployments: $LIST"
+          echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
+
+      - name: List deployments without PR
+        id: to-uninstall
+        env:
+          deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
+          prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
+          never_uninstall: '["dev", "devel", "stage", "staging", "prod"]'
+        run: |
+          TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
+          echo "Will uninstall: $TO_UNINSTALL"
+          echo "list=$TO_UNINSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
+          echo "\n" >> $GITHUB_OUTPUT
+          echo "never_uninstall=$never_uninstall" | tr -d "\n" >> $GITHUB_OUTPUT
+
+  uninstall-old-deployment:
+    name: Uninstall old deployment
+    runs-on: ubuntu-latest
+    needs:
+      - find-prs-to-undeploy
+    if: fromJSON(needs.find-prs-to-undeploy.outputs.to-uninstall)[0] != null
+    strategy:
+      fail-fast: false
+      matrix:
+        deployment-name: ${{ fromJSON(needs.find-prs-to-undeploy.outputs.to-uninstall) }}
+    steps:
+      - name: Uninstall helm release
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Uninstall the release
+          helm delete ecamp3-${{ matrix.deployment-name }}
+
+      - name: Remove GitHub deployment
+        uses: bobheadxi/deployments@v1.4.0
+        with:
+          step: deactivate-env
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          env: ${{ matrix.deployment-name }}
+
+      - name: Find former PR number based on deployment name
+        id: pr-number
+        env:
+          name: ${{ matrix.deployment-name }}
+          regex: '^pr([0-9]+)$'
+        run: |
+          [[ $name =~ $regex ]]
+          echo number=${BASH_REMATCH[1]} >> $GITHUB_OUTPUT
+
+      - name: Comment about uninstallation on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: steps.pr-number.outputs.number
+        with:
+          pr_number: ${{ steps.pr-number.outputs.number }}
+          message: |
+            ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
+
+
+            If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
+          comment_tag: feature-branch-deployment-status
+          create_if_not_exists: false

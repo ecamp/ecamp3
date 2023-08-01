@@ -1,74 +1,46 @@
 <template>
-  <v-container fluid>
-    <content-card
-      class="contentCard"
-      :title="$tc('views.pageNotFound.title')"
-      max-width="1200"
-      toolbar
-    >
-      <template #title-actions>
-        <v-btn
-          class="d-md-none"
-          icon
-          :to="{ name: 'profile', query: { isDetail: true } }"
-        >
-          <user-avatar :user="user" :size="36" />
-        </v-btn>
-      </template>
-
-      <v-card-text class="justify-center">
-        <v-img
-          contain
-          class="error-image"
-          :src="require('@/assets/FourZeroFour.svg?url')"
-          alt="404 error image"
+  <div class="sky">
+    <div class="hill">
+      <div class="d-flex absolute w-100 top-0 localnav">
+        <ButtonBack
+          v-if="!$vuetify.breakpoint.mdAndUp && hasHistory"
+          visible-label
+          text
+          dark
         />
-        <p
-          id="error-title"
-          class="font-weight-bold text-center px-8 text-xs-h6 text-sm-h5 text-md-h4"
-        >
-          {{ $tc('views.pageNotFound.detail') }}
+        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only />
+      </div>
+      <ShootingStar class="shootingstar" />
+      <TentNight class="tent" />
+      <div class="relative">
+        <p class="white--text text-center px-3 d-flex justify-center mb-n8 relative">
+          <i18n path="views.pageNotFound.detail">
+            <template #br><br /></template>
+          </i18n>
+          <br />
+          <v-btn text dark :to="{ name: 'home' }" class="absolute bottom-n100">
+            <v-icon left>mdi-tent</v-icon>
+            {{ $tc('views.pageNotFound.backToHome') }}
+          </v-btn>
         </p>
-      </v-card-text>
-
-      <v-card-actions class="justify-center">
-        <icon-button
-          v-if="hasHistory"
-          class="mr-5"
-          icon="mdi-arrow-left"
-          @click="$router.go(-1)"
-          >{{ $tc('views.pageNotFound.back') }}</icon-button
-        >
-        <icon-button icon="mdi-tent" @click="$router.push({ name: 'camps' })">{{
-          $tc('views.pageNotFound.goToCamps')
-        }}</icon-button>
-      </v-card-actions>
-    </content-card>
-  </v-container>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard.vue'
-import UserAvatar from '@/components/user/UserAvatar.vue'
-import IconButton from '@/components/buttons/IconButton.vue'
-import { mapGetters } from 'vuex'
+import TentNight from '@/assets/tents/TentNight.vue'
+import UserMeta from '@/components/navigation/UserMeta.vue'
+import ButtonBack from '@/components/buttons/ButtonBack.vue'
+import ShootingStar from '@/assets/tents/ShootingStar.vue'
 
 export default {
   name: 'PageNotFound',
-  components: {
-    UserAvatar,
-    ContentCard,
-    IconButton,
-  },
+  components: { ShootingStar, ButtonBack, UserMeta, TentNight },
   data: () => {
     return {
       hasHistory: false,
     }
-  },
-  computed: {
-    ...mapGetters({
-      user: 'getLoggedInUser',
-    }),
   },
   mounted() {
     if (window.history.length && window.history.length >= 1) {
@@ -79,9 +51,79 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.error-image {
-  padding: 32px;
-  margin: auto;
-  max-width: 640px;
+.localnav {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sky {
+  height: 100%;
+  background-image: radial-gradient(circle at bottom, #607d8b, #0c3c4c, #0e1c22),
+    url('../assets/tents/stars.svg');
+  background-blend-mode: screen;
+  background-size: contain, 1470px;
+  background-repeat: no-repeat, repeat-x;
+  background-position: bottom, center top;
+  animation: 350s linear infinite sky-translate;
+}
+
+@keyframes sky-translate {
+  0% {
+    background-position: bottom, calc(50% + 120px) top;
+  }
+  100% {
+    background-position: top, calc(50% + 120px - 1780px) top;
+  }
+}
+
+.hill {
+  height: 100%;
+  background-image: radial-gradient(
+    150vmax 70% at bottom,
+    #0f252e,
+    #0d171d 70.1%,
+    transparent 50%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-position: bottom center;
+  overflow: hidden;
+  position: relative;
+}
+
+.tent {
+  height: 300px;
+  max-height: 80vw;
+  width: auto;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.shootingstar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 200px;
+  transform-origin: center;
+  animation: schnuppe 1s 2s 1 linear both;
+}
+
+@keyframes schnuppe {
+  0% {
+    display: block;
+    opacity: 0;
+    transform: translateY(75vh) rotate(20deg) translateY(-150vh);
+  }
+  50% {
+    display: block;
+    opacity: 1;
+    transform: translateY(75vh) rotate(0) translateY(-150vh);
+  }
+  100% {
+    display: block;
+    opacity: 0;
+    transform: translateY(75vh) rotate(-20deg) translateY(-150vh);
+  }
 }
 </style>

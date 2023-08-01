@@ -12,6 +12,7 @@ Displays a field as a color picker (can be used with v-model)
     :vee-rules="veeRules || { regex: /#([a-f0-9]{3}){1,2}\b/i }"
     :required="required"
     button-aria-label-i18n-key="components.form.base.eColorPicker.openPicker"
+    open-on-text-field-click
     @input="$emit('input', $event)"
   >
     <template #default="picker">

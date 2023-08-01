@@ -11,6 +11,13 @@
         <FilterDivider />
         <template v-if="!loading">
           <SelectFilter
+            v-if="multiplePeriods"
+            v-model="filter.period"
+            :items="periods"
+            display-field="description"
+            :label="$tc('views.camp.dashboard.period')"
+          />
+          <SelectFilter
             v-model="filter.responsible"
             multiple
             and-filter
@@ -19,13 +26,18 @@
             :label="$tc('views.camp.dashboard.responsible')"
           >
             <template #item="{ item }">
-              <TextAlignBaseline class="mr-1">
-                <UserAvatar
-                  :camp-collaboration="campCollaborations[item.value]"
-                  size="20"
-                />
-              </TextAlignBaseline>
-              {{ item.text }}
+              <template v-if="item.exclusiveNone">
+                {{ item.text }}
+              </template>
+              <template v-else>
+                <TextAlignBaseline class="mr-1">
+                  <UserAvatar
+                    :camp-collaboration="campCollaborations[item.value]"
+                    size="20"
+                  />
+                </TextAlignBaseline>
+                {{ item.text }}
+              </template>
             </template>
           </SelectFilter>
           <SelectFilter
@@ -41,17 +53,22 @@
             </template>
           </SelectFilter>
           <SelectFilter
-            v-if="multiplePeriods"
-            v-model="filter.period"
-            :items="periods"
-            display-field="description"
-            :label="$tc('views.camp.dashboard.period')"
-          />
+            v-model="filter.progressLabel"
+            multiple
+            :items="progressLabels"
+            display-field="title"
+            :label="$tc('views.camp.dashboard.progressLabel')"
+          >
+            <template #item="{ item }">
+              {{ progressLabels[item.value].title }}
+            </template>
+          </SelectFilter>
           <v-chip
             v-if="
               filter.period ||
               (filter.responsible && filter.responsible.length > 0) ||
-              (filter.category && filter.category.length > 0)
+              (filter.category && filter.category.length > 0) ||
+              (filter.progressLabel && filter.progressLabel.length > 0)
             "
             label
             outlined
@@ -60,6 +77,7 @@
                 period: null,
                 responsible: [],
                 category: [],
+                progressLabel: [],
               }
             "
           >
@@ -180,7 +198,7 @@ import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
 import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
-import { groupBy, keyBy, mapValues } from 'lodash'
+import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
@@ -227,27 +245,42 @@ export default {
   },
   data() {
     return {
+      loggedInUser: null,
       loading: true,
-      isActive: false,
-      /**
-       * Contains the Values declared initially. In the unverified values from the Url params will be written in the filter.url
-       * @type {{period:null|HalUri,responsible:HalUri[],category: HalUri[],url?:{period?:null|HalUri,responsible?:HalUri[],category?: HalUri[]}}} Filter*/
       filter: {
         period: null,
         responsible: [],
         category: [],
+        progressLabel: [],
       },
     }
   },
   computed: {
     campCollaborations() {
-      return keyBy(this.camp().campCollaborations().items, '_meta.self')
+      return {
+        none: {
+          exclusiveNone: true,
+          label: this.$tc('views.camp.dashboard.responsibleNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(this.camp().campCollaborations().items, '_meta.self'),
+      }
     },
     categories() {
       return keyBy(this.camp().categories().items, '_meta.self')
     },
     periods() {
       return keyBy(this.camp().periods().items, '_meta.self')
+    },
+    progressLabels() {
+      const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
+      return {
+        none: {
+          title: this.$tc('views.camp.dashboard.progressLabelNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(labels, '_meta.self'),
+      }
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -286,7 +319,14 @@ export default {
                 .activityResponsibles()
                 .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
-            }))
+            }) ||
+            (this.filter.responsible[0] === 'none' &&
+              scheduleEntry.activity().activityResponsibles().items.length === 0)) &&
+          (this.filter.progressLabel === null ||
+            this.filter.progressLabel.length === 0 ||
+            this.filter.progressLabel?.includes(
+              scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
+            ))
       )
     },
     groupedScheduleEntries() {
@@ -305,13 +345,15 @@ export default {
         return (
           filterEquals(this.filter.responsible, [this.loggedInCampCollaboration]) &&
           filterEquals(this.filter.category, []) &&
-          filterEquals(this.filter.period, null)
+          filterEquals(this.filter.period, null) &&
+          filterEquals(this.filter.progressLabel, null)
         )
       },
       set(value) {
         this.filter.responsible = value ? [this.loggedInCampCollaboration] : []
         this.filter.category = []
         this.filter.period = null
+        this.filter.progressLabel = null
       },
     },
     loggedInCampCollaboration() {
@@ -356,44 +398,17 @@ export default {
     'filter.period': 'persistRouterState',
   },
   async mounted() {
-    this.isActive = true
     this.api.reload(this.camp())
 
-    // Once camp data is loaded validate and map values from url param to filter
-    await Promise.all([
-      this.camp().categories()._meta.load,
+    const [loggedInUser] = await Promise.all([
+      this.$auth.loadUser(),
       this.camp().periods()._meta.load,
-      this.camp().campCollaborations()._meta.load,
-      this.loggedInUser._meta.load,
       this.camp().activities()._meta.load,
-    ]).then(([categories, periods, collaborators]) => {
-      const availableCategoryIds = categories.allItems.map((value) => value._meta.self)
-      const availablePeriodsIds = periods.allItems.map((value) => value._meta.self)
-      const availableCollaboratorIds = collaborators.allItems.map(
-        (value) => value._meta.self
-      )
+      this.camp().categories()._meta.load,
+      this.camp().progressLabels()._meta.load,
+    ])
 
-      const category = (this.filter.url?.category ?? []).filter((value) =>
-        availableCategoryIds.includes(value)
-      )
-      const responsible = (this.filter.url?.responsible ?? []).filter((value) =>
-        availableCollaboratorIds.includes(value)
-      )
-      const period = availablePeriodsIds.includes(this.filter.url?.period)
-        ? this.filter.url.period
-        : null
-
-      if (!this.syncUrlQueryActive) {
-        return
-      }
-
-      this.filter = {
-        category,
-        responsible,
-        period,
-      }
-    })
-
+    this.loggedInUser = loggedInUser
     this.loading = false
   },
   beforeMount() {

@@ -10,14 +10,14 @@ Displays the content wrapped inside a card.
     class="mx-auto"
   >
     <v-toolbar
-      v-if="back || $vuetify.breakpoint.xsOnly || toolbar"
+      v-if="back || !$vuetify.breakpoint.mdAndUp || toolbar"
       class="ec-content-card__toolbar"
       elevation="0"
       dense
     >
       <v-toolbar-items>
         <button-back
-          v-if="back || ($vuetify.breakpoint.xsOnly && !!$route.query.isDetail)"
+          v-if="back || (!$vuetify.breakpoint.mdAndUp && !!$route.query.isDetail)"
           class="ml-n4"
         />
       </v-toolbar-items>
