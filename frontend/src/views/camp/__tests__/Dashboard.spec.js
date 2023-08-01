@@ -28,35 +28,6 @@ describe('Dashboard view', () => {
 
     expect(vueWrapper.vm.$data.filter.url).toMatchObject(expectedFilterValues)
   })
-  it('Parses filter value into URL', async () => {
-    const filter = {
-      period: '/periods/16b2fcffdd8e',
-      responsible: ['/camp_collaborations/fe6557a4b89f'],
-      category: ['/categories/505e3fdf9e90', '/categories/a47a60594096'],
-    }
-    const data = () => ({
-      loggedInUser: USER,
-      loading: false,
-      isActive: true,
-      filter,
-    })
-    const options = { ...DEFAULT_DASHBOARD_OPTIONS(), data }
-    const wrapper = shallowMount(Dashboard, options)
-
-    await flushPromises()
-    wrapper.vm.persistRouterState()
-
-    const expectedURLParams = {
-      responsible: ['fe6557a4b89f'],
-      category: ['505e3fdf9e90', 'a47a60594096'],
-      period: '16b2fcffdd8e',
-    }
-    expect(options.mocks.$router.replace).toHaveBeenCalled()
-    expect(options.mocks.$router.replace).toHaveBeenLastCalledWith({
-      append: true,
-      query: expectedURLParams,
-    })
-  })
 })
 
 const CAMP_COLLAB = '/camp_collaborations/58dc1b96dcce'
@@ -122,6 +93,7 @@ const DEFAULT_DASHBOARD_OPTIONS = () => ({
   }),
   computed: {
     periods: () => {},
+    progressLabels: () => {},
     multiplePeriods: () => false,
     campCollaborations: () => {},
     categories: () => {},

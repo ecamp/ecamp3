@@ -204,6 +204,7 @@ import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 import { halUriToId, idToHalUri } from '@/helpers/formatHalHelper.js'
 import { mapGetters } from 'vuex'
+import { getQueryAsString } from '@/helpers/querySyncHelper'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -216,7 +217,7 @@ function filterEquals(arr1, arr2) {
  * The Allowed Url parameter keys
  * @type {UrlParamKey[]} UrlParamKeys
  */
-const urlParamKeys = ['period', 'responsible', 'category']
+const urlParamKeys = ['period', 'responsible', 'category', 'progressLabel']
 
 /**
  * Map for url param keys to hal types
@@ -226,6 +227,7 @@ const URL_PARAM_TO_HAL_TYPE = {
   category: 'categories',
   responsible: 'camp_collaborations',
   period: 'periods',
+  progressLabel: 'activity_progress_labels',
 }
 export default {
   name: 'Dashboard',
@@ -245,7 +247,6 @@ export default {
   },
   data() {
     return {
-      loggedInUser: null,
       loading: true,
       filter: {
         period: null,
@@ -373,6 +374,7 @@ export default {
           responsible: this.filter.responsible,
           category: this.filter.category,
           period: this.filter.period,
+          progressLabel: this.filter.progressLabel,
         })
           .filter(([_, value]) => !!value)
           .map(([key, value]) => [
@@ -384,33 +386,56 @@ export default {
     ...mapGetters({
       loggedInUser: 'getLoggedInUser',
     }),
-    /**
-     * True if the Filter should be synced with the URL based on Navigation & Component state
-     * @return {boolean}
-     */
-    syncUrlQueryActive() {
-      return this.isActive && this.$router.currentRoute.name === 'camp/dashboard'
-    },
   },
   watch: {
     'filter.category': 'persistRouterState',
     'filter.responsible': 'persistRouterState',
     'filter.period': 'persistRouterState',
+    'filter.progressLabel': 'persistRouterState',
   },
   async mounted() {
     this.api.reload(this.camp())
 
-    const [loggedInUser] = await Promise.all([
-      this.$auth.loadUser(),
-      this.camp().periods()._meta.load,
-      this.camp().activities()._meta.load,
+    await Promise.all([
       this.camp().categories()._meta.load,
+      this.camp().periods()._meta.load,
+      this.camp().campCollaborations()._meta.load,
       this.camp().progressLabels()._meta.load,
-    ])
+      this.$auth.loadUser(),
+      this.camp().activities()._meta.load,
+    ]).then(([categories, periods, collaborators, progressLabels]) => {
+      const availableCategoryIds = categories.allItems.map((value) => value._meta.self)
+      const availablePeriodsIds = periods.allItems.map((value) => value._meta.self)
+      const availableCollaboratorIds = collaborators.allItems.map(
+        (value) => value._meta.self
+      )
+      const availableProgressLabelIds = progressLabels.allItems.map(
+        (value) => value._meta.self
+      )
 
-    this.loggedInUser = loggedInUser
+      const category = (this.filter.url?.category ?? []).filter((value) =>
+        availableCategoryIds.includes(value)
+      )
+      const responsible = (this.filter.url?.responsible ?? []).filter((value) =>
+        availableCollaboratorIds.includes(value)
+      )
+      const progressLabel = (this.filter.url?.progressLabel ?? []).filter((value) =>
+        availableProgressLabelIds.includes(value)
+      )
+      const period = availablePeriodsIds.includes(this.filter.url?.period)
+        ? this.filter.url.period
+        : null
+
+      this.filter = {
+        category,
+        responsible,
+        period,
+        progressLabel,
+      }
+    })
     this.loading = false
   },
+
   beforeMount() {
     this.filter.url = Object.fromEntries(
       /**
@@ -444,8 +469,10 @@ export default {
     },
     persistRouterState() {
       let query = this.urlQuery
-      if (filterEquals(query, this.$route.query) || !this.syncUrlQueryActive) return
-      this.$router.replace({ append: true, query }).then((value) => console.log(value))
+      if (filterEquals(query, this.$route.query)) return
+      const parsedQuery = getQueryAsString(query)
+      // Doesn't overwrite Navigation
+      window.history.replaceState(history.state, '', parsedQuery)
     },
   },
 }
