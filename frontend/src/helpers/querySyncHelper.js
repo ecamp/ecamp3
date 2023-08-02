@@ -1,20 +1,25 @@
 /**
- *
- * @param queryObj{{[p: string]: string[] | string}}
- * @return {string}
+ * Converts a query object to a query string.
+ * @param {Record<string, string|string[]|null|undefined>} queryObj - The query object.
+ * @returns {string} The query string.
  */
 export function getQueryAsString(queryObj) {
-  const params = Object.entries(queryObj).map(([key, vals]) => {
-    if (typeof vals === 'string') {
-      return `&${key}=${vals}`
-    } else {
-      let q = ''
-      for (const val of vals) {
-        q = `${q}&${key}=${val}`
-      }
-      return q
-    }
-  })
-  if (params.length === 0) return ''
-  return '?' + params.join('').slice(1)
+  const queryParams = []
+
+  for (const [key, values] of Object.entries(queryObj)) {
+    if (values === null || values === undefined) continue
+    const normalizedValues = Array.isArray(values) ? values : [values]
+
+    const paramStrings = normalizedValues.map(
+      (value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+    )
+
+    queryParams.push(...paramStrings)
+  }
+
+  if (queryParams.length === 0) {
+    return ''
+  }
+
+  return '?' + queryParams.join('&')
 }
