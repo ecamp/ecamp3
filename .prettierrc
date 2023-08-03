@@ -4,5 +4,6 @@
   "semi": false,
   "bracketSameLine": false,
   "bracketSpacing": true,
-  "printWidth": 90
+  "printWidth": 90,
+  "endOfLine": "auto"
 }

@@ -5,4 +5,5 @@ const matchingTranslationKeys = require('../src/common/eslint-local-rules/matchi
 
 module.exports = {
   'matching-translation-keys': matchingTranslationKeys(path, utils, fs),
+  'linebreak-style':'windows'
 }
