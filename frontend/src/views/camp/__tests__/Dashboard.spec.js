@@ -1,32 +1,11 @@
 import Dashboard from '../Dashboard.vue'
 import { shallowMount } from '@vue/test-utils'
-import flushPromises from 'flush-promises'
 
 describe('Dashboard view', () => {
   it('Renders View', async () => {
     const vueWrapper = shallowMount(Dashboard, DEFAULT_DASHBOARD_OPTIONS())
 
     expect(vueWrapper.html()).toBeTruthy()
-  })
-  it('Loads URL Query into filter', async () => {
-    const query = {
-      responsible: ['fe6557a4b89f'],
-      category: ['505e3fdf9e90', 'a47a60594096'],
-      period: '16b2fcffdd8e',
-    }
-    const vueWrapper = shallowMount(Dashboard, {
-      ...DEFAULT_DASHBOARD_OPTIONS(),
-      mocks: { ...DEFAULT_DASHBOARD_OPTIONS().mocks, $route: { query } },
-    })
-
-    const expectedFilterValues = {
-      period: '/periods/16b2fcffdd8e',
-      responsible: ['/camp_collaborations/fe6557a4b89f'],
-      category: ['/categories/505e3fdf9e90', '/categories/a47a60594096'],
-    }
-    await flushPromises()
-
-    expect(vueWrapper.vm.$data.filter.url).toMatchObject(expectedFilterValues)
   })
 })
 

@@ -202,33 +202,18 @@ import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
-import { halUriToId, idToHalUri } from '@/helpers/formatHalHelper.js'
+import { transformValuesToHalId } from '@/helpers/formatHalHelper.js'
 import { mapGetters } from 'vuex'
-import { getQueryAsString } from '@/helpers/querySyncHelper'
+import {
+  getQueryAsString,
+  loadAndProcessCollections,
+  processRouteQuery,
+} from '@/helpers/querySyncHelper'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
 }
-/**
- * Allowed Url param keys
- * @typedef {'period'|'responsible'|'category'} UrlParamKey
- */
-/**
- * The Allowed Url parameter keys
- * @type {UrlParamKey[]} UrlParamKeys
- */
-const urlParamKeys = ['period', 'responsible', 'category', 'progressLabel']
 
-/**
- * Map for url param keys to hal types
- * @type {{(typeof urlParamKeys[number]):HalType }}
- */
-const URL_PARAM_TO_HAL_TYPE = {
-  category: 'categories',
-  responsible: 'camp_collaborations',
-  period: 'periods',
-  progressLabel: 'activity_progress_labels',
-}
 export default {
   name: 'Dashboard',
   components: {
@@ -248,6 +233,9 @@ export default {
   data() {
     return {
       loading: true,
+      /**
+       * @type {ActivityFilter} filter
+       */
       filter: {
         period: null,
         responsible: [],
@@ -368,21 +356,6 @@ export default {
     multiplePeriods() {
       return Object.keys(this.periods).length > 1
     },
-    urlQuery() {
-      return Object.fromEntries(
-        Object.entries({
-          responsible: this.filter.responsible,
-          category: this.filter.category,
-          period: this.filter.period,
-          progressLabel: this.filter.progressLabel,
-        })
-          .filter(([_, value]) => !!value)
-          .map(([key, value]) => [
-            key,
-            Array.isArray(value) ? value.map((e) => halUriToId(e)) : halUriToId(value),
-          ])
-      )
-    },
     ...mapGetters({
       loggedInUser: 'getLoggedInUser',
     }),
@@ -396,79 +369,28 @@ export default {
   async mounted() {
     this.api.reload(this.camp())
 
-    await Promise.all([
-      this.camp().categories()._meta.load,
-      this.camp().periods()._meta.load,
-      this.camp().campCollaborations()._meta.load,
-      this.camp().progressLabels()._meta.load,
-      this.$auth.loadUser(),
-      this.camp().activities()._meta.load,
-    ]).then(([categories, periods, collaborators, progressLabels]) => {
-      const availableCategoryIds = categories.allItems.map((value) => value._meta.self)
-      const availablePeriodsIds = periods.allItems.map((value) => value._meta.self)
-      const availableCollaboratorIds = collaborators.allItems.map(
-        (value) => value._meta.self
-      )
-      const availableProgressLabelIds = progressLabels.allItems.map(
-        (value) => value._meta.self
-      )
+    const { categories, periods, collaborators, progressLabels } =
+      await loadAndProcessCollections(this.camp())
+    const queryFilters = processRouteQuery(this.$route.query)
+    const { period, responsible, category, progressLabel } = {
+      ...this.filter,
+      ...queryFilters,
+    }
+    this.filter = {
+      category: category.filter((value) => categories.includes(value)),
+      responsible: responsible.filter((value) => collaborators.includes(value)),
+      progressLabel: progressLabel.filter((value) => progressLabels.includes(value)),
+      period: periods.includes(period) ? period : null,
+    }
 
-      const category = (this.filter.url?.category ?? []).filter((value) =>
-        availableCategoryIds.includes(value)
-      )
-      const responsible = (this.filter.url?.responsible ?? []).filter((value) =>
-        availableCollaboratorIds.includes(value)
-      )
-      const progressLabel = (this.filter.url?.progressLabel ?? []).filter((value) =>
-        availableProgressLabelIds.includes(value)
-      )
-      const period = availablePeriodsIds.includes(this.filter.url?.period)
-        ? this.filter.url.period
-        : null
-
-      this.filter = {
-        category,
-        responsible,
-        period,
-        progressLabel,
-      }
-    })
     this.loading = false
-  },
-
-  beforeMount() {
-    this.filter.url = Object.fromEntries(
-      /**
-       * @type {[UrlParamKey,(HalUri[])|HalUri]}
-       */
-      Object.entries(this.$route.query)
-        .filter(([key, value]) => urlParamKeys.includes(key) && !!value)
-        .map(([key, value]) => [key, value, URL_PARAM_TO_HAL_TYPE[key]])
-        .map(([key, value, type]) => {
-          if (typeof value === 'string') {
-            let halUriValue =
-              key === 'period' ? idToHalUri(type, value) : [idToHalUri(type, value)]
-            return [key, halUriValue]
-          }
-          if (Array.isArray(value)) {
-            let uriValues = value
-              .filter((entry) => !!entry)
-              .map((entry) => idToHalUri(type, entry))
-            return [key, uriValues]
-          }
-          return [key, null]
-        })
-        .filter(([_, value]) => {
-          return !!value
-        })
-    )
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
     persistRouterState() {
-      let query = this.urlQuery
+      const query = transformValuesToHalId({ ...this.filter })
       if (filterEquals(query, this.$route.query)) return
       const parsedQuery = getQueryAsString(query)
       // Doesn't overwrite Navigation
