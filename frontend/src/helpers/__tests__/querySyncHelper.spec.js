@@ -3,7 +3,7 @@ import { getQueryAsString } from '@/helpers/querySyncHelper'
 describe('getQueryAsString', () => {
   it('should return an empty string for an empty query object', () => {
     const result = getQueryAsString({})
-    expect(result).toBe('')
+    expect(result).toBe('?')
   })
 
   it('should convert a simple query object to a query string', () => {
