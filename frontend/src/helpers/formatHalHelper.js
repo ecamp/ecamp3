@@ -1,6 +1,6 @@
 /**
  * The Type of Object in qualified hal format for api
- * @typedef {'categories'|'camp_collaborations'|'periods'} HalType
+ * @typedef {'categories'|'camp_collaborations'|'periods'|'activity_progress_labels'} HalType
  */
 /**
  * Format of the Hal Uri
@@ -22,4 +22,20 @@ export const halUriToId = (uri) => {
  */
 export const idToHalUri = (dataType, id) => {
   return `/${dataType}/${id}`
+}
+
+/**
+ * Transforms an object with halUriValues to an object with corresponding hal IDs.
+ * @param {Record<string, HalUri|HalUri[]|null|undefined>} uriObj - Object with halUriValues
+ * @returns {Record<string, string|string[]>} - Object with hal IDs
+ */
+export const transformValuesToHalId = (uriObj) => {
+  const transformedEntries = Object.entries(uriObj)
+    .filter(([_, value]) => !!value)
+    .map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value.map(halUriToId) : halUriToId(value),
+    ])
+
+  return Object.fromEntries(transformedEntries)
 }
