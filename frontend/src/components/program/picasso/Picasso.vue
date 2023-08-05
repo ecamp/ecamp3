@@ -151,7 +151,7 @@ export default {
 
   // composition API setup
   setup(props, { emit }) {
-    const { editable, scheduleEntries } = toRefs(props)
+    const { editable, scheduleEntries, start, end } = toRefs(props)
 
     const isSaving = ref(false)
 
@@ -194,8 +194,8 @@ export default {
       emit('unlockReminder', move)
     }
 
-    const calenderStartTimestamp = utcStringToTimestamp(props.start)
-    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY_IN_MILLISECONDS
+    const calenderStartTimestamp = utcStringToTimestamp(start.value)
+    const calendarEndTimestamp = utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
