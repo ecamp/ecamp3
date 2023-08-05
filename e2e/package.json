@@ -4,7 +4,10 @@
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "lint": "prettier --write '**/*.js'"
+    "lint": "npm run lint:prettier",
+    "lint:check": "npm run lint:check:prettier",
+    "lint:prettier": "prettier --write --ignore-path .gitignore **/*.{js,json,md}",
+    "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,json,md}"
   },
   "devDependencies": {
     "cypress": "12.17.3",

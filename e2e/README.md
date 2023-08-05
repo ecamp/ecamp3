@@ -6,6 +6,7 @@ If not, please follow the documentation links in the README.md in the root of th
 ## Option A: Run end-to-end tests in Docker container (headless)
 
 ### Preparation
+
 ```shell
 # Only necessary on Mac OS: install xhost. Restart your Mac after this.
 brew cask install xquartz
@@ -16,25 +17,30 @@ xhost local:root
 ```
 
 ### Run all e2e tests
+
 ```shell
 docker compose --profile e2e run --rm e2e --browser chrome
 ```
 
 ### Run a specific e2e test
+
 ```shell
 docker compose --profile e2e run --rm e2e  --browser chrome --spec specs/login.cy.js
 ```
 
 ### Run tests using a specific browser
+
 Supported browsers: `chrome`, `edge`, `electron` (default), `firefox`
 Electron is currently not stable on the CI.
+
 ```shell
 docker compose --profile e2e run --rm e2e --browser firefox
 ```
 
 ### Open the cypress UI and visually see the tests run
+
 ```shell
-docker compose --profile e2e run --entrypoint "cypress open --project ." e2e
+docker compose --profile e2e run --rm --entrypoint "cypress open --project ." e2e
 ```
 
 ## Option B: Run end-to-end tests locally
@@ -57,4 +63,10 @@ npm run cypress:run
 ```shell
 docker compose up -d
 npm run cypress:open
+```
+
+### Run lint
+
+```shell
+docker compose run --rm --entrypoint="npm run lint" e2e
 ```
