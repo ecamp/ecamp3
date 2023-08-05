@@ -48,7 +48,8 @@
     },
     {
       "matchPackageNames": [
-        "php"
+        "php",
+        "gedmo/doctrine-extensions"
       ],
       "automerge": false
     },
