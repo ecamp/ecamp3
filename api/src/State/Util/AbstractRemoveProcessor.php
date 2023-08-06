@@ -5,6 +5,11 @@ namespace App\State\Util;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 
+/**
+ * @template T
+ *
+ * @template-implements ProcessorInterface<T>
+ */
 abstract class AbstractRemoveProcessor implements ProcessorInterface {
     public function __construct(
         private ProcessorInterface $decorated,
