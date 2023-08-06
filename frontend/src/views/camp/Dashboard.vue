@@ -392,7 +392,7 @@ export default {
     persistRouterState() {
       const query = transformValuesToHalId(this.filter)
       if (filterAndQueryAreEqual(query, this.$route.query)) return
-      this.$router.replace({query}).catch(err => console.warn(err))
+      this.$router.replace({ query }).catch((err) => console.warn(err))
     },
   },
 }

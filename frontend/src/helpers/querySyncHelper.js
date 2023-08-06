@@ -16,8 +16,7 @@
  * @return {string} the ID of the uri
  */
 export const halUriToId = (uri) => {
-  if (uri === 'none')
-    return uri;
+  if (uri === 'none') return uri
   return uri.substring(uri.lastIndexOf('/') + 1)
 }
 /**
@@ -27,8 +26,7 @@ export const halUriToId = (uri) => {
  * @return {HalUri}
  */
 export const idToHalUri = (dataType, id) => {
-  if (id === 'none')
-    return id;
+  if (id === 'none') return id
   return `/${dataType}/${id}`
 }
 
@@ -40,7 +38,10 @@ export const idToHalUri = (dataType, id) => {
 export const transformValuesToHalId = (uriObj) => {
   const transformedEntries = Object.entries(uriObj)
     .filter(([_, value]) => !!value)
-    .filter(([_, value]) => (typeof value === 'string' || (Array.isArray(value) && value.length !== 0)))
+    .filter(
+      ([_, value]) =>
+        typeof value === 'string' || (Array.isArray(value) && value.length !== 0)
+    )
     .map(([key, value]) => [
       key,
       Array.isArray(value) ? value.map(halUriToId) : halUriToId(value),
@@ -115,10 +116,10 @@ export function processRouteQuery(query) {
  * @returns {entry is ({([UrlParamKey,string|string[]])})}
  */
 function isValidParamEntry(entry) {
-  const [key,value] = entry;
+  const [key, value] = entry
   const keyIsValid = urlParamKeys.includes(key)
-  const valueIsValid = Array.isArray(value) ? (value.length !== 0) : (!!value)
-  return (keyIsValid && valueIsValid)
+  const valueIsValid = Array.isArray(value) ? value.length !== 0 : !!value
+  return keyIsValid && valueIsValid
 }
 
 /**
@@ -148,7 +149,7 @@ export async function loadAndProcessCollections(camp) {
     categories,
     periods,
     collaborators: [...collaborators, 'none'],
-    progressLabels: [...progressLabels,'none'],
+    progressLabels: [...progressLabels, 'none'],
   }
 }
 
@@ -158,15 +159,16 @@ export async function loadAndProcessCollections(camp) {
  * @param {Dictionary<string | (string | null)[]>} query
  * @return {boolean}
  */
-export function filterAndQueryAreEqual(filter,query){
-  if (JSON.stringify(filter) === JSON.stringify(query))
-    return true
-  const arrayFiltersAreEqual = ['category','responsible','progressLabel'].map(key => ({
-    a: getValueAsArrayForKey(query,key),
-    b: getValueAsArrayForKey(filter,key)
-  } )).map(({a,b})=>(JSON.stringify(a) === JSON.stringify(b)))
-    .reduce( (accum,curr)=> (accum && curr),true);
-  return arrayFiltersAreEqual && (filter.period === query.period )
+export function filterAndQueryAreEqual(filter, query) {
+  if (JSON.stringify(filter) === JSON.stringify(query)) return true
+  const arrayFiltersAreEqual = ['category', 'responsible', 'progressLabel']
+    .map((key) => ({
+      a: getValueAsArrayForKey(query, key),
+      b: getValueAsArrayForKey(filter, key),
+    }))
+    .map(({ a, b }) => JSON.stringify(a) === JSON.stringify(b))
+    .reduce((accum, curr) => accum && curr, true)
+  return arrayFiltersAreEqual && filter.period === query.period
 }
 
 /**
@@ -176,11 +178,9 @@ export function filterAndQueryAreEqual(filter,query){
  * @param {keyof T} key
  * @return {string[] | undefined}
  */
-function getValueAsArrayForKey(obj,key){
-  const val = obj[key];
-  if (Array.isArray(val))
-    return val.filter(v=>(!!v && typeof v === 'string')).sort()
-  if (typeof val === 'string')
-    return [val]
+function getValueAsArrayForKey(obj, key) {
+  const val = obj[key]
+  if (Array.isArray(val)) return val.filter((v) => !!v && typeof v === 'string').sort()
+  if (typeof val === 'string') return [val]
   return undefined
 }
