@@ -4,6 +4,7 @@ namespace App\Serializer\Denormalizer;
 
 use ApiPlatform\Metadata\Post;
 use App\Entity\MaterialItem;
+use App\Serializer\NoCachingSupportTrait;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -15,6 +16,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 class MaterialItemDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface {
     use DenormalizerAwareTrait;
+    use NoCachingSupportTrait;
 
     private const ALREADY_CALLED = 'MATERIAL_ITEM_DENORMALIZER_ALREADY_CALLED';
 

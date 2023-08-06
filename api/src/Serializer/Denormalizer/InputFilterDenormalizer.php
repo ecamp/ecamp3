@@ -6,6 +6,7 @@ use App\Entity\BaseEntity;
 use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
+use App\Serializer\NoCachingSupportTrait;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -17,6 +18,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface {
     use DenormalizerAwareTrait;
+    use NoCachingSupportTrait;
 
     private const ALREADY_CALLED = 'INPUT_FILTER_DENORMALIZER_ALREADY_CALLED';
 
