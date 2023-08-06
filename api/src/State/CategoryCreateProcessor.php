@@ -10,6 +10,9 @@ use App\Entity\ContentType;
 use App\State\Util\AbstractPersistProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @template-extends AbstractPersistProcessor<Category>
+ */
 class CategoryCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,

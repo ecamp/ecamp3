@@ -8,6 +8,9 @@ use App\Entity\User;
 use App\State\Util\AbstractPersistProcessor;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * @template-extends AbstractPersistProcessor<User>
+ */
 class UserActivateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated

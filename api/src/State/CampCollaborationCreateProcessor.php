@@ -15,6 +15,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @template-extends AbstractPersistProcessor<CampCollaboration>
+ */
 class CampCollaborationCreateProcessor extends AbstractPersistProcessor {
     use CampCollaborationSendEmailTrait;
 

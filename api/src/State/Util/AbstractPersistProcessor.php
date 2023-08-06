@@ -6,6 +6,11 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\BaseEntity;
 
+/**
+ * @template T
+ *
+ * @template-implements ProcessorInterface<T>
+ */
 abstract class AbstractPersistProcessor implements ProcessorInterface {
     /**
      * @param PropertyChangeListener[] $propertyChangeListeners
@@ -22,8 +27,6 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
     }
 
     /**
-     * @template T
-     *
      * @param T $data
      *
      * @return T
@@ -61,8 +64,6 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
 
     /**
      * Return an object of the type and with the properties you want persisted.
-     *
-     * @template T of BaseEntity
      *
      * @param T $data
      *

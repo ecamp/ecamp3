@@ -11,6 +11,9 @@ use App\Util\IdGenerator;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @template-extends AbstractPersistProcessor<CampCollaboration>
+ */
 class CampCollaborationResendInvitationProcessor extends AbstractPersistProcessor {
     use CampCollaborationSendEmailTrait;
 
