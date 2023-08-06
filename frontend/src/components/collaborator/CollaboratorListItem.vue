@@ -8,10 +8,6 @@
         {{ name }}
       </v-list-item-title>
       <v-list-item-subtitle>
-        <div class='responsibilities'>
-          <div>Responsibilities</div>
-          <GenericChip>{{activityList?.length}}</GenericChip>
-        </div>
         <v-tooltip right>
           <template #activator="{ on }">
             <button v-on="on">
@@ -29,6 +25,10 @@
           </template>
           {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
         </v-tooltip>
+        <div class='responsibilities'>
+          <div>Responsibilities</div>
+          <GenericChip :dense='true'>{{activityList?.length}}</GenericChip>
+        </div>
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action class="e-collaborator-item__actions ml-2">
@@ -95,8 +95,19 @@ export default {
 .v-list-item--link:before {
   border-radius: 6px;
 }
+.v-list-item__subtitle {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  align-items: baseline;
+  justify-content: space-between;
+}
 .responsibilities{
   display: flex;
   flex-direction: row;
+  align-items: baseline;
+  gap: 1rem;
+  margin-right: 2rem;
+  font-size: small;
 }
 </style>
