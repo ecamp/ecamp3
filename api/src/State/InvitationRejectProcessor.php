@@ -10,6 +10,9 @@ use App\Repository\CampCollaborationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
+/**
+ * @implements ProcessorInterface<Invitation>
+ */
 class InvitationRejectProcessor implements ProcessorInterface {
     public function __construct(
         private PasswordHasherFactoryInterface $passwordHasherFactory,
