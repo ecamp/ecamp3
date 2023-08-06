@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] = `
+exports[`An EDatePicker > in locale de > looks like a date picker > pickerclosed 1`] = `
 <div data-app="true">
      <div class="e-form-container"
           name="test"
@@ -33,7 +33,7 @@ exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] 
 </div>
 `;
 
-exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = `
+exports[`An EDatePicker > in locale de > looks like a date picker > pickeropen 1`] = `
 <div data-app="true">
      <div class="e-form-container"
           name="test"
@@ -398,9 +398,7 @@ exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = 
                          <div class="spacer"></div>
                          <button class="v-btn v-btn--text theme--light v-size--default primary--text"
                                  type="button">
-                              <span class="v-btn__content">
-                                   Schliessen
-                              </span>
+                              <span class="v-btn__content"> Schliessen </span>
                          </button>
                     </div>
                </div>
@@ -409,7 +407,7 @@ exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = 
 </div>
 `;
 
-exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] = `
+exports[`An EDatePicker > in locale en > looks like a date picker > pickerclosed 1`] = `
 <div data-app="true">
      <div class="e-form-container"
           name="test"
@@ -442,7 +440,7 @@ exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] 
 </div>
 `;
 
-exports[`An EDatePicker in locale en looks like a date picker: pickeropen 1`] = `
+exports[`An EDatePicker > in locale en > looks like a date picker > pickeropen 1`] = `
 <div data-app="true">
      <div class="e-form-container"
           name="test"
@@ -807,9 +805,7 @@ exports[`An EDatePicker in locale en looks like a date picker: pickeropen 1`] = 
                          <div class="spacer"></div>
                          <button class="v-btn v-btn--text theme--light v-size--default primary--text"
                                  type="button">
-                              <span class="v-btn__content">
-                                   Close
-                              </span>
+                              <span class="v-btn__content"> Close </span>
                          </button>
                     </div>
                </div>

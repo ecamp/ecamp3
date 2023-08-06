@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An ESelect looks like a dropdown: dropdown closed with selected value 1`] = `
+exports[`An ESelect > looks like a dropdown > dropdown closed with selected value 1`] = `
 <div data-app>
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]"
@@ -75,7 +75,7 @@ exports[`An ESelect looks like a dropdown: dropdown closed with selected value 1
 </div>
 `;
 
-exports[`An ESelect looks like a dropdown: dropdown open 1`] = `
+exports[`An ESelect > looks like a dropdown > dropdown open 1`] = `
 <div data-app>
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]">
@@ -147,7 +147,7 @@ exports[`An ESelect looks like a dropdown: dropdown open 1`] = `
 </div>
 `;
 
-exports[`An ESelect looks like a dropdown: dropdown open with selected value 1`] = `
+exports[`An ESelect > looks like a dropdown > dropdown open with selected value 1`] = `
 <div data-app>
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]"
@@ -222,7 +222,7 @@ exports[`An ESelect looks like a dropdown: dropdown open with selected value 1`]
 </div>
 `;
 
-exports[`An ESelect looks like a dropdown: no item selected 1`] = `
+exports[`An ESelect > looks like a dropdown > no item selected 1`] = `
 <div data-app>
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]">

@@ -1,5 +1,5 @@
-import ApiRichtext from '@/components/form/api/ApiRichtext'
-import ApiWrapper from '@/components/form/api/ApiWrapper'
+import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
+import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'

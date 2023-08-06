@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An EColorPicker looks like a color picker: pickerclosed 1`] = `
+exports[`An EColorPicker > looks like a color picker > pickerclosed 1`] = `
 <div data-app="true">
      <div class="e-form-container"
           name="test"
@@ -33,7 +33,7 @@ exports[`An EColorPicker looks like a color picker: pickerclosed 1`] = `
 </div>
 `;
 
-exports[`An EColorPicker looks like a color picker: pickeropen 1`] = `
+exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
 <div data-app="true">
      <div class="e-form-container"
           name="test"
@@ -150,9 +150,7 @@ exports[`An EColorPicker looks like a color picker: pickeropen 1`] = `
                     </div>
                     <button class="v-btn v-btn--text theme--light v-size--default primary--text"
                             type="button">
-                         <span class="v-btn__content">
-                              Schliessen
-                         </span>
+                         <span class="v-btn__content"> Schliessen </span>
                     </button>
                </div>
           </div>

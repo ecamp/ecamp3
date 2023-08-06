@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An ETextArea looks like a textarea: mountAsInControls 1`] = `
+exports[`An ETextArea > looks like a textarea > mountAsInControls 1`] = `
 <div data-app>
      <div auto-grow
           class="e-form-container"
@@ -31,7 +31,7 @@ exports[`An ETextArea looks like a textarea: mountAsInControls 1`] = `
 </div>
 `;
 
-exports[`An ETextArea looks like a textarea: multiline 1`] = `
+exports[`An ETextArea > looks like a textarea > multiline 1`] = `
 <div data-app>
      <div class="e-form-container"
           multi-line
@@ -60,7 +60,7 @@ exports[`An ETextArea looks like a textarea: multiline 1`] = `
 </div>
 `;
 
-exports[`An ETextArea looks like a textarea: notext 1`] = `
+exports[`An ETextArea > looks like a textarea > notext 1`] = `
 <div data-app>
      <div class="e-form-container">
           <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
@@ -80,7 +80,7 @@ exports[`An ETextArea looks like a textarea: notext 1`] = `
 </div>
 `;
 
-exports[`An ETextArea looks like a textarea: withtext 1`] = `
+exports[`An ETextArea > looks like a textarea > withtext 1`] = `
 <div data-app>
      <div class="e-form-container"
           value="

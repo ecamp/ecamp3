@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount as mountComponent } from '@vue/test-utils'
-import ERichtext from '../ERichtext'
+import ERichtext from '../ERichtext.vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)

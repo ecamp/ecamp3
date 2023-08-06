@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
-import ETimePicker from '../ETimePicker'
+import ETimePicker from '../ETimePicker.vue'
 
 describe('An ETimePicker', () => {
   const TIME1_ISO = '2037-07-18T09:52:00+00:00'
