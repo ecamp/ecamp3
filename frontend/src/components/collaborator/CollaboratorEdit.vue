@@ -56,6 +56,7 @@
         <CollaboratorListItem
           :collaborator="collaborator"
           :disabled="!isManager"
+          :activities='activities'
           editable
           v-on="on"
         />
@@ -148,6 +149,7 @@ export default {
     collaborator: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
     inactive: { type: Boolean, default: false },
+    activities: {type: Object, required: false}
   },
   data() {
     return {

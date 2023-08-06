@@ -8,6 +8,10 @@
         {{ name }}
       </v-list-item-title>
       <v-list-item-subtitle>
+        <div class='responsibilities'>
+          <div>Responsibilities</div>
+          <GenericChip>{{activityList?.length}}</GenericChip>
+        </div>
         <v-tooltip right>
           <template #activator="{ on }">
             <button v-on="on">
@@ -41,16 +45,19 @@
 <script>
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import GenericChip from '@/components/generic/GenericChip.vue'
 
 export default {
   name: 'CollaboratorListItem',
   components: {
+    GenericChip,
     ButtonEdit,
     UserAvatar,
   },
   props: {
     collaborator: { type: Object, required: true },
     editable: { type: Boolean, default: false },
+    activities: {type: Object, required: false}
   },
   data: () => ({
     roles: {
@@ -77,6 +84,9 @@ export default {
         ? this.collaborator.user().displayName
         : this.collaborator.inviteEmail
     },
+    activityList(){
+      return Object.values(this.activities)
+    }
   },
 }
 </script>
@@ -84,5 +94,9 @@ export default {
 <style scoped>
 .v-list-item--link:before {
   border-radius: 6px;
+}
+.responsibilities{
+  display: flex;
+  flex-direction: row;
 }
 </style>
