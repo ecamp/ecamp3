@@ -114,13 +114,17 @@ export default {
   opacity: 0;
   width: 0px !important;
 
-  transition: opacity 0.2s linear, width 0.3s steps(1, end);
+  transition:
+    opacity 0.2s linear,
+    width 0.3s steps(1, end);
 }
 .v-card:hover:deep(button.visible-on-hover),
 .v-card:hover:deep(button.tooltip-activator) {
   opacity: 1;
   width: 36px !important;
 
-  transition: opacity 0.2s linear, width 0.3s steps(1, start);
+  transition:
+    opacity 0.2s linear,
+    width 0.3s steps(1, start);
 }
 </style>
