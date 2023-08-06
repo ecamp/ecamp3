@@ -202,11 +202,11 @@ import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
-import { transformValuesToHalId } from '@/helpers/formatHalHelper.js'
 import { mapGetters } from 'vuex'
 import {
-  getQueryAsString,
+  filterAndQueryAreEqual,
   loadAndProcessCollections,
+  transformValuesToHalId,
   processRouteQuery,
 } from '@/helpers/querySyncHelper'
 
@@ -390,11 +390,9 @@ export default {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
     persistRouterState() {
-      const query = transformValuesToHalId({ ...this.filter })
-      if (filterEquals(query, this.$route.query)) return
-      const parsedQuery = getQueryAsString(query)
-      // Doesn't overwrite Navigation
-      window.history.replaceState(history.state, '', parsedQuery)
+      const query = transformValuesToHalId(this.filter)
+      if (filterAndQueryAreEqual(query, this.$route.query)) return
+      this.$router.replace({query}).catch(err => console.warn(err))
     },
   },
 }
