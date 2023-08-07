@@ -1,10 +1,16 @@
+import { vi } from 'vitest'
 import Vue from 'vue'
 import { auth } from '@/plugins/auth'
-import storeLoader, { store, apiStore } from '@/plugins/store'
 import Cookies from 'js-cookie'
 import cloneDeep from 'lodash/cloneDeep'
 
+const storePlugin = await vi.importActual('@/plugins/store')
+const storeLoader = storePlugin.default
+
 Vue.use(storeLoader)
+
+const store = storePlugin.store
+const apiStore = storePlugin.apiStore
 
 // expired on 01-01-1970
 const expiredJWTPayload =
@@ -41,6 +47,17 @@ expect.extend({
       message: () => "expected to have the URI '" + expectedUri + "'",
     }
   },
+})
+
+vi.mock('@/router', async () => {
+  return {
+    default: {
+      push: () => Promise.resolve(),
+      resolve: () => ({
+        href: '/loginCallback',
+      }),
+    },
+  }
 })
 
 describe('authentication logic', () => {
