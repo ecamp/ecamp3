@@ -315,7 +315,6 @@ jobs:
       fail-fast: false
       matrix:
         browser:
-          - electron
           - chrome
           - firefox
           - edge
