@@ -128,5 +128,10 @@ export default defineConfig(({ mode }) => ({
     environment: 'jsdom',
     alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
     setupFiles: './tests/setup.js',
+    coverage: {
+      all: true,
+      reporter: ['text', 'lcov', 'html'],
+      reportsDirectory: './data/coverage',
+    },
   },
 }))
