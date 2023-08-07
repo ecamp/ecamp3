@@ -17,18 +17,19 @@ xhost local:root
 
 ### Run all e2e tests
 ```shell
-docker compose --profile e2e run --rm e2e
+docker compose --profile e2e run --rm e2e --browser chrome
 ```
 
 ### Run a specific e2e test
 ```shell
-docker compose --profile e2e run --rm e2e --spec specs/login.cy.js
+docker compose --profile e2e run --rm e2e  --browser chrome --spec specs/login.cy.js
 ```
 
 ### Run tests using a specific browser
 Supported browsers: `chrome`, `edge`, `electron` (default), `firefox`
+Electron is currently not stable on the CI.
 ```shell
-docker compose --profile e2e run --rm e2e --browser chrome
+docker compose --profile e2e run --rm e2e --browser firefox
 ```
 
 ### Open the cypress UI and visually see the tests run
