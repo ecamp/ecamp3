@@ -3,8 +3,10 @@ import { RuleTester } from 'eslint'
 import path from 'path'
 import fs from 'fs'
 import utils from 'eslint-plugin-vue/lib/utils/index.js'
+import { describe, it } from 'vitest'
 
-jest.mock('../packageDirectory.js')
+RuleTester.describe = describe
+RuleTester.it = it
 
 const ruleTester = new RuleTester({
   parser: require.resolve('vue-eslint-parser'),
@@ -39,134 +41,133 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'allows correct key in js',
       code: '$tc("components.hello.world")',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'allows correct key in vue component js',
       code: '<script>$tc("components.helloWorld.foo")</script>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows correct key in vue component setup script',
       code: '<script setup>const translation = $tc("components.helloWorld.foo")</script>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows correct key in scoped use in vue component js',
       code: '<script>export default { computed: { translate() { return this.$tc("components.helloWorld.foo") } } }</script>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows correct key in vue component template mustache syntax',
       code: '<template>{{ $tc("components.helloWorld.foo") }}</template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows correct key in vue component template v-bind',
       code: '<template><div :title="$tc(\'components.helloWorld.foo\')"></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows correct key in vue component template i18n prop, based on translationKeyPropRegex',
       code: '<template><div title-i18n-key="components.helloWorld.foo"></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows correct key in vue component template v-bind i18n prop, based on translationKeyPropRegex',
       code: '<template><div :title-i18n-key="\'components.helloWorld.foo\'"></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'ignores valueless prop in vue component template i18n prop, based on translationKeyPropRegex',
       code: '<template><div title-i18n-key></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
     },
     {
       name: 'allows global key, based on ignoreKeysRegex',
       code: '$tc("global.something")',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'allows correct key with complex directory names',
       code: '$tc("components.camelCase.kebabCase.pascalCase.withPeriod.hello.world")',
       options: options,
-      filename:
-        '/app/src/components/camelCase/kebab-case/PascalCase/with.period/hello.js',
+      filename: '/src/components/camelCase/kebab-case/PascalCase/with.period/hello.js',
     },
     {
       name: 'allows correct key with single quotes',
       code: "$tc('components.hello.world')",
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'allows correct key with single quotes',
       code: '$tc(\'components.hello.world\', 0, { test: "foo" })',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'allows correct key with backticks',
       code: '$tc(`components.hello.world`)',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'allows correct key with arguments',
       code: '$tc(\'components.hello.world\', 0, { test: "foo" })',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'allows correct key when used without dollar sign',
       code: 'tc(\'components.hello.world\', 0, { test: "foo" })',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'ignores call without arguments',
       code: '$tc()',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
     },
     {
       name: 'ignores unrelated file type',
       code: "$tc('hello.world')",
       options: options,
-      filename: '/app/src/components/hello.json',
+      filename: '/src/components/hello.json',
     },
     {
       name: 'ignores test file',
       code: "$tc('hello.world')",
       options: options,
-      filename: '/app/src/components/hello.spec.js',
+      filename: '/src/components/hello.spec.js',
     },
     {
       name: 'ignores test helper file',
       code: "$tc('hello.world')",
       options: options,
-      filename: '/app/src/components/__tests__/hello.js',
+      filename: '/src/components/__tests__/hello.js',
     },
     {
       name: 'ignores e2e test file',
       code: "$tc('hello.world')",
       options: options,
-      filename: '/app/src/e2e/hello.js',
+      filename: '/src/e2e/hello.js',
     },
     {
       name: 'accepts source file paths which do not start with /src',
       code: '$tc("components.hello.world")',
       options: options,
-      filename: '/app/components/hello.js',
+      filename: '/components/hello.js',
     },
   ],
 
@@ -175,7 +176,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in js',
       code: '$tc("hello.world")',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -187,7 +188,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in vue component js',
       code: '<script>$tc("hello.world")</script>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -199,7 +200,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in vue component setup script',
       code: '<script setup>const translation = $tc("hello.world")</script>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -211,7 +212,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints correct key in scoped use in vue component js',
       code: '<script>export default { computed: { translate() { return this.$tc("hello.world") } } }</script>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -223,7 +224,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in vue component template mustache syntax',
       code: '<template>{{ $tc("hello.world") }}</template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -235,7 +236,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in vue component template v-bind',
       code: '<template><div :title="$tc(\'hello.world\')"></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -247,7 +248,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in component template i18n prop, based on translationKeyPropRegex',
       code: '<template><div title-i18n-key="hello.world"></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -259,7 +260,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key in vue component template v-bind i18n prop, based on translationKeyPropRegex',
       code: '<template><div :title-i18n-key="\'hello.world\'"></div></template>',
       options: options,
-      filename: '/app/src/components/HelloWorld.vue',
+      filename: '/src/components/HelloWorld.vue',
       errors: [
         {
           message:
@@ -271,7 +272,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect global key, based on ignoreKeysRegex',
       code: '$tc("something.containing.global.hello.world")',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -283,7 +284,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key with single quotes',
       code: "$tc('hello.world')",
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -295,7 +296,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key with backticks',
       code: '$tc(`hello.world`)',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -307,7 +308,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key with arguments',
       code: '$tc(\'hello.world\', 0, { test: "foo" })',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -319,7 +320,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints incorrect key when used without dollar sign',
       code: 'tc(\'hello.world\', 0, { test: "foo" })',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -331,7 +332,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints empty key in js',
       code: '$tc("")',
       options: options,
-      filename: '/app/src/components/hello.js',
+      filename: '/src/components/hello.js',
       errors: [
         {
           message:
@@ -343,7 +344,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
       name: 'lints in file with path which does not start with src/',
       code: '$tc("hello.world")',
       options: options,
-      filename: '/app/components/hello.js',
+      filename: '/components/hello.js',
       errors: [
         {
           message:
