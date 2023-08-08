@@ -42,8 +42,8 @@ describe('Nuxt print test', () => {
 
     cy.visit('/camps')
     cy.get('a:contains("GRGR")').click()
-    cy.get('a:contains("Print")').click()
-    cy.get('button:contains("Download PDF (layout #1)")').click()
+    cy.get('a:contains("Drucken")').click()
+    cy.get('button:contains("PDF herunterladen (Layout #1)")').click()
 
     const downloadsFolder = Cypress.config('downloadsFolder')
     cy.readFile(path.join(downloadsFolder, 'Pfila-2023.pdf'), { timeout: 30000 })
