@@ -81,7 +81,7 @@
     "xlsx": "0.18.5"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.22.9",
+    "@babel/eslint-parser": "7.22.10",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/user-event": "14.4.3",
     "@testing-library/vue": "5.9.0",
