@@ -126,6 +126,7 @@
         "title": "Person einladen"
       },
       "collaboratorEdit": {
+        "all": "Alle",
         "cannotAssignAnotherRoleToLastManager": "Du kannst der letzten Person mit administrativen Rechten keine andere Rolle zuteilen.",
         "cannotRemoveLastManager": "Du kannst die letzte Person mit administrativen Rechten nicht deaktivieren",
         "deactivate": "Deaktivieren",
@@ -133,10 +134,14 @@
         "inviteAgain": "Erneut einladen",
         "resendEmail": "E-Mail erneut senden",
         "resentEmail": "Einladung gesendet",
+        "responsibilities": "Verantwortlichkeiten",
         "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
+      },
+      "collaboratorListItem": {
+        "responsibilities": "Verantwortlichkeiten"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Deaktivieren",

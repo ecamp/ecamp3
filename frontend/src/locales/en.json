@@ -126,6 +126,7 @@
         "title": "Invite people"
       },
       "collaboratorEdit": {
+        "all": "All",
         "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
         "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
@@ -133,10 +134,14 @@
         "inviteAgain": "Invite again",
         "resendEmail": "Resend invite",
         "resentEmail": "Invitation sent",
+        "responsibilities": "Responsibilities",
         "title": "Edit {user}"
       },
       "collaboratorForm": {
         "roleHint": "Each camp needs at least one person with administrative rights."
+      },
+      "collaboratorListItem": {
+        "responsibilities": "Responsibilities"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Deactivate",

@@ -26,7 +26,7 @@
           {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
         </v-tooltip>
         <div class="responsibilities">
-          <div>Responsibilities</div>
+          <div>{{ $tc('components.collaborator.collaboratorListItem.responsibilities') }}</div>
           <GenericChip :dense="true">{{ activityList?.length }}</GenericChip>
         </div>
       </v-list-item-subtitle>
