@@ -117,12 +117,13 @@
         </IconButton>
       </template>
     </CollaboratorForm>
-    <div class="responsibilities"  v-if="allActivities && allActivities.length > 0">
-      <div>{{$tc('components.collaborator.collaboratorEdit.responsibilities')}}</div>
+    <div v-if="allActivities && allActivities.length > 0" class="responsibilities">
+      <div>{{ $tc('components.collaborator.collaboratorEdit.responsibilities') }}</div>
       <v-chip-group>
         <v-chip :dense="false">
           <router-link :to="filteredLink()" style="color: black">
-            {{$tc('components.collaborator.collaboratorEdit.all')}}: {{ allActivities?.length }}
+            {{ $tc('components.collaborator.collaboratorEdit.all') }}:
+            {{ allActivities?.length }}
           </router-link>
         </v-chip>
         <v-chip
