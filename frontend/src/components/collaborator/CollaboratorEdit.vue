@@ -56,7 +56,7 @@
         <CollaboratorListItem
           :collaborator="collaborator"
           :disabled="!isManager"
-          :activities='activities'
+          :activities="activities"
           editable
           v-on="on"
         />
@@ -117,24 +117,27 @@
         </IconButton>
       </template>
     </CollaboratorForm>
-    <div class='responsibilities'>
+    <div class="responsibilities">
       <div>Responsibilities</div>
-      <v-chip-group v-if='allActivities && allActivities.length > 0'>
-        <v-chip :dense='false'>
-          <router-link :to='filteredLink()' style='color:black'>
-            All: {{allActivities?.length}}
+      <v-chip-group v-if="allActivities && allActivities.length > 0">
+        <v-chip :dense="false">
+          <router-link :to="filteredLink()" style="color: black">
+            All: {{ allActivities?.length }}
           </router-link>
         </v-chip>
         <v-chip
-          v-for='cat in categorizedActivities'
-          :key='cat.category'
-          :color='cat.color'
-          :text-color='cat.textColor'
+          v-for="cat in categorizedActivities"
+          :key="cat.category"
+          :color="cat.color"
+          :text-color="cat.textColor"
         >
-          <router-link :to='filteredLink(cat.categoryId)' :style="{color: cat.textColor}">
-            {{cat.category}}: {{cat.count}}
+          <router-link
+            :to="filteredLink(cat.categoryId)"
+            :style="{ color: cat.textColor }"
+          >
+            {{ cat.category }}: {{ cat.count }}
           </router-link>
-          </v-chip>
+        </v-chip>
       </v-chip-group>
     </div>
   </DetailPane>
@@ -151,7 +154,6 @@ import PromptCollaboratorDeactivate from '@/components/collaborator/PromptCollab
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
-import GenericChip from '@/components/generic/GenericChip.vue'
 import { groupBy } from 'lodash'
 import { contrastColor } from '../../../../common/helpers/colors'
 import { campRoute } from '@/router'
@@ -159,7 +161,6 @@ import { campRoute } from '@/router'
 export default {
   name: 'CollaboratorEdit',
   components: {
-    GenericChip,
     PromptEntityDelete,
     ButtonDelete,
     CollaboratorListItem,
@@ -174,7 +175,7 @@ export default {
     collaborator: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
     inactive: { type: Boolean, default: false },
-    activities: {type: Object, required: false}
+    activities: { type: Object, required: false, default: () => ({}) },
   },
   data() {
     return {
@@ -210,19 +211,19 @@ export default {
         ? this.collaborator.user().displayName
         : this.collaborator.inviteEmail
     },
-    categorizedActivities(){
-      const activities = groupBy(this.activities,value => value.category()._meta.self)
-      return Object.values(activities).map(value => ({
+    categorizedActivities() {
+      const activities = groupBy(this.activities, (value) => value.category()._meta.self)
+      return Object.values(activities).map((value) => ({
         category: value[0]?.category().short ?? 0,
         categoryId: value[0]?.category().id,
         color: value[0]?.category().color ?? 'gray',
         count: value.length,
-        textColor: contrastColor(value[0].category().color)
+        textColor: contrastColor(value[0].category().color),
       }))
     },
-    allActivities(){
+    allActivities() {
       return Object.values(this.activities)
-    }
+    },
   },
   watch: {
     showDialog: function (showDialog) {
@@ -262,21 +263,19 @@ export default {
         this.resendingEmail = false
       })
     },
-    filteredLink(categoryId){
+    filteredLink(categoryId) {
       let query = {
-        responsible: this.collaborator.id
+        responsible: this.collaborator.id,
       }
-      if (categoryId)
-        query['category'] = categoryId
-      return campRoute(this.camp,'dashboard',query)
-    }
-
+      if (categoryId) query['category'] = categoryId
+      return campRoute(this.camp, 'dashboard', query)
+    },
   },
 }
 </script>
 
 <style scoped>
-a{
+a {
   text-decoration: none;
 }
 </style>

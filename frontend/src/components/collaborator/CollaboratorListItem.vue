@@ -25,9 +25,9 @@
           </template>
           {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
         </v-tooltip>
-        <div class='responsibilities'>
+        <div class="responsibilities">
           <div>Responsibilities</div>
-          <GenericChip :dense='true'>{{activityList?.length}}</GenericChip>
+          <GenericChip :dense="true">{{ activityList?.length }}</GenericChip>
         </div>
       </v-list-item-subtitle>
     </v-list-item-content>
@@ -57,7 +57,7 @@ export default {
   props: {
     collaborator: { type: Object, required: true },
     editable: { type: Boolean, default: false },
-    activities: {type: Object, required: false}
+    activities: { type: Object, required: false, default: () => ({}) },
   },
   data: () => ({
     roles: {
@@ -84,9 +84,9 @@ export default {
         ? this.collaborator.user().displayName
         : this.collaborator.inviteEmail
     },
-    activityList(){
+    activityList() {
       return Object.values(this.activities)
-    }
+    },
   },
 }
 </script>
@@ -102,7 +102,7 @@ export default {
   align-items: baseline;
   justify-content: space-between;
 }
-.responsibilities{
+.responsibilities {
   display: flex;
   flex-direction: row;
   align-items: baseline;

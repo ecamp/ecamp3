@@ -2,15 +2,18 @@
   <v-list class="mx-n2">
     <transition-group v-if="isManager" name="list">
       <div v-for="collaborator in sortedCollaborators" :key="collaborator._meta.self">
-        <CollaboratorEdit :activities='groupedActivities[collaborator._meta.self]'
-                                  :collaborator="collaborator" :inactive="inactive" />
+        <CollaboratorEdit
+          :activities="groupedActivities[collaborator._meta.self]"
+          :collaborator="collaborator"
+          :inactive="inactive"
+        />
       </div>
     </transition-group>
     <template v-else>
       <CollaboratorListItem
         v-for="collaborator in sortedCollaborators"
         :key="collaborator._meta.self"
-        :activities='groupedActivities[collaborator._meta.self]'
+        :activities="groupedActivities[collaborator._meta.self]"
         :collaborator="collaborator"
         :inactive="inactive"
       />
@@ -34,7 +37,7 @@ export default {
     collaborators: { type: Array, required: true },
     isManager: { type: Boolean, default: false },
     inactive: { type: Boolean, default: false },
-    groupedActivities: {type: Object, required: false}
+    groupedActivities: { type: Object, required: false, default: () => ({}) },
   },
   computed: {
     sortedCollaborators() {
