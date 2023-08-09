@@ -130,6 +130,7 @@ import PromptCollaboratorDeactivate from '@/components/collaborator/PromptCollab
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
+import campCollaborationDisplayName from '../../../../common/helpers/campCollaborationDisplayName'
 
 export default {
   name: 'CollaboratorEdit',
@@ -179,9 +180,7 @@ export default {
       return this.$store.state.auth.user?.id === this.collaborator.user().id
     },
     name() {
-      return this.collaborator.user
-        ? this.collaborator.user().displayName
-        : this.collaborator.inviteEmail
+      return campCollaborationDisplayName(this.collaborator, this.$tc.bind(this), false)
     },
   },
   watch: {
