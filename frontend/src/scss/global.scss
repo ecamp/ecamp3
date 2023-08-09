@@ -45,6 +45,9 @@ body {
 .w-100 {
   width: 100%;
 }
+.h-full {
+  height: 100%;
+}
 .v-application {
   ul.v-list {
     padding-left: 0;
@@ -78,6 +81,15 @@ body {
   > .v-expansion-panel + .v-expansion-panel {
     border-top: 1px solid #eee;
   }
+}
+
+.v-text-field--outlined.v-input--is-readonly:not(.v-input--is-focused):not(
+    .v-input--has-state
+  )
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgb(0, 0, 0, 0.18);
 }
 
 .v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot:before,
@@ -117,6 +129,18 @@ body {
   display: contents;
 }
 
+.d-grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-cols-fill {
+  grid-template-columns: repeat(auto-fill, 1fr);
+}
+
 .currentColor--text {
   color: currentColor !important;
 }
@@ -125,4 +149,36 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.bottom-n100 {
+  bottom: -100%;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.justify-items-center {
+  justify-items: center;
 }

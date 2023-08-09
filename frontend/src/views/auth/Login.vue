@@ -10,8 +10,11 @@
       style="hypens: auto"
       color="warning"
     >
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="$tc(infoTextKey)" />
+      <div>
+        <i18n :path="infoTextKey">
+          <template #br><br /></template>
+        </i18n>
+      </div>
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
       {{ error }}
@@ -144,6 +147,7 @@
 
 <script>
 import { isLoggedIn } from '@/plugins/auth'
+import VueI18n from '@/plugins/i18n/index.js'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
@@ -196,7 +200,12 @@ export default {
       this.error = null
       this.$auth
         .login(this.email, this.password)
-        .then(() => {
+        .then(async () => {
+          const user = await this.$auth.loadUser()
+          const profile = await user.profile()._meta.load
+          if (VueI18n.availableLocales.includes(profile.language)) {
+            await this.$store.commit('setLanguage', profile.language)
+          }
           this.$router.replace(this.$route.query.redirect || '/')
         })
         .catch((e) => {

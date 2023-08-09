@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { categoryRoute } from '@/router.js'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogCategoryForm from './DialogCategoryForm.vue'
@@ -56,10 +57,10 @@ export default {
     },
   },
   methods: {
-    createCategory() {
-      return this.create().then(() => {
-        this.api.reload(this.camp.categories())
-      })
+    async createCategory() {
+      const createdCategory = await this.create()
+      await this.api.reload(this.camp.categories())
+      this.$router.push(categoryRoute(this.camp, createdCategory))
     },
   },
 }

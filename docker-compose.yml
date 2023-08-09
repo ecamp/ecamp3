@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:18.16.0
+    image: node:20.5.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -73,13 +73,12 @@ services:
     container_name: 'ecamp3-api-caddy'
     depends_on:
       - php
-    environment:
-      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
-      MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       - target: 3000
         published: 3000
+        protocol: tcp
+      - target: 2019
+        published: 2019
         protocol: tcp
     restart: unless-stopped
     user: ${USER_ID:-1000}
@@ -91,7 +90,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.16.0
+    image: node:20.5.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -156,7 +155,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:12.13.0
+    image: cypress/included:12.17.3
     profiles: [ "e2e" ]
     container_name: 'ecamp3-e2e'
     environment:
@@ -168,7 +167,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:18.16.0
+    image: node:20.5.0
     profiles: [ "translation" ]
     container_name: 'ecamp3-translation'
     volumes:

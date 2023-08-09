@@ -64,8 +64,18 @@ export default {
     [
       '@nuxtjs/i18n',
       {
-        locales: ['en'], // only 'en' to avoid that Nuxt generates URLs for each locale. We only need the embedded vue-i18n library without the advanced features of @nuxtjs/i18n
+        locales: [
+          'en',
+          'en-CH-scout',
+          'de',
+          'de-CH-scout',
+          'fr',
+          'fr-CH-scout',
+          'it',
+          'it-CH-scout',
+        ],
         defaultLocale: 'en',
+        strategy: 'no_prefix',
         vueI18n: '~/locales/vueI18nConfig.js',
       },
     ],
@@ -102,6 +112,11 @@ export default {
     config: {
       environment: process.env.SENTRY_ENVIRONMENT ?? 'local',
     },
+    serverIntegrations: {
+      CaptureConsole: {
+        levels: ['warn', 'error'],
+      },
+    },
   },
 
   /*
@@ -123,15 +138,11 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    // TODO: enable again when webpack supports node 18 with sourcemaps.
-    // extend(config, ctx) {
-    //   // include source map in development mode
-    //   // eslint-disable-next-line no-constant-condition
-    //   if (ctx.isDev) {
-    //     config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
-    //   }
-    // },
-    extend(config) {
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+
       // TODO: remove once we update to nuxt 3
       config.module.rules.push({
         test: /colorjs\.io/,
@@ -164,10 +175,24 @@ export default {
   },
 
   /**
-   * Environment variables available in application
+   * Environment variables available in the server at runtime
    */
-  env: {
-    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
+  privateRuntimeConfig: {
+    BASIC_AUTH_TOKEN: process.env.BASIC_AUTH_TOKEN,
   },
+
   telemetry: false,
+
+  hooks: {
+    /**
+     * this may not work anymore with nuxt3
+     */
+    'render:routeDone'(url, result, context) {
+      const fetchErrors = Object.entries(context.nuxt.fetch)
+      const errors = fetchErrors.map(([, entry]) => entry._error).filter((error) => error)
+      if (errors.length > 0) {
+        console.error(`fetch errors during rendering: `, errors)
+      }
+    },
+  },
 }

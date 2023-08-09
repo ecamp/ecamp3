@@ -24,11 +24,11 @@ jobs:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.6'
+          php-version: '8.2.8'
           tools: composer:2.5.0
           coverage: xdebug
 
@@ -54,11 +54,11 @@ jobs:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.0'
+          node-version: '20.5.0'
 
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
@@ -83,11 +83,11 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.0'
+          node-version: '20.5.0'
 
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
@@ -130,11 +130,11 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.6'
+          php-version: '8.2.8'
           extensions: intl-73.1
           tools: composer:2.5.0
           coverage: xdebug
@@ -186,11 +186,11 @@ jobs:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.0'
+          node-version: '20.5.0'
 
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
@@ -224,11 +224,11 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.0'
+          node-version: '20.5.0'
 
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
@@ -265,7 +265,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - name: Set up Docker Buildx
         id: buildx
@@ -320,7 +320,7 @@ jobs:
           - firefox
           - edge
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - run: cp .env.ci .env
 
@@ -355,7 +355,7 @@ jobs:
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}
-          wait-on: 'http://localhost:3000, http://localhost:3000/api'
+          wait-on: 'http://localhost:3000, http://localhost:3000/api, http://localhost:3000/print/health'
           wait-on-timeout: 300
 
       # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems

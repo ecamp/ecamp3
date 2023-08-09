@@ -58,7 +58,7 @@ jobs:
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
           comment_tag: feature-branch-deployment-status
       
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
         with:
           ref: ${{ inputs.sha }}
 
@@ -84,6 +84,9 @@ jobs:
             --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ inputs.name }}.${{ vars.DOMAIN }} \
+            --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
+            --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
+            --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
             --set mail.dummyEnabled=true \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
@@ -97,6 +100,10 @@ jobs:
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
+            --set print.ingress.readTimeoutSeconds='${{ vars.PRINT_INGRESS_READ_TIMEOUT_SECONDS }}' \
+            --set print.renderHTMLTimeoutMs='${{ vars.PRINT_RENDER_HTML_TIMEOUT_MS }}' \
+            --set print.renderPDFTimeoutMs='${{ vars.PRINT_RENDER_PDF_TIMEOUT_MS }}' \
+            --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \
             --set deploymentTime="$(date -u +%s)" \
             --set deployedVersion="$(git rev-parse --short '${{ inputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \

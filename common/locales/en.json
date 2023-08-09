@@ -90,11 +90,17 @@
       "fields": {
         "category": "Category",
         "location": "Location",
+        "progressLabel": "State",
         "responsible": "Responsible",
         "title": "Title"
       },
       "name": "Activity | Activities",
       "new": "New activity"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Title"
+      }
     },
     "camp": {
       "collaborators": {
@@ -195,14 +201,14 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}m",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}m"
       },
-      "hourLong": "HH:mm",
-      "hourShort": "h:mm A"
+      "hourLong": "LT",
+      "hourShort": "H:mm"
     }
   },
   "print": {

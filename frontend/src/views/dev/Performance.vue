@@ -48,10 +48,14 @@ export default {
       const collection = await this.api.href(root, key)
 
       const collectionStart = new Date().getTime()
-      const collectionData = await this.axios.get(collection)
+      const collectionData = await this.axios.get(collection, { baseURL: '/' })
       const collectionEnd = new Date().getTime()
 
-      await this.axios.get(collectionData.data._embedded.items[0]._links.self.href)
+      if (collectionData.data._embedded.items[0]) {
+        await this.axios.get(collectionData.data._embedded.items[0]._links.self.href, {
+          baseURL: '/',
+        })
+      }
       const entityEnd = new Date().getTime()
 
       this.results.push({

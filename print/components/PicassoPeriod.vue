@@ -16,8 +16,9 @@
 </template>
 
 <script>
-import dayjs from '@/../common/helpers/dayjs.js'
 import { utcStringToTimestamp } from '~/../common/helpers/dateHelperVCalendar.js'
+import { splitDaysIntoPages } from '../../common/helpers/picasso.js'
+import { sortBy } from 'lodash'
 
 export default {
   props: {
@@ -57,26 +58,18 @@ export default {
           )
         }),
       this.camp.categories().$loadItems(),
+      this.period.days().$loadItems(),
       this.period
-        .days()
+        .dayResponsibles()
         .$loadItems()
-        .then((days) => {
+        .then((dayResponsibles) => {
           return Promise.all(
-            days.items.map((day) =>
-              day
-                .dayResponsibles()
-                .$loadItems()
-                .then((dayResponsibles) => {
-                  return Promise.all(
-                    dayResponsibles.items.map((dayResponsible) => {
-                      if (dayResponsible.campCollaboration().user === null) {
-                        return Promise.resolve(null)
-                      }
-                      return dayResponsible.campCollaboration().user()._meta.load
-                    })
-                  )
-                })
-            )
+            dayResponsibles.items.map((dayResponsible) => {
+              if (dayResponsible.campCollaboration().user === null) {
+                return Promise.resolve(null)
+              }
+              return dayResponsible.campCollaboration().user()._meta.load
+            })
           )
         }),
     ])
@@ -92,28 +85,13 @@ export default {
     periodChunks() {
       const chunkSize = this.landscape ? 7 : 4
 
-      const start = dayjs.utc(this.period.start)
-      const end = dayjs.utc(this.period.end)
-      const hours = end.diff(start, 'hours')
-      const days = Math.floor(hours / 24) + 1
-
-      const numberOfChunks = Math.ceil(days / chunkSize)
-
-      if (numberOfChunks === 1) {
-        return [
-          {
-            start,
-            end,
-          },
-        ]
-      }
-
-      return [...Array(numberOfChunks).keys()].map((i) => {
-        return {
-          start: start.add(i * chunkSize, 'days'),
-          end: start.add((i + 1) * chunkSize - 1, 'days'),
-        }
-      })
+      return splitDaysIntoPages(
+        sortBy(this.period.days().items, (day) => this.$date.utc(day.start).unix()),
+        chunkSize
+      ).map((chunk) => ({
+        start: this.$date.utc(chunk[0].start),
+        end: this.$date.utc(chunk[chunk.length - 1].start),
+      }))
     },
   },
 }

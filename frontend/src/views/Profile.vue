@@ -10,27 +10,26 @@
     >
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
-          <v-row class="e-form-container">
-            <v-col cols="8" md="10">
-              <api-text-field
-                :name="$tc('entity.user.fields.email')"
-                :uri="profile._meta.self"
-                fieldname="email"
-                readonly
-                required
-              />
-            </v-col>
-            <v-col cols="4" md="2">
+          <e-text-field
+            class="e-profile--email"
+            :name="$tc('entity.user.fields.email')"
+            :value="profile.email"
+            fieldname="email"
+            outlined
+            :filled="false"
+            readonly
+            required
+          >
+            <template #append>
               <dialog-change-mail>
                 <template #activator="{ on }">
-                  <v-btn block outlined v-on="on">
-                    <v-icon left> mdi-pencil </v-icon>
+                  <ButtonEdit text class="v-btn--has-bg" v-on="on">
                     {{ $tc('views.profile.changeEmail') }}
-                  </v-btn>
+                  </ButtonEdit>
                 </template>
               </dialog-change-mail>
-            </v-col>
-          </v-row>
+            </template>
+          </e-text-field>
           <api-text-field
             :name="$tc('entity.user.fields.firstname')"
             :uri="profile._meta.self"
@@ -59,7 +58,8 @@
             {{ $tc('global.lokaliseMessage') }}
           </p>
           <v-btn
-            v-if="$vuetify.breakpoint.xsOnly"
+            v-if="!$vuetify.breakpoint.mdAndUp"
+            class="mt-2"
             color="red"
             block
             large
@@ -84,10 +84,12 @@ import DialogChangeMail from '@/components/user/DialogChangeMail.vue'
 import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.vue'
 import VueI18n from '@/plugins/i18n'
 import { mapGetters } from 'vuex'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 
 export default {
   name: 'Home',
   components: {
+    ButtonEdit,
     ApiSelect,
     ApiTextField,
     ContentCard,
@@ -126,4 +128,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.e-profile--email ::v-deep .v-input__append-inner {
+  margin-top: 0 !important;
+  align-self: center;
+}
+</style>

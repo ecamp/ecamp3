@@ -9,11 +9,12 @@
     <div class="d-flex flex-column fill-height">
       <div class="d-flex flex-column align-center blue-grey darken-4 white--text py-6">
         <v-icon x-large>$vuetify.icons.ecamp</v-icon>
-        <h2 class="text-h6 text-center">eCamp</h2>
+        <h2 class="title text-center">eCamp</h2>
       </div>
       <v-divider class="blue-grey darken-2" />
       <v-list>
         <SidebarListItem
+          v-if="user && !user._meta.loading"
           :title="user.displayName"
           :subtitle="user.profile().firstname + ' ' + user.profile().surname"
           :to="{ name: 'profile', query: { isDetail: true } }"
@@ -33,7 +34,7 @@
 
       <v-divider />
 
-      <v-list>
+      <v-list v-if="!camp()._meta.loading">
         <SidebarListItem
           :title="camp().name"
           :subtitle="camp().motto"

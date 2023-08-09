@@ -83,11 +83,17 @@
       "fields": {
         "category": "Block Kategorie",
         "location": "Ort",
+        "progressLabel": "Status",
         "responsible": "Verantwortlich",
         "title": "Titel"
       },
       "name": "Aktivität | Aktivitäten",
       "new": "Neue Aktivität"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Titel"
+      }
     },
     "camp": {
       "collaborators": {
@@ -188,13 +194,13 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}min",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}min"
       },
-      "hourLong": "HH:mm",
+      "hourLong": "LT",
       "hourShort": "H:mm"
     }
   },

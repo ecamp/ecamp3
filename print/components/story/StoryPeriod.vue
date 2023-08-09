@@ -2,10 +2,9 @@
   <div class="tw-break-after-page">
     <h1
       :id="`content_${index}_period_${period.id}`"
-      class="tw-text-2xl tw-font-bold tw-mb-6"
+      class="tw-text-center tw-font-semibold tw-mb-6"
     >
-      {{ $tc('print.story.title') }}: {{ $tc('entity.period.name') }}
-      {{ period.description }}
+      {{ $tc('print.story.title') }}: {{ period.description }}
     </h1>
 
     <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
@@ -50,7 +49,7 @@ export default {
         .$loadItems(),
       this.period.days().$loadItems(),
       this.period.scheduleEntries().$loadItems(),
-      this.$api.get().contentNodes({ period: this.period._meta.self }).$loadItems(),
+      this.period.camp().categories().$loadItems(),
     ])
 
     this.days = this.period.days().items

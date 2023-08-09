@@ -143,7 +143,7 @@ export default {
       },
       cnf: {
         language: '',
-        documentName: this.camp().title + '.pdf',
+        documentName: this.camp().name + '.pdf',
         camp: this.camp()._meta.self,
         contents: this.defaultContents(),
       },
@@ -165,6 +165,11 @@ export default {
       },
       immediate: true,
     },
+  },
+  mounted() {
+    this.camp()
+      .periods()
+      .items.forEach((period) => period.days().$reload())
   },
   methods: {
     defaultContents() {

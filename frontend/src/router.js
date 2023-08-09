@@ -148,26 +148,16 @@ export default new Router({
       beforeEnter: requireAuth,
     },
     {
-      path: '/camps/invitation/:inviteKey',
-      name: 'campInvitation',
+      path: '/camps/invitation/rejected',
+      name: 'invitationRejected',
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/camp/Invitation.vue'),
       },
       props: {
-        default: (route) => {
-          return {
-            invitation: invitationFromInviteKey(route.params.inviteKey),
-          }
-        },
-      },
-    },
-    {
-      path: '/camps/invitation/rejected',
-      name: 'invitationRejected',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import('./views/camp/InvitationRejected.vue'),
+        default: () => ({
+          variant: 'rejected',
+        }),
       },
     },
     {
@@ -175,7 +165,26 @@ export default new Router({
       name: 'invitationUpdateError',
       components: {
         navigation: NavigationDefault,
-        default: () => import('./views/camp/InvitationUpdateError.vue'),
+        default: () => import('./views/camp/Invitation.vue'),
+      },
+      props: {
+        default: () => ({
+          variant: 'error',
+        }),
+      },
+    },
+    {
+      path: '/camps/invitation/:inviteKey',
+      name: 'campInvitation',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/camp/Invitation.vue'),
+      },
+      props: {
+        default: (route) => ({
+          variant: 'default',
+          invitation: invitationFromInviteKey(route.params.inviteKey),
+        }),
       },
     },
     {
@@ -287,6 +296,14 @@ export default new Router({
       name: 'home',
       redirect: { name: 'camps' },
     },
+    {
+      path: '**',
+      name: 'PageNotFound',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/PageNotFound.vue'),
+      },
+    },
   ],
 })
 
@@ -327,7 +344,11 @@ async function requireCamp(to, from, next) {
       next({ query: to.query })
     })
     .catch(() => {
-      next({ name: 'home' })
+      next({
+        name: 'PageNotFound',
+        params: [to.fullPath, ''],
+        replace: true,
+      })
     })
 }
 

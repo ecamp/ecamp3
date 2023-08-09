@@ -27,7 +27,7 @@ Displays a field as a picker (can be used with v-model)
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
-          @click="(...args) => onMenuOpen(on, ...args)"
+          @click="(...args) => (openOnTextFieldClick ? onMenuOpen(on, ...args) : null)"
           @input="debouncedParseValue"
         >
           <template v-if="icon" #prepend>
@@ -68,6 +68,7 @@ export default {
     readonly: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
     errorMessages: { type: Array, required: false, default: () => [] },
+    openOnTextFieldClick: { type: Boolean, required: false, default: false },
     closeOnPickerInput: { type: Boolean, required: false, default: false },
     buttonAriaLabelI18nKey: { type: String, required: true },
 

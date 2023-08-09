@@ -3,7 +3,7 @@
 set -e
 
 SCRIPT_DIR=$(dirname $(realpath $0))
-CURRENT_DATE=$(date +"%Y%m%d%H%M%p")
+CURRENT_DATE=$(date +"%Y%m%d%H%M")
 
 LAST_PHP_FILE=$(ls ${SCRIPT_DIR}/Version*.php | tail -1)
 NEW_PHP_FILE=${SCRIPT_DIR}/Version${CURRENT_DATE}.php
@@ -24,7 +24,7 @@ docker compose exec database pg_dump \
   | grep -v -e "pg_dump" \
   | grep -v "^--" \
   | grep -v "pg_dump" \
-  | grep -v "SET" \
-  | grep -v "SELECT pg_catalog" \
-  | dos2unix \
+  | grep -v "^SET" \
+  | grep -v "^SELECT pg_catalog" \
+  | $(which dos2unix || which cat) \
   > ${SCRIPT_DIR}/data.sql

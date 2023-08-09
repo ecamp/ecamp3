@@ -37,6 +37,9 @@ for i in 1; do
   values="$values --set termsOfServiceLinkTemplate=https://ecamp3.ch/{lang}/tos"
   values="$values --set domain=$instance_name-"$i".$domain"
   values="$values --set mail.dummyEnabled=true"
+  values="$values --set ingress.basicAuth.enabled=$BASIC_AUTH_ENABLED"
+  values="$values --set ingress.basicAuth.username=$BASIC_AUTH_USERNAME"
+  values="$values --set ingress.basicAuth.password=$BASIC_AUTH_PASSWORD"
   values="$values --set postgresql.enabled=false"
   values="$values --set postgresql.url=$POSTGRES_URL/ecamp3$instance_name-"$i"?sslmode=require"
   values="$values --set postgresql.adminUrl=$POSTGRES_ADMIN_URL/ecamp3$instance_name-"$i"?sslmode=require"
@@ -53,9 +56,14 @@ for i in 1; do
   values="$values --set deployedVersion=\"$(git rev-parse --short HEAD)\""
   values="$values --set featureToggle.developer=true"
 
-  for imagespec in "frontend" "php" "caddy" "print"; do
+  for imagespec in "frontend" "print"; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
+  done
+
+  for imagespec in "php" "caddy"; do
+    values="$values --set $imagespec.image.pullPolicy=$pull_policy"
+    values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-api-$imagespec"
   done
 
   helm uninstall ecamp3-"$instance_name"-"$i" || true

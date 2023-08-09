@@ -19,7 +19,8 @@ api:
   service:
     type: ClusterIP
     port: 3001
-  # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
+  metrics:
+    port: 2019
   replicaCount: 1
 
 php:
@@ -93,6 +94,8 @@ frontend:
 
 print:
   subpath: "/print"
+  ingress:
+    readTimeoutSeconds:
   image:
     repository: "docker.io/ecamp/ecamp3-print"
     pullPolicy: IfNotPresent
@@ -104,6 +107,8 @@ print:
     type: ClusterIP
     port: 3003
   replicaCount: 1
+  renderHTMLTimeoutMs:
+  renderPDFTimeoutMs:
   resources:
     requests:
       cpu: 10m
@@ -147,14 +152,6 @@ mail:
       cpu: 10m
       memory: 10Mi
 
-
-# You may prefer using the managed version in production: https://mercure.rocks
-mercure:
-  publicUrl: https://chart-example.local/.well-known/mercure
-  # Change me!
-  jwtSecret: "!ChangeMe!"
-  corsAllowedOrigins: "^https?://.*?\\.chart-example\\.local$"
-
 # Full configuration: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
 postgresql:
   url:
@@ -192,6 +189,10 @@ securityContext: {}
 
 ingress:
   enabled: true
+  basicAuth:
+    enabled: false
+    username:
+    password:
   annotations:
     # kubernetes.io/tls-acme: "true"
   className: nginx

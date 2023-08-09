@@ -35,14 +35,16 @@ export const generatePdfMixin = {
           baseURL: null,
           method: 'get',
           url: `${PRINT_URL}/server/pdfChrome?config=${encodeURIComponent(
-            JSON.stringify(this.config)
+            JSON.stringify(config)
           )}`,
           responseType: 'arraybuffer',
           withCredentials: true,
           headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0',
+            common: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
           },
         })
 

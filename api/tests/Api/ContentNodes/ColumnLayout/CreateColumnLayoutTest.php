@@ -39,7 +39,7 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['data' => [
-            'columns' => [['slot' => '1', 'width' => 12]],
+            'columns' => [['slot' => '1', 'width' => 6], ['slot' => '2', 'width' => 6]],
         ]]);
     }
 
@@ -48,7 +48,7 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['data' => [
-            'columns' => [['slot' => '1', 'width' => 12]],
+            'columns' => [['slot' => '1', 'width' => 6], ['slot' => '2', 'width' => 6]],
         ]]);
     }
 

@@ -92,7 +92,7 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
         new AssertNoOrphanChildren(),
     ])]
     #[Assert\NotNull]
-    public ?array $data = ['columns' => [['slot' => '1', 'width' => 12]]];
+    public ?array $data = ['columns' => [['slot' => '1', 'width' => 6], ['slot' => '2', 'width' => 6]]];
 
     /**
      * All content nodes that are part of this content node tree.

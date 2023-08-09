@@ -28,5 +28,30 @@ export default {
     this.config = JSON.parse(query.config || '{}')
     this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
   },
+  head() {
+    return {
+      htmlAttrs: {
+        lang: this.$i18n.locale,
+      },
+    }
+  },
 }
 </script>
+
+<style>
+:root {
+  --tw-prose-body: #000 !important;
+}
+
+.theme--light.v-application {
+  color: #000;
+}
+
+.tw-prose ol {
+  padding-left: 16px;
+}
+
+.tw-prose li ::marker {
+  color: #000;
+}
+</style>

@@ -12,7 +12,7 @@ class UrlGeneratorDecorator implements UrlGeneratorInterface {
     ) {
     }
 
-    public function setContext(RequestContext $context) {
+    public function setContext(RequestContext $context): void {
         $this->decorated->setContext($context);
     }
 

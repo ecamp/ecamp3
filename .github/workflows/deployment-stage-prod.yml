@@ -34,7 +34,7 @@ jobs:
       environment: ${{ github.ref_name }}
       domain: ${{ vars.SUBDOMAIN }}.${{ vars.DOMAIN }}
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
@@ -64,6 +64,9 @@ jobs:
             --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ env.domain }} \
+            --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
+            --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
+            --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/${{ secrets.DB_NAME }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=false \
@@ -86,6 +89,9 @@ jobs:
             --set php.oauth.jubladb.baseUrl='${{ secrets.OAUTH_JUBLADB_BASE_URL }}' \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
+            --set print.ingress.readTimeoutSeconds='${{ vars.PRINT_INGRESS_READ_TIMEOUT_SECONDS }}' \
+            --set print.renderHTMLTimeoutMs='${{ vars.PRINT_RENDER_HTML_TIMEOUT_MS }}' \
+            --set print.renderPDFTimeoutMs='${{ vars.PRINT_RENDER_PDF_TIMEOUT_MS }}' \
             --set deploymentTime="$(date -u +%s)" \
             --set deployedVersion="$(git rev-parse --short HEAD)" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
@@ -94,6 +100,7 @@ jobs:
             --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }} \
             --set browserless.maxConcurrentSessions=${{ vars.BROWSERLESS_MAXCONCURRENTSESSIONS || 3 }} \
             --set browserless.maxQueueLength=${{ vars.BROWSERLESS_MAXQUEUELENGTH || 9 }} \
+            --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \
             --set browserless.resources.requests.cpu=${{ vars.BROWSERLESS_CPU || '500m' }} \
             --set browserless.resources.requests.memory=${{ vars.BROWSERLESS_MEMORY || '800Mi' }} \
             --set caddy.resources.requests.cpu=50m \

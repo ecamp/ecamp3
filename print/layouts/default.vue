@@ -41,9 +41,12 @@ export default {
                     }
 
                     @page {
-                      font-family: "Open Sans", sans-serif;
-                      size: A4 portrait;
-                      margin: 10mm 10mm 10mm 10mm;
+                      font-family: "Helvetica", sans-serif;
+                      size: A4 portrait;              
+                      margin-bottom: 15mm;
+                      margin-left: 15mm;
+                      margin-right: 15mm;
+                      margin-top: 15mm;
 
                       @top-center {
                         content: 'eCamp3';
@@ -70,17 +73,8 @@ export default {
 
     header.link = [
       {
-        rel: 'preconnect',
-        href: 'https://fonts.googleapis.com',
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossorigin: true,
-      },
-      {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Open+Sans&display=block',
+        href: './fonts/inter/inter.css',
       },
     ]
 
