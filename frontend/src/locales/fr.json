@@ -126,6 +126,7 @@
         "title": "Inviter une personne"
       },
       "collaboratorEdit": {
+        "all": "Tous",
         "cannotAssignAnotherRoleToLastManager": "Tu ne peux pas attribuer un autre rôle au dernier manager.",
         "cannotRemoveLastManager": "Tu ne peux pas supprimer le dernier manager.",
         "deactivate": "Désactiver",
@@ -133,10 +134,14 @@
         "inviteAgain": "Inviter de nouveau",
         "resendEmail": "Renvoyer l'email",
         "resentEmail": "Invitation envoyée",
+        "responsibilities": "Responsabilités",
         "title": "Modifier {user}"
       },
       "collaboratorForm": {
         "roleHint": "Chaque camp nécessite au moins une personne disposant de droits d'administrateur."
+      },
+      "collaboratorListItem": {
+        "responsibilities": "Responsabilités"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Désactiver",

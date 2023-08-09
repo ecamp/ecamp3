@@ -126,6 +126,7 @@
         "title": "Invitare una persona"
       },
       "collaboratorEdit": {
+        "all": "Tutti",
         "cannotAssignAnotherRoleToLastManager": "Non puoi assegnare un altro ruolo all'ultimo manager.",
         "cannotRemoveLastManager": "Non è possibile rimuovere l'ultimo gestore.",
         "deactivate": "Disattivare",
@@ -133,10 +134,14 @@
         "inviteAgain": "Invitare di nuovo",
         "resendEmail": "Reinvia l'email",
         "resentEmail": "Invito inviato",
+        "responsibilities": "Responsabilità",
         "title": "Éditer {user}"
       },
       "collaboratorForm": {
         "roleHint": "Ogni campo ha bisogno di almeno una persona con diritti di amministratore."
+      },
+      "collaboratorListItem": {
+        "responsibilities": "Responsabilità"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Disattivare",
