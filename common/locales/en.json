@@ -146,7 +146,7 @@
         "color": "Color",
         "name": "Name",
         "numberingStyle": "Numbering style",
-        "short": "Short"
+        "short": "Abbreviation"
       },
       "name": "Activity categories",
       "numberingStyles": {
