@@ -1,5 +1,5 @@
 # build stage
-FROM node:20.5.0 AS build-stage
+FROM node:20.5.1 AS build-stage
 
 COPY common /common
 
@@ -13,7 +13,7 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 # production stage
-FROM node:20.5.0 AS production-stage
+FROM node:20.5.1 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules

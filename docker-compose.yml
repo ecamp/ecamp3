@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:20.5.0
+    image: node:20.5.1
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -90,7 +90,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:20.5.0
+    image: node:20.5.1
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -167,7 +167,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.5.0
+    image: node:20.5.1
     profiles: [ "translation" ]
     container_name: 'ecamp3-translation'
     volumes:
