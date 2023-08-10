@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d94524a9ef9f333efe94e672f50ad5a4",
+    "content-hash": "bcee0aa8fa81a5e281f21d5f2c229d81",
     "packages": [
         {
             "name": "api-platform/core",
@@ -12195,16 +12195,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.17.10",
+            "version": "0.17.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "f4c0627d5e157272cf4783099730ef7241fddb14"
+                "reference": "f594570cdaef1b35104945ca8f9edec78e4a745e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/f4c0627d5e157272cf4783099730ef7241fddb14",
-                "reference": "f4c0627d5e157272cf4783099730ef7241fddb14",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/f594570cdaef1b35104945ca8f9edec78e4a745e",
+                "reference": "f594570cdaef1b35104945ca8f9edec78e4a745e",
                 "shasum": ""
             },
             "require": {
@@ -12221,11 +12221,6 @@
                 "bin/rector"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.15-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -12244,7 +12239,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.17.10"
+                "source": "https://github.com/rectorphp/rector/tree/0.17.11"
             },
             "funding": [
                 {
@@ -12252,7 +12247,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-03T14:19:51+00:00"
+            "time": "2023-08-10T12:01:42+00:00"
         },
         {
             "name": "sebastian/cli-parser",
