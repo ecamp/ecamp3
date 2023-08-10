@@ -4,7 +4,7 @@
   ],
   "force": {
     "constraints": {
-      "node": "20.5.0",
+      "node": "20.5.1",
       "php": "8.2.8"
     }
   },
