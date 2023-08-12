@@ -1163,7 +1163,7 @@ values  ('419b8e7addb9', 'Lagerapotheke', 1, null, '2022-01-23 16:19:10', '2022-
 
 
 
-insert into public.schedule_entry (id, startoffset, endoffset, left, width, createtime, updatetime, periodid, activityid)
+insert into public.schedule_entry (id, startoffset, endoffset,"left", width, createtime, updatetime, periodid, activityid)
 values  ('49334ec99fc4', 600, 660, 0, 1, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'ff755e56fe79', 'c13b91f0e465'),
         ('2dbeb6095bd8', 660, 720, 0, 1, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'a12a9154b43b', 'd3cfa12d19f2'),
         ('54c8d6a938f2', 720, 780, 0, 1, '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'a12a9154b43b', 'd3cfa12d19f2'),
