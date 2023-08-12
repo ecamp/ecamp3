@@ -12,8 +12,12 @@ INSERT INTO public.profile (id, email, firstname, surname, nickname, language, r
 	('22dce794d4e2', 'ivy.mann@hotmail.com', 'Pat', 'Fadel', 'Snoopy', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL, NULL),
 	('4cda72af2704', 'rdooley@gmail.com', 'Karlie', 'Terry', 'ET', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL, NULL),
 	('7d03c967be7e', 'hans.muster@example2.com', 'Hans', 'Muster', 'Castor', 'de', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL, NULL),
-	('d46337a76a2c', 'fritz.mueller@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL, NULL);
-
+	('d46337a76a2c', 'fritz.mueller@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL, NULL),
+    ('4bc441dc4b29', 'luke@skywalker.com', 'Luke', 'Skywalker', null, 'en', '["ROLE_USER"]', '2023-08-12 16:43:34', '2023-08-12 16:43:34', null, null, null, null, null, null),
+    ('5552108bf43e', 'john@wick.com', 'John', 'Wick', null, 'en', '["ROLE_USER"]', '2023-08-12 16:46:43', '2023-08-12 16:46:43', null, null, null, null, null, null),
+    ('abfcbcbd4566', 'clark@kent.com', 'Clark', 'Kent', null, 'en', '["ROLE_USER"]', '2023-08-12 16:49:27', '2023-08-12 16:49:27', null, null, null, null, null, null),
+    ('3f3fa9319dd2', 'bruce@wayne.com', 'Bruce', 'Wayne', null, 'en', '["ROLE_USER"]', '2023-08-12 16:55:28', '2023-08-12 16:55:28', null, null, null, null, null, null),
+    ('51245d0e2ad4', 'felicity@smoak.com', 'Felicity', 'Smoak', null, 'en', '["ROLE_USER"]', '2023-08-12 16:59:38', '2023-08-12 16:59:38', null, null, null, null, null, null);
 
 
 INSERT INTO public."user" (id, state, activationkeyhash, password, createtime, updatetime, profileid, passwordresetkeyhash) VALUES
@@ -26,8 +30,12 @@ INSERT INTO public."user" (id, state, activationkeyhash, password, createtime, u
 	('48f00685a292', 'activated', NULL, '$argon2id$v=19$m=65536,t=4,p=1$/RC8YWMDDXR19wB4or6bBA$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw', '2022-01-23 16:19:10', '2022-02-04 19:18:21', '0870635edda6', NULL),
 	('caeba9f7e728', 'registered', 'c2729478da044b9159e5efdd206d7f82', '$argon2id$v=19$m=65536,t=4,p=1$/RC8YWMDDXR19wB4or6bBA$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw', '2022-02-04 19:25:07', '2022-02-04 23:15:39', '7d03c967be7e', NULL),
 	('9145944210a7', 'activated', NULL, '$2y$13$KTCSklVQHNvbwJQ3Awl8Ee7t0wJB1gfRBXDANeQlBblqwJ4wgOEmC', '2022-01-23 16:19:10', '2022-09-11 17:51:16', '5e387cad273d', NULL),
-	('3b41dca5c568', 'activated', NULL, '$2y$13$fYdViC5dvdA82zvX/TCMuevGcR1s6HxeXV4ouOqios/wRntVMAC/K', '2022-01-23 16:19:10', '2023-06-24 21:32:52', '711ad2e96f9f', NULL);
-
+	('3b41dca5c568', 'activated', NULL, '$2y$13$fYdViC5dvdA82zvX/TCMuevGcR1s6HxeXV4ouOqios/wRntVMAC/K', '2022-01-23 16:19:10', '2023-06-24 21:32:52', '711ad2e96f9f', NULL),
+    ('4ca8336b9330', 'activated', null, '$2y$13$o5jj43SWUnKGbHM6Eza5VuKPbZETRiRGJO/l7pqRsQq9SP8.MBlf.', '2023-08-12 16:49:27', '2023-08-12 16:49:27', 'abfcbcbd4566', null),
+    ('dac7116e02ed', 'activated', null, '$2y$13$85miMfhsLvutgZ0miUUp0u12y2axqlRgg4YoAht1GY2hYe3nf3YYu', '2023-08-12 16:43:34', '2023-08-12 16:43:34', '4bc441dc4b29', null),
+    ('566aea2c2759', 'activated', null, '$2y$13$f89lrFq4MZhzbbbeToOoEein4yfmGgC.L/mrz6JoTIRZT1bL9eDGK', '2023-08-12 16:59:38', '2023-08-12 16:59:38', '51245d0e2ad4', null),
+    ('a3d9d86dc23b', 'activated', null, '$2y$13$x/4IsmELjHfCucFG7nCBhumhLtuKI2zg9YeAJl6UfE9JvesH2l5fq', '2023-08-12 16:46:43', '2023-08-12 16:46:43', '5552108bf43e', null),
+    ('a2f4f3879c85', 'activated', null, '$2y$13$mpZFAHH7H8V4b4SuLBzhZ.7WHqmaUDjC7J6MoYU.iD3jwr7V18NVi', '2023-08-12 16:55:28', '2023-08-12 16:55:28', '3f3fa9319dd2', null);
 
 
 INSERT INTO public.camp (id, campprototypeid, isprototype, name, title, motto, addressname, addressstreet, addresszipcode, addresscity, createtime, updatetime, creatorid, ownerid, couponkey, organizer, kind, coachname, coursenumber, coursekind, trainingadvisorname, printyslogoonpicasso) VALUES
