@@ -10,3 +10,10 @@
 | Clark                | `clark@kent.com`      | `iCanFly12345`           |
 | Bruce                | `bruce@wayne.com`     | `iAmBatman123`           |
 | Felicity             | `felicity@smoak.com`  | `thisIsNotMyPassword123` |
+
+## Camps
+
+### Lorem ipsum
+* Bi-Pi Role: Owner
+* Categories: `> 10`
+* 
