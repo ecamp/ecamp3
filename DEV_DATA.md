@@ -16,4 +16,7 @@
 ### Lorem ipsum
 * Bi-Pi Role: Owner
 * Categories: `> 10`
-* 
+
+### Die Jedi-Akademie
+* Bi-Pi Role: Guest
+* Semi-Realistic 3-Day-Camp
