@@ -46,7 +46,9 @@ describe('Nuxt print test', () => {
     cy.get('button:contains("Download PDF (layout #1)")').click()
 
     const downloadsFolder = Cypress.config('downloadsFolder')
-    cy.readFile(path.join(downloadsFolder, 'Pfila-2023.pdf'), { timeout: 30000 })
+    cy.readFile(path.join(downloadsFolder, 'Pfila-2023.pdf'), {
+      timeout: 30000,
+    })
     cy.moveDownloads()
   })
 })
