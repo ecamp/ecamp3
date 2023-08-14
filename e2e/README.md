@@ -16,6 +16,24 @@ brew cask install xquartz
 xhost local:root
 ```
 
+### Install dependencies
+
+```shell
+docker compose --profile e2e run --rm --entrypoint "npm ci" e2e
+```
+
+### Update dependencies
+
+```shell
+docker compose --profile e2e run --rm --entrypoint "npm update" e2e
+```
+
+or
+
+```shell
+docker compose --profile e2e run --rm --entrypoint "npm update <dependency>" e2e
+```
+
 ### Run all e2e tests
 
 ```shell
