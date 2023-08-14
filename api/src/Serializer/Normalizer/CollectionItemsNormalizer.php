@@ -36,6 +36,14 @@ class CollectionItemsNormalizer implements NormalizerInterface, NormalizerAwareI
         return $data;
     }
 
+    public function getSupportedTypes(?string $format): array {
+        if (method_exists($this->decorated, 'getSupportedTypes')) {
+            return $this->decorated->getSupportedTypes($format);
+        }
+
+        return ['*' => false];
+    }
+
     public function setNormalizer(NormalizerInterface $normalizer): void {
         if ($this->decorated instanceof NormalizerAwareInterface) {
             $this->decorated->setNormalizer($normalizer);
