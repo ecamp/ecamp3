@@ -8,8 +8,8 @@ use App\Entity\CampCollaboration;
 use App\Service\MailService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\IdGenerator;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @template-extends AbstractPersistProcessor<CampCollaboration>

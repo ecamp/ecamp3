@@ -13,7 +13,7 @@ use App\Service\CampCouponService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @template-extends AbstractPersistProcessor<Camp>
