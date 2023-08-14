@@ -12,6 +12,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
+/**
+ * @template-extends AbstractPersistProcessor<Profile>
+ */
 class ProfileUpdateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,

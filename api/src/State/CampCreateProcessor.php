@@ -15,6 +15,9 @@ use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @template-extends AbstractPersistProcessor<Camp>
+ */
 class CampCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,

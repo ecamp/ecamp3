@@ -12,6 +12,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
+/**
+ * @implements ProcessorInterface<ResetPassword>
+ */
 class ResetPasswordUpdateProcessor implements ProcessorInterface {
     public function __construct(
         private ReCaptcha $reCaptcha,

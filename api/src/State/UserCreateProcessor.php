@@ -12,6 +12,9 @@ use App\Util\IdGenerator;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * @template-extends AbstractPersistProcessor<User>
+ */
 class UserCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
