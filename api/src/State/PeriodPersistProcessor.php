@@ -9,6 +9,9 @@ use App\Entity\Period;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\DateTimeUtil;
 
+/**
+ * @template-extends AbstractPersistProcessor<Period>
+ */
 class PeriodPersistProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated

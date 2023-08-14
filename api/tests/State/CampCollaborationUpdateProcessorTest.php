@@ -11,8 +11,8 @@ use App\Service\MailService;
 use App\State\CampCollaborationUpdateProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @internal

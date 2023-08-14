@@ -161,6 +161,7 @@ services:
     environment:
       - DISPLAY
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./e2e:/e2e:delegated
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     network_mode: host

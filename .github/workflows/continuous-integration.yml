@@ -107,6 +107,34 @@ jobs:
              exit 1
           fi
         working-directory: print
+  
+  e2e-lint:
+    name: 'Lint: e2e (Prettier)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.5.1'
+
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: e2e
+
+      - run: |
+          result=$(npm run lint:check:prettier)
+          echo $result
+          if echo $result | grep -E "Code style issues found"; then 
+             exit 1
+          fi
+        working-directory: e2e
 
   api-tests:
     name: 'Tests: API'
@@ -315,7 +343,6 @@ jobs:
       fail-fast: false
       matrix:
         browser:
-          - electron
           - chrome
           - firefox
           - edge
@@ -390,6 +417,7 @@ jobs:
       - api-cs-check
       - frontend-eslint
       - print-eslint
+      - e2e-lint
       - api-tests
       - frontend-tests
       - print-tests

@@ -10,6 +10,9 @@ use App\InputFilter\CleanHTMLFilter;
 use App\InputFilter\CleanTextFilter;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @template-extends ContentNodePersistProcessor<Storyboard>
+ */
 class StoryboardPersistProcessor extends ContentNodePersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,

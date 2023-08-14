@@ -8,6 +8,9 @@ use App\Entity\User;
 use App\State\Util\AbstractPersistProcessor;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * @template-extends AbstractPersistProcessor<User>
+ */
 class UserUpdateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,

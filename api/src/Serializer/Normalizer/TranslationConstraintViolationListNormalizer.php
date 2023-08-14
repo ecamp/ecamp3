@@ -8,12 +8,11 @@ use ApiPlatform\Serializer\AbstractConstraintViolationListNormalizer;
 use App\Serializer\Normalizer\Error\TranslationInfoOfConstraintViolation;
 use App\Service\TranslateToAllLocalesService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class TranslationConstraintViolationListNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface {
+class TranslationConstraintViolationListNormalizer implements NormalizerInterface {
     public function __construct(
         private readonly AbstractConstraintViolationListNormalizer $hydraNormalizer,
         private readonly AbstractConstraintViolationListNormalizer $problemNormalizer,
@@ -72,8 +71,13 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
         return $result;
     }
 
-    public function hasCacheableSupportsMethod(): bool {
-        return $this->getNormalizerCollection()->forAll(fn ($_, $elem) => $elem->hasCacheableSupportsMethod());
+    public function getSupportedTypes(?string $format): array {
+        return $this->getNormalizerCollection()
+            ->map(function (AbstractConstraintViolationListNormalizer $normalizer) use ($format) {
+                return $normalizer->getSupportedTypes($format);
+            })
+            ->reduce(fn (array|null $left, array $right) => array_merge($left ?? [], $right), [])
+        ;
     }
 
     private function getNormalizerCollection(): ArrayCollection {

@@ -8,6 +8,9 @@ use App\Entity\Activity;
 use App\State\Util\AbstractRemoveProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @template-extends AbstractRemoveProcessor<Activity>
+ */
 class ActivityRemoveProcessor extends AbstractRemoveProcessor {
     public function __construct(
         ProcessorInterface $decorated,

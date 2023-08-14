@@ -13,7 +13,9 @@ describe('React print test', () => {
     cy.get('button:contains("PDF herunterladen (Layout #2)")').click()
 
     const downloadsFolder = Cypress.config('downloadsFolder')
-    cy.readFile(path.join(downloadsFolder, 'Pfila-2023.pdf'), { timeout: 30000 })
+    cy.readFile(path.join(downloadsFolder, 'Pfila-2023.pdf'), {
+      timeout: 30000,
+    })
     cy.moveDownloads()
   })
 })

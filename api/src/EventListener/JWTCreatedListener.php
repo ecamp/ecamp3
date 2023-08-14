@@ -4,7 +4,7 @@ namespace App\EventListener;
 
 use ApiPlatform\Api\IriConverterInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Adds the IRI of the newly logged in user to the JWT token payload. This is useful for frontends
