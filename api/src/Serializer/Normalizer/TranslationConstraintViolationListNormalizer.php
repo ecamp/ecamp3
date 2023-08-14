@@ -80,9 +80,6 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
         ;
     }
 
-    /**
-     * @return ArrayCollection<int<0, 1>, AbstractConstraintViolationListNormalizer>
-     */
     private function getNormalizerCollection(): ArrayCollection {
         return new ArrayCollection([$this->hydraNormalizer, $this->problemNormalizer]);
     }
