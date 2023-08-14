@@ -4,7 +4,6 @@ namespace App\State\Util;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Entity\BaseEntity;
 
 /**
  * @template T
@@ -69,7 +68,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
      *
      * @return T
      */
-    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): BaseEntity {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []) {
         return $data;
     }
 
