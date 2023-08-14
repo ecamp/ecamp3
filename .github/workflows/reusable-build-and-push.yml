@@ -15,6 +15,7 @@ on:
         required: true
       DOCKER_HUB_PASSWORD:
         required: true
+      SENTRY_AUTH_TOKEN:
 
 jobs:
   build-and-push:
@@ -43,6 +44,11 @@ jobs:
             ${{ ((inputs.tag != '') && format('{0}/ecamp3-frontend:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
             ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-frontend:${{ inputs.sha }}
           context: .
+          build-args: |
+            SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+            SENTRY_FRONTEND_PROJECT: ${{ vars.SENTRY_FRONTEND_PROJECT }}
+            SENTRY_RELEASE_NAME: ${{ inputs.sha }}
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,scope=frontend,mode=max
 
@@ -81,5 +87,10 @@ jobs:
             ${{ ((inputs.tag != '') && format('{0}/ecamp3-print:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
             ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-print:${{ inputs.sha }}
           context: .
+          build-args: |
+            SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+            SENTRY_PRINT_PROJECT: ${{ vars.SENTRY_PRINT_PROJECT }}
+            SENTRY_RELEASE_NAME: ${{ inputs.sha }}
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max

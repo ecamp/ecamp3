@@ -3,8 +3,6 @@ node_modules
 /data
 /dist
 
-!/**/.gitkeep
-
 
 /reports/
 selenium-debug.log

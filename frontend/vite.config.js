@@ -5,22 +5,42 @@ import { comlink } from 'vite-plugin-comlink'
 import * as path from 'path'
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
+
+const plugins = [
+  comlink(), // must be first
+  vue(),
+  Components({
+    resolvers: [
+      // Vuetify
+      VuetifyResolver(),
+    ],
+  }),
+  createSvgPlugin(),
+]
+const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+if (sentryAuthToken) {
+  plugins.push(
+    sentryVitePlugin({
+      authToken: sentryAuthToken,
+      org: process.env.SENTRY_ORG || 'ecamp',
+      project: process.env.SENTRY_FRONTEND_PROJECT || 'ecamp3-frontend',
+      telemetry: false,
+      sourcemaps: {
+        assets: ['./dist/**/*'],
+      },
+      release: {
+        name: process.env.SENTRY_RELEASE_NAME || 'development',
+      },
+    })
+  )
+}
 
 export default defineConfig(({ mode }) => ({
   server: {
     port: 3000,
   },
-  plugins: [
-    comlink(), // must be first
-    vue(),
-    Components({
-      resolvers: [
-        // Vuetify
-        VuetifyResolver(),
-      ],
-    }),
-    createSvgPlugin(),
-  ],
+  plugins,
   worker: {
     plugins: [comlink()],
   },
@@ -80,7 +100,7 @@ export default defineConfig(({ mode }) => ({
     ],
   },
   build: {
-    sourcemap: mode === 'development',
+    sourcemap: true,
     minify: mode === 'development' ? false : 'esbuild',
   },
   resolve: {
