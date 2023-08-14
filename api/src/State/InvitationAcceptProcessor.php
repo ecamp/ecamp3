@@ -8,8 +8,8 @@ use App\DTO\Invitation;
 use App\Entity\CampCollaboration;
 use App\Repository\CampCollaborationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @implements ProcessorInterface<Invitation>

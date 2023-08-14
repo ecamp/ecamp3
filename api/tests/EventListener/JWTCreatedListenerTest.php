@@ -8,7 +8,7 @@ use App\EventListener\JWTCreatedListener;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @internal
