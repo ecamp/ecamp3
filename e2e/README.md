@@ -10,7 +10,9 @@ If not, please follow the documentation links in the README.md in the root of th
 ```shell
 # Only necessary on Mac OS: install xhost. Restart your Mac after this.
 brew cask install xquartz
+```
 
+```shell
 # Only necessary on Mac OS and Linux, and only once per computer restart:
 # Allow the Cypress Docker container to open a window on the host
 xhost local:root
