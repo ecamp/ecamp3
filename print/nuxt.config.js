@@ -1,3 +1,5 @@
+import { sentryWebpackPlugin } from '@sentry/webpack-plugin'
+
 export default {
   /*
    ** Nuxt target
@@ -154,6 +156,24 @@ export default {
           },
         },
       })
+
+      const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+      if (sentryAuthToken) {
+        config.plugins.push(
+          sentryWebpackPlugin({
+            authToken: sentryAuthToken,
+            org: process.env.SENTRY_ORG || 'ecamp',
+            project: process.env.SENTRY_PRINT_PROJECT || 'ecamp3-print',
+            telemetry: false,
+            sourcemaps: {
+              assets: ['.nuxt/**/*'],
+            },
+            release: {
+              name: process.env.SENTRY_RELEASE_NAME || 'development',
+            },
+          })
+        )
+      }
     },
     postcss: {
       postcssOptions: {
