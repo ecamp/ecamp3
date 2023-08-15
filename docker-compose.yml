@@ -101,7 +101,6 @@ services:
       - ./pdf:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
-      - ./.cache/cypress:/home/node/.cache/Cypress
     working_dir: /app
     command: ./docker-setup.sh
     environment:
