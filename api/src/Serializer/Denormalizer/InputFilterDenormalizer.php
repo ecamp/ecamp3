@@ -56,7 +56,7 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
      *
      * Implementation based on Symfony/Component/Validator/Mapping/Loader/AnnotationLoader.php
      *
-     * @param mixed $data
+     * @param array $data
      */
     private function filterInputs($data, string $className): array {
         if (!is_array($data)) {

@@ -25,7 +25,7 @@ abstract class AbstractRemoveProcessor implements ProcessorInterface {
     /**
      * Hook before the removal of an object.
      *
-     * @param mixed $data
+     * @param T $data
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
     }
@@ -33,7 +33,7 @@ abstract class AbstractRemoveProcessor implements ProcessorInterface {
     /**
      * For side effects after removal of an object.
      *
-     * @param mixed $data
+     * @param T $data
      */
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
     }

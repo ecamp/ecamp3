@@ -75,7 +75,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
     /**
      * For side effects after processing the object.
      *
-     * @param mixed $data
+     * @param T $data
      */
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
     }

@@ -22,8 +22,8 @@ class CleanTextFilterTest extends KernelTestCase {
     /**
      * @dataProvider getExamples
      *
-     * @param mixed $input
-     * @param mixed $output
+     * @param string $input
+     * @param string $output
      */
     public function testInputFiltering($input, $output) {
         // given

@@ -34,8 +34,8 @@ abstract class FilterAttribute {
     }
 
     /**
-     * @param mixed $name
-     * @param mixed $value
+     * @param string $name
+     * @param mixed  $value
      *
      * @throws InvalidOptionsException This magic method is only called if
      *                                 an invalid option name is given

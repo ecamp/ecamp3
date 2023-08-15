@@ -158,8 +158,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
     /**
      * @dataProvider getOperators
      *
-     * @param mixed $filterOperator
-     * @param mixed $operator
+     * @param string $filterOperator
+     * @param string $operator
      */
     public function testApplyFiltersByExpression($filterOperator, $operator) {
         // given
@@ -187,8 +187,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
     /**
      * @dataProvider getOperators
      *
-     * @param mixed $filterOperator
-     * @param mixed $operator
+     * @param string $filterOperator
+     * @param string $operator
      */
     public function testApplyReplacesSelfAlias($filterOperator, $operator) {
         // given
@@ -216,8 +216,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
     /**
      * @dataProvider getOperators
      *
-     * @param mixed $filterOperator
-     * @param mixed $operator
+     * @param string $filterOperator
+     * @param string $operator
      */
     public function testApplyReplacesRelationAlias($filterOperator, $operator) {
         // given
@@ -251,8 +251,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
     /**
      * @dataProvider getOperators
      *
-     * @param mixed $filterOperator
-     * @param mixed $operator
+     * @param string $filterOperator
+     * @param string $operator
      */
     public function testApplyReplacesMultipleRelationAliases($filterOperator, $operator) {
         // given
@@ -285,8 +285,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
     /**
      * @dataProvider getOperators
      *
-     * @param mixed $filterOperator
-     * @param mixed $operator
+     * @param string $filterOperator
+     * @param string $operator
      */
     public function testApplyReplacesMultipleInstancesOfTheSameRelationAlias($filterOperator, $operator) {
         // given
