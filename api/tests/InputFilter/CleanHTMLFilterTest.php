@@ -24,6 +24,9 @@ class CleanHTMLFilterTest extends KernelTestCase {
 
     /**
      * @dataProvider getExamples
+     *
+     * @param mixed $input
+     * @param mixed $output
      */
     public function testInputFiltering($input, $output) {
         // given

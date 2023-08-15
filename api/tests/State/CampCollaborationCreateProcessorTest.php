@@ -132,6 +132,8 @@ class CampCollaborationCreateProcessorTest extends TestCase {
 
     /**
      * @dataProvider notInvitedStatuses
+     *
+     * @param mixed $status
      */
     public function testAfterCreateDoesNotSendEmailIfStatusNotInvited($status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';

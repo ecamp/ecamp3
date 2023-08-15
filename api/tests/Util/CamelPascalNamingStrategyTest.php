@@ -15,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getTableNameExamples
+     *
+     * @param mixed $className
+     * @param mixed $output
      */
     public function testClassToTableName($className, $output) {
         // given
@@ -38,6 +41,9 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getPropertyExamples
+     *
+     * @param mixed $input
+     * @param mixed $output
      */
     public function testPropertyToColumnName($input, $output) {
         // given
@@ -60,6 +66,10 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getEmbeddedFieldExamples
+     *
+     * @param mixed $propertyName
+     * @param mixed $embeddedColumnName
+     * @param mixed $output
      */
     public function testEmbeddedFieldToColumnName($propertyName, $embeddedColumnName, $output) {
         // given
@@ -81,6 +91,9 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getJoinColumnExamples
+     *
+     * @param mixed $propertyName
+     * @param mixed $output
      */
     public function testJoinColumnName($propertyName, $output) {
         // given
@@ -103,6 +116,10 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getJoinKeyColumnExamples
+     *
+     * @param mixed $entityName
+     * @param mixed $referencedColumnName
+     * @param mixed $output
      */
     public function testJoinKeyColumnName($entityName, $referencedColumnName, $output) {
         // given

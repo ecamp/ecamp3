@@ -12,6 +12,9 @@ use PHPUnit\Framework\TestCase;
 class TrimFilterTest extends TestCase {
     /**
      * @dataProvider getExamples
+     *
+     * @param mixed $input
+     * @param mixed $output
      */
     public function testInputFiltering($input, $output) {
         // given
