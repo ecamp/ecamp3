@@ -13,7 +13,8 @@ class AssertBelongsToSameCamp extends Constraint {
     /**
      * AssertBelongsToSameCamp constructor.
      *
-     * @param bool $compareToPrevious in case the camp getter considers the annotated property, use this option (only when updating)
+     * @param bool       $compareToPrevious in case the camp getter considers the annotated property, use this option (only when updating)
+     * @param null|mixed $payload
      */
     public function __construct(array $options = null, bool $compareToPrevious = false, string $message = null, array $groups = null, $payload = null) {
         parent::__construct($options ?? [], $groups, $payload);
