@@ -202,6 +202,13 @@ import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
+import { mapGetters } from 'vuex'
+import {
+  filterAndQueryAreEqual,
+  loadAndProcessCollections,
+  transformValuesToHalId,
+  processRouteQuery,
+} from '@/helpers/querySyncHelper'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -225,8 +232,10 @@ export default {
   },
   data() {
     return {
-      loggedInUser: null,
       loading: true,
+      /**
+       * @type {ActivityFilter} filter
+       */
       filter: {
         period: null,
         responsible: [],
@@ -347,24 +356,43 @@ export default {
     multiplePeriods() {
       return Object.keys(this.periods).length > 1
     },
+    ...mapGetters({
+      loggedInUser: 'getLoggedInUser',
+    }),
+  },
+  watch: {
+    'filter.category': 'persistRouterState',
+    'filter.responsible': 'persistRouterState',
+    'filter.period': 'persistRouterState',
+    'filter.progressLabel': 'persistRouterState',
   },
   async mounted() {
     this.api.reload(this.camp())
 
-    const [loggedInUser] = await Promise.all([
-      this.$auth.loadUser(),
-      this.camp().periods()._meta.load,
-      this.camp().activities()._meta.load,
-      this.camp().categories()._meta.load,
-      this.camp().progressLabels()._meta.load,
-    ])
+    const { categories, periods, collaborators, progressLabels } =
+      await loadAndProcessCollections(this.camp())
+    const queryFilters = processRouteQuery(this.$route.query)
+    const { period, responsible, category, progressLabel } = {
+      ...this.filter,
+      ...queryFilters,
+    }
+    this.filter = {
+      category: category.filter((value) => categories.includes(value)),
+      responsible: responsible.filter((value) => collaborators.includes(value)),
+      progressLabel: progressLabel.filter((value) => progressLabels.includes(value)),
+      period: periods.includes(period) ? period : null,
+    }
 
-    this.loggedInUser = loggedInUser
     this.loading = false
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
+    },
+    persistRouterState() {
+      const query = transformValuesToHalId(this.filter)
+      if (filterAndQueryAreEqual(query, this.$route.query)) return
+      this.$router.replace({ query }).catch((err) => console.warn(err))
     },
   },
 }
