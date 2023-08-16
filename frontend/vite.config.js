@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => ({
       '@react-pdf/font',
       '@react-pdf/layout',
       '@react-pdf/pdfkit',
+      '@react-pdf/primitives',
       '@react-pdf/render',
       '@sentry/browser',
       '@sentry/vue',

@@ -1,31 +1,10 @@
 import { styleStore } from './styleStore.js'
 import camelCase from 'lodash/camelCase.js'
+import * as primitives from '@react-pdf/primitives'
 
-export const htmlToPdfElementMap = {
-  Document: 'DOCUMENT',
-  Page: 'PAGE',
-  View: 'VIEW',
-  Image: 'IMAGE',
-  Text: 'TEXT',
-  Link: 'LINK',
-  Note: 'NOTE',
-  Canvas: 'CANVAS',
-  Svg: 'SVG',
-  Line: 'LINE',
-  Polyline: 'POLYLINE',
-  Polygon: 'POLYGON',
-  Path: 'PATH',
-  Rect: 'RECT',
-  Circle: 'CIRCLE',
-  Ellipse: 'ELLIPSE',
-  Tspan: 'TSPAN',
-  G: 'G',
-  Stop: 'STOP',
-  Defs: 'DEFS',
-  ClipPath: 'CLIP_PATH',
-  LinearGradient: 'LINEAR_GRADIENT',
-  RadialGradient: 'RADIAL_GRADIENT',
-}
+export const htmlToPdfElementMap = { ...primitives }
+delete htmlToPdfElementMap.__esModule
+delete htmlToPdfElementMap.TextInstance
 
 function noop(fn) {
   throw Error(`no-op: ${fn}`)
