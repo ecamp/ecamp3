@@ -1,6 +1,6 @@
-import minBy from 'lodash/minBy'
-import maxBy from 'lodash/maxBy'
-import sortBy from 'lodash/sortBy'
+import minBy from 'lodash/minBy.js'
+import maxBy from 'lodash/maxBy.js'
+import sortBy from 'lodash/sortBy.js'
 
 /**
  * Splits a set of days into pages, such that all pages contain a similar number of days.

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# We need twemoji for emoji support in react printing. Since there is no maintained npm package
+# We need twemoji for emoji support in client-side printing. Since there is no maintained npm package
 # which includes the actual emoji images, we use this script to install the images. By default,
 # twemoji are usually accessed from CDNs, but for traceability reasons, we self-host them.
 
