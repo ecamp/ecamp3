@@ -91,7 +91,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   pdf:
-    image: node:18.17.1
+    image: node:20.5.1
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
