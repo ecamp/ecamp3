@@ -117,4 +117,15 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testSqlQueryCount() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
+
+        $this->assertSqlQueryCount($client, 13);
+    }
 }

@@ -131,4 +131,15 @@ class ReadPeriodTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testSqlQueryCount() {
+        /** @var Period $period */
+        $period = static::$fixtures['period1'];
+
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/periods/'.$period->getId());
+
+        $this->assertSqlQueryCount($client, 17);
+    }
 }

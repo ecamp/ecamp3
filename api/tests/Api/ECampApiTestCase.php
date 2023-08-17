@@ -16,6 +16,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
+use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Component\BrowserKit\Cookie;
@@ -296,5 +297,16 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $this->assertEquals($propertyName, $responseArray['violations'][0]['propertyPath']);
         $this->assertStringStartsWith('Provided JSON doesn\'t match required schema', $responseArray['violations'][0]['message']);
+    }
+
+    /**
+     * Validates the number of executed SqlQueries.
+     * requieres $client->enableProfiler().
+     */
+    protected function assertSqlQueryCount(Client $client, int $expected) {
+        /** @var DoctrineDataCollector $collector */
+        $collector = $client->getProfile()->getCollector('db');
+
+        $this->assertEquals($expected, $collector->getQueryCount());
     }
 }
