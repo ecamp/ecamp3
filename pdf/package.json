@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@vue/runtime-core": "3.3.4",
-    "html-entities": "2.3.6",
+    "html-entities": "2.4.0",
     "html-parse-stringify": "3.0.1"
   },
   "peerDependencies": {
