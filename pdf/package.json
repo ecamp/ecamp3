@@ -46,7 +46,7 @@
     "jsdom": "20.0.3",
     "prettier": "3.0.2",
     "url-template": "^3.1.0",
-    "vite": "3.2.7",
+    "vite": "4.4.9",
     "vitest": "0.34.2"
   },
   "eslintConfig": {
