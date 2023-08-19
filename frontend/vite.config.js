@@ -20,6 +20,7 @@ const plugins = [
 ]
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
 if (sentryAuthToken) {
+  console.error("Adding sentry vite plugin")
   plugins.push(
     sentryVitePlugin({
       authToken: sentryAuthToken,
@@ -34,6 +35,8 @@ if (sentryAuthToken) {
       },
     })
   )
+} else {
+  console.error("No SENTRY_AUTH_TOKEN")
 }
 
 export default defineConfig(({ mode }) => ({

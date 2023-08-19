@@ -159,6 +159,7 @@ export default {
 
       const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
       if (sentryAuthToken) {
+        console.error("Adding sentry webpack plugin")
         config.plugins.push(
           sentryWebpackPlugin({
             authToken: sentryAuthToken,
@@ -173,6 +174,8 @@ export default {
             },
           })
         )
+      } else {
+        console.error("No SENTRY_AUTH_TOKEN")
       }
     },
     postcss: {
