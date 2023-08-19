@@ -37,6 +37,7 @@ if (sentryAuthToken) {
   )
 } else {
   console.error("No SENTRY_AUTH_TOKEN")
+  console.error("env is: ", process.env)
 }
 
 export default defineConfig(({ mode }) => ({

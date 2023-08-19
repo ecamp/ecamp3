@@ -176,6 +176,7 @@ export default {
         )
       } else {
         console.error("No SENTRY_AUTH_TOKEN")
+        console.error("env is: ", process.env)
       }
     },
     postcss: {
