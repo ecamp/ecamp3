@@ -4,9 +4,13 @@ set -e
 working_dir=/tmp/backup-dir
 complete_marker=$working_dir/.download-complete
 
-while [ ! -f $complete_marker ]; do
-    sleep 0.1
-done
+wait_for_download() {
+  while [ ! -f $complete_marker ]; do
+      sleep 0.1
+  done
+}
+
+timeout 10 wait_for_download
 
 backup_file=$working_dir/pgdump.sql
 
