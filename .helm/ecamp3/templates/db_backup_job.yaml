@@ -15,31 +15,6 @@ spec:
         spec:
           enableServiceLinks: false
           containers:
-            - name: create-backup
-              image: postgres:15
-              imagePullPolicy: IfNotPresent
-              command:
-                - sh
-                - "-c"
-                - |{{ range .Files.Lines "files/db_backup_job/create-backup.sh" }}
-                  {{ . }}{{ end }}
-              env:
-                - name: DATABASE_URL
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ include "dbBackupJob.name" . }}
-                      key: database-url
-                - name: ENCRYPTION_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ include "dbBackupJob.name" . }}
-                      key: encryption-key
-                      optional: true
-              volumeMounts:
-                - mountPath: /tmp/backup-dir
-                  name: backup-dir
-                  mountPropagation: HostToContainer
-
             - name: upload-backup
               image: amazon/aws-cli:2.11.21
               command:
@@ -77,6 +52,31 @@ spec:
                       name: {{ include "dbBackupJob.name" . }}
                       key: s3-access-key
 
+              volumeMounts:
+                - mountPath: /tmp/backup-dir
+                  name: backup-dir
+                  mountPropagation: HostToContainer
+              
+            - name: create-backup
+              image: postgres:15
+              imagePullPolicy: IfNotPresent
+              command:
+                - sh
+                - "-c"
+                - |{{ range .Files.Lines "files/db_backup_job/create-backup.sh" }}
+                  {{ . }}{{ end }}
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: database-url
+                - name: ENCRYPTION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: encryption-key
+                      optional: true
               volumeMounts:
                 - mountPath: /tmp/backup-dir
                   name: backup-dir
