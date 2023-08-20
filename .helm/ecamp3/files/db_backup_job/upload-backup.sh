@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-timeout 10s sh <<EOT
+timeout 300s sh <<EOT
   while [ ! -f /tmp/backup-dir/.backup-complete ]; do
       sleep 0.1
   done
