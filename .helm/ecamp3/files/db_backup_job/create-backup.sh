@@ -1,5 +1,8 @@
 #!/bin/sh
 set -e
+set -x
+
+touch /tmp/backup-dir/test
 
 pg_dump $DATABASE_URL \
       --no-owner \
@@ -13,3 +16,4 @@ if [ -n "${ENCRYPTION_KEY}" ]; then
     gpg --passphrase=${ENCRYPTION_KEY} --batch -c /tmp/backup-dir/pgdump.sql.gz
 fi
 touch /tmp/backup-dir/.backup-complete
+ls -la /tmp/backup-dir

@@ -3,9 +3,11 @@ set -e
 
 timeout 300s sh <<EOT
   while [ ! -f /tmp/backup-dir/.backup-complete ]; do
-      sleep 0.1
+      ls -la /tmp/backup-dir
+      sleep 1
   done
 EOT
+set -x
 
 echo "Uploading dump to $S3_BUCKET"
 SRC_FILE=/tmp/backup-dir/pgdump.sql.gz
