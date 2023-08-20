@@ -55,7 +55,6 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/backup-dir
                   name: backup-dir
-                  mountPropagation: HostToContainer
               
             - name: create-backup
               image: postgres:15
@@ -80,7 +79,6 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/backup-dir
                   name: backup-dir
-                  mountPropagation: HostToContainer
 
           restartPolicy: OnFailure
           volumes:
