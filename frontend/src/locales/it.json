@@ -256,17 +256,17 @@
           "previewIframeTitle": "Anteprima di stampa"
         }
       },
-      "printReact": {
-        "downloadReactPdfButton": {
+      "printClient": {
+        "downloadClientPdfButton": {
           "label": "Scarica il PDF (layout #2)"
         },
-        "downloadReactPdfListItem": {
+        "downloadClientPdfListItem": {
           "label": "Scarica il PDF (layout #2)"
         },
         "generatePdfMixin": {
           "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
         },
-        "printPreviewReact": {
+        "printPreviewClient": {
           "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
           "previewIframeTitle": "Anteprima di stampa"
         }

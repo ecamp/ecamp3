@@ -132,4 +132,15 @@ class ReadActivityTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testSqlQueryCount() {
+        /** @var Activity $activity */
+        $activity = static::$fixtures['activity1'];
+
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/activities/'.$activity->getId());
+
+        $this->assertSqlQueryCount($client, 29);
+    }
 }

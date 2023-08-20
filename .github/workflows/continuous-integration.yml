@@ -28,7 +28,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.8'
+          php-version: '8.2.9'
           tools: composer:2.5.0
           coverage: xdebug
 
@@ -74,10 +74,39 @@ jobs:
           npm run lint:check:eslint
           result=$(npm run lint:check:prettier)
           echo $result
-          if echo $result | grep -E "Code style issues found"; then 
+          if echo $result | grep -E "Code style issues found"; then
              exit 1
           fi
         working-directory: frontend
+
+  client-print-eslint:
+    name: 'Lint: ClientPrint (ESLint)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.5.1'
+
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: pdf
+
+      - run: |
+          npm run lint:check:eslint
+          result=$(npm run lint:check:prettier)
+          echo $result
+          if echo $result | grep -E "Code style issues found"; then
+             exit 1
+          fi
+        working-directory: pdf
 
   print-eslint:
     name: 'Lint: Print (ESLint)'
@@ -162,7 +191,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.8'
+          php-version: '8.2.9'
           extensions: intl-73.1
           tools: composer:2.5.0
           coverage: xdebug
@@ -226,6 +255,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: pdf
+
+      - run: npm run build
+        working-directory: pdf
 
       - run: npm ci --no-audit
         working-directory: frontend
@@ -376,7 +411,7 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d php caddy frontend print browserless database docker-host
+      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
 
       - uses: cypress-io/github-action@v5
         with:

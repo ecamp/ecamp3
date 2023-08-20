@@ -101,7 +101,7 @@ Displays a single scheduleEntry
 
         <v-list>
           <DownloadNuxtPdf :config="printConfig" />
-          <DownloadReactPdf :config="printConfig" />
+          <DownloadClientPdf :config="printConfig" />
 
           <v-divider />
 
@@ -233,7 +233,7 @@ import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { periodRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
-import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
+import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 
@@ -244,7 +244,7 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    DownloadReactPdf,
+    DownloadClientPdf,
     DownloadNuxtPdf,
     CategoryChip,
   },

@@ -256,17 +256,17 @@
           "previewIframeTitle": "Aperçu avant impression"
         }
       },
-      "printReact": {
-        "downloadReactPdfButton": {
+      "printClient": {
+        "downloadClientPdfButton": {
           "label": "Télécharger le PDF (mise en page #2)"
         },
-        "downloadReactPdfListItem": {
+        "downloadClientPdfListItem": {
           "label": "Télécharger le PDF (mise en page #2)"
         },
         "generatePdfMixin": {
           "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
         },
-        "printPreviewReact": {
+        "printPreviewClient": {
           "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
           "previewIframeTitle": "Aperçu avant impression"
         }
