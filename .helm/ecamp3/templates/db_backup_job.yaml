@@ -38,6 +38,7 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/backup-dir
                   name: backup-dir
+                  mountPropagation: HostToContainer
 
             - name: upload-backup
               image: amazon/aws-cli:2.11.21
@@ -79,6 +80,7 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/backup-dir
                   name: backup-dir
+                  mountPropagation: HostToContainer
 
           restartPolicy: OnFailure
           volumes:

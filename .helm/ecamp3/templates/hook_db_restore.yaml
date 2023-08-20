@@ -63,6 +63,7 @@ spec:
           volumeMounts:
             - mountPath: /tmp/backup-dir
               name: backup-dir
+              mountPropagation: HostToContainer
 
         - name: restore-backup
           image: postgres:15
@@ -89,6 +90,7 @@ spec:
           volumeMounts:
             - mountPath: /tmp/backup-dir
               name: backup-dir
+              mountPropagation: HostToContainer
 
       volumes:
         - name: backup-dir
