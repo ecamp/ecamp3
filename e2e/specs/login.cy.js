@@ -17,7 +17,7 @@ describe('Login test', () => {
 
     cy.location('pathname', { timeout: 60000 }).should('include', '/camps')
 
-    cy.contains('My Camps')
+    cy.contains('Meine Lager')
     cy.contains('GRGR')
     cy.contains('Harry Potter Lager')
   })
