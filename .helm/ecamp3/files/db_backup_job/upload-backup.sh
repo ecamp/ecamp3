@@ -1,9 +1,13 @@
 #!/bin/sh
 set -e
 
-while [ ! -f /tmp/backup-dir/.backup-complete ]; do
-    sleep 0.1
-done
+wait_for_backup() {
+  while [ ! -f /tmp/backup-dir/.backup-complete ]; do
+      sleep 0.1
+  done
+}
+
+timeout 10 wait_for_backup
 
 echo "Uploading dump to $S3_BUCKET"
 SRC_FILE=/tmp/backup-dir/pgdump.sql.gz
