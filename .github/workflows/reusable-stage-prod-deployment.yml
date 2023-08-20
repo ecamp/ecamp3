@@ -1,4 +1,4 @@
-name: '[reusable only] Staging and Prod deployment'
+name: '[reusable only] Staging and Prod deployment '
 
 on:
   workflow_call:
