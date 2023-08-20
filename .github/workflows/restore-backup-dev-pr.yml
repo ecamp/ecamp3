@@ -43,4 +43,5 @@ jobs:
       env: ${{ inputs.env }}
       pr_number: ${{ inputs.pr_number }}
       dropDBOnUninstall: ${{ inputs.pr_number != null }}
+      restoreSourceFile: ${{ inputs.sourceFile }}
     secrets: inherit
