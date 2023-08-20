@@ -4,13 +4,11 @@ set -e
 working_dir=/tmp/backup-dir
 complete_marker=$working_dir/.download-complete
 
-wait_for_download() {
+timeout 10s sh <<EOT
   while [ ! -f $complete_marker ]; do
       sleep 0.1
   done
-}
-
-timeout 10 wait_for_download
+EOT
 
 backup_file=$working_dir/pgdump.sql
 
