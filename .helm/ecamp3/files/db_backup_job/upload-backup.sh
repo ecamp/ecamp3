@@ -10,9 +10,6 @@ timeout 300s sh <<EOT
   done
 EOT
 ls -la /tmp/backup-dir
-echo "showing mount"
-mount
-echo "finish showing mount"
 set -x
 
 echo "Uploading dump to $S3_BUCKET"
