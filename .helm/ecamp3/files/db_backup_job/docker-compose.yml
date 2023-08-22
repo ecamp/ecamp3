@@ -4,7 +4,7 @@ services:
     image: postgres:15
     volumes:
       - ./create-backup.sh:/create-backup.sh
-      - backup-storage:/tmp/backup-dir
+      - backup-storage:/var/backup-dir
     command:
       - sh
       - "-x"
@@ -15,7 +15,7 @@ services:
     image: amazon/aws-cli:2.11.21
     volumes:
       - ./upload-backup.sh:/upload-backup.sh
-      - backup-storage:/tmp/backup-dir
+      - backup-storage:/var/backup-dir
     entrypoint:
       - sh
       - /upload-backup.sh

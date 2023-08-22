@@ -1,16 +1,22 @@
 #!/bin/sh
 set -e
 
+backup_dir=/var/backup-dir
+
 timeout 300s sh <<EOT
-  while [ ! -f /tmp/backup-dir/.backup-complete ]; do
-      ls -la /tmp/backup-dir
+  while [ ! -f $backup_dir/.backup-complete ]; do
+      ls -la $backup_dir
       sleep 1
   done
 EOT
+ls -la /tmp/backup-dir
+echo "showing mount"
+mount
+echo "finish showing mount"
 set -x
 
 echo "Uploading dump to $S3_BUCKET"
-SRC_FILE=/tmp/backup-dir/pgdump.sql.gz
+SRC_FILE=$backup_dir/pgdump.sql.gz
 
 CURRENT_DATE=$(date +"%Y-%m-%d-%H-%M-%S")
 DEST_FILE="${CURRENT_DATE}-$APP_NAME.sql.gz"
@@ -24,11 +30,11 @@ export AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$S3_ACCESS_KEY
 
 set +e
-ls -lah /tmp/backup-dir/
+ls -lah $backup_dir
 aws --endpoint-url $S3_ENDPOINT s3 cp $SRC_FILE s3://$S3_BUCKET/$APP_NAME/$DEST_FILE
 exit_code=$?
-rm -rf /tmp/backup-dir/*
-rm -rf /tmp/backup-dir/.backup-complete
+rm -rf $backup_dir/*
+rm -rf $backup_dir/.backup-complete
 if [ $exit_code = 0 ]; then
     echo "uploaded dump successfully"
 else

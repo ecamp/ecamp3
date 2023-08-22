@@ -55,6 +55,8 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/backup-dir
                   name: backup-dir
+                - mountPath: /var/backup-dir
+                  name: backup-dir
               
             - name: create-backup
               image: postgres:15
@@ -78,6 +80,8 @@ spec:
                       optional: true
               volumeMounts:
                 - mountPath: /tmp/backup-dir
+                  name: backup-dir
+                - mountPath: /var/backup-dir
                   name: backup-dir
 
           restartPolicy: OnFailure
