@@ -5,6 +5,15 @@ describe('The filters in the dashboard', () => {
     cy.get('a:contains("GRGR")').click()
   })
 
+  afterEach(() => {
+    /**
+     * Firefox does not like it if a test is finished while
+     * requests are still running. Thus we wait for this text to be rendered.
+     * This worked better than intercepting requests.
+     */
+    cy.contains('Hauptlager')
+  })
+
   it('can be shared via url', () => {
     cy.get('span.v-chip:contains("Kategorie")').click()
     clickOnItemWithLabel('Essen')
