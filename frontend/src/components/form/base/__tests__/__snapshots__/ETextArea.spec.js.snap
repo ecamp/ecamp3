@@ -98,7 +98,7 @@ exports[`An ETextArea looks like a textarea: withtext 1`] = `
                                    id>
                                    <!---->
                                    <div class="editor__content">
-                                        <div class="ProseMirror"
+                                        <div class="tiptap ProseMirror"
                                              contenteditable="true"
                                              tabindex="0"
                                              translate="no">
