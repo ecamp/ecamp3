@@ -119,6 +119,24 @@
         "@nuxtjs/stylelint-module"
       ],
       "allowedVersions": "^4"
+    },
+    {
+      "matchFileNames": [
+        "print/package.json"
+      ],
+      "matchPackageNames": [
+        "prettier"
+      ],
+      "allowedVersions": "^2"
+    },
+    {
+      "matchFileNames": [
+        "print/package.json"
+      ],
+      "matchPackageNames": [
+        "eslint-plugin-prettier"
+      ],
+      "allowedVersions": "^4"
     }
   ],
   "regexManagers": [
