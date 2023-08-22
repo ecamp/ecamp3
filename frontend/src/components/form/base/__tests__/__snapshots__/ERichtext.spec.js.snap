@@ -70,7 +70,7 @@ exports[`An ERichtext looks like a richtext field: with text 1`] = `
                               <div class="editor"
                                    id>
                                    <div class="editor__content">
-                                        <div class="ProseMirror"
+                                        <div class="tiptap ProseMirror"
                                              contenteditable="true"
                                              tabindex="0"
                                              translate="no">
