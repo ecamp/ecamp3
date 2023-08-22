@@ -138,7 +138,7 @@ jobs:
         working-directory: print
   
   e2e-lint:
-    name: 'Lint: e2e (Prettier)'
+    name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
@@ -158,6 +158,7 @@ jobs:
         working-directory: e2e
 
       - run: |
+          npm run lint:check:eslint
           result=$(npm run lint:check:prettier)
           echo $result
           if echo $result | grep -E "Code style issues found"; then 
