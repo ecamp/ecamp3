@@ -13,23 +13,25 @@ declare(strict_types=1);
 
 namespace App\HttpCache;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Api\ResourceClassResolverInterface;
-use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Exception\InvalidArgumentException;
-use ApiPlatform\Exception\OperationNotFoundException;
-use ApiPlatform\Exception\RuntimeException;
-use ApiPlatform\HttpCache\PurgerInterface;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Util\ClassInfoTrait;
-use App\Entity\BaseEntity;
-use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\PersistentCollection;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Doctrine\ORM\PersistentCollection;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Util\ClassUtils;
+use App\Entity\Category;
+use App\Entity\BaseEntity;
+use ApiPlatform\Metadata\Util\ClassInfoTrait;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\HttpCache\PurgerInterface;
+use ApiPlatform\Exception\RuntimeException;
+use ApiPlatform\Exception\OperationNotFoundException;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Api\ResourceClassResolverInterface;
+use ApiPlatform\Api\IriConverterInterface;
 
 /**
  * Purges responses containing modified entities from the proxy cache.
@@ -44,7 +46,7 @@ final class PurgeHttpCacheListener
 
     public const IRI_RELATION_DELIMITER = '#';
 
-    public function __construct(private readonly PurgerInterface $purger, private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct(private readonly PurgerInterface $purger, private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor, private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory)
     {
         $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
     }
@@ -114,8 +116,20 @@ final class PurgeHttpCacheListener
     {
         try {
             $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
-            $iri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::ABS_PATH, new GetCollection());
-            $this->tags[$iri] = $iri;
+            $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+            $resourceIterator = $resourceMetadataCollection->getIterator();
+            while ($resourceIterator->valid()) {
+                /** @var ApiResource $metadata */
+                $metadata = $resourceIterator->current();
+
+                foreach ($metadata->getOperations() ?? [] as $operation) {
+                    if ($operation instanceof GetCollection) {
+                        $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+                        $this->tags[$iri] = $iri;
+                    }
+                }
+                $resourceIterator->next();
+            }
         } catch (OperationNotFoundException|InvalidArgumentException) {
         }
     }

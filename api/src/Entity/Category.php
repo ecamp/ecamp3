@@ -62,7 +62,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriVariables: [
                 'campId' => new Link(
                     fromClass: Camp::class,
-                    expandedValue: '{campId}'
+                    fromProperty: 'categories'
                 ),
             ],
         ),
