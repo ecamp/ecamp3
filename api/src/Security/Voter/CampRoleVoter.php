@@ -64,7 +64,7 @@ class CampRoleVoter extends Voter {
             // Add CampCollaboration to cache tags
             $request = $this->requestStack->getCurrentRequest();
             $resources = [
-                $this->iriConverter->getIriFromResource($campCollaboration),
+                $campCollaboration->getId()
             ];
             $request->attributes->set('_resources', $request->attributes->get('_resources', []) + (array) $resources);
 

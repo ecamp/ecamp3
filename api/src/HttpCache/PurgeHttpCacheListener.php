@@ -22,6 +22,7 @@ use ApiPlatform\Exception\RuntimeException;
 use ApiPlatform\HttpCache\PurgerInterface;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Util\ClassInfoTrait;
+use App\Entity\BaseEntity;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -171,7 +172,11 @@ final class PurgeHttpCacheListener
         }
 
         try {
-            $iri = $this->iriConverter->getIriFromResource($value);
+            if($value instanceof BaseEntity){
+                $iri = $value->getId();
+            } else {
+                $iri = $this->iriConverter->getIriFromResource($value);
+            }
             if ($property) {
                 $iri .= self::IRI_RELATION_DELIMITER.$property;
             }

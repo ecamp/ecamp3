@@ -21,6 +21,10 @@ class TagCollector implements TagCollectorInterface
 
     public function collect(mixed $object = null, string $format = null, array $context = [], string $iri = null, mixed $data = null, string $attribute = null, ApiProperty $propertyMetadata = null, Type $type = null): void
     {
+        if($object instanceof BaseEntity){
+            $iri = $object->getId();
+        }
+        
         if($attribute){
             $this->addCacheTagsForRelation($context, $iri, $propertyMetadata);
         }

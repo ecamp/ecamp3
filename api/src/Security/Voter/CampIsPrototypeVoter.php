@@ -43,7 +43,7 @@ class CampIsPrototypeVoter extends Voter {
             // Add Camp to cache tags
             $request = $this->requestStack->getCurrentRequest();
             $resources = [
-                $this->iriConverter->getIriFromResource($camp),
+                $camp->getId()
             ];
             $request->attributes->set('_resources', $request->attributes->get('_resources', []) + (array) $resources);
 
