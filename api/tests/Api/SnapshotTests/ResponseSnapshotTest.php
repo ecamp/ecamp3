@@ -4,6 +4,7 @@ namespace App\Tests\Api\SnapshotTests;
 
 use App\Entity\BaseEntity;
 use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Constraints\CompatibleHalResponse;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -11,7 +12,6 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\equalTo;
 
 /**
  * @internal
@@ -153,7 +153,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
         ;
         $this->assertResponseStatusCodeSame(200);
 
-        assertThat($itemResponse->toArray(), equalTo($patchResponse->toArray()));
+        assertThat($itemResponse->toArray(), CompatibleHalResponse::isHalCompatibleWith($patchResponse->toArray()));
     }
 
     /**
@@ -172,8 +172,6 @@ class ResponseSnapshotTest extends ECampApiTestCase {
                 '/content_types' => false,
                 '/days' => false,
                 '/day_responsibles' => false,
-                // patch and getItem of period have different embeddings
-                '/periods' => false,
                 default => true,
             };
         });
