@@ -32,8 +32,7 @@ const rules = [
   },
   {
     shouldProcessNode: (node) => node.type === 'tag' && node.name === 'br',
-    processNode: (_) =>
-      h('Text', {}, () => [visit({ type: 'text', content: '\n' }, null)]),
+    processNode: (_) => h('Text', {}, '\n'),
   },
   {
     shouldProcessNode: (node) =>
