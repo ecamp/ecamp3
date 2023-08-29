@@ -16,11 +16,14 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
+use App\Util\ArrayDeepSort;
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -28,6 +31,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class ECampApiTestCase extends ApiTestCase {
     use RefreshDatabaseTrait;
+    use MatchesSnapshots;
 
     protected string $endpoint = '';
     protected string $routePrefix = '';
@@ -55,6 +59,19 @@ abstract class ECampApiTestCase extends ApiTestCase {
         date_default_timezone_set($this->currentTimezone);
 
         parent::tearDown();
+    }
+
+    public static function escapeArrayValues(array $array): array {
+        $clonedArray = self::deepCloneArray($array);
+        array_walk_recursive($clonedArray, fn (mixed & $value) => self::escapeValues($value));
+
+        return $clonedArray;
+    }
+
+    public static function deepCloneArray(array $array): mixed {
+        $json_encode = json_encode($array);
+
+        return json_decode($json_encode, true);
     }
 
     /**
@@ -308,5 +325,39 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $collector = $client->getProfile()->getCollector('db');
 
         $this->assertEquals($expected, $collector->getQueryCount());
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    protected function assertMatchesEscapedResponseSnapshot(ResponseInterface $response): void {
+        $responseArray = $response->toArray(false);
+        $escapedArrayValues = self::escapeArrayValues($responseArray);
+        $sortedResponseArray = ArrayDeepSort::sort($escapedArrayValues);
+        $this->assertMatchesJsonSnapshot($sortedResponseArray);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    protected function assertMatchesResponseSnapshot(ResponseInterface $response): void {
+        $responseArray = $response->toArray(false);
+
+        $sortedResponseArray = ArrayDeepSort::sort($responseArray);
+        $this->assertMatchesJsonSnapshot($sortedResponseArray);
+    }
+
+    private static function escapeValues(mixed &$object): void {
+        if (!is_array($object)) {
+            $object = 'escaped_value';
+        }
     }
 }
