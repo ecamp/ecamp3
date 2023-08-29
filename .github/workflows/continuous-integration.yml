@@ -185,7 +185,12 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
+    
+    strategy:
+      matrix:
+        testClassPrefix: [ A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z ]
+    
+    
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
@@ -225,7 +230,7 @@ jobs:
       - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
         working-directory: api
 
-      - run: composer test
+      - run: composer test -- --filter '/^.*\\${{ matrix.testClassPrefix }}[^\\]*+$/'
         working-directory: api
 
       - name: send coveralls report
