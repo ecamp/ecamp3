@@ -111,7 +111,7 @@
     "lint-staged": "14.0.1",
     "prettier": "3.0.3",
     "sass": "1.32.13",
-    "unplugin-vue-components": "0.25.1",
+    "unplugin-vue-components": "0.25.2",
     "vite": "4.4.9",
     "vite-plugin-comlink": "3.0.5",
     "vite-plugin-vue2-svg": "0.4.0",
