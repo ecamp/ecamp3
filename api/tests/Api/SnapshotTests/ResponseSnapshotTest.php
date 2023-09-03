@@ -31,6 +31,23 @@ class ResponseSnapshotTest extends ECampApiTestCase {
         $this->assertMatchesResponseSnapshot($response);
     }
 
+    public function testOpenApiSpecMatchesSnapshot() {
+        $response = static::createClientWithCredentials()
+            ->request(
+                'GET',
+                '/docs.json',
+                [
+                    'headers' => [
+                        'accept' => 'application/json',
+                    ],
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertMatchesResponseSnapshot($response);
+    }
+
     /**
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
