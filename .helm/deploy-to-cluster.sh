@@ -56,6 +56,29 @@ for i in 1; do
   values="$values --set deployedVersion=\"$(git rev-parse --short HEAD)\""
   values="$values --set featureToggle.developer=true"
 
+  if [ -n "$BACKUP_SCHEDULE" ]; then
+    values="$values --set postgresql.backup.schedule=$BACKUP_SCHEDULE"
+    values="$values --set postgresql.backup.s3.endpoint=$BACKUP_S3_ENDPOINT"
+    values="$values --set postgresql.backup.s3.bucket=$BACKUP_S3_BUCKET"
+    values="$values --set postgresql.backup.s3.accessKeyId=$BACKUP_S3_ACCESS_KEY_ID"
+    values="$values --set postgresql.backup.s3.accessKey=$BACKUP_S3_ACCESS_KEY"
+    if [ -n $BACKUP_ENCRYPTION_KEY ]; then
+      values="$values --set postgresql.backup.encryptionKey=$BACKUP_ENCRYPTION_KEY"
+    fi
+  fi
+
+  if [ -n "$RESTORE_SOURCE_FILE" ]; then
+    values="$values --set postgresql.restore.sourceFile=$RESTORE_SOURCE_FILE"
+    values="$values --set postgresql.restore.s3.endpoint=$RESTORE_S3_ENDPOINT"
+    values="$values --set postgresql.restore.s3.bucket=$RESTORE_S3_BUCKET"
+    values="$values --set postgresql.restore.s3.accessKeyId=$RESTORE_S3_ACCESS_KEY_ID"
+    values="$values --set postgresql.restore.s3.accessKey=$RESTORE_S3_ACCESS_KEY"
+    if [ -n $RESTORE_ENCRYPTION_KEY ]; then
+      values="$values --set postgresql.restore.encryptionKey=$RESTORE_ENCRYPTION_KEY"
+    fi
+    values="$values --set postgresql.restore.inviteSupportAccountToInterestingCamps=$RESTORE_INVITE_TO_INTERESTING_CAMPS"
+  fi
+
   for imagespec in "frontend" "print"; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
@@ -65,6 +88,9 @@ for i in 1; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-api-$imagespec"
   done
+  
+  values="$values --set postgresql.dbBackupRestoreImage.pullPolicy=$pull_policy"
+  values="$values --set postgresql.dbBackupRestoreImage.repository=docker.io/${docker_hub_account}/ecamp3-db-backup-restore"
 
   helm uninstall ecamp3-"$instance_name"-"$i" || true
   helm upgrade --install ecamp3-"$instance_name"-"$i" $SCRIPT_DIR/ecamp3 $values

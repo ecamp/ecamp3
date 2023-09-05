@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  create-backup:
+    build:
+      context: ../db-backup-restore-image
+      dockerfile: Dockerfile
+    volumes:
+      - ./create-backup.sh:/create-backup.sh
+    command:
+      - sh
+      - "-x"
+      - /create-backup.sh
+    env_file: .env
