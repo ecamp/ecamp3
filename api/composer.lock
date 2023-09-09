@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0aa96faf06387a8ed181494e4d4ca125",
+    "content-hash": "0c50e36ced74dfa7e3a974abf8cd232b",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v3.1.16",
+            "version": "v3.1.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "9fa59e23f9000d6016aef00fad5b5cd72ac07919"
+                "reference": "850f7356b6732d0edccf3ee773113c457afc771e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/9fa59e23f9000d6016aef00fad5b5cd72ac07919",
-                "reference": "9fa59e23f9000d6016aef00fad5b5cd72ac07919",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/850f7356b6732d0edccf3ee773113c457afc771e",
+                "reference": "850f7356b6732d0edccf3ee773113c457afc771e",
                 "shasum": ""
             },
             "require": {
@@ -31,6 +31,7 @@
                 "symfony/property-access": "^6.1",
                 "symfony/property-info": "^6.1",
                 "symfony/serializer": "^6.1",
+                "symfony/translation-contracts": "^3.3",
                 "symfony/web-link": "^6.1",
                 "willdurand/negotiation": "^3.0"
             },
@@ -165,7 +166,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v3.1.16"
+                "source": "https://github.com/api-platform/core/tree/v3.1.17"
             },
             "funding": [
                 {
@@ -173,7 +174,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-02T07:06:13+00:00"
+            "time": "2023-09-08T14:11:23+00:00"
         },
         {
             "name": "behat/transliterator",
