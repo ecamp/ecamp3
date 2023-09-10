@@ -160,7 +160,7 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.59.0-puppeteer-20.2.1
+    image: browserless/chrome:1.60.0-puppeteer-21.1.1
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
