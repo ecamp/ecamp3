@@ -22,7 +22,7 @@
         "phpmyadmin/sql-parser": "5.8.0",
         "ramsey/uuid": "4.7.4",
         "rize/uri-template": "0.3.5",
-        "sentry/sentry-symfony": "4.10.0",
+        "sentry/sentry-symfony": "4.11.0",
         "stof/doctrine-extensions-bundle": "1.8.0",
         "swaggest/json-schema": "0.12.41",
         "symfony/asset": "6.3.0",
