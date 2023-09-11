@@ -73,6 +73,7 @@ for i in 1; do
     values="$values --set postgresql.restore.s3.bucket=$RESTORE_S3_BUCKET"
     values="$values --set postgresql.restore.s3.accessKeyId=$RESTORE_S3_ACCESS_KEY_ID"
     values="$values --set postgresql.restore.s3.accessKey=$RESTORE_S3_ACCESS_KEY"
+    values="$values --set postgresql.restore.sourceAppName=$RESTORE_SOURCE_APP"
     if [ -n $RESTORE_ENCRYPTION_KEY ]; then
       values="$values --set postgresql.restore.encryptionKey=$RESTORE_ENCRYPTION_KEY"
     fi
