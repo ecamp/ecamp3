@@ -138,12 +138,4 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
 
         return $columns->map(fn (array $element) => $element['slot'])->getValues();
     }
-
-    public function updateCreateTime(): void {
-        $this->createTime = new \DateTime();
-    }
-
-    public function updateUpdateTime(): void {
-        $this->updateTime = new \DateTime();
-    }
 }
