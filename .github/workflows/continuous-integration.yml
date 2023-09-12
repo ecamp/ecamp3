@@ -332,7 +332,7 @@ jobs:
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # build API (using cache; provide image to docker compose)
       - name: Build docker image (API/PHP)
@@ -388,7 +388,7 @@ jobs:
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Restore tmp folder
         uses: actions/download-artifact@v3
