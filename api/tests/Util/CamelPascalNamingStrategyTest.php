@@ -15,11 +15,8 @@ use PHPUnit\Framework\TestCase;
 class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getTableNameExamples
-     *
-     * @param string $className
-     * @param string $output
      */
-    public function testClassToTableName($className, $output) {
+    public function testClassToTableName(string $className, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -41,11 +38,8 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getPropertyExamples
-     *
-     * @param string $input
-     * @param string $output
      */
-    public function testPropertyToColumnName($input, $output) {
+    public function testPropertyToColumnName(string $input, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -66,12 +60,8 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getEmbeddedFieldExamples
-     *
-     * @param string $propertyName
-     * @param string $embeddedColumnName
-     * @param string $output
      */
-    public function testEmbeddedFieldToColumnName($propertyName, $embeddedColumnName, $output) {
+    public function testEmbeddedFieldToColumnName(string $propertyName, string $embeddedColumnName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -91,11 +81,8 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getJoinColumnExamples
-     *
-     * @param string $propertyName
-     * @param string $output
      */
-    public function testJoinColumnName($propertyName, $output) {
+    public function testJoinColumnName(string $propertyName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -116,12 +103,8 @@ class CamelPascalNamingStrategyTest extends TestCase {
 
     /**
      * @dataProvider getJoinKeyColumnExamples
-     *
-     * @param string      $entityName
-     * @param null|string $referencedColumnName
-     * @param string      $output
      */
-    public function testJoinKeyColumnName($entityName, $referencedColumnName, $output) {
+    public function testJoinKeyColumnName(string $entityName, ?string $referencedColumnName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 

@@ -77,10 +77,8 @@ class CampCollaborationUpdateProcessorTest extends TestCase {
 
     /**
      * @dataProvider notInvitedStatuses
-     *
-     * @param string $status
      */
-    public function testOnStatusChangeDoesNothingIfStatusIsNotInvited($status) {
+    public function testOnStatusChangeDoesNothingIfStatusIsNotInvited(string $status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;
 

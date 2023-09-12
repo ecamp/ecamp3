@@ -12,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 class TrimFilterTest extends TestCase {
     /**
      * @dataProvider getExamples
-     *
-     * @param string $input
-     * @param string $output
      */
-    public function testInputFiltering($input, $output) {
+    public function testInputFiltering(string $input, string $output) {
         // given
         $data = ['key' => $input];
         $outputData = ['key' => $output];

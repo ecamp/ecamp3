@@ -55,10 +55,8 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
      * Iterates over all properties of the entity class and applies any filter attributes.
      *
      * Implementation based on Symfony/Component/Validator/Mapping/Loader/AnnotationLoader.php
-     *
-     * @param array $data
      */
-    private function filterInputs($data, string $className): array {
+    private function filterInputs(mixed $data, string $className): array {
         if (!is_array($data)) {
             throw new UnexpectedValueException($data);
         }

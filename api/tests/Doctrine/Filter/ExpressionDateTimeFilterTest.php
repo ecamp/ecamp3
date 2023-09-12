@@ -157,11 +157,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
 
     /**
      * @dataProvider getOperators
-     *
-     * @param string $filterOperator
-     * @param string $operator
      */
-    public function testApplyFiltersByExpression($filterOperator, $operator) {
+    public function testApplyFiltersByExpression(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => 'something + 1']);
 
@@ -186,11 +183,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
 
     /**
      * @dataProvider getOperators
-     *
-     * @param string $filterOperator
-     * @param string $operator
      */
-    public function testApplyReplacesSelfAlias($filterOperator, $operator) {
+    public function testApplyReplacesSelfAlias(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{}.something + 1']);
 
@@ -215,11 +209,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
 
     /**
      * @dataProvider getOperators
-     *
-     * @param string $filterOperator
-     * @param string $operator
      */
-    public function testApplyReplacesRelationAlias($filterOperator, $operator) {
+    public function testApplyReplacesRelationAlias(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{parent.something} + 1']);
 
@@ -250,11 +241,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
 
     /**
      * @dataProvider getOperators
-     *
-     * @param string $filterOperator
-     * @param string $operator
      */
-    public function testApplyReplacesMultipleRelationAliases($filterOperator, $operator) {
+    public function testApplyReplacesMultipleRelationAliases(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{}.something + {parent.something} + {parent2.something}']);
 
@@ -284,11 +272,8 @@ class ExpressionDateTimeFilterTest extends TestCase {
 
     /**
      * @dataProvider getOperators
-     *
-     * @param string $filterOperator
-     * @param string $operator
      */
-    public function testApplyReplacesMultipleInstancesOfTheSameRelationAlias($filterOperator, $operator) {
+    public function testApplyReplacesMultipleInstancesOfTheSameRelationAlias(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{parent.something} + {parent.something}']);
 
