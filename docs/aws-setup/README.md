@@ -8,11 +8,11 @@ the setup for aws.
 
 1. Make a personal user with the ecampCore Amazon User of the KeePass
 2. Login with your personal user here: <https://d-90679ce1c6.awsapps.com/start#/>
-3. Configure [.aws/credentials](.aws/credentials) according to the according to option 2 of
+3. Configure [.aws/credentials](.aws/credentials) according to the option 2 of
    "Command line or programmatic access".\
    Name the profile "default"
 
-## Working with the cdk
+## Working with pulumi
 
 1. Make sure the dependencies are up to date
 

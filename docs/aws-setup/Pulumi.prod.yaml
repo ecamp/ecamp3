@@ -1,0 +1,4 @@
+encryptionsalt: v1:fMldUZIpLOs=:v1:0Vd6ZXTXZIlciRYQ:IlSxNR4210bawhbGLeYUFdT3LJL8Fg==
+config:
+  aws:region: eu-west-3
+  ecamp-core:env: prod

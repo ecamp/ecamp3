@@ -1,0 +1,4 @@
+encryptionsalt: v1:XBD0QUsfJx8=:v1:kE3gKM26lHSNXQql:hTPT6LNJt9u/qKKfo9PlrAYY/oX7Sw==
+config:
+  aws:region: eu-west-3
+  ecamp-core:env: staging
