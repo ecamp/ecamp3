@@ -256,17 +256,17 @@
           "previewIframeTitle": "Druckvorschau"
         }
       },
-      "printReact": {
-        "downloadReactPdfButton": {
+      "printClient": {
+        "downloadClientPdfButton": {
           "label": "PDF herunterladen (Layout #2)"
         },
-        "downloadReactPdfListItem": {
+        "downloadClientPdfListItem": {
           "label": "PDF herunterladen (Layout #2)"
         },
         "generatePdfMixin": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
         },
-        "printPreviewReact": {
+        "printPreviewClient": {
           "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
           "previewIframeTitle": "Druckvorschau"
         }

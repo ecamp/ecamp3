@@ -142,4 +142,15 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testSqlQueryCount() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
+
+        $this->assertSqlQueryCount($client, 17);
+    }
 }

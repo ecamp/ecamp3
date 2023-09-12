@@ -164,4 +164,12 @@ class ListMaterialItemsTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('materialItem1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testSqlQueryCount() {
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/material_items');
+
+        $this->assertSqlQueryCount($client, 4);
+    }
 }

@@ -12,11 +12,11 @@
     "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,json,md}"
   },
   "devDependencies": {
-    "cypress": "12.17.3",
+    "cypress": "13.1.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-cypress": "2.14.0",
     "eslint-plugin-prettier": "5.0.0",
-    "prettier": "3.0.1"
+    "prettier": "3.0.3"
   },
   "eslintConfig": {
     "root": true,

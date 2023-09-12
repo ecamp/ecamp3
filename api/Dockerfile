@@ -8,13 +8,13 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.2.8
+ARG PHP_VERSION=8.2.9
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.18
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.6.4
+ARG CADDY_VERSION=2.7.4
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php
@@ -89,7 +89,7 @@ ENV COMPOSER_CACHE_DIR=/tmp/composer/cache
 RUN mkdir -p /tmp/composer/cache
 RUN chmod ugo+w /tmp/composer/cache
 
-COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.json composer.lock symfony.lock ./

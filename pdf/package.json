@@ -1,0 +1,106 @@
+{
+  "name": "pdf",
+  "version": "0.1.0",
+  "description": "Create pdfs for eCamp, using Vue components",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "preview": "vite preview",
+    "test:unit": "vitest --environment jsdom",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss}",
+    "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
+    "lint:check:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --no-fix --ignore-path .gitignore",
+    "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss}"
+  },
+  "dependencies": {
+    "@vue/runtime-core": "3.3.4",
+    "html-entities": "2.4.0",
+    "html-parse-stringify": "3.0.1"
+  },
+  "peerDependencies": {
+    "@react-pdf/font": "2.3.6",
+    "@react-pdf/layout": "3.6.2",
+    "@react-pdf/pdfkit": "3.0.2",
+    "@react-pdf/render": "3.2.6",
+    "colorjs.io": "0.4.5",
+    "lodash": "4.17.21",
+    "runes": "0.4.3"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "7.22.15",
+    "@rushstack/eslint-patch": "1.3.3",
+    "@vitejs/plugin-vue": "3.2.0",
+    "@vue/babel-preset-app": "5.0.8",
+    "@vue/eslint-config-prettier": "8.0.0",
+    "@vue/test-utils": "2.4.0",
+    "css": "3.0.0",
+    "dayjs": "^1.11.9",
+    "eslint": "8.49.0",
+    "eslint-plugin-local-rules": "1.3.2",
+    "eslint-plugin-vue": "9.17.0",
+    "jsdom": "20.0.3",
+    "prettier": "3.0.3",
+    "url-template": "^3.1.0",
+    "vite": "3.2.7",
+    "vitest": "0.34.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "extends": [
+      "plugin:vue/vue3-recommended",
+      "eslint:recommended",
+      "plugin:prettier/recommended",
+      "@vue/eslint-config-prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "vue/component-tags-order": [
+        "error",
+        {
+          "order": [
+            "template",
+            "script",
+            "style"
+          ]
+        }
+      ],
+      "vue/multi-word-component-names": "off",
+      "vue/valid-v-for": "off",
+      "vue/no-reserved-component-names": "off",
+      "vue/no-unused-vars": [
+        "error",
+        {
+          "ignorePattern": "^_"
+        }
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_$"
+        }
+      ],
+      "local-rules/matching-translation-keys": [
+        "error",
+        {
+          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
+          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
+        }
+      ]
+    },
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "plugins": [
+      "eslint-plugin-local-rules"
+    ]
+  }
+}

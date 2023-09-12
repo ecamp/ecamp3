@@ -27,7 +27,7 @@ Show all activity schedule entries of a single period.
           />
           <v-divider />
           <DownloadNuxtPdf :config="printConfig" />
-          <DownloadReactPdf :config="printConfig" />
+          <DownloadClientPdf :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
@@ -62,7 +62,7 @@ import Picasso from '@/components/program/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
-import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
+import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 
@@ -70,7 +70,7 @@ export default {
   name: 'CampProgram',
   components: {
     DownloadNuxtPdf,
-    DownloadReactPdf,
+    DownloadClientPdf,
     PeriodSwitcher,
     ContentCard,
     Picasso,
