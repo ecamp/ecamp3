@@ -20,7 +20,7 @@ class CleanTextFilterTest extends KernelTestCase {
     }
 
     /**
-     * @dataProvider getExample
+     * @dataProvider getExamples
      */
     public function testInputFiltering(string $input, string $output) {
         // given
