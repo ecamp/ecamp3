@@ -138,8 +138,11 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
 
     /**
      * payload set up.
+     *
+     * @param mixed $attributes
+     * @param mixed $except
      */
-    public function getExampleWritePayload(array $attributes = [], array $except = []) {
+    public function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge(
                 [
