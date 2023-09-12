@@ -233,7 +233,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     /**
      * Payload setup.
      */
-    protected function getExampleReadPayload(ContentNode $self, $attributes = [], $except = []) {
+    protected function getExampleReadPayload(ContentNode $self, array $attributes = [], array $except = []) {
         /** @var ContentNode $parent */
         $parent = $this->defaultParent;
 
