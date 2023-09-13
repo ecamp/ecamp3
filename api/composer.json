@@ -24,7 +24,7 @@
         "rize/uri-template": "0.3.5",
         "sentry/sentry-symfony": "4.11.0",
         "stof/doctrine-extensions-bundle": "1.8.0",
-        "swaggest/json-schema": "0.12.41",
+        "swaggest/json-schema": "0.12.42",
         "symfony/asset": "6.3.0",
         "symfony/console": "6.3.4",
         "symfony/dotenv": "6.3.0",
