@@ -23,8 +23,7 @@
       "scheduleEntry": {
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
-        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
-        "layout": "Layout"
+        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
       }
     },
     "camp": {
@@ -51,7 +50,7 @@
         "create": "Create activity category",
         "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
         "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
-        "editLayout": "Edit layout",
+        "editLayout": "Edit template",
         "title": "Activity categories"
       },
       "campConditionalFields": {
@@ -388,10 +387,10 @@
   "views": {
     "activity": {
       "category": {
-        "changeLayout": "Change layout for new activities",
+        "changeLayout": "Change template layout",
         "contents": "Contents",
         "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
-        "editContents": "Set default contents for new activities",
+        "editContents": "Set template contents",
         "layout": "Layout"
       },
       "printPreview": "Open print preview",

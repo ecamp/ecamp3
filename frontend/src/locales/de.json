@@ -23,8 +23,7 @@
       "scheduleEntry": {
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
-        "layout": "Layout"
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
       }
     },
     "camp": {
@@ -51,7 +50,7 @@
         "create": "Block-Kategorie erstellen",
         "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
         "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-        "editLayout": "Layout bearbeiten",
+        "editLayout": "Vorlage bearbeiten",
         "title": "Block-Kategorien"
       },
       "campConditionalFields": {
@@ -388,10 +387,10 @@
   "views": {
     "activity": {
       "category": {
-        "changeLayout": "Layout für neue Blöcke ändern",
+        "changeLayout": "Vorlage-Layout ändern",
         "contents": "Inhalte",
         "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
-        "editContents": "Standard-Inhalte für neue Blöcke eingeben",
+        "editContents": "Vorlage-Inhalt ändern",
         "layout": "Layout"
       },
       "printPreview": "Druckvorschau öffnen",

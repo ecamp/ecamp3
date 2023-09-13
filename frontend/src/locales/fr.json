@@ -23,8 +23,7 @@
       "scheduleEntry": {
         "backToContents": "Retour à l'édition du contenu",
         "changeLayout": "Changer la mise en page",
-        "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé.",
-        "layout": "Mise en page"
+        "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé."
       }
     },
     "camp": {
@@ -51,7 +50,7 @@
         "create": "Créer une catégorie d'activité",
         "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
         "deleteCategoryQuestion": "Veux-tu vraiment supprimer la catégorie d'activité?",
-        "editLayout": "Modifier la mise en page",
+        "editLayout": "Modifier la modèle",
         "title": "Catégories d'activités"
       },
       "campConditionalFields": {
@@ -388,10 +387,10 @@
   "views": {
     "activity": {
       "category": {
-        "changeLayout": "Modifier la mise en page",
+        "changeLayout": "Modifier la mise en page du modèle",
         "contents": "Contenu",
         "createLayoutHelp": "Ici, tu peux définir l'apparence par défaut des nouvelles activités {categoryShort}.{br}Attention : Si tu as déjà des activités {categoryShort} dans le camp, elles ne seront pas automatiquement adaptées.",
-        "editContents": "Définir le contenu par défaut",
+        "editContents": "Modifier le contenu du modèle",
         "layout": "Mise en page"
       },
       "printPreview": "Ouvrir l'aperçu avant impression",
