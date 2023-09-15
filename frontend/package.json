@@ -1,6 +1,5 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "@ecamp3/frontend",
   "private": true,
   "scripts": {
     "serve": "vite --host 0.0.0.0",
