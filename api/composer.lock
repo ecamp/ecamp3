@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "063991d79289a5c88b3f8ce2370a5648",
+    "content-hash": "1daefea6d08f7008709430a16858d1db",
     "packages": [
         {
             "name": "api-platform/core",
@@ -3943,16 +3943,16 @@
         },
         {
             "name": "phpmyadmin/sql-parser",
-            "version": "5.8.0",
+            "version": "5.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmyadmin/sql-parser.git",
-                "reference": "db1b3069b5dbc220d393d67ff911e0ae76732755"
+                "reference": "b877ee6262a00f0f498da5e01335e8a5dc01d203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmyadmin/sql-parser/zipball/db1b3069b5dbc220d393d67ff911e0ae76732755",
-                "reference": "db1b3069b5dbc220d393d67ff911e0ae76732755",
+                "url": "https://api.github.com/repos/phpmyadmin/sql-parser/zipball/b877ee6262a00f0f498da5e01335e8a5dc01d203",
+                "reference": "b877ee6262a00f0f498da5e01335e8a5dc01d203",
                 "shasum": ""
             },
             "require": {
@@ -3974,7 +3974,7 @@
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
                 "psalm/plugin-phpunit": "^0.16.1",
                 "vimeo/psalm": "^4.11",
-                "zumba/json-serializer": "^3.0"
+                "zumba/json-serializer": "~3.0.2"
             },
             "suggest": {
                 "ext-mbstring": "For best performance",
@@ -4026,7 +4026,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-06-05T18:19:38+00:00"
+            "time": "2023-09-15T18:21:22+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
