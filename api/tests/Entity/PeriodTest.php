@@ -11,8 +11,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 class PeriodTest extends TestCase {
-    public function setUp(): void {
-    }
+    public function setUp(): void {}
 
     public function testFirstDayNumberInPeriod() {
         $camp = new Camp();

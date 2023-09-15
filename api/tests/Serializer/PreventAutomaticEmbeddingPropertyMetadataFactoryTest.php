@@ -82,5 +82,4 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
     }
 }
 
-class Dummy {
-}
+class Dummy {}

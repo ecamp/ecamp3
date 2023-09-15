@@ -18,8 +18,7 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
         private readonly AbstractConstraintViolationListNormalizer $problemNormalizer,
         private readonly TranslationInfoOfConstraintViolation $translationInfoOfConstraintViolation,
         private readonly TranslateToAllLocalesService $translateToAllLocalesService
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool {
         return $this->getNormalizerCollection()->exists(fn ($_, $elem) => $elem->supportsNormalization($data, $format));

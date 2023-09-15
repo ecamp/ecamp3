@@ -23,8 +23,7 @@ class MailService {
         private string $frontendBaseUrl,
         private string $senderEmail,
         private string $senderName = ''
-    ) {
-    }
+    ) {}
 
     public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
         $email = (new TemplatedEmail())

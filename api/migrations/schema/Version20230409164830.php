@@ -116,6 +116,5 @@ final class Version20230409164830 extends AbstractMigration {
         $this->addSql('DROP EXTENSION pgcrypto');
     }
 
-    public function down(Schema $schema): void {
-    }
+    public function down(Schema $schema): void {}
 }

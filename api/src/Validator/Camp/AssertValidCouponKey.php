@@ -2,7 +2,6 @@
 
 namespace App\Validator\Camp;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[\Attribute]

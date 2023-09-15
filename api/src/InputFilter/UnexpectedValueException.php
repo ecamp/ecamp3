@@ -2,5 +2,4 @@
 
 namespace App\InputFilter;
 
-class UnexpectedValueException extends \RuntimeException {
-}
+class UnexpectedValueException extends \RuntimeException {}

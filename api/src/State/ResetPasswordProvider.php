@@ -16,8 +16,7 @@ class ResetPasswordProvider implements ProviderInterface {
     public function __construct(
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,
-    ) {
-    }
+    ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?ResetPassword {
         $id = $uriVariables['id'];

@@ -19,6 +19,5 @@ final class Version20221029182700 extends AbstractMigration {
         $this->addSql('UPDATE content_node SET slot = null WHERE slot = \'\' and parentId IS NULL');
     }
 
-    public function down(Schema $schema): void {
-    }
+    public function down(Schema $schema): void {}
 }

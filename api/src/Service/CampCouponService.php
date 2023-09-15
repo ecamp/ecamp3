@@ -11,8 +11,7 @@ class CampCouponService {
     public function __construct(
         private string $secret,
         private EntityManagerInterface $em
-    ) {
-    }
+    ) {}
 
     public function createCoupon() {
         if (!$this->isActive()) {

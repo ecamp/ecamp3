@@ -17,8 +17,7 @@ class CampIsPrototypeVoter extends Voter {
 
     public function __construct(
         private EntityManagerInterface $em,
-    ) {
-    }
+    ) {}
 
     protected function supports($attribute, $subject): bool {
         return 'CAMP_IS_PROTOTYPE' === $attribute

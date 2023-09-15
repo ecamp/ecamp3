@@ -11,8 +11,7 @@ use Symfony\Bundle\SecurityBundle\Security;
  * to know where to fetch personal profile information.
  */
 class JWTCreatedListener {
-    public function __construct(private Security $security, private IriConverterInterface $iriConverter) {
-    }
+    public function __construct(private Security $security, private IriConverterInterface $iriConverter) {}
 
     public function onJWTCreated(JWTCreatedEvent $event) {
         $payload = $event->getData();

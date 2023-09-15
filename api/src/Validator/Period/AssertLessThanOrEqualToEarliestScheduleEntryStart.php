@@ -2,7 +2,6 @@
 
 namespace App\Validator\Period;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[\Attribute]

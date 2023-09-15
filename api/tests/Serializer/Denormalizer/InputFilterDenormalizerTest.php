@@ -278,8 +278,7 @@ class InputFilterDenormalizerTest extends TestCase {
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class Dummy extends FilterAttribute {
-}
+class Dummy extends FilterAttribute {}
 
 class DummyFilter extends InputFilter {
     public function applyTo(array $data, string $propertyName): array {
@@ -293,8 +292,7 @@ class DummyFilter extends InputFilter {
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class AppendA extends FilterAttribute {
-}
+class AppendA extends FilterAttribute {}
 
 class AppendAFilter extends InputFilter {
     public function applyTo(array $data, string $propertyName): array {
@@ -308,8 +306,7 @@ class AppendAFilter extends InputFilter {
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class AppendB extends FilterAttribute {
-}
+class AppendB extends FilterAttribute {}
 
 class AppendBFilter extends InputFilter {
     public function applyTo(array $data, string $propertyName): array {
