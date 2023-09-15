@@ -1,0 +1,118 @@
+{
+    "_links": {
+        "activities": {
+            "href": "\/activities{\/id}{?camp,camp[]}",
+            "templated": true
+        },
+        "activityProgressLabels": {
+            "href": "\/activity_progress_labels{\/id}{?camp,camp[]}",
+            "templated": true
+        },
+        "activityResponsibles": {
+            "href": "\/activity_responsibles{\/id}{?activity,activity[],activity.camp,activity.camp[]}",
+            "templated": true
+        },
+        "campCollaborations": {
+            "href": "\/camp_collaborations{\/id}{\/action}{?camp,camp[],activityResponsibles.activity,activityResponsibles.activity[]}",
+            "templated": true
+        },
+        "camps": {
+            "href": "\/camps{\/id}{?isPrototype,isPrototype[]}",
+            "templated": true
+        },
+        "categories": {
+            "href": "\/categories{\/id}{?camp,camp[]}",
+            "templated": true
+        },
+        "columnLayouts": {
+            "href": "\/content_node\/column_layouts{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
+        "contentNodes": {
+            "href": "\/content_nodes{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
+        "contentTypes": {
+            "href": "\/content_types{\/id}{?categories,categories[]}",
+            "templated": true
+        },
+        "dayResponsibles": {
+            "href": "\/day_responsibles{\/id}{?day,day[],day.period,day.period[]}",
+            "templated": true
+        },
+        "days": {
+            "href": "\/days{\/id}{?period,period[]}",
+            "templated": true
+        },
+        "invitations": {
+            "href": "\/invitations{\/id}{\/action}",
+            "templated": true
+        },
+        "login": {
+            "href": "\/authentication_token"
+        },
+        "materialItems": {
+            "href": "\/material_items{\/id}{?materialList,materialList[],materialNode,materialNode[],period}",
+            "templated": true
+        },
+        "materialLists": {
+            "href": "\/material_lists{\/id}{?camp,camp[]}",
+            "templated": true
+        },
+        "materialNodes": {
+            "href": "\/content_node\/material_nodes{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
+        "multiSelects": {
+            "href": "\/content_node\/multi_selects{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
+        "oauthCevidb": {
+            "href": "\/auth\/cevidb{?callback}",
+            "templated": true
+        },
+        "oauthGoogle": {
+            "href": "\/auth\/google{?callback}",
+            "templated": true
+        },
+        "oauthJubladb": {
+            "href": "\/auth\/jubladb{?callback}",
+            "templated": true
+        },
+        "oauthPbsmidata": {
+            "href": "\/auth\/pbsmidata{?callback}",
+            "templated": true
+        },
+        "periods": {
+            "href": "\/periods{\/id}{?camp,camp[]}",
+            "templated": true
+        },
+        "profiles": {
+            "href": "\/profiles{\/id}{?user.collaborations.camp,user.collaborations.camp[]}",
+            "templated": true
+        },
+        "resetPassword": {
+            "href": "\/auth\/reset_password{\/id}",
+            "templated": true
+        },
+        "scheduleEntries": {
+            "href": "\/schedule_entries{\/id}{?period,period[],activity,activity[],start[before],start[strictly_before],start[after],start[strictly_after],end[before],end[strictly_before],end[after],end[strictly_after]}",
+            "templated": true
+        },
+        "self": {
+            "href": "\/"
+        },
+        "singleTexts": {
+            "href": "\/content_node\/single_texts{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
+        "storyboards": {
+            "href": "\/content_node\/storyboards{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
+        "users": {
+            "href": "\/users{\/id}{\/action}",
+            "templated": true
+        }
+    }
+}

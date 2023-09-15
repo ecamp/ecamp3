@@ -5,6 +5,14 @@ namespace App\Tests\Api\ContentNodes;
 use App\Entity\ContentNode;
 use App\Entity\ContentType;
 use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Constraints\CompatibleHalResponse;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
+use function PHPUnit\Framework\assertThat;
 
 /**
  * Base CREATE (post) test case to be used for various ContentNode types.
@@ -217,6 +225,33 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $this->assertJsonContains([
             'instanceName' => 'control',
         ]);
+    }
+
+    /**
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     */
+    public function testCreateResponseStructureMatchesReadResponseStructure() {
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+        $createResponse = $client->request(
+            'POST',
+            $this->endpoint,
+            [
+                'json' => $this->getExampleWritePayload(),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $createArray = $createResponse->toArray();
+        $newItemLink = $createArray['_links']['self']['href'];
+        $getItemResponse = $client->request('GET', $newItemLink);
+
+        assertThat($createArray, CompatibleHalResponse::isHalCompatibleWith($getItemResponse->toArray()));
     }
 
     protected function getExampleWritePayload($attributes = [], $except = []) {

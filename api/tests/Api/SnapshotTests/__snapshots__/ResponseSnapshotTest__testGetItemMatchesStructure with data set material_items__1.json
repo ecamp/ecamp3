@@ -1,0 +1,18 @@
+{
+    "_links": {
+        "materialList": {
+            "href": "escaped_value"
+        },
+        "materialNode": {
+            "href": "escaped_value"
+        },
+        "period": "escaped_value",
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "article": "escaped_value",
+    "id": "escaped_value",
+    "quantity": "escaped_value",
+    "unit": "escaped_value"
+}

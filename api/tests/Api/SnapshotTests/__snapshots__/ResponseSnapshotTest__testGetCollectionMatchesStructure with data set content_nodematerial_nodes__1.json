@@ -1,0 +1,97 @@
+{
+    "_embedded": {
+        "items": [
+            {
+                "_embedded": {
+                    "materialItems": []
+                },
+                "_links": {
+                    "children": [],
+                    "contentType": {
+                        "href": "escaped_value"
+                    },
+                    "materialItems": {
+                        "href": "escaped_value"
+                    },
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "root": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "contentTypeName": "escaped_value",
+                "data": "escaped_value",
+                "id": "escaped_value",
+                "instanceName": "escaped_value",
+                "position": "escaped_value",
+                "slot": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "materialItems": [
+                        {
+                            "_links": {
+                                "materialList": {
+                                    "href": "escaped_value"
+                                },
+                                "materialNode": {
+                                    "href": "escaped_value"
+                                },
+                                "period": "escaped_value",
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "article": "escaped_value",
+                            "id": "escaped_value",
+                            "quantity": "escaped_value",
+                            "unit": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "children": [],
+                    "contentType": {
+                        "href": "escaped_value"
+                    },
+                    "materialItems": {
+                        "href": "escaped_value"
+                    },
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "root": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "contentTypeName": "escaped_value",
+                "data": "escaped_value",
+                "id": "escaped_value",
+                "instanceName": "escaped_value",
+                "position": "escaped_value",
+                "slot": "escaped_value"
+            }
+        ]
+    },
+    "_links": {
+        "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            }
+        ],
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "totalItems": "escaped_value"
+}

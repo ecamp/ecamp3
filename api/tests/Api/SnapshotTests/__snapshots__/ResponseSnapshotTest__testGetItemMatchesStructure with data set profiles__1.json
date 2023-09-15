@@ -1,0 +1,17 @@
+{
+    "_links": {
+        "self": {
+            "href": "escaped_value"
+        },
+        "user": {
+            "href": "escaped_value"
+        }
+    },
+    "email": "escaped_value",
+    "firstname": "escaped_value",
+    "id": "escaped_value",
+    "language": "escaped_value",
+    "legalName": "escaped_value",
+    "nickname": "escaped_value",
+    "surname": "escaped_value"
+}

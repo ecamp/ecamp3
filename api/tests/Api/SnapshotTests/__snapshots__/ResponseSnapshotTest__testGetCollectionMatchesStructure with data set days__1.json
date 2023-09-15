@@ -1,0 +1,361 @@
+{
+    "_embedded": {
+        "items": [
+            {
+                "_embedded": {
+                    "dayResponsibles": []
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": []
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": []
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": [
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        },
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": [
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": [
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": [
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": [
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "dayResponsibles": [
+                        {
+                            "_links": {
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "period": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "dayOffset": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "number": "escaped_value",
+                "start": "escaped_value"
+            }
+        ]
+    },
+    "_links": {
+        "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            }
+        ],
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "totalItems": "escaped_value"
+}
