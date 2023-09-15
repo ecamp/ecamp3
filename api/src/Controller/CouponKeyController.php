@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CouponKeyController extends AbstractController {
     public function __construct(
         private CampCouponService $couponService
-    ) {
-    }
+    ) {}
 
     #[Route('/coupon', name: 'coupon')]
     public function createAction() {

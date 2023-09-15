@@ -12,8 +12,7 @@ class TranslateToAllLocalesService {
         private readonly TranslatorInterface $translator,
         private readonly TranslatorBagInterface $translatorBag,
         private readonly array $translateToLocales
-    ) {
-    }
+    ) {}
 
     public function translate(string $message, array $params): array {
         $result = [];

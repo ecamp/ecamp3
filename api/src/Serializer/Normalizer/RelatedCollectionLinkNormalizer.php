@@ -92,8 +92,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private ManagerRegistry $managerRegistry,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private PropertyAccessorInterface $propertyAccessor
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);

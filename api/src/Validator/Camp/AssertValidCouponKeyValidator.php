@@ -8,8 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class AssertValidCouponKeyValidator extends ConstraintValidator {
-    public function __construct(private CampCouponService $couponService) {
-    }
+    public function __construct(private CampCouponService $couponService) {}
 
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertValidCouponKey) {

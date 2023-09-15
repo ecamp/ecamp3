@@ -20,8 +20,7 @@ class InvitationProvider implements ProviderInterface {
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private UserRepository $userRepository,
         private CampCollaborationRepository $campCollaborationRepository
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException

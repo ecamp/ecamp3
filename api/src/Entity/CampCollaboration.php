@@ -213,9 +213,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    /**
-     * @return Camp
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('camp')]
     #[Groups('CampCollaboration:Camp')]
@@ -223,9 +220,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    /**
-     * @return User
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('user')]
     #[Groups('CampCollaboration:User')]

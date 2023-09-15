@@ -168,8 +168,6 @@ class MyEntity extends BaseEntity {
     public ?string $name = 'test';
 }
 
-class MyEmptyEntity extends BaseEntity {
-}
+class MyEmptyEntity extends BaseEntity {}
 
-class WarningException extends \Exception {
-}
+class WarningException extends \Exception {}

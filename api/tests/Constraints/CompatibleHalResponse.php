@@ -5,8 +5,7 @@ namespace App\Tests\Constraints;
 use PHPUnit\Framework\Constraint\Constraint;
 
 class CompatibleHalResponse extends Constraint {
-    public function __construct(private readonly array $halResponse) {
-    }
+    public function __construct(private readonly array $halResponse) {}
 
     public static function isHalCompatibleWith(array $halResponse): CompatibleHalResponse {
         return new CompatibleHalResponse($halResponse);

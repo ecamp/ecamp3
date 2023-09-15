@@ -6,8 +6,7 @@ class ReCaptcha {
     public function __construct(
         private string $reCaptchaSecret,
         private \ReCaptcha\ReCaptcha $reCaptcha,
-    ) {
-    }
+    ) {}
 
     public function verify($response, $remoteIp = null) {
         if ('disabled' != strtolower($this->reCaptchaSecret)) {

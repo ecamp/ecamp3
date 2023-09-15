@@ -77,6 +77,5 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
      *
      * @param T $data
      */
-    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
-    }
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {}
 }

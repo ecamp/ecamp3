@@ -21,8 +21,7 @@ class ResetPasswordUpdateProcessor implements ProcessorInterface {
         private EntityManagerInterface $em,
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,
-    ) {
-    }
+    ) {}
 
     /**
      * @param ResetPassword $data

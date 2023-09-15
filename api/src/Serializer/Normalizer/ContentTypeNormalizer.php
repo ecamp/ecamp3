@@ -19,8 +19,7 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         private UriTemplate $uriTemplate,
         private UriTemplateFactory $uriTemplateFactory,
         private IriConverterInterface $iriConverter,
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);

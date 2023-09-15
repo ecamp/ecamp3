@@ -136,8 +136,7 @@ class AssertNoRootChangeValidatorTest extends ConstraintValidatorTestCase {
 }
 
 class ChildTestClass implements BelongsToCampInterface {
-    public function __construct(public Camp $camp) {
-    }
+    public function __construct(public Camp $camp) {}
 
     public function getCamp(): ?Camp {
         return $this->camp;
@@ -148,8 +147,7 @@ class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
     #[AssertNoRootChange]
     public ChildTestClass $child;
 
-    public function __construct(public Camp $camp, ChildTestClass $child) {
-    }
+    public function __construct(public Camp $camp, ChildTestClass $child) {}
 
     public function getCamp(): ?Camp {
         return $this->camp;

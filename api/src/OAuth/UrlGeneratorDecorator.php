@@ -9,8 +9,7 @@ class UrlGeneratorDecorator implements UrlGeneratorInterface {
     public function __construct(
         private UrlGeneratorInterface $decorated,
         private string $env
-    ) {
-    }
+    ) {}
 
     public function setContext(RequestContext $context): void {
         $this->decorated->setContext($context);
