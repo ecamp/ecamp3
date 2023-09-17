@@ -62,7 +62,6 @@ const DEFAULT_DASHBOARD_OPTIONS = () => ({
     api: { reload: () => Promise.resolve() },
   },
   data: () => ({
-    loggedInUser: USER,
     loading: false,
     filter: {
       period: null,
