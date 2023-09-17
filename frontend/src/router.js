@@ -7,6 +7,12 @@ import { getEnv } from '@/environment.js'
 
 Vue.use(Router)
 
+slugify.extend({
+  '@': '(at)',
+  '.': ' ',
+  ':': ' ',
+})
+
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
 const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
 
@@ -342,7 +348,7 @@ async function requireCamp(to, from, next) {
   await campFromRoute(to)
     .call({ api: { get: apiStore.get } })
     ._meta.load.then(() => {
-      next({ query: to.query })
+      next()
     })
     .catch(() => {
       next({
@@ -496,7 +502,7 @@ async function redirectToPeriod(to, from, next, routeName) {
     await period.camp()._meta.load
     next(periodRoute(period, routeName, to.query))
   } else {
-    const camp = await apiStore.get().camps({ campId: to.params.campId })
+    const camp = await apiStore.get().camps({ id: to.params.campId })
     next(campRoute(camp, 'admin', to.query))
   }
 }
