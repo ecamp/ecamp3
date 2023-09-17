@@ -107,6 +107,7 @@ import PagesOverview from './configurator/PagesOverview.vue'
 import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
 import DownloadClientPdfButton from '@/components/print/print-client/DownloadClientPdfButton.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -155,7 +156,7 @@ export default {
       return this.$store.state.lang.language
     },
     isDev() {
-      return window.environment.FEATURE_DEVELOPER ?? false
+      return getEnv().FEATURE_DEVELOPER ?? false
     },
   },
   watch: {

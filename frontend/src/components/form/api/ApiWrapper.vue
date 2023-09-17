@@ -83,9 +83,6 @@ export default {
         return 'init'
       }
     },
-    debouncedSave() {
-      return debounce(this.save, this.autoSaveDelay)
-    },
     apiValue() {
       // return value from props if set explicitly
       if (this.value) {
@@ -166,6 +163,9 @@ export default {
       if (this.autoSave) {
         this.debouncedSave()
       }
+    },
+    debouncedSave() {
+      return debounce(this.save, this.autoSaveDelay)
     },
     // reload data from API (doesn't force loading from server if available locally)
     reload() {

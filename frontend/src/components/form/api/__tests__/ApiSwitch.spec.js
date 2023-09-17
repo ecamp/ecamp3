@@ -1,5 +1,5 @@
-import ApiSwitch from '../ApiSwitch'
-import ApiWrapper from '@/components/form/api/ApiWrapper'
+import ApiSwitch from '../ApiSwitch.vue'
+import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'

@@ -1,4 +1,4 @@
-import ApiDatePicker from '../ApiDatePicker'
+import ApiDatePicker from '../ApiDatePicker.vue'
 import { screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'

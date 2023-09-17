@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An ESwitch looks like a switch: checked 1`] = `
+exports[`An ESwitch > looks like a switch > checked 1`] = `
 <div data-app>
      <span>
           <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch v-input--switch--inset primary--text">
@@ -25,7 +25,7 @@ exports[`An ESwitch looks like a switch: checked 1`] = `
 </div>
 `;
 
-exports[`An ESwitch looks like a switch: unchecked 1`] = `
+exports[`An ESwitch > looks like a switch > unchecked 1`] = `
 <div data-app>
      <span>
           <div class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--switch--inset">

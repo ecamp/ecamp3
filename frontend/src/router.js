@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import slugify from 'slugify'
 import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
+import { getEnv } from '@/environment.js'
 
 Vue.use(Router)
 
@@ -12,9 +13,9 @@ const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue'
 /* istanbul ignore next */
 export default new Router({
   mode: 'history',
-  base: window.environment.BASE_URL || '/',
+  base: '/',
   routes: [
-    ...(window.environment.FEATURE_DEVELOPER
+    ...(getEnv().FEATURE_DEVELOPER
       ? [
           // Dev-Pages:
           {

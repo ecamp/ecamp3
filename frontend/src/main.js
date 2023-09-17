@@ -14,6 +14,7 @@ import {
 } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
+import { getEnv } from '@/environment.js'
 import * as Sentry from '@sentry/vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
@@ -21,12 +22,13 @@ import 'vue-toastification/dist/index.css'
 import { Resize } from 'vuetify/lib/directives'
 import ResizeObserver from 'v-resize-observer'
 
-if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
-  const environment = window.environment.SENTRY_ENVIRONMENT ?? 'local'
+const env = getEnv()
+if (env && env.SENTRY_FRONTEND_DSN) {
+  const sentryEnvironment = env.SENTRY_ENVIRONMENT ?? 'local'
   Sentry.init({
     Vue,
-    dsn: window.environment.SENTRY_FRONTEND_DSN,
-    environment,
+    dsn: env.SENTRY_FRONTEND_DSN,
+    environment: sentryEnvironment,
     tracing: false,
     logErrors: process.env.NODE_ENV !== 'production',
   })
