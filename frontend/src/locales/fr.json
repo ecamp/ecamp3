@@ -184,12 +184,20 @@
       "dialogMaterialItemCreate": {
         "title": "Ajouter du matériel"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Modifier l'entrée de matériel"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Paramètres",
         "noMaterialListAvailable": "Il n'y a pas encore de liste de matériel pour ce camp. Tu peux les créer dans 'Admin'."
       },
+      "materialLists": {
+        "materialsCount": "Pas des éléments | Un élément | {count} éléments",
+        "overview": "Aperçu général"
+      },
       "materialTable": {
-        "addNewItem": "Ajoute un nouvel élément"
+        "addNewItem": "Ajoute un nouvel élément",
+        "noItems": "Aucun élément matériel trouvé"
       }
     },
     "navigation": {
@@ -346,6 +354,8 @@
       "content": "Contenu",
       "create": "Créer",
       "delete": "Effacer",
+      "discard": "Rejeter",
+      "download": "Télécharger",
       "edit": "Éditer",
       "editable": "Editable",
       "lock": "Verrouiller",
@@ -353,6 +363,7 @@
       "logout": "Déconnexion",
       "move": "Déplacer",
       "ok": "OK",
+      "rename": "Renommer",
       "open": "Ouvrir",
       "save": "Sauvegarder",
       "saving": "En cours de sauvegarde",
@@ -508,18 +519,7 @@
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
       },
       "material": {
-        "downloadXlsx": "Télécharger",
-        "groupByList": "Regrouper par liste de matériel",
-        "showActivityMaterial": "Montrer le matériel des activités",
-        "title": "Matériel",
-        "xlsx": {
-          "activity": "Activité",
-          "article": "Article",
-          "filename": "Liste de matériel",
-          "matlist": "Liste de matériel",
-          "quantity": "Quantité",
-          "unit": "Unité"
-        }
+        "title": "Liste de matériel"
       },
       "navigation": {
         "desktop": {
@@ -570,6 +570,16 @@
       "pastCamps": "Anciens camps",
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
+    },
+    "material": {
+      "materialOverview": {
+        "createNewList": "Créer une liste de matériel",
+        "download": "Télécharger l'aperçu",
+        "title": "Aperçu général"
+      },
+      "sideBarMaterialLists": {
+        "title": "Listes de matériel"
+      }
     },
     "pageNotFound": {
       "backToHome": "Retour à l'accueil",

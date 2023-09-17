@@ -1,24 +1,47 @@
 <template>
-  <span>
-    <v-skeleton-loader v-if="loading" type="text" />
-    <span v-else>
-      <span v-for="(scheduleEntry, index) in items" :key="scheduleEntry._meta.self">
-        <router-link :to="scheduleEntryRoute(scheduleEntry)" small class="short-button">
-          {{ getScheduleEntryCaption(scheduleEntry) }}
-        </router-link>
-        <span v-if="index + 1 < items.length"><br /></span>
-      </span>
+  <v-skeleton-loader v-if="loading" type="text" />
+  <router-link
+    v-else-if="items.length === 1"
+    :to="scheduleEntryRoute(items[0])"
+    class="e-title-link tabular-nums"
+  >
+    <CategoryChip dense :category="activity.category()" />&thinsp;{{
+      $vuetify.breakpoint.smAndUp
+        ? `${activity.title}: ${items[0].number}`
+        : items[0].number
+    }}
+  </router-link>
+  <span v-else class="d-inline-flex flex-sm-wrap gap-1 align-center py-sm-1">
+    <span class="mr-sm-auto">
+      <CategoryChip
+        class="flex-shrink-0"
+        :to="scheduleEntryRoute(items[0])"
+        dense
+        :category="activity.category()"
+      />{{ $vuetify.breakpoint.smAndUp ? `\u2009${activity.title}:` : '' }}
+    </span>
+    <span class="d-inline-grid d-sm-inline-flex flex-wrap gap-1"
+      ><router-link
+        v-for="(scheduleEntry, index) in items"
+        :key="scheduleEntry.id"
+        class="e-title-link tabular-nums"
+        :to="scheduleEntryRoute(scheduleEntry)"
+        small
+        >{{
+          index < items.length - 1 ? `${scheduleEntry.number},` : scheduleEntry.number
+        }}</router-link
+      >
     </span>
   </span>
 </template>
 
 <script>
 import { scheduleEntryRoute } from '@/router.js'
-import runes from 'runes'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'ScheduleEntryLinks',
-  components: {},
+  components: { CategoryChip },
   props: {
     activityPromise: { type: Promise, required: true },
   },
@@ -42,20 +65,6 @@ export default {
   },
   methods: {
     scheduleEntryRoute,
-    getScheduleEntryCaption(scheduleEntry) {
-      const number = scheduleEntry.number
-      const title = scheduleEntry.activity().title
-
-      if (this.$vuetify.breakpoint.smAndUp) {
-        if (title.length > 13) {
-          return number + ': ' + runes.substr(title, 0, 13) + '...'
-        } else {
-          return number + ': ' + title
-        }
-      } else {
-        return number
-      }
-    },
   },
 }
 </script>

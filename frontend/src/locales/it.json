@@ -184,12 +184,20 @@
       "dialogMaterialItemCreate": {
         "title": "Crea un oggetto materiale"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Modifica della voce materiale"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Impostazioni",
         "noMaterialListAvailable": "Non ci sono ancora liste di materiali per questo campo. Puoi crearle in \"Amministrazione\"."
       },
+      "materialLists": {
+        "materialsCount": "Nessuna voce | 1 voce | {count} voci",
+        "overview": "Panoramica generale"
+      },
       "materialTable": {
-        "addNewItem": "Aggiungi un nuovo elemento"
+        "addNewItem": "Aggiungi un nuovo elemento",
+        "noItems": "Nessun oggetto materiale trovato"
       }
     },
     "navigation": {
@@ -346,6 +354,8 @@
       "content": "Contenuto",
       "create": "Creare",
       "delete": "Cancellare",
+      "discard": "Scartare",
+      "download": "Scaricare",
       "edit": "Modificare",
       "editable": "Modificabile",
       "lock": "Blocco",
@@ -353,6 +363,7 @@
       "logout": "Disconnessione",
       "move": "Spostamento",
       "ok": "Bene",
+      "rename": "Rinominare",
       "open": "Aprire",
       "save": "Salvare",
       "saving": "Salvataggio",
@@ -508,18 +519,7 @@
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
       },
       "material": {
-        "downloadXlsx": "Scarica",
-        "groupByList": "Raggruppa per elenco di materiali",
-        "showActivityMaterial": "Mostra il materiale dell'attività",
-        "title": "Materiale",
-        "xlsx": {
-          "activity": "Attività",
-          "article": "Articolo",
-          "filename": "elenco dei materiali",
-          "matlist": "Elenco dei materiali",
-          "quantity": "Quantità",
-          "unit": "Unità"
-        }
+        "title": "Liste di materiali"
       },
       "navigation": {
         "desktop": {
@@ -570,6 +570,16 @@
       "pastCamps": "Campi passati",
       "prototypeCamps": "Prototipi",
       "title": "I miei campi"
+    },
+    "material": {
+      "materialOverview": {
+        "createNewList": "Creare un elenco di materiali",
+        "download": "Scarica la panoramica",
+        "title": "Panoramica generale"
+      },
+      "sideBarMaterialLists": {
+        "title": "Liste di materiali"
+      }
     },
     "pageNotFound": {
       "backToHome": "Torna a casa",

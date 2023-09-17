@@ -6,7 +6,6 @@
         :material-node="contentNode"
         :layout-mode="layoutMode"
         :material-item-collection="materialItemCollection"
-        :group-by-list="$vuetify.breakpoint.xs"
         :disabled="disabled"
       />
     </div>

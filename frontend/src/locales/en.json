@@ -184,12 +184,20 @@
       "dialogMaterialItemCreate": {
         "title": "Create material item"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Edit material item"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Settings",
         "noMaterialListAvailable": "There are no material lists for this camp yet. You can create them in 'Admin'."
       },
+      "materialLists": {
+        "materialsCount": "No entries | 1 entry | {count} entries",
+        "overview": "General overview"
+      },
       "materialTable": {
-        "addNewItem": "Add new item"
+        "addNewItem": "Add new item",
+        "noItems": "No material items found"
       }
     },
     "navigation": {
@@ -346,6 +354,8 @@
       "content": "Content",
       "create": "Create",
       "delete": "Delete",
+      "discard": "Discard",
+      "download": "Download",
       "edit": "Edit",
       "editable": "Editable",
       "lock": "Lock",
@@ -353,6 +363,7 @@
       "logout": "Logout",
       "move": "Move",
       "ok": "OK",
+      "rename": "Rename",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
@@ -508,18 +519,7 @@
         "userAlreadyInCamp": "You are already participating in this camp"
       },
       "material": {
-        "downloadXlsx": "Download",
-        "groupByList": "Group by material list",
-        "showActivityMaterial": "Show activity material",
-        "title": "Material",
-        "xlsx": {
-          "activity": "Activity",
-          "article": "Article",
-          "filename": "material-list",
-          "matlist": "Material list",
-          "quantity": "Quantity",
-          "unit": "Unit"
-        }
+        "title": "Material lists"
       },
       "navigation": {
         "desktop": {
@@ -570,6 +570,16 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
+    },
+    "material": {
+      "materialOverview": {
+        "createNewList": "Create material list",
+        "download": "Download overview",
+        "title": "General overview"
+      },
+      "sideBarMaterialLists": {
+        "title": "Material lists"
+      }
     },
     "pageNotFound": {
       "backToHome": "Back to home",

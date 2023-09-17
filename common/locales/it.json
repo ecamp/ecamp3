@@ -146,7 +146,9 @@
     "materialItem": {
       "fields": {
         "article": "Articolo",
+        "list": "Elenco dei materiali",
         "quantity": "Quantità",
+        "reference": "Attività",
         "unit": "Unità"
       }
     },

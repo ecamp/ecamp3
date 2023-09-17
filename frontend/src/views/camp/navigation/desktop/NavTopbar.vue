@@ -28,7 +28,7 @@
           $tc('views.camp.navigation.desktop.navTopbar.team')
         }}</span>
       </v-btn>
-      <v-btn :to="campRoute(camp(), 'material')" text>
+      <v-btn :to="materialRoute(camp())" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-package-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.material')
@@ -55,7 +55,7 @@
 <script>
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import Logo from '@/components/navigation/Logo.vue'
-import { campRoute } from '@/router.js'
+import { campRoute, materialRoute } from '@/router.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -78,6 +78,7 @@ export default {
     }),
   },
   methods: {
+    materialRoute,
     campRoute,
   },
 }

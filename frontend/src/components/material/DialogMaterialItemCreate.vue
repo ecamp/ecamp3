@@ -32,12 +32,15 @@ export default {
   props: {
     camp: { type: Object, required: true },
 
+    materialList: { type: Object, required: false, default: null },
+
     // API collection on which to post the new item
     materialItemCollection: { type: Object, required: true },
   },
   data() {
     return {
       entityProperties: ['quantity', 'unit', 'article'],
+      embeddedEntities: ['materialList'],
       entityUri: this.materialItemCollection._meta.self,
     }
   },
@@ -48,7 +51,7 @@ export default {
           quantity: null,
           unit: '',
           article: '',
-          materialList: null,
+          materialList: this.materialList,
         }
 
         this.setEntityData(entityData)
