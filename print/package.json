@@ -1,6 +1,5 @@
 {
-  "name": "print",
-  "version": "1.0.0",
+  "name": "@ecamp3/backend-print",
   "private": true,
   "scripts": {
     "dev": "nuxt dev",

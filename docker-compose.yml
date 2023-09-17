@@ -22,6 +22,8 @@ services:
       - CI=${CI}
     working_dir: /app
     command: ./docker-setup.sh
+    depends_on:
+      - pdf
 
   php:
     image: ecamp/ecamp3-dev-api-php

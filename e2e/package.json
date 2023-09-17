@@ -1,6 +1,6 @@
 {
-  "name": "e2e",
-  "version": "1.0.0",
+  "name": "@ecamp3/e2e",
+  "private": true,
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
