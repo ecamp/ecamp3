@@ -58,7 +58,7 @@ const DEFAULT_DASHBOARD_OPTIONS = () => ({
     $auth: AUTH,
     $route: ROUTE(),
     $router: ROUTER(),
-    $tc: () => {},
+    $tc: () => '',
     api: { reload: () => Promise.resolve() },
   },
   data: () => ({
