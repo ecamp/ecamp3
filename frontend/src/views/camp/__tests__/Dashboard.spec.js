@@ -38,6 +38,13 @@ const AUTH = {
 function createCampWithRole(role) {
   return () => ({
     campCollaborations: () => ({
+      _meta: {
+        self: '/campCollaborations?camp=%2Fapi%2Fcamps%2F6973c230d6b1',
+        load: Promise.resolve({
+          allItems: [],
+        }),
+        loading: false,
+      },
       items: [
         {
           role: role,
@@ -45,6 +52,42 @@ function createCampWithRole(role) {
           _meta: { self: '/camp_collaborations/58dc1b96dcce' },
         },
       ],
+    }),
+    categories: () => ({
+      _meta: {
+        self: '/categories?camp=%2Fapi%2Fcamps%2F6973c230d6b1',
+        load: Promise.resolve({
+          allItems: [],
+        }),
+        loading: false,
+      },
+    }),
+    periods: () => ({
+      _meta: {
+        self: '/periods?camp=%2Fapi%2Fcamps%2F6973c230d6b1',
+        load: Promise.resolve({
+          allItems: [],
+        }),
+        loading: false,
+      },
+    }),
+    progressLabels: () => ({
+      _meta: {
+        self: '/progressLabels?camp=%2Fapi%2Fcamps%2F6973c230d6b1',
+        load: Promise.resolve({
+          allItems: [],
+        }),
+        loading: false,
+      },
+    }),
+    activities: () => ({
+      _meta: {
+        self: '/activities?camp=%2Fapi%2Fcamps%2F6973c230d6b1',
+        load: Promise.resolve({
+          allItems: [],
+        }),
+        loading: false,
+      },
     }),
   })
 }
