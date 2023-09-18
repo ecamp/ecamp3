@@ -1,24 +1,44 @@
 <template>
-  <span>
-    <v-skeleton-loader v-if="loading" type="text" />
-    <span v-else>
-      <span v-for="(scheduleEntry, index) in items" :key="scheduleEntry._meta.self">
-        <router-link :to="scheduleEntryRoute(scheduleEntry)" small class="short-button">
-          {{ getScheduleEntryCaption(scheduleEntry) }}
-        </router-link>
-        <span v-if="index + 1 < items.length"><br /></span>
-      </span>
-    </span>
+  <v-skeleton-loader v-if="loading" type="text" />
+  <span v-else>
+    <template v-for="(scheduleEntry, index) in items">
+      <router-link
+        :key="scheduleEntry._meta.self"
+        :to="scheduleEntryRoute(scheduleEntry)"
+        small
+      >
+        <Truncate v-if="$vuetify.breakpoint.smAndUp" style="max-width: 20vw">
+          <CategoryChip
+            v-if="items.length === 1"
+            dense
+            :schedule-entry="scheduleEntry"
+          />&thinsp;<span class="e-title-link">{{
+            getScheduleEntryCaption(scheduleEntry)
+          }}</span>
+        </Truncate>
+        <span v-else style="white-space: nowrap"
+          ><CategoryChip
+            v-if="items.length === 1"
+            dense
+            :schedule-entry="scheduleEntry"
+          />&nbsp;<span class="e-title-link">{{
+            getScheduleEntryCaption(scheduleEntry)
+          }}</span></span
+        >
+      </router-link>
+      <br v-if="index + 1 < items.length" :key="scheduleEntry._meta.self" />
+    </template>
   </span>
 </template>
 
 <script>
 import { scheduleEntryRoute } from '@/router.js'
-import runes from 'runes'
+import Truncate from '@/components/generic/Truncate.vue'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'ScheduleEntryLinks',
-  components: {},
+  components: { CategoryChip, Truncate },
   props: {
     activityPromise: { type: Promise, required: true },
   },
@@ -47,13 +67,9 @@ export default {
       const title = scheduleEntry.activity().title
 
       if (this.$vuetify.breakpoint.smAndUp) {
-        if (title.length > 13) {
-          return number + ': ' + runes.substr(title, 0, 13) + '...'
-        } else {
-          return number + ': ' + title
-        }
+        return `${number}: ${title}`
       } else {
-        return number
+        return `${number}`
       }
     },
   },

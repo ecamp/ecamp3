@@ -2,6 +2,7 @@
   <v-btn
     :text="text"
     class="ec-btn-delete px-3 px-sm-4"
+    :class="{ 'v-btn--has-bg': bg }"
     min-width="0"
     :color="color"
     :icon="iconOnly"
@@ -31,6 +32,7 @@ export default {
     text: { type: Boolean, default: true },
     color: { type: String, default: 'blue-grey' },
     iconOnly: { type: Boolean, default: false },
+    bg: { type: Boolean, default: false },
   },
 }
 </script>

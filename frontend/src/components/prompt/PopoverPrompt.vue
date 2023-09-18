@@ -6,6 +6,7 @@
     :close-on-content-click="false"
     :close-on-click="true"
     nudge-left="1"
+    min-width="300"
     v-bind="{ ...$attrs, ...positions }"
     @input="onInput"
   >
@@ -96,16 +97,15 @@ export default {
       return positions
     },
     contentClass() {
-      return (
-        'ec-popover-prompt ' +
-        (this.x === 'left'
+      return `ec-popover-prompt ${
+        this.x === 'left'
           ? this.y === 'bottom'
             ? 'ec-popover-prompt--topright'
             : 'ec-popover-prompt--bottomright'
           : this.y === 'bottom'
           ? 'ec-popover-prompt--topleft'
-          : 'ec-popover-prompt--bottomleft')
-      )
+          : 'ec-popover-prompt--bottomleft'
+      }`
     },
   },
   methods: {

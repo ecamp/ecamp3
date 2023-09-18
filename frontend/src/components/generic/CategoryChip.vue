@@ -16,15 +16,19 @@
     </slot>
     <slot name="after" />
   </GenericChip>
+  <GenericChip v-else v-bind="$attrs" v-on="$listeners"
+    ><GenericIcon inherit spin>mdi-loading</GenericIcon></GenericChip
+  >
 </template>
 
 <script>
 import { contrastColor } from '@/common/helpers/colors.js'
 import GenericChip from '@/components/generic/GenericChip.vue'
+import GenericIcon from '@/components/generic/GenericIcon.vue'
 
 export default {
   name: 'CategoryChip',
-  components: { GenericChip },
+  components: { GenericIcon, GenericChip },
   props: {
     scheduleEntry: {
       type: Object,

@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Doctrine\Filter\MaterialItemCampFilter;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\InputFilter;
@@ -50,6 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['materialList', 'materialNode'])]
 #[ApiFilter(filterClass: MaterialItemPeriodFilter::class)]
+#[ApiFilter(filterClass: MaterialItemCampFilter::class)]
 #[ORM\Entity(repositoryClass: MaterialItemRepository::class)]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**

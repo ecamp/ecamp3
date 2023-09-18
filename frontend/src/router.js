@@ -5,6 +5,11 @@ import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { getEnv } from '@/environment.js'
 
+slugify.extend({
+  '@': '(at)',
+  '.': ' ',
+})
+
 Vue.use(Router)
 
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
@@ -247,14 +252,14 @@ export default new Router({
           },
         },
         {
-          path: 'material',
-          name: 'camp/material',
-          component: () => import('./views/camp/Material.vue'),
-        },
-        {
           path: 'dashboard',
           name: 'camp/dashboard',
           component: () => import('./views/camp/Dashboard.vue'),
+        },
+        {
+          path: 'material',
+          name: 'camp/material',
+          component: () => import('./views/camp/Material.vue'),
         },
         {
           path: '',
@@ -262,6 +267,41 @@ export default new Router({
           redirect: { name: 'camp/dashboard' },
         },
       ],
+    },
+    {
+      name: 'material/overview',
+      path: '/camps/:campId/:campTitle?/material/all',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/material/MaterialOverview.vue'),
+        aside: () => import('./views/material/SideBarMateriallists.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+        }),
+      },
+    },
+    {
+      name: 'material/detail',
+      path: '/camps/:campId/:campTitle?/material/:materialId/:materialName?',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/material/MaterialDetail.vue'),
+        aside: () => import('./views/material/SideBarMateriallists.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp, requireMaterial]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+          materialList: materialFromRoute(route),
+        }),
+      },
     },
     {
       path: '/camps/:campId/:campTitle/admin/category/:categoryId/:categoryName?',
@@ -342,7 +382,7 @@ async function requireCamp(to, from, next) {
   await campFromRoute(to)
     .call({ api: { get: apiStore.get } })
     ._meta.load.then(() => {
-      next({ query: to.query })
+      next()
     })
     .catch(() => {
       next({
@@ -355,6 +395,17 @@ async function requireCamp(to, from, next) {
 
 async function requirePeriod(to, from, next) {
   await periodFromRoute(to)
+    .call({ api: { get: apiStore.get } })
+    ._meta.load.then(() => {
+      next()
+    })
+    .catch(() => {
+      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
+    })
+}
+
+async function requireMaterial(to, from, next) {
+  await materialFromRoute(to)
     .call({ api: { get: apiStore.get } })
     ._meta.load.then(() => {
       next()
@@ -382,6 +433,12 @@ export function periodFromRoute(route) {
   }
 }
 
+export function materialFromRoute(route) {
+  return function () {
+    return this.api.get().materialLists({ id: route.params.materialId })
+  }
+}
+
 function scheduleEntryFromRoute(route) {
   return function () {
     return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId })
@@ -401,7 +458,6 @@ function getContentLayout(route) {
       return 'full'
     case 'camp/admin':
     case 'camp/print':
-    case 'camp/material':
       return 'wide'
     default:
       return 'normal'
@@ -424,6 +480,32 @@ export function campRoute(camp, subroute = 'dashboard', query = {}) {
   return {
     name: 'camp/' + subroute,
     params: { campId: camp.id, campTitle: slugify(camp.title) },
+    query,
+  }
+}
+
+/**
+ * @param camp
+ * @param materialList
+ * @param query
+ */
+export function materialRoute(camp, materialList, query = {}) {
+  if (materialList === false) {
+    return {
+      name: 'material/overview',
+      params: { campId: camp.id, campTitle: slugify(camp.title) },
+      query,
+    }
+  }
+  if (!materialList?._meta || materialList.meta?.loading) return {}
+  return {
+    name: 'material/detail',
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      materialId: materialList.id,
+      materialName: slugify(materialList.name),
+    },
     query,
   }
 }
@@ -496,7 +578,7 @@ async function redirectToPeriod(to, from, next, routeName) {
     await period.camp()._meta.load
     next(periodRoute(period, routeName, to.query))
   } else {
-    const camp = await apiStore.get().camps({ campId: to.params.campId })
+    const camp = await apiStore.get().camps({ id: to.params.campId })
     next(campRoute(camp, 'admin', to.query))
   }
 }
