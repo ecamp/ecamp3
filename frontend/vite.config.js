@@ -133,5 +133,12 @@ export default defineConfig(({ mode }) => ({
       reporter: ['text', 'lcov', 'html'],
       reportsDirectory: './data/coverage',
     },
+    deps: {
+      optimizer: {
+        web: {
+          exclude: ['vue'],
+        },
+      },
+    },
   },
 }))
