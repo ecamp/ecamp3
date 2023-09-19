@@ -68,7 +68,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      * The camp this material list belongs to.
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'materialLists')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
@@ -139,7 +139,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
 
     #[ApiProperty(example: 'Lebensmittel')]
     #[SerializedName('name')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getName(): ?string {
         return $this->name
             ?? $this->campCollaboration?->user?->getDisplayName()

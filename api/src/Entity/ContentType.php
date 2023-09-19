@@ -34,7 +34,7 @@ class ContentType extends BaseEntity {
      * identifier of this content type, it is guaranteed to stay fixed.
      */
     #[ApiProperty(writable: false, example: 'SafetyConcept')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     #[ORM\Column(type: 'string', length: 32, unique: true)]
     public ?string $name = null;
 

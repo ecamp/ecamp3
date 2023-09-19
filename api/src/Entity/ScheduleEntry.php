@@ -72,7 +72,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotNull(groups: ['validPeriod'])] // this is validated before all others
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
@@ -85,7 +85,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Valid(groups: ['ScheduleEntry:delete'])]
     #[ApiProperty(example: '/activities/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: 'scheduleEntries')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Activity $activity = null;
@@ -161,7 +161,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Assert\GreaterThanOrEqual(propertyPath: 'period.start')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getStart(): ?\DateTimeInterface {
         if (null === $this->period?->start) {
             return $this->_start;
@@ -188,7 +188,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '2022-01-02T01:30:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Assert\GreaterThan(propertyPath: 'start')]
     #[Assert\LessThanOrEqual(propertyPath: 'period.endOfLastDay')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getEnd(): ?\DateTimeInterface {
         if (null === $this->period?->start) {
             return $this->_end;

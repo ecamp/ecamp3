@@ -115,7 +115,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'activities')]
     #[ORM\JoinColumn(nullable: false)]
     public ?Category $category = null;
@@ -125,7 +125,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '/progress_labels/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: ActivityProgressLabel::class, inversedBy: 'activities')]
     #[ORM\JoinColumn(nullable: true)]
     public ?ActivityProgressLabel $progressLabel = null;
@@ -138,7 +138,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Sportolympiade')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text')]
     public ?string $title = null;
 
@@ -149,7 +149,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Spielwiese')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text')]
     public string $location = '';
 

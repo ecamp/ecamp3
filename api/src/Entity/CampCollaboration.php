@@ -151,7 +151,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'collaborations')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?User $user = null;
@@ -161,7 +161,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Valid]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'collaborations')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
@@ -185,7 +185,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         groups: ['update']
     )]
     #[ApiProperty(example: self::STATUS_INACTIVE)]
-    #[Groups(['read', 'update'])]
+    #[Groups(['read', 'update', 'print'])]
     #[ORM\Column(type: 'string', length: 16, nullable: false)]
     public string $status = self::STATUS_INVITED;
 
@@ -195,7 +195,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Choice(choices: self::VALID_ROLES)]
     #[ApiProperty(example: self::ROLE_MEMBER)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'string', length: 16, nullable: false)]
     public string $role;
 

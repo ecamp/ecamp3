@@ -78,7 +78,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * The camp to which this category belongs. May not be changed once the category is created.
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'categories')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
@@ -124,7 +124,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     #[Assert\NotBlank]
     #[Assert\Length(max: 16)]
     #[ApiProperty(example: 'LS')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: false)]
     public ?string $short = null;
 
@@ -136,7 +136,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Lagersport')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: false)]
     public ?string $name = null;
 
@@ -145,7 +145,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      */
     #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
     #[ApiProperty(example: '#4DBB52')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'string', length: 8, nullable: false)]
     public ?string $color = null;
 
@@ -155,7 +155,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      */
     #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
     #[ApiProperty(example: '1')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'string', length: 1, nullable: false)]
     public string $numberingStyle = '1';
 

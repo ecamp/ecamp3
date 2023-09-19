@@ -70,7 +70,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * The time period that this day belongs to.
      */
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'days')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
@@ -79,7 +79,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * The 0-based offset in days from the period's start date when this day starts.
      */
     #[ApiProperty(writable: false, example: '1')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     #[ORM\Column(type: 'integer')]
     public int $dayOffset = 0;
 
@@ -98,7 +98,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2')]
     #[SerializedName('number')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getDayNumber(): int {
         return $this->period->getFirstDayNumber() + $this->dayOffset;
     }
@@ -126,7 +126,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * The start date and time of the day. This is a read-only convenience property.
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getStart(): ?\DateTime {
         try {
             $start = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
@@ -142,7 +142,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * The end date and time of the day. This is a read-only convenience property.
      */
     #[ApiProperty(example: '2022-01-03T00:00:00+00:00', openapiContext: ['format' => 'date'])]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getEnd(): ?\DateTime {
         try {
             $end = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;

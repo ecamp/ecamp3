@@ -57,7 +57,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')] // TODO make not null in the DB using a migration, and get fixtures to run
     public ?ColumnLayout $root = null;
@@ -76,7 +76,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     )]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'children')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     public ?ContentNode $parent = null;
@@ -93,7 +93,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * Holds the actual data of the content node.
      */
     #[ApiProperty(example: ['text' => 'dummy text'])]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $data = null;
 
@@ -107,7 +107,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[AssertSlotSupportedByParent]
     #[ApiProperty(example: '1')]
     #[Gedmo\SortableGroup]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $slot = null;
 
@@ -117,7 +117,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      */
     #[ApiProperty(example: '0')]
     #[Gedmo\SortablePosition]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'integer', nullable: false)]
     public int $position = -1;
 
@@ -129,7 +129,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[InputFilter\CleanText]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Schlechtwetterprogramm')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'write', 'print'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $instanceName = null;
 
@@ -139,7 +139,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * in a content node. The content type may not be changed once the content node is created.
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'create', 'print'])]
     #[AssertContentTypeCompatible]
     #[ORM\ManyToOne(targetEntity: ContentType::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -154,7 +154,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * The name of the content type of this content node. Read-only, for convenience.
      */
     #[ApiProperty(example: 'SafetyConcept')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'print'])]
     public function getContentTypeName(): string {
         return $this->contentType?->name;
     }
