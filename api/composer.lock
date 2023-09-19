@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "676d8741ed1061d6855565cb7bb20bf3",
+    "content-hash": "eddbf884c90211bcca67cf1cf95d38cf",
     "packages": [
         {
             "name": "api-platform/core",
@@ -11058,16 +11058,16 @@
         },
         {
             "name": "hautelook/alice-bundle",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceBundle.git",
-                "reference": "ebaf24ec0318583d8c022966687e2a4979bb9af8"
+                "reference": "841ac01d0d4e1ea3381374360cdcc5d6b9c904cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/ebaf24ec0318583d8c022966687e2a4979bb9af8",
-                "reference": "ebaf24ec0318583d8c022966687e2a4979bb9af8",
+                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/841ac01d0d4e1ea3381374360cdcc5d6b9c904cc",
+                "reference": "841ac01d0d4e1ea3381374360cdcc5d6b9c904cc",
                 "shasum": ""
             },
             "require": {
@@ -11125,9 +11125,9 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceBundle/issues",
-                "source": "https://github.com/theofidry/AliceBundle/tree/2.12.0"
+                "source": "https://github.com/theofidry/AliceBundle/tree/2.12.1"
             },
-            "time": "2023-03-26T09:04:39+00:00"
+            "time": "2023-09-19T19:48:05+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
