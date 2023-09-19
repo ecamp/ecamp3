@@ -299,7 +299,7 @@ class AppendAFilter extends InputFilter {
         if (!isset($data[$propertyName])) {
             return $data;
         }
-        $data[$propertyName] = $data[$propertyName].'A';
+        $data[$propertyName] .= 'A';
 
         return $data;
     }
@@ -313,7 +313,7 @@ class AppendBFilter extends InputFilter {
         if (!isset($data[$propertyName])) {
             return $data;
         }
-        $data[$propertyName] = $data[$propertyName].'B';
+        $data[$propertyName] .= 'B';
 
         return $data;
     }
