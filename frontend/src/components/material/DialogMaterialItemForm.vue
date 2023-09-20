@@ -1,9 +1,9 @@
 <template>
   <div>
     <e-text-field
-      v-model="localMaterialItem.quantity"
+      v-model.number="localMaterialItem.quantity"
       :name="$tc('entity.materialItem.fields.quantity')"
-      type="number"
+      inputmode="numeric"
       autofocus
     />
     <e-text-field

@@ -42,7 +42,7 @@
         dense
         :uri="item.uri"
         fieldname="quantity"
-        type="number"
+        type="numeric"
       />
       <span v-if="item.readonly">{{ item.quantity }}</span>
     </template>
