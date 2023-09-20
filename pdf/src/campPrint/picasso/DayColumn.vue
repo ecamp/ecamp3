@@ -16,6 +16,7 @@
           ...positionStyles[scheduleEntry.id],
           ...borderRadiusStyles[scheduleEntry.id],
         }"
+        :percentage-height="positionStyles[scheduleEntry.id].percentageHeight"
       />
     </View>
   </View>
@@ -86,6 +87,7 @@ export default {
             bottom: bottom + '%',
             left: left + '%',
             right: 100 - width - left + '%',
+            percentageHeight: 100 - bottom - top,
           }
         }),
         'id'
