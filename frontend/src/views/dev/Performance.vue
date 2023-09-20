@@ -1,24 +1,19 @@
 <template>
-  <v-container fluid>
-    <content-card title="Config">
-      <v-card-text>
-        <table class="result-table">
-          <tr>
-            <th>Endpoint</th>
-            <th>Collection ms</th>
-            <th>Entity ms</th>
-          </tr>
-          <tr v-for="result in results" :key="result.endpoint">
-            <td>{{ result.endpoint }}</td>
-            <td class="text-right">
-              {{ result.collection }}
-            </td>
-            <td class="text-right">
-              {{ result.entity }}
-            </td>
-          </tr>
-        </table>
-      </v-card-text>
+  <v-container fluid style="max-width: 1024px">
+    <content-card title="Performance" toolbar>
+      <v-data-table
+        :headers="headers"
+        :items="results"
+        item-key="endpoint"
+        hide-default-footer
+      >
+        <template #[`item.collection`]="{ item }"
+          >{{ numberformat.format(item.collection) }} ms</template
+        >
+        <template #[`item.entity`]="{ item }"
+          >{{ numberformat.format(item.entity) }} ms</template
+        >
+      </v-data-table>
     </content-card>
   </v-container>
 </template>
@@ -28,9 +23,23 @@ export default {
   name: 'Controls',
   components: {},
   data: () => ({
+    numberformat: new Intl.NumberFormat('de-CH', {
+      style: 'decimal',
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }),
     results: [],
+    headers: [
+      { text: 'Endpoint', value: 'endpoint' },
+      {
+        text: 'Collection',
+        value: 'collection',
+        align: 'right',
+        cellClass: 'tabular-nums',
+      },
+      { text: 'Entity', value: 'entity', align: 'right', cellClass: 'tabular-nums' },
+    ],
   }),
-  computed: {},
   async mounted() {
     const root = await this.api.get()._meta.load
 
@@ -47,16 +56,16 @@ export default {
 
       const collection = await this.api.href(root, key)
 
-      const collectionStart = new Date().getTime()
+      const collectionStart = performance.now()
       const collectionData = await this.axios.get(collection, { baseURL: '/' })
-      const collectionEnd = new Date().getTime()
+      const collectionEnd = performance.now()
 
       if (collectionData.data._embedded.items[0]) {
         await this.axios.get(collectionData.data._embedded.items[0]._links.self.href, {
           baseURL: '/',
         })
       }
-      const entityEnd = new Date().getTime()
+      const entityEnd = performance.now()
 
       this.results.push({
         endpoint: key,
@@ -69,15 +78,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.result-table {
-  border: 1px black solid;
-  border-collapse: collapse;
-  tr {
-    td,
-    th {
-      border: 1px black solid;
-      padding: 5px;
-    }
+::v-deep() th[role='columnheader'].text-right {
+  direction: rtl;
+  span {
+    direction: ltr;
   }
 }
 </style>

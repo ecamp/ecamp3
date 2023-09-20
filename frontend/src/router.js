@@ -24,6 +24,7 @@ export default new Router({
             components: {
               default: () => import('./views/dev/Controls.vue'),
             },
+            beforeEnter: requireAuth,
           },
           {
             path: '/performance',
@@ -31,6 +32,7 @@ export default new Router({
             components: {
               default: () => import('./views/dev/Performance.vue'),
             },
+            beforeEnter: requireAuth,
           },
         ]
       : []),
