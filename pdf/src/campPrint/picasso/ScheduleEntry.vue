@@ -1,11 +1,11 @@
 <template>
-  <View
-    class="picasso-schedule-entry"
-    :style="{ backgroundColor: color, color: textColor }"
-  >
+  <View class="picasso-schedule-entry" :style="{ backgroundColor: color }">
     <View class="picasso-schedule-entry-spacer" />
     <Link class="picasso-schedule-entry-link" :href="linkTarget">
-      <Text class="picasso-schedule-entry-title" :style="{ fontSize: fontSize }">
+      <Text
+        class="picasso-schedule-entry-title"
+        :style="{ fontSize: fontSize, color: textColor }"
+      >
         {{ category }} {{ scheduleEntry.number }} {{ title }}
       </Text>
     </Link>
