@@ -14,6 +14,7 @@ doctrine:
         enable_lazy_ghost_objects: true
         naming_strategy: App\Util\CamelPascalNamingStrategy
         auto_mapping: true
+        report_fields_where_declared: true
         mappings:
             App:
                 is_bundle: false

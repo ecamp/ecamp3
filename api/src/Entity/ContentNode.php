@@ -89,11 +89,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
 
-    /**
-     * Holds the actual data of the content node.
-     */
-    #[ApiProperty(example: ['text' => 'dummy text'])]
-    #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $data = null;
 
@@ -173,6 +168,11 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         return $this->root;
     }
 
+    /**
+     * Holds the actual data of the content node.
+     */
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
     public function getData(): ?array {
         return $this->data;
     }

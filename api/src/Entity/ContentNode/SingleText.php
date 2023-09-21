@@ -58,14 +58,25 @@ class SingleText extends ContentNode {
         ],
     ];
 
+    public const DATA_DEFAULT = '{"html":""}';
+
+    public function __construct() {
+        parent::__construct();
+        $this->data = json_decode(self::DATA_DEFAULT, true);
+    }
+
     /**
      * Holds the actual data of the content node
      * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: ['html' => 'my example text'])]
+    #[ApiProperty(
+        default: self::DATA_DEFAULT,
+        example: ['html' => 'my example text']
+    )]
     #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[AssertJsonSchema(schema: self::JSON_SCHEMA)]
     #[Assert\NotNull]
-    public ?array $data = ['html' => ''];
+    public function getData(): ?array {
+        return $this->data;
+    }
 }
