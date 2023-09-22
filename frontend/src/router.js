@@ -1,17 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import slugify from 'slugify'
+import { slugify } from '@/plugins/slugify.js'
 import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { getEnv } from '@/environment.js'
 
 Vue.use(Router)
-
-slugify.extend({
-  '@': '(at)',
-  '.': ' ',
-  ':': ' ',
-})
 
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
 const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
