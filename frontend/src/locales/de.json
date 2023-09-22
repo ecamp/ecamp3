@@ -198,6 +198,10 @@
       "materialTable": {
         "addNewItem": "Eintrag hinzufügen",
         "noItems": "Keine Einträge gefunden"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Materialliste",
+        "overview": "Gesamtübersicht"
       }
     },
     "navigation": {

@@ -8,7 +8,7 @@
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
-          <v-list>
+          <v-list class="py-0">
             <DialogMaterialListEdit v-if="!isGuest" :material-list="materialList()">
               <template #activator="{ attrs, on }">
                 <v-list-item v-bind="attrs" v-on="on">
@@ -50,9 +50,11 @@
       </v-expansion-panels>
       <v-card-text v-else-if="collection.length === 1">
         <MaterialTable
+          v-for="{ period, materialItems } in collection"
+          :key="period._meta.self"
           :camp="camp()"
-          :material-item-collection="collection[0].materialItems"
-          :period="collection[0].period"
+          :material-item-collection="materialItems"
+          :period="period"
           :material-list="materialList()"
           :disabled="!isContributor"
         />
@@ -64,72 +66,27 @@
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
-import { campRoleMixin } from '@/mixins/campRoleMixin.js'
-import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
 import MaterialTable from '@/components/material/MaterialTable.vue'
-import slugify from 'slugify'
-import { useDownloadMaterialList } from '@/components/material/useDownloadMaterialList.js'
+import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
+import { useMaterialViewHelper } from '@/components/material/useMaterialViewHelper.js'
+import { apiStore } from '@/plugins/store/index.js'
 
 export default {
   name: 'MaterialDetail',
   components: {
-    MaterialTable,
-    DialogMaterialListEdit,
-    PeriodMaterialLists,
     ContentCard,
+    DialogMaterialListEdit,
+    MaterialTable,
+    PeriodMaterialLists,
   },
   mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true },
     materialList: { type: Function, required: true },
   },
-  setup({ camp }) {
-    const { downloadMaterialList } = useDownloadMaterialList(camp, false)
-    return {
-      downloadMaterialList,
-    }
-  },
-  data() {
-    return {
-      openPeriods: [],
-    }
-  },
-  computed: {
-    collection() {
-      return this.camp()
-        .periods()
-        .items.map((period) => ({
-          period,
-          materialItems: this.api.get().materialItems({
-            materialList: this.materialList()._meta.self,
-            period: period._meta.self,
-          }),
-        }))
-    },
-  },
-  mounted() {
-    this.camp()
-      .periods()
-      ._meta.load.then((periods) => {
-        this.openPeriods = periods.items.reduce((result, period, index) => {
-          if (Date.parse(period.end) >= new Date()) {
-            result.push(index)
-          }
-          return result
-        }, [])
-      })
-  },
-  methods: {
-    async downloadXlsx() {
-      await this.downloadMaterialList(
-        this.collection,
-        [
-          slugify(this.$tc('entity.materialList.name')),
-          slugify(this.materialList().name),
-          this.$date().format('YYMMDDHHmmss'),
-        ].join('_')
-      )
-    },
+  setup(props) {
+    return useMaterialViewHelper(props.camp.call({ api: { get: apiStore.get } }), true)
   },
 }
 </script>

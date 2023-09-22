@@ -198,6 +198,10 @@
       "materialTable": {
         "addNewItem": "Aggiungi un nuovo elemento",
         "noItems": "Nessun oggetto materiale trovato"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Liste di materiali",
+        "overview": "Panoramica generale"
       }
     },
     "navigation": {

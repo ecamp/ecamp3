@@ -198,6 +198,10 @@
       "materialTable": {
         "addNewItem": "Add new item",
         "noItems": "No material items found"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Material list",
+        "overview": "General overview"
       }
     },
     "navigation": {

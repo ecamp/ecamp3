@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { campRoute, materialRoute } from '@/router.js'
+import { materialRoute } from '@/router.js'
 
 export default {
   name: 'MaterialLists',
@@ -49,8 +49,10 @@ export default {
       return this.camp().materialLists()
     },
   },
+  mounted() {
+    this.materialLists.$loadItems()
+  },
   methods: {
-    campRoute,
     materialRoute,
   },
 }

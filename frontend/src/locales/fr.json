@@ -198,6 +198,10 @@
       "materialTable": {
         "addNewItem": "Ajoute un nouvel élément",
         "noItems": "Aucun élément matériel trouvé"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Liste de matériel",
+        "overview": "Aperçu général"
       }
     },
     "navigation": {

@@ -369,6 +369,7 @@ export default {
         .then(() => {
           // reload list after item has successfully been added
           this.api.reload(this.materialItemCollection).then(() => {
+            this.api.reload(this.newMaterialItems[key].materialList)
             this.$delete(this.newMaterialItems, key)
           })
         })
