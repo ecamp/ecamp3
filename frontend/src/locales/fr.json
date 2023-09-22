@@ -298,7 +298,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment le supprimer ?"
+        "warningText": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
       }
     },
     "toast": {

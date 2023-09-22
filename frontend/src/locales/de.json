@@ -298,7 +298,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
+        "warningText": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
       }
     },
     "toast": {
