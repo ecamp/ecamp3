@@ -36,9 +36,5 @@ export default {
       return this.period.camp()
     },
   },
-  // reload data every time user navigates to material table
-  mounted() {
-    this.period.materialItems().$reload()
-  },
 }
 </script>
