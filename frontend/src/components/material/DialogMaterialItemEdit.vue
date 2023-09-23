@@ -14,7 +14,14 @@
     </template>
 
     <template #moreActions>
-      <ButtonDelete class="v-btn--has-bg" @click="del" />
+      <PromptEntityDelete
+        :entity="entityUri"
+        align="left"
+        position="top"
+        :btn-attrs="{
+          class: 'v-btn--has-bg',
+        }"
+      />
     </template>
 
     <dialog-material-item-form
@@ -28,11 +35,11 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogMaterialItemForm from './DialogMaterialItemForm.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
 export default {
   name: 'DialogMaterialItemEdit',
-  components: { ButtonDelete, DialogForm, DialogMaterialItemForm },
+  components: { PromptEntityDelete, DialogForm, DialogMaterialItemForm },
   extends: DialogBase,
   props: {
     materialItemUri: { type: String, required: true },
