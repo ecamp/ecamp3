@@ -10,8 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class AssertNoRootChangeValidator extends ConstraintValidator {
-    public function __construct(public RequestStack $requestStack) {
-    }
+    public function __construct(public RequestStack $requestStack) {}
 
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertNoRootChange) {

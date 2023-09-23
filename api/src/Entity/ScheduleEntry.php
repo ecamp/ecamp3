@@ -209,9 +209,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         }
     }
 
-    /**
-     * @return Activity
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('activity')]
     #[Groups('ScheduleEntry:Activity')]

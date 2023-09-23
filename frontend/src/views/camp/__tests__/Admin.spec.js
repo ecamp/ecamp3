@@ -1,44 +1,20 @@
-import { createVuexStore, render } from '@/test/renderWithVuetify.js'
+import { render } from '@/test/renderWithVuetify.js'
 import Admin from '../Admin.vue'
 import flushPromises from 'flush-promises'
 
 describe('Admin view', () => {
-  /// Is the Vuex "$store"
-  let store
-
-  beforeEach(() => {
-    store = createVuexStore({
-      state: {
-        auth: {
-          user: USER,
-        },
-      },
-      getters: {
-        getLoggedInUser: (state) => {
-          return state.auth.user
-        },
-      },
-    })
-  })
-
   it('shows the danger zone when the user has a manager role', async () => {
+    const camp = createCampWithRole('manager')
     const { getByText } = render(Admin, {
       props: {
-        camp: createCampWithRole('manager'),
+        camp: () => camp,
       },
       routes: [],
-      store,
+      store: createStoreObject(),
       mocks: {
-        api: { reload: () => Promise.resolve() },
+        api: createApiMock(camp),
       },
-      stubs: [
-        'camp-settings',
-        'camp-address',
-        'camp-periods',
-        'camp-categories',
-        'camp-activity-progress-labels',
-        'camp-material-lists',
-      ],
+      stubs: createStubs(),
     })
 
     await flushPromises()
@@ -48,23 +24,17 @@ describe('Admin view', () => {
   })
 
   it("doesn't show the danger zone when the user has a member role", async () => {
+    const camp = createCampWithRole('member')
     const { queryByText } = render(Admin, {
       props: {
-        camp: createCampWithRole('member'),
+        camp: () => camp,
       },
       routes: [],
-      store,
+      store: createStoreObject(),
       mocks: {
-        api: { reload: () => Promise.resolve() },
+        api: createApiMock(camp),
       },
-      stubs: [
-        'camp-settings',
-        'camp-address',
-        'camp-periods',
-        'camp-categories',
-        'camp-activity-progress-labels',
-        'camp-material-lists',
-      ],
+      stubs: createStubs(),
     })
 
     await flushPromises()
@@ -74,23 +44,17 @@ describe('Admin view', () => {
   })
 
   it("doesn't show the danger zone when the user has the guest role", async () => {
+    const camp = createCampWithRole('guest')
     const { queryByText } = render(Admin, {
       props: {
-        camp: createCampWithRole('guest'),
+        camp: () => camp,
       },
       routes: [],
-      store,
+      store: createStoreObject(),
       mocks: {
-        api: { reload: () => Promise.resolve() },
+        api: createApiMock(camp),
       },
-      stubs: [
-        'camp-settings',
-        'camp-address',
-        'camp-periods',
-        'camp-categories',
-        'camp-activity-progress-labels',
-        'camp-material-lists',
-      ],
+      stubs: createStubs(),
     })
 
     await flushPromises()
@@ -101,14 +65,30 @@ describe('Admin view', () => {
 })
 
 const USER_URL = '/users/17d341a80579'
+
 const USER = {
   _meta: {
     self: USER_URL,
   },
 }
 
+function createStoreObject() {
+  return {
+    state: {
+      auth: {
+        user: USER,
+      },
+    },
+    getters: {
+      getLoggedInUser: (state) => {
+        return state.auth.user
+      },
+    },
+  }
+}
+
 function createCampWithRole(role) {
-  return () => ({
+  return {
     campCollaborations: () => ({
       items: [
         {
@@ -123,5 +103,31 @@ function createCampWithRole(role) {
     materialLists: () => {},
     progressLabels: () => {},
     _meta: { load: Promise.resolve() },
-  })
+  }
+}
+
+function createApiMock(camp) {
+  const halJsonResponse = {
+    ...camp,
+    _meta: {
+      loading: false,
+      load: Promise.resolve(camp),
+    },
+  }
+  return {
+    reload: () => Promise.resolve(),
+    get: () => halJsonResponse,
+  }
+}
+
+function createStubs() {
+  return [
+    'CampSettings',
+    'CampAddress',
+    'CampPeriods',
+    'CampCategories',
+    'CampActivityProgressLabels',
+    'CampMaterialLists',
+    'CampConditionalFields',
+  ]
 }

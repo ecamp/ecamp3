@@ -13,8 +13,7 @@ class ValidateDeleteRequestsListener implements EventSubscriberInterface {
     public function __construct(
         private ValidatorInterface $validator,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array {
         return [

@@ -8,7 +8,6 @@ selenium-debug.log
 # local env files
 .env.local
 .env.*.local
-public/environment.js
 
 # Auto-generated files
 public/twemoji/

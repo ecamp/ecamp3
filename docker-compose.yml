@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:20.5.1
+    image: node:20.7.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -22,6 +22,8 @@ services:
       - CI=${CI}
     working_dir: /app
     command: ./docker-setup.sh
+    depends_on:
+      - pdf
 
   php:
     image: ecamp/ecamp3-dev-api-php
@@ -91,7 +93,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   pdf:
-    image: node:20.5.1
+    image: node:20.7.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -110,7 +112,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.5.1
+    image: node:20.7.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -160,7 +162,7 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.59.0-puppeteer-20.2.1
+    image: browserless/chrome:1.60.0-puppeteer-21.1.1
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
@@ -175,7 +177,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:12.17.4
+    image: cypress/included:13.2.0
     profiles: [ "e2e" ]
     container_name: 'ecamp3-e2e'
     environment:
@@ -188,7 +190,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.5.1
+    image: node:20.7.0
     profiles: [ "translation" ]
     container_name: 'ecamp3-translation'
     volumes:

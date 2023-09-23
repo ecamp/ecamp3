@@ -18,8 +18,7 @@ class AssertBelongsToSameCampValidator extends ConstraintValidator {
     public function __construct(
         public RequestStack $requestStack,
         private EntityManagerInterface $em
-    ) {
-    }
+    ) {}
 
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertBelongsToSameCamp) {

@@ -17,8 +17,7 @@ class UriTemplateNormalizer implements NormalizerInterface {
         private EnglishInflector $inflector,
         private UriTemplateFactory $uriTemplateFactory,
         private UrlGeneratorInterface $urlGenerator,
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);

@@ -1,69 +1,71 @@
-describe('Persist Dashboard Filter', () => {
-  it('should add Category-Filters to query', () => {
+describe('The filters in the dashboard', () => {
+  beforeEach(() => {
     cy.login('test@example.com')
     cy.visit('/camps')
     cy.get('a:contains("GRGR")').click()
-    cy.get('span.v-chip:contains("Kategorie")').click()
-    clickOnItemWithLabel('Essen')
-    clickOnItemWithLabel('Lagersport')
-    cy.wait(500)
-    cy.url().should('include', 'category')
-    cy.url().should('include', 'ebfd46a1c181')
-    cy.url().should('include', 'a023e85227ac')
   })
-  it('should remove Category-Filters from query', () => {
-    cy.login('test@example.com')
-    cy.visit('/camps')
-    cy.get('a:contains("GRGR")').click()
-    cy.get('span.v-chip:contains("Kategorie")').click()
-    clickOnItemWithLabel('Essen')
-    clickOnItemWithLabel('Lagersport')
-    cy.wait(500)
-    clickOnItemWithLabel('Essen')
-    clickOnItemWithLabel('Lagersport')
-    cy.wait(500)
 
-    cy.url().should('not.include', 'category')
-    cy.url().should('not.include', 'ebfd46a1c181')
-    cy.url().should('not.include', 'a023e85227ac')
+  afterEach(() => {
+    /**
+     * Firefox does not like it if a test is finished while
+     * requests are still running. Thus we wait for this text to be rendered.
+     * This worked better than intercepting requests.
+     */
+    cy.contains('Hauptlager')
   })
-  it('should add Filters to query', () => {
-    cy.login('test@example.com')
-    cy.visit('/camps')
-    cy.get('a:contains("GRGR")').click()
+
+  it('can be shared via url', () => {
     cy.get('span.v-chip:contains("Kategorie")').click()
     clickOnItemWithLabel('Essen')
     clickOnItemWithLabel('Lagersport')
-    cy.wait(500)
+
+    cy.get('span.v-chip:contains("Kategorie: ES oder LS")').should('exist')
+
     cy.get('span.v-chip:contains("Status")').click()
     clickOnItemWithLabel('Geplant')
     clickOnItemWithLabel('Coach OK')
-    cy.wait(500)
 
-    cy.url().should('include', 'category')
-    cy.url().should('include', 'ebfd46a1c181')
-    cy.url().should('include', 'a023e85227ac')
+    cy.get('span.v-chip:contains("Status: Geplant oder Coach OK")').should('exist')
 
-    cy.url().should('include', 'progressLabel')
-    cy.url().should('include', '82547049ea38')
-    cy.url().should('include', '332e0c387141')
-
-    cy.reload(true)
-    cy.wait(500)
+    cy.url().then((url) => cy.visit(url))
 
     cy.get('span.v-chip:contains("Kategorie: ES oder LS")')
     cy.get('span.v-chip:contains("Status: Geplant oder Coach OK")')
   })
-  it('should add Responsible-Filters to query', () => {
-    cy.login('test@example.com')
-    cy.visit('/camps')
-    cy.get('a:contains("GRGR")').click()
+
+  it('are removed from the url when removed in the gui', () => {
+    cy.get('span.v-chip:contains("Kategorie")').click()
+    clickOnItemWithLabel('Essen')
+    clickOnItemWithLabel('Lagersport')
+
+    cy.get('span.v-chip:contains("Kategorie: ES oder LS")').should('exist')
+
+    cy.url().then((url) => cy.visit(url))
+
+    cy.get('span.v-chip:contains("Kategorie: ES oder LS")').should('exist')
+
+    cy.get('span.v-chip:contains("Kategorie: ES oder LS")').click()
+
+    clickOnItemWithLabel('Essen')
+    clickOnItemWithLabel('Lagersport')
+
+    cy.get('span.v-chip:contains("Kategorie: ES oder LS")').should('not.exist')
+    cy.get('span.v-chip:contains("Kategorie")').should('exist')
+
+    cy.url().then((url) => cy.visit(url))
+
+    cy.get('span.v-chip:contains("Kategorie: ES oder LS")').should('not.exist')
+    cy.get('span.v-chip:contains("Kategorie")').should('exist')
+  })
+
+  it('support selecting activities without responsibles', () => {
     cy.get('span.v-chip:contains("Verantwortlich")').click()
     clickOnItemWithLabel('Keine Verantwortlichen')
-    cy.url().should('include', 'responsible=none')
-    cy.wait(500)
-    cy.reload(true)
-    cy.wait(10000)
+
+    cy.get('span.v-chip:contains("Verantwortlich: Keine Verantwortlichen")')
+
+    cy.url().then((url) => cy.visit(url))
+
     cy.get('span.v-chip:contains("Verantwortlich: Keine Verantwortlichen")')
   })
 })

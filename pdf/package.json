@@ -1,6 +1,5 @@
 {
-  "name": "pdf",
-  "version": "0.1.0",
+  "name": "@ecamp3/client-pdf",
   "description": "Create pdfs for eCamp, using Vue components",
   "main": "src/index.js",
   "private": true,
@@ -32,22 +31,22 @@
     "runes": "0.4.3"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.22.10",
-    "@rushstack/eslint-patch": "1.3.3",
+    "@babel/eslint-parser": "7.22.15",
+    "@rushstack/eslint-patch": "1.4.0",
     "@vitejs/plugin-vue": "4.3.3",
     "@vue/babel-preset-app": "5.0.8",
     "@vue/eslint-config-prettier": "8.0.0",
     "@vue/test-utils": "2.4.0",
     "css": "3.0.0",
     "dayjs": "^1.11.9",
-    "eslint": "8.47.0",
-    "eslint-plugin-local-rules": "1.3.2",
+    "eslint": "8.50.0",
+    "eslint-plugin-local-rules": "2.0.0",
     "eslint-plugin-vue": "9.17.0",
-    "jsdom": "20.0.3",
-    "prettier": "3.0.2",
+    "jsdom": "22.1.0",
+    "prettier": "3.0.3",
     "url-template": "^3.1.0",
     "vite": "4.4.9",
-    "vitest": "0.34.2"
+    "vitest": "0.34.5"
   },
   "eslintConfig": {
     "root": true,

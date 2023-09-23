@@ -18,8 +18,7 @@ class InvitationRejectProcessor implements ProcessorInterface {
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private CampCollaborationRepository $campCollaborationRepository,
         private EntityManagerInterface $em,
-    ) {
-    }
+    ) {}
 
     /**
      * @param Invitation $data

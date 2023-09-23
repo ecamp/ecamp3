@@ -29,8 +29,7 @@ class GoogleAuthenticator extends OAuth2Authenticator {
         private EntityManagerInterface $entityManager,
         private Security $security,
         private JWTEncoderInterface $jwtDecoder,
-    ) {
-    }
+    ) {}
 
     public function supports(Request $request): ?bool {
         // continue ONLY if the current ROUTE matches the check ROUTE

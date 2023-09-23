@@ -13,7 +13,7 @@ class TrimFilterTest extends TestCase {
     /**
      * @dataProvider getExamples
      */
-    public function testInputFiltering($input, $output) {
+    public function testInputFiltering(string $input, string $output) {
         // given
         $data = ['key' => $input];
         $outputData = ['key' => $output];

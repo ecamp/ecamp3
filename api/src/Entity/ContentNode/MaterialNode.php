@@ -50,16 +50,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ORM\Entity(repositoryClass: MaterialNodeRepository::class)]
 class MaterialNode extends ContentNode {
-    /**
-     * Holds the actual data of the content node
-     * (overridden from abstract class in order to add specific validation).
-     */
-    #[ApiProperty(example: null)]
-    #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    #[Assert\IsNull]
-    public ?array $data = null;
-
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'materialNode', orphanRemoval: true, cascade: ['persist', 'remove'])]
@@ -70,6 +60,17 @@ class MaterialNode extends ContentNode {
         $this->materialItems = new ArrayCollection();
 
         parent::__construct();
+    }
+
+    /**
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
+     */
+    #[ApiProperty(example: null)]
+    #[Groups(['read', 'write'])]
+    #[Assert\IsNull]
+    public function getData(): ?array {
+        return $this->data;
     }
 
     /**

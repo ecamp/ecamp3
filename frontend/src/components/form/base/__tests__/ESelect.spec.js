@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import { formBaseComponents } from '@/plugins'
 
 import { mount as mountComponent } from '@vue/test-utils'
-import ESelect from '../ESelect'
+import ESelect from '../ESelect.vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)

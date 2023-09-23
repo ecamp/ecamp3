@@ -20,8 +20,7 @@ class MaterialItemDenormalizer implements DenormalizerInterface, DenormalizerAwa
 
     private const ALREADY_CALLED = 'MATERIAL_ITEM_DENORMALIZER_ALREADY_CALLED';
 
-    public function __construct(public RequestStack $requestStack) {
-    }
+    public function __construct(public RequestStack $requestStack) {}
 
     /**
      * {@inheritdoc}

@@ -1,6 +1,6 @@
 {
-  "name": "e2e",
-  "version": "1.0.0",
+  "name": "@ecamp3/e2e",
+  "private": true,
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
@@ -12,11 +12,11 @@
     "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,json,md}"
   },
   "devDependencies": {
-    "cypress": "12.17.4",
+    "cypress": "13.2.0",
     "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-cypress": "2.14.0",
+    "eslint-plugin-cypress": "2.15.1",
     "eslint-plugin-prettier": "5.0.0",
-    "prettier": "3.0.2"
+    "prettier": "3.0.3"
   },
   "eslintConfig": {
     "root": true,

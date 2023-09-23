@@ -79,20 +79,7 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
         ],
     ];
 
-    /**
-     * Holds the actual data of the content node
-     * (overridden from abstract class in order to add specific validation).
-     */
-    #[ApiProperty(example: ['columns' => [['slot' => '1', 'width' => 12]]])]
-    #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    #[Assert\Sequentially(constraints: [
-        new AssertJsonSchema(schema: self::JSON_SCHEMA),
-        new AssertColumWidthsSumTo12(),
-        new AssertNoOrphanChildren(),
-    ])]
-    #[Assert\NotNull]
-    public ?array $data = ['columns' => [['slot' => '1', 'width' => 6], ['slot' => '2', 'width' => 6]]];
+    public const DATA_DEFAULT = '{"columns":[{"slot":"1","width":6},{"slot":"2","width":6}]}';
 
     /**
      * All content nodes that are part of this content node tree.
@@ -104,6 +91,26 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
     public function __construct() {
         parent::__construct();
         $this->rootDescendants = new ArrayCollection();
+        $this->data = json_decode(self::DATA_DEFAULT, true);
+    }
+
+    /**
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
+     */
+    #[ApiProperty(
+        default: self::DATA_DEFAULT,
+        example: ['columns' => [['slot' => '1', 'width' => 12]]]
+    )]
+    #[Groups(['read', 'write'])]
+    #[Assert\Sequentially(constraints: [
+        new AssertJsonSchema(schema: self::JSON_SCHEMA),
+        new AssertColumWidthsSumTo12(),
+        new AssertNoOrphanChildren(),
+    ])]
+    #[Assert\NotNull]
+    public function getData(): ?array {
+        return parent::getData();
     }
 
     /**
@@ -137,13 +144,5 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
         $columns = new ArrayCollection($this->getData()['columns']);
 
         return $columns->map(fn (array $element) => $element['slot'])->getValues();
-    }
-
-    public function updateCreateTime(): void {
-        $this->createTime = new \DateTime();
-    }
-
-    public function updateUpdateTime(): void {
-        $this->updateTime = new \DateTime();
     }
 }

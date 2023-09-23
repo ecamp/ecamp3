@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount as mountComponent } from '@vue/test-utils'
-import ETextField from '../ETextField'
+import ETextField from '../ETextField.vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)

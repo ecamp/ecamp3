@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount as mountComponent } from '@vue/test-utils'
-import ESwitch from '@/components/form/base/ESwitch'
+import ESwitch from '@/components/form/base/ESwitch.vue'
 import { touch } from '@/test/util'
 
 Vue.use(Vuetify)

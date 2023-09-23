@@ -20,8 +20,7 @@ class InvitationAcceptProcessor implements ProcessorInterface {
         private CampCollaborationRepository $campCollaborationRepository,
         private Security $security,
         private EntityManagerInterface $em,
-    ) {
-    }
+    ) {}
 
     /**
      * @param Invitation $data

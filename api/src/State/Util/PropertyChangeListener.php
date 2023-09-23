@@ -7,8 +7,7 @@ class PropertyChangeListener {
         private \Closure $extractProperty,
         private \Closure $beforeAction,
         private \Closure $afterAction
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \ReflectionException
@@ -19,12 +18,10 @@ class PropertyChangeListener {
         ?\Closure $afterAction = null
     ): PropertyChangeListener {
         if (null == $beforeAction) {
-            $beforeAction = function ($data) {
-            };
+            $beforeAction = function ($data) {};
         }
         if (null == $afterAction) {
-            $afterAction = function ($data) {
-            };
+            $afterAction = function ($data) {};
         }
         if (self::hasOneParameter($extractProperty)) {
             throw new \InvalidArgumentException('extractProperty must have exactly one parameter');

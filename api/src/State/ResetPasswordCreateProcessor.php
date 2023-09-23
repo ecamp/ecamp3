@@ -24,8 +24,7 @@ class ResetPasswordCreateProcessor implements ProcessorInterface {
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,
         private MailService $mailService
-    ) {
-    }
+    ) {}
 
     /**
      * @param ResetPassword $data

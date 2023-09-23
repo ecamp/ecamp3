@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An ECheckbox looks like a checkbox: checked 1`] = `
+exports[`An ECheckbox > looks like a checkbox > checked 1`] = `
 <div data-app>
      <span>
           <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--checkbox primary--text">
@@ -23,7 +23,7 @@ exports[`An ECheckbox looks like a checkbox: checked 1`] = `
 </div>
 `;
 
-exports[`An ECheckbox looks like a checkbox: unchecked 1`] = `
+exports[`An ECheckbox > looks like a checkbox > unchecked 1`] = `
 <div data-app>
      <span>
           <div class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--checkbox">

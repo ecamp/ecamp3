@@ -266,5 +266,4 @@ class CampRoleVoterTest extends TestCase {
     }
 }
 
-class CampRoleVoterTestDummy extends BaseEntity {
-}
+class CampRoleVoterTestDummy extends BaseEntity {}

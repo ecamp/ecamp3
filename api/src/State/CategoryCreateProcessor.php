@@ -33,14 +33,6 @@ class CategoryCreateProcessor extends AbstractPersistProcessor {
             ->findOneBy(['name' => 'ColumnLayout'])
         ;
         $rootContentNode->data = ['columns' => [['slot' => '1', 'width' => 12]]];
-        /*
-         * Set the timestampable properties here by hand, because only in production
-         * this does not work.
-         * Remove this again as soon as https://github.com/ecamp/ecamp3/issues/3662 is really fixed.
-         */
-        $rootContentNode->updateCreateTime();
-        $rootContentNode->updateUpdateTime();
-
         $data->setRootContentNode($rootContentNode);
 
         return $data;

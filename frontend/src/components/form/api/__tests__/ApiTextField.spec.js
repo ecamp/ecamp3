@@ -1,5 +1,5 @@
-import ApiTextField from '../ApiTextField'
-import ApiWrapper from '@/components/form/api/ApiWrapper'
+import ApiTextField from '../ApiTextField.vue'
+import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'

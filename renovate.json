@@ -4,8 +4,8 @@
   ],
   "force": {
     "constraints": {
-      "node": "20.5.1",
-      "php": "8.2.9"
+      "node": "20.7.0",
+      "php": "8.2.10"
     }
   },
   "automergeType": "branch",
@@ -117,6 +117,24 @@
     {
       "matchPackageNames": [
         "@nuxtjs/stylelint-module"
+      ],
+      "allowedVersions": "^4"
+    },
+    {
+      "matchFileNames": [
+        "print/package.json"
+      ],
+      "matchPackageNames": [
+        "prettier"
+      ],
+      "allowedVersions": "^2"
+    },
+    {
+      "matchFileNames": [
+        "print/package.json"
+      ],
+      "matchPackageNames": [
+        "eslint-plugin-prettier"
       ],
       "allowedVersions": "^4"
     }

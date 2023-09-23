@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An ETextField looks like a textfield: empty 1`] = `
+exports[`An ETextField > looks like a textfield > empty 1`] = `
 <div data-app>
      <div class="e-form-container">
           <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
@@ -17,7 +17,7 @@ exports[`An ETextField looks like a textfield: empty 1`] = `
 </div>
 `;
 
-exports[`An ETextField looks like a textfield: with text 1`] = `
+exports[`An ETextField > looks like a textfield > with text 1`] = `
 <div data-app>
      <div class="e-form-container"
           value="MyText">
