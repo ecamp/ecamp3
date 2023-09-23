@@ -33,7 +33,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.22.15",
     "@rushstack/eslint-patch": "1.4.0",
-    "@vitejs/plugin-vue": "4.3.3",
+    "@vitejs/plugin-vue": "4.3.4",
     "@vue/babel-preset-app": "5.0.8",
     "@vue/eslint-config-prettier": "8.0.0",
     "@vue/test-utils": "2.4.1",
