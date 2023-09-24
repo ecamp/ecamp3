@@ -8,16 +8,10 @@ import { apiStore } from '@/plugins/store/index.js'
 import { materialFromRoute } from '@/router.js'
 
 function generateFilename(camp, materialList) {
-  const filename = materialList
-    ? [
-        slugify(camp.name),
-        slugify(i18n.tc('components.material.useMaterialViewHelper.detail')),
-        slugify(materialList),
-      ]
-    : [
-        slugify(camp.name),
-        slugify(i18n.tc('components.material.useMaterialViewHelper.overview')),
-      ]
+  const description = materialList
+    ? [i18n.tc('components.material.useMaterialViewHelper.detail'), materialList]
+    : [i18n.tc('components.material.useMaterialViewHelper.overview')]
+  const filename = [camp.name, ...description].map(slugify)
   return [...filename, dayjs().format('YYMMDDHHmmss')].join('_') + '.xlsx'
 }
 
@@ -50,7 +44,7 @@ async function getSheets(camp, collection, materialList) {
       ]
       await Promise.all(
         materialItems.items.map(async (materialItem) => {
-          let activity = await getActivity(camp, materialItem)
+          const activity = await getActivity(camp, materialItem)
           const scheduleEntries = activity
             ?.scheduleEntries()
             .items.map((item) => item.number)
