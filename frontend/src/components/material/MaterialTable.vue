@@ -204,6 +204,9 @@ import * as Sentry from '@sentry/browser'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
+// Non-breaking space
+const nbsp = '\u00A0'
+
 export default {
   name: 'MaterialTable',
   components: {
@@ -355,9 +358,9 @@ export default {
   methods: {
     renderQuantity(item) {
       if (item.quantity && item.unit) {
-        return `${item.quantity}\u00a0${item.unit}`
+        return `${item.quantity}${nbsp}${item.unit}`
       } else if (item.quantity) {
-        return `${item.quantity}\u00a0×`
+        return `${item.quantity}${nbsp}×`
       } else if (item.unit) {
         return item.unit
       } else {
