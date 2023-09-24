@@ -132,6 +132,28 @@
       </div>
     </template>
 
+    <template #[`header.lastColumn`]>
+      <button
+        class="ec-material-table__filterbutton"
+        :class="{ 'primary--text': periodOnly }"
+        @click="periodOnly = !periodOnly"
+      >
+        <span>
+          <span v-if="!periodOnly" class="d-sr-only">{{
+            $tc('global.button.filter')
+          }}</span>
+          {{
+            periodOnly
+              ? $tc('components.material.materialTable.periodOnly')
+              : $tc('components.material.materialTable.reference')
+          }}
+        </span>
+        <v-icon aria-hidden="true" small :color="periodOnly ? 'primary' : null">
+          {{ periodOnly ? 'mdi-filter' : 'mdi-filter-outline' }}
+        </v-icon>
+      </button>
+    </template>
+
     <template #[`body.append`]="{ headers }">
       <!-- add new item (desktop view) -->
       <MaterialCreateItem
@@ -222,6 +244,7 @@ export default {
   data() {
     return {
       newMaterialItems: {},
+      periodOnly: false,
     }
   },
   computed: {
@@ -292,18 +315,20 @@ export default {
       }))
     },
     materialItemsData() {
-      const items = this.materialItemCollection.items.map((item) => ({
-        id: item.id,
-        uri: item._meta.self,
-        quantity: item.quantity,
-        unit: item.unit,
-        combinedQuantity: this.renderQuantity(item),
-        article: item.article,
-        listName: item.materialList().name,
-        entityObject: item,
-        readonly: this.disabled || (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
-        rowClass: 'readonly',
-      }))
+      const items = this.materialItemCollection.items
+        .filter((item) => !(this.periodOnly && item.materialNode !== null))
+        .map((item) => ({
+          id: item.id,
+          uri: item._meta.self,
+          quantity: item.quantity,
+          unit: item.unit,
+          combinedQuantity: this.renderQuantity(item),
+          article: item.article,
+          listName: item.materialList().name,
+          entityObject: item,
+          readonly: this.disabled || (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
+          rowClass: 'readonly',
+        }))
 
       // eager add new Items
       for (const key in this.newMaterialItems) {
@@ -413,6 +438,21 @@ export default {
     background: #c8ebfb;
   }
   to {
+  }
+}
+
+.ec-material-table__filterbutton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-align: left;
+  width: min-content;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    width: fit-content;
+  }
+
+  span {
+    flex: 1 1 0;
   }
 }
 </style>

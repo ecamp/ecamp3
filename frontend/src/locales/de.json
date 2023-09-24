@@ -197,7 +197,9 @@
       },
       "materialTable": {
         "addNewItem": "Eintrag hinzufügen",
-        "noItems": "Keine Einträge gefunden"
+        "noItems": "Keine Einträge gefunden",
+        "periodOnly": "Filter: Lagerabschnitt",
+        "reference": "Aktivität\u00a0/ Abschnitt"
       },
       "useMaterialViewHelper": {
         "detail": "Materialliste",
@@ -362,6 +364,7 @@
       "download": "Herunterladen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "filter": "Filtern",
       "lock": "Sperren",
       "login": "Anmelden",
       "logout": "Ausloggen",

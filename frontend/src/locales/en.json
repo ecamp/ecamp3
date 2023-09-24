@@ -197,7 +197,9 @@
       },
       "materialTable": {
         "addNewItem": "Add new item",
-        "noItems": "No material items found"
+        "noItems": "No material items found",
+        "periodOnly": "Filter: Period",
+        "reference": "Activity\u00a0/ Period"
       },
       "useMaterialViewHelper": {
         "detail": "Material list",
@@ -362,6 +364,7 @@
       "download": "Download",
       "edit": "Edit",
       "editable": "Editable",
+      "filter": "Filter",
       "lock": "Lock",
       "login": "Log in",
       "logout": "Logout",

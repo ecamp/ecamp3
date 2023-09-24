@@ -197,7 +197,9 @@
       },
       "materialTable": {
         "addNewItem": "Aggiungi un nuovo elemento",
-        "noItems": "Nessun oggetto materiale trovato"
+        "noItems": "Nessun oggetto materiale trovato",
+        "periodOnly": "Filtro: Periodo",
+        "reference": "Attività\u00a0/ Periodo"
       },
       "useMaterialViewHelper": {
         "detail": "Liste di materiali",
@@ -362,6 +364,7 @@
       "download": "Scaricare",
       "edit": "Modificare",
       "editable": "Modificabile",
+      "filter": "Filtro",
       "lock": "Blocco",
       "login": "Accedi",
       "logout": "Disconnessione",

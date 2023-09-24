@@ -171,7 +171,7 @@
         "article": "Article",
         "list": "Material list",
         "quantity": "Quantity",
-        "reference": "Activity",
+        "reference": "Activity / Period",
         "unit": "Unit"
       }
     },
