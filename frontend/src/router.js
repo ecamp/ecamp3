@@ -288,13 +288,13 @@ export default new Router({
         default: () => import('./views/material/MaterialDetail.vue'),
         aside: () => import('./views/material/SideBarMaterialLists.vue'),
       },
-      beforeEnter: all([requireAuth, requireCamp, requireMaterial]),
+      beforeEnter: all([requireAuth, requireCamp, requireMaterialList]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         aside: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({
           camp: campFromRoute(route),
-          materialList: materialFromRoute(route),
+          materialList: materialListFromRoute(route),
         }),
       },
     },
@@ -399,6 +399,17 @@ async function requirePeriod(to, from, next) {
     })
 }
 
+async function requireMaterialList(to, from, next) {
+  await materialListFromRoute(to)
+    .call({ api: { get: apiStore.get } })
+    ._meta.load.then(() => {
+      next()
+    })
+    .catch(() => {
+      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
+    })
+}
+
 export function campFromRoute(route) {
   return function () {
     return this.api.get().camps({ id: route.params.campId })
@@ -430,6 +441,12 @@ function categoryFromRoute(route) {
   }
 }
 
+export function materialListFromRoute(route) {
+  return function () {
+    return this.api.get().materialLists({ id: route.params.materialId })
+  }
+}
+
 function getContentLayout(route) {
   switch (route.name) {
     case 'camp/period/program':
@@ -447,17 +464,6 @@ function dayFromScheduleEntryInRoute(route) {
   return function () {
     return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
   }
-}
-
-async function requireMaterial(to, from, next) {
-  await materialFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
-    })
-    .catch(() => {
-      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
-    })
 }
 
 /**
@@ -479,7 +485,7 @@ export function campRoute(camp, subroute = 'dashboard', query = {}) {
  * @param materialList
  * @param query
  */
-export function materialRoute(camp, materialList = false, query = {}) {
+export function materialListRoute(camp, materialList = false, query = {}) {
   if (materialList === false) {
     return {
       name: 'material/overview',
@@ -516,12 +522,6 @@ export function periodRoute(period, routeName = 'camp/period/program', query = {
       periodTitle: slugify(period.description),
     },
     query,
-  }
-}
-
-export function materialFromRoute(route) {
-  return function () {
-    return this.api.get().materialLists({ id: route.params.materialId })
   }
 }
 

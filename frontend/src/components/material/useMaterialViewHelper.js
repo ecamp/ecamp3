@@ -5,7 +5,7 @@ import { slugify } from '@/plugins/slugify.js'
 import i18n from '@/plugins/i18n/index.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import { apiStore } from '@/plugins/store/index.js'
-import { materialFromRoute } from '@/router.js'
+import { materialListFromRoute } from '@/router.js'
 
 function generateFilename(camp, materialList) {
   const description = materialList
@@ -106,7 +106,7 @@ function loadPeriods(camp) {
  */
 export function useMaterialViewHelper(camp, list) {
   const computedList = computed(() =>
-    list ? materialFromRoute(useRoute()).call({ api: apiStore }) : null
+    list ? materialListFromRoute(useRoute()).call({ api: apiStore }) : null
   )
 
   const collection = computed(() => {
