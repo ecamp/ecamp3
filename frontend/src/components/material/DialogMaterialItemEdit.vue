@@ -16,6 +16,7 @@
     <template #moreActions>
       <PromptEntityDelete
         :entity="entityUri"
+        :warning-text-entity="materialItem.article"
         align="left"
         position="top"
         :btn-attrs="{
