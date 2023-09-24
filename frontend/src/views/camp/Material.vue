@@ -4,7 +4,7 @@ Show all material lists for a camp on mobile
 
 <template>
   <content-card :title="$tc('views.camp.material.title')" toolbar>
-    <template #title-actions>
+    <template v-if="!isGuest" #title-actions>
       <DialogMaterialListCreate :camp="camp()">
         <template #activator="{ on }">
           <ButtonAdd class="mr-n2" height="32" v-on="on">{{
