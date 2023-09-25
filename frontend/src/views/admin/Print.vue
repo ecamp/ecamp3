@@ -3,7 +3,7 @@ Basic layout for print preview
 -->
 
 <template>
-  <content-card :title="$tc('views.camp.print.title')" toolbar>
+  <content-card :title="$tc('views.admin.print.title')" toolbar>
     <print-configurator :camp="camp" />
   </content-card>
 </template>
@@ -13,7 +13,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import PrintConfigurator from '@/components/print/PrintConfigurator.vue'
 
 export default {
-  name: 'Print',
+  name: 'AdminPrint',
   components: {
     ContentCard,
     PrintConfigurator,

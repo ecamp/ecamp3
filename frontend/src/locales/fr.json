@@ -55,10 +55,11 @@
       },
       "campConditionalFields": {
         "course": {
-          "title": "Autres champs pour les cours"
+          "title": "Cours"
         },
+        "title": "Paramètres pour J+S",
         "ysCamp": {
-          "title": "Autres champs pour les camps J+S"
+          "title": "Camps"
         }
       },
       "campDangerZone": {
@@ -104,6 +105,9 @@
       },
       "dialogMaterialListCreate": {
         "title": "Créer une liste de matériel"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifier la liste de matériel"
       },
       "dialogPeriodCreate": {
         "title": "Créer une période"
@@ -199,7 +203,7 @@
         "addNewItem": "Ajoute un nouvel élément",
         "noItems": "Aucun élément matériel trouvé",
         "periodOnly": "Filtre : Période",
-        "reference": "Activité\u00a0/ Période"
+        "reference": "Activité / Période"
       },
       "useMaterialViewHelper": {
         "detail": "Liste de matériel",
@@ -241,6 +245,21 @@
       "localPdfDownloadButton": {
         "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
       },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Télécharger le PDF (mise en page #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Télécharger le PDF (mise en page #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
+        },
+        "printPreviewClient": {
+          "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
+          "previewIframeTitle": "Aperçu avant impression"
+        }
+      },
       "printConfigurator": {
         "add": "Ajouter du contenu",
         "config": {
@@ -265,21 +284,6 @@
         },
         "printPreviewNuxt": {
           "openPreview": "Ouvrir l'aperçu dans une nouvelle fenêtre",
-          "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
-          "previewIframeTitle": "Aperçu avant impression"
-        }
-      },
-      "printClient": {
-        "downloadClientPdfButton": {
-          "label": "Télécharger le PDF (mise en page #2)"
-        },
-        "downloadClientPdfListItem": {
-          "label": "Télécharger le PDF (mise en page #2)"
-        },
-        "generatePdfMixin": {
-          "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
-        },
-        "printPreviewClient": {
           "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
           "previewIframeTitle": "Aperçu avant impression"
         }
@@ -370,8 +374,8 @@
       "logout": "Déconnexion",
       "move": "Déplacer",
       "ok": "OK",
-      "rename": "Renommer",
       "open": "Ouvrir",
+      "rename": "Renommer",
       "save": "Sauvegarder",
       "saving": "En cours de sauvegarde",
       "search": "Rechercher",
@@ -392,6 +396,11 @@
     "language": "Français",
     "loading": "Chargement ...",
     "lokaliseMessage": "Changement de langue grâce à lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
@@ -415,6 +424,36 @@
       "sideBarProgram": {
         "title": "Activités du jour"
       }
+    },
+    "admin": {
+      "activity": {
+        "title": "Paramètres d'activité"
+      },
+      "collaborators": {
+        "email": "Adresse e-mail",
+        "inactiveCollaborators": "Inactif",
+        "members": "Membres",
+        "openInvitations": "Invitations ouvertes",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Infos sur le camp"
+      },
+      "materialLists": {
+        "title": "Liste de matériel"
+      },
+      "print": {
+        "title": "Imprimer un camp"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Activités",
+        "itemActivitySubtitle": "Catégorie, modèle & statut",
+        "itemCollaborators": "Team",
+        "itemInfos": "Infos sur le camp",
+        "itemMaterialLists": "Liste de matériel",
+        "itemPrint": "PDF / Imprimer"
+      },
+      "title": "Admin"
     },
     "auth": {
       "activate": {
@@ -476,21 +515,10 @@
       }
     },
     "camp": {
-      "admin": {
-        "collaborators": "Gérer l'équipe",
-        "title": "Admin"
-      },
       "campProgram": {
         "reminderLockedCreate": "Glisser pour créer n'est possible qu'en mode déverrouillé.",
         "reminderLockedMove": "Glisser pour déplacer n'est possible qu'en mode déverrouillé.",
         "title": "Programme général"
-      },
-      "collaborators": {
-        "email": "Adresse e-mail",
-        "inactiveCollaborators": "Inactif",
-        "members": "Membres",
-        "openInvitations": "Invitations ouvertes",
-        "title": "Team"
       },
       "dashboard": {
         "activities": "Activités",
@@ -525,9 +553,6 @@
         "useOtherAuth": "Déconnecte-toi et utilise un autre compte",
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
       },
-      "material": {
-        "title": "Liste de matériel"
-      },
       "navigation": {
         "desktop": {
           "navTopbar": {
@@ -548,16 +573,16 @@
             "story": "Histoire"
           },
           "navSidebar": {
-            "itemCampAdmin": "Configuration du camp",
+            "itemActivity": "Activités",
+            "itemActivitySubtitle": "Catégorie, modèle & statut",
             "itemCamps": "Mes Camps",
             "itemClose": "Fermer le menu",
             "itemCollaborators": "Team",
+            "itemInfos": "Infos sur le camp",
+            "itemMaterialLists": "Liste de matériel",
             "itemPrinting": "PDF / Imprimer"
           }
         }
-      },
-      "print": {
-        "title": "Imprimer un camp"
       },
       "story": {
         "title": "Histoire"
