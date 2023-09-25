@@ -21,7 +21,10 @@ vi.mock('lodash', async (importOriginal) => {
   const lodash = await importOriginal()
   return {
     ...lodash,
-    debounce: (callback) => new Promise((resolve) => (debounce = resolve)).then(callback),
+    debounce: (callback) =>
+      function () {
+        return new Promise((resolve) => (debounce = resolve)).then(callback)
+      },
     set: lodash.set,
     get: lodash.get,
   }
