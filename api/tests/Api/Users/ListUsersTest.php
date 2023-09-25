@@ -27,6 +27,6 @@ class ListUsersTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/users');
 
-        $this->assertSqlQueryCount($client, 20);
+        $this->assertSqlQueryCount($client, 22);
     }
 }

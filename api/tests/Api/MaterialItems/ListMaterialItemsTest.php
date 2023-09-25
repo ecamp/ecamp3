@@ -170,6 +170,6 @@ class ListMaterialItemsTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/material_items');
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

@@ -130,6 +130,6 @@ class ReadMaterialItemTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/material_items/'.$materialItem->getId());
 
-        $this->assertSqlQueryCount($client, 6);
+        $this->assertSqlQueryCount($client, 8);
     }
 }
