@@ -133,6 +133,14 @@ body {
   display: grid;
 }
 
+.d-inline-grid {
+  display: inline-grid;
+}
+
+.opacity-60 {
+  opacity: 0.6;
+}
+
 .grid-cols-2 {
   grid-template-columns: 1fr 1fr;
 }
@@ -149,6 +157,10 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.gap-1 {
+  gap: 4px;
 }
 
 .gap-2 {

@@ -49,7 +49,7 @@ export const generatePdfMixin = {
           },
         })
 
-        saveAs(new Blob([response.data]), config.documentName)
+        saveAs(new Blob([response.data]), config.documentName + '.pdf')
       } catch (error) {
         if (error?.response?.status === 503) {
           this.$toast.error(

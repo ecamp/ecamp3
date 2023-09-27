@@ -184,12 +184,26 @@
       "dialogMaterialItemCreate": {
         "title": "Materialeintrag erstellen"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Materialeintrag bearbeiten"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
+      "materialLists": {
+        "materialsCount": "Keine Einträge | 1 Eintrag | {count} Einträge",
+        "overview": "Gesamtübersicht"
+      },
       "materialTable": {
-        "addNewItem": "Eintrag hinzufügen"
+        "addNewItem": "Eintrag hinzufügen",
+        "noItems": "Keine Einträge gefunden",
+        "periodOnly": "Filter: Lagerabschnitt",
+        "reference": "Aktivität\u00a0/ Abschnitt"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Materialliste",
+        "overview": "Gesamtübersicht"
       }
     },
     "navigation": {
@@ -346,14 +360,18 @@
       "content": "Inhalt",
       "create": "Erstellen",
       "delete": "Löschen",
+      "discard": "Verwerfen",
+      "download": "Herunterladen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "filter": "Filtern",
       "lock": "Sperren",
       "login": "Anmelden",
       "logout": "Ausloggen",
       "move": "Verschieben",
       "ok": "OK",
       "open": "Öffnen",
+      "rename": "Umbenennen",
       "save": "Speichern",
       "saving": "Speichert",
       "search": "Suchen",
@@ -508,18 +526,7 @@
         "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
       },
       "material": {
-        "downloadXlsx": "Download",
-        "groupByList": "Nach Materialliste gruppieren",
-        "showActivityMaterial": "Aktivitätsmaterial anzeigen",
-        "title": "Material",
-        "xlsx": {
-          "activity": "Aktivität",
-          "article": "Artikel",
-          "filename": "Materialliste",
-          "matlist": "Liste",
-          "quantity": "Menge",
-          "unit": "Einheit"
-        }
+        "title": "Materiallisten"
       },
       "navigation": {
         "desktop": {
@@ -570,6 +577,16 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
+    },
+    "material": {
+      "materialOverview": {
+        "createNewList": "Materialliste erstellen",
+        "download": "Übersicht herunterladen",
+        "title": "Gesamtübersicht"
+      },
+      "sideBarMaterialLists": {
+        "title": "Materiallisten"
+      }
     },
     "pageNotFound": {
       "backToHome": "Zurück zur Startseite",

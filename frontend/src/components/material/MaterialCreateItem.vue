@@ -6,7 +6,7 @@
     class="newItemRow"
     @keyup.enter="submitForm"
   >
-    <td>
+    <td class="pt-1">
       <e-text-field
         ref="quantity"
         v-model="materialItem.quantity"
@@ -16,7 +16,7 @@
         fieldname="quantity"
       />
     </td>
-    <td>
+    <td class="pt-1">
       <e-text-field
         v-model="materialItem.unit"
         dense
@@ -25,7 +25,7 @@
         maxlength="32"
       />
     </td>
-    <td>
+    <td class="pt-1">
       <e-text-field
         v-model="materialItem.article"
         dense
@@ -35,7 +35,7 @@
         maxlength="64"
       />
     </td>
-    <td :colspan="columns - 4">
+    <td class="pt-1" :colspan="columns - 4">
       <e-select
         v-model="materialItem.materialList"
         dense
@@ -45,8 +45,8 @@
         :items="materialLists"
       />
     </td>
-    <td>
-      <button-add hide-label @click="submitForm" />
+    <td class="pt-1">
+      <button-add height="52" hide-label @click="submitForm" />
     </td>
   </ValidationObserver>
 
@@ -76,6 +76,8 @@ export default {
   props: {
     camp: { type: Object, required: true },
 
+    materialList: { type: Object, required: false, default: null },
+
     /* number of colums currently visible in table */
     columns: { type: Number, required: true },
   },
@@ -86,13 +88,21 @@ export default {
   },
   computed: {
     materialLists() {
-      return this.camp.materialLists().items.map((l) => ({
-        value: l._meta.self,
-        text: l.name,
+      return this.camp.materialLists().items.map((list) => ({
+        value: list._meta.self,
+        text: list.name,
       }))
     },
   },
+  created() {
+    this.initEntity()
+  },
   methods: {
+    initEntity() {
+      this.materialItem = {
+        materialList: this.materialList?._meta.self ?? undefined,
+      }
+    },
     async submitForm() {
       const isValid = await this.$refs.validation.validate()
       if (isValid) {
@@ -103,9 +113,9 @@ export default {
       const key = Date.now()
       const data = this.materialItem
 
-      this.materialItem = {}
-      this.$refs.quantity.focus()
+      this.initEntity()
       this.$refs.validation.reset()
+      this.$refs.quantity.focus()
 
       // fire event to allow for eager adding before post has finished
       this.$emit('item-adding', key, data)
@@ -118,5 +128,9 @@ export default {
 <style scoped>
 .newItemRow {
   line-height: 80px;
+  vertical-align: top;
+}
+.v-btn {
+  vertical-align: text-bottom;
 }
 </style>

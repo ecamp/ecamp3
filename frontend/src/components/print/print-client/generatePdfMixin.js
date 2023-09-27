@@ -43,7 +43,7 @@ export const generatePdfMixin = {
         blob,
         slugify(this.config.documentName, {
           locale: this.$store.state.lang.language.substring(0, 2),
-        })
+        }) + '.pdf'
       )
 
       this.loading = false

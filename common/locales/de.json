@@ -162,7 +162,9 @@
     "materialItem": {
       "fields": {
         "article": "Artikel",
+        "list": "Materialliste",
         "quantity": "Menge",
+        "reference": "Aktivität / Lagerabschnitt",
         "unit": "Einheit"
       }
     },

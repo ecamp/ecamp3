@@ -4,13 +4,25 @@
     :loading="loading"
     :error="error"
     icon="mdi-package-variant"
-    :title="title"
+    :title="$tc('components.material.dialogMaterialItemEdit.title')"
     :submit-action="update"
     submit-color="success"
     :cancel-action="close"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
+    </template>
+
+    <template #moreActions>
+      <PromptEntityDelete
+        :entity="entityUri"
+        :warning-text-entity="materialItem.article"
+        align="left"
+        position="top"
+        :btn-attrs="{
+          class: 'v-btn--has-bg',
+        }"
+      />
     </template>
 
     <dialog-material-item-form
@@ -24,10 +36,11 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogMaterialItemForm from './DialogMaterialItemForm.vue'
+import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
 export default {
   name: 'DialogMaterialItemEdit',
-  components: { DialogForm, DialogMaterialItemForm },
+  components: { PromptEntityDelete, DialogForm, DialogMaterialItemForm },
   extends: DialogBase,
   props: {
     materialItemUri: { type: String, required: true },
@@ -44,15 +57,6 @@ export default {
     },
     camp() {
       return this.materialItem.materialList().camp()
-    },
-    title() {
-      return (
-        this.materialItem.quantity +
-        ' ' +
-        this.materialItem.unit +
-        ' ' +
-        this.materialItem.article
-      )
     },
   },
   watch: {
