@@ -21,6 +21,7 @@
         :items="items"
         disable-pagination
         hide-default-footer
+        :items-per-page="-1"
       >
         <template #[`item.id`]="{ item }">{{ item.id }}</template>
         <template #[`item.v`]="{ item }">

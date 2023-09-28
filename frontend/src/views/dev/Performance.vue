@@ -6,6 +6,7 @@
         :items="results"
         item-key="endpoint"
         hide-default-footer
+        :items-per-page="-1"
       >
         <template #[`item.collection`]="{ item }"
           >{{ numberformat.format(item.collection) }} ms</template
