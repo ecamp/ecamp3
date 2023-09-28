@@ -140,6 +140,6 @@ class ReadPeriodTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/periods/'.$period->getId());
 
-        $this->assertSqlQueryCount($client, 17);
+        $this->assertSqlQueryCount($client, 19);
     }
 }

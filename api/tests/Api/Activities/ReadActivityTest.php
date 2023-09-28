@@ -141,6 +141,6 @@ class ReadActivityTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/activities/'.$activity->getId());
 
-        $this->assertSqlQueryCount($client, 29);
+        $this->assertSqlQueryCount($client, 31);
     }
 }

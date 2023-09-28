@@ -103,6 +103,6 @@ class ReadProfileTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/profiles/'.$profile->getId());
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

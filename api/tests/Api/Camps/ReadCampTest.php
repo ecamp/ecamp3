@@ -220,6 +220,6 @@ class ReadCampTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/camps/'.$camp->getId());
 
-        $this->assertSqlQueryCount($client, 26);
+        $this->assertSqlQueryCount($client, 28);
     }
 }

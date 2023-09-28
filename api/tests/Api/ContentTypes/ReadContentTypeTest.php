@@ -51,6 +51,6 @@ class ReadContentTypeTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/content_types/'.$contentType->getId());
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

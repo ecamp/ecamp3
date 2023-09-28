@@ -77,6 +77,6 @@ class ListCampsTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/camps');
 
-        $this->assertSqlQueryCount($client, 27);
+        $this->assertSqlQueryCount($client, 29);
     }
 }

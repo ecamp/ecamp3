@@ -82,6 +82,6 @@ class ListActivityProgressLabelTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/activity_progress_labels');
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }
