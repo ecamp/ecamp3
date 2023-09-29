@@ -8,11 +8,9 @@
     <v-expansion-panel-content>
       <material-table
         :camp="camp"
-        :material-item-collection="period.materialItems()"
+        :material-item-collection="materialItemCollection"
+        :material-list="materialList"
         :period="period"
-        :show-activity-material="showActivityMaterial"
-        :group-by-list="groupByList"
-        enable-grouping
         :disabled="disabled"
       />
     </v-expansion-panel-content>
@@ -29,23 +27,14 @@ export default {
   },
   props: {
     period: { type: Object, required: true },
-    showActivityMaterial: { type: Boolean, required: true },
-    groupByList: { type: Boolean, required: true },
+    materialList: { type: Object, required: false, default: null },
+    materialItemCollection: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
-  },
-  data() {
-    return {
-      newMaterialItems: {},
-    }
   },
   computed: {
     camp() {
       return this.period.camp()
     },
-  },
-  // reload data every time user navigates to material table
-  mounted() {
-    this.period.materialItems().$reload()
   },
 }
 </script>

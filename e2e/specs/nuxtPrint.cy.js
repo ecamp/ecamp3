@@ -13,7 +13,7 @@ describe('Nuxt print test', () => {
 
       let printConfig = {
         language: 'en',
-        documentName: 'camp.pdf',
+        documentName: 'camp',
         camp: campUri,
         contents: [
           {

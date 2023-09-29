@@ -57,10 +57,12 @@ export default {
       })
       this.embeddedEntities.forEach((key) => {
         if (data[key]) {
-          loadingPromises.push(data[key]()._meta.load)
-          data[key]()._meta.load.then((obj) =>
-            this.$set(this.entityData, key, obj._meta.self)
-          )
+          const promise =
+            typeof data[key] === 'function'
+              ? data[key]()._meta.load
+              : data[key]._meta.load
+          loadingPromises.push(promise)
+          promise.then((obj) => this.$set(this.entityData, key, obj._meta.self))
         }
       })
       this.embeddedCollections.forEach((key) => {

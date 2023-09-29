@@ -157,7 +157,7 @@ export default {
   right: 0;
 }
 
-.ec-popover-prompt--positon-bottom ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--position-bottom ::v-deep .ec-activator .v-btn {
   bottom: 100%;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -167,7 +167,7 @@ export default {
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.ec-popover-prompt--positon-top ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--position-top ::v-deep .ec-activator .v-btn {
   top: calc(100% - 10px);
   z-index: 10;
   border-top-right-radius: 0;

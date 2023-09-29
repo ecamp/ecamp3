@@ -173,7 +173,7 @@ export default {
       }
     },
     debouncedSave() {
-      return debounce(this.save, this.autoSaveDelay)
+      return debounce(this.save, this.autoSaveDelay).call()
     },
     // reload data from API (doesn't force loading from server if available locally)
     reload() {

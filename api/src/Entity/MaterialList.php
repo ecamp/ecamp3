@@ -147,6 +147,13 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
             ?? 'NoName';
     }
 
+    #[ApiProperty(example: 3)]
+    #[SerializedName('itemCount')]
+    #[Groups(['read'])]
+    public function getItemCount(): int {
+        return $this->materialItems->count();
+    }
+
     /**
      * @param MaterialList $prototype
      * @param EntityMap    $entityMap

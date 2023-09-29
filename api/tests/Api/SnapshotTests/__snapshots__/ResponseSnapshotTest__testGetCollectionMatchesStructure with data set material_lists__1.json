@@ -15,6 +15,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "itemCount": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -31,6 +32,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "itemCount": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -47,6 +49,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "itemCount": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -63,6 +66,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "itemCount": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -81,6 +85,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "itemCount": "escaped_value",
                 "name": "escaped_value"
             }
         ]

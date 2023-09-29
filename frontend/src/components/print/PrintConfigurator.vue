@@ -144,7 +144,7 @@ export default {
       },
       cnf: {
         language: '',
-        documentName: this.camp().name + '.pdf',
+        documentName: this.camp().name,
         camp: this.camp()._meta.self,
         contents: this.defaultContents(),
       },
