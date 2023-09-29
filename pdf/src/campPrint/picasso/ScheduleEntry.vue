@@ -1,11 +1,11 @@
 <template>
-  <View
-    class="picasso-schedule-entry"
-    :style="{ backgroundColor: color, color: textColor }"
-  >
+  <View class="picasso-schedule-entry" :style="{ backgroundColor: color }">
     <View class="picasso-schedule-entry-spacer" />
     <Link class="picasso-schedule-entry-link" :href="linkTarget">
-      <Text class="picasso-schedule-entry-title">
+      <Text
+        class="picasso-schedule-entry-title"
+        :style="{ fontSize: fontSize, color: textColor }"
+      >
         {{ category }} {{ scheduleEntry.number }} {{ title }}
       </Text>
     </Link>
@@ -32,6 +32,7 @@ export default {
   extends: PdfComponent,
   props: {
     scheduleEntry: { type: Object, required: true },
+    percentageHeight: { type: Number, default: 10 },
   },
   computed: {
     color() {
@@ -48,6 +49,9 @@ export default {
     },
     linkTarget() {
       return `#scheduleEntry_${this.scheduleEntry.id}`
+    },
+    fontSize() {
+      return Math.min(8, 3 * this.percentageHeight) + 'pt'
     },
   },
 }
@@ -69,7 +73,6 @@ export default {
   flex-grow: 1;
 }
 .picasso-schedule-entry-title {
-  fontSize: 8pt;
   height: 16pt;
   line-height: 1;
   flex-grow: 1;
