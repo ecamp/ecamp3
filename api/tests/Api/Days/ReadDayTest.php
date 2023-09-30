@@ -165,15 +165,4 @@ class ReadDayTest extends ECampApiTestCase {
             'end' => '2023-05-02T00:00:00+00:00',
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/days/'.$day->getId());
-
-        $this->assertSqlQueryCount($client, 11);
-    }
 }

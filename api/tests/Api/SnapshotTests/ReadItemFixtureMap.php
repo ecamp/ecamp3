@@ -24,6 +24,7 @@ class ReadItemFixtureMap {
             '/schedule_entries' => $fixtures['scheduleEntry1period1camp1'],
             '/content_node/single_texts' => $fixtures['singleText1'],
             '/content_node/storyboards' => $fixtures['storyboard1'],
+            '/users' => $fixtures['user1manager'],
             default => throw new \RuntimeException("no fixture defined for endpoint {$collectionEndpoint}")
         };
     }
