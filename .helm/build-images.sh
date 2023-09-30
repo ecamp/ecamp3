@@ -31,3 +31,9 @@ docker push "$caddy_image_tag"
 print_image_tag="${docker_hub_account}/ecamp3-print:${version}"
 docker build "$REPO_DIR" -f "$REPO_DIR"/.docker-hub/print/Dockerfile -t "$print_image_tag"
 docker push "$print_image_tag"
+
+export REPO_OWNER=${docker_hub_account}
+export VERSION=${version}
+db_backup_restore_docker_compose_path="$REPO_DIR"/.helm/ecamp3/files/db-backup-restore-image/docker-compose.yml
+docker compose -f "$db_backup_restore_docker_compose_path" build
+docker compose -f "$db_backup_restore_docker_compose_path" push

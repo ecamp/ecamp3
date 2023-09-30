@@ -1,0 +1,79 @@
+{{- if .Values.postgresql.restore.sourceFile }}
+{{- $dbBackupRestoreImage := .Values.postgresql.dbBackupRestoreImage -}}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "hookDbRestore.name" . }}"
+  labels:
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      name: "{{ include "hookDbRestore.name" . }}"
+      labels:
+        {{- include "api.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
+      restartPolicy: Never
+      containers:
+        - name: download-backup
+          image: "{{ $dbBackupRestoreImage.repository }}:{{ $dbBackupRestoreImage.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ $dbBackupRestoreImage.pullPolicy }}
+          command:
+            # helm seems to replace $$ with $ in the .sh script when using it with range
+            # we need to undo that replacement.
+            - sh
+            - "-c"
+            - |{{ range .Files.Lines "files/hook_db_restore/restore-backup.sh" }}
+              {{ . | replace "DO $" "DO $$" | replace "END $" "END $$" }}{{ end }}
+          env:
+            - name: APP_NAME
+              value: {{ .Values.postgresql.restore.sourceAppName | default (include "app.name" .) }}
+            - name: SOURCE_FILE
+              value: {{ .Values.postgresql.restore.sourceFile }}
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: encryption-key
+                  optional: true
+            - name: S3_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-endpoint
+            - name: S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-bucket
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-access-key-id
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: s3-access-key
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hookDbRestore.name" . }}
+                  key: database-url
+            - name: INVITE_SUPPORT_ACCOUNT_TO_INTERESTING_CAMPS
+              value: {{ .Values.postgresql.restore.inviteSupportAccountToInterestingCamps | quote }}
+{{- end }}
