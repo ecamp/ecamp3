@@ -39,42 +39,18 @@
 </template>
 
 <script>
+import { timesWeightsSum } from '../../../common/helpers/picasso.js'
+
 export default {
   props: {
     days: { type: Array, required: true },
-    bedtime: { type: Number, default: 0 },
-    getUpTime: { type: Number, default: 24 },
-    timeStep: { type: Number, default: 1 },
+    times: { type: Array, required: true },
     scheduleEntries: { type: Array, default: () => [] },
     contentHeight: { type: Number, default: 0 },
   },
   computed: {
     intervalHeight() {
-      const totalWeight = this.times.reduce((total, time) => {
-        return total + time[1]
-      }, 0)
-      return this.contentHeight / totalWeight
-    },
-
-    /**
-     * Generates an array of time row descriptions, used for labeling the vertical axis of the picasso.
-     * Format of each array element: [hour, weight] where weight determines how tall the time row is rendered.
-     *
-     * @returns {*[[hour: number, weight: number]]}
-     */
-    times() {
-      const times = [[this.getUpTime - this.timeStep / 2, 0.5]]
-      for (let i = 0; this.getUpTime + i * this.timeStep < this.bedtime; i++) {
-        // TODO The weight could also be generated depending on the schedule entries present in the camp:
-        //   e.g. give less weight to hours that contain no schedule entries.
-        const weight = 1
-        times.push([this.getUpTime + i * this.timeStep, weight])
-      }
-      times.push([this.bedtime, 0.5])
-      // this last hour is only needed for defining the length of the day. The weight should be 0.
-      times.push([this.bedtime + this.timeStep / 2, 0])
-
-      return times
+      return this.contentHeight / timesWeightsSum(this.times)
     },
 
     displayedTimes() {

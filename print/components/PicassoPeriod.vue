@@ -10,15 +10,17 @@
       :index="index"
       :landscape="landscape"
       :days="pageDays"
-      :bedtime="bedtimes.bedtime"
-      :get-up-time="bedtimes.getUpTime"
-      :time-step="timeStep"
+      :times="times"
     />
   </div>
 </template>
 
 <script>
-import { splitDaysIntoPages, calculateBedtime } from '../../common/helpers/picasso.js'
+import {
+  splitDaysIntoPages,
+  calculateBedtime,
+  times,
+} from '@/../common/helpers/picasso.js'
 import { sortBy } from 'lodash'
 
 export default {
@@ -72,7 +74,9 @@ export default {
   },
   computed: {
     days() {
-      return sortBy(this.period.days().items, (day) => this.$date.utc(day.start).unix())
+      return sortBy(this.period.days().items, (day) =>
+        this.$date.utc(day.start).valueOf()
+      )
     },
     pages() {
       const maxDaysPerPage = this.landscape ? 7 : 4
@@ -90,6 +94,9 @@ export default {
         this.$date.utc(this.days[this.days.length - 1].end),
         this.timeStep
       )
+    },
+    times() {
+      return times(this.bedtimes.getUpTime, this.bedtimes.bedtime, this.timeStep)
     },
   },
 }

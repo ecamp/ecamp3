@@ -22,24 +22,10 @@
       <v-sheet class="fullwidth">
         <picasso-calendar
           :days="days"
-          :bedtime="bedtime"
-          :get-up-time="getUpTime"
-          :time-step="timeStep"
+          :times="times"
           :schedule-entries="scheduleEntries"
           :content-height="landscape ? 312 : 768"
-        >
-          <!-- day header -->
-          <template #day-label-header="{ date }">
-            <span class="tw-block">
-              {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
-            </span>
-
-            <span v-if="hasDayResponsibles(date)" class="text-xs-relative">
-              {{ $tc('entity.day.fields.dayResponsibles') }}:
-              {{ dayResponsiblesCommaSeparated(date) }}
-            </span>
-          </template>
-        </picasso-calendar>
+        />
       </v-sheet>
       <div class="categories fullwidth text-sm-relative">
         <div
@@ -94,7 +80,7 @@
 <script>
 import CategoryLabel from './generic/CategoryLabel.vue'
 import dayjs from '@/../common/helpers/dayjs.js'
-import campCollaborationLegalName from '../../common/helpers/campCollaborationLegalName.js'
+import campCollaborationLegalName from '@/../common/helpers/campCollaborationLegalName.js'
 
 export default {
   components: { CategoryLabel },
@@ -104,9 +90,7 @@ export default {
     index: { type: Number, required: true },
     landscape: { type: Boolean, required: true },
     days: { type: Array, required: true },
-    bedtime: { type: Number, default: 0 },
-    getUpTime: { type: Number, default: 24 },
-    timeStep: { type: Number, default: 1 },
+    times: { type: Array, required: true },
   },
   computed: {
     camp() {

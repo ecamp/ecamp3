@@ -3,7 +3,7 @@
 // Taken and adapted from Vuetify 2's v-calendar event overlap logic:
 // https://github.com/vuetifyjs/vuetify/blob/v2-stable/packages/vuetify/src/components/VCalendar/modes/column.ts
 
-import dayjs from '../../../common/helpers/dayjs.js'
+import dayjs from './dayjs.js'
 
 const FULL_WIDTH = 100
 

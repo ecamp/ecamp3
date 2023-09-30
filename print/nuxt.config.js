@@ -144,6 +144,7 @@ export default {
         },
       })
     },
+    transpile: ['vue-icon'],
     postcss: {
       postcssOptions: {
         plugins: {
