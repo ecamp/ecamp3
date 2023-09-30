@@ -32,19 +32,19 @@ spec:
           imagePullPolicy: {{ .Values.mail.image.pullPolicy }}
           ports:
             - name: mail-http
-              containerPort: 8025
+              containerPort: 1080
               protocol: TCP
             - name: mail-smtp
               containerPort: 1025
               protocol: TCP
           env:
-            - name: MH_UI_WEB_PATH
+            - name: MAILDEV_BASE_PATHNAME
               value: {{ .Values.mail.subpath }}
           readinessProbe:
             httpGet:
               scheme: HTTP
               path: {{ .Values.mail.subpath }}
-              port: 8025
+              port: 1080
             initialDelaySeconds: 10
             periodSeconds: 5
           resources:
