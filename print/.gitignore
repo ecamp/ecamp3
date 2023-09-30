@@ -92,3 +92,6 @@ sw.*
 # Yalc (local config and packages)
 .yalc
 yalc.lock
+
+# Sentry Auth Token
+.env.sentry-build-plugin
