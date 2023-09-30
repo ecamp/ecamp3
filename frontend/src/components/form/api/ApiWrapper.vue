@@ -11,6 +11,7 @@ Wrapper component for form components to save data back to API
     >
       <slot
         :local-value="localValue"
+        :parsed-value="parsedLocalValue"
         :has-server-error="hasServerError"
         :has-loading-error="hasLoadingError"
         :has-validation-error="validationObserver.invalid"
@@ -42,10 +43,15 @@ export default {
       type: Boolean,
       default: true,
     },
+    parse: {
+      type: Function,
+      default: null,
+    },
   },
   data() {
     return {
       localValue: null,
+      parsedLocalValue: null,
       isSaving: false,
       isLoading: false,
       isMounted: false,
@@ -138,10 +144,11 @@ export default {
       // override local value if it wasn't dirty
       if (!this.dirty || this.overrideDirty) {
         this.localValue = newValue
+        this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
       }
 
       // clear dirty if outside value changes to same as local value (e.g. after save operation)
-      if (this.localValue === newValue) {
+      if (this.parsedLocalValue === newValue) {
         this.dirty = false
       }
     },
@@ -158,7 +165,8 @@ export default {
   methods: {
     async onInput(newValue) {
       this.localValue = newValue
-      this.dirty = this.localValue !== this.apiValue
+      this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
+      this.dirty = this.parsedLocalValue !== this.apiValue
 
       if (this.autoSave) {
         this.debouncedSave()
@@ -223,7 +231,7 @@ export default {
 
       // construct payload (nested path allowed)
       const payload = {}
-      set(payload, this.fieldname, this.localValue)
+      set(payload, this.fieldname, this.parsedLocalValue)
 
       this.api.patch(this.uri, payload).then(
         () => {
