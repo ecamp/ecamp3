@@ -17,6 +17,6 @@ class AssertCollectionIsNotEmpty extends Constraint {
     ) {
         parent::__construct($options ?? [], $groups, $payload);
 
-        $this->message ??= $message;
+        $this->message = $message ?? $this->message;
     }
 }
