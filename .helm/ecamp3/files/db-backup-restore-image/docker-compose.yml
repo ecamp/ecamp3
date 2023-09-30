@@ -1,0 +1,8 @@
+version: '3.9'
+
+services: 
+  db-backup-restore-image:
+    image: ${CONTAINER_REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-db-backup-restore:${VERSION:-local}
+    build:
+      context: .
+      dockerfile: Dockerfile

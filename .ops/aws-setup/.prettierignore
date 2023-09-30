@@ -1,0 +1,3 @@
+/.aws
+/.pulumi
+/package*.json

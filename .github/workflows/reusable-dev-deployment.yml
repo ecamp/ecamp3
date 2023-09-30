@@ -20,6 +20,9 @@ on:
         required: false
         type: boolean
         default: false
+      restoreSourceFile:
+        required: false
+        type: string
 
 jobs:
   dev-deployment:
@@ -82,6 +85,7 @@ jobs:
             --set print.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-print' \
             --set php.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-php' \
             --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
+            --set postgresql.dbBackupRestoreImage.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-db-backup-restore' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set domain=${{ inputs.name }}.${{ vars.DOMAIN }} \
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
@@ -91,6 +95,19 @@ jobs:
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=${{ inputs.dropDBOnUninstall }} \
+            --set postgresql.backup.schedule=${{ vars.BACKUP_SCHEDULE != null && format('''{0}''', vars.BACKUP_SCHEDULE) || null }} \
+            --set postgresql.backup.s3.endpoint='${{ vars.BACKUP_S3_ENDPOINT }}' \
+            --set postgresql.backup.s3.bucket='${{ vars.BACKUP_S3_BUCKET }}' \
+            --set postgresql.backup.s3.accessKeyId='${{ secrets.BACKUP_S3_ACCESS_KEY_ID }}' \
+            --set postgresql.backup.s3.accessKey='${{ secrets.BACKUP_S3_ACCESS_KEY }}' \
+            --set postgresql.backup.encryptionKey=${{ secrets.BACKUP_ENCRYPTION_KEY != null && format('''{0}''', secrets.BACKUP_ENCRYPTION_KEY) || null }} \
+            --set postgresql.restore.sourceFile=${{ inputs.restoreSourceFile != null && format('''{0}''', inputs.restoreSourceFile) || null }} \
+            --set postgresql.restore.sourceAppName=${{ vars.RESTORE_SOURCE_APP != null && format('''{0}''', vars.RESTORE_SOURCE_APP) || null }} \
+            --set postgresql.restore.s3.endpoint='${{ vars.RESTORE_S3_ENDPOINT }}' \
+            --set postgresql.restore.s3.bucket='${{ vars.RESTORE_S3_BUCKET }}' \
+            --set postgresql.restore.s3.accessKeyId='${{ secrets.RESTORE_S3_ACCESS_KEY_ID }}' \
+            --set postgresql.restore.s3.accessKey='${{ secrets.RESTORE_S3_ACCESS_KEY }}' \
+            --set postgresql.restore.encryptionKey=${{ secrets.RESTORE_ENCRYPTION_KEY != null && format('''{0}''', secrets.RESTORE_ENCRYPTION_KEY) || null }} \
             --set php.dataMigrationsDir='${{ vars.DATA_MIGRATIONS_DIR }}' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
             --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
