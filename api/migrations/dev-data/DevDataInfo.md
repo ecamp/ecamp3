@@ -17,11 +17,29 @@ The Password for all accounts is `test`.
 
 
 ## Camps
-Overview of Camps and their Structure. 
+Overview of Camps, their Structure and what makes them useful for developing and testing.
+
+### Harry Potter Lager
+* Bi-Pi Role: Admin
+* J&S Camp
+
+### GRGR
+* Bi-Pi Role: Admin
+* J&S Camp
+
 ### Lorem ipsum
-* Bi-Pi Role: Owner
+* Bi-Pi Role: Admin
 * Categories: `> 10`
+* Activities Overlapping and very Artificial
+* J&S Camp
 
 ### Star Wars
 * Bi-Pi Role: Guest
 * Semi-Realistic 3-Day-Camp
+* J&S Camp
+
+### Auf in die Berge
+* Bi-Pi Role: Member
+* Without Preset
+* Long Story
+* Emojis
