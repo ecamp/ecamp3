@@ -1,3 +1,3 @@
 export function setup() {
-  process.env.TZ = 'UTC'
+  process.env.TZ = 'Pacific/Tongatapu'
 }
