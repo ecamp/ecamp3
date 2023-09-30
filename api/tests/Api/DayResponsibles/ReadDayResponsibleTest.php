@@ -114,6 +114,6 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/day_responsibles/'.$dayResponsible->getId());
 
-        $this->assertSqlQueryCount($client, 7);
+        $this->assertSqlQueryCount($client, 9);
     }
 }

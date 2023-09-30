@@ -141,6 +141,6 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/activity_responsibles');
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

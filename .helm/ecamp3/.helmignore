@@ -21,3 +21,7 @@
 .idea/
 *.tmproj
 .vscode/
+docker-compose.yml
+README.md
+.env
+.env-example

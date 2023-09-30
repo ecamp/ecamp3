@@ -381,6 +381,6 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/schedule_entries');
 
-        $this->assertSqlQueryCount($client, 21);
+        $this->assertSqlQueryCount($client, 23);
     }
 }

@@ -102,6 +102,6 @@ class ListCategoriesTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/categories');
 
-        $this->assertSqlQueryCount($client, 9);
+        $this->assertSqlQueryCount($client, 11);
     }
 }

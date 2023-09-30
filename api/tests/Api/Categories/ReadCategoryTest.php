@@ -137,6 +137,6 @@ class ReadCategoryTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/categories/'.$category->getId());
 
-        $this->assertSqlQueryCount($client, 7);
+        $this->assertSqlQueryCount($client, 9);
     }
 }

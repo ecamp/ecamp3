@@ -37,7 +37,7 @@
       </View>
     </View>
   </View>
-  <View style="margin-bottom: 20pt; font-size: 10pt">
+  <View style="padding-bottom: 20pt; font-size: 10pt">
     <ContentNode :content-node="activity.rootContentNode()" />
   </View>
 </template>

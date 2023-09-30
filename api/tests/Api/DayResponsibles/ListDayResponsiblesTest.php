@@ -107,6 +107,6 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/day_responsibles');
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

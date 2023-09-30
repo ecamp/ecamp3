@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.7.0'
+          node-version: '20.8.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -87,7 +87,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.7.0'
+          node-version: '20.8.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -116,7 +116,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.7.0'
+          node-version: '20.8.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -145,7 +145,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.7.0'
+          node-version: '20.8.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -248,7 +248,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.7.0'
+          node-version: '20.8.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -292,7 +292,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.7.0'
+          node-version: '20.8.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -323,6 +323,44 @@ jobs:
           CI_PULL_REQUEST: ${{ github.event.number }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: print
+          
+  pdf-tests:
+    name: 'Tests: PDF'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.8.0'
+
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: pdf
+
+      - run: npm run build
+        working-directory: pdf
+
+      - run: npm run test:unit
+        working-directory: pdf
+
+      - name: send coverage info
+        run: |
+          sed -i "s|src/|pdf/src/|g" pdf/data/coverage/lcov.info
+          cat pdf/data/coverage/lcov.info | npx coveralls .
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
+          CI_PULL_REQUEST: ${{ github.event.number }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: pdf
 
   e2e-tests-build:
     name: 'Tests: End-to-end (build job)'

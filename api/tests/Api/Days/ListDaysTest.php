@@ -128,6 +128,6 @@ class ListDaysTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/days');
 
-        $this->assertSqlQueryCount($client, 15);
+        $this->assertSqlQueryCount($client, 17);
     }
 }

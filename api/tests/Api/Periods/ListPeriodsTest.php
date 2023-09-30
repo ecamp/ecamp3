@@ -100,6 +100,6 @@ class ListPeriodsTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/periods');
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

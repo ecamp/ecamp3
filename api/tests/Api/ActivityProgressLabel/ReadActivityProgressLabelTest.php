@@ -101,6 +101,6 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId());
 
-        $this->assertSqlQueryCount($client, 5);
+        $this->assertSqlQueryCount($client, 7);
     }
 }

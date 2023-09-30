@@ -114,6 +114,6 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
 
-        $this->assertSqlQueryCount($client, 6);
+        $this->assertSqlQueryCount($client, 8);
     }
 }

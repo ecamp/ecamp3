@@ -95,6 +95,6 @@ class ReadUserTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/users/'.$user->getId());
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

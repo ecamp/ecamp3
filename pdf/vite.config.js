@@ -19,6 +19,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'colorjs.io': fileURLToPath(
+        new URL('./node_modules/colorjs.io/dist/color.js', import.meta.url)
+      ),
+      runes: fileURLToPath(new URL('./node_modules/runes/index.js', import.meta.url)),
     },
     preserveSymlinks: true,
   },
@@ -54,5 +58,11 @@ export default defineConfig({
   },
   test: {
     include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+    environment: 'jsdom',
+    coverage: {
+      all: true,
+      reporter: ['text', 'lcov', 'html'],
+      reportsDirectory: './data/coverage',
+    },
   },
 })

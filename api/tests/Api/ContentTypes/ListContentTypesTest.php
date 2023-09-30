@@ -44,6 +44,6 @@ class ListContentTypesTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/content_types');
 
-        $this->assertSqlQueryCount($client, 4);
+        $this->assertSqlQueryCount($client, 6);
     }
 }

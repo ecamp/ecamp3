@@ -1,0 +1,4 @@
+encryptionsalt: v1:CdKPMfceMA4=:v1:rlPnkGuNOMP44Lvd:E0r294YKkNTLweaqLUICMda0uPHKEg==
+config:
+  aws:region: eu-west-3
+  ecamp-core:env: dev
