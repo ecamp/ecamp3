@@ -11,7 +11,6 @@ The Password for all accounts is `test`.
 | `test@example.com`    |
 | `luke@skywalker.com`  |
 | `john@wick.com`       |
-| `clark@kent.com`      |
 | `bruce@wayne.com`     |
 | `felicity@smoak.com`  |
 
