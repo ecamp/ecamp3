@@ -29,27 +29,30 @@
             :is="item.component('v')"
             v-if="item.component('v') !== ''"
             v-bind="{ ...item.props, ...config }"
+            v-model="item.value"
           />
-          <span v-else v-text="item.props['v-model']" />
+          <span v-else v-text="item.value" />
         </template>
         <template #[`item.e`]="{ item }">
-          <component :is="item.component('e')" v-bind="{ ...item.props, ...config }" />
+          <component
+            :is="item.component('e')"
+            v-bind="{ ...item.props, ...config }"
+            v-model="item.value"
+          />
         </template>
         <template #[`item.api`]="{ item }">
           <component
             :is="item.component('api')"
-            v-if="profileUri !== null"
+            v-if="item.props.uri !== null"
             v-bind="{ ...item.props, ...config }"
             :auto-save="false"
-            :uri="profileUri"
           />
         </template>
         <template #[`item.api.autosave`]="{ item }">
           <component
             :is="item.component('api')"
-            v-if="profileUri !== null"
+            v-if="item.props.uri !== null"
             v-bind="{ ...item.props, ...config }"
-            :uri="profileUri"
           />
         </template>
       </v-data-table>
@@ -138,10 +141,11 @@ export default {
         {
           id: 'text-field',
           component: (type) => `${type}-text-field`,
+          value: this.textfieldValue,
           props: {
-            'v-model': this.textfieldValue,
             placeholder: this.placeholder,
             fieldname: 'nickname',
+            uri: this.profileUri,
           },
         },
         {
@@ -151,87 +155,114 @@ export default {
             'v-model.number': this.textfieldValue,
             placeholder: this.placeholder,
             inputmode: 'numeric',
-            fieldname: 'nickname',
+            fieldname: 'quantity',
+            uri: this.materialUri,
           },
         },
         {
           id: 'textarea',
           component: (type) => `${type}-textarea`,
+          value: this.textareaValue,
           props: {
-            'v-model': this.textareaValue,
             placeholder: this.placeholder,
             rows: 3,
-            fieldname: 'nickname',
+            fieldname: 'data.html',
+            uri: this.singleTextUri,
           },
         },
         {
           id: 'richtext',
           component: (type) => (type === 'v' ? 'v-tiptap-editor' : `${type}-richtext`),
+          value: this.richtextValue,
           props: {
-            'v-model': this.richtextValue,
             placeholder: this.placeholder,
             rows: 3,
-            fieldname: 'nickname',
+            fieldname: 'data.html',
+            uri: this.singleTextUri,
           },
         },
         {
           id: 'select',
           component: (type) => `${type}-select`,
+          value: this.selectValue,
           props: {
-            'v-model': this.selectValue,
             fieldname: 'language',
             placeholder: this.placeholder,
             items: this.availableLocales,
+            uri: this.profileUri,
           },
         },
         {
           id: 'checkbox',
           component: (type) => `${type}-checkbox`,
+          value: this.checkboxValue,
           props: {
-            'v-model': this.checkboxValue,
-            fieldname: 'nickname',
+            fieldname: 'printYSLogoOnPicasso',
+            uri: this.campUri,
           },
         },
         {
           id: 'switch',
           component: (type) => `${type}-switch`,
+          value: this.checkboxValue,
           props: {
-            'v-model': this.checkboxValue,
-            fieldname: 'nickname',
+            fieldname: 'printYSLogoOnPicasso',
+            uri: this.campUri,
           },
         },
         {
           id: 'date-picker',
           component: (type) => (type === 'v' ? '' : `${type}-date-picker`),
+          value: this.dateValue,
           props: {
-            'v-model': this.dateValue,
             placeholder: this.placeholder,
-            fieldname: 'nickname',
+            fieldname: 'start',
+            uri: this.periodUri,
           },
         },
         {
           id: 'time-picker',
           component: (type) => (type === 'v' ? '' : `${type}-time-picker`),
+          value: this.timeValue,
           props: {
-            'v-model': this.timeValue,
             placeholder: this.placeholder,
             'value-format': 'YYYY-MM-DDTHH:mm:ssZ',
-            fieldname: 'nickname',
+            fieldname: 'start',
+            uri: this.scheduleEntryUri,
           },
         },
         {
           id: 'color-picker',
           component: (type) => (type === 'v' ? '' : `${type}-color-picker`),
+          value: this.colorValue,
           props: {
-            'v-model': this.colorValue,
             placeholder: this.placeholder,
-            fieldname: 'nickname',
+            fieldname: 'color',
+            uri: this.categoryUri,
           },
         },
       ]
     },
     profileUri() {
       return this.$store.state.auth.user?.profile()._meta.self ?? null
+    },
+    campUri() {
+      return '/api/camps/6973c230d6b1' // Harry Potter - Lager
+    },
+    periodUri() {
+      return '/api/periods/fe47dfd2b541' // Harry Potter - Hauptlager
+    },
+    categoryUri() {
+      return '/api/categories/e7559fc16388' // Harry Potter - Lageraktivität
+    },
+    materialUri() {
+      return '/api/material_items/04be1b6159dc' // Harry Potter- LA Lagerbau - Schatztruhe
+    },
+    singleTextUri() {
+      return '/api/content_node/single_texts/d5c2ece2bedf' // Harry Potter - LA Lagerbau - Roter Faden
+    },
+    scheduleEntryUri() {
+      return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({

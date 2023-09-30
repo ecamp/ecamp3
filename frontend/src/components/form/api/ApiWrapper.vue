@@ -151,6 +151,11 @@ export default {
     if (!this.value) this.reload()
 
     this.localValue = this.apiValue
+
+    // don't move this to methods option
+    // functions within the methods options are shared across instances
+    // https://github.com/ecamp/ecamp3/issues/3839
+    this.debouncedSave = debounce(this.save, this.autoSaveDelay)
   },
   mounted() {
     this.isMounted = true
@@ -163,9 +168,6 @@ export default {
       if (this.autoSave) {
         this.debouncedSave()
       }
-    },
-    debouncedSave() {
-      return debounce(this.save, this.autoSaveDelay).call()
     },
     // reload data from API (doesn't force loading from server if available locally)
     reload() {
