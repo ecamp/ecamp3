@@ -17,12 +17,20 @@
           "title": "Wirklich löschen?"
         }
       },
+      "copyActivityInfoDialog": {
+        "title": "Aktivität kopieren & einfügen",
+        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "granted": "Du kannst nun kopierte Aktivitäten einfügen."
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
       },
       "scheduleEntry": {
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
+        "copyScheduleEntry": "Aktivität kopieren",
         "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
       }
     },
@@ -290,6 +298,12 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clipboard": "Zwischenablage",
+        "copyPastActivity": "Aktivität kopieren & einfügen",
+        "clearClipboard": "Zwischenablage leeren",
+        "copyActivityContent": "Inhalt von Aktivität kopieren"
+      },
       "formScheduleEntryItem": {
         "end": "Ende",
         "start": "Start"
@@ -404,6 +418,9 @@
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
+    },
+    "toast": {
+      "copied": "{source} kopiert"
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",

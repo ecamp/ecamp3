@@ -12,6 +12,21 @@
     :style="colorStyles"
     v-on="listeners"
   >
+    <!-- Copy -->
+    <v-btn
+      v-if="!scheduleEntry.tmpEvent"
+      x-small
+      text
+      class="e-picasso-entry__copy-url rounded-sm pr-0"
+      @click.prevent="copyUrlToClipboard"
+      @mousedown.stop=""
+      @mouseup.stop=""
+    >
+      <v-icon x-small color="white">mdi-content-copy</v-icon>
+    </v-btn>
+
+    <copy-activity-info-dialog ref="copyInfoDialog" />
+
     <!-- edit button & dialog -->
     <dialog-activity-edit
       v-if="!scheduleEntry.tmpEvent"
@@ -115,14 +130,16 @@ import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisp
 import { timestampToUtcString } from '@/common/helpers/dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { scheduleEntryRoute } from '@/router.js'
+import router from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
+import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 
 export default {
   name: 'PicassoEntry',
-  components: { AvatarRow, DialogActivityEdit },
+  components: { AvatarRow, DialogActivityEdit, CopyActivityInfoDialog },
   mixins: [dateHelperUTCFormatted],
   props: {
     editable: { type: Boolean, required: true },
@@ -252,6 +269,22 @@ export default {
         this.scrollHeight = this.$el.scrollHeight
       })
     },
+    async copyUrlToClipboard() {
+      let res = await navigator.permissions.query({ name: 'clipboard-read' })
+      if (res.state == 'prompt') {
+        this.$refs.copyInfoDialog.open()
+      }
+
+      let url = window.location.origin + router.resolve(this.scheduleEntryRoute).href
+      navigator.clipboard.writeText(url)
+
+      this.$toast.info(
+        this.$tc('global.toast.copied', null, { source: this.activityName }),
+        {
+          timeout: 2000,
+        }
+      )
+    },
   },
 }
 </script>
@@ -321,6 +354,26 @@ export default {
   }
 }
 
+.e-picasso-entry__copy-url {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  max-height: calc(100% + 4px);
+  padding: 0 !important;
+  min-width: 20px !important;
+  border-radius: 0 0px 0 4px !important;
+  z-index: 100;
+}
+
+.e-picasso-entry:hover .e-picasso-entry__copy-url {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.75);
+  &:hover {
+    background-color: black;
+  }
+}
+
 .e-picasso-entry__quickedit {
   display: none;
   position: absolute;
@@ -329,7 +382,7 @@ export default {
   max-height: calc(100% + 4px);
   padding: 0 !important;
   min-width: 20px !important;
-  border-radius: 0 3px 0 4px !important;
+  border-radius: 0 3px 0 0 !important;
   z-index: 100;
 }
 

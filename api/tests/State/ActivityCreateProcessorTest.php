@@ -41,6 +41,7 @@ class ActivityCreateProcessorTest extends TestCase {
         $categoryRoot->contentType = $contentType;
         $this->activity->category->setRootContentNode($categoryRoot);
 
+        // EntityManager
         $repository = $this->createMock(EntityRepository::class);
         $this->em->method('getRepository')->willReturn($repository);
         $repository->method('findOneBy')->willReturn($contentType);
