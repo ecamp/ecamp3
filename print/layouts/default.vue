@@ -1,11 +1,7 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-container class="container" fluid>
-        <nuxt />
-      </v-container>
-    </v-main>
-  </v-app>
+  <div class="container" fluid>
+    <nuxt />
+  </div>
 </template>
 
 <script>
