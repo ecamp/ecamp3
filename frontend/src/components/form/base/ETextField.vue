@@ -16,10 +16,10 @@
       :required="required"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label="label ?? name"
+      :label="label || name"
       :class="[inputClass]"
       :type="type"
-      v-on="$listeners"
+      v-on="inputListeners"
     >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
@@ -44,6 +44,41 @@ export default {
       type: String,
       default: 'text',
     },
+  },
+  data() {
+    return {
+      preventValidationOnBlur: false,
+    }
+  },
+  computed: {
+    inputListeners: function () {
+      const vm = this
+      return Object.assign(
+        {},
+        // attach all $parent listeners
+        this.$listeners,
+        // override @input listener for correct handling of numeric values
+        {
+          input: function (value) {
+            vm.$data.preventValidationOnBlur = false
+            vm.$emit('input', value)
+          },
+          blur: function () {
+            vm.$emit('blur')
+            if (vm.$data.preventValidationOnBlur) {
+              vm.$refs.validationProvider.reset()
+            }
+            vm.$data.preventValidationOnBlur = false
+          },
+        }
+      )
+    },
+  },
+  mounted() {
+    this.preventValidationOnBlur =
+      'autofocus' in this.$attrs &&
+      'required' in this.$refs.validationProvider.$attrs &&
+      this.$refs.textField.value == ''
   },
   methods: {
     focus() {
