@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\SnapshotTests;
 
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
@@ -12,6 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 use function PHPUnit\Framework\assertThat;
+use function PHPUnit\Framework\equalTo;
 
 /**
  * @internal
@@ -57,10 +59,10 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      *
      * @dataProvider getCollectionEndpoints
      */
-    public function testGetCollectionMatchesStructure(string $endpoint) {
-        $response = static::createClientWithCredentials()->request('GET', $endpoint);
+    public function testGetCollectionMatchesStructure(Client $client, string $endpoint) {
+        $response = $client->request('GET', $endpoint);
 
-        $this->assertResponseStatusCodeSame(200);
+        assertThat($response->getStatusCode(), equalTo(200));
         $this->assertMatchesEscapedResponseSnapshot($response);
     }
 
@@ -73,7 +75,9 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      */
     public static function getCollectionEndpoints() {
         static::bootKernel();
-        $response = static::createClientWithCredentials()->request('GET', '/');
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+        $response = $client->request('GET', '/');
 
         $responseArray = $response->toArray();
         $onlyUrls = array_map(fn (array $item) => $item['href'], $responseArray['_links']);
@@ -95,9 +99,9 @@ class ResponseSnapshotTest extends ECampApiTestCase {
         });
 
         /** @noinspection PhpUnnecessaryLocalVariableInspection */
-        $withUrlAsKey = array_reduce($normalEndpoints, function (?array $left, string $right) {
+        $withUrlAsKey = array_reduce($normalEndpoints, function (?array $left, string $right) use ($client) {
             $newArray = $left ?? [];
-            $newArray[$right] = [$right];
+            $newArray[$right] = [$client, $right];
 
             return $newArray;
         });
@@ -114,13 +118,13 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      *
      * @dataProvider getItemEndpoints
      */
-    public function testGetItemMatchesStructure(string $endpoint) {
+    public function testGetItemMatchesStructure(Client $client, string $endpoint) {
         /** @var BaseEntity $fixtureFor */
         $fixtureFor = $this->getFixtureFor($endpoint);
 
-        $itemResponse = static::createClientWithCredentials()->request('GET', "{$endpoint}/{$fixtureFor->getId()}");
+        $itemResponse = $client->request('GET', "{$endpoint}/{$fixtureFor->getId()}");
 
-        $this->assertResponseStatusCodeSame(200);
+        assertThat($itemResponse->getStatusCode(), equalTo(200));
         $this->assertMatchesEscapedResponseSnapshot($itemResponse);
     }
 
@@ -133,7 +137,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      */
     public static function getItemEndpoints() {
         return array_filter(self::getCollectionEndpoints(), function (array $endpoint) {
-            return match ($endpoint[0]) {
+            return match ($endpoint[1]) {
                 '/content_nodes' => false,
                 default => true,
             };
@@ -149,26 +153,24 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      *
      * @dataProvider getPatchEndpoints
      */
-    public function testPatchResponseMatchesGetItemResponse(string $endpoint) {
+    public function testPatchResponseMatchesGetItemResponse(Client $client, string $endpoint) {
         /** @var BaseEntity $fixtureFor */
         $fixtureFor = $this->getFixtureFor($endpoint);
 
-        $itemResponse = static::createClientWithCredentials()->request('GET', "{$endpoint}/{$fixtureFor->getId()}");
-        $this->assertResponseStatusCodeSame(200);
+        $itemResponse = $client->request('GET', "{$endpoint}/{$fixtureFor->getId()}");
+        assertThat($itemResponse->getStatusCode(), equalTo(200));
 
-        $patchResponse = static::createClientWithCredentials()
-            ->request(
-                'PATCH',
-                "{$endpoint}/{$fixtureFor->getId()}",
-                [
-                    'json' => [],
-                    'headers' => [
-                        'Content-Type' => 'application/merge-patch+json',
-                    ],
-                ]
-            )
-        ;
-        $this->assertResponseStatusCodeSame(200);
+        $patchResponse = $client->request(
+            'PATCH',
+            "{$endpoint}/{$fixtureFor->getId()}",
+            [
+                'json' => [],
+                'headers' => [
+                    'Content-Type' => 'application/merge-patch+json',
+                ],
+            ]
+        );
+        assertThat($patchResponse->getStatusCode(), equalTo(200));
 
         assertThat($itemResponse->toArray(), CompatibleHalResponse::isHalCompatibleWith($patchResponse->toArray()));
     }
@@ -182,7 +184,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      */
     public static function getPatchEndpoints() {
         return array_filter(self::getItemEndpoints(), function (array $endpoint) {
-            return match ($endpoint[0]) {
+            return match ($endpoint[1]) {
                 '/activity_responsibles' => false,
                 // column layout has a problem with an empty patch
                 '/content_node/column_layouts' => false,
