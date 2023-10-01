@@ -1,5 +1,7 @@
+import Vue from 'vue'
+import { fireEvent } from '@testing-library/vue'
 import { render } from '@/test/renderWithVuetify.js'
-import Admin from '../Admin.vue'
+import Admin from '../Info.vue'
 import flushPromises from 'flush-promises'
 
 describe('Admin view', () => {
@@ -19,7 +21,11 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(getByText('Gefahrenzone')).toBeInTheDocument()
+    const dangerZone = getByText('Gefahrenzone')
+
+    expect(dangerZone).toBeInTheDocument()
+    await fireEvent.click(dangerZone)
+    await Vue.nextTick()
     expect(getByText('Lager löschen')).toBeInTheDocument()
   })
 

@@ -9,6 +9,7 @@ describe('Client print test', () => {
 
     cy.visit('/camps')
     cy.get('a:contains("GRGR")').click()
+    cy.get('a:contains("Admin")').click()
     cy.get('a:contains("Drucken")').click()
     cy.get('button:contains("PDF herunterladen (Layout #2)")').click()
 

@@ -16,7 +16,10 @@
         <SidebarListItem
           v-if="user && !user._meta.loading"
           :title="user.displayName"
-          :subtitle="user.profile().firstname + ' ' + user.profile().surname"
+          :subtitle="
+            user.profile().nickname &&
+            user.profile().firstname + ' ' + user.profile().surname
+          "
           :to="{ name: 'profile', query: { isDetail: true } }"
         >
           <template #pre>
@@ -44,21 +47,34 @@
         />
         <v-divider inset i />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navSidebar.itemCampAdmin')"
+          :to="adminRoute(camp(), 'info')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemInfos')"
           icon="mdi-cogs"
-          :to="campRoute(camp(), 'admin', { isDetail: true })"
+        />
+        <v-divider inset />
+        <SidebarListItem
+          :to="adminRoute(camp(), 'activity')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemActivity')"
+          :subtitle="$tc('views.camp.navigation.mobile.navSidebar.itemActivitySubtitle')"
+          icon="mdi-view-dashboard"
         />
         <v-divider inset />
         <SidebarListItem
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"
-          :to="campRoute(camp(), 'collaborators', { isDetail: true })"
+          :to="adminRoute(camp(), 'collaborators')"
+        />
+        <v-divider inset />
+        <SidebarListItem
+          :to="adminRoute(camp(), 'material')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemMaterialLists')"
+          icon="mdi-package-variant"
         />
         <v-divider inset />
         <SidebarListItem
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemPrinting')"
-          icon="mdi-file-outline"
-          :to="campRoute(camp(), 'print', { isDetail: true })"
+          icon="mdi-file"
+          :to="adminRoute(camp(), 'print')"
         />
       </v-list>
       <div class="mt-auto">
@@ -80,7 +96,7 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
+import { campRoute, adminRoute } from '@/router'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 import { mapGetters } from 'vuex'
@@ -101,6 +117,7 @@ export default {
     }),
   },
   methods: {
+    adminRoute,
     campRoute,
   },
 }

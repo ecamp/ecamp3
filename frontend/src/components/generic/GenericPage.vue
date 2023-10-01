@@ -1,7 +1,3 @@
-<!--
-Displays several tabs with details on a single camp.
--->
-
 <template>
   <v-container fluid :style="layoutStyle">
     <router-view v-bind="$attrs" />
@@ -10,7 +6,7 @@ Displays several tabs with details on a single camp.
 
 <script>
 export default {
-  name: 'Camp',
+  name: 'GenericPage',
   props: {
     layout: { type: String, required: false, default: 'full' },
   },
