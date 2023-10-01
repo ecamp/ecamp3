@@ -1,10 +1,15 @@
 <template>
   <v-data-table
+    v-resizeobserver.debounce="onResize"
     :headers="tableHeaders"
     :items="materialItemsData"
     :disable-pagination="true"
     mobile-breakpoint="0"
     item-class="rowClass"
+    :class="{
+      'ec-material-table--dense': !isDefaultVariant,
+      'ec-material-table--default': isDefaultVariant,
+    }"
     hide-default-footer
   >
     <!-- skeleton loader (slot #body overrides all others) -->
@@ -44,7 +49,7 @@
     </template>
 
     <template #[`item.article`]="{ item }">
-      <template v-if="$vuetify.breakpoint.smAndUp">
+      <template v-if="variant === 'default'">
         <api-text-field
           v-if="!item.readonly"
           :disabled="layoutMode || disabled"
@@ -86,14 +91,14 @@
       <!-- Action buttons -->
       <template v-if="!item.readonly && !layoutMode && !disabled">
         <PromptEntityDelete
-          v-if="$vuetify.breakpoint.smAndUp"
+          v-if="variant === 'default'"
           :entity="item.uri"
           :warning-text-entity="item.article"
           :btn-attrs="{
             class: 'v-btn--has-bg',
             disabled: layoutMode || disabled,
             bg: true,
-            width: !$vuetify.breakpoint.smAndUp ? '100%' : null,
+            width: !isDefaultVariant ? '100%' : null,
             iconOnly: true,
             btnIcon: false,
           }"
@@ -157,7 +162,7 @@
     <template #[`body.append`]="{ headers }">
       <!-- add new item (desktop view) -->
       <MaterialCreateItem
-        v-if="!layoutMode && $vuetify.breakpoint.smAndUp && !disabled"
+        v-if="!layoutMode && isDefaultVariant && !disabled"
         key="addItemRow"
         :camp="camp"
         :columns="headers.length"
@@ -169,7 +174,7 @@
     <template #footer>
       <!-- add new item (mobile view) -->
       <DialogMaterialItemCreate
-        v-if="!layoutMode && !$vuetify.breakpoint.smAndUp && !disabled"
+        v-if="!layoutMode && !isDefaultVariant && !disabled"
         :camp="camp"
         :material-item-collection="materialItemCollection"
         :material-list="materialList"
@@ -248,13 +253,14 @@ export default {
     return {
       newMaterialItems: {},
       periodOnly: false,
+      clientWidth: 1000,
     }
   },
   computed: {
     tableHeaders() {
       const headers = []
 
-      if (this.$vuetify.breakpoint.smAndUp) {
+      if (this.isDefaultVariant) {
         headers.push(
           {
             text: this.$tc('entity.materialItem.fields.quantity'),
@@ -295,8 +301,8 @@ export default {
       if (this.period) {
         headers.push({
           text: this.$tc('entity.materialItem.fields.reference'),
-          align: this.$vuetify.breakpoint.smAndUp ? 'start' : 'end',
-          width: this.$vuetify.breakpoint.smAndUp ? '15%' : 'auto',
+          align: this.isDefaultVariant ? 'start' : 'end',
+          width: this.isDefaultVariant ? '15%' : 'auto',
           value: 'lastColumn',
           sortable: false,
         })
@@ -354,8 +360,17 @@ export default {
 
       return items
     },
+    isDefaultVariant() {
+      return this.clientWidth > 710
+    },
+  },
+  mounted() {
+    this.clientWidth = this.$el.clientWidth
   },
   methods: {
+    onResize({ width }) {
+      this.clientWidth = width
+    },
     renderQuantity(item) {
       if (item.quantity && item.unit) {
         return `${item.quantity}${nbsp}${item.unit}`
@@ -425,8 +440,11 @@ export default {
 .v-data-table:deep(.v-data-table__wrapper th),
 .v-data-table:deep(.v-data-table__wrapper td) {
   padding: 0 2px;
+}
 
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
+.ec-material-table--dense.v-data-table::v-deep {
+  .v-data-table__wrapper th,
+  .v-data-table__wrapper td {
     padding: 4px 2px;
     line-height: normal;
   }
@@ -444,15 +462,18 @@ export default {
   }
 }
 
+.ec-material-table--default {
+  .ec-material-table__filterbutton {
+    width: fit-content;
+  }
+}
+
 .ec-material-table__filterbutton {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   text-align: left;
   width: min-content;
-  @media #{map-get($display-breakpoints, 'sm-and-up')} {
-    width: fit-content;
-  }
 
   span {
     flex: 1 1 0;
