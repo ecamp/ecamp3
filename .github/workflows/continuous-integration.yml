@@ -28,7 +28,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.10'
+          php-version: '8.2.11'
           tools: composer:2.6.0
           coverage: xdebug
 
@@ -192,7 +192,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.10'
+          php-version: '8.2.11'
           extensions: intl-73.1
           tools: composer:2.6.0
           coverage: xdebug
