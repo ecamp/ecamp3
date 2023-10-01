@@ -96,7 +96,7 @@ jobs:
           cache-to: type=gha,scope=print,mode=max
 
       - name: Build and push db-backup-restore docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
           file: .helm/ecamp3/files/db-backup-restore-image/Dockerfile
