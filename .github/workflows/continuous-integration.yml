@@ -1,14 +1,6 @@
 name: CI (mandatory checks)
 
 on:
-  push:
-    branches-ignore:
-      - staging
-      - prod
-      - devel
-    tags-ignore:
-      - staging
-      - prod
   pull_request:
   merge_group:
   workflow_dispatch:
@@ -136,7 +128,7 @@ jobs:
              exit 1
           fi
         working-directory: print
-  
+
   e2e-lint:
     name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
@@ -323,7 +315,7 @@ jobs:
           CI_PULL_REQUEST: ${{ github.event.number }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: print
-          
+
   pdf-tests:
     name: 'Tests: PDF'
     runs-on: ubuntu-latest
