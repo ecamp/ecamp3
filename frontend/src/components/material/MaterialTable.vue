@@ -7,8 +7,8 @@
     mobile-breakpoint="0"
     item-class="rowClass"
     :class="{
-      'ec-material-table--dense': variant === 'dense',
-      'ec-material-table--default': variant === 'default',
+      'ec-material-table--dense': !isDefaultVariant,
+      'ec-material-table--default': isDefaultVariant,
     }"
     hide-default-footer
   >
@@ -98,7 +98,7 @@
             class: 'v-btn--has-bg',
             disabled: layoutMode || disabled,
             bg: true,
-            width: variant !== 'default' ? '100%' : null,
+            width: !isDefaultVariant ? '100%' : null,
             iconOnly: true,
             btnIcon: false,
           }"
@@ -162,7 +162,7 @@
     <template #[`body.append`]="{ headers }">
       <!-- add new item (desktop view) -->
       <MaterialCreateItem
-        v-if="!layoutMode && variant === 'default' && !disabled"
+        v-if="!layoutMode && isDefaultVariant && !disabled"
         key="addItemRow"
         :camp="camp"
         :columns="headers.length"
@@ -174,7 +174,7 @@
     <template #footer>
       <!-- add new item (mobile view) -->
       <DialogMaterialItemCreate
-        v-if="!layoutMode && variant !== 'default' && !disabled"
+        v-if="!layoutMode && !isDefaultVariant && !disabled"
         :camp="camp"
         :material-item-collection="materialItemCollection"
         :material-list="materialList"
@@ -260,7 +260,7 @@ export default {
     tableHeaders() {
       const headers = []
 
-      if (this.variant === 'default') {
+      if (this.isDefaultVariant) {
         headers.push(
           {
             text: this.$tc('entity.materialItem.fields.quantity'),
@@ -301,8 +301,8 @@ export default {
       if (this.period) {
         headers.push({
           text: this.$tc('entity.materialItem.fields.reference'),
-          align: this.variant === 'default' ? 'start' : 'end',
-          width: this.variant === 'default' ? '15%' : 'auto',
+          align: this.isDefaultVariant ? 'start' : 'end',
+          width: this.isDefaultVariant ? '15%' : 'auto',
           value: 'lastColumn',
           sortable: false,
         })
@@ -360,8 +360,8 @@ export default {
 
       return items
     },
-    variant() {
-      return this.clientWidth <= 710 ? 'dense' : 'default'
+    isDefaultVariant() {
+      return this.clientWidth > 710
     },
   },
   mounted() {
