@@ -2,16 +2,17 @@
 
 namespace App\Security\Voter;
 
-use ApiPlatform\Api\IriConverterInterface;
-use App\Entity\BelongsToCampInterface;
-use App\Entity\BelongsToContentNodeTreeInterface;
-use App\Entity\CampCollaboration;
-use App\Entity\User;
-use App\Util\GetCampFromContentNodeTrait;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Util\GetCampFromContentNodeTrait;
+use App\Entity\User;
+use App\Entity\CampCollaboration;
+use App\Entity\BelongsToContentNodeTreeInterface;
+use App\Entity\BelongsToCampInterface;
+use ApiPlatform\Api\IriConverterInterface;
 
 /**
  * @extends Voter<string,mixed>
@@ -28,8 +29,8 @@ class CampRoleVoter extends Voter {
 
     public function __construct(
         private EntityManagerInterface $em,
-        private RequestStack $requestStack,
-        private IriConverterInterface $iriConverter,
+        private SymfonyResponseTagger $responseTagger,
+        private IriConverterInterface $iriConverter
     ) {
     }
 
@@ -61,13 +62,7 @@ class CampRoleVoter extends Voter {
         ;
 
         if ($campCollaboration) {
-            // Add CampCollaboration to cache tags
-            $request = $this->requestStack->getCurrentRequest();
-            $resources = [
-                $campCollaboration->getId()
-            ];
-            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + (array) $resources);
-
+            $this->responseTagger->addTags([$campCollaboration->getId()]);
             return true;
         }
 

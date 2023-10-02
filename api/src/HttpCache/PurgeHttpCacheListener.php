@@ -15,17 +15,16 @@ namespace App\HttpCache;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use FOS\HttpCacheBundle\CacheManager;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Util\ClassUtils;
-use App\Entity\Category;
 use App\Entity\BaseEntity;
 use ApiPlatform\Metadata\Util\ClassInfoTrait;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\HttpCache\PurgerInterface;
 use ApiPlatform\Exception\RuntimeException;
 use ApiPlatform\Exception\OperationNotFoundException;
 use ApiPlatform\Exception\InvalidArgumentException;
@@ -46,7 +45,7 @@ final class PurgeHttpCacheListener
 
     public const IRI_RELATION_DELIMITER = '#';
 
-    public function __construct(private readonly PurgerInterface $purger, private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor, private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory)
+    public function __construct(private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor, private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private readonly CacheManager $cacheManager)
     {
         $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
     }
@@ -103,13 +102,7 @@ final class PurgeHttpCacheListener
      */
     public function postFlush(): void
     {
-        if (empty($this->tags)) {
-            return;
-        }
-
-        $this->purger->purge(array_values($this->tags));
-
-        $this->tags = [];
+        $this->cacheManager->flush();
     }
 
     private function gatherResourceTags(object $entity): void
@@ -125,7 +118,7 @@ final class PurgeHttpCacheListener
                 foreach ($metadata->getOperations() ?? [] as $operation) {
                     if ($operation instanceof GetCollection) {
                         $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
-                        $this->tags[$iri] = $iri;
+                        $this->cacheManager->invalidateTags([$iri]);
                     }
                 }
                 $resourceIterator->next();
@@ -194,7 +187,7 @@ final class PurgeHttpCacheListener
             if ($property) {
                 $iri .= self::IRI_RELATION_DELIMITER.$property;
             }
-            $this->tags[$iri] = $iri;
+            $this->cacheManager->invalidateTags([$iri]);
         } catch (RuntimeException|InvalidArgumentException) {
         }
     }

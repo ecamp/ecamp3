@@ -5,30 +5,24 @@ import xkey;
 import cookie;
 
 
+include "./fos/fos_tags_xkey.vcl";
+include "./fos/fos_debug.vcl";
+
+
 backend default {
   .host = "caddy";
   .port = "3000";
 }
 
 # Hosts allowed to send BAN requests
-acl purgers {
+acl invalidators {
   "php";
 }
 
 sub vcl_recv {
   # Support xkey purge requests
   # see https://raw.githubusercontent.com/varnish/varnish-modules/master/src/vmod_xkey.vcc
-  if (req.method == "PURGE") {
-    if (client.ip !~ purgers) {
-      return (synth(403, "Forbidden"));
-    }
-	  if (req.http.xkey) {
-		  set req.http.n-gone = xkey.purge(req.http.xkey);
-		  return (synth(200, "Invalidated "+req.http.n-gone+" objects"));
-	  } else {
-		  return (purge);
-	  }
-  }
+  call fos_tags_xkey_recv;
   
   # exclude other services (frontend, print, etc.)
   if (req.url !~ "^/api") {
@@ -70,4 +64,9 @@ sub vcl_beresp_cookie {
   # Varnish by default disables caching whenever the reponse header "Set-Cookie" is set in the request (default safe behavior)
   # this bypasses the default behaviour
 	return (deliver);
+}
+
+sub vcl_deliver {
+  call fos_tags_xkey_deliver;
+  call fos_debug_deliver;
 }

@@ -100,6 +100,7 @@ services:
       - caddy
     volumes:
       - ./api/docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
+      - ./api/vendor/friendsofsymfony/http-cache/resources/config/varnish:/etc/varnish/fos
     tmpfs:
       - /var/lib/varnish/varnishd:exec
     ports:
@@ -154,7 +155,7 @@ services:
   docker-host:
     image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
-    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    cap_add: ['NET_ADMIN', 'NET_RAW']
     restart: on-failure
 
   browserless:
@@ -174,7 +175,7 @@ services:
 
   e2e:
     image: cypress/included:12.15.0
-    profiles: [ "e2e" ]
+    profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
@@ -186,7 +187,7 @@ services:
 
   translation:
     image: node:18.16.1
-    profiles: [ "translation" ]
+    profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated
