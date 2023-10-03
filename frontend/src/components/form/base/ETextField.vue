@@ -5,7 +5,7 @@
     tag="div"
     :name="name"
     :vid="veeId"
-    :rules="veeRules"
+    :rules="dynamicRules"
     :required="required"
     class="e-form-container"
   >
@@ -19,7 +19,8 @@
       :label="label || name"
       :class="[inputClass]"
       :type="type"
-      v-on="inputListeners"
+      :hide-spin-buttons="true"
+      v-on="$listeners"
     >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
@@ -45,40 +46,19 @@ export default {
       default: 'text',
     },
   },
-  data() {
-    return {
-      preventValidationOnBlur: false,
-    }
-  },
   computed: {
-    inputListeners: function () {
-      const vm = this
-      return Object.assign(
-        {},
-        // attach all $parent listeners
-        this.$listeners,
-        // override @input listener for correct handling of numeric values
-        {
-          input: function (value) {
-            vm.$data.preventValidationOnBlur = false
-            vm.$emit('input', value)
-          },
-          blur: function () {
-            vm.$emit('blur')
-            if (vm.$data.preventValidationOnBlur) {
-              vm.$refs.validationProvider.reset()
-            }
-            vm.$data.preventValidationOnBlur = false
-          },
-        }
-      )
+    dynamicRules() {
+      if (this.type !== 'number') return this.veeRules
+      if (typeof this.veeRules === 'object') {
+        const rule =
+          this.$attrs.inputmode === 'decimal'
+            ? { double: { separator: 'comma' } }
+            : { numeric: true }
+        return { ...rule, ...this.veeRules }
+      }
+      const rule = this.$attrs.inputmode === 'decimal' ? 'double:0comma' : 'numeric'
+      return `${this.veeRules}${this.veeRules?.length === 0 ? '' : '|'}${rule}`
     },
-  },
-  mounted() {
-    this.preventValidationOnBlur =
-      'autofocus' in this.$attrs &&
-      'required' in this.$refs.validationProvider.$attrs &&
-      this.$refs.textField.value == ''
   },
   methods: {
     focus() {

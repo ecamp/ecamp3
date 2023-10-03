@@ -48,10 +48,13 @@ export default {
     },
     parse(input) {
       if (
-        (this.$attrs.inputmode === 'numeric' || this.$attrs.type === 'number') &&
-        !Number.isNaN(Number(input))
+        this.$attrs.inputmode === 'numeric' ||
+        this.$attrs.inputmode === 'decimal' ||
+        this.$attrs.type === 'number'
+        //!Number.isNaN(Number(input))
       ) {
-        return Number(input)
+        const dotInput = typeof input === 'string' ? input.replace(',', '.') : input
+        return Number(dotInput)
       } else {
         return input
       }
