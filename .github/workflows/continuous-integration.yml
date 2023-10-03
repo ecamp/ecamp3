@@ -24,12 +24,12 @@ jobs:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
-          tools: composer:2.5.0
+          php-version: '8.2.11'
+          tools: composer:2.6.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -37,7 +37,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -54,13 +54,13 @@ jobs:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.1'
+          node-version: '20.8.0'
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -74,22 +74,51 @@ jobs:
           npm run lint:check:eslint
           result=$(npm run lint:check:prettier)
           echo $result
-          if echo $result | grep -E "Code style issues found"; then 
+          if echo $result | grep -E "Code style issues found"; then
              exit 1
           fi
         working-directory: frontend
+
+  client-print-eslint:
+    name: 'Lint: ClientPrint (ESLint)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.8.0'
+
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: pdf
+
+      - run: |
+          npm run lint:check:eslint
+          result=$(npm run lint:check:prettier)
+          echo $result
+          if echo $result | grep -E "Code style issues found"; then
+             exit 1
+          fi
+        working-directory: pdf
 
   print-eslint:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.1'
+          node-version: '20.8.0'
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -107,6 +136,35 @@ jobs:
              exit 1
           fi
         working-directory: print
+  
+  e2e-lint:
+    name: 'Lint: e2e (ESLint)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.8.0'
+
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: e2e
+
+      - run: |
+          npm run lint:check:eslint
+          result=$(npm run lint:check:prettier)
+          echo $result
+          if echo $result | grep -E "Code style issues found"; then 
+             exit 1
+          fi
+        working-directory: e2e
 
   api-tests:
     name: 'Tests: API'
@@ -130,13 +188,13 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
+          php-version: '8.2.11'
           extensions: intl-73.1
-          tools: composer:2.5.0
+          tools: composer:2.6.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -144,7 +202,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -186,18 +244,24 @@ jobs:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.1'
+          node-version: '20.8.0'
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: pdf
+
+      - run: npm run build
+        working-directory: pdf
 
       - run: npm ci --no-audit
         working-directory: frontend
@@ -224,13 +288,13 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.16.1'
+          node-version: '20.8.0'
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -259,21 +323,59 @@ jobs:
           CI_PULL_REQUEST: ${{ github.event.number }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: print
+          
+  pdf-tests:
+    name: 'Tests: PDF'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.8.0'
+
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+        working-directory: pdf
+
+      - run: npm run build
+        working-directory: pdf
+
+      - run: npm run test:unit
+        working-directory: pdf
+
+      - name: send coverage info
+        run: |
+          sed -i "s|src/|pdf/src/|g" pdf/data/coverage/lcov.info
+          cat pdf/data/coverage/lcov.info | npx coveralls .
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
+          CI_PULL_REQUEST: ${{ github.event.number }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: pdf
 
   e2e-tests-build:
     name: 'Tests: End-to-end (build job)'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # build API (using cache; provide image to docker compose)
       - name: Build docker image (API/PHP)
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: api/Dockerfile
           context: './api'
@@ -288,7 +390,7 @@ jobs:
 
       # build caddy (using cache; provide image to docker compose)
       - name: Build docker image (Caddy)
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: api/Dockerfile
           context: './api'
@@ -315,18 +417,17 @@ jobs:
       fail-fast: false
       matrix:
         browser:
-          - electron
           - chrome
           - firefox
           - edge
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - run: cp .env.ci .env
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Restore tmp folder
         uses: actions/download-artifact@v3
@@ -341,7 +442,7 @@ jobs:
           docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: .cache
           key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
@@ -349,13 +450,13 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d php caddy frontend print browserless database docker-host
+      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
 
       - uses: cypress-io/github-action@v5
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}
-          wait-on: 'http://localhost:3000, http://localhost:3000/api'
+          wait-on: 'http://localhost:3000, http://localhost:3000/api, http://localhost:3000/print/health'
           wait-on-timeout: 300
 
       # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
@@ -390,13 +491,14 @@ jobs:
       - api-cs-check
       - frontend-eslint
       - print-eslint
+      - e2e-lint
       - api-tests
       - frontend-tests
       - print-tests
       - e2e-tests-run
     runs-on: ubuntu-latest
     steps:
-      - uses: peter-evans/repository-dispatch@26b39ed245ab8f31526069329e112ab2fb224588 # v2
+      - uses: peter-evans/repository-dispatch@bf47d102fdb849e755b0b0023ea3e81a44b6f570 # v2
         with:
           event-type: ci-passed
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

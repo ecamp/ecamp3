@@ -151,7 +151,7 @@ export default {
 
   // composition API setup
   setup(props, { emit }) {
-    const { editable, scheduleEntries } = toRefs(props)
+    const { editable, scheduleEntries, start, end } = toRefs(props)
 
     const isSaving = ref(false)
 
@@ -194,8 +194,8 @@ export default {
       emit('unlockReminder', move)
     }
 
-    const calenderStartTimestamp = utcStringToTimestamp(props.start)
-    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY_IN_MILLISECONDS
+    const calenderStartTimestamp = utcStringToTimestamp(start.value)
+    const calendarEndTimestamp = utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
@@ -406,7 +406,9 @@ export default {
       z-index: 2;
       min-width: fit-content;
       overflow: hidden;
-      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px, rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+      box-shadow:
+        rgba(0, 0, 0, 0.1) 0 4px 6px -1px,
+        rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
     }
 
     .v-calendar-daily__pane,

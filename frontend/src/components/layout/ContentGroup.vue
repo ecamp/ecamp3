@@ -3,7 +3,7 @@ Displays the content wrapped inside a card.
 -->
 
 <template>
-  <v-sheet class="ec-content-group mb-8 mt-2">
+  <v-sheet class="ec-content-group mt-2">
     <slot name="title">
       <component
         :is="titleTag"
@@ -39,5 +39,9 @@ export default {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+}
+
+.ec-content-group + .ec-content-group {
+  margin-top: 32px !important;
 }
 </style>

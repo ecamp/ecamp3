@@ -10,8 +10,7 @@ use ApiPlatform\OpenApi\OpenApi;
  * Decorates the OpenApi factory to add API docs for the login endpoint.
  */
 final class JwtDecorator implements OpenApiFactoryInterface {
-    public function __construct(private OpenApiFactoryInterface $decorated, private string $cookiePrefix) {
-    }
+    public function __construct(private OpenApiFactoryInterface $decorated, private string $cookiePrefix) {}
 
     public function __invoke(array $context = []): OpenApi {
         $openApi = ($this->decorated)($context);

@@ -211,4 +211,15 @@ class ReadCampTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testSqlQueryCount() {
+        /** @var Camp $camp */
+        $camp = static::$fixtures['camp1'];
+
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/camps/'.$camp->getId());
+
+        $this->assertSqlQueryCount($client, 28);
+    }
 }

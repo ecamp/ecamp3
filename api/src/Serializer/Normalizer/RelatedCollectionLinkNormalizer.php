@@ -94,8 +94,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private ManagerRegistry $managerRegistry,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private PropertyAccessorInterface $propertyAccessor
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
@@ -125,7 +124,15 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $data;
     }
 
-    public function setSerializer(SerializerInterface $serializer) {
+    public function getSupportedTypes(?string $format): array {
+        if (method_exists($this->decorated, 'getSupportedTypes')) {
+            return $this->decorated->getSupportedTypes($format);
+        }
+
+        return ['*' => false];
+    }
+
+    public function setSerializer(SerializerInterface $serializer): void {
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
         }

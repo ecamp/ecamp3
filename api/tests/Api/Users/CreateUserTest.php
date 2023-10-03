@@ -7,6 +7,14 @@ use ApiPlatform\Metadata\Post;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Constraints\CompatibleHalResponse;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
+use function PHPUnit\Framework\assertThat;
 
 /**
  * @internal
@@ -786,6 +794,33 @@ class CreateUserTest extends ECampApiTestCase {
             'roles' => ['roles'],
             'user' => ['user'],
         ];
+    }
+
+    /**
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     */
+    public function testCreateResponseStructureMatchesReadResponseStructure() {
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+        $createResponse = $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $createArray = $createResponse->toArray();
+        $newItemLink = $createArray['_links']['self']['href'];
+        $getItemResponse = $client->request('GET', $newItemLink);
+
+        assertThat($createArray, CompatibleHalResponse::isHalCompatibleWith($getItemResponse->toArray()));
     }
 
     public function getExampleWritePayload($attributes = [], $except = [], $mergeEmbeddedAttributes = []) {

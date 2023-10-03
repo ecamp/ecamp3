@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
-          tools: composer:2.5.0
+          php-version: '8.2.11'
+          tools: composer:2.6.0
           coverage: xdebug
 
       - run: composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist

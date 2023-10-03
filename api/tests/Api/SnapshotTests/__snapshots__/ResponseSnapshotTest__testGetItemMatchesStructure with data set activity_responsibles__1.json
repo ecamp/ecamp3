@@ -1,0 +1,14 @@
+{
+    "_links": {
+        "activity": {
+            "href": "escaped_value"
+        },
+        "campCollaboration": {
+            "href": "escaped_value"
+        },
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "id": "escaped_value"
+}

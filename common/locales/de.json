@@ -162,7 +162,9 @@
     "materialItem": {
       "fields": {
         "article": "Artikel",
+        "list": "Materialliste",
         "quantity": "Menge",
+        "reference": "Aktivität / Lagerabschnitt",
         "unit": "Einheit"
       }
     },
@@ -194,13 +196,13 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}min",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}min"
       },
-      "hourLong": "HH:mm",
+      "hourLong": "LT",
       "hourShort": "H:mm"
     }
   },

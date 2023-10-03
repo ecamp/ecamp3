@@ -135,4 +135,12 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('activityResponsible1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testSqlQueryCount() {
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/activity_responsibles');
+
+        $this->assertSqlQueryCount($client, 6);
+    }
 }

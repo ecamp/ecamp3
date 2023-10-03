@@ -8,13 +8,13 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.2.7
+ARG PHP_VERSION=8.2.11
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.18
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.6.4
+ARG CADDY_VERSION=2.7.4
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php
@@ -89,7 +89,7 @@ ENV COMPOSER_CACHE_DIR=/tmp/composer/cache
 RUN mkdir -p /tmp/composer/cache
 RUN chmod ugo+w /tmp/composer/cache
 
-COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.json composer.lock symfony.lock ./
@@ -127,28 +127,16 @@ RUN rm $PHP_INI_DIR/conf.d/api-platform.prod.ini; \
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.2.1
+ARG XDEBUG_VERSION=3.2.2
 RUN set -eux; \
 	install-php-extensions xdebug-$XDEBUG_VERSION
 
 # "caddy" stage
 # depends on the "php" stage above
-FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
-
-# renovate: datasource=go depName=github.com/dunglas/mercure/caddy
-ARG MERCURE_CADDY_VERSION=v0.14.7
-# renovate: datasource=go depName=github.com/dunglas/vulcain/caddy
-ARG VULCAIN_CADDY_VERSION=v0.4.3
-# install Mercure and Vulcain modules
-RUN xcaddy build \
-	--with github.com/dunglas/mercure/caddy@$MERCURE_CADDY_VERSION \
-	--with github.com/dunglas/vulcain/caddy@$VULCAIN_CADDY_VERSION
-
 FROM caddy:${CADDY_VERSION} AS api_platform_caddy
 
 WORKDIR /srv/api
 
-COPY --from=api_platform_caddy_builder --link /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php --link /srv/api/public public/
 COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 

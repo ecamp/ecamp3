@@ -57,16 +57,11 @@ export default {
         {},
         // attach all $parent listeners
         this.$listeners,
-
         // override @input listener for correct handling of numeric values
         {
           input: function (value) {
             vm.$data.preventValidationOnBlur = false
-            if (vm.type === 'number') {
-              vm.$emit('input', parseFloat(value))
-            } else {
-              vm.$emit('input', value)
-            }
+            vm.$emit('input', value)
           },
           blur: function () {
             vm.$emit('blur')

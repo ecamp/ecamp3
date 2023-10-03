@@ -1,0 +1,90 @@
+{
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "children": [],
+                    "contentType": {
+                        "href": "escaped_value"
+                    },
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "root": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "contentTypeName": "escaped_value",
+                "data": {
+                    "sections": {
+                        "ab9740f6-61a4-4cae-b574-a73aeb7c5ea0": {
+                            "column1": "escaped_value",
+                            "column2Html": "escaped_value",
+                            "column3": "escaped_value",
+                            "position": "escaped_value"
+                        },
+                        "cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029": {
+                            "column1": "escaped_value",
+                            "column2Html": "escaped_value",
+                            "column3": "escaped_value",
+                            "position": "escaped_value"
+                        }
+                    }
+                },
+                "id": "escaped_value",
+                "instanceName": "escaped_value",
+                "position": "escaped_value",
+                "slot": "escaped_value"
+            },
+            {
+                "_links": {
+                    "children": [],
+                    "contentType": {
+                        "href": "escaped_value"
+                    },
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "root": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "contentTypeName": "escaped_value",
+                "data": {
+                    "sections": {
+                        "ea6f1e5d-0ef7-454f-8ae0-1d9b3bfd1177": {
+                            "column1": "escaped_value",
+                            "column2Html": "escaped_value",
+                            "column3": "escaped_value",
+                            "position": "escaped_value"
+                        }
+                    }
+                },
+                "id": "escaped_value",
+                "instanceName": "escaped_value",
+                "position": "escaped_value",
+                "slot": "escaped_value"
+            }
+        ]
+    },
+    "_links": {
+        "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            }
+        ],
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "totalItems": "escaped_value"
+}

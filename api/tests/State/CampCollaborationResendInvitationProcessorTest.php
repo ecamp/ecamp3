@@ -12,9 +12,9 @@ use App\Service\MailService;
 use App\State\CampCollaborationResendInvitationProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @internal
@@ -84,7 +84,7 @@ class CampCollaborationResendInvitationProcessorTest extends TestCase {
     /**
      * @dataProvider notInvitedStatuses
      */
-    public function testDoesNothingIfStatusIsNotInvited($status) {
+    public function testDoesNothingIfStatusIsNotInvited(string $status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;
 

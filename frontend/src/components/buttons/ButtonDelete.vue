@@ -4,7 +4,7 @@
     class="ec-btn-delete px-3 px-sm-4"
     min-width="0"
     :color="color"
-    :icon="iconOnly"
+    :icon="btnIcon && iconOnly"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -31,6 +31,7 @@ export default {
     text: { type: Boolean, default: true },
     color: { type: String, default: 'blue-grey' },
     iconOnly: { type: Boolean, default: false },
+    btnIcon: { type: Boolean, default: true },
   },
 }
 </script>

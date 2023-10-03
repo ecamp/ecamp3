@@ -37,7 +37,7 @@ abstract class FilterAttribute {
      * @throws InvalidOptionsException This magic method is only called if
      *                                 an invalid option name is given
      */
-    public function __set($name, $value) {
+    public function __set(string $name, array $value) {
         throw new InvalidOptionsException(sprintf('The option "%s" does not exist in input filter "%s".', $name, static::class), [$name]);
     }
 

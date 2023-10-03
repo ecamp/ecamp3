@@ -28,7 +28,9 @@
 </template>
 
 <script>
-const PRINT_URL = window.environment.PRINT_URL
+import { getEnv } from '@/environment.js'
+
+const PRINT_URL = getEnv().PRINT_URL
 
 export default {
   name: 'PrintPreviewNuxt',

@@ -5,11 +5,15 @@ namespace App\State\Util;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 
+/**
+ * @template T
+ *
+ * @template-implements ProcessorInterface<T>
+ */
 abstract class AbstractRemoveProcessor implements ProcessorInterface {
     public function __construct(
         private ProcessorInterface $decorated,
-    ) {
-    }
+    ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->onBefore($data, $operation, $uriVariables, $context);
@@ -19,13 +23,15 @@ abstract class AbstractRemoveProcessor implements ProcessorInterface {
 
     /**
      * Hook before the removal of an object.
+     *
+     * @param T $data
      */
-    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
-    }
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {}
 
     /**
      * For side effects after removal of an object.
+     *
+     * @param T $data
      */
-    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
-    }
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {}
 }

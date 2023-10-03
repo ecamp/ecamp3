@@ -21,7 +21,6 @@ api:
     port: 3001
   metrics:
     port: 2019
-  # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
   replicaCount: 1
 
 php:
@@ -122,7 +121,7 @@ browserless:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
     # renovate: datasource=docker depName=browserless/chrome
-    tag: "1.59.0-puppeteer-20.2.1"
+    tag: "1.60.0-puppeteer-21.1.1"
   service:
     type: ClusterIP
     port: 3000
@@ -153,14 +152,6 @@ mail:
       cpu: 10m
       memory: 10Mi
 
-
-# You may prefer using the managed version in production: https://mercure.rocks
-mercure:
-  publicUrl: https://chart-example.local/.well-known/mercure
-  # Change me!
-  jwtSecret: "!ChangeMe!"
-  corsAllowedOrigins: "^https?://.*?\\.chart-example\\.local$"
-
 # Full configuration: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
 postgresql:
   url:
@@ -168,6 +159,30 @@ postgresql:
   # An uri with privileges to create and drop a database for the application.
   # Can be left empty if the required database specified in postgresql.url already exists.
   adminUrl:
+  dbBackupRestoreImage:
+    repository: "docker.io/ecamp/ecamp3-db-backup-restore"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  backup:
+    schedule:
+    s3:
+      endpoint:
+      bucket:
+      accessKeyId:
+      accessKey:
+    encryptionKey:
+  restore:
+    # null => no restore, latest => restore latest backup, s3 key => restore this backup
+    sourceFile:
+    sourceAppName:
+    s3:
+      endpoint:
+      bucket:
+      accessKeyId:
+      accessKey:
+    inviteSupportAccountToInterestingCamps: false
+    encryptionKey:
 
 recaptcha:
   siteKey:

@@ -4,13 +4,21 @@
     :loading="loading"
     :error="error"
     icon="mdi-package-variant"
-    :title="materialList.name"
+    :title="$tc('components.campAdmin.dialogMaterialListEdit.title')"
     :submit-action="update"
     submit-color="success"
     :cancel-action="close"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
+    </template>
+    <template #moreActions>
+      <PromptEntityDelete
+        :entity="entityUri"
+        :warning-text-entity="materialList.name"
+        position="top"
+        align="left"
+      />
     </template>
     <dialog-material-list-form :material-list="entityData" />
   </dialog-form>
@@ -20,10 +28,11 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogMaterialListForm from './DialogMaterialListForm.vue'
+import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
 export default {
   name: 'DialogMaterialListEdit',
-  components: { DialogForm, DialogMaterialListForm },
+  components: { PromptEntityDelete, DialogForm, DialogMaterialListForm },
   extends: DialogBase,
   props: {
     materialList: { type: Object, required: true },

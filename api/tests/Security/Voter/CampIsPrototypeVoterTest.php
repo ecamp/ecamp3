@@ -138,5 +138,4 @@ class CampIsPrototypeVoterTest extends TestCase {
     }
 }
 
-class CampIsPrototypeVoterTestDummy extends BaseEntity {
-}
+class CampIsPrototypeVoterTestDummy extends BaseEntity {}

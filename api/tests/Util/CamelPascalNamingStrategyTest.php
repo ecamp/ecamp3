@@ -16,7 +16,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getTableNameExamples
      */
-    public function testClassToTableName($className, $output) {
+    public function testClassToTableName(string $className, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -39,7 +39,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getPropertyExamples
      */
-    public function testPropertyToColumnName($input, $output) {
+    public function testPropertyToColumnName(string $input, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -61,7 +61,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getEmbeddedFieldExamples
      */
-    public function testEmbeddedFieldToColumnName($propertyName, $embeddedColumnName, $output) {
+    public function testEmbeddedFieldToColumnName(string $propertyName, string $embeddedColumnName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -82,7 +82,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getJoinColumnExamples
      */
-    public function testJoinColumnName($propertyName, $output) {
+    public function testJoinColumnName(string $propertyName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 
@@ -104,7 +104,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
     /**
      * @dataProvider getJoinKeyColumnExamples
      */
-    public function testJoinKeyColumnName($entityName, $referencedColumnName, $output) {
+    public function testJoinKeyColumnName(string $entityName, ?string $referencedColumnName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
 

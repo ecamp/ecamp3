@@ -31,8 +31,7 @@ class CampRoleVoter extends Voter {
         private EntityManagerInterface $em,
         private SymfonyResponseTagger $responseTagger,
         private IriConverterInterface $iriConverter
-    ) {
-    }
+    ) {}
 
     protected function supports($attribute, $subject): bool {
         return in_array($attribute, array_keys(self::RULE_MAPPING))

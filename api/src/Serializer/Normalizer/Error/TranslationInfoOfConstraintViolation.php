@@ -18,6 +18,7 @@ class TranslationInfoOfConstraintViolation {
     public static function removeCurlyBraces(array $parameters): array {
         $paramsWithoutCurlyBraces = [];
         foreach ($parameters as $key => $value) {
+            /** @var int|string $key */
             $key = str_replace('{{ ', '', $key);
             $key = str_replace(' }}', '', $key);
             $paramsWithoutCurlyBraces[$key] = $value;

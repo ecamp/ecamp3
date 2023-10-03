@@ -22,8 +22,7 @@ class CampIsPrototypeVoter extends Voter {
         private EntityManagerInterface $em,
         private SymfonyResponseTagger $responseTagger,
         private IriConverterInterface $iriConverter,
-    ) {
-    }
+    ) {}
 
     protected function supports($attribute, $subject): bool {
         return 'CAMP_IS_PROTOTYPE' === $attribute

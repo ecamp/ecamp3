@@ -8,6 +8,9 @@ use App\Entity\Camp;
 use App\State\Util\AbstractRemoveProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @template-extends AbstractRemoveProcessor<Camp>
+ */
 class CampRemoveProcessor extends AbstractRemoveProcessor {
     public function __construct(
         ProcessorInterface $decorated,

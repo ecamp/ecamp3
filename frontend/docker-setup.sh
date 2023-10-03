@@ -2,10 +2,12 @@
 set -euo pipefail
 
 BASEDIR=$(dirname "$0")
-ENV_FILE=$BASEDIR"/public/environment.js"
+PDF_DIST=$BASEDIR"/src/pdf"
 
-if [ ! -f "$ENV_FILE" ]; then
-    cp $BASEDIR/public/environment.docker.dist "$ENV_FILE"
+if [ ! -f "$PDF_DIST/pdf.mjs" ] || [ ! -f "$PDF_DIST/prepareInMainThread.mjs" ]; then
+    # Copy dummy versions of the pdf build outputs, to make sure there is always something to import
+    cp "$PDF_DIST/pdf.mjs.dist" "$PDF_DIST/pdf.mjs"
+    cp "$PDF_DIST/prepareInMainThread.mjs.dist" "$PDF_DIST/prepareInMainThread.mjs"
 fi
 
 if [ "$CI" = 'true' ] ; then

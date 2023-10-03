@@ -1,152 +1,29 @@
 name: CD for feature branches
 
 on:
-  schedule:
-    - cron: '*/30 * * * *' # Run every 30 minutes
-  workflow_dispatch:       # Allow triggering manually
+  pull_request_target:
+    types: [opened, reopened, labeled, synchronize]
 
 jobs:
-  find-prs-to-deploy:
-    name: Find PRs and branches to deploy or uninstall
-    runs-on: ubuntu-latest
-    outputs:
-      to-uninstall: ${{ steps.to-uninstall.outputs.list }}
-      to-deploy: ${{ steps.to-deploy.outputs.list }}
-      never-uninstall: ${{ steps.to-uninstall.outputs.never_uninstall }}
-    steps:
-
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-
-      - name: Find all open PRs that have a "deploy!" label
-        id: deployment-candidates
-        # create a list of JSON objects like:
-        # [
-        #  {"name": "pr1234", "sha": "... commit sha ...", "number": "1234"}
-        # ]
-        run: |
-          PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:${{ github.repository }}\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
-          LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
-            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring)})' )
-          echo "Deployment candidates: $LIST"
-          echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
-
-      - name: Read the list of all currently active deployments
-        id: current-deployments
-        run: |
-          # Setup authentication
-          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
-          # Read list of deployments using helm, and remove the leading ecamp3- from each of the names.
-          # Creates a list of objects like [{"name": "pr1234", "sha": "... commit sha ..."}, {"name": "dev", "sha": "..."}]
-          LIST=$(helm list -o json | jq 'map(.name|=sub("^ecamp3-";""))' | jq 'map({name:.name,sha:.app_version})')
-          echo "Currently active deployments: $LIST"
-          echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
-
-      - name: List deployments without PR
-        id: to-uninstall
-        env:
-          deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
-          prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
-          never_uninstall: '["dev", "devel", "stage", "staging", "prod"]'
-        run: |
-          TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
-          echo "Will uninstall: $TO_UNINSTALL"
-          echo "list=$TO_UNINSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
-          echo "\n" >> $GITHUB_OUTPUT
-          echo "never_uninstall=$never_uninstall" | tr -d "\n" >> $GITHUB_OUTPUT
-
-      - name: List PRs without up-to-date deployment
-        id: to-deploy
-        env:
-          deployments: ${{ steps.current-deployments.outputs.list }}
-          prs: ${{ steps.deployment-candidates.outputs.list }}
-        run: |
-          TO_INSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
-            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))')
-          echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
-          echo "list=$TO_INSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
-
-  uninstall-old-deployment:
-    name: Uninstall old deployment
-    runs-on: ubuntu-latest
-    needs:
-      - find-prs-to-deploy
-    if: fromJSON(needs.find-prs-to-deploy.outputs.to-uninstall)[0] != null
-    strategy:
-      fail-fast: false
-      matrix:
-        deployment-name: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-uninstall) }}
-    steps:
-
-      - name: Uninstall helm release
-        run: |
-          # Setup authentication
-          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
-          # Uninstall the release
-          helm delete ecamp3-${{ matrix.deployment-name }}
-
-      - name: Remove GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
-        with:
-          step: deactivate-env
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          env: ${{ matrix.deployment-name }}
-
-      - name: Find former PR number based on deployment name
-        id: pr-number
-        env:
-          name: ${{ matrix.deployment-name }}
-          regex: '^pr([0-9]+)$'
-        run: |
-          [[ $name =~ $regex ]]
-          echo number=${BASH_REMATCH[1]} >> $GITHUB_OUTPUT
-
-      - name: Comment about uninstallation on PR
-        uses: thollander/actions-comment-pull-request@v2
-        if: steps.pr-number.outputs.number
-        with:
-          pr_number: ${{ steps.pr-number.outputs.number }}
-          message: |
-            ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
-
-
-            If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
-          comment_tag: feature-branch-deployment-status
-          create_if_not_exists: false
-
   build-and-push:
-    name: Build and push docker images  
-    needs: find-prs-to-deploy
-    if: fromJSON(needs.find-prs-to-deploy.outputs.to-deploy)[0] != null
+    if: contains(github.event.pull_request.labels.*.name, 'deploy!')
+    name: Build and push docker images
     uses: ./.github/workflows/reusable-build-and-push.yml
-    strategy:
-      fail-fast: false
-      matrix:
-        deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy) }}
     with:
-      sha: ${{ matrix.deployment.sha }}
+      sha: ${{ github.event.pull_request.head.sha }}
     secrets:
       DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
-    needs:
-      - find-prs-to-deploy
-      - build-and-push
-    if: fromJSON(needs.find-prs-to-deploy.outputs.to-deploy)[0] != null
+    needs: build-and-push
     uses: ./.github/workflows/reusable-dev-deployment.yml
-    strategy:
-      fail-fast: false
-      matrix:
-        deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy) }}
     with:
-      name: ${{ matrix.deployment.name }}
-      sha: ${{ matrix.deployment.sha }}
+      name: pr${{ github.event.pull_request.number }}
+      sha: ${{ github.event.pull_request.head.sha }}
       env: feature-branch
-      pr_number: ${{ matrix.deployment.number }}
+      pr_number: ${{ github.event.pull_request.number }}
       dropDBOnUninstall: true
     secrets: inherit
-    

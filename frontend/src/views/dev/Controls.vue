@@ -1,332 +1,61 @@
 <template>
   <v-container fluid>
-    <content-card title="Config">
+    <content-card title="Controls" toolbar>
       <v-card-text>
-        <v-container class="pa-0">
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-checkbox v-model="stdConfig" label="default" hide-details="true" />
-            </v-col>
-            <v-col>
-              <v-checkbox v-model="filled" label="filled" hide-details="true" />
-            </v-col>
-            <v-col>
-              <v-checkbox v-model="outlined" label="outlined" hide-details="true" />
-            </v-col>
-            <v-col>
-              <v-checkbox v-model="solo" label="solo" hide-details="true" />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-text-field v-model="placeholder" label="Placeholder" />
-            </v-col>
-            <v-col>
-              <v-checkbox v-model="persistentHint" label="persistent-hint" />
-            </v-col>
-            <v-col>
-              <v-text-field v-model="hint" label="hint" />
-            </v-col>
-          </v-row>
-        </v-container>
+        <div class="d-flex gap-2">
+          <div class="d-grid flex-grow-1">
+            <v-text-field v-model="hint" label="Hint" hide-details />
+            <v-checkbox v-model="persistentHint" label="persistent-hint" class="mt-0" />
+          </div>
+          <div class="d-flex flex-grow-1">
+            <v-text-field v-model="placeholder" label="Placeholder" />
+          </div>
+        </div>
       </v-card-text>
-    </content-card>
-
-    <content-card title="Controls" class="mt-4">
-      <v-card-text>
-        <v-container>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> V-Text-Field </v-col>
-            <v-col> E-Text-Field </v-col>
-            <v-col> Api-Text-Field autosave </v-col>
-            <v-col> Api-Text-Field </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-text-field
-                v-model="textfieldValue"
-                :placeholder="placeholder"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <e-text-field
-                v-model="textfieldValue"
-                :placeholder="placeholder"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-text-field
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :placeholder="placeholder"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-text-field
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :placeholder="placeholder"
-                :auto-save="false"
-                v-bind="config"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> V-Textarea </v-col>
-            <v-col> E-Textarea </v-col>
-            <v-col> Api-Textarea, autosave </v-col>
-            <v-col> Api-Textarea </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-textarea
-                v-model="textareaValue"
-                :placeholder="placeholder"
-                :rows="3"
-                auto-grow
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <e-textarea
-                v-model="textareaValue"
-                :placeholder="placeholder"
-                :rows="3"
-                auto-grow
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-textarea
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :placeholder="placeholder"
-                :rows="3"
-                auto-grow
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-textarea
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :placeholder="placeholder"
-                :auto-save="false"
-                :rows="3"
-                auto-grow
-                v-bind="config"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> V-Tiptap-Editor </v-col>
-            <v-col> E-Richtext </v-col>
-            <v-col> Api-Richtext, autosave </v-col>
-            <v-col> Api-Richtext </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-tiptap-editor
-                v-model="richtextValue"
-                :placeholder="placeholder"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <e-richtext
-                v-model="richtextValue"
-                :placeholder="placeholder"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-richtext
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :placeholder="placeholder"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-richtext
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :placeholder="placeholder"
-                :auto-save="false"
-                v-bind="config"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> V-Checkbox </v-col>
-            <v-col> E-Checkbox </v-col>
-            <v-col> Api-Checkbox, autosave </v-col>
-            <v-col> Api-Checkbox </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-checkbox v-model="checkboxValue" />
-            </v-col>
-            <v-col>
-              <e-checkbox v-model="checkboxValue" />
-            </v-col>
-            <v-col>
-              <api-checkbox
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="isAdmin"
-              />
-            </v-col>
-            <v-col>
-              <api-checkbox
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="isAdmin"
-                :auto-save="false"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> V-Switch </v-col>
-            <v-col> E-Switch </v-col>
-            <v-col> Api-Switch, autosave </v-col>
-            <v-col> Api-Switch </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-switch v-model="checkboxValue" />
-            </v-col>
-            <v-col>
-              <e-switch v-model="checkboxValue" />
-            </v-col>
-            <v-col>
-              <api-switch
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="isAdmin"
-              />
-            </v-col>
-            <v-col>
-              <api-switch
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="isAdmin"
-                :auto-save="false"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> V-Select </v-col>
-            <v-col> E-Select </v-col>
-            <v-col> Api-Select, autosave </v-col>
-            <v-col> Api-Select </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              <v-select v-model="selectValue" :items="availableLocales" v-bind="config" />
-            </v-col>
-            <v-col>
-              <e-select v-model="selectValue" :items="availableLocales" v-bind="config" />
-            </v-col>
-            <v-col>
-              <api-select
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="language"
-                :items="availableLocales"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-select
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="language"
-                :auto-save="false"
-                :items="availableLocales"
-                v-bind="config"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> Date </v-col>
-            <v-col> E-Date-Picker </v-col>
-            <v-col> Api-Date-Picker, autosave </v-col>
-            <v-col> Api-Date-Picker </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              {{ dateValue }}
-            </v-col>
-            <v-col>
-              <e-date-picker v-model="dateValue" v-bind="config" />
-            </v-col>
-            <v-col>
-              <api-date-picker
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="birthday"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-date-picker
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="birthday"
-                :auto-save="false"
-                v-bind="config"
-              />
-            </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col> Time </v-col>
-            <v-col> E-Time-Picker </v-col>
-            <v-col> Api-Time-Picker, autosave </v-col>
-            <v-col> Api-Time-Picker </v-col>
-          </v-row>
-          <v-row dense no-glutters justify="space-around">
-            <v-col>
-              {{ timeValue }}
-            </v-col>
-            <v-col>
-              <e-date-picker
-                v-model="timeValue"
-                value-format="YYYY-MM-DDTHH:mm:ssZ"
-                v-bind="config"
-              />
-
-              <e-time-picker v-model="timeValue" v-bind="config" />
-            </v-col>
-            <v-col>
-              <api-time-picker
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                v-bind="config"
-              />
-            </v-col>
-            <v-col>
-              <api-time-picker
-                v-if="profileUri !== null"
-                :uri="profileUri"
-                fieldname="nickname"
-                :auto-save="false"
-                v-bind="config"
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-text>
+      <v-divider />
+      <v-card-title>
+        <h2>Input Table</h2>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        disable-pagination
+        hide-default-footer
+        :items-per-page="-1"
+      >
+        <template #[`item.id`]="{ item }">{{ item.id }}</template>
+        <template #[`item.v`]="{ item }">
+          <component
+            :is="item.component('v')"
+            v-if="item.component('v') !== ''"
+            v-bind="{ ...item.props, ...config }"
+            v-model="item.value"
+          />
+          <span v-else v-text="item.value" />
+        </template>
+        <template #[`item.e`]="{ item }">
+          <component
+            :is="item.component('e')"
+            v-bind="{ ...item.props, ...config }"
+            v-model="item.value"
+          />
+        </template>
+        <template #[`item.api`]="{ item }">
+          <component
+            :is="item.component('api')"
+            v-if="item.props.uri !== null"
+            v-bind="{ ...item.props, ...config }"
+            :auto-save="false"
+          />
+        </template>
+        <template #[`item.api.autosave`]="{ item }">
+          <component
+            :is="item.component('api')"
+            v-if="item.props.uri !== null"
+            v-bind="{ ...item.props, ...config }"
+          />
+        </template>
+      </v-data-table>
     </content-card>
   </v-container>
 </template>
@@ -342,6 +71,7 @@ import ESwitch from '@/components/form/base/ESwitch.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
+import EColorPicker from '@/components/form/base/EColorPicker.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
@@ -350,35 +80,40 @@ import ApiSwitch from '@/components/form/api/ApiSwitch.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker.vue'
+import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
 import VueI18n from '@/plugins/i18n'
+import { VTextField, VTextarea, VCheckbox, VSwitch, VSelect } from 'vuetify/lib'
 
 export default {
   name: 'Controls',
   components: {
     ContentCard,
-    VTiptapEditor,
+    VTextField,
     ETextField,
-    ETextarea,
-    ERichtext,
-    ECheckbox,
-    ESwitch,
-    ESelect,
-    EDatePicker,
-    ETimePicker,
     ApiTextField,
+    VTextarea,
+    ETextarea,
     ApiTextarea,
+    VTiptapEditor,
+    ERichtext,
     ApiRichtext,
+    VCheckbox,
+    ECheckbox,
     ApiCheckbox,
+    VSwitch,
+    ESwitch,
     ApiSwitch,
+    VSelect,
+    ESelect,
     ApiSelect,
+    EDatePicker,
     ApiDatePicker,
+    ETimePicker,
     ApiTimePicker,
+    EColorPicker,
+    ApiColorPicker,
   },
   data: () => ({
-    stdConfig: true,
-    filled: null,
-    outlined: null,
-    solo: null,
     placeholder: 'Dummy placeholder',
     persistentHint: false,
     hint: 'Dummy hint',
@@ -391,10 +126,143 @@ export default {
     selectValue: null,
     dateValue: '2020-01-01',
     timeValue: '2020-01-01T14:45:00+00:00',
+
+    headers: [
+      { text: 'Type', value: 'id' },
+      { text: 'v-input', value: 'v', sortable: false },
+      { text: 'e-input', value: 'e', sortable: false },
+      { text: 'api-input', value: 'api', sortable: false },
+      { text: 'api-input.autosave', value: 'api.autosave', sortable: false },
+    ],
   }),
   computed: {
+    items() {
+      return [
+        {
+          id: 'text-field',
+          component: (type) => `${type}-text-field`,
+          value: this.textfieldValue,
+          props: {
+            placeholder: this.placeholder,
+            fieldname: 'nickname',
+            uri: this.profileUri,
+          },
+        },
+        {
+          id: 'text-field.numeric',
+          component: (type) => `${type}-text-field`,
+          props: {
+            'v-model.number': this.textfieldValue,
+            placeholder: this.placeholder,
+            inputmode: 'numeric',
+            fieldname: 'quantity',
+            uri: this.materialUri,
+          },
+        },
+        {
+          id: 'textarea',
+          component: (type) => `${type}-textarea`,
+          value: this.textareaValue,
+          props: {
+            placeholder: this.placeholder,
+            rows: 3,
+            fieldname: 'data.html',
+            uri: this.singleTextUri,
+          },
+        },
+        {
+          id: 'richtext',
+          component: (type) => (type === 'v' ? 'v-tiptap-editor' : `${type}-richtext`),
+          value: this.richtextValue,
+          props: {
+            placeholder: this.placeholder,
+            rows: 3,
+            fieldname: 'data.html',
+            uri: this.singleTextUri,
+          },
+        },
+        {
+          id: 'select',
+          component: (type) => `${type}-select`,
+          value: this.selectValue,
+          props: {
+            fieldname: 'language',
+            placeholder: this.placeholder,
+            items: this.availableLocales,
+            uri: this.profileUri,
+          },
+        },
+        {
+          id: 'checkbox',
+          component: (type) => `${type}-checkbox`,
+          value: this.checkboxValue,
+          props: {
+            fieldname: 'printYSLogoOnPicasso',
+            uri: this.campUri,
+          },
+        },
+        {
+          id: 'switch',
+          component: (type) => `${type}-switch`,
+          value: this.checkboxValue,
+          props: {
+            fieldname: 'printYSLogoOnPicasso',
+            uri: this.campUri,
+          },
+        },
+        {
+          id: 'date-picker',
+          component: (type) => (type === 'v' ? '' : `${type}-date-picker`),
+          value: this.dateValue,
+          props: {
+            placeholder: this.placeholder,
+            fieldname: 'start',
+            uri: this.periodUri,
+          },
+        },
+        {
+          id: 'time-picker',
+          component: (type) => (type === 'v' ? '' : `${type}-time-picker`),
+          value: this.timeValue,
+          props: {
+            placeholder: this.placeholder,
+            'value-format': 'YYYY-MM-DDTHH:mm:ssZ',
+            fieldname: 'start',
+            uri: this.scheduleEntryUri,
+          },
+        },
+        {
+          id: 'color-picker',
+          component: (type) => (type === 'v' ? '' : `${type}-color-picker`),
+          value: this.colorValue,
+          props: {
+            placeholder: this.placeholder,
+            fieldname: 'color',
+            uri: this.categoryUri,
+          },
+        },
+      ]
+    },
     profileUri() {
-      return this.$store.state.auth.user.profile()._meta.self
+      return this.$store.state.auth.user?.profile()._meta.self ?? null
+    },
+    campUri() {
+      return '/api/camps/6973c230d6b1' // Harry Potter - Lager
+    },
+    periodUri() {
+      return '/api/periods/fe47dfd2b541' // Harry Potter - Hauptlager
+    },
+    categoryUri() {
+      return '/api/categories/e7559fc16388' // Harry Potter - Lageraktivität
+    },
+    materialUri() {
+      return '/api/material_items/04be1b6159dc' // Harry Potter- LA Lagerbau - Schatztruhe
+    },
+    singleTextUri() {
+      return '/api/content_node/single_texts/d5c2ece2bedf' // Harry Potter - LA Lagerbau - Roter Faden
+    },
+    scheduleEntryUri() {
+      return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
@@ -403,18 +271,10 @@ export default {
       }))
     },
     config() {
-      const c = {
+      return {
         hint: this.hint,
         'persistent-hint': this.persistentHint,
       }
-      if (!this.stdConfig) {
-        c.hint = this.hint
-        c['persistent-hint'] = this.persistentHint
-        c.solo = this.solo
-        c.filled = this.filled
-        c.outlined = this.outlined
-      }
-      return c
     },
   },
 }

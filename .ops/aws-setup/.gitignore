@@ -1,0 +1,4 @@
+/.aws
+/.pulumi
+/bin/
+/node_modules/

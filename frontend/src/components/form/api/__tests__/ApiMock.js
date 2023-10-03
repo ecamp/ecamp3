@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 function mockPromiseResolving(value) {
   return new Promise((resolve) => {
     const timer = setTimeout(() => {
@@ -35,8 +37,8 @@ class NetworkErrorMockStubbing extends MockStubbing {
 
 class ApiMockState {
   constructor() {
-    this._get = jest.fn()
-    this._patch = jest.fn()
+    this._get = vi.fn()
+    this._patch = vi.fn()
   }
 
   getMocks() {

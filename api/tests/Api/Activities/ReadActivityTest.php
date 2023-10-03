@@ -59,7 +59,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'location' => $activity->location,
             '_links' => [
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
-                // 'contentNodes' => ['href' => '/content_nodes?owner=%2Factivities%2F'.$activity->getId()],
+                'contentNodes' => ['href' => '/content_nodes?root='.urlencode($this->getIriFor('columnLayout1'))],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=%2Factivities%2F'.$activity->getId()],
@@ -93,7 +93,7 @@ class ReadActivityTest extends ECampApiTestCase {
         $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['self']['href']);
         $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['root']['href']);
         $this->assertContains(['href' => $this->getIriFor('multiSelect1')], $data['_embedded']['rootContentNode']['_links']['children']);
-        $this->assertEquals($this->getIriFor('materialNode1'), $data['_embedded']['contentNodes'][0]['_links']['self']['href']);
+        $this->assertEquals(10, count($data['_embedded']['contentNodes']));
     }
 
     public function testGetSingleActivityIsAllowedForManager() {
@@ -107,7 +107,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'location' => $activity->location,
             '_links' => [
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
-                // 'contentNodes' => ['href' => '/content_nodes?owner=%2Factivities%2F'.$activity->getId()],
+                'contentNodes' => ['href' => '/content_nodes?root='.urlencode($this->getIriFor('columnLayout1'))],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=%2Factivities%2F'.$activity->getId()],
@@ -131,5 +131,16 @@ class ReadActivityTest extends ECampApiTestCase {
                 'camp' => ['href' => $this->getIriFor('campPrototype')],
             ],
         ]);
+    }
+
+    public function testSqlQueryCount() {
+        /** @var Activity $activity */
+        $activity = static::$fixtures['activity1'];
+
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/activities/'.$activity->getId());
+
+        $this->assertSqlQueryCount($client, 31);
     }
 }

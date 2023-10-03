@@ -171,9 +171,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         return $this->camp ?? $this->category?->camp;
     }
 
-    /**
-     * @return Category
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('category')]
     #[Groups('Activity:Category')]
@@ -181,9 +178,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         return $this->category;
     }
 
-    /**
-     * @return ActivityProgressLabel
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('progressLabel')]
     #[Groups('Activity:ActivityProgressLabel')]

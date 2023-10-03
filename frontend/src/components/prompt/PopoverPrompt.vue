@@ -5,7 +5,7 @@
     offset-y
     :close-on-content-click="false"
     :close-on-click="true"
-    nudge-left="1"
+    allow-overflow
     v-bind="{ ...$attrs, ...positions }"
     @input="onInput"
   >
@@ -16,15 +16,15 @@
       <slot name="activator" />
     </div>
     <v-alert
-      :border="y === 'top' ? 'bottom' : 'bottom'"
+      border="bottom"
       colored-border
       type="error"
-      class="mb-0"
+      class="mb-0 pb-5"
       :class="{
-        'pb-5 rounded-tr-0': y === 'bottom' && x === 'left',
-        'pb-5 rounded-tl-0': y === 'bottom' && x === 'right',
-        'pb-5 rounded-br-0': y === 'top' && x === 'left',
-        'pb-5 rounded-bl-0': y === 'top' && x === 'right',
+        'rounded-tr-0': position === 'bottom' && align === 'right',
+        'rounded-tl-0': position === 'bottom' && align === 'left',
+        'rounded-br-0': position === 'top' && align === 'right',
+        'rounded-bl-0': position === 'top' && align === 'left',
       }"
     >
       <slot />
@@ -67,13 +67,13 @@ export default {
   name: 'PopoverPrompt',
   extends: DialogUiBase,
   props: {
-    x: {
+    position: {
+      type: String,
+      default: 'bottom',
+    },
+    align: {
       type: String,
       default: 'right',
-    },
-    y: {
-      type: String,
-      default: 'top',
     },
   },
   data: () => ({
@@ -82,30 +82,21 @@ export default {
   computed: {
     positions() {
       const positions = {}
-      if (this.x === 'left') {
-        positions.left = true
-      } else if (this.x === 'right') {
+      if (this.align === 'left') {
         positions.right = true
+      } else if (this.align === 'right') {
+        positions.left = true
       }
-      if (this.y === 'top') {
-        positions.top = true
+      if (this.position === 'top') {
         positions.nudgeBottom = 10
-      } else if (this.y === 'bottom') {
+        positions.top = true
+      } else if (this.position === 'bottom') {
         positions.bottom = true
       }
       return positions
     },
     contentClass() {
-      return (
-        'ec-popover-prompt ' +
-        (this.x === 'left'
-          ? this.y === 'bottom'
-            ? 'ec-popover-prompt--topright'
-            : 'ec-popover-prompt--bottomright'
-          : this.y === 'bottom'
-          ? 'ec-popover-prompt--topleft'
-          : 'ec-popover-prompt--bottomleft')
-      )
+      return `ec-popover-prompt ec-popover-prompt--position-${this.position} ec-popover-prompt--align-${this.align}`
     },
   },
   methods: {
@@ -158,27 +149,32 @@ export default {
   opacity: 0;
 }
 
-.ec-popover-prompt--topleft ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--align-left ::v-deep .ec-activator .v-btn {
   left: 0;
 }
 
-.ec-popover-prompt--topright ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--align-right ::v-deep .ec-activator .v-btn {
   right: 0;
 }
 
-.ec-popover-prompt--topleft ::v-deep .ec-activator .v-btn,
-.ec-popover-prompt--topright ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--position-bottom ::v-deep .ec-activator .v-btn {
   bottom: 100%;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.ec-popover-prompt--bottomleft ::v-deep .ec-activator .v-btn,
-.ec-popover-prompt--bottomright ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--position-top ::v-deep .ec-activator .v-btn {
   top: calc(100% - 10px);
   z-index: 10;
-  left: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 10px 10px 1px rgba(0, 0, 0, 0.14),
+    0 14px 14px 0 rgba(0, 0, 0, 0.12);
 }
 </style>

@@ -39,16 +39,6 @@ spec:
           env:
             - name: SERVER_NAME
               value: :3001
-            - name: MERCURE_PUBLISHER_JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "api.name" . }}
-                  key: mercure-jwt-secret
-            - name: MERCURE_SUBSCRIBER_JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "api.name" . }}
-                  key: mercure-jwt-secret
           ports:
             - name: api-http
               containerPort: {{ .Values.api.service.port }}
@@ -108,11 +98,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: php-jwt-passphrase
-            - name: MERCURE_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "api.name" . }}
-                  key: mercure-jwt-secret
             - name: RECAPTCHA_SECRET
               valueFrom:
                 secretKeyRef:

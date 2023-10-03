@@ -13,10 +13,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class AssertContentTypeCompatibleValidator extends ConstraintValidator {
     use ClassInfoTrait;
 
-    public function __construct() {
-    }
+    public function __construct() {}
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertContentTypeCompatible) {
             throw new UnexpectedTypeException($constraint, AssertContentTypeCompatible::class);
         }

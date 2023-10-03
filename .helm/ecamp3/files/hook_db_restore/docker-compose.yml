@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  restore-backup:
+    build:
+      context: ../db-backup-restore-image
+      dockerfile: Dockerfile
+    volumes:
+      - ./restore-backup.sh:/restore-backup.sh
+    command:
+      - sh
+      - "-x"
+      - /restore-backup.sh
+    env_file: .env

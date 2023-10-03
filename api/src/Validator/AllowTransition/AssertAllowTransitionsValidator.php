@@ -14,10 +14,9 @@ class AssertAllowTransitionsValidator extends ConstraintValidator {
     public const FROM_VIOLATION_MESSAGE = 'This value was previously in an unexpected state,'.
     ' expected one of {{ from }}, but was {{ previousValue }}';
 
-    public function __construct(public RequestStack $requestStack) {
-    }
+    public function __construct(public RequestStack $requestStack) {}
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertAllowTransitions) {
             throw new UnexpectedTypeException($constraint, AssertAllowTransitions::class);
         }

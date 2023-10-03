@@ -88,4 +88,12 @@ class ListActivitiesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('activity1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testSqlQueryCount() {
+        $client = static::createClientWithCredentials();
+        $client->enableProfiler();
+        $client->request('GET', '/activities');
+
+        $this->assertSqlQueryCount($client, 21);
+    }
 }

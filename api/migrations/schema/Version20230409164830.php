@@ -13,7 +13,7 @@ final class Version20230409164830 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
-        $this->addSql('CREATE EXTENSION pgcrypto');
+        $this->addSql('CREATE EXTENSION IF NOT EXISTS pgcrypto');
 
         // Test:
         // J+S
@@ -112,10 +112,7 @@ final class Version20230409164830 extends AbstractMigration {
             JOIN activity_progress_label lp on lp.campid = cp.id
             WHERE not exists (select 1 from activity_progress_label l where l.campid = c.id)
         ');
-
-        $this->addSql('DROP EXTENSION pgcrypto');
     }
 
-    public function down(Schema $schema): void {
-    }
+    public function down(Schema $schema): void {}
 }

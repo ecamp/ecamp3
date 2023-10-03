@@ -8,8 +8,8 @@ use App\DTO\Invitation;
 use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
 use App\Repository\UserRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @template-implements ProviderInterface<Invitation>
@@ -20,8 +20,7 @@ class InvitationProvider implements ProviderInterface {
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private UserRepository $userRepository,
         private CampCollaborationRepository $campCollaborationRepository
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException

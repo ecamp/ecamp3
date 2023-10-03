@@ -11,21 +11,21 @@
     :cancel-action="close"
   >
     <template #moreActions>
-      <PromptEntityDelete v-if="inactive" :entity="collaborator" x="left" y="top">
-        <template #activator="{ on, attrs }">
-          <ButtonDelete
-            class="v-btn--has-bg"
-            :disabled="disabled"
-            v-bind="attrs"
-            v-on="on"
-          />
-        </template>
+      <PromptEntityDelete
+        v-if="inactive"
+        :entity="collaborator"
+        align="left"
+        position="top"
+        :btn-attrs="{
+          class: 'v-btn--has-bg',
+          disabled,
+        }"
+      >
         {{
           $tc('components.collaborator.collaboratorEdit.delete', 0, {
             name: name,
           })
         }}
-        <br />
       </PromptEntityDelete>
       <IconButton
         v-if="collaborator.status === 'invited'"
@@ -76,7 +76,7 @@
         >
           <template #activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
-              <PromptCollaboratorDeactivate :entity="collaborator" x="left" y="bottom">
+              <PromptCollaboratorDeactivate :entity="collaborator">
                 <template #activator="{ on: onDialog, attrs: attrsDialog }">
                   <IconButton
                     color="secondary"
@@ -125,17 +125,16 @@ import DialogBase from '@/components/dialog/DialogBase.vue'
 import CollaboratorForm from '@/components/collaborator/CollaboratorForm.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import IconButton from '@/components/buttons/IconButton.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import PromptCollaboratorDeactivate from '@/components/collaborator/PromptCollaboratorDeactivate.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
+import campCollaborationDisplayName from '../../../../common/helpers/campCollaborationDisplayName'
 
 export default {
   name: 'CollaboratorEdit',
   components: {
     PromptEntityDelete,
-    ButtonDelete,
     CollaboratorListItem,
     DetailPane,
     CollaboratorForm,
@@ -179,9 +178,7 @@ export default {
       return this.$store.state.auth.user?.id === this.collaborator.user().id
     },
     name() {
-      return this.collaborator.user
-        ? this.collaborator.user().displayName
-        : this.collaborator.inviteEmail
+      return campCollaborationDisplayName(this.collaborator, this.$tc.bind(this), false)
     },
   },
   watch: {

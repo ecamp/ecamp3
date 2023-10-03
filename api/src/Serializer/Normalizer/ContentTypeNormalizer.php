@@ -19,8 +19,7 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         private UriTemplate $uriTemplate,
         private UriTemplateFactory $uriTemplateFactory,
         private IriConverterInterface $iriConverter,
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
@@ -44,7 +43,15 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         return $data;
     }
 
-    public function setSerializer(SerializerInterface $serializer) {
+    public function getSupportedTypes(?string $format): array {
+        if (method_exists($this->decorated, 'getSupportedTypes')) {
+            return $this->decorated->getSupportedTypes($format);
+        }
+
+        return ['*' => false];
+    }
+
+    public function setSerializer(SerializerInterface $serializer): void {
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
         }
