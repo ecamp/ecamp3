@@ -21,7 +21,6 @@
       :class="[inputClass]"
       :type="type"
       :hide-spin-buttons="true"
-      data-vv-validate-on="input"
       v-on="$listeners"
     >
       <!-- passing through all slots -->
