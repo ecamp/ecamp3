@@ -278,7 +278,7 @@ export default {
       return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
     },
     materialItemUri() {
-      return '/material_items/c585366c8675' // Lorem-ipsum - Gesamtübersicht
+      return '/material_items/470c48009755'
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
