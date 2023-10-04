@@ -1,10 +1,11 @@
 <template>
   <div>
     <e-text-field
-      v-model.number="localMaterialItem.quantity"
+      :value="localMaterialItem.quantity"
       :name="$tc('entity.materialItem.fields.quantity')"
-      inputmode="numeric"
+      inputmode="decimal"
       autofocus
+      @input="localMaterialItem.quantity = Number($event)"
     />
     <e-text-field
       v-model="localMaterialItem.unit"

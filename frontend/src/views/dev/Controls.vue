@@ -119,6 +119,7 @@ export default {
     hint: 'Dummy hint',
 
     textfieldValue: 'FFFFFFFFFF',
+    decimalTextFieldValue: 3.2,
     textareaValue: 'FFFFFFFFFF',
     richtextValue: '<p>FFFFFFFFFF</p>',
     checkboxValue: false,
@@ -157,6 +158,18 @@ export default {
             inputmode: 'numeric',
             fieldname: 'quantity',
             uri: this.materialUri,
+          },
+        },
+        {
+          id: 'text-field.decimal',
+          component: (type) => `${type}-text-field`,
+          props: {
+            value: this.decimalTextFieldValue,
+            'v-on:input': 'this.decimalTextFieldValue = Number($event)',
+            placeholder: this.placeholder,
+            inputmode: 'decimal',
+            fieldname: 'quantity',
+            uri: this.materialItemUri,
           },
         },
         {
@@ -263,6 +276,9 @@ export default {
     },
     scheduleEntryUri() {
       return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
+    },
+    materialItemUri() {
+      return '/material_items/c585366c8675' // Lorem-ipsum - Gesamtübersicht
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({

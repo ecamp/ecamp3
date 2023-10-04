@@ -9,11 +9,12 @@
     <td class="pt-1">
       <e-text-field
         ref="quantity"
-        v-model.number="materialItem.quantity"
+        :value="materialItem.quantity"
         dense
-        inputmode="numeric"
+        inputmode="decimal"
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity"
+        @input="materialItem.quantity = Number($event)"
       />
     </td>
     <td class="pt-1">

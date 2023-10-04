@@ -7,6 +7,7 @@
     :vid="veeId"
     :rules="dynamicRules"
     :required="required"
+    :mode="eagerIfChanged"
     class="e-form-container"
   >
     <v-text-field
@@ -20,6 +21,7 @@
       :class="[inputClass]"
       :type="type"
       :hide-spin-buttons="true"
+      data-vv-validate-on="input"
       v-on="$listeners"
     >
       <!-- passing through all slots -->
@@ -35,6 +37,7 @@
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
+import { eagerIfChanged } from '@/helpers/veeValidateCustomInteractionMode'
 
 export default {
   name: 'ETextField',
@@ -54,13 +57,15 @@ export default {
           this.$attrs.inputmode === 'decimal'
             ? { double: { separator: 'comma' } }
             : { numeric: true }
-        return { ...rule, ...this.veeRules }
+        // if there is an existing rule, don't overwrite
+        return { ...this.veeRules, ...rule }
       }
       const rule = this.$attrs.inputmode === 'decimal' ? 'double:0comma' : 'numeric'
       return `${this.veeRules}${this.veeRules?.length === 0 ? '' : '|'}${rule}`
     },
   },
   methods: {
+    eagerIfChanged,
     focus() {
       this.$refs.textField.focus()
     },
