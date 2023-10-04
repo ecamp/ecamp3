@@ -20,7 +20,7 @@
       :label="label || name"
       :class="[inputClass]"
       :type="type"
-      :hide-spin-buttons="true"
+      :hide-spin-buttons="type === 'number'"
       v-on="$listeners"
     >
       <!-- passing through all slots -->
