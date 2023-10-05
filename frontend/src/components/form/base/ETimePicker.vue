@@ -118,10 +118,8 @@ export default {
      */
     parse(val) {
       if (val) {
-        const parsedDateTime = this.$date(val, 'LT')
-        const formatted = parsedDateTime.format('LT')
-        const valIgnoringLeadingZero = val.replace(/^0([1-9].+)/, '$1')
-        if (parsedDateTime.isValid() && formatted === valIgnoringLeadingZero) {
+        const parsedDateTime = this.$date.utc(val, 'LT')
+        if (parsedDateTime.isValid() && parsedDateTime.format('LT') === val) {
           const newValue = this.setTimeOnValue(parsedDateTime)
           return Promise.resolve(newValue)
         } else {

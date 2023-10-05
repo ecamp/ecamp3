@@ -224,6 +224,10 @@ describe('An ETimePicker', () => {
           from: time1Config,
           to: time2Config,
         },
+        {
+          from: time2Config,
+          to: time1Config,
+        },
       ])(
         `from $from.localizedTime to $to.localizedTime`,
         async ({
