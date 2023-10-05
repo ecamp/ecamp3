@@ -211,28 +211,82 @@ describe('An ETimePicker', () => {
     })
 
     describe('updates v-model when the input field is changed', async () => {
-      const time1Config = {
+      const timeConfig1 = {
         iso: TIME1_ISO,
         localizedTime: data.time1,
+        textInput: data.time1,
       }
-      const time2Config = {
+      const timeConfig2 = {
         iso: TIME2_ISO,
         localizedTime: data.time2,
+        textInput: data.time2,
+      }
+      const timeConfig3 = {
+        iso: TIME3_ISO,
+        localizedTime: data.time3,
+        textInput: data.time3,
       }
       it.each([
         {
-          from: time1Config,
-          to: time2Config,
+          from: timeConfig1,
+          to: timeConfig2,
         },
         {
-          from: time2Config,
-          to: time1Config,
+          from: timeConfig2,
+          to: timeConfig1,
+        },
+        {
+          from: timeConfig1,
+          to: timeConfig3,
+        },
+        //with leading zero
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig2,
+            textInput: '0' + timeConfig2.localizedTime,
+          },
+        },
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig2,
+            textInput: '0000' + timeConfig2.localizedTime,
+          },
+        },
+        {
+          from: timeConfig2,
+          to: {
+            ...timeConfig1,
+            textInput: '0' + timeConfig1.localizedTime,
+          },
+        },
+        {
+          from: timeConfig2,
+          to: {
+            ...timeConfig1,
+            textInput: '00000' + timeConfig1.localizedTime,
+          },
+        },
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig3,
+            textInput: '0' + timeConfig3.localizedTime,
+          },
+        },
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig3,
+            textInput: '00000' + timeConfig3.localizedTime,
+          },
         },
       ])(
-        `from $from.localizedTime to $to.localizedTime`,
+        `from $from.localizedTime to $to.textInput`,
         async ({
           from: { iso: fromIso, localizedTime: fromLocalizedTime },
-          to: { iso: toIso, localizedTime: toLocalizedTime },
+          to: { iso: toIso, localizedTime: toLocalizedTime, textInput },
         }) => {
           // given
           const { emitted } = render(ETimePicker, {
@@ -242,7 +296,7 @@ describe('An ETimePicker', () => {
 
           // when
           await user.clear(inputField)
-          await user.keyboard(toLocalizedTime)
+          await user.keyboard(textInput)
 
           // then
           await waitFor(async () => {
@@ -303,19 +357,26 @@ describe('An ETimePicker', () => {
       ).rejects.toThrow(/Received element is visible/)
     })
 
-    it('validates the input', async () => {
-      // given
-      render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+    describe('validates the input', async () => {
+      it.each([
+        data.timeInWrongLocale,
+        'a' + data.time1,
+        data.time2 + 'a',
+        '0000:a' + data.time3,
+      ])('%s', async (textInput) => {
+        // given
+        render(ETimePicker, {
+          props: { value: TIME1_ISO, name: 'test' },
+        })
+        const inputField = await screen.findByDisplayValue(data.time1)
+
+        // when
+        await user.clear(inputField)
+        await user.keyboard(textInput)
+
+        // then
+        await screen.findByText(data.validationMessage)
       })
-      const inputField = await screen.findByDisplayValue(data.time1)
-
-      // when
-      await user.clear(inputField)
-      await user.keyboard(data.timeInWrongLocale)
-
-      // then
-      await screen.findByText(data.validationMessage)
     })
 
     it('works with invalid initialization', async () => {
