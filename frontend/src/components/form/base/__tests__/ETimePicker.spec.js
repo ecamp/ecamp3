@@ -210,33 +210,54 @@ describe('An ETimePicker', () => {
       ).rejects.toThrow(/Received element is visible/)
     })
 
-    it('updates v-model when the input field is changed', async () => {
-      // given
-      const { emitted } = render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
-      })
-      const inputField = await screen.findByDisplayValue(data.time1)
+    describe('updates v-model when the input field is changed', async () => {
+      const time1Config = {
+        iso: TIME1_ISO,
+        localizedTime: data.time1,
+      }
+      const time2Config = {
+        iso: TIME2_ISO,
+        localizedTime: data.time2,
+      }
+      it.each([
+        {
+          from: time1Config,
+          to: time2Config,
+        },
+      ])(
+        `from $from.localizedTime to $to.localizedTime`,
+        async ({
+          from: { iso: fromIso, localizedTime: fromLocalizedTime },
+          to: { iso: toIso, localizedTime: toLocalizedTime },
+        }) => {
+          // given
+          const { emitted } = render(ETimePicker, {
+            props: { value: fromIso, name: 'test' },
+          })
+          const inputField = await screen.findByDisplayValue(fromLocalizedTime)
 
-      // when
-      await user.clear(inputField)
-      await user.keyboard(data.time2)
+          // when
+          await user.clear(inputField)
+          await user.keyboard(toLocalizedTime)
 
-      // then
-      await waitFor(async () => {
-        const events = emitted().input
-        // some input events were fired
-        expect(events.length).toBeGreaterThan(0)
-        // the last one included the parsed version of our entered time
-        expect(events[events.length - 1]).toEqual([TIME2_ISO])
-      })
-      // Our entered time should be visible...
-      screen.getByDisplayValue(data.time2)
-      // ...and stay visible
-      await expect(
-        waitFor(() => {
-          expect(screen.getByDisplayValue(data.time2)).not.toBeVisible()
-        })
-      ).rejects.toThrow(/Received element is visible/)
+          // then
+          await waitFor(async () => {
+            const events = emitted().input
+            // some input events were fired
+            expect(events.length).toBeGreaterThan(0)
+            // the last one included the parsed version of our entered time
+            expect(events[events.length - 1]).toEqual([toIso])
+          })
+          // Our entered time should be visible...
+          screen.getByDisplayValue(toLocalizedTime)
+          // ...and stay visible
+          await expect(
+            waitFor(() => {
+              expect(screen.getByDisplayValue(toLocalizedTime)).not.toBeVisible()
+            })
+          ).rejects.toThrow(/Received element is visible/)
+        }
+      )
     })
 
     it('updates v-model when a new time is selected in the picker', async () => {
