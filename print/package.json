@@ -32,7 +32,7 @@
     "isomorphic-dompurify": "1.9.0",
     "lodash": "4.17.21",
     "nuxt": "2.17.1",
-    "puppeteer-core": "21.3.7",
+    "puppeteer-core": "21.3.8",
     "runes": "0.4.3"
   },
   "devDependencies": {
