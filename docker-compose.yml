@@ -152,10 +152,10 @@ services:
         protocol: tcp
 
   mail:
-    image: mailhog/mailhog
+    image: maildev/maildev
     container_name: 'ecamp3-mail'
     environment:
-      - MH_UI_WEB_PATH=/mail
+      - MAILDEV_BASE_PATHNAME=/mail
 
   docker-host:
     image: qoomon/docker-host
