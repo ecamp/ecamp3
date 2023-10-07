@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@intlify/core": "9.5.0",
-    "@mdi/font": "7.2.96",
+    "@mdi/font": "7.3.67",
     "@react-pdf/font": "2.3.6",
     "@react-pdf/layout": "3.6.2",
     "@react-pdf/pdfkit": "3.0.2",
