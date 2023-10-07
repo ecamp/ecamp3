@@ -3,6 +3,7 @@ fos_http_cache:
         enabled: true
         annotations:
             enabled: false
+        max_header_value_length: 4096
     proxy_client:
         varnish:
             tag_mode: purgekeys

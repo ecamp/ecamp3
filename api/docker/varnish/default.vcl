@@ -69,4 +69,15 @@ sub vcl_beresp_cookie {
 sub vcl_deliver {
   call fos_tags_xkey_deliver;
   call fos_debug_deliver;
+  
+  # Add X-Cache header if debugging is enabled
+  if (resp.http.X-Cache-Debug) {
+      if (obj.hits > 0) {
+        set resp.http.X-Cache = "HIT";
+      } else if (obj.uncacheable) {
+        set resp.http.X-Cache = "PASS";
+      } else {
+        set resp.http.X-Cache = "MISS";
+      }
+  }
 }
