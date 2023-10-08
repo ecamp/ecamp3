@@ -5,21 +5,19 @@ const path = require('path')
 
 describe('HTTP cache tests', () => {
   it('caches /content_types separately for each login', () => {
-    const uri = '/content_types'
+    const uri = '/api/content_types'
 
     Cypress.session.clearAllSavedSessions()
     cy.login('test@example.com')
 
     // first request is a cache miss
-    cy.request(Cypress.env('API_ROOT_URL_CACHED') + '/api/content_types.jsonhal').then(
-      (response) => {
-        const headers = response.headers
-        expect(headers.xkey).to.eq(
-          'f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
-        )
-        expect(headers['x-cache']).to.eq('MISS')
-      }
-    )
+    cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+      const headers = response.headers
+      expect(headers.xkey).to.eq(
+        'f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
+      )
+      expect(headers['x-cache']).to.eq('MISS')
+    })
 
     // second request is a cache hit
     cy.expectCacheHit(uri)
@@ -39,10 +37,17 @@ describe('HTTP cache tests', () => {
     cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
       const headers = response.headers
       expect(headers.xkey).to.eq(
-        'ebfd46a1c181 ebfd46a1c181#camp ebfd46a1c181#preferredContentTypes 9d7b3a220fb4 9d7b3a220fb4#root 9d7b3a220fb4#parent 9d7b3a220fb4#children 9d7b3a220fb4#contentType ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
+        /* campCollaboration for test@example.com */
+        'b0bdb7202a9d ' +
+          /* Category ES */
+          'ebfd46a1c181 ebfd46a1c181#camp ebfd46a1c181#preferredContentTypes 9d7b3a220fb4 9d7b3a220fb4#root 9d7b3a220fb4#parent 9d7b3a220fb4#children 9d7b3a220fb4#contentType ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
+          /* Category LA */
           '1a869b162875 1a869b162875#camp 1a869b162875#preferredContentTypes be9b6b7f23f6 be9b6b7f23f6#root be9b6b7f23f6#parent be9b6b7f23f6#children be9b6b7f23f6#contentType 1a869b162875#rootContentNode 1a869b162875#contentNodes ' +
+          /* Category LP */
           'dfa531302823 dfa531302823#camp dfa531302823#preferredContentTypes 63cbc734fa04 63cbc734fa04#root 63cbc734fa04#parent 63cbc734fa04#children 63cbc734fa04#contentType dfa531302823#rootContentNode dfa531302823#contentNodes ' +
+          /* Category LS */
           'a023e85227ac a023e85227ac#camp a023e85227ac#preferredContentTypes 2cce9e17a368 2cce9e17a368#root 2cce9e17a368#parent 2cce9e17a368#children 2cce9e17a368#contentType a023e85227ac#rootContentNode a023e85227ac#contentNodes ' +
+          /* collection URI (for detecting addition of new categories) */
           '/api/camps/3c79b99ab424/categories'
       )
       expect(headers['x-cache']).to.eq('MISS')
@@ -103,9 +108,6 @@ describe('HTTP cache tests', () => {
     }).then((response) => {
       const newContentNodeUri = response.body._links.self.href
 
-      console.log(response)
-      console.log(newContentNodeUri)
-
       // ensure cache was invalidated
       cy.expectCacheMiss(uri)
       cy.expectCacheHit(uri)
@@ -146,9 +148,12 @@ describe('HTTP cache tests', () => {
     )
   }
 
-  it.only('invalidates cached data when user leaves a camp', () => {
+  it('invalidates cached data when user leaves a camp', () => {
     Cypress.session.clearAllSavedSessions()
     const uri = '/api/camps/3c79b99ab424/categories'
+
+    cy.intercept('PATCH', '/api/camp_collaborations/**').as('camp_collaboration')
+    cy.intercept('PATCH', '/api/invitations/**').as('invitations')
 
     // warm up cache
     cy.login('castor@example.com')
@@ -161,10 +166,16 @@ describe('HTTP cache tests', () => {
     cy.get('.v-list-item__title:contains("Castor")').click()
     cy.get('button:contains("Deaktivieren")').click()
     cy.get('div[role=alert]').find('button').contains('Deaktivieren').click()
+    cy.wait('@camp_collaboration')
 
     // ensure cache was invalidated
     cy.login('castor@example.com')
-    cy.expectCacheMiss(uri)
+    cy.request({
+      url: Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(403)
+    })
 
     // delete old emails
     cy.visit('localhost:3000/mail')
@@ -177,19 +188,20 @@ describe('HTTP cache tests', () => {
     cy.visit('/camps/3c79b99ab424/GRGR/admin/collaborators')
     cy.get('.v-list-item__title:contains("Castor")').click()
     cy.get('button:contains("Erneut einladen")').click()
-    cy.wait(100)
+    cy.wait('@camp_collaboration')
 
     // accept invitation as Castor
     cy.login('castor@example.com')
     cy.visit('localhost:3000/mail')
     cy.get('a').contains('[eCamp3] Du wurdest ins Lager "Pfila 2023" eingeladen').click()
-    cy.wait(400)
+    cy.wait(200)
     getIframeBody()
       .find('a')
       .then(($a) => {
         const href = $a.prop('href')
         cy.visit(href)
         cy.get('button').contains('Einladung mit aktuellem Account akzeptieren').click()
+        cy.wait('@invitations')
         cy.visit('/camps')
         cy.contains('GRGR')
       })
