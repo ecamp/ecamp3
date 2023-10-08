@@ -1,5 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 
+const { verify } = require('crypto')
 const path = require('path')
 
 describe('HTTP cache tests', () => {
@@ -115,5 +116,82 @@ describe('HTTP cache tests', () => {
       // ensure cache was invalidated
       cy.expectCacheMiss(uri)
     })
+  })
+
+  const getIframeDocument = () => {
+    return (
+      cy
+        .get('iframe.panel-html')
+        // Cypress yields jQuery element, which has the real
+        // DOM element under property "0".
+        // From the real DOM iframe element we can get
+        // the "document" element, it is stored in "contentDocument" property
+        // Cypress "its" command can access deep properties using dot notation
+        // https://on.cypress.io/its
+        .its('0.contentDocument')
+        .should('exist')
+    )
+  }
+
+  const getIframeBody = () => {
+    // get the document
+    return (
+      getIframeDocument()
+        // automatically retries until body is loaded
+        .its('body')
+        .should('not.be.undefined')
+        // wraps "body" DOM element to allow
+        // chaining more Cypress commands, like ".find(...)"
+        .then(cy.wrap)
+    )
+  }
+
+  it.only('invalidates cached data when user leaves a camp', () => {
+    Cypress.session.clearAllSavedSessions()
+    const uri = '/api/camps/3c79b99ab424/categories'
+
+    // warm up cache
+    cy.login('castor@example.com')
+    cy.expectCacheMiss(uri)
+    cy.expectCacheHit(uri)
+
+    // deactivate Castor
+    cy.login('test@example.com')
+    cy.visit('/camps/3c79b99ab424/GRGR/admin/collaborators')
+    cy.get('.v-list-item__title:contains("Castor")').click()
+    cy.get('button:contains("Deaktivieren")').click()
+    cy.get('div[role=alert]').find('button').contains('Deaktivieren').click()
+
+    // ensure cache was invalidated
+    cy.login('castor@example.com')
+    cy.expectCacheMiss(uri)
+
+    // delete old emails
+    cy.visit('localhost:3000/mail')
+    cy.get('a[title="Delete all emails"]').click()
+    cy.wait(50)
+    cy.get('a[title="Delete all emails"]').click()
+
+    // invite Castor
+    cy.login('test@example.com')
+    cy.visit('/camps/3c79b99ab424/GRGR/admin/collaborators')
+    cy.get('.v-list-item__title:contains("Castor")').click()
+    cy.get('button:contains("Erneut einladen")').click()
+    cy.wait(100)
+
+    // accept invitation as Castor
+    cy.login('castor@example.com')
+    cy.visit('localhost:3000/mail')
+    cy.get('a').contains('[eCamp3] Du wurdest ins Lager "Pfila 2023" eingeladen').click()
+    cy.wait(400)
+    getIframeBody()
+      .find('a')
+      .then(($a) => {
+        const href = $a.prop('href')
+        cy.visit(href)
+        cy.get('button').contains('Einladung mit aktuellem Account akzeptieren').click()
+        cy.visit('/camps')
+        cy.contains('GRGR')
+      })
   })
 })
