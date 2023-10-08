@@ -47,10 +47,10 @@ class ResponseSnapshotTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()
             ->request(
                 'GET',
-                '/docs.json',
+                '/docs.jsonopenapi',
                 [
                     'headers' => [
-                        'accept' => 'application/json',
+                        'accept' => 'application/vnd.openapi+json',
                     ],
                 ]
             )

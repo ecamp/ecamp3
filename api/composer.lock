@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1aaaebb030f235c8115806eaa53a857e",
+    "content-hash": "e125cd96e471a137ddcafb682725cd2f",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v3.1.20",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "0fb35cd1424ca1100194ab0b76103547068513f3"
+                "reference": "13aa25cd319ee5d45ce28d1e98e43b01f6132499"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/0fb35cd1424ca1100194ab0b76103547068513f3",
-                "reference": "0fb35cd1424ca1100194ab0b76103547068513f3",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/13aa25cd319ee5d45ce28d1e98e43b01f6132499",
+                "reference": "13aa25cd319ee5d45ce28d1e98e43b01f6132499",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "doctrine/mongodb-odm": "<2.4",
                 "doctrine/orm": "<2.14.0",
                 "doctrine/persistence": "<1.3",
-                "elasticsearch/elasticsearch": ">=8.0",
+                "elasticsearch/elasticsearch": ">=8.0,<8.4",
                 "phpspec/prophecy": "<1.15",
                 "phpunit/phpunit": "<9.5",
                 "symfony/var-exporter": "<6.1.1"
@@ -56,7 +56,7 @@
                 "doctrine/mongodb-odm": "^2.2",
                 "doctrine/mongodb-odm-bundle": "^4.0",
                 "doctrine/orm": "^2.14",
-                "elasticsearch/elasticsearch": "^7.11.0",
+                "elasticsearch/elasticsearch": "^7.11 || ^8.4",
                 "friends-of-behat/mink-browserkit-driver": "^1.3.1",
                 "friends-of-behat/mink-extension": "^2.2",
                 "friends-of-behat/symfony-extension": "^2.1",
@@ -99,6 +99,7 @@
                 "symfony/routing": "^6.1",
                 "symfony/security-bundle": "^6.1",
                 "symfony/security-core": "^6.1",
+                "symfony/stopwatch": "^6.1",
                 "symfony/twig-bundle": "^6.1",
                 "symfony/uid": "^6.1",
                 "symfony/validator": "^6.1",
@@ -165,9 +166,9 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v3.1.20"
+                "source": "https://github.com/api-platform/core/tree/v3.2.1"
             },
-            "time": "2023-10-11T15:29:22+00:00"
+            "time": "2023-10-18T07:46:05+00:00"
         },
         {
             "name": "behat/transliterator",

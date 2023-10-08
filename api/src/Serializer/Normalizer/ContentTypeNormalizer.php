@@ -2,7 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use App\Entity\ContentType;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Rize\UriTemplate;

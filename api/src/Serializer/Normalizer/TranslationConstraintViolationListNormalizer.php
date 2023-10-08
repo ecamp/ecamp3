@@ -15,7 +15,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 class TranslationConstraintViolationListNormalizer implements NormalizerInterface {
     public function __construct(
         private readonly AbstractConstraintViolationListNormalizer $hydraNormalizer,
-        private readonly AbstractConstraintViolationListNormalizer $problemNormalizer,
+        private readonly AbstractConstraintViolationListNormalizer $halNormalizer,
         private readonly TranslationInfoOfConstraintViolation $translationInfoOfConstraintViolation,
         private readonly TranslateToAllLocalesService $translateToAllLocalesService
     ) {}
@@ -33,7 +33,7 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
 
         /** @var ConstraintViolationList $object */
         foreach ($object as $violation) {
-            foreach ($result['violations'] as &$resultItem) {
+            foreach ($result as &$resultItem) {
                 $code = $resultItem['code'] ?? null;
                 $propertyPath = $resultItem['propertyPath'];
                 $message = $resultItem['message'] ?? null;
@@ -80,6 +80,6 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
     }
 
     private function getNormalizerCollection(): ArrayCollection {
-        return new ArrayCollection([$this->hydraNormalizer, $this->problemNormalizer]);
+        return new ArrayCollection([$this->hydraNormalizer, $this->halNormalizer]);
     }
 }
