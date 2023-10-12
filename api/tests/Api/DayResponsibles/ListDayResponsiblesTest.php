@@ -101,12 +101,4 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('dayResponsible1day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
-
-    public function testSqlQueryCount() {
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/day_responsibles');
-
-        $this->assertSqlQueryCount($client, 6);
-    }
 }

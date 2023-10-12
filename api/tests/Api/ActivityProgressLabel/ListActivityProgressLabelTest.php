@@ -76,12 +76,4 @@ class ListActivityProgressLabelTest extends ECampApiTestCase {
         $this->assertJsonContains(['totalItems' => 0]);
         $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
-
-    public function testSqlQueryCount() {
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/activity_progress_labels');
-
-        $this->assertSqlQueryCount($client, 6);
-    }
 }

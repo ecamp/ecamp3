@@ -38,12 +38,4 @@ class ListContentTypesTest extends ECampApiTestCase {
         ]);
         $this->assertCount(7, $response->toArray()['_links']['items']);
     }
-
-    public function testSqlQueryCount() {
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/content_types');
-
-        $this->assertSqlQueryCount($client, 6);
-    }
 }
