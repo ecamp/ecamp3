@@ -74,16 +74,16 @@ export default {
           name: 'aside-main',
           icon: 'layoutAsideMain',
           items: [
-            { slot: '0', grow: 1, basis: '320px', direction: 'row' },
-            { slot: '1', grow: 3, basis: '480px', direction: 'column' },
+            { slot: '0', grow: 1, basis: 'min(320px,100%)', direction: 'row' },
+            { slot: '1', grow: 3, basis: 'min(480px,100%)', direction: 'column' },
           ],
         },
         {
           name: 'main-aside',
           icon: 'layoutMainAside',
           items: [
-            { slot: '0', grow: 3, basis: '480px', direction: 'column' },
-            { slot: '1', grow: 1, basis: '320px', direction: 'row' },
+            { slot: '0', grow: 3, basis: 'min(480px,100%)', direction: 'column' },
+            { slot: '1', grow: 1, basis: 'min(320px,100%)', direction: 'row' },
           ],
         },
       ],
