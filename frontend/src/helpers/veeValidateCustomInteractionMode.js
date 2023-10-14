@@ -1,9 +1,8 @@
 const eagerIfChanged = ({ errors, flags }) => {
-  const debounce = 350 /// 350 ms for debounce
   if (flags.pristine) {
     return {
       on: ['input'],
-      debounce,
+      debounce: 1000, // 1 sec debounce,
     }
   }
 
@@ -15,7 +14,7 @@ const eagerIfChanged = ({ errors, flags }) => {
 
   return {
     on: ['change', 'blur'],
-    debounce
+    debounce: 500,
   }
 }
 export { eagerIfChanged }
