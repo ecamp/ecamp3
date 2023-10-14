@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -87,7 +87,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -116,7 +116,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -145,7 +145,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -248,7 +248,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -292,7 +292,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -332,7 +332,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.8.0'
+          node-version: '20.8.1'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
