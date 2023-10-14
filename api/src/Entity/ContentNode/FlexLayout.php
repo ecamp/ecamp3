@@ -110,33 +110,6 @@ class FlexLayout extends ContentNode implements SupportsContentNodeChildren {
         return parent::getData();
     }
 
-    /**
-     * @return ContentNode[]
-     */
-    public function getRootDescendants(): array {
-        return $this->rootDescendants->getValues();
-    }
-
-    public function addRootDescendant(ContentNode $rootDescendant): self {
-        if (!$this->rootDescendants->contains($rootDescendant)) {
-            $this->rootDescendants[] = $rootDescendant;
-            $rootDescendant->root = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeRootDescendant(ContentNode $rootDescendant): self {
-        if ($this->rootDescendants->removeElement($rootDescendant)) {
-            // reset the owning side (unless already changed)
-            if ($rootDescendant->root === $this) {
-                $rootDescendant->root = null;
-            }
-        }
-
-        return $this;
-    }
-
     public function getSupportedSlotNames(): array {
         $items = new ArrayCollection($this->getData()['items']);
 
