@@ -1,8 +1,11 @@
+import { apiPropsMixin } from '@/mixins/apiPropsMixin'
+
 const eagerIfChanged = ({ errors, flags }) => {
+  const debounce = apiPropsMixin.props.autoSaveDelay.default
   if (flags.pristine) {
     return {
       on: ['input'],
-      debounce: 1000, // 1 sec debounce,
+      debounce,
     }
   }
 
@@ -14,7 +17,7 @@ const eagerIfChanged = ({ errors, flags }) => {
 
   return {
     on: ['change', 'blur'],
-    debounce: 500,
+    debounce,
   }
 }
 export { eagerIfChanged }
