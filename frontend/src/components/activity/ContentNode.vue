@@ -20,9 +20,11 @@ import LAThematicArea from './content/LAThematicArea.vue'
 import SafetyConcept from './content/SafetyConcept.vue'
 import Storyboard from './content/Storyboard.vue'
 import Storycontext from './content/Storycontext.vue'
+import FlexLayout from './content/FlexLayout.vue'
 
 const contentNodeComponents = {
   ColumnLayout,
+  FlexLayout,
   Notes,
   Material,
   LAThematicArea,
@@ -45,7 +47,6 @@ export default {
 
 <style lang="scss">
 .content-node:not(.draggable) + .content-node:not(.draggable) {
-  border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 0 !important;
 }
 

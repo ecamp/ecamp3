@@ -13,8 +13,17 @@
           "name": "Column"
         }
       },
-      "icon": "mdi-format-columns",
+      "icon": "mdi-view-column",
       "name": "Column layout"
+    },
+    "flexLayout": {
+      "entity": {
+        "item": {
+          "name": "Item"
+        }
+      },
+      "icon": "mdi-view-compact",
+      "name": "Flex layout"
     },
     "laThematicArea": {
       "entity": {
