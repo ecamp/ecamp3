@@ -38,8 +38,6 @@ import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 import { eagerIfChanged } from '@/helpers/veeValidateCustomInteractionMode'
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'ENumberField',
   components: { ValidationProvider },
