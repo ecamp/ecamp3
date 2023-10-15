@@ -29,6 +29,7 @@ import vuetifyEn from 'vuetify/lib/locale/en'
 import vuetifyDe from 'vuetify/lib/locale/de'
 import vuetifyFr from 'vuetify/lib/locale/fr'
 import vuetifyIt from 'vuetify/lib/locale/it'
+import { numberFormats } from '@/plugins/i18n/numberLocalization'
 
 Vue.use(VueI18n)
 
@@ -94,6 +95,7 @@ const i18n = new VueI18n({
     },
   ]),
   silentTranslationWarn: true,
+  numberFormats,
 })
 
 Object.defineProperty(i18n, 'browserPreferredLocale', {
