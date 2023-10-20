@@ -302,7 +302,7 @@ function leftAndWith(scheduleEntries) {
 }
 
 /**
- * Calculates the positions styls (in percentages) for all scheduleEntries
+ * Calculates the positions styles (in percentages) for all scheduleEntries
  */
 export function positionStyles(scheduleEntries, day, times) {
   const leftAndWidth = leftAndWith(scheduleEntries)
