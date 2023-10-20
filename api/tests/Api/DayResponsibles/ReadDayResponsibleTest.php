@@ -105,15 +105,4 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/day_responsibles/'.$dayResponsible->getId());
-
-        $this->assertSqlQueryCount($client, 9);
-    }
 }

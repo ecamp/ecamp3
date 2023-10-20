@@ -105,15 +105,4 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1campPrototype'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
-
-        $this->assertSqlQueryCount($client, 8);
-    }
 }

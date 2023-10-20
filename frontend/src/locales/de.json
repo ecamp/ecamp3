@@ -55,10 +55,11 @@
       },
       "campConditionalFields": {
         "course": {
-          "title": "Weitere Felder für Kurse"
+          "title": "Kurse"
         },
+        "title": "Einstellungen für J+S",
         "ysCamp": {
-          "title": "Weitere Felder für J+S-Lager"
+          "title": "Lager"
         }
       },
       "campDangerZone": {
@@ -91,7 +92,7 @@
         "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen"
       },
       "campSettings": {
-        "title": "Einstellungen"
+        "title": "Beschreibung"
       },
       "createCampPeriods": {
         "add": "Weiteren Lagerabschnitt hinzufügen"
@@ -104,6 +105,9 @@
       },
       "dialogMaterialListCreate": {
         "title": "Materialliste erstellen"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Materialliste bearbeiten"
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
@@ -199,7 +203,7 @@
         "addNewItem": "Eintrag hinzufügen",
         "noItems": "Keine Einträge gefunden",
         "periodOnly": "Filter: Lagerabschnitt",
-        "reference": "Aktivität\u00a0/ Abschnitt"
+        "reference": "Aktivität / Abschnitt"
       },
       "useMaterialViewHelper": {
         "detail": "Materialliste",
@@ -241,6 +245,21 @@
       "localPdfDownloadButton": {
         "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
       },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "PDF herunterladen (Layout #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "PDF herunterladen (Layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        },
+        "printPreviewClient": {
+          "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
+          "previewIframeTitle": "Druckvorschau"
+        }
+      },
       "printConfigurator": {
         "add": "Inhalt hinzufügen",
         "config": {
@@ -265,21 +284,6 @@
         },
         "printPreviewNuxt": {
           "openPreview": "Vorschau in neuem Fenster öffnen",
-          "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
-          "previewIframeTitle": "Druckvorschau"
-        }
-      },
-      "printClient": {
-        "downloadClientPdfButton": {
-          "label": "PDF herunterladen (Layout #2)"
-        },
-        "downloadClientPdfListItem": {
-          "label": "PDF herunterladen (Layout #2)"
-        },
-        "generatePdfMixin": {
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
-        },
-        "printPreviewClient": {
           "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
           "previewIframeTitle": "Druckvorschau"
         }
@@ -392,6 +396,11 @@
     "language": "Deutsch",
     "loading": "Laden …",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
@@ -415,6 +424,36 @@
       "sideBarProgram": {
         "title": "Tagesübersicht"
       }
+    },
+    "admin": {
+      "activity": {
+        "title": "Aktivitätseinstellungen"
+      },
+      "collaborators": {
+        "email": "E-Mail-Adresse",
+        "inactiveCollaborators": "Inaktiv",
+        "members": "Mitarbeitende",
+        "openInvitations": "Offene Einladungen",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Lagerinfos"
+      },
+      "materialLists": {
+        "title": "Materiallisten"
+      },
+      "print": {
+        "title": "Lager drucken"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Aktivitäten",
+        "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
+        "itemCollaborators": "Team",
+        "itemInfos": "Lagerinfos",
+        "itemMaterialLists": "Materiallisten",
+        "itemPrint": "PDF / Drucken"
+      },
+      "title": "Admin"
     },
     "auth": {
       "activate": {
@@ -476,21 +515,10 @@
       }
     },
     "camp": {
-      "admin": {
-        "collaborators": "Team verwalten",
-        "title": "Admin"
-      },
       "campProgram": {
         "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
         "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
         "title": "Grobprogramm"
-      },
-      "collaborators": {
-        "email": "E-Mail-Adresse",
-        "inactiveCollaborators": "Inaktiv",
-        "members": "Mitarbeitende",
-        "openInvitations": "Offene Einladungen",
-        "title": "Team"
       },
       "dashboard": {
         "activities": "Aktivitäten",
@@ -525,9 +553,6 @@
         "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
         "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
       },
-      "material": {
-        "title": "Materiallisten"
-      },
       "navigation": {
         "desktop": {
           "navTopbar": {
@@ -548,16 +573,16 @@
             "story": "Geschichte"
           },
           "navSidebar": {
-            "itemCampAdmin": "Lagereinstellungen",
+            "itemActivity": "Aktivitäten",
+            "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
             "itemCamps": "Meine Lager",
             "itemClose": "Menü schliessen",
             "itemCollaborators": "Team",
+            "itemInfos": "Lagerinfos",
+            "itemMaterialLists": "Materiallisten",
             "itemPrinting": "PDF / Drucken"
           }
         }
-      },
-      "print": {
-        "title": "Lager drucken"
       },
       "story": {
         "title": "Geschichte"

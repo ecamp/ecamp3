@@ -4,8 +4,8 @@
   ],
   "force": {
     "constraints": {
-      "node": "20.8.0",
-      "php": "8.2.10"
+      "node": "20.8.1",
+      "php": "8.2.11"
     }
   },
   "automergeType": "branch",

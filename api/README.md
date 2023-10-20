@@ -45,9 +45,9 @@ For debugging you need to add the env variables XDEBUG_MODE and XDEBUG_CONFIG fo
 `XDEBUG_MODE=debug,coverage`\
 Additional possible value: trace\
 For phpstorm:\
-`XDEBUG_CONFIG="client_host=docker-host idekey=PHPSTORM"`\
+`XDEBUG_CONFIG="client_host=docker-host idekey=PHPSTORM log_level=0"`\
 For vscode:\
-`XDEBUG_CONFIG="client_host=docker-host idekey=VSCODE"`
+`XDEBUG_CONFIG="client_host=docker-host idekey=VSCODE log_level=0"`
 
 After you changed the .env file, you need to recreate the container that the change has an effect.
 ```shell

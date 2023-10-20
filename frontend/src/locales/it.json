@@ -55,10 +55,11 @@
       },
       "campConditionalFields": {
         "course": {
-          "title": "Altri campi per i corsi"
+          "title": "Corsi"
         },
+        "title": "Impostazioni per G+S",
         "ysCamp": {
-          "title": "Altri campi per i campi G+S"
+          "title": "Campi"
         }
       },
       "campDangerZone": {
@@ -104,6 +105,9 @@
       },
       "dialogMaterialListCreate": {
         "title": "Crea l'elenco dei materiali"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifica elenco materiali"
       },
       "dialogPeriodCreate": {
         "title": "Creare il periodo"
@@ -199,7 +203,7 @@
         "addNewItem": "Aggiungi un nuovo elemento",
         "noItems": "Nessun oggetto materiale trovato",
         "periodOnly": "Filtro: Periodo",
-        "reference": "Attività\u00a0/ Periodo"
+        "reference": "Attività / Periodo"
       },
       "useMaterialViewHelper": {
         "detail": "Liste di materiali",
@@ -241,6 +245,21 @@
       "localPdfDownloadButton": {
         "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
       },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Scarica il PDF (layout #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Scarica il PDF (layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
+        },
+        "printPreviewClient": {
+          "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
+          "previewIframeTitle": "Anteprima di stampa"
+        }
+      },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
         "config": {
@@ -265,21 +284,6 @@
         },
         "printPreviewNuxt": {
           "openPreview": "Apri l'anteprima in una nuova finestra",
-          "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
-          "previewIframeTitle": "Anteprima di stampa"
-        }
-      },
-      "printClient": {
-        "downloadClientPdfButton": {
-          "label": "Scarica il PDF (layout #2)"
-        },
-        "downloadClientPdfListItem": {
-          "label": "Scarica il PDF (layout #2)"
-        },
-        "generatePdfMixin": {
-          "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
-        },
-        "printPreviewClient": {
           "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
           "previewIframeTitle": "Anteprima di stampa"
         }
@@ -370,8 +374,8 @@
       "logout": "Disconnessione",
       "move": "Spostamento",
       "ok": "Bene",
-      "rename": "Rinominare",
       "open": "Aprire",
+      "rename": "Rinominare",
       "save": "Salvare",
       "saving": "Salvataggio",
       "search": "Ricerca",
@@ -392,6 +396,11 @@
     "language": "Italiano",
     "loading": "Caricamento ...",
     "lokaliseMessage": "Cambio di lingua alimentato da lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
       "short": "Errore del server"
@@ -415,6 +424,36 @@
       "sideBarProgram": {
         "title": "Attività in questo giorno"
       }
+    },
+    "admin": {
+      "activity": {
+        "title": "Impostazioni dell'attività"
+      },
+      "collaborators": {
+        "email": "Indirizzo e-mail",
+        "inactiveCollaborators": "Inattivo",
+        "members": "Membri",
+        "openInvitations": "Inviti aperti",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Info sul campo"
+      },
+      "materialLists": {
+        "title": "Liste di materiali"
+      },
+      "print": {
+        "title": "Stampa il campo"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Attività",
+        "itemActivitySubtitle": "Categoria, modello, stati",
+        "itemCollaborators": "Team",
+        "itemInfos": "Info sul campo",
+        "itemMaterialLists": "Liste di materiali",
+        "itemPrint": "PDF / Stampa"
+      },
+      "title": "Admin"
     },
     "auth": {
       "activate": {
@@ -476,21 +515,10 @@
       }
     },
     "camp": {
-      "admin": {
-        "collaborators": "Gestire il team",
-        "title": "Admin"
-      },
       "campProgram": {
         "reminderLockedCreate": "Trascinare per creare è possibile solo in modalità sbloccata.",
         "reminderLockedMove": "Trascinare per spostarsi è possibile solo in modalità sbloccata.",
         "title": "Picasso"
-      },
-      "collaborators": {
-        "email": "Indirizzo e-mail",
-        "inactiveCollaborators": "Inattivo",
-        "members": "Membri",
-        "openInvitations": "Inviti aperti",
-        "title": "Team"
       },
       "dashboard": {
         "activities": "Attività",
@@ -525,9 +553,6 @@
         "useOtherAuth": "Esci e usa un altro account",
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
       },
-      "material": {
-        "title": "Liste di materiali"
-      },
       "navigation": {
         "desktop": {
           "navTopbar": {
@@ -548,16 +573,16 @@
             "story": "Storia"
           },
           "navSidebar": {
-            "itemCampAdmin": "Configurazione del campo",
+            "itemActivity": "Attività",
+            "itemActivitySubtitle": "Categoria, modello, stati",
             "itemCamps": "I miei campi",
             "itemClose": "Chiudere il menu",
             "itemCollaborators": "Team",
+            "itemInfos": "Info sul campo",
+            "itemMaterialLists": "Liste di materiali",
             "itemPrinting": "PDF / Stampa"
           }
         }
-      },
-      "print": {
-        "title": "Stampa il campo"
       },
       "story": {
         "title": "Storia"

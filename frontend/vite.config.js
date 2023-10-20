@@ -147,6 +147,7 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     environment: 'jsdom',
     alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
+    globalSetup: './tests/globalSetup.js',
     setupFiles: './tests/setup.js',
     coverage: {
       all: true,

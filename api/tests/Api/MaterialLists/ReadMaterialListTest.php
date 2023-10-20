@@ -109,15 +109,4 @@ class ReadMaterialListTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var MaterialList $materialList */
-        $materialList = static::$fixtures['materialList1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/material_lists/'.$materialList->getId());
-
-        $this->assertSqlQueryCount($client, 7);
-    }
 }

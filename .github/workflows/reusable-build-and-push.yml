@@ -22,7 +22,7 @@ jobs:
     name: Build images and push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           ref: ${{ inputs.sha }}
 
@@ -96,7 +96,7 @@ jobs:
           cache-to: type=gha,scope=print,mode=max
 
       - name: Build and push db-backup-restore docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
           file: .helm/ecamp3/files/db-backup-restore-image/Dockerfile

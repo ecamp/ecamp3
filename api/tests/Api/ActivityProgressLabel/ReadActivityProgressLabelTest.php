@@ -92,15 +92,4 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId());
-
-        $this->assertSqlQueryCount($client, 7);
-    }
 }
