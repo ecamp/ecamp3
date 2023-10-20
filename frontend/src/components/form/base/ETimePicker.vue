@@ -72,7 +72,7 @@ export default {
       let valueDateTime = this.getValueAsDateTime(this.value)
 
       // override time
-      if (valueDateTime && valueDateTime.isValid()) {
+      if (valueDateTime) {
         valueDateTime = valueDateTime
           .hour(time.hour())
           .minute(time.minute())
@@ -118,9 +118,12 @@ export default {
      */
     parse(val) {
       if (val) {
-        const parsedDateTime = this.$date(val, 'LT')
+        let valIgnoringLeadingZero = val.replace(/^0*?([\d]{1,2}):/, '$1:')
+        const parsedDateTime = this.$date.utc(valIgnoringLeadingZero, 'LT')
         const formatted = parsedDateTime.format('LT')
-        const valIgnoringLeadingZero = val.replace(/^0([1-9].+)/, '$1')
+        if (!formatted.startsWith('0') && valIgnoringLeadingZero.match(/^0\d/)) {
+          valIgnoringLeadingZero = valIgnoringLeadingZero.slice(1)
+        }
         if (parsedDateTime.isValid() && formatted === valIgnoringLeadingZero) {
           const newValue = this.setTimeOnValue(parsedDateTime)
           return Promise.resolve(newValue)
