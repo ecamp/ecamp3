@@ -1,6 +1,15 @@
 name: CI (mandatory checks)
 
 on:
+  push:
+    branches-ignore:
+      - staging
+      - prod
+      - devel
+      - gh-readonly-queue/**
+    tags-ignore:
+      - staging
+      - prod
   pull_request:
   merge_group:
   workflow_dispatch:
