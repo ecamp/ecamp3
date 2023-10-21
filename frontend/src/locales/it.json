@@ -429,6 +429,9 @@
       "activity": {
         "title": "Impostazioni dell'attività"
       },
+      "adminMaterialLists": {
+        "title": "Liste di materiali"
+      },
       "collaborators": {
         "email": "Indirizzo e-mail",
         "inactiveCollaborators": "Inattivo",
@@ -438,9 +441,6 @@
       },
       "info": {
         "title": "Info sul campo"
-      },
-      "materialLists": {
-        "title": "Liste di materiali"
       },
       "print": {
         "title": "Stampa il campo"
@@ -604,6 +604,9 @@
       "title": "I miei campi"
     },
     "material": {
+      "materialLists": {
+        "title": "Liste di materiali"
+      },
       "materialOverview": {
         "createNewList": "Creare un elenco di materiali",
         "download": "Scarica la panoramica",

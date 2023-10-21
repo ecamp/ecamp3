@@ -429,6 +429,9 @@
       "activity": {
         "title": "Paramètres d'activité"
       },
+      "adminMaterialLists": {
+        "title": "Liste de matériel"
+      },
       "collaborators": {
         "email": "Adresse e-mail",
         "inactiveCollaborators": "Inactif",
@@ -438,9 +441,6 @@
       },
       "info": {
         "title": "Infos sur le camp"
-      },
-      "materialLists": {
-        "title": "Liste de matériel"
       },
       "print": {
         "title": "Imprimer un camp"
@@ -604,6 +604,9 @@
       "title": "Mes camps"
     },
     "material": {
+      "materialLists": {
+        "title": "Liste de matériel"
+      },
       "materialOverview": {
         "createNewList": "Créer une liste de matériel",
         "download": "Télécharger l'aperçu",

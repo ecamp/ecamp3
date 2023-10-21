@@ -429,6 +429,9 @@
       "activity": {
         "title": "Aktivitätseinstellungen"
       },
+      "adminMaterialLists": {
+        "title": "Materiallisten"
+      },
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
@@ -438,9 +441,6 @@
       },
       "info": {
         "title": "Lagerinfos"
-      },
-      "materialLists": {
-        "title": "Materiallisten"
       },
       "print": {
         "title": "Lager drucken"
@@ -604,6 +604,9 @@
       "title": "Meine Lager"
     },
     "material": {
+      "materialLists": {
+        "title": "Materiallisten"
+      },
       "materialOverview": {
         "createNewList": "Materialliste erstellen",
         "download": "Übersicht herunterladen",
