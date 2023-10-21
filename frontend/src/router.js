@@ -263,7 +263,7 @@ export default new Router({
       },
     },
     {
-      name: 'material/lists',
+      name: 'material/lists', // Only used on mobile
       path: '/camps/:campId/:campTitle?/material/lists',
       components: {
         navigation: NavigationCamp,
