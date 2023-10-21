@@ -1,32 +1,32 @@
-# Contributing
-Thank you for wanting to help out!
+# Contributing :tada:
+Thank you for wanting to help out! :heart:
 
-Danke dass du mithelfen möchtest! 
-Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md).
+:de: Danke dass du mithelfen möchtest!
+Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md). :de:
 
-# English
+# English :milky_way:
 
-## [Code of conduct](https://www.ecamp3.ch/en/code-of-conduct)
+## [Code of conduct](https://www.ecamp3.ch/en/code-of-conduct) :page_with_curl:
 
-## Workflow
+## Workflow :gear:
 This is a basic overview of the workflow, i.e. how we work with the code of eCamp v3. More information about how to set up a development environment on your computer is in the [wiki](https://github.com/ecamp/ecamp3/wiki/installation).
-If something about the setup is unclear, or you run into an error, there are [discussions](https://github.com/ecamp/ecamp3/discussions) on GitHub for you to ask questions and ask for help.
-### Labels
+If something about the setup is unclear, or you run into an error, there are [discussions](https://github.com/ecamp/ecamp3/discussions) on GitHub for you to ask questions and ask for help. :computer:
+### Labels :label:
 Issues are marked with labels and some of them are not self-explanatory and are explained here:
 - **Type-Labels**:
   Type labels follow the `type: *` format with the options `Frontend`, `Print`, `Deployment` & `API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
-- **Needs prototype**: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins, since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
-- **Good first issue**: Beginner friendly issues.
-- **Feature request**: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
+- **Needs prototype**: :bulb: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins, since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
+- **Good first issue**: :green_heart: Beginner friendly issues.
+- **Feature request**: :rocket: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
-### Starting with an issue
+### :point_right: Starting with an issue 
 To get started, find an issue that interests you. If you are new, we recommend selecting a [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue).
 Please note that for other issues we recommend ones with the label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), which signifies that the issue should have clear definitions. If you have any questions, feel free to ask.
 If you are working on an issue, please leave a comment so that we can assign it to you, to make sure that the specifications are still up-to-date, and to prevent two people working on the same issue.
 Alternatively, open a draft pull request and mention the issue ID to signal that you are working on that particular issue.
 Please note that while the wiki can be helpful in understanding the project, it's not exhaustive (meaning there might be parts missing or out of date). If you have any questions, please comment on the issue for clarification. We are happy to help and answer any questions you might have.
 
-### Git setup
+### Git setup :octocat:
 
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
 
@@ -71,9 +71,9 @@ git checkout -b my-new-feature-branch
 ```
 
 
-### Before submitting pull requests
+### Before submitting pull requests :incoming_envelope:
 
-#### Code formatting
+#### Code formatting :art:
 
 We use cs-fixer for PHP and ESLint and Prettier for Javascript to ensure a common code style. Make sure your code is auto-formatted before committing and pushing to the repository.
 We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting) such that your code is auto-formatted on save.
@@ -122,50 +122,50 @@ time .git/hooks/pre-commit
 ```
 </details>
 
-#### Checklist
+#### Checklist :pencil:
 
-We truly value and appreciate every contribution to our project! 
+We truly value and appreciate every contribution to our project! :heart:
 To make the collaboration smooth and enjoyable for everyone, 
-we've put together this checklist. 
-Following it will not only enhance the quality and consistency of your contributions but also fast-track the review process.
+we've put together this checklist :scroll:.
+Following it will not only enhance the quality and consistency of your contributions:sparkles:  but also fast-track the review process. :rocket:
 
 
-- [x] **Sync with Central Repository:** Ensure your fork is current with the central repository, facilitating a smooth merge.
-- [x] **Lint:** Confirm that linters have run over all new or modified files
-- [x] **Spelling:** Confirm that linters have run over all new or modified files
-- [x] **Significant Changes:** Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
-- [x] **Testing:** Write tests for any new features, and update existing ones if you've made changes to functionalities.
-- [x] **Language & Spelling:** Use English for all variable names, class names, functions, comments, etc., and ensure that all added content has been spellchecked.
-- [x] **Sensitive Information:** Before submitting, double-check to ensure no passwords, credentials, or local configurations are present in your changes.
-- [x] **Continuous Integration:** Confirm that the GitHub Actions CI build finishes successfully without test failures.
+- [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is current with the central repository, facilitating a smooth merge.
+- [x] **Lint:** :wrench: Confirm that linters have run over all new or modified files
+- [x] **Spelling:** :abc: Confirm that linters have run over all new or modified files
+- [x] **Significant Changes:** :mag_right: Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
+- [x] **Testing:** :test_tube: Write tests for any new features, and update existing ones if you've made changes to functionalities.
+- [x] **Language & Spelling:** :book: Use English for all variable names, class names, functions, comments, etc., and ensure that all added content has been spellchecked.
+- [x] **Sensitive Information:** :no_entry: Before submitting, double-check to ensure no passwords, credentials, or local configurations are present in your changes.
+- [x] **Continuous Integration:** :green_circle: Confirm that the GitHub Actions CI build finishes successfully without test failures.
 
-## Database
+## Database :floppy_disk:
 
-### Using Dev-Data for Local Development
+### Using Dev-Data for Local Development :construction_worker:
 For ease of development and to ensure consistency across local environments, 
 we provide a predefined dataset known as 'Dev-Data'. 
 This dataset is tailored to streamline the testing process and ensure that features, 
 including edge cases, are effectively covered.
 
-### Recommended Test User
+### Recommended Test User :bust_in_silhouette:
 To begin with, utilize the `test@example.com / test` user credentials. 
 This user has been populated with a comprehensive set of camps that should suffice for testing most features and scenarios.
 
-### Feedback on Dev-Data
+### Feedback on Dev-Data :loudspeaker:
 We constantly strive to improve our 'Dev-Data'. 
 If you identify gaps or believe there's an additional scenario it should cover, 
 please open an issue to let us know.
 
-### Documentation
+### Documentation :mag:
 For a deeper understanding of 'Dev-Data', you can refer to its dedicated [README](./api/migrations/dev-data/README.md).
 
-### Consistent Testing Across Environments
+### Consistent Testing Across Environments :globe_with_meridians:
 'Dev-Data' is replicated across all development environments. 
 We encourage its use for consistent testing. 
 When reporting an issue or bug, consider referencing a specific example from 'Dev-Data'. 
 Since the data, including IDs, remains consistent, it allows everyone to easily replicate and understand the behavior you're highlighting.
 
-## Discussions
+## Discussions :speech_balloon:
 We understand that setting up a development environment can sometimes be tricky, 
 especially with varying systems and configurations. 
 If you encounter any issues or roadblocks during the setup process, 
