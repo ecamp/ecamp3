@@ -1,5 +1,5 @@
 <template>
-  <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+  <generic-error-message v-if="error" :error="error" />
   <div v-else class="tw-mb-20 tw-mt-1">
     <div
       :id="`scheduleEntry_${scheduleEntry.id}`"
@@ -37,7 +37,7 @@
             {{ $t('entity.activity.fields.responsible') }}
           </th>
           <td class="header-row">
-            {{ activityResponsiblesCommaSeparated }}
+            {{ activityResponsibles }}
             <!-- <user-avatar
               v-for="responsible in responsibles"
               :key="responsible.id"
@@ -52,29 +52,21 @@
   </div>
 </template>
 
-<script>
-import CategoryLabel from '../generic/CategoryLabel.vue'
-import ContentNode from './contentNode/ContentNode.vue'
-import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
-import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
+<script setup>
+const props = defineProps({
+  scheduleEntry: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-export default {
-  components: { CategoryLabel, ContentNode },
-  mixins: [dateHelperUTCFormatted],
-  props: {
-    scheduleEntry: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-
-  async fetch() {
-    await Promise.all([
-      this.scheduleEntry._meta.load,
-      this.scheduleEntry.activity()._meta.load,
-      this.scheduleEntry.activity().rootContentNode()._meta.load,
-      this.scheduleEntry.activity().category()._meta.load,
-      this.scheduleEntry.period().camp().materialLists().$loadItems(),
-      // prettier-ignore
-      this.scheduleEntry.activity().activityResponsibles().$loadItems().then(
+const { error } = useAsyncData('data', async () => {
+  await Promise.all([
+    props.scheduleEntry._meta.load,
+    props.scheduleEntry.activity()._meta.load,
+    props.scheduleEntry.activity().rootContentNode()._meta.load,
+    props.scheduleEntry.activity().category()._meta.load,
+    props.scheduleEntry.period().camp().materialLists().$loadItems(),
+    // prettier-ignore
+    props.scheduleEntry.activity().activityResponsibles().$loadItems().then(
         (activityResponsibles) => {
           return Promise.all(activityResponsibles.items.map((activityResponsible) => {
             if ( activityResponsible.campCollaboration().user === null) {
@@ -86,20 +78,31 @@ export default {
           ))
         }
       ),
-    ])
-  },
+  ])
+})
+</script>
+
+<script>
+import CategoryLabel from '../generic/CategoryLabel.vue'
+import ContentNode from './contentNode/ContentNode.vue'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
+import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
+
+export default defineNuxtComponent({
+  components: { CategoryLabel, ContentNode },
+  mixins: [dateHelperUTCFormatted],
   computed: {
     // responsibles() {
     //   return this.scheduleEntry.activity().activityResponsibles().items
     // },
-    activityResponsiblesCommaSeparated() {
+    activityResponsibles() {
       return activityResponsiblesCommaSeparated(
         this.scheduleEntry.activity(),
         this.$t.bind(this)
       )
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

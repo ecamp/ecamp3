@@ -202,4 +202,11 @@ export default defineNuxtConfig({
       }
     },
   },
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) =>
+        tag.startsWith('rdf:') || tag.startsWith('cc:') || tag.startsWith('dc:'),
+    },
+  },
 })

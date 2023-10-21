@@ -1,12 +1,19 @@
 <template>
   <div :style="columnStyles" :class="widthClass" class="tw-align-top">
-    <content-node v-for="child in children" :key="child.id" :content-node="child" />
+    <ContentNodeComponent
+      v-for="child in children"
+      :key="child.id"
+      :content-node="child"
+    />
   </div>
 </template>
 
+<script setup>
+import ContentNodeComponent from './ContentNode.vue'
+</script>
+
 <script>
-export default {
-  components: { ContentNode: () => import('./ContentNode.vue') },
+export default defineNuxtComponent({
   props: {
     contentNode: { type: Object, required: true },
     columnSlot: { type: String, required: true },
@@ -43,7 +50,7 @@ export default {
         .sort((child1, child2) => parseInt(child1.position) - parseInt(child2.position))
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

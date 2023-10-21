@@ -75,7 +75,7 @@
       "parser": "@babel/eslint-parser"
     },
     "extends": [
-      "plugin:vue/recommended",
+      "plugin:vue/vue3-recommended",
       "@nuxt/eslint-config",
       "eslint:recommended",
       "plugin:prettier/recommended"
