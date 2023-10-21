@@ -5,7 +5,7 @@ namespace App\Validator;
 use Symfony\Component\Validator\Constraint;
 
 #[\Attribute]
-class AssertCollectionIsNotEmpty extends Constraint {
+class AssertLastCollectionItemIsNotDeleted extends Constraint {
     public const IS_EMPTY_ERROR = 'IS_EMPTY_ERROR';
     public string $message = 'This collection should not be empty.';
 

@@ -10,15 +10,15 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class AssertCollectionIsNotEmptyValidator extends ConstraintValidator {
+class AssertLastCollectionItemIsNotDeletedValidator extends ConstraintValidator {
     public function __construct(
         private RequestStack $requestStack,
         private EntityManagerInterface $em
     ) {}
 
-    public function validate(mixed $value, Constraint $constraint) {
-        if (!$constraint instanceof AssertCollectionIsNotEmpty) {
-            throw new UnexpectedTypeException($constraint, AssertCollectionIsNotEmpty::class);
+    public function validate(mixed $value, Constraint $constraint): void {
+        if (!$constraint instanceof AssertLastCollectionItemIsNotDeleted) {
+            throw new UnexpectedTypeException($constraint, AssertLastCollectionItemIsNotDeleted::class);
         }
         if (!$value instanceof PersistentCollection) {
             throw new UnexpectedTypeException($value, PersistentCollection::class);
@@ -36,7 +36,7 @@ class AssertCollectionIsNotEmptyValidator extends ConstraintValidator {
             if ($count <= 1) {
                 $this->context->buildViolation($constraint->message)
                     ->setInvalidValue($value)
-                    ->setCode(AssertCollectionIsNotEmpty::IS_EMPTY_ERROR)
+                    ->setCode(AssertLastCollectionItemIsNotDeleted::IS_EMPTY_ERROR)
                     ->addViolation()
                 ;
 

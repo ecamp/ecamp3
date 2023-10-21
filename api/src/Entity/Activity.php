@@ -16,7 +16,7 @@ use App\Repository\ActivityRepository;
 use App\State\ActivityCreateProcessor;
 use App\State\ActivityRemoveProcessor;
 use App\Validator\AssertBelongsToSameCamp;
-use App\Validator\AssertCollectionIsNotEmpty;
+use App\Validator\AssertLastCollectionItemIsNotDeleted;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -85,7 +85,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      * The list of points in time when this activity's programme will be carried out.
      */
     #[Assert\Valid]
-    #[AssertCollectionIsNotEmpty(groups: ['ScheduleEntry:delete'], message: 'An activity must have at least one ScheduleEntry')]
+    #[AssertLastCollectionItemIsNotDeleted(groups: ['ScheduleEntry:delete'], message: 'An activity must have at least one ScheduleEntry')]
     #[Assert\Count(min: 1, groups: ['create'])]
     #[ApiProperty(
         writableLink: true,
