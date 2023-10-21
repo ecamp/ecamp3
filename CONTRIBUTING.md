@@ -30,11 +30,17 @@ Please note that while the wiki can be helpful in understanding the project, it'
 
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
 
-1. Fork the main repository onto your GitHub account. Let's say your GitHub account is called `your-username`.
+1. Fork the main repository onto your GitHub account. To use the commands your configured git `user.name` must be exactly your git user name. 
+    If you run the code below, and it outputs your GitHub username you are good to go. 
+    ```shell
+    echo $(git config user.name)
+    ```
+    If not you need to replace the `$(git config user.name)` parts with your username or run `git config --global user.name "YourUsername"` with your GitHub username instead of `YourUsername`
+    
 
 2. Clone the main repository to your local computer:
 
-   ```shell script
+   ```shell
    git clone https://github.com/ecamp/ecamp3.git
    cd ecamp3
    ```
@@ -42,13 +48,13 @@ We use a triangular git workflow. This means that all changes are first pushed t
 3. Add your fork as a remote:
 
    ```shell
-   git remote add your-username https://github.com/your-username/ecamp3.git
+   git remote add "$(git config user.name)" "https://github.com/$(git config user.name)/ecamp3.git"   
    ```
 
 4. Configure the central repo for pulling the current state and your own repo for pushing new changes:
 
    ```shell
-   git config remote.pushdefault your-username
+   git config remote.pushdefault "$(git config user.name)"
    git config push.default current
    ```
 
@@ -64,21 +70,6 @@ git checkout origin/devel
 git checkout -b my-new-feature-branch
 ```
 
-### Code formatting
-
-We use cs-fixer for PHP and ESLint and Prettier for Javascript to ensure a common code style. Make sure your code is auto-formatted before comitting and pushing to the repository.
-
-We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting) such that your code is auto-formatted on save.
-
-Alternatively you can
-
-- run php-cs-fixer and ESLint / Prettier manually before each commit:
-  ```shell
-  docker compose run api composer cs-fix
-  docker compose run frontend npm run lint
-  docker compose run print npm run lint
-  ```
-- set-up a git pre-commit hook to run php-cs-fixer and ESLint automatically before each commit
 
 ### Before submitting pull requests
 
