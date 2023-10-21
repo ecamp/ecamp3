@@ -36,15 +36,15 @@ class AssertLastCollectionItemIsNotDeletedValidatorTest extends ConstraintValida
     }
 
     public function testExpectsNonNullCollection() {
-        $this->setObject(new TestClass(null));
+        $this->setObject(new AssertLastCollectionItemNotDeletedValidatorTestClass(null));
         $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate(null, new AssertLastCollectionItemIsNotDeleted());
     }
 
     public function testEmptyInvalid() {
         // given
-        $collectionMock = new PersistentCollection($this->em, new ClassMetadata(TestClass::class), new ArrayCollection([]));
-        $object = new TestClass($collectionMock);
+        $collectionMock = new PersistentCollection($this->em, new ClassMetadata(AssertLastCollectionItemNotDeletedValidatorTestClass::class), new ArrayCollection([]));
+        $object = new AssertLastCollectionItemNotDeletedValidatorTestClass($collectionMock);
         $this->setObject($object);
 
         $requestMock = $this->createMock(Request::class);
@@ -64,8 +64,8 @@ class AssertLastCollectionItemIsNotDeletedValidatorTest extends ConstraintValida
 
     public function testEmptyValidIfMethodIsNotDelete() {
         // given
-        $collectionMock = new PersistentCollection($this->em, new ClassMetadata(TestClass::class), new ArrayCollection([]));
-        $object = new TestClass($collectionMock);
+        $collectionMock = new PersistentCollection($this->em, new ClassMetadata(AssertLastCollectionItemNotDeletedValidatorTestClass::class), new ArrayCollection([]));
+        $object = new AssertLastCollectionItemNotDeletedValidatorTestClass($collectionMock);
         $this->setObject($object);
 
         $requestMock = $this->createMock(Request::class);
@@ -81,11 +81,11 @@ class AssertLastCollectionItemIsNotDeletedValidatorTest extends ConstraintValida
 
     public function testNotEmptyValid() {
         // given
-        $collectionMock = new PersistentCollection($this->em, new ClassMetadata(TestClass::class), new ArrayCollection([
+        $collectionMock = new PersistentCollection($this->em, new ClassMetadata(AssertLastCollectionItemNotDeletedValidatorTestClass::class), new ArrayCollection([
             'foo',
             'bar',
         ]));
-        $object = new TestClass($collectionMock);
+        $object = new AssertLastCollectionItemNotDeletedValidatorTestClass($collectionMock);
         $this->setObject($object);
 
         $requestMock = $this->createMock(Request::class);
@@ -107,7 +107,7 @@ class AssertLastCollectionItemIsNotDeletedValidatorTest extends ConstraintValida
     }
 }
 
-class TestClass {
+class AssertLastCollectionItemNotDeletedValidatorTestClass {
     #[AssertLastCollectionItemIsNotDeleted()]
     public $a;
 
