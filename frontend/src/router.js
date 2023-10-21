@@ -483,6 +483,7 @@ function getContentLayout(route) {
   switch (route.name) {
     case 'camp/period/program':
     case 'admin/print':
+    case 'admin/activity/category':
       return 'full'
     case 'camp/print':
     case 'camp/material':
