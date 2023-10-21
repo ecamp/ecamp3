@@ -9,6 +9,11 @@ export default defineNuxtConfig({
   // devServer: {
   //   port: 3021,
   // },
+
+  components: [
+    { path: '~/components/config', prefix: 'Config', global: 'true' },
+    '~/components',
+  ],
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head

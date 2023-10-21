@@ -1,36 +1,3 @@
 import axios from 'axios'
 
-export default defineNuxtPlugin(() => {
-  const runtimeConfig = useRuntimeConfig()
-
-  if (runtimeConfig.BASIC_AUTH_TOKEN) {
-    axios.interceptors.request.use(function (config) {
-      if (!config.headers['Authorization']) {
-        config.headers['Authorization'] = `Basic ${runtimeConfig.BASIC_AUTH_TOKEN}`
-      }
-      return config
-    })
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    axios.interceptors.request.use(function (config) {
-      config.meta = config.meta || {}
-      config.meta.requestStartedAt = new Date().getTime()
-      return config
-    })
-
-    axios.interceptors.response.use(
-      function (response) {
-        console.log(
-          `${response.config.url} - execution time: ${
-            new Date().getTime() - response.config.meta.requestStartedAt
-          } ms`
-        )
-        return response
-      },
-      (error) => {
-        console.log(`${error.config.url} - call to API failed`)
-      }
-    )
-  }
-})
+export default defineNuxtPlugin(() => {})

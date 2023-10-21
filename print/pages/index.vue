@@ -1,7 +1,8 @@
 <template>
-  <!-- <v-row no-gutters>
-    <v-col cols="12">
-      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+  <div>
+    <div>
+      <generic-error-message v-if="error" :error="error" />
+
       <div v-for="(content, idx) in config.contents" v-else :key="idx">
         <component
           :is="'Config' + content.type"
@@ -11,29 +12,21 @@
           :index="idx"
         />
       </div>
-    </v-col>
-  </v-row> -->
-  <div>{{ camp }}</div>
+    </div>
+  </div>
 </template>
 
-<script>
-export default defineNuxtComponent({
-  fetchKey: 'root',
-  async asyncData() {
-    const { $api } = useNuxtApp()
-    const route = useRoute()
+<script setup>
+const { $api } = useNuxtApp()
+const route = useRoute()
 
-    const query = route.query
-    const config = JSON.parse(query.config || '{}')
+const query = route.query
+const config = JSON.parse(query.config || '{}')
 
-    console.log(config)
-
-    return {
-      camp: await $api.get(config.camp)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-      config,
-    }
-  },
-})
+const { data: camp, error } = useAsyncData(
+  'camp',
+  () => $api.get(config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+)
 </script>
 
 <style>
