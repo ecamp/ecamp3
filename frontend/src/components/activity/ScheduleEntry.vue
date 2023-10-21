@@ -371,13 +371,13 @@ export default {
       }
     },
     async copyUrlToClipboard() {
-      let res = await navigator.permissions.query({ name: 'clipboard-read' })
+      const res = await navigator.permissions.query({ name: 'clipboard-read' })
       if (res.state == 'prompt') {
         this.$refs.copyInfoDialog.open()
       }
 
-      let scheduleEntry = scheduleEntryRoute(this.scheduleEntry())
-      let url = window.location.origin + router.resolve(scheduleEntry).href
+      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry())
+      const url = window.location.origin + router.resolve(scheduleEntry).href
       navigator.clipboard.writeText(url)
 
       this.$toast.info(

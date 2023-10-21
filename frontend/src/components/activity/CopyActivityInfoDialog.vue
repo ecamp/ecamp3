@@ -13,17 +13,17 @@
     <p>
       {{ $tc('components.activity.copyActivityInfoDialog.description') }}
     </p>
-    <p v-if="clipboardReadState == 'prompt'">
+    <p v-if="clipboardReadState === 'prompt'">
       <center>
         <v-btn color="success" @click="requestClipboardAccess">
           {{ $tc('components.activity.copyActivityInfoDialog.allow') }}
         </v-btn>
       </center>
     </p>
-    <p v-if="clipboardReadState == 'granted'">
+    <p v-if="clipboardReadState === 'granted'">
       {{ $tc('components.activity.copyActivityInfoDialog.granted') }}
     </p>
-    <p v-if="clipboardReadState == 'denied'">
+    <p v-if="clipboardReadState === 'denied'">
       {{ $tc('components.activity.copyActivityInfoDialog.denied') }}
     </p>
   </dialog-form>
@@ -46,7 +46,7 @@ export default {
   },
   async mounted() {
     // read current permission
-    let res = await navigator.permissions.query({ name: 'clipboard-read' })
+    const res = await navigator.permissions.query({ name: 'clipboard-read' })
     this.clipboardReadState = res.state
   },
   methods: {
@@ -55,14 +55,14 @@ export default {
     },
     async requestClipboardAccess() {
       // if permission is not yet requested, request it
-      if (this.clipboardReadState == 'prompt') {
+      if (this.clipboardReadState === 'prompt') {
         try {
           await navigator.clipboard.readText()
         } catch {
           console.log('clipboard read is denied')
         }
 
-        let res = await navigator.permissions.query({ name: 'clipboard-read' })
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
         this.clipboardReadState = res.state
       }
     },

@@ -119,7 +119,6 @@ export default {
           if (
             this.period().camp()._meta.self == this.copyActivitySource.camp()._meta.self
           ) {
-            console.log(this.copyActivitySource.category()._meta.self)
             this.entityData.category = this.copyActivitySource.category()._meta.self
           }
         } else {
@@ -166,7 +165,6 @@ export default {
           })
         }
       })
-      console.log('refreshCopyActivitySource')
     },
     async getCopyActivitySource() {
       let url = await navigator.clipboard.readText()
