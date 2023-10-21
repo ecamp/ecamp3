@@ -19,12 +19,12 @@ Issues are marked with labels and some of them are not self-explanatory and are 
 - **Good first issue**: Beginner friendly Issues.
 - **Feature request**: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
-### Starting an Issue
-Find an Issue that appeals to you, if you are new try a [Good First Issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue).
-Not all Issues are ready to be implemented, another helpful Label is [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22): Those issues should be specified enough to understand the idea/requirement of the issue, but what matters is that you understand the Issue so don't hesitate to ask questions.
-If you found an Issue we recommend leaving a comment on the issue, and we will assign you. This is to make sure the specifications of the Issue you are working on are still up-to-date and there aren't two people working on the same Issue.
-As an alternative you can open a draft PR to let everyone know you are working on that issue.
-The wiki should help you understand the project better, but it's imperfect so if something is unclear leave a comment in the Issue.
+### Starting with an issue
+To get started, find an issue that interests you. If you are new, we recommend selecting a [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue).
+Please note that for other issues we recommend ones with the label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), which signifies that the issue should have clear definitions. If you have any questions, feel free to ask.
+If you are working on an issue, please leave a comment so that we can assign it to you, to make sure that the specifications are still up to date, and to prevent two people working on the same issue.
+Alternatively, open a draft pull request and mention the issue ID to signal that you are working on that particular issue.
+Please note that while the wiki can be helpful in understanding the project, it's not exhaustive. If you have any questions, please comment on the issue for clarification.
 
 ### Git setup
 
