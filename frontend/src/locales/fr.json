@@ -466,7 +466,6 @@
         "accountless": "Vous n'avez pas encore de compte?",
         "email": "E-mail",
         "infoText": {
-          "beta": "Il s'agit de la version bêta d'eCamp v3. Elle peut être utilisée pour une planification réelle du camp, mais pas pour une planification urgente. Le nombre limité d'utilisateurs de la version bêta doit s'attendre à des interruptions de maintenance.",
           "dev": "Ceci est la version de développement d'eCamp v3.{br}IMPORTANT : Ceci est destiné à un usage de développement uniquement. Toutes les données sont publiques et seront supprimées périodiquement !{br}Login : test@example.com / test"
         },
         "loginCallback": {
@@ -589,7 +588,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "Pour la bêta fermée, un code est nécessaire. Sur ecamp3.ch/closed-beta, tu trouveras comment obtenir un tel code.",
       "create": "Créer le camp",
       "period": {
         "add": "Ajouter une période",

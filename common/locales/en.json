@@ -115,7 +115,6 @@
         "addressStreet": "Street",
         "addressZipcode": "Zipcode",
         "coachName": "Name of Y+S coach",
-        "couponKey": "Coupon",
         "courseKind": "Course kind (for Y+S courses: Y+S course term)",
         "courseNumber": "Course number",
         "kind": "Camp kind (house, tent, traveling, summer, autumn)",

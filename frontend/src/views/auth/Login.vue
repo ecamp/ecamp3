@@ -1,8 +1,15 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">{{ $tc('global.button.login') }}</h1>
+    <div v-if="isProdSuffix && $vuetify.breakpoint.smAndDown" class="text-center">
+      <v-icon size="64"> $vuetify.icons.ecamp </v-icon>
+    </div>
+
+    <h1 class="display-1 text-center" :class="{ 'my-4': isProdSuffix }">
+      {{ $tc('global.button.login') }}
+    </h1>
 
     <v-alert
+      v-if="!isProdSuffix"
       class="mt-2 text-justify"
       text
       dense
@@ -181,8 +188,14 @@ export default {
     }
   },
   computed: {
+    infoTextSuffix() {
+      return LOGIN_INFO_TEXT_KEY
+    },
+    isProdSuffix() {
+      return this.infoTextSuffix === 'prod'
+    },
     infoTextKey() {
-      return `views.auth.login.infoText.${LOGIN_INFO_TEXT_KEY ?? 'dev'}`
+      return `views.auth.login.infoText.${this.infoTextSuffix ?? 'prod'}`
     },
     termsOfServiceLink() {
       return (
