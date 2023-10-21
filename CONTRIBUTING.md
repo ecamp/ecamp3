@@ -89,6 +89,8 @@ docker compose exec frontend npm run lint
 # API/PHP fixes with docker
 docker compose exec php composer run-script cs-fix
 
+# Print fixes with docker
+docker compose exec print npm run lint
 ```
 
 - [x] Did cs-fixer run on all changed or new PHP files?
