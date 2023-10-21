@@ -28,7 +28,7 @@ class AssertLastCollectionItemIsNotDeletedValidator extends ConstraintValidator 
 
         if ('DELETE' == $method) {
             $collection = $value;
-            $object = $collection->getOwner();
+            $object = $this->context->getObject();
             $this->em->lock($object, LockMode::PESSIMISTIC_WRITE);
 
             $count = $collection->count();
