@@ -347,6 +347,12 @@ components:
           example: /categories/1a2b3c4d
           format: iri-reference
           type: string
+        copyActivitySource:
+          description: 'Copy Contents from this Source-Activity.'
+          example: /activities/1a2b3c4d
+          format: iri-reference
+          nullable: true
+          type: string
         location:
           description: "The physical location where this activity's programme will be carried out."
           example: Spielwiese
@@ -735,6 +741,12 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
+          type: string
+        copyActivitySource:
+          description: 'Copy Contents from this Source-Activity.'
+          example: /activities/1a2b3c4d
+          format: iri-reference
+          nullable: true
           type: string
         location:
           description: "The physical location where this activity's programme will be carried out."
@@ -1154,6 +1166,12 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
+          type: string
+        copyActivitySource:
+          description: 'Copy Contents from this Source-Activity.'
+          example: /activities/1a2b3c4d
+          format: iri-reference
+          nullable: true
           type: string
         location:
           description: "The physical location where this activity's programme will be carried out."
