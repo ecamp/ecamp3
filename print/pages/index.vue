@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <!-- <v-row no-gutters>
     <v-col cols="12">
       <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
       <div v-for="(content, idx) in config.contents" v-else :key="idx">
@@ -12,7 +12,8 @@
         />
       </div>
     </v-col>
-  </v-row>
+  </v-row> -->
+  <div>{{ root }}</div>
 </template>
 
 <script>
@@ -23,18 +24,19 @@ export default defineNuxtComponent({
       camp: null,
     }
   },
-  async fetch() {
-    const query = this.$route.query
-    this.config = JSON.parse(query.config || '{}')
-    this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-  },
-  head() {
+
+  fetchKey: 'root',
+  async asyncData() {
+    const { $api } = useNuxtApp()
     return {
-      htmlAttrs: {
-        lang: this.$i18n.locale,
-      },
+      root: await $api.get()._meta.load,
     }
   },
+  // async fetch() {
+  //   const query = this.$route.query
+  //   this.config = JSON.parse(query.config || '{}')
+  //   this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+  // },
 })
 </script>
 
