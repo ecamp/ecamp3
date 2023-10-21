@@ -16,7 +16,7 @@ Issues are marked with labels and some of them are not self-explanatory and are 
 - **Type-Labels**:
   Type labels follow the `type: *` format with the options `Frontend`, `Print`, `Deployment` & `API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
 - **Needs prototype**: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins, since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
-- **Good first issue**: Beginner friendly Issues.
+- **Good first issue**: Beginner friendly issues.
 - **Feature request**: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
 ### Starting with an issue
@@ -82,6 +82,15 @@ Alternatively you can
 
 ### Before submitting pull requests
 
+```shell
+# Frontend fixes with docker
+docker compose exec frontend npm run lint
+
+# API/PHP fixes with docker
+docker compose exec php composer run-script cs-fix
+
+```
+
 - [x] Did cs-fixer run on all changed or new PHP files?
 - [x] Did ESLint / Prettier run on all changed or new JS / Vue files?
 - [x] Are all variables, classes, functions, comments etc. named or written in English?
@@ -90,6 +99,46 @@ Alternatively you can
 - [x] Do all changed files contain some important changes (as opposed to e.g. only whitespace changes)?
 - [x] Is the fork up-to-date with the central repository and can your changes be merged automatically?
 - [x] Did the GitHub Actions CI build run through without test failures?
+
+## Database
+
+### Using Dev-Data for Local Development
+For ease of development and to ensure consistency across local environments, 
+we provide a predefined dataset known as 'Dev-Data'. 
+This dataset is tailored to streamline the testing process and ensure that features, 
+including edge cases, are effectively covered.
+
+### Recommended Test User
+To begin with, utilize the `test@example.com / test` user credentials. 
+This user has been populated with a comprehensive set of camps that should suffice for testing most features and scenarios.
+
+### Feedback on Dev-Data
+We constantly strive to improve our 'Dev-Data'. 
+If you identify gaps or believe there's an additional scenario it should cover, 
+please open an issue to let us know.
+
+### Documentation
+For a deeper understanding of 'Dev-Data', you can refer to its dedicated [README](./api/migrations/dev-data/README.md).
+
+### Consistent Testing Across Environments
+'Dev-Data' is replicated across all development environments. 
+We encourage its use for consistent testing. 
+When reporting an issue or bug, consider referencing a specific example from 'Dev-Data'. 
+Since the data, including IDs, remains consistent, it allows everyone to easily replicate and understand the behavior you're highlighting.
+
+## Discussions
+We understand that setting up a development environment can sometimes be tricky, 
+especially with varying systems and configurations. 
+If you encounter any issues or roadblocks during the setup process, 
+please don't hesitate to open a Discussion on GitHub. 
+Our core team is more than happy to assist you. In fact, 
+we encourage it! 
+Your feedback not only helps us improve the setup process for everyone, 
+but it also ensures that any potential issues are addressed promptly. 
+And remember, 
+it's not just limited to setup concerns—feel free to initiate discussions about anything else you might come across. 
+We're here to help and collaborate!
+
 
 ## Deutsch
 
