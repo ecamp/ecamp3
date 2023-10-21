@@ -2,7 +2,7 @@ html {
   font-size: 10pt;
 }
 
-/* override standard styling from @tailwindcss/typography and from vuetify (.v-application p) */
+/* override standard styling from @tailwindcss/typography  */
 
 .tw-prose :where(.tw-prose > :first-child):not(:where([class~='tw-not-prose'] *)) {
   margin-top: 0 !important;
@@ -13,6 +13,6 @@ html {
   max-width: 100%;
 }
 
-.theme--light.v-application {
+.body {
   color: #404040; /* same as variable --tw-prose-body from class .tw-prose-neutral (neutral-700) */
 }

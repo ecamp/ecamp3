@@ -1,29 +1,34 @@
 <template>
-  <View class="picasso-day-column">
-    <View class="picasso-day-column-grid">
-      <View
-        v-for="([_, weight], index) in times"
-        class="picasso-day-column-grid-row"
-        :class="{ 'picasso-day-column-grid-row-grey': index % 2 === 1 }"
-        :style="{ flexGrow: weight }"
-      ></View>
-    </View>
-    <View class="picasso-day-column-schedule-entry-container">
-      <ScheduleEntry
+  <div class="v-calendar-daily__day v-future">
+    <!-- background interval shades -->
+    <div
+      v-for="(time, i) in displayedTimes"
+      :key="i"
+      class="v-calendar-daily__day-interval"
+      :style="`height: ${time.height}px`"
+    ></div>
+
+    <div class="v-event-timed-container">
+      <div
         v-for="scheduleEntry in relevantScheduleEntries"
-        :schedule-entry="scheduleEntry"
+        :key="scheduleEntry.id"
+        class="v-event-timed black--text"
         :style="{
           ...positionStyles[scheduleEntry.id],
           ...borderRadiusStyles[scheduleEntry.id],
+          ...colorStyles[scheduleEntry.id],
         }"
-        :percentage-height="positionStyles[scheduleEntry.id].percentageHeight"
-      />
-    </View>
-  </View>
+      >
+        <PicassoScheduleEntry :schedule-entry="scheduleEntry" />
+        <span class="tw-float-right tw-italic ml-1" style="color: #000"> </span>
+      </div>
+    </div>
+  </div>
 </template>
+
 <script>
-import PdfComponent from '@/PdfComponent.js'
-import ScheduleEntry from './ScheduleEntry.vue'
+import { keyBy } from 'lodash'
+
 import {
   filterScheduleEntriesByDay,
   dayStartTimestamp,
@@ -33,14 +38,10 @@ import {
 
 import { utcStringToTimestamp } from '../../../common/helpers/dateHelperVCalendar.js'
 
-import keyBy from 'lodash/keyBy.js'
-
 export default {
-  name: 'DayColumn',
-  components: { ScheduleEntry },
-  extends: PdfComponent,
   props: {
     times: { type: Array, required: true },
+    displayedTimes: { type: Array, required: true },
     day: { type: Object, required: true },
     scheduleEntries: { type: Array, default: () => [] },
   },
@@ -76,39 +77,24 @@ export default {
         'id'
       )
     },
+    colorStyles() {
+      return keyBy(
+        this.relevantScheduleEntries.map((scheduleEntry) => {
+          const color = this.getActivityColor(scheduleEntry)
+          return {
+            id: scheduleEntry.id,
+            'background-color': color,
+            'border-color': color,
+          }
+        }),
+        'id'
+      )
+    },
+  },
+  methods: {
+    getActivityColor(scheduleEntry) {
+      return scheduleEntry.activity().category().color
+    },
   },
 }
 </script>
-<pdf-style>
-.picasso-day-column {
-  flex-basis: 0;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-.picasso-day-column-grid {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-.picasso-day-column-grid-row {
-  display: flex;
-  flex-basis: 0;
-}
-.picasso-day-column-grid-row-grey {
-  background-color: lightgrey;
-}
-.picasso-day-column-schedule-entry-container {
-  margin: 0 2pt;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-</pdf-style>

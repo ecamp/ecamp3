@@ -20,59 +20,12 @@
       </div>
 
       <v-sheet class="fullwidth">
-        <v-calendar
-          ref="calendar"
-          :events="events"
-          event-start="startTimestamp"
-          event-end="endTimestamp"
-          :event-color="getActivityColor"
-          :start="start"
-          :end="end"
-          type="custom-daily"
-          event-overlap-mode="column"
-          first-interval="0"
-          interval-count="24"
-          :interval-height="landscape ? 13 : 32"
-          interval-width="46"
-          event-text-color="black"
-          :locale="$i18n.locale"
-          :interval-format="intervalFormat"
-          :day-format="dayFormat"
-          :weekday-format="weekdayFormat"
-        >
-          <!-- day header -->
-          <template #day-label-header="{ date }">
-            <span class="tw-block">
-              {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
-            </span>
-
-            <span v-if="hasDayResponsibles(date)" class="text-xs-relative">
-              {{ $tc('entity.day.fields.dayResponsibles') }}:
-              {{ dayResponsiblesCommaSeparated(date) }}
-            </span>
-          </template>
-
-          <template #event="{ event }">
-            <div
-              class="tw-float-left tw-font-weight-medium tw-tabular-nums tw-font-medium"
-            >
-              <!-- link jumps to first instance of scheduleEntry within the document -->
-              <a
-                :href="`#scheduleEntry_${event.id}`"
-                :style="{ color: getActivityTextColor(event) }"
-              >
-                {{ event.number }} {{ event.activity().category().short }}:
-                {{ event.activity().title }}
-              </a>
-            </div>
-            <span
-              class="tw-float-right tw-italic ml-1"
-              :style="{ color: getActivityTextColor(event) }"
-            >
-              {{ activityResponsiblesCommaSeparated(event) }}
-            </span>
-          </template>
-        </v-calendar>
+        <picasso-calendar
+          :days="days"
+          :times="times"
+          :schedule-entries="scheduleEntries"
+          :content-height="landscape ? 312 : 768"
+        />
       </v-sheet>
       <div class="categories fullwidth text-sm-relative">
         <div
@@ -125,25 +78,19 @@
 </template>
 
 <script>
-import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
-import {
-  dayResponsiblesCommaSeparated,
-  filterDayResponsiblesByDay,
-} from '@/../common/helpers/dayResponsibles.js'
-import { contrastColor } from '@/../common/helpers/colors.js'
 import CategoryLabel from './generic/CategoryLabel.vue'
 import dayjs from '@/../common/helpers/dayjs.js'
-import campCollaborationLegalName from '../../common/helpers/campCollaborationLegalName.js'
+import campCollaborationLegalName from '@/../common/helpers/campCollaborationLegalName.js'
 
 export default {
   components: { CategoryLabel },
   props: {
     period: { type: Object, required: true },
-    start: { type: String, required: true },
-    end: { type: String, required: true },
-    events: { type: Array, required: true },
+    scheduleEntries: { type: Array, required: true },
     index: { type: Number, required: true },
     landscape: { type: Boolean, required: true },
+    days: { type: Array, required: true },
+    times: { type: Array, required: true },
   },
   computed: {
     camp() {
@@ -188,54 +135,6 @@ export default {
     },
   },
   methods: {
-    getActivityColor(scheduleEntry) {
-      return scheduleEntry.activity().category().color
-    },
-    getActivityTextColor(scheduleEntry) {
-      const color = this.getActivityColor(scheduleEntry)
-      return contrastColor(color)
-    },
-    intervalFormat(time) {
-      return this.$date
-        .utc(time.date + ' ' + time.time)
-        .format(this.$tc('global.datetime.hourLong'))
-    },
-    dayFormat(day) {
-      return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))
-    },
-    weekdayFormat() {
-      return ''
-    },
-    activityResponsiblesCommaSeparated(scheduleEntry) {
-      const responsibles = activityResponsiblesCommaSeparated(
-        scheduleEntry.activity(),
-        this.$tc.bind(this)
-      )
-
-      if (responsibles === '') {
-        return ''
-      }
-
-      return `[${responsibles}]`
-    },
-
-    dayResponsiblesCommaSeparated(date) {
-      const day = this.getDayByDate(date)
-      if (!day) return null
-      return dayResponsiblesCommaSeparated(day, this.$tc.bind(this))
-    },
-
-    hasDayResponsibles(date) {
-      const day = this.getDayByDate(date)
-      if (!day) return false
-      return filterDayResponsiblesByDay(day).length > 0
-    },
-
-    getDayByDate(date) {
-      return this.period.days().items.find((day) => {
-        return this.$date.utc(date).isSame(this.$date.utc(day.start), 'day')
-      })
-    },
     joinWithoutBlanks(list, separator) {
       return list.filter((element) => !!element).join(separator)
     },

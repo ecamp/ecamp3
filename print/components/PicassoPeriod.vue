@@ -1,23 +1,26 @@
 <template>
   <div>
     <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+
     <picasso-chunk
-      v-for="(periodChunk, i) in periodChunks"
-      v-else
+      v-for="(pageDays, i) in pages"
       :key="i"
       :period="period"
-      :start="periodChunk.start.format('YYYY-MM-DD')"
-      :end="periodChunk.end.format('YYYY-MM-DD')"
-      :events="events"
+      :schedule-entries="period.scheduleEntries().items"
       :index="index"
       :landscape="landscape"
+      :days="pageDays"
+      :times="times"
     />
   </div>
 </template>
 
 <script>
-import { utcStringToTimestamp } from '~/../common/helpers/dateHelperVCalendar.js'
-import { splitDaysIntoPages } from '../../common/helpers/picasso.js'
+import {
+  splitDaysIntoPages,
+  calculateBedtime,
+  times,
+} from '@/../common/helpers/picasso.js'
 import { sortBy } from 'lodash'
 
 export default {
@@ -27,13 +30,8 @@ export default {
     landscape: { type: Boolean, required: true },
     index: { type: Number, required: true },
   },
-  data() {
-    return {
-      events: null,
-    }
-  },
   async fetch() {
-    const [scheduleEntries] = await Promise.all([
+    await Promise.all([
       this.period.scheduleEntries().$loadItems(),
       this.camp
         .activities()
@@ -73,25 +71,32 @@ export default {
           )
         }),
     ])
-
-    this.events = scheduleEntries.items.map((entry) => ({
-      ...entry,
-      startTimestamp: utcStringToTimestamp(entry.start),
-      endTimestamp: utcStringToTimestamp(entry.end),
-      timed: true,
-    }))
   },
   computed: {
-    periodChunks() {
-      const chunkSize = this.landscape ? 7 : 4
-
-      return splitDaysIntoPages(
-        sortBy(this.period.days().items, (day) => this.$date.utc(day.start).unix()),
-        chunkSize
-      ).map((chunk) => ({
-        start: this.$date.utc(chunk[0].start),
-        end: this.$date.utc(chunk[chunk.length - 1].start),
-      }))
+    days() {
+      return sortBy(this.period.days().items, (day) =>
+        this.$date.utc(day.start).valueOf()
+      )
+    },
+    pages() {
+      const maxDaysPerPage = this.landscape ? 7 : 4
+      return splitDaysIntoPages(this.days, maxDaysPerPage)
+    },
+    timeStep() {
+      // Height / duration of each picasso row, in hours
+      return 1
+    },
+    bedtimes() {
+      return calculateBedtime(
+        this.period.scheduleEntries().items,
+        this.$date,
+        this.$date.utc(this.days[0].start),
+        this.$date.utc(this.days[this.days.length - 1].end),
+        this.timeStep
+      )
+    },
+    times() {
+      return times(this.bedtimes.getUpTime, this.bedtimes.bedtime, this.timeStep)
     },
   },
 }
