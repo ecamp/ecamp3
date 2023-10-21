@@ -15,7 +15,7 @@ If something about the setup is unclear, or you run into an error, there are [di
 Issues are marked with labels and some of them are not self-explanatory and are explained here:
 - **Type-Labels**:
   Type labels follow the `type: *` format with the options `Frontend`, `Print`, `Deployment` & `API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
-- **Needs prototype**: If you have an idea: lets hear it. This issue needs a prototype since the specifications are somewhat vague, before you start fully implementing this feature create a prototype. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
+- **Needs prototype**: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins, since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
 - **Good first issue**: Beginner friendly Issues.
 - **Feature request**: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
