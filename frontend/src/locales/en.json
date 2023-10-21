@@ -429,6 +429,9 @@
       "activity": {
         "title": "Activity settings"
       },
+      "adminMaterialLists": {
+        "title": "Material lists"
+      },
       "collaborators": {
         "email": "Email address",
         "inactiveCollaborators": "Inactive",
@@ -438,9 +441,6 @@
       },
       "info": {
         "title": "Camp infos"
-      },
-      "materialLists": {
-        "title": "Material lists"
       },
       "print": {
         "title": "Print camp"
@@ -604,6 +604,9 @@
       "title": "My Camps"
     },
     "material": {
+      "materialLists": {
+        "title": "Material lists"
+      },
       "materialOverview": {
         "createNewList": "Create material list",
         "download": "Download overview",
