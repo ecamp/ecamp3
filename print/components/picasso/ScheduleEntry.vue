@@ -38,7 +38,7 @@ export default {
     activityResponsiblesCommaSeparated(scheduleEntry) {
       const responsibles = activityResponsiblesCommaSeparated(
         scheduleEntry.activity(),
-        this.$tc.bind(this)
+        this.$t.bind(this)
       )
 
       if (responsibles === '') {

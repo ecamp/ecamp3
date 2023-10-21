@@ -6,7 +6,7 @@
           :id="`content_${index}_period_${period.id}`"
           class="text-2xl-relative tw-font-bold tw-mb-1 tw-flex-grow tw-d-inline"
         >
-          {{ $tc('print.picasso.title') }}
+          {{ $t('print.picasso.title') }}
           {{ period.description }}
         </h1>
         <span>{{ camp.organizer }}</span>
@@ -123,7 +123,7 @@ export default {
       return dayjs.formatDatePeriod(
         startDate,
         endDate,
-        this.$tc('global.datetime.dateLong'),
+        this.$t('global.datetime.dateLong'),
         this.$i18n.locale
       )
     },

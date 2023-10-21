@@ -66,7 +66,7 @@ export default {
             .hour(0)
             .minute(time * 60)
             .second(0)
-            .format(this.$tc('global.datetime.hourLong')),
+            .format(this.$t('global.datetime.hourLong')),
         }
       })
 

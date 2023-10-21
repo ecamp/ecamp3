@@ -1,6 +1,6 @@
 <template>
   <li>
-    {{ $tc('entity.period.name') }} {{ period.description }}
+    {{ $t('entity.period.name') }} {{ period.description }}
 
     <ul>
       <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />

@@ -26,7 +26,7 @@
       <table class="header-table">
         <tr>
           <th class="header-row left-col">
-            {{ $tc('entity.activity.fields.location') }}
+            {{ $t('entity.activity.fields.location') }}
           </th>
           <td class="header-row">
             {{ scheduleEntry.activity().location }}
@@ -34,7 +34,7 @@
         </tr>
         <tr>
           <th class="header-row left-col">
-            {{ $tc('entity.activity.fields.responsible') }}
+            {{ $t('entity.activity.fields.responsible') }}
           </th>
           <td class="header-row">
             {{ activityResponsiblesCommaSeparated }}
@@ -95,7 +95,7 @@ export default {
     activityResponsiblesCommaSeparated() {
       return activityResponsiblesCommaSeparated(
         this.scheduleEntry.activity(),
-        this.$tc.bind(this)
+        this.$t.bind(this)
       )
     },
   },

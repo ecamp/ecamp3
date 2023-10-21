@@ -4,13 +4,13 @@
       <thead class="tw-break-after-avoid">
         <tr>
           <th class="column column1 header tw-w-1/12 tw-text-left">
-            {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
+            {{ $t('contentNode.storyboard.entity.section.fields.column1') }}
           </th>
           <th class="column column2 header tw-w-10/12">
-            {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
+            {{ $t('contentNode.storyboard.entity.section.fields.column2Html') }}
           </th>
           <th class="column column3 header tw-w-1/12">
-            {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
+            {{ $t('contentNode.storyboard.entity.section.fields.column3') }}
           </th>
         </tr>
       </thead>

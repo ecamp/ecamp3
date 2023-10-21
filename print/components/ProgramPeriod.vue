@@ -2,7 +2,7 @@
   <div class="tw-break-after-page">
     <div>
       <h1 class="tw-text-center tw-font-semibold tw-mb-6">
-        {{ $tc('print.program.title') }}: {{ period.description }}
+        {{ $t('print.program.title') }}: {{ period.description }}
       </h1>
     </div>
 

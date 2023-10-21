@@ -2,7 +2,6 @@
   <div>
     <div>
       <generic-error-message v-if="error" :error="error" />
-
       <div v-for="(content, idx) in config.contents" v-else :key="idx">
         <component
           :is="'Config' + content.type"

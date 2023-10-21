@@ -5,7 +5,7 @@
     >
       <h2 class="tw-py-1 tw-flex tw-gap-2 tw-justify-between">
         <span class="tw-font-semibold">
-          {{ $tc('entity.day.name') }} {{ day.number }}
+          {{ $t('entity.day.name') }} {{ day.number }}
         </span>
         <span class="tw-tabular-nums">{{ dateLong(day.start) }}</span>
       </h2>
@@ -34,7 +34,7 @@
       </template>
     </template>
     <p v-else>
-      {{ $tc('components.story.storyDay.noStory') }}
+      {{ $t('components.story.storyDay.noStory') }}
     </p>
   </div>
 </template>
