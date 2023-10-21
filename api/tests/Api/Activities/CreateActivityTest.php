@@ -538,7 +538,7 @@ class CreateActivityTest extends ECampApiTestCase {
             )]
         );
 
-        // No Access on activity1 -> BadRequest
+        // Activity created
         $this->assertResponseStatusCodeSame(201);
     }
 
