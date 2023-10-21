@@ -8,13 +8,13 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.2.10
+ARG PHP_VERSION=8.2.11
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.18
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.7.4
+ARG CADDY_VERSION=2.7.5
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php

@@ -34,7 +34,7 @@
 	}
 
 	handle /mail* {
-		reverse_proxy mail:8025
+		reverse_proxy mail:1080
 	}
 
 	handle {

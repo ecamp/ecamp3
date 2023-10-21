@@ -121,7 +121,7 @@ browserless:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
     # renovate: datasource=docker depName=browserless/chrome
-    tag: "1.60.0-puppeteer-21.1.1"
+    tag: "1.60.2-puppeteer-21.3.6"
   service:
     type: ClusterIP
     port: 3000
@@ -140,13 +140,13 @@ mail:
   # If the dummy mail server is enabled, the domain where the web interface is available
   subpath: "/mail"
   image:
-    repository: "docker.io/mailhog/mailhog"
+    repository: "docker.io/maildev/maildev"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag: "latest"
   service:
     type: ClusterIP
-    port: 8025
+    port: 1080
   resources:
     requests:
       cpu: 10m

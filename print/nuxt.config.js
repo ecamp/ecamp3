@@ -28,7 +28,13 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/tailwind.css', '~/assets/typography.css', '~/assets/print-preview.css'],
+  css: [
+    '~/assets/tailwind.css',
+    '~/assets/typography.css',
+    '~/assets/print-preview.css',
+    '~/assets/calendar/CalendarDaily.sass',
+    '~/assets/calendar/CalendarWithEvents.sass',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -49,8 +55,6 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/vuetify',
   ],
   /*
    ** Nuxt.js modules
@@ -120,21 +124,6 @@ export default {
       },
     },
   },
-
-  /*
-   ** vuetify module configuration
-   ** https://github.com/nuxt-community/vuetify-module
-   */
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    treeShake: {
-      components: ['VCalendar', 'VSheet', 'VContainer', 'VCol', 'VRow'],
-    },
-    theme: {
-      dark: false,
-    },
-    defaultAssets: false,
-  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
@@ -175,6 +164,7 @@ export default {
         )
       }
     },
+    transpile: ['vue-icon'],
     postcss: {
       postcssOptions: {
         plugins: {

@@ -79,9 +79,9 @@ div.v-text-field__slot {
 .v-text-field.v-text-field--enclosed.v-text-field--single-line:not(.v-input--dense)
   .editor,
 .v-text-field.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense) .editor {
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 </style>

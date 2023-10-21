@@ -21,12 +21,4 @@ class ListUsersTest extends ECampApiTestCase {
         static::createClientWithCredentials()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(403);
     }
-
-    public function testSqlQueryCount() {
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/users');
-
-        $this->assertSqlQueryCount($client, 22);
-    }
 }

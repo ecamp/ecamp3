@@ -1,17 +1,15 @@
 <template>
-  <v-app dark>
-    <v-container>
-      <v-alert type="error">
-        <h1 v-if="error.statusCode === 404">
-          {{ pageNotFound }}
-        </h1>
-        <div v-else>
-          <h1>{{ otherError }}</h1>
-          {{ error.message }}
-        </div>
-      </v-alert>
-    </v-container>
-  </v-app>
+  <div>
+    <div class="error">
+      <h1 v-if="error.statusCode === 404">
+        {{ pageNotFound }}
+      </h1>
+      <div v-else>
+        <h1>{{ otherError }}</h1>
+        {{ error.message }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,5 +39,9 @@ export default {
 <style scoped>
 h1 {
   font-size: 20px;
+}
+
+.error {
+  background-color: lightcoral;
 }
 </style>

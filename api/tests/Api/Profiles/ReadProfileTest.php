@@ -94,15 +94,4 @@ class ReadProfileTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var Profile $profile */
-        $profile = static::$fixtures['profile2member'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/profiles/'.$profile->getId());
-
-        $this->assertSqlQueryCount($client, 6);
-    }
 }

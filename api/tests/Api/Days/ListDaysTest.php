@@ -122,12 +122,4 @@ class ListDaysTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
-
-    public function testSqlQueryCount() {
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/days');
-
-        $this->assertSqlQueryCount($client, 17);
-    }
 }

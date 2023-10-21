@@ -42,15 +42,4 @@ class ReadContentTypeTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var ContentType $contentType */
-        $contentType = static::$fixtures['contentTypeSafetyConcept'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/content_types/'.$contentType->getId());
-
-        $this->assertSqlQueryCount($client, 6);
-    }
 }

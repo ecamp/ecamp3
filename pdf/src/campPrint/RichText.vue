@@ -70,6 +70,17 @@ const rules = [
   {
     shouldProcessNode: (node) => node.type === 'tag' && node.name === 'li',
     processNode: (node, parent) => {
+      const emptyChild = {
+        type: 'text',
+        attrs: {},
+        children: [],
+      }
+      if (!node.children.length) {
+        node.children.push({ ...emptyChild })
+      }
+      if (!node.children[0].children.length) {
+        node.children[0].children.push({ ...emptyChild, content: '' })
+      }
       if (parent.name === 'ul') {
         node.children[0].children[0].content = '• ' + node.children[0].children[0].content
       } else if (parent.name === 'ol') {
