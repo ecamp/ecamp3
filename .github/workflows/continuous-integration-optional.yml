@@ -2,6 +2,8 @@ name: CI (optional checks)
 
 on:
   push:
+    branches-ignore:
+      - gh-readonly-queue/**
   pull_request:
   merge_group:
   workflow_dispatch:
@@ -81,7 +83,7 @@ jobs:
 
       - run: composer phpstan
         working-directory: api
-  
+
   api-validate-migrations:
     name: 'API: validate migrations'
     runs-on: ubuntu-latest

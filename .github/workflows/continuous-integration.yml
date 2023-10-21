@@ -6,6 +6,7 @@ on:
       - staging
       - prod
       - devel
+      - gh-readonly-queue/**
     tags-ignore:
       - staging
       - prod
@@ -136,7 +137,7 @@ jobs:
              exit 1
           fi
         working-directory: print
-  
+
   e2e-lint:
     name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
@@ -323,7 +324,7 @@ jobs:
           CI_PULL_REQUEST: ${{ github.event.number }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: print
-          
+
   pdf-tests:
     name: 'Tests: PDF'
     runs-on: ubuntu-latest

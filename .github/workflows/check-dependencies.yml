@@ -2,21 +2,22 @@ name: Dependency Check
 
 on:
   push:
+    branches-ignore:
+      - gh-readonly-queue/**
   pull_request:
   merge_group:
   workflow_dispatch:
   schedule:
-    - cron: "42 3 * * *"
+    - cron: '42 3 * * *'
 
 env:
   USER_ID: 1001
 
 jobs:
   api-check-dependencies:
-    name: "Api Platform check dependencies"
+    name: 'Api Platform check dependencies'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
