@@ -8,12 +8,9 @@
  */
 
 import puppeteer from 'puppeteer-core'
-const { performance } = require('perf_hooks')
-const { URL } = require('url')
-const { Router } = require('express')
-const { memoryUsage } = require('process')
-
-const router = Router()
+import { performance } from 'perf_hooks'
+import { URL } from 'url'
+import { memoryUsage } from 'process'
 
 let lastTime = null
 function measurePerformance(msg) {
@@ -33,35 +30,47 @@ function measurePerformance(msg) {
   console.log(msg || '')
 }
 
-// Test route
-router.use('/pdfChrome', async (req, res) => {
+export default defineEventHandler(async (event) => {
+  const {
+    basicAuthToken,
+    browserWsEndpoint,
+    printUrl,
+    cookiePrefix,
+    renderHtmlTimeoutMs,
+    renderPdfTimeoutMs,
+  } = useRuntimeConfig(event)
+
   let browser = null
+
+  console.log('browser endpoint')
+  console.log(browserWsEndpoint)
 
   try {
     measurePerformance('Connecting to puppeteer...')
     // Connect to browserless.io (puppeteer websocket)
     browser = await puppeteer.connect({
-      browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
+      browserWSEndpoint: browserWsEndpoint,
     })
     const context = await browser.createIncognitoBrowserContext()
 
     measurePerformance('Open new page & set cookies...')
     const page = await context.newPage()
-    const printUrl = new URL(process.env.PRINT_URL)
+    const printUrlObj = new URL(printUrl)
+    const requestCookies = parseCookies(event)
     const cookies = [
       {
-        name: `${process.env.COOKIE_PREFIX}jwt_s`,
-        value: req.cookies[`${process.env.COOKIE_PREFIX}jwt_s`],
-        domain: printUrl.host,
+        name: `${cookiePrefix}jwt_s`,
+        value: requestCookies[`${cookiePrefix}jwt_s`],
+        domain: printUrlObj.host,
         httpOnly: true,
         path: '/',
         sameSite: 'Lax',
         secure: false,
       },
       {
-        name: `${process.env.COOKIE_PREFIX}jwt_hp`,
-        value: req.cookies[`${process.env.COOKIE_PREFIX}jwt_hp`],
-        domain: printUrl.host,
+        name: `${cookiePrefix}jwt_hp`,
+        value: requestCookies[`${cookiePrefix}jwt_hp`],
+        domain: printUrlObj.host,
         httpOnly: true,
         path: '/',
         sameSite: 'Lax',
@@ -71,8 +80,8 @@ router.use('/pdfChrome', async (req, res) => {
     await page.setCookie(...cookies)
 
     const extraHeaders = {}
-    if (process.env.BASIC_AUTH_TOKEN) {
-      extraHeaders['Authorization'] = `Basic ${process.env.BASIC_AUTH_TOKEN}`
+    if (basicAuthToken) {
+      extraHeaders['Authorization'] = `Basic ${basicAuthToken}`
       await page.setExtraHTTPHeaders(extraHeaders)
     }
 
@@ -100,8 +109,9 @@ router.use('/pdfChrome', async (req, res) => {
     )
 
     // HTTP request back to Print Nuxt App
-    await page.goto(`${process.env.PRINT_URL}/?config=${req.query.config}`, {
-      timeout: process.env.RENDER_HTML_TIMEOUT_MS ?? 30000,
+    const queryParams = getQuery(event)
+    await page.goto(`${printUrl}/?config=${queryParams.config}`, {
+      timeout: renderHtmlTimeoutMs ?? 30000,
       waitUntil: 'networkidle0',
     })
 
@@ -120,14 +130,14 @@ router.use('/pdfChrome', async (req, res) => {
         right: '15mm',
         top: '15mm',
       },
-      timeout: process.env.RENDER_PDF_TIMEOUT_MS ?? 30000,
+      timeout: renderPdfTimeoutMs ?? 30000,
     })
 
     measurePerformance()
     browser.disconnect()
 
-    res.contentType('application/pdf')
-    res.send(pdf)
+    defaultContentType(event, 'application/pdf')
+    return pdf
   } catch (error) {
     if (browser) {
       browser.disconnect()
@@ -148,9 +158,9 @@ router.use('/pdfChrome', async (req, res) => {
 
     captureError(error)
 
-    res.status(status)
-    res.contentType('application/problem+json')
-    res.send({ status, title: errorMessage })
+    setResponseStatus(event, status)
+    defaultContentType(event, 'application/problem+json')
+    return { status, title: errorMessage }
   }
 })
 
@@ -164,5 +174,3 @@ function captureError(error) {
     console.error(error)
   }
 }
-
-module.exports = router

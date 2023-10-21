@@ -22,21 +22,21 @@ export default defineNuxtConfig({
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
    */
-  meta: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'robots', content: 'noindex, nofollow' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || '',
-      },
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-  },
+  // meta: {
+  //   titleTemplate: '%s - ' + process.env.npm_package_name,
+  //   title: process.env.npm_package_name || '',
+  //   meta: [
+  //     { charset: 'utf-8' },
+  //     { name: 'robots', content: 'noindex, nofollow' },
+  //     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  //     {
+  //       hid: 'description',
+  //       name: 'description',
+  //       content: import.meta.env.npm_package_description || '',
+  //     },
+  //   ],
+  //   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  // },
   /*
    ** Global CSS
    */
@@ -94,7 +94,7 @@ export default defineNuxtConfig({
   /*
    ** Server Middleware
    */
-  serverMiddleware: [{ path: '/server', handler: '~/server-middleware' }],
+  // serverMiddleware: [{ path: '/server', handler: '~/server-middleware' }],
 
   /**
    * Router config
@@ -109,10 +109,10 @@ export default defineNuxtConfig({
    ** See https://sentry.nuxtjs.org/sentry/options
    */
   // sentry: {
-  //   dsn: process.env.SENTRY_PRINT_DSN || '',
-  //   disabled: process.env.NODE_ENV === 'development',
+  //   dsn: import.meta.env.SENTRY_PRINT_DSN || '',
+  //   disabled: import.meta.env.NODE_ENV === 'development',
   //   config: {
-  //     environment: process.env.SENTRY_ENVIRONMENT ?? 'local',
+  //     environment: import.meta.env.SENTRY_ENVIRONMENT ?? 'local',
   //   },
   //   serverIntegrations: {
   //     CaptureConsole: {
@@ -142,19 +142,19 @@ export default defineNuxtConfig({
         },
       })
 
-      // const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+      // const sentryAuthToken = import.meta.env.SENTRY_AUTH_TOKEN
       // if (sentryAuthToken) {
       //   config.plugins.push(
       //     sentryWebpackPlugin({
       //       authToken: sentryAuthToken,
-      //       org: process.env.SENTRY_ORG || 'ecamp',
-      //       project: process.env.SENTRY_PRINT_PROJECT || 'ecamp3-print',
+      //       org: import.meta.env.SENTRY_ORG || 'ecamp',
+      //       project: import.meta.env.SENTRY_PRINT_PROJECT || 'ecamp3-print',
       //       telemetry: false,
       //       sourcemaps: {
       //         assets: ['.nuxt/**/*'],
       //       },
       //       release: {
-      //         name: process.env.SENTRY_RELEASE_NAME || 'development',
+      //         name: import.meta.env.SENTRY_RELEASE_NAME || 'development',
       //       },
       //     })
       //   )
@@ -180,7 +180,12 @@ export default defineNuxtConfig({
    * Environment variables available in the server at runtime
    */
   runtimeConfig: {
-    BASIC_AUTH_TOKEN: process.env.BASIC_AUTH_TOKEN,
+    basicAuthToken: null,
+    browserWsEndpoint: 'ws://browserless:3000',
+    printUrl: 'http://print:3003/print',
+    cookiePrefix: 'localhost_',
+    renderHtmlTimeoutMs: null,
+    renderPdfTimeoutMs: null,
   },
 
   telemetry: false,

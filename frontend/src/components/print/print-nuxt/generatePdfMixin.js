@@ -35,7 +35,7 @@ export const generatePdfMixin = {
         const response = await axios({
           baseURL: null,
           method: 'get',
-          url: `${PRINT_URL}/server/pdfChrome?config=${encodeURIComponent(
+          url: `${PRINT_URL}/api/pdf?config=${encodeURIComponent(
             JSON.stringify(config)
           )}`,
           responseType: 'arraybuffer',

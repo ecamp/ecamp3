@@ -5,12 +5,12 @@ export default defineNuxtPlugin(() => {
   axios.interceptors.request.clear()
   axios.interceptors.response.clear()
 
-  const runtimeConfig = useRuntimeConfig()
+  const { basicAuthToken } = useRuntimeConfig()
 
-  if (runtimeConfig.BASIC_AUTH_TOKEN) {
+  if (basicAuthToken) {
     axios.interceptors.request.use(function (config) {
       if (!config.headers['Authorization']) {
-        config.headers['Authorization'] = `Basic ${runtimeConfig.BASIC_AUTH_TOKEN}`
+        config.headers['Authorization'] = `Basic ${basicAuthToken}`
       }
       return config
     })
