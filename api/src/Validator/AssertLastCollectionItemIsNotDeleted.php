@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class AssertLastCollectionItemIsNotDeleted extends Constraint {
     public const IS_EMPTY_ERROR = 'IS_EMPTY_ERROR';
-    public string $message = 'This collection should not be empty.';
+    public string $message = 'Cannot delete the last entry.';
 
     public function __construct(
         array $options = null,

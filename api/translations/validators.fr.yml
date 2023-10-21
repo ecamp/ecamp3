@@ -3,3 +3,5 @@ This inviteEmail is already present in the camp.: "Cette adresse e-mail a déjà
 This is a test message for i18n variants: "fr"
 This user is already present in the camp.: "Cet utilisateur ou un utilisateur avec cette adresse e-mail participe déjà au camp."
 value must be one of {{ to }}, was {{ value }}: "La valeur doit être l'une des suivantes : {{ to }}, a été {{ value }}"
+Cannot delete the last entry.: "Il n'est pas possible d'effacer la dernière entrée."
+Cannot delete the last schedule entry.: "L'activité doit être réalisée au moins une fois."

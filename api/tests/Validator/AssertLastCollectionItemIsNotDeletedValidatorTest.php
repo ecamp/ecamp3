@@ -55,7 +55,7 @@ class AssertLastCollectionItemIsNotDeletedValidatorTest extends ConstraintValida
         $this->validator->validate($object->a, new AssertLastCollectionItemIsNotDeleted());
 
         // then
-        $this->buildViolation('This collection should not be empty.')
+        $this->buildViolation('Cannot delete the last entry.')
             ->setInvalidValue($collectionMock)
             ->setCode(AssertLastCollectionItemIsNotDeleted::IS_EMPTY_ERROR)
             ->assertRaised()

@@ -85,7 +85,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      * The list of points in time when this activity's programme will be carried out.
      */
     #[Assert\Valid]
-    #[AssertLastCollectionItemIsNotDeleted(groups: ['ScheduleEntry:delete'], message: 'An activity must have at least one ScheduleEntry')]
+    #[AssertLastCollectionItemIsNotDeleted(groups: ['ScheduleEntry:delete'], message: 'Cannot delete the last schedule entry.')]
     #[Assert\Count(min: 1, groups: ['create'])]
     #[ApiProperty(
         writableLink: true,
