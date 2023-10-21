@@ -17,6 +17,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     if (config.method === 'patch') {
       config.headers['Content-Type'] = 'application/merge-patch+json'
     }
+    config.headers['Cookie'] = 'XDEBUG_SESSION=VSCODE;'
     return config
   })
 

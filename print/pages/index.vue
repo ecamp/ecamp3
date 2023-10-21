@@ -13,30 +13,26 @@
       </div>
     </v-col>
   </v-row> -->
-  <div>{{ root }}</div>
+  <div>{{ camp }}</div>
 </template>
 
 <script>
 export default defineNuxtComponent({
-  data() {
-    return {
-      config: {},
-      camp: null,
-    }
-  },
-
   fetchKey: 'root',
   async asyncData() {
     const { $api } = useNuxtApp()
+    const route = useRoute()
+
+    const query = route.query
+    const config = JSON.parse(query.config || '{}')
+
+    console.log(config)
+
     return {
-      root: await $api.get()._meta.load,
+      camp: await $api.get(config.camp)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+      config,
     }
   },
-  // async fetch() {
-  //   const query = this.$route.query
-  //   this.config = JSON.parse(query.config || '{}')
-  //   this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-  // },
 })
 </script>
 

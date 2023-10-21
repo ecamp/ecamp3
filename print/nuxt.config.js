@@ -6,9 +6,9 @@ export default defineNuxtConfig({
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: 'server',
-  devServer: {
-    port: 3021,
-  },
+  // devServer: {
+  //   port: 3021,
+  // },
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
