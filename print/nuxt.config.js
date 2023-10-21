@@ -1,6 +1,10 @@
-import { sentryWebpackPlugin } from '@sentry/webpack-plugin'
+// import { sentryWebpackPlugin } from '@sentry/webpack-plugin'
 
 export default defineNuxtConfig({
+  app: {
+    baseURL: '/print/',
+  },
+
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -48,9 +52,9 @@ export default defineNuxtConfig({
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
+    { src: '~/plugins/axios.js' }, // axios needs to load first, because the configured axios instance is utilized in hal-json-vuex
     { src: '~/plugins/hal-json-vuex.js' },
     { src: '~/plugins/dayjs.js' },
-    { src: '~/plugins/axios.js' },
   ],
 
   /*
@@ -63,6 +67,8 @@ export default defineNuxtConfig({
     // Doc: https://sentry.nuxtjs.org/guide/usage
     // Support for Nuxt3: https://github.com/nuxt-community/sentry-module/issues/619
     // '@nuxtjs/sentry',
+
+    '@nuxtjs/tailwindcss',
 
     // Doc: https://i18n.nuxtjs.org/basic-usage
     [
@@ -102,18 +108,18 @@ export default defineNuxtConfig({
    ** Sentry module configuration
    ** See https://sentry.nuxtjs.org/sentry/options
    */
-  sentry: {
-    dsn: process.env.SENTRY_PRINT_DSN || '',
-    disabled: process.env.NODE_ENV === 'development',
-    config: {
-      environment: process.env.SENTRY_ENVIRONMENT ?? 'local',
-    },
-    serverIntegrations: {
-      CaptureConsole: {
-        levels: ['warn', 'error'],
-      },
-    },
-  },
+  // sentry: {
+  //   dsn: process.env.SENTRY_PRINT_DSN || '',
+  //   disabled: process.env.NODE_ENV === 'development',
+  //   config: {
+  //     environment: process.env.SENTRY_ENVIRONMENT ?? 'local',
+  //   },
+  //   serverIntegrations: {
+  //     CaptureConsole: {
+  //       levels: ['warn', 'error'],
+  //     },
+  //   },
+  // },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
@@ -136,33 +142,33 @@ export default defineNuxtConfig({
         },
       })
 
-      const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
-      if (sentryAuthToken) {
-        config.plugins.push(
-          sentryWebpackPlugin({
-            authToken: sentryAuthToken,
-            org: process.env.SENTRY_ORG || 'ecamp',
-            project: process.env.SENTRY_PRINT_PROJECT || 'ecamp3-print',
-            telemetry: false,
-            sourcemaps: {
-              assets: ['.nuxt/**/*'],
-            },
-            release: {
-              name: process.env.SENTRY_RELEASE_NAME || 'development',
-            },
-          })
-        )
-      }
+      // const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+      // if (sentryAuthToken) {
+      //   config.plugins.push(
+      //     sentryWebpackPlugin({
+      //       authToken: sentryAuthToken,
+      //       org: process.env.SENTRY_ORG || 'ecamp',
+      //       project: process.env.SENTRY_PRINT_PROJECT || 'ecamp3-print',
+      //       telemetry: false,
+      //       sourcemaps: {
+      //         assets: ['.nuxt/**/*'],
+      //       },
+      //       release: {
+      //         name: process.env.SENTRY_RELEASE_NAME || 'development',
+      //       },
+      //     })
+      //   )
+      // }
     },
     transpile: ['vue-icon'],
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
-    },
+    // postcss: {
+    //   postcssOptions: {
+    //     plugins: {
+    //       tailwindcss: {},
+    //       autoprefixer: {},
+    //     },
+    //   },
+    // },
   },
 
   experimental: {

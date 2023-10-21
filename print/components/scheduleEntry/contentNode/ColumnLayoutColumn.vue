@@ -51,7 +51,6 @@ export default {
   flex: 0 0 100%;
 }
 
-$step: (500-100) / 12;
 @for $i from 1 through 12 {
   .ec-col-#{$i} {
     flex: $i 0 0;
