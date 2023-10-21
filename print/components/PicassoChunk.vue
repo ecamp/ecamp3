@@ -34,7 +34,7 @@
           class="categories"
         >
           <div class="category">
-            <category-label :category="category"></category-label>
+            <category-label :category="category" />
             {{ category.name }}
           </div>
         </div>
@@ -49,7 +49,9 @@
             tag="span"
             path="print.picasso.picassoFooter.courseNumber"
           >
-            <template #courseNumber>{{ camp.courseNumber }}</template>
+            <template #courseNumber>
+              {{ camp.courseNumber }}
+            </template>
           </i18n>
           <span v-if="camp.motto" class="tw-self-start">{{ camp.motto }}</span>
         </div>
@@ -59,17 +61,23 @@
         </div>
         <div class="footer-column">
           <i18n tag="span" path="print.picasso.picassoFooter.leaders">
-            <template #leaders>{{ leaderNameList }}</template>
+            <template #leaders>
+              {{ leaderNameList }}
+            </template>
           </i18n>
           <i18n v-if="camp.coachName" tag="span" path="print.picasso.picassoFooter.coach">
-            <template #coach>{{ camp.coachName }}</template>
+            <template #coach>
+              {{ camp.coachName }}
+            </template>
           </i18n>
           <i18n
             v-if="camp.trainingAdvisorName"
             tag="span"
             path="print.picasso.picassoFooter.trainingAdvisor"
           >
-            <template #trainingAdvisor>{{ camp.trainingAdvisorName }}</template>
+            <template #trainingAdvisor>
+              {{ camp.trainingAdvisorName }}
+            </template>
           </i18n>
         </div>
       </div>

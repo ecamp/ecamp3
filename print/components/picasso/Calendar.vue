@@ -1,9 +1,9 @@
 <template>
   <div role="grid" class="v-calendar v-calendar-daily theme--light v-calendar-events">
     <div class="v-calendar-daily__head" style="margin-right: 0px">
-      <div class="v-calendar-daily__intervals-head" style="width: 46px"></div>
+      <div class="v-calendar-daily__intervals-head" style="width: 46px" />
       <div v-for="day in days" :key="day.id" class="v-calendar-daily_head-day v-future">
-        <div class="v-calendar-daily_head-weekday"></div>
+        <div class="v-calendar-daily_head-weekday" />
         <div class="v-calendar-daily_head-day-label">
           <PicassoCalendarDayHeader :day="day" />
         </div>
@@ -20,7 +20,9 @@
                 class="v-calendar-daily__interval"
                 :style="`height: ${height}px`"
               >
-                <div class="v-calendar-daily__interval-text">{{ time }}</div>
+                <div class="v-calendar-daily__interval-text">
+                  {{ time }}
+                </div>
               </div>
             </div>
             <picasso-calendar-day

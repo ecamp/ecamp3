@@ -3,10 +3,16 @@
     <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <table v-else>
       <tr v-for="item in items" :key="item.id" class="item tw-tabular-nums">
-        <td align="right">{{ item.quantity }}</td>
+        <td align="right">
+          {{ item.quantity }}
+        </td>
         <td>{{ item.unit || (item.quantity && '×') }}</td>
-        <td width="65%">{{ item.article }}</td>
-        <td width="30%">{{ item.materialList().name }}</td>
+        <td width="65%">
+          {{ item.article }}
+        </td>
+        <td width="30%">
+          {{ item.materialList().name }}
+        </td>
       </tr>
     </table>
   </content-node-content>

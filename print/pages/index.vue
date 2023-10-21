@@ -16,7 +16,7 @@
 </template>
 
 <script>
-export default {
+export default defineNuxtComponent({
   data() {
     return {
       config: {},
@@ -35,7 +35,7 @@ export default {
       },
     }
   },
-}
+})
 </script>
 
 <style>

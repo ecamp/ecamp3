@@ -6,7 +6,7 @@
       :key="i"
       class="v-calendar-daily__day-interval"
       :style="`height: ${time.height}px`"
-    ></div>
+    />
 
     <div class="v-event-timed-container">
       <div
@@ -20,7 +20,7 @@
         }"
       >
         <PicassoScheduleEntry :schedule-entry="scheduleEntry" />
-        <span class="tw-float-right tw-italic ml-1" style="color: #000"> </span>
+        <span class="tw-float-right tw-italic ml-1" style="color: #000" />
       </div>
     </div>
   </div>

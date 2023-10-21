@@ -1,6 +1,8 @@
 <template>
   <div class="tw-text-rose-600">
-    <h1 class="tw-text-lg tw-font-semibold">{{ title }}</h1>
+    <h1 class="tw-text-lg tw-font-semibold">
+      {{ title }}
+    </h1>
     {{ message }}
     {{ error.message }}
   </div>

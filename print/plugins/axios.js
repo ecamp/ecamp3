@@ -1,31 +1,36 @@
-export default function ({ $axios, $config }) {
-  if ($config.BASIC_AUTH_TOKEN) {
-    $axios.onRequest((config) => {
+import axios from 'axios'
+
+export default defineNuxtPlugin(() => {
+  const runtimeConfig = useRuntimeConfig()
+
+  if (runtimeConfig.BASIC_AUTH_TOKEN) {
+    axios.interceptors.request.use(function (config) {
       if (!config.headers['Authorization']) {
-        config.headers['Authorization'] = `Basic ${$config.BASIC_AUTH_TOKEN}`
+        config.headers['Authorization'] = `Basic ${runtimeConfig.BASIC_AUTH_TOKEN}`
       }
       return config
     })
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    $axios.onRequest((config) => {
+    axios.interceptors.request.use(function (config) {
       config.meta = config.meta || {}
       config.meta.requestStartedAt = new Date().getTime()
       return config
     })
 
-    $axios.onResponse((response) => {
-      console.log(
-        `${response.config.url} - execution time: ${
-          new Date().getTime() - response.config.meta.requestStartedAt
-        } ms`
-      )
-      return response
-    })
-
-    $axios.onError((error) => {
-      console.log(`${error.config.url} - call to API failed`)
-    })
+    axios.interceptors.response.use(
+      function (response) {
+        console.log(
+          `${response.config.url} - execution time: ${
+            new Date().getTime() - response.config.meta.requestStartedAt
+          } ms`
+        )
+        return response
+      },
+      (error) => {
+        console.log(`${error.config.url} - call to API failed`)
+      }
+    )
   }
-}
+})

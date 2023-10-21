@@ -1,11 +1,11 @@
 <template>
   <div class="container" fluid>
-    <nuxt />
+    <slot />
   </div>
 </template>
 
 <script>
-export default {
+export default defineNuxtComponent({
   head() {
     const header = {}
 
@@ -76,7 +76,7 @@ export default {
 
     return header
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

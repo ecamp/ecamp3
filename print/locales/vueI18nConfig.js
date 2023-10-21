@@ -18,31 +18,30 @@ import enCHScoutCommon from '~/../common/locales/en-CH-scout.json'
 import deCommon from '~/../common/locales/de.json'
 import deCHScoutCommon from '~/../common/locales/de-CH-scout.json'
 
-export default () => {
-  return {
-    fallbackLocale: 'en',
-    messages: deepmerge(
-      {
-        it: itCommon,
-        'it-CH-scout': itCHScoutCommon,
-        fr: frCommon,
-        'fr-CH-scout': frCHScoutCommon,
-        en: enCommon,
-        'en-CH-scout': enCHScoutCommon,
-        de: deCommon,
-        'de-CH-scout': deCHScoutCommon,
-      },
-      {
-        it,
-        'it-CH-scout': itCHScout,
-        fr,
-        'fr-CH-scout': frCHScout,
-        en,
-        'en-CH-scout': enCHScout,
-        de,
-        'de-CH-scout': deCHScout,
-      }
-    ),
-    silentTranslationWarn: true,
-  }
-}
+export default defineI18nConfig(() => ({
+  legacy: true,
+  fallbackLocale: 'en',
+  messages: deepmerge(
+    {
+      it: itCommon,
+      'it-CH-scout': itCHScoutCommon,
+      fr: frCommon,
+      'fr-CH-scout': frCHScoutCommon,
+      en: enCommon,
+      'en-CH-scout': enCHScoutCommon,
+      de: deCommon,
+      'de-CH-scout': deCHScoutCommon,
+    },
+    {
+      it,
+      'it-CH-scout': itCHScout,
+      fr,
+      'fr-CH-scout': frCHScout,
+      en,
+      'en-CH-scout': enCHScout,
+      de,
+      'de-CH-scout': deCHScout,
+    }
+  ),
+  silentTranslationWarn: true,
+}))

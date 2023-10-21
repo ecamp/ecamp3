@@ -1,6 +1,6 @@
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin'
 
-export default {
+export default defineNuxtConfig({
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -10,7 +10,7 @@ export default {
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
    */
-  head: {
+  meta: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
     meta: [
@@ -44,27 +44,17 @@ export default {
     { src: '~/plugins/dayjs.js' },
     { src: '~/plugins/axios.js' },
   ],
-  /*
-   ** Auto import components
-   ** See https://nuxtjs.org/api/configuration-components
-   */
-  components: true,
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-  ],
+
   /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    // Doc: https://github.com/nuxt-community/eslint-module
+    '@nuxtjs/eslint-module',
 
     // Doc: https://sentry.nuxtjs.org/guide/usage
-    '@nuxtjs/sentry',
+    // Support for Nuxt3: https://github.com/nuxt-community/sentry-module/issues/619
+    // '@nuxtjs/sentry',
 
     // Doc: https://i18n.nuxtjs.org/basic-usage
     [
@@ -100,14 +90,6 @@ export default {
     middleware: 'i18n',
   },
 
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3000/api',
-    credentials: true,
-  },
   /*
    ** Sentry module configuration
    ** See https://sentry.nuxtjs.org/sentry/options
@@ -175,19 +157,15 @@ export default {
     },
   },
 
-  /*
-   ** Render configuration
-   ** See https://nuxtjs.org/api/configuration-render/
-   */
-  render: {
+  experimental: {
     // deactivates injecting nuxt Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
-    injectScripts: false,
+    noScripts: true,
   },
 
   /**
    * Environment variables available in the server at runtime
    */
-  privateRuntimeConfig: {
+  runtimeConfig: {
     BASIC_AUTH_TOKEN: process.env.BASIC_AUTH_TOKEN,
   },
 
@@ -205,4 +183,4 @@ export default {
       }
     },
   },
-}
+})
