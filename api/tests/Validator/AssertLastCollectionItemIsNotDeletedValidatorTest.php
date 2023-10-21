@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  * @internal
  */
 class AssertLastCollectionItemIsNotDeletedValidatorTest extends ConstraintValidatorTestCase {
-
     private MockObject|RequestStack $requestStack;
     private MockObject|EntityManagerInterface $em;
 
