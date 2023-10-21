@@ -371,9 +371,13 @@ export default {
       }
     },
     async copyUrlToClipboard() {
-      const res = await navigator.permissions.query({ name: 'clipboard-read' })
-      if (res.state == 'prompt') {
-        this.$refs.copyInfoDialog.open()
+      try {
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state == 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
       }
 
       const scheduleEntry = scheduleEntryRoute(this.scheduleEntry())

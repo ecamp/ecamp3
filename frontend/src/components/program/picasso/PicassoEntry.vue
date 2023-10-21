@@ -270,9 +270,13 @@ export default {
       })
     },
     async copyUrlToClipboard() {
-      let res = await navigator.permissions.query({ name: 'clipboard-read' })
-      if (res.state == 'prompt') {
-        this.$refs.copyInfoDialog.open()
+      try {
+        let res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state == 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
       }
 
       let url = window.location.origin + router.resolve(this.scheduleEntryRoute).href

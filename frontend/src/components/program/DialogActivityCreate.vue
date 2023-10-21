@@ -19,7 +19,7 @@
     <template #moreActions>
       <copy-activity-info-dialog @closed="refreshCopyActivitySource">
         <template #activator="{ on }">
-          <v-btn v-show="clipboardPermission == 'prompt'" v-on="on">
+          <v-btn v-show="clipboardPermission === 'prompt'" v-on="on">
             <v-icon left>mdi-information-outline</v-icon>
             {{ $tc('components.program.dialogActivityCreate.copyPastActivity') }}
           </v-btn>
@@ -27,19 +27,37 @@
       </copy-activity-info-dialog>
     </template>
 
+    <div v-if="clipboardUnsccessable">
+      <e-text-field
+        v-model="copyActivitySourceUrl"
+        label="Aktivität kopieren"
+        style="margin-bottom: 12px"
+      >
+        <template #append>
+          <icon-with-tooltip
+            tooltip-i18n-key="components.program.dialogActivityCreate.copySourceInfo"
+            width="36"
+            height="36"
+          />
+        </template>
+      </e-text-field>
+    </div>
+
     <div v-if="hasCopyActivitySource">
       <div class="mb-8">
-        {{ $tc('components.program.dialogActivityCreate.clipboard') }}
-        <div style="float: right">
-          <small>
-            <a
-              href="#"
-              style="color: inherit; text-decoration: none"
-              @click="clearClipboard"
-            >
-              {{ $tc('components.program.dialogActivityCreate.clearClipboard') }}
-            </a>
-          </small>
+        <div v-if="!clipboardUnsccessable">
+          {{ $tc('components.program.dialogActivityCreate.clipboard') }}
+          <div style="float: right">
+            <small>
+              <a
+                href="#"
+                style="color: inherit; text-decoration: none"
+                @click="clearClipboard"
+              >
+                {{ $tc('components.program.dialogActivityCreate.clearClipboard') }}
+              </a>
+            </small>
+          </div>
         </div>
         <v-list-item
           class="ec-copy-source rounded-xl blue-grey lighten-5 blue-grey--text text--darken-4 mt-1"
@@ -99,12 +117,16 @@ export default {
     return {
       clipboardPermission: 'unknown',
       copyActivitySource: null,
+      copyActivitySourceUrl: null,
       entityProperties: ['title', 'location', 'scheduleEntries'],
       embeddedEntities: ['category'],
       entityUri: '/activities',
     }
   },
   computed: {
+    clipboardUnsccessable() {
+      return this.clipboardPermission === 'unaccessable'
+    },
     hasCopyActivitySource() {
       return this.copyActivitySource != null && this.copyActivitySource._meta.self != null
     },
@@ -148,27 +170,41 @@ export default {
       } else {
         this.canReadClipboard = 'unknown'
         // clear the variable parts of the form on exit
+        this.copyActivitySource = null
+        this.copyActivitySourceUrl = null
         this.entityData.location = ''
         this.entityData.scheduleEntries = []
       }
     },
+    copyActivitySourceUrl: function (url) {
+      this.getCopyActivitySource(url).then((activity) => {
+        this.$set(this, 'copyActivitySource', activity)
+        this.$set(this, 'copyContent', activity != null)
+      })
+    },
   },
   methods: {
     refreshCopyActivitySource() {
-      navigator.permissions.query({ name: 'clipboard-read' }).then((p) => {
-        this.$set(this, 'clipboardPermission', p.state)
-        this.$set(this, 'copyActivitySource', null)
+      navigator.permissions.query({ name: 'clipboard-read' }).then(
+        (p) => {
+          this.$set(this, 'clipboardPermission', p.state)
+          this.$set(this, 'copyActivitySource', null)
 
-        if (p.state == 'granted') {
-          this.getCopyActivitySource().then((activity) => {
-            this.$set(this, 'copyActivitySource', activity)
-          })
+          if (p.state == 'granted') {
+            navigator.clipboard.readText().then((url) => {
+              this.getCopyActivitySource(url).then((activity) => {
+                this.$set(this, 'copyActivitySource', activity)
+              })
+            })
+          }
+        },
+        () => {
+          this.clipboardPermission = 'unaccessable'
+          console.warn('clipboard permission not requestable')
         }
-      })
+      )
     },
-    async getCopyActivitySource() {
-      let url = await navigator.clipboard.readText()
-
+    async getCopyActivitySource(url) {
       if (url.startsWith(window.location.origin)) {
         url = url.substring(window.location.origin.length)
         let match = router.matcher.match(url)

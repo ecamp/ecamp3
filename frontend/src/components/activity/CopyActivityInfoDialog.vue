@@ -45,9 +45,13 @@ export default {
     }
   },
   async mounted() {
-    // read current permission
-    const res = await navigator.permissions.query({ name: 'clipboard-read' })
-    this.clipboardReadState = res.state
+    try {
+      // read current permission
+      const res = await navigator.permissions.query({ name: 'clipboard-read' })
+      this.clipboardReadState = res.state
+    } catch {
+      console.warn('clipboard permission not requestable')
+    }
   },
   methods: {
     cancel() {
