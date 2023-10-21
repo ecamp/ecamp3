@@ -54,7 +54,7 @@ class FlexLayout extends ContentNode implements SupportsContentNodeChildren {
     public const JSON_SCHEMA = [
         'type' => 'object',
         'additionalProperties' => false,
-        'required' => ['items', 'variant'],
+        'required' => ['items'],
         'properties' => [
             'items' => [
                 'type' => 'array',
@@ -65,19 +65,15 @@ class FlexLayout extends ContentNode implements SupportsContentNodeChildren {
                     'properties' => [
                         'slot' => [
                             'type' => 'string',
-                            'pattern' => '^[1-9][0-9]*$',
+                            'enum' => ['main', 'aside-top', 'aside-bottom'],
                         ],
                     ],
                 ],
             ],
-            'variant' => [
-                'type' => 'string',
-                'enum' => ['columns', 'main-aside', 'aside-main'],
-            ],
         ],
     ];
 
-    public const DATA_DEFAULT = '{"items":[{"slot":"1"},{"slot":"2"}], "variant": "main-aside"}';
+    public const DATA_DEFAULT = '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}';
 
     /**
      * All content nodes that are part of this content node tree.
@@ -98,7 +94,7 @@ class FlexLayout extends ContentNode implements SupportsContentNodeChildren {
      */
     #[ApiProperty(
         default: self::DATA_DEFAULT,
-        example: ['items' => [['slot' => '1'], ['slot' => '2']], 'variant' => 'main-aside'],
+        example: ['items' => [['slot' => 'main'], ['slot' => 'aside-top'], ['slot' => 'aside-bottom']]],
     )]
     #[Groups(['read', 'write'])]
     #[Assert\Sequentially(constraints: [

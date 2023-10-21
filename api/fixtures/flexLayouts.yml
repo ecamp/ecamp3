@@ -1,0 +1,9 @@
+App\Entity\ContentNode\FlexLayout:
+  flexLayout2:
+    root: '@columnLayout2'
+    parent: '@columnLayout2'
+    slot: '1'
+    position: 0
+    data: { items: [{ slot: '1' }, {slot: '2' }], variant: 'main-aside' }
+    instanceName: 'flexLayout2'
+    contentType: '@contentTypeFlexLayout'

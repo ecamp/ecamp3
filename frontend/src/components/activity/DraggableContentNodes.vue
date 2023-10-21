@@ -184,7 +184,7 @@ export default {
     left: 4px;
     right: 4px;
     border-radius: 5px;
-    border: 2px dashed map-get($blue-grey, 'base');
+    border: 2px dotted map-get($blue-grey, 'base');
     background: map-get($blue-grey, 'lighten-4');
     opacity: 40%;
     content: '';

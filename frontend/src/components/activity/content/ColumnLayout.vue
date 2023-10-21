@@ -1,10 +1,12 @@
 <template>
-  <div
+  <ContentLayout
     v-resizeobserver.debounce="onResize"
     class="ec-column-layout"
     :class="{ 'ec-column-layout--layout-mode my-2': !isRoot && layoutMode }"
+    :is-root="isRoot"
+    :layout-mode="layoutMode"
   >
-    <div v-if="!isRoot && layoutMode" class="text-center">
+    <template #header>
       Column Layout
       <MenuCardlessContentNode :content-node="contentNode">
         <column-operations
@@ -13,7 +15,7 @@
           :total-width="totalWidth"
         />
       </MenuCardlessContentNode>
-    </div>
+    </template>
     <div
       v-if="!contentNode.loading"
       class="d-flex flex-wrap ec-column-layout__container"
@@ -46,7 +48,7 @@
         />
       </resizable-column>
     </div>
-  </div>
+  </ContentLayout>
 </template>
 
 <script>
@@ -58,7 +60,7 @@ import ColumnOperations from '@/components/activity/content/columnLayout/ColumnO
 import { idToColor } from '@/common/helpers/colors.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
-import LayoutItem from '@/components/activity/content/LayoutItem.vue'
+import ContentLayout from '@/components/activity/content/ContentLayout.vue'
 
 function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)
@@ -68,7 +70,7 @@ function cumulativeSumReducer(cumSum, nextElement) {
 export default {
   name: 'ColumnLayout',
   components: {
-    LayoutItem,
+    ContentLayout,
     MenuCardlessContentNode,
     ColumnOperations,
     DraggableContentNodes,
@@ -121,9 +123,6 @@ export default {
     },
     isDefaultVariant() {
       return this.clientWidth > 870
-    },
-    totalWidths() {
-      return Object.values(this.localColumnWidths).reduce((a, b) => a + b, 0)
     },
   },
   watch: {

@@ -1,66 +1,103 @@
 <template>
-  <div
+  <ContentLayout
+    v-resizeobserver.debounce="onResize"
     class="ec-flexlayout"
     :class="{
       'ec-flexlayout--layout-mode': layoutMode,
       'ec-flexlayout--read-mode': !layoutMode,
-      'ec-flexlayout--main-aside': currentLayout.name === 'main-aside',
-      'ec-flexlayout--aside-main': currentLayout.name === 'aside-main',
     }"
+    :is-root="isRoot"
+    :layout-mode="layoutMode"
   >
-    <div v-if="layoutMode" class="text-center d-flex align-center justify-center gap-1">
-      <span>Automatic Layout </span>
-      <v-btn-toggle
-        :value="currentLayoutName"
-        small
-        dense
-        color="primary"
-        @change="saveData"
-      >
-        <v-btn
-          v-for="variant in variants"
-          :key="variant.name"
-          small
-          :value="variant.name"
-          @click="currentLayoutName = variant.name"
-        >
-          <v-icon dense>$vuetify.icons.{{ variant.icon }}</v-icon>
-        </v-btn>
-      </v-btn-toggle>
+    <template #header>
+      <span>Flexibles Layout </span>
 
       <menu-cardless-content-node :content-node="contentNode" />
-    </div>
+    </template>
     <div v-if="!contentNode.loading" class="ec-flexlayout__container">
       <LayoutItem
-        v-for="(item, slot) in currentLayout.items"
-        :key="slot + 1"
-        :parent-content-node="contentNode"
-        :layout-mode="layoutMode"
-        :basis="item.basis"
-        :grow="item.grow"
+        v-if="!isDefaultVariant && (hasAsideTop || layoutMode)"
+        basis="min(420px,100%)"
+        grow="1"
       >
-        <draggable-content-nodes
-          :slot-name="slot + 1 + ''"
-          :layout-mode="layoutMode"
-          :parent-content-node="contentNode"
-          :disabled="disabled"
-          :direction="item.direction"
+        <div class="d-flex flex-column flex-grow-1 ec-flexlayout__slot">
+          <p v-if="layoutMode" class="text-center">Über dem Hauptinhalt drucken</p>
+          <draggable-content-nodes
+            slot-name="aside-top"
+            :layout-mode="layoutMode"
+            :parent-content-node="contentNode"
+            :disabled="disabled"
+            direction="row"
+          />
+        </div>
+      </LayoutItem>
+      <LayoutItem basis="min(700px,100%)" grow="3">
+        <div class="d-flex flex-column flex-grow-1 text-center ec-flexlayout__slot">
+          <p v-if="layoutMode" class="text-center">Hauptinhalt</p>
+          <draggable-content-nodes
+            slot-name="main"
+            :layout-mode="layoutMode"
+            :parent-content-node="contentNode"
+            :disabled="disabled"
+            direction="column"
+          />
+        </div>
+      </LayoutItem>
+      <LayoutItem
+        basis="min(400px,100%)"
+        grow="1"
+        class="justify-space-between ec-flexlayout__aside"
+      >
+        <div
+          v-if="isDefaultVariant && (hasAsideTop || layoutMode)"
+          class="d-flex flex-column text-center ec-flexlayout__slot"
+          :class="{ 'flex-grow-1': !layoutMode }"
+        >
+          <p v-if="layoutMode" class="text-center">Über dem Hauptinhalt drucken</p>
+          <draggable-content-nodes
+            slot-name="aside-top"
+            :layout-mode="layoutMode"
+            :parent-content-node="contentNode"
+            :disabled="disabled"
+            direction="row"
+          />
+        </div>
+        <v-sheet
+          v-if="!layoutMode && isDefaultVariant && hasAsideTop && hasAsideBottom"
+          tile
+          class="flex-grow-1"
         />
+        <div
+          v-if="hasAsideBottom || layoutMode"
+          class="d-flex flex-column ec-flexlayout__slot"
+          :class="{ 'flex-grow-1': !layoutMode }"
+        >
+          <p v-if="layoutMode" class="text-center">Unter dem Hauptinhalt drucken</p>
+          <draggable-content-nodes
+            slot-name="aside-bottom"
+            :layout-mode="layoutMode"
+            :parent-content-node="contentNode"
+            :disabled="disabled"
+            direction="row"
+          />
+        </div>
       </LayoutItem>
     </div>
-  </div>
+  </ContentLayout>
 </template>
 
 <script>
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
-import { errorToMultiLineToast } from '@/components/toast/toasts'
 import LayoutItem from '@/components/activity/content/LayoutItem.vue'
 import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
+import ContentLayout from '@/components/activity/content/ContentLayout.vue'
+import { groupBy } from 'lodash'
 
 export default {
   name: 'FlexLayout',
   components: {
+    ContentLayout,
     MenuCardlessContentNode,
     LayoutItem,
     DraggableContentNodes,
@@ -68,59 +105,29 @@ export default {
   mixins: [contentNodeMixin],
   data() {
     return {
-      currentLayoutName: 'main-aside',
-      variants: [
-        {
-          name: 'aside-main',
-          icon: 'layoutAsideMain',
-          items: [
-            { slot: '0', grow: 1, basis: 'min(320px,100%)', direction: 'row' },
-            { slot: '1', grow: 3, basis: 'min(480px,100%)', direction: 'column' },
-          ],
-        },
-        {
-          name: 'main-aside',
-          icon: 'layoutMainAside',
-          items: [
-            { slot: '0', grow: 3, basis: 'min(480px,100%)', direction: 'column' },
-            { slot: '1', grow: 1, basis: 'min(320px,100%)', direction: 'row' },
-          ],
-        },
-      ],
+      clientWidth: 1066,
     }
   },
   computed: {
-    dataLayoutName() {
-      return this.contentNode.data.variant
+    hasAsideTop() {
+      return this.childrenContentNodesBySlot['aside-top']?.length > 0
     },
-    currentLayout() {
-      return this.variants.find((variant) => variant.name === this.currentLayoutName)
+    hasAsideBottom() {
+      return this.childrenContentNodesBySlot['aside-bottom']?.length > 0
+    },
+    childrenContentNodesBySlot() {
+      return groupBy(this.contentNode.children().items, 'slot')
+    },
+    isDefaultVariant() {
+      return this.clientWidth >= 1066
     },
     isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
     },
   },
-  watch: {
-    dataLayoutName: {
-      immediate: true,
-      handler() {
-        this.currentLayoutName = this.dataLayoutName
-      },
-    },
-  },
   methods: {
-    async saveData() {
-      const payload = {
-        data: {
-          items: this.contentNode.data.items.map((item) => ({ slot: item.slot })),
-          variant: this.currentLayout.name,
-        },
-      }
-      try {
-        await this.api.patch(this.contentNode, payload)
-      } catch (e) {
-        this.$toast.error(errorToMultiLineToast(e))
-      }
+    onResize({ width }) {
+      this.clientWidth = width
     },
   },
 }
@@ -135,14 +142,7 @@ export default {
 .ec-flexlayout__container {
   display: flex;
   gap: 1px;
-}
-
-.ec-flexlayout--aside-main .ec-flexlayout__container {
   flex-wrap: wrap;
-}
-
-.ec-flexlayout--main-aside .ec-flexlayout__container {
-  flex-wrap: wrap-reverse;
 }
 
 .ec-flexlayout--layout-mode .ec-flexlayout__container {
@@ -164,5 +164,15 @@ export default {
 
 .ec-flexlayout--layout-mode .ec-draggable-area {
   padding: 0 8px 8px;
+}
+
+.ec-flexlayout--layout-mode .ec-flexlayout__slot {
+  border: 1px dashed rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 0 8px;
+}
+
+.ec-flexlayout__aside {
+  gap: 1px;
 }
 </style>

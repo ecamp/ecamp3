@@ -522,10 +522,11 @@ export function campRoute(camp, subroute = 'dashboard', query = {}) {
  * @param query
  */
 export function materialListRoute(camp, materialList = false, query = {}) {
+  if (!camp?._meta || camp.meta?.loading || camp.id == '') return {}
   if (materialList === false) {
     return {
       name: 'material/overview',
-      params: { campId: camp.id, campTitle: slugify(camp.title) },
+      params: { campId: camp.id, campTitle: slugify(camp.title + '') },
       query,
     }
   }
@@ -534,7 +535,7 @@ export function materialListRoute(camp, materialList = false, query = {}) {
     name: 'material/detail',
     params: {
       campId: camp.id,
-      campTitle: slugify(camp.title),
+      campTitle: slugify(camp.title + ''),
       materialId: materialList.id,
       materialName: slugify(materialList.name),
     },
