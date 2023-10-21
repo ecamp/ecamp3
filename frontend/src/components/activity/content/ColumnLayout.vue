@@ -1,38 +1,54 @@
 <template>
-  <v-row v-if="!contentNode.loading" no-gutters>
-    <resizable-column
-      v-for="(_, slot) in columns"
-      :key="slot"
-      :parent-content-node="contentNode"
-      :layout-mode="layoutMode"
-      :width-left="relativeColumnWidths[slot][0]"
-      :width="relativeColumnWidths[slot][1]"
-      :width-right="relativeColumnWidths[slot][2]"
-      :num-columns="numColumns"
-      :last="slot === lastColumn"
-      :min-width="minWidth(slot)"
-      :max-width="maxWidth(slot)"
-      :color="color"
-      :show-header="!isRoot"
-      @resizing="(newWidth) => resizeColumn(slot, newWidth)"
-      @resize-stop="saveColumnWidths"
-    >
-      <draggable-content-nodes
-        :slot-name="slot"
-        :layout-mode="layoutMode"
-        :parent-content-node="contentNode"
-        :disabled="disabled"
-      />
-
-      <template #menu>
+  <ContentLayout
+    v-resizeobserver.debounce="onResize"
+    class="ec-column-layout"
+    :class="{ 'ec-column-layout--layout-mode my-2': !isRoot && layoutMode }"
+    :is-root="isRoot"
+    :layout-mode="layoutMode"
+  >
+    <template #header>
+      {{ $tc('contentNode.columnLayout.name') }}
+      <MenuCardlessContentNode :content-node="contentNode">
         <column-operations
           :content-node="contentNode"
-          :min-column-width="minWidth(slot)"
-          :total-width="12"
+          :min-column-width="minWidth"
+          :total-width="totalWidth"
         />
-      </template>
-    </resizable-column>
-  </v-row>
+      </MenuCardlessContentNode>
+    </template>
+    <div
+      v-if="!contentNode.loading"
+      class="d-flex flex-wrap ec-column-layout__container"
+      :class="{ 'px-1 gap-4': layoutMode, 'h-full': !layoutMode }"
+    >
+      <resizable-column
+        v-for="(_, slot) in columns"
+        :key="slot"
+        :parent-content-node="contentNode"
+        :layout-mode="layoutMode"
+        :width-left="relativeColumnWidths[slot][0]"
+        :width="relativeColumnWidths[slot][1]"
+        :width-right="relativeColumnWidths[slot][2]"
+        :num-columns="numColumns"
+        :last="slot === lastColumn"
+        :min-width="minWidth"
+        :max-width="maxWidth(slot)"
+        :color="color"
+        :show-header="!isRoot"
+        :is-default-variant="isDefaultVariant"
+        @resizing="(newWidth) => resizeColumn(slot, newWidth)"
+        @resize-stop="saveColumnWidths"
+      >
+        <draggable-content-nodes
+          :slot-name="slot"
+          :layout-mode="layoutMode"
+          :parent-content-node="contentNode"
+          :disabled="disabled"
+          :is-root="isRoot"
+        />
+      </resizable-column>
+    </div>
+  </ContentLayout>
 </template>
 
 <script>
@@ -43,6 +59,9 @@ import DraggableContentNodes from '@/components/activity/DraggableContentNodes.v
 import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
 import { idToColor } from '@/common/helpers/colors.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
+import ContentLayout from '@/components/activity/content/ContentLayout.vue'
+import camelCase from 'lodash/camelCase.js'
 
 function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)
@@ -52,6 +71,8 @@ function cumulativeSumReducer(cumSum, nextElement) {
 export default {
   name: 'ColumnLayout',
   components: {
+    ContentLayout,
+    MenuCardlessContentNode,
     ColumnOperations,
     DraggableContentNodes,
     ResizableColumn,
@@ -59,6 +80,9 @@ export default {
   mixins: [contentNodeMixin],
   data() {
     return {
+      clientWidth: 1000,
+      minWidth: 3,
+      totalWidth: 12,
       localColumnWidths: {},
     }
   },
@@ -98,6 +122,9 @@ export default {
     isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
     },
+    isDefaultVariant() {
+      return this.clientWidth > 870
+    },
   },
   watch: {
     columns: {
@@ -108,6 +135,7 @@ export default {
     },
   },
   methods: {
+    camelCase,
     setLocalColumnWidths() {
       this.localColumnWidths = mapValues(this.columns, 'width')
     },
@@ -124,17 +152,15 @@ export default {
       if (index === -1 || index === slots.length - 1) return undefined
       return slots[index + 1]
     },
-    minWidth() {
-      return 3
-    },
     maxWidth(slot) {
       const nextSlot = this.next(slot)
       if (nextSlot === undefined) return this.localColumnWidths[slot]
       return (
-        this.localColumnWidths[slot] +
-        this.localColumnWidths[nextSlot] -
-        this.minWidth(nextSlot)
+        this.localColumnWidths[slot] + this.localColumnWidths[nextSlot] - this.minWidth
       )
+    },
+    onResize({ width }) {
+      this.clientWidth = width
     },
     async saveColumnWidths() {
       const payload = {
@@ -154,3 +180,16 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.ec-column-layout--layout-mode {
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.ec-column-layout__container {
+  background-color: #ccc;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+}
+</style>

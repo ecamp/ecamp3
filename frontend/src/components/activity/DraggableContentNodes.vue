@@ -1,13 +1,20 @@
 <template>
-  <div>
+  <div class="d-flex flex-column flex-grow-1">
     <draggable
       v-if="contentNodeIds"
       v-model="localContentNodeIds"
       :disabled="!draggingEnabled"
       group="contentNodes"
-      class="draggable-area d-flex flex-column pb-10"
-      :class="{ 'min-height': layoutMode }"
-      :invert-swap="true"
+      class="draggable-area flex-grow-1"
+      :class="{
+        'min-height draggable-area--layout-mode pb-2': layoutMode,
+        'draggable-area--read-mode': !layoutMode,
+        'draggable-area--root': isRoot,
+        'draggable-area--column d-flex flex-column': direction === 'column',
+        'draggable-area--row d-flex flex-row flex-wrap': direction === 'row',
+      }"
+      :swap-threshold="0.65"
+      :inverted-swap-threshold="0.65"
       @start="startDrag"
       @add="finishDrag"
       @update="finishDrag"
@@ -23,10 +30,16 @@
         :draggable="draggingEnabled"
         :disabled="disabled"
       />
+      <v-card
+        v-if="!layoutMode && draggableContentNodeIds.length === 0"
+        elevation="0"
+        class="content-node placeholder-node"
+      ></v-card>
     </draggable>
 
     <button-nested-content-node-add
       v-if="layoutMode"
+      class="flex-grow-0"
       :layout-mode="layoutMode"
       :parent-content-node="parentContentNode"
       :slot-name="slotName"
@@ -53,6 +66,8 @@ export default {
     slotName: { type: String, required: true },
     parentContentNode: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
+    direction: { type: String, default: 'column' },
+    isRoot: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -138,6 +153,24 @@ export default {
   min-height: 10rem;
 }
 
+.draggable-area ::v-deep .content-node {
+  margin: 0 !important;
+  flex-grow: 1;
+}
+
+.draggable-area--row ::v-deep .content-node {
+  flex: 1 0 320px;
+}
+
+.draggable-area--layout-mode {
+  display: flex !important;
+  gap: 4px;
+}
+
+.draggable-area--read-mode {
+  gap: 1px;
+}
+
 .dragging-content-node .draggable-area {
   position: relative;
   z-index: 100;
@@ -151,7 +184,7 @@ export default {
     left: 4px;
     right: 4px;
     border-radius: 5px;
-    border: 2px dashed map-get($blue-grey, 'base');
+    border: 2px dotted map-get($blue-grey, 'base');
     background: map-get($blue-grey, 'lighten-4');
     opacity: 40%;
     content: '';

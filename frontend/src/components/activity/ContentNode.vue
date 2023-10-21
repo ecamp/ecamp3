@@ -45,7 +45,6 @@ export default {
 
 <style lang="scss">
 .content-node:not(.draggable) + .content-node:not(.draggable) {
-  border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 0 !important;
 }
 
