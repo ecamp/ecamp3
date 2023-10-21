@@ -1,0 +1,418 @@
+{
+  "/users/9145944210a7": {
+    "id": "9145944210a7",
+    "displayName": "Bi-Pi",
+    "profile": {
+      "href": "/profiles/5e387cad273d"
+    },
+    "_meta": {
+      "self": "/users/9145944210a7",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/profiles/5e387cad273d": {
+    "email": "test@example.com",
+    "firstname": "Robert",
+    "surname": "Baden-Powell",
+    "nickname": "Bi-Pi",
+    "language": "de-CH-scout",
+    "id": "5e387cad273d",
+    "legalName": "Robert Baden-Powell",
+    "user": {
+      "href": "/users/9145944210a7"
+    },
+    "_meta": {
+      "self": "/profiles/5e387cad273d",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/camps/3c79b99ab424": {
+    "isPrototype": false,
+    "name": "Pfila 2023",
+    "title": "GRGR",
+    "motto": "Grandiose RealityTV Show",
+    "addressName": "Adrian Sonderegger",
+    "addressStreet": "Bümplizstrasse 5",
+    "addressZipcode": "3156",
+    "addressCity": "Bümpliz",
+    "organizer": "Abteilung Gryfenberg",
+    "kind": "Pfingstlager",
+    "coachName": "Andrea Schneider",
+    "courseNumber": null,
+    "courseKind": null,
+    "trainingAdvisorName": null,
+    "printYSLogoOnPicasso": false,
+    "id": "3c79b99ab424",
+    "campCollaborations": {
+      "href": "/camp_collaborations?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "periods": {
+      "href": "/periods?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "categories": {
+      "href": "/categories?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "progressLabels": {
+      "href": "/activity_progress_labels?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "activities": {
+      "href": "/activities?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "materialLists": {
+      "href": "/material_lists?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "creator": {
+      "href": "/users/9145944210a7"
+    },
+    "profiles": {
+      "href": "/profiles?user.collaborations.camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    },
+    "_meta": {
+      "self": "/camps/3c79b99ab424",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/schedule_entries/51c110ddd923": {
+    "left": 0,
+    "width": 1,
+    "id": "51c110ddd923",
+    "start": "2024-05-11T07:30:00+00:00",
+    "end": "2024-05-11T08:00:00+00:00",
+    "dayNumber": 2,
+    "scheduleEntryNumber": 1,
+    "number": "2.1",
+    "period": {
+      "href": "/periods/76be24bce434"
+    },
+    "activity": {
+      "href": "/activities/63ad6efc7613"
+    },
+    "day": {
+      "href": "/days/ac92acd57c49"
+    },
+    "_meta": {
+      "self": "/schedule_entries/51c110ddd923",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/periods/76be24bce434": {
+    "description": "Hauptlager",
+    "start": "2024-05-10",
+    "end": "2024-05-13",
+    "id": "76be24bce434",
+    "days": {
+      "href": "/days?period=%2Fapi%2Fperiods%2F76be24bce434"
+    },
+    "scheduleEntries": {
+      "href": "/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434"
+    },
+    "materialItems": {
+      "href": "/material_items?period=%2Fapi%2Fperiods%2F76be24bce434"
+    },
+    "camp": {
+      "href": "/camps/3c79b99ab424"
+    },
+    "contentNodes": {
+      "href": "/content_nodes?period=%2Fapi%2Fperiods%2F76be24bce434"
+    },
+    "dayResponsibles": {
+      "href": "/day_responsibles?day.period=%2Fapi%2Fperiods%2F76be24bce434"
+    },
+    "_meta": {
+      "self": "/periods/76be24bce434",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/camp_collaborations/2b3cf1ce6341": {
+    "inviteEmail": "x@z.com",
+    "status": "invited",
+    "role": "member",
+    "id": "2b3cf1ce6341",
+    "user": null,
+    "camp": {
+      "href": "/camps/3c79b99ab424"
+    },
+    "_meta": {
+      "self": "/camp_collaborations/2b3cf1ce6341",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/users/bee7cf5b3871": {
+    "id": "bee7cf5b3871",
+    "displayName": "Salamander",
+    "profile": {
+      "href": "/profiles/d46337a76a2c"
+    },
+    "_meta": {
+      "self": "/users/bee7cf5b3871",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/periods?camp=%2Fapi%2Fcamps%2F3c79b99ab424": {
+    "items": [
+      {
+        "href": "/periods/76be24bce434"
+      }
+    ],
+    "_meta": {
+      "self": "/periods?camp=%2Fapi%2Fcamps%2F3c79b99ab424",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/camp_collaborations?camp=%2Fapi%2Fcamps%2F3c79b99ab424": {
+    "items": [
+      {
+        "href": "/camp_collaborations/2b3cf1ce6341"
+      }
+    ],
+    "_meta": {
+      "self": "/camp_collaborations?camp=%2Fapi%2Fcamps%2F3c79b99ab424",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/activities/63ad6efc7613": {
+    "title": "Morgenturnen",
+    "location": "",
+    "id": "63ad6efc7613",
+    "scheduleEntries": {
+      "href": "/schedule_entries?activity=%2Fapi%2Factivities%2F63ad6efc7613"
+    },
+    "camp": {
+      "href": "/camps/3c79b99ab424"
+    },
+    "category": {
+      "href": "/categories/a023e85227ac"
+    },
+    "progressLabel": {
+      "href": "/activity_progress_labels/0dfbeb246ea8"
+    },
+    "activityResponsibles": {
+      "href": "/activity_responsibles?activity=%2Fapi%2Factivities%2F63ad6efc7613"
+    },
+    "rootContentNode": {
+      "href": "/content_node/column_layouts/49163604a15e"
+    },
+    "contentNodes": {
+      "href": "/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F5d44c3fc49b9"
+    },
+    "_meta": {
+      "self": "/activities/63ad6efc7613",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/categories?camp=%2Fapi%2Fcamps%2F3c79b99ab424": {
+    "totalItems": 1,
+    "items": [
+      {
+        "href": "/categories/a023e85227ac"
+      }
+    ],
+    "_meta": {
+      "self": "/categories?camp=%2Fapi%2Fcamps%2F3c79b99ab424",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/categories/a023e85227ac": {
+    "short": "LS",
+    "name": "Lagersport",
+    "color": "#4DBB52",
+    "numberingStyle": "1",
+    "id": "a023e85227ac",
+    "camp": {
+      "href": "/camps/3c79b99ab424"
+    },
+    "preferredContentTypes": {
+      "href": "/content_types?categories=%2Fapi%2Fcategories%2Fa023e85227ac"
+    },
+    "rootContentNode": {
+      "href": "/content_node/column_layouts/2cce9e17a368"
+    },
+    "contentNodes": {
+      "href": "/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F2cce9e17a368"
+    },
+    "_meta": {
+      "self": "/categories/a023e85227ac",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/schedule_entries?activity=%2Fapi%2Factivities%2F63ad6efc7613": {
+    "items": [
+      {
+        "href": "/schedule_entries/51c110ddd923"
+      }
+    ],
+    "_meta": {
+      "self": "/schedule_entries?activity=%2Fapi%2Factivities%2F63ad6efc7613",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/activity_progress_labels?camp=%2Fapi%2Fcamps%2F3c79b99ab424": {
+    "totalItems": 4,
+    "items": [
+      {
+        "href": "/activity_progress_labels/6760badb685b"
+      }
+    ],
+    "_meta": {
+      "self": "/activity_progress_labels?camp=%2Fapi%2Fcamps%2F3c79b99ab424"
+    }
+  },
+  "/activity_responsibles?activity=%2Fapi%2Factivities%2F63ad6efc7613": {
+    "items": [
+      {
+        "href": "/activity_responsibles/7c7b846117d2"
+      }
+    ],
+    "_meta": {
+      "self": "/activity_responsibles?activity=%2Fapi%2Factivities%2F63ad6efc7613",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/activity_responsibles/7c7b846117d2": {
+    "id": "7c7b846117d2",
+    "activity": {
+      "href": "/activities/63ad6efc7613"
+    },
+    "campCollaboration": {
+      "href": "/camp_collaborations/2b3cf1ce6341"
+    },
+    "_meta": {
+      "self": "/activity_responsibles/7c7b846117d2",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F5d44c3fc49b9": {
+    "totalItems": 2,
+    "items": [
+      {
+        "href": "/content_node/single_texts/4300e3355d22"
+      },
+      {
+        "href": "/content_node/column_layouts/aea4b3db0b60"
+      }
+    ],
+    "_meta": {
+      "self": "/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F5d44c3fc49b9"
+    }
+  },
+  "/activity_progress_labels/6760badb685b": {
+    "position": 1,
+    "title": "In Planung",
+    "id": "6760badb685b",
+    "camp": {
+      "href": "/camps/3c79b99ab424"
+    },
+    "_meta": {
+      "self": "/activity_progress_labels/6760badb685b",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/content_node/single_texts/4300e3355d22": {
+    "data": {
+      "html": "<p>another text</p><ul><li></li></ul><ul></ul><ul/><p>this text should appear</p>"
+    },
+    "slot": "2",
+    "position": 0,
+    "instanceName": null,
+    "id": "4300e3355d22",
+    "contentTypeName": "Notes",
+    "root": {
+      "href": "/content_node/column_layouts/49163604a15e"
+    },
+    "parent": {
+      "href": "/content_node/column_layouts/49163604a15e"
+    },
+    "contentType": {
+      "href": "/content_types/4f0c657fecef"
+    },
+    "children": {
+      "href": "/content_node/single_texts/4300e3355d22#children",
+      "virtual": true
+    },
+    "_meta": {
+      "self": "/content_node/single_texts/4300e3355d22",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  },
+  "/content_node/single_texts/4300e3355d22#children": {
+    "totalItems": 1,
+    "items": [
+      {
+        "href": "/content_node/single_texts/4300e3355d22"
+      }
+    ],
+    "_meta": {
+      "self": "/content_node/single_texts/4300e3355d22#children"
+    }
+  },
+  "/content_node/column_layouts/49163604a15e": {
+    "data": {
+      "columns": [
+        {
+          "slot": "1",
+          "width": 9
+        },
+        {
+          "slot": "2",
+          "width": 3
+        }
+      ]
+    },
+    "slot": "1",
+    "position": 2,
+    "instanceName": null,
+    "id": "49163604a15e",
+    "contentTypeName": "ColumnLayout",
+    "root": {
+      "href": "/content_node/column_layouts/49163604a15e"
+    },
+    "parent": null,
+    "contentType": {
+      "href": "/content_types/f17470519474"
+    },
+    "children": {
+      "href": "/content_node/single_texts/4300e3355d22#children",
+      "virtual": true
+    },
+    "_meta": {
+      "self": "/content_node/column_layouts/49163604a15e",
+      "loading": false,
+      "reloading": false,
+      "load": "{}"
+    }
+  }
+}
