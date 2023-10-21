@@ -41,3 +41,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+[required]:deep(label::after) {
+  content: '\a0*';
+  font-size: 12px;
+  color: #d32f2f;
+}
+[required]:deep(.v-input--is-label-active label::after) {
+  color: gray;
+}
+</style>
