@@ -27,22 +27,6 @@
       </copy-activity-info-dialog>
     </template>
 
-    <div v-if="clipboardUnsccessable">
-      <e-text-field
-        v-model="copyActivitySourceUrl"
-        label="Aktivität kopieren"
-        style="margin-bottom: 12px"
-      >
-        <template #append>
-          <icon-with-tooltip
-            tooltip-i18n-key="components.program.dialogActivityCreate.copySourceInfo"
-            width="36"
-            height="36"
-          />
-        </template>
-      </e-text-field>
-    </div>
-
     <div v-if="hasCopyActivitySource">
       <div class="mb-8">
         <div v-if="!clipboardUnsccessable">
@@ -87,7 +71,28 @@
         </v-list-item>
       </div>
     </div>
-    <dialog-activity-form :activity="entityData" :period="period" />
+    <dialog-activity-form :activity="entityData" :period="period">
+      <template v-if="clipboardUnsccessable" #textFieldTitleAppend>
+        <PopoverPrompt
+          v-model="copyActivitySourceUrlShowPopover"
+          icon="mdi-content-paste"
+          title="Kopierte Aktivität einfügen"
+        >
+          <template #activator="scope">
+            <v-btn icon :title="$tc('global.button.cancel')" v-on="scope.on">
+              <v-icon>mdi-content-paste</v-icon>
+            </v-btn>
+          </template>
+          {{ $tc('components.program.dialogActivityCreate.copySourceInfo') }}
+          <e-text-field
+            v-model="copyActivitySourceUrl"
+            label="Aktivität kopieren"
+            style="margin-bottom: 12px"
+            autofocus
+          />
+        </PopoverPrompt>
+      </template>
+    </dialog-activity-form>
   </dialog-form>
 </template>
 
@@ -118,6 +123,7 @@ export default {
       clipboardPermission: 'unknown',
       copyActivitySource: null,
       copyActivitySourceUrl: null,
+      copyActivitySourceUrlShowPopover: false,
       entityProperties: ['title', 'location', 'scheduleEntries'],
       embeddedEntities: ['category'],
       entityUri: '/activities',
@@ -180,6 +186,12 @@ export default {
       this.getCopyActivitySource(url).then((activity) => {
         this.$set(this, 'copyActivitySource', activity)
         this.$set(this, 'copyContent', activity != null)
+
+        if (this.copyActivitySourceUrlShowPopover) {
+          this.$nextTick(() => {
+            this.$set(this, 'copyActivitySourceUrlShowPopover', false)
+          })
+        }
       })
     },
   },
@@ -205,7 +217,7 @@ export default {
       )
     },
     async getCopyActivitySource(url) {
-      if (url.startsWith(window.location.origin)) {
+      if (url?.startsWith(window.location.origin)) {
         url = url.substring(window.location.origin.length)
         let match = router.matcher.match(url)
 

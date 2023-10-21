@@ -4,7 +4,9 @@
       v-model="localActivity.title"
       :name="$tc('entity.activity.fields.title')"
       vee-rules="required"
-    />
+    >
+      <template #append><slot name="textFieldTitleAppend" /></template>
+    </e-text-field>
 
     <e-select
       v-model="localActivity.category"
