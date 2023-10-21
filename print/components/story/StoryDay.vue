@@ -12,6 +12,7 @@
     </div>
 
     <template v-if="entriesWithStory.length">
+      <!-- eslint-disable-next-line vue/no-v-for-template-key -->
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.self" class="tw-mb-3">
           <h4
