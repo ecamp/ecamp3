@@ -22,9 +22,9 @@ Issues are marked with labels and some of them are not self-explanatory and are 
 ### Starting with an issue
 To get started, find an issue that interests you. If you are new, we recommend selecting a [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue).
 Please note that for other issues we recommend ones with the label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), which signifies that the issue should have clear definitions. If you have any questions, feel free to ask.
-If you are working on an issue, please leave a comment so that we can assign it to you, to make sure that the specifications are still up to date, and to prevent two people working on the same issue.
+If you are working on an issue, please leave a comment so that we can assign it to you, to make sure that the specifications are still up-to-date, and to prevent two people working on the same issue.
 Alternatively, open a draft pull request and mention the issue ID to signal that you are working on that particular issue.
-Please note that while the wiki can be helpful in understanding the project, it's not exhaustive. If you have any questions, please comment on the issue for clarification.
+Please note that while the wiki can be helpful in understanding the project, it's not exhaustive (meaning there might be parts missing or out of date). If you have any questions, please comment on the issue for clarification. We are happy to help and answer any questions you might have.
 
 ### Git setup
 
@@ -82,25 +82,71 @@ Alternatively you can
 
 ### Before submitting pull requests
 
+#### Code formatting
+
+We use cs-fixer for PHP and ESLint and Prettier for Javascript to ensure a common code style. Make sure your code is auto-formatted before committing and pushing to the repository.
+We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting) such that your code is auto-formatted on save.
+
+Alternatively you can
+
+- <details>
+    <summary>run php-cs-fixer and ESLint / Prettier manually before each commit: (Click me, I am Expandable) </summary>
+  
+    ```shell
+    # Frontend fixes in running container
+    docker compose exec frontend npm run lint
+    
+    # API/PHP fixes in running container
+    docker compose exec php composer cs-fix
+    
+    # Print fixes in running container
+    docker compose exec print npm run lint
+    
+    # PDF fixes in running container
+    docker compose exec pdf npm run lint
+    
+    # E2E fixes are always run like this
+    docker compose run --rm --entrypoint="npm run lint" e2e
+    ```
+    If you don't have a container of that type running use 'run' instead of 'execute'. Note that this will start a new Docker container (which might not be desired on a device with limited computing resources).
+    ```shell
+    docker compose run frontend npm run lint
+    docker compose run php composer cs-fix
+    docker compose run print npm run lint
+    docker compose run pdf npm run lint
+    ```
+  </details>
+- set up a pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) to run php-cs-fixer and ESLint automatically before each commit, you can find an example in the [pre-commit.sh](./pre-commit.sh) file. 
+<details>
+  <summary>To use this example as a Git-Hook run the following commands (Click me, I am Expandable)</summary>
+    <strong>Maybe look at the file before running some random code you got from a public git repo</strong>
+
 ```shell
-# Frontend fixes with docker
-docker compose exec frontend npm run lint
-
-# API/PHP fixes with docker
-docker compose exec php composer run-script cs-fix
-
-# Print fixes with docker
-docker compose exec print npm run lint
+# Ensure the file is executable
+chmod +x .git/hooks/pre-commit
+# Create a link, alternatively use 'cp' instead of 'ln' to copy
+ln ./pre-commit.sh .git/hooks/pre-commit
+# Lets see how long execution takes
+time .git/hooks/pre-commit
 ```
+</details>
 
-- [x] Did cs-fixer run on all changed or new PHP files?
-- [x] Did ESLint / Prettier run on all changed or new JS / Vue files?
-- [x] Are all variables, classes, functions, comments etc. named or written in English?
-- [x] Did you write tests for any new functionality or adapt the existing tests for changed functionality?
-- [x] Are all passwords, credentials and local configuration removed from the code changes?
-- [x] Do all changed files contain some important changes (as opposed to e.g. only whitespace changes)?
-- [x] Is the fork up-to-date with the central repository and can your changes be merged automatically?
-- [x] Did the GitHub Actions CI build run through without test failures?
+#### Checklist
+
+We truly value and appreciate every contribution to our project! 
+To make the collaboration smooth and enjoyable for everyone, 
+we've put together this checklist. 
+Following it will not only enhance the quality and consistency of your contributions but also fast-track the review process.
+
+
+- [x] **Sync with Central Repository:** Ensure your fork is current with the central repository, facilitating a smooth merge.
+- [x] **Lint:** Confirm that linters have run over all new or modified files
+- [x] **Spelling:** Confirm that linters have run over all new or modified files
+- [x] **Significant Changes:** Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
+- [x] **Testing:** Write tests for any new features, and update existing ones if you've made changes to functionalities.
+- [x] **Language & Spelling:** Use English for all variable names, class names, functions, comments, etc., and ensure that all added content has been spellchecked.
+- [x] **Sensitive Information:** Before submitting, double-check to ensure no passwords, credentials, or local configurations are present in your changes.
+- [x] **Continuous Integration:** Confirm that the GitHub Actions CI build finishes successfully without test failures.
 
 ## Database
 
