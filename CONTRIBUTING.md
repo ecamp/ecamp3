@@ -34,20 +34,20 @@ We use a triangular git workflow. This means that all changes are first pushed t
 
 2. Clone the main repository to your local computer:
 
-   ```bash
+   ```shell script
    git clone https://github.com/ecamp/ecamp3.git
    cd ecamp3
    ```
 
 3. Add your fork as a remote:
 
-   ```bash
+   ```shell
    git remote add your-username https://github.com/your-username/ecamp3.git
    ```
 
 4. Configure the central repo for pulling the current state and your own repo for pushing new changes:
 
-   ```bash
+   ```shell
    git config remote.pushdefault your-username
    git config push.default current
    ```
@@ -58,7 +58,7 @@ Once this is set up, you can start coding, and all `git pull` commands should pu
 
 Before starting a new feature, you should do the following steps to start with a clean state that is easily mergeable later:
 
-```bash
+```shell
 git fetch --all
 git checkout origin/devel
 git checkout -b my-new-feature-branch
@@ -73,7 +73,7 @@ We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/instal
 Alternatively you can
 
 - run php-cs-fixer and ESLint / Prettier manually before each commit:
-  ```bash
+  ```shell
   docker compose run api composer cs-fix
   docker compose run frontend npm run lint
   docker compose run print npm run lint
