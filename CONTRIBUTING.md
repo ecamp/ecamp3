@@ -101,10 +101,10 @@ Alternatively you can
     ```
     If you don't have a container of that type running use 'run' instead of 'execute'. Note that this will start a new Docker container (which might not be desired on a device with limited computing resources).
     ```shell
-    docker compose run frontend npm run lint
-    docker compose run php composer cs-fix
-    docker compose run print npm run lint
-    docker compose run pdf npm run lint
+    docker compose run --rm frontend npm run lint
+    docker compose run --rm php composer cs-fix
+    docker compose run --rm print npm run lint
+    docker compose run --rm pdf npm run lint
     ```
   </details>
 - set up a pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) to run php-cs-fixer and ESLint automatically before each commit, you can find an example in the [pre-commit.sh](./pre-commit.sh) file. 
