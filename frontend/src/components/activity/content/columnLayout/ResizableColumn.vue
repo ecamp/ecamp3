@@ -82,6 +82,7 @@ export default {
 
 <style scoped lang="scss">
 .ec-resizable-col {
+  width: 0;
   &:not(.ec-resizable-col--layout-mode) {
     & + .ec-resizable-col--default:not(.ec-resizable-col--layout-mode) {
       border-left: 1px solid #ccc;
