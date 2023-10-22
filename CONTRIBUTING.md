@@ -109,8 +109,8 @@ Alternatively you can
   </details>
 - set up a pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) to run php-cs-fixer and ESLint automatically before each commit, you can find an example in the [pre-commit.sh](./pre-commit.sh) file. 
 <details>
-  <summary>To use this example as a Git-Hook run the following commands (Click me, I am Expandable)</summary>
-    <strong>Maybe look at the file before running some random code you got from a public git repo</strong>
+  <summary>To use this example as a Git-Hook run the following commands (Click me, I am expandable)</summary>
+    <strong>Consider examining the file before running random code from a public Git repo.</strong>
 
 ```shell
 # Ensure the file is executable
@@ -125,14 +125,14 @@ time .git/hooks/pre-commit
 #### Checklist :pencil:
 
 We truly value and appreciate every contribution to our project! :heart:
-To make the collaboration smooth and enjoyable for everyone, 
+To make the collaboration smoother and more enjoyable for everyone, 
 we've put together this checklist :scroll:.
 Following it will not only enhance the quality and consistency of your contributions:sparkles:  but also fast-track the review process. :rocket:
 
 
 - [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is current with the central repository, facilitating a smooth merge.
-- [x] **Lint:** :wrench: Confirm that linters have run over all new or modified files
-- [x] **Spelling:** :abc: Confirm that linters have run over all new or modified files
+- [x] **Lint:** :wrench: Ensure that linters have run over all new or modified files
+- [x] **Spelling:** :abc: Ensure that linters have run over all new or modified files
 - [x] **Significant Changes:** :mag_right: Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
 - [x] **Testing:** :test_tube: Write tests for any new features, and update existing ones if you've made changes to functionalities.
 - [x] **Language & Spelling:** :book: Use English for all variable names, class names, functions, comments, etc., and ensure that all added content has been spellchecked.
@@ -167,13 +167,11 @@ Since the data, including IDs, remains consistent, it allows everyone to easily 
 
 ## Discussions :speech_balloon:
 We understand that setting up a development environment can sometimes be tricky, 
-especially with varying systems and configurations. 
-If you encounter any issues or roadblocks during the setup process, 
+especially with varying systems and configurations.
+If you encounter any issues or face roadblocks during the setup, 
 please don't hesitate to open a Discussion on GitHub. 
-Our core team is more than happy to assist you. In fact, 
-we encourage it! 
-Your feedback not only helps us improve the setup process for everyone, 
-but it also ensures that any potential issues are addressed promptly. 
-And remember, 
-it's not just limited to setup concerns—feel free to initiate discussions about anything else you might come across. 
-We're here to help and collaborate!
+Our core team is happy to help you. 
+In fact, we encourage you to open a Discussion whenever you have a question. 
+Your feedback not only helps us refine the setup process for everyone but also ensures that potential issues are addressed promptly. 
+Remember, our support isn't limited to just setup concerns; 
+you're welcome to initiate discussions on any other topic you encounter. 
