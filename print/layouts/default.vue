@@ -63,12 +63,12 @@ header.style = [
 header.script = []
 
 // inject FRONTEND_URL to client
-header.__dangerouslyDisableSanitizersByTagID.environmentVariables = ['innerHTML']
-header.script.push({
-  hid: 'environmentVariables',
-  type: 'application/javascript',
-  innerHTML: `window.FRONTEND_URL = '${process.env.FRONTEND_URL}'`,
-})
+// header.__dangerouslyDisableSanitizersByTagID.environmentVariables = ['innerHTML']
+// header.script.push({
+//   hid: 'environmentVariables',
+//   type: 'application/javascript',
+//   innerHTML: `window.FRONTEND_URL = '${process.env.FRONTEND_URL}'`,
+// })
 
 header.link = [
   {

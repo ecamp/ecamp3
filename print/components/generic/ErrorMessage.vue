@@ -3,8 +3,7 @@
     <h1 class="tw-text-lg tw-font-semibold">
       {{ title }}
     </h1>
-    {{ message }}
-    {{ error.message }}
+    {{ error }}
   </div>
 </template>
 
@@ -12,8 +11,7 @@
 export default {
   props: {
     title: { type: String, default: 'Error' },
-    message: { type: String, default: '' },
-    error: { type: Object, required: false, default: null },
+    error: { type: String, required: true },
   },
 }
 </script>

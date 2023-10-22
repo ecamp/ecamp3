@@ -123,7 +123,6 @@ services:
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
       - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
     environment:
-      - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
@@ -160,7 +159,7 @@ services:
   docker-host:
     image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
-    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    cap_add: ['NET_ADMIN', 'NET_RAW']
     restart: on-failure
 
   browserless:
@@ -180,7 +179,7 @@ services:
 
   e2e:
     image: cypress/included:13.3.2
-    profiles: [ "e2e" ]
+    profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
@@ -193,7 +192,7 @@ services:
 
   translation:
     image: node:20.8.1
-    profiles: [ "translation" ]
+    profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated

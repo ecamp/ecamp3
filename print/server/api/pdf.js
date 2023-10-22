@@ -42,9 +42,6 @@ export default defineEventHandler(async (event) => {
 
   let browser = null
 
-  console.log('browser endpoint')
-  console.log(browserWsEndpoint)
-
   try {
     measurePerformance('Connecting to puppeteer...')
     // Connect to browserless.io (puppeteer websocket)

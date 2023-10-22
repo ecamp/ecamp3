@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export default defineNuxtPlugin(() => {
-  console.log('clear axios interceptors')
   axios.interceptors.request.clear()
   axios.interceptors.response.clear()
 
@@ -16,7 +15,7 @@ export default defineNuxtPlugin(() => {
     })
   }
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (import.meta.env.DEV) {
     axios.interceptors.request.use(function (config) {
       config.meta = config.meta || {}
       config.meta.requestStartedAt = new Date().getTime()
@@ -33,7 +32,6 @@ export default defineNuxtPlugin(() => {
         return response
       },
       (error) => {
-        console.log(error)
         console.log(`${error.config.url} - call to API failed`)
       }
     )

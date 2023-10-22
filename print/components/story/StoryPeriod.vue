@@ -30,7 +30,7 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data, error } = useAsyncData('periods', async () => {
+const { data, error } = useAsyncData('StoryPeriod', async () => {
   const contentTypeStorycontext = (
     await $api.get().contentTypes().$loadItems()
   ).items.find((contentType) => contentType.name === 'Storycontext')

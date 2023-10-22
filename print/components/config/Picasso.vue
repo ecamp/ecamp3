@@ -24,7 +24,7 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data: periods, error } = useAsyncData('periods', async () => {
+const { data: periods, error } = useAsyncData('ConfigPicasso', async () => {
   await Promise.all([
     props.camp.periods().$loadItems(),
     props.camp.activities().$loadItems(),

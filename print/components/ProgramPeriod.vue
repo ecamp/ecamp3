@@ -26,7 +26,7 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
-const { data: days, error } = useAsyncData('days', async () => {
+const { data: days, error } = useAsyncData('ProgramPeriod', async () => {
   await Promise.all([
     props.period.days().$loadItems(),
     props.period.scheduleEntries().$loadItems(),

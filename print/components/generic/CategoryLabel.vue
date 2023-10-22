@@ -7,16 +7,19 @@
   </span>
 </template>
 
+<script setup>
+const props = defineProps({
+  category: { type: Object, required: true },
+})
+
+useAsyncData('CategoryLabel', async () => {
+  await Promise.all([props.category._meta.load])
+})
+</script>
+
 <script>
 import { contrastColor } from '@/../common/helpers/colors.js'
-
 export default {
-  props: {
-    category: { type: Object, required: true },
-  },
-  async fetch() {
-    await Promise.all([this.category._meta.load])
-  },
   methods: {
     style() {
       return {
