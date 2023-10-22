@@ -123,7 +123,9 @@ export default {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
     },
     isDefaultVariant() {
-      return this.clientWidth > 870
+      // 260 is between 870/3 and 870/4.
+      // We don't want average column widths of below 260px as the readability suffers.
+      return this.clientWidth / this.numColumns > 260
     },
   },
   watch: {
