@@ -30,11 +30,11 @@
         :draggable="draggingEnabled"
         :disabled="disabled"
       />
-      <v-card
+      <v-sheet
         v-if="!layoutMode && draggableContentNodeIds.length === 0"
         elevation="0"
         class="content-node placeholder-node"
-      ></v-card>
+      ></v-sheet>
     </draggable>
 
     <button-nested-content-node-add
