@@ -171,7 +171,7 @@ especially with varying systems and configurations.
 If you encounter any issues or face roadblocks during the setup, 
 please don't hesitate to open a Discussion on GitHub. 
 Our core team is happy to help you. 
-In fact, we encourage you to open a [Discussion](./discussions) whenever you have a question. 
+In fact, we encourage you to open a [Discussion](https://github.com/ecamp/ecamp3/discussions) whenever you have a question. 
 Your feedback not only helps us refine the setup process for everyone but also ensures that potential issues are addressed promptly. 
 Remember, our support isn't limited to just setup concerns; 
 you're welcome to initiate discussions on any other topic you encounter. 
