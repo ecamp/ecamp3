@@ -382,7 +382,7 @@ export default {
 
       const scheduleEntry = scheduleEntryRoute(this.scheduleEntry())
       const url = window.location.origin + router.resolve(scheduleEntry).href
-      navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(url)
 
       this.$toast.info(
         this.$tc('global.toast.copied', null, { source: this.activityName }),

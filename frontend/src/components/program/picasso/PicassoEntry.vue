@@ -280,7 +280,7 @@ export default {
       }
 
       let url = window.location.origin + router.resolve(this.scheduleEntryRoute).href
-      navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(url)
 
       this.$toast.info(
         this.$tc('global.toast.copied', null, { source: this.activityName }),
