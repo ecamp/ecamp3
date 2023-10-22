@@ -192,18 +192,6 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
   overflow: visible;
 }
 
-.v-calendar-daily__body {
-  overflow: visible;
-}
-
-.v-calendar-daily__pane {
-  overflow-y: visible;
-}
-
-.v-calendar-daily__scroll-area {
-  overflow-y: visible;
-}
-
 .v-calendar .v-event-timed {
   font-size: 0.8em;
   padding: 0 1px;

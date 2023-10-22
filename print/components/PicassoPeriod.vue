@@ -75,7 +75,7 @@ import {
   calculateBedtime,
   times,
 } from '@/../common/helpers/picasso.js'
-import { sortBy } from 'lodash'
+import sortBy from 'lodash/sortBy.js'
 
 export default {
   computed: {

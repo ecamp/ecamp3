@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { keyBy } from 'lodash'
+import keyBy from 'lodash/keyBy.js'
 
 import {
   filterScheduleEntriesByDay,
