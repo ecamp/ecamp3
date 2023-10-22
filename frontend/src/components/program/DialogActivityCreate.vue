@@ -142,7 +142,10 @@ export default {
       return this.period().camp()
     },
     clipboardUnsccessable() {
-      return this.clipboardPermission === 'unaccessable'
+      return (
+        this.clipboardPermission === 'unaccessable' ||
+        this.clipboardPermission === 'denied'
+      )
     },
     hasCopyActivitySource() {
       return this.copyActivitySource != null && this.copyActivitySource._meta.self != null
