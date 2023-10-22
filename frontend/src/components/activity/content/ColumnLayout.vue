@@ -1,5 +1,5 @@
 <template>
-  <ContentLayout
+  <LayoutCard
     v-resizeobserver.debounce="onResize"
     class="ec-column-layout"
     :class="{ 'ec-column-layout--layout-mode my-2': !isRoot && layoutMode }"
@@ -48,7 +48,7 @@
         />
       </resizable-column>
     </div>
-  </ContentLayout>
+  </LayoutCard>
 </template>
 
 <script>
@@ -60,7 +60,7 @@ import ColumnOperations from '@/components/activity/content/columnLayout/ColumnO
 import { idToColor } from '@/common/helpers/colors.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
-import ContentLayout from '@/components/activity/content/ContentLayout.vue'
+import LayoutCard from '@/components/activity/content/layout/LayoutCard.vue'
 import camelCase from 'lodash/camelCase.js'
 
 function cumulativeSumReducer(cumSum, nextElement) {
@@ -71,7 +71,7 @@ function cumulativeSumReducer(cumSum, nextElement) {
 export default {
   name: 'ColumnLayout',
   components: {
-    ContentLayout,
+    LayoutCard,
     MenuCardlessContentNode,
     ColumnOperations,
     DraggableContentNodes,

@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'ContentLayout',
+  name: 'LayoutCard',
   props: {
     layoutMode: { type: Boolean, default: false },
     isRoot: { type: Boolean, default: false },
