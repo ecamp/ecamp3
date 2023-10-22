@@ -82,7 +82,7 @@ import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
 import { v4 as uuidv4 } from 'uuid'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import StoryboardSortable from '@/components/activity/content/StoryboardSortable.vue'
+import StoryboardSortable from '@/components/activity/content/storyboard/StoryboardSortable.vue'
 
 export default {
   name: 'Storyboard',
