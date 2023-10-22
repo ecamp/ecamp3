@@ -130,7 +130,7 @@ we've put together this checklist :scroll:.
 Following it will not only enhance the quality and consistency of your contributions:sparkles:  but also fast-track the review process. :rocket:
 
 
-- [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is current with the central repository, facilitating a smooth merge.
+- [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is up to date with the central repository, facilitating a smooth merge.
 - [x] **Lint:** :wrench: Ensure that linters have run over all new or modified files
 - [x] **Spelling:** :abc: Ensure that linters have run over all new or modified files
 - [x] **Significant Changes:** :mag_right: Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
