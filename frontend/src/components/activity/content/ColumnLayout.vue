@@ -2,7 +2,7 @@
   <LayoutCard
     v-resizeobserver.debounce="onResize"
     class="ec-column-layout"
-    :class="{ 'ec-column-layout--layout-mode my-2': !isRoot && layoutMode }"
+    :class="{ 'my-2': !isRoot && layoutMode }"
     :is-root="isRoot"
     :layout-mode="layoutMode"
   >
@@ -184,11 +184,6 @@ export default {
 </script>
 
 <style scoped>
-.ec-column-layout--layout-mode {
-  border: 1px solid black;
-  border-radius: 10px;
-}
-
 .ec-column-layout__container {
   background-color: #ccc;
   border-bottom-left-radius: 9px;
