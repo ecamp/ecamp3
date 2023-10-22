@@ -1,8 +1,8 @@
 # Contributing :tada:
 Thank you for wanting to help out! :heart:
 
-:de: Danke dass du mithelfen möchtest!
-Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md). :de:
+Danke dass du mithelfen möchtest!
+Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md).
 
 # English :milky_way:
 
@@ -15,7 +15,7 @@ If something about the setup is unclear, or you run into an error, there are [di
 Issues are marked with labels and some of them are not self-explanatory and are explained here:
 - **Type-Labels**:
   Type labels follow the `type: *` format with the options `Frontend`, `Print`, `Deployment` & `API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
-- **Needs prototype**: :bulb: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins, since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
+- **Needs prototype**: :bulb: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
 - **Good first issue**: :green_heart: Beginner friendly issues.
 - **Feature request**: :rocket: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
