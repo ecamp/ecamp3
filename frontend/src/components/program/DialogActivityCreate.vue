@@ -29,7 +29,7 @@
 
     <div v-if="hasCopyActivitySource">
       <div class="mb-8">
-        <div v-if="!clipboardUnsccessable">
+        <div v-if="!clipboardAccessDenied">
           {{ $tc('components.program.dialogActivityCreate.clipboard') }}
           <div style="float: right">
             <small>
@@ -72,7 +72,7 @@
       </div>
     </div>
     <dialog-activity-form :activity="entityData" :period="period">
-      <template v-if="clipboardUnsccessable" #textFieldTitleAppend>
+      <template v-if="clipboardAccessDenied" #textFieldTitleAppend>
         <PopoverPrompt
           v-model="copyActivitySourceUrlShowPopover"
           icon="mdi-content-paste"
@@ -141,7 +141,7 @@ export default {
     camp() {
       return this.period().camp()
     },
-    clipboardUnsccessable() {
+    clipboardAccessDenied() {
       return (
         this.clipboardPermission === 'unaccessable' ||
         this.clipboardPermission === 'denied'
@@ -270,10 +270,10 @@ export default {
     async getCopyActivitySource(url) {
       if (url?.startsWith(window.location.origin)) {
         url = url.substring(window.location.origin.length)
-        let match = router.matcher.match(url)
+        const match = router.matcher.match(url)
 
         if (match.name == 'activity') {
-          var scheduleEntry = await this.api
+          const scheduleEntry = await this.api
             .get()
             .scheduleEntries({ id: match.params['scheduleEntryId'] })
 

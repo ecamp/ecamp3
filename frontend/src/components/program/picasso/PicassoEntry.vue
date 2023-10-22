@@ -271,7 +271,7 @@ export default {
     },
     async copyUrlToClipboard() {
       try {
-        let res = await navigator.permissions.query({ name: 'clipboard-read' })
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
         if (res.state == 'prompt') {
           this.$refs.copyInfoDialog.open()
         }
@@ -279,7 +279,7 @@ export default {
         console.warn('clipboard permission not requestable')
       }
 
-      let url = window.location.origin + router.resolve(this.scheduleEntryRoute).href
+      const url = window.location.origin + router.resolve(this.scheduleEntryRoute).href
       await navigator.clipboard.writeText(url)
 
       this.$toast.info(
