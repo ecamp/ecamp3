@@ -132,7 +132,7 @@ Following it will not only enhance the quality and consistency of your contribut
 
 - [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is up to date with the central repository, facilitating a smooth merge.
 - [x] **Lint:** :wrench: Ensure that linters have run over all new or modified files
-- [x] **Spelling:** :abc: Ensure that linters have run over all new or modified files
+- [x] **Spelling:** :abc: Ensure that the changes are spell checked
 - [x] **Significant Changes:** :mag_right: Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
 - [x] **Testing:** :test_tube: Write tests for any new features, and update existing ones if you've made changes to functionalities.
 - [x] **Language & Spelling:** :book: Use English for all variable names, class names, functions, comments, etc., and ensure that all added content has been spellchecked.
