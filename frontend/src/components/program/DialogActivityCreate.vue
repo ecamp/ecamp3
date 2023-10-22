@@ -79,7 +79,13 @@
           title="Kopierte Aktivität einfügen"
         >
           <template #activator="scope">
-            <v-btn icon :title="$tc('global.button.cancel')" v-on="scope.on">
+            <v-btn
+              :title="$tc('global.button.cancel')"
+              text
+              class="v-btn--has-bg"
+              height="56"
+              v-on="scope.on"
+            >
               <v-icon>mdi-content-paste</v-icon>
             </v-btn>
           </template>
@@ -130,6 +136,9 @@ export default {
     }
   },
   computed: {
+    camp() {
+      return this.period().camp()
+    },
     clipboardUnsccessable() {
       return this.clipboardPermission === 'unaccessable'
     },
@@ -144,10 +153,23 @@ export default {
         if (val) {
           this.entityData.copyActivitySource = this.copyActivitySource._meta.self
           this.entityData.title = this.copyActivitySource.title
-          if (
-            this.period().camp()._meta.self == this.copyActivitySource.camp()._meta.self
-          ) {
-            this.entityData.category = this.copyActivitySource.category()._meta.self
+          this.entityData.location = this.copyActivitySource.location
+
+          const sourceCamp = this.copyActivitySource.camp()
+          const sourceCategory = this.copyActivitySource.category()
+
+          if (this.camp._meta.self == sourceCamp._meta.self) {
+            // same camp; use came category
+            this.entityData.category = sourceCategory._meta.self
+          } else {
+            // different camp; use category with same short-name
+            const categories = this.camp
+              .categories()
+              .allItems.filter((c) => c.short == sourceCategory.short)
+
+            if (categories.length == 1) {
+              this.entityData.category = categories[0]._meta.self
+            }
           }
         } else {
           this.entityData.copyActivitySource = null
