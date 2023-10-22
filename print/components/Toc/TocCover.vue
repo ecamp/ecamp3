@@ -14,9 +14,5 @@ export default {
     camp: { type: Object, required: true },
     index: { type: Number, required: true },
   },
-  data() {
-    return {}
-  },
-  async fetch() {},
 }
 </script>

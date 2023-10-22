@@ -5,7 +5,6 @@
         {{ $t('print.program.title') }}: {{ period.description }}
       </h1>
     </div>
-
     <generic-error-message v-if="error" :error="error" />
     <program-day
       v-for="day in days"
@@ -27,7 +26,7 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
-const { data: days, error } = useAsyncData('data', async () => {
+const { data: days, error } = useAsyncData('days', async () => {
   await Promise.all([
     props.period.days().$loadItems(),
     props.period.scheduleEntries().$loadItems(),

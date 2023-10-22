@@ -9,21 +9,16 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'TocScheduleEntry',
-  props: {
-    index: { type: Number, required: true },
-    scheduleEntry: { type: Object, required: true },
-  },
-  data() {
-    return {}
-  },
-  async fetch() {
-    await Promise.all([
-      this.scheduleEntry._meta.load,
-      this.scheduleEntry.activity()._meta.load,
-    ])
-  },
-}
+<script setup>
+const props = defineProps({
+  index: { type: Number, required: true },
+  scheduleEntry: { type: Object, required: true },
+})
+
+const { error } = useAsyncData('data', async () => {
+  await Promise.all([
+    props.scheduleEntry._meta.load,
+    props.scheduleEntry.activity()._meta.load,
+  ])
+})
 </script>

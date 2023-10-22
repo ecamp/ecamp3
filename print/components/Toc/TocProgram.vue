@@ -16,29 +16,24 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'TocProgram',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      periods: [],
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.camp.periods().$loadItems(),
-      this.camp.activities().$loadItems(),
-      this.camp.categories().$loadItems(),
-    ])
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-    this.periods = this.options.periods.map((periodUri) => {
-      return this.$api.get(periodUri)
-    })
-  },
-}
+const { $api } = useNuxtApp()
+
+const { data: periods, error } = useAsyncData('periods', async () => {
+  await Promise.all([
+    props.camp.periods().$loadItems(),
+    props.camp.activities().$loadItems(),
+    props.camp.categories().$loadItems(),
+  ])
+
+  return props.options.periods.map((periodUri) => {
+    return $api.get(periodUri)
+  })
+})
 </script>

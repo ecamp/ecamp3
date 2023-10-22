@@ -15,25 +15,18 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'TocProgramPeriod',
-  props: {
-    index: { type: Number, required: true },
-    period: { type: Object, required: true },
-  },
-  data() {
-    return {
-      days: null,
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.period.days().$loadItems(),
-      this.period.scheduleEntries().$loadItems(),
-    ])
+<script setup>
+const props = defineProps({
+  index: { type: Number, required: true },
+  period: { type: Object, required: true },
+})
 
-    this.days = this.period.days().items
-  },
-}
+const { data: days, error } = useAsyncData('days', async () => {
+  await Promise.all([
+    props.period.days().$loadItems(),
+    props.period.scheduleEntries().$loadItems(),
+  ])
+
+  return props.period.days().items
+})
 </script>

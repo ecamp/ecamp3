@@ -16,6 +16,7 @@ export default defineNuxtConfig({
 
   components: [
     { path: '~/components/config', prefix: 'Config', global: 'true' },
+    { path: '~/components/Toc', prefix: 'Toc', global: 'true' },
     '~/components',
   ],
   /*

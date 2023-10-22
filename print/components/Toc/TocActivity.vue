@@ -9,26 +9,21 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'TocActivity',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      scheduleEntry: null,
-    }
-  },
-  async fetch() {
-    const [scheduleEntry] = await Promise.all([
-      this.$api.get(this.options.scheduleEntry)._meta.load,
-      this.$api.get(this.options.activity)._meta.load,
-    ])
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-    this.scheduleEntry = scheduleEntry
-  },
-}
+const { $api } = useNuxtApp()
+
+const { data: scheduleEntry, error } = useAsyncData('data', async () => {
+  const [scheduleEntry] = await Promise.all([
+    $api.get(props.options.scheduleEntry)._meta.load,
+    $api.get(props.options.activity)._meta.load,
+  ])
+
+  return scheduleEntry
+})
 </script>

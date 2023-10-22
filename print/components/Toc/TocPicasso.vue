@@ -16,25 +16,20 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'TocPicasso',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      periods: [],
-    }
-  },
-  async fetch() {
-    await this.camp.periods().$loadItems()
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-    this.periods = this.options.periods.map((periodUri) => {
-      return this.$api.get(periodUri)
-    })
-  },
-}
+const { $api } = useNuxtApp()
+
+const { data: periods, error } = useAsyncData('data', async () => {
+  await props.camp.periods().$loadItems()
+
+  return props.options.periods.map((periodUri) => {
+    return $api.get(periodUri)
+  })
+})
 </script>
