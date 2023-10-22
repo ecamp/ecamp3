@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Aktionen",
-          "reorder": "Verschieben"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
-          "title": "Wirklich löschen?"
+          "reorder": "Verschieben",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
+            "title": "Wirklich löschen?"
+          }
         }
       },
       "menuCardlessContentNode": {

@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Actions",
-          "reorder": "Déplacer"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Veux-tu vraiment supprimer cette ligne ?",
-          "title": "Confirmer la suppression ?"
+          "reorder": "Déplacer",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Veux-tu vraiment supprimer cette ligne ?",
+            "title": "Confirmer la suppression ?"
+          }
         }
       },
       "menuCardlessContentNode": {

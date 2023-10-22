@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Azioni",
-          "reorder": "Spostare"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
-          "title": "Cancellare davvero?"
+          "reorder": "Spostare",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
+            "title": "Cancellare davvero?"
+          }
         }
       },
       "menuCardlessContentNode": {
