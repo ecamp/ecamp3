@@ -86,7 +86,8 @@
               height="56"
               v-on="scope.on"
             >
-              <v-icon>mdi-content-paste</v-icon>
+              <v-progress-circular v-if="copyActivitySourceUrlLoading" indeterminate />
+              <v-icon v-else>mdi-content-paste</v-icon>
             </v-btn>
           </template>
           {{ $tc('components.program.dialogActivityCreate.copySourceInfo') }}
@@ -129,6 +130,7 @@ export default {
       clipboardPermission: 'unknown',
       copyActivitySource: null,
       copyActivitySourceUrl: null,
+      copyActivitySourceUrlLoading: false,
       copyActivitySourceUrlShowPopover: false,
       entityProperties: ['title', 'location', 'scheduleEntries'],
       embeddedEntities: ['category'],
@@ -205,24 +207,38 @@ export default {
       }
     },
     copyActivitySourceUrl: function (url) {
-      this.getCopyActivitySource(url).then((activityProxy) => {
-        if (activityProxy != null) {
-          activityProxy._meta.load.then((activity) => {
-            this.$set(this, 'copyActivitySource', activity)
-            this.$set(this, 'copyContent', activity != null)
-          })
-        } else {
-          this.$set(this, 'copyActivitySource', null)
-          this.$set(this, 'copyContent', false)
-        }
+      this.copyActivitySourceUrlLoading = true
 
-        // if Paste-Popover is shown, close it now
-        if (this.copyActivitySourceUrlShowPopover) {
-          this.$nextTick(() => {
-            this.$set(this, 'copyActivitySourceUrlShowPopover', false)
-          })
+      this.getCopyActivitySource(url).then(
+        (activityProxy) => {
+          if (activityProxy != null) {
+            activityProxy._meta.load.then(
+              (activity) => {
+                this.$set(this, 'copyActivitySource', activity)
+                this.$set(this, 'copyContent', activity != null)
+                this.copyActivitySourceUrlLoading = false
+              },
+              () => {
+                this.copyActivitySourceUrlLoading = false
+              }
+            )
+          } else {
+            this.$set(this, 'copyActivitySource', null)
+            this.$set(this, 'copyContent', false)
+            this.copyActivitySourceUrlLoading = false
+          }
+
+          // if Paste-Popover is shown, close it now
+          if (this.copyActivitySourceUrlShowPopover) {
+            this.$nextTick(() => {
+              this.$set(this, 'copyActivitySourceUrlShowPopover', false)
+            })
+          }
+        },
+        () => {
+          this.copyActivitySourceUrlLoading = false
         }
-      })
+      )
     },
   },
   methods: {
