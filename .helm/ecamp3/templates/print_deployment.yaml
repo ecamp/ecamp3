@@ -62,12 +62,12 @@ spec:
             - configMapRef:
                 name: {{ include "print.name" . }}-configmap
           env:
-            - name: SENTRY_PRINT_DSN
+            - name: NUXT_SENTRY_PRINT_DSN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
                   key: sentry-dsn
-            - name: BROWSER_WS_ENDPOINT
+            - name: NUXT_BROWSER_WS_ENDPOINT
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
@@ -75,7 +75,7 @@ spec:
             - name: NUXT_PORT
               value: "3003"
             {{- if and .Values.ingress.enabled .Values.ingress.basicAuth.enabled }}
-            - name: BASIC_AUTH_TOKEN
+            - name: NUXT_BASIC_AUTH_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}

@@ -6,14 +6,13 @@ metadata:
     {{- include "print.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
 data:
-  INTERNAL_API_ROOT_URL: {{ include "api.url" . | quote }}
-  FRONTEND_URL: {{ include "frontend.url" . | quote }}
-  PRINT_URL: {{ include "print.url" . | quote }}
-  COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
-  SENTRY_ENVIRONMENT: {{ .Values.domain | quote }}
+  NUXT_INTERNAL_API_ROOT_URL: {{ include "api.url" . | quote }}
+  NUXT_PRINT_URL: {{ include "print.url" . | quote }}
+  NUXT_COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
+  NUXT_SENTRY_ENVIRONMENT: {{ .Values.domain | quote }}
   {{- if .Values.print.renderHTMLTimeoutMs }}
-  RENDER_HTML_TIMEOUT_MS: {{ .Values.print.renderHTMLTimeoutMs | quote }}
+  NUXT_RENDER_HTML_TIMEOUT_MS: {{ .Values.print.renderHTMLTimeoutMs | quote }}
   {{- end }}
   {{- if .Values.print.renderPDFTimeoutMs }}
-  RENDER_PDF_TIMEOUT_MS: {{ .Values.print.renderPDFTimeoutMs | quote }}
+  NXT_RENDER_PDF_TIMEOUT_MS: {{ .Values.print.renderPDFTimeoutMs | quote }}
   {{- end }}
