@@ -1,3 +1,5 @@
+Cannot delete the last entry.: "Non è possibile eliminare l'ultima voce."
+Cannot delete the last schedule entry.: "L'attività deve essere svolta in almeno una data."
 Either this value or {{ other }} should not be null.: "Questo valore o {{ other }} non deve essere nullo."
 This inviteEmail is already present in the camp.: "Questo indirizzo e-mail è già stato utilizzato per questo campo."
 This is a test message for i18n variants: "it"
