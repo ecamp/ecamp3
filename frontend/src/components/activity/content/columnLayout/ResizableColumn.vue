@@ -38,7 +38,7 @@
 <script>
 import ResizableColumnHeader from '@/components/activity/content/columnLayout/ResizableColumnHeader.vue'
 import MobileColumnWidthIndicator from '@/components/activity/content/columnLayout/MobileColumnWidthIndicator.vue'
-import LayoutItem from '@/components/activity/content/LayoutItem.vue'
+import LayoutItem from '@/components/activity/content/layout/LayoutItem.vue'
 
 export default {
   name: 'ResizableColumn',
