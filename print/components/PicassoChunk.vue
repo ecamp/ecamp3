@@ -19,14 +19,14 @@
         />
       </div>
 
-      <v-sheet class="fullwidth">
+      <div class="fullwidth">
         <picasso-calendar
           :days="days"
           :times="times"
           :schedule-entries="scheduleEntries"
           :content-height="landscape ? 312 : 768"
         />
-      </v-sheet>
+      </div>
       <div class="categories fullwidth text-sm-relative">
         <div
           v-for="category in camp.categories().items"

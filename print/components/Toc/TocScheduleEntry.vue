@@ -1,6 +1,6 @@
 <template>
   <li>
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
     <div v-else class="toc-element toc-element-level-2">
       <a :href="`#content_${index}_scheduleEntry_${scheduleEntry.id}`"
         >{{ scheduleEntry.number }} {{ scheduleEntry.activity().title }}</a

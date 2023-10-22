@@ -1,5 +1,6 @@
 <template>
   <div class="tw-break-after-page">
+    Activity
     <generic-error-message v-if="error" :error="error" />
     <schedule-entry v-else :schedule-entry="scheduleEntry" :index="index" />
   </div>

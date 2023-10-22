@@ -4,7 +4,7 @@
       {{ $t('print.story.title') }}
     </div>
     <ul>
-      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <generic-error-message v-if="error" :error="error" />
       <li v-for="period in periods" v-else :key="period._meta.self">
         <div class="toc-element toc-element-level-2">
           <a :href="`#content_${index}_period_${period.id}`"

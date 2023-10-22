@@ -1,6 +1,6 @@
 <template>
   <div>
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
 
     <picasso-chunk
       v-for="(pageDays, i) in pages"
@@ -10,10 +10,64 @@
       :index="index"
       :landscape="landscape"
       :days="pageDays"
-      :times="times"
+      :times="timesList"
     />
   </div>
 </template>
+
+<script setup>
+const props = defineProps({
+  period: { type: Object, required: true },
+  camp: { type: Object, required: true },
+  landscape: { type: Boolean, required: true },
+  index: { type: Number, required: true },
+})
+
+const { error } = useAsyncData('data', async () => {
+  await Promise.all([
+    props.period.scheduleEntries().$loadItems(),
+    props.camp
+      .activities()
+      .$loadItems()
+      .then((activities) => {
+        return Promise.all(
+          activities.items.map((activity) =>
+            activity
+              .activityResponsibles()
+              .$loadItems()
+              .then((activityResponsibles) => {
+                return Promise.all(
+                  activityResponsibles.items.map((activityResponsible) => {
+                    if (activityResponsible.campCollaboration().user === null) {
+                      return Promise.resolve(null)
+                    }
+                    return activityResponsible.campCollaboration().user()._meta.load
+                  })
+                )
+              })
+          )
+        )
+      }),
+    props.camp.categories().$loadItems(),
+    props.period.days().$loadItems(),
+    props.period
+      .dayResponsibles()
+      .$loadItems()
+      .then((dayResponsibles) => {
+        return Promise.all(
+          dayResponsibles.items.map((dayResponsible) => {
+            if (dayResponsible.campCollaboration().user === null) {
+              return Promise.resolve(null)
+            }
+            return dayResponsible.campCollaboration().user()._meta.load
+          })
+        )
+      }),
+  ])
+
+  console.log('picasso data loaded')
+})
+</script>
 
 <script>
 import {
@@ -24,54 +78,6 @@ import {
 import { sortBy } from 'lodash'
 
 export default {
-  props: {
-    period: { type: Object, required: true },
-    camp: { type: Object, required: true },
-    landscape: { type: Boolean, required: true },
-    index: { type: Number, required: true },
-  },
-  async fetch() {
-    await Promise.all([
-      this.period.scheduleEntries().$loadItems(),
-      this.camp
-        .activities()
-        .$loadItems()
-        .then((activities) => {
-          return Promise.all(
-            activities.items.map((activity) =>
-              activity
-                .activityResponsibles()
-                .$loadItems()
-                .then((activityResponsibles) => {
-                  return Promise.all(
-                    activityResponsibles.items.map((activityResponsible) => {
-                      if (activityResponsible.campCollaboration().user === null) {
-                        return Promise.resolve(null)
-                      }
-                      return activityResponsible.campCollaboration().user()._meta.load
-                    })
-                  )
-                })
-            )
-          )
-        }),
-      this.camp.categories().$loadItems(),
-      this.period.days().$loadItems(),
-      this.period
-        .dayResponsibles()
-        .$loadItems()
-        .then((dayResponsibles) => {
-          return Promise.all(
-            dayResponsibles.items.map((dayResponsible) => {
-              if (dayResponsible.campCollaboration().user === null) {
-                return Promise.resolve(null)
-              }
-              return dayResponsible.campCollaboration().user()._meta.load
-            })
-          )
-        }),
-    ])
-  },
   computed: {
     days() {
       return sortBy(this.period.days().items, (day) =>
@@ -95,7 +101,7 @@ export default {
         this.timeStep
       )
     },
-    times() {
+    timesList() {
       return times(this.bedtimes.getUpTime, this.bedtimes.bedtime, this.timeStep)
     },
   },

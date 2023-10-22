@@ -3,7 +3,7 @@
     {{ $t('entity.period.name') }} {{ period.description }}
 
     <ul>
-      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <generic-error-message v-if="error" :error="error" />
       <toc-program-day
         v-for="day in days"
         v-else

@@ -4,7 +4,7 @@
       {{ $t('print.program.title') }}
     </div>
     <ul>
-      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <generic-error-message v-if="error" :error="error" />
       <toc-program-period
         v-for="period in periods"
         v-else
