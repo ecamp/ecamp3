@@ -81,7 +81,7 @@ We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/instal
 Alternatively you can
 
 - <details>
-    <summary>run php-cs-fixer and ESLint / Prettier manually before each commit: (Click me, I am Expandable) </summary>
+    <summary>run php-cs-fixer and ESLint / Prettier manually before each commit: (Click me, I am expandable) </summary>
   
     ```shell
     # Frontend fixes in running container
