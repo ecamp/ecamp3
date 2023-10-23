@@ -131,18 +131,6 @@ export default defineNuxtConfig({
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
 
-      // TODO: remove once we update to nuxt 3
-      config.module.rules.push({
-        test: /colorjs\.io/,
-        include: /node_modules/,
-        loader: {
-          loader: 'babel-loader',
-          options: {
-            presets: [['@babel/preset-env', { targets: { chrome: '58', ie: '11' } }]],
-          },
-        },
-      })
-
       // const sentryAuthToken = import.meta.env.SENTRY_AUTH_TOKEN
       // if (sentryAuthToken) {
       //   config.plugins.push(
@@ -161,7 +149,7 @@ export default defineNuxtConfig({
       //   )
       // }
     },
-    transpile: ['vue-icon'],
+
     // postcss: {
     //   postcssOptions: {
     //     plugins: {
