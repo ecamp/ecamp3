@@ -16,13 +16,22 @@
 </template>
 
 <script setup>
-const { $api } = useNuxtApp()
+const { $api, $date } = useNuxtApp()
 const route = useRoute()
+const { setLocale, fallbackLocale } = useI18n()
 
 const query = route.query
 const config = JSON.parse(query.config || '{}')
 
-const { data: camp, error } = useAsyncData(
+const locale = config.language || fallbackLocale.value
+
+// set locale of i18n
+await setLocale(locale)
+
+// set locale of dayjs
+$date.locale(locale)
+
+const { data: camp, error } = await useAsyncData(
   'camp',
   () => $api.get(config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
 )

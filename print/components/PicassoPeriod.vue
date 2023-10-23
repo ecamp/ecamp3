@@ -23,7 +23,7 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
-const { error } = useAsyncData('PicassoPeriod', async () => {
+const { error } = await useAsyncData('PicassoPeriod', async () => {
   await Promise.all([
     props.period.scheduleEntries().$loadItems(),
     props.camp
@@ -64,8 +64,6 @@ const { error } = useAsyncData('PicassoPeriod', async () => {
         )
       }),
   ])
-
-  console.log('picasso data loaded')
 })
 </script>
 

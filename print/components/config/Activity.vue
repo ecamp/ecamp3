@@ -15,7 +15,7 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data: scheduleEntry, error } = useAsyncData('Activity', async () => {
+const { data: scheduleEntry, error } = await useAsyncData('Activity', async () => {
   if (props.options.scheduleEntry === null || props.options.activity === null) {
     throw new Error('No activity and scheduleEntry provided provided')
   }

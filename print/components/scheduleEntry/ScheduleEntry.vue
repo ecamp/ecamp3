@@ -58,7 +58,7 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
-const { error } = useAsyncData('ScheduleEntry', async () => {
+const { error } = await useAsyncData('ScheduleEntry', async () => {
   await Promise.all([
     props.scheduleEntry._meta.load,
     props.scheduleEntry.activity()._meta.load,

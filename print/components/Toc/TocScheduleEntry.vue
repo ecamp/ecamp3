@@ -15,7 +15,7 @@ const props = defineProps({
   scheduleEntry: { type: Object, required: true },
 })
 
-const { error } = useAsyncData('TocScheduleEntry', async () => {
+const { error } = await useAsyncData('TocScheduleEntry', async () => {
   await Promise.all([
     props.scheduleEntry._meta.load,
     props.scheduleEntry.activity()._meta.load,

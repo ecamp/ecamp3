@@ -25,7 +25,7 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data: periods, error } = useAsyncData('TocStory', async () => {
+const { data: periods, error } = await useAsyncData('TocStory', async () => {
   await props.camp.periods().$loadItems()
 
   return props.options.periods.map((periodUri) => {

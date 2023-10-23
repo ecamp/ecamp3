@@ -12,7 +12,7 @@ const props = defineProps({
   category: { type: Object, required: true },
 })
 
-useAsyncData('CategoryLabel', async () => {
+await useAsyncData('CategoryLabel', async () => {
   await Promise.all([props.category._meta.load])
 })
 </script>

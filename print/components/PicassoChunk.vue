@@ -44,15 +44,16 @@
           <span v-if="camp.courseKind || camp.kind">
             {{ joinWithoutBlanks([camp.courseKind, camp.kind], ', ') }}
           </span>
-          <i18n
+          <i18n-t
             v-if="camp.courseNumber"
             tag="span"
-            path="print.picasso.picassoFooter.courseNumber"
+            keypath="print.picasso.picassoFooter.courseNumber"
+            scope="global"
           >
             <template #courseNumber>
               {{ camp.courseNumber }}
             </template>
-          </i18n>
+          </i18n-t>
           <span v-if="camp.motto" class="tw-self-start">{{ camp.motto }}</span>
         </div>
         <div class="footer-column">
@@ -60,25 +61,31 @@
           <span v-if="dates">{{ dates }}</span>
         </div>
         <div class="footer-column">
-          <i18n tag="span" path="print.picasso.picassoFooter.leaders">
+          <i18n-t tag="span" keypath="print.picasso.picassoFooter.leaders" scope="global">
             <template #leaders>
               {{ leaderNameList }}
             </template>
-          </i18n>
-          <i18n v-if="camp.coachName" tag="span" path="print.picasso.picassoFooter.coach">
+          </i18n-t>
+          <i18n-t
+            v-if="camp.coachName"
+            tag="span"
+            keypath="print.picasso.picassoFooter.coach"
+            scope="global"
+          >
             <template #coach>
               {{ camp.coachName }}
             </template>
-          </i18n>
-          <i18n
+          </i18n-t>
+          <i18n-t
             v-if="camp.trainingAdvisorName"
             tag="span"
-            path="print.picasso.picassoFooter.trainingAdvisor"
+            keypath="print.picasso.picassoFooter.trainingAdvisor"
+            scope="global"
           >
             <template #trainingAdvisor>
               {{ camp.trainingAdvisorName }}
             </template>
-          </i18n>
+          </i18n-t>
         </div>
       </div>
     </div>

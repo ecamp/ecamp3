@@ -51,9 +51,6 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  router: {
-    middleware: 'i18n',
-  },
 
   /*
    ** Sentry module configuration

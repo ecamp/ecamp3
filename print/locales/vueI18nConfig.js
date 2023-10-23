@@ -19,7 +19,6 @@ import deCommon from '~/../common/locales/de.json'
 import deCHScoutCommon from '~/../common/locales/de-CH-scout.json'
 
 export default defineI18nConfig(() => ({
-  legacy: true,
   fallbackLocale: 'en',
   messages: deepmerge(
     {
@@ -43,5 +42,6 @@ export default defineI18nConfig(() => ({
       'de-CH-scout': deCHScout,
     }
   ),
-  silentTranslationWarn: true,
+  missingWarn: false,
+  fallbackWarn: false,
 }))
