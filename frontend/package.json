@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.22.15",
-    "@sentry/vite-plugin": "2.8.0",
+    "@sentry/vite-plugin": "2.9.0",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/user-event": "14.5.1",
     "@testing-library/vue": "5.9.0",
