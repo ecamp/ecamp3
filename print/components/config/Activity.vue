@@ -1,14 +1,11 @@
 <template>
   <div class="tw-break-after-page">
-    Activity
     <generic-error-message v-if="error" :error="error" />
     <schedule-entry v-else :schedule-entry="scheduleEntry" :index="index" />
   </div>
 </template>
 
 <script setup>
-import ScheduleEntry from '@/components/scheduleEntry/ScheduleEntry.vue'
-
 const props = defineProps({
   options: { type: Object, required: false, default: null },
   camp: { type: Object, required: true },
