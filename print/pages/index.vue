@@ -35,7 +35,12 @@ const { data: camp, error } = useAsyncData(
 
 body {
   color: #000;
-  font-family: 'InterDisplay', Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family:
+    'InterDisplay',
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
   font-size: 10pt;
 }
 
