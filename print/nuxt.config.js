@@ -9,11 +9,7 @@ export default defineNuxtConfig({
     '~/assets/calendar/CalendarDaily.sass',
     '~/assets/calendar/CalendarWithEvents.sass',
   ],
-  plugins: [
-    { src: '~/plugins/axios.js' }, // axios needs to load first, because the configured axios instance is utilized in hal-json-vuex
-    { src: '~/plugins/hal-json-vuex.js' },
-    { src: '~/plugins/dayjs.js' },
-  ],
+  plugins: [{ src: '~/plugins/hal-json-vuex.js' }, { src: '~/plugins/dayjs.js' }],
 
   components: [
     { path: '~/components/config', prefix: 'Config', global: 'true' },

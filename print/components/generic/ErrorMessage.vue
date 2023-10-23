@@ -11,7 +11,7 @@
 export default {
   props: {
     title: { type: String, default: 'Error' },
-    error: { type: String, required: true },
+    error: { type: Error, required: true },
   },
 }
 </script>
