@@ -62,7 +62,7 @@ spec:
             - configMapRef:
                 name: {{ include "print.name" . }}-configmap
           env:
-            - name: NUXT_SENTRY_PRINT_DSN
+            - name: NUXT_SENTRY_DSN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}

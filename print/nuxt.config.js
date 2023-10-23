@@ -49,22 +49,6 @@ export default defineNuxtConfig({
   ],
 
   /*
-   ** Sentry module configuration
-   ** See https://sentry.nuxtjs.org/sentry/options
-   */
-  // sentry: {
-  //   dsn: import.meta.env.SENTRY_PRINT_DSN || '',
-  //   disabled: import.meta.env.NODE_ENV === 'development',
-  //   config: {
-  //     environment: import.meta.env.SENTRY_ENVIRONMENT ?? 'local',
-  //   },
-  //   serverIntegrations: {
-  //     CaptureConsole: {
-  //       levels: ['warn', 'error'],
-  //     },
-  //   },
-  // },
-  /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
@@ -73,24 +57,6 @@ export default defineNuxtConfig({
       if (ctx.isDev) {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
-
-      // const sentryAuthToken = import.meta.env.SENTRY_AUTH_TOKEN
-      // if (sentryAuthToken) {
-      //   config.plugins.push(
-      //     sentryWebpackPlugin({
-      //       authToken: sentryAuthToken,
-      //       org: import.meta.env.SENTRY_ORG || 'ecamp',
-      //       project: import.meta.env.SENTRY_PRINT_PROJECT || 'ecamp3-print',
-      //       telemetry: false,
-      //       sourcemaps: {
-      //         assets: ['.nuxt/**/*'],
-      //       },
-      //       release: {
-      //         name: import.meta.env.SENTRY_RELEASE_NAME || 'development',
-      //       },
-      //     })
-      //   )
-      // }
     },
   },
 
@@ -110,6 +76,14 @@ export default defineNuxtConfig({
     cookiePrefix: 'localhost_',
     renderHtmlTimeoutMs: null,
     renderPdfTimeoutMs: null,
+    sentry: {
+      org: 'ecamp',
+      project: 'ecamp3-print',
+      dsn: null,
+      environment: 'local',
+      authToken: null,
+      releaseName: 'development',
+    },
   },
 
   telemetry: false,
