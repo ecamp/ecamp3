@@ -4,9 +4,11 @@ Displays a single scheduleEntry
 
 <template>
   <content-card
+    class="ec-schedule-entry"
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
+    :max-width="displaySize === 'paper' ? '25cm' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -91,6 +93,14 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
+      <v-btn text icon class="d-hidden d-md-block" @click="togglePaperSize">
+        <v-icon v-if="displaySize === 'paper'" class="resize-icon"
+          >$vuetify.icons.bigScreen</v-icon
+        >
+        <v-icon v-else-if="displaySize === 'widescreen'" class="resize-icon"
+          >$vuetify.icons.paperSize</v-icon
+        >
+      </v-btn>
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
@@ -268,6 +278,7 @@ export default {
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
+      displaySize: 'paper',
     }
   },
   computed: {
@@ -316,6 +327,10 @@ export default {
 
   // reload data every time user navigates to Activity view
   async mounted() {
+    const localDisplaySize = localStorage.getItem('activityDisplaySize')
+    this.displaySize = ['paper', 'widescreen'].includes(localDisplaySize)
+      ? localDisplaySize
+      : 'paper'
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
@@ -352,6 +367,10 @@ export default {
       // redirect to Picasso
       this.$router.push(periodRoute(this.scheduleEntry().period()))
     },
+    togglePaperSize() {
+      this.displaySize = this.displaySize === 'paper' ? 'widescreen' : 'paper'
+      localStorage.setItem('activityDisplaySize', this.displaySize)
+    },
   },
 }
 </script>
@@ -365,5 +384,14 @@ export default {
 
 .e-category-chip-save-icon {
   font-size: 18px;
+}
+
+.ec-schedule-entry {
+  transition: max-width 0.7s ease;
+}
+
+.resize-icon,
+.resize-icon ::v-deep svg {
+  width: 28px !important;
 }
 </style>
