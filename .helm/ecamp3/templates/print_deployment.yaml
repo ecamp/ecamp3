@@ -72,7 +72,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
                   key: browser-ws-endpoint
-            - name: NUXT_PORT
+            - name: NITRO_PORT
               value: "3003"
             {{- if and .Values.ingress.enabled .Values.ingress.basicAuth.enabled }}
             - name: NUXT_BASIC_AUTH_TOKEN
