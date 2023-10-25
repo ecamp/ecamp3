@@ -39,12 +39,14 @@ function addAuthorizationInterceptor(axios) {
   const requestHeaders = useRequestHeaders(['cookie'])
 
   axios.interceptors.request.use(function (config) {
-    // add cookie header, if origin is the same as baseUri
     if (
       config.baseURL &&
       new URL(config.baseURL).origin === new URL(config.url, config.baseURL).origin
     ) {
+      // add cookie header, if origin is the same as baseUri
       config.headers['Cookie'] = requestHeaders.cookie
+    } else {
+      config.url = null // load baseUrl
     }
 
     // add basic auth header (e.g. for staging environment)

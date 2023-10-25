@@ -34,7 +34,7 @@ const { data: periods, error } = await useAsyncData('ConfigPicasso', async () =>
   ])
 
   return props.options.periods.map((periodUri) => {
-    return $api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+    return $api.get(periodUri)
   })
 })
 </script>

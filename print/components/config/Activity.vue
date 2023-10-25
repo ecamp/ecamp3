@@ -21,8 +21,8 @@ const { data: scheduleEntry, error } = await useAsyncData('Activity', async () =
   }
 
   const [scheduleEntry] = await Promise.all([
-    $api.get(props.options.scheduleEntry)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-    $api.get(props.options.activity)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+    $api.get(props.options.scheduleEntry)._meta.load,
+    $api.get(props.options.activity)._meta.load,
     $api.get().contentTypes().$loadItems(),
 
     // might not be needed for every activity, but safer to do eager loading instead of n+1 later on
