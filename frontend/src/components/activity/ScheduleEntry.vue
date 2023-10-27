@@ -8,7 +8,7 @@ Displays a single scheduleEntry
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
-    :max-width="displaySize === 'paper' ? '25cm' : ''"
+    :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -93,13 +93,11 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <v-btn text icon class="d-none d-md-block" @click="togglePaperSize">
-        <v-icon v-if="displaySize === 'paper'" class="resize-icon"
+      <v-btn text icon class="d-none d-md-block" @click="toggleDisplaySize">
+        <v-icon v-if="isPaperDisplaySize" class="resize-icon"
           >$vuetify.icons.bigScreen</v-icon
         >
-        <v-icon v-else-if="displaySize === 'widescreen'" class="resize-icon"
-          >$vuetify.icons.paperSize</v-icon
-        >
+        <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
       </v-btn>
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
@@ -278,7 +276,7 @@ export default {
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
-      displaySize: 'paper',
+      isPaperDisplaySize: true,
     }
   },
   computed: {
@@ -327,10 +325,8 @@ export default {
 
   // reload data every time user navigates to Activity view
   async mounted() {
-    const localDisplaySize = localStorage.getItem('activityDisplaySize')
-    this.displaySize = ['paper', 'widescreen'].includes(localDisplaySize)
-      ? localDisplaySize
-      : 'paper'
+    this.isPaperDisplaySize =
+      localStorage.getItem('activityIsPaperDisplaySize') !== 'false'
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
@@ -367,9 +363,9 @@ export default {
       // redirect to Picasso
       this.$router.push(periodRoute(this.scheduleEntry().period()))
     },
-    togglePaperSize() {
-      this.displaySize = this.displaySize === 'paper' ? 'widescreen' : 'paper'
-      localStorage.setItem('activityDisplaySize', this.displaySize)
+    toggleDisplaySize() {
+      this.isPaperDisplaySize = !this.isPaperDisplaySize
+      localStorage.setItem('activityIsPaperDisplaySize', this.isPaperDisplaySize)
     },
   },
 }
