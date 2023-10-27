@@ -128,8 +128,8 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
           return fallback
         }
       }
-      return 'en'
     }
+    return 'en'
   },
 })
 
