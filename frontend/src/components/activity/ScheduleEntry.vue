@@ -391,7 +391,7 @@ export default {
 }
 
 .resize-icon,
-.resize-icon ::v-deep svg {
+.resize-icon :deep(svg) {
   width: 28px !important;
 }
 </style>
