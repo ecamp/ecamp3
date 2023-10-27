@@ -19,6 +19,8 @@ import en from '@/locales/en.json'
 import enCHScout from '@/locales/en-CH-scout.json'
 import de from '@/locales/de.json'
 import deCHScout from '@/locales/de-CH-scout.json'
+import rm from '@/locales/rm.json'
+import rmCHScout from '@/locales/rm-CH-scout.json'
 
 import validationIt from 'vee-validate/dist/locale/it.json'
 import validationFr from 'vee-validate/dist/locale/fr.json'
@@ -32,7 +34,10 @@ import vuetifyIt from 'vuetify/lib/locale/it'
 
 Vue.use(VueI18n)
 
-const fallbackLocale = 'en'
+const fallbackLocale = {
+  ['rm']: ['de'],
+  ['default']: ['en'],
+}
 const i18n = new VueI18n({
   locale: 'de',
   fallbackLocale,
@@ -91,6 +96,8 @@ const i18n = new VueI18n({
       'en-CH-scout': enCHScout,
       de,
       'de-CH-scout': deCHScout,
+      rm,
+      'rm-CH-scout': rmCHScout,
     },
   ]),
   silentTranslationWarn: true,
@@ -109,7 +116,19 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
         return languageFallback
       }
     }
-    return fallbackLocale
+    if (typeof fallbackLocale === 'string') {
+      return fallbackLocale
+    } else if (Array.isArray(fallbackLocale)) {
+      for (const fallback of fallbackLocale) {
+        return fallback
+      }
+    } else {
+      if ('default' in fallbackLocale) {
+        for (const fallback of fallbackLocale.default) {
+          return fallback
+        }
+      }
+    }
   },
 })
 
