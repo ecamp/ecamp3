@@ -3,7 +3,7 @@ Show all material lists for a camp on mobile
 -->
 
 <template>
-  <content-card :title="$tc('views.admin.materialLists.title')" toolbar>
+  <content-card :title="$tc('views.admin.adminMaterialLists.title')" toolbar>
     <template v-if="!isGuest" #title-actions>
       <DialogMaterialListCreate :camp="camp()">
         <template #activator="{ on }">

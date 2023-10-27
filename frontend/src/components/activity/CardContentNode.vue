@@ -1,5 +1,10 @@
 <template>
-  <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
+  <v-card
+    :elevation="draggable ? 4 : 0"
+    :tile="draggable ? null : true"
+    class="d-flex flex-column"
+    :class="{ 'mx-2 my-2': draggable }"
+  >
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
         <v-icon class="mr-2">{{ icon }}</v-icon>
@@ -56,7 +61,7 @@
       </v-toolbar>
     </v-card-title>
     <slot name="outer">
-      <v-card-text>
+      <v-card-text class="flex-grow-1">
         <slot />
       </v-card-text>
     </slot>
@@ -108,7 +113,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .v-card:not(:hover):deep(button.visible-on-hover),
 .v-card:not(:hover):deep(button.tooltip-activator) {
   opacity: 0;
@@ -126,5 +131,13 @@ export default {
   transition:
     opacity 0.2s linear,
     width 0.3s steps(1, start);
+}
+
+::v-deep {
+  .e-form-container,
+  .v-input,
+  .v-input__control {
+    height: 100%;
+  }
 }
 </style>

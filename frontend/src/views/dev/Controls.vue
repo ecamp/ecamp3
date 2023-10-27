@@ -7,6 +7,10 @@
             <v-text-field v-model="hint" label="Hint" hide-details />
             <v-checkbox v-model="persistentHint" label="persistent-hint" class="mt-0" />
           </div>
+          <div class="d-grid flex-grow-1">
+            <v-text-field v-model="labelText" label="Label" hide-details />
+            <v-checkbox v-model="label" label="label" class="mt-0" />
+          </div>
           <div class="d-flex flex-grow-1">
             <v-text-field v-model="placeholder" label="Placeholder" />
           </div>
@@ -117,6 +121,8 @@ export default {
     placeholder: 'Dummy placeholder',
     persistentHint: false,
     hint: 'Dummy hint',
+    label: false,
+    labelText: 'Label',
 
     textfieldValue: 'FFFFFFFFFF',
     textareaValue: 'FFFFFFFFFF',
@@ -274,6 +280,7 @@ export default {
       return {
         hint: this.hint,
         'persistent-hint': this.persistentHint,
+        label: this.label ? this.labelText : null,
       }
     },
   },

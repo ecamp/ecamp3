@@ -246,7 +246,7 @@ export default new Router({
       ],
     },
     {
-      name: 'material/overview',
+      name: 'material/all',
       path: '/camps/:campId/:campTitle?/material/all',
       components: {
         navigation: NavigationCamp,
@@ -257,6 +257,21 @@ export default new Router({
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+        }),
+      },
+    },
+    {
+      name: 'material/lists', // Only used on mobile
+      path: '/camps/:campId/:campTitle?/material/lists',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/material/MaterialLists.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({
           camp: campFromRoute(route),
         }),
@@ -324,7 +339,7 @@ export default new Router({
         {
           path: 'material',
           name: 'admin/material',
-          component: () => import('./views/admin/MaterialLists.vue'),
+          component: () => import('./views/admin/AdminMaterialLists.vue'),
         },
         {
           path: 'print',
@@ -483,6 +498,7 @@ function getContentLayout(route) {
   switch (route.name) {
     case 'camp/period/program':
     case 'admin/print':
+    case 'admin/activity/category':
       return 'full'
     case 'camp/print':
     case 'camp/material':
@@ -518,25 +534,26 @@ export function campRoute(camp, subroute = 'dashboard', query = {}) {
 
 /**
  * @param camp
- * @param materialList
+ * @param materialListOrRoute { '/all', '/lists', object }
  * @param query
  */
-export function materialListRoute(camp, materialList = false, query = {}) {
-  if (materialList === false) {
+export function materialListRoute(camp, materialListOrRoute = '/all', query = {}) {
+  if (camp._meta.loading) return {}
+  if (typeof materialListOrRoute === 'string') {
     return {
-      name: 'material/overview',
+      name: `material${materialListOrRoute}`,
       params: { campId: camp.id, campTitle: slugify(camp.title) },
       query,
     }
   }
-  if (!materialList?._meta || materialList.meta?.loading) return {}
+  if (!materialListOrRoute?._meta || materialListOrRoute.meta?.loading) return {}
   return {
     name: 'material/detail',
     params: {
       campId: camp.id,
       campTitle: slugify(camp.title),
-      materialId: materialList.id,
-      materialName: slugify(materialList.name),
+      materialId: materialListOrRoute.id,
+      materialName: slugify(materialListOrRoute.name),
     },
     query,
   }

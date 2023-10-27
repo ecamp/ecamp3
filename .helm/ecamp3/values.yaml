@@ -90,7 +90,7 @@ frontend:
     requests:
       cpu: 10m
       memory: 10Mi
-  loginInfoTextKey: 'dev'
+  loginInfoTextKey: 'prod'
 
 print:
   subpath: "/print"
@@ -186,9 +186,6 @@ postgresql:
 
 recaptcha:
   siteKey:
-  secret:
-
-coupon:
   secret:
 
 serviceAccount:

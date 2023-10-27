@@ -361,10 +361,6 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
-
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    border-bottom: none;
-  }
 }
 
 .e-category-chip-save-icon {
