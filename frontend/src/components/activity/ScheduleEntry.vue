@@ -93,7 +93,7 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <v-btn text icon class="d-hidden d-md-block" @click="togglePaperSize">
+      <v-btn text icon class="d-none d-md-block" @click="togglePaperSize">
         <v-icon v-if="displaySize === 'paper'" class="resize-icon"
           >$vuetify.icons.bigScreen</v-icon
         >
