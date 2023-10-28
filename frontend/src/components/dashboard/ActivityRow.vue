@@ -1,6 +1,6 @@
 <template>
   <tr class="row">
-    <th style="text-align: left" class="tabular-nums" scope="row">
+    <th class="text-left tabular-nums" scope="row">
       <TextAlignBaseline
         ><span class="smaller">{{ scheduleEntry.number }}</span></TextAlignBaseline
       >
@@ -14,30 +14,25 @@
       {{ start }}<br />
       <span class="e-subtitle">{{ duration }}</span>
     </td>
-    <td style="width: 100%" class="contentrow">
-      <span style="display: inline-block">
-        <router-link
-          :to="routerLink"
-          class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium d-block"
-        >
-          {{ title }}
-        </router-link>
-      </span>
-
-      <span
-        v-if="$vuetify.breakpoint.mdAndUp"
-        class="e-subtitle"
-        style="font-size: 0.7em"
+    <td class="w-100 contentrow">
+      <router-link
+        :to="routerLink"
+        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium"
+        >{{ title }}</router-link
       >
+
+      <span v-if="$vuetify.breakpoint.mdAndUp" class="e-subtitle e-subtitle--smaller">
         {{ progressLabel }}
       </span>
 
-      <br />
-      <span class="e-subtitle">{{ location }}</span>
+      <template v-if="location">
+        <br />
+        <span class="e-subtitle">{{ location }}</span>
+      </template>
 
       <template v-if="!$vuetify.breakpoint.mdAndUp">
         <br />
-        <span class="e-subtitle" style="font-size: 0.7em">
+        <span class="e-subtitle e-subtitle--smaller">
           {{ progressLabel }}
         </span>
       </template>
@@ -131,6 +126,10 @@ tr + tr :is(td, th) {
 .e-subtitle {
   font-size: 0.9em;
   color: #666;
+}
+
+.e-subtitle--smaller {
+  font-size: 0.7em;
 }
 
 .nowrap {
