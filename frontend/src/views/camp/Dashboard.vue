@@ -7,7 +7,13 @@
           v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
         />
-        <v-skeleton-loader v-else type="button" />
+        <v-skeleton-loader
+          v-else
+          type="button"
+          class="v-skeleton-loader--inherit-size"
+          height="32"
+          width="160px"
+        />
         <FilterDivider />
         <template v-if="!loading">
           <SelectFilter
@@ -86,8 +92,24 @@
           </v-chip>
         </template>
         <template v-else>
-          <v-skeleton-loader type="button" />
-          <v-skeleton-loader type="button" />
+          <v-skeleton-loader
+            type="button"
+            class="v-skeleton-loader--inherit-size"
+            height="32"
+            width="150"
+          />
+          <v-skeleton-loader
+            type="button"
+            class="v-skeleton-loader--inherit-size"
+            height="32"
+            width="130"
+          />
+          <v-skeleton-loader
+            type="button"
+            class="v-skeleton-loader--inherit-size"
+            height="32"
+            width="100"
+          />
         </template>
       </div>
       <template v-if="!loading && !scheduleEntriesLoading">
@@ -136,6 +158,13 @@
                       :camp-collaborations="dayResponsibleCollaborators[dayUri]"
                       max-size="20"
                     />
+                    <v-skeleton-loader
+                      v-else
+                      type="avatar"
+                      width="20"
+                      height="20"
+                      class="v-skeleton-loader--inherit-size"
+                    />
                   </div>
                 </th>
               </tr>
@@ -158,39 +187,29 @@
         </p>
       </template>
       <table v-else class="mx-4 mt-6 mb-3 d-sr-none" style="border-collapse: collapse">
-        <caption>
-          <v-skeleton-loader type="heading" class="d-block mb-3" width="45ch" />
+        <caption class="text-left">
+          <v-skeleton-loader type="heading" max-width="45ch" />
         </caption>
         <tbody>
-          <tr>
+          <tr class="day-header__row">
             <th colspan="5" class="day-header">
-              <v-skeleton-loader type="text" width="15ch" />
+              <div class="day-header__inner">
+                <v-skeleton-loader
+                  type="text"
+                  width="15ch"
+                  class="v-skeleton-loader--no-margin"
+                  style="margin: 5px 0"
+                />
+                <v-skeleton-loader
+                  type="avatar"
+                  width="20"
+                  height="20"
+                  class="v-skeleton-loader--inherit-size"
+                />
+              </div>
             </th>
           </tr>
-          <tr
-            v-for="index in 3"
-            :key="index"
-            style="border-top: 1px solid #ddd; vertical-align: top"
-          >
-            <th class="pt-1">
-              <v-skeleton-loader type="text" width="2ch" />
-              <v-skeleton-loader type="text" width="3ch" class="d-sm-none" />
-            </th>
-            <td class="d-none d-sm-table-cell pl-2 pt-1">
-              <v-skeleton-loader type="text" width="3ch" />
-            </td>
-            <td class="nowrap pl-2 pt-1">
-              <v-skeleton-loader type="text" width="6ch" />
-              <v-skeleton-loader type="text" width="4ch" />
-            </td>
-            <td style="width: 100%" class="pl-2 pb-2 pt-1">
-              <v-skeleton-loader type="text" width="20ch" />
-              <v-skeleton-loader type="text" width="15ch" />
-            </td>
-            <td class="contentrow avatarrow overflow-visible pt-1">
-              <v-skeleton-loader type="heading" width="55" />
-            </td>
-          </tr>
+          <ActivityRow v-for="index in 3" :key="index" />
         </tbody>
       </table>
     </div>
@@ -442,6 +461,7 @@ export default {
 .day-header__inner {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   gap: 0 0.5rem;
   color: #5c6061;
