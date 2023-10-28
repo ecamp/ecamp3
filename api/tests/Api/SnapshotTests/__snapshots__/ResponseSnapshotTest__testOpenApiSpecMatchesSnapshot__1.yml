@@ -13452,6 +13452,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
@@ -13523,6 +13525,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
@@ -13580,6 +13584,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
@@ -13657,6 +13663,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
@@ -13737,6 +13745,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
@@ -13831,6 +13841,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
@@ -13925,6 +13937,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           nullable: true
