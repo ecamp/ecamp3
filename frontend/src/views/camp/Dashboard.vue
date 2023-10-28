@@ -127,9 +127,16 @@
               :key="dayUri"
               :aria-labelledby="dayUri + 'th'"
             >
-              <tr>
+              <tr class="day-header__row">
                 <th :id="dayUri + 'th'" colspan="5" scope="colgroup" class="day-header">
-                  {{ dateLong(days[dayUri].start) }}
+                  <div class="day-header__inner">
+                    {{ dateLong(days[dayUri].start) }}
+                    <AvatarRow
+                      v-if="!days[dayUri].dayResponsibles()._meta.loading"
+                      :camp-collaborations="dayResponsibleCollaborators[dayUri]"
+                      max-size="20"
+                    />
+                  </div>
                 </th>
               </tr>
               <ActivityRow
@@ -209,6 +216,7 @@ import {
   transformValuesToHalId,
   processRouteQuery,
 } from '@/helpers/querySyncHelper'
+import AvatarRow from '@/components/generic/AvatarRow.vue'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -217,6 +225,7 @@ function filterEquals(arr1, arr2) {
 export default {
   name: 'Dashboard',
   components: {
+    AvatarRow,
     TextAlignBaseline,
     FilterDivider,
     ActivityRow,
@@ -287,6 +296,11 @@ export default {
         '_meta.self'
       )
     },
+    dayResponsibleCollaborators() {
+      return mapValues(this.days, (day) =>
+        day.dayResponsibles().items.map((item) => item.campCollaboration())
+      )
+    },
     filteredScheduleEntries() {
       return this.scheduleEntries.filter(
         (scheduleEntry) =>
@@ -309,8 +323,17 @@ export default {
                 .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
             }) ||
+            this.filter.responsible?.every((responsible) => {
+              return scheduleEntry
+                .day()
+                .dayResponsibles()
+                .items.map((responsible) => responsible.campCollaboration()._meta.self)
+                .includes(responsible)
+            }) ||
             (this.filter.responsible[0] === 'none' &&
-              scheduleEntry.activity().activityResponsibles().items.length === 0)) &&
+              scheduleEntry.activity().activityResponsibles().items.length === 0) ||
+            (this.filter.responsible[0] === 'none' &&
+              scheduleEntry.day().dayResponsibles().items.length === 0)) &&
           (this.filter.progressLabel === null ||
             this.filter.progressLabel.length === 0 ||
             this.filter.progressLabel?.includes(
@@ -398,12 +421,38 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .day-header {
+  z-index: 1;
+  position: sticky;
+  top: calc(48px - 1px - 0.75rem);
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    top: calc(0px - 1px - 0.75rem);
+  }
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    top: calc(64px - 1px - 0.75rem);
+  }
+  padding-bottom: 0.25rem;
   padding-top: 0.75rem;
   font-weight: 400;
-  color: #666;
   font-size: 0.9rem;
   text-align: left;
+}
+
+.day-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 0.5rem;
+  color: #5c6061;
+  background: #eceff1;
+  margin: 0 -16px;
+  padding: 4px 16px;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+
+.day-header__row + tr > :is(th, td) {
+  border-top: 0;
 }
 </style>
