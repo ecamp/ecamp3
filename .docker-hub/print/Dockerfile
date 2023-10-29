@@ -29,7 +29,6 @@ COPY --from=build-stage /app/.output ./.output
 
 ENV NITRO_HOST 0.0.0.0
 ENV NITRO_PORT 80
-ENV NUXT_APP_BASE_URL=/print/
 
 EXPOSE 80
 CMD node ./.output/server/index.mjs
