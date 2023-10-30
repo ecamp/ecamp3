@@ -43,7 +43,7 @@ spec:
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: /health
+              path: /print/health
               port: 3003
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -51,7 +51,7 @@ spec:
           livenessProbe:
             httpGet:
               scheme: HTTP
-              path: /api/health
+              path: /print/api/health
               port: 3003
             initialDelaySeconds: 10
             periodSeconds: 30
