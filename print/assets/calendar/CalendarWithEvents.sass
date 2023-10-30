@@ -1,16 +1,6 @@
 
 @import './_variables.scss'
 
-.theme--light.v-calendar-events
-  .v-event-timed
-    border: $calendar-event-border-width solid !important
-
-  .v-event-more
-    background-color: $calendar-background-color
-
-    &.v-outside
-      background-color: $calendar-outside-background-color
-
 .v-calendar
   .v-event
     position: relative
@@ -23,15 +13,6 @@
     z-index: 1
     border-radius: $calendar-event-border-radius
 
-  .v-event-more
-    overflow: hidden
-    text-overflow: ellipsis
-    white-space: nowrap
-    cursor: pointer
-    font-weight: bold
-    z-index: 1
-    position: relative
-
   .v-event-timed-container
     position: absolute
     top: 0
@@ -43,18 +24,9 @@
 
   .v-event-timed
     position: absolute
-    white-space: nowrap
-    text-overflow: ellipsis
     cursor: pointer
     border-radius: $calendar-event-border-radius
     pointer-events: all
-
-  .v-event-summary
-    display: inline-block
-    overflow: hidden
-    text-overflow: ellipsis
-    width: 100%
-    white-space: nowrap
 
   &.v-calendar-events
     .v-calendar-weekly__head-weekday

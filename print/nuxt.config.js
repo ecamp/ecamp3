@@ -78,6 +78,7 @@ export default defineNuxtConfig({
 
   vue: {
     compilerOptions: {
+      whitespace: 'preserve',
       isCustomElement: (tag) =>
         tag.startsWith('rdf:') || tag.startsWith('cc:') || tag.startsWith('dc:'), // fixes svg lint errors
     },
