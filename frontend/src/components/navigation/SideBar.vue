@@ -33,7 +33,7 @@
 export default {
   name: 'SideBar',
   props: {
-    title: { type: String, default: null },
+    title: { type: String, required: true },
     icon: { type: String, default: 'mdi-format-list-bulleted-type' },
   },
   data() {
