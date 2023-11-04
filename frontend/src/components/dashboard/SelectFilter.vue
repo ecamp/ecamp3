@@ -83,9 +83,8 @@ export default {
             type: this.andFilter ? 'conjunction' : 'disjunction',
           })
           return listFormat.format(list)
-        } else {
-          return list.join(', ')
         }
+        return list.join(', ')
       }
       return this.processedItems[this.value]?.text
     },
