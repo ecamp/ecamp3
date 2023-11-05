@@ -63,10 +63,10 @@
     "stylelint": "15.11.0",
     "stylelint-config-standard": "34.0.0",
     "tailwindcss": "3.3.3",
-    "vue": "2.7.14",
+    "vue": "2.7.15",
     "vue-jest": "3.0.7",
-    "vue-server-renderer": "2.7.14",
-    "vue-template-compiler": "2.7.14",
+    "vue-server-renderer": "2.7.15",
+    "vue-template-compiler": "2.7.15",
     "webpack": "4.47.0"
   },
   "eslintConfig": {
