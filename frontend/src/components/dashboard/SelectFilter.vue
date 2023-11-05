@@ -78,10 +78,13 @@ export default {
       if (this.multiple) {
         const list = (this.value || []).map((item) => this.processedItems[item].text)
         const lang = this.$store.state.lang.language
-        const listFormat = new Intl.ListFormat(lang, {
-          type: this.andFilter ? 'conjunction' : 'disjunction',
-        })
-        return listFormat.format(list)
+        if ('Intl' in window && 'ListFormat' in Intl) {
+          const listFormat = new Intl.ListFormat(lang, {
+            type: this.andFilter ? 'conjunction' : 'disjunction',
+          })
+          return listFormat.format(list)
+        }
+        return list.join(', ')
       }
       return this.processedItems[this.value]?.text
     },
