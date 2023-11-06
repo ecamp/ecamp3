@@ -1,5 +1,5 @@
 # build stage
-FROM node:20.9.0 AS build-stage
+FROM node:21.1.0 AS build-stage
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
 ARG SENTRY_PRINT_PROJECT
@@ -23,7 +23,7 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 # production stage
-FROM node:20.9.0 AS production-stage
+FROM node:21.1.0 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules
