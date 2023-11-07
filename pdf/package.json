@@ -17,7 +17,7 @@
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss}"
   },
   "dependencies": {
-    "@vue/runtime-core": "3.3.7",
+    "@vue/runtime-core": "3.3.8",
     "html-entities": "2.4.0",
     "html-parse-stringify": "3.0.1"
   },
