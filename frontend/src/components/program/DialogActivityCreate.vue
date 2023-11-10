@@ -80,7 +80,7 @@
         >
           <template #activator="scope">
             <v-btn
-              :title="$tc('global.button.cancel')"
+              :title="$tc('components.program.dialogActivityCreate.pasteActivity')"
               text
               class="v-btn--has-bg"
               height="56"
