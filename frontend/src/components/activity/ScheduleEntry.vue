@@ -93,12 +93,32 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <v-btn text icon class="d-none d-md-block" @click="toggleDisplaySize">
-        <v-icon v-if="isPaperDisplaySize" class="resize-icon"
-          >$vuetify.icons.bigScreen</v-icon
-        >
-        <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template #activator="{ on }">
+          <v-btn
+            text
+            icon
+            class="d-none d-md-block"
+            :aria-label="
+              isPaperDisplaySize
+                ? $tc('components.activity.scheduleEntry.switchToFullSize')
+                : $tc('components.activity.scheduleEntry.switchToPaperSize')
+            "
+            @click="toggleDisplaySize"
+            v-on="on"
+          >
+            <v-icon v-if="isPaperDisplaySize" class="resize-icon"
+              >$vuetify.icons.bigScreen</v-icon
+            >
+            <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
+          </v-btn>
+        </template>
+        {{
+          isPaperDisplaySize
+            ? $tc('components.activity.scheduleEntry.switchToFullSize')
+            : $tc('components.activity.scheduleEntry.switchToPaperSize')
+        }}
+      </v-tooltip>
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
