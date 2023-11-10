@@ -27,3 +27,5 @@ jobs:
       pr_number: ${{ github.event.pull_request.number }}
       dropDBOnUninstall: true
     secrets: inherit
+    concurrency:
+      group: ${{ github.event.pull_request.number }}
