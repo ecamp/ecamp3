@@ -15,6 +15,13 @@
       },
       "name": "Spaltenlayout"
     },
+    "defaultLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Standardlayout",
+      "maincontent": "Hauptinhalt",
+      "printAboveMaincontent": "Über dem Hauptinhalt drucken",
+      "printBelowMaincontent": "Unter dem Hauptinhalt drucken"
+    },
     "laThematicArea": {
       "entity": {
         "option": {

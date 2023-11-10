@@ -13,8 +13,15 @@
           "name": "Column"
         }
       },
-      "icon": "mdi-format-columns",
+      "icon": "mdi-view-column",
       "name": "Column layout"
+    },
+    "defaultLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Default layout",
+      "maincontent": "Main content",
+      "printAboveMaincontent": "Print above main content",
+      "printBelowMaincontent": "Print below main content"
     },
     "laThematicArea": {
       "entity": {

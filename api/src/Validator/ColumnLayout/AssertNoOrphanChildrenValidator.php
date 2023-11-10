@@ -4,6 +4,7 @@ namespace App\Validator\ColumnLayout;
 
 use App\Entity\ContentNode;
 use App\Entity\ContentNode\ColumnLayout;
+use App\Entity\ContentNode\DefaultLayout;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
@@ -15,15 +16,23 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertNoOrphanChildren::class);
         }
 
-        /** @var ColumnLayout $columnLayout */
-        $columnLayout = $this->context->getObject();
+        /** @var ColumnLayout|DefaultLayout $layout */
+        $layout = $this->context->getObject();
 
-        if (!$columnLayout instanceof ColumnLayout) {
-            throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside a ColumnLayout object');
-        }
+        if ($layout instanceof ColumnLayout) {
+            if (!isset($value['columns'])) {
+                throw new \TypeError('Property "columns" expected but not found');
+            }
 
-        if (!isset($value['columns'])) {
-            throw new \TypeError('Property "columns" expected but not found');
+            $array = $value['columns'];
+        } elseif ($layout instanceof DefaultLayout) {
+            if (!isset($value['items'])) {
+                throw new \TypeError('Property "items" expected but not found');
+            }
+
+            $array = $value['items'];
+        } else {
+            throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside ColumnLayout or FlexLayout object');
         }
 
         $slots = array_map(function ($col) {
@@ -32,9 +41,9 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             }
 
             return null;
-        }, $value['columns']);
+        }, $array);
 
-        $childSlots = $columnLayout->children->map(function (ContentNode $child) {
+        $childSlots = $layout->children->map(function (ContentNode $child) {
             return $child->slot;
         })->toArray();
 

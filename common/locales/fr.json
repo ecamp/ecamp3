@@ -15,6 +15,13 @@
       },
       "name": "Disposition des colonnes"
     },
+    "defaultLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Disposition par défaut",
+      "maincontent": "Contenu principal",
+      "printAboveMaincontent": "Imprimer au-dessus du contenu principal",
+      "printBelowMaincontent": "Imprimer sous le contenu principal"
+    },
     "laThematicArea": {
       "entity": {
         "option": {

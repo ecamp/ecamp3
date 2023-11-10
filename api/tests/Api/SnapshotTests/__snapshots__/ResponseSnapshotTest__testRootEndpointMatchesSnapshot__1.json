@@ -44,6 +44,10 @@
             "href": "\/days{\/id}{?period,period[]}",
             "templated": true
         },
+        "defaultLayouts": {
+            "href": "\/content_node\/default_layouts{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
         "invitations": {
             "href": "\/invitations{\/id}{\/action}",
             "templated": true
