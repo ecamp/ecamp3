@@ -341,6 +341,49 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
+    public function testCreateCategoryValidatesNullColor() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'color' => null,
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'The type of the "color" attribute must be "string", "NULL" given.',
+        ]);
+    }
+
+    public function testCreateCategoryValidatesEmptyColor() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'color' => '',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'color',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateCategoryValidatesMissingColor() {
         static::createClientWithCredentials()->request('POST', '/categories', ['json' => $this->getExampleWritePayload([], ['color'])]);
 
@@ -349,7 +392,7 @@ class CreateCategoryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'color',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
@@ -369,6 +412,25 @@ class CreateCategoryTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    public function testCreateCategoryTrimsColor() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'color' => " \t #4DBB52 \t ",
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'color' => '#4DBB52',
+        ]));
     }
 
     public function testCreateCategoryUsesDefaultForMissingNumberingStyle() {

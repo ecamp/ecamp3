@@ -2768,14 +2768,6 @@ components:
           maxLength: 64
           nullable: true
           type: string
-        couponKey:
-          description: |-
-            Camp Coupon Key
-            If a COUPON_SECRET is configured, a valid Coupon is required.
-          maxLength: 128
-          nullable: true
-          type: string
-          writeOnly: true
         courseKind:
           description: 'The official name for the type of this course.'
           example: 'PBS AG 123-23'
@@ -3719,14 +3711,6 @@ components:
           maxLength: 64
           nullable: true
           type: string
-        couponKey:
-          description: |-
-            Camp Coupon Key
-            If a COUPON_SECRET is configured, a valid Coupon is required.
-          maxLength: 128
-          nullable: true
-          type: string
-          writeOnly: true
         courseKind:
           description: 'The official name for the type of this course.'
           example: 'PBS AG 123-23'
@@ -4626,14 +4610,6 @@ components:
           maxLength: 64
           nullable: true
           type: string
-        couponKey:
-          description: |-
-            Camp Coupon Key
-            If a COUPON_SECRET is configured, a valid Coupon is required.
-          maxLength: 128
-          nullable: true
-          type: string
-          writeOnly: true
         courseKind:
           description: 'The official name for the type of this course.'
           example: 'PBS AG 123-23'

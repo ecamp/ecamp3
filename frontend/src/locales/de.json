@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Aktionen",
-          "reorder": "Verschieben"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
-          "title": "Wirklich löschen?"
+          "reorder": "Verschieben",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
+            "title": "Wirklich löschen?"
+          }
         }
       },
       "menuCardlessContentNode": {
@@ -429,6 +429,9 @@
       "activity": {
         "title": "Aktivitätseinstellungen"
       },
+      "adminMaterialLists": {
+        "title": "Materiallisten"
+      },
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
@@ -438,9 +441,6 @@
       },
       "info": {
         "title": "Lagerinfos"
-      },
-      "materialLists": {
-        "title": "Materiallisten"
       },
       "print": {
         "title": "Lager drucken"
@@ -466,7 +466,6 @@
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
-          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
           "dev": "Dies ist die Entwickler-Version von eCamp v3.{br}WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -589,7 +588,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "Für die geschlossene Beta wird ein Coupon (Zugangscode) benötigt. Auf ecamp3.ch/closed-beta erfährst du, wie du einen erhältst.",
       "create": "Lager erstellen",
       "period": {
         "add": "Weiteren Lagerabschnitt hinzufügen",
@@ -604,6 +602,9 @@
       "title": "Meine Lager"
     },
     "material": {
+      "materialLists": {
+        "title": "Materiallisten"
+      },
       "materialOverview": {
         "createNewList": "Materialliste erstellen",
         "download": "Übersicht herunterladen",

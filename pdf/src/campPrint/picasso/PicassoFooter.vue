@@ -72,7 +72,10 @@ export default {
       const leaderNames = leaders.map((campCollaboration) => {
         return campCollaborationLegalName(campCollaboration)
       })
-      return new Intl.ListFormat(this.locale, { style: 'short' }).format(leaderNames)
+      if ('Intl' in self && 'ListFormat' in Intl) {
+        return new Intl.ListFormat(this.locale, { style: 'short' }).format(leaderNames)
+      }
+      return leaderNames.join(', ')
     },
   },
   methods: {

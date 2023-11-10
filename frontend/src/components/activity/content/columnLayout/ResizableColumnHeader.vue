@@ -1,5 +1,5 @@
 <template>
-  <div class="resize-spacer">
+  <div>
     <slot>
       <v-btn
         v-if="$vuetify.breakpoint.mdAndUp"
@@ -106,18 +106,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.resize-spacer {
-  height: 60px;
-  position: relative;
-
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    display: none;
-  }
-}
-
 .resize-btn {
   position: absolute;
-  right: -17px;
+  right: -26px;
   top: 13px;
   z-index: 2;
   cursor: pointer;

@@ -121,6 +121,9 @@ export default {
       emptyNodeText: '',
       showOnlyWhenEditable: true,
       showOnlyCurrent: true,
+      placeholder: () => {
+        return this.placeholder
+      },
     })
     const extensions = [Document, Paragraph, Text, placeholder]
     if (this.withExtensions) {
@@ -174,12 +177,6 @@ export default {
         this.editor.commands.setContent(val)
       }
     },
-    placeholder: {
-      immediate: true,
-      handler(val) {
-        this.placeholderExtension.options.emptyNodeText = val
-      },
-    },
     editable() {
       this.editor.setOptions({
         editable: this.editable,
@@ -199,7 +196,7 @@ export default {
 
 <style scoped>
 div.editor:deep(p.is-editor-empty:first-child::before) {
-  content: attr(data-empty-text);
+  content: attr(data-placeholder);
   float: left;
   color: #8b8b8b;
   pointer-events: none;
