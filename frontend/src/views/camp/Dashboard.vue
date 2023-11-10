@@ -342,17 +342,8 @@ export default {
                 .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
             }) ||
-            this.filter.responsible?.every((responsible) => {
-              return scheduleEntry
-                .day()
-                .dayResponsibles()
-                .items.map((responsible) => responsible.campCollaboration()._meta.self)
-                .includes(responsible)
-            }) ||
             (this.filter.responsible[0] === 'none' &&
-              scheduleEntry.activity().activityResponsibles().items.length === 0) ||
-            (this.filter.responsible[0] === 'none' &&
-              scheduleEntry.day().dayResponsibles().items.length === 0)) &&
+              scheduleEntry.activity().activityResponsibles().items.length === 0)) &&
           (this.filter.progressLabel === null ||
             this.filter.progressLabel.length === 0 ||
             this.filter.progressLabel?.includes(
