@@ -76,7 +76,7 @@
         <PopoverPrompt
           v-model="copyActivitySourceUrlShowPopover"
           icon="mdi-content-paste"
-          title="Kopierte Aktivität einfügen"
+          :title="$tc('components.program.dialogActivityCreate.pasteActivity')"
         >
           <template #activator="scope">
             <v-btn
@@ -93,7 +93,7 @@
           {{ $tc('components.program.dialogActivityCreate.copySourceInfo') }}
           <e-text-field
             v-model="copyActivitySourceUrl"
-            label="Aktivität kopieren"
+            :label="$tc('components.program.dialogActivityCreate.copyActivity')"
             style="margin-bottom: 12px"
             autofocus
           />

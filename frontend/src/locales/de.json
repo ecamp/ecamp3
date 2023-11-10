@@ -302,8 +302,10 @@
         "clipboard": "Zwischenablage",
         "copyPastActivity": "Aktivität kopieren & einfügen",
         "clearClipboard": "Zwischenablage leeren",
+        "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
-        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren."
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "pasteActivity": "Kopierte Aktivität einfügen"
       },
       "formScheduleEntryItem": {
         "end": "Ende",
