@@ -4,6 +4,10 @@ on:
   pull_request_target:
     types: [opened, reopened, labeled, synchronize]
 
+concurrency:
+  group: ${{ github.workflow}}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build-and-push:
     if: contains(github.event.pull_request.labels.*.name, 'deploy!')
