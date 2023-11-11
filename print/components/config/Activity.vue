@@ -1,7 +1,7 @@
 <template>
   <div class="tw-break-after-page">
     <generic-error-message v-if="error" :error="error" />
-    <schedule-entry v-else :schedule-entry="scheduleEntry" :index="index" />
+    <schedule-entry v-else :schedule-entry="scheduleEntryData" :index="index" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data: scheduleEntry, error } = await useAsyncData('Activity', async () => {
+const { data: scheduleEntryData, error } = await useAsyncData('Activity', async () => {
   if (props.options.scheduleEntry === null || props.options.activity === null) {
     throw new Error('No activity and scheduleEntry provided provided')
   }
