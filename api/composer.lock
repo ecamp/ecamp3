@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8697ba6608dff89f1f481b6a8c120ee1",
+    "content-hash": "5e32b458a96fe92358b5d841b00daa31",
     "packages": [
         {
             "name": "api-platform/core",
@@ -3665,16 +3665,16 @@
         },
         {
             "name": "php-http/promise",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/promise.git",
-                "reference": "ef4905bfb492ff389eb7f12e26925a0f20073050"
+                "reference": "44a67cb59f708f826f3bec35f22030b3edb90119"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/promise/zipball/ef4905bfb492ff389eb7f12e26925a0f20073050",
-                "reference": "ef4905bfb492ff389eb7f12e26925a0f20073050",
+                "url": "https://api.github.com/repos/php-http/promise/zipball/44a67cb59f708f826f3bec35f22030b3edb90119",
+                "reference": "44a67cb59f708f826f3bec35f22030b3edb90119",
                 "shasum": ""
             },
             "require": {
@@ -3711,9 +3711,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/promise/issues",
-                "source": "https://github.com/php-http/promise/tree/1.2.0"
+                "source": "https://github.com/php-http/promise/tree/1.2.1"
             },
-            "time": "2023-10-24T09:20:26+00:00"
+            "time": "2023-11-08T12:57:08+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4977,16 +4977,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.11.0",
+            "version": "4.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "6c17890bfc65aa7e2ee33ee505231e6660778cc5"
+                "reference": "8e66019e572756d40001dc34570dbcf463527457"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/6c17890bfc65aa7e2ee33ee505231e6660778cc5",
-                "reference": "6c17890bfc65aa7e2ee33ee505231e6660778cc5",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/8e66019e572756d40001dc34570dbcf463527457",
+                "reference": "8e66019e572756d40001dc34570dbcf463527457",
                 "shasum": ""
             },
             "require": {
@@ -5002,7 +5002,7 @@
                 "symfony/event-dispatcher": "^4.4.20||^5.0.11||^6.0",
                 "symfony/http-kernel": "^4.4.20||^5.0.11||^6.0",
                 "symfony/polyfill-php80": "^1.22",
-                "symfony/psr-http-message-bridge": "^1.2||^2.0",
+                "symfony/psr-http-message-bridge": "^1.2||^2.0||^6.4",
                 "symfony/security-core": "^4.4.20||^5.0.11||^6.0",
                 "symfony/security-http": "^4.4.20||^5.0.11||^6.0"
             },
@@ -5010,10 +5010,7 @@
                 "doctrine/dbal": "^2.13||^3.0",
                 "doctrine/doctrine-bundle": "^1.12||^2.5",
                 "friendsofphp/php-cs-fixer": "^2.19||<=3.16.0",
-                "jangregor/phpstan-prophecy": "^1.0",
                 "monolog/monolog": "^1.3||^2.0",
-                "phpspec/prophecy": "!=1.11.0",
-                "phpspec/prophecy-phpunit": "^1.1||^2.0",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^1.3",
                 "phpstan/phpstan-phpunit": "^1.0",
@@ -5078,7 +5075,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.11.0"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.12.0"
             },
             "funding": [
                 {
@@ -5090,7 +5087,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-09-07T14:41:20+00:00"
+            "time": "2023-10-30T19:34:56+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
