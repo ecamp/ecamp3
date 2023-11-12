@@ -11,48 +11,21 @@
     :width="$vuetify.breakpoint.xl || (!mini && !$vuetify.breakpoint.mdAndUp) ? 350 : 256"
     :color="!title || mini ? 'blue-grey lighten-4' : null"
   >
-    <template v-if="title">
-      <v-list class="py-0">
-        <v-list-item v-if="mini" class="py-1" @click.stop="overrideExpanded = true">
-          <v-icon>{{ icon }}</v-icon>
-        </v-list-item>
-        <v-list-item v-else class="py-1 pr-2">
-          <v-list-item-title class="subtitle-1 font-weight-bold">
-            {{ title }}
-          </v-list-item-title>
-          <v-btn icon @click.stop="overrideExpanded = false">
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-      <slot v-if="!mini" />
-    </template>
-    <template v-else>
-      <v-btn
-        v-if="mini"
-        icon
-        class="ec-drawer-open mr-1"
-        @click.stop="overrideExpanded = true"
-      >
-        <v-icon>mdi-format-list-bulleted-type</v-icon>
-      </v-btn>
-      <v-spacer />
-      <v-btn
-        v-if="!mini"
-        icon
-        fixed
-        class="ec-drawer-collapse mr-1"
-        style="z-index: 10"
-        right
-        @click.stop="overrideExpanded = false"
-      >
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
-
-      <v-divider />
-      <slot v-if="!mini" />
-    </template>
+    <v-list class="py-0">
+      <v-list-item v-if="mini" class="py-1" @click.stop="overrideExpanded = true">
+        <v-icon>{{ icon }}</v-icon>
+      </v-list-item>
+      <v-list-item v-else class="py-1 pr-2">
+        <v-list-item-title class="subtitle-1 font-weight-bold">
+          {{ title }}
+        </v-list-item-title>
+        <v-btn icon @click.stop="overrideExpanded = false">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
+    </v-list>
+    <v-divider />
+    <slot v-if="!mini" />
   </v-navigation-drawer>
 </template>
 
@@ -60,7 +33,7 @@
 export default {
   name: 'SideBar',
   props: {
-    title: { type: String, default: null },
+    title: { type: String, required: true },
     icon: { type: String, default: 'mdi-format-list-bulleted-type' },
   },
   data() {

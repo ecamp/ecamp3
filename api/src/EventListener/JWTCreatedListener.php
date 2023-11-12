@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Bundle\SecurityBundle\Security;
 

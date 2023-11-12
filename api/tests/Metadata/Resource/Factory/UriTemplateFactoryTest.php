@@ -3,10 +3,10 @@
 namespace App\Tests\Metadata\Resource\Factory;
 
 use ApiPlatform\Api\FilterInterface;
-use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operations;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;

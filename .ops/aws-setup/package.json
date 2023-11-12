@@ -10,12 +10,12 @@
         "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}"
     },
     "dependencies": {
-        "@pulumi/pulumi": "3.90.0",
+        "@pulumi/pulumi": "3.93.0",
         "@pulumi/aws": "6.6.0",
         "@pulumi/awsx": "2.1.1"
     },
     "devDependencies": {
-        "@babel/eslint-parser": "7.22.15",
+        "@babel/eslint-parser": "7.23.3",
         "@types/node": "20.8.10",
         "eslint": "8.53.0",
         "eslint-config-prettier": "9.0.0",
