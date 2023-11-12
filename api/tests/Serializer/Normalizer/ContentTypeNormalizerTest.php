@@ -19,7 +19,7 @@ class ContentTypeNormalizerTest extends TestCase {
     private ContentTypeNormalizer $normalizer;
 
     private MockObject|NormalizerInterface $decoratedMock;
-    private MockObject|IriConverterInterface $iriConverter;
+    private IriConverterInterface|MockObject $iriConverter;
     private MockObject|UriTemplate $uriTemplate;
     private MockObject|UriTemplateFactory $uriTemplateFactory;
 

@@ -24,10 +24,10 @@ use Psr\Container\ContainerInterface;
  */
 class UriTemplateFactoryTest extends TestCase {
     private UriTemplateFactory $uriTemplateFactory;
-    private MockObject|ContainerInterface $filterLocator;
+    private ContainerInterface|MockObject $filterLocator;
     private MockObject|ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory;
     private MockObject|ResourceNameCollectionFactoryInterface $resourceNameCollectionFactory;
-    private MockObject|IriConverterInterface $iriConverter;
+    private IriConverterInterface|MockObject $iriConverter;
     private PaginationOptions $paginationOptions;
     private ResourceNameCollection $resourceNameCollection;
     private ResourceMetadataCollection $resourceMetadataCollection;

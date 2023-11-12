@@ -24,7 +24,7 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
         return $this->getNormalizerCollection()->exists(fn ($_, $elem) => $elem->supportsNormalization($data, $format));
     }
 
-    public function normalize(mixed $object, string $format = null, array $context = []): float|int|bool|\ArrayObject|array|string|null {
+    public function normalize(mixed $object, string $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $normalizer = $this->getNormalizerCollection()->filter(fn ($elem) => $elem->supportsNormalization($object, $format))->first();
         if (false === $normalizer) {
             throw new \RuntimeException("Did not find a normalizer to normalize response to format {$format}");
@@ -75,7 +75,7 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
             ->map(function (AbstractConstraintViolationListNormalizer $normalizer) use ($format) {
                 return $normalizer->getSupportedTypes($format);
             })
-            ->reduce(fn (array|null $left, array $right) => array_merge($left ?? [], $right), [])
+            ->reduce(fn (null|array $left, array $right) => array_merge($left ?? [], $right), [])
         ;
     }
 

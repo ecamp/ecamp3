@@ -37,11 +37,11 @@ class CampCollaborationCreateProcessorTest extends TestCase {
     private Camp $camp;
 
     private MockObject|ProfileRepository $profileRepository;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     private MockObject|Security $security;
     private MockObject|PasswordHasherFactoryInterface $pwHashFactory;
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
 
     private CampCollaborationCreateProcessor $processor;
 

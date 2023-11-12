@@ -17,10 +17,10 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 class ContentNodePeriodFilterTest extends TestCase {
-    private MockObject|ManagerRegistry $managerRegistryMock;
+    private ManagerRegistry|MockObject $managerRegistryMock;
     private MockObject|QueryBuilder $queryBuilderMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
-    private MockObject|IriConverterInterface $iriConverterMock;
+    private IriConverterInterface|MockObject $iriConverterMock;
 
     public function setUp(): void {
         parent::setUp();
