@@ -129,7 +129,10 @@ COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 # renovate: datasource=github-tags depName=xdebug/xdebug
 ARG XDEBUG_VERSION=3.2.2
 RUN set -eux; \
-	install-php-extensions xdebug-$XDEBUG_VERSION
+	install-php-extensions \
+	xdebug-$XDEBUG_VERSION \
+	pcov \
+	;
 
 # "caddy" stage
 # depends on the "php" stage above
