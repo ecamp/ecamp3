@@ -1,16 +1,32 @@
 <template>
   <content-node-content :content-node="contentNode" :icon-path="mdiPackageVariant">
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
     <table v-else>
       <tr v-for="item in items" :key="item.id" class="item tw-tabular-nums">
-        <td align="right">{{ item.quantity }}</td>
+        <td align="right">
+          {{ item.quantity }}
+        </td>
         <td>{{ item.unit || (item.quantity && '×') }}</td>
-        <td width="65%">{{ item.article }}</td>
-        <td width="30%">{{ item.materialList().name }}</td>
+        <td width="65%">
+          {{ item.article }}
+        </td>
+        <td width="30%">
+          {{ item.materialList().name }}
+        </td>
       </tr>
     </table>
   </content-node-content>
 </template>
+
+<script setup>
+const props = defineProps({
+  contentNode: { type: Object, required: true },
+})
+
+const { error } = await useAsyncData('ContentNodeMaterial', async () => {
+  await props.contentNode.materialItems().$loadItems()
+})
+</script>
 
 <script>
 import ContentNodeContent from './ContentNodeContent.vue'
@@ -20,16 +36,10 @@ export default {
   components: {
     ContentNodeContent,
   },
-  props: {
-    contentNode: { type: Object, required: true },
-  },
   data() {
     return {
       mdiPackageVariant,
     }
-  },
-  async fetch() {
-    await this.contentNode.materialItems().$loadItems()
   },
   computed: {
     items() {

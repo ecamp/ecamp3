@@ -3,14 +3,24 @@ generic component to render any ContentNode
 -->
 <template>
   <div>
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
-    <component
-      :is="componentFor(contentNode)"
-      v-else
-      :content-node="contentNode"
-    ></component>
+    <generic-error-message v-if="error" :error="error" />
+    <component :is="componentFor(contentNode)" v-else :content-node="contentNode" />
   </div>
 </template>
+
+<script setup>
+const props = defineProps({
+  contentNode: { type: Object, required: true },
+})
+
+const { error } = await useAsyncData('ContentNode', async () => {
+  await Promise.all([
+    props.contentNode._meta.load,
+    props.contentNode.children().$loadItems(),
+    props.contentNode.contentType()._meta.load,
+  ])
+})
+</script>
 
 <script>
 import NotImplemented from './NotImplemented.vue'
@@ -22,7 +32,7 @@ import SafetyConcept from './SafetyConcept.vue'
 import Storycontext from './Storycontext.vue'
 import Storyboard from './Storyboard.vue'
 
-export default {
+export default defineNuxtComponent({
   components: {
     NotImplemented,
     ColumnLayout,
@@ -33,16 +43,6 @@ export default {
     Storyboard,
     Storycontext,
   },
-  props: {
-    contentNode: { type: Object, required: true },
-  },
-  async fetch() {
-    await Promise.all([
-      this.contentNode._meta.load,
-      this.contentNode.children().$loadItems(),
-      this.contentNode.contentType()._meta.load,
-    ])
-  },
   methods: {
     componentFor(contentNode) {
       const contentTypeName = contentNode.contentType().name
@@ -52,5 +52,5 @@ export default {
       return 'NotImplemented'
     },
   },
-}
+})
 </script>

@@ -6,7 +6,7 @@
           :id="`content_${index}_period_${period.id}`"
           class="text-2xl-relative tw-font-bold tw-mb-1 tw-flex-grow tw-d-inline"
         >
-          {{ $tc('print.picasso.title') }}
+          {{ $t('print.picasso.title') }}
           {{ period.description }}
         </h1>
         <span>{{ camp.organizer }}</span>
@@ -19,14 +19,14 @@
         />
       </div>
 
-      <v-sheet class="fullwidth">
+      <div class="fullwidth">
         <picasso-calendar
           :days="days"
           :times="times"
           :schedule-entries="scheduleEntries"
           :content-height="landscape ? 312 : 768"
         />
-      </v-sheet>
+      </div>
       <div class="categories fullwidth text-sm-relative">
         <div
           v-for="category in camp.categories().items"
@@ -34,7 +34,7 @@
           class="categories"
         >
           <div class="category">
-            <category-label :category="category"></category-label>
+            <category-label :category="category" />
             {{ category.name }}
           </div>
         </div>
@@ -44,13 +44,16 @@
           <span v-if="camp.courseKind || camp.kind">
             {{ joinWithoutBlanks([camp.courseKind, camp.kind], ', ') }}
           </span>
-          <i18n
+          <i18n-t
             v-if="camp.courseNumber"
             tag="span"
-            path="print.picasso.picassoFooter.courseNumber"
+            keypath="print.picasso.picassoFooter.courseNumber"
+            scope="global"
           >
-            <template #courseNumber>{{ camp.courseNumber }}</template>
-          </i18n>
+            <template #courseNumber>
+              {{ camp.courseNumber }}
+            </template>
+          </i18n-t>
           <span v-if="camp.motto" class="tw-self-start">{{ camp.motto }}</span>
         </div>
         <div class="footer-column">
@@ -58,19 +61,31 @@
           <span v-if="dates">{{ dates }}</span>
         </div>
         <div class="footer-column">
-          <i18n tag="span" path="print.picasso.picassoFooter.leaders">
-            <template #leaders>{{ leaderNameList }}</template>
-          </i18n>
-          <i18n v-if="camp.coachName" tag="span" path="print.picasso.picassoFooter.coach">
-            <template #coach>{{ camp.coachName }}</template>
-          </i18n>
-          <i18n
+          <i18n-t tag="span" keypath="print.picasso.picassoFooter.leaders" scope="global">
+            <template #leaders>
+              {{ leaderNameList }}
+            </template>
+          </i18n-t>
+          <i18n-t
+            v-if="camp.coachName"
+            tag="span"
+            keypath="print.picasso.picassoFooter.coach"
+            scope="global"
+          >
+            <template #coach>
+              {{ camp.coachName }}
+            </template>
+          </i18n-t>
+          <i18n-t
             v-if="camp.trainingAdvisorName"
             tag="span"
-            path="print.picasso.picassoFooter.trainingAdvisor"
+            keypath="print.picasso.picassoFooter.trainingAdvisor"
+            scope="global"
           >
-            <template #trainingAdvisor>{{ camp.trainingAdvisorName }}</template>
-          </i18n>
+            <template #trainingAdvisor>
+              {{ camp.trainingAdvisorName }}
+            </template>
+          </i18n-t>
         </div>
       </div>
     </div>
@@ -115,7 +130,7 @@ export default {
       return dayjs.formatDatePeriod(
         startDate,
         endDate,
-        this.$tc('global.datetime.dateLong'),
+        this.$t('global.datetime.dateLong'),
         this.$i18n.locale
       )
     },
@@ -182,18 +197,6 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
 
 .v-calendar {
   overflow: visible;
-}
-
-.v-calendar-daily__body {
-  overflow: visible;
-}
-
-.v-calendar-daily__pane {
-  overflow-y: visible;
-}
-
-.v-calendar-daily__scroll-area {
-  overflow-y: visible;
 }
 
 .v-calendar .v-event-timed {
