@@ -1,9 +1,9 @@
 App\Entity\ContentNode\DefaultLayout:
   defaultLayout:
-    root: '@columnLayout2'
-    parent: '@columnLayout2'
+    root: '@columnLayoutWithDefaultLayout'
+    parent: '@columnLayoutWithDefaultLayout'
     slot: '1'
     position: 0
     data: { items: [{ slot: 'main' }, {slot: 'aside-top' }, {slot: 'aside-bottom'}] }
-    instanceName: 'defaultLayout2'
+    instanceName: 'defaultLayout'
     contentType: '@contentTypeDefaultLayout'
