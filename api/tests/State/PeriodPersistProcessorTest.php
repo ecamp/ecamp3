@@ -23,7 +23,7 @@ class PeriodPersistProcessorTest extends TestCase {
     private ScheduleEntry $scheduleEntry;
     private DayResponsible $dayResponsible;
 
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     private PeriodPersistProcessor $processor;
 

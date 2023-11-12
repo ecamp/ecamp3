@@ -21,8 +21,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class CampIsPrototypeVoterTest extends TestCase {
     private CampIsPrototypeVoter $voter;
-    private TokenInterface|MockObject $token;
-    private MockObject|EntityManagerInterface $em;
+    private MockObject|TokenInterface $token;
+    private EntityManagerInterface|MockObject $em;
 
     public function setUp(): void {
         parent::setUp();

@@ -99,7 +99,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
-    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+    public function normalize($object, $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $data = $this->decorated->normalize($object, $format, $context);
 
         if (!isset($data['_links'])) {

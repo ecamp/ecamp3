@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 class SingleTextPersistProcessorTest extends TestCase {
     private SingleTextPersistProcessor $processor;
 
-    private MockObject|CleanHTMLFilter $cleanHTMLFilter;
+    private CleanHTMLFilter|MockObject $cleanHTMLFilter;
     private ColumnLayout $root;
     private SingleText $contentNode;
 

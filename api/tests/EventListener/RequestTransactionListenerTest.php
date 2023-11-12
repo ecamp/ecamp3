@@ -20,11 +20,11 @@ use function PHPUnit\Framework\once;
  * @internal
  */
 class RequestTransactionListenerTest extends TestCase {
-    private MockObject|Connection $connection;
-    private MockObject|EntityManagerInterface $entityManager;
-    private MockObject|HttpKernelInterface $kernel;
+    private Connection|MockObject $connection;
+    private EntityManagerInterface|MockObject $entityManager;
+    private HttpKernelInterface|MockObject $kernel;
 
-    private Request|MockObject $request;
+    private MockObject|Request $request;
     private RequestTransactionListener $requestTransactionListener;
 
     protected function setUp(): void {

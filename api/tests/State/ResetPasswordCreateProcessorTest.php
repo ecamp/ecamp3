@@ -28,11 +28,11 @@ class ResetPasswordCreateProcessorTest extends TestCase {
 
     private MockObject|ReCaptcha $recaptcha;
     private MockObject|Response $recaptchaResponse;
-    private MockObject|EntityManagerInterface $entityManager;
+    private EntityManagerInterface|MockObject $entityManager;
     private MockObject|UserRepository $userRepository;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
     private MockObject|PasswordHasherInterface $pwHasher;
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
     private ResetPasswordCreateProcessor $processor;
 
     /**

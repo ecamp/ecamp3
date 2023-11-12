@@ -47,7 +47,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
     private ManagerRegistry|MockObject $managerRegistryMock;
     private MockObject|ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactoryMock;
     private MockObject|PropertyAccessorInterface $propertyAccessor;
-    private MockObject|EntityManagerInterface $entityManager;
+    private EntityManagerInterface|MockObject $entityManager;
 
     private ?FilterInterface $filterInstance;
 
