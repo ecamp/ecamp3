@@ -12,7 +12,7 @@ class ReadItemFixtureMap {
             '/camps' => $fixtures['camp1'],
             '/categories' => $fixtures['category1'],
             '/content_node/column_layouts' => $fixtures['columnLayout2'],
-            '/content_node/default_layouts' => $fixtures['defaultLayout'],
+            '/content_node/default_layouts' => $fixtures['defaultLayout2'],
             '/content_types' => $fixtures['contentTypeSafetyConcept'],
             '/day_responsibles' => $fixtures['dayResponsible1'],
             '/days' => $fixtures['day1period1'],
