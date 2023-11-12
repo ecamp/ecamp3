@@ -31,7 +31,7 @@ Thanks for helping! There are a few ways to get started.
   - [Installation with Docker on Linux](https://github.com/ecamp/ecamp3/wiki/Development-install-on-linux)
   - [Installation with Docker on Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows)
   - [Set up VS Code as your code editor](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows#setting-up-the-ide)
-- If you encounter issues during setup or have questions, don't worry, you're not alone. Check the [discussions](https://github.com/ecamp/ecamp3/discussions) to see if your problem has already been addressed and solved. If not, open a [new discussion](https://github.com/ecamp/ecamp3/discussions/new).
+- If you encounter issues during setup or have questions, don't worry, you're not alone. You can ask for help on our [community discord server](https://discord.gg/tdwtRytV6P) and we'll do our best to help you get up and running.
 - Before you start coding, read our [contributing guidelines](CONTRIBUTING.md).
 - Familiarize yourself with the [documentation in the Wiki](https://github.com/ecamp/ecamp3/wiki).
 - Choose an [issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it.
@@ -64,6 +64,7 @@ Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du be
   - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows) (nur englisch)
   - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows#setting-up-the-ide) (nur englisch)
 - Falls du Probleme beim Einrichten oder Verständnisfragen hast - keine Sorge, du bist nicht allein. Schau bei den [Discussions](https://github.com/ecamp/ecamp3/discussions) nach ob das Problem bekannt und gelöst ist. Falls nein, eröffne eine [neue Discussion](https://github.com/ecamp/ecamp3/discussions/new).
+- Falls du Probleme beim Einrichten oder Verständnisfragen hast - keine Sorge, du bist nicht allein. Auf unserem [Community Discord Server](https://discord.gg/tdwtRytV6P) unterstützen wir dich sehr gerne.
 - Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
 - Studier die [Dokumentation im Wiki](https://github.com/ecamp/ecamp3/wiki)
 - Such dir ein [einsteigertaugliches Issue](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) aus und probiere es zu lösen
