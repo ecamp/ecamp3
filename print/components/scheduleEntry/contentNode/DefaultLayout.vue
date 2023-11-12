@@ -1,8 +1,8 @@
 <template>
   <div class="tw-flex tw-flex-col">
-    <FlexItem :content-node="contentNode" column-slot="aside-top" />
-    <FlexItem :content-node="contentNode" column-slot="main" />
-    <FlexItem :content-node="contentNode" column-slot="aside-bottom" />
+    <FlexItem :content-node="contentNode" direction="row" column-slot="aside-top" />
+    <FlexItem :content-node="contentNode" direction="column" column-slot="main" />
+    <FlexItem :content-node="contentNode" direction="row" column-slot="aside-bottom" />
   </div>
 </template>
 

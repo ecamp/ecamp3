@@ -1,6 +1,21 @@
 <template>
-  <div :style="columnStyles" :class="widthClass" class="tw-align-top tw-bg-gray-400">
-    <content-node v-for="child in children" :key="child.id" :content-node="child" />
+  <div
+    class="tw-flex tw-bg-black"
+    :class="{
+      'tw-flex-col': direction === 'column',
+      'tw-flex-wrap tw-gap-x-px -tw-mx-4': direction === 'row',
+    }"
+  >
+    <div
+      v-for="child in children"
+      :key="child.id"
+      class="tw-bg-white"
+      :class="{
+        'tw-px-4 tw-flex-1 tw-basis-[320px]': direction === 'row',
+      }"
+    >
+      <content-node :content-node="child" />
+    </div>
   </div>
 </template>
 
@@ -10,31 +25,11 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
     columnSlot: { type: String, required: true },
+    direction: { type: String, required: true },
   },
   computed: {
     column() {
-      return this.contentNode.data.columns.find(
-        (column) => column.slot === this.columnSlot
-      )
-    },
-    widthClass() {
-      return 'ec-col ec-col-' + this.column.width
-    },
-    columnStyles() {
-      return {
-        borderLeft: this.columnSlot === this.firstSlot ? 'none' : '1px solid black',
-        padding:
-          '4px ' +
-          (this.columnSlot === this.lastSlot ? '0' : '1%') +
-          ' 4px ' +
-          (this.columnSlot === this.firstSlot ? '0' : '1%'),
-      }
-    },
-    firstSlot() {
-      return this.contentNode.data.columns[0].slot
-    },
-    lastSlot() {
-      return this.contentNode.data.columns[this.contentNode.data.columns.length - 1].slot
+      return this.contentNode.data.items.find((column) => column.slot === this.columnSlot)
     },
     children() {
       return this.contentNode

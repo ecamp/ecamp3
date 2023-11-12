@@ -1,4 +1,4 @@
-<!-- 
+<!--
 generic component to render any ContentNode
 -->
 <template>
@@ -15,6 +15,7 @@ generic component to render any ContentNode
 <script>
 import NotImplemented from './NotImplemented.vue'
 import ColumnLayout from './ColumnLayout.vue'
+import DefaultLayout from './DefaultLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
 import Material from './Material.vue'
 import Notes from './Notes.vue'
@@ -26,6 +27,7 @@ export default {
   components: {
     NotImplemented,
     ColumnLayout,
+    DefaultLayout,
     LAThematicArea,
     Material,
     Notes,
