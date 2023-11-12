@@ -5,24 +5,20 @@ Subject: [PATCH] hal allow null links
 
 ---
  src/Hal/Serializer/ItemNormalizer.php | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/src/Hal/Serializer/ItemNormalizer.php b/src/Hal/Serializer/ItemNormalizer.php
 index a6e485d178..824679ee6b 100644
 --- a/src/Hal/Serializer/ItemNormalizer.php
 +++ b/src/Hal/Serializer/ItemNormalizer.php
-@@ -189,9 +189,6 @@ private function populateRelation(array $data, $object, ?string $format, array $
-             }
+@@ -244,14 +244,12 @@ final class ItemNormalizer extends AbstractItemNormalizer
  
-             $attributeValue = $this->getAttributeValue($object, $relation['name'], $format, $context);
+             $attributeValue = $this->getAttributeValue($object, $relation['name'], $format, $childContext);
+ 
 -            if (empty($attributeValue)) {
 -                continue;
 -            }
- 
-             $relationName = $relation['name'];
-             if ($this->nameConverter) {
-@@ -200,8 +197,10 @@ private function populateRelation(array $data, $object, ?string $format, array $
- 
+-
              if ('one' === $relation['cardinality']) {
                  if ('links' === $type) {
 -                    $data[$key][$relationName]['href'] = $this->getRelationIri($attributeValue);

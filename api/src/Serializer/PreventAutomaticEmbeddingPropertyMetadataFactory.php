@@ -85,6 +85,7 @@ final class PreventAutomaticEmbeddingPropertyMetadataFactory implements Property
             $apiProperty->isInitializable(),
             $apiProperty->getIris(),
             $apiProperty->getGenId(),
+            $apiProperty->getUriTemplate(),
             $apiProperty->getExtraProperties()
         );
     }

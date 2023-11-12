@@ -2,8 +2,8 @@
 
 namespace App\Tests\Doctrine\Filter;
 
-use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode;
 use App\Entity\Period;
