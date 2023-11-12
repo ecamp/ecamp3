@@ -31,7 +31,7 @@ jobs:
         with:
           php-version: '8.2.12'
           tools: composer:2.6.0
-          coverage: xdebug
+          coverage: none
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -196,7 +196,7 @@ jobs:
           php-version: '8.2.12'
           extensions: intl-73.1
           tools: composer:2.6.0
-          coverage: xdebug
+          coverage: pcov
 
       - name: Get Composer Cache Directory
         id: composer-cache
