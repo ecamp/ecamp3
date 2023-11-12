@@ -21,7 +21,7 @@
     "@mdi/js": "7.3.67",
     "@nuxtjs/axios": "5.13.6",
     "@nuxtjs/i18n": "7.3.1",
-    "@nuxtjs/sentry": "7.5.0",
+    "@nuxtjs/sentry": "8.0.1",
     "colorjs.io": "0.4.5",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
