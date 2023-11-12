@@ -16,7 +16,7 @@
     <div v-if="!contentNode.loading" class="ec-defaultlayout__container">
       <LayoutItem
         v-if="!isDefaultVariant && (hasAsideTop || layoutMode)"
-        basis="min(420px,100%)"
+        :basis="'min(' + ASIDE_CONTENT_WIDTH + 'px,100%)'"
         grow="1"
       >
         <div class="d-flex flex-column flex-grow-1 ec-defaultlayout__slot">
@@ -32,8 +32,8 @@
           />
         </div>
       </LayoutItem>
-      <LayoutItem basis="min(700px,100%)" grow="3">
-        <div class="d-flex flex-column flex-grow-1 text-center ec-defaultlayout__slot">
+      <LayoutItem :basis="'min(' + MAIN_CONTENT_WIDTH + 'px,100%)'" grow="3">
+        <div class="d-flex flex-column flex-grow-1 ec-defaultlayout__slot">
           <p v-if="layoutMode" class="text-center">
             {{ $tc('contentNode.defaultLayout.maincontent') }}
           </p>
@@ -47,13 +47,13 @@
         </div>
       </LayoutItem>
       <LayoutItem
-        basis="min(400px,100%)"
+        :basis="'min(' + ASIDE_CONTENT_WIDTH + 'px,100%)'"
         grow="1"
         class="justify-space-between ec-defaultlayout__aside"
       >
         <div
           v-if="isDefaultVariant && (hasAsideTop || layoutMode)"
-          class="d-flex flex-column text-center ec-defaultlayout__slot"
+          class="d-flex flex-column ec-defaultlayout__slot"
           :class="{ 'flex-grow-1': !layoutMode }"
         >
           <p v-if="layoutMode" class="text-center">
@@ -101,6 +101,10 @@ import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNo
 import LayoutCard from '@/components/activity/content/layout/LayoutCard.vue'
 import { groupBy } from 'lodash'
 
+const ASIDE_CONTENT_WIDTH = 400
+const MAIN_CONTENT_WIDTH = 700
+const GAP = 1
+
 export default {
   name: 'FlexLayout',
   components: {
@@ -112,7 +116,9 @@ export default {
   mixins: [contentNodeMixin],
   data() {
     return {
-      clientWidth: 1066,
+      ASIDE_CONTENT_WIDTH,
+      MAIN_CONTENT_WIDTH,
+      clientWidth: ASIDE_CONTENT_WIDTH + MAIN_CONTENT_WIDTH + GAP,
     }
   },
   computed: {
@@ -126,7 +132,7 @@ export default {
       return groupBy(this.contentNode.children().items, 'slot')
     },
     isDefaultVariant() {
-      return this.clientWidth >= 1066
+      return this.clientWidth >= ASIDE_CONTENT_WIDTH + MAIN_CONTENT_WIDTH + GAP
     },
     isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
