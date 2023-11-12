@@ -1,13 +1,13 @@
 <template>
   <div class="tw-break-after-page">
     <h1 :id="`content_${index}_toc`" class="tw-text-2xl tw-font-bold">
-      {{ $tc('print.toc.title') }}
+      {{ $t('print.toc.title') }}
     </h1>
     <ul class="toc">
-      <template v-for="(content, idx) in config.contents">
+      <!-- eslint-disable-next-line vue/no-v-for-template-key -->
+      <template v-for="(content, idx) in config.contents" :key="idx">
         <component
           :is="'Toc' + content.type"
-          :key="idx"
           :options="content.options"
           :camp="camp"
           :config="config"
@@ -27,10 +27,6 @@ export default {
     config: { type: Object, required: true },
     index: { type: Number, required: true },
   },
-  data() {
-    return {}
-  },
-  async fetch() {},
 }
 </script>
 

@@ -2,7 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use App\Entity\ContentType;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Rize\UriTemplate;
@@ -25,7 +25,7 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
-    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+    public function normalize($object, $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $data = $this->decorated->normalize($object, $format, $context);
 
         if ($object instanceof ContentType && isset($object->entityClass)) {

@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CampRemoveProcessorTest extends TestCase {
     private CampRemoveProcessor $processor;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
     private Camp $camp;
 
     protected function setUp(): void {

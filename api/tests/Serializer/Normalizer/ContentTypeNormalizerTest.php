@@ -2,7 +2,7 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use App\Entity\ContentType;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Serializer\Normalizer\ContentTypeNormalizer;
@@ -19,7 +19,7 @@ class ContentTypeNormalizerTest extends TestCase {
     private ContentTypeNormalizer $normalizer;
 
     private MockObject|NormalizerInterface $decoratedMock;
-    private MockObject|IriConverterInterface $iriConverter;
+    private IriConverterInterface|MockObject $iriConverter;
     private MockObject|UriTemplate $uriTemplate;
     private MockObject|UriTemplateFactory $uriTemplateFactory;
 

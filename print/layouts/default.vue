@@ -1,36 +1,39 @@
 <template>
   <div class="container" fluid>
-    <nuxt />
+    <slot />
   </div>
 </template>
 
-<script>
-export default {
-  head() {
-    const header = {}
+<script setup>
+const { t, locale } = useI18n({
+  useScope: 'global',
+})
 
-    header.htmlAttrs = {
-      moznomarginboxes: true,
-      mozdisallowselectionprint: true,
-    }
+const header = {}
 
-    /**
-     * Define default footer & header
-     * This can be overridden in route views
-     */
-    header.__dangerouslyDisableSanitizersByTagID = {
-      defaultMarginBox: ['cssText'], // disable sanitzing of below inline css
-    }
+header.htmlAttrs = {
+  moznomarginboxes: true,
+  mozdisallowselectionprint: true,
+  lang: locale,
+}
 
-    const cssPageCounter = `'${this.$tc(
-      'global.margin.pageCounter.page'
-    )} ' counter(page) ' ${this.$tc('global.margin.pageCounter.of')}  ' counter(pages)`
+/**
+ * Define default footer & header
+ * This can be overridden in route views
+ */
+header.__dangerouslyDisableSanitizersByTagID = {
+  defaultMarginBox: ['cssText'], // disable sanitzing of below inline css
+}
 
-    header.style = [
-      {
-        type: 'text/css',
-        hid: 'defaultMarginBox',
-        cssText: `@media print {
+const cssPageCounter = `'${t('global.margin.pageCounter.page')} ' counter(page) ' ${t(
+  'global.margin.pageCounter.of'
+)}  ' counter(pages)`
+
+header.style = [
+  {
+    type: 'text/css',
+    hid: 'defaultMarginBox',
+    cssText: `@media print {
 
                     :root {
                       --ecamp-margin-font-size: 10pt;
@@ -54,29 +57,17 @@ export default {
                       }
                     }
                   }`,
-      },
-    ]
-
-    header.script = []
-
-    // inject FRONTEND_URL to client
-    header.__dangerouslyDisableSanitizersByTagID.environmentVariables = ['innerHTML']
-    header.script.push({
-      hid: 'environmentVariables',
-      type: 'application/javascript',
-      innerHTML: `window.FRONTEND_URL = '${process.env.FRONTEND_URL}'`,
-    })
-
-    header.link = [
-      {
-        rel: 'stylesheet',
-        href: './fonts/inter/inter.css',
-      },
-    ]
-
-    return header
   },
-}
+]
+
+header.link = [
+  {
+    rel: 'stylesheet',
+    href: './fonts/inter/inter.css',
+  },
+]
+
+useHead(header)
 </script>
 
 <style lang="scss" scoped>

@@ -26,9 +26,9 @@ class InvitationRejectProcessorTest extends TestCase {
     private CampCollaboration $campCollaboration;
     private User $user;
 
-    private MockObject|CampCollaborationRepository $collaborationRepository;
+    private CampCollaborationRepository|MockObject $collaborationRepository;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     private InvitationRejectProcessor $processor;
 

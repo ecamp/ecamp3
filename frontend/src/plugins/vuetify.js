@@ -8,6 +8,8 @@ import eCampLogo from '@/assets/eCampLogo.svg'
 import CeviLogo from '@/assets/CeviLogo.svg'
 import JublaLogo from '@/assets/JublaLogo.svg'
 import TentDay from '@/assets/tents/TentDay.svg'
+import PaperSize from '@/assets/icons/PaperSize.svg'
+import BigScreen from '@/assets/icons/BigScreen.svg'
 import i18n from '@/plugins/i18n'
 import colors from 'vuetify/lib/util/colors'
 
@@ -27,6 +29,8 @@ class VuetifyLoaderPlugin {
           cevi: { component: CeviLogo },
           jubla: { component: JublaLogo },
           tentDay: { component: TentDay },
+          paperSize: { component: PaperSize },
+          bigScreen: { component: BigScreen },
         },
       },
       theme: {

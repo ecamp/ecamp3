@@ -1,11 +1,11 @@
 <template>
   <div>
     <span class="tw-block">
-      {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
+      {{ $date.utc(date).format($t('global.datetime.dateLong')) }}
     </span>
 
     <span v-if="hasDayResponsibles" class="text-xs-relative">
-      {{ $tc('entity.day.fields.dayResponsibles') }}:
+      {{ $t('entity.day.fields.dayResponsibles') }}:
       {{ dayResponsiblesCommaSeparated }}
     </span>
   </div>
@@ -29,7 +29,7 @@ export default {
       return filterDayResponsiblesByDay(this.day).length > 0
     },
     dayResponsiblesCommaSeparated() {
-      return dayResponsiblesCommaSeparated(this.day, this.$tc.bind(this))
+      return dayResponsiblesCommaSeparated(this.day, this.$t.bind(this))
     },
   },
 }

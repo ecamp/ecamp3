@@ -11,8 +11,6 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- include "ingress.basicAuth.annotations" . | nindent 4 }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: {{ .Values.print.subpath }}
     {{- if not (.Values.print.ingress.readTimeoutSeconds | empty) }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.print.ingress.readTimeoutSeconds | quote }}
     {{- end }}

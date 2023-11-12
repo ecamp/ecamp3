@@ -1,40 +1,35 @@
 <template>
   <div class="tw-break-after-page">
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
-    <schedule-entry v-else :schedule-entry="scheduleEntry" :index="index" />
+    <generic-error-message v-if="error" :error="error" />
+    <schedule-entry v-else :schedule-entry="scheduleEntryData" :index="index" />
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ConfigActivity',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    config: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      scheduleEntry: null,
-    }
-  },
-  async fetch() {
-    if (this.options.scheduleEntry === null || this.options.activity === null) {
-      throw new Error('No activity and scheduleEntry provided provided')
-    }
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  config: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-    const [scheduleEntry] = await Promise.all([
-      this.$api.get(this.options.scheduleEntry)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-      this.$api.get(this.options.activity)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-      this.$api.get().contentTypes().$loadItems(),
+const { $api } = useNuxtApp()
 
-      // might not be needed for every activity, but safer to do eager loading instead of n+1 later on
-      this.camp.materialLists().$loadItems(),
-      this.camp.campCollaborations().$loadItems(),
-    ])
+const { data: scheduleEntryData, error } = await useAsyncData('Activity', async () => {
+  if (props.options.scheduleEntry === null || props.options.activity === null) {
+    throw new Error('No activity and scheduleEntry provided provided')
+  }
 
-    this.scheduleEntry = scheduleEntry
-  },
-}
+  const [scheduleEntry] = await Promise.all([
+    $api.get(props.options.scheduleEntry)._meta.load,
+    $api.get(props.options.activity)._meta.load,
+    $api.get().contentTypes().$loadItems(),
+
+    // might not be needed for every activity, but safer to do eager loading instead of n+1 later on
+    props.camp.materialLists().$loadItems(),
+    props.camp.campCollaborations().$loadItems(),
+  ])
+
+  return markRaw(scheduleEntry)
+})
 </script>
