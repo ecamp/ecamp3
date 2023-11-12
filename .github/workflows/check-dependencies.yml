@@ -13,6 +13,10 @@ on:
 env:
   USER_ID: 1001
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   api-check-dependencies:
     name: 'Api Platform check dependencies'
