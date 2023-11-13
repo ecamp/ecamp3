@@ -36,8 +36,8 @@
           resendingEmail
             ? 'mdi-refresh'
             : emailSent
-            ? 'mdi-email-check'
-            : 'mdi-email-fast'
+              ? 'mdi-email-check'
+              : 'mdi-email-fast'
         "
         :animate="resendingEmail"
         :disabled="disabled || resendingEmail || emailSent"
