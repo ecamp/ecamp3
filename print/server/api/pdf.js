@@ -108,7 +108,7 @@ export default defineEventHandler(async (event) => {
     // HTTP request back to Print Nuxt App
     const queryParams = getQuery(event)
     await page.goto(`${printUrl}/?config=${queryParams.config}`, {
-      timeout: renderHtmlTimeoutMs ?? 30000,
+      timeout: renderHtmlTimeoutMs || 30000,
       waitUntil: 'networkidle0',
     })
 
@@ -127,7 +127,7 @@ export default defineEventHandler(async (event) => {
         right: '15mm',
         top: '15mm',
       },
-      timeout: renderPdfTimeoutMs ?? 30000,
+      timeout: renderPdfTimeoutMs || 30000,
     })
 
     measurePerformance()
