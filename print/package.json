@@ -19,7 +19,7 @@
     "@mdi/js": "7.3.67",
     "@sentry/integrations": "^7.74.1",
     "@sentry/node": "^7.74.1",
-    "axios": "1.6.0",
+    "axios": "1.6.1",
     "colorjs.io": "0.4.5",
     "dayjs": "1.11.10",
     "deepmerge": "4.3.1",
