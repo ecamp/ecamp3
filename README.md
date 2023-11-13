@@ -10,7 +10,7 @@ eCamp is a web application for planning J+S camps, J+S courses and other camps. 
 
 An older version called "eCamp v2" is productive and can be used at the following address (but only in german): [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
 
-eCamp3 is the re-development of eCamp with the goal of reimplementing the functionality of eCamp v2 using modern technologies and an extensible architecture. Currently, an MVP (minimum viable product) is in operation. Next, we will focus on course planning, and further extensions will follow later.
+eCamp3 is the re-development of eCamp with the goal of reimplementing the functionality of eCamp v2 using modern technologies and an extensible [architecture](https://github.com/ecamp/ecamp3/wiki/architecture). Currently, an MVP (minimum viable product) is in operation. Next, we will focus on course planning, and further extensions will follow later.
 
 The following commonly requested improvements over eCamp v2 are already implemented:
 
@@ -42,7 +42,7 @@ eCamp ist eine Webapplikation, mit welcher J+S-Lager, J+S-Kurse und andere Lager
 
 Die ältere Version eCamp v2 ist produktiv im Einsatz und kann unter folgender Adresse genutzt werden: [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
 
-eCamp3 ist die Neu-Entwicklung von eCamp. Das Ziel ist es, die Funktionalität von eCamp v2 mit moderneren Technologien und einer erweiterbaren Architektur neu zu implementieren. Aktuell läuft eine MVP (minimum viable product, minimale nützliche Version). Als Nächstes fokussieren wir uns auf die Kursplanung und später werden dann noch weitere Erweiterungen folgen.
+eCamp3 ist die Neu-Entwicklung von eCamp. Das Ziel ist es, die Funktionalität von eCamp v2 mit moderneren Technologien und einer erweiterbaren [Architektur](https://github.com/ecamp/ecamp3/wiki/architecture) neu zu implementieren. Aktuell läuft eine MVP (minimum viable product, minimale nützliche Version). Als Nächstes fokussieren wir uns auf die Kursplanung und später werden dann noch weitere Erweiterungen folgen.
 
 Folgende Verbesserungen, die bei eCamp v2 oft gewünscht wurden, sind bereits implementiert:
 
