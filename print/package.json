@@ -44,7 +44,7 @@
     "eslint-plugin-local-rules": "2.0.0",
     "eslint-plugin-prettier": "5.0.1",
     "eslint-plugin-vue": "9.17.0",
-    "nuxt": "3.8.0",
+    "nuxt": "3.8.1",
     "prettier": "3.0.3",
     "sass": "1.69.4",
     "vitest": "0.34.6",
