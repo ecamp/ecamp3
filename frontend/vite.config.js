@@ -6,6 +6,7 @@ import * as path from 'path'
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { configDefaults } from 'vitest/config'
 
 const plugins = [
   comlink(), // must be first
@@ -151,6 +152,7 @@ export default defineConfig(({ mode }) => ({
     setupFiles: './tests/setup.js',
     coverage: {
       all: true,
+      exclude: [...configDefaults.coverage.exclude, '**/src/pdf/**'],
       reporter: ['text', 'lcov', 'html'],
       reportsDirectory: './data/coverage',
     },
