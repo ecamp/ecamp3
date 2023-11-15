@@ -277,17 +277,16 @@ jobs:
       - run: npm run test:unit
         working-directory: frontend
 
-      - name: send coverage info
+      - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
-          cat frontend/data/coverage/lcov.info | npx coveralls .
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
-          CI_PULL_REQUEST: ${{ github.event.number }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: frontend
+          
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: frontend
+          parallel: true
+          fail-on-error: false
 
   print-tests:
     name: 'Tests: Print'
@@ -317,17 +316,16 @@ jobs:
       - run: npm run test
         working-directory: print
 
-      - name: send coverage info
+      - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|SF:|SF:print/|g" print/coverage/lcov.info
-          cat print/coverage/lcov.info | npx coveralls .
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
-          CI_PULL_REQUEST: ${{ github.event.number }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: print
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: print
+          parallel: true
+          fail-on-error: false
 
   pdf-tests:
     name: 'Tests: PDF'
@@ -355,17 +353,16 @@ jobs:
       - run: npm run test:unit
         working-directory: pdf
 
-      - name: send coverage info
+      - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|src/|pdf/src/|g" pdf/data/coverage/lcov.info
-          cat pdf/data/coverage/lcov.info | npx coveralls .
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
-          CI_PULL_REQUEST: ${{ github.event.number }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: pdf
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: pdf
+          parallel: true
+          fail-on-error: false
 
   e2e-tests-build:
     name: 'Tests: End-to-end build'
@@ -383,12 +380,15 @@ jobs:
       - api-tests
       - frontend-tests
       - print-tests
+      - pdf-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: coverallsapp/github-action@master
+      - uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+          carryforward: "api,frontend,print,pdf"
+          fail-on-error: false
 
   ci-passed-event:
     name: 'Send out CI success event'
