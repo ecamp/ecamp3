@@ -1,6 +1,6 @@
 <template>
   <div>
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
     <story-period
       v-for="period in periods"
       :key="period._meta.self"
@@ -11,31 +11,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ConfigStory',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    config: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      periods: [],
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.$api.get().contentTypes().$loadItems(),
-      this.camp.periods().$loadItems(),
-      this.camp.activities().$loadItems(),
-      this.camp.categories().$loadItems(),
-    ])
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  config: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-    this.periods = this.options.periods.map((periodUri) => {
-      return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-    })
-  },
-}
+const { $api } = useNuxtApp()
+
+const { data: periods, error } = await useAsyncData('ConfigStory', async () => {
+  await Promise.all([
+    $api.get().contentTypes().$loadItems(),
+    props.camp.periods().$loadItems(),
+    props.camp.activities().$loadItems(),
+    props.camp.categories().$loadItems(),
+  ])
+
+  return props.options.periods.map((periodUri) => {
+    return $api.get(periodUri)
+  })
+})
 </script>

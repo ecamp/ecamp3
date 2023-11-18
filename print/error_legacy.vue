@@ -13,8 +13,7 @@
 </template>
 
 <script>
-export default {
-  layout: 'error',
+export default defineNuxtComponent({
   props: {
     error: {
       type: Object,
@@ -33,7 +32,7 @@ export default {
       title,
     }
   },
-}
+})
 </script>
 
 <style scoped>

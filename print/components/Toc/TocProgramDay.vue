@@ -1,6 +1,6 @@
 <template>
   <li class="tw-mb-1">
-    {{ $tc('entity.day.name') }} {{ day.number }} ({{ dateLong(day.start) }})
+    {{ $t('entity.day.name') }} {{ day.number }} ({{ dateLong(day.start) }})
 
     <ul>
       <toc-schedule-entry

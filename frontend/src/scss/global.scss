@@ -36,6 +36,13 @@ body {
 .v-skeleton-loader__table-tfoot {
   background: none !important;
 }
+.v-skeleton-loader--inherit-size .v-skeleton-loader__bone {
+  height: inherit !important;
+  width: inherit !important;
+}
+.v-skeleton-loader--no-margin .v-skeleton-loader__bone {
+  margin-bottom: 0 !important;
+}
 .v-btn--outlined:before {
   opacity: 0.08 !important;
 }

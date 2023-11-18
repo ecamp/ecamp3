@@ -22,7 +22,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 class CampCreateProcessorTest extends TestCase {
     private CampCreateProcessor $processor;
     private MockObject|Security $security;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
     private Camp $camp;
 
     protected function setUp(): void {

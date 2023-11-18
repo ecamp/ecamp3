@@ -1,6 +1,6 @@
 <template>
   <div class="tw-break-after-page">
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
     <program-period
       v-for="period in periods"
       v-else
@@ -14,33 +14,28 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ConfigProgram',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    config: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      periods: [],
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.$api.get().contentTypes().$loadItems(),
-      this.camp.periods().$loadItems(),
-      this.camp.activities().$loadItems(),
-      this.camp.categories().$loadItems(),
-      this.camp.materialLists().$loadItems(),
-      this.camp.campCollaborations().$loadItems(),
-    ])
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  config: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
 
-    this.periods = this.options.periods.map((periodUri) => {
-      return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-    })
-  },
-}
+const { $api } = useNuxtApp()
+
+const { data: periods, error } = await useAsyncData('ConfigProgram', async () => {
+  await Promise.all([
+    $api.get().contentTypes().$loadItems(),
+    props.camp.periods().$loadItems(),
+    props.camp.activities().$loadItems(),
+    props.camp.categories().$loadItems(),
+    props.camp.materialLists().$loadItems(),
+    props.camp.campCollaborations().$loadItems(),
+  ])
+
+  return props.options.periods.map((periodUri) => {
+    return $api.get(periodUri)
+  })
+})
 </script>

@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 class ExpressionDateTimeFilterTest extends TestCase {
-    private MockObject|ManagerRegistry $managerRegistryMock;
+    private ManagerRegistry|MockObject $managerRegistryMock;
     private MockObject|QueryBuilder $queryBuilderMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
 

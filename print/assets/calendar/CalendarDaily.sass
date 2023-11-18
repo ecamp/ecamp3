@@ -72,7 +72,6 @@
 .v-calendar-daily_head-weekday
   user-select: none
   padding: $calendar-daily-weekday-padding
-  font-size: $calendar-daily-weekday-font-size
   text-align: center
   text-transform: uppercase
 
@@ -84,20 +83,20 @@
 
 .v-calendar-daily__body
   flex: 1 1 60%
-  overflow: hidden
+  overflow: visible
   display: flex
   position: relative
   flex-direction: column
 
 .v-calendar-daily__scroll-area
-  overflow-y: scroll
+  overflow-y: visible
   flex: 1 1 auto
   display: flex
   align-items: flex-start
 
 .v-calendar-daily__pane
   width: 100%
-  overflow-y: hidden
+  overflow-y: visible
   flex: none
   display: flex
   align-items: flex-start
@@ -131,7 +130,6 @@
   display: block
   position: relative
   top: $calendar-daily-interval-gutter-top
-  font-size: $calendar-daily-interval-gutter-font-size
   padding-right: $calendar-daily-interval-gutter-width
 
 .v-calendar-daily__day

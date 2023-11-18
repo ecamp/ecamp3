@@ -23,7 +23,9 @@
       "scheduleEntry": {
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "switchToFullSize": "Zum Breitformat umschalten",
+        "switchToPaperSize": "Zum Papierformat umschalten"
       }
     },
     "camp": {

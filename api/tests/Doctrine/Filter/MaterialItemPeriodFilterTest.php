@@ -2,8 +2,8 @@
 
 namespace App\Tests\Doctrine\Filter;
 
-use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\MaterialItem;
 use App\Entity\Period;
@@ -18,12 +18,12 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 class MaterialItemPeriodFilterTest extends TestCase {
-    private MockObject|ManagerRegistry $managerRegistryMock;
-    private MockObject|EntityRepository $materialNodeRepositoryMock;
+    private ManagerRegistry|MockObject $managerRegistryMock;
+    private EntityRepository|MockObject $materialNodeRepositoryMock;
     private MockObject|QueryBuilder $materialNodeQueryBuilderMock;
     private MockObject|QueryBuilder $queryBuilderMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
-    private MockObject|IriConverterInterface $iriConverterMock;
+    private IriConverterInterface|MockObject $iriConverterMock;
 
     public function setUp(): void {
         parent::setUp();

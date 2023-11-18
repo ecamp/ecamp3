@@ -29,7 +29,7 @@ export default {
     instanceOrContentTypeName() {
       return (
         this.contentNode.instanceName ||
-        this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.name`)
+        this.$t(`contentNode.${camelCase(this.contentNode.contentTypeName)}.name`)
       )
     },
   },

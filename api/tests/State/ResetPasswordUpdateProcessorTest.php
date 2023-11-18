@@ -27,7 +27,7 @@ class ResetPasswordUpdateProcessorTest extends TestCase {
 
     private MockObject|ReCaptcha $recaptcha;
     private MockObject|Response $recaptchaResponse;
-    private MockObject|EntityManagerInterface $entityManager;
+    private EntityManagerInterface|MockObject $entityManager;
     private MockObject|UserRepository $userRepository;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
     private MockObject|PasswordHasherInterface $pwHasher;
