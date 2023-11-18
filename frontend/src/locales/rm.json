@@ -402,8 +402,7 @@
       }
     },
     "serverError": {
-      "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server.",
-      "short": "Serverfehler"
+      "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server."
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} na dastga betg esser avant {min}",
