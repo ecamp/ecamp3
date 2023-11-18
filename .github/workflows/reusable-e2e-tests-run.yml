@@ -2,6 +2,10 @@ name: '[reusable only] e2e tests run'
 
 on:
   workflow_call:
+    inputs:
+      run-identifier:
+        required: false
+        type: string
 
 jobs:
   e2e-tests-run:
@@ -58,7 +62,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-output-${{ matrix.browser }}
+          name: cypress-output-${{ matrix.browser }}${{ inputs.run-identifier != null && format('-{0}', inputs.run-identifier) }}
           path: |
             e2e/data/**/*
 
