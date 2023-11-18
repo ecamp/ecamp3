@@ -17,12 +17,12 @@ class MailService {
     public const TRANSLATE_DOMAIN = 'email';
 
     public function __construct(
-        private MailerInterface $mailer,
+        private readonly MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
-        private Environment $twigEnironment,
-        private string $frontendBaseUrl,
-        private string $senderEmail,
-        private string $senderName = ''
+        private readonly Environment $twigEnironment,
+        private readonly string $frontendBaseUrl,
+        private readonly string $senderEmail,
+        private readonly string $senderName = ''
     ) {}
 
     public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
