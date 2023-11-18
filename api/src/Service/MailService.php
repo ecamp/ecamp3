@@ -112,10 +112,12 @@ class MailService {
     private function getTemplate(string $templateName, User $user) {
         // TODO: Move this into some configuration
         $languageFallback = [
+            'rm-CH-scout' => 'rm',
             'de-CH-scout' => 'de',
             'fr-CH-scout' => 'fr',
             'it-CH-scout' => 'it',
             'en-CH-scout' => 'en',
+            'rm' => 'de',
             'de' => 'en',
             'it' => 'en',
             'fr' => 'en',

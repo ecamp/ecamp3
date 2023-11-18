@@ -4,6 +4,7 @@ namespace App\Tests\Service;
 
 use App\DTO\ResetPassword;
 use App\Entity\Camp;
+use App\Entity\Languages;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
@@ -61,6 +62,26 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }
 
+    /**
+     * @dataProvider allSupportedLanguages
+     */
+    public function testSendInvitationMailDoesNotCrashForAllLanguages(string $language) {
+        $this->user->profile->language = $language;
+        $this->mailer->sendInviteToCampMail($this->user, $this->camp, self::INVITE_KEY, self::INVITE_MAIL);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->name);
+        self::assertEmailHtmlBodyContains($mailerMessage, $this->user->getDisplayName());
+        self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
+
+        self::assertEmailTextBodyContains($mailerMessage, $this->camp->name);
+        self::assertEmailTextBodyContains($mailerMessage, $this->user->getDisplayName());
+        self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
+    }
+
     public function testSendUserActivationMailDeChScout() {
         $this->user->profile->language = 'de-CH-scout';
         $this->user->profile->email = self::INVITE_MAIL;
@@ -94,6 +115,22 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }
 
+    /**
+     * @dataProvider allSupportedLanguages
+     */
+    public function testSendUserActivationMailDoesNotCrashForAllLanguages(string $language) {
+        $this->user->profile->language = $language;
+        $this->user->profile->email = self::INVITE_MAIL;
+        $this->mailer->sendUserActivationMail($this->user, self::INVITE_KEY);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
+        self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
+    }
+
     public function testSendResetPasswordMailDeChScout() {
         $this->user->profile->language = 'de-CH-scout';
         $this->user->profile->email = self::INVITE_MAIL;
@@ -114,6 +151,26 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, 'reset-password/some-id');
     }
 
+    /**
+     * @dataProvider allSupportedLanguages
+     */
+    public function testSendResetPasswordMailDoesNotCrashForAllLanguages(string $language) {
+        $this->user->profile->language = $language;
+        $this->user->profile->email = self::INVITE_MAIL;
+
+        $resetPassword = new ResetPassword();
+        $resetPassword->id = 'some-id';
+
+        $this->mailer->sendPasswordResetLink($this->user, $resetPassword);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, 'reset-password/some-id');
+        self::assertEmailTextBodyContains($mailerMessage, 'reset-password/some-id');
+    }
+
     public function testSendEmailVerificationMail() {
         $this->user->profile->language = 'de-CH-scout';
         $this->user->profile->untrustedEmail = self::INVITE_MAIL;
@@ -130,5 +187,32 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailHtmlBodyContains($mailerMessage, 'profile/verify-mail/some-id');
         self::assertEmailTextBodyContains($mailerMessage, 'Wir haben die Anfrage erhalten, deine E-Mail-Adresse bei eCamp zu ändern.');
         self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
+    }
+
+    /**
+     * @dataProvider allSupportedLanguages
+     */
+    public function testSendEmailVerificationMailDoesNotCrashForAllLanguages(string $language) {
+        $this->user->profile->language = $language;
+        $this->user->profile->untrustedEmail = self::INVITE_MAIL;
+        $this->user->profile->untrustedEmailKey = 'some-id';
+
+        $this->mailer->sendEmailVerificationMail($this->user, $this->user->profile);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, 'profile/verify-mail/some-id');
+        self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
+    }
+
+    public function allSupportedLanguages() {
+        $result = [];
+        foreach (Languages::SUPPORTED_LANGUAGES as $language) {
+            $result[$language] = [$language];
+        }
+
+        return $result;
     }
 }

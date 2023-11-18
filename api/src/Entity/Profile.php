@@ -157,18 +157,7 @@ class Profile extends BaseEntity {
      */
     #[InputFilter\Trim]
     #[ApiProperty(example: self::EXAMPLE_LANGUAGE)]
-    #[Assert\Choice([
-        'en', 
-        'en-CH-scout', 
-        'de', 
-        'de-CH-scout', 
-        'fr', 
-        'fr-CH-scout', 
-        'it', 
-        'it-CH-scout', 
-        'rm', 
-        'rm-CH-scout'
-    ])]
+    #[Assert\Choice(Languages::SUPPORTED_LANGUAGES)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'string', length: 20, nullable: true)]
     public ?string $language = null;
