@@ -116,11 +116,7 @@ class MailService {
             'de-CH-scout' => 'de',
             'fr-CH-scout' => 'fr',
             'it-CH-scout' => 'it',
-            'en-CH-scout' => 'en',
             'rm' => 'de',
-            'de' => 'en',
-            'it' => 'en',
-            'fr' => 'en',
         ];
 
         $language = $user->profile->language ?? 'en';
@@ -133,13 +129,10 @@ class MailService {
             }
 
             if (!isset($languageFallback[$language])) {
-                throw new \Exception(
-                    "Can not find Mail-Template translated '{$templateName}' for ".
-                    ($user->profile->language ?? 'en')
-                );
+                $language = 'en';
+            } else {
+                $language = $languageFallback[$language];
             }
-
-            $language = $languageFallback[$language];
         }
     }
 }
