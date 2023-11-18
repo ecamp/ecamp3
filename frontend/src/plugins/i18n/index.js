@@ -10,6 +10,8 @@ import enCommon from '@/common/locales/en.json'
 import enCHScoutCommon from '@/common/locales/en-CH-scout.json'
 import deCommon from '@/common/locales/de.json'
 import deCHScoutCommon from '@/common/locales/de-CH-scout.json'
+import rmCommon from '@/common/locales/rm.json'
+import rmCHScoutCommon from '@/common/locales/rm-CH-scout.json'
 
 import it from '@/locales/it.json'
 import itCHScout from '@/locales/it-CH-scout.json'
@@ -34,10 +36,14 @@ import vuetifyIt from 'vuetify/lib/locale/it'
 
 Vue.use(VueI18n)
 
-const fallbackLocale = 'en'
+const fallbackLocales = {
+  rm: ['de'],
+  default: 'en',
+}
+
 const i18n = new VueI18n({
   locale: 'de',
-  fallbackLocale,
+  fallbackLocale: fallbackLocales,
   messages: deepmerge.all([
     // vee-validate locales
     {
@@ -81,6 +87,8 @@ const i18n = new VueI18n({
       'en-CH-scout': enCHScoutCommon,
       de: deCommon,
       'de-CH-scout': deCHScoutCommon,
+      rm: rmCommon,
+      'rm-CH-scout': rmCHScoutCommon,
     },
 
     // eCamp frontend only locales
@@ -113,10 +121,10 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
         return languageFallback
       }
     }
-    return fallbackLocale
+    return fallbackLocales.default
   },
 })
 
 export default i18n
 
-export { i18n, fallbackLocale }
+export { i18n, fallbackLocales }
