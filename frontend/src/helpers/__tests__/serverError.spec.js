@@ -1,5 +1,6 @@
 import { transformViolations } from '@/helpers/serverError'
 import cloneDeep from 'lodash/cloneDeep'
+import { fallbackLocale } from '@/plugins/i18n'
 
 describe('transformViolations', () => {
   describe('without i18n', () => {
@@ -172,7 +173,7 @@ describe('transformViolations', () => {
             propertyPath: 'property',
             i18n: {
               translations: {
-                en: 'en',
+                [fallbackLocale]: fallbackLocale,
                 de: 'de',
               },
             },
@@ -182,7 +183,7 @@ describe('transformViolations', () => {
         i18n.locale = 'it'
 
         expect(transformViolations(validationError, i18n)).toEqual({
-          property: ['en'],
+          property: [fallbackLocale],
         })
       })
     })

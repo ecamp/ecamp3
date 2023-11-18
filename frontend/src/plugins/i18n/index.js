@@ -34,10 +34,7 @@ import vuetifyIt from 'vuetify/lib/locale/it'
 
 Vue.use(VueI18n)
 
-const fallbackLocale = {
-  ['rm']: ['de'],
-  ['default']: ['en'],
-}
+const fallbackLocale = 'en'
 const i18n = new VueI18n({
   locale: 'de',
   fallbackLocale,
@@ -116,20 +113,7 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
         return languageFallback
       }
     }
-    if (typeof fallbackLocale === 'string') {
-      return fallbackLocale
-    } else if (Array.isArray(fallbackLocale)) {
-      for (const fallback of fallbackLocale) {
-        return fallback
-      }
-    } else {
-      if ('default' in fallbackLocale) {
-        for (const fallback of fallbackLocale.default) {
-          return fallback
-        }
-      }
-    }
-    return 'en'
+    return fallbackLocale
   },
 })
 
