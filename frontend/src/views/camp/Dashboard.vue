@@ -404,6 +404,13 @@ export default {
 
     const { categories, periods, collaborators, progressLabels } =
       await loadAndProcessCollections(this.camp())
+    await Promise.all(
+      this.camp()
+        .periods()
+        .items.map((period) => period._meta.self)
+        .map((periodHref) => this.api.get().days({ period: periodHref }))
+    )
+
     const queryFilters = processRouteQuery(this.$route.query)
     const { period, responsible, category, progressLabel } = {
       ...this.filter,
