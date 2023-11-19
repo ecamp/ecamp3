@@ -127,7 +127,7 @@ time .git/hooks/pre-commit
 We truly value and appreciate every contribution to our project! :heart:
 To make the collaboration smoother and more enjoyable for everyone, 
 we've put together this checklist :scroll:.
-Following it will not only enhance the quality and consistency of your contributions:sparkles:  but also fast-track the review process. :rocket:
+Following it will not only enhance the quality and consistency of your contributions :sparkles: but also fast-track the review process. :rocket:
 
 
 - [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is up to date with the central repository, facilitating a smooth merge.
