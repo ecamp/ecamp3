@@ -4,19 +4,18 @@ Thank you for wanting to help out! :heart:
 Danke dass du mithelfen möchtest!
 Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md).
 
-# English :milky_way:
 
 ## [Code of conduct](https://www.ecamp3.ch/en/code-of-conduct) :page_with_curl:
 
 ## Workflow :gear:
 This is a basic overview of the workflow, i.e. how we work with the code of eCamp v3. More information about how to set up a development environment on your computer is in the [wiki](https://github.com/ecamp/ecamp3/wiki/installation).
-If something about the setup is unclear, or you run into an error, there are [discussions](https://github.com/ecamp/ecamp3/discussions) on GitHub for you to ask questions and ask for help. :computer:
+If something about the setup is unclear, or you run into an error, there is a `setup-help` channel on [Discord](https://discord.gg/tdwtRytV6P) for you to ask questions and ask for help. :computer:
 ### Labels :label:
 Issues are marked with labels and some of them are not self-explanatory and are explained here:
-- **Type-Labels**:
-  Type labels follow the `type: *` format with the options `Frontend`, `Print`, `Deployment` & `API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
-- **Needs prototype**: :bulb: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
 - **Good first issue**: :green_heart: Beginner friendly issues.
+- **Type-Labels**:
+  Tells you what part of the architecture is involved. There are `type: Frontend`, `type: Print`, `type: Deployment` & `type: API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
+- **Needs prototype**: :bulb: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
 - **Feature request**: :rocket: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
 ### :point_right: Starting with an issue 
@@ -28,14 +27,16 @@ Please note that while the wiki can be helpful in understanding the project, it'
 
 ### Git setup :octocat:
 
-We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
+We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. 
+If you are an advanced git user you can set this up yourself.
+In practice, setting up this workflow looks as follows:
 
-1. Fork the main repository onto your GitHub account. To use the commands your configured git `user.name` must be exactly your git user name. 
+1. Fork the main repository onto your GitHub account. To use the commands your configured git `user.name` should be exactly your git user name. 
     If you run the code below, and it outputs your GitHub username you are good to go. 
     ```shell
     echo $(git config user.name)
     ```
-    If not you need to replace the `$(git config user.name)` parts with your username or run `git config --global user.name "YourUsername"` with your GitHub username instead of `YourUsername`
+    If not you should replace the `$(git config user.name)` parts with your username or run `git config --global user.name "YourUsername"` with your GitHub username instead of `YourUsername`
     
 
 2. Clone the main repository to your local computer:
@@ -130,7 +131,7 @@ we've put together this checklist :scroll:.
 Following it will not only enhance the quality and consistency of your contributions :sparkles: but also fast-track the review process. :rocket:
 
 
-- [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is up to date with the central repository, facilitating a smooth merge.
+- [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is up to date with the central repository, facilitating a smooth merge. [GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
 - [x] **Lint:** :wrench: Ensure that linters have run over all new or modified files
 - [x] **Spelling:** :abc: Ensure that the changes are spell checked
 - [x] **Significant Changes:** :mag_right: Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
