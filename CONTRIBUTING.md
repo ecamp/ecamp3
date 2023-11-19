@@ -149,7 +149,7 @@ This dataset is tailored to streamline the testing process and ensure that featu
 including edge cases, are effectively covered.
 
 ### Recommended Test User :bust_in_silhouette:
-To begin with, utilize the `test@example.com / test` user credentials. 
+To login on dev environments like [localhost:3000](http://localhost:3000) utilize the `test@example.com / test` user credentials. 
 This user has been populated with a comprehensive set of camps that should suffice for testing most features and scenarios.
 
 ### Feedback on Dev-Data :loudspeaker:
