@@ -44,4 +44,4 @@ execute_or_run "e2e" "ecamp3-e2e" "e2e" "npm run lint" true
 # Wait for all parallel jobs to complete
 wait
 
-echo "ECamp3 Git-Hook run finished"
+echo "eCamp v3 Git-Hook run finished"
