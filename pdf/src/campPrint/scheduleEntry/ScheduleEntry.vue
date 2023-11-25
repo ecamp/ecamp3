@@ -46,9 +46,11 @@ import PdfComponent from '@/PdfComponent.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import Responsibles from '../Responsibles.vue'
 import ContentNode from './contentNode/ContentNode.vue'
-import { setContentNodeComponent } from './contentNode/ColumnLayout.vue'
+import { setContentNodeComponent as setContentNodeComponentColumn } from './contentNode/ColumnLayout.vue'
+import { setContentNodeComponent as setContentNodeComponentDefault } from './contentNode/DefaultLayout.vue'
 
-setContentNodeComponent(ContentNode)
+setContentNodeComponentColumn(ContentNode)
+setContentNodeComponentDefault(ContentNode)
 
 export default {
   name: 'ScheduleEntry',

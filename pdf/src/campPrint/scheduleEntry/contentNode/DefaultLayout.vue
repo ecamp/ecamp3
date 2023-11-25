@@ -1,22 +1,23 @@
 <template>
   <View v-if="hasChildren" class="default-layout__container">
     <View class="default-layout__flex">
-      <View v-for="child in children['aside-top']" class="default-layout__flex_item">
+      <View v-for="child in children['aside-top']" :key="child.id" class="default-layout__flex_item">
         <component :is="contentNodeComponent" :content-node="child" />
       </View>
     </View>
     <View>
-      <template v-for="child in children['main']">
+      <template v-for="child in children['main']" :key="child.id">
         <component :is="contentNodeComponent" :content-node="child" />
       </template>
     </View>
     <View class="default-layout__flex">
-      <View v-for="child in children['aside-bottom']" class="default-layout__flex_item">
+      <View v-for="child in children['aside-bottom']" :key="child.id" class="default-layout__flex_item">
         <component :is="contentNodeComponent" :content-node="child" />
       </View>
     </View>
   </View>
 </template>
+
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import groupBy from 'lodash/groupBy.js'
