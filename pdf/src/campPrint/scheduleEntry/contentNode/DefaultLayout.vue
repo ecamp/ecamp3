@@ -1,7 +1,11 @@
 <template>
   <View v-if="hasChildren" class="default-layout__container">
     <View class="default-layout__flex">
-      <View v-for="child in children['aside-top']" :key="child.id" class="default-layout__flex_item">
+      <View
+        v-for="child in children['aside-top']"
+        :key="child.id"
+        class="default-layout__flex_item"
+      >
         <component :is="contentNodeComponent" :content-node="child" />
       </View>
     </View>
@@ -11,7 +15,11 @@
       </template>
     </View>
     <View class="default-layout__flex">
-      <View v-for="child in children['aside-bottom']" :key="child.id" class="default-layout__flex_item">
+      <View
+        v-for="child in children['aside-bottom']"
+        :key="child.id"
+        class="default-layout__flex_item"
+      >
         <component :is="contentNodeComponent" :content-node="child" />
       </View>
     </View>

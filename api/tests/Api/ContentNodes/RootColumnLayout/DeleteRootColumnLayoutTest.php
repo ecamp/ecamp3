@@ -6,6 +6,7 @@ use App\Tests\Api\ContentNodes\DeleteContentNodeTestCase;
 
 /**
  * Tests for deleting a root column layout.
+ *
  * @internal
  */
 class DeleteRootColumnLayoutTest extends DeleteContentNodeTestCase {

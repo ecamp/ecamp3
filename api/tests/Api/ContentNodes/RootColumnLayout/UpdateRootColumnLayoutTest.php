@@ -5,7 +5,8 @@ namespace App\Tests\Api\ContentNodes\ColumnLayout;
 use App\Tests\Api\ContentNodes\UpdateContentNodeTestCase;
 
 /**
- * Testing functionality of ContentNode with the root
+ * Testing functionality of ContentNode with the root.
+ *
  * @internal
  */
 class UpdateRootColumnLayoutTest extends UpdateContentNodeTestCase {

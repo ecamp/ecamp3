@@ -72,7 +72,7 @@ class CreateDefaultLayoutTest extends CreateContentNodeTestCase {
                         'items' => [
                             ['slot' => 'main'],
                             ['slot' => 'aside-top'],
-                            ['slot' => 'aside-bottom']
+                            ['slot' => 'aside-bottom'],
                         ],
                     ],
                 ],

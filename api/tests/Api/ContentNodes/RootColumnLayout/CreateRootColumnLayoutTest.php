@@ -7,6 +7,7 @@ use App\Tests\Api\ContentNodes\CreateContentNodeTestCase;
 
 /**
  * Tests for creating a root column layout.
+ *
  * @internal
  */
 class CreateRootColumnLayoutTest extends CreateContentNodeTestCase {
