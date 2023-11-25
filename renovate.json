@@ -108,36 +108,6 @@
         "postgres"
       ],
       "allowedVersions": "15-alpine"
-    },
-    {
-      "matchPackageNames": [
-        "@nuxtjs/eslint-module"
-      ],
-      "allowedVersions": "^3"
-    },
-    {
-      "matchPackageNames": [
-        "@nuxtjs/stylelint-module"
-      ],
-      "allowedVersions": "^4"
-    },
-    {
-      "matchFileNames": [
-        "print/package.json"
-      ],
-      "matchPackageNames": [
-        "prettier"
-      ],
-      "allowedVersions": "^2"
-    },
-    {
-      "matchFileNames": [
-        "print/package.json"
-      ],
-      "matchPackageNames": [
-        "eslint-plugin-prettier"
-      ],
-      "allowedVersions": "^4"
     }
   ],
   "regexManagers": [
