@@ -66,6 +66,6 @@ export default {
 }
 .default-layout__flex_item {
   flex-grow: 1;
-  flex-basis: 320px;
+  flex-basis: 320pt;
 }
 </pdf-style>
