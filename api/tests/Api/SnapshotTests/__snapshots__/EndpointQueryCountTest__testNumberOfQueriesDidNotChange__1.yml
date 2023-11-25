@@ -1,5 +1,5 @@
 /activities: 21
-/activities/item: 31
+/activities/item: 33
 /activity_progress_labels: 6
 /activity_progress_labels/item: 7
 /activity_responsibles: 6
@@ -21,7 +21,7 @@
 /content_node/multi_selects/item: 9
 /content_node/single_texts: 6
 /content_node/single_texts/item: 9
-/content_node/storyboards: 6
+/content_node/storyboards: 7
 /content_node/storyboards/item: 9
 /content_types: 6
 /content_types/item: 6
@@ -29,8 +29,8 @@
 /days/item: 11
 /day_responsibles: 6
 /day_responsibles/item: 9
-/material_items: 6
-/material_items/item: 8
+/material_items: 7
+/material_items/item: 9
 /material_lists: 6
 /material_lists/item: 7
 /periods: 6

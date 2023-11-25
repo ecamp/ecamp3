@@ -10505,6 +10505,7 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
+          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -10526,8 +10527,9 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10540,8 +10542,9 @@ components:
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -10549,8 +10552,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -10564,17 +10569,20 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
+          'owl:maxCardinality': 1
           readOnly: true
-          type: string
+          type:
+            - 'null'
+            - string
         slot:
           description: |-
             The name of the slot in the parent in which this content node resides. The valid slot names
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - children
         - contentType
@@ -10592,6 +10600,7 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
+          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
@@ -10608,16 +10617,18 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         instanceName:
           description: |-
             An optional name for this content node. This is useful when planning e.g. an alternative
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -10625,8 +10636,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -10640,8 +10653,9 @@ components:
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - contentType
         - data
@@ -10667,16 +10681,18 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         instanceName:
           description: |-
             An optional name for this content node. This is useful when planning e.g. an alternative
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -10684,8 +10700,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -10699,8 +10717,9 @@ components:
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - data
         - position
@@ -10733,6 +10752,7 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
+          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -10754,8 +10774,9 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10768,8 +10789,9 @@ components:
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -10777,8 +10799,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -10792,17 +10816,20 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
+          'owl:maxCardinality': 1
           readOnly: true
-          type: string
+          type:
+            - 'null'
+            - string
         slot:
           description: |-
             The name of the slot in the parent in which this content node resides. The valid slot names
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - children
         - contentType
@@ -10829,6 +10856,7 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
+          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
@@ -10845,16 +10873,18 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         instanceName:
           description: |-
             An optional name for this content node. This is useful when planning e.g. an alternative
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -10862,8 +10892,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -10877,8 +10909,9 @@ components:
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - contentType
         - data
@@ -10927,6 +10960,7 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
+          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -10948,8 +10982,9 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10962,8 +10997,9 @@ components:
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -10971,8 +11007,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -10986,17 +11024,20 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
+          'owl:maxCardinality': 1
           readOnly: true
-          type: string
+          type:
+            - 'null'
+            - string
         slot:
           description: |-
             The name of the slot in the parent in which this content node resides. The valid slot names
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - children
         - contentType
@@ -11014,6 +11055,7 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
+          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
@@ -11030,16 +11072,18 @@ components:
                 slot: main
           items:
             type: string
-          nullable: true
-          type: array
+          type:
+            - array
+            - 'null'
         instanceName:
           description: |-
             An optional name for this content node. This is useful when planning e.g. an alternative
             version of the programme suited for bad weather, in addition to the normal version.
           example: Schlechtwetterprogramm
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
         parent:
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
@@ -11047,8 +11091,10 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         position:
           default: -1
           description: |-
@@ -11062,8 +11108,9 @@ components:
             are defined by the content type of the parent.
           example: '1'
           maxLength: 32
-          nullable: true
-          type: string
+          type:
+            - 'null'
+            - string
       required:
         - contentType
         - data
@@ -20511,7 +20558,7 @@ paths:
               schema:
                 properties:
                   'hydra:member': { items: { $ref: '#/components/schemas/DefaultLayout.jsonld-read' }, type: array }
-                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { nullable: true, type: string }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
                   'hydra:totalItems': { minimum: 0, type: integer }
                   'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
                 required:

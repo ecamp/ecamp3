@@ -4,6 +4,7 @@ namespace App\Tests\Api\ContentNodes;
 
 use App\Entity\ContentNode;
 use App\Entity\ContentNode\ColumnLayout;
+use App\Entity\ContentNode\DefaultLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -79,14 +80,26 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         $this->patch(payload: ['slot' => 'invalidSlot']);
 
         $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                0 => [
-                    'propertyPath' => 'slot',
-                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+
+        if ($this->defaultEntity->parent instanceof ColumnLayout) {
+            $this->assertJsonContains([
+                'violations' => [
+                    0 => [
+                        'propertyPath' => 'slot',
+                        'message' => 'This value should be one of [1], was invalidSlot.',
+                    ],
                 ],
-            ],
-        ]);
+            ]);
+        } elseif ($this->defaultEntity->parent instanceof DefaultLayout) {
+            $this->assertJsonContains([
+                'violations' => [
+                    0 => [
+                        'propertyPath' => 'slot',
+                        'message' => 'This value should be one of [main,aside-top,aside-bottom], was invalidSlot.',
+                    ],
+                ],
+            ]);
+        }
     }
 
     public function testPatchRejectsNullSlotOnNonRootNodes() {
@@ -100,14 +113,26 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         );
 
         $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'slot',
-                    'message' => 'This value should be one of [1,2], was null.',
+
+        if ($this->defaultEntity->parent instanceof ColumnLayout) {
+            $this->assertJsonContains([
+                'violations' => [
+                    [
+                        'propertyPath' => 'slot',
+                        'message' => 'This value should be one of [1], was null.',
+                    ],
                 ],
-            ],
-        ]);
+            ]);
+        } elseif ($this->defaultEntity->parent instanceof DefaultLayout) {
+            $this->assertJsonContains([
+                'violations' => [
+                    [
+                        'propertyPath' => 'slot',
+                        'message' => 'This value should be one of [main,aside-top,aside-bottom], was null.',
+                    ],
+                ],
+            ]);
+        }
     }
 
     public function testPatchResortsEntriesIfExistingPositionWasUsed() {
