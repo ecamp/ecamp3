@@ -72,9 +72,17 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  overflow: hidden;
+  margin-left: -10pt;
+  margin-right: -10pt;
 }
 .default-layout__flex_item {
   flex-grow: 1;
-  flex-basis: 320pt;
+  flex-basis: 200pt;
+  background-color: #fff;
+  border-left: 0.75pt solid black;
+  margin-left: -0.95pt;
+  padding-left: 9pt;
+  padding-right: 10pt;
 }
 </pdf-style>
