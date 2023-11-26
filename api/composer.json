@@ -48,11 +48,11 @@
         "webonyx/graphql-php": "15.8.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "3.38.2",
+        "friendsofphp/php-cs-fixer": "3.40.0",
         "hautelook/alice-bundle": "2.12.2",
         "justinrainbow/json-schema": "5.2.13",
         "php-coveralls/php-coveralls": "2.7.0",
-        "phpstan/phpstan": "1.10.41",
+        "phpstan/phpstan": "1.10.44",
         "phpunit/phpunit": "9.6.13",
         "rector/rector": "0.18.10",
         "spatie/phpunit-snapshot-assertions": "4.2.16",
@@ -65,7 +65,7 @@
         "symfony/stopwatch": "6.3.0",
         "symfony/var-dumper": "6.3.8",
         "symfony/web-profiler-bundle": "6.3.8",
-        "vimeo/psalm": "5.15.0"
+        "vimeo/psalm": "5.16.0"
     },
     "config": {
         "optimize-autoloader": true,
