@@ -4,7 +4,7 @@
       v-if="contentNodeIds"
       v-model="localContentNodeIds"
       :disabled="!draggingEnabled"
-      group="contentNodes"
+      :group="{ name: 'contentNodes', put: defaultLayoutsOnlyInRoot }"
       class="draggable-area flex-grow-1"
       :class="{
         'min-height draggable-area--layout-mode pb-2': layoutMode,
@@ -24,6 +24,7 @@
         v-for="id in draggableContentNodeIds"
         :key="id"
         :data-href="allContentNodesById[id]._meta.self"
+        :data-type="allContentNodesById[id].contentTypeName"
         class="content-node"
         :content-node="allContentNodesById[id]"
         :layout-mode="layoutMode"
@@ -113,8 +114,17 @@ export default {
     this.cleanupDrag()
   },
   methods: {
-    startDrag() {
+    defaultLayoutsOnlyInRoot(to, from, item) {
+      return (
+        item.dataset.type !== 'DefaultLayout' ||
+        to.el.classList.contains('draggable-area--root')
+      )
+    },
+    startDrag(event) {
       document.body.classList.add('dragging', 'dragging-content-node')
+      if (event.item.dataset.type === 'DefaultLayout') {
+        document.body.classList.add('dragging-default-layout')
+      }
       document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
     async finishDrag(event) {
@@ -142,7 +152,11 @@ export default {
       this.draggableDirty.clearDirty(timestamp)
     },
     cleanupDrag() {
-      document.body.classList.remove('dragging', 'dragging-content-node')
+      document.body.classList.remove(
+        'dragging',
+        'dragging-content-node',
+        'dragging-default-layout'
+      )
       document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
     },
   },
@@ -171,23 +185,25 @@ export default {
   gap: 1px;
 }
 
-.dragging-content-node .draggable-area {
-  position: relative;
-  z-index: 100;
+.dragging-content-node:not(.dragging-default-layout) {
+  .draggable-area:not(.draggable-area--root) {
+    position: relative;
+    z-index: 100;
 
-  &::after {
-    pointer-events: none;
-    display: block;
-    position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: 4px;
-    right: 4px;
-    border-radius: 5px;
-    border: 2px dotted map-get($blue-grey, 'base');
-    background: map-get($blue-grey, 'lighten-4');
-    opacity: 40%;
-    content: '';
+    &::after {
+      pointer-events: none;
+      display: block;
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      border-radius: 5px;
+      border: 2px dotted map-get($blue-grey, 'base');
+      background: map-get($blue-grey, 'lighten-4');
+      opacity: 40%;
+      content: '';
+    }
   }
 }
 </style>

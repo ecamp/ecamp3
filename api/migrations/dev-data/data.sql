@@ -1212,7 +1212,13 @@ INSERT INTO public.category_contenttype (category_id, contenttype_id) VALUES
 	('a3563e14e9f6', '4f0c657fecef'),
 	('a3563e14e9f6', '44dcc7493c65'),
 	('a3563e14e9f6', 'cfccaecd4bad'),
-	('a3563e14e9f6', '318e064ea0c9');
+	('a3563e14e9f6', '318e064ea0c9'),
+	('1a869b162875', 'a4211c112939'),
+	('dfa531302823', 'a4211c112939'),
+	('a023e85227ac', 'a4211c112939'),
+	('d7dfd3fdc611', 'a4211c112939'),
+	('8f18191a3125', 'a4211c112939'),
+	('e7559fc16388', 'a4211c112939');
 
 
 

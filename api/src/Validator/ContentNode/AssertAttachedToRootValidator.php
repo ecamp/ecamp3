@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Validator\ContentNode;
+
+use App\Entity\ContentNode;
+use App\Entity\ContentNode\DefaultLayout;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
+
+class AssertAttachedToRootValidator extends ConstraintValidator {
+    public function validate($value, Constraint $constraint): void {
+        if (!$constraint instanceof AssertAttachedToRoot) {
+            throw new UnexpectedTypeException($constraint, AssertAttachedToRoot::class);
+        }
+
+        if (null === $value || '' === $value) {
+            return;
+        }
+
+        $node = $this->context->getObject();
+        if (!$node instanceof ContentNode) {
+            throw new UnexpectedValueException($node, ContentNode::class);
+        }
+
+        if (!$node instanceof DefaultLayout) {
+            return;
+        }
+
+        if (!$value instanceof ContentNode) {
+            throw new UnexpectedValueException($value, ContentNode::class);
+        }
+
+        if ($node->getRoot() !== $value) {
+            $this->context->buildViolation($constraint->message)->addViolation();
+        }
+    }
+}
