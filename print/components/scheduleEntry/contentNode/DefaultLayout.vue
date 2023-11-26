@@ -1,17 +1,27 @@
 <template>
   <div class="tw-flex tw-flex-col">
-    <FlexItem :content-node="contentNode" direction="row" column-slot="aside-top" />
-    <FlexItem :content-node="contentNode" direction="column" column-slot="main" />
-    <FlexItem :content-node="contentNode" direction="row" column-slot="aside-bottom" />
+    <FlexItem :children="children['aside-top']" direction="row" />
+    <FlexItem :children="children['main']" direction="column" />
+    <FlexItem :children="children['aside-bottom']" direction="row" />
   </div>
 </template>
 
 <script>
+import groupBy from 'lodash/groupBy.js'
+import sortBy from 'lodash/sortBy.js'
 import FlexItem from './FlexItem.vue'
 export default {
   components: { FlexItem },
   props: {
     contentNode: { type: Object, required: true },
+  },
+  computed: {
+    children() {
+      return groupBy(
+        sortBy(this.contentNode.children().items, (child) => parseInt(child.position)),
+        (child) => child.slot
+      )
+    },
   },
 }
 </script>
