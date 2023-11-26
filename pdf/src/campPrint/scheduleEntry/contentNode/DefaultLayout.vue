@@ -81,7 +81,7 @@ export default {
   flex-basis: 200pt;
   background-color: #fff;
   border-left: 0.75pt solid black;
-  margin-left: -0.95pt;
+  margin-left: -1pt;
   padding-left: 9pt;
   padding-right: 10pt;
 }
