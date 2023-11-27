@@ -364,6 +364,7 @@
       "cancel": "Abbrechen",
       "close": "Schliessen",
       "content": "Inhalt",
+      "continue": "Weiter",
       "create": "Erstellen",
       "delete": "Löschen",
       "discard": "Verwerfen",
@@ -591,10 +592,15 @@
     },
     "campCreate": {
       "create": "Lager erstellen",
+      "noContent": "Keine Inhalte",
+      "noPrototype": "Keine Vorlage",
       "period": {
         "add": "Weiteren Lagerabschnitt hinzufügen",
         "remove": "Diesen Lagerabschnitt entfernen"
       },
+      "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
+      "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
+      "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
       "title": "Lager erstellen"
     },
     "camps": {
