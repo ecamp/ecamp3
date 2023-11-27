@@ -9827,25 +9827,25 @@
         },
         {
             "name": "twig/cssinliner-extra",
-            "version": "v3.7.1",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/cssinliner-extra.git",
-                "reference": "59d107afea4ca58be35ae1386bd90b53424f3b34"
+                "reference": "259a4b861732545e0e1ecd43bf25b251494af45b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/cssinliner-extra/zipball/59d107afea4ca58be35ae1386bd90b53424f3b34",
-                "reference": "59d107afea4ca58be35ae1386bd90b53424f3b34",
+                "url": "https://api.github.com/repos/twigphp/cssinliner-extra/zipball/259a4b861732545e0e1ecd43bf25b251494af45b",
+                "reference": "259a4b861732545e0e1ecd43bf25b251494af45b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3",
+                "php": ">=7.2.5",
                 "tijsverkoyen/css-to-inline-styles": "^2.0",
-                "twig/twig": "^2.7|^3.0"
+                "twig/twig": "^3.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^5.4|^6.3"
+                "symfony/phpunit-bridge": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -9876,7 +9876,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/twigphp/cssinliner-extra/tree/v3.7.1"
+                "source": "https://github.com/twigphp/cssinliner-extra/tree/v3.8.0"
             },
             "funding": [
                 {
@@ -9888,7 +9888,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-29T15:34:56+00:00"
+            "time": "2023-11-21T14:02:01+00:00"
         },
         {
             "name": "twig/extra-bundle",
