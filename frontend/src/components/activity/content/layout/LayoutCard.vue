@@ -1,11 +1,14 @@
 <template>
   <div
     class="ec-layout-card"
-    :class="{ 'ec-layout-card--layout-mode': layoutMode, 'ec-layout-card--root': isRoot }"
+    :class="{
+      'ec-layout-card--layout-mode elevation-4': layoutMode,
+      'ec-layout-card--root': isRoot,
+    }"
   >
     <div
       v-if="!isRoot && layoutMode"
-      class="text-center d-flex align-center justify-center gap-1 ec-layout-card-header"
+      class="text-center d-flex align-center px-2 justify-space-between gap-1 ec-layout-card-header"
     >
       <slot name="header" />
     </div>
@@ -25,14 +28,7 @@ export default {
 
 <style scoped>
 .ec-layout-card--layout-mode:not(.ec-layout-card--root) {
-  border: 1px solid black;
-  border-radius: 10px;
-}
-
-.ec-layout-card-header {
-  border-bottom: 1px solid black;
-  background: rgba(255, 255, 255, 0.42);
-  border-top-left-radius: 9px;
-  border-top-right-radius: 9px;
+  border: 1px solid rgb(0 0 0 / 28%);
+  border-radius: 4px;
 }
 </style>

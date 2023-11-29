@@ -19,81 +19,31 @@
       </div>
     </slot>
     <v-skeleton-loader v-if="loading" type="article" />
-    <v-list>
-      <v-list-item
+    <v-list class="mx-n2">
+      <DialogActivityProgressLabelEdit
         v-for="(progressLabel, idx) in progressLabels"
         :key="progressLabel._meta.self"
-        class="px-0"
+        :progress-label="progressLabel"
       >
-        <v-list-item-avatar>
-          <v-avatar color="grey lighten-2" size="32">{{ idx + 1 }}</v-avatar>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ progressLabel.title }}
-          </v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-action v-if="!disabled" style="display: inline">
-          <v-item-group>
-            <dialog-activity-progress-label-edit :progress-label="progressLabel">
-              <template #activator="{ on }">
-                <button-edit class="mr-1" v-on="on" />
-              </template>
-            </dialog-activity-progress-label-edit>
-          </v-item-group>
-        </v-list-item-action>
-
-        <v-menu v-if="!disabled" offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item @click="moveUp(progressLabel)">
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-up-bold</v-icon>
-              </v-list-item-icon>
+        <template #activator="{ on }">
+          <v-list-item class="px-2 rounded" v-on="on">
+            <v-list-item-avatar>
+              <v-avatar color="grey lighten-2" size="32">{{ idx + 1 }}</v-avatar>
+            </v-list-item-avatar>
+            <v-list-item-content>
               <v-list-item-title>
-                {{ $tc('components.campAdmin.campActivityProgressLabels.moveUp') }}
+                {{ progressLabel.title }}
               </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="moveDown(progressLabel)">
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-down-bold</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc('components.campAdmin.campActivityProgressLabels.moveDown') }}
-              </v-list-item-title>
-            </v-list-item>
+            </v-list-item-content>
 
-            <v-divider />
-
-            <dialog-entity-delete
-              :entity="progressLabel"
-              :error-handler="deleteErrorHandler"
-            >
-              <template #activator="{ on }">
-                <v-list-item v-on="on">
-                  <v-list-item-icon>
-                    <v-icon>mdi-delete</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title>
-                    {{ $tc('global.button.delete') }}
-                  </v-list-item-title>
-                </v-list-item>
-              </template>
-              {{ $tc('components.campAdmin.campActivityProgressLabels.deleteWarning') }}
-              <ul>
-                <li>
-                  {{ progressLabel.title }}
-                </li>
-              </ul>
-            </dialog-entity-delete>
-          </v-list>
-        </v-menu>
-      </v-list-item>
+            <v-list-item-action v-if="!disabled" style="display: inline">
+              <v-item-group>
+                <ButtonEdit color="primary--text" text class="my-n1 v-btn--has-bg" />
+              </v-item-group>
+            </v-list-item-action>
+          </v-list-item>
+        </template>
+      </DialogActivityProgressLabelEdit>
     </v-list>
   </content-group>
 </template>
@@ -103,10 +53,14 @@ import { sortBy } from 'lodash'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import DialogActivityProgressLabelCreate from './DialogActivityProgressLabelCreate.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import DialogActivityProgressLabelEdit from '@/components/campAdmin/DialogActivityProgressLabelEdit.vue'
 
 export default {
   name: 'CampActivityProgressLabels',
   components: {
+    DialogActivityProgressLabelEdit,
+    ButtonEdit,
     ContentGroup,
     DialogActivityProgressLabelCreate,
     DialogEntityDelete,

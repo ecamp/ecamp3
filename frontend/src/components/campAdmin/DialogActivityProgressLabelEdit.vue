@@ -12,6 +12,17 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
+    <template #moreActions>
+      <PromptEntityDelete
+        :entity="progressLabel"
+        :warning-text-entity="progressLabel.title"
+        align="left"
+        position="top"
+        :btn-attrs="{
+          class: 'v-btn--has-bg',
+        }"
+      />
+    </template>
     <dialog-activity-progress-label-form :activity-progress-label="entityData" />
   </dialog-form>
 </template>
@@ -20,10 +31,15 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogActivityProgressLabelForm from './DialogActivityProgressLabelForm.vue'
+import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 
 export default {
   name: 'DialogActivityProgressLabelEdit',
-  components: { DialogForm, DialogActivityProgressLabelForm },
+  components: {
+    PromptEntityDelete,
+    DialogForm,
+    DialogActivityProgressLabelForm,
+  },
   extends: DialogBase,
   props: {
     progressLabel: { type: Object, required: true },

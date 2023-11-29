@@ -7,7 +7,10 @@
     :layout-mode="layoutMode"
   >
     <template #header>
-      {{ $tc('contentNode.columnLayout.name') }}
+      <strong>
+        <v-icon>mdi-view-column</v-icon>
+        {{ $tc('contentNode.columnLayout.name') }}
+      </strong>
       <MenuCardlessContentNode :content-node="contentNode">
         <column-operations
           :content-node="contentNode"
@@ -19,7 +22,7 @@
     <div
       v-if="!contentNode.loading"
       class="d-flex flex-wrap ec-column-layout__container"
-      :class="{ 'px-1 gap-4': layoutMode, 'h-full': !layoutMode }"
+      :class="{ 'pa-2 gap-4': layoutMode, 'h-full': !layoutMode }"
     >
       <resizable-column
         v-for="(_, slot) in columns"
@@ -184,9 +187,34 @@ export default {
 </script>
 
 <style scoped>
-.ec-column-layout__container {
+.ec-column-layout > .ec-column-layout__container {
+}
+
+.ec-column-layout.ec-layout-card--root:not(.ec-layout-card--layout-mode)
+  > .ec-column-layout__container {
   background-color: #ccc;
-  border-bottom-left-radius: 9px;
-  border-bottom-right-radius: 9px;
+}
+
+.ec-column-layout:not(.ec-layout-card--root) > .ec-column-layout__container {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.ec-column-layout.ec-layout-card--layout-mode > .ec-column-layout__container {
+  box-shadow:
+    inset rgba(0, 0, 0, 0.07) 0px 2px 5px,
+    inset rgba(0, 0, 0, 0.05) 0px 6px 20px,
+    inset rgba(0, 0, 0, 0.02) 0px 10px 42px;
+}
+
+.ec-column-layout.ec-layout-card--layout-mode:not(.ec-layout-card--root)
+  > .ec-column-layout__container {
+  border: 1px solid rgb(0 0 0 / 28%);
+  margin: 0 4px 4px;
+}
+
+.ec-column-layout.ec-layout-card--root.ec-layout-card--layout-mode
+  > .ec-column-layout__container {
+  padding-top: 4px;
 }
 </style>

@@ -5,6 +5,7 @@ Displays a single scheduleEntry
 <template>
   <content-card
     class="ec-schedule-entry"
+    :class="{ 'overflow-hidden': !layoutMode }"
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"

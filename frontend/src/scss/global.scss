@@ -112,6 +112,10 @@ body {
   align-content: flex-start;
 }
 
+.v-list-item--link:before {
+  border-radius: inherit;
+}
+
 .dragging {
   cursor: move;
 }
@@ -146,6 +150,10 @@ body {
 
 .opacity-60 {
   opacity: 0.6;
+}
+
+.pointer-events-none {
+  pointer-events: none;
 }
 
 .grid-cols-2 {

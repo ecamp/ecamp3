@@ -1,6 +1,6 @@
 <template>
   <div role="row" class="e-storyboard-row e-storyboard-row--dense">
-    <div role="cell" class="e-storyboard-row__handle">
+    <div v-if="!layoutMode" role="cell" class="e-storyboard-row__handle">
       <v-btn
         icon
         small

@@ -158,6 +158,14 @@ export default {
   flex-grow: 1;
 }
 
+.draggable-area--layout-mode :deep(.content-node) {
+  border: 1px solid rgb(0 0 0 / 28%);
+}
+
+.draggable-area--layout-mode :deep(.content-node:not(:hover)) {
+  background: white;
+}
+
 .draggable-area--row ::v-deep .content-node {
   flex: 1 0 320px;
 }

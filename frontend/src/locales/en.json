@@ -415,13 +415,6 @@
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Change template layout",
-        "contents": "Contents",
-        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
-        "editContents": "Set template contents",
-        "layout": "Layout"
-      },
       "printPreview": "Open print preview",
       "sideBarProgram": {
         "title": "Activities on this day"
@@ -602,6 +595,15 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
+    },
+    "cateogry": {
+      "category": {
+        "changeLayout": "Change template layout",
+        "contents": "Contents",
+        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
+        "editContents": "Set template contents",
+        "layout": "Layout"
+      }
     },
     "material": {
       "materialLists": {

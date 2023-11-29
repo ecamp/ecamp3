@@ -61,7 +61,7 @@
       </v-toolbar>
     </v-card-title>
     <slot name="outer">
-      <v-card-text class="flex-grow-1">
+      <v-card-text class="flex-grow-1" :class="{ 'pointer-events-none': layoutMode }">
         <slot />
       </v-card-text>
     </slot>

@@ -415,13 +415,6 @@
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Vorlage-Layout ändern",
-        "contents": "Inhalte",
-        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
-        "editContents": "Vorlage-Inhalt ändern",
-        "layout": "Layout"
-      },
       "printPreview": "Druckvorschau öffnen",
       "sideBarProgram": {
         "title": "Tagesübersicht"
@@ -602,6 +595,18 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
+    },
+    "category": {
+      "category": {
+        "changeLayout": "Vorlage-Layout ändern",
+        "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
+        "editContents": "Vorlage-Inhalt ändern",
+        "layout": "Layout"
+      },
+      "sideBarCategory": {
+        "title": "Kategorien"
+      }
     },
     "material": {
       "materialLists": {
