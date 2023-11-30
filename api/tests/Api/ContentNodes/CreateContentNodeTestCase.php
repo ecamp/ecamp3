@@ -3,9 +3,11 @@
 namespace App\Tests\Api\ContentNodes;
 
 use App\Entity\ContentNode;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -89,9 +91,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
     }
 
-    /**
-     * @dataProvider getContentNodesWhichCannotHaveChildren
-     */
+    #[DataProvider('getContentNodesWhichCannotHaveChildren')]
     public function testCreateRejectsParentsWhichDontSupportChildren(string $idOfParentFixture) {
         $this->defaultParent = static::$fixtures[$idOfParentFixture];
 
@@ -110,7 +110,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function testCreateValidatesIncompatibleContentType() {
         // given
         /** @var ContentType $contentType */
-        $contentType = static::$fixtures[ContentNode\ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
+        $contentType = static::$fixtures[ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
 
         // when
         $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor($contentType)]));
@@ -254,6 +254,23 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         assertThat($createArray, CompatibleHalResponse::isHalCompatibleWith($getItemResponse->toArray()));
     }
 
+    public static function getContentNodesWhichCannotHaveChildren(): array {
+        return [
+            ContentNode\MaterialNode::class => [
+                'materialNode1',
+            ],
+            ContentNode\MultiSelect::class => [
+                'multiSelect1',
+            ],
+            ContentNode\SingleText::class => [
+                'singleText1',
+            ],
+            ContentNode\StoryBoard::class => [
+                'storyboard1',
+            ],
+        ];
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
@@ -294,23 +311,6 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
                 'contentType' => [
                     'href' => $this->getIriFor($contentType),
                 ],
-            ],
-        ];
-    }
-
-    private static function getContentNodesWhichCannotHaveChildren(): array {
-        return [
-            ContentNode\MaterialNode::class => [
-                'materialNode1',
-            ],
-            ContentNode\MultiSelect::class => [
-                'multiSelect1',
-            ],
-            ContentNode\SingleText::class => [
-                'singleText1',
-            ],
-            ContentNode\StoryBoard::class => [
-                'storyboard1',
             ],
         ];
     }

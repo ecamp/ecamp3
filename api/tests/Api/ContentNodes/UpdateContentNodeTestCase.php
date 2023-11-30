@@ -6,6 +6,7 @@ use App\Entity\ContentNode;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\ResponsiveLayout;
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Base UPDATE (patch) test case to be used for various ContentNode types.
@@ -58,9 +59,7 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
     }
 
-    /**
-     * @dataProvider getContentNodesWhichCannotHaveChildren
-     */
+    #[DataProvider('getContentNodesWhichCannotHaveChildren')]
     public function testPatchRejectsParentsWhichDontSupportChildren(string $idOfParentFixture) {
         $parentIri = static::getIriFor($idOfParentFixture);
 
@@ -194,7 +193,7 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
-    private static function getContentNodesWhichCannotHaveChildren(): array {
+    public static function getContentNodesWhichCannotHaveChildren(): array {
         return [
             ContentNode\MaterialNode::class => [
                 'materialNode1',

@@ -3,6 +3,7 @@
 namespace App\Tests\Api\Users;
 
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -80,9 +81,7 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    /**
-     * @dataProvider notWriteableUserProperties
-     */
+    #[DataProvider('notWriteableUserProperties')]
     public function testNotWriteableProperties(string $property) {
         $user = static::$fixtures['user1manager'];
         static::createClientWithCredentials()->request(

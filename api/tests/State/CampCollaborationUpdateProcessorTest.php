@@ -9,6 +9,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
 use App\State\CampCollaborationUpdateProcessor;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -75,9 +76,7 @@ class CampCollaborationUpdateProcessorTest extends TestCase {
         self::assertThat($result->inviteKey, self::equalTo(self::INITIAL_INVITE_KEY));
     }
 
-    /**
-     * @dataProvider notInvitedStatuses
-     */
+    #[DataProvider('notInvitedStatuses')]
     public function testOnStatusChangeDoesNothingIfStatusIsNotInvited(string $status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;

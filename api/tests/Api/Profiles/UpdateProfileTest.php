@@ -4,6 +4,7 @@ namespace App\Tests\Api\Profiles;
 
 use App\Entity\Profile;
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -240,9 +241,7 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    /**
-     * @dataProvider notWriteableProfileProperties
-     */
+    #[DataProvider('notWriteableProfileProperties')]
     public function testNotWriteableProperties(string $property) {
         $user = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request(

@@ -3,6 +3,7 @@
 namespace App\Tests\Api\SnapshotTests;
 
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -53,14 +54,13 @@ class EndpointQueryCountTest extends ECampApiTestCase {
     }
 
     /**
-     * @dataProvider getContentNodeEndpoints
-     *
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
+    #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeCollectionEndpoints(string $collectionEndpoint) {
         list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
 
@@ -77,14 +77,13 @@ class EndpointQueryCountTest extends ECampApiTestCase {
     }
 
     /**
-     * @dataProvider getContentNodeEndpoints
-     *
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
+    #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeItemEndpoints(string $collectionEndpoint) {
         if ('/content_nodes' === $collectionEndpoint) {
             self::markTestSkipped("{$collectionEndpoint} does not support get item endpoint");

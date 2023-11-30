@@ -7,15 +7,14 @@ use App\Entity\CampCollaboration;
 use App\Entity\DayResponsible;
 use App\Entity\User;
 use App\Util\CamelPascalNamingStrategy;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
 class CamelPascalNamingStrategyTest extends TestCase {
-    /**
-     * @dataProvider getTableNameExamples
-     */
+    #[DataProvider('getTableNameExamples')]
     public function testClassToTableName(string $className, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
@@ -27,7 +26,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         $this->assertEquals($output, $result);
     }
 
-    public function getTableNameExamples() {
+    public static function getTableNameExamples() {
         return [
             ['', ''],
             [User::class, 'user'],
@@ -36,9 +35,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         ];
     }
 
-    /**
-     * @dataProvider getPropertyExamples
-     */
+    #[DataProvider('getPropertyExamples')]
     public function testPropertyToColumnName(string $input, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
@@ -50,7 +47,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         $this->assertEquals($output, $result);
     }
 
-    public function getPropertyExamples() {
+    public static function getPropertyExamples() {
         return [
             ['', ''],
             ['camp', 'camp'],
@@ -58,9 +55,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         ];
     }
 
-    /**
-     * @dataProvider getEmbeddedFieldExamples
-     */
+    #[DataProvider('getEmbeddedFieldExamples')]
     public function testEmbeddedFieldToColumnName(string $propertyName, string $embeddedColumnName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
@@ -72,16 +67,14 @@ class CamelPascalNamingStrategyTest extends TestCase {
         $this->assertEquals($output, $result);
     }
 
-    public function getEmbeddedFieldExamples() {
+    public static function getEmbeddedFieldExamples() {
         return [
             ['', '', ''],
             ['address', 'street', 'addressStreet'],
         ];
     }
 
-    /**
-     * @dataProvider getJoinColumnExamples
-     */
+    #[DataProvider('getJoinColumnExamples')]
     public function testJoinColumnName(string $propertyName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
@@ -93,7 +86,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         $this->assertEquals($output, $result);
     }
 
-    public function getJoinColumnExamples() {
+    public static function getJoinColumnExamples() {
         return [
             ['', 'Id'],
             ['camp', 'campId'],
@@ -101,9 +94,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         ];
     }
 
-    /**
-     * @dataProvider getJoinKeyColumnExamples
-     */
+    #[DataProvider('getJoinKeyColumnExamples')]
     public function testJoinKeyColumnName(string $entityName, ?string $referencedColumnName, string $output) {
         // given
         $strategy = new CamelPascalNamingStrategy();
@@ -115,7 +106,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         $this->assertEquals($output, $result);
     }
 
-    public function getJoinKeyColumnExamples() {
+    public static function getJoinKeyColumnExamples() {
         return [
             ['', null, 'Id'],
             ['', 'email', 'Email'],

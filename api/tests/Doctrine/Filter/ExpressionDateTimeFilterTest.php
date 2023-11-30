@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -155,9 +156,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         ]]);
     }
 
-    /**
-     * @dataProvider getOperators
-     */
+    #[DataProvider('getOperators')]
     public function testApplyFiltersByExpression(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => 'something + 1']);
@@ -181,9 +180,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         ]]);
     }
 
-    /**
-     * @dataProvider getOperators
-     */
+    #[DataProvider('getOperators')]
     public function testApplyReplacesSelfAlias(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{}.something + 1']);
@@ -207,9 +204,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         ]]);
     }
 
-    /**
-     * @dataProvider getOperators
-     */
+    #[DataProvider('getOperators')]
     public function testApplyReplacesRelationAlias(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{parent.something} + 1']);
@@ -239,9 +234,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         ]]);
     }
 
-    /**
-     * @dataProvider getOperators
-     */
+    #[DataProvider('getOperators')]
     public function testApplyReplacesMultipleRelationAliases(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{}.something + {parent.something} + {parent2.something}']);
@@ -270,9 +263,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         ]]);
     }
 
-    /**
-     * @dataProvider getOperators
-     */
+    #[DataProvider('getOperators')]
     public function testApplyReplacesMultipleInstancesOfTheSameRelationAlias(string $filterOperator, string $operator) {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => '{parent.something} + {parent.something}']);
@@ -302,7 +293,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         ]]);
     }
 
-    public function getOperators() {
+    public static function getOperators() {
         return [
             'before' => ['before', '<='],
             'strictly_before' => ['strictly_before', '<'],

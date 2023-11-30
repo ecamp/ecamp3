@@ -5,6 +5,7 @@ namespace App\Tests\InputFilter;
 use App\InputFilter\CleanTextFilter;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -19,9 +20,7 @@ class CleanTextFilterTest extends KernelTestCase {
         $this->inputFilter = new CleanTextFilter();
     }
 
-    /**
-     * @dataProvider getExamples
-     */
+    #[DataProvider('getExamples')]
     public function testInputFiltering(string $input, string $output) {
         // given
         $data = ['key' => $input];
@@ -34,7 +33,7 @@ class CleanTextFilterTest extends KernelTestCase {
         $this->assertEquals($outputData, $result);
     }
 
-    public function getExamples() {
+    public static function getExamples() {
         return [
             ['', ''],
             ['abc', 'abc'],
