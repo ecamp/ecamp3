@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.4
+#syntax=docker/dockerfile:1.6
 
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
@@ -127,7 +127,7 @@ RUN rm $PHP_INI_DIR/conf.d/api-platform.prod.ini; \
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.2.2
+ARG XDEBUG_VERSION=3.3.0
 RUN set -eux; \
 	install-php-extensions \
 	xdebug-$XDEBUG_VERSION \
