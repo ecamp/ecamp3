@@ -13,7 +13,18 @@ final class Version20231111000042 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
-        $this->addSql('INSERT INTO public.content_type (id, name, active, entityclass, jsonconfig, createtime, updatetime) VALUES (\'a4211c112939\', \'DefaultLayout\', true, \'App\Entity\ContentNode\DefaultLayout\', \'{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}\', \'2023-11-11 00:00:42\', \'2023-11-11 00:00:42\');');
+        $this->addSql("
+            INSERT INTO public.content_type (id, name, active, entityclass, jsonconfig, createtime, updatetime)
+            VALUES (
+                'a4211c112939',
+                'DefaultLayout',
+                true,
+                'App\\Entity\\ContentNode\\DefaultLayout',
+                '{ \"items\": [{ \"slot\": \"main\" },{ \"slot\": \"aside-top\" },{ \"slot\": \"aside-bottom\" }] }',
+                '2023-11-11 00:00:42',
+                '2023-11-11 00:00:42'
+            );
+        ");
     }
 
     public function down(Schema $schema): void {
