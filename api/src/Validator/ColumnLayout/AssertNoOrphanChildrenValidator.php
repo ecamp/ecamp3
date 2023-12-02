@@ -32,7 +32,7 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
 
             $array = $value['items'];
         } else {
-            throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside ColumnLayout or FlexLayout object');
+            throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside ColumnLayout or DefaultLayout object');
         }
 
         $slots = array_map(function ($col) {
