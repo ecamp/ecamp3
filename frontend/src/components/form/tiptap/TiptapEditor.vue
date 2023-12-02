@@ -6,42 +6,6 @@
       :tippy-options="{ maxWidth: 'none' }"
     >
       <v-toolbar class="ec-tiptap-toolbar" dense>
-        <!-- headings currently disabled (see issue #2657) -->
-        <!--
-        <v-item-group class="v-btn-toggle v-btn-toggle--dense">
-          <v-btn
-            :class="
-              editor.isActive('heading', { level: 1 })
-                ? 'v-item--active v-btn--active'
-                : ''
-            "
-            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          >
-            <v-icon>mdi-format-header-1</v-icon>
-          </v-btn>
-          <v-btn
-            :class="
-              editor.isActive('heading', { level: 2 })
-                ? 'v-item--active v-btn--active'
-                : ''
-            "
-            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          >
-            <v-icon>mdi-format-header-2</v-icon>
-          </v-btn>
-          <v-btn
-            :class="
-              editor.isActive('heading', { level: 3 })
-                ? 'v-item--active v-btn--active'
-                : ''
-            "
-            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          >
-            <v-icon>mdi-format-header-3</v-icon>
-          </v-btn>
-        </v-item-group>
-        <div class="mx-1" />
-        -->
         <TiptapToolbarButton
           icon="mdi-format-bold"
           :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
@@ -105,7 +69,6 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import BulletList from '@tiptap/extension-bullet-list'
 import HardBreak from '@tiptap/extension-hard-break'
-// import Heading from '@tiptap/extension-heading'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Bold from '@tiptap/extension-bold'
@@ -165,7 +128,6 @@ export default {
           BulletList,
           OrderedList,
           // headings currently disabled (see issue #2657)
-          // Heading.configure({ levels: [1, 2, 3] }),
           HardBreak,
         ]
       )
