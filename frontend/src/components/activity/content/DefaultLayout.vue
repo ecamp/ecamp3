@@ -21,7 +21,7 @@
       >
         <div class="d-flex flex-column flex-grow-1 ec-defaultlayout__slot">
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.printAboveMaincontent') }}
+            {{ $tc('contentNode.defaultLayout.printAboveMainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="aside-top"
@@ -35,7 +35,7 @@
       <LayoutItem :basis="'min(' + MAIN_CONTENT_WIDTH + 'px,100%)'" grow="3">
         <div class="d-flex flex-column flex-grow-1 ec-defaultlayout__slot">
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.maincontent') }}
+            {{ $tc('contentNode.defaultLayout.mainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="main"
@@ -57,7 +57,7 @@
           :class="{ 'flex-grow-1': !layoutMode }"
         >
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.printAboveMaincontent') }}
+            {{ $tc('contentNode.defaultLayout.printAboveMainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="aside-top"
@@ -78,7 +78,7 @@
           :class="{ 'flex-grow-1': !layoutMode }"
         >
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.printBelowMaincontent') }}
+            {{ $tc('contentNode.defaultLayout.printBelowMainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="aside-bottom"

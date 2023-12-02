@@ -19,9 +19,9 @@
     "defaultLayout": {
       "icon": "mdi-view-compact",
       "name": "Default layout",
-      "maincontent": "Main content",
-      "printAboveMaincontent": "Print above main content",
-      "printBelowMaincontent": "Print below main content"
+      "mainContent": "Main content",
+      "printAboveMainContent": "Print above main content",
+      "printBelowMainContent": "Print below main content"
     },
     "laThematicArea": {
       "entity": {
