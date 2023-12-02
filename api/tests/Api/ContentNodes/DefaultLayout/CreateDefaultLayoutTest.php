@@ -18,17 +18,17 @@ class CreateDefaultLayoutTest extends CreateContentNodeTestCase {
     }
 
     public function testCreateDefaultLayoutAcceptsValidJson() {
-        $SINGLE_COLUMN_JSON_CONFIG = [
+        $LAYOUT_JSON_CONFIG = [
             ['slot' => 'main'],
             ['slot' => 'aside-top'],
             ['slot' => 'aside-bottom'],
         ];
 
-        $this->create($this->getExampleWritePayload(['data' => ['items' => $SINGLE_COLUMN_JSON_CONFIG]]));
+        $this->create($this->getExampleWritePayload(['data' => ['items' => $LAYOUT_JSON_CONFIG]]));
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['data' => [
-            'items' => $SINGLE_COLUMN_JSON_CONFIG,
+            'items' => $LAYOUT_JSON_CONFIG,
         ]]);
     }
 
