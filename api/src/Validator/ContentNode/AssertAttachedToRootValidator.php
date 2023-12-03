@@ -19,6 +19,7 @@ class AssertAttachedToRootValidator extends ConstraintValidator {
             return;
         }
 
+        /* @var ContentNode $node */
         $node = $this->context->getObject();
         if (!$node instanceof ContentNode) {
             throw new UnexpectedValueException($node, ContentNode::class);
@@ -28,7 +29,7 @@ class AssertAttachedToRootValidator extends ConstraintValidator {
             return;
         }
 
-        if ($node->getRoot() !== $value) {
+        if ($node->root !== $value) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
