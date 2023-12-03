@@ -257,10 +257,13 @@ div.editor:deep(.ec-tiptap-toolbar) {
   }
 }
 
+div.editor:deep(.ec-tiptap-toolbar .v-toolbar:not(.ec-tiptap-toolbar--second) .v-toolbar__content) {
+  justify-content: space-between;
+}
+
 div.editor:deep(.ec-tiptap-toolbar .v-toolbar__content) {
   gap: 2px;
   padding: 0 4px;
-  justify-content: space-between;
   .v-btn {
     margin: 0;
   }
