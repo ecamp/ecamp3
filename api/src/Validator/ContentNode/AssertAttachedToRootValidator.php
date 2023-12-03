@@ -19,7 +19,7 @@ class AssertAttachedToRootValidator extends ConstraintValidator {
             return;
         }
 
-        /* @var ContentNode $node */
+        // @var ContentNode $node
         $node = $this->context->getObject();
         if (!$node instanceof ContentNode) {
             throw new UnexpectedValueException($node, ContentNode::class);
