@@ -9,7 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20231111000042 extends AbstractMigration {
     public function getDescription(): string {
-        return 'Add DefaultLayout content type';
+        return 'Add ResponsiveLayout content type';
     }
 
     public function up(Schema $schema): void {
@@ -17,9 +17,9 @@ final class Version20231111000042 extends AbstractMigration {
             INSERT INTO public.content_type (id, name, active, entityclass, jsonconfig, createtime, updatetime)
             VALUES (
                 'a4211c112939',
-                'DefaultLayout',
+                'ResponsiveLayout',
                 true,
-                'App\\Entity\\ContentNode\\DefaultLayout',
+                'App\\Entity\\ContentNode\\ResponsiveLayout',
                 '{ \"items\": [{ \"slot\": \"main\" },{ \"slot\": \"aside-top\" },{ \"slot\": \"aside-bottom\" }] }',
                 '2023-11-11 00:00:42',
                 '2023-11-11 00:00:42'

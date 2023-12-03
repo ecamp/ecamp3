@@ -1,10 +1,10 @@
 <template>
-  <View v-if="hasChildren" class="default-layout__container">
-    <View class="default-layout__flex">
+  <View v-if="hasChildren" class="responsive-layout__container">
+    <View class="responsive-layout__flex">
       <View
         v-for="child in children['aside-top']"
         :key="child.id"
-        class="default-layout__flex_item"
+        class="responsive-layout__flex_item"
       >
         <component :is="contentNodeComponent" :content-node="child" />
       </View>
@@ -14,11 +14,11 @@
         <component :is="contentNodeComponent" :content-node="child" />
       </template>
     </View>
-    <View class="default-layout__flex">
+    <View class="responsive-layout__flex">
       <View
         v-for="child in children['aside-bottom']"
         :key="child.id"
-        class="default-layout__flex_item"
+        class="responsive-layout__flex_item"
       >
         <component :is="contentNodeComponent" :content-node="child" />
       </View>
@@ -31,7 +31,7 @@ import PdfComponent from '@/PdfComponent.js'
 import groupBy from 'lodash/groupBy.js'
 import sortBy from 'lodash/sortBy.js'
 
-// Workaround for circular component imports: ContentNode needs DefaultLayout, and DefaultLayout needs ContentNode.
+// Workaround for circular component imports: ContentNode needs ResponsiveLayout, and ResponsiveLayout needs ContentNode.
 // The default way to do this in Vue 3 would be using defineAsyncComponent. But that requires a dynamic import,
 // which resolves the imported component too late for our one-time non-reactive renderer.
 // Instead, we fix this using a dependency injection pattern: Pass the dependency in from a place outside the
@@ -42,7 +42,7 @@ export function setContentNodeComponent(component) {
 }
 
 export default {
-  name: 'DefaultLayout',
+  name: 'ResponsiveLayout',
   extends: PdfComponent,
   props: {
     contentNode: { type: Object, required: true },
@@ -64,11 +64,11 @@ export default {
 }
 </script>
 <pdf-style>
-.default-layout__container {
+.responsive-layout__container {
   display: flex;
   flex-direction: column;
 }
-.default-layout__flex {
+.responsive-layout__flex {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -76,7 +76,7 @@ export default {
   margin-left: -10pt;
   margin-right: -10pt;
 }
-.default-layout__flex_item {
+.responsive-layout__flex_item {
   flex-grow: 1;
   flex-basis: 200pt;
   background-color: #fff;

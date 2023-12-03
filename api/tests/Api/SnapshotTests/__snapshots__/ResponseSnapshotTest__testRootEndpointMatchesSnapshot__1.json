@@ -44,10 +44,6 @@
             "href": "\/days{\/id}{?period,period[],period.camp,period.camp[]}",
             "templated": true
         },
-        "defaultLayouts": {
-            "href": "\/content_node\/default_layouts{\/id}{?contentType,contentType[],root,root[],period}",
-            "templated": true
-        },
         "invitations": {
             "href": "\/invitations{\/id}{\/action}",
             "templated": true
@@ -97,6 +93,10 @@
         },
         "resetPassword": {
             "href": "\/auth\/reset_password{\/id}",
+            "templated": true
+        },
+        "responsiveLayouts": {
+            "href": "\/content_node\/responsive_layouts{\/id}{?contentType,contentType[],root,root[],period}",
             "templated": true
         },
         "scheduleEntries": {

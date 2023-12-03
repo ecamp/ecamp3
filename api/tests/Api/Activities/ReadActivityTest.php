@@ -92,7 +92,7 @@ class ReadActivityTest extends ECampApiTestCase {
         $data = $result->toArray();
         $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['self']['href']);
         $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['root']['href']);
-        $this->assertContains(['href' => $this->getIriFor('defaultLayout1')], $data['_embedded']['rootContentNode']['_links']['children']);
+        $this->assertContains(['href' => $this->getIriFor('responsiveLayout1')], $data['_embedded']['rootContentNode']['_links']['children']);
         $this->assertEquals(11, count($data['_embedded']['contentNodes']));
     }
 

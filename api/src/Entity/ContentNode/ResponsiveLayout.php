@@ -11,7 +11,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
 use App\Entity\SupportsContentNodeChildren;
-use App\Repository\DefaultLayoutRepository;
+use App\Repository\ResponsiveLayoutRepository;
 use App\State\ContentNode\ContentNodePersistProcessor;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
@@ -49,8 +49,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     routePrefix: '/content_node'
 )]
-#[ORM\Entity(repositoryClass: DefaultLayoutRepository::class)]
-class DefaultLayout extends ContentNode implements SupportsContentNodeChildren {
+#[ORM\Entity(repositoryClass: ResponsiveLayoutRepository::class)]
+class ResponsiveLayout extends ContentNode implements SupportsContentNodeChildren {
     public const JSON_SCHEMA = [
         'type' => 'object',
         'additionalProperties' => false,

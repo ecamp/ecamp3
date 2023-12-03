@@ -15,13 +15,6 @@
       },
       "name": "Spaltenlayout"
     },
-    "defaultLayout": {
-      "icon": "mdi-view-compact",
-      "name": "Standardlayout",
-      "mainContent": "Hauptinhalt",
-      "printAboveMainContent": "Über dem Hauptinhalt drucken",
-      "printBelowMainContent": "Unter dem Hauptinhalt drucken"
-    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -61,6 +54,13 @@
     "notes": {
       "info": "Hier kannst du beliebige Notizen erfassen.{br}z.B. Ideen, Todo's, offene Fragen, Kontakte, ÖV-Verbindungen, usw.",
       "name": "Notizen"
+    },
+    "responsiveLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Standardlayout",
+      "mainContent": "Hauptinhalt",
+      "printAboveMainContent": "Über dem Hauptinhalt drucken",
+      "printBelowMainContent": "Unter dem Hauptinhalt drucken"
     },
     "safetyConcept": {
       "info": "Einige Blöcke erfordern, dass ihr euch Gedanken zu den Risiken macht. Hier könnt ihr diese Gedanken erfassen.{br}Haltet fest, welche Risiken ihr erkannt habt - und wie ihr diesen begegnen könnt.",

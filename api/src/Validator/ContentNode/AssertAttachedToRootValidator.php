@@ -3,7 +3,7 @@
 namespace App\Validator\ContentNode;
 
 use App\Entity\ContentNode;
-use App\Entity\ContentNode\DefaultLayout;
+use App\Entity\ContentNode\ResponsiveLayout;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -24,7 +24,7 @@ class AssertAttachedToRootValidator extends ConstraintValidator {
             throw new UnexpectedValueException($node, ContentNode::class);
         }
 
-        if (!$node instanceof DefaultLayout) {
+        if (!$node instanceof ResponsiveLayout) {
             return;
         }
 

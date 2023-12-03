@@ -43,7 +43,7 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('storyboard2')],
             ['href' => $this->getIriFor('multiSelect1')],
             ['href' => $this->getIriFor('multiSelect2')],
-            ['href' => $this->getIriFor('defaultLayout1')],
+            ['href' => $this->getIriFor('responsiveLayout1')],
         ], $response->toArray()['_links']['items']);
     }
 }

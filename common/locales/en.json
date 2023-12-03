@@ -16,13 +16,6 @@
       "icon": "mdi-view-column",
       "name": "Column layout"
     },
-    "defaultLayout": {
-      "icon": "mdi-view-compact",
-      "name": "Default layout",
-      "mainContent": "Main content",
-      "printAboveMainContent": "Print above main content",
-      "printBelowMainContent": "Print below main content"
-    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -65,6 +58,13 @@
       "icon": "mdi-pen",
       "info": "Here you can enter any notes.{br}e.g. ideas, todo's, open questions, contacts, public transport connections, etc.",
       "name": "Notes"
+    },
+    "responsiveLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Default layout",
+      "mainContent": "Main content",
+      "printAboveMainContent": "Print above main content",
+      "printBelowMainContent": "Print below main content"
     },
     "safetyConcept": {
       "icon": "mdi-security",

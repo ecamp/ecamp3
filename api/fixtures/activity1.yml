@@ -30,12 +30,12 @@ App\Entity\ContentNode\ColumnLayout:
     contentType: '@contentTypeColumnLayout'
 
 # Default layout
-App\Entity\ContentNode\DefaultLayout:
-  defaultLayout1:
+App\Entity\ContentNode\ResponsiveLayout:
+  responsiveLayout1:
     root: '@columnLayout1'
     parent: '@columnLayout1'
     slot: '1'
     position: 0
     data: { items: [{ slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' }] }
-    instanceName: 'defaultLayout1'
-    contentType: '@contentTypeDefaultLayout'
+    instanceName: 'responsiveLayout1'
+    contentType: '@contentTypeResponsiveLayout'

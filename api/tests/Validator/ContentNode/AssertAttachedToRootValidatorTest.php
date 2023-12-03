@@ -3,7 +3,7 @@
 namespace App\Tests\Validator\ContentNode;
 
 use App\Entity\ContentNode\ColumnLayout;
-use App\Entity\ContentNode\DefaultLayout;
+use App\Entity\ContentNode\ResponsiveLayout;
 use App\Validator\ContentNode\AssertAttachedToRoot;
 use App\Validator\ContentNode\AssertAttachedToRootValidator;
 use Symfony\Component\Validator\Constraints\Email;
@@ -34,7 +34,7 @@ class AssertAttachedToRootValidatorTest extends ConstraintValidatorTestCase {
         // given
         $root = new ColumnLayout();
         $root->root = $root;
-        $parent = new DefaultLayout();
+        $parent = new ResponsiveLayout();
         $parent->root = $root;
         $parent->parent = $root;
         $this->setObject($parent);
@@ -53,7 +53,7 @@ class AssertAttachedToRootValidatorTest extends ConstraintValidatorTestCase {
         $parent = new ColumnLayout();
         $parent->root = $root;
         $parent->parent = $root;
-        $object = new DefaultLayout();
+        $object = new ResponsiveLayout();
         $object->root = $root;
         $object->parent = $parent;
         $this->setObject($object);
@@ -65,7 +65,7 @@ class AssertAttachedToRootValidatorTest extends ConstraintValidatorTestCase {
         $this->buildViolation('Must be attached to the root layout.')->assertRaised();
     }
 
-    public function testAppliesOnlyToDefaultLayout() {
+    public function testAppliesOnlyToResponsiveLayout() {
         // given
         $root = new ColumnLayout();
         $root->root = $root;

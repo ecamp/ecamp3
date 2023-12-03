@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\DefaultLayout;
+namespace App\Tests\Api\ContentNodes\ResponsiveLayout;
 
-use App\Entity\ContentNode\DefaultLayout;
+use App\Entity\ContentNode\ResponsiveLayout;
 use App\Tests\Api\ContentNodes\CreateContentNodeTestCase;
 
 /**
  * @internal
  */
-class CreateDefaultLayoutTest extends CreateContentNodeTestCase {
+class CreateResponsiveLayoutTest extends CreateContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/content_node/default_layouts';
-        $this->entityClass = DefaultLayout::class;
-        $this->defaultContentType = static::$fixtures['contentTypeDefaultLayout'];
+        $this->endpoint = '/content_node/responsive_layouts';
+        $this->entityClass = ResponsiveLayout::class;
+        $this->defaultContentType = static::$fixtures['contentTypeResponsiveLayout'];
     }
 
-    public function testCreateDefaultLayoutAcceptsValidJson() {
+    public function testCreateResponsiveLayoutAcceptsValidJson() {
         $LAYOUT_JSON_CONFIG = [
             ['slot' => 'main'],
             ['slot' => 'aside-top'],
@@ -32,7 +32,7 @@ class CreateDefaultLayoutTest extends CreateContentNodeTestCase {
         ]]);
     }
 
-    public function testCreateDefaultLayoutAcceptsEmptyJson() {
+    public function testCreateResponsiveLayoutAcceptsEmptyJson() {
         $this->create($this->getExampleWritePayload(['data' => null]));
 
         $this->assertResponseStatusCodeSame(201);
@@ -41,7 +41,7 @@ class CreateDefaultLayoutTest extends CreateContentNodeTestCase {
         ]]);
     }
 
-    public function testCreateDefaultLayoutAcceptsNonExistingJson() {
+    public function testCreateResponsiveLayoutAcceptsNonExistingJson() {
         $response = $this->create($this->getExampleWritePayload([], ['data']));
 
         $this->assertResponseStatusCodeSame(201);
@@ -50,7 +50,7 @@ class CreateDefaultLayoutTest extends CreateContentNodeTestCase {
         ]]);
     }
 
-    public function testCreateDefaultLayoutRejectsInvalidJson() {
+    public function testCreateResponsiveLayoutRejectsInvalidJson() {
         $INVALID_JSON_CONFIG = [
             'data' => 'value',
         ];

@@ -10486,637 +10486,6 @@ components:
         - campCollaboration
         - day
       type: object
-    DefaultLayout-read:
-      deprecated: false
-      description: ''
-      properties:
-        children:
-          description: 'All content nodes that are direct children of this content node.'
-          example: '["/content_nodes/1a2b3c4d"]'
-          items:
-            format: iri-reference
-            type: string
-          readOnly: true
-          type: array
-        contentType:
-          description: |-
-            Defines the type of this content node. There is a fixed list of types that are implemented
-            in eCamp. Depending on the type, different content data and different slots may be allowed
-            in a content node. The content type may not be changed once the content node is created.
-          example: /content_types/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type: string
-        contentTypeName:
-          description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
-          readOnly: true
-          type: string
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        root:
-          description: |-
-            The content node that is the root of the content node tree. Refers to itself in case this
-            content node is the root.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - children
-        - contentType
-        - data
-        - position
-      type: object
-    DefaultLayout-write_create:
-      deprecated: false
-      description: ''
-      properties:
-        contentType:
-          description: |-
-            Defines the type of this content node. There is a fixed list of types that are implemented
-            in eCamp. Depending on the type, different content data and different slots may be allowed
-            in a content node. The content type may not be changed once the content node is created.
-          example: /content_types/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type: string
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - contentType
-        - data
-        - parent
-        - position
-      type: object
-    DefaultLayout-write_update:
-      deprecated: false
-      description: ''
-      properties:
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - data
-        - position
-      type: object
-    DefaultLayout.jsonhal-read:
-      deprecated: false
-      description: ''
-      properties:
-        _links:
-          properties:
-            self:
-              properties:
-                href:
-                  format: iri-reference
-                  type: string
-              type: object
-          type: object
-        children:
-          description: 'All content nodes that are direct children of this content node.'
-          example: '["/content_nodes/1a2b3c4d"]'
-          items:
-            format: iri-reference
-            type: string
-          readOnly: true
-          type: array
-        contentType:
-          description: |-
-            Defines the type of this content node. There is a fixed list of types that are implemented
-            in eCamp. Depending on the type, different content data and different slots may be allowed
-            in a content node. The content type may not be changed once the content node is created.
-          example: /content_types/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type: string
-        contentTypeName:
-          description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
-          readOnly: true
-          type: string
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        root:
-          description: |-
-            The content node that is the root of the content node tree. Refers to itself in case this
-            content node is the root.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - children
-        - contentType
-        - data
-        - position
-      type: object
-    DefaultLayout.jsonhal-write_create:
-      deprecated: false
-      description: ''
-      properties:
-        _links:
-          properties:
-            self:
-              properties:
-                href:
-                  format: iri-reference
-                  type: string
-              type: object
-          type: object
-        contentType:
-          description: |-
-            Defines the type of this content node. There is a fixed list of types that are implemented
-            in eCamp. Depending on the type, different content data and different slots may be allowed
-            in a content node. The content type may not be changed once the content node is created.
-          example: /content_types/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type: string
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - contentType
-        - data
-        - parent
-        - position
-      type: object
-    DefaultLayout.jsonld-read:
-      deprecated: false
-      description: ''
-      properties:
-        '@context':
-          oneOf:
-            -
-              additionalProperties: true
-              properties:
-                '@vocab':
-                  type: string
-                hydra:
-                  enum: ['http://www.w3.org/ns/hydra/core#']
-                  type: string
-              required:
-                - '@vocab'
-                - hydra
-              type: object
-            -
-              type: string
-          readOnly: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        children:
-          description: 'All content nodes that are direct children of this content node.'
-          example: '["/content_nodes/1a2b3c4d"]'
-          items:
-            format: iri-reference
-            type: string
-          readOnly: true
-          type: array
-        contentType:
-          description: |-
-            Defines the type of this content node. There is a fixed list of types that are implemented
-            in eCamp. Depending on the type, different content data and different slots may be allowed
-            in a content node. The content type may not be changed once the content node is created.
-          example: /content_types/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type: string
-        contentTypeName:
-          description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
-          readOnly: true
-          type: string
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        root:
-          description: |-
-            The content node that is the root of the content node tree. Refers to itself in case this
-            content node is the root.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - children
-        - contentType
-        - data
-        - position
-      type: object
-    DefaultLayout.jsonld-write_create:
-      deprecated: false
-      description: ''
-      properties:
-        contentType:
-          description: |-
-            Defines the type of this content node. There is a fixed list of types that are implemented
-            in eCamp. Depending on the type, different content data and different slots may be allowed
-            in a content node. The content type may not be changed once the content node is created.
-          example: /content_types/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type: string
-        data:
-          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
-          description: |-
-            Holds the actual data of the content node
-            (overridden from abstract class in order to add specific validation).
-          example:
-            items:
-              -
-                slot: aside-bottom
-              -
-                slot: aside-top
-              -
-                slot: main
-          items:
-            type: string
-          type:
-            - array
-            - 'null'
-        instanceName:
-          description: |-
-            An optional name for this content node. This is useful when planning e.g. an alternative
-            version of the programme suited for bad weather, in addition to the normal version.
-          example: Schlechtwetterprogramm
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        parent:
-          description: |-
-            The parent to which this content node belongs. Is null in case this content node is the
-            root of a content node tree. For non-root content nodes, the parent can be changed, as long
-            as the new parent is in the same camp as the old one.
-          example: /content_nodes/1a2b3c4d
-          format: iri-reference
-          'owl:maxCardinality': 1
-          type:
-            - 'null'
-            - string
-        position:
-          default: -1
-          description: |-
-            A whole number used for ordering multiple content nodes that are in the same slot of the
-            same parent. The API does not guarantee the uniqueness of parent+slot+position.
-          example: -1
-          type: integer
-        slot:
-          description: |-
-            The name of the slot in the parent in which this content node resides. The valid slot names
-            are defined by the content type of the parent.
-          example: '1'
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - contentType
-        - data
-        - parent
-        - position
-      type: object
     Invitation-read:
       deprecated: false
       description: |-
@@ -15046,6 +14415,637 @@ components:
             - 'null'
             - string
           writeOnly: true
+      type: object
+    ResponsiveLayout-read:
+      deprecated: false
+      description: ''
+      properties:
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConcept
+          readOnly: true
+          type: string
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - children
+        - contentType
+        - data
+        - position
+      type: object
+    ResponsiveLayout-write_create:
+      deprecated: false
+      description: ''
+      properties:
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type: string
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - data
+        - parent
+        - position
+      type: object
+    ResponsiveLayout-write_update:
+      deprecated: false
+      description: ''
+      properties:
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - data
+        - position
+      type: object
+    ResponsiveLayout.jsonhal-read:
+      deprecated: false
+      description: ''
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConcept
+          readOnly: true
+          type: string
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - children
+        - contentType
+        - data
+        - position
+      type: object
+    ResponsiveLayout.jsonhal-write_create:
+      deprecated: false
+      description: ''
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type: string
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - data
+        - parent
+        - position
+      type: object
+    ResponsiveLayout.jsonld-read:
+      deprecated: false
+      description: ''
+      properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConcept
+          readOnly: true
+          type: string
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - children
+        - contentType
+        - data
+        - position
+      type: object
+    ResponsiveLayout.jsonld-write_create:
+      deprecated: false
+      description: ''
+      properties:
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type: string
+        data:
+          default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
+          description: |-
+            Holds the actual data of the content node
+            (overridden from abstract class in order to add specific validation).
+          example:
+            items:
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - data
+        - parent
+        - position
       type: object
     ScheduleEntry-read:
       deprecated: false
@@ -20348,295 +20348,6 @@ paths:
       summary: 'Updates the ColumnLayout resource.'
       tags:
         - ColumnLayout
-  /content_node/default_layouts:
-    get:
-      deprecated: false
-      description: 'Retrieves the collection of DefaultLayout resources.'
-      operationId: api_content_nodedefault_layouts_get_collection
-      parameters:
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: contentType
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'contentType[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'root[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-      responses:
-        200:
-          content:
-            application/hal+json:
-              schema:
-                properties:
-                  _embedded: { items: { $ref: '#/components/schemas/DefaultLayout.jsonhal-read' }, type: array }
-                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
-                  itemsPerPage: { minimum: 0, type: integer }
-                  totalItems: { minimum: 0, type: integer }
-                required:
-                  - _embedded
-                  - _links
-                type: object
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/DefaultLayout-read'
-                type: array
-            application/ld+json:
-              schema:
-                properties:
-                  'hydra:member': { items: { $ref: '#/components/schemas/DefaultLayout.jsonld-read' }, type: array }
-                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
-                  'hydra:totalItems': { minimum: 0, type: integer }
-                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
-                required:
-                  - 'hydra:member'
-                type: object
-            application/vnd.api+json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/DefaultLayout-read'
-                type: array
-            text/html:
-              schema:
-                items:
-                  $ref: '#/components/schemas/DefaultLayout-read'
-                type: array
-          description: 'DefaultLayout collection'
-      summary: 'Retrieves the collection of DefaultLayout resources.'
-      tags:
-        - DefaultLayout
-    parameters: []
-    post:
-      deprecated: false
-      description: 'Creates a DefaultLayout resource.'
-      operationId: api_content_nodedefault_layouts_post
-      parameters: []
-      requestBody:
-        content:
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout.jsonhal-write_create'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout-write_create'
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout.jsonld-write_create'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout-write_create'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout-write_create'
-        description: 'The new DefaultLayout resource'
-        required: true
-      responses:
-        201:
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout.jsonhal-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout.jsonld-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-          description: 'DefaultLayout resource created'
-          links: []
-        400:
-          description: 'Invalid input'
-        422:
-          description: 'Unprocessable entity'
-      summary: 'Creates a DefaultLayout resource.'
-      tags:
-        - DefaultLayout
-  '/content_node/default_layouts/{id}':
-    delete:
-      deprecated: false
-      description: 'Removes the DefaultLayout resource.'
-      operationId: api_content_nodedefault_layouts_id_delete
-      parameters:
-        -
-          allowEmptyValue: false
-          allowReserved: false
-          deprecated: false
-          description: 'DefaultLayout identifier'
-          explode: false
-          in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          style: simple
-      responses:
-        204:
-          description: 'DefaultLayout resource deleted'
-        404:
-          description: 'Resource not found'
-      summary: 'Removes the DefaultLayout resource.'
-      tags:
-        - DefaultLayout
-    get:
-      deprecated: false
-      description: 'Retrieves a DefaultLayout resource.'
-      operationId: api_content_nodedefault_layouts_id_get
-      parameters:
-        -
-          allowEmptyValue: false
-          allowReserved: false
-          deprecated: false
-          description: 'DefaultLayout identifier'
-          explode: false
-          in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          style: simple
-      responses:
-        200:
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout.jsonhal-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout.jsonld-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-          description: 'DefaultLayout resource'
-        404:
-          description: 'Resource not found'
-      summary: 'Retrieves a DefaultLayout resource.'
-      tags:
-        - DefaultLayout
-    parameters: []
-    patch:
-      deprecated: false
-      description: 'Updates the DefaultLayout resource.'
-      operationId: api_content_nodedefault_layouts_id_patch
-      parameters:
-        -
-          allowEmptyValue: false
-          allowReserved: false
-          deprecated: false
-          description: 'DefaultLayout identifier'
-          explode: false
-          in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          style: simple
-      requestBody:
-        content:
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout-write_update'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/DefaultLayout-write_update'
-        description: 'The updated DefaultLayout resource'
-        required: true
-      responses:
-        200:
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout.jsonhal-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout.jsonld-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/DefaultLayout-read'
-          description: 'DefaultLayout resource updated'
-          links: []
-        400:
-          description: 'Invalid input'
-        404:
-          description: 'Resource not found'
-        422:
-          description: 'Unprocessable entity'
-      summary: 'Updates the DefaultLayout resource.'
-      tags:
-        - DefaultLayout
   /content_node/material_nodes:
     get:
       deprecated: false
@@ -21215,6 +20926,295 @@ paths:
       summary: 'Updates the MultiSelect resource.'
       tags:
         - MultiSelect
+  /content_node/responsive_layouts:
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of ResponsiveLayout resources.'
+      operationId: api_content_noderesponsive_layouts_get_collection
+      parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: contentType
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'contentType[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'root[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { items: { $ref: '#/components/schemas/ResponsiveLayout.jsonhal-read' }, type: array }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResponsiveLayout-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/ResponsiveLayout.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResponsiveLayout-read'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResponsiveLayout-read'
+                type: array
+          description: 'ResponsiveLayout collection'
+      summary: 'Retrieves the collection of ResponsiveLayout resources.'
+      tags:
+        - ResponsiveLayout
+    parameters: []
+    post:
+      deprecated: false
+      description: 'Creates a ResponsiveLayout resource.'
+      operationId: api_content_noderesponsive_layouts_post
+      parameters: []
+      requestBody:
+        content:
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout.jsonhal-write_create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout-write_create'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout.jsonld-write_create'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout-write_create'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout-write_create'
+        description: 'The new ResponsiveLayout resource'
+        required: true
+      responses:
+        201:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+          description: 'ResponsiveLayout resource created'
+          links: []
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a ResponsiveLayout resource.'
+      tags:
+        - ResponsiveLayout
+  '/content_node/responsive_layouts/{id}':
+    delete:
+      deprecated: false
+      description: 'Removes the ResponsiveLayout resource.'
+      operationId: api_content_noderesponsive_layouts_id_delete
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ResponsiveLayout identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        204:
+          description: 'ResponsiveLayout resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the ResponsiveLayout resource.'
+      tags:
+        - ResponsiveLayout
+    get:
+      deprecated: false
+      description: 'Retrieves a ResponsiveLayout resource.'
+      operationId: api_content_noderesponsive_layouts_id_get
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ResponsiveLayout identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+          description: 'ResponsiveLayout resource'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a ResponsiveLayout resource.'
+      tags:
+        - ResponsiveLayout
+    parameters: []
+    patch:
+      deprecated: false
+      description: 'Updates the ResponsiveLayout resource.'
+      operationId: api_content_noderesponsive_layouts_id_patch
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ResponsiveLayout identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout-write_update'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ResponsiveLayout-write_update'
+        description: 'The updated ResponsiveLayout resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ResponsiveLayout-read'
+          description: 'ResponsiveLayout resource updated'
+          links: []
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Updates the ResponsiveLayout resource.'
+      tags:
+        - ResponsiveLayout
   /content_node/single_texts:
     get:
       deprecated: false

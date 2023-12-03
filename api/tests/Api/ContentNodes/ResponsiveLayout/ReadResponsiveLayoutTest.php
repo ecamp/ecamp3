@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\DefaultLayout;
+namespace App\Tests\Api\ContentNodes\ResponsiveLayout;
 
-use App\Entity\ContentNode\DefaultLayout;
+use App\Entity\ContentNode\ResponsiveLayout;
 use App\Tests\Api\ContentNodes\ReadContentNodeTestCase;
 
 /**
  * @internal
  */
-class ReadDefaultLayoutTest extends ReadContentNodeTestCase {
+class ReadResponsiveLayoutTest extends ReadContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/content_node/default_layouts';
-        $this->defaultEntity = static::$fixtures['defaultLayout1'];
+        $this->endpoint = '/content_node/responsive_layouts';
+        $this->defaultEntity = static::$fixtures['responsiveLayout1'];
     }
 
-    public function testGetDefaultLayout() {
+    public function testGetResponsiveLayout() {
         // given
-        /** @var DefaultLayout $contentNode */
+        /** @var ResponsiveLayout $contentNode */
         $contentNode = $this->defaultEntity;
 
         // when

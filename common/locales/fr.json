@@ -15,13 +15,6 @@
       },
       "name": "Disposition des colonnes"
     },
-    "defaultLayout": {
-      "icon": "mdi-view-compact",
-      "name": "Disposition par défaut",
-      "mainContent": "Contenu principal",
-      "printAboveMainContent": "Imprimer au-dessus du contenu principal",
-      "printBelowMainContent": "Imprimer sous le contenu principal"
-    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -61,6 +54,13 @@
     "notes": {
       "info": "Tu peux y inscrire tes notes, par exemple des idées, des tâches à faire, des questions ouvertes, des contacts, des correspondances avec les transports publics, etc.",
       "name": "Notes"
+    },
+    "responsiveLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Disposition par défaut",
+      "mainContent": "Contenu principal",
+      "printAboveMainContent": "Imprimer au-dessus du contenu principal",
+      "printBelowMainContent": "Imprimer sous le contenu principal"
     },
     "safetyConcept": {
       "info": "Certains blocs nécessitent de réfléchir aux risques. Tu peux enregistrer ces réflexions ici.{br}Enregistre les risques que tu as identifiés - et comment tu peux y faire face.",

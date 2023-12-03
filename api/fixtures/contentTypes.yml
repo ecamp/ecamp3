@@ -15,10 +15,10 @@ App\Entity\ContentType:
     name: 'ColumnLayout'
     active: true
     entityClass: 'App\Entity\ContentNode\ColumnLayout'
-  contentTypeDefaultLayout:
-    name: 'DefaultLayout'
+  contentTypeResponsiveLayout:
+    name: 'ResponsiveLayout'
     active: true
-    entityClass: 'App\Entity\ContentNode\DefaultLayout'
+    entityClass: 'App\Entity\ContentNode\ResponsiveLayout'
   contentTypeStoryboard:
     name: 'Storyboard'
     active: true

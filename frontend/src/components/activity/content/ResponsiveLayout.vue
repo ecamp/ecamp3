@@ -1,27 +1,27 @@
 <template>
   <LayoutCard
     v-resizeobserver.debounce="onResize"
-    class="ec-defaultlayout"
+    class="ec-responsivelayout"
     :class="{
-      'ec-defaultlayout--layout-mode': layoutMode,
-      'ec-defaultlayout--read-mode': !layoutMode,
+      'ec-responsivelayout--layout-mode': layoutMode,
+      'ec-responsivelayout--read-mode': !layoutMode,
     }"
     :is-root="isRoot"
     :layout-mode="layoutMode"
   >
     <template #header>
-      {{ $tc('contentNode.defaultLayout.name') }}
+      {{ $tc('contentNode.responsiveLayout.name') }}
       <menu-cardless-content-node :content-node="contentNode" />
     </template>
-    <div v-if="!contentNode.loading" class="ec-defaultlayout__container">
+    <div v-if="!contentNode.loading" class="ec-responsivelayout__container">
       <LayoutItem
         v-if="!isDefaultVariant && (hasAsideTop || layoutMode)"
         :basis="'min(' + ASIDE_CONTENT_WIDTH + 'px,100%)'"
         grow="1"
       >
-        <div class="d-flex flex-column flex-grow-1 ec-defaultlayout__slot">
+        <div class="d-flex flex-column flex-grow-1 ec-responsivelayout__slot">
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.printAboveMainContent') }}
+            {{ $tc('contentNode.responsiveLayout.printAboveMainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="aside-top"
@@ -33,9 +33,9 @@
         </div>
       </LayoutItem>
       <LayoutItem :basis="'min(' + MAIN_CONTENT_WIDTH + 'px,100%)'" grow="3">
-        <div class="d-flex flex-column flex-grow-1 ec-defaultlayout__slot">
+        <div class="d-flex flex-column flex-grow-1 ec-responsivelayout__slot">
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.mainContent') }}
+            {{ $tc('contentNode.responsiveLayout.mainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="main"
@@ -49,15 +49,15 @@
       <LayoutItem
         :basis="'min(' + ASIDE_CONTENT_WIDTH + 'px,100%)'"
         grow="1"
-        class="justify-space-between ec-defaultlayout__aside"
+        class="justify-space-between ec-responsivelayout__aside"
       >
         <div
           v-if="isDefaultVariant && (hasAsideTop || layoutMode)"
-          class="d-flex flex-column ec-defaultlayout__slot"
+          class="d-flex flex-column ec-responsivelayout__slot"
           :class="{ 'flex-grow-1': !layoutMode }"
         >
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.printAboveMainContent') }}
+            {{ $tc('contentNode.responsiveLayout.printAboveMainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="aside-top"
@@ -74,11 +74,11 @@
         />
         <div
           v-if="hasAsideBottom || layoutMode"
-          class="d-flex flex-column ec-defaultlayout__slot"
+          class="d-flex flex-column ec-responsivelayout__slot"
           :class="{ 'flex-grow-1': !layoutMode }"
         >
           <p v-if="layoutMode" class="text-center">
-            {{ $tc('contentNode.defaultLayout.printBelowMainContent') }}
+            {{ $tc('contentNode.responsiveLayout.printBelowMainContent') }}
           </p>
           <draggable-content-nodes
             slot-name="aside-bottom"
@@ -106,7 +106,7 @@ const MAIN_CONTENT_WIDTH = 700
 const GAP = 1
 
 export default {
-  name: 'FlexLayout',
+  name: 'ResponsiveLayout',
   components: {
     DraggableContentNodes,
     MenuCardlessContentNode,
@@ -147,45 +147,45 @@ export default {
 </script>
 
 <style lang="scss">
-.ec-defaultlayout--layout-mode {
+.ec-responsivelayout--layout-mode {
   border: 1px solid black;
   border-radius: 10px;
 }
 
-.ec-defaultlayout__container {
+.ec-responsivelayout__container {
   display: flex;
   gap: 1px;
   flex-wrap: wrap;
 }
 
-.ec-defaultlayout--layout-mode .ec-defaultlayout__container {
+.ec-responsivelayout--layout-mode .ec-responsivelayout__container {
   padding: 4px;
   gap: 16px;
 }
 
-.ec-defaultlayout__container {
+.ec-responsivelayout__container {
   background-color: #ccc;
   border-bottom-left-radius: 9px;
   border-bottom-right-radius: 9px;
 }
 
-.ec-defaultlayout--layout-mode .ec-layout-item {
+.ec-responsivelayout--layout-mode .ec-layout-item {
   border-radius: 4px;
   grid-template-rows: auto 1fr;
   gap: 8px;
 }
 
-.ec-defaultlayout--layout-mode .ec-draggable-area {
+.ec-responsivelayout--layout-mode .ec-draggable-area {
   padding: 0 8px 8px;
 }
 
-.ec-defaultlayout--layout-mode .ec-defaultlayout__slot {
+.ec-responsivelayout--layout-mode .ec-responsivelayout__slot {
   border: 1px dashed rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   padding: 0 8px;
 }
 
-.ec-defaultlayout__aside {
+.ec-responsivelayout__aside {
   gap: 1px;
 }
 </style>

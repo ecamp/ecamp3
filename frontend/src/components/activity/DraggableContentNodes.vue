@@ -4,7 +4,7 @@
       v-if="contentNodeIds"
       v-model="localContentNodeIds"
       :disabled="!draggingEnabled"
-      :group="{ name: 'contentNodes', put: defaultLayoutsOnlyInRoot }"
+      :group="{ name: 'contentNodes', put: responsiveLayoutsOnlyInRoot }"
       class="draggable-area flex-grow-1"
       :class="{
         'min-height draggable-area--layout-mode pb-2': layoutMode,
@@ -114,16 +114,16 @@ export default {
     this.cleanupDrag()
   },
   methods: {
-    defaultLayoutsOnlyInRoot(to, from, item) {
+    responsiveLayoutsOnlyInRoot(to, from, item) {
       return (
-        item.dataset.type !== 'DefaultLayout' ||
+        item.dataset.type !== 'ResponsiveLayout' ||
         to.el.classList.contains('draggable-area--root')
       )
     },
     startDrag(event) {
       document.body.classList.add('dragging', 'dragging-content-node')
-      if (event.item.dataset.type === 'DefaultLayout') {
-        document.body.classList.add('dragging-default-layout')
+      if (event.item.dataset.type === 'ResponsiveLayout') {
+        document.body.classList.add('dragging-responsive-layout')
       }
       document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
@@ -155,7 +155,7 @@ export default {
       document.body.classList.remove(
         'dragging',
         'dragging-content-node',
-        'dragging-default-layout'
+        'dragging-responsive-layout'
       )
       document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
     },
@@ -185,7 +185,7 @@ export default {
   gap: 1px;
 }
 
-.dragging-content-node:not(.dragging-default-layout) {
+.dragging-content-node:not(.dragging-responsive-layout) {
   .draggable-area:not(.draggable-area--root) {
     position: relative;
     z-index: 100;

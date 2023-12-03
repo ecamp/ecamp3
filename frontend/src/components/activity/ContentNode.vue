@@ -14,7 +14,7 @@
 
 <script>
 import ColumnLayout from './content/ColumnLayout.vue'
-import DefaultLayout from './content/DefaultLayout.vue'
+import ResponsiveLayout from './content/ResponsiveLayout.vue'
 import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
 import LAThematicArea from './content/LAThematicArea.vue'
@@ -24,7 +24,7 @@ import Storycontext from './content/Storycontext.vue'
 
 const contentNodeComponents = {
   ColumnLayout,
-  DefaultLayout,
+  ResponsiveLayout,
   Notes,
   Material,
   LAThematicArea,

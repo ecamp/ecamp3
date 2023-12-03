@@ -4,7 +4,7 @@ namespace App\Tests\Api\ContentNodes;
 
 use App\Entity\ContentNode;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Entity\ContentNode\DefaultLayout;
+use App\Entity\ContentNode\ResponsiveLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -90,7 +90,7 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
                     ],
                 ],
             ]);
-        } elseif ($this->defaultEntity->parent instanceof DefaultLayout) {
+        } elseif ($this->defaultEntity->parent instanceof ResponsiveLayout) {
             $this->assertJsonContains([
                 'violations' => [
                     0 => [
@@ -123,7 +123,7 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
                     ],
                 ],
             ]);
-        } elseif ($this->defaultEntity->parent instanceof DefaultLayout) {
+        } elseif ($this->defaultEntity->parent instanceof ResponsiveLayout) {
             $this->assertJsonContains([
                 'violations' => [
                     [
