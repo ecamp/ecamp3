@@ -5,59 +5,102 @@
       :editor="editor"
       :tippy-options="{ maxWidth: 'none' }"
     >
-      <v-toolbar class="ec-tiptap-toolbar" dense>
-        <TiptapToolbarButton
-          icon="mdi-format-bold"
-          :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
-          @click="editor.chain().focus().toggleBold().run()"
-        />
-        <TiptapToolbarButton
-          icon="mdi-format-italic"
-          :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''"
-          @click="editor.chain().focus().toggleItalic().run()"
-        />
-        <TiptapToolbarButton
-          icon="mdi-format-underline"
-          :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''"
-          @click="editor.chain().focus().toggleUnderline().run()"
-        />
-        <TiptapToolbarButton
-          icon="mdi-format-strikethrough"
-          :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''"
-          @click="editor.chain().focus().toggleStrike().run()"
-        />
+      <div class="elevation-4 ec-tiptap-toolbar white">
+        <v-toolbar class="elevation-0" dense color="transparent">
+          <TiptapToolbarButton
+            icon="mdi-format-bold"
+            :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleBold().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-italic"
+            :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleItalic().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-underline"
+            :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleUnderline().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-strikethrough"
+            :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleStrike().run()"
+          />
 
-        <v-divider vertical class="mx-1" />
+          <div class="d-none d-sm-contents">
+            <v-divider vertical class="mx-1" />
 
-        <TiptapToolbarButton
-          icon="mdi-format-list-bulleted"
-          :class="editor.isActive('bulletList') ? 'v-item--active v-btn--active' : ''"
-          @click="editor.chain().focus().toggleBulletList().run()"
-        />
-        <TiptapToolbarButton
-          icon="mdi-format-list-numbered"
-          :class="editor.isActive('orderedList') ? 'v-item--active v-btn--active' : ''"
-          @click="editor.chain().focus().toggleOrderedList().run()"
-        />
+            <TiptapToolbarButton
+              icon="mdi-format-list-bulleted"
+              :class="editor.isActive('bulletList') ? 'v-item--active v-btn--active' : ''"
+              @click="editor.chain().focus().toggleBulletList().run()"
+            />
+            <TiptapToolbarButton
+              icon="mdi-format-list-numbered"
+              :class="
+                editor.isActive('orderedList') ? 'v-item--active v-btn--active' : ''
+              "
+              @click="editor.chain().focus().toggleOrderedList().run()"
+            />
 
-        <template
-          v-if="
-            editor.can().sinkListItem('listItem') || editor.can().liftListItem('listItem')
-          "
+            <template
+              v-if="
+                editor.can().sinkListItem('listItem') ||
+                editor.can().liftListItem('listItem')
+              "
+            >
+              <v-divider vertical class="mx-1" />
+              <TiptapToolbarButton
+                icon="mdi-format-indent-decrease"
+                :disabled="!editor.can().liftListItem('listItem')"
+                @click="editor.chain().focus().liftListItem('listItem').run()"
+              />
+              <TiptapToolbarButton
+                icon="mdi-format-indent-increase"
+                :disabled="!editor.can().sinkListItem('listItem')"
+                @click="editor.chain().focus().sinkListItem('listItem').run()"
+              />
+            </template>
+          </div>
+        </v-toolbar>
+        <v-divider class="ec-tiptap-toolbar__mobile-divider" />
+        <v-toolbar
+          class="elevation-0 ec-tiptap-toolbar--second"
+          dense
+          color="transparent"
         >
-          <v-divider vertical class="mx-1" />
           <TiptapToolbarButton
-            icon="mdi-format-indent-decrease"
-            :disabled="!editor.can().liftListItem('listItem')"
-            @click="editor.chain().focus().liftListItem('listItem').run()"
+            icon="mdi-format-list-bulleted"
+            :class="editor.isActive('bulletList') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleBulletList().run()"
           />
           <TiptapToolbarButton
-            icon="mdi-format-indent-increase"
-            :disabled="!editor.can().sinkListItem('listItem')"
-            @click="editor.chain().focus().sinkListItem('listItem').run()"
+            icon="mdi-format-list-numbered"
+            :class="editor.isActive('orderedList') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleOrderedList().run()"
           />
-        </template>
-      </v-toolbar>
+
+          <template
+            v-if="
+              editor.can().sinkListItem('listItem') ||
+              editor.can().liftListItem('listItem')
+            "
+          >
+            <v-divider vertical class="mx-1" />
+            <TiptapToolbarButton
+              icon="mdi-format-indent-decrease"
+              :disabled="!editor.can().liftListItem('listItem')"
+              @click="editor.chain().focus().liftListItem('listItem').run()"
+            />
+            <TiptapToolbarButton
+              icon="mdi-format-indent-increase"
+              :disabled="!editor.can().sinkListItem('listItem')"
+              @click="editor.chain().focus().sinkListItem('listItem').run()"
+            />
+          </template>
+        </v-toolbar>
+      </div>
     </bubble-menu>
     <editor-content class="editor__content" :editor="editor" />
   </div>
@@ -183,7 +226,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div.editor:deep(p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder);
   float: left;
@@ -206,8 +249,21 @@ div.editor:deep(.ec-tiptap-toolbar) {
   border-radius: 6px;
 }
 
+.ec-tiptap-toolbar--second,
+.ec-tiptap-toolbar__mobile-divider {
+  display: block;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    display: none;
+  }
+}
+
 div.editor:deep(.ec-tiptap-toolbar .v-toolbar__content) {
   gap: 2px;
+  padding: 0 4px;
+  justify-content: space-between;
+  .v-btn {
+    margin: 0;
+  }
 }
 
 div.editor:deep(.editor__content) {
