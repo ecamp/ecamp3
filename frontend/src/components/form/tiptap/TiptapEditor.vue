@@ -6,7 +6,7 @@
       :tippy-options="{ maxWidth: 'none' }"
     >
       <div class="elevation-4 ec-tiptap-toolbar white">
-        <v-toolbar class="elevation-0" dense color="transparent">
+        <v-toolbar class="elevation-0 ec-tiptap-toolbar--first" dense color="transparent">
           <TiptapToolbarButton
             icon="mdi-format-bold"
             :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
@@ -257,7 +257,7 @@ div.editor:deep(.ec-tiptap-toolbar) {
   }
 }
 
-div.editor:deep(.ec-tiptap-toolbar .v-toolbar:not(.ec-tiptap-toolbar--second) .v-toolbar__content) {
+div.editor:deep(.ec-tiptap-toolbar--first .v-toolbar__content) {
   justify-content: space-between;
 }
 
