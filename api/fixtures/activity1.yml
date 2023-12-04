@@ -29,7 +29,7 @@ App\Entity\ContentNode\ColumnLayout:
     instanceName: 'columnLayout1Root'
     contentType: '@contentTypeColumnLayout'
 
-# Default layout
+# Reponsive layout
 App\Entity\ContentNode\ResponsiveLayout:
   responsiveLayout1:
     root: '@columnLayout1'
