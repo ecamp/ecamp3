@@ -4,6 +4,7 @@ Thank you for wanting to help out! :heart:
 Danke dass du mithelfen möchtest!
 Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md).
 
+# [![Discord Join Banner](https://discordapp.com/api/guilds/1165624811800768702/widget.png?style=banner3)](https://discord.gg/tdwtRytV6P)
 
 ## [Code of conduct](https://www.ecamp3.ch/en/code-of-conduct) :page_with_curl:
 
@@ -101,7 +102,7 @@ Alternatively you can
     # E2E fixes are always run like this
     docker compose run --rm --entrypoint="npm run lint" e2e
     ```
-    If you don't have a container of that type running use 'run' instead of 'execute'. Note that this will start a new Docker container (which might not be desired on a device with limited computing resources).
+    If you don't have a container of that type running use `run` instead of `execute`. Note that this will start a new Docker container (which might not be desired on a device with limited computing resources).
     ```shell
     docker compose run --rm frontend npm run lint
     docker compose run --rm php composer cs-fix
@@ -177,4 +178,3 @@ Your feedback not only helps us refine the setup process for everyone but also e
 Remember, our support isn't limited to just setup concerns; you're welcome to discuss any other topics you encounter in our Discord community.
 
 [![Discord Join Banner](https://discordapp.com/api/guilds/1165624811800768702/widget.png?style=banner4)](https://discord.gg/tdwtRytV6P)
-[![Join Link](https://invidget.switchblade.xyz/tdwtRytV6P)](https://discord.gg/tdwtRytV6P)
