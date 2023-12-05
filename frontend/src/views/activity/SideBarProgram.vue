@@ -8,12 +8,11 @@
         <DaySwitcher
           :period="period"
           :day-selection="daySelection"
-          :current-day-as-string="currentDayAsString"
           :loading="slotProps.loading"
           @changeDay="selectedDay = $event"
         />
         <v-divider />
-        <v-skeleton-loader v-if="slotProps.loading" class="ma-3" type="list-item@6" />
+        <v-skeleton-loader v-if="slotProps.loading" class="mx-1" type="list-item@6" />
         <Picasso
           v-else
           class="ec-sidebar-program__picasso"
