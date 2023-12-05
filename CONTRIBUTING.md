@@ -133,7 +133,6 @@ Following it will not only enhance the quality and consistency of your contribut
 
 - [x] **Sync with Central Repository:** :arrows_counterclockwise: Ensure your fork is up to date with the central repository, facilitating a smooth merge. [GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
 - [x] **Lint:** :wrench: Ensure that linters have run over all new or modified files
-- [x] **Spelling:** :abc: Ensure that the changes are spell checked
 - [x] **Significant Changes:** :mag_right: Confirm that every modified file contributes meaningful content, steering clear of inconsequential changes like mere whitespace adjustments.
 - [x] **Testing:** :test_tube: Write tests for any new features, and update existing ones if you've made changes to functionalities.
 - [x] **Language & Spelling:** :book: Use English for all variable names, class names, functions, comments, etc., and ensure that all added content has been spellchecked.
@@ -166,13 +165,12 @@ We encourage its use for consistent testing.
 When reporting an issue or bug, consider referencing a specific example from 'Dev-Data'. 
 Since the data, including IDs, remains consistent, it allows everyone to easily replicate and understand the behavior you're highlighting.
 
-## Discussions :speech_balloon:
+## Discord :speech_balloon:
 We understand that setting up a development environment can sometimes be tricky, 
-especially with varying systems and configurations.
+especially with varying systems and configurations. 
 If you encounter any issues or face roadblocks during the setup, 
-please don't hesitate to open a Discussion on GitHub. 
-Our core team is happy to help you. 
-In fact, we encourage you to open a [Discussion](https://github.com/ecamp/ecamp3/discussions) whenever you have a question. 
+please don't hesitate to join our Discord server. 
+Our core team and community are happy to help you there. 
+In fact, we encourage you to ask questions, collaborate, and seek support on Discord whenever you hit a roadblock on an Issue. 
 Your feedback not only helps us refine the setup process for everyone but also ensures that potential issues are addressed promptly. 
-Remember, our support isn't limited to just setup concerns; 
-you're welcome to initiate discussions on any other topic you encounter. 
+Remember, our support isn't limited to just setup concerns; you're welcome to discuss any other topics you encounter in our Discord community.
