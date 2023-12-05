@@ -27,7 +27,7 @@ Alternativ kannst du einen Entwurf für einen Pull-Request öffnen und die Issue
 Bitte beachte, dass das Wiki zwar hilfreich sein kann, um das Projekt zu verstehen, aber es ist nicht vollständig (was bedeutet, dass Teile fehlen oder veraltet sein könnten).
 Wenn du Fragen hast, hinterlasse ein Kommentar auf dem Issue oder melde dich über Discord. Wir helfen gerne und beantworten deine Fragen.
 
-### Git einrichten:octocat:
+### Git einrichten :octocat:
 
 Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Änderungen zuerst auf dem Fork des Entwicklers veröffentlicht werden, und erst dann werden die Änderungen via Pull Request in das offizielle eCamp3-Repository eingefügt.
 Wenn du ein fortgeschrittener Git-Benutzer bist, kannst du dies selbst einrichten.
