@@ -592,10 +592,26 @@
     },
     "campCreate": {
       "create": "Créer le camp",
+      "noContent": "Pas de contenu",
+      "noPrototype": "Pas de modèle",
+      "noPrototypeAlert": {
+        "description": "Tu dois effectuer tous les réglages manuellement. Il n'y a pas de modèles de blocs ni de mises en page. Ceci ne convient qu'aux utilisateurs expérimentés.",
+        "title": "Attention : Vous avez choisi \"Pas de modèle\"."
+      },
       "period": {
         "add": "Ajouter une période",
         "remove": "Effacer la période"
       },
+      "prototypeHint": "Copie les catégories, les modèles de blocs et les états de blocs d'un modèle de camp.",
+      "prototypeHintEmpty": "Ne pas copier de catégories, de modèles de blocs et de statuts de blocs à partir d'un modèle de camp.",
+      "prototypeHintSelected": "Copie les catégories, les modèles de blocs et les statuts de blocs de ce modèle de camp.",
+      "steps": {
+        "configurate": "Configuration",
+        "infos": "Info",
+        "template": "Modèle"
+      },
+      "submitTooltip": "Remplis tous les champs obligatoires.",
+      "submitTooltipPrototype": "Tu dois encore choisir si tu veux utiliser un modèle de champ et lequel.",
       "title": "Créer un camp"
     },
     "camps": {

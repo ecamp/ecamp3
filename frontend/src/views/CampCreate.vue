@@ -4,15 +4,15 @@
       <v-stepper v-model="step" flat>
         <v-stepper-header class="elevation-0">
           <v-stepper-step :complete="step > 1" :step="1" class="px-4">
-            Infos
+            {{ $tc('views.campCreate.steps.infos') }}
           </v-stepper-step>
           <v-divider class="mx-n2" />
           <v-stepper-step :complete="step > 2" :step="2" class="px-4">
-            Vorlage
+            {{ $tc('views.campCreate.steps.template') }}
           </v-stepper-step>
           <v-divider class="mx-n2" />
           <v-stepper-step :complete="step > 3" :step="3" class="px-4">
-            Konfigurieren
+            {{ $tc('views.campCreate.steps.configurate') }}
           </v-stepper-step>
         </v-stepper-header>
         <v-divider />
@@ -62,7 +62,7 @@
                         {{ $tc('global.button.continue') }}
                       </v-btn>
                     </template>
-                    Bitte fülle alle Pflichtfelder aus.
+                    {{ $tc('views.campCreate.submitTooltip') }}
                   </v-tooltip>
                 </ContentActions>
               </v-form>
@@ -90,6 +90,16 @@
                       </v-list-item>
                     </template>
                   </e-select>
+                  <v-alert
+                    v-if="camp.campPrototype === null"
+                    color="#0661ab"
+                    elevation="0"
+                    text
+                    icon="mdi-alert-circle-outline"
+                  >
+                    <strong>{{ $tc('views.campCreate.noPrototypeAlert.title') }}</strong><br />
+                    {{ $tc('views.campCreate.noPrototypeAlert.description') }}
+                  </v-alert>
                 </v-card-text>
                 <v-sheet v-if="camp.campPrototype" elevation="0">
                   <v-expansion-panels
@@ -176,8 +186,7 @@
                         {{ $tc('views.campCreate.create') }}
                       </ButtonAdd>
                     </template>
-                    Du must noch auswählen ob und welche Lagervorlage du verwenden
-                    möchtest.
+                    {{ $tc('views.campCreate.submitTooltipPrototype') }}
                   </v-tooltip>
                 </ContentActions>
               </v-form>
@@ -239,12 +248,12 @@ export default {
   },
   computed: {
     campTemplates() {
-      return [
+      return this.campPrototypes.concat([
         {
           value: null,
           text: this.$tc('views.campCreate.noPrototype'),
         },
-      ].concat(this.campPrototypes)
+      ])
     },
     prorotypeHint() {
       switch (this.camp.campPrototype) {
