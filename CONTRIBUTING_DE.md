@@ -1,4 +1,4 @@
-# Mitarbeit
+# Mitarbeit :tada:
 Danke dass du mithelfen möchtest! :heart:
 
 Thank you for wanting to help out!
