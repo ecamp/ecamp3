@@ -100,6 +100,13 @@ export default {
       })
     },
   },
+  watch: {
+    // reset selectedCampCollaborations when date changes
+    date() {
+      this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+      this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+    },
+  },
   async mounted() {
     await Promise.all([
       this.period.camp().campCollaborations()._meta.load,
