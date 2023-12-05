@@ -2,7 +2,7 @@
 Danke dass du mithelfen möchtest! :heart:
 
 Thank you for wanting to help out!
-The english version of this Document is available [here](./CONTRIBUTING.md).
+The english version of this document is available [here](./CONTRIBUTING.md).
 
 # [![Discord Join Banner](https://discordapp.com/api/guilds/1165624811800768702/widget.png?style=banner3)](https://discord.gg/tdwtRytV6P)
 
