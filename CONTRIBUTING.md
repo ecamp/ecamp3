@@ -174,3 +174,6 @@ Our core team and community are happy to help you there.
 In fact, we encourage you to ask questions, collaborate, and seek support on Discord whenever you hit a roadblock on an Issue. 
 Your feedback not only helps us refine the setup process for everyone but also ensures that potential issues are addressed promptly. 
 Remember, our support isn't limited to just setup concerns; you're welcome to discuss any other topics you encounter in our Discord community.
+
+[![Discord Join Banner](https://discordapp.com/api/guilds/{Server-ID}/widget.png?style=banner4)](https://discord.gg/tdwtRytV6P)
+[![Join Link](https://invidget.switchblade.xyz/tdwtRytV6P)](https://discord.gg/tdwtRytV6P)
