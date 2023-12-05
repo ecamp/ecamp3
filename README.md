@@ -1,6 +1,6 @@
 <p align="center"><img src="frontend/public/logo.svg" alt="Logo" width="250"></p>
 <h1 align="center">eCamp<sup><small>v3</small></sup></h1>
-<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a><a href="https://discord.gg/tdwtRytV6P"><img src="https://discordapp.com/api/guilds/${Server-ID}/widget.png?style=shield" alt="Discord shield"></a></p>
+<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a><a href="https://discord.gg/tdwtRytV6P"><img src="https://discord.com/api/guilds/1165624811800768702/widget.png?style=shield" alt="Discord shield"></a></p>
 
 ## English
 

@@ -8,13 +8,13 @@ Die deutsche Version dieses Dokuments findest du [hier](./CONTRIBUTING_DE.md).
 ## [Code of conduct](https://www.ecamp3.ch/en/code-of-conduct) :page_with_curl:
 
 ## Workflow :gear:
-This is a basic overview of the workflow, i.e. how we work with the code of eCamp v3. More information about how to set up a development environment on your computer is in the [wiki](https://github.com/ecamp/ecamp3/wiki/installation).
+This is a basic overview of the workflow, i.e. how we work with the code of eCamp v3. 
+More information about how to set up a development environment on your computer is in the [wiki](https://github.com/ecamp/ecamp3/wiki/installation).
 If something about the setup is unclear, or you run into an error, there is a `setup-help` channel on [Discord](https://discord.gg/tdwtRytV6P) for you to ask questions and ask for help. :computer:
 ### Labels :label:
 Issues are marked with labels and some of them are not self-explanatory and are explained here:
 - **Good first issue**: :green_heart: Beginner friendly issues.
-- **Type-Labels**:
-  Tells you what part of the architecture is involved. There are `type: Frontend`, `type: Print`, `type: Deployment` & `type: API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
+- **Type-Labels**: Tells you what part of the architecture is involved. There are `type: Frontend`, `type: Print`, `type: Deployment` & `type: API` the architecture for those are partially documented in the [wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend)
 - **Needs prototype**: :bulb: If you have an idea how to solve this issue: we'd like to see it. This issue needs a prototype before actual implementation begins since the specifications are somewhat vague. A prototype can be many things, whether your prototype is a sketch, mockup, partial implementation or something else is up to you.
 - **Feature request**: :rocket: An idea/request for a functionality, not ready to be implemented but ready to be discussed.
 
@@ -23,7 +23,8 @@ To get started, find an issue that interests you. If you are new, we recommend s
 Please note that for other issues we recommend ones with the label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), which signifies that the issue should have clear definitions. If you have any questions, feel free to ask.
 If you are working on an issue, please leave a comment so that we can assign it to you, to make sure that the specifications are still up-to-date, and to prevent two people working on the same issue.
 Alternatively, open a draft pull request and mention the issue ID to signal that you are working on that particular issue.
-Please note that while the wiki can be helpful in understanding the project, it's not exhaustive (meaning there might be parts missing or out of date). If you have any questions, please comment on the issue for clarification. We are happy to help and answer any questions you might have.
+Please note that while the wiki can be helpful in understanding the project, it's not exhaustive (meaning there might be parts missing or out of date). 
+If you have any questions, please comment on the issue for clarification or ask on Discord. We are happy to help and answer any questions you might have.
 
 ### Git setup :octocat:
 
@@ -175,5 +176,5 @@ In fact, we encourage you to ask questions, collaborate, and seek support on Dis
 Your feedback not only helps us refine the setup process for everyone but also ensures that potential issues are addressed promptly. 
 Remember, our support isn't limited to just setup concerns; you're welcome to discuss any other topics you encounter in our Discord community.
 
-[![Discord Join Banner](https://discordapp.com/api/guilds/{Server-ID}/widget.png?style=banner4)](https://discord.gg/tdwtRytV6P)
+[![Discord Join Banner](https://discordapp.com/api/guilds/1165624811800768702/widget.png?style=banner4)](https://discord.gg/tdwtRytV6P)
 [![Join Link](https://invidget.switchblade.xyz/tdwtRytV6P)](https://discord.gg/tdwtRytV6P)
