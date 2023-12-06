@@ -97,7 +97,8 @@
                     text
                     icon="mdi-alert-circle-outline"
                   >
-                    <strong>{{ $tc('views.campCreate.noPrototypeAlert.title') }}</strong><br />
+                    <strong>{{ $tc('views.campCreate.noPrototypeAlert.title') }}</strong>
+                    <br />
                     {{ $tc('views.campCreate.noPrototypeAlert.description') }}
                   </v-alert>
                 </v-card-text>
