@@ -68,7 +68,8 @@ exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
           role="menu"
           style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;">
           <div id>
-               <div class="v-card v-sheet theme--light">
+               <div class="v-card v-sheet theme--light"
+                    style="--picker-contrast-color: #fff;">
                     <div class="v-color-picker v-sheet theme--light v-color-picker--flat theme--light"
                          style="max-width: 300px;">
                          <div class="v-color-picker__canvas"
@@ -148,10 +149,81 @@ exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
                               </div>
                          </div>
                     </div>
-                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
-                            type="button">
-                         <span class="v-btn__content"> Schliessen </span>
-                    </button>
+                    <hr aria-orientation="horizontal"
+                        class="v-divider theme--light"
+                        role="separator">
+                    <div class="d-flex gap-2 pa-4 flex-wrap">
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(144, 183, 228); border-color: #90b7e4; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(110, 219, 233); border-color: #6edbe9; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(77, 187, 82); border-color: #4dbb52; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(255, 152, 0); border-color: #ff9800; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(253, 122, 122); border-color: #fd7a7a; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(213, 132, 233); border-color: #d584e9; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(187, 187, 187); border-color: #bbbbbb; --ee5e0d96-contrast: #000;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(25, 100, 177); border-color: #1964b1; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(30, 134, 202); border-color: #1e86ca; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(61, 184, 66); border-color: #3db842; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(241, 129, 13); border-color: #f1810d; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(199, 26, 26); border-color: #c71a1a; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(207, 59, 214); border-color: #cf3bd6; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                         <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(87, 87, 87); border-color: #575757; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
+                    </div>
                </div>
           </div>
      </div>
