@@ -39,7 +39,7 @@
     "@vitest/coverage-v8": "0.34.6",
     "@vue/compiler-dom": "3.3.6",
     "@vue/compiler-sfc": "3.3.6",
-    "@vue/test-utils": "2.4.2",
+    "@vue/test-utils": "2.4.3",
     "eslint": "8.54.0",
     "@vue/runtime-dom": "3.3.6",
     "@vue/server-renderer": "3.3.6",
