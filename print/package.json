@@ -33,7 +33,7 @@
   "devDependencies": {
     "@nuxt/eslint-config": "0.2.0",
     "@nuxtjs/eslint-module": "4.1.0",
-    "@nuxtjs/i18n": "8.0.0-rc.7",
+    "@nuxtjs/i18n": "8.0.0-rc.8",
     "@nuxtjs/tailwindcss": "6.10.1",
     "@tailwindcss/typography": "0.5.10",
     "@vitest/coverage-v8": "0.34.6",
