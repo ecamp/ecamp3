@@ -124,6 +124,33 @@
         "moveScheduleEntries": "Move schedule entries"
       }
     },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configure",
+          "infos": "Info",
+          "template": "Template"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Please fill out all required fields."
+      },
+      "campCreateStep2": {
+        "category": "Activity category preview",
+        "create": "Create the Camp",
+        "noContent": "No Content",
+        "noPrototype": "No template",
+        "noPrototypeAlert": {
+          "description": "You must make all settings manually. There are no block templates & layouts available. This is only suitable for experienced users.",
+          "title": "Attention: You chose \"No template\"."
+        },
+        "progressStates": "Activity states preview",
+        "prototypeHint": "Copy categories, activity templates and states from a template.",
+        "prototypeHintEmpty": "Don't copy categories, activity templates and states.",
+        "prototypeHintSelected": "Copy categories, activity templates and states from this template.",
+        "submitTooltipPrototype": "You need to choose if and which template you want."
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Send invitation",
@@ -591,27 +618,6 @@
       }
     },
     "campCreate": {
-      "create": "Create the Camp",
-      "noContent": "No Content",
-      "noPrototype": "No template",
-      "noPrototypeAlert": {
-        "description": "You must make all settings manually. There are no block templates & layouts available. This is only suitable for experienced users.",
-        "title": "Attention: You chose \"No template\"."
-      },
-      "period": {
-        "add": "Add a period",
-        "remove": "Remove period"
-      },
-      "prototypeHint": "Copy categories, activity templates and states from a template.",
-      "prototypeHintEmpty": "Don't copy categories, activity templates and states.",
-      "prototypeHintSelected": "Copy categories, activity templates and states from this template.",
-      "steps": {
-        "configurate": "Configure",
-        "infos": "Info",
-        "template": "Template"
-      },
-      "submitTooltip": "Please fill out all required fields.",
-      "submitTooltipPrototype": "You need to choose if and which template you want.",
       "title": "Create a Camp"
     },
     "camps": {

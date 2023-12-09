@@ -124,6 +124,31 @@
         "moveScheduleEntries": "Sposta le voci del programma"
       }
     },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configurazione",
+          "infos": "Info",
+          "template": "Modello"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Compilare tutti i campi richiesti."
+      },
+      "campCreateStep2": {
+        "create": "Creare il campo",
+        "noContent": "Nessun contenuto",
+        "noPrototype": "Nessun modello",
+        "noPrototypeAlert": {
+          "description": "È necessario effettuare tutte le impostazioni manualmente. Non sono disponibili modelli e layout di blocco. È adatto solo agli utenti esperti.",
+          "title": "Nota bene: avete scelto \"Nessun modello\"."
+        },
+        "prototypeHint": "Copiare le categorie, i modelli di blocco e lo stato dei blocchi da un modello di campo.",
+        "prototypeHintEmpty": "Non copiare categorie, modelli di blocco e stati di blocco da un modello di campo.",
+        "prototypeHintSelected": "Copiate le categorie, i modelli di blocco e lo stato dei blocchi da questo modello di campo.",
+        "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare."
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Inviare l'invito",
@@ -591,27 +616,6 @@
       }
     },
     "campCreate": {
-      "create": "Creare il campo",
-      "noContent": "Nessun contenuto",
-      "noPrototype": "Nessun modello",
-      "noPrototypeAlert": {
-        "description": "È necessario effettuare tutte le impostazioni manualmente. Non sono disponibili modelli e layout di blocco. È adatto solo agli utenti esperti.",
-        "title": "Nota bene: avete scelto \"Nessun modello\"."
-      },
-      "period": {
-        "add": "Aggiungere un periodo",
-        "remove": "Cancellare un periodo"
-      },
-      "prototypeHint": "Copiare le categorie, i modelli di blocco e lo stato dei blocchi da un modello di campo.",
-      "prototypeHintEmpty": "Non copiare categorie, modelli di blocco e stati di blocco da un modello di campo.",
-      "prototypeHintSelected": "Copiate le categorie, i modelli di blocco e lo stato dei blocchi da questo modello di campo.",
-      "steps": {
-        "configurate": "Configurazione",
-        "infos": "Info",
-        "template": "Modello"
-      },
-      "submitTooltip": "Compilare tutti i campi richiesti.",
-      "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare. ",
       "title": "Creare il campo"
     },
     "camps": {
