@@ -1,7 +1,7 @@
 <template>
   <v-stepper-content :step="1" class="pa-0">
     <ValidationObserver v-slot="{ handleSubmit, valid, validate }">
-      <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('nextStep'))">
+      <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('next-step'))">
         <v-card-text>
           <e-text-field
             v-model="localCamp.name"
@@ -31,7 +31,7 @@
         <ContentActions>
           <v-spacer />
           <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
-          <ButtonContinue v-if="valid" @click="$emit('nextStep')" />
+          <ButtonContinue v-if="valid" @click="$emit('next-step')" />
           <v-tooltip v-else top>
             <template #activator="{ attrs, on }">
               <v-btn

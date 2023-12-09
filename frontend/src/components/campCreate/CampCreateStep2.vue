@@ -1,7 +1,7 @@
 <template>
   <v-stepper-content :step="2" class="pa-0">
     <ValidationObserver v-slot="{ handleSubmit, valid, validate }">
-      <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('createCamp'))">
+      <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('create-camp'))">
         <v-card-text>
           <server-error :server-error="serverError" />
           <e-select
@@ -110,25 +110,26 @@
             <v-icon left>mdi-arrow-left</v-icon>
             {{ $tc('global.button.back') }}
           </v-btn>
-          <v-spacer />
-          <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
-          <ButtonAdd v-if="valid" type="submit" :loading="isSaving">
-            {{ $tc('components.campCreate.campCreateStep2.create') }}
-          </ButtonAdd>
-          <v-tooltip v-else top>
-            <template #activator="{ attrs, on }">
-              <ButtonAdd
-                color="secondary"
-                elevation="0"
-                v-bind="attrs"
-                @click="validate()"
-                v-on="on"
-              >
-                {{ $tc('components.campCreate.campCreateStep2.create') }}
-              </ButtonAdd>
-            </template>
-            {{ $tc('components.campCreate.campCreateStep2.submitTooltipPrototype') }}
-          </v-tooltip>
+          <div class="ml-auto">
+            <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
+            <ButtonAdd v-if="valid" type="submit" :loading="isSaving">
+              {{ $tc('components.campCreate.campCreateStep2.create') }}
+            </ButtonAdd>
+            <v-tooltip v-else top>
+              <template #activator="{ attrs, on }">
+                <ButtonAdd
+                  color="secondary"
+                  elevation="0"
+                  v-bind="attrs"
+                  @click="validate()"
+                  v-on="on"
+                >
+                  {{ $tc('components.campCreate.campCreateStep2.create') }}
+                </ButtonAdd>
+              </template>
+              {{ $tc('components.campCreate.campCreateStep2.submitTooltipPrototype') }}
+            </v-tooltip>
+          </div>
         </ContentActions>
       </v-form>
     </ValidationObserver>
