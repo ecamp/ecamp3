@@ -19,7 +19,7 @@
     <template #activator="{ on }">
       <v-list-item class="px-3" v-on="on">
         <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
-          <v-avatar color="rgba(0,0,0,0.1)" size="28">
+          <v-avatar color="rgba(0,0,0,0.07)" size="28">
             {{ currentDayAsObject.value.number }}
           </v-avatar>
         </v-list-item-title>
@@ -44,7 +44,20 @@
         @click="$emit('changeDay', day.value)"
       >
         <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
-          <v-avatar color="rgba(0,0,0,0.1)" size="28">{{ day.value.number }}</v-avatar>
+          <v-avatar
+            :color="
+              daySelection.id == day.value.id
+                ? 'rgba(33,150,243,0.17)'
+                : 'rgba(0,0,0,0.07)'
+            "
+            :class="
+              daySelection.id === day.value.id &&
+              'font-weight-bold blue--text text--darken-4'
+            "
+            size="28"
+          >
+            {{ day.value.number }}
+          </v-avatar>
         </v-list-item-title>
         <v-list-item-subtitle class="basis-auto flex-shrink-0 ml-2" style="width: 72px">
           {{ day.text }}
