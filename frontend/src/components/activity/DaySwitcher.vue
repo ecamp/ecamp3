@@ -39,7 +39,7 @@
     </template>
     <v-list>
       <v-list-item
-        v-for="day in days"
+        v-for="day in sortedDays"
         :key="day.value._meta.self"
         @click="$emit('changeDay', day.value)"
       >
@@ -78,6 +78,11 @@ export default {
       return this.period()
         .days()
         .items.map((day) => this.getDayObject(day))
+    },
+    sortedDays() {
+      const days = [...this.days]
+      days.sort((a, b) => new Date(a.value.start) - new Date(b.value.start))
+      return days
     },
     currentDayAsObject() {
       return this.getDayObject(this.daySelection)
