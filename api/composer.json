@@ -23,7 +23,7 @@
         "ramsey/uuid": "4.7.5",
         "rize/uri-template": "0.3.5",
         "sentry/sentry-symfony": "4.12.0",
-        "stof/doctrine-extensions-bundle": "1.9.0",
+        "stof/doctrine-extensions-bundle": "1.10.1",
         "swaggest/json-schema": "0.12.42",
         "symfony/asset": "6.4.0",
         "symfony/console": "6.4.1",
