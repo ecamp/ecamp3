@@ -125,8 +125,8 @@ jobs:
             --set deployedVersion="$(git rev-parse --short '${{ inputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
-            --set featureToggle.developer=true \
-            --set coupon.secret='${{ secrets.COUPON_SECRET }}'
+            --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }} \
+            --set featureToggle.developer=true
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.4.0

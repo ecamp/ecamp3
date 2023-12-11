@@ -2,11 +2,10 @@
   <div class="tw-break-after-page">
     <div>
       <h1 class="tw-text-center tw-font-semibold tw-mb-6">
-        {{ $tc('print.program.title') }}: {{ period.description }}
+        {{ $t('print.program.title') }}: {{ period.description }}
       </h1>
     </div>
-
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
     <program-day
       v-for="day in days"
       v-else
@@ -19,27 +18,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    period: { type: Object, required: true },
-    showDailySummary: { type: Boolean, required: true },
-    showActivities: { type: Boolean, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      days: null,
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.period.days().$loadItems(),
-      this.period.scheduleEntries().$loadItems(),
-      this.period.contentNodes().$loadItems(),
-    ])
+<script setup>
+const props = defineProps({
+  period: { type: Object, required: true },
+  showDailySummary: { type: Boolean, required: true },
+  showActivities: { type: Boolean, required: true },
+  index: { type: Number, required: true },
+})
 
-    this.days = this.period.days().items
-  },
-}
+const { data: days, error } = await useAsyncData('ProgramPeriod', async () => {
+  await Promise.all([
+    props.period.days().$loadItems(),
+    props.period.scheduleEntries().$loadItems(),
+    props.period.contentNodes().$loadItems(),
+  ])
+
+  return props.period.days().items
+})
 </script>

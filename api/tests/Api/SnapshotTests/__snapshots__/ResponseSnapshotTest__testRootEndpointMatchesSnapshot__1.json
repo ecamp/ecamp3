@@ -41,7 +41,7 @@
             "templated": true
         },
         "days": {
-            "href": "\/days{\/id}{?period,period[]}",
+            "href": "\/days{\/id}{?period,period[],period.camp,period.camp[]}",
             "templated": true
         },
         "invitations": {

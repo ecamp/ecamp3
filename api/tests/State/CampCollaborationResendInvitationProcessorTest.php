@@ -33,7 +33,7 @@ class CampCollaborationResendInvitationProcessorTest extends TestCase {
 
     private MockObject|Security $security;
     private MockObject|PasswordHasherFactoryInterface $pwHashFactory;
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
 
     private CampCollaborationResendInvitationProcessor $processor;
 

@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Aktionen",
-          "reorder": "Verschieben"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
-          "title": "Wirklich löschen?"
+          "reorder": "Verschieben",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
+            "title": "Wirklich löschen?"
+          }
         }
       },
       "copyActivityInfoDialog": {
@@ -31,7 +31,9 @@
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "copyScheduleEntry": "Aktivität kopieren",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "switchToFullSize": "Zum Breitformat umschalten",
+        "switchToPaperSize": "Zum Papierformat umschalten"
       }
     },
     "camp": {
@@ -486,7 +488,6 @@
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
-          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
           "dev": "Dies ist die Entwickler-Version von eCamp v3.{br}WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -609,7 +610,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "Für die geschlossene Beta wird ein Coupon (Zugangscode) benötigt. Auf ecamp3.ch/closed-beta erfährst du, wie du einen erhältst.",
       "create": "Lager erstellen",
       "period": {
         "add": "Weiteren Lagerabschnitt hinzufügen",

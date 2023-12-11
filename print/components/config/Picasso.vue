@@ -1,6 +1,6 @@
 <template>
   <div>
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
     <picasso-period
       v-for="period in periods"
       v-else
@@ -14,33 +14,33 @@
   </div>
 </template>
 
+<script setup>
+const props = defineProps({
+  options: { type: Object, required: false, default: null },
+  camp: { type: Object, required: true },
+  config: { type: Object, required: true },
+  index: { type: Number, required: true },
+})
+
+const { $api } = useNuxtApp()
+
+const { data: periods, error } = await useAsyncData('ConfigPicasso', async () => {
+  await Promise.all([
+    props.camp.periods().$loadItems(),
+    props.camp.activities().$loadItems(),
+    props.camp.categories().$loadItems(),
+    props.camp.campCollaborations().$loadItems(),
+    props.camp.profiles().$loadItems(),
+  ])
+
+  return props.options.periods.map((periodUri) => {
+    return $api.get(periodUri)
+  })
+})
+</script>
+
 <script>
 export default {
-  name: 'ConfigPicasso',
-  props: {
-    options: { type: Object, required: false, default: null },
-    camp: { type: Object, required: true },
-    config: { type: Object, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      periods: [],
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.camp.periods().$loadItems(),
-      this.camp.activities().$loadItems(),
-      this.camp.categories().$loadItems(),
-      this.camp.campCollaborations().$loadItems(),
-      this.camp.profiles().$loadItems(),
-    ])
-
-    this.periods = this.options.periods.map((periodUri) => {
-      return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-    })
-  },
   computed: {
     landscape() {
       return this.options.orientation === 'L'

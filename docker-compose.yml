@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:20.8.1
+    image: node:20.9.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -94,7 +94,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   pdf:
-    image: node:20.8.1
+    image: node:20.9.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -113,7 +113,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.8.1
+    image: node:20.9.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -123,9 +123,9 @@ services:
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
       - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
     environment:
-      - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
+      - NITRO_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
       - CI=${CI}
@@ -160,11 +160,11 @@ services:
   docker-host:
     image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
-    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    cap_add: ['NET_ADMIN', 'NET_RAW']
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.60.2-puppeteer-21.3.6
+    image: browserless/chrome:1.61.0-puppeteer-21.4.1
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
@@ -179,8 +179,8 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:13.3.2
-    profiles: [ "e2e" ]
+    image: cypress/included:13.6.1
+    profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
@@ -192,8 +192,8 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.8.1
-    profiles: [ "translation" ]
+    image: node:20.9.0
+    profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated

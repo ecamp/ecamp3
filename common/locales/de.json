@@ -108,7 +108,6 @@
         "addressStreet": "Strasse",
         "addressZipcode": "PLZ",
         "coachName": "Name des J+S-Coachs",
-        "couponKey": "Coupon",
         "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
         "courseNumber": "Kursnummer",
         "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",

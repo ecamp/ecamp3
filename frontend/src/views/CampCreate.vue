@@ -19,14 +19,6 @@
               required
             />
             <e-text-field v-model="camp.motto" :name="$tc('entity.camp.fields.motto')" />
-            <e-text-field
-              v-model="camp.couponKey"
-              :name="$tc('entity.camp.fields.couponKey')"
-              :hint="$tc('views.campCreate.couponKeyHint')"
-              persistent-hint
-              vee-rules="required"
-              required
-            />
             <e-select
               v-model="camp.campPrototype"
               :name="$tc('entity.camp.prototype')"
@@ -87,7 +79,6 @@ export default {
         name: '',
         title: '',
         motto: '',
-        couponKey: this.$route.query.coupon,
         periods: [
           {
             start: '',

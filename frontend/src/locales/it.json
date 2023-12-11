@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Azioni",
-          "reorder": "Spostare"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
-          "title": "Cancellare davvero?"
+          "reorder": "Spostare",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
+            "title": "Cancellare davvero?"
+          }
         }
       },
       "menuCardlessContentNode": {
@@ -23,7 +23,9 @@
       "scheduleEntry": {
         "backToContents": "Torna alla modifica dei contenuti",
         "changeLayout": "Cambia il layout",
-        "deleteWarning": "Vuoi davvero cancellare questa attività? Tutti i contenuti di questa attività saranno rimossi."
+        "deleteWarning": "Vuoi davvero cancellare questa attività? Tutti i contenuti di questa attività saranno rimossi.",
+        "switchToFullSize": "Passare al formato largo",
+        "switchToPaperSize": "Passare al formato carta"
       }
     },
     "camp": {
@@ -466,7 +468,6 @@
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
-          "beta": "Questa è la versione beta di eCamp v3, che può essere utilizzata per la pianificazione di un campo reale, ma non per la pianificazione del tempo. Il numero limitato di utenti della versione beta deve aspettarsi interruzioni della manutenzione.",
           "dev": "Questa è la versione di sviluppo di eCamp v3.{br}IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -589,7 +590,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "Per la closed beta è necessario un codice coupon. Su ecamp3.ch/closed-beta puoi scoprire come ottenere questo codice coupon.",
       "create": "Creare il campo",
       "period": {
         "add": "Aggiungere un periodo",
