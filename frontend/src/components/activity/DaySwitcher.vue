@@ -46,7 +46,7 @@
         <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
           <v-avatar
             :color="
-              daySelection.id == day.value.id
+              daySelection.id === day.value.id
                 ? 'rgba(33,150,243,0.17)'
                 : 'rgba(0,0,0,0.07)'
             "
@@ -94,7 +94,7 @@ export default {
     },
     sortedDays() {
       const days = [...this.days]
-      days.sort((a, b) => new Date(a.value.start) - new Date(b.value.start))
+      days.sort((a, b) => a.value.number - b.value.number)
       return days
     },
     currentDayAsObject() {
