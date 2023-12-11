@@ -153,12 +153,12 @@ Displays a single scheduleEntry
               {{ $tc('components.activity.scheduleEntry.copyScheduleEntry') }}
             </v-list-item-title>
           </v-list-item>
-          <copy-activity-info-dialog ref="copyInfoDialog" />
+          <CopyActivityInfoDialog ref="copyInfoDialog" />
 
           <v-divider />
 
           <!-- remove activity -->
-          <dialog-entity-delete :entity="activity" @submit="onDelete">
+          <DialogEntityDelete :entity="activity" @submit="onDelete">
             <template #activator="{ on }">
               <v-list-item :disabled="!isContributor" v-on="on">
                 <v-list-item-icon>
@@ -170,7 +170,7 @@ Displays a single scheduleEntry
               </v-list-item>
             </template>
             {{ $tc('components.activity.scheduleEntry.deleteWarning') }}
-          </dialog-entity-delete>
+          </DialogEntityDelete>
         </v-list>
       </v-menu>
     </template>
@@ -278,10 +278,12 @@ import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdf
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
+import DialogEntityDelete from "@/components/dialog/DialogEntityDelete.vue";
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    DialogEntityDelete,
     ContentCard,
     ApiTextField,
     RootNode,
