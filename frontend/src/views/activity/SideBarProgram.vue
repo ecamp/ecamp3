@@ -6,7 +6,7 @@
     <ScheduleEntries :period="period" :show-button="false">
       <template #default="slotProps">
         <DaySwitcher
-          :period="period"
+          :camp="camp"
           :day-selection="daySelection"
           :loading="slotProps.loading"
           @changeDay="selectedDay = $event"
@@ -43,6 +43,7 @@ export default {
   components: { DaySwitcher, SideBar, Picasso, ScheduleEntries },
   props: {
     day: { type: Function, required: true },
+    camp: { type: Function, required: true },
   },
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
   },
   computed: {
     period() {
-      return this.day().period
+      return this.daySelection.period
     },
     daySelection() {
       return this.selectedDay ?? this.day()
