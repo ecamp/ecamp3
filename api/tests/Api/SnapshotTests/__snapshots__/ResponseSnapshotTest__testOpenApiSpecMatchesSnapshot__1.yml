@@ -17582,7 +17582,11 @@ components:
         - password
         - profile
       type: object
-  securitySchemes: []
+  securitySchemes:
+    JWT:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
 info:
   description: ''
   title: 'eCamp v3'
