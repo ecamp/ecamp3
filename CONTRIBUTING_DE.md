@@ -78,7 +78,7 @@ git checkout -b my-new-feature-branch
 
 #### Codeformatierung :art:
 
-Wir verwenden cs-fixer für PHP und ESLint und Prettier für Javascript, um einen einheitlichen Codestil zu gewährleisten. Stelle sicher, dass dein Code automatisch formatiert wird, bevor du ihn committest und in das Repository stellst.
+Wir verwenden cs-fixer für PHP und ESLint und Prettier für Javascript, HTML & CSS, um einen einheitlichen Codestil zu gewährleisten. Stelle sicher, dass dein Code automatisch formatiert wird, bevor du ihn committest und in das Repository stellst.
 Wir empfehlen dir, deine Entwicklungsumgebung so zu [Konfigurieren](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting), dass der Code beim Speichern automatisch formatiert wird.
 
 Alternativ kannst du
