@@ -2,21 +2,27 @@ name: CI (optional checks)
 
 on:
   push:
+    branches-ignore:
+      - gh-readonly-queue/**
   pull_request:
   merge_group:
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   api-validate-composer-lock:
     name: 'Validate Api Platform composer.lock'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
-          tools: composer:2.5.0
+          php-version: '8.2.12'
+          tools: composer:2.6.0
           coverage: xdebug
 
       - run: composer validate -n --no-check-all --no-check-publish --strict
@@ -26,12 +32,12 @@ jobs:
     name: 'Lint: API (psalm)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
-          tools: composer:2.5.0
+          php-version: '8.2.12'
+          tools: composer:2.6.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -39,7 +45,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -56,12 +62,12 @@ jobs:
     name: 'Lint: API (phpstan)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
-          tools: composer:2.5.0
+          php-version: '8.2.12'
+          tools: composer:2.6.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -69,7 +75,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -81,7 +87,7 @@ jobs:
 
       - run: composer phpstan
         working-directory: api
-  
+
   api-validate-migrations:
     name: 'API: validate migrations'
     runs-on: ubuntu-latest
@@ -104,12 +110,12 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.7'
-          tools: composer:2.5.0
+          php-version: '8.2.12'
+          tools: composer:2.6.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -117,7 +123,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}

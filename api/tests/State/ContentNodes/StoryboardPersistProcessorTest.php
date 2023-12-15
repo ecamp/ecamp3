@@ -18,8 +18,8 @@ use PHPUnit\Framework\TestCase;
  */
 class StoryboardPersistProcessorTest extends TestCase {
     private StoryboardPersistProcessor $processor;
-    private MockObject|CleanHTMLFilter $cleanHTMLFilter;
-    private MockObject|CleanTextFilter $cleanTextFilter;
+    private CleanHTMLFilter|MockObject $cleanHTMLFilter;
+    private CleanTextFilter|MockObject $cleanTextFilter;
     private ColumnLayout $root;
     private Storyboard $contentNode;
 

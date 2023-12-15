@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
     private MockObject|RequestStack $requestStack;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
@@ -166,8 +166,7 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
 }
 
 class ChildTestClass implements BelongsToCampInterface {
-    public function __construct(public Camp $camp) {
-    }
+    public function __construct(public Camp $camp) {}
 
     public function getCamp(): ?Camp {
         return $this->camp;
@@ -178,8 +177,7 @@ class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     public ?ChildTestClass $child;
 
-    public function __construct(public Camp $camp, ?ChildTestClass $child = null) {
-    }
+    public function __construct(public Camp $camp, ?ChildTestClass $child = null) {}
 
     public function getCamp(): ?Camp {
         return $this->camp;
@@ -187,8 +185,7 @@ class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
 }
 
 class ContentNodeTestClass implements BelongsToContentNodeTreeInterface {
-    public function __construct(public ColumnLayout $root) {
-    }
+    public function __construct(public ColumnLayout $root) {}
 
     public function getRoot(): ?ColumnLayout {
         return $this->root;

@@ -1,9 +1,9 @@
 <template>
   <li>
-    {{ $tc('entity.period.name') }} {{ period.description }}
+    {{ $t('entity.period.name') }} {{ period.description }}
 
     <ul>
-      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <generic-error-message v-if="error" :error="error" />
       <toc-program-day
         v-for="day in days"
         v-else
@@ -15,25 +15,18 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'TocProgramPeriod',
-  props: {
-    index: { type: Number, required: true },
-    period: { type: Object, required: true },
-  },
-  data() {
-    return {
-      days: null,
-    }
-  },
-  async fetch() {
-    await Promise.all([
-      this.period.days().$loadItems(),
-      this.period.scheduleEntries().$loadItems(),
-    ])
+<script setup>
+const props = defineProps({
+  index: { type: Number, required: true },
+  period: { type: Object, required: true },
+})
 
-    this.days = this.period.days().items
-  },
-}
+const { data: days, error } = await useAsyncData('TocProgramPeriod', async () => {
+  await Promise.all([
+    props.period.days().$loadItems(),
+    props.period.scheduleEntries().$loadItems(),
+  ])
+
+  return props.period.days().items
+})
 </script>

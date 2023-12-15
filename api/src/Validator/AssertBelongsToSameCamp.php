@@ -2,7 +2,6 @@
 
 namespace App\Validator;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[\Attribute]
@@ -14,9 +13,8 @@ class AssertBelongsToSameCamp extends Constraint {
      * AssertBelongsToSameCamp constructor.
      *
      * @param bool $compareToPrevious in case the camp getter considers the annotated property, use this option (only when updating)
-     * @param null $payload
      */
-    public function __construct(array $options = null, bool $compareToPrevious = false, string $message = null, array $groups = null, $payload = null) {
+    public function __construct(array $options = null, bool $compareToPrevious = false, string $message = null, array $groups = null, mixed $payload = null) {
         parent::__construct($options ?? [], $groups, $payload);
 
         $this->message = $message ?? $this->message;

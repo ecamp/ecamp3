@@ -4,11 +4,12 @@
   ],
   "force": {
     "constraints": {
-      "node": "18.16.1",
-      "php": "8.2.7"
+      "node": "20.9.0",
+      "php": "8.2.12"
     }
   },
   "automergeType": "branch",
+  "rebaseWhen": "conflicted",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
@@ -107,18 +108,6 @@
         "postgres"
       ],
       "allowedVersions": "15-alpine"
-    },
-    {
-      "matchPackageNames": [
-        "@nuxtjs/eslint-module"
-      ],
-      "allowedVersions": "^3"
-    },
-    {
-      "matchPackageNames": [
-        "@nuxtjs/stylelint-module"
-      ],
-      "allowedVersions": "^4"
     }
   ],
   "regexManagers": [

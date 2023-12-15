@@ -17,9 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @internal
@@ -37,11 +37,11 @@ class CampCollaborationCreateProcessorTest extends TestCase {
     private Camp $camp;
 
     private MockObject|ProfileRepository $profileRepository;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     private MockObject|Security $security;
     private MockObject|PasswordHasherFactoryInterface $pwHashFactory;
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
 
     private CampCollaborationCreateProcessor $processor;
 
@@ -133,7 +133,7 @@ class CampCollaborationCreateProcessorTest extends TestCase {
     /**
      * @dataProvider notInvitedStatuses
      */
-    public function testAfterCreateDoesNotSendEmailIfStatusNotInvited($status) {
+    public function testAfterCreateDoesNotSendEmailIfStatusNotInvited(string $status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;
 

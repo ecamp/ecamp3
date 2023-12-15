@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
-import EDatePicker from '../EDatePicker'
+import EDatePicker from '../EDatePicker.vue'
 
 describe('An EDatePicker', () => {
   const DATE1_ISO = '2020-03-01'

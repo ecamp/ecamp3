@@ -1,0 +1,45 @@
+alertmanager:
+  enabled: true
+defaultRules:
+  create: true
+  rules:
+    etcd: false
+    kubeScheduler: false
+grafana:
+  adminPassword: prom-operator
+  enabled: true
+  persistence:
+    accessModes:
+    - ReadWriteOnce
+    enabled: true
+    size: 5Gi
+    storageClassName: do-block-storage
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+prometheus:
+  additionalServiceMonitors:
+  - endpoints:
+    - port: api-metrics
+    name: caddy
+    namespaceSelector:
+      matchNames:
+      - default
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: ecamp3-staging
+        app.kubernetes.io/name: ecamp3-api
+  enabled: true
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: do-block-storage
+prometheusOperator:
+  enabled: true

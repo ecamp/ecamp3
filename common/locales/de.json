@@ -108,7 +108,6 @@
         "addressStreet": "Strasse",
         "addressZipcode": "PLZ",
         "coachName": "Name des J+S-Coachs",
-        "couponKey": "Coupon",
         "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
         "courseNumber": "Kursnummer",
         "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",
@@ -162,7 +161,9 @@
     "materialItem": {
       "fields": {
         "article": "Artikel",
+        "list": "Materialliste",
         "quantity": "Menge",
+        "reference": "Aktivität / Lagerabschnitt",
         "unit": "Einheit"
       }
     },
@@ -194,13 +195,13 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}min",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}min"
       },
-      "hourLong": "HH:mm",
+      "hourLong": "LT",
       "hourShort": "H:mm"
     }
   },

@@ -115,7 +115,6 @@
         "addressStreet": "Street",
         "addressZipcode": "Zipcode",
         "coachName": "Name of Y+S coach",
-        "couponKey": "Coupon",
         "courseKind": "Course kind (for Y+S courses: Y+S course term)",
         "courseNumber": "Course number",
         "kind": "Camp kind (house, tent, traveling, summer, autumn)",
@@ -146,7 +145,7 @@
         "color": "Color",
         "name": "Name",
         "numberingStyle": "Numbering style",
-        "short": "Short"
+        "short": "Abbreviation"
       },
       "name": "Activity categories",
       "numberingStyles": {
@@ -169,7 +168,9 @@
     "materialItem": {
       "fields": {
         "article": "Article",
+        "list": "Material list",
         "quantity": "Quantity",
+        "reference": "Activity / Period",
         "unit": "Unit"
       }
     },
@@ -201,14 +202,14 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}m",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}m"
       },
-      "hourLong": "HH:mm",
-      "hourShort": "h:mm A"
+      "hourLong": "LT",
+      "hourShort": "H:mm"
     }
   },
   "print": {

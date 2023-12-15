@@ -216,7 +216,9 @@ export default {
   background-blend-mode: screen;
   background-size: contain, 1470px;
   background-repeat: no-repeat, repeat-x;
-  background-position: bottom, center top;
+  background-position:
+    bottom,
+    center top;
 }
 
 .hill {
@@ -234,7 +236,10 @@ export default {
   display: grid;
   justify-items: center;
   align-content: center;
-  background-position: bottom center, bottom 58% left -5%, bottom 58% right -5%;
+  background-position:
+    bottom center,
+    bottom 58% left -5%,
+    bottom 58% right -5%;
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-up')} {
@@ -249,20 +254,29 @@ export default {
       url(../../assets/invitation/edge-right.svg);
     grid-template-rows: auto 1fr auto 1fr auto;
     background-size: auto, min(40%, 800px), min(40%, 800px);
-    background-position: bottom center, bottom 54% left, bottom 54% right;
+    background-position:
+      bottom center,
+      bottom 54% left,
+      bottom 54% right;
   }
 }
 
 @media #{map-get($display-breakpoints, 'md-and-up')} {
   .hill {
     transition: background-position 0.5s ease-in-out;
-    background-position: bottom center, bottom 55% left, bottom 55% right;
+    background-position:
+      bottom center,
+      bottom 55% left,
+      bottom 55% right;
   }
 }
 
 @media #{map-get($display-breakpoints, 'lg-and-up')} {
   .hill {
-    background-position: bottom center, bottom 56% left, bottom 56% right;
+    background-position:
+      bottom center,
+      bottom 56% left,
+      bottom 56% right;
   }
 }
 
@@ -309,7 +323,9 @@ export default {
   color: white;
   display: grid;
   border-radius: 4px;
-  box-shadow: inset -1px -2px 2px #6d340a, inset 0px 3px 1px #e7c29f;
+  box-shadow:
+    inset -1px -2px 2px #6d340a,
+    inset 0px 3px 1px #e7c29f;
   margin: 0 16px;
   position: relative;
   text-shadow: -1px -1px 1px #5d2f0c;
@@ -353,7 +369,11 @@ export default {
     linear-gradient(90deg, #583c175c, #c1916054, #5f401712),
     linear-gradient(309deg, #552302, transparent, #552302, transparent, #552302),
     linear-gradient(319deg, #efd0b3, #c19160);
-  background-size: cover, cover, 10px 12px, cover;
+  background-size:
+    cover,
+    cover,
+    10px 12px,
+    cover;
   background-repeat: repeat;
   background-blend-mode: multiply, normal, normal, normal;
 }
@@ -404,17 +424,27 @@ export default {
   inset: 0;
   background-image: url('../../assets/invitation/tree-left.svg'),
     url('../../assets/invitation/tree-right.svg');
-  background-position: left bottom, right bottom;
+  background-position:
+    left bottom,
+    right bottom;
   transition: background-size 0.5s ease;
-  background-size: auto 40%, auto 65%;
+  background-size:
+    auto 40%,
+    auto 65%;
   @media #{map-get($display-breakpoints, 'sm-and-up')} {
-    background-size: auto 44%, auto 65%;
+    background-size:
+      auto 44%,
+      auto 65%;
   }
   @media #{map-get($display-breakpoints, 'md-and-up')} {
-    background-size: auto 49%, auto 75%;
+    background-size:
+      auto 49%,
+      auto 75%;
   }
   @media #{map-get($display-breakpoints, 'lg-and-up')} {
-    background-size: auto 100%, auto 90%;
+    background-size:
+      auto 100%,
+      auto 90%;
   }
 }
 </style>

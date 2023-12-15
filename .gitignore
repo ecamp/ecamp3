@@ -6,3 +6,5 @@
 /.caddy/
 /.env
 /.helm/ecamp3/charts
+
+!/**/.gitkeep

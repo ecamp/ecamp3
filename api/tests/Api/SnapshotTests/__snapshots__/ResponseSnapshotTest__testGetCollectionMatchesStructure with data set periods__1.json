@@ -1,0 +1,142 @@
+{
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "contentNodes": {
+                        "href": "escaped_value"
+                    },
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "days": {
+                        "href": "escaped_value"
+                    },
+                    "materialItems": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "description": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "contentNodes": {
+                        "href": "escaped_value"
+                    },
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "days": {
+                        "href": "escaped_value"
+                    },
+                    "materialItems": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "description": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "contentNodes": {
+                        "href": "escaped_value"
+                    },
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "days": {
+                        "href": "escaped_value"
+                    },
+                    "materialItems": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "description": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "start": "escaped_value"
+            },
+            {
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "contentNodes": {
+                        "href": "escaped_value"
+                    },
+                    "dayResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "days": {
+                        "href": "escaped_value"
+                    },
+                    "materialItems": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "description": "escaped_value",
+                "end": "escaped_value",
+                "id": "escaped_value",
+                "start": "escaped_value"
+            }
+        ]
+    },
+    "_links": {
+        "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            }
+        ],
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "totalItems": "escaped_value"
+}

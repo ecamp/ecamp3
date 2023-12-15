@@ -41,5 +41,4 @@ class ClassInfoTraitTest extends ApiTestCase {
     }
 }
 
-class SomeClass {
-}
+class SomeClass {}

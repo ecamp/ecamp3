@@ -3,12 +3,12 @@
 namespace App\Tests\Serializer\Normalizer;
 
 use ApiPlatform\Api\FilterInterface;
-use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operations;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
@@ -47,6 +47,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
     private ManagerRegistry|MockObject $managerRegistryMock;
     private MockObject|ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactoryMock;
     private MockObject|PropertyAccessorInterface $propertyAccessor;
+    private EntityManagerInterface|MockObject $entityManager;
 
     private ?FilterInterface $filterInstance;
 
@@ -68,6 +69,8 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
 
         $this->iriConverterMock->method('getIriFromResource')->willReturn('/iri');
 
+        $this->entityManager = $this->createMock(EntityManagerInterface::class);
+
         $this->normalizer = new RelatedCollectionLinkNormalizer(
             $this->decoratedMock,
             $this->filterLocatorMock,
@@ -76,7 +79,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
             $this->uriTemplateFactory,
             $this->routerMock,
             $this->iriConverterMock,
-            $this->managerRegistryMock,
+            $this->entityManager,
             $this->resourceMetadataCollectionFactoryMock,
             $this->propertyAccessor,
         );
@@ -321,9 +324,8 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
 
         $classMetadata = $this->createMock(ORM\ClassMetadata::class);
         $classMetadata->method('getAssociationMapping')->willThrowException(new ORM\MappingException('test exception'));
-        $manager = $this->createMock(EntityManagerInterface::class);
-        $manager->method('getClassMetadata')->willReturn($classMetadata);
-        $this->managerRegistryMock->method('getManagerForClass')->willReturn($manager);
+        $this->entityManager->method('getClassMetadata')->willReturn($classMetadata);
+        $this->managerRegistryMock->method('getManagerForClass')->willReturn($this->entityManager);
 
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
@@ -425,10 +427,8 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $classMetadata->method('getAssociationMapping')->willReturn($relationMetadata);
         $classMetadata->method('hasAssociation')->willReturn(true);
 
-        $manager = $this->createMock(EntityManagerInterface::class);
-        $manager->method('getClassMetadata')->willReturn($classMetadata);
-
-        $this->managerRegistryMock->method('getManagerForClass')->willReturn($manager);
+        $this->entityManager->method('getClassMetadata')->willReturn($classMetadata);
+        $this->managerRegistryMock->method('getManagerForClass')->willReturn($this->entityManager);
     }
 
     protected function mockRelatedResourceMetadata($collectionOperationMetadata) {

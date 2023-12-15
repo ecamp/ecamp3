@@ -38,7 +38,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     normalizationContext: ['groups' => ['read']],
     order: ['period.start', 'dayOffset']
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['period'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['period', 'period.camp'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
 #[ORM\Entity(repositoryClass: DayRepository::class)]
 #[ORM\UniqueConstraint(name: 'offset_period_idx', columns: ['periodId', 'dayOffset'])]

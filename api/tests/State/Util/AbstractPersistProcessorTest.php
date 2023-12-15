@@ -16,9 +16,9 @@ use PHPUnit\Framework\TestCase;
  */
 class AbstractPersistProcessorTest extends TestCase {
     private MockObject|ProcessorInterface $decoratedProcessor;
-    private MockObject|MockableClosure $closure;
+    private MockableClosure|MockObject $closure;
     private PropertyChangeListener $propertyChangeListener;
-    private MockObject|AbstractPersistProcessor $processor;
+    private AbstractPersistProcessor|MockObject $processor;
 
     protected function setUp(): void {
         $this->decoratedProcessor = $this->createMock(ProcessorInterface::class);
@@ -168,8 +168,6 @@ class MyEntity extends BaseEntity {
     public ?string $name = 'test';
 }
 
-class MyEmptyEntity extends BaseEntity {
-}
+class MyEmptyEntity extends BaseEntity {}
 
-class WarningException extends \Exception {
-}
+class WarningException extends \Exception {}

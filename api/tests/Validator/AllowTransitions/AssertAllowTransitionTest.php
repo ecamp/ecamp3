@@ -23,7 +23,7 @@ class AssertAllowTransitionTest extends ConstraintValidatorTestCase {
         ['from' => '2', 'to' => ['3']],
         ['from' => '3', 'to' => ['1']],
     ];
-    private RequestStack|MockObject $requestStack;
+    private MockObject|RequestStack $requestStack;
     private TestClass $before;
 
     protected function setUp(): void {

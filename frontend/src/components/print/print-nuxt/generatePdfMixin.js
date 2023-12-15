@@ -2,8 +2,9 @@ import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 import { cloneDeep } from 'lodash'
 import axios from 'axios'
+import { getEnv } from '@/environment.js'
 
-const PRINT_URL = window.environment.PRINT_URL
+const PRINT_URL = getEnv().PRINT_URL
 
 export const generatePdfMixin = {
   props: {
@@ -34,7 +35,7 @@ export const generatePdfMixin = {
         const response = await axios({
           baseURL: null,
           method: 'get',
-          url: `${PRINT_URL}/server/pdfChrome?config=${encodeURIComponent(
+          url: `${PRINT_URL}/api/pdf?config=${encodeURIComponent(
             JSON.stringify(config)
           )}`,
           responseType: 'arraybuffer',
@@ -48,7 +49,7 @@ export const generatePdfMixin = {
           },
         })
 
-        saveAs(new Blob([response.data]), config.documentName)
+        saveAs(new Blob([response.data]), config.documentName + '.pdf')
       } catch (error) {
         if (error?.response?.status === 503) {
           this.$toast.error(

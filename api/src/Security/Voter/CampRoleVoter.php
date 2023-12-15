@@ -26,8 +26,7 @@ class CampRoleVoter extends Voter {
 
     public function __construct(
         private EntityManagerInterface $em,
-    ) {
-    }
+    ) {}
 
     protected function supports($attribute, $subject): bool {
         return in_array($attribute, array_keys(self::RULE_MAPPING))

@@ -54,6 +54,7 @@
 
 <script>
 import { load } from 'recaptcha-v3'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'ResetPasswordRequest',
@@ -67,8 +68,8 @@ export default {
   },
 
   mounted() {
-    if (window.environment.RECAPTCHA_SITE_KEY) {
-      this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
+    if (getEnv().RECAPTCHA_SITE_KEY) {
+      this.recaptcha = load(getEnv().RECAPTCHA_SITE_KEY, {
         explicitRenderParameters: {
           badge: 'bottomleft',
         },

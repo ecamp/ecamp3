@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Controls",
-          "reorder": "Reorder"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Do you really want to remove this section?",
-          "title": "Really delete?"
+          "reorder": "Reorder",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Do you really want to remove this section?",
+            "title": "Really delete?"
+          }
         }
       },
       "menuCardlessContentNode": {
@@ -24,7 +24,8 @@
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
         "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
-        "layout": "Layout"
+        "switchToFullSize": "Switch to full size",
+        "switchToPaperSize": "Switch to paper size"
       }
     },
     "camp": {
@@ -51,15 +52,16 @@
         "create": "Create activity category",
         "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
         "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
-        "editLayout": "Edit layout",
+        "editLayout": "Edit template",
         "title": "Activity categories"
       },
       "campConditionalFields": {
         "course": {
-          "title": "Additional fields for courses"
+          "title": "Courses"
         },
+        "title": "Settings for Y+S",
         "ysCamp": {
-          "title": "Additional fields for Y+S camps"
+          "title": "Camps"
         }
       },
       "campDangerZone": {
@@ -105,6 +107,9 @@
       },
       "dialogMaterialListCreate": {
         "title": "Create material list"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Edit material list"
       },
       "dialogPeriodCreate": {
         "title": "Create period"
@@ -185,12 +190,26 @@
       "dialogMaterialItemCreate": {
         "title": "Create material item"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Edit material item"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Settings",
         "noMaterialListAvailable": "There are no material lists for this camp yet. You can create them in 'Admin'."
       },
+      "materialLists": {
+        "materialsCount": "No entries | 1 entry | {count} entries",
+        "overview": "General overview"
+      },
       "materialTable": {
-        "addNewItem": "Add new item"
+        "addNewItem": "Add new item",
+        "noItems": "No material items found",
+        "periodOnly": "Filter: Period",
+        "reference": "Activity / Period"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Material list",
+        "overview": "General overview"
       }
     },
     "navigation": {
@@ -228,6 +247,21 @@
       "localPdfDownloadButton": {
         "error": "Something didn't work. Try again, or reload the page."
       },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Download PDF (layout #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Download PDF (layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Something did not work. Please try again, or try reloading the page."
+        },
+        "printPreviewClient": {
+          "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
+          "previewIframeTitle": "Print preview"
+        }
+      },
       "printConfigurator": {
         "add": "Add content",
         "config": {
@@ -252,21 +286,6 @@
         },
         "printPreviewNuxt": {
           "openPreview": "Open preview in new window",
-          "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
-          "previewIframeTitle": "Print preview"
-        }
-      },
-      "printReact": {
-        "downloadReactPdfButton": {
-          "label": "Download PDF (layout #2)"
-        },
-        "downloadReactPdfListItem": {
-          "label": "Download PDF (layout #2)"
-        },
-        "generatePdfMixin": {
-          "error": "Something did not work. Please try again, or try reloading the page."
-        },
-        "printPreviewReact": {
           "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
           "previewIframeTitle": "Print preview"
         }
@@ -299,7 +318,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Really delete?",
-        "warningText": "Do you really want to delete this?"
+        "warningText": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
       }
     },
     "toast": {
@@ -347,14 +366,18 @@
       "content": "Content",
       "create": "Create",
       "delete": "Delete",
+      "discard": "Discard",
+      "download": "Download",
       "edit": "Edit",
       "editable": "Editable",
+      "filter": "Filter",
       "lock": "Lock",
       "login": "Log in",
       "logout": "Logout",
       "move": "Move",
       "ok": "OK",
       "open": "Open",
+      "rename": "Rename",
       "save": "Save",
       "saving": "Saving",
       "search": "Search",
@@ -375,6 +398,11 @@
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"
@@ -388,16 +416,46 @@
   "views": {
     "activity": {
       "category": {
-        "changeLayout": "Change layout for new activities",
+        "changeLayout": "Change template layout",
         "contents": "Contents",
         "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
-        "editContents": "Set default contents for new activities",
+        "editContents": "Set template contents",
         "layout": "Layout"
       },
       "printPreview": "Open print preview",
       "sideBarProgram": {
         "title": "Activities on this day"
       }
+    },
+    "admin": {
+      "activity": {
+        "title": "Activity settings"
+      },
+      "adminMaterialLists": {
+        "title": "Material lists"
+      },
+      "collaborators": {
+        "email": "Email address",
+        "inactiveCollaborators": "Inactive",
+        "members": "Members",
+        "openInvitations": "Open invitations",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Camp infos"
+      },
+      "print": {
+        "title": "Print camp"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Activities",
+        "itemActivitySubtitle": "Category, templates & status",
+        "itemCollaborators": "Team",
+        "itemInfos": "Camp infos",
+        "itemMaterialLists": "Material lists",
+        "itemPrint": "PDF / Print"
+      },
+      "title": "Admin"
     },
     "auth": {
       "activate": {
@@ -410,7 +468,6 @@
         "accountless": "Don't have an account yet?",
         "email": "Email",
         "infoText": {
-          "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
           "dev": "This is the development version of eCamp v3.{br}IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -459,21 +516,10 @@
       }
     },
     "camp": {
-      "admin": {
-        "collaborators": "Manage Team",
-        "title": "Admin"
-      },
       "campProgram": {
         "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"
-      },
-      "collaborators": {
-        "email": "Email address",
-        "inactiveCollaborators": "Inactive",
-        "members": "Members",
-        "openInvitations": "Open invitations",
-        "title": "Team"
       },
       "dashboard": {
         "activities": "Activities",
@@ -490,7 +536,9 @@
         "onlyMyActivities": "Only my activities",
         "period": "Period",
         "progressLabel": "State",
+        "progressLabelNone": "No state",
         "responsible": "Responsible",
+        "responsibleNone": "No responsibles",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
       "invitation": {
@@ -505,20 +553,6 @@
         "title": "Invitation",
         "useOtherAuth": "Logout & use another account",
         "userAlreadyInCamp": "You are already participating in this camp"
-      },
-      "material": {
-        "downloadXlsx": "Download",
-        "groupByList": "Group by material list",
-        "showActivityMaterial": "Show activity material",
-        "title": "Material",
-        "xlsx": {
-          "activity": "Activity",
-          "article": "Article",
-          "filename": "material-list",
-          "matlist": "Material list",
-          "quantity": "Quantity",
-          "unit": "Unit"
-        }
       },
       "navigation": {
         "desktop": {
@@ -540,23 +574,22 @@
             "story": "Story"
           },
           "navSidebar": {
-            "itemCampAdmin": "Camp settings",
+            "itemActivity": "Activities",
+            "itemActivitySubtitle": "Category, templates & status",
             "itemCamps": "My Camps",
             "itemClose": "Close menu",
             "itemCollaborators": "Team",
+            "itemInfos": "Camp infos",
+            "itemMaterialLists": "Material lists",
             "itemPrinting": "PDF / Print"
           }
         }
-      },
-      "print": {
-        "title": "Print camp"
       },
       "story": {
         "title": "Story"
       }
     },
     "campCreate": {
-      "couponKeyHint": "For the closed beta, a coupon code is required. On ecamp3.ch/closed-beta, you can find out how to get such an coupon code.",
       "create": "Create the Camp",
       "period": {
         "add": "Add a period",
@@ -569,6 +602,19 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
+    },
+    "material": {
+      "materialLists": {
+        "title": "Material lists"
+      },
+      "materialOverview": {
+        "createNewList": "Create material list",
+        "download": "Download overview",
+        "title": "General overview"
+      },
+      "sideBarMaterialLists": {
+        "title": "Material lists"
+      }
     },
     "pageNotFound": {
       "backToHome": "Back to home",

@@ -1,0 +1,65 @@
+{
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "activity": {
+                        "href": "escaped_value"
+                    },
+                    "campCollaboration": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value"
+            },
+            {
+                "_links": {
+                    "activity": {
+                        "href": "escaped_value"
+                    },
+                    "campCollaboration": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value"
+            },
+            {
+                "_links": {
+                    "activity": {
+                        "href": "escaped_value"
+                    },
+                    "campCollaboration": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value"
+            }
+        ]
+    },
+    "_links": {
+        "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            }
+        ],
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "totalItems": "escaped_value"
+}

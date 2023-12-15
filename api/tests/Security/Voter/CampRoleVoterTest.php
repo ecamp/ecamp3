@@ -22,8 +22,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class CampRoleVoterTest extends TestCase {
     private CampRoleVoter $voter;
-    private TokenInterface|MockObject $token;
-    private MockObject|EntityManagerInterface $em;
+    private MockObject|TokenInterface $token;
+    private EntityManagerInterface|MockObject $em;
 
     public function setUp(): void {
         parent::setUp();
@@ -266,5 +266,4 @@ class CampRoleVoterTest extends TestCase {
     }
 }
 
-class CampRoleVoterTestDummy extends BaseEntity {
-}
+class CampRoleVoterTestDummy extends BaseEntity {}

@@ -52,8 +52,7 @@ use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
  * https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
  */
 final class PreventAutomaticEmbeddingPropertyMetadataFactory implements PropertyMetadataFactoryInterface {
-    public function __construct(private PropertyMetadataFactoryInterface $decorated) {
-    }
+    public function __construct(private PropertyMetadataFactoryInterface $decorated) {}
 
     /**
      * {@inheritdoc}
@@ -86,6 +85,7 @@ final class PreventAutomaticEmbeddingPropertyMetadataFactory implements Property
             $apiProperty->isInitializable(),
             $apiProperty->getIris(),
             $apiProperty->getGenId(),
+            $apiProperty->getUriTemplate(),
             $apiProperty->getExtraProperties()
         );
     }

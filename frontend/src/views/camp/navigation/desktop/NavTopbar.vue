@@ -22,28 +22,16 @@
           $tc('views.camp.navigation.desktop.navTopbar.story')
         }}</span>
       </v-btn>
-      <v-btn :to="campRoute(camp(), 'collaborators')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
-        <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigation.desktop.navTopbar.team')
-        }}</span>
-      </v-btn>
-      <v-btn :to="campRoute(camp(), 'material')" text>
+      <v-btn :to="materialListRoute(camp())" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-package-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.material')
         }}</span>
       </v-btn>
-      <v-btn :to="campRoute(camp(), 'print')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-printer</v-icon>
-        <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigation.desktop.navTopbar.print')
-        }}</span>
-      </v-btn>
       <v-btn :to="campRoute(camp(), 'admin')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-cogs </v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigation.desktop.navTopbar.admin')
+          $tc('global.navigation.admin.title')
         }}</span>
       </v-btn>
     </v-toolbar-items>
@@ -55,8 +43,9 @@
 <script>
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import Logo from '@/components/navigation/Logo.vue'
-import { campRoute } from '@/router.js'
+import { campRoute, materialListRoute } from '@/router.js'
 import { mapGetters } from 'vuex'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 
 export default {
   name: 'NavTopbar',
@@ -64,6 +53,7 @@ export default {
     UserMeta,
     Logo,
   },
+  mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true },
   },
@@ -78,6 +68,7 @@ export default {
     }),
   },
   methods: {
+    materialListRoute,
     campRoute,
   },
 }

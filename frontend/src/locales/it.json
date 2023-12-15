@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Azioni",
-          "reorder": "Spostare"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
-          "title": "Cancellare davvero?"
+          "reorder": "Spostare",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
+            "title": "Cancellare davvero?"
+          }
         }
       },
       "menuCardlessContentNode": {
@@ -24,7 +24,8 @@
         "backToContents": "Torna alla modifica dei contenuti",
         "changeLayout": "Cambia il layout",
         "deleteWarning": "Vuoi davvero cancellare questa attività? Tutti i contenuti di questa attività saranno rimossi.",
-        "layout": "Layout"
+        "switchToFullSize": "Passare al formato largo",
+        "switchToPaperSize": "Passare al formato carta"
       }
     },
     "camp": {
@@ -51,15 +52,16 @@
         "create": "Creare categoria di attività",
         "deleteCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
         "deleteCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
-        "editLayout": "Modifica il layout",
+        "editLayout": "Modificare il modello",
         "title": "Categorie di attività"
       },
       "campConditionalFields": {
         "course": {
-          "title": "Altri campi per i corsi"
+          "title": "Corsi"
         },
+        "title": "Impostazioni per G+S",
         "ysCamp": {
-          "title": "Altri campi per i campi G+S"
+          "title": "Campi"
         }
       },
       "campDangerZone": {
@@ -105,6 +107,9 @@
       },
       "dialogMaterialListCreate": {
         "title": "Crea l'elenco dei materiali"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifica elenco materiali"
       },
       "dialogPeriodCreate": {
         "title": "Creare il periodo"
@@ -185,12 +190,26 @@
       "dialogMaterialItemCreate": {
         "title": "Crea un oggetto materiale"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Modifica della voce materiale"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Impostazioni",
         "noMaterialListAvailable": "Non ci sono ancora liste di materiali per questo campo. Puoi crearle in \"Amministrazione\"."
       },
+      "materialLists": {
+        "materialsCount": "Nessuna voce | 1 voce | {count} voci",
+        "overview": "Panoramica generale"
+      },
       "materialTable": {
-        "addNewItem": "Aggiungi un nuovo elemento"
+        "addNewItem": "Aggiungi un nuovo elemento",
+        "noItems": "Nessun oggetto materiale trovato",
+        "periodOnly": "Filtro: Periodo",
+        "reference": "Attività / Periodo"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Liste di materiali",
+        "overview": "Panoramica generale"
       }
     },
     "navigation": {
@@ -228,6 +247,21 @@
       "localPdfDownloadButton": {
         "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
       },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Scarica il PDF (layout #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Scarica il PDF (layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
+        },
+        "printPreviewClient": {
+          "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
+          "previewIframeTitle": "Anteprima di stampa"
+        }
+      },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
         "config": {
@@ -252,21 +286,6 @@
         },
         "printPreviewNuxt": {
           "openPreview": "Apri l'anteprima in una nuova finestra",
-          "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
-          "previewIframeTitle": "Anteprima di stampa"
-        }
-      },
-      "printReact": {
-        "downloadReactPdfButton": {
-          "label": "Scarica il PDF (layout #2)"
-        },
-        "downloadReactPdfListItem": {
-          "label": "Scarica il PDF (layout #2)"
-        },
-        "generatePdfMixin": {
-          "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
-        },
-        "printPreviewReact": {
           "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
           "previewIframeTitle": "Anteprima di stampa"
         }
@@ -299,7 +318,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Davvero cancellare?",
-        "warningText": "Volete davvero cancellarlo?"
+        "warningText": "Volete davvero cancellarlo? | Volete davvero cancellarlo \"{entity}\"?"
       }
     },
     "toast": {
@@ -347,14 +366,18 @@
       "content": "Contenuto",
       "create": "Creare",
       "delete": "Cancellare",
+      "discard": "Scartare",
+      "download": "Scaricare",
       "edit": "Modificare",
       "editable": "Modificabile",
+      "filter": "Filtro",
       "lock": "Blocco",
       "login": "Accedi",
       "logout": "Disconnessione",
       "move": "Spostamento",
       "ok": "Bene",
       "open": "Aprire",
+      "rename": "Rinominare",
       "save": "Salvare",
       "saving": "Salvataggio",
       "search": "Ricerca",
@@ -375,6 +398,11 @@
     "language": "Italiano",
     "loading": "Caricamento ...",
     "lokaliseMessage": "Cambio di lingua alimentato da lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
       "short": "Errore del server"
@@ -388,16 +416,46 @@
   "views": {
     "activity": {
       "category": {
-        "changeLayout": "Cambia il layout",
+        "changeLayout": "Modificare il layout del modello",
         "contents": "Contenuti",
         "createLayoutHelp": "Qui si può definire la forma predefinita delle nuove attività {categoryShort}.{br}Nota: se si dispone già di attività {categoryShort} in campo, questi non verranno adattati automaticamente.",
-        "editContents": "Definire il contenuto predefinito",
+        "editContents": "Modificare il contenuto del modello",
         "layout": "Layout"
       },
       "printPreview": "Apri l'anteprima di stampa",
       "sideBarProgram": {
         "title": "Attività in questo giorno"
       }
+    },
+    "admin": {
+      "activity": {
+        "title": "Impostazioni dell'attività"
+      },
+      "adminMaterialLists": {
+        "title": "Liste di materiali"
+      },
+      "collaborators": {
+        "email": "Indirizzo e-mail",
+        "inactiveCollaborators": "Inattivo",
+        "members": "Membri",
+        "openInvitations": "Inviti aperti",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Info sul campo"
+      },
+      "print": {
+        "title": "Stampa il campo"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Attività",
+        "itemActivitySubtitle": "Categoria, modello, stati",
+        "itemCollaborators": "Team",
+        "itemInfos": "Info sul campo",
+        "itemMaterialLists": "Liste di materiali",
+        "itemPrint": "PDF / Stampa"
+      },
+      "title": "Admin"
     },
     "auth": {
       "activate": {
@@ -410,7 +468,6 @@
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
-          "beta": "Questa è la versione beta di eCamp v3, che può essere utilizzata per la pianificazione di un campo reale, ma non per la pianificazione del tempo. Il numero limitato di utenti della versione beta deve aspettarsi interruzioni della manutenzione.",
           "dev": "Questa è la versione di sviluppo di eCamp v3.{br}IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -459,21 +516,10 @@
       }
     },
     "camp": {
-      "admin": {
-        "collaborators": "Gestire il team",
-        "title": "Admin"
-      },
       "campProgram": {
         "reminderLockedCreate": "Trascinare per creare è possibile solo in modalità sbloccata.",
         "reminderLockedMove": "Trascinare per spostarsi è possibile solo in modalità sbloccata.",
         "title": "Picasso"
-      },
-      "collaborators": {
-        "email": "Indirizzo e-mail",
-        "inactiveCollaborators": "Inattivo",
-        "members": "Membri",
-        "openInvitations": "Inviti aperti",
-        "title": "Team"
       },
       "dashboard": {
         "activities": "Attività",
@@ -490,7 +536,9 @@
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
         "progressLabel": "Stati",
+        "progressLabelNone": "Nessuno stato",
         "responsible": "Responsabile",
+        "responsibleNone": "Nessuna responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },
       "invitation": {
@@ -505,20 +553,6 @@
         "title": "Invito",
         "useOtherAuth": "Esci e usa un altro account",
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
-      },
-      "material": {
-        "downloadXlsx": "Scarica",
-        "groupByList": "Raggruppa per elenco di materiali",
-        "showActivityMaterial": "Mostra il materiale dell'attività",
-        "title": "Materiale",
-        "xlsx": {
-          "activity": "Attività",
-          "article": "Articolo",
-          "filename": "elenco dei materiali",
-          "matlist": "Elenco dei materiali",
-          "quantity": "Quantità",
-          "unit": "Unità"
-        }
       },
       "navigation": {
         "desktop": {
@@ -540,23 +574,22 @@
             "story": "Storia"
           },
           "navSidebar": {
-            "itemCampAdmin": "Configurazione del campo",
+            "itemActivity": "Attività",
+            "itemActivitySubtitle": "Categoria, modello, stati",
             "itemCamps": "I miei campi",
             "itemClose": "Chiudere il menu",
             "itemCollaborators": "Team",
+            "itemInfos": "Info sul campo",
+            "itemMaterialLists": "Liste di materiali",
             "itemPrinting": "PDF / Stampa"
           }
         }
-      },
-      "print": {
-        "title": "Stampa il campo"
       },
       "story": {
         "title": "Storia"
       }
     },
     "campCreate": {
-      "couponKeyHint": "Per la closed beta è necessario un codice coupon. Su ecamp3.ch/closed-beta puoi scoprire come ottenere questo codice coupon.",
       "create": "Creare il campo",
       "period": {
         "add": "Aggiungere un periodo",
@@ -569,6 +602,19 @@
       "pastCamps": "Campi passati",
       "prototypeCamps": "Prototipi",
       "title": "I miei campi"
+    },
+    "material": {
+      "materialLists": {
+        "title": "Liste di materiali"
+      },
+      "materialOverview": {
+        "createNewList": "Creare un elenco di materiali",
+        "download": "Scarica la panoramica",
+        "title": "Panoramica generale"
+      },
+      "sideBarMaterialLists": {
+        "title": "Liste di materiali"
+      }
     },
     "pageNotFound": {
       "backToHome": "Torna a casa",

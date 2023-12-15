@@ -6,7 +6,7 @@
           :id="`content_${index}_period_${period.id}`"
           class="text-2xl-relative tw-font-bold tw-mb-1 tw-flex-grow tw-d-inline"
         >
-          {{ $tc('print.picasso.title') }}
+          {{ $t('print.picasso.title') }}
           {{ period.description }}
         </h1>
         <span>{{ camp.organizer }}</span>
@@ -19,61 +19,14 @@
         />
       </div>
 
-      <v-sheet class="fullwidth">
-        <v-calendar
-          ref="calendar"
-          :events="events"
-          event-start="startTimestamp"
-          event-end="endTimestamp"
-          :event-color="getActivityColor"
-          :start="start"
-          :end="end"
-          type="custom-daily"
-          event-overlap-mode="column"
-          first-interval="0"
-          interval-count="24"
-          :interval-height="landscape ? 13 : 32"
-          interval-width="46"
-          event-text-color="black"
-          :locale="$i18n.locale"
-          :interval-format="intervalFormat"
-          :day-format="dayFormat"
-          :weekday-format="weekdayFormat"
-        >
-          <!-- day header -->
-          <template #day-label-header="{ date }">
-            <span class="tw-block">
-              {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
-            </span>
-
-            <span v-if="hasDayResponsibles(date)" class="text-xs-relative">
-              {{ $tc('entity.day.fields.dayResponsibles') }}:
-              {{ dayResponsiblesCommaSeparated(date) }}
-            </span>
-          </template>
-
-          <template #event="{ event }">
-            <div
-              class="tw-float-left tw-font-weight-medium tw-tabular-nums tw-font-medium"
-            >
-              <!-- link jumps to first instance of scheduleEntry within the document -->
-              <a
-                :href="`#scheduleEntry_${event.id}`"
-                :style="{ color: getActivityTextColor(event) }"
-              >
-                {{ event.number }} {{ event.activity().category().short }}:
-                {{ event.activity().title }}
-              </a>
-            </div>
-            <span
-              class="tw-float-right tw-italic ml-1"
-              :style="{ color: getActivityTextColor(event) }"
-            >
-              {{ activityResponsiblesCommaSeparated(event) }}
-            </span>
-          </template>
-        </v-calendar>
-      </v-sheet>
+      <div class="fullwidth">
+        <picasso-calendar
+          :days="days"
+          :times="times"
+          :schedule-entries="scheduleEntries"
+          :content-height="landscape ? 312 : 768"
+        />
+      </div>
       <div class="categories fullwidth text-sm-relative">
         <div
           v-for="category in camp.categories().items"
@@ -81,7 +34,7 @@
           class="categories"
         >
           <div class="category">
-            <category-label :category="category"></category-label>
+            <category-label :category="category" />
             {{ category.name }}
           </div>
         </div>
@@ -91,13 +44,16 @@
           <span v-if="camp.courseKind || camp.kind">
             {{ joinWithoutBlanks([camp.courseKind, camp.kind], ', ') }}
           </span>
-          <i18n
+          <i18n-t
             v-if="camp.courseNumber"
             tag="span"
-            path="print.picasso.picassoFooter.courseNumber"
+            keypath="print.picasso.picassoFooter.courseNumber"
+            scope="global"
           >
-            <template #courseNumber>{{ camp.courseNumber }}</template>
-          </i18n>
+            <template #courseNumber>
+              {{ camp.courseNumber }}
+            </template>
+          </i18n-t>
           <span v-if="camp.motto" class="tw-self-start">{{ camp.motto }}</span>
         </div>
         <div class="footer-column">
@@ -105,19 +61,31 @@
           <span v-if="dates">{{ dates }}</span>
         </div>
         <div class="footer-column">
-          <i18n tag="span" path="print.picasso.picassoFooter.leaders">
-            <template #leaders>{{ leaderNameList }}</template>
-          </i18n>
-          <i18n v-if="camp.coachName" tag="span" path="print.picasso.picassoFooter.coach">
-            <template #coach>{{ camp.coachName }}</template>
-          </i18n>
-          <i18n
+          <i18n-t tag="span" keypath="print.picasso.picassoFooter.leaders" scope="global">
+            <template #leaders>
+              {{ leaderNameList }}
+            </template>
+          </i18n-t>
+          <i18n-t
+            v-if="camp.coachName"
+            tag="span"
+            keypath="print.picasso.picassoFooter.coach"
+            scope="global"
+          >
+            <template #coach>
+              {{ camp.coachName }}
+            </template>
+          </i18n-t>
+          <i18n-t
             v-if="camp.trainingAdvisorName"
             tag="span"
-            path="print.picasso.picassoFooter.trainingAdvisor"
+            keypath="print.picasso.picassoFooter.trainingAdvisor"
+            scope="global"
           >
-            <template #trainingAdvisor>{{ camp.trainingAdvisorName }}</template>
-          </i18n>
+            <template #trainingAdvisor>
+              {{ camp.trainingAdvisorName }}
+            </template>
+          </i18n-t>
         </div>
       </div>
     </div>
@@ -125,25 +93,19 @@
 </template>
 
 <script>
-import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
-import {
-  dayResponsiblesCommaSeparated,
-  filterDayResponsiblesByDay,
-} from '@/../common/helpers/dayResponsibles.js'
-import { contrastColor } from '@/../common/helpers/colors.js'
 import CategoryLabel from './generic/CategoryLabel.vue'
 import dayjs from '@/../common/helpers/dayjs.js'
-import campCollaborationLegalName from '../../common/helpers/campCollaborationLegalName.js'
+import campCollaborationLegalName from '@/../common/helpers/campCollaborationLegalName.js'
 
 export default {
   components: { CategoryLabel },
   props: {
     period: { type: Object, required: true },
-    start: { type: String, required: true },
-    end: { type: String, required: true },
-    events: { type: Array, required: true },
+    scheduleEntries: { type: Array, required: true },
     index: { type: Number, required: true },
     landscape: { type: Boolean, required: true },
+    days: { type: Array, required: true },
+    times: { type: Array, required: true },
   },
   computed: {
     camp() {
@@ -168,7 +130,7 @@ export default {
       return dayjs.formatDatePeriod(
         startDate,
         endDate,
-        this.$tc('global.datetime.dateLong'),
+        this.$t('global.datetime.dateLong'),
         this.$i18n.locale
       )
     },
@@ -188,54 +150,6 @@ export default {
     },
   },
   methods: {
-    getActivityColor(scheduleEntry) {
-      return scheduleEntry.activity().category().color
-    },
-    getActivityTextColor(scheduleEntry) {
-      const color = this.getActivityColor(scheduleEntry)
-      return contrastColor(color)
-    },
-    intervalFormat(time) {
-      return this.$date
-        .utc(time.date + ' ' + time.time)
-        .format(this.$tc('global.datetime.hourLong'))
-    },
-    dayFormat(day) {
-      return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))
-    },
-    weekdayFormat() {
-      return ''
-    },
-    activityResponsiblesCommaSeparated(scheduleEntry) {
-      const responsibles = activityResponsiblesCommaSeparated(
-        scheduleEntry.activity(),
-        this.$tc.bind(this)
-      )
-
-      if (responsibles === '') {
-        return ''
-      }
-
-      return `[${responsibles}]`
-    },
-
-    dayResponsiblesCommaSeparated(date) {
-      const day = this.getDayByDate(date)
-      if (!day) return null
-      return dayResponsiblesCommaSeparated(day, this.$tc.bind(this))
-    },
-
-    hasDayResponsibles(date) {
-      const day = this.getDayByDate(date)
-      if (!day) return false
-      return filterDayResponsiblesByDay(day).length > 0
-    },
-
-    getDayByDate(date) {
-      return this.period.days().items.find((day) => {
-        return this.$date.utc(date).isSame(this.$date.utc(day.start), 'day')
-      })
-    },
     joinWithoutBlanks(list, separator) {
       return list.filter((element) => !!element).join(separator)
     },
@@ -283,18 +197,6 @@ $landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width})
 
 .v-calendar {
   overflow: visible;
-}
-
-.v-calendar-daily__body {
-  overflow: visible;
-}
-
-.v-calendar-daily__pane {
-  overflow-y: visible;
-}
-
-.v-calendar-daily__scroll-area {
-  overflow-y: visible;
 }
 
 .v-calendar .v-event-timed {

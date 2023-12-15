@@ -28,28 +28,29 @@
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import VueI18n from '@/plugins/i18n'
 import { parseTemplate } from 'url-template'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
   components: { LanguageSwitcher },
   computed: {
     deploymentTime() {
-      const timestamp = window.environment.DEPLOYMENT_TIME
+      const timestamp = getEnv().DEPLOYMENT_TIME
       const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
       return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
     },
     version() {
-      return window.environment.VERSION || ''
+      return getEnv().VERSION || ''
     },
     versionLink() {
       return (
-        parseTemplate(window.environment.VERSION_LINK_TEMPLATE).expand({
+        parseTemplate(getEnv().VERSION_LINK_TEMPLATE).expand({
           version: this.version,
         }) || '#'
       )
     },
     isDev() {
-      return window.environment.FEATURE_DEVELOPER ?? false
+      return getEnv().FEATURE_DEVELOPER ?? false
     },
   },
   created() {
@@ -70,13 +71,6 @@ export default {
 <style lang="scss">
 @import 'src/scss/global';
 @import '~@mdi/font/css/materialdesignicons.css';
-
-.v-btn.ec-drawer-open,
-.v-btn.ec-drawer-collapse {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
 
 @media #{map-get($display-breakpoints, 'xs-only')} {
   html,

@@ -39,6 +39,7 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
             true,
             [],
             true,
+            '',
             []
         );
         $decorated->expects($this->once())
@@ -82,5 +83,4 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
     }
 }
 
-class Dummy {
-}
+class Dummy {}

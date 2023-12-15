@@ -213,9 +213,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    /**
-     * @return Camp
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('camp')]
     #[Groups('CampCollaboration:Camp')]
@@ -223,9 +220,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    /**
-     * @return User
-     */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('user')]
     #[Groups('CampCollaboration:User')]
@@ -303,7 +297,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     /**
      * Returns user's email, fallback to inviteEmail if user not yet known (pending email invitation).
      */
-    public function getEmail(): string|null {
+    public function getEmail(): null|string {
         return $this->user?->getEmail() ?? $this->inviteEmail;
     }
 }

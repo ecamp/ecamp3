@@ -12,7 +12,7 @@
       <span>{{ camp().name }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp(), 'material')">
+    <v-btn :to="materialListRoute(camp(), '/lists')">
       <span>{{ $tc('views.camp.navigation.mobile.navBottombar.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
+import { campRoute, materialListRoute } from '@/router'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -43,6 +43,7 @@ export default {
     }),
   },
   methods: {
+    materialListRoute,
     campRoute,
   },
 }

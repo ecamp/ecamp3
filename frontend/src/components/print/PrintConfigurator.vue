@@ -65,12 +65,12 @@
 
     <v-card-text class="e-button-container">
       <DownloadNuxtPdfButton :config="cnf" />
-      <DownloadReactPdfButton :config="cnf" />
+      <DownloadClientPdfButton :config="cnf" />
     </v-card-text>
 
     <v-tabs v-if="isDev" v-model="previewTab" class="px-4">
       <v-tab>Nuxt preview</v-tab>
-      <v-tab>React preview</v-tab>
+      <v-tab>Client print preview</v-tab>
       <v-tab-item>
         <print-preview-nuxt
           v-if="previewTab === 0"
@@ -81,7 +81,7 @@
         />
       </v-tab-item>
       <v-tab-item>
-        <print-preview-react
+        <print-preview-client
           v-if="previewTab === 1"
           :config="cnf"
           width="100%"
@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import PrintPreviewReact from './print-react/PrintPreviewReact.vue'
+import PrintPreviewClient from './print-client/PrintPreviewClient.vue'
 import PrintPreviewNuxt from './print-nuxt/PrintPreviewNuxt.vue'
 import Draggable from 'vuedraggable'
 import CoverConfig from './config/CoverConfig.vue'
@@ -106,17 +106,18 @@ import TocConfig from './config/TocConfig.vue'
 import PagesOverview from './configurator/PagesOverview.vue'
 import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
-import DownloadReactPdfButton from '@/components/print/print-react/DownloadReactPdfButton.vue'
+import DownloadClientPdfButton from '@/components/print/print-client/DownloadClientPdfButton.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'PrintConfigurator',
   components: {
-    DownloadReactPdfButton,
+    DownloadClientPdfButton,
     DownloadNuxtPdfButton,
     PagesConfig,
     PagesOverview,
     Draggable,
-    PrintPreviewReact,
+    PrintPreviewClient,
     PrintPreviewNuxt,
     CoverConfig,
     PicassoConfig,
@@ -143,7 +144,7 @@ export default {
       },
       cnf: {
         language: '',
-        documentName: this.camp().name + '.pdf',
+        documentName: this.camp().name,
         camp: this.camp()._meta.self,
         contents: this.defaultContents(),
       },
@@ -155,7 +156,7 @@ export default {
       return this.$store.state.lang.language
     },
     isDev() {
-      return window.environment.FEATURE_DEVELOPER ?? false
+      return getEnv().FEATURE_DEVELOPER ?? false
     },
   },
   watch: {
@@ -169,7 +170,10 @@ export default {
   mounted() {
     this.camp()
       .periods()
-      .items.forEach((period) => period.days().$reload())
+      .items.forEach((period) => {
+        period.days().$reload()
+        period.contentNodes().$reload()
+      })
   },
   methods: {
     defaultContents() {

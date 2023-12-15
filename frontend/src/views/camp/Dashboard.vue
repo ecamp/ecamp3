@@ -7,7 +7,13 @@
           v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
         />
-        <v-skeleton-loader v-else type="button" />
+        <v-skeleton-loader
+          v-else
+          type="button"
+          class="v-skeleton-loader--inherit-size"
+          height="32"
+          width="160px"
+        />
         <FilterDivider />
         <template v-if="!loading">
           <SelectFilter
@@ -26,13 +32,18 @@
             :label="$tc('views.camp.dashboard.responsible')"
           >
             <template #item="{ item }">
-              <TextAlignBaseline class="mr-1">
-                <UserAvatar
-                  :camp-collaboration="campCollaborations[item.value]"
-                  size="20"
-                />
-              </TextAlignBaseline>
-              {{ item.text }}
+              <template v-if="item.exclusiveNone">
+                {{ item.text }}
+              </template>
+              <template v-else>
+                <TextAlignBaseline class="mr-1">
+                  <UserAvatar
+                    :camp-collaboration="campCollaborations[item.value]"
+                    size="20"
+                  />
+                </TextAlignBaseline>
+                {{ item.text }}
+              </template>
             </template>
           </SelectFilter>
           <SelectFilter
@@ -81,8 +92,24 @@
           </v-chip>
         </template>
         <template v-else>
-          <v-skeleton-loader type="button" />
-          <v-skeleton-loader type="button" />
+          <v-skeleton-loader
+            type="button"
+            class="v-skeleton-loader--inherit-size"
+            height="32"
+            width="150"
+          />
+          <v-skeleton-loader
+            type="button"
+            class="v-skeleton-loader--inherit-size"
+            height="32"
+            width="130"
+          />
+          <v-skeleton-loader
+            type="button"
+            class="v-skeleton-loader--inherit-size"
+            height="32"
+            width="100"
+          />
         </template>
       </div>
       <template v-if="!loading && !scheduleEntriesLoading">
@@ -122,9 +149,23 @@
               :key="dayUri"
               :aria-labelledby="dayUri + 'th'"
             >
-              <tr>
+              <tr class="day-header__row">
                 <th :id="dayUri + 'th'" colspan="5" scope="colgroup" class="day-header">
-                  {{ dateLong(days[dayUri].start) }}
+                  <div class="day-header__inner">
+                    {{ dateLong(days[dayUri].start) }}
+                    <AvatarRow
+                      v-if="!days[dayUri].dayResponsibles()._meta.loading"
+                      :camp-collaborations="dayResponsibleCollaborators[dayUri]"
+                      max-size="20"
+                    />
+                    <v-skeleton-loader
+                      v-else
+                      type="avatar"
+                      width="20"
+                      height="20"
+                      class="v-skeleton-loader--inherit-size"
+                    />
+                  </div>
                 </th>
               </tr>
               <ActivityRow
@@ -146,39 +187,29 @@
         </p>
       </template>
       <table v-else class="mx-4 mt-6 mb-3 d-sr-none" style="border-collapse: collapse">
-        <caption>
-          <v-skeleton-loader type="heading" class="d-block mb-3" width="45ch" />
+        <caption class="text-left">
+          <v-skeleton-loader type="heading" max-width="45ch" />
         </caption>
         <tbody>
-          <tr>
+          <tr class="day-header__row">
             <th colspan="5" class="day-header">
-              <v-skeleton-loader type="text" width="15ch" />
+              <div class="day-header__inner">
+                <v-skeleton-loader
+                  type="text"
+                  width="15ch"
+                  class="v-skeleton-loader--no-margin"
+                  style="margin: 5px 0"
+                />
+                <v-skeleton-loader
+                  type="avatar"
+                  width="20"
+                  height="20"
+                  class="v-skeleton-loader--inherit-size"
+                />
+              </div>
             </th>
           </tr>
-          <tr
-            v-for="index in 3"
-            :key="index"
-            style="border-top: 1px solid #ddd; vertical-align: top"
-          >
-            <th class="pt-1">
-              <v-skeleton-loader type="text" width="2ch" />
-              <v-skeleton-loader type="text" width="3ch" class="d-sm-none" />
-            </th>
-            <td class="d-none d-sm-table-cell pl-2 pt-1">
-              <v-skeleton-loader type="text" width="3ch" />
-            </td>
-            <td class="nowrap pl-2 pt-1">
-              <v-skeleton-loader type="text" width="6ch" />
-              <v-skeleton-loader type="text" width="4ch" />
-            </td>
-            <td style="width: 100%" class="pl-2 pb-2 pt-1">
-              <v-skeleton-loader type="text" width="20ch" />
-              <v-skeleton-loader type="text" width="15ch" />
-            </td>
-            <td class="contentrow avatarrow overflow-visible pt-1">
-              <v-skeleton-loader type="heading" width="55" />
-            </td>
-          </tr>
+          <ActivityRow v-for="index in 3" :key="index" />
         </tbody>
       </table>
     </div>
@@ -197,6 +228,14 @@ import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
+import { mapGetters } from 'vuex'
+import {
+  filterAndQueryAreEqual,
+  loadAndProcessCollections,
+  transformValuesToHalId,
+  processRouteQuery,
+} from '@/helpers/querySyncHelper'
+import AvatarRow from '@/components/generic/AvatarRow.vue'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -205,6 +244,7 @@ function filterEquals(arr1, arr2) {
 export default {
   name: 'Dashboard',
   components: {
+    AvatarRow,
     TextAlignBaseline,
     FilterDivider,
     ActivityRow,
@@ -220,8 +260,10 @@ export default {
   },
   data() {
     return {
-      loggedInUser: null,
       loading: true,
+      /**
+       * @type {ActivityFilter} filter
+       */
       filter: {
         period: null,
         responsible: [],
@@ -232,7 +274,14 @@ export default {
   },
   computed: {
     campCollaborations() {
-      return keyBy(this.camp().campCollaborations().items, '_meta.self')
+      return {
+        none: {
+          exclusiveNone: true,
+          label: this.$tc('views.camp.dashboard.responsibleNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(this.camp().campCollaborations().items, '_meta.self'),
+      }
     },
     categories() {
       return keyBy(this.camp().categories().items, '_meta.self')
@@ -242,7 +291,13 @@ export default {
     },
     progressLabels() {
       const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
-      return keyBy(labels, '_meta.self')
+      return {
+        none: {
+          title: this.$tc('views.camp.dashboard.progressLabelNone'),
+          _meta: { self: 'none' },
+        },
+        ...keyBy(labels, '_meta.self'),
+      }
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -258,6 +313,11 @@ export default {
       return keyBy(
         Object.values(this.periods).flatMap((period) => period.days().items),
         '_meta.self'
+      )
+    },
+    dayResponsibleCollaborators() {
+      return mapValues(this.days, (day) =>
+        day.dayResponsibles().items.map((item) => item.campCollaboration())
       )
     },
     filteredScheduleEntries() {
@@ -281,11 +341,13 @@ export default {
                 .activityResponsibles()
                 .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
-            })) &&
+            }) ||
+            (this.filter.responsible[0] === 'none' &&
+              scheduleEntry.activity().activityResponsibles().items.length === 0)) &&
           (this.filter.progressLabel === null ||
             this.filter.progressLabel.length === 0 ||
             this.filter.progressLabel?.includes(
-              scheduleEntry.activity().progressLabel?.()._meta.self
+              scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
             ))
       )
     },
@@ -327,35 +389,83 @@ export default {
     multiplePeriods() {
       return Object.keys(this.periods).length > 1
     },
+    ...mapGetters({
+      loggedInUser: 'getLoggedInUser',
+    }),
+  },
+  watch: {
+    'filter.category': 'persistRouterState',
+    'filter.responsible': 'persistRouterState',
+    'filter.period': 'persistRouterState',
+    'filter.progressLabel': 'persistRouterState',
   },
   async mounted() {
     this.api.reload(this.camp())
 
-    const [loggedInUser] = await Promise.all([
-      this.$auth.loadUser(),
-      this.camp().periods()._meta.load,
-      this.camp().activities()._meta.load,
-      this.camp().categories()._meta.load,
-      this.camp().progressLabels()._meta.load,
-    ])
+    const { categories, periods, collaborators, progressLabels } =
+      await loadAndProcessCollections(this.camp())
+    await this.api.get().days({ 'period.camp': this.camp()._meta.self })
 
-    this.loggedInUser = loggedInUser
+    const queryFilters = processRouteQuery(this.$route.query)
+    const { period, responsible, category, progressLabel } = {
+      ...this.filter,
+      ...queryFilters,
+    }
+    this.filter = {
+      category: category.filter((value) => categories.includes(value)),
+      responsible: responsible.filter((value) => collaborators.includes(value)),
+      progressLabel: progressLabel.filter((value) => progressLabels.includes(value)),
+      period: periods.includes(period) ? period : null,
+    }
+
     this.loading = false
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
+    persistRouterState() {
+      const query = transformValuesToHalId(this.filter)
+      if (filterAndQueryAreEqual(query, this.$route.query)) return
+      this.$router.replace({ query }).catch((err) => console.warn(err))
+    },
   },
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .day-header {
+  z-index: 1;
+  position: sticky;
+  top: calc(48px - 1px - 0.75rem);
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    top: calc(0px - 1px - 0.75rem);
+  }
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    top: calc(64px - 1px - 0.75rem);
+  }
+  padding-bottom: 0.25rem;
   padding-top: 0.75rem;
   font-weight: 400;
-  color: #666;
   font-size: 0.9rem;
   text-align: left;
+}
+
+.day-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 0.5rem;
+  color: #5c6061;
+  background: #eceff1;
+  margin: 0 -16px;
+  padding: 4px 16px;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+
+.day-header__row + tr > :is(th, td) {
+  border-top: 0;
 }
 </style>

@@ -48,6 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             provider: InvitationProvider::class,
             security: 'false',
+            openapi: false,
             openapiContext: ['description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.']
         ),
     ],

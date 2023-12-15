@@ -83,6 +83,32 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{/*
+Name for all db_backup_job releated resources.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "dbBackupJob.name" -}}
+{{- $name := default .Chart.Name .Values.chartNameOverride }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-db-backup-job" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-db-backup-job" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
+Name for all hook_db_restore releated resources.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "hookDbRestore.name" -}}
+{{- $name := default .Chart.Name .Values.chartNameOverride }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-hook-db-restore" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-hook-db-restore" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "chart.fullname" -}}
@@ -198,6 +224,14 @@ Selector labels for Browserless
 */}}
 {{- define "browserless.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "chart.name" . }}-browserless
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for db-backup-job
+*/}}
+{{- define "dbBackupJob.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-db-backup-job
 {{ include "app.commonSelectorLabels" . }}
 {{- end }}
 

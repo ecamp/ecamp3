@@ -11,10 +11,10 @@ use App\State\InvitationAcceptProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @internal
@@ -27,10 +27,10 @@ class InvitationAcceptProcessorTest extends TestCase {
     private CampCollaboration $campCollaboration;
     private User $user;
 
-    private MockObject|CampCollaborationRepository $collaborationRepository;
+    private CampCollaborationRepository|MockObject $collaborationRepository;
     private MockObject|Security $security;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     private InvitationAcceptProcessor $processor;
 

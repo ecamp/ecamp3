@@ -142,6 +142,7 @@ import VueI18n from '@/plugins/i18n'
 import { ValidationObserver } from 'vee-validate'
 import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 import { parseTemplate } from 'url-template'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'Register',
@@ -181,7 +182,7 @@ export default {
     },
     termsOfServiceLink() {
       return (
-        parseTemplate(window.environment.TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
+        parseTemplate(getEnv().TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
           lang: this.language.substring(0, 2),
         }) || false
       )
@@ -197,8 +198,8 @@ export default {
   mounted() {
     this.language = this.$i18n.browserPreferredLocale
 
-    if (window.environment.RECAPTCHA_SITE_KEY) {
-      this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
+    if (getEnv().RECAPTCHA_SITE_KEY) {
+      this.recaptcha = load(getEnv().RECAPTCHA_SITE_KEY, {
         explicitRenderParameters: {
           badge: 'bottomleft',
         },

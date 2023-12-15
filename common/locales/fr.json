@@ -107,7 +107,6 @@
         "addressName": "Nom",
         "addressStreet": "Rue",
         "addressZipcode": "Code postal",
-        "couponKey": "Coupon",
         "courseKind": "Type de cours (pour les cours J+S: description du cours)",
         "courseNumber": "Numéro de cours",
         "kind": "Type de camp (chalet, tente, itinérant, été, automne)",
@@ -161,7 +160,9 @@
     "materialItem": {
       "fields": {
         "article": "Article",
+        "list": "Liste de matériel",
         "quantity": "Quantité",
+        "reference": "Activité / Période",
         "unit": "Unité"
       }
     },
@@ -193,13 +194,13 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
+      "dateTimeLong": "dd L LT",
       "duration": {
         "hoursAndMinutes": "{hours}h {minutes}min",
         "hoursOnly": "{hours}h",
         "minutesOnly": "{minutes}min"
       },
-      "hourLong": "HH:mm",
+      "hourLong": "LT",
       "hourShort": "H:mm"
     }
   },

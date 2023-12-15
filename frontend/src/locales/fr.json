@@ -10,11 +10,11 @@
         },
         "storyboard": {
           "controls": "Actions",
-          "reorder": "Déplacer"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Veux-tu vraiment supprimer cette ligne ?",
-          "title": "Confirmer la suppression ?"
+          "reorder": "Déplacer",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Veux-tu vraiment supprimer cette ligne ?",
+            "title": "Confirmer la suppression ?"
+          }
         }
       },
       "menuCardlessContentNode": {
@@ -24,7 +24,8 @@
         "backToContents": "Retour à l'édition du contenu",
         "changeLayout": "Changer la mise en page",
         "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé.",
-        "layout": "Mise en page"
+        "switchToFullSize": "Passer au format large",
+        "switchToPaperSize": "Passer au format papier"
       }
     },
     "camp": {
@@ -51,15 +52,16 @@
         "create": "Créer une catégorie d'activité",
         "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
         "deleteCategoryQuestion": "Veux-tu vraiment supprimer la catégorie d'activité?",
-        "editLayout": "Modifier la mise en page",
+        "editLayout": "Modifier la modèle",
         "title": "Catégories d'activités"
       },
       "campConditionalFields": {
         "course": {
-          "title": "Autres champs pour les cours"
+          "title": "Cours"
         },
+        "title": "Paramètres pour J+S",
         "ysCamp": {
-          "title": "Autres champs pour les camps J+S"
+          "title": "Camps"
         }
       },
       "campDangerZone": {
@@ -105,6 +107,9 @@
       },
       "dialogMaterialListCreate": {
         "title": "Créer une liste de matériel"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifier la liste de matériel"
       },
       "dialogPeriodCreate": {
         "title": "Créer une période"
@@ -185,12 +190,26 @@
       "dialogMaterialItemCreate": {
         "title": "Ajouter du matériel"
       },
+      "dialogMaterialItemEdit": {
+        "title": "Modifier l'entrée de matériel"
+      },
       "materialCreateItem": {
         "campSettingsButton": "Paramètres",
         "noMaterialListAvailable": "Il n'y a pas encore de liste de matériel pour ce camp. Tu peux les créer dans 'Admin'."
       },
+      "materialLists": {
+        "materialsCount": "Pas des éléments | Un élément | {count} éléments",
+        "overview": "Aperçu général"
+      },
       "materialTable": {
-        "addNewItem": "Ajoute un nouvel élément"
+        "addNewItem": "Ajoute un nouvel élément",
+        "noItems": "Aucun élément matériel trouvé",
+        "periodOnly": "Filtre : Période",
+        "reference": "Activité / Période"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Liste de matériel",
+        "overview": "Aperçu général"
       }
     },
     "navigation": {
@@ -228,6 +247,21 @@
       "localPdfDownloadButton": {
         "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
       },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Télécharger le PDF (mise en page #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Télécharger le PDF (mise en page #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
+        },
+        "printPreviewClient": {
+          "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
+          "previewIframeTitle": "Aperçu avant impression"
+        }
+      },
       "printConfigurator": {
         "add": "Ajouter du contenu",
         "config": {
@@ -252,21 +286,6 @@
         },
         "printPreviewNuxt": {
           "openPreview": "Ouvrir l'aperçu dans une nouvelle fenêtre",
-          "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
-          "previewIframeTitle": "Aperçu avant impression"
-        }
-      },
-      "printReact": {
-        "downloadReactPdfButton": {
-          "label": "Télécharger le PDF (mise en page #2)"
-        },
-        "downloadReactPdfListItem": {
-          "label": "Télécharger le PDF (mise en page #2)"
-        },
-        "generatePdfMixin": {
-          "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
-        },
-        "printPreviewReact": {
           "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
           "previewIframeTitle": "Aperçu avant impression"
         }
@@ -299,7 +318,7 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment le supprimer ?"
+        "warningText": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
       }
     },
     "toast": {
@@ -347,14 +366,18 @@
       "content": "Contenu",
       "create": "Créer",
       "delete": "Effacer",
+      "discard": "Rejeter",
+      "download": "Télécharger",
       "edit": "Éditer",
       "editable": "Editable",
+      "filter": "Filtrer",
       "lock": "Verrouiller",
       "login": "Se connecter",
       "logout": "Déconnexion",
       "move": "Déplacer",
       "ok": "OK",
       "open": "Ouvrir",
+      "rename": "Renommer",
       "save": "Sauvegarder",
       "saving": "En cours de sauvegarde",
       "search": "Rechercher",
@@ -375,6 +398,11 @@
     "language": "Français",
     "loading": "Chargement ...",
     "lokaliseMessage": "Changement de langue grâce à lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
@@ -388,16 +416,46 @@
   "views": {
     "activity": {
       "category": {
-        "changeLayout": "Modifier la mise en page",
+        "changeLayout": "Modifier la mise en page du modèle",
         "contents": "Contenu",
         "createLayoutHelp": "Ici, tu peux définir l'apparence par défaut des nouvelles activités {categoryShort}.{br}Attention : Si tu as déjà des activités {categoryShort} dans le camp, elles ne seront pas automatiquement adaptées.",
-        "editContents": "Définir le contenu par défaut",
+        "editContents": "Modifier le contenu du modèle",
         "layout": "Mise en page"
       },
       "printPreview": "Ouvrir l'aperçu avant impression",
       "sideBarProgram": {
         "title": "Activités du jour"
       }
+    },
+    "admin": {
+      "activity": {
+        "title": "Paramètres d'activité"
+      },
+      "adminMaterialLists": {
+        "title": "Liste de matériel"
+      },
+      "collaborators": {
+        "email": "Adresse e-mail",
+        "inactiveCollaborators": "Inactif",
+        "members": "Membres",
+        "openInvitations": "Invitations ouvertes",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Infos sur le camp"
+      },
+      "print": {
+        "title": "Imprimer un camp"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Activités",
+        "itemActivitySubtitle": "Catégorie, modèle & statut",
+        "itemCollaborators": "Team",
+        "itemInfos": "Infos sur le camp",
+        "itemMaterialLists": "Liste de matériel",
+        "itemPrint": "PDF / Imprimer"
+      },
+      "title": "Admin"
     },
     "auth": {
       "activate": {
@@ -410,7 +468,6 @@
         "accountless": "Vous n'avez pas encore de compte?",
         "email": "E-mail",
         "infoText": {
-          "beta": "Il s'agit de la version bêta d'eCamp v3. Elle peut être utilisée pour une planification réelle du camp, mais pas pour une planification urgente. Le nombre limité d'utilisateurs de la version bêta doit s'attendre à des interruptions de maintenance.",
           "dev": "Ceci est la version de développement d'eCamp v3.{br}IMPORTANT : Ceci est destiné à un usage de développement uniquement. Toutes les données sont publiques et seront supprimées périodiquement !{br}Login : test@example.com / test"
         },
         "loginCallback": {
@@ -459,21 +516,10 @@
       }
     },
     "camp": {
-      "admin": {
-        "collaborators": "Gérer l'équipe",
-        "title": "Admin"
-      },
       "campProgram": {
         "reminderLockedCreate": "Glisser pour créer n'est possible qu'en mode déverrouillé.",
         "reminderLockedMove": "Glisser pour déplacer n'est possible qu'en mode déverrouillé.",
         "title": "Programme général"
-      },
-      "collaborators": {
-        "email": "Adresse e-mail",
-        "inactiveCollaborators": "Inactif",
-        "members": "Membres",
-        "openInvitations": "Invitations ouvertes",
-        "title": "Team"
       },
       "dashboard": {
         "activities": "Activités",
@@ -490,7 +536,9 @@
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
         "progressLabel": "Statut",
+        "progressLabelNone": "Aucun statut",
         "responsible": "Responsable",
+        "responsibleNone": "Aucun responsables",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },
       "invitation": {
@@ -505,20 +553,6 @@
         "title": "Invitation",
         "useOtherAuth": "Déconnecte-toi et utilise un autre compte",
         "userAlreadyInCamp": "Tu participes déjà à ce camp"
-      },
-      "material": {
-        "downloadXlsx": "Télécharger",
-        "groupByList": "Regrouper par liste de matériel",
-        "showActivityMaterial": "Montrer le matériel des activités",
-        "title": "Matériel",
-        "xlsx": {
-          "activity": "Activité",
-          "article": "Article",
-          "filename": "Liste de matériel",
-          "matlist": "Liste de matériel",
-          "quantity": "Quantité",
-          "unit": "Unité"
-        }
       },
       "navigation": {
         "desktop": {
@@ -540,23 +574,22 @@
             "story": "Histoire"
           },
           "navSidebar": {
-            "itemCampAdmin": "Configuration du camp",
+            "itemActivity": "Activités",
+            "itemActivitySubtitle": "Catégorie, modèle & statut",
             "itemCamps": "Mes Camps",
             "itemClose": "Fermer le menu",
             "itemCollaborators": "Team",
+            "itemInfos": "Infos sur le camp",
+            "itemMaterialLists": "Liste de matériel",
             "itemPrinting": "PDF / Imprimer"
           }
         }
-      },
-      "print": {
-        "title": "Imprimer un camp"
       },
       "story": {
         "title": "Histoire"
       }
     },
     "campCreate": {
-      "couponKeyHint": "Pour la bêta fermée, un code est nécessaire. Sur ecamp3.ch/closed-beta, tu trouveras comment obtenir un tel code.",
       "create": "Créer le camp",
       "period": {
         "add": "Ajouter une période",
@@ -569,6 +602,19 @@
       "pastCamps": "Anciens camps",
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
+    },
+    "material": {
+      "materialLists": {
+        "title": "Liste de matériel"
+      },
+      "materialOverview": {
+        "createNewList": "Créer une liste de matériel",
+        "download": "Télécharger l'aperçu",
+        "title": "Aperçu général"
+      },
+      "sideBarMaterialLists": {
+        "title": "Listes de matériel"
+      }
     },
     "pageNotFound": {
       "backToHome": "Retour à l'accueil",

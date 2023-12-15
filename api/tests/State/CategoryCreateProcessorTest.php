@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CategoryCreateProcessorTest extends TestCase {
     private CategoryCreateProcessor $processor;
-    private MockObject|EntityManagerInterface $entityManagerMock;
+    private EntityManagerInterface|MockObject $entityManagerMock;
     private Category $category;
 
     protected function setUp(): void {

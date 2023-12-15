@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:18.16.1
+    image: node:20.9.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -13,7 +13,9 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
+      - ./pdf:/pdf:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
+      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
@@ -21,6 +23,8 @@ services:
       - CI=${CI}
     working_dir: /app
     command: ./docker-setup.sh
+    depends_on:
+      - pdf
 
   php:
     image: ecamp/ecamp3-dev-api-php
@@ -73,10 +77,6 @@ services:
     container_name: 'ecamp3-api-caddy'
     depends_on:
       - php
-    environment:
-      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
-      MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       - target: 3000
         published: 3000
@@ -93,8 +93,27 @@ services:
       - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/public:/srv/api/public:ro
 
+  pdf:
+    image: node:20.9.0
+    container_name: 'ecamp3-pdf'
+    stdin_open: true
+    tty: true
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./.prettierrc:/.prettierrc
+      - ./pdf:/app:delegated
+      - ./common:/common:delegated
+      - ./.cache/npm:/home/node/.npm
+    working_dir: /app
+    command: ./docker-setup.sh
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CI=${CI}
+
   print:
-    image: node:18.16.1
+    image: node:20.9.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -102,10 +121,11 @@ services:
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
+      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
     environment:
-      - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
+      - NITRO_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
       - CI=${CI}
@@ -132,19 +152,19 @@ services:
         protocol: tcp
 
   mail:
-    image: mailhog/mailhog
+    image: maildev/maildev
     container_name: 'ecamp3-mail'
     environment:
-      - MH_UI_WEB_PATH=/mail
+      - MAILDEV_BASE_PATHNAME=/mail
 
   docker-host:
     image: qoomon/docker-host
     container_name: 'ecamp3-docker-host-forwarder'
-    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    cap_add: ['NET_ADMIN', 'NET_RAW']
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.59.0-puppeteer-20.2.1
+    image: browserless/chrome:1.61.0-puppeteer-21.4.1
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
@@ -159,20 +179,21 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:12.16.0
-    profiles: [ "e2e" ]
+    image: cypress/included:13.6.1
+    profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./e2e:/e2e:delegated
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     network_mode: host
     working_dir: /e2e
 
   translation:
-    image: node:18.16.1
-    profiles: [ "translation" ]
+    image: node:20.9.0
+    profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated

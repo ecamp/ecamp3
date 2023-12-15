@@ -2,9 +2,8 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Inflector\EnglishInflector;
 
@@ -12,20 +11,19 @@ use Symfony\Component\String\Inflector\EnglishInflector;
  * This class modifies the API entrypoint when retrieved in HAL JSON format (/index.jsonhal) to include URI templates, and additionally
  * makes sure that the relation names of the _links are in plural rather than the default singular of API platform.
  */
-class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface {
+class UriTemplateNormalizer implements NormalizerInterface {
     public function __construct(
         private NormalizerInterface $decorated,
         private EnglishInflector $inflector,
         private UriTemplateFactory $uriTemplateFactory,
         private UrlGeneratorInterface $urlGenerator,
-    ) {
-    }
+    ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
-    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+    public function normalize($object, $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $result = $this->decorated->normalize($object, $format, $context);
 
         foreach ($result['_links'] as $rel => $link) {
@@ -58,11 +56,11 @@ class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
         return $result;
     }
 
-    public function hasCacheableSupportsMethod(): bool {
-        if (!$this->decorated instanceof CacheableSupportsMethodInterface) {
-            return false;
+    public function getSupportedTypes(?string $format): array {
+        if (method_exists($this->decorated, 'getSupportedTypes')) {
+            return $this->decorated->getSupportedTypes($format);
         }
 
-        return $this->decorated->hasCacheableSupportsMethod();
+        return ['*' => false];
     }
 }

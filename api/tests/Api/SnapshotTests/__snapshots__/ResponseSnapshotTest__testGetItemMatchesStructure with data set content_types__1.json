@@ -1,0 +1,13 @@
+{
+    "_links": {
+        "contentNodes": {
+            "href": "escaped_value"
+        },
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "active": "escaped_value",
+    "id": "escaped_value",
+    "name": "escaped_value"
+}

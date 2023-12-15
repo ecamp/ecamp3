@@ -1,8 +1,12 @@
 <template>
   <card-content-node v-resizeobserver.debounce="onResize" v-bind="$props">
     <template #outer>
-      <component :is="variant === 'default' ? 'table' : 'div'" class="w-full">
-        <thead v-if="variant === 'default'">
+      <component
+        :is="isDefaultVariant ? 'table' : 'div'"
+        class="w-full"
+        :class="{ 'flex-grow-1': !isDefaultVariant }"
+      >
+        <thead v-if="isDefaultVariant">
           <tr>
             <th>
               <span class="d-sr-only">
@@ -31,11 +35,11 @@
           :items="sections"
           :layout-mode="layoutMode"
           :is-last-section="isLastSection"
-          :variant="variant"
+          :variant="isDefaultVariant ? 'default' : 'dense'"
           @sort="updateSections"
         />
         <template v-if="!layoutMode && !disabled">
-          <tfoot v-if="variant === 'default'">
+          <tfoot v-if="isDefaultVariant">
             <tr>
               <td colspan="4">
                 <v-btn
@@ -78,7 +82,7 @@ import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
 import { v4 as uuidv4 } from 'uuid'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import StoryboardSortable from '@/components/activity/content/StoryboardSortable.vue'
+import StoryboardSortable from '@/components/activity/content/storyboard/StoryboardSortable.vue'
 
 export default {
   name: 'Storyboard',
@@ -113,8 +117,8 @@ export default {
     isLastSection() {
       return Object.keys(this.sections).length === 1
     },
-    variant() {
-      return this.clientWidth <= 910 ? 'dense' : 'default'
+    isDefaultVariant() {
+      return this.clientWidth > 910
     },
   },
   mounted() {

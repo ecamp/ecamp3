@@ -1,8 +1,15 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">{{ $tc('global.button.login') }}</h1>
+    <div v-if="isProdSuffix && $vuetify.breakpoint.smAndDown" class="text-center">
+      <v-icon size="64"> $vuetify.icons.ecamp </v-icon>
+    </div>
+
+    <h1 class="display-1 text-center" :class="{ 'my-4': isProdSuffix }">
+      {{ $tc('global.button.login') }}
+    </h1>
 
     <v-alert
+      v-if="!isProdSuffix"
       class="mt-2 text-justify"
       text
       dense
@@ -153,8 +160,9 @@ import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
 import { serverErrorToString } from '@/helpers/serverError'
 import { parseTemplate } from 'url-template'
+import { getEnv } from '@/environment.js'
 
-const LOGIN_INFO_TEXT_KEY = window.environment.LOGIN_INFO_TEXT_KEY
+const LOGIN_INFO_TEXT_KEY = getEnv().LOGIN_INFO_TEXT_KEY
 
 export default {
   name: 'Login',
@@ -180,12 +188,18 @@ export default {
     }
   },
   computed: {
+    infoTextSuffix() {
+      return LOGIN_INFO_TEXT_KEY
+    },
+    isProdSuffix() {
+      return this.infoTextSuffix === 'prod'
+    },
     infoTextKey() {
-      return `views.auth.login.infoText.${LOGIN_INFO_TEXT_KEY ?? 'dev'}`
+      return `views.auth.login.infoText.${this.infoTextSuffix ?? 'prod'}`
     },
     termsOfServiceLink() {
       return (
-        parseTemplate(window.environment.TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
+        parseTemplate(getEnv().TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
           lang: this.$store.state.lang.language.substring(0, 2),
         }) || false
       )

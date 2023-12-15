@@ -7,6 +7,9 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\ContentNode\SingleText;
 use App\InputFilter\CleanHTMLFilter;
 
+/**
+ * @template-extends ContentNodePersistProcessor<SingleText>
+ */
 class SingleTextPersistProcessor extends ContentNodePersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,

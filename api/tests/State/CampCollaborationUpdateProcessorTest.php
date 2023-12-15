@@ -11,8 +11,8 @@ use App\Service\MailService;
 use App\State\CampCollaborationUpdateProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @internal
@@ -27,7 +27,7 @@ class CampCollaborationUpdateProcessorTest extends TestCase {
     private CampCollaboration $campCollaboration;
     private User $user;
 
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
 
     private CampCollaborationUpdateProcessor $processor;
 
@@ -78,7 +78,7 @@ class CampCollaborationUpdateProcessorTest extends TestCase {
     /**
      * @dataProvider notInvitedStatuses
      */
-    public function testOnStatusChangeDoesNothingIfStatusIsNotInvited($status) {
+    public function testOnStatusChangeDoesNothingIfStatusIsNotInvited(string $status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;
 

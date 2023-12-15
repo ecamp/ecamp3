@@ -19,6 +19,5 @@ final class Version202305011841 extends AbstractMigration {
         // END PHP CODE
     }
 
-    public function down(Schema $schema): void {
-    }
+    public function down(Schema $schema): void {}
 }

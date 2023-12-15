@@ -41,6 +41,7 @@
 <script>
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import campCollaborationDisplayName from '../../../../common/helpers/campCollaborationDisplayName'
 
 export default {
   name: 'CollaboratorListItem',
@@ -73,9 +74,7 @@ export default {
   }),
   computed: {
     name() {
-      return this.collaborator.user
-        ? this.collaborator.user().displayName
-        : this.collaborator.inviteEmail
+      return campCollaborationDisplayName(this.collaborator, this.$tc.bind(this), false)
     },
   },
 }

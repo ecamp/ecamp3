@@ -5,27 +5,54 @@ import { comlink } from 'vite-plugin-comlink'
 import * as path from 'path'
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { configDefaults } from 'vitest/config'
+
+const plugins = [
+  comlink(), // must be first
+  vue(),
+  Components({
+    resolvers: [
+      // Vuetify
+      VuetifyResolver(),
+    ],
+  }),
+  createSvgPlugin(),
+]
+const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+if (sentryAuthToken) {
+  plugins.push(
+    sentryVitePlugin({
+      authToken: sentryAuthToken,
+      org: process.env.SENTRY_ORG || 'ecamp',
+      project: process.env.SENTRY_FRONTEND_PROJECT || 'ecamp3-frontend',
+      telemetry: false,
+      sourcemaps: {
+        assets: ['./dist/**/*'],
+      },
+      release: {
+        name: process.env.SENTRY_RELEASE_NAME || 'development',
+      },
+    })
+  )
+}
 
 export default defineConfig(({ mode }) => ({
   server: {
     port: 3000,
   },
-  plugins: [
-    comlink(), // must be first
-    vue(),
-    Components({
-      resolvers: [
-        // Vuetify
-        VuetifyResolver(),
-      ],
-    }),
-    createSvgPlugin(),
-  ],
+  plugins,
   worker: {
     plugins: [comlink()],
   },
   optimizeDeps: {
     include: [
+      '@intlify/core',
+      '@react-pdf/font',
+      '@react-pdf/layout',
+      '@react-pdf/pdfkit',
+      '@react-pdf/primitives',
+      '@react-pdf/render',
       '@sentry/browser',
       '@sentry/vue',
       '@zxcvbn-ts/core',
@@ -34,6 +61,7 @@ export default defineConfig(({ mode }) => ({
       '@zxcvbn-ts/language-en',
       '@zxcvbn-ts/language-fr',
       '@zxcvbn-ts/language-it',
+      'colorjs.io',
       'comlink',
       'core-js/modules/es.array.concat.js',
       'core-js/modules/es.array.find.js',
@@ -55,20 +83,25 @@ export default defineConfig(({ mode }) => ({
       'dayjs/plugin/isBetween',
       'dayjs/plugin/localizedFormat',
       'dayjs/plugin/utc',
+      'file-saver',
+      'lodash/camelCase.js',
+      'lodash/cloneDeep.js',
+      'lodash/groupBy.js',
       'lodash/keyBy.js',
       'lodash/sortBy.js',
       'lodash/minBy.js',
       'lodash/maxBy.js',
-      'raf/polyfill',
+      'runes',
       'vee-validate',
       'vue',
+      'vuedraggable',
       'vue-toastification',
       'vuetify/es5/components/VCalendar/modes/column.js',
       'vuetify/es5/components/VCalendar/util/events.js',
     ],
   },
   build: {
-    sourcemap: mode === 'development',
+    sourcemap: true,
     minify: mode === 'development' ? false : 'esbuild',
   },
   resolve: {
@@ -104,18 +137,30 @@ export default defineConfig(({ mode }) => ({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: [
-          '@import "./node_modules/vuetify/src/styles/styles.sass";', // original default variables from vuetify
-          '@import "@/scss/variables.scss";', // vuetify variable overrides
-          '',
-        ].join('\n'),
+        additionalData: '@import "./node_modules/vuetify/src/styles/styles.sass";\n', // original default variables from vuetify
       },
       sass: {
-        additionalData: [
-          '@import "./node_modules/vuetify/src/styles/styles.sass"', // original default variables from vuetify
-          '@import "@/scss/variables.scss"', // vuetify variable overrides
-          '',
-        ].join('\n'),
+        additionalData: '@import "./src/scss/variables.scss"\n', // vuetify variable overrides
+      },
+    },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
+    globalSetup: './tests/globalSetup.js',
+    setupFiles: './tests/setup.js',
+    coverage: {
+      all: true,
+      exclude: [...configDefaults.coverage.exclude, '**/src/pdf/**'],
+      reporter: ['text', 'lcov', 'html'],
+      reportsDirectory: './data/coverage',
+    },
+    deps: {
+      optimizer: {
+        web: {
+          exclude: ['vue'],
+        },
       },
     },
   },

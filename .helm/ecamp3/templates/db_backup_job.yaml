@@ -1,0 +1,77 @@
+{{- if .Values.postgresql.backup.schedule }}
+{{- $dbBackupRestoreImage := .Values.postgresql.dbBackupRestoreImage -}}
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "{{ include "dbBackupJob.name" . }}"
+  labels:
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      name: {{ include "dbBackupJob.name" . }}
+    spec:
+      template:
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "app.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          enableServiceLinks: false
+          containers:
+            - name: create-backup
+              securityContext:
+                {{- toYaml .Values.securityContext | nindent 16 }}
+              image: "{{ $dbBackupRestoreImage.repository }}:{{ $dbBackupRestoreImage.tag | default .Values.imageTag }}"
+              imagePullPolicy: {{ $dbBackupRestoreImage.pullPolicy }}
+              command:
+                - sh
+                - "-c"
+                - |{{ range .Files.Lines "files/db_backup_job/create-backup.sh" }}
+                  {{ . }}{{ end }}
+              env:
+                - name: APP_NAME
+                  value: {{ include "app.name" . }}
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: database-url
+                - name: ENCRYPTION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: encryption-key
+                      optional: true
+                - name: S3_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-endpoint
+                - name: S3_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-bucket
+                - name: S3_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-access-key-id
+                - name: S3_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "dbBackupJob.name" . }}
+                      key: s3-access-key
+
+          restartPolicy: Never
+      backoffLimit: 3
+  schedule: {{ .Values.postgresql.backup.schedule | quote }}
+{{- end }}

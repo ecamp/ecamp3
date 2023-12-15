@@ -29,12 +29,12 @@
 		}
 	}
 
-	handle_path /print* {
+	handle /print* {
 		reverse_proxy print:3003
 	}
 
 	handle /mail* {
-		reverse_proxy mail:8025
+		reverse_proxy mail:1080
 	}
 
 	handle {
@@ -45,24 +45,9 @@
 :3001 {
 	route {
 		root * /srv/api/public
-		mercure {
-			# Transport to use (default to Bolt)
-			transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
-			# Publisher JWT key
-			publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
-			# Subscriber JWT key
-			subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
-			# Allow anonymous subscribers (double-check that it's what you want)
-			anonymous
-			# Enable the subscription API (double-check that it's what you want)
-			subscriptions
-			# Extra directives
-			{$MERCURE_EXTRA_DIRECTIVES}
-		}
-		vulcain
 
-		# Add links to the API docs and to the Mercure Hub if not set explicitly (e.g. the PWA)
-		header ?Link `</docs.jsonld>; rel="www.w3.org/ns/hydra/core#apiDocumentation", </.well-known/mercure>; rel="mercure"`
+		# Add links to the API docs if not set explicitly (e.g. the PWA)
+		header ?Link `</docs.jsonld>; rel="www.w3.org/ns/hydra/core#apiDocumentation"`
 
 		php_fastcgi unix//var/run/php/php-fpm.sock {
 			env HTTP_X_FORWARDED_PREFIX {header.X-Forwarded-Prefix}

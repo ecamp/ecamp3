@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 class CategoryRemoveProcessorTest extends TestCase {
     private CategoryRemoveProcessor $processor;
     private Category $category;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     protected function setUp(): void {
         $decoratedProcessor = $this->createMock(ProcessorInterface::class);

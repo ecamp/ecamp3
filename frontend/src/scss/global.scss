@@ -36,6 +36,13 @@ body {
 .v-skeleton-loader__table-tfoot {
   background: none !important;
 }
+.v-skeleton-loader--inherit-size .v-skeleton-loader__bone {
+  height: inherit !important;
+  width: inherit !important;
+}
+.v-skeleton-loader--no-margin .v-skeleton-loader__bone {
+  margin-bottom: 0 !important;
+}
 .v-btn--outlined:before {
   opacity: 0.08 !important;
 }
@@ -133,6 +140,14 @@ body {
   display: grid;
 }
 
+.d-inline-grid {
+  display: inline-grid;
+}
+
+.opacity-60 {
+  opacity: 0.6;
+}
+
 .grid-cols-2 {
   grid-template-columns: 1fr 1fr;
 }
@@ -157,6 +172,10 @@ body {
 
 .gap-2 {
   gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
 }
 
 .relative {

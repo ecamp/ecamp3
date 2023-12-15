@@ -2,5 +2,4 @@
 
 namespace App\Entity;
 
-interface SupportsContentNodeChildren {
-}
+interface SupportsContentNodeChildren {}

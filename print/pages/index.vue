@@ -1,7 +1,7 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12">
-      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+  <div>
+    <div>
+      <generic-error-message v-if="error" :error="error" />
       <div v-for="(content, idx) in config.contents" v-else :key="idx">
         <component
           :is="'Config' + content.type"
@@ -11,31 +11,29 @@
           :index="idx"
         />
       </div>
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      config: {},
-      camp: null,
-    }
-  },
-  async fetch() {
-    const query = this.$route.query
-    this.config = JSON.parse(query.config || '{}')
-    this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-  },
-  head() {
-    return {
-      htmlAttrs: {
-        lang: this.$i18n.locale,
-      },
-    }
-  },
-}
+<script setup>
+// parse query config
+const route = useRoute()
+const query = route.query
+const config = JSON.parse(query.config || '{}')
+
+// set locale
+const { setLocale, fallbackLocale } = useI18n()
+const { $date } = useNuxtApp()
+const locale = config.language || fallbackLocale.value
+await setLocale(locale) // i18n
+$date.locale(locale) //dayjs
+
+// load camp
+const { $api } = useNuxtApp()
+const { data: camp, error } = await useAsyncData(
+  'camp',
+  () => $api.get(config.camp)._meta.load
+)
 </script>
 
 <style>
@@ -43,8 +41,15 @@ export default {
   --tw-prose-body: #000 !important;
 }
 
-.theme--light.v-application {
+body {
   color: #000;
+  font-family:
+    'InterDisplay',
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 10pt;
 }
 
 .tw-prose ol {

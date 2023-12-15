@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
-import ETimePicker from '../ETimePicker'
+import ETimePicker from '../ETimePicker.vue'
 
 describe('An ETimePicker', () => {
   const TIME1_ISO = '2037-07-18T09:52:00+00:00'
@@ -210,33 +210,112 @@ describe('An ETimePicker', () => {
       ).rejects.toThrow(/Received element is visible/)
     })
 
-    it('updates v-model when the input field is changed', async () => {
-      // given
-      const { emitted } = render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
-      })
-      const inputField = await screen.findByDisplayValue(data.time1)
+    describe('updates v-model when the input field is changed', async () => {
+      const timeConfig1 = {
+        iso: TIME1_ISO,
+        localizedTime: data.time1,
+        textInput: data.time1,
+      }
+      const timeConfig2 = {
+        iso: TIME2_ISO,
+        localizedTime: data.time2,
+        textInput: data.time2,
+      }
+      const timeConfig3 = {
+        iso: TIME3_ISO,
+        localizedTime: data.time3,
+        textInput: data.time3,
+      }
+      it.each([
+        {
+          from: timeConfig1,
+          to: timeConfig2,
+        },
+        {
+          from: timeConfig2,
+          to: timeConfig1,
+        },
+        {
+          from: timeConfig1,
+          to: timeConfig3,
+        },
+        //with leading zero
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig2,
+            textInput: '0' + timeConfig2.localizedTime,
+          },
+        },
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig2,
+            textInput: '0000' + timeConfig2.localizedTime,
+          },
+        },
+        {
+          from: timeConfig2,
+          to: {
+            ...timeConfig1,
+            textInput: '0' + timeConfig1.localizedTime,
+          },
+        },
+        {
+          from: timeConfig2,
+          to: {
+            ...timeConfig1,
+            textInput: '00000' + timeConfig1.localizedTime,
+          },
+        },
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig3,
+            textInput: '0' + timeConfig3.localizedTime,
+          },
+        },
+        {
+          from: timeConfig1,
+          to: {
+            ...timeConfig3,
+            textInput: '00000' + timeConfig3.localizedTime,
+          },
+        },
+      ])(
+        `from $from.localizedTime to $to.textInput`,
+        async ({
+          from: { iso: fromIso, localizedTime: fromLocalizedTime },
+          to: { iso: toIso, localizedTime: toLocalizedTime, textInput },
+        }) => {
+          // given
+          const { emitted } = render(ETimePicker, {
+            props: { value: fromIso, name: 'test' },
+          })
+          const inputField = await screen.findByDisplayValue(fromLocalizedTime)
 
-      // when
-      await user.clear(inputField)
-      await user.keyboard(data.time2)
+          // when
+          await user.clear(inputField)
+          await user.keyboard(textInput)
 
-      // then
-      await waitFor(async () => {
-        const events = emitted().input
-        // some input events were fired
-        expect(events.length).toBeGreaterThan(0)
-        // the last one included the parsed version of our entered time
-        expect(events[events.length - 1]).toEqual([TIME2_ISO])
-      })
-      // Our entered time should be visible...
-      screen.getByDisplayValue(data.time2)
-      // ...and stay visible
-      await expect(
-        waitFor(() => {
-          expect(screen.getByDisplayValue(data.time2)).not.toBeVisible()
-        })
-      ).rejects.toThrow(/Received element is visible/)
+          // then
+          await waitFor(async () => {
+            const events = emitted().input
+            // some input events were fired
+            expect(events.length).toBeGreaterThan(0)
+            // the last one included the parsed version of our entered time
+            expect(events[events.length - 1]).toEqual([toIso])
+          })
+          // Our entered time should be visible...
+          screen.getByDisplayValue(toLocalizedTime)
+          // ...and stay visible
+          await expect(
+            waitFor(() => {
+              expect(screen.getByDisplayValue(toLocalizedTime)).not.toBeVisible()
+            })
+          ).rejects.toThrow(/Received element is visible/)
+        }
+      )
     })
 
     it('updates v-model when a new time is selected in the picker', async () => {
@@ -278,19 +357,26 @@ describe('An ETimePicker', () => {
       ).rejects.toThrow(/Received element is visible/)
     })
 
-    it('validates the input', async () => {
-      // given
-      render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+    describe('validates the input', async () => {
+      it.each([
+        data.timeInWrongLocale,
+        'a' + data.time1,
+        data.time2 + 'a',
+        '0000:a' + data.time3,
+      ])('%s', async (textInput) => {
+        // given
+        render(ETimePicker, {
+          props: { value: TIME1_ISO, name: 'test' },
+        })
+        const inputField = await screen.findByDisplayValue(data.time1)
+
+        // when
+        await user.clear(inputField)
+        await user.keyboard(textInput)
+
+        // then
+        await screen.findByText(data.validationMessage)
       })
-      const inputField = await screen.findByDisplayValue(data.time1)
-
-      // when
-      await user.clear(inputField)
-      await user.keyboard(data.timeInWrongLocale)
-
-      // then
-      await screen.findByText(data.validationMessage)
     })
 
     it('works with invalid initialization', async () => {
