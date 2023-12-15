@@ -62,7 +62,9 @@ export default {
   width: 24px;
   content: '\F0131';
   color: transparent;
-  transition: transform 0.2s ease-out, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease-out,
+    border-color 0.2s ease;
   transform: scale(1.9);
   pointer-events: none;
 }

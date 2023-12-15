@@ -130,7 +130,9 @@ export default {
   margin-top: 0px;
   margin-left: 4px;
   transform: scale(1.2) rotate(0);
-  transition: transform 0.2s ease-out, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease-out,
+    border-color 0.2s ease;
 }
 
 .ec-api-wrapper--saving .ec-api-select-append__icon {
@@ -138,12 +140,16 @@ export default {
   -webkit-mask: conic-gradient(from 0deg at 50% 50%, #0000 0%, #000);
   animation: spin-only 1s linear infinite;
   transform: scale(1) rotate(0);
-  transition: transform 0.2s ease-out, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease-out,
+    border-color 0.2s ease;
 }
 
 .ec-api-wrapper--success .ec-api-select-append__icon {
   border-color: map-get($green, 'base');
-  transition: transform 0.2s ease-out, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease-out,
+    border-color 0.2s ease;
   transform: scale(1) rotate(0);
 }
 </style>
