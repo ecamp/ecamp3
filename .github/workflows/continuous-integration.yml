@@ -408,7 +408,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
           outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: e2e-tests-images
           path: /tmp/ecamp3-dev-*.tar
@@ -465,7 +465,7 @@ jobs:
           wait-on-timeout: 300
 
       # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-output-${{ matrix.browser }}
