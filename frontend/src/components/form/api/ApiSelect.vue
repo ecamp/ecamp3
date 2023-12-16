@@ -7,6 +7,7 @@ Displays a field as a e-select + write access via API wrapper
     v-slot="wrapper"
     v-bind="$props"
     :auto-save-delay="autoSaveDelayComputed"
+    wrapper-input-type="select"
     v-on="$listeners"
   >
     <e-select
@@ -15,7 +16,7 @@ Displays a field as a e-select + write access via API wrapper
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
-      :loading="wrapper.isLoading ? 'secondary' : false"
+      :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       :outlined="outlined"
       :filled="filled"
       :dense="dense"
@@ -23,7 +24,6 @@ Displays a field as a e-select + write access via API wrapper
       @input="wrapper.on.input"
     >
       <template #append>
-        <v-icon>mdi-menu-down</v-icon>
         <ApiWrapperSelectAppend :wrapper="wrapper" :resettable="resettable" />
       </template>
     </e-select>

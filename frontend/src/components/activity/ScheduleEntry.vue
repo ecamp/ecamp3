@@ -61,9 +61,19 @@ Displays a single scheduleEntry
             </v-list-item>
           </v-list>
         </v-menu>
-        <a v-if="!editActivityTitle" style="color: inherit" @click="makeTitleEditable()">
-          {{ activity.title }}
-        </a>
+        <button
+          v-if="!editActivityTitle"
+          class="ml-2 ec-activity-title"
+          @click="makeTitleEditable()"
+        >
+          {{ activity.title
+          }}<v-icon
+            right
+            size="20"
+            :aria-label="$tc('components.activity.scheduleEntry.editTitle')"
+            >mdi-pencil</v-icon
+          >
+        </button>
       </v-toolbar-title>
       <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
         <api-text-field
@@ -73,6 +83,7 @@ Displays a single scheduleEntry
           dense
           autofocus
           :auto-save="false"
+          resettable
           @finished="editActivityTitle = false"
         />
       </div>
@@ -396,6 +407,16 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
+}
+
+.ec-activity-title {
+  .v-icon {
+    opacity: 0;
+  }
+
+  &:hover .v-icon {
+    opacity: 1;
+  }
 }
 
 .e-category-chip-save-icon {
