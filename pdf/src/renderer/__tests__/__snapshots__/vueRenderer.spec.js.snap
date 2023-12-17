@@ -15920,7 +15920,7 @@ exports[`rendering a full camp > renders the program 1`] = `
                                             {
                                               "parent": [Circular],
                                               "type": "TEXT_INSTANCE",
-                                              "value": "Ein Triebwerk explodiert und kurz darauf schlagen wir auf, die Leiter stossen alle Kinder durcheinander und werfen die \\"Stühle\\" um, um den Absturz zu simulieren.",
+                                              "value": "Ein Triebwerk explodiert und kurz darauf schlagen wir auf, die Leiter stossen alle Kinder durcheinander und werfen die "Stühle" um, um den Absturz zu simulieren.",
                                             },
                                           ],
                                           "parent": [Circular],
@@ -26435,7 +26435,7 @@ exports[`rendering a full camp > renders the program 1`] = `
                                             {
                                               "parent": [Circular],
                                               "type": "TEXT_INSTANCE",
-                                              "value": "Wir lernen das Pfadiversprechen mit dem \\"Ich packe in meinen Rucksack\\"-Spiel ",
+                                              "value": "Wir lernen das Pfadiversprechen mit dem "Ich packe in meinen Rucksack"-Spiel ",
                                             },
                                           ],
                                           "parent": [Circular],
@@ -26453,7 +26453,7 @@ exports[`rendering a full camp > renders the program 1`] = `
                                             {
                                               "parent": [Circular],
                                               "type": "TEXT_INSTANCE",
-                                              "value": "Es beginnt jeamd und sagt \\"Ich...\\" und dann der reihe nach immer wieder holen was die andern zuvor gesagt haben und das nächste Wort des Versprechens nennen.",
+                                              "value": "Es beginnt jeamd und sagt "Ich..." und dann der reihe nach immer wieder holen was die andern zuvor gesagt haben und das nächste Wort des Versprechens nennen.",
                                             },
                                           ],
                                           "parent": [Circular],
