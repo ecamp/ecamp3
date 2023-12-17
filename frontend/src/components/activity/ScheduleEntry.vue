@@ -278,7 +278,7 @@ import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdf
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
-import DialogEntityDelete from "@/components/dialog/DialogEntityDelete.vue";
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'ScheduleEntry',
