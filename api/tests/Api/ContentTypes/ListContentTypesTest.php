@@ -12,7 +12,7 @@ class ListContentTypesTest extends ECampApiTestCase {
         $response = static::createBasicClient()->request('GET', '/content_types');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 7,
+            'totalItems' => 8,
             '_links' => [
                 'items' => [],
             ],
@@ -21,14 +21,14 @@ class ListContentTypesTest extends ECampApiTestCase {
             ],
         ]);
 
-        $this->assertCount(7, $response->toArray()['_links']['items']);
+        $this->assertCount(8, $response->toArray()['_links']['items']);
     }
 
     public function testListContentTypesIsAllowedForLoggedInUser() {
         $response = static::createClientWithCredentials()->request('GET', '/content_types');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 7,
+            'totalItems' => 8,
             '_links' => [
                 'items' => [],
             ],
@@ -36,6 +36,6 @@ class ListContentTypesTest extends ECampApiTestCase {
                 'items' => [],
             ],
         ]);
-        $this->assertCount(7, $response->toArray()['_links']['items']);
+        $this->assertCount(8, $response->toArray()['_links']['items']);
     }
 }

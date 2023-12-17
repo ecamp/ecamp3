@@ -1,4 +1,4 @@
-<!-- 
+<!--
 generic component to render any ContentNode
 -->
 <template>
@@ -25,6 +25,7 @@ const { error } = await useAsyncData('ContentNode', async () => {
 <script>
 import NotImplemented from './NotImplemented.vue'
 import ColumnLayout from './ColumnLayout.vue'
+import ResponsiveLayout from './ResponsiveLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
 import Material from './Material.vue'
 import Notes from './Notes.vue'
@@ -36,6 +37,7 @@ export default defineNuxtComponent({
   components: {
     NotImplemented,
     ColumnLayout,
+    ResponsiveLayout,
     LAThematicArea,
     Material,
     Notes,
