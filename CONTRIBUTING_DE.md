@@ -84,7 +84,7 @@ Wir empfehlen dir, deine Entwicklungsumgebung so zu [Konfigurieren](https://gith
 Alternativ kannst du
 
 - <details>
-    <summary>php-cs-fixer und ESLint / Prettier manuell vor jedem Commit ausführen: (Klick mich an, ich bin erweiterbar) </summary>
+    <summary>php-cs-fixer und ESLint / Prettier manuell vor jedem Commit ausführen: (Klick mich an, ich bin aufklappbar) </summary>
 
     ```shell
     # Frontend dateien in einem bereits laufenden Container formatieren
@@ -112,7 +112,7 @@ Alternativ kannst du
   </details>
 - einen pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) aufsetzen, um php-cs-fixer und ESLint automatisch vor jedem Commit ausführen zu lassen. Ein Beispiel dafür ist in der [pre-commit.sh](./pre-commit.sh) datei zu finden.
 <details>
-  <summary>Um dieses Beispiel zu verwenden führe die folgenden Befehle aus (Klick mich an, ich bin erweiterbar)</summary>
+  <summary>Um dieses Beispiel zu verwenden führe die folgenden Befehle aus (Klick mich an, ich bin aufklappbar)</summary>
     <strong>Beachte, du gibst nun einer Datei aus dem Internet die Berechtigung auf deinem Computer ausgeführt zu werden. Es ist Empfehlenswert in solchen Fällen sicherzustellen das du dem Code und Author vertraust. (Oder noch besser: verstehst, was der Code macht)</strong>
 
 ```shell
