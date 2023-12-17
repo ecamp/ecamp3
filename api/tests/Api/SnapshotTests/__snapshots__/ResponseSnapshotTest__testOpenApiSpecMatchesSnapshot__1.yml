@@ -376,8 +376,10 @@ components:
           description: 'Copy Contents from this Source-Activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         location:
           description: "The physical location where this activity's programme will be carried out."
           example: Spielwiese
@@ -785,8 +787,10 @@ components:
           description: 'Copy Contents from this Source-Activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         location:
           description: "The physical location where this activity's programme will be carried out."
           example: Spielwiese
@@ -1210,8 +1214,10 @@ components:
           description: 'Copy Contents from this Source-Activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          nullable: true
-          type: string
+          'owl:maxCardinality': 1
+          type:
+            - 'null'
+            - string
         location:
           description: "The physical location where this activity's programme will be carried out."
           example: Spielwiese
