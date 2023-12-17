@@ -46,7 +46,7 @@ jobs:
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
   
   e2e-tests-run:
-    name: 'Tests: End-to-end run to detect flaky tests'
+    name: 'Tests: End-to-end run to detect flaky tests '
     needs:
       - create-array
       - e2e-tests-build
