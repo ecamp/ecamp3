@@ -65,7 +65,7 @@
         "symfony/stopwatch": "6.4.0",
         "symfony/var-dumper": "6.4.0",
         "symfony/web-profiler-bundle": "6.4.0",
-        "vimeo/psalm": "5.17.0"
+        "vimeo/psalm": "5.18.0"
     },
     "config": {
         "optimize-autoloader": true,
