@@ -477,6 +477,71 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(422);
     }
 
+    public function testCreateActivityFromCopySourceValidatesAccess() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user8memberOnlyInCamp2']->getEmail()])->request(
+            'POST',
+            '/activities',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'copyActivitySource' => $this->getIriFor('activity1'),
+                    'category' => $this->getIriFor('category1camp2'),
+                    'scheduleEntries' => [
+                        [
+                            'period' => $this->getIriFor('period1camp2'),
+                            'start' => '2023-03-25T15:00:00+00:00',
+                            'end' => '2023-03-25T16:00:00+00:00',
+                        ],
+                    ],
+                ],
+                []
+            )]
+        );
+
+        // No Access on activity1 -> BadRequest
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testCreateActivityFromCopySourceWithinSameCamp() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/activities',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'copyActivitySource' => $this->getIriFor('activity1'),
+                    'category' => $this->getIriFor('category1'),
+                ],
+                []
+            )]
+        );
+
+        // Activity created
+        $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateActivityFromCopySourceAcrossCamp() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/activities',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'copyActivitySource' => $this->getIriFor('activity1'),
+                    'category' => $this->getIriFor('category1camp2'),
+                    'scheduleEntries' => [
+                        [
+                            'period' => $this->getIriFor('period1camp2'),
+                            'start' => '2023-03-25T15:00:00+00:00',
+                            'end' => '2023-03-25T16:00:00+00:00',
+                        ],
+                    ],
+                ],
+                []
+            )]
+        );
+
+        // Activity created
+        $this->assertResponseStatusCodeSame(201);
+    }
+
     /**
      * @throws RedirectionExceptionInterface
      * @throws DecodingExceptionInterface
@@ -509,6 +574,7 @@ class CreateActivityTest extends ECampApiTestCase {
             Activity::class,
             Post::class,
             array_merge([
+                'copyActivitySource' => null,
                 'category' => $this->getIriFor('category1'),
                 'progressLabel' => null,
                 'scheduleEntries' => [

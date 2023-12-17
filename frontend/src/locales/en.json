@@ -17,12 +17,20 @@
           }
         }
       },
+      "copyActivityInfoDialog": {
+        "title": "Copy & paste activity",
+        "description": "In order to paste a copied activity, you must allow eCamp to read your clipboard.",
+        "allow": "Allow now",
+        "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied activities.",
+        "granted": "You can now paste copied activities."
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Must be empty to delete"
       },
       "scheduleEntry": {
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
+        "copyScheduleEntry": "Copy activity",
         "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
         "switchToFullSize": "Switch to full size",
         "switchToPaperSize": "Switch to paper size"
@@ -292,6 +300,15 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clipboard": "Clipboard",
+        "copyPastActivity": "Copy & paste activity",
+        "clearClipboard": "Clear clipboard",
+        "copyActivity": "Copy activity",
+        "copyActivityContent": "Copy content from activity",
+        "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
+        "pasteActivity": "paste activity"
+      },
       "formScheduleEntryItem": {
         "end": "End",
         "start": "Start"
@@ -406,6 +423,9 @@
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"
+    },
+    "toast": {
+      "copied": "{source} copied"
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",

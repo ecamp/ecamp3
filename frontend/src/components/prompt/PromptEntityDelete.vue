@@ -4,6 +4,7 @@
     :icon="icon"
     :title="$tc('components.prompt.promptEntityDelete.title')"
     :error="error"
+    type="error"
     :submit-action="del"
     :submit-enabled="submitEnabled && !$slots.error"
     :submit-label="$tc('global.button.delete')"
