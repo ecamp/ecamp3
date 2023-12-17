@@ -1,0 +1,24 @@
+{
+  "contentNode": {
+    "storycontext": {
+      "name": "Fil cotschen"
+    }
+  },
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Num da battasendas"
+      }
+    }
+  },
+  "global": {
+    "language": "Rumantsch (Battasendas)"
+  },
+  "views": {
+    "camp": {
+      "story": {
+        "title": "Fil cotschen"
+      }
+    }
+  }
+}

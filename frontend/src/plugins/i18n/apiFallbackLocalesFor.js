@@ -1,13 +1,24 @@
-import { fallbackLocale } from '@/plugins/i18n/index'
+import { fallbackLocales } from '@/plugins/i18n/index'
 
 export default function* (locale) {
   if (typeof locale !== 'string') {
-    yield fallbackLocale
+    yield fallbackLocales.default
     return
+  }
+  if (fallbackLocales[locale]) {
+    for (const fallback of fallbackLocales[locale]) {
+      yield fallback
+    }
   }
   const parts = locale.split('_')
   for (let i = parts.length - 1; i > 0; i--) {
-    yield parts.slice(0, i).join('_')
+    const implicitFallback = parts.slice(0, i).join('_')
+    yield implicitFallback
+    if (fallbackLocales[implicitFallback]) {
+      for (const fallback of fallbackLocales[implicitFallback]) {
+        yield fallback
+      }
+    }
   }
-  yield fallbackLocale
+  yield fallbackLocales.default
 }

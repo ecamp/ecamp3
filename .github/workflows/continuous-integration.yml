@@ -33,7 +33,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.12'
+          php-version: '8.3.0'
           tools: composer:2.6.0
           coverage: none
 
@@ -197,7 +197,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.12'
+          php-version: '8.3.0'
           extensions: intl-73.1
           tools: composer:2.6.0
           coverage: pcov
@@ -408,7 +408,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
           outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: e2e-tests-images
           path: /tmp/ecamp3-dev-*.tar
@@ -435,7 +435,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Restore tmp folder
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: e2e-tests-images
           path: /tmp
@@ -465,7 +465,7 @@ jobs:
           wait-on-timeout: 300
 
       # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-output-${{ matrix.browser }}
