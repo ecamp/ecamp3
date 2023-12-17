@@ -1,23 +1,29 @@
 <template>
-  <v-col
-    class="resizable-col"
-    :class="{ [widthClass]: true, 'layout-mode': layoutMode, 'top-border': showHeader }"
+  <LayoutItem
+    class="ec-resizable-col"
+    :basis="basis"
+    :grow="grow"
+    :layout-mode="layoutMode"
+    :class="{
+      'ec-resizable-col--layout-mode': layoutMode,
+      'ec-resizable-col--default': isDefaultVariant,
+    }"
   >
-    <resizable-column-header
-      v-if="layoutMode && $vuetify.breakpoint.mdAndUp && showHeader"
-      :width="width"
-      :min-width="minWidth"
-      :max-width="maxWidth"
-      :column-height="columnHeight"
-      v-on="$listeners"
-    >
-      <menu-cardless-content-node v-if="last" :content-node="parentContentNode">
-        <slot name="menu" />
-      </menu-cardless-content-node>
-    </resizable-column-header>
+    <template v-if="layoutMode && isDefaultVariant && showHeader">
+      <resizable-column-header
+        v-if="!last"
+        class="ec-column-head"
+        :width="width"
+        :min-width="minWidth"
+        :max-width="maxWidth"
+        :column-height="columnHeight"
+        v-on="$listeners"
+      />
+      <div v-else class="ec-column-head"></div>
+    </template>
 
     <mobile-column-width-indicator
-      v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1 && showHeader"
+      v-if="layoutMode && !isDefaultVariant && numColumns > 1 && showHeader"
       :num-columns="numColumns"
       :width="width"
       :width-left="widthLeft"
@@ -26,18 +32,18 @@
     />
 
     <slot />
-  </v-col>
+  </LayoutItem>
 </template>
 
 <script>
 import ResizableColumnHeader from '@/components/activity/content/columnLayout/ResizableColumnHeader.vue'
 import MobileColumnWidthIndicator from '@/components/activity/content/columnLayout/MobileColumnWidthIndicator.vue'
-import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
+import LayoutItem from '@/components/activity/content/layout/LayoutItem.vue'
 
 export default {
   name: 'ResizableColumn',
   components: {
-    MenuCardlessContentNode,
+    LayoutItem,
     MobileColumnWidthIndicator,
     ResizableColumnHeader,
   },
@@ -53,6 +59,7 @@ export default {
     maxWidth: { type: Number, default: 12 }, // maximum allowed width of this column
     color: { type: String, required: true },
     showHeader: { type: Boolean, default: true },
+    isDefaultVariant: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -60,9 +67,11 @@ export default {
     }
   },
   computed: {
-    widthClass() {
-      if (this.$vuetify.breakpoint.smAndDown) return 'col-12'
-      return 'col-md-' + this.width
+    grow() {
+      return this.width
+    },
+    basis() {
+      return !this.isDefaultVariant ? '100%' : '0'
     },
   },
   updated() {
@@ -72,19 +81,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.resizable-col {
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    &.top-border {
-      border-top: 1px solid rgba(0, 0, 0, 0.32);
+.ec-resizable-col {
+  width: 0;
+  &:not(.ec-resizable-col--layout-mode) {
+    & + .ec-resizable-col--default:not(.ec-resizable-col--layout-mode) {
+      border-left: 1px solid #ccc;
+    }
+    &
+      + .ec-resizable-col:not(.ec-resizable-col--default):not(
+        .ec-resizable-col--layout-mode
+      ) {
+      border-top: 1px solid #ccc;
     }
   }
+}
 
-  &:not(.layout-mode) {
-    @media #{map-get($display-breakpoints, 'md-and-up')} {
-      & + .resizable-col:not(.layout-mode) {
-        border-left: 1px solid rgba(0, 0, 0, 0.12);
-      }
-    }
-  }
+.ec-column-head {
+  height: 60px;
+  position: relative;
 }
 </style>

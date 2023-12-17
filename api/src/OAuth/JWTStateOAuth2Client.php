@@ -117,7 +117,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
 
             $now = new \DateTime('@'.time());
             $persistedState = $this->stateRepository->findOneUnexpiredBy($actualState, $now);
-        } catch (JWTDecodeFailureException|NoResultException|NonUniqueResultException $e) {
+        } catch (JWTDecodeFailureException|NonUniqueResultException|NoResultException $e) {
             throw new InvalidStateException('Invalid state');
         }
 

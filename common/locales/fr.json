@@ -107,7 +107,6 @@
         "addressName": "Nom",
         "addressStreet": "Rue",
         "addressZipcode": "Code postal",
-        "couponKey": "Coupon",
         "courseKind": "Type de cours (pour les cours J+S: description du cours)",
         "courseNumber": "Numéro de cours",
         "kind": "Type de camp (chalet, tente, itinérant, été, automne)",

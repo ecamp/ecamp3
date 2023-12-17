@@ -93,7 +93,6 @@ jobs:
             --set deployedVersion="$(git rev-parse --short HEAD)" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
-            --set coupon.secret='${{ secrets.COUPON_SECRET }}' \
             --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }} \
             --set browserless.maxConcurrentSessions=${{ vars.BROWSERLESS_MAXCONCURRENTSESSIONS || 3 }} \
             --set browserless.maxQueueLength=${{ vars.BROWSERLESS_MAXQUEUELENGTH || 9 }} \

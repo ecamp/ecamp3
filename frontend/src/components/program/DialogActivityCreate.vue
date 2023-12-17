@@ -17,14 +17,14 @@
     </template>
 
     <template #moreActions>
-      <copy-activity-info-dialog @closed="refreshCopyActivitySource">
+      <CopyActivityInfoDialog @closed="refreshCopyActivitySource">
         <template #activator="{ on }">
           <v-btn v-show="clipboardPermission === 'prompt'" v-on="on">
             <v-icon left>mdi-information-outline</v-icon>
             {{ $tc('components.program.dialogActivityCreate.copyPastActivity') }}
           </v-btn>
         </template>
-      </copy-activity-info-dialog>
+      </CopyActivityInfoDialog>
     </template>
 
     <div v-if="hasCopyActivitySource">
@@ -71,7 +71,7 @@
         </v-list-item>
       </div>
     </div>
-    <dialog-activity-form :activity="entityData" :period="period">
+    <DialogActivityForm :activity="entityData" :period="period">
       <template v-if="clipboardAccessDenied" #textFieldTitleAppend>
         <PopoverPrompt
           v-model="copyActivitySourceUrlShowPopover"
@@ -99,7 +99,7 @@
           />
         </PopoverPrompt>
       </template>
-    </dialog-activity-form>
+    </DialogActivityForm>
   </dialog-form>
 </template>
 
@@ -108,15 +108,19 @@ import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
+import PopoverPrompt from '@/components/prompt/PopoverPrompt.vue'
 import { uniqueId } from 'lodash'
 import router from '@/router.js'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'DialogActivityCreate',
   components: {
+    CategoryChip,
     DialogForm,
     DialogActivityForm,
     CopyActivityInfoDialog,
+    PopoverPrompt,
   },
   extends: DialogBase,
   props: {
@@ -252,13 +256,19 @@ export default {
           this.$set(this, 'copyActivitySource', null)
 
           if (p.state == 'granted') {
-            navigator.clipboard.readText().then((url) => {
-              this.getCopyActivitySource(url).then((activityProxy) => {
-                activityProxy._meta.load.then((activity) =>
-                  this.$set(this, 'copyActivitySource', activity)
-                )
+            navigator.clipboard
+              .readText()
+              .then((url) => {
+                this.getCopyActivitySource(url).then((activityProxy) => {
+                  activityProxy._meta.load.then((activity) =>
+                    this.$set(this, 'copyActivitySource', activity)
+                  )
+                })
               })
-            })
+              .catch(() => {
+                this.clipboardPermission = 'unaccessable'
+                console.warn('clipboard permission not requestable')
+              })
           }
         },
         () => {

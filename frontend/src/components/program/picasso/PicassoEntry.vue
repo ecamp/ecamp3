@@ -25,10 +25,10 @@
       <v-icon x-small color="white">mdi-content-copy</v-icon>
     </v-btn>
 
-    <copy-activity-info-dialog ref="copyInfoDialog" />
+    <CopyActivityInfoDialog ref="copyInfoDialog" />
 
     <!-- edit button & dialog -->
-    <dialog-activity-edit
+    <DialogActivityEdit
       v-if="!scheduleEntry.tmpEvent"
       ref="editDialog"
       :schedule-entry="scheduleEntry"
@@ -47,7 +47,7 @@
           <v-icon x-small color="white">mdi-pencil</v-icon>
         </v-btn>
       </template>
-    </dialog-activity-edit>
+    </DialogActivityEdit>
 
     <h4 class="e-picasso-entry__title">
       {{ activityName }}

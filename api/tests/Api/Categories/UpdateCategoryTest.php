@@ -416,6 +416,49 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
+    public function testPatchCategoryValidatesNullColor() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'color' => null,
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'The type of the "color" attribute must be "string", "NULL" given.',
+        ]);
+    }
+
+    public function testPatchCategoryValidatesEmptyColor() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'color' => '',
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'color',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
     public function testPatchCategoryValidatesInvalidColor() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
@@ -430,6 +473,25 @@ class UpdateCategoryTest extends ECampApiTestCase {
                     'message' => 'This value is not valid.',
                 ],
             ],
+        ]);
+    }
+
+    public function testPatchCategoryTrimsColor() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'color' => " \t #4DBB52 \t ",
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'color' => '#4DBB52',
         ]);
     }
 

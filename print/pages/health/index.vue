@@ -3,6 +3,9 @@
 </template>
 
 <script>
+definePageMeta({
+  layout: 'health',
+})
 export default {
   layout: 'health',
   data() {

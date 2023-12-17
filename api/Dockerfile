@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.4
+#syntax=docker/dockerfile:1.6
 
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
@@ -8,7 +8,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.2.11
+ARG PHP_VERSION=8.2.12
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.18
@@ -127,9 +127,12 @@ RUN rm $PHP_INI_DIR/conf.d/api-platform.prod.ini; \
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.2.2
+ARG XDEBUG_VERSION=3.3.0
 RUN set -eux; \
-	install-php-extensions xdebug-$XDEBUG_VERSION
+	install-php-extensions \
+	xdebug-$XDEBUG_VERSION \
+	pcov \
+	;
 
 # "caddy" stage
 # depends on the "php" stage above

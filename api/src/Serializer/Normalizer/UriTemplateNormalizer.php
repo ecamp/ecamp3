@@ -2,7 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Inflector\EnglishInflector;
@@ -23,7 +23,7 @@ class UriTemplateNormalizer implements NormalizerInterface {
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
-    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+    public function normalize($object, $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $result = $this->decorated->normalize($object, $format, $context);
 
         foreach ($result['_links'] as $rel => $link) {

@@ -22,7 +22,7 @@ class UserCreateProcessorTest extends TestCase {
     private MockObject|ReCaptcha $recaptcha;
     private MockObject|Response $recaptchaResponse;
     private MockObject|UserPasswordHasherInterface $userPasswordHasher;
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
     private User $user;
 
     /**

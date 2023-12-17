@@ -1,7 +1,7 @@
 <template>
   <li>
     <div class="toc-element toc-element-level-1">
-      <a :href="`#content_${index}_toc`">{{ $tc('print.toc.title') }}</a>
+      <a :href="`#content_${index}_toc`">{{ $t('print.toc.title') }}</a>
     </div>
   </li>
 </template>
@@ -14,9 +14,5 @@ export default {
     camp: { type: Object, required: true },
     index: { type: Number, required: true },
   },
-  data() {
-    return {}
-  },
-  async fetch() {},
 }
 </script>

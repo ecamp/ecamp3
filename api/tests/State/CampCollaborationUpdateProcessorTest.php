@@ -27,7 +27,7 @@ class CampCollaborationUpdateProcessorTest extends TestCase {
     private CampCollaboration $campCollaboration;
     private User $user;
 
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
 
     private CampCollaborationUpdateProcessor $processor;
 

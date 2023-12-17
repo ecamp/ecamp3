@@ -43,7 +43,7 @@ spec:
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: /health
+              path: /print/health
               port: 3003
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -51,7 +51,7 @@ spec:
           livenessProbe:
             httpGet:
               scheme: HTTP
-              path: /server/health
+              path: /print/api/health
               port: 3003
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -62,20 +62,20 @@ spec:
             - configMapRef:
                 name: {{ include "print.name" . }}-configmap
           env:
-            - name: SENTRY_PRINT_DSN
+            - name: NUXT_SENTRY_DSN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
                   key: sentry-dsn
-            - name: BROWSER_WS_ENDPOINT
+            - name: NUXT_BROWSER_WS_ENDPOINT
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
                   key: browser-ws-endpoint
-            - name: NUXT_PORT
+            - name: NITRO_PORT
               value: "3003"
             {{- if and .Values.ingress.enabled .Values.ingress.basicAuth.enabled }}
-            - name: BASIC_AUTH_TOKEN
+            - name: NUXT_BASIC_AUTH_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
