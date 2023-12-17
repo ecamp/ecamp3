@@ -10,7 +10,7 @@ The English version of this document is available [here](./CONTRIBUTING.md).
 
 ## Arbeitsablauf :gear:
 Dies ist ein grundlegender Überblick über den Arbeitsablauf, d.h., wie wir mit dem Code von eCamp v3 arbeiten.
-Weitere Informationen zur Einrichtung einer Entwicklungsumgebung auf deinem Computer findest du im [wiki](https://github.com/ecamp/ecamp3/wiki/installation).
+Weitere Informationen zur Einrichtung einer Entwicklungsumgebung auf deinem Computer findest du im [Wiki](https://github.com/ecamp/ecamp3/wiki/installation).
 Wenn etwas bei der Einrichtung unklar ist oder du auf einen Fehler gestossen bist, gibt es einen setup-help-Kanal auf [Discord](https://discord.gg/tdwtRytV6P), dort kannst du deine Fragen zum Setup stellen :computer:
 ### Labels :label:
 Aufgaben werden mit Labels gekennzeichnet und einige davon sind nicht selbsterklärend und werden hier erklärt:
