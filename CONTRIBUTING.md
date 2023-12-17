@@ -116,10 +116,10 @@ Alternatively you can
     <strong>Consider examining the file before running random code from a public Git repo.</strong>
 
 ```shell
-# Ensure the file is executable
-chmod +x .git/hooks/pre-commit
 # Create a link, alternatively use 'cp' instead of 'ln' to copy
 ln ./pre-commit.sh .git/hooks/pre-commit
+# Ensure the file is executable
+chmod +x .git/hooks/pre-commit
 # Lets see how long execution takes
 time .git/hooks/pre-commit
 ```

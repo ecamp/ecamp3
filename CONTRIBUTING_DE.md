@@ -116,10 +116,10 @@ Alternativ kannst du
     <strong>Beachte, du gibst nun einer Datei aus dem Internet die Berechtigung auf deinem Computer ausgeführt zu werden. Es ist Empfehlenswert in solchen Fällen sicherzustellen das du dem Code und Author vertraust. (Oder noch besser: verstehst, was der Code macht)</strong>
 
 ```shell
-# Datei ausführbar machen
-chmod +x .git/hooks/pre-commit
 # Einen Verweiss auf die Datei erstellen, alternativ kannst du 'cp' anstelle von 'ln' verwenden um die Datei zu kopieren
 ln ./pre-commit.sh .git/hooks/pre-commit
+# Datei ausführbar machen
+chmod +x .git/hooks/pre-commit
 # Sieh dir an wie Lange die ausführung dauert und stelle sicher, dass alles funktioniert
 time .git/hooks/pre-commit
 ```
