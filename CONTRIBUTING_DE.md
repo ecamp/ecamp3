@@ -74,7 +74,7 @@ git checkout -b my-new-feature-branch
 ```
 
 
-### Bevor du Pull Requests einreichst:incoming_envelope:
+### Bevor du Pull Requests einreichst :incoming_envelope:
 
 #### Codeformatierung :art:
 
