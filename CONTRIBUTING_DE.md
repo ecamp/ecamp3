@@ -16,7 +16,7 @@ Wenn etwas bei der Einrichtung unklar ist oder du auf einen Fehler gestossen bis
 Aufgaben werden mit Labels gekennzeichnet und einige davon sind nicht selbsterklärend und werden hier erklärt:
 - **Good first issue**: :green_heart: Anfängerfreundliche Aufgaben.
 - **Type-Labels**: Zeigen an, welcher Teil der Architektur betroffen ist. Es gibt `type: Frontend`, `type: Print`, `type: Deployment` & `type: API`. Die Architektur dafür ist teilweise im [Wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend) dokumentiert.
-- **Needs prototype**: :bulb: Wenn du eine Idee hast, wie dieses Problem gelöst werden kann, würden wir sie gerne sehen. Dieses Problem benötigt einen Prototypen, bevor die eigentliche Implementierung beginnt, da die Spezifikationen etwas vage sind. Ein Prototyp kann vieles sein: Ob Prototyp, Skizze, Mock-up, eine Teil-Implementierung oder etwas anderes ist, liegt bei dir.
+- **Needs prototype**: :bulb: Wenn du eine Idee hast, wie dieses Problem gelöst werden kann, würden wir sie gerne sehen. Dieses Problem benötigt einen Prototypen, bevor die eigentliche Implementierung beginnt, da die Spezifikationen etwas vage sind. Ein Prototyp kann vieles sein, z.B. eine Skizze, ein Mock-up oder eine Teil-Implementierung.
 - **Feature request**: :rocket: Eine Idee/Anfrage für eine Funktionalität, die noch nicht zur Implementierung, aber zur Diskussion bereitsteht.
 
 ### :point_right: Mit einem Issue (Ticket) starten
