@@ -87,22 +87,22 @@ Alternativ kannst du
     <summary>php-cs-fixer und ESLint / Prettier manuell vor jedem Commit ausführen: (Klick mich an, ich bin aufklappbar) </summary>
 
     ```shell
-    # Frontend dateien in einem bereits laufenden Container formatieren
+    # Frontend Dateien in einem bereits laufenden Container formatieren
     docker compose exec frontend npm run lint
     
-    # API/PHP dateien in einem bereits laufenden Container formatieren
+    # API/PHP Dateien in einem bereits laufenden Container formatieren
     docker compose exec php composer cs-fix
     
-    # Print dateien in einem bereits laufenden Container formatieren
+    # Print Dateien in einem bereits laufenden Container formatieren
     docker compose exec print npm run lint
     
-    # PDF dateien in einem bereits laufenden Container formatieren
+    # PDF Dateien in einem bereits laufenden Container formatieren
     docker compose exec pdf npm run lint
     
-    # E2E dateien in einem bereits laufenden Container formatieren
+    # E2E Dateien in einem bereits laufenden Container formatieren
     docker compose run --rm --entrypoint="npm run lint" e2e
     ```
-  Wenn du keinen Container dieses Typs laufen hast, verwende `run` anstelle von `execute`. Beachte, dass dies einen neuen Docker-Container startet (was auf einem Gerät mit begrenzten Rechenressourcen eventuell nicht erwünscht ist).
+  Wenn du keinen Container dieses Typs am laufen hast, verwende `run` anstelle von `execute`. Beachte, dass dies einen neuen Docker-Container startet (was auf einem Gerät mit begrenzten Rechenressourcen eventuell nicht erwünscht ist).
     ```shell
     docker compose run --rm frontend npm run lint
     docker compose run --rm php composer cs-fix
