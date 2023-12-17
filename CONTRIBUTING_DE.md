@@ -30,7 +30,7 @@ Wenn du Fragen hast, hinterlasse ein Kommentar auf dem Issue oder melde dich üb
 ### Git einrichten :octocat:
 
 Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Änderungen zuerst auf dem Fork des Entwicklers veröffentlicht werden, und erst dann werden die Änderungen via Pull Request in das offizielle eCamp3-Repository eingefügt.
-Wenn du ein fortgeschrittener Git-Benutzer bist, kannst du dies selbst einrichten.
+Wenn du ein fortgeschrittener Git-Benutzer bist, kannst du dies auch selbst einrichten.
 In der Praxis sieht die Einrichtung dieses Arbeitsablaufs wie folgt aus:
 
 1. Erstelle einen persönlichen Fork des zentralen Repositories auf GitHub. Um die Befehle zu verwenden, sollte Ihr konfigurierter Git-Benutzername genau Ihrem GitHub-Benutzernamen entsprechen.

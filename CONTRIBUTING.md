@@ -30,7 +30,7 @@ If you have any questions, please comment on the issue for clarification or ask 
 ### Git setup :octocat:
 
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request.
-If you are an advanced git user you can set this up yourself.
+If you are an advanced git user, you probably already know how to set this up.
 In practice, setting up this workflow looks as follows:
 
 1. Fork the main repository onto your GitHub account. To use the commands your configured git `user.name` should be exactly your git user name.
