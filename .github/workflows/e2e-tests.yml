@@ -1,0 +1,59 @@
+name: "Tests: End to End to detect flaky tests"
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        type: number
+        description: |
+          Number of times the tests should run
+        required: true
+        default: 10
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+  schedule:
+    - cron: '42 4 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  create-array:
+    name: 'Create large array for matrix'
+    if: contains(github.event.pull_request.labels.*.name, 'test-flaky-e2e!') || github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    outputs:
+      array: ${{ steps.array.outputs.result }}
+
+    steps:
+      - name: Create large array
+        uses: actions/github-script@v6
+        id: array
+        with:
+          script: |
+            function range(start, stop) {
+              return Array(stop - start)
+              .fill(start)
+              .map((value, index) => value + index);
+            }
+            return range(0, ${{ inputs.pr_number != null && inputs.pr_number || 10 }})
+
+  e2e-tests-build:
+    name: 'Tests: End-to-end build to detect flaky tests'
+    needs:
+      - create-array
+    uses: ./.github/workflows/reusable-e2e-tests-build.yml
+  
+  e2e-tests-run:
+    name: 'Tests: End-to-end run to detect flaky tests'
+    needs:
+      - create-array
+      - e2e-tests-build
+    uses: ./.github/workflows/reusable-e2e-tests-run.yml
+    with:
+      run-identifier: ${{ matrix.array }}
+    strategy:
+      fail-fast: false
+      matrix:
+        array: ${{ fromJSON(needs.create-array.outputs.array) }}

@@ -141,6 +141,8 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                         'fr_CH_scout' => 'fr_CH_scout',
                         'it' => 'it',
                         'it_CH_scout' => 'it_CH_scout',
+                        'rm' => 'rm',
+                        'rm_CH_scout' => 'rm_CH_scout',
                     ],
                 ],
             ],

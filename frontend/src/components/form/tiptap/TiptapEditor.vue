@@ -5,82 +5,113 @@
       :editor="editor"
       :tippy-options="{ maxWidth: 'none' }"
     >
-      <v-toolbar short>
-        <!-- headings currently disabled (see issue #2657) -->
-        <!--
-        <v-item-group class="v-btn-toggle v-btn-toggle--dense">
-          <v-btn
-            :class="
-              editor.isActive('heading', { level: 1 })
-                ? 'v-item--active v-btn--active'
-                : ''
-            "
-            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          >
-            <v-icon>mdi-format-header-1</v-icon>
-          </v-btn>
-          <v-btn
-            :class="
-              editor.isActive('heading', { level: 2 })
-                ? 'v-item--active v-btn--active'
-                : ''
-            "
-            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          >
-            <v-icon>mdi-format-header-2</v-icon>
-          </v-btn>
-          <v-btn
-            :class="
-              editor.isActive('heading', { level: 3 })
-                ? 'v-item--active v-btn--active'
-                : ''
-            "
-            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          >
-            <v-icon>mdi-format-header-3</v-icon>
-          </v-btn>
-        </v-item-group>
-        <div class="mx-1" />
-        -->
-        <v-item-group class="v-btn-toggle v-btn-toggle--dense" multiple>
-          <v-btn
+      <div class="elevation-4 ec-tiptap-toolbar white">
+        <v-toolbar class="elevation-0 ec-tiptap-toolbar--first" dense color="transparent">
+          <TiptapToolbarButton
+            icon="mdi-format-bold"
             :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleBold().run()"
-          >
-            <v-icon dense>mdi-format-bold</v-icon>
-          </v-btn>
-          <v-btn
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-italic"
             :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleItalic().run()"
-          >
-            <v-icon dense>mdi-format-italic</v-icon>
-          </v-btn>
-          <v-btn
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-underline"
             :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleUnderline().run()"
-          >
-            <v-icon dense>mdi-format-underline</v-icon>
-          </v-btn>
-          <v-btn
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-strikethrough"
             :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleStrike().run()"
+          />
+
+          <div class="d-none d-sm-contents">
+            <v-divider vertical class="mx-1" />
+
+            <TiptapToolbarButton
+              icon="mdi-format-list-bulleted"
+              :class="editor.isActive('bulletList') ? 'v-item--active v-btn--active' : ''"
+              @click="editor.chain().focus().toggleBulletList().run()"
+            />
+            <TiptapToolbarButton
+              icon="mdi-format-list-numbered"
+              :class="
+                editor.isActive('orderedList') ? 'v-item--active v-btn--active' : ''
+              "
+              @click="editor.chain().focus().toggleOrderedList().run()"
+            />
+
+            <template
+              v-if="
+                editor.can().sinkListItem('listItem') ||
+                editor.can().liftListItem('listItem')
+              "
+            >
+              <v-divider vertical class="mx-1" />
+              <TiptapToolbarButton
+                icon="mdi-format-indent-decrease"
+                :disabled="!editor.can().liftListItem('listItem')"
+                @click="editor.chain().focus().liftListItem('listItem').run()"
+              />
+              <TiptapToolbarButton
+                icon="mdi-format-indent-increase"
+                :disabled="!editor.can().sinkListItem('listItem')"
+                @click="editor.chain().focus().sinkListItem('listItem').run()"
+              />
+            </template>
+          </div>
+        </v-toolbar>
+        <v-divider class="ec-tiptap-toolbar__mobile-divider" />
+        <v-toolbar
+          class="elevation-0 ec-tiptap-toolbar--second"
+          dense
+          color="transparent"
+        >
+          <TiptapToolbarButton
+            icon="mdi-format-list-bulleted"
+            :class="editor.isActive('bulletList') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleBulletList().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-format-list-numbered"
+            :class="editor.isActive('orderedList') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleOrderedList().run()"
+          />
+
+          <template
+            v-if="
+              editor.can().sinkListItem('listItem') ||
+              editor.can().liftListItem('listItem')
+            "
           >
-            <v-icon dense>mdi-format-strikethrough</v-icon>
-          </v-btn>
-        </v-item-group>
-      </v-toolbar>
+            <v-divider vertical class="mx-1" />
+            <TiptapToolbarButton
+              icon="mdi-format-indent-decrease"
+              :disabled="!editor.can().liftListItem('listItem')"
+              @click="editor.chain().focus().liftListItem('listItem').run()"
+            />
+            <TiptapToolbarButton
+              icon="mdi-format-indent-increase"
+              :disabled="!editor.can().sinkListItem('listItem')"
+              @click="editor.chain().focus().sinkListItem('listItem').run()"
+            />
+          </template>
+        </v-toolbar>
+      </div>
     </bubble-menu>
     <editor-content class="editor__content" :editor="editor" />
   </div>
 </template>
 <script>
-import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-2'
+import { BubbleMenu, Editor, EditorContent } from '@tiptap/vue-2'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import BulletList from '@tiptap/extension-bullet-list'
 import HardBreak from '@tiptap/extension-hard-break'
-// import Heading from '@tiptap/extension-heading'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Bold from '@tiptap/extension-bold'
@@ -89,10 +120,12 @@ import Strike from '@tiptap/extension-strike'
 import Underline from '@tiptap/extension-underline'
 import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
+import TiptapToolbarButton from '@/components/form/tiptap/TiptapToolbarButton.vue'
 
 export default {
   name: 'TiptapEditor',
   components: {
+    TiptapToolbarButton,
     EditorContent,
     BubbleMenu,
   },
@@ -138,7 +171,6 @@ export default {
           BulletList,
           OrderedList,
           // headings currently disabled (see issue #2657)
-          // Heading.configure({ levels: [1, 2, 3] }),
           HardBreak,
         ]
       )
@@ -194,7 +226,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div.editor:deep(p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder);
   float: left;
@@ -211,6 +243,30 @@ div.editor {
   max-width: 100%;
   min-width: 0;
   width: 100%;
+}
+
+div.editor:deep(.ec-tiptap-toolbar) {
+  border-radius: 6px;
+}
+
+.ec-tiptap-toolbar--second,
+.ec-tiptap-toolbar__mobile-divider {
+  display: block;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    display: none;
+  }
+}
+
+div.editor:deep(.ec-tiptap-toolbar--first .v-toolbar__content) {
+  justify-content: space-between;
+}
+
+div.editor:deep(.ec-tiptap-toolbar .v-toolbar__content) {
+  gap: 2px;
+  padding: 0 4px;
+  .v-btn {
+    margin: 0;
+  }
 }
 
 div.editor:deep(.editor__content) {
