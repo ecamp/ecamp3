@@ -33,7 +33,7 @@ Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Än
 Wenn du ein fortgeschrittener Git-Benutzer bist, kannst du dies auch selbst einrichten.
 In der Praxis sieht die Einrichtung dieses Arbeitsablaufs wie folgt aus:
 
-1. Erstelle einen persönlichen Fork des zentralen Repositories auf GitHub. Um die Befehle zu verwenden, sollte Ihr konfigurierter Git-Benutzername genau Ihrem GitHub-Benutzernamen entsprechen.
+1. Erstelle einen persönlichen Fork des zentralen Repositories auf GitHub. Um die Befehle zu verwenden, sollte der konfigurierte Git-Benutzername genau deinem GitHub-Benutzernamen entsprechen.
    Wenn du den folgenden Code ausführst und er dein GitHub-Benutzernamen ausgibt, bist du startklar.
     ```shell
     echo $(git config user.name)
