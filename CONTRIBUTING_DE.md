@@ -113,14 +113,14 @@ Alternativ kannst du
 - einen pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) aufsetzen, um php-cs-fixer und ESLint automatisch vor jedem Commit ausführen zu lassen. Ein Beispiel dafür ist in der [pre-commit.sh](./pre-commit.sh) datei zu finden.
 <details>
   <summary>Um dieses Beispiel zu verwenden führe die folgenden Befehle aus (Klick mich an, ich bin aufklappbar)</summary>
-    <strong>Beachte, du gibst nun einer Datei aus dem Internet die Berechtigung auf deinem Computer ausgeführt zu werden. Es ist Empfehlenswert in solchen Fällen sicherzustellen das du dem Code und Author vertraust. (Oder noch besser: verstehst, was der Code macht)</strong>
+    <strong>Beachte, du gibst nun einer Datei aus dem Internet die Berechtigung auf deinem Computer ausgeführt zu werden. Es ist empfehlenswert in solchen Fällen sicherzustellen das du dem Code und Author vertraust. (Oder noch besser: verstehst, was der Code macht)</strong>
 
 ```shell
-# Einen Verweiss auf die Datei erstellen, alternativ kannst du 'cp' anstelle von 'ln' verwenden um die Datei zu kopieren
+# Einen Verweis auf die Datei erstellen, alternativ kannst du 'cp' anstelle von 'ln' verwenden um die Datei zu kopieren
 ln ./pre-commit.sh .git/hooks/pre-commit
 # Datei ausführbar machen
 chmod +x .git/hooks/pre-commit
-# Sieh dir an wie Lange die ausführung dauert und stelle sicher, dass alles funktioniert
+# Sieh dir an wie lange die Ausführung dauert und stelle sicher, dass alles funktioniert
 time .git/hooks/pre-commit
 ```
 </details>
@@ -129,8 +129,8 @@ time .git/hooks/pre-commit
 
 Wir schätzen jeden Beitrag zu unserem Projekt sehr und sind dankbar dafür! :heart:
 Um die Zusammenarbeit für alle reibungsloser und angenehmer zu gestalten,
-haben wir diese Checkliste zusammengestellt :scroll:.
-Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz deiner Beiträge :sparkles: und beschleunigt den Überprüfungsprozess :rocket:.
+haben wir diese Prüfliste zusammengestellt :scroll:.
+Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz deiner Beiträge :sparkles: und beschleunigst den Überprüfungsprozess :rocket:.
 
 
 - [x] **Synchronisation mit dem zentralen Repository:** :arrows_counterclockwise: Stelle sicher, dass dein Fork auf dem neuesten Stand des zentralen Repositories ist, um eine reibungslose Zusammenführung zu ermöglichen. [GitHub-Dokumentation](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
@@ -146,8 +146,8 @@ Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz dein
 ### Verwende Dev-Data für die Lokale Entwicklung :construction_worker:
 Um die Entwicklung zu vereinfachen und Konsistenz in lokalen Umgebungen zu gewährleisten,
 bieten wir einen vordefinierten Datensatz an, der als 'Dev-Daten' bekannt ist.
-Dieser Datensatz ist darauf ausgerichtet, den Testprozess zu optimieren und eine diverse
-Datenabbildung zu erlangen um auch Randfälle zu Testen.
+Dieser Datensatz ist darauf ausgerichtet, den Testprozess zu optimieren und damit wir beim Entwickeln immer eine breite Palette an realistischen Daten 
+sowie einige bekannte Randfälle zur Verfügung haben.
 
 ### Empfohlener Testbenutzer :bust_in_silhouette:
 Um dich in Entwicklungsumgebungen wie [localhost:3000](http://localhost:3000) einzuloggen, verwende die Benutzerdaten `test@example.com / test`.
@@ -165,12 +165,12 @@ Für ein tieferes Verständnis der 'Dev-Daten' haben wir dieses [README](./api/m
 Die 'Dev-Daten' werden in allen Entwicklungsumgebungen repliziert.
 Wir empfehlen deren Verwendung für konsistente Tests.
 Wenn du ein Problem oder einen Fehler meldest: Referenziere doch ein spezifisches Beispiel aus den 'Dev-Daten'.
-Da die Daten, einschließlich der IDs, konstant bleiben, kann jeder das von dir hervorgehobene Verhalten leicht nachvollziehen und reproduzieren.
+Da die Daten, einschliesslich der IDs, konstant bleiben, kann jeder das von dir hervorgehobene Verhalten leicht nachvollziehen und reproduzieren.
 
 ## Discord :speech_balloon:
 Wir verstehen, dass das Einrichten einer Entwicklungsumgebung manchmal knifflig sein kann,
 besonders bei unterschiedlichen Systemen und Konfigurationen.
-Wenn du auf Probleme stösst oder Hindernisse während der Einrichtung begegnest,
+Wenn du auf Probleme stösst oder Hindernissen während der Einrichtung begegnest,
 zögere bitte nicht, unserem Discord-Server beizutreten.
 Unser Kernteam und die Community helfen dir dort gerne weiter.
 Tatsächlich ermutigen wir dich, Fragen zu stellen, zu kollaborieren und Unterstützung auf Discord zu suchen, wann immer du bei einem Problem auf einen Stolperstein triffst.
