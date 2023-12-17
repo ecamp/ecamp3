@@ -21,7 +21,7 @@ Issues are marked with labels and some of them are not self-explanatory and are 
 
 ### :point_right: Starting with an issue
 To get started, find an issue that interests you. If you are new, we recommend selecting a [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue).
-Please note that for other issues we recommend ones with the label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), which signifies that the issue should have clear definitions. If you have any questions, feel free to ask.
+Please note that for other issues we recommend ones with the label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), which signifies that the issue should have clear definitions. 
 If you are working on an issue, please leave a comment so that we can assign it to you, to make sure that the specifications are still up-to-date, and to prevent two people working on the same issue.
 Alternatively, open a draft pull request and mention the issue ID to signal that you are working on that particular issue.
 Please note that while the wiki can be helpful in understanding the project, it's not exhaustive (meaning there might be parts missing or out of date).

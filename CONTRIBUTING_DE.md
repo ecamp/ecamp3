@@ -21,7 +21,7 @@ Aufgaben werden mit Labels gekennzeichnet und einige davon sind nicht selbsterkl
 
 ### :point_right: Mit einem Issue (Ticket) starten
 Auf GitHub heissen die Arbeitspakete, welche du vielleicht als Tickets kennst, `Issues`. Um zu starten, suche dir ein Issue aus, das dich interessiert. Wenn du neu bist, empfehlen wir, ein [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue) auszuwählen.
-Falls dir diese zu einfach sind, empfehlen wir ein Issue mit dem Label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), diese sind klar spezifiziert. Wenn du Fragen hast, zögere nicht zu fragen.
+Falls dir diese zu einfach sind, empfehlen wir ein Issue mit dem Label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), diese sind klar spezifiziert.
 Wenn du an einem Problem arbeitest, hinterlasse bitte einen Kommentar, damit wir es dir zuweisen können, um sicherzustellen, dass die Spezifikationen noch aktuell sind, und um zu verhindern, dass zwei Personen am selben Problem arbeiten.
 Alternativ kannst du einen Entwurf für einen Pull-Request öffnen und die Issue-ID erwähnen, um zu signalisieren, dass du an diesem speziellen Problem arbeitest.
 Bitte beachte, dass das Wiki zwar hilfreich sein kann, um das Projekt zu verstehen, aber es ist nicht vollständig (was bedeutet, dass Teile fehlen oder veraltet sein könnten).
