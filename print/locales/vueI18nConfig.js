@@ -8,6 +8,8 @@ import en from '@/locales/en.json'
 import enCHScout from '@/locales/en-CH-scout.json'
 import de from '@/locales/de.json'
 import deCHScout from '@/locales/de-CH-scout.json'
+import rm from '@/locales/rm.json'
+import rmCHScout from '@/locales/rm-CH-scout.json'
 
 import itCommon from '~/../common/locales/it.json'
 import itCHScoutCommon from '~/../common/locales/it-CH-scout.json'
@@ -17,9 +19,14 @@ import enCommon from '~/../common/locales/en.json'
 import enCHScoutCommon from '~/../common/locales/en-CH-scout.json'
 import deCommon from '~/../common/locales/de.json'
 import deCHScoutCommon from '~/../common/locales/de-CH-scout.json'
+import rmCommon from '~/../common/locales/rm.json'
+import rmCHScoutCommon from '~/../common/locales/rm-CH-scout.json'
 
 export default defineI18nConfig(() => ({
-  fallbackLocale: 'en',
+  fallbackLocale: {
+    rm: ['de'],
+    default: 'en',
+  },
   messages: deepmerge(
     {
       it: itCommon,
@@ -30,6 +37,8 @@ export default defineI18nConfig(() => ({
       'en-CH-scout': enCHScoutCommon,
       de: deCommon,
       'de-CH-scout': deCHScoutCommon,
+      rm: rmCommon,
+      'rm-CH-scout': rmCHScoutCommon,
     },
     {
       it,
@@ -40,6 +49,8 @@ export default defineI18nConfig(() => ({
       'en-CH-scout': enCHScout,
       de,
       'de-CH-scout': deCHScout,
+      rm,
+      'rm-CH-scout': rmCHScout,
     }
   ),
   missingWarn: false,

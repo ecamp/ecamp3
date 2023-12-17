@@ -13522,6 +13522,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -13600,6 +13602,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -13672,6 +13676,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -13728,6 +13734,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -13811,6 +13819,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -13889,6 +13899,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -13961,6 +13973,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -14054,6 +14068,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -14132,6 +14148,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:
@@ -14204,6 +14222,8 @@ components:
             - fr-CH-scout
             - it
             - it-CH-scout
+            - rm
+            - rm-CH-scout
           example: en
           maxLength: 20
           type:

@@ -17,12 +17,12 @@ class MailService {
     public const TRANSLATE_DOMAIN = 'email';
 
     public function __construct(
-        private MailerInterface $mailer,
+        private readonly MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
-        private Environment $twigEnironment,
-        private string $frontendBaseUrl,
-        private string $senderEmail,
-        private string $senderName = ''
+        private readonly Environment $twigEnironment,
+        private readonly string $frontendBaseUrl,
+        private readonly string $senderEmail,
+        private readonly string $senderName = ''
     ) {}
 
     public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
@@ -112,13 +112,11 @@ class MailService {
     private function getTemplate(string $templateName, User $user) {
         // TODO: Move this into some configuration
         $languageFallback = [
+            'rm-CH-scout' => 'rm',
             'de-CH-scout' => 'de',
             'fr-CH-scout' => 'fr',
             'it-CH-scout' => 'it',
-            'en-CH-scout' => 'en',
-            'de' => 'en',
-            'it' => 'en',
-            'fr' => 'en',
+            'rm' => 'de',
         ];
 
         $language = $user->profile->language ?? 'en';
@@ -131,13 +129,10 @@ class MailService {
             }
 
             if (!isset($languageFallback[$language])) {
-                throw new \Exception(
-                    "Can not find Mail-Template translated '{$templateName}' for ".
-                    ($user->profile->language ?? 'en')
-                );
+                $language = 'en';
+            } else {
+                $language = $languageFallback[$language];
             }
-
-            $language = $languageFallback[$language];
         }
     }
 }
