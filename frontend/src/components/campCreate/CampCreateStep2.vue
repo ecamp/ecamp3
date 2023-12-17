@@ -105,7 +105,7 @@
             text
             color="secondary"
             :disabled="isSaving"
-            @click="$emit('previousStep')"
+            @click="$emit('previous-step')"
           >
             <v-icon left>mdi-arrow-left</v-icon>
             {{ $tc('global.button.back') }}
