@@ -139,5 +139,9 @@ export default {
   .v-input__control {
     height: 100%;
   }
+
+  .v-text-field__details {
+    flex-grow: 0;
+  }
 }
 </style>
