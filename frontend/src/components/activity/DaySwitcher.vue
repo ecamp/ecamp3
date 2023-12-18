@@ -1,5 +1,5 @@
 <template>
-  <v-list-item v-if="loading" class="px-3">
+  <v-list-item v-if="loading" class="pl-3 pr-0" inactive>
     <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
       <v-avatar color="rgba(0,0,0,0.1)" size="28">
         <v-skeleton-loader type="text" width="12" class="v-skeleton-loader--no-margin" />
@@ -12,12 +12,32 @@
       type="avatar"
       width="28"
       height="28"
-      class="v-skeleton-loader--no-margin v-skeleton-loader--inherit-size ml-6"
+      class="v-skeleton-loader--no-margin v-skeleton-loader--inherit-size ml-6 mr-1"
     />
+    <v-icon>mdi-menu-down</v-icon>
   </v-list-item>
-  <v-menu v-else offset-y>
-    <template #activator="{ on }">
-      <v-list-item class="px-3" v-on="on">
+  <e-select
+    v-else
+    :value="daySelection.number"
+    :items="items"
+    item-value="number"
+    :filled="false"
+    return-object
+    :menu-props="{
+      offsetY: true,
+      contentClass: 'e-day-switcher__menu',
+      maxHeight: 'min(400px, calc(100vh - 32px))',
+    }"
+    input-class="e-day-switcher__select mt-0 pt-0"
+    @change="changeDay"
+  >
+    <template #selection="{ index, parent }">
+      <v-list-item
+        v-if="index === 0"
+        class="pl-3 pr-0"
+        inactive
+        @click.stop="parent.isMenuActive = !parent.isMenuActive"
+      >
         <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
           <v-avatar color="rgba(0,0,0,0.07)" size="28">
             {{ daySelection.number }}
@@ -37,52 +57,32 @@
         />
       </v-list-item>
     </template>
-    <v-sheet
-      v-for="({ days, period }, key, index) in mappedPeriodDays"
-      :key="key"
-      class="rounded-t"
-    >
-      <v-divider v-if="index > 0" />
-      <v-list>
-        <v-subheader v-if="periods.length > 1">{{ period.description }}</v-subheader>
-        <v-list-item
-          v-for="day in days"
-          :key="day._meta.self"
-          @click="$emit('changeDay', day)"
-        >
-          <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
-            <v-avatar
-              :color="
-                daySelection.id === day.id ? 'rgba(33,150,243,0.17)' : 'rgba(0,0,0,0.07)'
-              "
-              :class="
-                daySelection.id === day.id && 'font-weight-bold blue--text text--darken-4'
-              "
-              size="28"
-            >
-              {{ day.number }}
-            </v-avatar>
-          </v-list-item-title>
-          <v-list-item-subtitle class="basis-auto flex-shrink-0 ml-2" style="width: 72px">
-            {{ $date.utc(day.start).format('dd. DD.MM.') }}
-          </v-list-item-subtitle>
-          <AvatarRow
-            :camp-collaborations="
-              day
-                .dayResponsibles()
-                .items.map((responsible) => responsible.campCollaboration())
-            "
-            min-size="28"
-            max-size="28"
-          />
-        </v-list-item>
-      </v-list>
-    </v-sheet>
-  </v-menu>
+    <template #item="{ item: day, attrs, on }">
+      <v-list-item v-bind="attrs" v-on="on">
+        <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
+          <v-avatar color="rgba(0,0,0,0.07)" size="28">
+            {{ day.number }}
+          </v-avatar>
+        </v-list-item-title>
+        <v-list-item-subtitle class="basis-auto flex-shrink-0 ml-2">
+          {{ $date.utc(day.start).format('dd. DD.MM.') }}
+        </v-list-item-subtitle>
+        <AvatarRow
+          :camp-collaborations="
+            day
+              .dayResponsibles()
+              .items.map((responsible) => responsible.campCollaboration())
+          "
+          min-size="28"
+          max-size="28"
+        />
+      </v-list-item>
+    </template>
+  </e-select>
 </template>
 <script>
 import AvatarRow from '@/components/generic/AvatarRow.vue'
-import { keyBy, mapValues, sortBy } from 'lodash'
+import { reduce, sortBy } from 'lodash'
 
 export default {
   name: 'DaySwitcher',
@@ -93,14 +93,41 @@ export default {
     loading: { type: Boolean },
   },
   computed: {
-    mappedPeriodDays() {
-      return mapValues(keyBy(this.periods, '_meta.self'), (period) => {
-        return { period, days: sortBy(period.days().items, 'number') }
-      })
+    items() {
+      return reduce(
+        this.periods,
+        (result, period, index) => {
+          if (index > 0) {
+            result.push({ divider: true })
+          }
+          if (this.periods.length > 1) {
+            result.push({ header: period.description })
+          }
+          result.push(...sortBy(period.days().items, 'number'))
+          return result
+        },
+        []
+      )
     },
     periods() {
-      return this.camp().periods().items
+      return sortBy(this.camp().periods().items, 'start')
+    },
+  },
+  methods: {
+    changeDay(value) {
+      this.$emit('changeDay', value)
     },
   },
 }
 </script>
+
+<style>
+.e-day-switcher__menu {
+  transform: translateX(-12px);
+}
+
+.e-day-switcher__select .v-input__append-inner {
+  align-self: center;
+  margin-top: 0;
+}
+</style>
