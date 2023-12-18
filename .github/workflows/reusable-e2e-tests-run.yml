@@ -1,0 +1,71 @@
+name: '[reusable only] e2e tests run'
+
+on:
+  workflow_call:
+    inputs:
+      run-identifier:
+        required: false
+        type: string
+
+jobs:
+  e2e-tests-run:
+    name: 'Tests: End-to-end'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chrome
+          - firefox
+          - edge
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - run: cp .env.ci .env
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Restore tmp folder
+        uses: actions/download-artifact@v4
+        with:
+          name: e2e-tests-images
+          path: /tmp
+
+      - name: Load images
+        run: |
+          docker load --input /tmp/ecamp3-dev-api-php.tar
+          docker load --input /tmp/ecamp3-dev-api-caddy.tar
+          docker image ls -a --digests
+
+      - name: Restore cache volumes (npm, composer)
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+        with:
+          path: .cache
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
+          restore-keys: |
+            docker-compose-
+
+      # start necessary containers
+      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
+
+      - uses: cypress-io/github-action@v5
+        with:
+          working-directory: e2e
+          browser: ${{ matrix.browser }}
+          wait-on: 'http://localhost:3000, http://localhost:3000/api, http://localhost:3000/print/health'
+          wait-on-timeout: 300
+
+      # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-output-${{ matrix.browser }}${{ inputs.run-identifier != null && format('-{0}', inputs.run-identifier) }}
+          path: |
+            e2e/data/**/*
+
+      # print docker container logs (good for debugging; can be disabled again later on)
+      - run: docker compose logs --tail="all"
+        if: always()

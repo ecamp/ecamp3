@@ -2,8 +2,8 @@
 App\Entity\ContentNode\MultiSelect:
   multiSelect1:
     root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
+    parent: '@responsiveLayout1'
+    slot: 'aside-top'
     position: 0
     instanceName: 'multiSelect1'
     contentType: '@contentTypeMultiSelect'
@@ -12,8 +12,8 @@ App\Entity\ContentNode\MultiSelect:
 App\Entity\ContentNode\MaterialNode:
   materialNode1:
     root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
+    parent: '@responsiveLayout1'
+    slot: 'aside-top'
     position: 1
     instanceName: 'materialNode1'
     contentType: '@contentTypeMaterial'
@@ -21,16 +21,16 @@ App\Entity\ContentNode\MaterialNode:
 App\Entity\ContentNode\SingleText:
   singleText1:
     root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
+    parent: '@responsiveLayout1'
+    slot: 'aside-top'
     position: 2
     instanceName: 'singleText1'
     contentType: '@contentTypeNotes'
     data: { html: <word()> }
   safetyConcept1:
     root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
+    parent: '@responsiveLayout1'
+    slot: 'aside-top'
     position: 3
     instanceName: 'safetyConcept1'
     contentType: '@contentTypeSafetyConcept'
