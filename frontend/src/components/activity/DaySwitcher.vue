@@ -1,9 +1,7 @@
 <template>
-  <v-list-item v-if="loading" class="pl-3 pr-0" inactive>
+  <v-list-item v-if="loading" class="pl-4 pr-0" inactive>
     <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
-      <v-avatar color="rgba(0,0,0,0.1)" size="28">
-        <v-skeleton-loader type="text" width="12" class="v-skeleton-loader--no-margin" />
-      </v-avatar>
+      <v-skeleton-loader type="text" width="3ch" class="v-skeleton-loader--no-margin" />
     </v-list-item-title>
     <v-list-item-subtitle class="basis-auto flex-shrink-0 ml-2">
       <v-skeleton-loader type="text" class="v-skeleton-loader--no-margin" />
@@ -34,17 +32,15 @@
     <template #selection="{ index, parent }">
       <v-list-item
         v-if="index === 0"
-        class="pl-3 pr-0"
+        class="pl-4 pr-0"
         inactive
         @click.stop="parent.isMenuActive = !parent.isMenuActive"
       >
-        <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
-          <v-avatar color="rgba(0,0,0,0.07)" size="28">
-            {{ daySelection.number }}
-          </v-avatar>
+        <v-list-item-title class="flex-grow-0 basis-num flex-shrink-0 font-weight-bold">
+          {{ daySelection.number }}.
         </v-list-item-title>
         <v-list-item-subtitle class="basis-auto flex-shrink-0 ml-2">
-          {{ $date.utc(daySelection.start).format('dd. DD.MM.') }}
+          {{ $date.utc(daySelection.start).format('dd. DD. MMM') }}
         </v-list-item-subtitle>
         <AvatarRow
           :camp-collaborations="
@@ -59,13 +55,11 @@
     </template>
     <template #item="{ item: day, attrs, on }">
       <v-list-item v-bind="attrs" v-on="on">
-        <v-list-item-title class="flex-grow-0 basis-auto flex-shrink-0">
-          <v-avatar color="rgba(0,0,0,0.07)" size="28">
-            {{ day.number }}
-          </v-avatar>
+        <v-list-item-title class="flex-grow-0 basis-num flex-shrink-0 font-weight-bold">
+          {{ day.number }}.
         </v-list-item-title>
         <v-list-item-subtitle class="basis-auto flex-shrink-0 ml-2">
-          {{ $date.utc(day.start).format('dd. DD.MM.') }}
+          {{ $date.utc(day.start).format('dd. DD. MMM') }}
         </v-list-item-subtitle>
         <AvatarRow
           :camp-collaborations="
@@ -122,6 +116,10 @@ export default {
 </script>
 
 <style>
+.basis-num {
+  flex-basis: 2.5ch;
+}
+
 .e-day-switcher__menu {
   transform: translateX(-12px);
 }
