@@ -136,6 +136,7 @@
         "submitTooltip": "Compilare tutti i campi richiesti."
       },
       "campCreateStep2": {
+        "category": "Categorie di attività",
         "create": "Creare il campo",
         "noContent": "Nessun contenuto",
         "noPrototype": "Nessun modello",
@@ -143,9 +144,11 @@
           "description": "È necessario effettuare tutte le impostazioni manualmente. Non sono disponibili modelli e layout di blocco. È adatto solo agli utenti esperti.",
           "title": "Nota bene: avete scelto \"Nessun modello\"."
         },
-        "prototypeHint": "Copiare le categorie, i modelli di blocco e lo stato dei blocchi da un modello di campo.",
+        "preview": "Anteprima del modello di campo",
+        "progressStates": "Stati di attività",
+        "prototypeHint": "Copiare le categorie, i modelli di blocco e stati di blocchi da un modello di campo.",
         "prototypeHintEmpty": "Non copiare categorie, modelli di blocco e stati di blocco da un modello di campo.",
-        "prototypeHintSelected": "Copiate le categorie, i modelli di blocco e lo stato dei blocchi da questo modello di campo.",
+        "prototypeHintSelected": "Copiate le categorie, i modelli di blocco e stati di blocchi da questo modello di campo.",
         "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare."
       }
     },

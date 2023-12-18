@@ -144,7 +144,7 @@
         "submitTooltip": "Bitte fülle alle Pflichtfelder aus."
       },
       "campCreateStep2": {
-        "category": "Block-Kategorie Vorschau",
+        "category": "Block-Kategorien",
         "create": "Lager erstellen",
         "noContent": "Keine Inhalte",
         "noPrototype": "Keine Vorlage",
@@ -152,7 +152,8 @@
           "description": "Du musst alle Einstellungen manuell vornehmen. Es sind keine Blockvorlagen & Layouts vorhanden. Dies ist nur für erfahrene Nutzende geeignet.",
           "title": "Achtung: Du hast \"Keine Vorlage\" ausgewählt."
         },
-        "progressStates": "Blockstatus Vorschau",
+        "preview": "Vorschau der Lagervorlage",
+        "progressStates": "Blockstatus",
         "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",

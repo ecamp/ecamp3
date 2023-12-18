@@ -144,7 +144,7 @@
         "submitTooltip": "Please fill out all required fields."
       },
       "campCreateStep2": {
-        "category": "Activity category preview",
+        "category": "Activity categories",
         "create": "Create the Camp",
         "noContent": "No Content",
         "noPrototype": "No template",
@@ -152,7 +152,8 @@
           "description": "You must make all settings manually. There are no block templates & layouts available. This is only suitable for experienced users.",
           "title": "Attention: You chose \"No template\"."
         },
-        "progressStates": "Activity states preview",
+        "preview": "Preview of camp template",
+        "progressStates": "Activity states",
         "prototypeHint": "Copy categories, activity templates and states from a template.",
         "prototypeHintEmpty": "Don't copy categories, activity templates and states.",
         "prototypeHintSelected": "Copy categories, activity templates and states from this template.",

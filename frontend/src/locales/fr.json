@@ -136,6 +136,7 @@
         "submitTooltip": "Remplis tous les champs obligatoires."
       },
       "campCreateStep2": {
+        "category": "Catégories d'activités",
         "create": "Créer le camp",
         "noContent": "Pas de contenu",
         "noPrototype": "Pas de modèle",
@@ -143,6 +144,8 @@
           "description": "Tu dois effectuer tous les réglages manuellement. Il n'y a pas de modèles de blocs ni de mises en page. Ceci ne convient qu'aux utilisateurs expérimentés.",
           "title": "Attention : Vous avez choisi \"Pas de modèle\"."
         },
+        "preview": "Aperçu du modèle du camp",
+        "progressStates": "États d'activités",
         "prototypeHint": "Copie les catégories, les modèles de blocs et les états de blocs d'un modèle de camp.",
         "prototypeHintEmpty": "Ne pas copier de catégories, de modèles de blocs et de statuts de blocs à partir d'un modèle de camp.",
         "prototypeHintSelected": "Copie les catégories, les modèles de blocs et les statuts de blocs de ce modèle de camp.",
