@@ -76,6 +76,14 @@ body {
   margin-top: 12px;
 }
 
+.basis-auto {
+  flex-basis: auto !important;
+}
+
+.select-left .v-select__selections {
+  justify-content: flex-start !important;
+}
+
 .flex-full {
   flex: 1 1 0;
 }

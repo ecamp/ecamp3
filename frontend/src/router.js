@@ -371,7 +371,10 @@ export default new Router({
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
-        aside: (route) => ({ day: dayFromScheduleEntryInRoute(route) }),
+        aside: (route) => ({
+          camp: campFromRoute(route),
+          day: dayFromScheduleEntryInRoute(route),
+        }),
       },
     },
     {
