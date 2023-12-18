@@ -7,6 +7,7 @@ Displays a field as a e-select + write access via API wrapper
     v-slot="wrapper"
     v-bind="$props"
     :auto-save-delay="autoSaveDelayComputed"
+    wrapper-input-type="select"
     v-on="$listeners"
   >
     <e-select
@@ -23,8 +24,7 @@ Displays a field as a e-select + write access via API wrapper
       @input="wrapper.on.input"
     >
       <template #append>
-        <v-icon>mdi-menu-down</v-icon>
-        <api-wrapper-append :wrapper="wrapper" />
+        <ApiWrapperSelectAppend :wrapper="wrapper" :resettable="resettable" />
       </template>
     </e-select>
   </api-wrapper>
@@ -33,11 +33,11 @@ Displays a field as a e-select + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import ApiWrapper from './ApiWrapper.vue'
-import ApiWrapperAppend from './ApiWrapperAppend.vue'
+import ApiWrapperSelectAppend from '@/components/form/api/ApiWrapperSelectAppend.vue'
 
 export default {
   name: 'ApiSelect',
-  components: { ApiWrapper, ApiWrapperAppend },
+  components: { ApiWrapperSelectAppend, ApiWrapper },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
@@ -62,4 +62,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+::v-deep .v-input__append-inner {
+  position: relative;
+}
+</style>

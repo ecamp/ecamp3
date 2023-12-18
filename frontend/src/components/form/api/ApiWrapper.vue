@@ -5,8 +5,16 @@ Wrapper component for form components to save data back to API
 <template>
   <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>
     <v-form
-      :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
-      class="e-form-container"
+      :class="[
+        {
+          'ec-api-wrapper--inline': !autoSave && !readonly && !separateButtons,
+          'ec-api-wrapper--success': status === 'success',
+          'ec-api-wrapper--saving': status === 'saving',
+          'ec-api-wrapper--server-error': hasServerError,
+        },
+        `ec-api-wrapper--type-${wrapperInputType}`,
+      ]"
+      class="e-form-container ec-api-wrapper"
       @submit.prevent="onEnter"
     >
       <slot
@@ -46,6 +54,10 @@ export default {
     parse: {
       type: Function,
       default: null,
+    },
+    wrapperInputType: {
+      type: String,
+      default: 'none',
     },
   },
   data() {
@@ -257,18 +269,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.api-wrapper--inline .v-btn--last-instance {
+.ec-api-wrapper--inline .v-btn--last-instance {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.api-wrapper--inline .v-btn {
+
+.ec-api-wrapper--inline .v-btn {
   border-top: 1px solid rgba(0, 0, 0, 0.38);
   border-bottom: 1px solid rgba(0, 0, 0, 0.38);
 }
 </style>
 
 <style lang="scss">
-.api-wrapper--inline .v-text-field {
+.ec-api-wrapper--inline .v-text-field {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
