@@ -12,6 +12,7 @@
             :hint="prorotypeHint"
             persistent-hint
             :items="campTemplates"
+            :menu-props="{ offsetY: true }"
           >
             <template #item="{ attrs, on, item }">
               <v-list-item v-bind="attrs" v-on="on">
@@ -19,6 +20,73 @@
                   {{ item.text }}
                 </v-list-item-content>
               </v-list-item>
+            </template>
+            <template #selection="{ item, parent }">
+              <div
+                v-if="localCamp.campPrototype"
+                @click.stop="parent.isMenuActive = !parent.isMenuActive"
+              >
+                <v-list-item class="px-0">
+                  {{ item.text }}
+                </v-list-item>
+                <v-list class="w-100" dense color="transparent">
+                  <v-subheader class="px-0" style="height: auto">{{
+                    $tc('components.campCreate.campCreateStep2.category')
+                  }}</v-subheader>
+                  <v-list-item
+                    v-for="category in item.object.categories().items"
+                    :key="category._meta.self"
+                    class="pt-0 pb-1 px-0"
+                    style="min-height: 0"
+                  >
+                    <v-list-item-title class="d-flex gap-2 align-baseline">
+                      <CategoryChip
+                        :category="category"
+                        class="mx-0 flex-shrink-0"
+                        dense
+                      />
+                      <span class="font-weight-medium">{{ category.name }}</span>
+                      <small class="blue-grey--text">{{
+                        category
+                          .preferredContentTypes()
+                          .items.map((item) =>
+                            $tc('contentNode.' + camelCase(item.name) + '.name')
+                          )
+                          .join(', ') ||
+                        $tc('components.campCreate.campCreateStep2.noContent')
+                      }}</small>
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+                <v-list class="w-100" dense color="transparent">
+                  <v-subheader class="px-0" style="height: auto">{{
+                    $tc('components.campCreate.campCreateStep2.progressStates')
+                  }}</v-subheader>
+                  <v-list-item
+                    v-for="(progressLabel, idx) in item.object.progressLabels().items"
+                    :key="progressLabel._meta.self"
+                    class="pt-1 pb-1 px-0"
+                    style="min-height: 0"
+                  >
+                    <v-list-item-title class="d-flex gap-2 align-baseline">
+                      <v-avatar color="rgba(0,0,0,0.12)" size="20">{{
+                        idx + 1
+                      }}</v-avatar>
+                      {{ progressLabel.title }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </div>
+              <template v-else>
+                <v-list-item
+                  inactive
+                  :ripple="false"
+                  class="px-0"
+                  @click.stop="parent.isMenuActive = !parent.isMenuActive"
+                >
+                  {{ item.text }}
+                </v-list-item>
+              </template>
             </template>
           </e-select>
           <v-alert
@@ -37,69 +105,7 @@
             }}
           </v-alert>
         </v-card-text>
-        <v-sheet v-if="localCamp.campPrototype" elevation="0">
-          <v-expansion-panels
-            accordion
-            flat
-            multiple
-            :value="[0]"
-            style="border-top: 1px solid #eee"
-          >
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                <h3>{{ $tc('components.campCreate.campCreateStep2.category') }}</h3>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-list class="py-0 mx-n4">
-                  <v-list-item
-                    v-for="category in prototypePreview.categories().items"
-                    :key="category._meta.self"
-                  >
-                    <v-list-item-title class="d-flex gap-2 align-baseline">
-                      <CategoryChip
-                        :category="category"
-                        class="mx-1 flex-shrink-0"
-                        dense
-                      />
-                      <span class="font-weight-medium">{{ category.name }}</span>
-                      <small class="blue-grey--text">{{
-                        category
-                          .preferredContentTypes()
-                          .items.map((item) =>
-                            $tc('contentNode.' + camelCase(item.name) + '.name')
-                          )
-                          .join(', ') ||
-                        $tc('components.campCreate.campCreateStep2.noContent')
-                      }}</small>
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                <h3>{{ $tc('components.campCreate.campCreateStep2.progressStates') }}</h3>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-list class="py-0 mx-n4">
-                  <v-list-item
-                    v-for="(progressLabel, idx) in prototypePreview.progressLabels()
-                      .items"
-                    :key="progressLabel._meta.self"
-                  >
-                    <v-list-item-title class="d-flex gap-2 align-baseline">
-                      <v-avatar color="grey lighten-2 subtitle-2" size="24"
-                        >{{ idx + 1 }}
-                      </v-avatar>
-                      {{ progressLabel.title }}
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-sheet>
-        <v-divider v-else />
+        <v-divider />
         <ContentActions>
           <v-btn
             text
