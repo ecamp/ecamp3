@@ -139,9 +139,16 @@ body {
 .d-flow-root {
   display: flow-root;
 }
+.v-application {
+  .d-contents {
+    display: contents !important;
+  }
 
-.d-contents {
-  display: contents;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    .d-sm-contents {
+      display: contents !important;
+    }
+  }
 }
 
 .d-grid {

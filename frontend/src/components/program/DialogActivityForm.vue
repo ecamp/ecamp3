@@ -1,10 +1,14 @@
 <template>
   <div>
-    <e-text-field
-      v-model="localActivity.title"
-      :name="$tc('entity.activity.fields.title')"
-      vee-rules="required"
-    />
+    <div class="e-form-container d-flex gap-2">
+      <e-text-field
+        v-model="localActivity.title"
+        :name="$tc('entity.activity.fields.title')"
+        vee-rules="required"
+        class="flex-grow-1"
+      />
+      <slot name="textFieldTitleAppend" />
+    </div>
 
     <e-select
       v-model="localActivity.category"

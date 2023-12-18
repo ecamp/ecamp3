@@ -55,6 +55,13 @@
       "info": "Qui puoi inserire qualsiasi nota, ad esempio idee, impegni, domande aperte, contatti, collegamenti con i mezzi pubblici, ecc.",
       "name": "Noti"
     },
+    "responsiveLayout": {
+      "icon": "mdi-view-compact",
+      "name": "Layout di default",
+      "mainContent": "Contenuto principale",
+      "printAboveMainContent": "Stampa sopra il contenuto principale",
+      "printBelowMainContent": "Stampa sotto il contenuto principale"
+    },
     "safetyConcept": {
       "info": "Alcuni blocchi richiedono una riflessione sui rischi. Qui puoi registrare questi pensieri.{br}Registra i rischi che hai identificato e come puoi affrontarli.",
       "name": "Concetto di sicurezza"

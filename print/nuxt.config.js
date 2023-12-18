@@ -76,6 +76,23 @@ export default defineNuxtConfig({
 
   telemetry: false,
 
+  vite: {
+    optimizeDeps: {
+      include: [
+        'dayjs',
+        'dayjs/locale/de',
+        'dayjs/locale/de-ch',
+        'dayjs/locale/fr',
+        'dayjs/locale/it',
+        'dayjs/plugin/customParseFormat',
+        'dayjs/plugin/duration',
+        'dayjs/plugin/isBetween',
+        'dayjs/plugin/localizedFormat',
+        'dayjs/plugin/utc',
+      ],
+    },
+  },
+
   vue: {
     compilerOptions: {
       whitespace: 'preserve',

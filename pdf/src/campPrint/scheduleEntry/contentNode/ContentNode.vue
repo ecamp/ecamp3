@@ -9,6 +9,7 @@
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import ColumnLayout from './ColumnLayout.vue'
+import ResponsiveLayout from './ResponsiveLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
 import Storyboard from './Storyboard.vue'
 import Notes from './Notes.vue'
@@ -29,6 +30,7 @@ export default {
     contentNodeComponent() {
       return {
         ColumnLayout,
+        ResponsiveLayout,
         LAThematicArea,
         Storyboard,
         Notes,

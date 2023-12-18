@@ -63,7 +63,9 @@ export default {
       if (this.contentTypesLoading) {
         return []
       }
-      return this.preferredContentTypes().items.sort(this.sortContentTypeByTranslatedName)
+      return this.preferredContentTypes()
+        .items.filter((ct) => this.showResponsiveLayout(ct))
+        .sort(this.sortContentTypeByTranslatedName)
     },
     nonpreferredContentTypesItems() {
       if (this.contentTypesLoading) {
@@ -74,6 +76,7 @@ export default {
         .contentTypes()
         .items.filter(
           (ct) =>
+            this.showResponsiveLayout(ct) &&
             !this.preferredContentTypes()
               .items.map((ct) => ct.id)
               .includes(ct.id)
@@ -90,6 +93,11 @@ export default {
     },
     contentTypeIconKey(contentType) {
       return 'contentNode.' + camelCase(contentType.name) + '.icon'
+    },
+    showResponsiveLayout(contentType) {
+      return (
+        contentType.name !== 'ResponsiveLayout' || this.parentContentNode.parent === null
+      )
     },
     sortContentTypeByTranslatedName(ct1, ct2) {
       const ct1name = this.$i18n.tc(this.contentTypeNameKey(ct1))

@@ -95,6 +95,10 @@
             "href": "\/auth\/reset_password{\/id}",
             "templated": true
         },
+        "responsiveLayouts": {
+            "href": "\/content_node\/responsive_layouts{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
         "scheduleEntries": {
             "href": "\/schedule_entries{\/id}{?period,period[],activity,activity[],start[before],start[strictly_before],start[after],start[strictly_after],end[before],end[strictly_before],end[after],end[strictly_after]}",
             "templated": true

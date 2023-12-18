@@ -17,12 +17,20 @@
           }
         }
       },
+      "copyActivityInfoDialog": {
+        "title": "Aktivität kopieren & einfügen",
+        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "granted": "Du kannst nun kopierte Aktivitäten einfügen."
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
       },
       "scheduleEntry": {
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
+        "copyScheduleEntry": "Aktivität kopieren",
         "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
         "switchToFullSize": "Zum Breitformat umschalten",
         "switchToPaperSize": "Zum Papierformat umschalten"
@@ -292,6 +300,15 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clipboard": "Zwischenablage",
+        "copyPastActivity": "Aktivität kopieren & einfügen",
+        "clearClipboard": "Zwischenablage leeren",
+        "copyActivity": "Aktivität kopieren",
+        "copyActivityContent": "Inhalt von Aktivität kopieren",
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "pasteActivity": "Kopierte Aktivität einfügen"
+      },
       "formScheduleEntryItem": {
         "end": "Ende",
         "start": "Start"
@@ -406,6 +423,9 @@
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
+    },
+    "toast": {
+      "copied": "{source} kopiert"
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",

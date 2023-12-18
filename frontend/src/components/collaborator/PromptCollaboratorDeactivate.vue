@@ -1,6 +1,7 @@
 <template>
   <PopoverPrompt
     v-model="showDialog"
+    type="error"
     :error="error"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"

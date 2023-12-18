@@ -26,7 +26,7 @@ export default {
   font-weight: bold;
   font-size: 11pt;
   padding-bottom: 3pt;
-  border-bottom: 1pt solid black;
+  border-bottom: 1.5pt solid black;
   margin-bottom: 1pt;
 }
 </pdf-style>

@@ -14,6 +14,7 @@ use App\Repository\ContentNodeRepository;
 use App\Util\ClassInfoTrait;
 use App\Util\EntityMap;
 use App\Util\JsonMergePatch;
+use App\Validator\ContentNode\AssertAttachedToRoot;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use App\Validator\ContentNode\AssertNoRootChange;
@@ -70,6 +71,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[Assert\NotNull(groups: ['create'])] // Root nodes have parent:null, but manually creating root nodes is not allowed
     #[AssertNoRootChange(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
+    #[AssertAttachedToRoot(groups: ['update'])]
     #[Assert\Type(
         type: SupportsContentNodeChildren::class,
         message: 'This parent does not support children, only content_nodes of type column_layout support children.'
