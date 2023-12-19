@@ -61,7 +61,7 @@
       </v-toolbar>
     </v-card-title>
     <slot name="outer">
-      <v-card-text class="flex-grow-1">
+      <v-card-text class="flex-grow-1" :class="{ 'pointer-events-none': layoutMode }">
         <slot />
       </v-card-text>
     </slot>
@@ -138,6 +138,14 @@ export default {
   .v-input,
   .v-input__control {
     height: 100%;
+  }
+
+  .v-text-field__details {
+    flex-grow: 0;
+  }
+
+  .grow-v-slot .v-input__slot {
+    flex-grow: 1;
   }
 }
 </style>

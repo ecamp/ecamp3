@@ -7,7 +7,7 @@
       rows="2"
       :disabled="layoutMode || disabled"
       :filled="layoutMode"
-      height="100%"
+      class="grow-v-slot"
     />
   </card-content-node>
 </template>

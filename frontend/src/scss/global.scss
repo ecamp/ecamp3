@@ -159,6 +159,10 @@ body {
   display: inline-grid;
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .opacity-60 {
   opacity: 0.6;
 }

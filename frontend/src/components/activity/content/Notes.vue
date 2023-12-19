@@ -8,7 +8,7 @@
       auto-grow
       :disabled="layoutMode || disabled"
       :filled="layoutMode"
-      height="100%"
+      input-class="grow-v-slot"
     />
   </card-content-node>
 </template>
