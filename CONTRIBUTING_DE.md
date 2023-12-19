@@ -13,13 +13,13 @@ Dies ist ein grundlegender Überblick über den Arbeitsablauf, d.h., wie wir mit
 Weitere Informationen zur Einrichtung einer Entwicklungsumgebung auf deinem Computer findest du im [Wiki](https://github.com/ecamp/ecamp3/wiki/installation).
 Wenn etwas bei der Einrichtung unklar ist oder du auf einen Fehler gestossen bist, gibt es einen setup-help-Kanal auf [Discord](https://discord.gg/tdwtRytV6P), dort kannst du deine Fragen zum Setup stellen :computer:
 ### Labels :label:
-Aufgaben werden mit Labels gekennzeichnet und einige davon sind nicht selbsterklärend und werden hier erklärt:
-- **Good first issue**: :green_heart: Anfängerfreundliche Aufgaben.
+Tickets werden mit Labels gekennzeichnet und einige davon sind nicht selbsterklärend und werden hier erklärt:
+- **Good first issue**: :green_heart: Anfängerfreundliche Tickets.
 - **Type-Labels**: Zeigen an, welcher Teil der Architektur betroffen ist. Es gibt `type: Frontend`, `type: Print`, `type: Deployment` & `type: API`. Die Architektur dafür ist teilweise im [Wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend) dokumentiert.
 - **Needs prototype**: :bulb: Wenn du eine Idee hast, wie dieses Problem gelöst werden kann, würden wir sie gerne sehen. Dieses Problem benötigt einen Prototypen, bevor die eigentliche Implementierung beginnt, da die Spezifikationen etwas vage sind. Ein Prototyp kann vieles sein, z.B. eine Skizze, ein Mock-up oder eine Teil-Implementierung.
 - **Feature request**: :rocket: Eine Idee/Anfrage für eine Funktionalität, die noch nicht zur Implementierung, aber zur Diskussion bereitsteht.
 
-### :point_right: Mit einem Issue (Ticket) starten
+### :point_right: Mit einem Ticket starten
 Auf GitHub heissen die Arbeitspakete, welche du vielleicht als Tickets kennst, `Issues`. Um zu starten, suche dir ein Issue aus, das dich interessiert. Wenn du neu bist, empfehlen wir, ein [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue) auszuwählen.
 Falls dir diese zu einfach sind, empfehlen wir ein Issue mit dem Label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), diese sind klar spezifiziert.
 Wenn du an einem Problem arbeitest, hinterlasse bitte einen Kommentar, damit wir es dir zuweisen können, um sicherzustellen, dass die Spezifikationen noch aktuell sind, und um zu verhindern, dass zwei Personen am selben Problem arbeiten.
@@ -133,7 +133,7 @@ haben wir diese Prüfliste zusammengestellt :scroll:.
 Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz deiner Beiträge :sparkles: und beschleunigst den Überprüfungsprozess :rocket:.
 
 
-- [x] **Synchronisation mit dem zentralen Repository:** :arrows_counterclockwise: Stelle sicher, dass dein Fork auf dem neuesten Stand des zentralen Repositories ist, um eine reibungslose Zusammenführung zu ermöglichen. [GitHub-Dokumentation](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
+- [x] **Synchronisation mit dem zentralen Repository:** :arrows_counterclockwise: Stelle sicher, dass dein Fork auf dem neuesten Stand des zentralen Repositories ist, um eine reibungslose Integration deiner Änderungen zu ermöglichen. [GitHub-Dokumentation](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
 - [x] **Lint:** :wrench: Stelle sicher, dass Linters auf alle neuen oder geänderten Dateien angewendet wurden.
 - [x] **Bedeutsame Änderungen:** :mag_right: Bestätige, dass jede geänderte Datei einen sinnvollen Inhalt beiträgt und vermeide unbedeutende Änderungen wie reine Anpassungen von Leerzeichen.
 - [x] **Testing:** :test_tube: Schreibe Tests für alle neuen Funktionen und aktualisiere bestehende Tests, wenn du Änderungen an Funktionalitäten vorgenommen hast.
@@ -146,8 +146,7 @@ Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz dein
 ### Verwende Dev-Data für die Lokale Entwicklung :construction_worker:
 Um die Entwicklung zu vereinfachen und Konsistenz in lokalen Umgebungen zu gewährleisten,
 bieten wir einen vordefinierten Datensatz an, der als 'Dev-Daten' bekannt ist.
-Dieser Datensatz ist darauf ausgerichtet, den Testprozess zu optimieren und damit wir beim Entwickeln immer eine breite Palette an realistischen Daten 
-sowie einige bekannte Randfälle zur Verfügung haben.
+Dieser Datensatz ist darauf ausgerichtet, dass wir beim Entwickeln immer eine breite Palette an realistischen Daten sowie einige bekannte Randfälle zur Verfügung haben.
 
 ### Empfohlener Testbenutzer :bust_in_silhouette:
 Um dich in Entwicklungsumgebungen wie [localhost:3000](http://localhost:3000) einzuloggen, verwende die Benutzerdaten `test@example.com / test`.
