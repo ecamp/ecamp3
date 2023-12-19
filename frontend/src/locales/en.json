@@ -132,6 +132,34 @@
         "moveScheduleEntries": "Move schedule entries"
       }
     },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configure",
+          "infos": "Info",
+          "template": "Template"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Please fill out all required fields."
+      },
+      "campCreateStep2": {
+        "category": "Activity categories",
+        "create": "Create the Camp",
+        "noContent": "No Content",
+        "noPrototype": "No template",
+        "noPrototypeAlert": {
+          "description": "You must make all settings manually. There are no block templates & layouts available. This is only suitable for experienced users.",
+          "title": "Attention: You chose \"No template\"."
+        },
+        "preview": "Preview of camp template",
+        "progressStates": "Activity states",
+        "prototypeHint": "Copy categories, activity templates and states from a template.",
+        "prototypeHintEmpty": "Don't copy categories, activity templates and states.",
+        "prototypeHintSelected": "Copy categories, activity templates and states from this template.",
+        "submitTooltipPrototype": "You need to choose if and which template you want."
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Send invitation",
@@ -381,6 +409,7 @@
       "cancel": "Cancel",
       "close": "Close",
       "content": "Content",
+      "continue": "Continue",
       "create": "Create",
       "delete": "Delete",
       "discard": "Discard",
@@ -610,11 +639,6 @@
       }
     },
     "campCreate": {
-      "create": "Create the Camp",
-      "period": {
-        "add": "Add a period",
-        "remove": "Remove period"
-      },
       "title": "Create a Camp"
     },
     "camps": {
