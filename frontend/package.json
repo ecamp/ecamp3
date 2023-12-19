@@ -156,6 +156,12 @@
           "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
           "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
         }
+      ],
+      "vue/no-mutating-props": [
+        "error",
+        {
+          "shallowOnly": false
+        }
       ]
     },
     "parserOptions": {
