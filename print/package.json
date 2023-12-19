@@ -37,13 +37,13 @@
     "@nuxtjs/tailwindcss": "6.10.1",
     "@tailwindcss/typography": "0.5.10",
     "@vitest/coverage-v8": "0.34.6",
-    "@vue/compiler-dom": "3.3.12",
-    "@vue/compiler-sfc": "3.3.12",
+    "@vue/compiler-dom": "3.3.13",
+    "@vue/compiler-sfc": "3.3.13",
     "@vue/test-utils": "2.4.3",
     "eslint": "8.56.0",
-    "@vue/runtime-dom": "3.3.12",
-    "@vue/server-renderer": "3.3.12",
-    "@vue/shared": "3.3.12",
+    "@vue/runtime-dom": "3.3.13",
+    "@vue/server-renderer": "3.3.13",
+    "@vue/shared": "3.3.13",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-local-rules": "2.0.1",
     "eslint-plugin-prettier": "5.0.1",
@@ -52,7 +52,7 @@
     "prettier": "3.1.1",
     "sass": "1.69.4",
     "vitest": "0.34.6",
-    "vue": "3.3.12"
+    "vue": "3.3.13"
   },
   "eslintConfig": {
     "root": true,
