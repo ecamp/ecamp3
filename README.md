@@ -1,6 +1,6 @@
 <p align="center"><img src="frontend/public/logo.svg" alt="Logo" width="250"></p>
 <h1 align="center">eCamp<sup><small>v3</small></sup></h1>
-<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a></p>
+<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a> <a href="https://discord.gg/tdwtRytV6P"><img src="https://discord.com/api/guilds/1165624811800768702/widget.png?style=shield" alt="Discord shield"></a></p>
 
 ## English
 
@@ -64,6 +64,6 @@ Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du be
   - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows) (nur englisch)
   - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows#setting-up-the-ide) (nur englisch)
 - Falls du Probleme beim Einrichten oder Verständnisfragen hast - keine Sorge, du bist nicht allein. Auf unserem [Community Discord Server](https://discord.gg/tdwtRytV6P) unterstützen wir dich sehr gerne.
-- Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
+- Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](./CONTRIBUTING_DE.md)
 - Studier die [Dokumentation im Wiki](https://github.com/ecamp/ecamp3/wiki)
 - Such dir ein [einsteigertaugliches Issue](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) aus und probiere es zu lösen
