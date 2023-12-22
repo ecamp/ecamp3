@@ -8,7 +8,7 @@ Displays a single scheduleEntry
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
-    :max-width="isPaperDisplaySize ? '944px' : ''"
+    :max-width="isLocalPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -100,21 +100,21 @@ Displays a single scheduleEntry
             icon
             class="d-none d-md-block"
             :aria-label="
-              isPaperDisplaySize
+              isLocalPaperDisplaySize
                 ? $tc('components.activity.scheduleEntry.switchToFullSize')
                 : $tc('components.activity.scheduleEntry.switchToPaperSize')
             "
             @click="toggleDisplaySize"
             v-on="on"
           >
-            <v-icon v-if="isPaperDisplaySize" class="resize-icon"
+            <v-icon v-if="isLocalPaperDisplaySize" class="resize-icon"
               >$vuetify.icons.bigScreen</v-icon
             >
             <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
           </v-btn>
         </template>
         {{
-          isPaperDisplaySize
+          isLocalPaperDisplaySize
             ? $tc('components.activity.scheduleEntry.switchToFullSize')
             : $tc('components.activity.scheduleEntry.switchToPaperSize')
         }}
@@ -264,6 +264,7 @@ Displays a single scheduleEntry
 </template>
 
 <script>
+import { computed } from 'vue'
 import { sortBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
@@ -299,7 +300,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp,
-      isPaperDisplaySize: () => this.isPaperDisplaySize,
+      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
     }
   },
   props: {
@@ -315,6 +316,7 @@ export default {
       categoryChangeState: null,
       loading: true,
       isPaperDisplaySize: true,
+      isLocalPaperDisplaySize: true,
     }
   },
   computed: {
@@ -372,6 +374,7 @@ export default {
   async mounted() {
     this.isPaperDisplaySize =
       localStorage.getItem('activityIsPaperDisplaySize') !== 'false'
+    this.isLocalPaperDisplaySize = this.isPaperDisplaySize
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
@@ -431,6 +434,9 @@ export default {
     },
     toggleDisplaySize() {
       this.isPaperDisplaySize = !this.isPaperDisplaySize
+      this.$nextTick(() => {
+        this.isLocalPaperDisplaySize = this.isPaperDisplaySize
+      })
       localStorage.setItem('activityIsPaperDisplaySize', this.isPaperDisplaySize)
     },
   },

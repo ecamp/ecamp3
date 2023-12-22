@@ -80,8 +80,8 @@ import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNo
 import LayoutCard from '@/components/activity/content/layout/LayoutCard.vue'
 import { groupBy } from 'lodash'
 
-const ASIDE_CONTENT_WIDTH = 400
-const MAIN_CONTENT_WIDTH = 700
+const ASIDE_CONTENT_WIDTH = 250
+const MAIN_CONTENT_WIDTH = 600
 const GAP = 1
 
 export default {
@@ -112,7 +112,7 @@ export default {
     },
     isDefaultVariant() {
       return (
-        !this.isPaperDisplaySize() ||
+        !this.isPaperDisplaySize &&
         this.clientWidth >= ASIDE_CONTENT_WIDTH + MAIN_CONTENT_WIDTH + GAP
       )
     },
