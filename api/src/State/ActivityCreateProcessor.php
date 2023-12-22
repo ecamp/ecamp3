@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class ActivityCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
-        private EntityManagerInterface $em,
+        private EntityManagerInterface $em
     ) {
         parent::__construct($decorated);
     }
@@ -26,14 +26,19 @@ class ActivityCreateProcessor extends AbstractPersistProcessor {
      * @param Activity $data
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Activity {
-        $data->camp = $data->category?->camp;
-
         if (!isset($data->category?->rootContentNode)) {
             throw new \UnexpectedValueException('Property rootContentNode of provided category is null. Object of type '.ColumnLayout::class.' expected.');
         }
-
         if (!is_a($data->category->rootContentNode, ColumnLayout::class)) {
             throw new \UnexpectedValueException('Property rootContentNode of provided category is of wrong type. Object of type '.ColumnLayout::class.' expected.');
+        }
+
+        $data->camp = $data->category->camp;
+        $rootContentNodePrototype = $data->category->rootContentNode;
+
+        if (isset($data->copyActivitySource)) {
+            // CopyActivity Source is set -> copy it's content (rootContentNode)
+            $rootContentNodePrototype = $data->copyActivitySource->rootContentNode;
         }
 
         $rootContentNode = new ColumnLayout();
@@ -45,7 +50,7 @@ class ActivityCreateProcessor extends AbstractPersistProcessor {
 
         // deep copy from category root node
         $entityMap = new EntityMap();
-        $rootContentNode->copyFromPrototype($data->category->rootContentNode, $entityMap);
+        $rootContentNode->copyFromPrototype($rootContentNodePrototype, $entityMap);
 
         return $data;
     }

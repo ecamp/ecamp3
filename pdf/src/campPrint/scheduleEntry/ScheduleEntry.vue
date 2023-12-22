@@ -16,22 +16,21 @@
       <Text class="schedule-entry-date">{{ startAt }} - {{ endAt }}</Text>
     </View>
     <View v-if="showHeader" class="schedule-entry-header">
-      <View class="schedule-entry-header-metadata" style="padding-right: 7pt">
-        <Text>
-          <Text v-if="activity.location" class="schedule-entry-header-metadata-label">
-            {{ $tc('entity.activity.fields.location') }}:
-          </Text>
-          {{ activity.location }}
-        </Text>
+      <View class="schedule-entry-header-metadata">
+        <View class="schedule-entry-header-metadata-entry"
+          ><Text v-if="activity.location" class="schedule-entry-header-metadata-label"
+            >{{ $tc('entity.activity.fields.location') }}:</Text
+          ><Text>{{ activity.location }}</Text></View
+        >
       </View>
+      <View class="schedule-entry-header-divider" />
       <View class="schedule-entry-header-metadata">
         <View class="schedule-entry-header-metadata-entry">
           <Text
             v-if="activity.activityResponsibles().items.length"
             class="schedule-entry-header-metadata-label"
+            >{{ $tc('entity.activity.fields.responsible') }}:</Text
           >
-            {{ $tc('entity.activity.fields.responsible') }}:
-          </Text>
           <Responsibles :activity="activity" style="max-width: 200pt" />
         </View>
       </View>
@@ -46,9 +45,11 @@ import PdfComponent from '@/PdfComponent.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import Responsibles from '../Responsibles.vue'
 import ContentNode from './contentNode/ContentNode.vue'
-import { setContentNodeComponent } from './contentNode/ColumnLayout.vue'
+import { setContentNodeComponent as setContentNodeComponentColumn } from './contentNode/ColumnLayout.vue'
+import { setContentNodeComponent as setContentNodeComponentDefault } from './contentNode/ResponsiveLayout.vue'
 
-setContentNodeComponent(ContentNode)
+setContentNodeComponentColumn(ContentNode)
+setContentNodeComponentDefault(ContentNode)
 
 export default {
   name: 'ScheduleEntry',
@@ -100,7 +101,6 @@ export default {
   align-items: baseline;
   padding-bottom: 2pt;
   border-bottom: 2pt solid #aaaaaa;
-  margin-bottom: 1pt;
 }
 .schedule-entry-title {
   flex-grow: 1;
@@ -125,30 +125,26 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 0.5pt solid black;
-  padding: 2pt 0;
   font-size: 10pt;
   margin-bottom: 10pt;
 }
+.schedule-entry-header-divider {
+  border-left: 0.5pt solid black;
+  margin-left: 3.5pt;
+  padding-left: 5pt
+}
 .schedule-entry-header-metadata {
   width: 50%;
+  padding: 2pt 0;
 }
 .schedule-entry-header-metadata-entry {
   flex-direction: row;
   align-items: flex-start;
+  column-gap: 6pt;
 }
 .schedule-entry-header-metadata-label {
   font-weight: semibold;
   flex-shrink: 0;
   flex-grow: 0;
-}
-.schedule-entry-header-left {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
-.schedule-entry-header-right {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
 }
 </pdf-style>

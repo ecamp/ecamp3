@@ -41,7 +41,7 @@
             "templated": true
         },
         "days": {
-            "href": "\/days{\/id}{?period,period[]}",
+            "href": "\/days{\/id}{?period,period[],period.camp,period.camp[]}",
             "templated": true
         },
         "invitations": {
@@ -93,6 +93,10 @@
         },
         "resetPassword": {
             "href": "\/auth\/reset_password{\/id}",
+            "templated": true
+        },
+        "responsiveLayouts": {
+            "href": "\/content_node\/responsive_layouts{\/id}{?contentType,contentType[],root,root[],period}",
             "templated": true
         },
         "scheduleEntries": {

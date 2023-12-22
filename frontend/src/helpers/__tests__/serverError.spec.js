@@ -1,6 +1,8 @@
 import { transformViolations } from '@/helpers/serverError'
 import cloneDeep from 'lodash/cloneDeep'
-import { fallbackLocale } from '@/plugins/i18n'
+import { fallbackLocales } from '@/plugins/i18n'
+
+const fallbackLocale = fallbackLocales.default
 
 describe('transformViolations', () => {
   describe('without i18n', () => {

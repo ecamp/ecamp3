@@ -1,11 +1,12 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":prConcurrentLimitNone"
   ],
   "force": {
     "constraints": {
       "node": "20.9.0",
-      "php": "8.2.12"
+      "php": "8.3.0"
     }
   },
   "automergeType": "branch",
