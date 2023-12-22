@@ -299,6 +299,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp,
+      isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {

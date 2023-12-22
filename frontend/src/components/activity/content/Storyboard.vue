@@ -9,7 +9,7 @@
           'pointer-events-none px-3 pb-3': layoutMode,
         }"
       >
-        <thead v-if="isDefaultVariant">
+        <thead v-if="isDefaultVariant" :class="{ 'opacity-60': layoutMode }">
           <tr>
             <th v-if="!layoutMode">
               <span class="d-sr-only">
@@ -125,7 +125,7 @@ export default {
     },
   },
   mounted() {
-    this.clientWidth = this.$el.clientWidth
+    this.clientWidth = this.$el.getBoundingClientRect().width
   },
   methods: {
     onResize({ width }) {

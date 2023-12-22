@@ -52,9 +52,10 @@ export default {
 
 .draggable {
   cursor: move;
+  transition: background-color 0.3s 25ms ease;
 
   &:hover {
-    background: map-get($blue-grey, 'lighten-5');
+    background-color: map-get($blue-grey, 'lighten-5');
   }
 
   .theme--light.v-toolbar.v-sheet {

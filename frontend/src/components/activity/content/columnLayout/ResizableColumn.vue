@@ -83,6 +83,12 @@ export default {
 <style scoped lang="scss">
 .ec-resizable-col {
   width: 0;
+  flex-direction: column-reverse;
+
+  &.ec-resizable-col--layout-mode {
+    padding-top: 4px;
+  }
+
   &:not(.ec-resizable-col--layout-mode) {
     & + .ec-resizable-col--default:not(.ec-resizable-col--layout-mode) {
       border-left: 1px solid #ccc;
@@ -97,7 +103,6 @@ export default {
 }
 
 .ec-column-head {
-  height: 60px;
   position: relative;
 }
 </style>

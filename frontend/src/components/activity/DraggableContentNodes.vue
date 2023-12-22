@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-grow-1">
+  <div class="ec-draggable-content-nodes d-flex flex-column flex-grow-1">
     <draggable
       v-if="contentNodeIds"
       v-model="localContentNodeIds"
@@ -172,13 +172,27 @@ export default {
   flex-grow: 1;
 }
 
+.draggable-area--layout-mode :deep(.content-node) {
+  border: 1px solid rgb(0 0 0 / 28%);
+}
+
+.draggable-area--layout-mode :deep(.content-node:not(:hover)) {
+  background: white;
+}
+
+@supports selector(:has(+ *)) {
+  .draggable-area--layout-mode :deep(.content-node:has(.content-node:hover)) {
+    background: white;
+  }
+}
+
 .draggable-area--row ::v-deep .content-node {
   flex: 1 0 320px;
 }
 
 .draggable-area--layout-mode {
   display: flex !important;
-  gap: 4px;
+  gap: 6px 4px;
 }
 
 .draggable-area--read-mode {
@@ -194,13 +208,13 @@ export default {
       pointer-events: none;
       display: block;
       position: absolute;
-      top: 4px;
-      bottom: 4px;
-      left: 4px;
-      right: 4px;
+      top: -4px;
+      bottom: 2px;
+      left: -4px;
+      right: -4px;
+      opacity: 40%;
       border-radius: 5px;
       border: 2px dotted map-get($blue-grey, 'base');
-      background: map-get($blue-grey, 'lighten-4');
       opacity: 40%;
       content: '';
     }

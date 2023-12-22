@@ -7,7 +7,7 @@
       rows="4"
       auto-grow
       :disabled="layoutMode || disabled"
-      :filled="layoutMode"
+      :readonly="layoutMode"
       class="grow-v-slot"
     />
   </card-content-node>

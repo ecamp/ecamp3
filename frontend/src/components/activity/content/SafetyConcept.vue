@@ -6,7 +6,7 @@
       :placeholder="$tc('contentNode.safetyConcept.name')"
       rows="2"
       :disabled="layoutMode || disabled"
-      :filled="layoutMode"
+      :readonly="layoutMode"
       class="grow-v-slot"
     />
   </card-content-node>
