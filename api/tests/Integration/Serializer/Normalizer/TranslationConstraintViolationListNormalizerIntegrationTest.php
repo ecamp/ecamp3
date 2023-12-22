@@ -2,7 +2,7 @@
 
 namespace App\Tests\Integration\Serializer\Normalizer;
 
-use ApiPlatform\Hal\Serializer\ConstraintViolationListNormalizer as HalConstraintViolationListNormalizer;
+use ApiPlatform\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
 use ApiPlatform\Hydra\Serializer\ConstraintViolationListNormalizer as HydraConstraintViolationListNormalizer;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestAssertionsTrait;
 use App\Entity\CampCollaboration;
@@ -51,7 +51,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
             []
         );
 
-        self::assertArraySubset([
+        self::assertArraySubset(['violations' => [
             [
                 'i18n' => [
                     'key' => 'app.validator.allowtransition.assertallowtransitions',
@@ -81,7 +81,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                     'parameters' => [],
                 ],
             ],
-        ], $result);
+        ]], $result);
     }
 
     /**
@@ -99,7 +99,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
             []
         );
 
-        self::assertArraySubset([
+        self::assertArraySubset(['violations' => [
             [
                 'i18n' => [
                     'translations' => [
@@ -146,12 +146,12 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                     ],
                 ],
             ],
-        ], $result);
+        ]], $result);
     }
 
     public static function getFormats() {
         $hydra = HydraConstraintViolationListNormalizer::FORMAT;
-        $problem = HalConstraintViolationListNormalizer::FORMAT;
+        $problem = JsonProblemConstraintViolationListNormalizer::FORMAT;
 
         return [
             $hydra => [$hydra],
