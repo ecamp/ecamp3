@@ -72,22 +72,23 @@ export default {
 .storyboard-header-row {
   display: flex;
   flex-direction: row;
-  border-bottom: 0.4pt solid black;
+  border-bottom: 0.75pt solid #94A3B8;
 }
 .storyboard-row {
   display: flex;
   flex-direction: row;
 }
 .storyboard-header-cell {
-  line-height: 1.6;
+  line-height: 1.4;
   font-weight: semibold;
 }
 .storyboard-cell {
   line-height: 1.5;
-  padding-bottom: 2pt;
+  padding-top: 1pt;
+  padding-bottom: 3pt;
 }
 .storyboard-column-1 {
-  width: 26pt;
+  width: 28pt;
   flex-shrink: 0;
   flex-grow: 0;
   padding-right: 2pt;
@@ -96,14 +97,14 @@ export default {
 .storyboard-column-2 {
   flex-basis: 0;
   flex-grow: 1;
-  border-left: 0.5pt solid black;
+  border-left: 0.75pt solid #94A3B8;
   padding-horizontal: 2pt;
 }
 .storyboard-column-3 {
   flex-basis: 40pt;
   flex-shrink: 0;
   flex-grow: 0;
-  border-left: 0.5pt solid black;
+  border-left: 0.75pt solid #94A3B8;
   padding-left: 2pt;
   overflow: hidden;
 }

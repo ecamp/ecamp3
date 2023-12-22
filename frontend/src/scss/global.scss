@@ -60,6 +60,10 @@ body {
     padding-left: 0;
   }
 
+  .min-h-0 {
+    min-height: 0;
+  }
+
   .e-title-link {
     color: #000;
     text-decoration-color: #1976d2;
@@ -74,6 +78,14 @@ body {
 }
 .e-form-container + .e-form-container {
   margin-top: 12px;
+}
+
+.basis-auto {
+  flex-basis: auto !important;
+}
+
+.select-left .v-select__selections {
+  justify-content: flex-start !important;
 }
 
 .flex-full {

@@ -135,7 +135,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'slot',
-                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+                    'message' => 'This value should be one of [1], was invalidSlot.',
                 ],
             ],
         ]);
@@ -149,7 +149,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'slot',
-                    'message' => 'This value should be one of [1,2], was null.',
+                    'message' => 'This value should be one of [1], was null.',
                 ],
             ],
         ]);
@@ -183,7 +183,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
             'slot' => '1',
-            'position' => 4,
+            'position' => 1,
         ]);
     }
 

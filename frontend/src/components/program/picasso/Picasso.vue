@@ -37,23 +37,25 @@ Listing all given activity schedule entries in a calendar view.
     >
       <!-- day header -->
       <template #day-label-header="{ date }">
-        <div class="e-picasso-daily_head-day-label">
-          {{
-            entryWidth > 140
-              ? $date
-                  .utc(date)
-                  .format($tc('components.program.picasso.picasso.datetime.fullDate'))
-              : $date
-                  .utc(date)
-                  .format(
-                    $tc(
-                      'components.program.picasso.picasso.datetime.smallDate',
-                      widthPluralization
+        <slot name="day-label-header" :date="date">
+          <div class="e-picasso-daily_head-day-label">
+            {{
+              entryWidth > 140
+                ? $date
+                    .utc(date)
+                    .format($tc('components.program.picasso.picasso.datetime.fullDate'))
+                : $date
+                    .utc(date)
+                    .format(
+                      $tc(
+                        'components.program.picasso.picasso.datetime.smallDate',
+                        widthPluralization
+                      )
                     )
-                  )
-          }}
-        </div>
-        <day-responsibles :date="date" :period="period" :readonly="!editable" />
+            }}
+          </div>
+          <day-responsibles :date="date" :period="period" :readonly="!editable" />
+        </slot>
       </template>
 
       <!-- template for single scheduleEntry -->

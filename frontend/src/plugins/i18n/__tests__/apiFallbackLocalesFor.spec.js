@@ -1,5 +1,7 @@
-import { fallbackLocale } from '@/plugins/i18n'
+import { fallbackLocales } from '@/plugins/i18n'
 import fallbackLocalesFor from '@/plugins/i18n/apiFallbackLocalesFor'
+
+const fallbackLocale = fallbackLocales.default
 
 describe('apiFallbackLocales', () => {
   ;[null, undefined, 1, [], {}].forEach((param) => {
@@ -20,6 +22,8 @@ describe('apiFallbackLocales', () => {
       it_CH: ['it', fallbackLocale],
       en_CH_scout: ['en_CH', 'en', fallbackLocale],
       en_CH: ['en', fallbackLocale],
+      rm_CH: ['rm', 'de', fallbackLocale],
+      rm_CH_scout: ['rm_CH', 'rm', 'de', fallbackLocale],
     }).forEach((entry) => {
       const locale = entry[0]
       const result = entry[1]

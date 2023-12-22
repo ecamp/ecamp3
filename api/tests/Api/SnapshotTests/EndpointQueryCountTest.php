@@ -10,7 +10,11 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 use function PHPUnit\Framework\assertThat;
+use function PHPUnit\Framework\equalTo;
+use function PHPUnit\Framework\greaterThanOrEqual;
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\lessThanOrEqual;
+use function PHPUnit\Framework\logicalAnd;
 
 /**
  * @internal
@@ -23,18 +27,18 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function testNumberOfQueriesDidNotChange() {
+    public function testNumberOfQueriesDidNotChangeForStableEndpoints() {
         $numberOfQueries = [];
         $responseCodes = [];
-        $collectionEndpoints = $this->getCollectionEndpoints();
+        $collectionEndpoints = self::getCollectionEndpoints();
         foreach ($collectionEndpoints as $collectionEndpoint) {
-            if ('/users' !== $collectionEndpoint) {
+            if ('/users' !== $collectionEndpoint && !str_contains($collectionEndpoint, '/content_node')) {
                 list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
                 $responseCodes[$collectionEndpoint] = $statusCode;
                 $numberOfQueries[$collectionEndpoint] = $queryCount;
             }
 
-            if ('/content_nodes' !== $collectionEndpoint) {
+            if (!str_contains($collectionEndpoint, '/content_node')) {
                 $fixtureFor = $this->getFixtureFor($collectionEndpoint);
                 list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
                 $responseCodes["{$collectionEndpoint}/item"] = $statusCode;
@@ -46,6 +50,58 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         assertThat($not200Responses, isEmpty());
 
         $this->assertMatchesSnapshot($numberOfQueries);
+    }
+
+    /**
+     * @dataProvider getContentNodeEndpoints
+     *
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function testNumberOfQueriesDidNotChangeForContentNodeCollectionEndpoints(string $collectionEndpoint) {
+        list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
+
+        assertThat($statusCode, equalTo(200));
+
+        $queryCountRanges = self::getContentNodeEndpointQueryCountRanges()[$collectionEndpoint];
+        assertThat(
+            $queryCount,
+            logicalAnd(
+                greaterThanOrEqual($queryCountRanges[0]),
+                lessThanOrEqual($queryCountRanges[1]),
+            )
+        );
+    }
+
+    /**
+     * @dataProvider getContentNodeEndpoints
+     *
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function testNumberOfQueriesDidNotChangeForContentNodeItemEndpoints(string $collectionEndpoint) {
+        if ('/content_nodes' === $collectionEndpoint) {
+            self::markTestSkipped("{$collectionEndpoint} does not support get item endpoint");
+        }
+        $fixtureFor = $this->getFixtureFor($collectionEndpoint);
+        list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+
+        assertThat($statusCode, equalTo(200));
+
+        $queryCountRanges = self::getContentNodeEndpointQueryCountRanges()[$collectionEndpoint.'/item'];
+        assertThat(
+            $queryCount,
+            logicalAnd(
+                greaterThanOrEqual($queryCountRanges[0]),
+                lessThanOrEqual($queryCountRanges[1]),
+            )
+        );
     }
 
     /**
@@ -67,6 +123,39 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         return [$statusCode, $queryCount];
     }
 
+    public static function getContentNodeEndpoints(): array {
+        $collectionEndpoints = self::getCollectionEndpoints();
+        $normalEndpoints = array_filter($collectionEndpoints, function (string $endpoint) {
+            return str_contains($endpoint, '/content_node');
+        });
+
+        // @noinspection PhpUnnecessaryLocalVariableInspection
+        return array_reduce($normalEndpoints, function (?array $left, string $right) {
+            $newArray = $left ?? [];
+            $newArray[$right] = [$right];
+
+            return $newArray;
+        });
+    }
+
+    private static function getContentNodeEndpointQueryCountRanges(): array {
+        return [
+            '/content_nodes' => [8, 9],
+            '/content_node/column_layouts' => [6, 6],
+            '/content_node/column_layouts/item' => [10, 10],
+            '/content_node/material_nodes' => [6, 7],
+            '/content_node/material_nodes/item' => [9, 9],
+            '/content_node/multi_selects' => [6, 7],
+            '/content_node/multi_selects/item' => [9, 9],
+            '/content_node/responsive_layouts' => [6, 6],
+            '/content_node/responsive_layouts/item' => [9, 9],
+            '/content_node/single_texts' => [6, 7],
+            '/content_node/single_texts/item' => [9, 9],
+            '/content_node/storyboards' => [6, 7],
+            '/content_node/storyboards/item' => [9, 9],
+        ];
+    }
+
     /**
      * @throws RedirectionExceptionInterface
      * @throws DecodingExceptionInterface
@@ -74,7 +163,7 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      */
-    private function getCollectionEndpoints() {
+    private static function getCollectionEndpoints() {
         static::bootKernel();
         $client = static::createClientWithCredentials();
         $response = $client->request('GET', '/');

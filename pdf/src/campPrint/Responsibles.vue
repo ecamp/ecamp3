@@ -14,9 +14,12 @@
       </Text>
     </View>
   </View>
-  <Text v-else>
-    {{ responsibles }}
-  </Text>
+  <View v-else style="display: flex; flex-direction: row; flex-wrap: wrap">
+    <Text v-for="(responsible, index) in responsibles"
+      >{{ responsible
+      }}<template v-if="index + 1 < responsibles.length">, </template></Text
+    >
+  </View>
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
@@ -36,10 +39,7 @@ export default {
       return this.activity.activityResponsibles().items.length - 1
     },
     responsibles() {
-      return this.activity
-        .activityResponsibles()
-        .items.map(this.displayNameFor)
-        .join(', ')
+      return this.activity.activityResponsibles().items.map(this.displayNameFor)
     },
   },
   methods: {

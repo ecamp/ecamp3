@@ -18,7 +18,7 @@
     <v-alert
       border="bottom"
       colored-border
-      type="error"
+      :type="type"
       class="mb-0 pb-5"
       :class="{
         'rounded-tr-0': position === 'bottom' && align === 'right',
@@ -28,7 +28,7 @@
       }"
     >
       <slot />
-      <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
+      <v-alert v-if="$slots.error" text outlined :color="color" icon="mdi-alert">
         <slot name="error" />
       </v-alert>
       <div class="ec-prompt-buttons mt-2">
@@ -75,11 +75,22 @@ export default {
       type: String,
       default: 'right',
     },
+    type: {
+      type: String,
+      default: 'info',
+    },
   },
   data: () => ({
     open: false,
   }),
   computed: {
+    color() {
+      if (this.type === 'error') {
+        return 'error'
+      }
+
+      return 'primary'
+    },
     positions() {
       const positions = {}
       if (this.align === 'left') {

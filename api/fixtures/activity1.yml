@@ -25,6 +25,17 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: null
     position: 0
-    data: { columns: [{ slot: '1', width: 6 }, { slot: '2', width: 6 }] }
-    instanceName: 'columnLayout1'
+    data: { columns: [{ slot: '1', width: 12 }] }
+    instanceName: 'columnLayout1Root'
     contentType: '@contentTypeColumnLayout'
+
+# Reponsive layout
+App\Entity\ContentNode\ResponsiveLayout:
+  responsiveLayout1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 0
+    data: { items: [{ slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' }] }
+    instanceName: 'responsiveLayout1'
+    contentType: '@contentTypeResponsiveLayout'

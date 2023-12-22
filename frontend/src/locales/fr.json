@@ -124,6 +124,34 @@
         "moveScheduleEntries": "Déplacer les entrées du calendrier"
       }
     },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configuration",
+          "infos": "Info",
+          "template": "Modèle"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Remplis tous les champs obligatoires."
+      },
+      "campCreateStep2": {
+        "category": "Catégories d'activités",
+        "create": "Créer le camp",
+        "noContent": "Pas de contenu",
+        "noPrototype": "Pas de modèle",
+        "noPrototypeAlert": {
+          "description": "Tu dois effectuer tous les réglages manuellement. Il n'y a pas de modèles de blocs ni de mises en page. Ceci ne convient qu'aux utilisateurs expérimentés.",
+          "title": "Attention : Vous avez choisi \"Pas de modèle\"."
+        },
+        "preview": "Aperçu du modèle du camp",
+        "progressStates": "États d'activités",
+        "prototypeHint": "Copie les catégories, les modèles de blocs et les états de blocs d'un modèle de camp.",
+        "prototypeHintEmpty": "Ne pas copier de catégories, de modèles de blocs et de statuts de blocs à partir d'un modèle de camp.",
+        "prototypeHintSelected": "Copie les catégories, les modèles de blocs et les statuts de blocs de ce modèle de camp.",
+        "submitTooltipPrototype": "Tu dois encore choisir si tu veux utiliser un modèle de champ et lequel."
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Envoyer l'invitation",
@@ -364,6 +392,7 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "content": "Contenu",
+      "continue": "Continuer",
       "create": "Créer",
       "delete": "Effacer",
       "discard": "Rejeter",
@@ -590,11 +619,6 @@
       }
     },
     "campCreate": {
-      "create": "Créer le camp",
-      "period": {
-        "add": "Ajouter une période",
-        "remove": "Effacer la période"
-      },
       "title": "Créer un camp"
     },
     "camps": {

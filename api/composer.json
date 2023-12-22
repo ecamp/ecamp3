@@ -14,7 +14,7 @@
         "exercise/htmlpurifier-bundle": "5.0",
         "google/recaptcha": "1.3.0",
         "guzzlehttp/guzzle": "7.8.1",
-        "knpuniversity/oauth2-client-bundle": "2.17.0",
+        "knpuniversity/oauth2-client-bundle": "2.18.0",
         "league/oauth2-google": "4.0.1",
         "lexik/jwt-authentication-bundle": "2.20.3",
         "nelmio/cors-bundle": "2.4.0",
@@ -65,7 +65,7 @@
         "symfony/stopwatch": "6.4.0",
         "symfony/var-dumper": "6.4.0",
         "symfony/web-profiler-bundle": "6.4.0",
-        "vimeo/psalm": "5.17.0"
+        "vimeo/psalm": "5.18.0"
     },
     "config": {
         "optimize-autoloader": true,

@@ -242,21 +242,6 @@
                             "children": [
                                 {
                                     "href": "escaped_value"
-                                },
-                                {
-                                    "href": "escaped_value"
-                                },
-                                {
-                                    "href": "escaped_value"
-                                },
-                                {
-                                    "href": "escaped_value"
-                                },
-                                {
-                                    "href": "escaped_value"
-                                },
-                                {
-                                    "href": "escaped_value"
                                 }
                             ],
                             "contentType": {
@@ -273,10 +258,6 @@
                         "contentTypeName": "escaped_value",
                         "data": {
                             "columns": [
-                                {
-                                    "slot": "escaped_value",
-                                    "width": "escaped_value"
-                                },
                                 {
                                     "slot": "escaped_value",
                                     "width": "escaped_value"
