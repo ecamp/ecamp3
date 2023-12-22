@@ -1,6 +1,6 @@
 <template>
   <card-content-node v-bind="$props">
-    <v-list three-line class="mx-n4">
+    <v-list three-line class="mx-n4" color="transparent">
       <v-list-item-group>
         <v-list-item
           v-for="(option, key) in contentNode.data.options"

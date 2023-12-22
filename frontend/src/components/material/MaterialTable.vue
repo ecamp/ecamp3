@@ -6,6 +6,7 @@
     :disable-pagination="true"
     mobile-breakpoint="0"
     item-class="rowClass"
+    class="transparent"
     :class="{
       'ec-material-table--dense': !isDefaultVariant,
       'ec-material-table--default': isDefaultVariant,
