@@ -88,7 +88,7 @@
     "@testing-library/user-event": "14.5.1",
     "@testing-library/vue": "5.9.0",
     "@vitejs/plugin-vue2": "2.3.1",
-    "@vitest/coverage-v8": "1.0.4",
+    "@vitest/coverage-v8": "1.1.0",
     "@vue/cli-plugin-babel": "5.0.8",
     "@vue/cli-plugin-eslint": "5.0.8",
     "@vue/cli-service": "5.0.8",
@@ -114,7 +114,7 @@
     "vite": "5.0.10",
     "vite-plugin-comlink": "3.0.5",
     "vite-plugin-vue2-svg": "0.4.0",
-    "vitest": "1.0.4",
+    "vitest": "1.1.0",
     "vitest-canvas-mock": "0.3.3",
     "vue-cli-plugin-vuetify": "2.5.8",
     "vue-template-compiler": "2.7.15"
