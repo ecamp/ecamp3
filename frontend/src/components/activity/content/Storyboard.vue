@@ -4,11 +4,14 @@
       <component
         :is="isDefaultVariant ? 'table' : 'div'"
         class="w-full"
-        :class="{ 'flex-grow-1': !isDefaultVariant }"
+        :class="{
+          'flex-grow-1': !isDefaultVariant,
+          'pointer-events-none px-3 pb-3': layoutMode,
+        }"
       >
         <thead v-if="isDefaultVariant">
           <tr>
-            <th>
+            <th v-if="!layoutMode">
               <span class="d-sr-only">
                 {{ $tc('components.activity.content.storyboard.reorder') }}
               </span>

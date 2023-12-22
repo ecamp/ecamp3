@@ -5,6 +5,7 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
+    :skip-if-empty="skipIfEmpty"
     :required="required"
     :immediate="immediateValidation"
     class="e-form-container"
@@ -38,6 +39,7 @@ export default {
   mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     immediateValidation: { type: Boolean, default: false },
+    skipIfEmpty: { type: Boolean, default: true },
   },
 }
 </script>

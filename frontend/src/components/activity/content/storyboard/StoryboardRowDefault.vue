@@ -1,6 +1,6 @@
 <template>
   <tr class="e-storyboard-row e-storyboard-row--default">
-    <td class="e-storyboard-row__handle">
+    <td v-if="!layoutMode" class="e-storyboard-row__handle">
       <v-btn
         icon
         small

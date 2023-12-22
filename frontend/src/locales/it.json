@@ -127,6 +127,34 @@
         "moveScheduleEntries": "Sposta le voci del programma"
       }
     },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configurazione",
+          "infos": "Info",
+          "template": "Modello"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Compilare tutti i campi richiesti."
+      },
+      "campCreateStep2": {
+        "category": "Categorie di attività",
+        "create": "Creare il campo",
+        "noContent": "Nessun contenuto",
+        "noPrototype": "Nessun modello",
+        "noPrototypeAlert": {
+          "description": "È necessario effettuare tutte le impostazioni manualmente. Non sono disponibili modelli e layout di blocco. È adatto solo agli utenti esperti.",
+          "title": "Nota bene: avete scelto \"Nessun modello\"."
+        },
+        "preview": "Anteprima del modello di campo",
+        "progressStates": "Stati di attività",
+        "prototypeHint": "Copiare le categorie, i modelli di blocco e stati di blocchi da un modello di campo.",
+        "prototypeHintEmpty": "Non copiare categorie, modelli di blocco e stati di blocco da un modello di campo.",
+        "prototypeHintSelected": "Copiate le categorie, i modelli di blocco e stati di blocchi da questo modello di campo.",
+        "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare."
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Inviare l'invito",
@@ -367,6 +395,7 @@
       "cancel": "Annullare",
       "close": "Chiudi",
       "content": "Contenuto",
+      "continue": "Continuare",
       "create": "Creare",
       "delete": "Cancellare",
       "discard": "Scartare",
@@ -593,11 +622,6 @@
       }
     },
     "campCreate": {
-      "create": "Creare il campo",
-      "period": {
-        "add": "Aggiungere un periodo",
-        "remove": "Cancellare un periodo"
-      },
       "title": "Creare il campo"
     },
     "camps": {
