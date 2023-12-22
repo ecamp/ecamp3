@@ -5,10 +5,10 @@
       multiple
       :filled="false"
       outlined
-      :value="localValue"
+      :value="selection"
       persistent-placeholder
       :error-messages="errorMessages"
-      :loading="saving"
+      :loading="isSaving"
       :disabled="layoutMode || disabled"
       :menu-props="{
         maxWidth: 'min(290px, calc(100vw - 32px))',
@@ -16,33 +16,37 @@
         contentClass: 'ec-la-thematic-area',
       }"
       :placeholder="$tc('components.activity.content.lAThematicArea.placeholder')"
-      @change="debouncedSave"
+      @change="updateSelect"
     >
       <template #selection="{ index, parent }">
         <template v-if="index === 0">
           <v-list
-            v-if="selectedCount > 0"
-            :two-line="selectedCount > 3"
-            :three-line="selectedCount <= 3"
+            v-if="selectionCount > 0"
+            :two-line="selectionCount > 3"
+            :three-line="selectionCount <= 3"
             class="flex-grow-1 transparent"
           >
-            <v-list-item
-              v-for="[key] in selection"
-              :key="key"
-              :ripple="false"
-              inactive
-              class="px-0 ec-lta-item"
-              @click.stop="parent.isMenuActive = !parent.isMenuActive"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title>
-                  {{ $tc(`contentNode.laThematicArea.entity.option.${key}.name`) }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ $tc(`contentNode.laThematicArea.entity.option.${key}.description`) }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-for="[key] in dataOptions">
+              <v-list-item
+                v-if="selection.includes(key)"
+                :key="key"
+                :ripple="false"
+                inactive
+                class="px-0 ec-lta-item"
+                @click.stop="parent.isMenuActive = !parent.isMenuActive"
+              >
+                <v-list-item-content class="py-0">
+                  <v-list-item-title>
+                    {{ $tc(`contentNode.laThematicArea.entity.option.${key}.name`) }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      $tc(`contentNode.laThematicArea.entity.option.${key}.description`)
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
           </v-list>
           <v-skeleton-loader v-else type="sentences" class="mt-2" width="100px" />
         </template>
@@ -79,7 +83,7 @@ export default {
   mixins: [contentNodeMixin],
   data() {
     return {
-      saving: false,
+      selectedKeys: [],
       errorMessages: [],
       debouncedSave: () => null,
     }
@@ -88,14 +92,20 @@ export default {
     dataOptions() {
       return Object.entries(this.contentNode.data.options)
     },
-    selection() {
+    serverSelection() {
       return this.dataOptions.filter(([_, option]) => option.checked)
     },
-    localValue() {
-      return this.selection.map(([key]) => key)
+    serverValue() {
+      return this.serverSelection.map(([key]) => key)
     },
-    selectedCount() {
+    selection() {
+      return this.isSaving ? this.selectedKeys : this.serverValue
+    },
+    selectionCount() {
       return this.selection.length
+    },
+    isSaving() {
+      return this.selectedKeys.length > 0
     },
     items() {
       return this.dataOptions.map(([key, option]) => ({
@@ -113,19 +123,22 @@ export default {
     this.debouncedSave = debounce(this.save, WAIT_TIME)
   },
   methods: {
-    save(selection) {
-      this.saving = true
+    save(keys) {
       this.errorMessages = []
       this.contentNode
         .$patch({
           data: {
             options: Object.fromEntries(
-              this.dataOptions.map(([key]) => [key, { checked: selection.includes(key) }])
+              this.dataOptions.map(([key]) => [key, { checked: keys.includes(key) }])
             ),
           },
         })
         .catch((e) => this.errorMessages.push(serverErrorToString(e)))
-        .finally(() => (this.saving = false))
+        .finally(() => (this.selectedKeys = []))
+    },
+    updateSelect(keys) {
+      this.selectedKeys = keys
+      this.debouncedSave(keys)
     },
   },
 }
