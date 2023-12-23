@@ -93,7 +93,7 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
         $redirectUrl = $this->jwtDecoder->decode($request->cookies->get(JWTStateOAuth2Client::getCookieName($this->cookiePrefix)))['callback'] ?? '/';
 
         $response = new RedirectResponse($redirectUrl);
-        $response->headers->set('set-cookie', $authSuccess->headers->get('set-cookie'));
+        $response->headers->set('set-cookie', $authSuccess->headers->all('set-cookie'));
 
         return $response;
     }
