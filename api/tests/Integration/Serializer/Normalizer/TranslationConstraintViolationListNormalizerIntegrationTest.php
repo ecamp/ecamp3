@@ -2,8 +2,8 @@
 
 namespace App\Tests\Integration\Serializer\Normalizer;
 
-use ApiPlatform\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
 use ApiPlatform\Hydra\Serializer\ConstraintViolationListNormalizer as HydraConstraintViolationListNormalizer;
+use ApiPlatform\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestAssertionsTrait;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer;
