@@ -72,6 +72,13 @@ body {
       text-decoration-thickness: 2px;
     }
   }
+
+  .elevation-4--light {
+    box-shadow:
+      0 2px 4px -1px rgba(0, 0, 0, 0.1),
+      0 4px 5px 0px rgba(0, 0, 0, 0.07),
+      0 1px 10px 0px rgba(0, 0, 0, 0.06) !important;
+  }
 }
 .tabular-nums {
   font-variant-numeric: tabular-nums;
@@ -165,6 +172,10 @@ body {
 
 .pointer-events-none {
   pointer-events: none;
+}
+
+.user-select-none {
+  user-select: none;
 }
 
 .opacity-60 {

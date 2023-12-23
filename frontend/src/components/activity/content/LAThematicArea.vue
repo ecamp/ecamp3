@@ -1,5 +1,5 @@
 <template>
-  <card-content-node v-bind="$props">
+  <ContentNodeCard v-bind="$props">
     <v-list three-line class="mx-n4" color="transparent">
       <v-list-item-group>
         <v-list-item
@@ -25,17 +25,17 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-  </card-content-node>
+  </ContentNodeCard>
 </template>
 
 <script>
 import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
-import CardContentNode from '@/components/activity/CardContentNode.vue'
+import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCard.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'LAThematicArea',
-  components: { CardContentNode, ApiCheckbox },
+  components: { ContentNodeCard, ApiCheckbox },
   mixins: [contentNodeMixin],
   methods: {
     async refreshContent() {

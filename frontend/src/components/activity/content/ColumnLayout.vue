@@ -1,5 +1,5 @@
 <template>
-  <LayoutCard
+  <LayoutNodeCard
     v-resizeobserver.debounce="onResize"
     class="ec-column-layout"
     :class="{ 'my-2': !isRoot && layoutMode }"
@@ -8,7 +8,7 @@
   >
     <template #header>
       <strong>
-        <v-icon>mdi-view-column</v-icon>
+        <v-icon color="blue darken-2">mdi-view-column</v-icon>
         {{ $tc('contentNode.columnLayout.name') }}
       </strong>
       <MenuCardlessContentNode :content-node="contentNode">
@@ -22,11 +22,12 @@
     <div
       v-if="!contentNode.loading"
       class="d-flex flex-wrap ec-column-layout__container"
-      :class="{ 'px-2 gap-4': layoutMode, 'h-full': !layoutMode }"
+      :class="{ 'px-2': layoutMode, 'h-full': !layoutMode }"
     >
-      <resizable-column
+      <ResizableColumn
         v-for="(_, slot) in columns"
         :key="slot"
+        :slot-name="slot"
         :parent-content-node="contentNode"
         :layout-mode="layoutMode"
         :width-left="relativeColumnWidths[slot][0]"
@@ -42,16 +43,17 @@
         @resizing="(newWidth) => resizeColumn(slot, newWidth)"
         @resize-stop="saveColumnWidths"
       >
-        <draggable-content-nodes
+        <DraggableContentNodes
           :slot-name="slot"
           :layout-mode="layoutMode"
           :parent-content-node="contentNode"
           :disabled="disabled"
           :is-root="isRoot"
+          :compact="!isDefaultVariant"
         />
-      </resizable-column>
+      </ResizableColumn>
     </div>
-  </LayoutCard>
+  </LayoutNodeCard>
 </template>
 
 <script>
@@ -63,7 +65,7 @@ import ColumnOperations from '@/components/activity/content/columnLayout/ColumnO
 import { idToColor } from '@/common/helpers/colors.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
-import LayoutCard from '@/components/activity/content/layout/LayoutCard.vue'
+import LayoutNodeCard from '@/components/activity/content/layout/LayoutNodeCard.vue'
 import camelCase from 'lodash/camelCase.js'
 
 function cumulativeSumReducer(cumSum, nextElement) {
@@ -74,7 +76,7 @@ function cumulativeSumReducer(cumSum, nextElement) {
 export default {
   name: 'ColumnLayout',
   components: {
-    LayoutCard,
+    LayoutNodeCard,
     MenuCardlessContentNode,
     ColumnOperations,
     DraggableContentNodes,
@@ -187,22 +189,23 @@ export default {
 </script>
 
 <style scoped>
-.ec-column-layout.ec-layout-card--root:not(.ec-layout-card--layout-mode)
+.ec-column-layout.ec-layout-nodecard--root:not(.ec-layout-nodecard--layout-mode)
   > .ec-column-layout__container {
   background-color: #ccc;
 }
 
-.ec-column-layout:not(.ec-layout-card--root) > .ec-column-layout__container {
+.ec-column-layout:not(.ec-layout-nodecard--root) > .ec-column-layout__container {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
 
-.ec-column-layout.ec-layout-card--layout-mode:not(.ec-layout-card--root)
+.ec-column-layout.ec-layout-nodecard--layout-mode:not(.ec-layout-nodecard--root)
   > .ec-column-layout__container {
   margin: 0 4px 4px;
+  gap: 34px;
 }
 
-.ec-column-layout.ec-layout-card--root.ec-layout-card--layout-mode
+.ec-column-layout.ec-layout-nodecard--root.ec-layout-nodecard--layout-mode
   > .ec-column-layout__container {
   padding-top: 4px;
 }

@@ -10,7 +10,7 @@
     "columnLayout": {
       "entity": {
         "column": {
-          "name": "Spalte"
+          "name": "Spalte|Spalte {name}"
         }
       },
       "name": "Spaltenlayout"

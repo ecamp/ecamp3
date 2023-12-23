@@ -22,16 +22,16 @@
       <div v-else class="ec-column-head"></div>
     </template>
 
+    <slot />
     <mobile-column-width-indicator
-      v-if="layoutMode && !isDefaultVariant && numColumns > 1 && showHeader"
+      v-if="layoutMode && numColumns > 1 && showHeader"
       :num-columns="numColumns"
       :width="width"
       :width-left="widthLeft"
       :width-right="widthRight"
-      :color="color"
+      :slot-name="slotName"
+      :show-progress="!isDefaultVariant"
     />
-
-    <slot />
   </LayoutItem>
 </template>
 
@@ -60,6 +60,7 @@ export default {
     color: { type: String, required: true },
     showHeader: { type: Boolean, default: true },
     isDefaultVariant: { type: Boolean, default: true },
+    slotName: { type: [String, Number], required: true },
   },
   data() {
     return {

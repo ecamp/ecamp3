@@ -1,5 +1,5 @@
 <template>
-  <card-content-node v-bind="$props">
+  <ContentNodeCard v-bind="$props">
     <api-richtext
       :uri="contentNode._meta.self"
       fieldname="data.html"
@@ -10,17 +10,17 @@
       :readonly="layoutMode"
       class="grow-v-slot"
     />
-  </card-content-node>
+  </ContentNodeCard>
 </template>
 
 <script>
-import CardContentNode from '@/components/activity/CardContentNode.vue'
+import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCard.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'Notes',
   components: {
-    CardContentNode,
+    ContentNodeCard,
   },
   mixins: [contentNodeMixin],
 }

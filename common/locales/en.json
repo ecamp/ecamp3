@@ -10,7 +10,7 @@
     "columnLayout": {
       "entity": {
         "column": {
-          "name": "Column"
+          "name": "Column|Column {name}"
         }
       },
       "icon": "mdi-view-column",

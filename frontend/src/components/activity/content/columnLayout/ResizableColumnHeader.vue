@@ -5,7 +5,6 @@
         v-if="$vuetify.breakpoint.mdAndUp"
         icon
         text
-        outlined
         color="primary"
         class="resize-btn"
         :class="{ dragging }"
@@ -109,25 +108,26 @@ export default {
 <style scoped lang="scss">
 .resize-btn {
   position: absolute;
-  right: -26px;
+  right: -35px;
   top: -48px;
   z-index: 2;
   cursor: pointer;
   border: 1px solid transparent !important;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+  transition: color 0.2s ease;
+  .v-icon {
+    transition: color 0.2s ease;
+  }
+  &:active,
   &:hover {
-    color: map-get($blue, 'darken-2') !important;
-    border-color: map-get($blue, 'darken-3') !important;
+    color: map-get($blue, 'darken-4') !important;
     cursor: col-resize;
   }
   &::after {
     position: absolute;
     top: calc(-1 * var(--column-height) + 48px);
-    left: calc(50% - 1px - 7px);
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
+    left: calc(50% - 1px - 12px);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
     background-clip: content-box;
     box-sizing: content-box;
     display: block;
@@ -135,23 +135,23 @@ export default {
     width: 2px;
     background-image: linear-gradient(
       to bottom,
-      color.adjust(map-get($blue, 'lighten-3'), $alpha: -0.8),
-      color.adjust(map-get($blue, 'lighten-3'), $alpha: -0.8) 40%,
+      rgb(21, 101, 192, 0.1),
+      rgb(21, 101, 192, 0.1) 40%,
       map-get($blue, 'darken-3') 40%,
       map-get($blue, 'darken-3') 100%
     );
     border-image: linear-gradient(
         to right,
         transparent 0%,
-        color.adjust(map-get($blue, 'lighten-3'), $alpha: -0.2) 40%,
-        color.adjust(map-get($blue, 'lighten-3'), $alpha: -0.2) 60%,
+        map-get($blue, 'lighten-2') 46%,
+        map-get($blue, 'lighten-2') 53%,
         transparent 100%
       )
       1;
     background-size: 100% 16px;
     background-repeat: repeat, repeat;
     content: '';
-    filter: saturate(0) brightness(2.2);
+    filter: saturate(0.2) brightness(2.2);
     transition: filter 0.2s ease;
   }
   &.dragging {
