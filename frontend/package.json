@@ -105,7 +105,7 @@
     "eslint-plugin-vue": "9.19.2",
     "flush-promises": "1.0.2",
     "jest-serializer-vue-tjw": "3.20.0",
-    "jsdom": "22.1.0",
+    "jsdom": "23.0.1",
     "lint-staged": "15.2.0",
     "prettier": "3.1.1",
     "sass": "1.32.13",
