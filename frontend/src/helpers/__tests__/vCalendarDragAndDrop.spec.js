@@ -34,9 +34,11 @@ describe('toTime', () => {
 describe('roundTimeToNearestQuarterHour', () => {
   it.each([
     ['22:22:00', '22:15'],
+    ['22:22:31', '22:30'],
     ['10:20:00', '10:15'],
     ['13:00:20', '13:00'],
     ['14:13:00', '14:15'],
+    ['23:52:31', '00:00'],
   ])('maps %s to %s', (input, expected) => {
     const epochMillis = asEpochMillis(input)
     const roundedEpoch = roundTimeToNearestQuarterHour(epochMillis)
