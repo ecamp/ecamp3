@@ -40,18 +40,6 @@ class UTCDateTimeTypeTest extends BaseDateTypeTestCase {
     }
 
     /**
-     * removed the following tests (non-matching formats are not possible with our implementation).
-     */
-    /*
-    public function testConvertsNonMatchingFormatToPhpValueWithParser(): void {
-        $date = '1985/09/01 10:10:10.12345';
-
-        $actual = $this->type->convertToPHPValue($date, $this->platform);
-
-        self::assertEquals('1985-09-01 10:10:10', $actual->format('Y-m-d H:i:s'));
-    }*/
-
-    /**
      * additional tests to cover UTC conversion.
      */
     public function testConvertsPHPValueToUTC(): void {
