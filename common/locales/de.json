@@ -2,7 +2,7 @@
   "components": {
     "story": {
       "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
+        "noStory": "Keinen roten Faden an diesem Tag gefunden…"
       }
     }
   },
