@@ -11,6 +11,8 @@ describe('toTime', () => {
     dayjs('2023-05-08T14:13'),
     dayjs('2023-05-07T10:20'),
     dayjs('2023-04-05T22:22'),
+    dayjs.utc('2023-03-26T01:30'), //daylight saving time change
+    dayjs.utc('2023-10-29T01:30'), //daylight saving time change
   ]
 
   const parametersToTest = dateTimesToTest.map((dateTime) => ({
