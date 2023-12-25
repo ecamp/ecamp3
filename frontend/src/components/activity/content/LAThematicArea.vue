@@ -1,11 +1,12 @@
 <template>
   <card-content-node class="ec-la-thematic-area" v-bind="$props">
     <e-select
+      v-model="localSelection"
+      item-value="value"
       :items="items"
       multiple
       :filled="false"
       outlined
-      :value="selection"
       persistent-placeholder
       :error-messages="errorMessages"
       :loading="isSaving"
@@ -16,7 +17,7 @@
         contentClass: 'ec-la-thematic-area',
       }"
       :placeholder="$tc('components.activity.content.lAThematicArea.placeholder')"
-      @change="updateSelect"
+      @input="onInput"
     >
       <template #selection="{ index, parent }">
         <template v-if="index === 0">
@@ -28,7 +29,7 @@
           >
             <template v-for="[key] in dataOptions">
               <v-list-item
-                v-if="selection.includes(key)"
+                v-if="localSelection.includes(key)"
                 :key="key"
                 :ripple="false"
                 inactive
@@ -74,7 +75,7 @@
 <script>
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
-import { debounce } from 'lodash'
+import { isEqual, sortBy } from 'lodash'
 import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
@@ -83,9 +84,11 @@ export default {
   mixins: [contentNodeMixin],
   data() {
     return {
-      selectedKeys: [],
+      localSelection: [],
+      oldLocalSelection: [],
+      isSaving: false,
+      dirty: false,
       errorMessages: [],
-      debouncedSave: () => null,
     }
   },
   computed: {
@@ -93,19 +96,10 @@ export default {
       return Object.entries(this.contentNode.data.options)
     },
     serverSelection() {
-      return this.dataOptions.filter(([_, option]) => option.checked)
-    },
-    serverValue() {
-      return this.serverSelection.map(([key]) => key)
-    },
-    selection() {
-      return this.isSaving ? this.selectedKeys : this.serverValue
+      return this.dataOptions.filter(([_, option]) => option.checked).map(([key]) => key)
     },
     selectionCount() {
-      return this.selection.length
-    },
-    isSaving() {
-      return this.selectedKeys.length > 0
+      return this.localSelection.length
     },
     items() {
       return this.dataOptions.map(([key, option]) => ({
@@ -118,27 +112,47 @@ export default {
       }))
     },
   },
-  created() {
-    const WAIT_TIME = 800
-    this.debouncedSave = debounce(this.save, WAIT_TIME)
+  watch: {
+    dataOptions: {
+      async handler(newOptions, oldOptions) {
+        if (isEqual(sortBy(newOptions), sortBy(oldOptions))) {
+          return
+        }
+
+        // copy incoming data if not dirty or if incoming data is the same as local data
+        if (!this.dirty || isEqual(sortBy(newOptions), sortBy(this.localSelection))) {
+          this.resetLocalData()
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
-    save(keys) {
+    onInput() {
       this.errorMessages = []
+      this.isSaving = true
+      this.dirty = true
+
+      this.oldLocalSelection = [...this.localSelection]
+
       this.contentNode
         .$patch({
           data: {
             options: Object.fromEntries(
-              this.dataOptions.map(([key]) => [key, { checked: keys.includes(key) }])
+              this.dataOptions.map(([key]) => [
+                key,
+                { checked: this.localSelection.includes(key) },
+              ])
             ),
           },
         })
         .catch((e) => this.errorMessages.push(serverErrorToString(e)))
-        .finally(() => (this.selectedKeys = []))
+        .finally(() => (this.isSaving = false))
     },
-    updateSelect(keys) {
-      this.selectedKeys = keys
-      this.debouncedSave(keys)
+    resetLocalData() {
+      this.localSelection = [...this.serverSelection]
+      this.oldLocalSelection = [...this.serverSelection]
+      this.dirty = false
     },
   },
 }
