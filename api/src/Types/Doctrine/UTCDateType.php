@@ -4,6 +4,7 @@ namespace App\Types\Doctrine;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\DateImmutableType;
 use Doctrine\DBAL\Types\DateType;
 
 class UTCDateType extends DateType {
@@ -21,6 +22,10 @@ class UTCDateType extends DateType {
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
         if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
             $value = $value->setTimezone(self::getUtc());
+        }
+
+        if ($value instanceof \DateTimeImmutable) {
+            return (new DateImmutableType())->convertToDatabaseValue($value, $platform);
         }
 
         return parent::convertToDatabaseValue($value, $platform);
