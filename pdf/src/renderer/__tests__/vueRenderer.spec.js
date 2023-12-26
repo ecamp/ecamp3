@@ -15,7 +15,9 @@ it('renders a simple Vue component', () => {
   const result = renderVueToPdfStructure(SimpleDocument)
 
   // then
-  expect(result).toMatchSnapshot()
+  expect(result).toMatchFileSnapshot(
+    './__snapshots__/simple_Vue_component.spec.json.snap'
+  )
 })
 
 describe('rendering a full camp', () => {
@@ -42,7 +44,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/cover_page.spec.json.snap')
   })
 
   it('renders the picasso', async () => {
@@ -71,7 +73,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/picasso.spec.json.snap')
   })
 
   it('renders the story overview', async () => {
@@ -99,7 +101,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/story_overview.spec.json.snap')
   })
 
   it('renders the program', async () => {
@@ -127,7 +129,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/program.spec.json.snap')
   })
 
   it('renders a single activity', async () => {
@@ -156,7 +158,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/single_activity.spec.json.snap')
   })
 
   it('renders the table of contents', async () => {
@@ -182,7 +184,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/table_of_contents.spec.json.snap')
   })
 })
 
@@ -195,6 +197,7 @@ describe('renders a single activity', () => {
   const thisTextShouldAppear = 'this text should appear'
   it.each([
     {
+      name: 'with_empty_lists',
       text: `<p>another text</p>
              <ul>
                 <li></li>
@@ -204,7 +207,7 @@ describe('renders a single activity', () => {
              <p>${thisTextShouldAppear}</p>`,
       textExpectedInOutput: thisTextShouldAppear,
     },
-  ])(`with special text %j`, ({ text, textExpectedInOutput }) => {
+  ])(`with special text %j`, ({ name, text, textExpectedInOutput }) => {
     // given
     const storeWithSingleActivity = cloneDeep(activityWithSingleText)
     storeWithSingleActivity['/content_node/single_texts/4300e3355d22'].data.html = text
@@ -233,7 +236,9 @@ describe('renders a single activity', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot(
+      `./__snapshots__/single_activity_with_special_text_${name}.spec.json.snap`
+    )
 
     expect(JSON.stringify(result, createCircularReplacer())).toMatch(textExpectedInOutput)
   })
