@@ -1,4 +1,4 @@
-import { expect, it, describe } from 'vitest'
+import { afterEach, beforeEach, expect, it, describe } from 'vitest'
 import wrap from './minimalHalJsonVuex.js'
 import fullCampStoreContent from './fullCampStoreContent.json'
 import activityWithSingleText from './activityWithSingleText.json'
@@ -7,6 +7,7 @@ import SimpleDocument from './SimpleDocument.vue'
 import CampPrint from '../../CampPrint.vue'
 import { createCircularReplacer } from '@/renderer/__tests__/createCircularReplacer'
 import { cloneDeep } from 'lodash'
+import dayjs from '../../../common/helpers/dayjs.js'
 
 it('renders a simple Vue component', () => {
   // given
@@ -47,34 +48,46 @@ describe('rendering a full camp', () => {
     expect(result).toMatchFileSnapshot('./__snapshots__/cover_page.spec.json.snap')
   })
 
-  it('renders the picasso', async () => {
-    // given
-    const store = wrap(fullCampStoreContent)
+  describe.each(['UTC', 'Europe/Zurich', 'Pacific/Tongatapu'])(
+    'in timezone %s',
+    (timezone) => {
+      afterEach(() => {
+        dayjs.tz.setDefault()
+      })
+      beforeEach(() => {
+        dayjs.tz.setDefault(timezone)
+      })
 
-    // when
-    const result = renderVueToPdfStructure(CampPrint, {
-      store,
-      $tc: (key) => key,
-      locale: 'de',
-      config: {
-        language: 'de',
-        documentName: 'Pfila 2023.pdf',
-        camp: store.get('/camps/c4cca3a51342'),
-        contents: [
-          {
-            type: 'Picasso',
-            options: {
-              periods: ['/periods/16b2fcffdd8e'],
-              orientation: 'L',
-            },
+      it('renders the picasso', async () => {
+        // given
+        const store = wrap(fullCampStoreContent)
+
+        // when
+        const result = renderVueToPdfStructure(CampPrint, {
+          store,
+          $tc: (key) => key,
+          locale: 'de',
+          config: {
+            language: 'de',
+            documentName: 'Pfila 2023.pdf',
+            camp: store.get('/camps/c4cca3a51342'),
+            contents: [
+              {
+                type: 'Picasso',
+                options: {
+                  periods: ['/periods/16b2fcffdd8e'],
+                  orientation: 'L',
+                },
+              },
+            ],
           },
-        ],
-      },
-    })
+        })
 
-    // then
-    expect(result).toMatchFileSnapshot('./__snapshots__/picasso.spec.json.snap')
-  })
+        // then
+        expect(result).toMatchFileSnapshot('./__snapshots__/picasso.spec.json.snap')
+      })
+    }
+  )
 
   it('renders the story overview', async () => {
     // given
