@@ -14,8 +14,10 @@ import localizedFormat from 'dayjs/plugin/localizedFormat'
 import isBetween from 'dayjs/plugin/isBetween'
 import duration from 'dayjs/plugin/duration'
 import formatDatePeriod from './dayjs/formatDatePeriod.js'
+import timezone from 'dayjs/plugin/timezone'
 
 dayjs.extend(utc)
+dayjs.extend(timezone)
 dayjs.extend(customParseFormat)
 dayjs.extend(localizedFormat)
 dayjs.extend(isBetween)
@@ -29,4 +31,9 @@ export const dayjsLocaleMap = {
   fr: 'fr-ch',
 }
 
+/**
+ * @typedef {import('dayjs').Dayjs} Dayjs
+ * @property {Dayjs} utc
+ * @property {Dayjs} tz
+ */
 export default dayjs

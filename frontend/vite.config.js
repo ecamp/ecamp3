@@ -82,6 +82,7 @@ export default defineConfig(({ mode }) => ({
       'dayjs/plugin/customParseFormat',
       'dayjs/plugin/isBetween',
       'dayjs/plugin/localizedFormat',
+      'dayjs/plugin/timezone',
       'dayjs/plugin/utc',
       'file-saver',
       'lodash/camelCase.js',
