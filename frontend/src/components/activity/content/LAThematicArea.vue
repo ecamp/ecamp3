@@ -75,7 +75,7 @@
 <script>
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
-import { isEqual, sortBy } from 'lodash'
+import { debounce, isEqual, sortBy } from 'lodash'
 import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
@@ -85,10 +85,10 @@ export default {
   data() {
     return {
       localSelection: [],
-      oldLocalSelection: [],
       isSaving: false,
       dirty: false,
       errorMessages: [],
+      debouncedSave: () => null,
     }
   },
   computed: {
@@ -127,14 +127,19 @@ export default {
       immediate: true,
     },
   },
+  created() {
+    const DEBOUNCE_WAIT = 500
+    this.debounceSave = debounce(this.save, DEBOUNCE_WAIT)
+  },
   methods: {
     onInput() {
-      this.errorMessages = []
       this.isSaving = true
       this.dirty = true
+      this.errorMessages = []
 
-      this.oldLocalSelection = [...this.localSelection]
-
+      this.debounceSave()
+    },
+    save() {
       this.contentNode
         .$patch({
           data: {
@@ -151,7 +156,6 @@ export default {
     },
     resetLocalData() {
       this.localSelection = [...this.serverSelection]
-      this.oldLocalSelection = [...this.serverSelection]
       this.dirty = false
     },
   },
