@@ -127,7 +127,7 @@
 import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
-import { timestampToUtcString } from '@/common/helpers/dateHelperVCalendar.js'
+import { timestampToUtcString } from './dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { scheduleEntryRoute } from '@/router.js'
 import router from '@/router.js'
