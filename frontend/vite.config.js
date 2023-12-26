@@ -81,6 +81,8 @@ export default defineConfig(({ mode }) => ({
       'dayjs/locale/it',
       'dayjs/plugin/customParseFormat',
       'dayjs/plugin/isBetween',
+      'dayjs/plugin/isSameOrBefore',
+      'dayjs/plugin/isSameOrAfter',
       'dayjs/plugin/localizedFormat',
       'dayjs/plugin/timezone',
       'dayjs/plugin/utc',

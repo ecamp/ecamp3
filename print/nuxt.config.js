@@ -87,6 +87,8 @@ export default defineNuxtConfig({
         'dayjs/plugin/customParseFormat',
         'dayjs/plugin/duration',
         'dayjs/plugin/isBetween',
+        'dayjs/plugin/isSameOrBefore',
+        'dayjs/plugin/isSameOrAfter',
         'dayjs/plugin/localizedFormat',
         'dayjs/plugin/timezone',
         'dayjs/plugin/utc',
