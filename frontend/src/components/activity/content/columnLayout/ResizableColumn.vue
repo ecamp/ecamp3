@@ -10,7 +10,7 @@
     }"
   >
     <template v-if="layoutMode && isDefaultVariant && showHeader">
-      <resizable-column-header
+      <ResizableColumnHeader
         v-if="!last"
         class="ec-column-head"
         :width="width"
@@ -23,7 +23,7 @@
     </template>
 
     <slot />
-    <mobile-column-width-indicator
+    <ColumnIndicator
       v-if="layoutMode && numColumns > 1 && showHeader"
       :num-columns="numColumns"
       :width="width"
@@ -37,14 +37,14 @@
 
 <script>
 import ResizableColumnHeader from '@/components/activity/content/columnLayout/ResizableColumnHeader.vue'
-import MobileColumnWidthIndicator from '@/components/activity/content/columnLayout/MobileColumnWidthIndicator.vue'
+import ColumnIndicator from '@/components/activity/content/columnLayout/ColumnIndicator.vue'
 import LayoutItem from '@/components/activity/content/layout/LayoutItem.vue'
 
 export default {
   name: 'ResizableColumn',
   components: {
     LayoutItem,
-    MobileColumnWidthIndicator,
+    ColumnIndicator,
     ResizableColumnHeader,
   },
   props: {

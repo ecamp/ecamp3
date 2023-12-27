@@ -25,7 +25,7 @@
 </template>
 <script>
 export default {
-  name: 'MobileColumnWidthIndicator',
+  name: 'ColumnIndicator',
   props: {
     width: { type: Number, required: true },
     widthLeft: { type: Number, required: true },

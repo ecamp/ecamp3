@@ -2,7 +2,6 @@
   <div>
     <slot>
       <v-btn
-        v-if="$vuetify.breakpoint.mdAndUp"
         icon
         text
         color="primary"
