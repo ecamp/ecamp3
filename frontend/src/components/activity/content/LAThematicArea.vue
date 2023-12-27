@@ -86,6 +86,7 @@ export default {
     return {
       localSelection: [],
       isSaving: false,
+      savingRequestCount: 0,
       dirty: false,
       errorMessages: [],
       debouncedSave: () => null,
@@ -140,6 +141,7 @@ export default {
       this.debounceSave()
     },
     save() {
+      this.savingRequestCount++
       this.contentNode
         .$patch({
           data: {
@@ -151,8 +153,16 @@ export default {
             ),
           },
         })
-        .catch((e) => this.errorMessages.push(serverErrorToString(e)))
-        .finally(() => (this.isSaving = false))
+        .then(() => {
+          this.savingRequestCount--
+          if (this.savingRequestCount === 0) {
+            this.isSaving = false
+          }
+        })
+        .catch((e) => {
+          this.isSaving = false
+          this.errorMessages.push(serverErrorToString(e))
+        })
     },
     resetLocalData() {
       this.localSelection = [...this.serverSelection]
