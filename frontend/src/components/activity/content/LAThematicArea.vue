@@ -113,7 +113,7 @@ export default {
     },
   },
   watch: {
-    dataOptions: {
+    serverSelection: {
       async handler(newOptions, oldOptions) {
         if (isEqual(sortBy(newOptions), sortBy(oldOptions))) {
           return
