@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@jamescoyle/vue-icon": "0.1.2",
-    "@mdi/js": "7.3.67",
+    "@mdi/js": "7.4.47",
     "@sentry/integrations": "7.91.0",
     "@sentry/node": "7.91.0",
     "axios": "1.6.2",
