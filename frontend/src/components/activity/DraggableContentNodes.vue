@@ -182,6 +182,10 @@ export default {
   border: 1px solid rgb(0 0 0 / 28%);
 }
 
+.draggable-area--layout-mode :deep(.content-node.draggable.sortable-chosen) {
+  background-color: white;
+}
+
 @supports selector(:has(+ *)) {
   .draggable-area--layout-mode :deep(.content-node:has(.content-node:hover)) {
     background: white;
