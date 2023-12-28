@@ -19,7 +19,6 @@
         single-line
         :fieldname="`data.sections[${itemKey}].column1`"
         :disabled="layoutMode || disabled"
-        :readonly="layoutMode"
       />
     </td>
     <td class="e-storyboard-row__text">
@@ -28,7 +27,6 @@
         :fieldname="`data.sections[${itemKey}].column2Html`"
         rows="4"
         :disabled="layoutMode || disabled"
-        :readonly="layoutMode"
       />
     </td>
     <td class="e-storyboard-row__responsible">
@@ -37,7 +35,6 @@
         single-line
         :fieldname="`data.sections[${itemKey}].column3`"
         :disabled="layoutMode || disabled"
-        :readonly="layoutMode"
       />
     </td>
     <td v-if="!layoutMode && !disabled" class="e-storyboard-row__controls">
