@@ -38,6 +38,8 @@
         "monorepo:vue"
       ],
       "matchUpdateTypes": [
+        "patch",
+        "minor",
         "major"
       ],
       "dependencyDashboardApproval": true
