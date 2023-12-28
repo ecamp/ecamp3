@@ -815,7 +815,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, Post::class, $attributes, [], $except);
+        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype'], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
