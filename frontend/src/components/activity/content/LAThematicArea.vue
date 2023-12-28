@@ -13,7 +13,6 @@
       :disabled="layoutMode || disabled"
       :menu-props="{
         maxWidth: 'min(290px, calc(100vw - 32px))',
-        offsetY: true,
         contentClass: 'ec-la-thematic-area',
       }"
       :placeholder="$tc('components.activity.content.lAThematicArea.placeholder')"
