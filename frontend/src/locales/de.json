@@ -241,6 +241,7 @@
         "addNewItem": "Eintrag hinzufügen",
         "noItems": "Keine Einträge gefunden",
         "periodOnly": "Filter: Lagerabschnitt",
+        "activityOnly": "Filter: Aktivität ",
         "reference": "Aktivität / Abschnitt"
       },
       "useMaterialViewHelper": {

@@ -233,6 +233,7 @@
         "addNewItem": "Ajoute un nouvel élément",
         "noItems": "Aucun élément matériel trouvé",
         "periodOnly": "Filtre : Période",
+        "activityOnly": "Filtre: Activité",
         "reference": "Activité / Période"
       },
       "useMaterialViewHelper": {

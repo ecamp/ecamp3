@@ -241,6 +241,7 @@
         "addNewItem": "Add new item",
         "noItems": "No material items found",
         "periodOnly": "Filter: Period",
+        "activityOnly": "Filter: Activity",
         "reference": "Activity / Period"
       },
       "useMaterialViewHelper": {

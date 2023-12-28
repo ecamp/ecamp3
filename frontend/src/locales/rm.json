@@ -203,6 +203,7 @@
         "addNewItem": "Agiuntar ina endataziun",
         "noItems": "Na chattà naginas endataziuns",
         "periodOnly": "Filter: part dal champ",
+        "activityOnly": "Filter: Activitad",
         "reference": "Activitad / part"
       },
       "useMaterialViewHelper": {

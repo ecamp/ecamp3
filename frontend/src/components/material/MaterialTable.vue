@@ -140,22 +140,22 @@
 
     <template #[`header.lastColumn`]>
       <button
+        v-if="showFilter()"
         class="ec-material-table__filterbutton"
-        :class="{ 'primary--text': periodOnly }"
-        @click="periodOnly = !periodOnly"
+        :class="{ 'primary--text': activeFilter }"
+        @click="updateFilter"
       >
         <span>
-          <span v-if="!periodOnly" class="d-sr-only">{{
-            $tc('global.button.filter')
+          <span v-if="activeFilter === 0">{{
+            $tc('components.material.materialTable.reference')
           }}</span>
-          {{
-            periodOnly
-              ? $tc('components.material.materialTable.periodOnly')
-              : $tc('components.material.materialTable.reference')
-          }}
+          <span v-else-if="activeFilter === 1">{{
+            $tc('components.material.materialTable.periodOnly')
+          }}</span>
+          <span v-else>{{ $tc('components.material.materialTable.activityOnly') }}</span>
         </span>
-        <v-icon aria-hidden="true" small :color="periodOnly ? 'primary' : null">
-          {{ periodOnly ? 'mdi-filter' : 'mdi-filter-outline' }}
+        <v-icon aria-hidden="true" small :color="activeFilter ? 'primary' : null">
+          {{ activeFilter ? 'mdi-filter' : 'mdi-filter-outline' }}
         </v-icon>
       </button>
     </template>
@@ -213,6 +213,12 @@ import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 // Non-breaking space
 const nbsp = '\u00A0'
 
+const filterOptiones = {
+  SHOW_ALL: 0,
+  SHOW_PERIOD: 1,
+  SHOW_ACTIVITY: 2,
+}
+
 export default {
   name: 'MaterialTable',
   components: {
@@ -253,7 +259,7 @@ export default {
   data() {
     return {
       newMaterialItems: {},
-      periodOnly: false,
+      activeFilter: filterOptiones.SHOW_ALL,
       clientWidth: 1000,
     }
   },
@@ -326,7 +332,17 @@ export default {
     },
     materialItemsData() {
       const items = this.materialItemCollection.items
-        .filter((item) => !(this.periodOnly && item.materialNode !== null))
+        .filter((item) => {
+          switch (this.activeFilter) {
+            case filterOptiones.SHOW_PERIOD:
+              return item.materialNode === null
+            case filterOptiones.SHOW_ACTIVITY:
+              return item.materialNode !== null
+            default:
+              // Show all
+              return true
+          }
+        })
         .map((item) => ({
           id: item.id,
           uri: item._meta.self,
@@ -432,6 +448,22 @@ export default {
       return this.camp.activities().items.find((activity) => {
         return activity.rootContentNode()._meta.self === root
       })
+    },
+
+    updateFilter() {
+      this.activeFilter = this.activeFilter + 1
+      if (this.activeFilter > filterOptiones.SHOW_ACTIVITY) {
+        this.activeFilter = filterOptiones.SHOW_ALL
+      }
+    },
+
+    // Show filter just if activity & period material is in list
+    showFilter() {
+      const test = this.materialItemCollection.items.some((item) => item.materialNode === null)
+      return (
+        test &&
+        this.materialItemCollection.items.some((item) => item.materialNode !== null)
+      )
     },
   },
 }
