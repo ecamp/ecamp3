@@ -61,8 +61,8 @@
     },
     "responsiveLayout": {
       "icon": "mdi-view-compact",
-      "name": "Default layout",
       "mainContent": "Main content",
+      "name": "Default layout",
       "printAboveMainContent": "Print above main content",
       "printBelowMainContent": "Print below main content"
     },
