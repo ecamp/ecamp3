@@ -83,10 +83,7 @@ import { useDragAndDropNew } from './useDragAndDropNew.js'
 import { useDragAndDropReminder } from './useDragAndDropReminder.js'
 import { apiStore as api } from '@/plugins/store'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import {
-  timestampToUtcString,
-  utcStringToTimestamp,
-} from '@/common/helpers/dateHelperVCalendar.js'
+import { timestampToUtcString, utcStringToTimestamp } from './dateHelperVCalendar.js'
 import DayResponsibles from './DayResponsibles.vue'
 import { ONE_DAY_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
