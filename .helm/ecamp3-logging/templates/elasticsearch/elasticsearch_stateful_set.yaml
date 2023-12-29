@@ -1,0 +1,84 @@
+{{- $minHeapSpace := .Values.elasticsearch.elasticNode.resources.requests.memory | replace "Mi" "" -}}
+{{- $maxHeapSpace := .Values.elasticsearch.elasticNode.resources.requests.memory | replace "Mi" "" -}}
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: es-cluster
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  serviceName: elasticsearch
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+      {{- include "app.commonSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        {{- include "app.commonLabels" . | nindent 8 }}
+        {{- include "app.commonSelectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+          resources:
+            {{- toYaml .Values.elasticsearch.elasticNode.resources | nindent 12 }}
+          ports:
+            - containerPort: 9200
+              name: rest
+              protocol: TCP
+            - containerPort: 9300
+              name: inter-node
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/elasticsearch/data
+          env:
+            - name: cluster.name
+              value: ecamp3-logs
+            - name: xpack.security.enabled
+              value: "false"
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: cluster.initial_master_nodes
+              value: "es-cluster-0"
+            - name: ES_JAVA_OPTS
+              value: "-Xms{{ $minHeapSpace }}m -Xmx{{ $maxHeapSpace }}m"
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: [ "sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data" ]
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/elasticsearch/data
+        - name: increase-vm-max-map
+          image: busybox
+          command: [ "sysctl", "-w", "vm.max_map_count=262144" ]
+          securityContext:
+            privileged: true
+        - name: increase-fd-ulimit
+          image: busybox
+          command: [ "sh", "-c", "ulimit -n 65536" ]
+          securityContext:
+            privileged: true
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app: elasticsearch
+          {{- include "app.commonLabels" . | nindent 10 }}
+          {{- include "app.commonSelectorLabels" . | nindent 10 }}
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: do-block-storage
+        resources:
+          {{- toYaml .Values.elasticsearch.persistence.resources | nindent 10 }}
