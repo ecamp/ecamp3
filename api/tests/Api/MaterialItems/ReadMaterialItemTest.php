@@ -121,15 +121,4 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/material_items/'.$materialItem->getId());
-
-        $this->assertSqlQueryCount($client, 8);
-    }
 }

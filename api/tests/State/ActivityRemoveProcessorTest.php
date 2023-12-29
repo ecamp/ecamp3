@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 class ActivityRemoveProcessorTest extends TestCase {
     private ActivityRemoveProcessor $processor;
     private Activity $activity;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     protected function setUp(): void {
         $decoratedProcessor = $this->createMock(ProcessorInterface::class);

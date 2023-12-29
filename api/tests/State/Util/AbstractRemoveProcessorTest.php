@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AbstractRemoveProcessorTest extends TestCase {
     private MockObject|ProcessorInterface $decoratedProcessor;
-    private MockObject|AbstractRemoveProcessor $processor;
+    private AbstractRemoveProcessor|MockObject $processor;
 
     protected function setUp(): void {
         $this->decoratedProcessor = $this->createMock(ProcessorInterface::class);

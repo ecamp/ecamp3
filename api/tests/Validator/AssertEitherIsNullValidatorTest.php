@@ -27,7 +27,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
 
     public function testSelfNullValid() {
         // given
-        $object = new TestClass(null, 'test');
+        $object = new AssertEitherIsNullValidatorTestClass(null, 'test');
         $this->setObject($object);
 
         // when
@@ -39,7 +39,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
 
     public function testOtherNullValid() {
         // given
-        $object = new TestClass('test', null);
+        $object = new AssertEitherIsNullValidatorTestClass('test', null);
         $this->setObject($object);
 
         // when
@@ -51,7 +51,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
 
     public function testBothNullInvalid() {
         // given
-        $object = new TestClass(null, null);
+        $object = new AssertEitherIsNullValidatorTestClass(null, null);
         $this->setObject($object);
 
         // when
@@ -66,7 +66,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
 
     public function testNeitherNullInvalid() {
         // given
-        $object = new TestClass('test', 'value');
+        $object = new AssertEitherIsNullValidatorTestClass('test', 'value');
         $this->setObject($object);
 
         // when
@@ -84,7 +84,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
     }
 }
 
-class TestClass {
+class AssertEitherIsNullValidatorTestClass {
     #[AssertEitherIsNull(other: 'b')]
     public $a;
 

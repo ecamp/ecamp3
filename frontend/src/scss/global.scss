@@ -36,6 +36,13 @@ body {
 .v-skeleton-loader__table-tfoot {
   background: none !important;
 }
+.v-skeleton-loader--inherit-size .v-skeleton-loader__bone {
+  height: inherit !important;
+  width: inherit !important;
+}
+.v-skeleton-loader--no-margin .v-skeleton-loader__bone {
+  margin-bottom: 0 !important;
+}
 .v-btn--outlined:before {
   opacity: 0.08 !important;
 }
@@ -53,6 +60,10 @@ body {
     padding-left: 0;
   }
 
+  .min-h-0 {
+    min-height: 0;
+  }
+
   .e-title-link {
     color: #000;
     text-decoration-color: #1976d2;
@@ -67,6 +78,14 @@ body {
 }
 .e-form-container + .e-form-container {
   margin-top: 12px;
+}
+
+.basis-auto {
+  flex-basis: auto !important;
+}
+
+.select-left .v-select__selections {
+  justify-content: flex-start !important;
 }
 
 .flex-full {
@@ -124,9 +143,16 @@ body {
 .d-flow-root {
   display: flow-root;
 }
+.v-application {
+  .d-contents {
+    display: contents !important;
+  }
 
-.d-contents {
-  display: contents;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    .d-sm-contents {
+      display: contents !important;
+    }
+  }
 }
 
 .d-grid {
@@ -135,6 +161,10 @@ body {
 
 .d-inline-grid {
   display: inline-grid;
+}
+
+.pointer-events-none {
+  pointer-events: none;
 }
 
 .opacity-60 {
@@ -165,6 +195,10 @@ body {
 
 .gap-2 {
   gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
 }
 
 .relative {

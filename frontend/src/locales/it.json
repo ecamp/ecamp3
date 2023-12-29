@@ -8,13 +8,16 @@
             "removeColumn": "Rimuovi la colonna vuota"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Selezionare l'area tematica"
+        },
         "storyboard": {
           "controls": "Azioni",
-          "reorder": "Spostare"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
-          "title": "Cancellare davvero?"
+          "reorder": "Spostare",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
+            "title": "Cancellare davvero?"
+          }
         }
       },
       "menuCardlessContentNode": {
@@ -23,7 +26,9 @@
       "scheduleEntry": {
         "backToContents": "Torna alla modifica dei contenuti",
         "changeLayout": "Cambia il layout",
-        "deleteWarning": "Vuoi davvero cancellare questa attività? Tutti i contenuti di questa attività saranno rimossi."
+        "deleteWarning": "Vuoi davvero cancellare questa attività? Tutti i contenuti di questa attività saranno rimossi.",
+        "switchToFullSize": "Passare al formato largo",
+        "switchToPaperSize": "Passare al formato carta"
       }
     },
     "camp": {
@@ -120,6 +125,34 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Sposta le voci del programma"
+      }
+    },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configurazione",
+          "infos": "Info",
+          "template": "Modello"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Compilare tutti i campi richiesti."
+      },
+      "campCreateStep2": {
+        "category": "Categorie di attività",
+        "create": "Creare il campo",
+        "noContent": "Nessun contenuto",
+        "noPrototype": "Nessun modello",
+        "noPrototypeAlert": {
+          "description": "È necessario effettuare tutte le impostazioni manualmente. Non sono disponibili modelli e layout di blocco. È adatto solo agli utenti esperti.",
+          "title": "Nota bene: avete scelto \"Nessun modello\"."
+        },
+        "preview": "Anteprima del modello di campo",
+        "progressStates": "Stati di attività",
+        "prototypeHint": "Copiare le categorie, i modelli di blocco e stati di blocchi da un modello di campo.",
+        "prototypeHintEmpty": "Non copiare categorie, modelli di blocco e stati di blocco da un modello di campo.",
+        "prototypeHintSelected": "Copiate le categorie, i modelli di blocco e stati di blocchi da questo modello di campo.",
+        "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare."
       }
     },
     "collaborator": {
@@ -362,6 +395,7 @@
       "cancel": "Annullare",
       "close": "Chiudi",
       "content": "Contenuto",
+      "continue": "Continuare",
       "create": "Creare",
       "delete": "Cancellare",
       "discard": "Scartare",
@@ -429,6 +463,9 @@
       "activity": {
         "title": "Impostazioni dell'attività"
       },
+      "adminMaterialLists": {
+        "title": "Liste di materiali"
+      },
       "collaborators": {
         "email": "Indirizzo e-mail",
         "inactiveCollaborators": "Inattivo",
@@ -438,9 +475,6 @@
       },
       "info": {
         "title": "Info sul campo"
-      },
-      "materialLists": {
-        "title": "Liste di materiali"
       },
       "print": {
         "title": "Stampa il campo"
@@ -466,7 +500,6 @@
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
-          "beta": "Questa è la versione beta di eCamp v3, che può essere utilizzata per la pianificazione di un campo reale, ma non per la pianificazione del tempo. Il numero limitato di utenti della versione beta deve aspettarsi interruzioni della manutenzione.",
           "dev": "Questa è la versione di sviluppo di eCamp v3.{br}IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -589,12 +622,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "Per la closed beta è necessario un codice coupon. Su ecamp3.ch/closed-beta puoi scoprire come ottenere questo codice coupon.",
-      "create": "Creare il campo",
-      "period": {
-        "add": "Aggiungere un periodo",
-        "remove": "Cancellare un periodo"
-      },
       "title": "Creare il campo"
     },
     "camps": {
@@ -604,6 +631,9 @@
       "title": "I miei campi"
     },
     "material": {
+      "materialLists": {
+        "title": "Liste di materiali"
+      },
       "materialOverview": {
         "createNewList": "Creare un elenco di materiali",
         "download": "Scarica la panoramica",

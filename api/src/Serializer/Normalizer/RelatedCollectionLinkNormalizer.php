@@ -3,22 +3,23 @@
 namespace App\Serializer\Normalizer;
 
 use ApiPlatform\Api\FilterInterface;
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Exception\OperationNotFoundException;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Metadata\Resource\OperationHelper;
 use App\Util\ClassInfoTrait;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Rize\UriTemplate;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -91,16 +92,16 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private UriTemplateFactory $uriTemplateFactory,
         private RouterInterface $router,
         private IriConverterInterface $iriConverter,
-        private ManagerRegistry $managerRegistry,
+        private readonly EntityManagerInterface $entityManager,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
-        private PropertyAccessorInterface $propertyAccessor
+        private PropertyAccessorInterface $propertyAccessor,
     ) {}
 
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
-    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+    public function normalize($object, $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $data = $this->decorated->normalize($object, $format, $context);
 
         if (!isset($data['_links'])) {
@@ -243,8 +244,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $param;
     }
 
-    protected function getManagerRegistry(): ManagerRegistry {
-        return $this->managerRegistry;
+    protected function getClassMetadata(string $resourceClass): ClassMetadata {
+        return $this->entityManager->getClassMetadata($resourceClass);
     }
 
     /**

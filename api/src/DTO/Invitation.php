@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use App\State\InvitationAcceptProcessor;
 use App\State\InvitationProvider;
 use App\State\InvitationRejectProcessor;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             provider: InvitationProvider::class,
             uriTemplate: '/invitations/{inviteKey}/find{._format}', // TO DISCUSS: Wouldn't '/{inviteKey}{._format}' be more REST-like
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
-            openapiContext: ['description' => 'Use myInviteKey to find an invitation in the dev environment.']
+            openapi: new OpenApiOperation(description: 'Use myInviteKey to find an invitation in the dev environment.')
         ),
         new Patch(
             provider: InvitationProvider::class,
@@ -33,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: '/invitations/{inviteKey}/'.self::ACCEPT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
-            openapiContext: ['summary' => 'Accept an Invitation.', 'description' => 'Use myInviteKey2 to accept an invitation in dev environment.'],
+            openapi: new OpenApiOperation(summary: 'Accept an Invitation.', description: 'Use myInviteKey2 to accept an invitation in dev environment.'),
             validationContext: ['groups' => ['Default', 'accept']]
         ),
         new Patch(
@@ -43,12 +44,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: '/invitations/{inviteKey}/'.self::REJECT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
-            openapiContext: ['summary' => 'Reject an Invitation.', 'description' => 'Use myInviteKey to reject an invitation in dev environment.']
+            openapi: new OpenApiOperation(summary: 'Reject an Invitation.', description: 'Use myInviteKey to reject an invitation in dev environment.')
         ),
         new GetCollection(
             provider: InvitationProvider::class,
             security: 'false',
-            openapiContext: ['description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.']
+            openapi: false
         ),
     ],
 )]

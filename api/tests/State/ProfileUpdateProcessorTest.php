@@ -20,7 +20,7 @@ class ProfileUpdateProcessorTest extends TestCase {
     private ProfileUpdateProcessor $processor;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
     private MockObject|PasswordHasherInterface $pwHasher;
-    private MockObject|MailService $mailService;
+    private MailService|MockObject $mailService;
     private Profile $profile;
 
     /**

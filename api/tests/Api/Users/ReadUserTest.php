@@ -86,15 +86,4 @@ class ReadUserTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var User $user */
-        $user = static::$fixtures['user2member'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/users/'.$user->getId());
-
-        $this->assertSqlQueryCount($client, 6);
-    }
 }

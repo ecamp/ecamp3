@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -16,7 +17,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class RequestTransactionListener implements EventSubscriberInterface {
     private \SplStack $transactionLevelStack;
 
-    public function __construct(private EntityManagerInterface $entityManager) {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface $logger
+    ) {
         $this->transactionLevelStack = new \SplStack();
     }
 
@@ -101,6 +105,13 @@ final class RequestTransactionListener implements EventSubscriberInterface {
         } finally {
             try {
                 $this->entityManager->getConnection()->rollBack();
+            } catch (\Exception $e) {
+                $this->logger->error(
+                    'Rolling back the transaction failed, reason for rolling back the transaction:',
+                    [$event->getThrowable()]
+                );
+
+                throw $e;
             } finally {
                 $this->entityManager->clear();
             }

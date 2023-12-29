@@ -8,14 +8,24 @@
             "removeColumn": "Leere Spalte entfernen"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Themenbereich auswählen"
+        },
         "storyboard": {
           "controls": "Aktionen",
-          "reorder": "Verschieben"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
-          "title": "Wirklich löschen?"
+          "reorder": "Verschieben",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
+            "title": "Wirklich löschen?"
+          }
         }
+      },
+      "copyActivityInfoDialog": {
+        "title": "Aktivität kopieren & einfügen",
+        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "granted": "Du kannst nun kopierte Aktivitäten einfügen."
       },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
@@ -23,7 +33,10 @@
       "scheduleEntry": {
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+        "copyScheduleEntry": "Aktivität kopieren",
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "switchToFullSize": "Zum Breitformat umschalten",
+        "switchToPaperSize": "Zum Papierformat umschalten"
       }
     },
     "camp": {
@@ -120,6 +133,34 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Aktivitäten verschieben"
+      }
+    },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Konfigurieren",
+          "infos": "Infos",
+          "template": "Vorlage"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Bitte fülle alle Pflichtfelder aus."
+      },
+      "campCreateStep2": {
+        "category": "Block-Kategorien",
+        "create": "Lager erstellen",
+        "noContent": "Keine Inhalte",
+        "noPrototype": "Keine Vorlage",
+        "noPrototypeAlert": {
+          "description": "Du musst alle Einstellungen manuell vornehmen. Es sind keine Blockvorlagen & Layouts vorhanden. Dies ist nur für erfahrene Nutzende geeignet.",
+          "title": "Achtung: Du hast \"Keine Vorlage\" ausgewählt."
+        },
+        "preview": "Vorschau der Lagervorlage",
+        "progressStates": "Blockstatus",
+        "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
+        "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
+        "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
+        "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
       }
     },
     "collaborator": {
@@ -290,6 +331,15 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clipboard": "Zwischenablage",
+        "copyPastActivity": "Aktivität kopieren & einfügen",
+        "clearClipboard": "Zwischenablage leeren",
+        "copyActivity": "Aktivität kopieren",
+        "copyActivityContent": "Inhalt von Aktivität kopieren",
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "pasteActivity": "Kopierte Aktivität einfügen"
+      },
       "formScheduleEntryItem": {
         "end": "Ende",
         "start": "Start"
@@ -362,6 +412,7 @@
       "cancel": "Abbrechen",
       "close": "Schliessen",
       "content": "Inhalt",
+      "continue": "Weiter",
       "create": "Erstellen",
       "delete": "Löschen",
       "discard": "Verwerfen",
@@ -405,6 +456,9 @@
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
     },
+    "toast": {
+      "copied": "{source} kopiert"
+    },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
@@ -429,6 +483,9 @@
       "activity": {
         "title": "Aktivitätseinstellungen"
       },
+      "adminMaterialLists": {
+        "title": "Materiallisten"
+      },
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
@@ -438,9 +495,6 @@
       },
       "info": {
         "title": "Lagerinfos"
-      },
-      "materialLists": {
-        "title": "Materiallisten"
       },
       "print": {
         "title": "Lager drucken"
@@ -466,7 +520,6 @@
         "accountless": "Hast du noch keinen Account?",
         "email": "E-Mail",
         "infoText": {
-          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen.",
           "dev": "Dies ist die Entwickler-Version von eCamp v3.{br}WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -589,12 +642,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "Für die geschlossene Beta wird ein Coupon (Zugangscode) benötigt. Auf ecamp3.ch/closed-beta erfährst du, wie du einen erhältst.",
-      "create": "Lager erstellen",
-      "period": {
-        "add": "Weiteren Lagerabschnitt hinzufügen",
-        "remove": "Diesen Lagerabschnitt entfernen"
-      },
       "title": "Lager erstellen"
     },
     "camps": {
@@ -604,6 +651,9 @@
       "title": "Meine Lager"
     },
     "material": {
+      "materialLists": {
+        "title": "Materiallisten"
+      },
       "materialOverview": {
         "createNewList": "Materialliste erstellen",
         "download": "Übersicht herunterladen",

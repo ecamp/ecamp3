@@ -50,7 +50,7 @@ describe('An EColorPicker', () => {
     await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
 
     // then
-    await screen.findByText('Schliessen')
+    await screen.findByTestId('colorpicker')
     expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
   })
 
@@ -66,7 +66,7 @@ describe('An EColorPicker', () => {
 
     // then
     await waitFor(async () => {
-      expect(await screen.findByText('Schliessen')).toBeVisible()
+      expect(await screen.findByTestId('colorpicker')).toBeVisible()
     })
   })
 
@@ -82,28 +82,7 @@ describe('An EColorPicker', () => {
 
     // then
     await waitFor(async () => {
-      expect(await screen.findByText('Schliessen')).toBeVisible()
-    })
-  })
-
-  it('closes the picker when clicking the close button', async () => {
-    // given
-    render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
-    })
-    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
-    await user.click(button)
-    await waitFor(async () => {
-      expect(await screen.findByText('Schliessen')).toBeVisible()
-    })
-    const closeButton = screen.getByText('Schliessen')
-
-    // when
-    await user.click(closeButton)
-
-    // then
-    await waitFor(async () => {
-      expect(await screen.queryByText('Schliessen')).not.toBeVisible()
+      expect(await screen.findByTestId('colorpicker')).toBeVisible()
     })
   })
 
@@ -115,7 +94,7 @@ describe('An EColorPicker', () => {
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     await user.click(button)
     await waitFor(async () => {
-      expect(await screen.findByText('Schliessen')).toBeVisible()
+      expect(await screen.findByTestId('colorpicker')).toBeVisible()
     })
 
     // when
@@ -123,7 +102,7 @@ describe('An EColorPicker', () => {
 
     // then
     await waitFor(async () => {
-      expect(await screen.queryByText('Schliessen')).not.toBeVisible()
+      expect(await screen.queryByTestId('colorpicker')).not.toBeVisible()
     })
   })
 
@@ -135,7 +114,7 @@ describe('An EColorPicker', () => {
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     await user.click(button)
     await waitFor(async () => {
-      expect(await screen.findByText('Schliessen')).toBeVisible()
+      expect(await screen.findByTestId('colorpicker')).toBeVisible()
     })
 
     // when
@@ -143,7 +122,7 @@ describe('An EColorPicker', () => {
 
     // then
     await waitFor(async () => {
-      expect(await screen.queryByText('Schliessen')).not.toBeVisible()
+      expect(await screen.queryByTestId('colorpicker')).not.toBeVisible()
     })
   })
 
@@ -155,7 +134,7 @@ describe('An EColorPicker', () => {
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     await user.click(button)
     await waitFor(async () => {
-      expect(await screen.findByText('Schliessen')).toBeVisible()
+      expect(await screen.findByTestId('colorpicker')).toBeVisible()
     })
 
     // when
@@ -167,7 +146,7 @@ describe('An EColorPicker', () => {
     // close button should stay visible
     await expect(
       waitFor(() => {
-        expect(screen.queryByText('Schliessen')).not.toBeVisible()
+        expect(screen.queryByTestId('colorpicker')).not.toBeVisible()
       })
     ).rejects.toThrow(/Received element is visible/)
   })
@@ -216,7 +195,7 @@ describe('An EColorPicker', () => {
     const canvas = container.querySelector('canvas')
     await user.click(canvas, { clientX: 10, clientY: 10 })
     // click the close button
-    await user.click(screen.getByText('Schliessen'))
+    await user.click(screen.getByTestId('colorpicker'))
 
     // then
     await waitFor(async () => {

@@ -1,0 +1,624 @@
+{
+  "components": {
+    "activity": {
+      "content": {
+        "columnLayout": {
+          "columnOperations": {
+            "addColumn": "Agiuntar ina colonna",
+            "removeColumn": "Stizzar la colonna vida"
+          }
+        },
+        "storyboard": {
+          "controls": "Acziuns",
+          "reorder": "Spustar"
+        },
+        "storyboardDialogRemoveSection": {
+          "deleteWarning": "Vuls ti propi stizzar questa part?",
+          "title": "Propi stizzar?"
+        }
+      },
+      "menuCardlessContentNode": {
+        "deletingDisabled": "Sto esser vid per stizzar"
+      },
+      "scheduleEntry": {
+        "backToContents": "Enavos per modifitgar il cuntegn",
+        "changeLayout": "Midar il layout",
+        "deleteWarning": "Vuls ti propi stizzar questa activitad? I vegn stizzà l'entir cuntegn da l'activitad."
+      }
+    },
+    "camp": {
+      "campInvitations": {
+        "title": "Invit"
+      },
+      "campMembers": {
+        "title": "Commembers"
+      }
+    },
+    "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Crear in status",
+        "deleteError": "Impussibel da stizzar il status. Il status vegn anc utilisà.",
+        "deleteWarning": "Vuls ti propi stizzar quest status?",
+        "moveDown": "Engiu",
+        "moveUp": "Ensi",
+        "title": "Status da l'activitad"
+      },
+      "campAddress": {
+        "title": "Adressa dal champ"
+      },
+      "campCategories": {
+        "create": "Crear ina categoria dad activitad",
+        "deleteCategoryNotPossibleInUse": "Impussibel da stizzar la categoria d'activitad. Ella vegn anc utilisada:",
+        "deleteCategoryQuestion": "Vuls ti propi stizzar questa categoria d'activitad?",
+        "editLayout": "Modifitgar il model",
+        "title": "Categorias d'activitads"
+      },
+      "campConditionalFields": {
+        "course": {
+          "title": "Curs"
+        },
+        "title": "Parameters per G+S",
+        "ysCamp": {
+          "title": "Champs"
+        }
+      },
+      "campDangerZone": {
+        "deleteCamp": {
+          "description": "Sche ti stizzas in champ è quai definitiv. Cuntinuescha mo sche ti es segir.",
+          "explanation": "Questa acziun na po betg vegnir revocada. Uschia vegn il champ \"{campName}\" stizzà permanentamain cun tut sias activitads, glistas da material ed urdens da responsabladad.",
+          "label": "Endatescha \"{campName}\" per confermar.",
+          "title": "Stizzar il champ"
+        },
+        "title": "Zona da privel"
+      },
+      "campMaterialLists": {
+        "createMaterialList": "Crear ina glista da material",
+        "title": "Glistas da material"
+      },
+      "campMaterialListsItem": {
+        "deleteError": "Impussibel da stizzar la glista da material. Verifitgescha che la glista è vida avant che stizzar.",
+        "deleteWarning": "Vuls ti propi stizzar questa glista da material?"
+      },
+      "campPeriods": {
+        "createPeriod": "Crear ina part dal champ",
+        "title": "Part dal champ | Parts dal champ"
+      },
+      "campPeriodsListItem": {
+        "changePeriodDescription": "Midar la descripziun",
+        "deleteWarning": "Vuls ti propi stizzar questa part?",
+        "lastPeriodNotDeletable": "Impussibel da stizzar l'ultima part.",
+        "movePeriod": "Spustar questa part dal champ",
+        "periodChangeEnd": "Agiuntar/allontanar dis a la fin",
+        "periodChangeStart": "Agiuntar/allontanar dis a l'entschatta"
+      },
+      "campSettings": {
+        "title": "Descripziun"
+      },
+      "createCampPeriods": {
+        "add": "Agiuntar in ulteriura part dal champ"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Crear in status"
+      },
+      "dialogCategoryCreate": {
+        "title": "Crear ina categoria d'activitad"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Crear ina glista da material"
+      },
+      "dialogMaterialListEdit": {
+        "title": "Modifitgar la glista da material"
+      },
+      "dialogPeriodCreate": {
+        "title": "Craer ina part dal champ"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Spustar la part dal champ",
+        "periodChangeEnd": "Agiuntar/allontanar dis a la fin da la part dal champ",
+        "periodChangeStart": "Agiuntar/allontanar dis a l'entschatta da la part dal champ",
+        "periodDuration": "Dumber da dis"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Spustar las activitads"
+      }
+    },
+    "collaborator": {
+      "collaboratorCreate": {
+        "invite": "Trametter l'invitaziun",
+        "inviteCta": "Envidar en il team",
+        "title": "Envidar ina persuna"
+      },
+      "collaboratorEdit": {
+        "cannotAssignAnotherRoleToLastManager": "Ti na pos betg attribuir in'autra rolla a l'ultima persuna cun dretgs d'administraziun.",
+        "cannotRemoveLastManager": "Ti na pos betg deactivar l'ultima persuna cun dretgs d'administraziun.",
+        "deactivate": "Deactivar",
+        "delete": "Vuls ti propi allontanar la persuna '{name}'?",
+        "inviteAgain": "Envidar anc ina giada",
+        "resendEmail": "Trametter anc ina giada l'e-mail",
+        "resentEmail": "Tramess l'invit",
+        "title": "Modifitgar {user}"
+      },
+      "collaboratorForm": {
+        "roleHint": "Mintga champ dovra almain ina persuna cun dretgs d'administraziun."
+      },
+      "promptCollaboratorDeactivate": {
+        "deactivate": "Deactivar",
+        "warningText": "Vuls ti propi deactivar '{name}'?"
+      }
+    },
+    "dashboard": {
+      "selectFilter": {
+        "clear": "Reinizialisar"
+      }
+    },
+    "dialog": {
+      "dialogEntityDelete": {
+        "title": "Propi stizzar?",
+        "warningText": "Vuls ti propi stizzar quai?"
+      }
+    },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Avrir il dialog per tscherner ina colur per {label}"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Format nunvalid, inditgescha per plaschair la data en il format DD-MM-YYYY",
+          "openPicker": "Avrir il dialog per tscherner ina data per {label}"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Format nunvalid, inditgescha per plaschair il temp en il format HH:MM",
+          "openPicker": "Avrir il dialog per tscherner in temp per {label}"
+        }
+      }
+    },
+    "generic": {
+      "lockButton": {
+        "clickToLock": "Cliccar per bloccar",
+        "clickToUnlock": "Cliccar per debloccar",
+        "guestsCannotEdit": "Giasts na pon betg modifitgar"
+      }
+    },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Foto da Markus Rohner / Lotos"
+      }
+    },
+    "material": {
+      "dialogMaterialItemCreate": {
+        "title": "Crear ina endataziun da material"
+      },
+      "dialogMaterialItemEdit": {
+        "title": "Modifitgar l'endataziun da material"
+      },
+      "materialCreateItem": {
+        "campSettingsButton": "Parameters",
+        "noMaterialListAvailable": "Per quest champ n'èn anc endatadas naginas glistas da material. Ti las pos endatar sut 'Admin'."
+      },
+      "materialLists": {
+        "materialsCount": "Naginas endataziuns | 1 endataziun | {count} endataziuns",
+        "overview": "Survista"
+      },
+      "materialTable": {
+        "addNewItem": "Agiuntar ina endataziun",
+        "noItems": "Na chattà naginas endataziuns",
+        "periodOnly": "Filter: part dal champ",
+        "reference": "Activitad / part"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Glista da material",
+        "overview": "Survista"
+      }
+    },
+    "navigation": {
+      "userMeta": {
+        "logOut": "Sortir",
+        "myCamps": "Mes champ",
+        "profile": "Profil"
+      }
+    },
+    "print": {
+      "config": {
+        "activityConfig": {
+          "activity": "Activitad"
+        },
+        "picassoConfig": {
+          "orientation": "Layout da la pagina",
+          "periods": "Part(s) dal champ"
+        },
+        "programConfig": {
+          "dayOverview": "Survista dal di",
+          "periods": "Part(s) dal champ"
+        },
+        "storyConfig": {
+          "periods": "Part(s) dal champ"
+        }
+      },
+      "documents": {
+        "campPrint": {
+          "filename": {
+            "activitiesOnly": "Activitads {camp}",
+            "picassoOnly": "Program general {camp}"
+          }
+        }
+      },
+      "localPdfDownloadButton": {
+        "error": "Insatge n'ha betg funcziunà. Emprova anc ina giada u rechargia la pagina."
+      },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Telechargiar il PDF (layout #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Telechargiar il PDF (layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Insatge n'ha betg funcziunà. Emprova anc ina giada u rechargia la pagina."
+        },
+        "printPreviewClient": {
+          "previewError": "Insatge n'ha betg funcziunà. Emprova anc ina giada cun auters parameters da stampa u rechargia la pagina.",
+          "previewIframeTitle": "Prevista da stampa"
+        }
+      },
+      "printConfigurator": {
+        "add": "Agiuntar cuntegn",
+        "config": {
+          "Activity": "Singula activitad",
+          "Cover": "Pagina da titel",
+          "Picasso": "Program general",
+          "Program": "Program en detagl",
+          "Story": "Fil cotschen",
+          "Toc": "Tavla da cuntegn"
+        }
+      },
+      "printNuxt": {
+        "downloadNuxtPdfButton": {
+          "label": "Telechargiar il PDF (layout #1)"
+        },
+        "downloadNuxtPdfListItem": {
+          "label": "Telechargiar il PDF (layout #1)"
+        },
+        "generatePdfMixin": {
+          "error": "Insatge n'ha betg funcziunà. Emprova anc ina giada u rechargia la pagina.",
+          "queueFull": "Tut noss stampaders da PDF èn occupads per il mument. Emprova per plaschair pli tard anc ina giada."
+        },
+        "printPreviewNuxt": {
+          "openPreview": "Avrir la prevista en ina nova fanestra",
+          "previewError": "Insatge n'ha betg funcziunà. Emprova anc ina giada cun auters parameters da stampa u rechargia la pagina.",
+          "previewIframeTitle": "Prevista da stampa"
+        }
+      }
+    },
+    "program": {
+      "formScheduleEntryItem": {
+        "end": "Fin",
+        "start": "Entschatta"
+      },
+      "formScheduleEntryList": {
+        "name": "Termins planisads"
+      },
+      "periodSwitcher": {
+        "title": "Tscherner ina part dal champ"
+      },
+      "picasso": {
+        "picasso": {
+          "datetime": {
+            "fullDate": "dd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | dd, D. MMM YY"
+          }
+        },
+        "picassoEntry": {
+          "location": "Lieu:",
+          "responsible": "Responsabel: "
+        }
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Propi stizzar?",
+        "warningText": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
+      }
+    },
+    "toast": {
+      "toasts": {
+        "multiLineToast": {
+          "generalError": "I ha dà in sbagl."
+        }
+      }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "error": "Deplorablamain hai dà in sbagl.",
+        "message": "Per la verificaziun ta tramettain nus in e-mail.",
+        "success": "Avant che ti pos utilisar la nova adressa dad e-mail, stos ti la verifitgar. Controllescha tia posta entrada.",
+        "title": "Midar l'adressa dad e-mail"
+      },
+      "dialogChangeMailRunning": {
+        "error": "Deplorablamain hai dà in sbagl.",
+        "message": "L'adressa dad e-mail vegn midada...",
+        "success": "Midà cun success l'adressa dad e-mail.",
+        "title": "Midar l'adressa dad e-mail"
+      }
+    }
+  },
+  "entity": {
+    "user": {
+      "fields": {
+        "birthday": "Di da naschientscha",
+        "email": "Adressa dad e-mail",
+        "firstname": "Prenum",
+        "language": "Lingua",
+        "nickname": "Surnum",
+        "password": "Pled-clav",
+        "surname": "Num da famiglia"
+      },
+      "name": "Utilisad*ra"
+    }
+  },
+  "global": {
+    "button": {
+      "add": "Agiuntar",
+      "back": "Enavos",
+      "cancel": "Interrumper",
+      "close": "Serrar",
+      "content": "Cuntegn",
+      "create": "Crear",
+      "delete": "Stizzar",
+      "discard": "Sbittar",
+      "download": "Telechargiar",
+      "edit": "Modifitgar",
+      "editable": "Modifitgabel",
+      "filter": "Filtrar",
+      "lock": "Bloccar",
+      "login": "S'annunziar",
+      "logout": "Sortir",
+      "move": "Spustar",
+      "ok": "OK",
+      "open": "Avrir",
+      "rename": "Renumnar",
+      "save": "Memorisar",
+      "saving": "Memorisà",
+      "search": "Tschertgar",
+      "submit": "Trametter",
+      "tryagain": "Empruvar anc ina giada",
+      "unlock": "Debloccar",
+      "update": "Actualisar"
+    },
+    "changeLanguage": "Midar la lingua",
+    "collaborationAbilities": {
+      "guest": "Dretg mo per lectura",
+      "manager": "Administraziun cumpletta dal champ, sco era dretg da leger e scriver",
+      "member": "Dretg da leger e scriver"
+    },
+    "datetime": {
+      "vuetifyTimePickerFormat": "24 h"
+    },
+    "language": "Rumantsch",
+    "loading": "Chargiar…",
+    "lokaliseMessage": "Translaziuns sustegnidas da lokalise.com",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      }
+    },
+    "serverError": {
+      "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server."
+    },
+    "validation": {
+      "greaterThanOrEqual_date": "{_field_} na dastga betg esser avant {min}",
+      "greaterThan_time": "{_field_} sto esser suenter {min}",
+      "lessThanOrEqual_date": "{_field_} na dastga betg esser suenter {max}"
+    }
+  },
+  "views": {
+    "activity": {
+      "category": {
+        "changeLayout": "Modifitgar il layout da model",
+        "contents": "Cuntegns",
+        "createLayoutHelp": "Qua pos ti definir co ils blocs novs da {categoryShort} duain vesair ora tenor standard.{br}Attenziun: Sche ti has gia blocs da {categoryShort} en il champ, na vegnan quels betg adattads automaticamain..",
+        "editContents": "Modifitgar il cuntegn dal model",
+        "layout": "Layout"
+      },
+      "printPreview": "Avrir la prevista da stampa",
+      "sideBarProgram": {
+        "title": "Survista dal di"
+      }
+    },
+    "admin": {
+      "activity": {
+        "title": "Parameters dad activitad"
+      },
+      "collaborators": {
+        "email": "Adressa dad e-mail",
+        "inactiveCollaborators": "Inactiv",
+        "members": "Collavuratur*as",
+        "openInvitations": "Invits averts",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Infus dal champ"
+      },
+      "materialLists": {
+        "title": "Glistas da material"
+      },
+      "print": {
+        "title": "Stampar il champ"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Activitads",
+        "itemActivitySubtitle": "Categoria, model e status",
+        "itemCollaborators": "Team",
+        "itemInfos": "Infus dal champ",
+        "itemMaterialLists": "Glistas da material",
+        "itemPrint": "PDF / stampar"
+      },
+      "title": "Admin"
+    },
+    "auth": {
+      "activate": {
+        "error": "L'activaziun n'è betg reussida",
+        "success": "Activà cun success il conto",
+        "title": "Tes conto vegn activà"
+      },
+      "login": {
+        "acceptTermsOfServiceOnOAuthLogin": "Cun s'annunziar via in da quests servetschs acceptas ti las {termsOfServiceLink}.",
+        "accountless": "N'has ti anc nagin conto?",
+        "email": "E-mail",
+        "infoText": {
+          "beta": "Quai è la versiun beta dad eCamp v3. Questa versiun po servir per planisaziuns da champs reals che na fan dentant betg prescha. Il dumber limità da persunas ch'utiliseschan la versiun beta sto quintar cun interrupziuns pervia da lavurs da mantegniment.",
+          "dev": "Quai è la versiun per sviluppaders dad eCamp v3.{br}IMPURTANT: Mo adattà per il diever da sviluppaders. Tut las datas èn publicas e vegnan stizzadas regularmain!{br}Annunzia: test@example.com / test"
+        },
+        "loginCallback": {
+          "loginInProgress": "Ti vegns annunzià"
+        },
+        "or": "u cun",
+        "password": "pled-clav",
+        "passwordForgotten": "Emblidà il pled-clav?",
+        "provider": {
+          "cevidb": "CeviDB",
+          "ecamp": "S'annunziar cun eCamp",
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
+        },
+        "registernow": "Ussa sa registrar",
+        "termsOfServiceLink": "cundiziuns d'utilisaziun"
+      },
+      "register": {
+        "acceptTermsOfService": "Acceptar las cundiziuns d'utilisaziun",
+        "alreadyHaveAnAccount": "Has ti gia in conto?",
+        "passwordConfirmation": "Endatar anc ina giada il pled-clav",
+        "register": "Registrar",
+        "requiredField": "Champs obligatorics",
+        "title": "Crear in conto"
+      },
+      "registerDone": {
+        "message": "Nus avain ta tramess in e-mail. Terminescha per plaschair la registraziun cun avrir la colliaziun d'activaziun en l'e-mail.",
+        "success": "Registrà cun success",
+        "title": "Crear in conto"
+      },
+      "resetPassword": {
+        "errorMessage": "Impussibel da midar il pled-clav.",
+        "invalidRequest": "Colliaziun nunvalida",
+        "password": "Nov pled-clav",
+        "passwordConfirmation": "Repeter il nov pled-clav",
+        "send": "Definir il pled-clav",
+        "successMessage": "Definì cun success il nov pled-clav.",
+        "title": "Definir in nov pled-clav"
+      },
+      "resetPasswordRequest": {
+        "errorMessage": "Impussibel da reinizialisar il pled-clav.",
+        "send": "Trametter",
+        "successMessage": "In e-mail cun la colliaziun per 'reinizialisar il pled-clav' vegn tramess.",
+        "title": "Reinizialisar il pled-clav"
+      }
+    },
+    "camp": {
+      "campProgram": {
+        "reminderLockedCreate": "Trair per crear è mo pussaivel en il modus debloccà.",
+        "reminderLockedMove": "Trair per spustar è mo pussaivel en il modus debloccà.",
+        "title": "Program general"
+      },
+      "dashboard": {
+        "activities": "Activitads",
+        "category": "Categoria",
+        "clearFilters": "Allontanar il filter",
+        "columns": {
+          "category": "Categoria",
+          "number": "Numer",
+          "responsible": "Responsabel",
+          "time": "Temp",
+          "title": "Titel"
+        },
+        "noEntries": "Chattà naginas activitads. Emprova dad allontanar ils filters u rechargia la pagina.",
+        "onlyMyActivities": "Mo mias activitads",
+        "period": "Part dal champ",
+        "progressLabel": "Status",
+        "progressLabelNone": "Nagin status",
+        "responsible": "Responsabel",
+        "responsibleNone": "Naginas persunas responsablas",
+        "welcome": "Bainvegni en tes nov champ. Anc n'èn vegnidas endatadas naginas activitads."
+      },
+      "invitation": {
+        "acceptCurrentAuth": "Acceptar l'invit cun il conto actual",
+        "backToHome": "Enavos a la pagina da partenza",
+        "error": "Ina errur nunspetgada è succedida",
+        "notFound": "L'invit è gia acceptà u stizzà",
+        "openCamp": "Avrir il champ",
+        "register": "Registrar",
+        "reject": "Refusar l'invit",
+        "successfullyRejected": "L'invit è vegnì refusà cun success",
+        "title": "Invit",
+        "useOtherAuth": "Sortir ed utilisar in auter conto",
+        "userAlreadyInCamp": "Ti collavureschas gia en quest champ"
+      },
+      "navigation": {
+        "desktop": {
+          "navTopbar": {
+            "admin": "Admin",
+            "campIsLoading": "Il champ vegn chargià",
+            "material": "Material",
+            "print": "Stampar",
+            "program": "Program",
+            "story": "Istorgia",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navBottombar": {
+            "material": "Material",
+            "more": "Dapli",
+            "program": "Program",
+            "story": "Istorgia"
+          },
+          "navSidebar": {
+            "itemActivity": "Activitads",
+            "itemActivitySubtitle": "Categoria, models e status",
+            "itemCamps": "Mes champs",
+            "itemClose": "Serrar il menu",
+            "itemCollaborators": "Team",
+            "itemInfos": "Infus dal champ",
+            "itemMaterialLists": "Glistas da material",
+            "itemPrinting": "PDF / stampar"
+          }
+        }
+      },
+      "story": {
+        "title": "Istorgia"
+      }
+    },
+    "campCreate": {
+      "couponKeyHint": "Per la beta betg publica dovri in cupon (code d'access). Sin ecamp3.ch/closed-beta vegns ti a savair co ti retschaivas in tal.",
+      "create": "Crear il champ",
+      "period": {
+        "add": "Agiuntar ina ulteriura part dal champ",
+        "remove": "Allontanar questa part dal champ"
+      },
+      "title": "Crear in champ"
+    },
+    "camps": {
+      "create": "Crear il champ",
+      "pastCamps": "Champs vegls",
+      "prototypeCamps": "Models",
+      "title": "Mes champs"
+    },
+    "material": {
+      "materialOverview": {
+        "createNewList": "Crear ina glista da material",
+        "download": "Telechargiar la survista",
+        "title": "Survista"
+      },
+      "sideBarMaterialLists": {
+        "title": "Glistas da material"
+      }
+    },
+    "pageNotFound": {
+      "backToHome": "Enavos a la pagina da partenza",
+      "detail": "Hopla. Ti has pers la via…{br}Questa colliaziun na funcziuna deplorablamain betg."
+    },
+    "profile": {
+      "changeEmail": "Midar",
+      "profile": "Profil"
+    }
+  }
+}

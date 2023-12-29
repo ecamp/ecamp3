@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 class ActivityCreateProcessorTest extends TestCase {
     private ActivityCreateProcessor $processor;
     private Activity $activity;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     protected function setUp(): void {
         $decoratedProcessor = $this->createMock(ProcessorInterface::class);
@@ -41,6 +41,7 @@ class ActivityCreateProcessorTest extends TestCase {
         $categoryRoot->contentType = $contentType;
         $this->activity->category->setRootContentNode($categoryRoot);
 
+        // EntityManager
         $repository = $this->createMock(EntityRepository::class);
         $this->em->method('getRepository')->willReturn($repository);
         $repository->method('findOneBy')->willReturn($contentType);

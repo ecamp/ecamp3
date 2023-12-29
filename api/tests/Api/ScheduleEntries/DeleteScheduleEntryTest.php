@@ -92,11 +92,11 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'activity.scheduleEntries: An activity must have at least one ScheduleEntry',
+            'detail' => 'activity.scheduleEntries: Cannot delete the last schedule entry.',
             'violations' => [
                 0 => [
                     'propertyPath' => 'activity.scheduleEntries',
-                    'message' => 'An activity must have at least one ScheduleEntry',
+                    'message' => 'Cannot delete the last schedule entry.',
                 ],
             ],
         ]);

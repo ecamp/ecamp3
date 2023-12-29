@@ -5,13 +5,14 @@
     >
       <h2 class="tw-py-1 tw-flex tw-gap-2 tw-justify-between">
         <span class="tw-font-semibold">
-          {{ $tc('entity.day.name') }} {{ day.number }}
+          {{ $t('entity.day.name') }} {{ day.number }}
         </span>
         <span class="tw-tabular-nums">{{ dateLong(day.start) }}</span>
       </h2>
     </div>
 
     <template v-if="entriesWithStory.length">
+      <!-- eslint-disable-next-line vue/no-v-for-template-key -->
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.self" class="tw-mb-3">
           <h4
@@ -33,7 +34,7 @@
       </template>
     </template>
     <p v-else>
-      {{ $tc('components.story.storyDay.noStory') }}
+      {{ $t('components.story.storyDay.noStory') }}
     </p>
   </div>
 </template>

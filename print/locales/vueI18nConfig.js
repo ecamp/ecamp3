@@ -8,6 +8,8 @@ import en from '@/locales/en.json'
 import enCHScout from '@/locales/en-CH-scout.json'
 import de from '@/locales/de.json'
 import deCHScout from '@/locales/de-CH-scout.json'
+import rm from '@/locales/rm.json'
+import rmCHScout from '@/locales/rm-CH-scout.json'
 
 import itCommon from '~/../common/locales/it.json'
 import itCHScoutCommon from '~/../common/locales/it-CH-scout.json'
@@ -17,32 +19,40 @@ import enCommon from '~/../common/locales/en.json'
 import enCHScoutCommon from '~/../common/locales/en-CH-scout.json'
 import deCommon from '~/../common/locales/de.json'
 import deCHScoutCommon from '~/../common/locales/de-CH-scout.json'
+import rmCommon from '~/../common/locales/rm.json'
+import rmCHScoutCommon from '~/../common/locales/rm-CH-scout.json'
 
-export default () => {
-  return {
-    fallbackLocale: 'en',
-    messages: deepmerge(
-      {
-        it: itCommon,
-        'it-CH-scout': itCHScoutCommon,
-        fr: frCommon,
-        'fr-CH-scout': frCHScoutCommon,
-        en: enCommon,
-        'en-CH-scout': enCHScoutCommon,
-        de: deCommon,
-        'de-CH-scout': deCHScoutCommon,
-      },
-      {
-        it,
-        'it-CH-scout': itCHScout,
-        fr,
-        'fr-CH-scout': frCHScout,
-        en,
-        'en-CH-scout': enCHScout,
-        de,
-        'de-CH-scout': deCHScout,
-      }
-    ),
-    silentTranslationWarn: true,
-  }
-}
+export default defineI18nConfig(() => ({
+  fallbackLocale: {
+    rm: ['de'],
+    default: 'en',
+  },
+  messages: deepmerge(
+    {
+      it: itCommon,
+      'it-CH-scout': itCHScoutCommon,
+      fr: frCommon,
+      'fr-CH-scout': frCHScoutCommon,
+      en: enCommon,
+      'en-CH-scout': enCHScoutCommon,
+      de: deCommon,
+      'de-CH-scout': deCHScoutCommon,
+      rm: rmCommon,
+      'rm-CH-scout': rmCHScoutCommon,
+    },
+    {
+      it,
+      'it-CH-scout': itCHScout,
+      fr,
+      'fr-CH-scout': frCHScout,
+      en,
+      'en-CH-scout': enCHScout,
+      de,
+      'de-CH-scout': deCHScout,
+      rm,
+      'rm-CH-scout': rmCHScout,
+    }
+  ),
+  missingWarn: false,
+  fallbackWarn: false,
+}))

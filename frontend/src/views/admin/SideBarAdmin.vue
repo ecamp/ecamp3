@@ -1,5 +1,5 @@
 <template>
-  <side-bar :title="$tc('global.navigation.admin.title')" icon="mdi-menu">
+  <SideBar :title="$tc('global.navigation.admin.title')" icon="mdi-menu">
     <v-list class="py-0">
       <SidebarListItem
         :to="adminRoute(camp(), 'info')"
@@ -28,7 +28,7 @@
         icon="mdi-file-outline"
       />
     </v-list>
-  </side-bar>
+  </SideBar>
 </template>
 
 <script>

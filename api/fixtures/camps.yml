@@ -11,7 +11,6 @@ App\Entity\Camp:
     creator: '@user2member'
     isPrototype: false
     campPrototypeId: null
-    couponKey: 'l593-8qps'
   camp2:
     name: Camp2
     title: <word()>

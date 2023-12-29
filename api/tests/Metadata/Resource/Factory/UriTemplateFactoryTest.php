@@ -3,10 +3,10 @@
 namespace App\Tests\Metadata\Resource\Factory;
 
 use ApiPlatform\Api\FilterInterface;
-use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operations;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
@@ -24,10 +24,10 @@ use Psr\Container\ContainerInterface;
  */
 class UriTemplateFactoryTest extends TestCase {
     private UriTemplateFactory $uriTemplateFactory;
-    private MockObject|ContainerInterface $filterLocator;
+    private ContainerInterface|MockObject $filterLocator;
     private MockObject|ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory;
     private MockObject|ResourceNameCollectionFactoryInterface $resourceNameCollectionFactory;
-    private MockObject|IriConverterInterface $iriConverter;
+    private IriConverterInterface|MockObject $iriConverter;
     private PaginationOptions $paginationOptions;
     private ResourceNameCollection $resourceNameCollection;
     private ResourceMetadataCollection $resourceMetadataCollection;

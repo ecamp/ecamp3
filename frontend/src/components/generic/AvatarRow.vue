@@ -19,13 +19,17 @@ export default {
   props: {
     campCollaborations: { type: Array, default: () => [] },
     maxSize: { type: [Number, String], default: 20 },
+    minSize: { type: [Number, String], default: 16 },
   },
   data: () => ({
     maxHeight: 1000,
   }),
   computed: {
     size() {
-      return Math.min(Number(this.maxSize), this.maxHeight)
+      return Math.min(
+        Number(this.maxSize),
+        Math.max(this.maxHeight, Number(this.minSize))
+      )
     },
     maxWidth() {
       return this.campCollaborations?.length * (this.size * 0.5) + this.size

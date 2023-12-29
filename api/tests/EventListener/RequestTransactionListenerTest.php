@@ -7,6 +7,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -20,22 +21,24 @@ use function PHPUnit\Framework\once;
  * @internal
  */
 class RequestTransactionListenerTest extends TestCase {
-    private MockObject|Connection $connection;
-    private MockObject|EntityManagerInterface $entityManager;
-    private MockObject|HttpKernelInterface $kernel;
+    private Connection|MockObject $connection;
+    private EntityManagerInterface|MockObject $entityManager;
+    private HttpKernelInterface|MockObject $kernel;
+    private LoggerInterface|MockObject $logger;
 
-    private Request|MockObject $request;
+    private MockObject|Request $request;
     private RequestTransactionListener $requestTransactionListener;
 
     protected function setUp(): void {
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->connection = $this->createMock(Connection::class);
         $this->entityManager->method('getConnection')->willReturn($this->connection);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->kernel = $this->createMock(HttpKernelInterface::class);
         $this->request = $this->createMock(Request::class);
 
-        $this->requestTransactionListener = new RequestTransactionListener($this->entityManager);
+        $this->requestTransactionListener = new RequestTransactionListener($this->entityManager, $this->logger);
     }
 
     /**
@@ -300,6 +303,40 @@ class RequestTransactionListenerTest extends TestCase {
         );
 
         $this->expectException(\RuntimeException::class);
+        $this->requestTransactionListener->rollbackTransaction(
+            new ExceptionEvent(
+                $this->kernel,
+                $this->request,
+                HttpKernelInterface::MAIN_REQUEST,
+                new \RuntimeException()
+            )
+        );
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testLogsReasonForRollbackWhenRollbackThrowsException() {
+        $this->request->expects(once())->method('getMethod')->willReturn('DELETE');
+        $this->connection
+            ->expects(once())
+            ->method('rollback')
+            ->willThrowException(new \RuntimeException())
+        ;
+        $this->entityManager->expects(exactly(4))->method('getConnection');
+        $this->entityManager->expects(once())->method('clear');
+
+        $this->requestTransactionListener->startTransaction(
+            new KernelEvent(
+                $this->kernel,
+                $this->request,
+                HttpKernelInterface::MAIN_REQUEST
+            )
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->logger->expects(once())->method('error');
+
         $this->requestTransactionListener->rollbackTransaction(
             new ExceptionEvent(
                 $this->kernel,

@@ -1,0 +1,51 @@
+name: '[reusable only] e2e tests build'
+
+on:
+  workflow_call:
+
+jobs:
+  e2e-tests-build:
+    name: 'Tests: End-to-end (build job)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      # build API (using cache; provide image to docker compose)
+      - name: Build docker image (API/PHP)
+        uses: docker/build-push-action@v5
+        with:
+          file: api/Dockerfile
+          context: './api'
+          push: false
+          load: true
+          target: api_platform_php_dev
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-dev-api-php
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+          outputs: type=docker,dest=/tmp/ecamp3-dev-api-php.tar
+
+      # build caddy (using cache; provide image to docker compose)
+      - name: Build docker image (Caddy)
+        uses: docker/build-push-action@v5
+        with:
+          file: api/Dockerfile
+          context: './api'
+          push: false
+          load: true
+          target: api_platform_caddy
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-dev-api-caddy
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
+          outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: e2e-tests-images
+          path: /tmp/ecamp3-dev-*.tar

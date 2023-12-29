@@ -1,13 +1,20 @@
 <template>
-  <div>
+  <div class="d-flex flex-column flex-grow-1">
     <draggable
       v-if="contentNodeIds"
       v-model="localContentNodeIds"
       :disabled="!draggingEnabled"
-      group="contentNodes"
-      class="draggable-area d-flex flex-column pb-10"
-      :class="{ 'min-height': layoutMode }"
-      :invert-swap="true"
+      :group="{ name: 'contentNodes', put: responsiveLayoutsOnlyInRoot }"
+      class="draggable-area flex-grow-1"
+      :class="{
+        'min-height draggable-area--layout-mode pb-2': layoutMode,
+        'draggable-area--read-mode': !layoutMode,
+        'draggable-area--root': isRoot,
+        'draggable-area--column d-flex flex-column': direction === 'column',
+        'draggable-area--row d-flex flex-row flex-wrap': direction === 'row',
+      }"
+      :swap-threshold="0.65"
+      :inverted-swap-threshold="0.65"
       @start="startDrag"
       @add="finishDrag"
       @update="finishDrag"
@@ -17,16 +24,23 @@
         v-for="id in draggableContentNodeIds"
         :key="id"
         :data-href="allContentNodesById[id]._meta.self"
+        :data-type="allContentNodesById[id].contentTypeName"
         class="content-node"
         :content-node="allContentNodesById[id]"
         :layout-mode="layoutMode"
         :draggable="draggingEnabled"
         :disabled="disabled"
       />
+      <v-sheet
+        v-if="!layoutMode && draggableContentNodeIds.length === 0"
+        elevation="0"
+        class="content-node placeholder-node"
+      ></v-sheet>
     </draggable>
 
     <button-nested-content-node-add
       v-if="layoutMode"
+      class="flex-grow-0"
       :layout-mode="layoutMode"
       :parent-content-node="parentContentNode"
       :slot-name="slotName"
@@ -53,6 +67,8 @@ export default {
     slotName: { type: String, required: true },
     parentContentNode: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
+    direction: { type: String, default: 'column' },
+    isRoot: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -98,8 +114,17 @@ export default {
     this.cleanupDrag()
   },
   methods: {
-    startDrag() {
+    responsiveLayoutsOnlyInRoot(to, from, item) {
+      return (
+        item.dataset.type !== 'ResponsiveLayout' ||
+        to.el.classList.contains('draggable-area--root')
+      )
+    },
+    startDrag(event) {
       document.body.classList.add('dragging', 'dragging-content-node')
+      if (event.item.dataset.type === 'ResponsiveLayout') {
+        document.body.classList.add('dragging-responsive-layout')
+      }
       document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
     async finishDrag(event) {
@@ -127,7 +152,11 @@ export default {
       this.draggableDirty.clearDirty(timestamp)
     },
     cleanupDrag() {
-      document.body.classList.remove('dragging', 'dragging-content-node')
+      document.body.classList.remove(
+        'dragging',
+        'dragging-content-node',
+        'dragging-responsive-layout'
+      )
       document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
     },
   },
@@ -138,23 +167,43 @@ export default {
   min-height: 10rem;
 }
 
-.dragging-content-node .draggable-area {
-  position: relative;
-  z-index: 100;
+.draggable-area ::v-deep .content-node {
+  margin: 0 !important;
+  flex-grow: 1;
+}
 
-  &::after {
-    pointer-events: none;
-    display: block;
-    position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: 4px;
-    right: 4px;
-    border-radius: 5px;
-    border: 2px dashed map-get($blue-grey, 'base');
-    background: map-get($blue-grey, 'lighten-4');
-    opacity: 40%;
-    content: '';
+.draggable-area--row ::v-deep .content-node {
+  flex: 1 0 320px;
+}
+
+.draggable-area--layout-mode {
+  display: flex !important;
+  gap: 4px;
+}
+
+.draggable-area--read-mode {
+  gap: 1px;
+}
+
+.dragging-content-node:not(.dragging-responsive-layout) {
+  .draggable-area:not(.draggable-area--root) {
+    position: relative;
+    z-index: 100;
+
+    &::after {
+      pointer-events: none;
+      display: block;
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      border-radius: 5px;
+      border: 2px dotted map-get($blue-grey, 'base');
+      background: map-get($blue-grey, 'lighten-4');
+      opacity: 40%;
+      content: '';
+    }
   }
 }
 </style>

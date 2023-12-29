@@ -1,10 +1,17 @@
 <template>
   <card-content-node v-resizeobserver.debounce="onResize" v-bind="$props">
     <template #outer>
-      <component :is="isDefaultVariant ? 'table' : 'div'" class="w-full">
+      <component
+        :is="isDefaultVariant ? 'table' : 'div'"
+        class="w-full"
+        :class="{
+          'flex-grow-1': !isDefaultVariant,
+          'pointer-events-none px-3 pb-3': layoutMode,
+        }"
+      >
         <thead v-if="isDefaultVariant">
           <tr>
-            <th>
+            <th v-if="!layoutMode">
               <span class="d-sr-only">
                 {{ $tc('components.activity.content.storyboard.reorder') }}
               </span>
@@ -78,7 +85,7 @@ import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
 import { v4 as uuidv4 } from 'uuid'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import StoryboardSortable from '@/components/activity/content/StoryboardSortable.vue'
+import StoryboardSortable from '@/components/activity/content/storyboard/StoryboardSortable.vue'
 
 export default {
   name: 'Storyboard',

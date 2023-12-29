@@ -92,8 +92,8 @@ class ReadActivityTest extends ECampApiTestCase {
         $data = $result->toArray();
         $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['self']['href']);
         $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['root']['href']);
-        $this->assertContains(['href' => $this->getIriFor('multiSelect1')], $data['_embedded']['rootContentNode']['_links']['children']);
-        $this->assertEquals(10, count($data['_embedded']['contentNodes']));
+        $this->assertContains(['href' => $this->getIriFor('responsiveLayout1')], $data['_embedded']['rootContentNode']['_links']['children']);
+        $this->assertEquals(11, count($data['_embedded']['contentNodes']));
     }
 
     public function testGetSingleActivityIsAllowedForManager() {
@@ -131,16 +131,5 @@ class ReadActivityTest extends ECampApiTestCase {
                 'camp' => ['href' => $this->getIriFor('campPrototype')],
             ],
         ]);
-    }
-
-    public function testSqlQueryCount() {
-        /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/activities/'.$activity->getId());
-
-        $this->assertSqlQueryCount($client, 31);
     }
 }

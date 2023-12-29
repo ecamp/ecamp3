@@ -15,18 +15,6 @@ class DeleteColumnLayoutTest extends DeleteContentNodeTestCase {
         $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
     }
 
-    public function testDeleteColumnLayoutIsNotAllowedWhenColumnLayoutIsRoot() {
-        // when
-        $this->delete(entity: static::$fixtures['columnLayout1']);
-
-        // then
-        $this->assertResponseStatusCodeSame(403);
-        $this->assertJsonContains([
-            'title' => 'An error occurred',
-            'detail' => 'Access Denied.',
-        ]);
-    }
-
     public function testDeleteColumnLayoutAlsoDeletesChildren() {
         $client = static::createClientWithCredentials();
         // Disable resetting the database between the two requests

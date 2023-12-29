@@ -6,6 +6,7 @@
     :disable-pagination="true"
     mobile-breakpoint="0"
     item-class="rowClass"
+    class="transparent"
     :class="{
       'ec-material-table--dense': !isDefaultVariant,
       'ec-material-table--default': isDefaultVariant,
@@ -49,7 +50,7 @@
     </template>
 
     <template #[`item.article`]="{ item }">
-      <template v-if="variant === 'default'">
+      <template v-if="isDefaultVariant">
         <api-text-field
           v-if="!item.readonly"
           :disabled="layoutMode || disabled"
@@ -91,7 +92,7 @@
       <!-- Action buttons -->
       <template v-if="!item.readonly && !layoutMode && !disabled">
         <PromptEntityDelete
-          v-if="variant === 'default'"
+          v-if="isDefaultVariant"
           :entity="item.uri"
           :warning-text-entity="item.article"
           :btn-attrs="{

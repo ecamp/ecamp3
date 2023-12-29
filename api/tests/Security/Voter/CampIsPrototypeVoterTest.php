@@ -2,30 +2,30 @@
 
 namespace App\Tests\Security\Voter;
 
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Security\Voter\CampIsPrototypeVoter;
-use App\Entity\User;
-use App\Entity\Period;
-use App\Entity\ContentNode\ColumnLayout;
-use App\Entity\Camp;
-use App\Entity\BaseEntity;
 use App\Entity\Activity;
+use App\Entity\BaseEntity;
+use App\Entity\Camp;
+use App\Entity\ContentNode\ColumnLayout;
+use App\Entity\Period;
+use App\Entity\User;
+use App\Security\Voter\CampIsPrototypeVoter;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * @internal
  */
 class CampIsPrototypeVoterTest extends TestCase {
     private CampIsPrototypeVoter $voter;
-    private TokenInterface|MockObject $token;
-    private MockObject|EntityManagerInterface $em;
+    private MockObject|TokenInterface $token;
+    private EntityManagerInterface|MockObject $em;
     private MockObject|SymfonyResponseTagger $responseTagger;
 
     public function setUp(): void {
@@ -160,7 +160,6 @@ class CampIsPrototypeVoterTest extends TestCase {
         $request->attributes = $this->createMock(ParameterBag::class);
         $request->attributes->method('get')->with('campId')->willReturn('campId-123');
 
-        
         // when
         $result = $this->voter->vote($this->token, $request, ['CAMP_IS_PROTOTYPE']);
 

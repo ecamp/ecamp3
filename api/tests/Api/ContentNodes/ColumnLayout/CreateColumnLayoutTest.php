@@ -17,9 +17,6 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
         $this->defaultContentType = static::$fixtures['contentTypeColumnLayout'];
     }
 
-    /**
-     * tests specific for Columnlayout.
-     */
     public function testCreateColumnLayoutAcceptsValidJson() {
         $SINGLE_COLUMN_JSON_CONFIG = [
             ['slot' => '1', 'width' => 5],
@@ -77,60 +74,6 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
                 [
                     'propertyPath' => 'data',
                     'message' => 'Expected column widths to sum to 12, but got a sum of 11',
-                ],
-            ],
-        ]);
-    }
-
-    /**
-     * tests common to all ContentNodes (tested only here).
-     */
-    public function testCreateColumnLayoutSetsRootToParentsRoot() {
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['_links' => [
-            'root' => ['href' => $this->getIriFor(static::$fixtures['columnLayout1'])],
-        ]]);
-    }
-
-    public function testCreateColumnLayoutValidatesMissingParent() {
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['parent'])]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'parent',
-                    'message' => 'This value should not be null.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateColumnLayoutAllowsMissingPosition() {
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['position'])]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['position' => 4]);
-    }
-
-    public function testCreateColumnLayoutAllowsMissingInstanceName() {
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['instanceName'])]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['instanceName' => null]);
-    }
-
-    public function testCreateColumnLayoutValidatesMissingContentType() {
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['contentType'])]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'contentType',
-                    'message' => 'This value should not be null.',
                 ],
             ],
         ]);

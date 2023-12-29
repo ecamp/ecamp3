@@ -2,7 +2,7 @@
   <content-node-content :content-node="contentNode">
     <div v-for="option in selectedOptions" :key="option.translateKey" class="entry">
       <check-mark :size="12" />
-      {{ $tc(`contentNode.laThematicArea.entity.option.${option.translateKey}.name`) }}
+      {{ $t(`contentNode.laThematicArea.entity.option.${option.translateKey}.name`) }}
     </div>
   </content-node-content>
 </template>

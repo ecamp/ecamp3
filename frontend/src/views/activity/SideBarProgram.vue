@@ -1,48 +1,77 @@
 <template>
-  <side-bar>
-    <content-card>
-      <v-subheader class="text-uppercase subtitle-2">
-        {{ $tc('views.activity.sideBarProgram.title') }}
-      </v-subheader>
-      <schedule-entries :period="period" :show-button="false">
-        <template #default="slotProps">
-          <v-skeleton-loader v-if="slotProps.loading" class="ma-3" type="list-item@6" />
-          <picasso
-            v-else
-            :schedule-entries="slotProps.scheduleEntries"
-            :period="period()"
-            :start="currentDayAsString"
-            :interval-height="36"
-            :end="currentDayAsString"
-            type="day"
-          />
-        </template>
-      </schedule-entries>
-    </content-card>
-  </side-bar>
+  <SideBar
+    :title="$tc('views.activity.sideBarProgram.title')"
+    icon="mdi-format-list-numbered"
+  >
+    <ScheduleEntries :period="period" :show-button="false">
+      <template #default="slotProps">
+        <DaySwitcher
+          :camp="camp"
+          :day-selection="daySelection"
+          :loading="slotProps.loading"
+          @changeDay="selectedDay = $event"
+        />
+        <v-divider />
+        <v-skeleton-loader v-if="slotProps.loading" class="mx-1" type="list-item@6" />
+        <Picasso
+          v-else
+          class="ec-sidebar-program__picasso"
+          :schedule-entries="slotProps.scheduleEntries"
+          :period="period()"
+          :start="currentDayAsString"
+          :interval-height="36"
+          :end="currentDayAsString"
+          type="day"
+        >
+          <template #day-label-header><span hidden></span></template>
+        </Picasso>
+      </template>
+    </ScheduleEntries>
+  </SideBar>
 </template>
 
 <script>
 import Picasso from '@/components/program/picasso/Picasso.vue'
 import SideBar from '@/components/navigation/SideBar.vue'
-import ContentCard from '@/components/layout/ContentCard.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 
 import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+import DaySwitcher from '@/components/activity/DaySwitcher.vue'
 
 export default {
   name: 'SideBarProgram',
-  components: { ContentCard, SideBar, Picasso, ScheduleEntries },
+  components: { DaySwitcher, SideBar, Picasso, ScheduleEntries },
   props: {
     day: { type: Function, required: true },
+    camp: { type: Function, required: true },
+  },
+  data() {
+    return {
+      selectedDay: null,
+    }
   },
   computed: {
     period() {
-      return this.day().period
+      return this.daySelection.period
+    },
+    daySelection() {
+      return this.selectedDay ?? this.day()
     },
     currentDayAsString() {
-      return this.$date.utc(this.day().start).format(HTML5_FMT.DATE)
+      return this.$date.utc(this.daySelection.start).format(HTML5_FMT.DATE)
     },
   },
 }
 </script>
+
+<style scoped lang="scss">
+.ec-sidebar-program__picasso :deep(.e-picasso) {
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    height: calc(100vh - 202px);
+  }
+}
+
+.ec-sidebar-program__picasso :deep(.v-calendar-daily__head) {
+  display: none;
+}
+</style>

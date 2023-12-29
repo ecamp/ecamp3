@@ -8,14 +8,24 @@
             "removeColumn": "Remove empty column"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Choose thematic area"
+        },
         "storyboard": {
           "controls": "Controls",
-          "reorder": "Reorder"
-        },
-        "storyboardDialogRemoveSection": {
-          "deleteWarning": "Do you really want to remove this section?",
-          "title": "Really delete?"
+          "reorder": "Reorder",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Do you really want to remove this section?",
+            "title": "Really delete?"
+          }
         }
+      },
+      "copyActivityInfoDialog": {
+        "title": "Copy & paste activity",
+        "description": "In order to paste a copied activity, you must allow eCamp to read your clipboard.",
+        "allow": "Allow now",
+        "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied activities.",
+        "granted": "You can now paste copied activities."
       },
       "menuCardlessContentNode": {
         "deletingDisabled": "Must be empty to delete"
@@ -23,7 +33,10 @@
       "scheduleEntry": {
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
-        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
+        "copyScheduleEntry": "Copy activity",
+        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
+        "switchToFullSize": "Switch to full size",
+        "switchToPaperSize": "Switch to paper size"
       }
     },
     "camp": {
@@ -120,6 +133,34 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Move schedule entries"
+      }
+    },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configure",
+          "infos": "Info",
+          "template": "Template"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Please fill out all required fields."
+      },
+      "campCreateStep2": {
+        "category": "Activity categories",
+        "create": "Create the Camp",
+        "noContent": "No Content",
+        "noPrototype": "No template",
+        "noPrototypeAlert": {
+          "description": "You must make all settings manually. There are no block templates & layouts available. This is only suitable for experienced users.",
+          "title": "Attention: You chose \"No template\"."
+        },
+        "preview": "Preview of camp template",
+        "progressStates": "Activity states",
+        "prototypeHint": "Copy categories, activity templates and states from a template.",
+        "prototypeHintEmpty": "Don't copy categories, activity templates and states.",
+        "prototypeHintSelected": "Copy categories, activity templates and states from this template.",
+        "submitTooltipPrototype": "You need to choose if and which template you want."
       }
     },
     "collaborator": {
@@ -290,6 +331,15 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clipboard": "Clipboard",
+        "copyPastActivity": "Copy & paste activity",
+        "clearClipboard": "Clear clipboard",
+        "copyActivity": "Copy activity",
+        "copyActivityContent": "Copy content from activity",
+        "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
+        "pasteActivity": "paste activity"
+      },
       "formScheduleEntryItem": {
         "end": "End",
         "start": "Start"
@@ -362,6 +412,7 @@
       "cancel": "Cancel",
       "close": "Close",
       "content": "Content",
+      "continue": "Continue",
       "create": "Create",
       "delete": "Delete",
       "discard": "Discard",
@@ -405,6 +456,9 @@
       "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"
     },
+    "toast": {
+      "copied": "{source} copied"
+    },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
@@ -429,6 +483,9 @@
       "activity": {
         "title": "Activity settings"
       },
+      "adminMaterialLists": {
+        "title": "Material lists"
+      },
       "collaborators": {
         "email": "Email address",
         "inactiveCollaborators": "Inactive",
@@ -438,9 +495,6 @@
       },
       "info": {
         "title": "Camp infos"
-      },
-      "materialLists": {
-        "title": "Material lists"
       },
       "print": {
         "title": "Print camp"
@@ -466,7 +520,6 @@
         "accountless": "Don't have an account yet?",
         "email": "Email",
         "infoText": {
-          "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions.",
           "dev": "This is the development version of eCamp v3.{br}IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!{br}Login: test@example.com / test"
         },
         "loginCallback": {
@@ -589,12 +642,6 @@
       }
     },
     "campCreate": {
-      "couponKeyHint": "For the closed beta, a coupon code is required. On ecamp3.ch/closed-beta, you can find out how to get such an coupon code.",
-      "create": "Create the Camp",
-      "period": {
-        "add": "Add a period",
-        "remove": "Remove period"
-      },
       "title": "Create a Camp"
     },
     "camps": {
@@ -604,6 +651,9 @@
       "title": "My Camps"
     },
     "material": {
+      "materialLists": {
+        "title": "Material lists"
+      },
       "materialOverview": {
         "createNewList": "Create material list",
         "download": "Download overview",

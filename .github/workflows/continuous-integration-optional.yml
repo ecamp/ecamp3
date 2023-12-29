@@ -2,20 +2,26 @@ name: CI (optional checks)
 
 on:
   push:
+    branches-ignore:
+      - gh-readonly-queue/**
   pull_request:
   merge_group:
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   api-validate-composer-lock:
     name: 'Validate Api Platform composer.lock'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.11'
+          php-version: '8.3.1'
           tools: composer:2.6.0
           coverage: xdebug
 
@@ -26,11 +32,11 @@ jobs:
     name: 'Lint: API (psalm)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.11'
+          php-version: '8.3.1'
           tools: composer:2.6.0
           coverage: xdebug
 
@@ -56,11 +62,11 @@ jobs:
     name: 'Lint: API (phpstan)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.11'
+          php-version: '8.3.1'
           tools: composer:2.6.0
           coverage: xdebug
 
@@ -81,7 +87,7 @@ jobs:
 
       - run: composer phpstan
         working-directory: api
-  
+
   api-validate-migrations:
     name: 'API: validate migrations'
     runs-on: ubuntu-latest
@@ -104,11 +110,11 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.11'
+          php-version: '8.3.1'
           tools: composer:2.6.0
           coverage: xdebug
 

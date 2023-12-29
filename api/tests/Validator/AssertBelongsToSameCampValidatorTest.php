@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
     private MockObject|RequestStack $requestStack;
-    private MockObject|EntityManagerInterface $em;
+    private EntityManagerInterface|MockObject $em;
 
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);

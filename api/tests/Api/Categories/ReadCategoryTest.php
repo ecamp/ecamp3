@@ -128,15 +128,4 @@ class ReadCategoryTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testSqlQueryCount() {
-        /** @var Category $category */
-        $category = static::$fixtures['category1'];
-
-        $client = static::createClientWithCredentials();
-        $client->enableProfiler();
-        $client->request('GET', '/categories/'.$category->getId());
-
-        $this->assertSqlQueryCount($client, 9);
-    }
 }

@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use App\InputFilter;
 use App\State\ResetPasswordCreateProcessor;
 use App\State\ResetPasswordProvider;
@@ -36,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             output: false,
             denormalizationContext: ['groups' => ['create']],
             normalizationContext: ['groups' => ['read']],
-            openapiContext: ['summary' => 'Request Password-Reset-Mail', 'description' => 'Password-Reset-Link will be sent to the given email']
+            openapi: new OpenApiOperation(summary: 'Request Password-Reset-Mail', description: 'Password-Reset-Link will be sent to the given email')
         ),
     ],
     routePrefix: '/auth'

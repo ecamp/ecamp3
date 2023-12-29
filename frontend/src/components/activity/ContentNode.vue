@@ -14,6 +14,7 @@
 
 <script>
 import ColumnLayout from './content/ColumnLayout.vue'
+import ResponsiveLayout from './content/ResponsiveLayout.vue'
 import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
 import LAThematicArea from './content/LAThematicArea.vue'
@@ -23,6 +24,7 @@ import Storycontext from './content/Storycontext.vue'
 
 const contentNodeComponents = {
   ColumnLayout,
+  ResponsiveLayout,
   Notes,
   Material,
   LAThematicArea,
@@ -45,7 +47,6 @@ export default {
 
 <style lang="scss">
 .content-node:not(.draggable) + .content-node:not(.draggable) {
-  border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 0 !important;
 }
 

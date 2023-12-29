@@ -4,9 +4,11 @@ Displays a single scheduleEntry
 
 <template>
   <content-card
+    class="ec-schedule-entry"
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
+    :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -91,6 +93,32 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
+      <v-tooltip bottom>
+        <template #activator="{ on }">
+          <v-btn
+            text
+            icon
+            class="d-none d-md-block"
+            :aria-label="
+              isPaperDisplaySize
+                ? $tc('components.activity.scheduleEntry.switchToFullSize')
+                : $tc('components.activity.scheduleEntry.switchToPaperSize')
+            "
+            @click="toggleDisplaySize"
+            v-on="on"
+          >
+            <v-icon v-if="isPaperDisplaySize" class="resize-icon"
+              >$vuetify.icons.bigScreen</v-icon
+            >
+            <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
+          </v-btn>
+        </template>
+        {{
+          isPaperDisplaySize
+            ? $tc('components.activity.scheduleEntry.switchToFullSize')
+            : $tc('components.activity.scheduleEntry.switchToPaperSize')
+        }}
+      </v-tooltip>
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
@@ -117,8 +145,20 @@ Displays a single scheduleEntry
 
           <v-divider />
 
+          <v-list-item @click="copyUrlToClipboard">
+            <v-list-item-icon>
+              <v-icon>mdi-content-copy</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ $tc('components.activity.scheduleEntry.copyScheduleEntry') }}
+            </v-list-item-title>
+          </v-list-item>
+          <CopyActivityInfoDialog ref="copyInfoDialog" />
+
+          <v-divider />
+
           <!-- remove activity -->
-          <dialog-entity-delete :entity="activity" @submit="onDelete">
+          <DialogEntityDelete :entity="activity" @submit="onDelete">
             <template #activator="{ on }">
               <v-list-item :disabled="!isContributor" v-on="on">
                 <v-list-item-icon>
@@ -130,7 +170,7 @@ Displays a single scheduleEntry
               </v-list-item>
             </template>
             {{ $tc('components.activity.scheduleEntry.deleteWarning') }}
-          </dialog-entity-delete>
+          </DialogEntityDelete>
         </v-list>
       </v-menu>
     </template>
@@ -231,15 +271,19 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import { periodRoute } from '@/router.js'
+import { periodRoute, scheduleEntryRoute } from '@/router.js'
+import router from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
+import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    DialogEntityDelete,
     ContentCard,
     ApiTextField,
     RootNode,
@@ -247,6 +291,7 @@ export default {
     DownloadClientPdf,
     DownloadNuxtPdf,
     CategoryChip,
+    CopyActivityInfoDialog,
   },
   mixins: [campRoleMixin, dateHelperUTCFormatted],
   provide() {
@@ -268,6 +313,7 @@ export default {
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
+      isPaperDisplaySize: true,
     }
   },
   computed: {
@@ -282,6 +328,13 @@ export default {
     },
     scheduleEntries() {
       return this.activity.scheduleEntries().items
+    },
+    activityName() {
+      return (
+        (this.scheduleEntry().number ? this.scheduleEntry().number + ' ' : '') +
+        (this.category.short ? this.category.short + ': ' : '') +
+        this.activity.title
+      )
     },
     progressLabels() {
       const labels = sortBy(this.camp.progressLabels().items, (l) => l.position)
@@ -316,6 +369,8 @@ export default {
 
   // reload data every time user navigates to Activity view
   async mounted() {
+    this.isPaperDisplaySize =
+      localStorage.getItem('activityIsPaperDisplaySize') !== 'false'
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
@@ -348,9 +403,34 @@ export default {
         this.editActivityTitle = true
       }
     },
+    async copyUrlToClipboard() {
+      try {
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state == 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
+      }
+
+      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry())
+      const url = window.location.origin + router.resolve(scheduleEntry).href
+      await navigator.clipboard.writeText(url)
+
+      this.$toast.info(
+        this.$tc('global.toast.copied', null, { source: this.activityName }),
+        {
+          timeout: 2000,
+        }
+      )
+    },
     onDelete() {
       // redirect to Picasso
       this.$router.push(periodRoute(this.scheduleEntry().period()))
+    },
+    toggleDisplaySize() {
+      this.isPaperDisplaySize = !this.isPaperDisplaySize
+      localStorage.setItem('activityIsPaperDisplaySize', this.isPaperDisplaySize)
     },
   },
 }
@@ -361,13 +441,18 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
-
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    border-bottom: none;
-  }
 }
 
 .e-category-chip-save-icon {
   font-size: 18px;
+}
+
+.ec-schedule-entry {
+  transition: max-width 0.7s ease;
+}
+
+.resize-icon,
+.resize-icon :deep(svg) {
+  width: 28px !important;
 }
 </style>

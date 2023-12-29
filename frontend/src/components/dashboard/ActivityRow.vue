@@ -1,49 +1,97 @@
 <template>
-  <tr class="row">
-    <th style="text-align: left" class="tabular-nums" scope="row">
+  <tr class="row" :class="{ 'row--skeleton': scheduleEntry._meta.loading }">
+    <th class="tabular-nums text-left" scope="row">
       <TextAlignBaseline
-        ><span class="smaller">{{ scheduleEntry.number }}</span></TextAlignBaseline
-      >
+        ><span v-if="!scheduleEntry._meta.loading" class="smaller">{{
+          scheduleEntry.number
+        }}</span>
+        <v-skeleton-loader v-else type="text" width="2ch" class="mb-0 my-6px" />
+      </TextAlignBaseline>
       <br />
-      <CategoryChip small dense :category="category" class="d-sm-none" />
+      <CategoryChip
+        v-if="!scheduleEntry._meta.loading"
+        small
+        dense
+        :category="category"
+        class="d-sm-none"
+      />
+      <v-skeleton-loader
+        v-else
+        type="text"
+        width="3ch"
+        height="20"
+        class="d-sm-none v-skeleton-loader--inherit-size rounded-pill"
+      />
     </th>
     <td class="d-none d-sm-table-cell">
-      <CategoryChip small dense :category="category" />
+      <CategoryChip
+        v-if="!scheduleEntry._meta.loading"
+        small
+        dense
+        :category="category"
+      />
+      <v-skeleton-loader
+        v-else
+        type="text"
+        width="3ch"
+        height="20"
+        class="v-skeleton-loader--no-margin v-skeleton-loader--inherit-size rounded-pill mt-2px"
+      />
     </td>
-    <td class="nowrap">
+    <td v-if="!scheduleEntry._meta.loading" class="nowrap">
       {{ start }}<br />
       <span class="e-subtitle">{{ duration }}</span>
     </td>
-    <td style="width: 100%" class="contentrow">
-      <span style="display: inline-block">
-        <router-link
-          :to="routerLink"
-          class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium d-block"
-        >
-          {{ title }}
-        </router-link>
-      </span>
-
-      <span
-        v-if="$vuetify.breakpoint.mdAndUp"
-        class="e-subtitle"
-        style="font-size: 0.7em"
+    <td v-else class="nowrap">
+      <v-skeleton-loader type="text" width="6ch" class="my-6px" />
+      <v-skeleton-loader type="text" width="4ch" />
+    </td>
+    <td v-if="!scheduleEntry._meta.loading" class="w-100 contentrow">
+      <router-link
+        :to="routerLink"
+        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium"
       >
+        {{ title }}
+      </router-link>
+
+      <span v-if="$vuetify.breakpoint.mdAndUp" class="e-subtitle e-subtitle--smaller">
         {{ progressLabel }}
       </span>
 
-      <br />
-      <span class="e-subtitle">{{ location }}</span>
+      <template v-if="location">
+        <br />
+        <span class="e-subtitle">{{ location }}</span>
+      </template>
 
       <template v-if="!$vuetify.breakpoint.mdAndUp">
         <br />
-        <span class="e-subtitle" style="font-size: 0.7em">
+        <span class="e-subtitle e-subtitle--smaller">
           {{ progressLabel }}
         </span>
       </template>
     </td>
+    <td v-else class="w-100 contentrow">
+      <v-skeleton-loader type="text" width="20ch" class="my-6px" />
+      <v-skeleton-loader
+        type="text"
+        width="15ch"
+        class="v-skeleton-loader--no-margin my-6px"
+      />
+    </td>
     <td class="contentrow avatarrow overflow-visible">
-      <AvatarRow :camp-collaborations="collaborators" max-size="28" class="ml-auto" />
+      <AvatarRow
+        v-if="!scheduleEntry._meta.loading"
+        :camp-collaborations="collaborators"
+        max-size="28"
+        class="ml-auto"
+      />
+      <v-skeleton-loader
+        v-else
+        type="avatar"
+        width="28"
+        height="28"
+        class="v-skeleton-loader--inherit-size"
+      />
     </td>
   </tr>
 </template>
@@ -59,7 +107,7 @@ export default {
   components: { CategoryChip, AvatarRow, TextAlignBaseline },
   mixins: [dateHelperUTCFormatted],
   props: {
-    scheduleEntry: { type: Object, required: true },
+    scheduleEntry: { type: Object, default: () => ({ _meta: { loading: true } }) },
   },
   computed: {
     collaborators() {
@@ -105,6 +153,10 @@ export default {
   vertical-align: baseline;
 }
 
+.row--skeleton {
+  vertical-align: top;
+}
+
 tr + tr :is(td, th) {
   border-top: 1px solid #ddd;
 }
@@ -133,12 +185,25 @@ tr + tr :is(td, th) {
   color: #666;
 }
 
+.e-subtitle--smaller {
+  font-size: 0.7em;
+}
+
 .nowrap {
   white-space: nowrap;
 }
 
 .smaller {
   font-size: 0.75em;
+}
+
+.mt-2px {
+  margin-top: 2px;
+}
+
+.my-6px {
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 .text-decoration-hover-underline:hover {

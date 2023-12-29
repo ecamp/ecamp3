@@ -6,6 +6,7 @@ on:
       - staging
       - prod
       - devel
+      - gh-readonly-queue/**
     tags-ignore:
       - staging
       - prod
@@ -19,18 +20,22 @@ env:
   DOCKER_BUILDKIT: 1
   COMPOSE_DOCKER_CLI_BUILD: 1
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   api-cs-check:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.11'
+          php-version: '8.3.1'
           tools: composer:2.6.0
-          coverage: xdebug
+          coverage: none
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -54,11 +59,11 @@ jobs:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -83,11 +88,11 @@ jobs:
     name: 'Lint: ClientPrint (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -112,11 +117,11 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -136,16 +141,16 @@ jobs:
              exit 1
           fi
         working-directory: print
-  
+
   e2e-lint:
     name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -188,14 +193,14 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2.11'
+          php-version: '8.3.1'
           extensions: intl-73.1
           tools: composer:2.6.0
-          coverage: xdebug
+          coverage: pcov
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -244,11 +249,11 @@ jobs:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -272,27 +277,26 @@ jobs:
       - run: npm run test:unit
         working-directory: frontend
 
-      - name: send coverage info
+      - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
-          cat frontend/data/coverage/lcov.info | npx coveralls .
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
-          CI_PULL_REQUEST: ${{ github.event.number }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: frontend
+          
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: frontend
+          parallel: true
+          fail-on-error: false
 
   print-tests:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -312,27 +316,26 @@ jobs:
       - run: npm run test
         working-directory: print
 
-      - name: send coverage info
+      - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|SF:|SF:print/|g" print/coverage/lcov.info
-          cat print/coverage/lcov.info | npx coveralls .
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
-          CI_PULL_REQUEST: ${{ github.event.number }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: print
-          
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: print
+          parallel: true
+          fail-on-error: false
+
   pdf-tests:
     name: 'Tests: PDF'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.8.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -350,126 +353,26 @@ jobs:
       - run: npm run test:unit
         working-directory: pdf
 
-      - name: send coverage info
+      - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|src/|pdf/src/|g" pdf/data/coverage/lcov.info
-          cat pdf/data/coverage/lcov.info | npx coveralls .
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
-          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
-          CI_PULL_REQUEST: ${{ github.event.number }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: pdf
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: pdf
+          parallel: true
+          fail-on-error: false
 
   e2e-tests-build:
-    name: 'Tests: End-to-end (build job)'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
-
-      # build API (using cache; provide image to docker compose)
-      - name: Build docker image (API/PHP)
-        uses: docker/build-push-action@v5
-        with:
-          file: api/Dockerfile
-          context: './api'
-          push: false
-          load: true
-          target: api_platform_php_dev
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-api-php
-          cache-from: type=gha,scope=api
-          cache-to: type=gha,scope=api,mode=max
-          outputs: type=docker,dest=/tmp/ecamp3-dev-api-php.tar
-
-      # build caddy (using cache; provide image to docker compose)
-      - name: Build docker image (Caddy)
-        uses: docker/build-push-action@v5
-        with:
-          file: api/Dockerfile
-          context: './api'
-          push: false
-          load: true
-          target: api_platform_caddy
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-api-caddy
-          cache-from: type=gha,scope=caddy
-          cache-to: type=gha,scope=caddy,mode=max
-          outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: e2e-tests-images
-          path: /tmp/ecamp3-dev-*.tar
+    name: 'Tests: End-to-end build'
+    uses: ./.github/workflows/reusable-e2e-tests-build.yml
 
   e2e-tests-run:
-    name: 'Tests: End-to-end'
-    runs-on: ubuntu-latest
-    needs: e2e-tests-build
-    timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        browser:
-          - chrome
-          - firefox
-          - edge
-    steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
-
-      - run: cp .env.ci .env
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Restore tmp folder
-        uses: actions/download-artifact@v3
-        with:
-          name: e2e-tests-images
-          path: /tmp
-
-      - name: Load images
-        run: |
-          docker load --input /tmp/ecamp3-dev-api-php.tar
-          docker load --input /tmp/ecamp3-dev-api-caddy.tar
-          docker image ls -a --digests
-
-      - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
-        with:
-          path: .cache
-          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
-          restore-keys: |
-            docker-compose-
-
-      # start necessary containers
-      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
-
-      - uses: cypress-io/github-action@v5
-        with:
-          working-directory: e2e
-          browser: ${{ matrix.browser }}
-          wait-on: 'http://localhost:3000, http://localhost:3000/api, http://localhost:3000/print/health'
-          wait-on-timeout: 300
-
-      # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: cypress-output-${{ matrix.browser }}
-          path: |
-            e2e/data/**/*
-
-      # print docker container logs (good for debugging; can be disabled again later on)
-      - run: docker compose logs --tail="all"
-        if: always()
+    name: 'Tests: End-to-end run'
+    needs:
+      - e2e-tests-build
+    uses: ./.github/workflows/reusable-e2e-tests-run.yml
 
   coveralls-finished:
     name: 'Finish coveralls report'
@@ -477,16 +380,18 @@ jobs:
       - api-tests
       - frontend-tests
       - print-tests
+      - pdf-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: coverallsapp/github-action@master
+      - uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
-
-  ci-passed-event:
-    name: 'Send out CI success event'
-    if: github.event_name == 'push' && (github.event.pull_request && github.event.pull_request.number)
+          carryforward: "api,frontend,print,pdf"
+          fail-on-error: false
+          
+  workflow-success:
+    name: workflow-success
     needs:
       - api-cs-check
       - frontend-eslint
@@ -496,6 +401,15 @@ jobs:
       - frontend-tests
       - print-tests
       - e2e-tests-run
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+
+  ci-passed-event:
+    name: 'Send out CI success event'
+    if: github.event_name == 'push' && (github.event.pull_request && github.event.pull_request.number)
+    needs:
+      - workflow-success
     runs-on: ubuntu-latest
     steps:
       - uses: peter-evans/repository-dispatch@bf47d102fdb849e755b0b0023ea3e81a44b6f570 # v2

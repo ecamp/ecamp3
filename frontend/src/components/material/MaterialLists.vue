@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <v-list-item :to="materialListRoute(camp(), false, { isDetail: true })" exact-path>
+    <v-list-item :to="materialListRoute(camp(), '/all', { isDetail: true })" exact-path>
       <v-list-item-content>
         {{ $tc('components.material.materialLists.overview') }}
       </v-list-item-content>

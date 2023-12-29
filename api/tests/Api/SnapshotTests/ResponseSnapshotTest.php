@@ -6,6 +6,9 @@ use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
+use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
+use App\Util\ArrayDeepSort;
+use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -33,21 +36,38 @@ class ResponseSnapshotTest extends ECampApiTestCase {
         $this->assertMatchesResponseSnapshot($response);
     }
 
+    /**
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     */
     public function testOpenApiSpecMatchesSnapshot() {
         $response = static::createClientWithCredentials()
             ->request(
                 'GET',
-                '/docs.json',
+                '/docs.jsonopenapi',
                 [
                     'headers' => [
-                        'accept' => 'application/json',
+                        'accept' => 'application/vnd.openapi+json',
                     ],
                 ]
             )
         ;
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertMatchesResponseSnapshot($response);
+        $sortedOpenApiArray = ArrayDeepSort::sort($response->toArray());
+        // Arguments for Yaml::dump taken from https://github.com/api-platform/core/blob/49c81194a3e6833f10d135c739776636775b15a5/src/OpenApi/Command/OpenApiCommand.php#L58
+        $openApiYaml = Yaml::dump(
+            input: $sortedOpenApiArray,
+            inline: 10,
+            indent: 2,
+            flags: Yaml::DUMP_OBJECT_AS_MAP
+            | Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE
+            | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
+        );
+
+        $this->assertMatchesSnapshot($openApiYaml, new ECampYamlSnapshotDriver());
     }
 
     /**
@@ -199,27 +219,6 @@ class ResponseSnapshotTest extends ECampApiTestCase {
     private function getFixtureFor(string $collectionEndpoint) {
         $fixtures = static::$fixtures;
 
-        return match ($collectionEndpoint) {
-            '/activities' => $fixtures['activity1'],
-            '/activity_progress_labels' => $fixtures['activityProgressLabel1'],
-            '/activity_responsibles' => $fixtures['activityResponsible1'],
-            '/camp_collaborations' => $fixtures['campCollaboration1manager'],
-            '/camps' => $fixtures['camp1'],
-            '/categories' => $fixtures['category1'],
-            '/content_node/column_layouts' => $fixtures['columnLayout2'],
-            '/content_types' => $fixtures['contentTypeSafetyConcept'],
-            '/day_responsibles' => $fixtures['dayResponsible1'],
-            '/days' => $fixtures['day1period1'],
-            '/material_items' => $fixtures['materialItem1'],
-            '/material_lists' => $fixtures['materialList1'],
-            '/content_node/material_nodes' => $fixtures['materialNode2'],
-            '/content_node/multi_selects' => $fixtures['multiSelect1'],
-            '/periods' => $fixtures['period1'],
-            '/profiles' => $fixtures['profile1manager'],
-            '/schedule_entries' => $fixtures['scheduleEntry1period1camp1'],
-            '/content_node/single_texts' => $fixtures['singleText1'],
-            '/content_node/storyboards' => $fixtures['storyboard1'],
-            default => throw new \RuntimeException("no fixture defined for endpoint {$collectionEndpoint}")
-        };
+        return ReadItemFixtureMap::get($collectionEndpoint, $fixtures);
     }
 }

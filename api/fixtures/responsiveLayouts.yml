@@ -1,0 +1,9 @@
+App\Entity\ContentNode\ResponsiveLayout:
+  responsiveLayoutCampUnrelated:
+    root: '@columnLayout1campUnrelated'
+    parent: '@columnLayout1campUnrelated'
+    slot: '1'
+    position: 0
+    data: { items: [{ slot: 'main' }, {slot: 'aside-top' }, {slot: 'aside-bottom'}] }
+    instanceName: 'responsiveLayoutCampUnrelated'
+    contentType: '@contentTypeResponsiveLayout'

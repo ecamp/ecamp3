@@ -155,6 +155,8 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     /**
      * The color of the activities in this category, as a hex color string.
      */
+    #[InputFilter\Trim]
+    #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
     #[ApiProperty(example: '#4DBB52')]
     #[Groups(['read', 'write'])]

@@ -1,97 +1,106 @@
 <template>
   <div>
-    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <generic-error-message v-if="error" :error="error" />
+
     <picasso-chunk
-      v-for="(periodChunk, i) in periodChunks"
-      v-else
+      v-for="(pageDays, i) in pages"
       :key="i"
       :period="period"
-      :start="periodChunk.start.format('YYYY-MM-DD')"
-      :end="periodChunk.end.format('YYYY-MM-DD')"
-      :events="events"
+      :schedule-entries="period.scheduleEntries().items"
       :index="index"
       :landscape="landscape"
+      :days="pageDays"
+      :times="timesList"
     />
   </div>
 </template>
 
+<script setup>
+const props = defineProps({
+  period: { type: Object, required: true },
+  camp: { type: Object, required: true },
+  landscape: { type: Boolean, required: true },
+  index: { type: Number, required: true },
+})
+
+const { error } = await useAsyncData('PicassoPeriod', async () => {
+  await Promise.all([
+    props.period.scheduleEntries().$loadItems(),
+    props.camp
+      .activities()
+      .$loadItems()
+      .then((activities) => {
+        return Promise.all(
+          activities.items.map((activity) =>
+            activity
+              .activityResponsibles()
+              .$loadItems()
+              .then((activityResponsibles) => {
+                return Promise.all(
+                  activityResponsibles.items.map((activityResponsible) => {
+                    if (activityResponsible.campCollaboration().user === null) {
+                      return Promise.resolve(null)
+                    }
+                    return activityResponsible.campCollaboration().user()._meta.load
+                  })
+                )
+              })
+          )
+        )
+      }),
+    props.camp.categories().$loadItems(),
+    props.period.days().$loadItems(),
+    props.period
+      .dayResponsibles()
+      .$loadItems()
+      .then((dayResponsibles) => {
+        return Promise.all(
+          dayResponsibles.items.map((dayResponsible) => {
+            if (dayResponsible.campCollaboration().user === null) {
+              return Promise.resolve(null)
+            }
+            return dayResponsible.campCollaboration().user()._meta.load
+          })
+        )
+      }),
+  ])
+})
+</script>
+
 <script>
-import { utcStringToTimestamp } from '~/../common/helpers/dateHelperVCalendar.js'
-import { splitDaysIntoPages } from '../../common/helpers/picasso.js'
-import { sortBy } from 'lodash'
+import {
+  splitDaysIntoPages,
+  calculateBedtime,
+  times,
+} from '@/../common/helpers/picasso.js'
+import sortBy from 'lodash/sortBy.js'
 
 export default {
-  props: {
-    period: { type: Object, required: true },
-    camp: { type: Object, required: true },
-    landscape: { type: Boolean, required: true },
-    index: { type: Number, required: true },
-  },
-  data() {
-    return {
-      events: null,
-    }
-  },
-  async fetch() {
-    const [scheduleEntries] = await Promise.all([
-      this.period.scheduleEntries().$loadItems(),
-      this.camp
-        .activities()
-        .$loadItems()
-        .then((activities) => {
-          return Promise.all(
-            activities.items.map((activity) =>
-              activity
-                .activityResponsibles()
-                .$loadItems()
-                .then((activityResponsibles) => {
-                  return Promise.all(
-                    activityResponsibles.items.map((activityResponsible) => {
-                      if (activityResponsible.campCollaboration().user === null) {
-                        return Promise.resolve(null)
-                      }
-                      return activityResponsible.campCollaboration().user()._meta.load
-                    })
-                  )
-                })
-            )
-          )
-        }),
-      this.camp.categories().$loadItems(),
-      this.period.days().$loadItems(),
-      this.period
-        .dayResponsibles()
-        .$loadItems()
-        .then((dayResponsibles) => {
-          return Promise.all(
-            dayResponsibles.items.map((dayResponsible) => {
-              if (dayResponsible.campCollaboration().user === null) {
-                return Promise.resolve(null)
-              }
-              return dayResponsible.campCollaboration().user()._meta.load
-            })
-          )
-        }),
-    ])
-
-    this.events = scheduleEntries.items.map((entry) => ({
-      ...entry,
-      startTimestamp: utcStringToTimestamp(entry.start),
-      endTimestamp: utcStringToTimestamp(entry.end),
-      timed: true,
-    }))
-  },
   computed: {
-    periodChunks() {
-      const chunkSize = this.landscape ? 7 : 4
-
-      return splitDaysIntoPages(
-        sortBy(this.period.days().items, (day) => this.$date.utc(day.start).unix()),
-        chunkSize
-      ).map((chunk) => ({
-        start: this.$date.utc(chunk[0].start),
-        end: this.$date.utc(chunk[chunk.length - 1].start),
-      }))
+    days() {
+      return sortBy(this.period.days().items, (day) =>
+        this.$date.utc(day.start).valueOf()
+      )
+    },
+    pages() {
+      const maxDaysPerPage = this.landscape ? 7 : 4
+      return splitDaysIntoPages(this.days, maxDaysPerPage)
+    },
+    timeStep() {
+      // Height / duration of each picasso row, in hours
+      return 1
+    },
+    bedtimes() {
+      return calculateBedtime(
+        this.period.scheduleEntries().items,
+        this.$date,
+        this.$date.utc(this.days[0].start),
+        this.$date.utc(this.days[this.days.length - 1].end),
+        this.timeStep
+      )
+    },
+    timesList() {
+      return times(this.bedtimes.getUpTime, this.bedtimes.bedtime, this.timeStep)
     },
   },
 }
