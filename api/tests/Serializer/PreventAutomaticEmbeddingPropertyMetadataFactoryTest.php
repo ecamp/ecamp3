@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\PropertyInfo\Type as PropertyInfoType;
 
 /**
  * @internal
@@ -27,20 +28,20 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
             'deprecationReason',
             true,
             true,
-            [],
-            [],
-            [],
+            ['jsonldContext'],
+            ['openapiContext'],
+            ['jsonSchemaContext'],
             true,
             true,
             'securityPostDenormalize',
-            [],
-            [],
-            [],
+            ['types'],
+            [new PropertyInfoType(builtinType: PropertyInfoType::BUILTIN_TYPE_INT)],
+            ['schema'],
             true,
-            [],
+            ['iris'],
             true,
-            '',
-            []
+            'uriTemplate',
+            ['extraProperties']
         );
         $decorated->expects($this->once())
             ->method('create')
@@ -68,7 +69,7 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
         $this->assertEquals($apiProperty->isFetchable(), $result->isFetchable());
         $this->assertEquals($apiProperty->getFetchEager(), $result->getFetchEager());
         $this->assertEquals($apiProperty->getJsonldContext(), $result->getJsonldContext());
-        $this->assertEquals($apiProperty->getOpenapiContext(), $result->getJsonldContext());
+        $this->assertEquals($apiProperty->getOpenapiContext(), $result->getOpenapiContext());
         $this->assertEquals($apiProperty->getJsonSchemaContext(), $result->getJsonSchemaContext());
         $this->assertEquals($apiProperty->getPush(), $result->getPush());
         $this->assertEquals($apiProperty->getSecurity(), $result->getSecurity());

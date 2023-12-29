@@ -33,7 +33,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.0'
+          php-version: '8.3.1'
           tools: composer:2.6.0
           coverage: none
 
@@ -197,7 +197,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.0'
+          php-version: '8.3.1'
           extensions: intl-73.1
           tools: composer:2.6.0
           coverage: pcov
@@ -389,10 +389,9 @@ jobs:
           parallel-finished: true
           carryforward: "api,frontend,print,pdf"
           fail-on-error: false
-
-  ci-passed-event:
-    name: 'Send out CI success event'
-    if: github.event_name == 'push' && (github.event.pull_request && github.event.pull_request.number)
+          
+  workflow-success:
+    name: workflow-success
     needs:
       - api-cs-check
       - frontend-eslint
@@ -402,6 +401,15 @@ jobs:
       - frontend-tests
       - print-tests
       - e2e-tests-run
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+
+  ci-passed-event:
+    name: 'Send out CI success event'
+    if: github.event_name == 'push' && (github.event.pull_request && github.event.pull_request.number)
+    needs:
+      - workflow-success
     runs-on: ubuntu-latest
     steps:
       - uses: peter-evans/repository-dispatch@bf47d102fdb849e755b0b0023ea3e81a44b6f570 # v2

@@ -8,6 +8,9 @@
             "removeColumn": "Remove empty column"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Choose thematic area"
+        },
         "storyboard": {
           "controls": "Controls",
           "reorder": "Reorder",

@@ -6,7 +6,7 @@
   "force": {
     "constraints": {
       "node": "20.9.0",
-      "php": "8.3.0"
+      "php": "8.3.1"
     }
   },
   "automergeType": "branch",
@@ -38,6 +38,8 @@
         "monorepo:vue"
       ],
       "matchUpdateTypes": [
+        "patch",
+        "minor",
         "major"
       ],
       "dependencyDashboardApproval": true

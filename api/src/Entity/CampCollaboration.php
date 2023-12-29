@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use App\InputFilter;
 use App\Repository\CampCollaborationRepository;
 use App\State\CampCollaborationCreateProcessor;
@@ -50,7 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: '(is_authenticated() && user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             uriTemplate: 'camp_collaborations/{id}/'.self::RESEND_INVITATION,
             denormalizationContext: ['groups' => ['resend_invitation']],
-            openapiContext: ['summary' => 'Send the invitation email for this CampCollaboration again. Only possible, if the status is already invited.'],
+            openapi: new OpenApiOperation(summary: 'Send the invitation email for this CampCollaboration again. Only possible, if the status is already invited.'),
             validationContext: ['groups' => ['Default', 'resend_invitation']]
         ),
         new GetCollection(
@@ -61,7 +62,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: CampCollaborationCreateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
-            openapiContext: ['description' => 'Also sends an invitation email to the inviteEmail address, if specified.'],
+            openapi: new OpenApiOperation(description: 'Also sends an invitation email to the inviteEmail address, if specified.'),
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
     ],
