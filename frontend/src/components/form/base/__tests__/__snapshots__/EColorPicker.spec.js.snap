@@ -49,12 +49,6 @@ exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
                                  style="height: 30px; width: 30px; background-color: rgb(255, 0, 0); border-color: #ff0000; --ee5e0d96-contrast: #fff;"
                                  type="button">
                               <span class="v-btn__content"></span>
-                              <span class="v-ripple__container">
-                                   <span class="v-ripple__animation v-ripple__animation--visible v-ripple__animation--out"
-                                         data-activated="9261.342420995235"
-                                         data-is-hiding="true"
-                                         style="width: 0px; height: 0px; transform: translate(0px, 0px) scale3d(1,1,1); webkit-transform: translate(0px, 0px) scale3d(1,1,1);"></span>
-                              </span>
                          </button>
                     </div>
                     <div class="v-input__control">

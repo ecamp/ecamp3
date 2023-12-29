@@ -6,6 +6,7 @@
     width="30"
     height="30"
     :color="color"
+    :ripple="false"
     @click="$emit('selectColor', color)"
     v-on="$listeners"
   ></v-btn>
