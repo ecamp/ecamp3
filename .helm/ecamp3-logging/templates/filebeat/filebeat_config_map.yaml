@@ -16,22 +16,55 @@ data:
           - /var/log/containers/ecamp3-*.log
           - /var/log/containers/ingress-nginx-controller*.log
         processors:
+          - decode_json_fields:
+              fields: [ "message" ]
+              target: json
+              max_depth: 20
+              add_error_key: true
+
           - add_kubernetes_metadata:
               host: ${NODE_NAME}
               matchers:
                 - logs_path:
                     logs_path: "/var/log/containers/"
 
-    # To enable hints based autodiscover, remove `filebeat.inputs` configuration and uncomment this:
-    #filebeat.autodiscover:
-    #  providers:
-    #    - type: kubernetes
-    #      node: ${NODE_NAME}
-    #      hints.enabled: true
-    #      hints.default_config:
-    #        type: container
-    #        paths:
-    #          - /var/log/containers/*${data.kubernetes.container.id}.log
+          - copy_fields:
+              fields:
+                - from: json.httpRequest.requestUrl
+                  to: json.httpRequest.escapedUrl
+              fail_on_error: false
+              ignore_missing: true
+
+          - replace:
+              fields:
+                - field: json.httpRequest.escapedUrl
+                  pattern: "/[0-9a-f]{6,}/?"
+                  replacement: "/{id}/"
+              fail_on_error: false
+              ignore_missing: true
+
+          - replace:
+              fields:
+                - field: json.httpRequest.escapedUrl
+                  pattern: "%2F[0-9a-f]{6,}(%2F)?"
+                  replacement: "%2F{id}%2F"
+              fail_on_error: false
+              ignore_missing: true
+
+          - copy_fields:
+              fields:
+                - from: json.httpRequest.escapedUrl
+                  to: json.httpRequest.escapedUrlWithoutQuery
+              fail_on_error: false
+              ignore_missing: true
+
+          - replace:
+              fields:
+                - field: json.httpRequest.escapedUrlWithoutQuery
+                  pattern: "\\?.*$"
+                  replacement: ""
+              fail_on_error: false
+              ignore_missing: true
 
     processors:
       - add_cloud_metadata:
