@@ -3,6 +3,7 @@
 namespace App\Tests\Util;
 
 use App\Util\ArrayDeepSort;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -15,9 +16,7 @@ use function PHPUnit\Framework\equalTo;
 class ArrayDeepSortTest extends TestCase {
     use MatchesSnapshots;
 
-    /**
-     * @dataProvider getJsonFiles
-     */
+    #[DataProvider('getJsonFiles')]
     public function testSortsJson1AlwaysTheSame(string $jsonFileName) {
         $json1 = file_get_contents(__DIR__."/Resource/{$jsonFileName}");
         $array = json_decode($json1, true);

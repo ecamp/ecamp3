@@ -8,6 +8,7 @@ use App\Entity\Languages;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -62,9 +63,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }
 
-    /**
-     * @dataProvider allSupportedLanguages
-     */
+    #[DataProvider('allSupportedLanguages')]
     public function testSendInvitationMailDoesNotCrashForAllLanguages(string $language) {
         $this->user->profile->language = $language;
         $this->mailer->sendInviteToCampMail($this->user, $this->camp, self::INVITE_KEY, self::INVITE_MAIL);
@@ -115,9 +114,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }
 
-    /**
-     * @dataProvider allSupportedLanguages
-     */
+    #[DataProvider('allSupportedLanguages')]
     public function testSendUserActivationMailDoesNotCrashForAllLanguages(string $language) {
         $this->user->profile->language = $language;
         $this->user->profile->email = self::INVITE_MAIL;
@@ -151,9 +148,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, 'reset-password/some-id');
     }
 
-    /**
-     * @dataProvider allSupportedLanguages
-     */
+    #[DataProvider('allSupportedLanguages')]
     public function testSendResetPasswordMailDoesNotCrashForAllLanguages(string $language) {
         $this->user->profile->language = $language;
         $this->user->profile->email = self::INVITE_MAIL;
@@ -189,9 +184,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
     }
 
-    /**
-     * @dataProvider allSupportedLanguages
-     */
+    #[DataProvider('allSupportedLanguages')]
     public function testSendEmailVerificationMailDoesNotCrashForAllLanguages(string $language) {
         $this->user->profile->language = $language;
         $this->user->profile->untrustedEmail = self::INVITE_MAIL;
@@ -207,7 +200,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
     }
 
-    public function allSupportedLanguages() {
+    public static function allSupportedLanguages() {
         $result = [];
         foreach (Languages::SUPPORTED_LANGUAGES as $language) {
             $result[$language] = [$language];
