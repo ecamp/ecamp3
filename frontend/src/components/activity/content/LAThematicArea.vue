@@ -9,7 +9,7 @@
       outlined
       persistent-placeholder
       :error-messages="errorMessages"
-      :loading="isSaving"
+      :loading="savingRequestCount > 0"
       :disabled="layoutMode || disabled"
       :menu-props="{
         maxWidth: 'min(290px, calc(100vw - 32px))',
@@ -84,7 +84,6 @@ export default {
   data() {
     return {
       localSelection: [],
-      isSaving: false,
       savingRequestCount: 0,
       dirty: false,
       errorMessages: [],
@@ -133,7 +132,6 @@ export default {
   },
   methods: {
     onInput() {
-      this.isSaving = true
       this.dirty = true
       this.errorMessages = []
 
@@ -152,16 +150,8 @@ export default {
             ),
           },
         })
-        .then(() => {
-          this.savingRequestCount--
-          if (this.savingRequestCount === 0) {
-            this.isSaving = false
-          }
-        })
-        .catch((e) => {
-          this.isSaving = false
-          this.errorMessages.push(serverErrorToString(e))
-        })
+        .catch((e) => this.errorMessages.push(serverErrorToString(e)))
+        .finally(() => this.savingRequestCount--)
     },
     resetLocalData() {
       this.localSelection = [...this.serverSelection]
