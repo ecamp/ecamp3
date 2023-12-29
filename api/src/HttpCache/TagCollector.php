@@ -25,14 +25,13 @@ class TagCollector implements TagCollectorInterface {
      * @param array<string, mixed>&array{iri?: string, data?: mixed, object?: mixed, property_metadata?: \ApiPlatform\Metadata\ApiProperty, api_attribute?: string, resources?: array<string, string>} $context
      */
     public function collect(array $context = []): void {
-        $iri = $context['iri'];
-        $object = $context['object'];
+        $iri = array_key_exists('iri', $context) ? $context['iri'] : null;
 
-        if ($object instanceof BaseEntity) {
-            $iri = $object->getId();
+        if (array_key_exists('object', $context) && $context['object'] instanceof BaseEntity) {
+            $iri = $context['object']->getId();
         }
 
-        if (isset($context['property_metadata'])) {
+        if (array_key_exists('property_metadata', $context)) {
             $this->addCacheTagsForRelation($context, $iri, $context['property_metadata']);
         } elseif (\is_array($context['data'])) {
             $this->addCacheTagForResource($context, $iri);
