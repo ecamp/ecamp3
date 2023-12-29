@@ -4,6 +4,7 @@
       :uri="category._meta.self"
       fieldname="short"
       :name="$tc('entity.category.fields.short')"
+      :readonly="readonly"
       vee-rules="required"
     />
 
@@ -11,6 +12,7 @@
       :uri="category._meta.self"
       fieldname="name"
       :name="$tc('entity.category.fields.name')"
+      :readonly="readonly"
       vee-rules="required"
     />
 
@@ -18,6 +20,7 @@
       :uri="category._meta.self"
       fieldname="color"
       :name="$tc('entity.category.fields.color')"
+      :readonly="readonly"
       vee-rules="required"
     />
 
@@ -26,6 +29,7 @@
       fieldname="numberingStyle"
       :items="numberingStyles"
       :name="$tc('entity.category.fields.numberingStyle')"
+      :readonly="readonly"
       vee-rules="required"
     />
   </div>
@@ -36,6 +40,7 @@ export default {
   name: 'CategoryProperties',
   props: {
     category: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   computed: {
     numberingStyles() {

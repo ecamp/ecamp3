@@ -19,7 +19,23 @@
       </div>
     </slot>
     <v-list class="mx-n2">
-      <template v-if="disabled || !reorder">
+      <template v-if="disabled">
+        <v-list-item
+          v-for="(progressLabel, idx) in progressLabels"
+          :key="progressLabel._meta.self"
+          class="px-2 rounded"
+        >
+          <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
+            parseInt(idx) + 1
+          }}</v-avatar>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ progressLabel.title }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+      <template v-else-if="!disabled && !reorder">
         <DialogActivityProgressLabelEdit
           v-for="(progressLabel, idx) in progressLabels"
           :key="progressLabel._meta.self"

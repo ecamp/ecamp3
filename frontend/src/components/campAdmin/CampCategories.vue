@@ -28,7 +28,7 @@
       >
         <v-list-item-content>
           <v-list-item-title>
-            <CategoryChip :category="category">
+            <CategoryChip :category="category" class="pointer-events-none">
               (1.{{ category.numberingStyle }}) {{ category.short }}: {{ category.name }}
             </CategoryChip>
           </v-list-item-title>

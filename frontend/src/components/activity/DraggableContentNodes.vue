@@ -39,7 +39,7 @@
     </draggable>
 
     <button-nested-content-node-add
-      v-if="layoutMode"
+      v-if="layoutMode && !disabled"
       class="flex-grow-0"
       :layout-mode="layoutMode"
       :parent-content-node="parentContentNode"

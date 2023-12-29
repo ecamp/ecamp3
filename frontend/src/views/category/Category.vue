@@ -49,7 +49,7 @@
             </h3>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <CategoryProperties :category="category()" />
+            <CategoryProperties :category="category()" :readonly="!isManager" />
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -64,6 +64,7 @@
               :category="category()"
               :layout-mode="layoutMode"
               :loading="loading"
+              :readonly="!isManager"
             />
           </v-expansion-panel-content>
         </v-expansion-panel>

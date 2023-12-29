@@ -42,6 +42,7 @@
             v-else
             :content-node="category.rootContentNode()"
             :layout-mode="true"
+            :disabled="readonly"
           />
         </v-tab-item>
         <v-tab-item :value="false" :transition="null">
@@ -56,6 +57,7 @@
             v-else
             :content-node="category.rootContentNode()"
             :layout-mode="false"
+            :disabled="readonly"
           />
         </v-tab-item>
       </v-tabs-items>
@@ -66,13 +68,16 @@
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 
 export default {
   name: 'CategoryTemplate',
   components: { TogglePaperSize, CategoryChip, RootNode },
+  mixins: [campRoleMixin],
   props: {
     category: { type: Object, required: true },
     loading: { type: Boolean, default: false },
+    readonly: { type: Boolean, default: false },
   },
   data() {
     return {
