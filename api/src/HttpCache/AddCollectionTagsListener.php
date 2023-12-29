@@ -13,32 +13,29 @@ declare(strict_types=1);
 
 namespace App\HttpCache;
 
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
-use ApiPlatform\Util\RequestAttributesExtractor;
-use ApiPlatform\Util\OperationRequestInitiatorTrait;
-use ApiPlatform\State\UriVariablesResolverTrait;
-use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\State\UriVariablesResolverTrait;
+use ApiPlatform\State\Util\OperationRequestInitiatorTrait;
+use ApiPlatform\Util\RequestAttributesExtractor;
+use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-final class AddCollectionTagsListener
-{
+final class AddCollectionTagsListener {
     use OperationRequestInitiatorTrait;
     use UriVariablesResolverTrait;
 
-    public function __construct(private readonly IriConverterInterface $iriConverter, ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private SymfonyResponseTagger $responseTagger)
-    {
+    public function __construct(private readonly IriConverterInterface $iriConverter, ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private SymfonyResponseTagger $responseTagger) {
         $this->resourceMetadataCollectionFactory = $resourceMetadataCollectionFactory;
     }
 
-    public function onKernelResponse(ResponseEvent $event): void
-    {
+    public function onKernelResponse(ResponseEvent $event): void {
         $request = $event->getRequest();
         $operation = $this->initializeOperation($request);
 
-        if ( !$attributes = RequestAttributesExtractor::extractAttributes($request)) {
+        if (!$attributes = RequestAttributesExtractor::extractAttributes($request)) {
             return;
         }
 
@@ -49,7 +46,5 @@ final class AddCollectionTagsListener
 
             $this->responseTagger->addTags([$iri]);
         }
-
-     
     }
 }
