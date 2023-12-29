@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: kibana
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  ports:
+    - port: 5601
+  selector:
+    app: kibana
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
