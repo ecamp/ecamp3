@@ -3,10 +3,15 @@ kind: RoleBinding
 metadata:
   name: filebeat
   namespace: kube-system
+  labels:
+    app: filebeat
+    k8s-app: filebeat
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
     name: filebeat
-    namespace: kube-system
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
   name: filebeat
@@ -17,10 +22,15 @@ kind: RoleBinding
 metadata:
   name: filebeat-kubeadm-config
   namespace: kube-system
+  labels:
+    app: filebeat
+    k8s-app: filebeat
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
     name: filebeat
-    namespace: kube-system
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
   name: filebeat-kubeadm-config

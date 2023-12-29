@@ -2,23 +2,35 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: filebeat
+  # ClusterRole is a non-namespaces resource
+  # see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole
   labels:
+    app: filebeat
     k8s-app: filebeat
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
 rules:
-  - apiGroups: [""] # "" indicates the core API group
+  - apiGroups:
+      - ""
     resources:
-      - namespaces
       - pods
+      - namespaces
       - nodes
     verbs:
       - get
-      - watch
       - list
-  - apiGroups: ["apps"]
+      - watch
+  - apiGroups: [ "apps" ]
     resources:
       - replicasets
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["batch"]
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups: [ "batch" ]
     resources:
       - jobs
-    verbs: ["get", "list", "watch"]
+    verbs:
+      - get
+      - list
+      - watch

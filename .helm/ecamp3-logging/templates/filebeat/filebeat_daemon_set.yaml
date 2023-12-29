@@ -2,17 +2,26 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: filebeat
-  namespace: kube-system
+  namespace: {{ .Release.Namespace }}
   labels:
+    app: filebeat
     k8s-app: filebeat
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      k8s-app: filebeat
+      app: filebeat
   template:
     metadata:
       labels:
-        k8s-app: filebeat
+        app: filebeat
+        {{- include "app.commonLabels" . | nindent 8 }}
+        {{- include "app.commonSelectorLabels" . | nindent 8 }}
+      annotations:
+        # This deployment should be restarted whenever either the configmap or the secrets change
+        # because the containers depend on environment variables from these places during startup
+        checksum/config: {{ include (print $.Template.BasePath "/filebeat/filebeat_config_map.yaml") . | sha256sum }}
     spec:
       serviceAccountName: filebeat
       terminationGracePeriodSeconds: 30
@@ -27,31 +36,17 @@ spec:
           ]
           env:
             - name: ELASTICSEARCH_HOST
-              value: elasticsearch
+              value: "elasticsearch"
             - name: ELASTICSEARCH_PORT
               value: "9200"
-            - name: ELASTICSEARCH_USERNAME
-              value: elastic
-            - name: ELASTICSEARCH_PASSWORD
-              value: changeme
-            - name: ELASTIC_CLOUD_ID
-              value:
-            - name: ELASTIC_CLOUD_AUTH
-              value:
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
           securityContext:
             runAsUser: 0
-            # If using Red Hat OpenShift uncomment this:
-            #privileged: true
           resources:
-            limits:
-              memory: 200Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
+            {{- toYaml .Values.filebeat.resources | nindent 12 }}
           volumeMounts:
             - name: config
               mountPath: /etc/filebeat.yml
@@ -59,26 +54,24 @@ spec:
               subPath: filebeat.yml
             - name: data
               mountPath: /usr/share/filebeat/data
-            - name: varlibdockercontainers
-              mountPath: /var/lib/docker/containers
-              readOnly: true
-            - name: varlog
+            - name: host-logs
               mountPath: /var/log
+              readOnly: true
+            - name: container-logs
+              mountPath: /var/lib/docker/containers
               readOnly: true
       volumes:
         - name: config
           configMap:
             defaultMode: 0640
             name: filebeat-config
-        - name: varlibdockercontainers
-          hostPath:
-            path: /var/lib/docker/containers
-        - name: varlog
-          hostPath:
-            path: /var/log
-        # data folder stores a registry of read status for all files, so we don't send everything again on a Filebeat pod restart
         - name: data
           hostPath:
-            # When filebeat runs as non-root user, this directory needs to be writable by group (g+w).
             path: /var/lib/filebeat-data
             type: DirectoryOrCreate
+        - name: host-logs
+          hostPath:
+            path: /var/log
+        - name: container-logs
+          hostPath:
+            path: /var/lib/docker/containers
