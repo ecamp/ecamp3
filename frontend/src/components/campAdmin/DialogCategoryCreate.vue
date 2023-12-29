@@ -6,6 +6,7 @@
     icon="mdi-calendar-plus"
     :title="$tc('components.campAdmin.dialogCategoryCreate.title')"
     :submit-action="createCategory"
+    :submit-label="$tc('global.button.create')"
     submit-color="success"
     :cancel-action="close"
   >
@@ -60,7 +61,9 @@ export default {
     async createCategory() {
       const createdCategory = await this.create()
       await this.api.reload(this.camp.categories())
-      this.$router.push(categoryRoute(this.camp, createdCategory))
+      this.$router.push(
+        categoryRoute(this.camp, createdCategory, { configureTemplate: true })
+      )
     },
   },
 }

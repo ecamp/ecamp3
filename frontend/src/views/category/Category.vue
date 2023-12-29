@@ -1,0 +1,163 @@
+<template>
+  <v-container fluid>
+    <content-card v-if="category()" toolbar back class="mb-4">
+      <template #title>
+        <v-toolbar-title class="font-weight-bold">
+          <CategoryChip :category="category()" dense large />
+          {{ category().name }}
+        </v-toolbar-title>
+      </template>
+      <template #title-actions>
+        <v-menu v-if="isManager" offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <DialogEntityDelete
+              :entity="category()"
+              :warning-text-entity="category().name"
+              :dialog-title="$tc('views.category.category.deleteCategory')"
+              @submit="goToActivityAdmin"
+            >
+              <template #activator="{ on }">
+                <v-list-item v-on="on">
+                  <v-list-item-icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    {{ $tc('views.category.category.deleteCategory') }}
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
+              <template v-if="findActivities(category()).length > 0" #error>
+                <ErrorExistingActivitiesList
+                  :camp="camp()"
+                  :existing-activities="findActivities(category())"
+                />
+              </template>
+            </DialogEntityDelete>
+          </v-list>
+        </v-menu>
+      </template>
+      <v-expansion-panels :value="openPanels" flat multiple accordion>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h3>
+              {{ $tc('views.category.category.properties') }}
+            </h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <CategoryProperties :category="category()" />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h3>
+              {{ $tc('views.category.category.template') }}
+            </h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <CategoryTemplate
+              :category="category()"
+              :layout-mode="layoutMode"
+              :loading="loading"
+            />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </content-card>
+  </v-container>
+</template>
+
+<script>
+import ContentCard from '@/components/layout/ContentCard.vue'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import { rangeShort } from '../../common/helpers/dateHelperUTCFormatted.js'
+import CategoryProperties from '@/components/category/CategoryProperties.vue'
+import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
+import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingActivitiesList.vue'
+
+export default {
+  name: 'Category',
+  components: {
+    ErrorExistingActivitiesList,
+    CategoryTemplate,
+    CategoryProperties,
+    DialogEntityDelete,
+    CategoryChip,
+    ContentCard,
+  },
+  mixins: [campRoleMixin],
+  provide() {
+    return {
+      preferredContentTypes: () => this.preferredContentTypes,
+      allContentNodes: () => this.contentNodes,
+      camp: () => this.camp(),
+    }
+  },
+  props: {
+    camp: {
+      type: Function,
+      required: true,
+    },
+    category: {
+      type: Function,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      layoutMode: true,
+      loading: true,
+      openPanels: [0, 1],
+    }
+  },
+  computed: {
+    contentNodes() {
+      return this.category().contentNodes()
+    },
+    preferredContentTypes() {
+      return this.category().preferredContentTypes()
+    },
+  },
+
+  // reload data every time user navigates to Category view
+  async mounted() {
+    if (new URL(window.location).searchParams.get('configureTemplate') === 'true') {
+      this.openPanels = [1]
+    }
+    this.loading = true
+    await this.category()._meta.load // wait if category is being loaded as part of a collection
+    await this.category().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
+    this.loading = false
+  },
+  methods: {
+    translate(...args) {
+      return this.$tc(...args)
+    },
+    rangeShort,
+    findActivities(category) {
+      return this.camp()
+        .activities()
+        .items.filter(
+          (activity) => activity.category()._meta.self === category._meta.self
+        )
+    },
+    goToActivityAdmin() {
+      this.$router.push({ name: 'admin/activity', params: { campId: this.camp().id } })
+    },
+  },
+}
+</script>
+
+<style scoped>
+.list {
+  list-style: none;
+  padding-left: 0;
+}
+</style>

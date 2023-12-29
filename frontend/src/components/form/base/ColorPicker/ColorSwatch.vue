@@ -6,7 +6,8 @@
     width="30"
     height="30"
     :color="color"
-    @click="picker.onInput(color)"
+    @click="$emit('selectColor', color)"
+    v-on="$listeners"
   ></v-btn>
 </template>
 <script>
@@ -15,7 +16,6 @@ import { contrastColor } from '@/common/helpers/colors.js'
 export default {
   name: 'ColorSwatch',
   props: {
-    picker: { type: Object, required: true },
     color: { type: String, required: true },
   },
   computed: {

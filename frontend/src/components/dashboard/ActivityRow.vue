@@ -49,10 +49,9 @@
     <td v-if="!scheduleEntry._meta.loading" class="w-100 contentrow">
       <router-link
         :to="routerLink"
-        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium"
+        class="e-title-link e-title-link--hover-only font-weight-medium"
+        >{{ title }}</router-link
       >
-        {{ title }}
-      </router-link>
 
       <span v-if="$vuetify.breakpoint.mdAndUp" class="e-subtitle e-subtitle--smaller">
         {{ progressLabel }}
@@ -136,7 +135,7 @@ export default {
     },
     routerLink() {
       return {
-        name: 'activity',
+        name: 'scheduleEntry',
         params: {
           campId: this.scheduleEntry.period().camp().id,
           scheduleEntryId: this.scheduleEntry.id,

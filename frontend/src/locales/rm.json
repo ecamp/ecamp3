@@ -48,7 +48,6 @@
       },
       "campCategories": {
         "create": "Crear ina categoria dad activitad",
-        "deleteCategoryNotPossibleInUse": "Impussibel da stizzar la categoria d'activitad. Ella vegn anc utilisada:",
         "deleteCategoryQuestion": "Vuls ti propi stizzar questa categoria d'activitad?",
         "editLayout": "Modifitgar il model",
         "title": "Categorias d'activitads"
@@ -315,8 +314,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Propi stizzar?",
-        "warningText": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
+        "title": "Propi stizzar?"
       }
     },
     "toast": {
@@ -408,6 +406,9 @@
       "greaterThanOrEqual_date": "{_field_} na dastga betg esser avant {min}",
       "greaterThan_time": "{_field_} sto esser suenter {min}",
       "lessThanOrEqual_date": "{_field_} na dastga betg esser suenter {max}"
+    },
+    "warning": {
+      "delete": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
     }
   },
   "views": {
@@ -601,6 +602,12 @@
       "pastCamps": "Champs vegls",
       "prototypeCamps": "Models",
       "title": "Mes champs"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Stizzar la categoria",
+        "deleteCategoryNotPossibleInUse": "Impussibel da stizzar la categoria d'activitad. Ella vegn anc utilisada:"
+      }
     },
     "material": {
       "materialOverview": {

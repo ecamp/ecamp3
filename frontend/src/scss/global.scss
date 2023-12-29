@@ -65,12 +65,37 @@ body {
   }
 
   .e-title-link {
-    color: #000;
+    color: inherit;
+    text-underline-offset: 0.1em;
     text-decoration-color: #1976d2;
+    outline-offset: 0.2em;
+
+    &:focus {
+      text-decoration-line: none;
+    }
 
     &:hover {
       text-decoration-thickness: 2px;
     }
+
+    &.e-title-link--hover-only {
+      text-decoration-line: none;
+
+      &:hover {
+        text-decoration-line: underline;
+        text-decoration-thickness: 1px;
+      }
+    }
+  }
+
+  .v-alert.warning--text {
+    .v-alert__icon {
+      color: #d25f00 !important;
+    }
+    .v-alert__content {
+      color: #972e00 !important;
+    }
+    border-color: #ffe0b2 !important;
   }
 }
 .tabular-nums {
@@ -115,6 +140,10 @@ body {
 .v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot:after {
   border-color: transparent !important;
   background-color: transparent !important;
+}
+
+.v-list-item--link:before {
+  border-radius: inherit;
 }
 
 .v-list-item__title {

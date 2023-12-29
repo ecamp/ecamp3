@@ -282,7 +282,7 @@ export default {
         url = url.substring(window.location.origin.length)
         const match = router.matcher.match(url)
 
-        if (match.name == 'activity') {
+        if (match.name == 'scheduleEntry') {
           const scheduleEntry = await this.api
             .get()
             .scheduleEntries({ id: match.params['scheduleEntryId'] })

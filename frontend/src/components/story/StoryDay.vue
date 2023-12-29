@@ -14,7 +14,7 @@
               </span>
               <router-link
                 :to="{
-                  name: 'activity',
+                  name: 'scheduleEntry',
                   params: {
                     campId: day.period().camp().id,
                     scheduleEntryId: scheduleEntry.id,

@@ -93,32 +93,7 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <v-tooltip bottom>
-        <template #activator="{ on }">
-          <v-btn
-            text
-            icon
-            class="d-none d-md-block"
-            :aria-label="
-              isPaperDisplaySize
-                ? $tc('components.activity.scheduleEntry.switchToFullSize')
-                : $tc('components.activity.scheduleEntry.switchToPaperSize')
-            "
-            @click="toggleDisplaySize"
-            v-on="on"
-          >
-            <v-icon v-if="isPaperDisplaySize" class="resize-icon"
-              >$vuetify.icons.bigScreen</v-icon
-            >
-            <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
-          </v-btn>
-        </template>
-        {{
-          isPaperDisplaySize
-            ? $tc('components.activity.scheduleEntry.switchToFullSize')
-            : $tc('components.activity.scheduleEntry.switchToPaperSize')
-        }}
-      </v-tooltip>
+      <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
@@ -271,18 +246,19 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import { periodRoute, scheduleEntryRoute } from '@/router.js'
-import router from '@/router.js'
+import router, { periodRoute, scheduleEntryRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    TogglePaperSize,
     DialogEntityDelete,
     ContentCard,
     ApiTextField,
@@ -449,10 +425,5 @@ export default {
 
 .ec-schedule-entry {
   transition: max-width 0.7s ease;
-}
-
-.resize-icon,
-.resize-icon :deep(svg) {
-  width: 28px !important;
 }
 </style>

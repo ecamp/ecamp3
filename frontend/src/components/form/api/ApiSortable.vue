@@ -1,19 +1,23 @@
 <template>
   <draggable
-    v-model="localSortedKeys"
+    v-model="localSortedItems"
     ghost-class="ghost"
     handle=".drag-and-drop-handle"
     :animation="200"
     :force-fallback="true"
     :disabled="disabled"
-    @sort="onSort"
     @start="dragging = true"
     @end="dragging = false"
+    @update="finishDrag"
   >
     <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
     <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
-      <div v-for="key in localSortedKeys" :key="key">
-        <slot :item-key="key" :item="items[key]" :on="eventHandlers" />
+      <div
+        v-for="(item, i) in localSortedItems"
+        :key="item._meta.self"
+        :data-href="item._meta.self"
+      >
+        <slot :item-position="i" :item="item" />
       </div>
     </transition-group>
   </draggable>
@@ -21,57 +25,48 @@
 
 <script>
 import draggable from 'vuedraggable'
-import { isEqual } from 'lodash'
+import { every, sortBy } from 'lodash'
+import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 
 export default {
-  name: 'ApiSortable', // TODO: consider renaming the component, as the logic of this compoentn is now independent of the API itself
+  name: 'ApiSortable',
   components: {
     draggable,
   },
   props: {
-    items: { type: Object, required: true },
+    endpoint: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
   },
   data() {
     return {
       dragging: false,
       dirty: false,
-      localSortedKeys: [],
-      eventHandlers: {
-        moveUp: this.moveUp,
-        moveDown: this.moveDown,
-        delete: this.delete,
-      },
+      savingRequest: 0,
+      localSortedItems: [],
     }
   },
   computed: {
     // keys within items property, sorted by position (and key as fallback)
-    sortedKeys() {
-      return Object.keys(this.items).sort((keyA, keyB) => {
-        const positionA = this.items[keyA].position
-        const positionB = this.items[keyB].position
-
-        if (positionA !== positionB) {
-          // firstly: sort by position property
-          return positionA - positionB
-        } else {
-          // secondly: sort by id (string compare)
-          return keyA.localeCompare(keyB)
-        }
-      })
+    sortedItems() {
+      return sortBy(this.endpoint.items, 'position')
     },
   },
   watch: {
-    sortedKeys: {
-      handler: function (sortedKeys) {
+    sortedItems: {
+      handler: function (newItems) {
         // update local sorting with external sorting if not dirty
         // or if number of items don't match (new incoming items or deleted items)
-        if (!this.dirty || sortedKeys.length !== this.localSortedKeys.length) {
-          this.localSortedKeys = sortedKeys
+        if (!this.dirty || newItems.length !== this.localSortedItems.length) {
+          this.localSortedItems = newItems
           this.dirty = false
 
           // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
-        } else if (isEqual(this.localSortedKeys, sortedKeys)) {
+        } else if (
+          every(
+            this.localSortedItems,
+            (item, key) => item._meta.self === newItems[key]._meta.self
+          )
+        ) {
           this.dirty = false
         }
       },
@@ -79,68 +74,23 @@ export default {
     },
   },
   methods: {
-    async moveUp(key) {
-      this.swapPosition(key, -1)
-    },
-    async moveDown(key) {
-      this.swapPosition(key, +1)
-    },
+    async finishDrag(event) {
+      this.dirty = true
+      this.savingRequest++
+      // patch content node location
+      await this.api
+        .patch(event.item.dataset.href, {
+          position: event.newDraggableIndex + 1,
+        })
+        .catch((e) => {
+          this.$toast.error(errorToMultiLineToast(e))
+        })
+        .finally(() => this.endpoint.$reload())
 
-    // swaps position of entity with the element which is deltaPosition down/ahead in the list
-    async swapPosition(key, deltaPosition) {
-      const list = this.localSortedKeys
-      const oldIndex = list.indexOf(key)
-
-      const newIndex = oldIndex + deltaPosition
-
-      // newIndex has the be within the list (cannot move first element up or last element down)
-      if (newIndex >= 0 && newIndex < list.length) {
-        // swap spaces in sortedKeys
-        const movingListItem = list[oldIndex]
-        this.$set(list, oldIndex, list[newIndex])
-        this.$set(list, newIndex, movingListItem)
-
-        this.onSort()
+      this.savingRequest--
+      if (this.savingRequest === 0) {
+        this.dirty = false
       }
-    },
-
-    async delete(key) {
-      this.dirty = true
-
-      // remove item from array of sorted keys
-      const indexToDelete = this.localSortedKeys.indexOf(key)
-      this.localSortedKeys.splice(indexToDelete, 1)
-
-      // generate positions
-      const payload = this.recalculatePositions()
-
-      // replace deleted item with null value
-      payload[key] = null
-
-      this.$emit('sort', payload)
-    },
-
-    /**
-     * Triggers on every sorting change
-     */
-    onSort() {
-      this.dirty = true
-
-      this.$emit('sort', this.recalculatePositions())
-    },
-
-    /**
-     * Recalculates position properties based on current sorting and prepares patch payload
-     */
-    recalculatePositions() {
-      const payload = {}
-      let position = 1
-      this.localSortedKeys.forEach((key) => {
-        payload[key] = { position }
-        position++
-      })
-
-      return payload
     },
   },
 }

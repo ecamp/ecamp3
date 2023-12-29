@@ -3,7 +3,6 @@ Displays a field as a color picker (can be used with v-model)
 -->
 <template>
   <base-picker
-    icon="mdi-palette"
     :icon-color="value"
     :value="value"
     v-bind="$attrs"
@@ -15,6 +14,9 @@ Displays a field as a color picker (can be used with v-model)
     open-on-text-field-click
     @input="$emit('input', $event)"
   >
+    <template #prepend="{ color, attrs, on }">
+      <ColorSwatch class="mt-n1" :color="color" v-bind="attrs" v-on="on" />
+    </template>
     <template #default="picker">
       <v-card :style="{ '--picker-contrast-color': contrast }" data-testid="colorpicker">
         <v-color-picker
@@ -24,21 +26,12 @@ Displays a field as a color picker (can be used with v-model)
         />
         <v-divider />
         <div class="d-flex gap-2 pa-4 flex-wrap">
-          <ColorSwatch color="#90B7E4" :picker="picker" />
-          <ColorSwatch color="#6EDBE9" :picker="picker" />
-          <ColorSwatch color="#4dbb52" :picker="picker" />
-          <ColorSwatch color="#FF9800" :picker="picker" />
-          <ColorSwatch color="#FD7A7A" :picker="picker" />
-          <ColorSwatch color="#d584e9" :picker="picker" />
-          <ColorSwatch color="#BBBBBB" :picker="picker" />
-
-          <ColorSwatch color="#1964B1" :picker="picker" />
-          <ColorSwatch color="#1E86CA" :picker="picker" />
-          <ColorSwatch color="#3DB842" :picker="picker" />
-          <ColorSwatch color="#F1810D" :picker="picker" />
-          <ColorSwatch color="#C71A1A" :picker="picker" />
-          <ColorSwatch color="#CF3BD6" :picker="picker" />
-          <ColorSwatch color="#575757" :picker="picker" />
+          <ColorSwatch
+            v-for="color in swatches"
+            :key="color"
+            :color="color"
+            @selectColor="picker.onInput"
+          />
         </div>
       </v-card>
     </template>
@@ -63,6 +56,25 @@ export default {
   props: {
     value: { type: String, required: true },
   },
+  data: () => ({
+    swatches: [
+      '#90B7E4',
+      '#6EDBE9',
+      '#4dbb52',
+      '#FF9800',
+      '#FD7A7A',
+      '#d584e9',
+      '#BBBBBB',
+
+      '#1964B1',
+      '#1E86CA',
+      '#3DB842',
+      '#F1810D',
+      '#C71A1A',
+      '#CF3BD6',
+      '#575757',
+    ],
+  }),
   computed: {
     contrast() {
       // Vuetify returns invalid value #NANNAN in the initialization phase

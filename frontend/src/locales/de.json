@@ -21,11 +21,11 @@
         }
       },
       "copyActivityInfoDialog": {
-        "title": "Aktivität kopieren & einfügen",
-        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "allow": "Jetzt erlauben",
         "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
-        "granted": "Du kannst nun kopierte Aktivitäten einfügen."
+        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
+        "title": "Aktivität kopieren & einfügen"
       },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
@@ -34,7 +34,9 @@
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "copyScheduleEntry": "Aktivität kopieren",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Zum Breitformat umschalten",
         "switchToPaperSize": "Zum Papierformat umschalten"
       }
@@ -54,14 +56,15 @@
         "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
         "moveDown": "Nach unten",
         "moveUp": "Nach oben",
-        "title": "Block-Status"
+        "title": "Block-Status",
+        "exit": "Umsortieren verlassen",
+        "reorder": "Umsortieren"
       },
       "campAddress": {
         "title": "Lageradresse"
       },
       "campCategories": {
         "create": "Block-Kategorie erstellen",
-        "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
         "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "editLayout": "Vorlage bearbeiten",
         "title": "Block-Kategorien"
@@ -133,6 +136,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Aktivitäten verschieben"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Kann nicht gelöscht werden. Wird noch von folgenden Aktivitäten verwendet:"
       }
     },
     "campCreate": {
@@ -161,6 +167,13 @@
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
         "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
+      }
+    },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Inhalte",
+        "layout": "Layout",
+        "noTemplate": "Keine Inhalte"
       }
     },
     "collaborator": {
@@ -332,11 +345,11 @@
     },
     "program": {
       "dialogActivityCreate": {
-        "clipboard": "Zwischenablage",
-        "copyPastActivity": "Aktivität kopieren & einfügen",
         "clearClipboard": "Zwischenablage leeren",
+        "clipboard": "Zwischenablage",
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
+        "copyPastActivity": "Aktivität kopieren & einfügen",
         "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
       },
@@ -365,8 +378,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
+        "title": "Wirklich löschen?"
       }
     },
     "toast": {
@@ -463,17 +475,13 @@
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
       "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
+    },
+    "warning": {
+      "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
     }
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Vorlage-Layout ändern",
-        "contents": "Inhalte",
-        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
-        "editContents": "Vorlage-Inhalt ändern",
-        "layout": "Layout"
-      },
       "printPreview": "Druckvorschau öffnen",
       "sideBarProgram": {
         "title": "Tagesübersicht"
@@ -649,6 +657,20 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
+    },
+    "category": {
+      "category": {
+        "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
+        "deleteCategory": "Kategorie löschen",
+        "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
+        "layout": "Layout",
+        "properties": "Eigenschaften",
+        "template": "Vorlage für neue Blöcke"
+      },
+      "sideBarCategory": {
+        "title": "Kategorien"
+      }
     },
     "material": {
       "materialLists": {

@@ -12,7 +12,7 @@
     <template #activator="{ attrs, on }">
       <slot name="activator" v-bind="{ attrs, on }" />
     </template>
-    <div class="ec-activator" @click="open = false">
+    <div class="ec-activator v-card__actions" @click="open = false">
       <slot name="activator" />
     </div>
     <v-alert
@@ -47,6 +47,7 @@
           :color="submitColor"
           type="submit"
           :loading="isSaving"
+          :disabled="!submitEnabled"
           @click="doSubmit"
         >
           <v-icon v-if="!!submitIcon" left>
