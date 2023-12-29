@@ -8,6 +8,9 @@
             "removeColumn": "Leere Spalte entfernen"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Themenbereich auswählen"
+        },
         "storyboard": {
           "controls": "Aktionen",
           "reorder": "Verschieben",
