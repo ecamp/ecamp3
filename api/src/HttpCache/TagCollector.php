@@ -4,49 +4,48 @@ declare(strict_types=1);
 
 namespace App\HttpCache;
 
-use Symfony\Component\PropertyInfo\Type;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
-use App\HttpCache\PurgeHttpCacheListener;
-use App\Entity\BaseEntity;
-use ApiPlatform\Serializer\TagCollectorInterface;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Serializer\TagCollectorInterface;
+use App\Entity\BaseEntity;
+use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 
 /**
  * Collects cache tags during normalization.
  *
  * @author Urban Suppiger <urban@suppiger.net>
  */
-class TagCollector implements TagCollectorInterface
-{
+class TagCollector implements TagCollectorInterface {
     public const IRI_RELATION_DELIMITER = '#';
 
-    public function __construct(private SymfonyResponseTagger $responseTagger){
+    public function __construct(private SymfonyResponseTagger $responseTagger) {}
 
-    }
+    /**
+     * Collect cache tags for cache invalidation.
+     *
+     * @param array<string, mixed>&array{iri?: string, data?: mixed, object?: mixed, property_metadata?: \ApiPlatform\Metadata\ApiProperty, api_attribute?: string, resources?: array<string, string>} $context
+     */
+    public function collect(array $context = []): void {
+        $iri = $context['iri'];
+        $object = $context['object'];
 
-    public function collect(mixed $object = null, string $format = null, array $context = [], string $iri = null, mixed $data = null, string $attribute = null, ApiProperty $propertyMetadata = null, Type $type = null): void
-    {
-        if($object instanceof BaseEntity){
+        if ($object instanceof BaseEntity) {
             $iri = $object->getId();
         }
-        
-        if($attribute){
-            $this->addCacheTagsForRelation($context, $iri, $propertyMetadata);
-        }
-        elseif(is_array($data)){
+
+        if (isset($context['property_metadata'])) {
+            $this->addCacheTagsForRelation($context, $iri, $context['property_metadata']);
+        } elseif (\is_array($context['data'])) {
             $this->addCacheTagForResource($context, $iri);
         }
     }
 
-    private function addCacheTagForResource(array $context, ?string $iri): void
-    {
+    private function addCacheTagForResource(array $context, ?string $iri): void {
         if (isset($iri)) {
             $this->responseTagger->addTags([$iri]);
         }
     }
 
-    private function addCacheTagsForRelation(array $context, ?string $iri, ApiProperty $propertyMetadata): void
-    {
+    private function addCacheTagsForRelation(array $context, ?string $iri, ApiProperty $propertyMetadata): void {
         if (isset($iri)) {
             if (isset($propertyMetadata->getExtraProperties()['cacheDependencies'])) {
                 foreach ($propertyMetadata->getExtraProperties()['cacheDependencies'] as $dependency) {
