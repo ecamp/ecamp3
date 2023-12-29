@@ -72,6 +72,16 @@ body {
       text-decoration-thickness: 2px;
     }
   }
+
+  .v-alert.warning--text {
+    .v-alert__icon {
+      color: #d25f00 !important;
+    }
+    .v-alert__content {
+      color: #972e00 !important;
+    }
+    border-color: #ffe0b2 !important;
+  }
 }
 .tabular-nums {
   font-variant-numeric: tabular-nums;
