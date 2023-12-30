@@ -26,7 +26,9 @@
       "scheduleEntry": {
         "backToContents": "Retour à l'édition du contenu",
         "changeLayout": "Changer la mise en page",
-        "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé.",
+        "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Passer au format large",
         "switchToPaperSize": "Passer au format papier"
       }

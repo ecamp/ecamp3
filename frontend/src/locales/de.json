@@ -34,7 +34,9 @@
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "copyScheduleEntry": "Aktivität kopieren",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Zum Breitformat umschalten",
         "switchToPaperSize": "Zum Papierformat umschalten"
       }

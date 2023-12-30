@@ -34,7 +34,9 @@
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
         "copyScheduleEntry": "Copy activity",
-        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
+        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Switch to full size",
         "switchToPaperSize": "Switch to paper size"
       }
