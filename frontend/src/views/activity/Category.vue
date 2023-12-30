@@ -43,6 +43,7 @@
           v-if="!loading"
           :content-node="category().rootContentNode()"
           :layout-mode="layoutMode"
+          :disabled="!isManager"
         />
       </v-card-text>
     </content-card>
@@ -53,6 +54,7 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 
 export default {
   name: 'Category',
@@ -61,6 +63,7 @@ export default {
     ContentCard,
     RootNode,
   },
+  mixins: [campRoleMixin],
   provide() {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
