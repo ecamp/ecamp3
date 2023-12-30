@@ -2,12 +2,13 @@
 
 namespace App\Tests\Integration\Serializer\Normalizer;
 
-use ApiPlatform\Hal\Serializer\ConstraintViolationListNormalizer as HalConstraintViolationListNormalizer;
 use ApiPlatform\Hydra\Serializer\ConstraintViolationListNormalizer as HydraConstraintViolationListNormalizer;
+use ApiPlatform\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestAssertionsTrait;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer;
 use App\Validator\AllowTransition\AssertAllowTransitions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Validator\Constraint;
@@ -39,9 +40,8 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
     /**
      * @throws ExceptionInterface
      * @throws \Exception
-     *
-     * @dataProvider getFormats()
      */
+    #[DataProvider('getFormats')]
     public function testAddsTranslationKeyAndParameters(string $format) {
         $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
 
@@ -51,7 +51,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
             []
         );
 
-        self::assertArraySubset([
+        self::assertArraySubset(['violations' => [
             [
                 'i18n' => [
                     'key' => 'app.validator.allowtransition.assertallowtransitions',
@@ -81,15 +81,14 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                     'parameters' => [],
                 ],
             ],
-        ], $result);
+        ]], $result);
     }
 
     /**
      * @throws ExceptionInterface
      * @throws \Exception
-     *
-     * @dataProvider getFormats()
      */
+    #[DataProvider('getFormats')]
     public function testAddsTranslations(string $format) {
         $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
 
@@ -99,7 +98,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
             []
         );
 
-        self::assertArraySubset([
+        self::assertArraySubset(['violations' => [
             [
                 'i18n' => [
                     'translations' => [
@@ -146,12 +145,12 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                     ],
                 ],
             ],
-        ], $result);
+        ]], $result);
     }
 
     public static function getFormats() {
         $hydra = HydraConstraintViolationListNormalizer::FORMAT;
-        $problem = HalConstraintViolationListNormalizer::FORMAT;
+        $problem = JsonProblemConstraintViolationListNormalizer::FORMAT;
 
         return [
             $hydra => [$hydra],

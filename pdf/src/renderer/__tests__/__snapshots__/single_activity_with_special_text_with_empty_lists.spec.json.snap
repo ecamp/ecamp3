@@ -1,0 +1,612 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": "LS",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "category-label schedule-entry-category-label",
+                        "style": {
+                          "backgroundColor": "#4DBB52",
+                          "color": "#000",
+                        },
+                      },
+                      "style": {
+                        "alignSelf": "center",
+                        "backgroundColor": "#4DBB52",
+                        "borderRadius": "50%",
+                        "color": "#000",
+                        "fontSize": "12pt",
+                        "lineHeight": "1",
+                        "margin": "4pt 0",
+                        "padding": "2pt 8pt 4pt",
+                      },
+                      "type": "TEXT",
+                    },
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": "2.1 Morgenturnen",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "bookmark": "LS 2.1 Morgenturnen",
+                        "class": "schedule-entry-number-and-title",
+                        "id": "entry-0-51c110ddd923",
+                      },
+                      "style": {
+                        "margin": "4pt 4pt",
+                        "maxWidth": "345pt",
+                      },
+                      "type": "TEXT",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-title",
+                    "id": "scheduleEntry_51c110ddd923",
+                  },
+                  "style": {
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flexGrow": "1",
+                    "fontSize": "14",
+                    "fontWeight": "semibold",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "Sat 5/11/2024 7:30 AM - 8:00 AM",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-date",
+                  },
+                  "style": {
+                    "fontSize": "11pt",
+                  },
+                  "type": "TEXT",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "schedule-entry-header-title",
+                "style": {
+                  "borderBottomColor": "#4DBB52",
+                },
+              },
+              "style": {
+                "alignItems": "baseline",
+                "borderBottom": "2pt solid #aaaaaa",
+                "borderBottomColor": "#4DBB52",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingBottom": "2pt",
+              },
+              "type": "VIEW",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {},
+                          "style": {},
+                          "type": "TEXT",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "schedule-entry-header-metadata-entry",
+                      },
+                      "style": {
+                        "alignItems": "flex-start",
+                        "columnGap": "6pt",
+                        "flexDirection": "row",
+                      },
+                      "type": "VIEW",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-header-metadata",
+                  },
+                  "style": {
+                    "padding": "2pt 0",
+                    "width": "50%",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-header-divider",
+                  },
+                  "style": {
+                    "borderLeft": "0.5pt solid black",
+                    "marginLeft": "3.5pt",
+                    "paddingLeft": "5pt",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "entity.activity.fields.responsible:",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "schedule-entry-header-metadata-label",
+                            "key": 0,
+                          },
+                          "style": {
+                            "flexGrow": "0",
+                            "flexShrink": "0",
+                            "fontWeight": "semibold",
+                          },
+                          "type": "TEXT",
+                        },
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": "x@z.com",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "TEXT",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "key": 1,
+                            "style": {
+                              "display": "flex",
+                              "flex-direction": "row",
+                              "flex-wrap": "wrap",
+                              "max-width": "200pt",
+                            },
+                          },
+                          "style": {
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "flexWrap": "wrap",
+                            "maxWidth": "200pt",
+                          },
+                          "type": "VIEW",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "schedule-entry-header-metadata-entry",
+                      },
+                      "style": {
+                        "alignItems": "flex-start",
+                        "columnGap": "6pt",
+                        "flexDirection": "row",
+                      },
+                      "type": "VIEW",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-header-metadata",
+                  },
+                  "style": {
+                    "padding": "2pt 0",
+                    "width": "50%",
+                  },
+                  "type": "VIEW",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "schedule-entry-header",
+                "key": 0,
+              },
+              "style": {
+                "borderBottom": "0.5pt solid black",
+                "display": "flex",
+                "flexDirection": "row",
+                "fontSize": "10pt",
+                "justifyContent": "space-between",
+                "marginBottom": "10pt",
+              },
+              "type": "VIEW",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "minPresenceAhead": 75,
+            "wrap": false,
+          },
+          "style": {},
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [],
+                  "parent": [Circular],
+                  "props": {
+                    "style": {
+                      "borderLeft": "none",
+                      "flexBasis": "9000pt",
+                      "padding": "2pt 1% 2pt 0",
+                    },
+                  },
+                  "style": {
+                    "borderLeft": "none",
+                    "flexBasis": "9000pt",
+                    "padding": "2pt 1% 2pt 0",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "contentNode.notes.name",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "content-node-instance-name",
+                          },
+                          "style": {
+                            "borderBottom": "1.5pt solid black",
+                            "fontSize": "11pt",
+                            "fontWeight": "bold",
+                            "marginBottom": "1pt",
+                            "paddingBottom": "3pt",
+                          },
+                          "type": "TEXT",
+                        },
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": "another text",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "p",
+                              },
+                              "style": {
+                                "marginBottom": "2pt",
+                              },
+                              "type": "TEXT",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " ",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "TEXT",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "
+                ",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "style": {
+                                      "marginLeft": "4pt",
+                                    },
+                                  },
+                                  "style": {
+                                    "marginLeft": "4pt",
+                                  },
+                                  "type": "VIEW",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "type": "TEXT_INSTANCE",
+                                      "value": " ",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " ",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "TEXT",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "type": "TEXT_INSTANCE",
+                                      "value": " ",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " ",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "TEXT",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "type": "TEXT_INSTANCE",
+                                      "value": " ",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " ",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "TEXT",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": "this text should appear",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "p",
+                              },
+                              "style": {
+                                "marginBottom": "2pt",
+                              },
+                              "type": "TEXT",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "style": {
+                              "line-height": "1.4",
+                            },
+                          },
+                          "style": {
+                            "lineHeight": "1.4",
+                          },
+                          "type": "VIEW",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "content-node",
+                      },
+                      "style": {
+                        "marginBottom": "6pt",
+                      },
+                      "type": "VIEW",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "style": {
+                      "borderLeft": "1pt solid black",
+                      "flexBasis": "3000pt",
+                      "padding": "2pt 0 2pt 1%",
+                    },
+                  },
+                  "style": {
+                    "borderLeft": "1pt solid black",
+                    "flexBasis": "3000pt",
+                    "padding": "2pt 0 2pt 1%",
+                  },
+                  "type": "VIEW",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "column-layout-container",
+                "key": 0,
+              },
+              "style": {
+                "display": "flex",
+                "flexDirection": "row",
+              },
+              "type": "VIEW",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "font-size": "10pt",
+              "padding-bottom": "20pt",
+            },
+          },
+          "style": {
+            "fontSize": "10pt",
+            "paddingBottom": "20pt",
+          },
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "class": "page activity-page",
+        "id": "entry-0",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "8pt",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {
+    "locale": "de",
+    "pdfVersion": "1.7",
+    "store": {
+      "get": [Function],
+      "href": [Function],
+    },
+    "tc": [Function],
+  },
+  "style": {},
+  "type": "DOCUMENT",
+}

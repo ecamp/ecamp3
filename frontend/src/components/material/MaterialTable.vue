@@ -4,6 +4,8 @@
     :headers="tableHeaders"
     :items="materialItemsData"
     :disable-pagination="true"
+    :disable-filtering="layoutMode"
+    :disable-sort="layoutMode"
     mobile-breakpoint="0"
     item-class="rowClass"
     class="transparent"
@@ -143,6 +145,7 @@
         v-if="showFilter()"
         class="ec-material-table__filterbutton"
         :class="{ 'primary--text': activeFilter }"
+        :disabled="layoutMode"
         @click="updateFilter"
       >
         <span>

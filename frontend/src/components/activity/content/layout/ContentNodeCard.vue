@@ -1,12 +1,12 @@
 <template>
   <v-card
     :elevation="draggable ? 4 : 0"
-    :tile="draggable ? null : true"
-    class="d-flex flex-column"
-    :class="{ 'mx-2 my-2': draggable }"
+    :tile="!layoutMode"
+    class="ec-content-nodecard d-flex flex-column"
+    :class="{ 'mx-2 my-2 elevation-4--light': draggable }"
   >
     <v-card-title hide-actions class="pa-0 pr-sm-2">
-      <v-toolbar dense flat>
+      <v-toolbar dense flat color="transparent">
         <v-icon class="mr-2">{{ icon }}</v-icon>
 
         <div v-if="editInstanceName" style="flex: 1" @click.stop @keyup.prevent>
@@ -20,12 +20,15 @@
           />
         </div>
 
-        <v-toolbar-title v-if="!editInstanceName">
+        <v-toolbar-title
+          v-if="!editInstanceName"
+          :class="{ 'user-select-none': layoutMode }"
+        >
           {{ instanceOrContentTypeName }}
         </v-toolbar-title>
 
         <v-spacer v-if="!editInstanceName" />
-        <icon-with-tooltip
+        <IconWithTooltip
           v-if="!editInstanceName && !layoutMode"
           :tooltip-i18n-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
           width="36"
@@ -43,7 +46,7 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
 
-        <dialog-entity-delete v-if="layoutMode && !disabled" :entity="contentNode">
+        <DialogEntityDelete v-if="layoutMode && !disabled" :entity="contentNode">
           <template #activator="{ on }">
             <v-btn
               icon
@@ -57,11 +60,14 @@
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
-        </dialog-entity-delete>
+        </DialogEntityDelete>
       </v-toolbar>
     </v-card-title>
     <slot name="outer">
-      <v-card-text class="flex-grow-1" :class="{ 'pointer-events-none': layoutMode }">
+      <v-card-text
+        class="flex-grow-1"
+        :class="{ 'pointer-events-none user-select-none': layoutMode }"
+      >
         <slot />
       </v-card-text>
     </slot>
@@ -70,13 +76,13 @@
 
 <script>
 import camelCase from 'lodash/camelCase'
-import ApiTextField from '../form/api/ApiTextField.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import IconWithTooltip from '@/components/generic/IconWithTooltip.vue'
 
 export default {
-  name: 'CardContentNode',
+  name: 'ContentNodeCard',
   components: {
-    ApiTextField,
+    IconWithTooltip,
     DialogEntityDelete,
   },
   props: {
@@ -114,6 +120,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.ec-content-nodecard {
+  transition: all 0.2s ease;
+  transition-property: background-color, border-color, box-shadow;
+  background-color: inherit;
+  border-color: rgba(0, 0, 0, 0.32);
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
 .v-card:not(:hover):deep(button.visible-on-hover),
 .v-card:not(:hover):deep(button.tooltip-activator) {
   opacity: 0;

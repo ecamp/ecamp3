@@ -5,6 +5,7 @@ namespace App\Tests\EventListener;
 use App\EventListener\RequestTransactionListener;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -179,10 +180,9 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @dataProvider methodsWhichDontChangeState
-     *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[DataProvider('methodsWhichDontChangeState')]
     public function testIgnoresExceptionsForRequestsWhichDontChangeState(string $method) {
         $this->request->expects(once())->method('getMethod')->willReturn($method);
         $this->entityManager->expects(never())->method('getConnection');
@@ -204,10 +204,9 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @dataProvider methodsWhichChangeState
-     *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[DataProvider('methodsWhichChangeState')]
     public function testRollsBackTransactionForExceptionsForOtherMethods(string $method) {
         $this->request->expects(once())->method('getMethod')->willReturn($method);
         $this->entityManager->expects(exactly(4))->method('getConnection');

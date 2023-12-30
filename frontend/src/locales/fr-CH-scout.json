@@ -1,9 +1,4 @@
 {
-  "contentNode": {
-    "storycontext": {
-      "name": "Fil rouge"
-    }
-  },
   "components": {
     "print": {
       "printConfigurator": {
@@ -11,6 +6,11 @@
           "Story": "Fil rouge"
         }
       }
+    }
+  },
+  "contentNode": {
+    "storycontext": {
+      "name": "Fil rouge"
     }
   },
   "entity": {

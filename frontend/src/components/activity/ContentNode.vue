@@ -46,16 +46,9 @@ export default {
 </script>
 
 <style lang="scss">
-.content-node:not(.draggable) + .content-node:not(.draggable) {
-  border-radius: 0 !important;
-}
-
 .draggable {
   cursor: move;
-
-  &:hover {
-    background: map-get($blue-grey, 'lighten-5');
-  }
+  transition: background-color 0.3s 25ms ease;
 
   .theme--light.v-toolbar.v-sheet {
     background: none;

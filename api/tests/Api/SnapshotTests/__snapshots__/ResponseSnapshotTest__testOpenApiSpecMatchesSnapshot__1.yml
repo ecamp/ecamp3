@@ -12,6 +12,7 @@ components:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -35,6 +36,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -74,6 +76,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -117,6 +120,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -193,6 +197,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -243,11 +248,12 @@ components:
       type: object
     Activity-read_ScheduleEntry.Activity:
       deprecated: false
-      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
+      description: ''
       properties:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -271,6 +277,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -310,6 +317,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -431,6 +439,7 @@ components:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -454,6 +463,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -493,6 +503,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -545,6 +556,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -630,6 +642,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -680,11 +693,12 @@ components:
       type: object
     Activity.jsonhal-read_ScheduleEntry.Activity:
       deprecated: false
-      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
+      description: ''
       properties:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -708,6 +722,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -747,6 +762,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -856,6 +872,7 @@ components:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -879,6 +896,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -918,6 +936,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -967,6 +986,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -1066,6 +1086,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -1116,11 +1137,35 @@ components:
       type: object
     Activity.jsonld-read_ScheduleEntry.Activity:
       deprecated: false
-      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -1144,6 +1189,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -1183,6 +1229,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -1286,9 +1333,7 @@ components:
       type: object
     ActivityProgressLabel-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: |-
-        Progress labels in a camp.
-        To each activity one label can be assigned.
+      description: ''
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -1317,9 +1362,7 @@ components:
       type: object
     ActivityProgressLabel-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        Progress labels in a camp.
-        To each activity one label can be assigned.
+      description: ''
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -1431,9 +1474,7 @@ components:
       type: object
     ActivityProgressLabel.jsonhal-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: |-
-        Progress labels in a camp.
-        To each activity one label can be assigned.
+      description: ''
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -1462,9 +1503,7 @@ components:
       type: object
     ActivityProgressLabel.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        Progress labels in a camp.
-        To each activity one label can be assigned.
+      description: ''
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -1581,10 +1620,31 @@ components:
       type: object
     ActivityProgressLabel.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: |-
-        Progress labels in a camp.
-        To each activity one label can be assigned.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         camp:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
@@ -1612,10 +1672,31 @@ components:
       type: object
     ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        Progress labels in a camp.
-        To each activity one label can be assigned.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         camp:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
@@ -1694,7 +1775,7 @@ components:
       type: object
     ActivityResponsible-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: 'A person that is responsible for planning or carrying out an activity.'
+      description: ''
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -1720,7 +1801,7 @@ components:
       type: object
     ActivityResponsible-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: 'A person that is responsible for planning or carrying out an activity.'
+      description: ''
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -1801,7 +1882,7 @@ components:
       type: object
     ActivityResponsible.jsonhal-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: 'A person that is responsible for planning or carrying out an activity.'
+      description: ''
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -1827,7 +1908,7 @@ components:
       type: object
     ActivityResponsible.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: 'A person that is responsible for planning or carrying out an activity.'
+      description: ''
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -1931,8 +2012,31 @@ components:
       type: object
     ActivityResponsible.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: 'A person that is responsible for planning or carrying out an activity.'
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activity:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
@@ -1957,8 +2061,31 @@ components:
       type: object
     ActivityResponsible.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: 'A person that is responsible for planning or carrying out an activity.'
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activity:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
@@ -2013,6 +2140,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2047,6 +2175,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -2054,6 +2183,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2083,6 +2213,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -2111,6 +2242,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2142,6 +2274,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -2153,6 +2286,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2161,6 +2295,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2200,6 +2335,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2244,6 +2380,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2273,6 +2410,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -2301,6 +2439,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2337,6 +2476,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2345,6 +2485,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2374,9 +2515,7 @@ components:
       type: object
     Camp-read_CampCollaboration.Camp_CampCollaboration.User:
       deprecated: false
-      description: |-
-        The main entity that eCamp is designed to manage. Contains programme which may be
-        distributed across multiple time periods.
+      description: ''
       properties:
         activities:
           description: |-
@@ -2384,6 +2523,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2418,6 +2558,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -2425,6 +2566,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2454,6 +2596,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -2482,6 +2625,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2513,6 +2657,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -2524,6 +2669,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2532,6 +2678,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2561,9 +2708,7 @@ components:
       type: object
     Camp-read_Period.Camp_Period.Days:
       deprecated: false
-      description: |-
-        The main entity that eCamp is designed to manage. Contains programme which may be
-        distributed across multiple time periods.
+      description: ''
       properties:
         activities:
           description: |-
@@ -2571,6 +2716,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2605,6 +2751,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -2612,6 +2759,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2641,6 +2789,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -2669,6 +2818,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2700,6 +2850,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -2711,6 +2862,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2719,6 +2871,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -2782,6 +2935,7 @@ components:
             - string
         campPrototype:
           description: 'The prototype camp that will be used as a template to create this camp.'
+          example: /camps/1a2b3c4d
           format: iri-reference
           'owl:maxCardinality': 1
           type:
@@ -2991,6 +3145,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3025,6 +3180,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3032,6 +3188,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3061,6 +3218,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -3089,6 +3247,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3120,6 +3279,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3131,6 +3291,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3139,6 +3300,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3187,6 +3349,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3231,6 +3394,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3260,6 +3424,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -3288,6 +3453,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3324,6 +3490,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3332,6 +3499,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3361,9 +3529,7 @@ components:
       type: object
     Camp.jsonhal-read_CampCollaboration.Camp_CampCollaboration.User:
       deprecated: false
-      description: |-
-        The main entity that eCamp is designed to manage. Contains programme which may be
-        distributed across multiple time periods.
+      description: ''
       properties:
         activities:
           description: |-
@@ -3371,6 +3537,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3405,6 +3572,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3412,6 +3580,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3441,6 +3610,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -3469,6 +3639,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3500,6 +3671,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3511,6 +3683,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3519,6 +3692,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3548,9 +3722,7 @@ components:
       type: object
     Camp.jsonhal-read_Period.Camp_Period.Days:
       deprecated: false
-      description: |-
-        The main entity that eCamp is designed to manage. Contains programme which may be
-        distributed across multiple time periods.
+      description: ''
       properties:
         activities:
           description: |-
@@ -3558,6 +3730,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3592,6 +3765,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3599,6 +3773,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3628,6 +3803,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -3656,6 +3832,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3687,6 +3864,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3698,6 +3876,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3706,6 +3885,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3778,6 +3958,7 @@ components:
             - string
         campPrototype:
           description: 'The prototype camp that will be used as a template to create this camp.'
+          example: /camps/1a2b3c4d
           format: iri-reference
           'owl:maxCardinality': 1
           type:
@@ -3899,6 +4080,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3933,6 +4115,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -3940,6 +4123,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -3969,6 +4153,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -3997,6 +4182,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4028,6 +4214,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -4039,6 +4226,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4047,6 +4235,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4109,6 +4298,7 @@ components:
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4153,6 +4343,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4182,6 +4373,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -4210,6 +4402,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4246,6 +4439,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4254,6 +4448,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4283,16 +4478,38 @@ components:
       type: object
     Camp.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       deprecated: false
-      description: |-
-        The main entity that eCamp is designed to manage. Contains programme which may be
-        distributed across multiple time periods.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activities:
           description: |-
             All the programme that will be carried out during the camp. An activity may be carried out
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4327,6 +4544,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -4334,6 +4552,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4363,6 +4582,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -4391,6 +4611,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4422,6 +4643,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -4433,6 +4655,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4441,6 +4664,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4470,16 +4694,38 @@ components:
       type: object
     Camp.jsonld-read_Period.Camp_Period.Days:
       deprecated: false
-      description: |-
-        The main entity that eCamp is designed to manage. Contains programme which may be
-        distributed across multiple time periods.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activities:
           description: |-
             All the programme that will be carried out during the camp. An activity may be carried out
             multiple times in the same camp.
           example: '/activities?camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4514,6 +4760,7 @@ components:
             - string
         campCollaborations:
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -4521,6 +4768,7 @@ components:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '["/categories/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4550,6 +4798,7 @@ components:
           description: |-
             The person that created the camp. This value never changes, even when the person
             leaves the camp.
+          example: 'https://example.com/'
           format: iri-reference
           'owl:maxCardinality': 1
           readOnly: true
@@ -4578,6 +4827,7 @@ components:
             has a material list, and there may be more, such as shopping lists.
           example: '["/material_lists/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4609,6 +4859,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -4620,6 +4871,7 @@ components:
           description: 'All profiles of the users collaborating in this camp.'
           example: '/profiles?user.collaborations.camp=%2Fcamps%2F1a2b3c4d'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4628,6 +4880,7 @@ components:
           description: 'All the progress labels within this camp.'
           example: '["/progress_labels/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -4691,6 +4944,7 @@ components:
             - string
         campPrototype:
           description: 'The prototype camp that will be used as a template to create this camp.'
+          example: /camps/1a2b3c4d
           format: iri-reference
           'owl:maxCardinality': 1
           type:
@@ -4842,7 +5096,7 @@ components:
       type: object
     CampCollaboration-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: 'A user participating in some way in the planning or realization of a camp.'
+      description: ''
       properties:
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
@@ -5121,7 +5375,7 @@ components:
       type: object
     CampCollaboration.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: 'A user participating in some way in the planning or realization of a camp.'
+      description: ''
       properties:
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
@@ -5399,8 +5653,31 @@ components:
       type: object
     CampCollaboration.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: 'A user participating in some way in the planning or realization of a camp.'
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
@@ -5618,6 +5895,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -5651,6 +5929,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -5679,11 +5958,7 @@ components:
       type: object
     Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A type of programme, such as sports activities or meal times, is called a category. A category
-        determines color and numbering scheme of the associated activities, and is used for marking
-        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
-        when creating a new activity in the category.
+      description: ''
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -5701,6 +5976,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -5734,6 +6010,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -5784,6 +6061,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -5884,6 +6162,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -5939,6 +6218,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -5989,6 +6269,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6022,6 +6303,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -6050,11 +6332,7 @@ components:
       type: object
     Category.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A type of programme, such as sports activities or meal times, is called a category. A category
-        determines color and numbering scheme of the associated activities, and is used for marking
-        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
-        when creating a new activity in the category.
+      description: ''
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -6072,6 +6350,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6105,6 +6384,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -6164,6 +6444,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6273,6 +6554,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -6338,6 +6620,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6371,6 +6654,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -6399,12 +6683,31 @@ components:
       type: object
     Category.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A type of programme, such as sports activities or meal times, is called a category. A category
-        determines color and numbering scheme of the associated activities, and is used for marking
-        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
-        when creating a new activity in the category.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
@@ -6421,6 +6724,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6454,6 +6758,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -6527,6 +6832,7 @@ components:
           description: 'All the content nodes that make up the tree of programme content.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6627,6 +6933,7 @@ components:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/content_types/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           type: array
@@ -6653,6 +6960,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6753,6 +7061,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6853,6 +7162,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -6953,6 +7263,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7053,6 +7364,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7291,6 +7603,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7391,6 +7704,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7491,6 +7805,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7591,6 +7906,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7691,6 +8007,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7893,6 +8210,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -7989,10 +8307,34 @@ components:
       deprecated: false
       description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8089,10 +8431,34 @@ components:
       deprecated: false
       description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8189,10 +8555,34 @@ components:
       deprecated: false
       description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8289,10 +8679,34 @@ components:
       deprecated: false
       description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8468,6 +8882,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8555,17 +8970,13 @@ components:
       type: object
     ContentNode-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A piece of information that is part of a programme. ContentNodes may store content such as
-        one or multiple free text fields, or any other necessary data. Content nodes may also be used
-        to define layouts. For this purpose, a content node may offer so-called slots, into which other
-        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
-        container content node. This way, a tree of content nodes makes up a complete programme.
+      description: ''
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8653,17 +9064,13 @@ components:
       type: object
     ContentNode-read_Category.PreferredContentTypes_Category.ContentNodes:
       deprecated: false
-      description: |-
-        A piece of information that is part of a programme. ContentNodes may store content such as
-        one or multiple free text fields, or any other necessary data. Content nodes may also be used
-        to define layouts. For this purpose, a content node may offer so-called slots, into which other
-        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
-        container content node. This way, a tree of content nodes makes up a complete programme.
+      description: ''
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8771,6 +9178,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8858,17 +9266,13 @@ components:
       type: object
     ContentNode.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A piece of information that is part of a programme. ContentNodes may store content such as
-        one or multiple free text fields, or any other necessary data. Content nodes may also be used
-        to define layouts. For this purpose, a content node may offer so-called slots, into which other
-        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
-        container content node. This way, a tree of content nodes makes up a complete programme.
+      description: ''
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -8956,17 +9360,13 @@ components:
       type: object
     ContentNode.jsonhal-read_Category.PreferredContentTypes_Category.ContentNodes:
       deprecated: false
-      description: |-
-        A piece of information that is part of a programme. ContentNodes may store content such as
-        one or multiple free text fields, or any other necessary data. Content nodes may also be used
-        to define layouts. For this purpose, a content node may offer so-called slots, into which other
-        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
-        container content node. This way, a tree of content nodes makes up a complete programme.
+      description: ''
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9071,6 +9471,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9158,17 +9559,36 @@ components:
       type: object
     ContentNode.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A piece of information that is part of a programme. ContentNodes may store content such as
-        one or multiple free text fields, or any other necessary data. Content nodes may also be used
-        to define layouts. For this purpose, a content node may offer so-called slots, into which other
-        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
-        container content node. This way, a tree of content nodes makes up a complete programme.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9256,17 +9676,36 @@ components:
       type: object
     ContentNode.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       deprecated: false
-      description: |-
-        A piece of information that is part of a programme. ContentNodes may store content such as
-        one or multiple free text fields, or any other necessary data. Content nodes may also be used
-        to define layouts. For this purpose, a content node may offer so-called slots, into which other
-        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
-        container content node. This way, a tree of content nodes makes up a complete programme.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         children:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9393,10 +9832,7 @@ components:
       type: object
     ContentType-read_Category.PreferredContentTypes_Category.ContentNodes:
       deprecated: false
-      description: |-
-        Defines a type of content that can be present in a content node tree. A content type
-        determines what data can be stored in content nodes of this type, as well as validation,
-        available slots and jsonConfig settings.
+      description: ''
       properties:
         active:
           default: true
@@ -9480,10 +9916,7 @@ components:
       type: object
     ContentType.jsonhal-read_Category.PreferredContentTypes_Category.ContentNodes:
       deprecated: false
-      description: |-
-        Defines a type of content that can be present in a content node tree. A content type
-        determines what data can be stored in content nodes of this type, as well as validation,
-        available slots and jsonConfig settings.
+      description: ''
       properties:
         active:
           default: true
@@ -9581,11 +10014,31 @@ components:
       type: object
     ContentType.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       deprecated: false
-      description: |-
-        Defines a type of content that can be present in a content node tree. A content type
-        determines what data can be stored in content nodes of this type, as well as validation,
-        available slots and jsonConfig settings.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         active:
           default: true
           description: 'Whether this content type is still maintained and recommended for use in new camps.'
@@ -9629,11 +10082,7 @@ components:
       type: object
     Day-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
+      description: ''
       properties:
         dayOffset:
           description: "The 0-based offset in days from the period's start date when this day starts."
@@ -9644,6 +10093,7 @@ components:
           description: 'The list of people who have a whole-day responsibility on this day.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9677,6 +10127,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9741,6 +10192,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9760,11 +10212,7 @@ components:
       type: object
     Day-read_Period.Camp_Period.Days:
       deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
+      description: ''
       properties:
         dayOffset:
           description: "The 0-based offset in days from the period's start date when this day starts."
@@ -9775,6 +10223,7 @@ components:
           description: 'The list of people who have a whole-day responsibility on this day.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9808,6 +10257,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9827,11 +10277,7 @@ components:
       type: object
     Day.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
+      description: ''
       properties:
         dayOffset:
           description: "The 0-based offset in days from the period's start date when this day starts."
@@ -9842,6 +10288,7 @@ components:
           description: 'The list of people who have a whole-day responsibility on this day.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9875,6 +10322,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9948,6 +10396,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -9967,11 +10416,7 @@ components:
       type: object
     Day.jsonhal-read_Period.Camp_Period.Days:
       deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
+      description: ''
       properties:
         dayOffset:
           description: "The 0-based offset in days from the period's start date when this day starts."
@@ -9982,6 +10427,7 @@ components:
           description: 'The list of people who have a whole-day responsibility on this day.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10015,6 +10461,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10034,12 +10481,31 @@ components:
       type: object
     Day.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         dayOffset:
           description: "The 0-based offset in days from the period's start date when this day starts."
           example: '1'
@@ -10049,6 +10515,7 @@ components:
           description: 'The list of people who have a whole-day responsibility on this day.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10082,6 +10549,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10169,6 +10637,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10188,12 +10657,31 @@ components:
       type: object
     Day.jsonld-read_Period.Camp_Period.Days:
       deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         dayOffset:
           description: "The 0-based offset in days from the period's start date when this day starts."
           example: '1'
@@ -10203,6 +10691,7 @@ components:
           description: 'The list of people who have a whole-day responsibility on this day.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10236,6 +10725,7 @@ components:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
           example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -10281,7 +10771,7 @@ components:
       type: object
     DayResponsible-read_Day.DayResponsibles:
       deprecated: false
-      description: 'A person that has some whole-day responsibility on a day in the camp.'
+      description: ''
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -10362,7 +10852,7 @@ components:
       type: object
     DayResponsible.jsonhal-read_Day.DayResponsibles:
       deprecated: false
-      description: 'A person that has some whole-day responsibility on a day in the camp.'
+      description: ''
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -10466,8 +10956,31 @@ components:
       type: object
     DayResponsible.jsonld-read_Day.DayResponsibles:
       deprecated: false
-      description: 'A person that has some whole-day responsibility on a day in the camp.'
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
@@ -10652,7 +11165,7 @@ components:
       type: object
     MaterialItem-read:
       deprecated: false
-      description: 'A physical item that is needed for carrying out a programme or camp.'
+      description: ''
       properties:
         article:
           description: 'The name of the item that is required.'
@@ -10753,7 +11266,7 @@ components:
       type: object
     MaterialItem.jsonhal-read:
       deprecated: false
-      description: 'A physical item that is needed for carrying out a programme or camp.'
+      description: ''
       properties:
         _links:
           properties:
@@ -10877,7 +11390,7 @@ components:
       type: object
     MaterialItem.jsonld-read:
       deprecated: false
-      description: 'A physical item that is needed for carrying out a programme or camp.'
+      description: ''
       properties:
         '@context':
           oneOf:
@@ -11039,6 +11552,7 @@ components:
           description: 'The items that are part of this list.'
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -11138,6 +11652,7 @@ components:
           description: 'The items that are part of this list.'
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -11244,6 +11759,7 @@ components:
           description: 'The items that are part of this list.'
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -11291,6 +11807,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -11513,6 +12030,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -11706,6 +12224,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -11867,6 +12386,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12103,6 +12623,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12303,6 +12824,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12479,6 +13001,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12487,6 +13010,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12495,6 +13019,7 @@ components:
           description: 'The days in this time period. These are generated automatically.'
           example: '["/days?period=/periods/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12525,6 +13050,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12535,6 +13061,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12555,9 +13082,7 @@ components:
       type: object
     Period-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A time period in which the programme of a camp will take place. There may be multiple
-        periods in a camp, but they may not overlap. A period is made up of one or more full days.
+      description: ''
       properties:
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
@@ -12569,6 +13094,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12577,6 +13103,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12612,6 +13139,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12622,6 +13150,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12658,6 +13187,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12666,6 +13196,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12701,6 +13232,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12711,6 +13243,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12837,6 +13370,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12845,6 +13379,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12853,6 +13388,7 @@ components:
           description: 'The days in this time period. These are generated automatically.'
           example: '["/days?period=/periods/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12883,6 +13419,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12893,6 +13430,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12913,9 +13451,7 @@ components:
       type: object
     Period.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A time period in which the programme of a camp will take place. There may be multiple
-        periods in a camp, but they may not overlap. A period is made up of one or more full days.
+      description: ''
       properties:
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
@@ -12927,6 +13463,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12935,6 +13472,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12970,6 +13508,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -12980,6 +13519,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13025,6 +13565,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13033,6 +13574,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13068,6 +13610,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13078,6 +13621,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13189,6 +13733,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13197,6 +13742,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13205,6 +13751,7 @@ components:
           description: 'The days in this time period. These are generated automatically.'
           example: '["/days?period=/periods/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13235,6 +13782,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13245,6 +13793,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13265,10 +13814,31 @@ components:
       type: object
     Period.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A time period in which the programme of a camp will take place. There may be multiple
-        periods in a camp, but they may not overlap. A period is made up of one or more full days.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
@@ -13279,6 +13849,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13287,6 +13858,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13322,6 +13894,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13332,6 +13905,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13391,6 +13965,7 @@ components:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13399,6 +13974,7 @@ components:
           description: 'A link to all the DayResponsibles in this period.'
           example: '["/day_responsibles/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13434,6 +14010,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13444,6 +14021,7 @@ components:
             may span over multiple days, but may not end later than the period.
           example: '["/schedule_entries/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -13589,10 +14167,7 @@ components:
       type: object
     Profile-read_User.create:
       deprecated: false
-      description: |-
-        The profile of a person using eCamp.
-        The properties available to related eCamp users are here.
-        Related means that they were or are collaborators in the same camp.
+      description: ''
       properties:
         email:
           description: 'Unique email of the user.'
@@ -13886,10 +14461,7 @@ components:
       type: object
     Profile.jsonhal-read_User.create:
       deprecated: false
-      description: |-
-        The profile of a person using eCamp.
-        The properties available to related eCamp users are here.
-        Related means that they were or are collaborators in the same camp.
+      description: ''
       properties:
         email:
           description: 'Unique email of the user.'
@@ -14135,11 +14707,31 @@ components:
       type: object
     Profile.jsonld-read_User.create:
       deprecated: false
-      description: |-
-        The profile of a person using eCamp.
-        The properties available to related eCamp users are here.
-        Related means that they were or are collaborators in the same camp.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -14468,6 +15060,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -14715,6 +15308,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -14923,6 +15517,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -15184,9 +15779,7 @@ components:
       type: object
     ScheduleEntry-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
+      description: ''
       properties:
         activity:
           description: |-
@@ -15277,9 +15870,7 @@ components:
       type: object
     ScheduleEntry-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
+      description: ''
       properties:
         activity:
           description: |-
@@ -15668,9 +16259,7 @@ components:
       type: object
     ScheduleEntry.jsonhal-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
+      description: ''
       properties:
         activity:
           description: |-
@@ -15761,9 +16350,7 @@ components:
       type: object
     ScheduleEntry.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
+      description: ''
       properties:
         activity:
           description: |-
@@ -16136,10 +16723,31 @@ components:
       type: object
     ScheduleEntry.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activity:
           description: |-
             The activity that will take place at the time defined by this schedule entry. Can not be changed
@@ -16229,10 +16837,31 @@ components:
       type: object
     ScheduleEntry.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         activity:
           description: |-
             The activity that will take place at the time defined by this schedule entry. Can not be changed
@@ -16501,6 +17130,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -16730,6 +17360,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -16926,6 +17557,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -17090,6 +17722,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -17329,6 +17962,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -17531,6 +18165,7 @@ components:
           description: 'All content nodes that are direct children of this content node.'
           example: '["/content_nodes/1a2b3c4d"]'
           items:
+            example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
@@ -17738,9 +18373,7 @@ components:
       type: object
     User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A person using eCamp.
-        The properties available for all other eCamp users are here.
+      description: ''
       properties:
         displayName:
           description: 'A displayable name of the user.'
@@ -17768,9 +18401,7 @@ components:
       type: object
     User-read_CampCollaboration.Camp_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A person using eCamp.
-        The properties available for all other eCamp users are here.
+      description: ''
       properties:
         displayName:
           description: 'A displayable name of the user.'
@@ -17919,9 +18550,7 @@ components:
       type: object
     User.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A person using eCamp.
-        The properties available for all other eCamp users are here.
+      description: ''
       properties:
         displayName:
           description: 'A displayable name of the user.'
@@ -17949,9 +18578,7 @@ components:
       type: object
     User.jsonhal-read_CampCollaboration.Camp_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A person using eCamp.
-        The properties available for all other eCamp users are here.
+      description: ''
       properties:
         displayName:
           description: 'A displayable name of the user.'
@@ -18113,10 +18740,31 @@ components:
       type: object
     User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A person using eCamp.
-        The properties available for all other eCamp users are here.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -18143,10 +18791,31 @@ components:
       type: object
     User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       deprecated: false
-      description: |-
-        A person using eCamp.
-        The properties available for all other eCamp users are here.
+      description: ''
       properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'

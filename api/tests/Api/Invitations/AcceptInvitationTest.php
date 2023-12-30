@@ -5,6 +5,7 @@ namespace App\Tests\Api\Invitations;
 use App\DTO\Invitation;
 use App\Entity\CampCollaboration;
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -157,13 +158,12 @@ class AcceptInvitationTest extends ECampApiTestCase {
     }
 
     /**
-     * @dataProvider invalidMethods
-     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
+    #[DataProvider('invalidMethods')]
     public function testInvalidRequestWhenWrongMethod(string $method) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];

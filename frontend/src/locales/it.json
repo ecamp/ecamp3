@@ -8,6 +8,9 @@
             "removeColumn": "Rimuovi la colonna vuota"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Selezionare l'area tematica"
+        },
         "storyboard": {
           "controls": "Azioni",
           "reorder": "Spostare",

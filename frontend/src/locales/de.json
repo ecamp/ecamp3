@@ -8,6 +8,9 @@
             "removeColumn": "Leere Spalte entfernen"
           }
         },
+        "lAThematicArea": {
+          "placeholder": "Themenbereich auswählen"
+        },
         "storyboard": {
           "controls": "Aktionen",
           "reorder": "Verschieben",
@@ -18,11 +21,11 @@
         }
       },
       "copyActivityInfoDialog": {
-        "title": "Aktivität kopieren & einfügen",
-        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "allow": "Jetzt erlauben",
         "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
-        "granted": "Du kannst nun kopierte Aktivitäten einfügen."
+        "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
+        "title": "Aktivität kopieren & einfügen"
       },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
@@ -330,11 +333,11 @@
     },
     "program": {
       "dialogActivityCreate": {
-        "clipboard": "Zwischenablage",
-        "copyPastActivity": "Aktivität kopieren & einfügen",
         "clearClipboard": "Zwischenablage leeren",
+        "clipboard": "Zwischenablage",
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
+        "copyPastActivity": "Aktivität kopieren & einfügen",
         "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
       },

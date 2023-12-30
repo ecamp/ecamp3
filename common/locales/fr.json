@@ -10,7 +10,7 @@
     "columnLayout": {
       "entity": {
         "column": {
-          "name": "Colonne"
+          "name": "Colonne|Colonne {name}"
         }
       },
       "name": "Disposition des colonnes"
@@ -57,8 +57,8 @@
     },
     "responsiveLayout": {
       "icon": "mdi-view-compact",
-      "name": "Disposition par défaut",
       "mainContent": "Contenu principal",
+      "name": "Disposition par défaut",
       "printAboveMainContent": "Imprimer au-dessus du contenu principal",
       "printBelowMainContent": "Imprimer sous le contenu principal"
     },

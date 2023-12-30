@@ -1,5 +1,5 @@
 <template>
-  <card-content-node v-bind="$props">
+  <ContentNodeCard v-bind="$props">
     <material-table
       :camp="camp()"
       :material-node="contentNode"
@@ -7,18 +7,18 @@
       :material-item-collection="materialItemCollection"
       :disabled="disabled"
     />
-  </card-content-node>
+  </ContentNodeCard>
 </template>
 
 <script>
-import CardContentNode from '@/components/activity/CardContentNode.vue'
+import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCard.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import MaterialTable from '@/components/material/MaterialTable.vue'
 
 export default {
   name: 'Material',
   components: {
-    CardContentNode,
+    ContentNodeCard,
     MaterialTable,
   },
   mixins: [contentNodeMixin],

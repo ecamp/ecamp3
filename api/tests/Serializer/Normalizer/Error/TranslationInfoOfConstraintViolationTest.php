@@ -5,6 +5,7 @@ namespace App\Tests\Serializer\Normalizer\Error;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\Error\TranslationInfoOfConstraintViolation;
 use App\Validator\AllowTransition\AssertAllowTransitions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -22,9 +23,7 @@ class TranslationInfoOfConstraintViolationTest extends TestCase {
         $this->translationInfoOfConstraintViolation = new TranslationInfoOfConstraintViolation();
     }
 
-    /**
-     * @dataProvider constraintViolations()
-     */
+    #[DataProvider('constraintViolations')]
     public function testExtractsTranslationInfoFromConstraintViolation(ConstraintViolation $violation, string $key): void {
         $translationInfo = $this->translationInfoOfConstraintViolation->extract($violation);
         $parametersWithoutCurlyBraces = TranslationInfoOfConstraintViolation::removeCurlyBraces($violation->getParameters());
@@ -33,7 +32,7 @@ class TranslationInfoOfConstraintViolationTest extends TestCase {
         assertThat($translationInfo->parameters, equalTo($parametersWithoutCurlyBraces));
     }
 
-    public function constraintViolations(): array {
+    public static function constraintViolations(): array {
         return [
             AssertAllowTransitions::class => [
                 'violation' => new ConstraintViolation(

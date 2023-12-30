@@ -4,7 +4,10 @@ import sortBy from 'lodash/sortBy.js'
 import keyBy from 'lodash/keyBy.js'
 import dayjs from './dayjs.js'
 import { arrange } from './scheduleEntryLayout.js'
-import { utcStringToTimestamp } from './dateHelperVCalendar.js'
+
+/**
+ * @typedef {import('./dayjs.js').dayjs} Dayjs
+ */
 
 /**
  * Splits a set of days into pages, such that all pages contain a similar number of days.
@@ -223,7 +226,8 @@ function optimalGetUpTime(gap, scheduleEntryBounds, timeBucketSize) {
  * Generates an array of time row descriptions, used for labeling the vertical axis of the picasso.
  * Format of each array element: [hour, weight] where weight determines how tall the time row is rendered.
  *
- * @returns {*[[hour: number, weight: number]]}
+ * @typedef {*[[hour: number, weight: number]]} TimeWeights
+ * @returns TimeWeights
  */
 export function times(getUpTime, bedTime, timeStep) {
   const times = [[getUpTime - timeStep / 2, 0.5]]
@@ -275,26 +279,43 @@ export function positionPercentage(milliseconds, times) {
 export function filterScheduleEntriesByDay(scheduleEntries, day, times) {
   return scheduleEntries.filter((scheduleEntry) => {
     return (
-      utcStringToTimestamp(scheduleEntry.start) < dayEndTimestamp(day, times) &&
-      utcStringToTimestamp(scheduleEntry.end) > dayStartTimestamp(day, times)
+      dayjs.utc(scheduleEntry.start).isBefore(dayEnd(day, times)) &&
+      dayjs.utc(scheduleEntry.end).isAfter(dayStart(day, times))
     )
   })
 }
 
 /**
- * Calculates the visible day start timestamp
+ * @param day a day object of the api
+ * @param offset {number} the offset hour of the day
+ * @returns {Dayjs}
  */
-export function dayStartTimestamp(day, times) {
-  const dayStart = times[0][0]
-  return dayjs.utc(day.start).add(dayStart, 'hour').valueOf()
+function dayOffset(day, offset) {
+  return dayjs.utc(day.start).add(offset, 'hour')
 }
 
 /**
- * Calculates the visible day end timestamp
+ * Calculates the day start dayjs object according to times
+ *
+ * @param day a day object of the api
+ * @param times {TimeWeights}
+ * @returns {Dayjs}
  */
-export function dayEndTimestamp(day, times) {
+export function dayStart(day, times) {
+  const dayStart = times[0][0]
+  return dayOffset(day, dayStart)
+}
+
+/**
+ * Calculates the day end dayjs object according to times
+ *
+ * @param day a day object of the api
+ * @param times {TimeWeights}
+ * @returns {Dayjs}
+ */
+export function dayEnd(day, times) {
   const dayEnd = times[times.length - 1][0]
-  return dayjs.utc(day.start).add(dayEnd, 'hour').valueOf()
+  return dayOffset(day, dayEnd)
 }
 
 function leftAndWith(scheduleEntries) {
@@ -312,13 +333,13 @@ export function positionStyles(scheduleEntries, day, times) {
       const left = leftAndWidth[scheduleEntry.id]?.left || 0
       const width = leftAndWidth[scheduleEntry.id]?.width || 0
       const top = positionPercentage(
-        utcStringToTimestamp(scheduleEntry.start) - utcStringToTimestamp(day.start),
+        dayjs.utc(scheduleEntry.start).valueOf() - dayjs.utc(day.start).valueOf(),
         times
       )
       const bottom =
         100 -
         positionPercentage(
-          utcStringToTimestamp(scheduleEntry.end) - utcStringToTimestamp(day.start),
+          dayjs.utc(scheduleEntry.end).valueOf() - dayjs.utc(day.start).valueOf(),
           times
         )
       return {
