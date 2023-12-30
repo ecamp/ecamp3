@@ -327,7 +327,7 @@ export default new Router({
         {
           path: 'category/:categoryId/:categoryName?',
           name: 'admin/activity/category',
-          component: () => import('./views/activity/Category.vue'),
+          component: () => import('./views/category/Category.vue'),
           props: (route) => ({ category: categoryFromRoute(route) }),
         },
         {
