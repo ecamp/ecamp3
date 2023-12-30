@@ -19,7 +19,6 @@
         :single-line="false"
         :fieldname="`data.sections[${itemKey}].column1`"
         :disabled="layoutMode || disabled"
-        :filled="layoutMode"
       />
     </div>
     <div role="cell" class="e-storyboard-row__responsible">
@@ -28,7 +27,6 @@
         :single-line="false"
         :fieldname="`data.sections[${itemKey}].column3`"
         :disabled="layoutMode || disabled"
-        :filled="layoutMode"
       />
     </div>
     <div role="cell" class="e-storyboard-row__text">
@@ -37,7 +35,6 @@
         :fieldname="`data.sections[${itemKey}].column2Html`"
         rows="4"
         :disabled="layoutMode || disabled"
-        :filled="layoutMode"
       />
     </div>
     <div v-if="!layoutMode && !disabled" role="cell" class="e-storyboard-row__controls">

@@ -1,5 +1,5 @@
 <template>
-  <card-content-node v-resizeobserver.debounce="onResize" v-bind="$props">
+  <ContentNodeCard v-resizeobserver.debounce="onResize" v-bind="$props">
     <template #outer>
       <component
         :is="isDefaultVariant ? 'table' : 'div'"
@@ -9,7 +9,7 @@
           'pointer-events-none px-3 pb-3': layoutMode,
         }"
       >
-        <thead v-if="isDefaultVariant">
+        <thead v-if="isDefaultVariant" :class="{ 'opacity-60': layoutMode }">
           <tr>
             <th v-if="!layoutMode">
               <span class="d-sr-only">
@@ -75,11 +75,11 @@
         </template>
       </component>
     </template>
-  </card-content-node>
+  </ContentNodeCard>
 </template>
 <script>
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import CardContentNode from '@/components/activity/CardContentNode.vue'
+import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCard.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
@@ -90,8 +90,8 @@ import StoryboardSortable from '@/components/activity/content/storyboard/Storybo
 export default {
   name: 'Storyboard',
   components: {
+    ContentNodeCard,
     StoryboardSortable,
-    CardContentNode,
     ApiForm,
     ApiSortable,
   },
@@ -125,7 +125,7 @@ export default {
     },
   },
   mounted() {
-    this.clientWidth = this.$el.clientWidth
+    this.clientWidth = this.$el.getBoundingClientRect().width
   },
   methods: {
     onResize({ width }) {
