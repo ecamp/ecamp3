@@ -3,9 +3,9 @@
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.campAdmin.campActivityProgressLabels.title') }}
-        <dialog-activity-progress-label-create v-if="!disabled" :camp="camp()">
+        <DialogActivityProgressLabelCreate v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add
+            <ButtonAdd
               color="secondary"
               text
               :hide-label="$vuetify.breakpoint.xsOnly"
@@ -13,88 +13,86 @@
               v-on="on"
             >
               {{ $tc('components.campAdmin.campActivityProgressLabels.create') }}
-            </button-add>
+            </ButtonAdd>
           </template>
-        </dialog-activity-progress-label-create>
+        </DialogActivityProgressLabelCreate>
       </div>
     </slot>
-    <v-skeleton-loader v-if="loading" type="article" />
-    <v-list>
-      <v-list-item
-        v-for="(progressLabel, idx) in progressLabels"
-        :key="progressLabel._meta.self"
-        class="px-0"
-      >
-        <v-list-item-avatar>
-          <v-avatar color="grey lighten-2" size="32">{{ idx + 1 }}</v-avatar>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ progressLabel.title }}
-          </v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-action v-if="!disabled" style="display: inline">
-          <v-item-group>
-            <dialog-activity-progress-label-edit :progress-label="progressLabel">
-              <template #activator="{ on }">
-                <button-edit class="mr-1" v-on="on" />
-              </template>
-            </dialog-activity-progress-label-edit>
-          </v-item-group>
-        </v-list-item-action>
-
-        <v-menu v-if="!disabled" offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item @click="moveUp(progressLabel)">
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-up-bold</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc('components.campAdmin.campActivityProgressLabels.moveUp') }}
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="moveDown(progressLabel)">
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-down-bold</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc('components.campAdmin.campActivityProgressLabels.moveDown') }}
-              </v-list-item-title>
-            </v-list-item>
-
-            <v-divider />
-
-            <dialog-entity-delete
-              :entity="progressLabel"
-              :error-handler="deleteErrorHandler"
-            >
-              <template #activator="{ on }">
-                <v-list-item v-on="on">
-                  <v-list-item-icon>
-                    <v-icon>mdi-delete</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title>
-                    {{ $tc('global.button.delete') }}
-                  </v-list-item-title>
-                </v-list-item>
-              </template>
-              {{ $tc('components.campAdmin.campActivityProgressLabels.deleteWarning') }}
-              <ul>
-                <li>
+    <v-list class="mx-n2">
+      <template v-if="disabled">
+        <v-list-item
+          v-for="(progressLabel, idx) in progressLabels"
+          :key="progressLabel._meta.self"
+          class="px-2 rounded"
+        >
+          <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
+            parseInt(idx) + 1
+          }}</v-avatar>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ progressLabel.title }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+      <template v-else-if="!reorder">
+        <DialogActivityProgressLabelEdit
+          v-for="(progressLabel, idx) in progressLabels"
+          :key="progressLabel._meta.self"
+          :progress-label="progressLabel"
+        >
+          <template #activator="{ on }">
+            <v-list-item class="px-2 rounded" v-on="on">
+              <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
+                parseInt(idx) + 1
+              }}</v-avatar>
+              <v-list-item-content>
+                <v-list-item-title>
                   {{ progressLabel.title }}
-                </li>
-              </ul>
-            </dialog-entity-delete>
-          </v-list>
-        </v-menu>
-      </v-list-item>
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action v-if="!disabled" style="display: inline">
+                <v-item-group>
+                  <ButtonEdit color="primary--text" text class="my-n1 v-btn--has-bg" />
+                </v-item-group>
+              </v-list-item-action>
+            </v-list-item>
+          </template>
+        </DialogActivityProgressLabelEdit>
+      </template>
+      <template v-else>
+        <api-sortable
+          v-slot="{ itemPosition, item, on }"
+          :endpoint="camp().progressLabels()"
+        >
+          <v-list-item class="px-2 rounded drag-and-drop-handle" v-on="on">
+            <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
+              itemPosition + 1
+            }}</v-avatar>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+
+            <v-list-item-action style="display: inline">
+              <v-btn text plain icon class="my-n1 pointer-events-none">
+                <v-icon>mdi-drag</v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </api-sortable>
+      </template>
     </v-list>
+    <v-btn v-if="!disabled" text block @click="reorder = !reorder">
+      <v-icon left>{{ reorder ? 'mdi-close' : 'mdi-sort' }}</v-icon>
+      {{
+        reorder
+          ? $tc('components.campAdmin.campActivityProgressLabels.exit')
+          : $tc('components.campAdmin.campActivityProgressLabels.reorder')
+      }}
+    </v-btn>
   </content-group>
 </template>
 
@@ -102,57 +100,31 @@
 import { sortBy } from 'lodash'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import DialogActivityProgressLabelCreate from './DialogActivityProgressLabelCreate.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-
+import DialogActivityProgressLabelEdit from '@/components/campAdmin/DialogActivityProgressLabelEdit.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import ApiSortable from '@/components/form/api/ApiSortable.vue'
 export default {
   name: 'CampActivityProgressLabels',
   components: {
+    ApiSortable,
+    ButtonAdd,
+    ButtonEdit,
     ContentGroup,
     DialogActivityProgressLabelCreate,
-    DialogEntityDelete,
+    DialogActivityProgressLabelEdit,
   },
   props: {
     camp: { type: Function, required: true },
     disabled: { type: Boolean, default: false },
   },
+  data: () => ({
+    reorder: false,
+  }),
   computed: {
-    loading() {
-      if (this.camp()._meta.loading) return true
-
-      const progressLabels = this.camp().progressLabels()
-      if (progressLabels._meta.loading) return true
-      if (progressLabels.items.some((label) => label._meta.loading)) return true
-
-      return false
-    },
     progressLabels() {
-      if (!this.loading) {
-        const progressLabels = this.camp().progressLabels()
-        return sortBy(progressLabels.allItems, (label) => label.position)
-      }
-      return []
-    },
-  },
-  methods: {
-    moveUp(progressLabel) {
-      progressLabel
-        .$patch({ position: progressLabel.position - 1 })
-        .then(() => this.camp().progressLabels().$reload())
-    },
-    moveDown(progressLabel) {
-      progressLabel
-        .$patch({ position: progressLabel.position + 1 })
-        .then(() => this.camp().progressLabels().$reload())
-    },
-    deleteErrorHandler(e) {
-      if (e?.response?.status === 422 /* Validation Error */) {
-        return this.$tc('components.campAdmin.campActivityProgressLabels.deleteError')
-      }
-
-      return null
+      return sortBy(this.camp().progressLabels().allItems, (label) => label.position)
     },
   },
 }
 </script>
-
-<style scoped></style>

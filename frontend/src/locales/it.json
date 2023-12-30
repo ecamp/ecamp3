@@ -46,8 +46,10 @@
         "create": "Creare uno stato",
         "deleteError": "Lo stato non può essere cancellato. Viene ancora utilizzato.",
         "deleteWarning": "Vuoi davvero cancellare questo stato?",
+        "exit": "Terminare il riordino",
         "moveDown": "Spostare in basso",
         "moveUp": "Spostare in alto",
+        "reorder": "Riordinare",
         "title": "Stati delle attività"
       },
       "campAddress": {
@@ -107,6 +109,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Creare uno stato"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Modificare il stato"
+      },
       "dialogCategoryCreate": {
         "title": "Creare categoria di attività"
       },
@@ -127,6 +132,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Sposta le voci del programma"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Non può essere eliminato. Ancora utilizzato dalle seguenti attività:"
       }
     },
     "campCreate": {

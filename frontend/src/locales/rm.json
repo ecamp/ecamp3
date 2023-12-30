@@ -39,8 +39,10 @@
         "create": "Crear in status",
         "deleteError": "Impussibel da stizzar il status. Il status vegn anc utilisà.",
         "deleteWarning": "Vuls ti propi stizzar quest status?",
+        "exit": "Terminar il reordinar",
         "moveDown": "Engiu",
         "moveUp": "Ensi",
+        "reorder": "Reordinatur",
         "title": "Status da l'activitad"
       },
       "campAddress": {
@@ -100,6 +102,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Crear in status"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Modifitgar il status"
+      },
       "dialogCategoryCreate": {
         "title": "Crear ina categoria d'activitad"
       },
@@ -120,6 +125,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Spustar las activitads"
+      },
+      "errorExistingActivitiesList": {
+        "description": "I na po betg vegnir extendì. Las suandantas activitads vegnan anc utilisadas:"
       }
     },
     "collaborator": {

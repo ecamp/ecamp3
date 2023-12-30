@@ -54,8 +54,10 @@
         "create": "Create a state",
         "deleteError": "State can't be deleted. It is still used.",
         "deleteWarning": "Do you really want to delete this state?",
+        "exit": "Exit reordering",
         "moveDown": "Move down",
         "moveUp": "Move up",
+        "reorder": "Reorder",
         "title": "Activity state"
       },
       "campAddress": {
@@ -115,6 +117,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Create activity state"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Edit activity state"
+      },
       "dialogCategoryCreate": {
         "title": "Create activity category"
       },
@@ -135,6 +140,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Move schedule entries"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Cannot be deleted. Still used by the following activities:"
       }
     },
     "campCreate": {

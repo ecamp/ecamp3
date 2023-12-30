@@ -46,8 +46,10 @@
         "create": "Créer un statut",
         "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
         "deleteWarning": "Veux-tu vraiment supprimer ce statut?",
+        "exit": "Fin du réagencement",
         "moveDown": "Descendre",
         "moveUp": "Monter",
+        "reorder": "Réordonner",
         "title": "Statut des activités"
       },
       "campAddress": {
@@ -107,6 +109,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Créer un statut"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Modifier le statut"
+      },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
       },
@@ -127,6 +132,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Déplacer les entrées du calendrier"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Ne peut pas être supprimé. Toujours utilisé par les activités suivantes :"
       }
     },
     "campCreate": {
