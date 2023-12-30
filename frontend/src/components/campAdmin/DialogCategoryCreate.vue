@@ -6,6 +6,7 @@
     icon="mdi-calendar-plus"
     :title="$tc('components.campAdmin.dialogCategoryCreate.title')"
     :submit-action="createCategory"
+    :submit-label="$tc('global.button.create')"
     submit-color="success"
     :cancel-action="close"
   >

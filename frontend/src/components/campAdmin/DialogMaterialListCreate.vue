@@ -6,6 +6,7 @@
     icon="mdi-package-variant"
     :title="$tc('components.campAdmin.dialogMaterialListCreate.title')"
     :submit-action="createMaterialList"
+    :submit-label="$tc('global.button.create')"
     submit-color="success"
     :cancel-action="close"
   >
