@@ -153,8 +153,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Propi stizzar?",
-        "warningText": "Vuls ti propi stizzar quai?"
+        "title": "Propi stizzar?"
       }
     },
     "form": {
@@ -315,8 +314,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Propi stizzar?",
-        "warningText": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
+        "title": "Propi stizzar?"
       }
     },
     "toast": {
@@ -408,6 +406,9 @@
       "greaterThanOrEqual_date": "{_field_} na dastga betg esser avant {min}",
       "greaterThan_time": "{_field_} sto esser suenter {min}",
       "lessThanOrEqual_date": "{_field_} na dastga betg esser suenter {max}"
+    },
+    "warning": {
+      "delete": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
     }
   },
   "views": {

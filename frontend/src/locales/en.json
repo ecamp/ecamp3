@@ -194,8 +194,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Really delete?",
-        "warningText": "Do you really want to delete this?"
+        "title": "Really delete?"
       }
     },
     "form": {
@@ -365,8 +364,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Really delete?",
-        "warningText": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
+        "title": "Really delete?"
       }
     },
     "toast": {
@@ -463,6 +461,9 @@
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
       "lessThanOrEqual_date": "{_field_} may not be later than {max}"
+    },
+    "warning": {
+      "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
     }
   },
   "views": {

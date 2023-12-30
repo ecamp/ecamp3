@@ -194,8 +194,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
+        "title": "Wirklich löschen?"
       }
     },
     "form": {
@@ -365,8 +364,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
+        "title": "Wirklich löschen?"
       }
     },
     "toast": {
@@ -463,6 +461,9 @@
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
       "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
+    },
+    "warning": {
+      "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
     }
   },
   "views": {

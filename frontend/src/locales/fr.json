@@ -186,8 +186,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment supprimer cet élément ?"
+        "title": "Confirmation de suppression"
       }
     },
     "form": {
@@ -348,8 +347,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
+        "title": "Confirmation de suppression"
       }
     },
     "toast": {
@@ -443,6 +441,9 @@
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
       "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}"
+    },
+    "warning": {
+      "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
     }
   },
   "views": {

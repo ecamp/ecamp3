@@ -15,7 +15,11 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <slot>{{ $tc('components.dialog.dialogEntityDelete.warningText') }}</slot>
+    <slot>{{
+      $tc('global.warning.delete', warningTextEntity ? 2 : 0, {
+        entity: warningTextEntity,
+      })
+    }}</slot>
     <template v-if="$slots.error || error" #error>
       <slot name="error">
         {{ error }}
@@ -35,6 +39,7 @@ export default {
   props: {
     entity: { type: Object, required: true },
     submitEnabled: { type: Boolean, required: false, default: true },
+    warningTextEntity: { type: String, required: false, default: '' },
     icon: { type: String, required: false, default: 'mdi-delete' },
   },
   created() {
