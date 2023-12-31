@@ -1,5 +1,5 @@
 import { computed, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router/composables'
+import { useRoute } from 'vue-router'
 import * as XLSX from 'xlsx'
 import { slugify } from '@/plugins/slugify.js'
 import i18n from '@/plugins/i18n/index.js'

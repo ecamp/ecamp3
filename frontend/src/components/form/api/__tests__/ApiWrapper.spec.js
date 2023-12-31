@@ -5,7 +5,7 @@ import flushPromises from 'flush-promises'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import veeValidatePlugin from '@/plugins/veeValidate'
 import ApiWrapper from '../ApiWrapper.vue'
-import { VBtn, VForm } from 'vuetify/lib'
+import { VBtn, VForm } from 'vuetify/components'
 import { ValidationObserver } from 'vee-validate'
 
 const { cloneDeep } = await vi.importActual('lodash')

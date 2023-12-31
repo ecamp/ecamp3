@@ -1,14 +1,14 @@
-import { extend, configure, setInteractionMode } from 'vee-validate'
-import * as rules from 'vee-validate/dist/rules'
+import { configure } from 'vee-validate'
+import * as rules from '@vee-validate/rules'
 import i18n from '@/plugins/i18n'
-import greaterThan_time from './veeValidate/greaterThan_time.js'
-import greaterThanOrEqual_date from './veeValidate/greaterThanOrEqual_date.js'
-import lessThanOrEqual_date from './veeValidate/lessThanOrEqual_date.js'
+// import greaterThan_time from './veeValidate/greaterThan_time.js'
+// import greaterThanOrEqual_date from './veeValidate/greaterThanOrEqual_date.js'
+// import lessThanOrEqual_date from './veeValidate/lessThanOrEqual_date.js'
 
 class VeeValidatePlugin {
   install(Vue) {
     // Eager = Lazy at the beginning, Agressive once the field is invalid (https://vee-validate.logaretm.com/v3/guide/interaction-and-ux.html#interaction-modes)
-    setInteractionMode('eager')
+    // setInteractionMode('eager')
 
     // translate default error messages
     configure({
@@ -20,22 +20,22 @@ class VeeValidatePlugin {
 
     // install all default rules
     Object.keys(rules).forEach((rule) => {
-      extend(rule, {
-        ...rules[rule], // copies rule configuration
-      })
+      // extend(rule, {
+      //   ...rules[rule], // copies rule configuration
+      // })
     })
 
     /**
      * define custom rules
      */
 
-    extend('greaterThan_time', greaterThan_time(Vue.dayjs, i18n))
-
-    // check if date (value) is equal or larger than another date (min)
-    extend('greaterThanOrEqual_date', greaterThanOrEqual_date(Vue.dayjs, i18n))
-
-    // check if date (value) is equal or less than another date (max)
-    extend('lessThanOrEqual_date', lessThanOrEqual_date(Vue.dayjs, i18n))
+    // extend('greaterThan_time', greaterThan_time(Vue.dayjs, i18n))
+    //
+    // // check if date (value) is equal or larger than another date (min)
+    // extend('greaterThanOrEqual_date', greaterThanOrEqual_date(Vue.dayjs, i18n))
+    //
+    // // check if date (value) is equal or less than another date (max)
+    // extend('lessThanOrEqual_date', lessThanOrEqual_date(Vue.dayjs, i18n))
   }
 }
 

@@ -1,14 +1,14 @@
 <template>
-  <ValidationProvider
-    v-slot="{ errors: veeErrors }"
-    ref="validationProvider"
-    tag="div"
-    :name="name"
-    :vid="veeId"
-    :rules="veeRules"
-    :required="required"
-    class="e-form-container"
-  >
+<!--  <ValidationProvider-->
+<!--    v-slot="{ errors: veeErrors }"-->
+<!--    ref="validationProvider"-->
+<!--    tag="div"-->
+<!--    :name="name"-->
+<!--    :vid="veeId"-->
+<!--    :rules="veeRules"-->
+<!--    :required="required"-->
+<!--    class="e-form-container"-->
+<!--  >-->
     <v-text-field
       ref="textField"
       v-bind="$attrs"
@@ -29,17 +29,19 @@
         <slot :name="name" v-bind="slotData" />
       </template>
     </v-text-field>
-  </ValidationProvider>
+<!--  </ValidationProvider>-->
 </template>
 
 <script>
-import { ValidationProvider } from 'vee-validate'
+// import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ETextField',
-  components: { ValidationProvider },
+  components: {
+    // ValidationProvider
+  },
   mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     type: {

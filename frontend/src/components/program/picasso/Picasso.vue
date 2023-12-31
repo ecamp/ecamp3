@@ -31,9 +31,7 @@ Listing all given activity schedule entries in a calendar view.
       :event-ripple="false"
       v-on="vCalendarListeners"
       @mouseleave.native="onMouseleave"
-      @mousedown.native.prevent="
-        /*this prevents from middle button to start scroll behavior*/
-      "
+      @mousedown.native.prevent="preventMiddleButtonFromStartingScrollBehaviour"
     >
       <!-- day header -->
       <template #day-label-header="{ date }">
@@ -255,6 +253,8 @@ export default {
       loadCalenderEventsFromScheduleEntries()
     }
 
+    function preventMiddleButtonFromStartingScrollBehaviour() {}
+
     return {
       vCalendarListeners,
       startResize: dragAndDropResize.startResize,
@@ -263,6 +263,7 @@ export default {
       reloadScheduleEntries,
       loadCalenderEventsFromScheduleEntries,
       events,
+      preventMiddleButtonFromStartingScrollBehaviour,
     }
   },
   data() {
@@ -350,7 +351,7 @@ export default {
   border: none;
   overflow: auto;
 
-  @media #{map-get($display-breakpoints, 'xs-only')} {
+  @media #{map-get($display-breakpoints, 'xs')} {
     position: fixed;
     height: inherit;
     top: 48px;

@@ -19,7 +19,7 @@ import * as Sentry from '@sentry/vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 
-import { Resize } from 'vuetify/lib/directives'
+import { Resize } from 'vuetify/directives'
 import ResizeObserver from 'v-resize-observer'
 
 const env = getEnv()

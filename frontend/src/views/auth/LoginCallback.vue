@@ -4,7 +4,7 @@
       <v-row align="center" justify="center">
         <v-card>
           <v-card-text>
-            <h3>{{$tc('views.auth.loginCallback.loginInProgress')</h3>
+            <h3>{{ $tc('views.auth.loginCallback.loginInProgress') }}</h3>
           </v-card-text>
         </v-card>
       </v-row>

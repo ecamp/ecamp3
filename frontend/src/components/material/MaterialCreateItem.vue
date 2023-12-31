@@ -1,12 +1,13 @@
 <template>
-  <ValidationObserver
-    v-if="materialLists.length > 0"
-    ref="validation"
-    tag="tr"
-    class="newItemRow"
-    @keyup.enter="submitForm"
-  >
-    <td class="pt-1">
+  <!--  <ValidationObserver-->
+  <!--    v-if="materialLists.length > 0"-->
+  <!--    ref="validation"-->
+  <!--    tag="tr"-->
+  <!--    class="newItemRow"-->
+  <!--    @keyup.enter="submitForm"-->
+  <!--  >-->
+  <tr v-if="materialLists.length > 0" class="pt-1">
+    <td>
       <e-text-field
         ref="quantity"
         v-model.number="materialItem.quantity"
@@ -48,8 +49,8 @@
     <td class="pt-1">
       <button-add height="52" hide-label @click="submitForm" />
     </td>
-  </ValidationObserver>
-
+  </tr>
+  <!--  </ValidationObserver>-->
   <tr v-else>
     <td :colspan="columns">
       <div>
@@ -67,12 +68,15 @@
 
 <script>
 import { campRoute } from '@/router.js'
-import { ValidationObserver } from 'vee-validate'
+// import { ValidationObserver } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'MaterialCreateItem',
-  components: { ValidationObserver, ButtonAdd },
+  components: {
+    // ValidationObserver,
+    ButtonAdd,
+  },
   props: {
     camp: { type: Object, required: true },
 

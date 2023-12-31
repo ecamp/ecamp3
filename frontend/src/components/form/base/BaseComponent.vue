@@ -29,7 +29,7 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
-import { VTextField } from 'vuetify/lib'
+import { VTextField } from 'vuetify/components'
 
 export default {
   name: 'BaseComponent',

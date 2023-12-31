@@ -61,7 +61,7 @@ export default {
 
 <style scoped lang="scss">
 .ec-content-card__toolbar {
-  @media #{map-get($display-breakpoints, 'xs-only')} {
+  @media #{map-get($display-breakpoints, 'xs')} {
     position: sticky;
     top: 0;
     z-index: 5;

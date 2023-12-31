@@ -1,5 +1,5 @@
 <script>
-import { VTextField } from 'vuetify/lib'
+import { VTextField } from 'vuetify/components'
 import TiptapEditor from './TiptapEditor.vue'
 
 export default {

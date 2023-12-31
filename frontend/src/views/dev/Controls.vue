@@ -86,7 +86,7 @@ import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker.vue'
 import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
 import VueI18n from '@/plugins/i18n'
-import { VTextField, VTextarea, VCheckbox, VSwitch, VSelect } from 'vuetify/lib'
+import { VTextField, VTextarea, VCheckbox, VSwitch, VSelect } from 'vuetify/components'
 
 export default {
   name: 'Controls',

@@ -12,7 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">
+<!--    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">-->
       <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
       <v-form @submit.prevent="handleSubmit(doSubmit)">
         <v-card>
@@ -77,18 +77,21 @@
           </v-card-actions>
         </v-card>
       </v-form>
-    </ValidationObserver>
+<!--    </ValidationObserver>-->
   </v-dialog>
 </template>
 
 <script>
-import { ValidationObserver } from 'vee-validate'
+// import { ValidationObserver } from 'vee-validate'
 import ServerError from '@/components/form/ServerError.vue'
 import DialogUiBase from '@/components/dialog/DialogUiBase.vue'
 
 export default {
   name: 'DialogForm',
-  components: { ValidationObserver, ServerError },
+  components: {
+    // ValidationObserver,
+    ServerError
+  },
   extends: DialogUiBase,
   props: {
     icon: { type: String, default: '', required: false },
@@ -134,7 +137,7 @@ export default {
 </script>
 
 <style lang="scss">
-@media #{map-get($display-breakpoints, 'xs-only')} {
+@media #{map-get($display-breakpoints, 'xs')} {
   .ec-dialog-form {
     .v-form,
     .v-form > .v-sheet {

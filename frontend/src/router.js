@@ -1,19 +1,18 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { getEnv } from '@/environment.js'
-
-Vue.use(Router)
 
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
 const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
 const GenericPage = () => import('./components/generic/GenericPage.vue')
 
 /* istanbul ignore next */
-export default new Router({
+const router = createRouter({
   mode: 'history',
+  history: createWebHashHistory(),
   base: '/',
   routes: [
     ...(getEnv().FEATURE_DEVELOPER
@@ -383,7 +382,7 @@ export default new Router({
       redirect: { name: 'camps' },
     },
     {
-      path: '**',
+      path: '/**',
       name: 'PageNotFound',
       components: {
         navigation: NavigationDefault,
@@ -392,6 +391,10 @@ export default new Router({
     },
   ],
 })
+
+Vue.use(router)
+
+export default router
 
 function evaluateGuards(guards, to, from, next) {
   const guardsLeft = guards.slice(0)

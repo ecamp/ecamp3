@@ -1,7 +1,7 @@
 <template>
   <auth-container>
     <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
-    <validation-observer v-slot="{ handleSubmit }">
+<!--    <validation-observer v-slot="{ handleSubmit }">-->
       <v-form @submit.prevent="handleSubmit(register)">
         <e-text-field
           v-model="firstname"
@@ -123,7 +123,7 @@
           <icon-spacer />
         </v-btn>
       </v-form>
-    </validation-observer>
+<!--    </validation-observer>-->
 
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br />
@@ -139,7 +139,7 @@ import { load } from 'recaptcha-v3'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import VueI18n from '@/plugins/i18n'
-import { ValidationObserver } from 'vee-validate'
+// import { ValidationObserver } from 'vee-validate'
 import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 import { parseTemplate } from 'url-template'
 import { getEnv } from '@/environment.js'
@@ -148,7 +148,7 @@ export default {
   name: 'Register',
   components: {
     AuthContainer,
-    ValidationObserver,
+    // ValidationObserver,
   },
   mixins: [passwordStrengthMixin],
   data() {

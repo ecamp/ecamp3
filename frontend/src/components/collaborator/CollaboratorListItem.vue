@@ -13,13 +13,13 @@
             <button v-on="on">
               {{ $tc(roles[collaborator.role].roleTranslation)
               }}<span>
-                &middot;
-                <template v-for="icon in roles[collaborator.role].icons"
-                  ><v-icon :key="icon" x-small class="vertical-baseline">{{
-                    icon
-                  }}</v-icon
-                  >&thinsp;</template
-                ></span
+                &middot;<v-icon
+                  v-for="icon in roles[collaborator.role].icons"
+                  :key="icon"
+                  x-small
+                  class="vertical-baseline"
+                  >{{ icon }}</v-icon
+                >&thinsp;</span
               >
             </button>
           </template>

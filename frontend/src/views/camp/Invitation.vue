@@ -95,14 +95,12 @@
 
 <script>
 import { loginRoute } from '@/router'
-import VueRouter from 'vue-router'
+import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import ButtonBack from '@/components/buttons/ButtonBack.vue'
 import UserMeta from '@/components/navigation/UserMeta.vue'
-
-const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
-  if (!isNavigationFailure(e, NavigationFailureType.redirected)) {
+  if (!isNavigationFailure(e, NavigationFailureType.duplicated)) {
     return Promise.reject(e)
   }
 }
@@ -332,7 +330,7 @@ export default {
   order: -1;
 }
 
-@media #{map-get($display-breakpoints, 'xs-only')} {
+@media #{map-get($display-breakpoints, 'xs')} {
   .wood {
     font-size: 22px;
   }
@@ -399,7 +397,7 @@ export default {
   right: min(5%, 42px);
 }
 
-@media #{map-get($display-breakpoints, 'xs-only')} {
+@media #{map-get($display-breakpoints, 'xs')} {
   .rope,
   .rope::before,
   .rope::after {

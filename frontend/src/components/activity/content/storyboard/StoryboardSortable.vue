@@ -15,7 +15,7 @@
     <template v-for="key in localSortedKeys">
       <StoryboardRowDefault
         v-if="variant === 'default'"
-        :key="key"
+        :key="`default-${key}`"
         :disabled="disabled"
         :is-last-section="isLastSection"
         :item-key="key"
@@ -26,7 +26,7 @@
       />
       <StoryboardRowDense
         v-else-if="variant === 'dense'"
-        :key="key"
+        :key="`dense-${key}`"
         :disabled="disabled"
         :is-last-section="isLastSection"
         :item-key="key"

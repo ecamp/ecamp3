@@ -1,12 +1,13 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue2'
-import { createSvgPlugin } from 'vite-plugin-vue2-svg'
+import vue from '@vitejs/plugin-vue'
+// import { svg4VuePlugin } from 'vite-plugin-svg4vue'
 import { comlink } from 'vite-plugin-comlink'
 import * as path from 'path'
-import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
+// import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { configDefaults } from 'vitest/config'
+import vuetify from 'vite-plugin-vuetify'
 
 const plugins = [
   comlink(), // must be first
@@ -21,11 +22,16 @@ const plugins = [
   }),
   Components({
     resolvers: [
-      // Vuetify
-      VuetifyResolver(),
+      // // Vuetify
+      // VuetifyResolver(),
     ],
   }),
-  createSvgPlugin(),
+  vuetify({
+    autoImport: {
+      labs: true,
+    },
+  }),
+  // svg4VuePlugin(),
 ]
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
 if (sentryAuthToken) {
@@ -107,13 +113,16 @@ export default defineConfig(({ mode }) => ({
       'vue',
       'vuedraggable',
       'vue-toastification',
-      'vuetify/es5/components/VCalendar/modes/column.js',
-      'vuetify/es5/components/VCalendar/util/events.js',
+      // 'vuetify/es5/components/VCalendar/modes/column.js',
+      // 'vuetify/es5/components/VCalendar/util/events.js',
     ],
   },
   build: {
     sourcemap: true,
     minify: mode === 'development' ? false : 'esbuild',
+    rollupOptions: {
+      external: ['vuetify/lib'],
+    },
   },
   resolve: {
     alias: [
@@ -143,7 +152,8 @@ export default defineConfig(({ mode }) => ({
         replacement: path.resolve(__dirname, 'node_modules', 'dayjs'),
       },
       {
-        vue: '@vue/compat',
+        find: 'vue',
+        replacement: '@vue/compat',
       },
     ],
     preserveSymlinks: true,
@@ -151,7 +161,13 @@ export default defineConfig(({ mode }) => ({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "./node_modules/vuetify/src/styles/styles.sass";\n', // original default variables from vuetify
+        additionalData: `
+        // original default variables from vuetify
+        @import "./node_modules/vuetify/lib/styles/settings/_variables.scss";
+        @import "./node_modules/vuetify/lib/styles/settings/_colors.scss";
+        @import "./node_modules/vuetify/dist/_component-variables.sass";
+        @import "./node_modules/vuetify/dist/_component-variables-labs.sass";
+        `,
       },
       sass: {
         additionalData: '@import "./src/scss/variables.scss"\n', // vuetify variable overrides

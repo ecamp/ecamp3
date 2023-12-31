@@ -3,40 +3,40 @@ Wrapper component for form components to save data back to API
 -->
 
 <template>
-  <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>
-    <v-form
-      :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
-      class="e-form-container"
-      @submit.prevent="onEnter"
-    >
-      <slot
-        :local-value="localValue"
-        :parsed-value="parsedLocalValue"
-        :has-server-error="hasServerError"
-        :has-loading-error="hasLoadingError"
-        :has-validation-error="validationObserver.invalid"
-        :error-messages="errorMessages"
-        :is-saving="isSaving"
-        :is-loading="isLoading"
-        :auto-save="autoSave"
-        :readonly="readonly || !hasFinishedLoading"
-        :status="status"
-        :dirty="dirty"
-        :on="eventHandlers"
-      />
-    </v-form>
-  </ValidationObserver>
+  <!--  <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>-->
+  <v-form
+    :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
+    class="e-form-container"
+    @submit.prevent="onEnter"
+  >
+    <slot
+      :local-value="localValue"
+      :parsed-value="parsedLocalValue"
+      :has-server-error="hasServerError"
+      :has-loading-error="hasLoadingError"
+      :has-validation-error="validationObserver.invalid"
+      :error-messages="errorMessages"
+      :is-saving="isSaving"
+      :is-loading="isLoading"
+      :auto-save="autoSave"
+      :readonly="readonly || !hasFinishedLoading"
+      :status="status"
+      :dirty="dirty"
+      :on="eventHandlers"
+    />
+  </v-form>
+  <!--  </ValidationObserver>-->
 </template>
 
 <script>
 import { debounce, set, get } from 'lodash'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
-import { ValidationObserver } from 'vee-validate'
+// import { ValidationObserver } from 'vee-validate'
 import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'ApiWrapper',
-  components: { ValidationObserver },
+  // components: { ValidationObserver },
   mixins: [apiPropsMixin],
   props: {
     separateButtons: {
