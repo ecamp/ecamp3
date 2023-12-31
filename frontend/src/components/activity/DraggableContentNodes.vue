@@ -208,7 +208,7 @@ export default {
 }
 
 .draggable-area--row ::v-deep .content-node {
-  flex: 1 0 320px;
+  flex: 1 0 320px !important;
 }
 
 .draggable-area--layout-mode {
