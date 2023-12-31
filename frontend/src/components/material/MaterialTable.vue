@@ -142,10 +142,9 @@
 
     <template #[`header.lastColumn`]>
       <button
-        v-if="showFilter()"
         class="ec-material-table__filterbutton"
         :class="{ 'primary--text': activeFilter }"
-        :disabled="layoutMode"
+        :disabled="layoutMode || !showFilter()"
         @click="updateFilter"
       >
         <span>
@@ -157,7 +156,12 @@
           }}</span>
           <span v-else>{{ $tc('components.material.materialTable.activityOnly') }}</span>
         </span>
-        <v-icon aria-hidden="true" small :color="activeFilter ? 'primary' : null">
+        <v-icon
+          v-if="showFilter()"
+          aria-hidden="true"
+          small
+          :color="activeFilter ? 'primary' : null"
+        >
           {{ activeFilter ? 'mdi-filter' : 'mdi-filter-outline' }}
         </v-icon>
       </button>
@@ -462,11 +466,13 @@ export default {
 
     // Show filter just if activity & period material is in list
     showFilter() {
-      const test = this.materialItemCollection.items.some((item) => item.materialNode === null)
-      return (
-        test &&
+      const showFilter =
+        this.materialItemCollection.items.some((item) => item.materialNode === null) &&
         this.materialItemCollection.items.some((item) => item.materialNode !== null)
-      )
+      if (!showFilter) {
+        this.activeFilter = filterOptiones.SHOW_ALL
+      }
+      return showFilter
     },
   },
 }
