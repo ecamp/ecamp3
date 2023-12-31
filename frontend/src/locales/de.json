@@ -170,6 +170,14 @@
         "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
       }
     },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
+        "layout": "Layout",
+        "noTemplate": "Keine Vorlage"
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Einladung verschicken",
@@ -655,6 +663,11 @@
     "category": {
       "category": {
         "deleteCategory": "Kategorie löschen",
+        "properties": "Eigenschaften",
+        "template": "Vorlage für neue Blöcke"
+      },
+      "sideBarCategory": {
+        "title": "Kategorien"
       }
     },
     "material": {

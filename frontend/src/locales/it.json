@@ -162,6 +162,14 @@
         "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare."
       }
     },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Contenuti",
+        "createLayoutHelp": "Qui puoi definire il modello per le nuove attività {categoryShort}.{br}Il contenuto e il layout delle attività {categoryShort} già create non verranno modificati.",
+        "layout": "Layout",
+        "noTemplate": "Nessun modello"
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Inviare l'invito",
@@ -635,6 +643,11 @@
     "category": {
       "category": {
         "deleteCategory": "Elimina la categoria",
+        "properties": "Proprietà",
+        "template": "Modello per le nuove attività"
+      },
+      "sideBarCategory": {
+        "title": "Categorie"
       }
     },
     "material": {

@@ -61,7 +61,7 @@ export default {
     async createCategory() {
       const createdCategory = await this.create()
       await this.api.reload(this.camp.categories())
-      this.$router.push(categoryRoute(this.camp, createdCategory))
+      this.$router.push(categoryRoute(this.camp, createdCategory, { new: true }))
     },
   },
 }

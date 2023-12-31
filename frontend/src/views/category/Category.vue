@@ -9,20 +9,6 @@
       </template>
 
       <template #title-actions>
-        <v-btn v-if="!layoutMode" color="primary" outlined @click="layoutMode = true">
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-puzzle-edit-outline</v-icon>
-            {{ $tc('views.activity.category.changeLayout') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.category.layout') }}</template>
-        </v-btn>
-        <v-btn v-else color="success" outlined @click="layoutMode = false">
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-file-document-arrow-right-outline</v-icon>
-            {{ $tc('views.activity.category.editContents') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.category.contents') }}</template>
-        </v-btn>
         <v-menu v-if="isManager" offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
@@ -56,44 +42,55 @@
           </v-list>
         </v-menu>
       </template>
-      <v-card-text class="px-0 py-0">
-        <v-skeleton-loader v-if="loading" type="article" />
+      <v-expansion-panels :value="openPanels" flat multiple accordion>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h3>
+              {{ $tc('views.category.category.properties') }}
+            </h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <CategoryProperties :category="category()" :disabled="!isManager" />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
 
-        <div
-          v-if="!loading && category().rootContentNode().children().items.length === 0"
-          class="text-center blue lighten-4 blue--text py-4 px-2 text--darken-4 create-layout-help"
-        >
-          <i18n path="views.activity.category.createLayoutHelp">
-            <template #categoryShort>{{ category().short }}</template>
-            <template #br><br /></template>
-          </i18n>
-        </div>
-        <root-node
-          v-if="!loading"
-          :content-node="category().rootContentNode()"
-          :layout-mode="layoutMode"
-          :disabled="!isManager"
-        />
-      </v-card-text>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h3>
+              {{ $tc('views.category.category.template') }}
+            </h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <CategoryTemplate
+              :category="category()"
+              :layout-mode="layoutMode"
+              :loading="loading"
+              :readonly="!isManager"
+            />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </content-card>
   </v-container>
 </template>
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import RootNode from '@/components/activity/RootNode.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingActivitiesList.vue'
+import CategoryProperties from '@/components/category/CategoryProperties.vue'
+import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 export default {
   name: 'Category',
   components: {
+    CategoryTemplate,
+    CategoryProperties,
     ErrorExistingActivitiesList,
     DialogEntityDelete,
     CategoryChip,
     ContentCard,
-    RootNode,
   },
   mixins: [campRoleMixin],
   provide() {
@@ -117,6 +114,7 @@ export default {
     return {
       layoutMode: true,
       loading: true,
+      openPanels: [0, 1],
     }
   },
   computed: {
@@ -130,6 +128,13 @@ export default {
 
   // reload data every time user navigates to Category view
   async mounted() {
+    // hide properties panel if new category has been created and user is redirected here
+    const url = new URL(window.location)
+    if (url.searchParams.get('new') === 'true') {
+      url.searchParams.delete('new')
+      window.history.replaceState({}, '', url)
+      this.openPanels = [1]
+    }
     this.loading = true
     await this.category()._meta.load // wait if category is being loaded as part of a collection
     await this.category().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
@@ -149,9 +154,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.v-application .create-layout-help {
-  border-bottom: 1px solid #90caf9 !important;
-}
-</style>

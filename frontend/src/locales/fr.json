@@ -162,6 +162,14 @@
         "submitTooltipPrototype": "Tu dois encore choisir si tu veux utiliser un modèle de champ et lequel."
       }
     },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Contenus",
+        "createLayoutHelp": "Ici, vous pouvez définir le modèle pour de nouvelles activités {categoryShort}.{br}Le contenu et la mise en page des activités {categoryShort} déjà créées ne seront pas ajustés.",
+        "layout": "Layout",
+        "noTemplate": "Pas de modèle"
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Envoyer l'invitation",
@@ -635,6 +643,11 @@
     "category": {
       "category": {
         "deleteCategory": "Supprimer l'activité",
+        "properties": "Propriétés",
+        "template": "Modèle pour nouvelles activités"
+      },
+      "sideBarCategory": {
+        "title": "Catégories"
       }
     },
     "material": {

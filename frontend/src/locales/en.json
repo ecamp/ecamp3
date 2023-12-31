@@ -170,6 +170,14 @@
         "submitTooltipPrototype": "You need to choose if and which template you want."
       }
     },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Contents",
+        "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be adjusted.",
+        "layout": "Layout",
+        "noTemplate": "No template"
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Send invitation",
@@ -655,6 +663,11 @@
     "category": {
       "category": {
         "deleteCategory": "Delete category",
+        "properties": "Properties",
+        "template": "Template for new activities"
+      },
+      "sideBarCategory": {
+        "title": "Categories"
       }
     },
     "material": {
