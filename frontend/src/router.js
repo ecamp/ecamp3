@@ -308,6 +308,7 @@ export default new Router({
         navigation: (route) => ({ camp: campFromRoute(route) }),
         aside: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({
+          camp: campFromRoute(route),
           category: categoryFromRoute(route),
         }),
       },

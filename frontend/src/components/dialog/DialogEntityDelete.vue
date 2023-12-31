@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :icon="icon"
-    :title="$tc('components.dialog.dialogEntityDelete.title')"
+    :title="dialogTitle || $tc('components.dialog.dialogEntityDelete.title')"
     :error="error"
     :submit-action="del"
     :submit-enabled="submitEnabled && !$slots.error"
@@ -40,6 +40,7 @@ export default {
     entity: { type: Object, required: true },
     submitEnabled: { type: Boolean, required: false, default: true },
     warningTextEntity: { type: String, required: false, default: '' },
+    dialogTitle: { type: String, required: false, default: '' },
     icon: { type: String, required: false, default: 'mdi-delete' },
   },
   created() {

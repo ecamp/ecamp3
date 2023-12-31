@@ -65,9 +65,6 @@
       },
       "campCategories": {
         "create": "Create activity category",
-        "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
-        "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
-        "editLayout": "Edit template",
         "title": "Activity categories"
       },
       "campConditionalFields": {
@@ -478,13 +475,6 @@
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Change template layout",
-        "contents": "Contents",
-        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
-        "editContents": "Set template contents",
-        "layout": "Layout"
-      },
       "printPreview": "Open print preview",
       "sideBarProgram": {
         "title": "Activities on this day"
@@ -660,6 +650,11 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Delete category",
+      }
     },
     "material": {
       "materialLists": {

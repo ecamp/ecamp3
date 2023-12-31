@@ -50,9 +50,6 @@
       },
       "campCategories": {
         "create": "Crear ina categoria dad activitad",
-        "deleteCategoryNotPossibleInUse": "Impussibel da stizzar la categoria d'activitad. Ella vegn anc utilisada:",
-        "deleteCategoryQuestion": "Vuls ti propi stizzar questa categoria d'activitad?",
-        "editLayout": "Modifitgar il model",
         "title": "Categorias d'activitads"
       },
       "campConditionalFields": {
@@ -421,13 +418,6 @@
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Modifitgar il layout da model",
-        "contents": "Cuntegns",
-        "createLayoutHelp": "Qua pos ti definir co ils blocs novs da {categoryShort} duain vesair ora tenor standard.{br}Attenziun: Sche ti has gia blocs da {categoryShort} en il champ, na vegnan quels betg adattads automaticamain..",
-        "editContents": "Modifitgar il cuntegn dal model",
-        "layout": "Layout"
-      },
       "printPreview": "Avrir la prevista da stampa",
       "sideBarProgram": {
         "title": "Survista dal di"
@@ -610,6 +600,11 @@
       "pastCamps": "Champs vegls",
       "prototypeCamps": "Models",
       "title": "Mes champs"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Stizzar la categoria",
+      }
     },
     "material": {
       "materialOverview": {

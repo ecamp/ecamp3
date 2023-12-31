@@ -57,9 +57,6 @@
       },
       "campCategories": {
         "create": "Créer une catégorie d'activité",
-        "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
-        "deleteCategoryQuestion": "Veux-tu vraiment supprimer la catégorie d'activité?",
-        "editLayout": "Modifier la modèle",
         "title": "Catégories d'activités"
       },
       "campConditionalFields": {
@@ -458,13 +455,6 @@
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Modifier la mise en page du modèle",
-        "contents": "Contenu",
-        "createLayoutHelp": "Ici, tu peux définir l'apparence par défaut des nouvelles activités {categoryShort}.{br}Attention : Si tu as déjà des activités {categoryShort} dans le camp, elles ne seront pas automatiquement adaptées.",
-        "editContents": "Modifier le contenu du modèle",
-        "layout": "Mise en page"
-      },
       "printPreview": "Ouvrir l'aperçu avant impression",
       "sideBarProgram": {
         "title": "Activités du jour"
@@ -640,6 +630,11 @@
       "pastCamps": "Anciens camps",
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Supprimer l'activité",
+      }
     },
     "material": {
       "materialLists": {
