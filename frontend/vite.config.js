@@ -10,7 +10,15 @@ import { configDefaults } from 'vitest/config'
 
 const plugins = [
   comlink(), // must be first
-  vue(),
+  vue({
+    template: {
+      compilerOptions: {
+        compatConfig: {
+          MODE: 2,
+        },
+      },
+    },
+  }),
   Components({
     resolvers: [
       // Vuetify
@@ -133,6 +141,9 @@ export default defineConfig(({ mode }) => ({
       {
         find: 'dayjs',
         replacement: path.resolve(__dirname, 'node_modules', 'dayjs'),
+      },
+      {
+        vue: '@vue/compat',
       },
     ],
     preserveSymlinks: true,
