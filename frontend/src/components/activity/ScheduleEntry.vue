@@ -256,6 +256,7 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 
 export default {
   name: 'ScheduleEntry',
@@ -286,14 +287,15 @@ export default {
       required: true,
     },
   },
+  setup() {
+    return useDisplaySize()
+  },
   data() {
     return {
       layoutMode: false,
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
-      isPaperDisplaySize: true,
-      isLocalPaperDisplaySize: true,
     }
   },
   computed: {
@@ -349,9 +351,6 @@ export default {
 
   // reload data every time user navigates to Activity view
   async mounted() {
-    this.isPaperDisplaySize =
-      localStorage.getItem('activityIsPaperDisplaySize') !== 'false'
-    this.isLocalPaperDisplaySize = this.isPaperDisplaySize
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
@@ -408,13 +407,6 @@ export default {
     onDelete() {
       // redirect to Picasso
       this.$router.push(periodRoute(this.scheduleEntry().period()))
-    },
-    toggleDisplaySize() {
-      this.isPaperDisplaySize = !this.isPaperDisplaySize
-      this.$nextTick(() => {
-        this.isLocalPaperDisplaySize = this.isPaperDisplaySize
-      })
-      localStorage.setItem('activityIsPaperDisplaySize', this.isPaperDisplaySize)
     },
   },
 }
