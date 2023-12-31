@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-break-after-page">
+  <div class="tw-break-after-page" :class="{ 'landscape-page': landscape }">
     <div :class="landscape ? 'landscape' : 'portrait'">
       <div class="tw-flex tw-flex-row tw-items-baseline fullwidth">
         <h1
@@ -12,8 +12,8 @@
         <span>{{ camp.organizer }}</span>
         <img
           v-if="camp.printYSLogoOnPicasso"
-          :height="landscape ? 24 : 35"
-          :width="landscape ? 24 : 35"
+          height="35"
+          width="35"
           :src="ysLogoUrl"
           class="tw-self-start tw-ml-2"
         />
@@ -24,7 +24,7 @@
           :days="days"
           :times="times"
           :schedule-entries="scheduleEntries"
-          :content-height="landscape ? 312 : 768"
+          :content-height="landscape ? 480 : 768"
         />
       </div>
       <div class="categories fullwidth text-sm-relative">
@@ -161,18 +161,20 @@ export default {
 $portrait-content-width: 680; /* 794px minus 114px (=2*15mm margin) */
 $portrait-content-height: 1009; /* 1123px minus 114px (=2*15mm margin) */
 
-/* render a landscape picasso which fits into $portrait-content-width and then scale it up during rotation */
-$landscape-scale: calc(#{$portrait-content-height} / #{$portrait-content-width});
+@page landscape {
+  size: a4 landscape;
+}
+
+.landscape-page {
+  page: landscape;
+}
 
 .landscape {
-  font-size: calc(10pt / #{$landscape-scale});
+  font-size: 10pt;
 
-  transform-origin: top left;
-  transform: scale($landscape-scale, $landscape-scale)
-    translateY(#{$portrait-content-width}px) rotate(-90deg);
+  width: #{$portrait-content-height}px;
+  height: #{$portrait-content-width}px;
 
-  width: #{$portrait-content-width}px;
-  height: calc(#{$portrait-content-width} / #{$landscape-scale} * 1px);
   overflow: visible;
 }
 
