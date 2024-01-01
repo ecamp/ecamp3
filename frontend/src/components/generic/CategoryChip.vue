@@ -40,10 +40,14 @@ export default {
       required: false,
       default: null,
     },
+    skeleton: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     loading() {
-      return this.cat?._meta?.loading
+      return this.skeleton || this.cat?._meta?.loading
     },
     cat() {
       return this.category || this.scheduleEntry.activity().category()
