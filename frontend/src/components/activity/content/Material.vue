@@ -6,6 +6,7 @@
       :layout-mode="layoutMode"
       :material-item-collection="materialItemCollection"
       :disabled="disabled"
+      :show-filter-button="false"
     />
   </ContentNodeCard>
 </template>

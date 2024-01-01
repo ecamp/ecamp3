@@ -142,6 +142,7 @@
 
     <template #[`header.lastColumn`]>
       <button
+        v-if="showFilterButton"
         class="ec-material-table__filterbutton"
         :class="{ 'primary--text': periodOnly }"
         :disabled="layoutMode || !showFilter"
@@ -257,6 +258,9 @@ export default {
 
     // period Entity for displaying material items within a period (should be null if materialNode is provided)
     period: { type: Object, required: false, default: null },
+
+    // Show the filter button activity / period
+    showFilterButton: { type: Boolean, required: false, default: true },
   },
   data() {
     return {
