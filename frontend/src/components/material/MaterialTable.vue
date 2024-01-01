@@ -142,10 +142,10 @@
 
     <template #[`header.lastColumn`]>
       <button
-        v-if="showFilterButton"
+        v-if="!disablePeriodFilter"
         class="ec-material-table__filterbutton"
         :class="{ 'primary--text': periodOnly }"
-        :disabled="layoutMode || !showFilter"
+        :disabled="layoutMode || !periodFilterEnabled"
         @click="periodOnly = !periodOnly"
       >
         <span>
@@ -159,7 +159,7 @@
           }}
         </span>
         <v-icon
-          v-if="showFilter"
+          v-if="periodFilterEnabled"
           aria-hidden="true"
           small
           :color="periodOnly ? 'primary' : null"
@@ -260,7 +260,7 @@ export default {
     period: { type: Object, required: false, default: null },
 
     // Show the filter button activity / period
-    showFilterButton: { type: Boolean, required: false, default: true },
+    disablePeriodFilter: { type: Boolean, required: false, default: false },
   },
   data() {
     return {
@@ -377,18 +377,17 @@ export default {
       return this.clientWidth > 710
     },
     // Show filter just if period material is in the list
-    showFilter() {
-      const showFilter = this.materialItemCollection.items.some(
-        (item) => item.materialNode === null
-      )
-      if (!showFilter) {
-        this.resetPeriodOnly()
-      }
-      return showFilter
+    periodFilterEnabled() {
+      return this.materialItemCollection.items.some((item) => item.materialNode === null)
     },
   },
   mounted() {
     this.clientWidth = this.$el.clientWidth
+  },
+  updated() {
+    if (this.periodOnly && !this.periodFilterEnabled) {
+      this.periodOnly = false
+    }
   },
   methods: {
     onResize({ width }) {
@@ -454,9 +453,6 @@ export default {
       return this.camp.activities().items.find((activity) => {
         return activity.rootContentNode()._meta.self === root
       })
-    },
-    resetPeriodOnly() {
-      this.periodOnly = false
     },
   },
 }
