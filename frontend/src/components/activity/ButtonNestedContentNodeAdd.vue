@@ -1,8 +1,24 @@
 <template>
-  <v-row v-if="layoutMode" no-gutters justify="center" class="mb-3">
+  <v-row
+    v-if="layoutMode"
+    no-gutters
+    justify="center"
+    class="mb-3 ec-button-contentnode-add-wrapper"
+    :class="{
+      'ec-button-contentnode-add-wrapper--center': root || single,
+      'ec-button-contentnode-add-wrapper--single': single,
+    }"
+  >
     <v-menu bottom left offset-y>
       <template #activator="{ on, attrs }">
-        <v-btn color="primary" outlined :loading="isAdding" v-bind="attrs" v-on="on">
+        <v-btn
+          class="ec-button-contentnode-add"
+          color="primary--text"
+          block
+          :loading="isAdding"
+          v-bind="attrs"
+          v-on="on"
+        >
           <v-icon left>mdi-plus-circle-outline</v-icon>
           {{ $tc('global.button.add') }}
         </v-btn>
@@ -52,6 +68,8 @@ export default {
     layoutMode: { type: Boolean, default: false },
     parentContentNode: { type: Object, required: true },
     slotName: { type: String, required: true },
+    root: { type: Boolean, default: false },
+    single: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -126,3 +144,32 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+.ec-button-contentnode-add {
+  transition: all 0.2s linear;
+  transition-property: box-shadow, background-color;
+  box-shadow: inset 0 0 115px #f8fcff;
+  border: 2px dotted rgb(13, 71, 161, 0.36);
+  background-color: transparent !important;
+  justify-content: start;
+  &:hover {
+    outline: none;
+    border: 1px solid rgb(13, 71, 161, 0.6);
+    box-shadow: inset 0 0 115px #eef2fa;
+    padding: 1px 17px;
+  }
+}
+
+.dragging-content-node .ec-button-contentnode-add-wrapper--single {
+  position: absolute;
+  inset: 0;
+  margin-bottom: 6px !important;
+}
+
+.ec-button-contentnode-add-wrapper--center .ec-button-contentnode-add {
+  justify-content: center;
+  min-height: 36px;
+  height: 100% !important;
+}
+</style>

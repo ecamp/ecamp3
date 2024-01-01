@@ -452,9 +452,6 @@
     "sebastian/recursion-context": {
         "version": "4.0.4"
     },
-    "sebastian/resource-operations": {
-        "version": "3.0.3"
-    },
     "sebastian/type": {
         "version": "2.3.4"
     },
@@ -671,12 +668,12 @@
         "version": "v5.3.3"
     },
     "symfony/phpunit-bridge": {
-        "version": "5.1",
+        "version": "6.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.1",
-            "ref": "bf16921ef8309a81d9f046e9b6369c46bcbd031f"
+            "branch": "main",
+            "version": "6.3",
+            "ref": "1f5830c331065b6e4c9d5fa2105e322d29fcd573"
         },
         "files": [
             ".env.test",

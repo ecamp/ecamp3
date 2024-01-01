@@ -1,0 +1,99 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "Pfila 2023",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "cover-camp-name cover-center",
+          },
+          "style": {
+            "fontSize": "15pt",
+            "fontWeight": "semibold",
+            "margin": "140pt 0 40pt",
+            "textAlign": "center",
+          },
+          "type": "TEXT",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "GRGR",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "cover-camp-title cover-center",
+          },
+          "style": {
+            "fontSize": "38pt",
+            "fontWeight": "bold",
+            "marginBottom": "28pt",
+            "textAlign": "center",
+          },
+          "type": "TEXT",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "Grandiose RealityTV Show",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "cover-camp-motto cover-center",
+          },
+          "style": {
+            "fontSize": "20pt",
+            "marginBottom": "23pt",
+            "textAlign": "center",
+          },
+          "type": "TEXT",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "bookmark": "print.cover.title",
+        "class": "page",
+        "id": "entry-0",
+        "size": "A4",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "12",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {
+    "locale": "de",
+    "pdfVersion": "1.7",
+    "store": {
+      "get": [Function],
+      "href": [Function],
+    },
+    "tc": [Function],
+  },
+  "style": {},
+  "type": "DOCUMENT",
+}

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Constraints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertThat;
@@ -11,16 +12,12 @@ use function PHPUnit\Framework\logicalNot;
  * @internal
  */
 class CompatibleHalResponseTest extends TestCase {
-    /**
-     * @dataProvider compatibleArrays
-     */
+    #[DataProvider('compatibleArrays')]
     public function testCompatibleArrays(array $array1, array $array2) {
         assertThat($array1, CompatibleHalResponse::isHalCompatibleWith($array2));
     }
 
-    /**
-     * @dataProvider compatibleArrays
-     */
+    #[DataProvider('compatibleArrays')]
     public function testCompatibleArraysIsCommutative(array $array1, array $array2) {
         assertThat($array2, CompatibleHalResponse::isHalCompatibleWith($array1));
     }
@@ -116,16 +113,12 @@ class CompatibleHalResponseTest extends TestCase {
         ];
     }
 
-    /**
-     * @dataProvider notCompatibleArrays
-     */
+    #[DataProvider('notCompatibleArrays')]
     public function testNotCompatibleArrays(array $array1, array $array2) {
         assertThat($array1, logicalNot(CompatibleHalResponse::isHalCompatibleWith($array2)));
     }
 
-    /**
-     * @dataProvider notCompatibleArrays
-     */
+    #[DataProvider('notCompatibleArrays')]
     public function testNotCompatibleArraysIsCommutative(array $array1, array $array2) {
         assertThat($array2, logicalNot(CompatibleHalResponse::isHalCompatibleWith($array1)));
     }

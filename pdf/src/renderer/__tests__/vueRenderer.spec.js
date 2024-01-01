@@ -1,4 +1,4 @@
-import { expect, it, describe } from 'vitest'
+import { afterEach, beforeEach, expect, it, describe } from 'vitest'
 import wrap from './minimalHalJsonVuex.js'
 import fullCampStoreContent from './fullCampStoreContent.json'
 import activityWithSingleText from './activityWithSingleText.json'
@@ -7,6 +7,7 @@ import SimpleDocument from './SimpleDocument.vue'
 import CampPrint from '../../CampPrint.vue'
 import { createCircularReplacer } from '@/renderer/__tests__/createCircularReplacer'
 import { cloneDeep } from 'lodash'
+import dayjs from '../../../common/helpers/dayjs.js'
 
 it('renders a simple Vue component', () => {
   // given
@@ -15,7 +16,9 @@ it('renders a simple Vue component', () => {
   const result = renderVueToPdfStructure(SimpleDocument)
 
   // then
-  expect(result).toMatchSnapshot()
+  expect(result).toMatchFileSnapshot(
+    './__snapshots__/simple_Vue_component.spec.json.snap'
+  )
 })
 
 describe('rendering a full camp', () => {
@@ -42,37 +45,49 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/cover_page.spec.json.snap')
   })
 
-  it('renders the picasso', async () => {
-    // given
-    const store = wrap(fullCampStoreContent)
+  describe.each(['UTC', 'Europe/Zurich', 'Pacific/Tongatapu'])(
+    'in timezone %s',
+    (timezone) => {
+      afterEach(() => {
+        dayjs.tz.setDefault()
+      })
+      beforeEach(() => {
+        dayjs.tz.setDefault(timezone)
+      })
 
-    // when
-    const result = renderVueToPdfStructure(CampPrint, {
-      store,
-      $tc: (key) => key,
-      locale: 'de',
-      config: {
-        language: 'de',
-        documentName: 'Pfila 2023.pdf',
-        camp: store.get('/camps/c4cca3a51342'),
-        contents: [
-          {
-            type: 'Picasso',
-            options: {
-              periods: ['/periods/16b2fcffdd8e'],
-              orientation: 'L',
-            },
+      it('renders the picasso', async () => {
+        // given
+        const store = wrap(fullCampStoreContent)
+
+        // when
+        const result = renderVueToPdfStructure(CampPrint, {
+          store,
+          $tc: (key) => key,
+          locale: 'de',
+          config: {
+            language: 'de',
+            documentName: 'Pfila 2023.pdf',
+            camp: store.get('/camps/c4cca3a51342'),
+            contents: [
+              {
+                type: 'Picasso',
+                options: {
+                  periods: ['/periods/16b2fcffdd8e'],
+                  orientation: 'L',
+                },
+              },
+            ],
           },
-        ],
-      },
-    })
+        })
 
-    // then
-    expect(result).toMatchSnapshot()
-  })
+        // then
+        expect(result).toMatchFileSnapshot('./__snapshots__/picasso.spec.json.snap')
+      })
+    }
+  )
 
   it('renders the story overview', async () => {
     // given
@@ -99,7 +114,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/story_overview.spec.json.snap')
   })
 
   it('renders the program', async () => {
@@ -127,7 +142,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/program.spec.json.snap')
   })
 
   it('renders a single activity', async () => {
@@ -156,7 +171,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/single_activity.spec.json.snap')
   })
 
   it('renders the table of contents', async () => {
@@ -182,7 +197,7 @@ describe('rendering a full camp', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot('./__snapshots__/table_of_contents.spec.json.snap')
   })
 })
 
@@ -195,6 +210,7 @@ describe('renders a single activity', () => {
   const thisTextShouldAppear = 'this text should appear'
   it.each([
     {
+      name: 'with_empty_lists',
       text: `<p>another text</p>
              <ul>
                 <li></li>
@@ -204,7 +220,7 @@ describe('renders a single activity', () => {
              <p>${thisTextShouldAppear}</p>`,
       textExpectedInOutput: thisTextShouldAppear,
     },
-  ])(`with special text %j`, ({ text, textExpectedInOutput }) => {
+  ])(`with special text %j`, ({ name, text, textExpectedInOutput }) => {
     // given
     const storeWithSingleActivity = cloneDeep(activityWithSingleText)
     storeWithSingleActivity['/content_node/single_texts/4300e3355d22'].data.html = text
@@ -233,7 +249,9 @@ describe('renders a single activity', () => {
     })
 
     // then
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchFileSnapshot(
+      `./__snapshots__/single_activity_with_special_text_${name}.spec.json.snap`
+    )
 
     expect(JSON.stringify(result, createCircularReplacer())).toMatch(textExpectedInOutput)
   })

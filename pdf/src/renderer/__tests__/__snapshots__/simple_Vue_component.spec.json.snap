@@ -1,0 +1,41 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Hello world!",
+                },
+              ],
+              "parent": [Circular],
+              "props": {},
+              "style": {},
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {},
+          "style": {},
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {},
+      "style": {},
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {},
+  "style": {},
+  "type": "DOCUMENT",
+}

@@ -10,6 +10,8 @@ import JublaLogo from '@/assets/JublaLogo.svg'
 import TentDay from '@/assets/tents/TentDay.svg'
 import PaperSize from '@/assets/icons/PaperSize.svg'
 import BigScreen from '@/assets/icons/BigScreen.svg'
+import ResponsiveLayout from '@/assets/icons/ResponsiveLayout.svg'
+import ColumnLayout from '@/assets/icons/ColumnLayout.svg'
 import i18n from '@/plugins/i18n'
 import colors from 'vuetify/lib/util/colors'
 
@@ -31,6 +33,8 @@ class VuetifyLoaderPlugin {
           tentDay: { component: TentDay },
           paperSize: { component: PaperSize },
           bigScreen: { component: BigScreen },
+          columnLayout: { component: ColumnLayout },
+          responsiveLayout: { component: ResponsiveLayout },
         },
       },
       theme: {

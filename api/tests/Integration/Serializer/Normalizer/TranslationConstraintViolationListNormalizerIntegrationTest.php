@@ -8,6 +8,7 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestAssertionsTrait;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer;
 use App\Validator\AllowTransition\AssertAllowTransitions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Validator\Constraint;
@@ -39,9 +40,8 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
     /**
      * @throws ExceptionInterface
      * @throws \Exception
-     *
-     * @dataProvider getFormats()
      */
+    #[DataProvider('getFormats')]
     public function testAddsTranslationKeyAndParameters(string $format) {
         $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
 
@@ -87,9 +87,8 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
     /**
      * @throws ExceptionInterface
      * @throws \Exception
-     *
-     * @dataProvider getFormats()
      */
+    #[DataProvider('getFormats')]
     public function testAddsTranslations(string $format) {
         $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
 

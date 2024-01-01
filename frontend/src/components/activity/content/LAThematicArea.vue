@@ -1,5 +1,5 @@
 <template>
-  <card-content-node class="ec-la-thematic-area" v-bind="$props">
+  <ContentNodeCard class="ec-la-thematic-area" v-bind="$props">
     <e-select
       v-model="localSelection"
       item-value="value"
@@ -68,18 +68,18 @@
         </v-list-item>
       </template>
     </e-select>
-  </card-content-node>
+  </ContentNodeCard>
 </template>
 
 <script>
-import CardContentNode from '@/components/activity/CardContentNode.vue'
+import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCard.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import { debounce, isEqual, sortBy } from 'lodash'
 import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'LAThematicArea',
-  components: { CardContentNode },
+  components: { ContentNodeCard },
   mixins: [contentNodeMixin],
   data() {
     return {
