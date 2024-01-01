@@ -18,7 +18,11 @@
         </DialogCategoryCreate>
       </div>
     </slot>
-    <v-skeleton-loader v-if="camp().categories()._meta.loading" type="article" />
+    <v-skeleton-loader
+      v-if="camp().categories()._meta.loading"
+      type="list-item@3"
+      class="mx-n4"
+    />
     <v-list class="mx-n2">
       <v-list-item
         v-for="category in categories.items"

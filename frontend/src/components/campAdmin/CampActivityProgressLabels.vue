@@ -18,6 +18,11 @@
         </DialogActivityProgressLabelCreate>
       </div>
     </slot>
+    <v-skeleton-loader
+      v-if="camp().progressLabels()._meta.loading"
+      type="list-item@3"
+      class="mx-n4"
+    />
     <v-list class="mx-n2">
       <template v-if="disabled">
         <v-list-item
