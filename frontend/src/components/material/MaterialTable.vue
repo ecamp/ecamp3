@@ -259,7 +259,7 @@ export default {
     // period Entity for displaying material items within a period (should be null if materialNode is provided)
     period: { type: Object, required: false, default: null },
 
-    // Show the filter button activity / period
+    // Disable the filter button activity / period
     disablePeriodFilter: { type: Boolean, required: false, default: false },
   },
   data() {
