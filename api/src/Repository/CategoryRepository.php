@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Category;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository implements CanFilterByUserInterface, CanFilterByCampInterface {
+class CategoryRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
     use FiltersByCampCollaboration;
 
     public function __construct(ManagerRegistry $registry) {
@@ -26,13 +25,5 @@ class CategoryRepository extends ServiceEntityRepository implements CanFilterByU
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
         $this->filterByCampCollaboration($queryBuilder, $user);
-    }
-
-    public function filterByCamp(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $campId): void {
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere(
-            $queryBuilder->expr()->eq("{$rootAlias}.camp", ':camp')
-        );
-        $queryBuilder->setParameter('camp', $campId);
     }
 }

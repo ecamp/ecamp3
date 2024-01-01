@@ -21,7 +21,7 @@
             "templated": true
         },
         "categories": {
-            "href": "\/categories{\/id}{?camp,camp[]}",
+            "href": "\/categories{\/id}{\/action}{?camp,camp[]}",
             "templated": true
         },
         "columnLayouts": {

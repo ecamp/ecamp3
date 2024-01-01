@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\ScheduleEntry;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ScheduleEntry[]    findAll()
  * @method ScheduleEntry[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ScheduleEntryRepository extends ServiceEntityRepository implements CanFilterByUserInterface, CanFilterByCampInterface {
+class ScheduleEntryRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
     use FiltersByCampCollaboration;
 
     public function __construct(ManagerRegistry $registry) {
@@ -39,16 +38,5 @@ class ScheduleEntryRepository extends ServiceEntityRepository implements CanFilt
         $queryBuilder->innerJoin("{$rootAlias}.activity", 'activity');
         $queryBuilder->innerJoin('activity.camp', 'camp');
         $this->filterByCampCollaboration($queryBuilder, $user);
-    }
-
-    public function filterByCamp(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $campId): void {
-        $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
-
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.activity", $activityJoinAlias);
-        $queryBuilder->andWhere(
-            $queryBuilder->expr()->eq("{$activityJoinAlias}.camp", ':camp')
-        );
-        $queryBuilder->setParameter('camp', $campId);
     }
 }

@@ -2,17 +2,15 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Util\GetCampFromContentNodeTrait;
-use App\Entity\Camp;
-use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\BelongsToCampInterface;
-use ApiPlatform\Api\IriConverterInterface;
+use App\Entity\BelongsToContentNodeTreeInterface;
+use App\Entity\Camp;
+use App\Util\GetCampFromContentNodeTrait;
+use Doctrine\ORM\EntityManagerInterface;
+use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * @extends Voter<string,mixed>
@@ -31,7 +29,7 @@ class CampIsPrototypeVoter extends Voter {
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {
-        if($subject instanceof Request){
+        if ($subject instanceof Request) {
             $camp = $this->em->getRepository(Camp::class)->find($subject->attributes->get('campId'));
         } else {
             $camp = $this->getCampFromInterface($subject, $this->em);
@@ -46,6 +44,7 @@ class CampIsPrototypeVoter extends Voter {
 
         if ($camp->isPrototype) {
             $this->responseTagger->addTags([$camp->getId()]);
+
             return true;
         }
 

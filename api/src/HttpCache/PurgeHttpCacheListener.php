@@ -13,48 +13,43 @@ declare(strict_types=1);
 
 namespace App\HttpCache;
 
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use FOS\HttpCacheBundle\CacheManager;
-use Doctrine\ORM\PersistentCollection;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Util\ClassUtils;
-use App\Entity\BaseEntity;
-use ApiPlatform\Metadata\Util\ClassInfoTrait;
-use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Exception\RuntimeException;
-use ApiPlatform\Exception\OperationNotFoundException;
+use ApiPlatform\Api\IriConverterInterface as LegacyIriConverterInterface;
+use ApiPlatform\Api\ResourceClassResolverInterface as LegacyResourceClassResolverInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
-use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Api\ResourceClassResolverInterface;
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Exception\OperationNotFoundException;
+use ApiPlatform\Exception\RuntimeException;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\ResourceClassResolverInterface;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
+use ApiPlatform\Metadata\Util\ClassInfoTrait;
+use App\Entity\BaseEntity;
+use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\PersistentCollection;
+use FOS\HttpCacheBundle\CacheManager;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Purges responses containing modified entities from the proxy cache.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class PurgeHttpCacheListener
-{
+final class PurgeHttpCacheListener {
     use ClassInfoTrait;
-    private readonly PropertyAccessorInterface $propertyAccessor;
-    private array $tags = [];
 
     public const IRI_RELATION_DELIMITER = '#';
 
-    public function __construct(private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor, private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private readonly CacheManager $cacheManager)
-    {
-        $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
-    }
+    public function __construct(private readonly IriConverterInterface|LegacyIriConverterInterface $iriConverter, private readonly LegacyResourceClassResolverInterface|ResourceClassResolverInterface $resourceClassResolver, private readonly PropertyAccessorInterface $propertyAccessor, private readonly ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private readonly CacheManager $cacheManager) {}
 
     /**
      * Collects tags from the previous and the current version of the updated entities to purge related documents.
      */
-    public function preUpdate(PreUpdateEventArgs $eventArgs): void
-    {
+    public function preUpdate(PreUpdateEventArgs $eventArgs): void {
         $object = $eventArgs->getObject();
         $this->addTagForItem($object);
 
@@ -80,8 +75,7 @@ final class PurgeHttpCacheListener
     /**
      * Collects tags from inserted and deleted entities, including relations.
      */
-    public function onFlush(OnFlushEventArgs $eventArgs): void
-    {
+    public function onFlush(OnFlushEventArgs $eventArgs): void {
         $em = method_exists($eventArgs, 'getObjectManager') ? $eventArgs->getObjectManager() : $eventArgs->getEntityManager();
         $uow = $em->getUnitOfWork();
 
@@ -100,13 +94,11 @@ final class PurgeHttpCacheListener
     /**
      * Purges tags collected during this request, and clears the tag list.
      */
-    public function postFlush(): void
-    {
+    public function postFlush(): void {
         $this->cacheManager->flush();
     }
 
-    private function gatherResourceTags(object $entity): void
-    {
+    private function gatherResourceTags(object $entity): void {
         try {
             $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
             $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
@@ -123,12 +115,11 @@ final class PurgeHttpCacheListener
                 }
                 $resourceIterator->next();
             }
-        } catch (OperationNotFoundException|InvalidArgumentException) {
+        } catch (InvalidArgumentException|OperationNotFoundException) {
         }
     }
 
-    private function gatherRelationTags(EntityManagerInterface $em, object $entity): void
-    {
+    private function gatherRelationTags(EntityManagerInterface $em, object $entity): void {
         $associationMappings = $em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
         foreach ($associationMappings as $property => $mappings) {
             $relatedProperty = $mappings['isOwningSide'] ? $mappings['inversedBy'] : $mappings['mappedBy'];
@@ -151,8 +142,7 @@ final class PurgeHttpCacheListener
         }
     }
 
-    private function addTagsFor(mixed $value, string $property = null): void
-    {
+    private function addTagsFor(mixed $value, string $property = null): void {
         if (!$value || \is_scalar($value)) {
             return;
         }
@@ -172,14 +162,13 @@ final class PurgeHttpCacheListener
         }
     }
 
-    private function addTagForItem(mixed $value, string $property = null): void
-    {
+    private function addTagForItem(mixed $value, string $property = null): void {
         if (!$this->resourceClassResolver->isResourceClass($this->getObjectClass($value))) {
             return;
         }
 
         try {
-            if($value instanceof BaseEntity){
+            if ($value instanceof BaseEntity) {
                 $iri = $value->getId();
             } else {
                 $iri = $this->iriConverter->getIriFromResource($value);
@@ -188,7 +177,7 @@ final class PurgeHttpCacheListener
                 $iri .= self::IRI_RELATION_DELIMITER.$property;
             }
             $this->cacheManager->invalidateTags([$iri]);
-        } catch (RuntimeException|InvalidArgumentException) {
+        } catch (InvalidArgumentException|RuntimeException) {
         }
     }
 }
