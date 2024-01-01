@@ -1,8 +1,3 @@
-// https://docs.cypress.io/api/introduction/api.html
-
-const { verify } = require('crypto')
-const path = require('path')
-
 describe('HTTP cache tests', () => {
   it('caches /content_types separately for each login', () => {
     const uri = '/api/content_types'
@@ -180,6 +175,7 @@ describe('HTTP cache tests', () => {
     // delete old emails
     cy.visit('localhost:3000/mail')
     cy.get('a[title="Delete all emails"]').click()
+    /* eslint-disable cypress/no-unnecessary-waiting */
     cy.wait(50)
     cy.get('a[title="Delete all emails"]').click()
 
@@ -194,6 +190,7 @@ describe('HTTP cache tests', () => {
     cy.login('castor@example.com')
     cy.visit('localhost:3000/mail')
     cy.get('a').contains('[eCamp3] Du wurdest ins Lager "Pfila 2023" eingeladen').click()
+    /* eslint-disable cypress/no-unnecessary-waiting */
     cy.wait(200)
     getIframeBody()
       .find('a')
