@@ -65,7 +65,7 @@
               :category="category()"
               :layout-mode="layoutMode"
               :loading="loading"
-              :readonly="!isManager"
+              :disabled="!isManager"
             />
           </v-expansion-panel-content>
         </v-expansion-panel>
