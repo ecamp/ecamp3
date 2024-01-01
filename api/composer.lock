@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "357ced1089ab112ac80e098a21e40cce",
+    "content-hash": "ced320f5f752f04ebe5e9aceee841434",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "dev-main",
+            "version": "dev-fix/tag-collector",
             "source": {
                 "type": "git",
-                "url": "https://github.com/api-platform/core.git",
-                "reference": "a749fe8494a5b3ca41139a418ed1e29c3e7b33a6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/a749fe8494a5b3ca41139a418ed1e29c3e7b33a6",
-                "reference": "a749fe8494a5b3ca41139a418ed1e29c3e7b33a6",
-                "shasum": ""
+                "url": "https://github.com/usu/api-platform-core",
+                "reference": "a816884161b3d0fa7ccb2f2672e8c45e3d9c3927"
             },
             "require": {
                 "doctrine/inflector": "^1.0 || ^2.0",
@@ -127,7 +121,6 @@
                 "symfony/web-profiler-bundle": "To use the data collector.",
                 "webonyx/graphql-php": "To support GraphQL."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -142,7 +135,12 @@
                     "ApiPlatform\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "ApiPlatform\\Tests\\": "tests/",
+                    "App\\": "tests/Fixtures/app/var/tmp/src/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -156,21 +154,17 @@
             "description": "Build a fully-featured hypermedia or GraphQL API in minutes!",
             "homepage": "https://api-platform.com",
             "keywords": [
+                "API",
+                "GraphQL",
+                "HAL",
                 "Hydra",
                 "JSON-LD",
-                "api",
-                "graphql",
-                "hal",
-                "jsonapi",
-                "openapi",
-                "rest",
-                "swagger"
+                "JSONAPI",
+                "OpenAPI",
+                "REST",
+                "Swagger"
             ],
-            "support": {
-                "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/main"
-            },
-            "time": "2023-12-29T10:05:46+00:00"
+            "time": "2024-01-01T13:08:34+00:00"
         },
         {
             "name": "behat/transliterator",

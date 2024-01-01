@@ -94,7 +94,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   http-cache:
-    image: varnish:7.3.0-alpine
+    image: varnish:7.4.2-alpine
     container_name: 'ecamp3-http-cache'
     depends_on:
       - caddy
@@ -107,6 +107,8 @@ services:
       - target: 80
         published: 3004
         protocol: tcp
+    command: -p http_max_hdr=96
+
   pdf:
     image: node:20.9.0
     container_name: 'ecamp3-pdf'

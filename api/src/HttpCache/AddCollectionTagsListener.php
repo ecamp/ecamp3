@@ -19,7 +19,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\State\UriVariablesResolverTrait;
 use ApiPlatform\State\Util\OperationRequestInitiatorTrait;
-use ApiPlatform\Util\RequestAttributesExtractor;
+use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
 use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 

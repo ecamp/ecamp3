@@ -5,7 +5,7 @@
         "php": ">=8.1.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "api-platform/core": "dev-main",
+        "api-platform/core": "dev-fix/tag-collector",
         "composer/package-versions-deprecated": "1.11.99",
         "cweagans/composer-patches": "1.7.3",
         "doctrine/doctrine-bundle": "2.11.1",
@@ -147,5 +147,11 @@
                 "Allow NULL-Links": "patch/api-plattform-allow-null-links.patch"
             }
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/usu/api-platform-core"
+        }
+    ]
 }
