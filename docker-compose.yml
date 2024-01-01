@@ -100,7 +100,7 @@ services:
       - caddy
     volumes:
       - ./api/docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
-      - ./api/vendor/friendsofsymfony/http-cache/resources/config/varnish:/etc/varnish/fos
+      - ./api/docker/varnish/fos:/etc/varnish/fos:ro
     tmpfs:
       - /var/lib/varnish/varnishd:exec
     ports:
