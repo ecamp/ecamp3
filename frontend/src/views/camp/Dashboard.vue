@@ -3,7 +3,7 @@
     <div class="d-flow-root">
       <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
         <BooleanFilter
-          v-if="!loading"
+          v-if="!loading && !loadingEndpoints.collaborator"
           v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
         />
@@ -15,7 +15,7 @@
           width="160px"
         />
         <FilterDivider />
-        <template v-if="!loading">
+        <template v-if="!loading && !loadingEndpoints.period">
           <SelectFilter
             v-if="multiplePeriods"
             v-model="filter.period"
@@ -23,96 +23,107 @@
             display-field="description"
             :label="$tc('views.camp.dashboard.period')"
           />
-          <SelectFilter
-            v-model="filter.responsible"
-            multiple
-            and-filter
-            :items="campCollaborations"
-            :display-field="campCollaborationDisplayName"
-            :label="$tc('views.camp.dashboard.responsible')"
-          >
-            <template #item="{ item }">
-              <template v-if="item.exclusiveNone">
-                {{ item.text }}
-              </template>
-              <template v-else>
-                <TextAlignBaseline class="mr-1">
-                  <UserAvatar
-                    :camp-collaboration="campCollaborations[item.value]"
-                    size="20"
-                  />
-                </TextAlignBaseline>
-                {{ item.text }}
-              </template>
-            </template>
-          </SelectFilter>
-          <SelectFilter
-            v-model="filter.category"
-            multiple
-            :items="categories"
-            display-field="short"
-            :label="$tc('views.camp.dashboard.category')"
-          >
-            <template #item="{ item }">
-              <CategoryChip dense :category="categories[item.value]" class="mr-1" />
-              {{ categories[item.value].name }}
-            </template>
-          </SelectFilter>
-          <SelectFilter
-            v-model="filter.progressLabel"
-            multiple
-            :items="progressLabels"
-            display-field="title"
-            :label="$tc('views.camp.dashboard.progressLabel')"
-          >
-            <template #item="{ item }">
-              {{ progressLabels[item.value].title }}
-            </template>
-          </SelectFilter>
-          <v-chip
-            v-if="
-              filter.period ||
-              (filter.responsible && filter.responsible.length > 0) ||
-              (filter.category && filter.category.length > 0) ||
-              (filter.progressLabel && filter.progressLabel.length > 0)
-            "
-            label
-            outlined
-            @click="
-              filter = {
-                period: null,
-                responsible: [],
-                category: [],
-                progressLabel: [],
-              }
-            "
-          >
-            <v-icon left>mdi-close</v-icon>
-            {{ $tc('views.camp.dashboard.clearFilters') }}
-          </v-chip>
         </template>
-        <template v-else>
-          <v-skeleton-loader
-            type="button"
-            class="v-skeleton-loader--inherit-size"
-            height="32"
-            width="150"
-          />
-          <v-skeleton-loader
-            type="button"
-            class="v-skeleton-loader--inherit-size"
-            height="32"
-            width="130"
-          />
-          <v-skeleton-loader
-            type="button"
-            class="v-skeleton-loader--inherit-size"
-            height="32"
-            width="100"
-          />
-        </template>
+        <v-skeleton-loader
+          v-else
+          type="button"
+          class="v-skeleton-loader--inherit-size"
+          height="32"
+          width="150"
+        />
+        <SelectFilter
+          v-if="!loading && !loadingEndpoints.collaborator"
+          v-model="filter.responsible"
+          multiple
+          and-filter
+          :items="campCollaborations"
+          :display-field="campCollaborationDisplayName"
+          :label="$tc('views.camp.dashboard.responsible')"
+        >
+          <template #item="{ item }">
+            <template v-if="item.exclusiveNone">
+              {{ item.text }}
+            </template>
+            <template v-else>
+              <TextAlignBaseline class="mr-1">
+                <UserAvatar
+                  :camp-collaboration="campCollaborations[item.value]"
+                  size="20"
+                />
+              </TextAlignBaseline>
+              {{ item.text }}
+            </template>
+          </template>
+        </SelectFilter>
+        <v-skeleton-loader
+          v-else
+          type="button"
+          class="v-skeleton-loader--inherit-size"
+          height="32"
+          width="130"
+        />
+        <SelectFilter
+          v-if="!loading && !loadingEndpoints.category"
+          v-model="filter.category"
+          multiple
+          :items="categories"
+          display-field="short"
+          :label="$tc('views.camp.dashboard.category')"
+        >
+          <template #item="{ item }">
+            <CategoryChip dense :category="categories[item.value]" class="mr-1" />
+            {{ categories[item.value].name }}
+          </template>
+        </SelectFilter>
+        <v-skeleton-loader
+          v-else
+          type="button"
+          class="v-skeleton-loader--inherit-size"
+          height="32"
+          width="100"
+        />
+        <SelectFilter
+          v-if="!loading && !loadingEndpoints.progressLabel"
+          v-model="filter.progressLabel"
+          multiple
+          :items="progressLabels"
+          display-field="title"
+          :label="$tc('views.camp.dashboard.progressLabel')"
+        >
+          <template #item="{ item }">
+            {{ progressLabels[item.value].title }}
+          </template>
+        </SelectFilter>
+        <v-skeleton-loader
+          v-else
+          type="button"
+          class="v-skeleton-loader--inherit-size"
+          height="32"
+          width="100"
+        />
+        <v-chip
+          v-if="
+            filter.period ||
+            (filter.responsible && filter.responsible.length > 0) ||
+            (filter.category && filter.category.length > 0) ||
+            (filter.progressLabel && filter.progressLabel.length > 0)
+          "
+          label
+          outlined
+          @click="
+            filter = {
+              period: null,
+              responsible: [],
+              category: [],
+              progressLabel: [],
+            }
+          "
+        >
+          <v-icon left>mdi-close</v-icon>
+          {{ $tc('views.camp.dashboard.clearFilters') }}
+        </v-chip>
       </div>
-      <template v-if="!loading && !scheduleEntriesLoading">
+      <template v-if="!loading">
         <table
           v-for="(periodDays, uri) in groupedScheduleEntries"
           :key="uri"
@@ -172,6 +183,7 @@
                 v-for="scheduleEntry in dayScheduleEntries"
                 :key="scheduleEntry._meta.self"
                 :schedule-entry="scheduleEntry"
+                :loading-endpoints="loadingEndpoints"
               />
             </tbody>
           </template>
@@ -231,7 +243,6 @@ import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 import { mapGetters } from 'vuex'
 import {
   filterAndQueryAreEqual,
-  loadAndProcessCollections,
   transformValuesToHalId,
   processRouteQuery,
 } from '@/helpers/querySyncHelper'
@@ -261,6 +272,12 @@ export default {
   data() {
     return {
       loading: true,
+      loadingEndpoints: {
+        categories: true,
+        periods: true,
+        campCollaborations: true,
+        progressLabels: true,
+      },
       /**
        * @type {ActivityFilter} filter
        */
@@ -302,11 +319,6 @@ export default {
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
         (period) => period.scheduleEntries().items
-      )
-    },
-    scheduleEntriesLoading() {
-      return Object.values(this.periods).some(
-        (period) => period.scheduleEntries()._meta.loading
       )
     },
     days() {
@@ -402,23 +414,26 @@ export default {
   async mounted() {
     this.api.reload(this.camp())
 
-    const { categories, periods, collaborators, progressLabels } =
-      await loadAndProcessCollections(this.camp())
-    await this.api.get().days({ 'period.camp': this.camp()._meta.self })
+    await Promise.all([
+      this.api.get().days({ 'period.camp': this.camp()._meta.self }),
+      ...this.camp()
+        .periods()
+        .items.map((period) => period.scheduleEntries()._meta.load),
+      this.camp().activities()._meta.load,
+    ])
+
+    this.loading = false
 
     const queryFilters = processRouteQuery(this.$route.query)
-    const { period, responsible, category, progressLabel } = {
+    this.filter = {
       ...this.filter,
       ...queryFilters,
     }
-    this.filter = {
-      category: category.filter((value) => categories.includes(value)),
-      responsible: responsible.filter((value) => collaborators.includes(value)),
-      progressLabel: progressLabel.filter((value) => progressLabels.includes(value)),
-      period: periods.includes(period) ? period : null,
-    }
 
-    this.loading = false
+    this.loadEndpointData('categories', 'category')
+    this.loadEndpointData('campCollaborations', 'responsible', true)
+    this.loadEndpointData('progressLabels', 'progressLabel', true)
+    this.loadEndpointData('periods', 'period')
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
@@ -428,6 +443,19 @@ export default {
       const query = transformValuesToHalId(this.filter)
       if (filterAndQueryAreEqual(query, this.$route.query)) return
       this.$router.replace({ query }).catch((err) => console.warn(err))
+    },
+    loadEndpointData(endpoint, filterKey, hasNone = false) {
+      this.camp()
+        [endpoint]()
+        ._meta.load.then(({ allItems }) => {
+          const collection = allItems.map((entry) => entry._meta.self)
+          if (hasNone) {
+            collection.push('none')
+          }
+          this.filter[filterKey] =
+            this.filter[filterKey]?.filter((value) => collection.includes(value)) ?? null
+          this.loadingEndpoints[endpoint] = false
+        })
     },
   },
 }
