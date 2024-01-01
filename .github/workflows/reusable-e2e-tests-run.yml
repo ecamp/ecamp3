@@ -49,7 +49,7 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
+      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host http-cache mail
 
       - uses: cypress-io/github-action@v5
         with:
