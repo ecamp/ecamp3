@@ -312,6 +312,9 @@
       }
     },
     "program": {
+      "dialogActivityEdit": {
+        "title": "Modifitgar l'activitad"
+      },
       "formScheduleEntryItem": {
         "end": "Fin",
         "start": "Entschatta"
