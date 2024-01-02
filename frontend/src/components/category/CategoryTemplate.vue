@@ -105,7 +105,6 @@ export default {
 
 .area {
   border: 2px dashed #ccc;
-  transition: max-width 0.2s ease;
 }
 
 .ec-category-layoutmode-tab__layout {
