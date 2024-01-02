@@ -32,23 +32,28 @@ import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
 import { scheduleEntryRoute } from '@/router.js'
+import { differenceWith, intersectionWith } from 'lodash'
 
 export default {
   name: 'DialogActivityEdit',
   components: { DialogForm, DialogActivityForm },
   extends: DialogBase,
   props: {
-    scheduleEntry: { type: Object, required: true },
+    scheduleEntry: { type: Object, required: false },
   },
   data() {
     return {
       entityProperties: ['title', 'location'],
       embeddedEntities: ['category'],
+      initialResponsibles: [],
     }
   },
   computed: {
     scheduleEntries() {
       return this.activity.scheduleEntries()
+    },
+    activityResponsibles() {
+      return this.activity.activityResponsibles()
     },
     activity() {
       return this.scheduleEntry.activity()
@@ -74,6 +79,15 @@ export default {
             }
           })
         )
+
+        const activityResponsibles = await this.activityResponsibles.$loadItems()
+        this.initialResponsibles = activityResponsibles.items.map(
+          (activityResponsible) => ({
+            ...activityResponsible,
+            campCollaboration: activityResponsible.campCollaboration(),
+          })
+        )
+        this.$set(this.entityData, 'activityResponsibles', this.initialResponsibles)
       }
     },
   },
@@ -111,9 +125,39 @@ export default {
         })
       })
 
+      const untouchedActivityResponsibles = intersectionWith(
+        this.initialResponsibles,
+        this.entityData.activityResponsibles,
+        (a, b) => {
+          return a.campCollaboration._meta.self === b.campCollaboration._meta.self
+        }
+      )
+
+      const differentActivityResponsibles = differenceWith(
+        [...this.initialResponsibles, ...this.entityData.activityResponsibles],
+        untouchedActivityResponsibles,
+        (a, b) => {
+          return a.campCollaboration._meta.self === b.campCollaboration._meta.self
+        }
+      )
+
+      differentActivityResponsibles.forEach((activityResponsible) => {
+        if (activityResponsible?._meta?.self) {
+          promises.push(this.api.del(activityResponsible._meta.self))
+        } else {
+          promises.push(
+            this.activityResponsibles.$post({
+              activity: this.activity._meta.self,
+              campCollaboration: activityResponsible.campCollaboration._meta.self,
+            })
+          )
+        }
+      })
+
       // patch activity entity
       const activityPayload = { ...this.entityData }
       delete activityPayload.scheduleEntries
+      delete activityPayload.activityResponsibles
       promises.push(this.api.patch(this.entityUri, activityPayload))
 
       // execute all requests together --> onError if one fails

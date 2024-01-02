@@ -184,7 +184,7 @@ Displays a single scheduleEntry
             <table>
               <thead>
                 <tr>
-                  <th scope="col" class="text-right pb-2 pr-4">
+                  <th scope="col" class="pb-2 pr-4">
                     {{ $tc('entity.scheduleEntry.fields.nr') }}
                   </th>
                   <th scope="col" class="text-left pb-2 pr-4">
