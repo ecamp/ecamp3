@@ -52,6 +52,11 @@ sub vcl_hash {
     cookie.keep("localhost_jwt_hp,localhost_jwt_s");
     hash_data(cookie.get_string());
   }
+
+  # using URL (=path), but not using Host/ServerIP; this allows to share cache between print & normal API calls
+  hash_data(req.url);
+
+  return(lookup);
 }
 
 sub vcl_req_cookie {
@@ -60,13 +65,23 @@ sub vcl_req_cookie {
   return (hash);
 }
 
-sub vcl_beresp_cookie {
+sub vcl_backend_response {
+  if (bereq.uncacheable) {
+    return (deliver);
+  }
+  call vcl_beresp_stale;
+
   # Varnish by default disables caching whenever the reponse header "Set-Cookie" is set in the request (default safe behavior)
-  # this bypasses the default behaviour
-	return (deliver);
+  # commenting the following line bypasses the default behaviour
+  # call vcl_beresp_cookie;
+
+  call vcl_beresp_control;
+  call vcl_beresp_vary;
+  return (deliver);
 }
 
 sub vcl_deliver {
   call fos_tags_xkey_deliver;
   call fos_debug_deliver;
 }
+
