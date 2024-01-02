@@ -35,11 +35,13 @@
     </e-select>
 
     <e-text-field
+      v-if="!hideHeaderFields"
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')"
     />
 
     <e-select
+      v-if="!hideHeaderFields"
       v-model="localActivity.activityResponsibles"
       :items="availableCampCollaborations"
       item-value="campCollaboration._meta.self"
@@ -95,6 +97,10 @@ export default {
     period: {
       type: Function,
       required: true,
+    },
+    hideHeaderFields: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

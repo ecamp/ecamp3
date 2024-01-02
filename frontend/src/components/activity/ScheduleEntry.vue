@@ -216,6 +216,21 @@ Displays a single scheduleEntry
                   </td>
                 </tr>
               </tbody>
+              <tfoot v-if="activity">
+                <tr>
+                  <td colspan="4">
+                    <DialogActivityEdit
+                      :period="scheduleEntry().period"
+                      :activity="activity"
+                      hide-header-fields
+                    >
+                      <template #activator="{ on }">
+                        <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
+                      </template>
+                    </DialogActivityEdit>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
@@ -280,10 +295,14 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import DialogActivityEdit from '@/components/program/DialogActivityEdit.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    DialogActivityEdit,
+    ButtonEdit,
     DialogEntityDelete,
     ContentCard,
     ApiTextField,

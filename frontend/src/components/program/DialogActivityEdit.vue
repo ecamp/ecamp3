@@ -14,7 +14,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <template #moreActions>
+    <template v-if="scheduleEntry" #moreActions>
       <v-btn
         v-if="!scheduleEntry.tmpEvent"
         color="primary"
@@ -23,7 +23,11 @@
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
-    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period" />
+    <DialogActivityForm
+      :activity="entityData"
+      :period="currentPeriod"
+      :hide-header-fields="hideHeaderFields"
+    />
   </dialog-form>
 </template>
 
@@ -39,7 +43,13 @@ export default {
   components: { DialogForm, DialogActivityForm },
   extends: DialogBase,
   props: {
-    scheduleEntry: { type: Object, required: false },
+    scheduleEntry: { type: Object, required: false, default: null },
+    activity: { type: Object, required: false, default: null },
+    period: { type: Function, required: false, default: null },
+    hideHeaderFields: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -50,19 +60,22 @@ export default {
   },
   computed: {
     scheduleEntries() {
-      return this.activity.scheduleEntries()
+      return this.currentActivity.scheduleEntries()
     },
     activityResponsibles() {
       return this.activity.activityResponsibles()
     },
-    activity() {
-      return this.scheduleEntry.activity()
+    currentPeriod() {
+      return this.period || this.scheduleEntry.period
+    },
+    currentActivity() {
+      return this.activity || this.scheduleEntry.activity()
     },
   },
   watch: {
     showDialog: async function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.activity._meta.self)
+        this.loadEntityData(this.currentActivity._meta.self)
 
         const scheduleEntries = await this.scheduleEntries.$loadItems()
         this.$set(
@@ -80,14 +93,16 @@ export default {
           })
         )
 
-        const activityResponsibles = await this.activityResponsibles.$loadItems()
-        this.initialResponsibles = activityResponsibles.items.map(
-          (activityResponsible) => ({
-            ...activityResponsible,
-            campCollaboration: activityResponsible.campCollaboration(),
-          })
-        )
-        this.$set(this.entityData, 'activityResponsibles', this.initialResponsibles)
+        if (!this.hideHeaderFields) {
+          const activityResponsibles = await this.activityResponsibles.$loadItems()
+          this.initialResponsibles = activityResponsibles.items.map(
+            (activityResponsible) => ({
+              ...activityResponsible,
+              campCollaboration: activityResponsible.campCollaboration(),
+            })
+          )
+          this.$set(this.entityData, 'activityResponsibles', this.initialResponsibles)
+        }
       }
     },
   },
@@ -121,38 +136,40 @@ export default {
           period: entry.period()._meta.self,
           start: entry.start,
           end: entry.end,
-          activity: this.activity._meta.self,
+          activity: this.currentActivity._meta.self,
         })
       })
 
-      const untouchedActivityResponsibles = intersectionWith(
-        this.initialResponsibles,
-        this.entityData.activityResponsibles,
-        (a, b) => {
-          return a.campCollaboration._meta.self === b.campCollaboration._meta.self
-        }
-      )
+      if (!this.hideHeaderFields) {
+        const untouchedActivityResponsibles = intersectionWith(
+          this.initialResponsibles,
+          this.entityData.activityResponsibles,
+          (a, b) => {
+            return a.campCollaboration._meta.self === b.campCollaboration._meta.self
+          }
+        )
 
-      const differentActivityResponsibles = differenceWith(
-        [...this.initialResponsibles, ...this.entityData.activityResponsibles],
-        untouchedActivityResponsibles,
-        (a, b) => {
-          return a.campCollaboration._meta.self === b.campCollaboration._meta.self
-        }
-      )
+        const differentActivityResponsibles = differenceWith(
+          [...this.initialResponsibles, ...this.entityData.activityResponsibles],
+          untouchedActivityResponsibles,
+          (a, b) => {
+            return a.campCollaboration._meta.self === b.campCollaboration._meta.self
+          }
+        )
 
-      differentActivityResponsibles.forEach((activityResponsible) => {
-        if (activityResponsible?._meta?.self) {
-          promises.push(this.api.del(activityResponsible._meta.self))
-        } else {
-          promises.push(
-            this.activityResponsibles.$post({
-              activity: this.activity._meta.self,
-              campCollaboration: activityResponsible.campCollaboration._meta.self,
-            })
-          )
-        }
-      })
+        differentActivityResponsibles.forEach((activityResponsible) => {
+          if (activityResponsible?._meta?.self) {
+            promises.push(this.api.del(activityResponsible._meta.self))
+          } else {
+            promises.push(
+              this.activityResponsibles.$post({
+                activity: this.currentActivity._meta.self,
+                campCollaboration: activityResponsible.campCollaboration._meta.self,
+              })
+            )
+          }
+        })
+      }
 
       // patch activity entity
       const activityPayload = { ...this.entityData }
