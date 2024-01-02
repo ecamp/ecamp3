@@ -3,7 +3,7 @@
     <div class="d-flow-root">
       <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
         <BooleanFilter
-          v-if="!loading && !loadingEndpoints.collaborator"
+          v-if="!loading && !loadingEndpoints.campCollaborations"
           v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
         />
@@ -15,7 +15,7 @@
           width="160px"
         />
         <FilterDivider />
-        <template v-if="!loading && !loadingEndpoints.period">
+        <template v-if="!loading && !loadingEndpoints.periods">
           <SelectFilter
             v-if="multiplePeriods"
             v-model="filter.period"
@@ -32,7 +32,7 @@
           width="150"
         />
         <SelectFilter
-          v-if="!loading && !loadingEndpoints.collaborator"
+          v-if="!loading && !loadingEndpoints.campCollaborations"
           v-model="filter.responsible"
           multiple
           and-filter
@@ -63,7 +63,7 @@
           width="130"
         />
         <SelectFilter
-          v-if="!loading && !loadingEndpoints.category"
+          v-if="!loading && !loadingEndpoints.categories"
           v-model="filter.category"
           multiple
           :items="categories"
@@ -83,7 +83,7 @@
           width="100"
         />
         <SelectFilter
-          v-if="!loading && !loadingEndpoints.progressLabel"
+          v-if="!loading && !loadingEndpoints.progressLabels"
           v-model="filter.progressLabel"
           multiple
           :items="progressLabels"
