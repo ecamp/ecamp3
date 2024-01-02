@@ -323,6 +323,9 @@
       }
     },
     "program": {
+      "dialogActivityEdit": {
+        "title": "Modificare l'actività"
+      },
       "formScheduleEntryItem": {
         "end": "Fine",
         "start": "Inizio"
