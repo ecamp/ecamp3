@@ -38,9 +38,21 @@
         "monorepo:vue"
       ],
       "matchUpdateTypes": [
-        "patch",
-        "minor",
         "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "matchFileNames": [
+        "frontend/package.json"
       ],
       "dependencyDashboardApproval": true
     },
