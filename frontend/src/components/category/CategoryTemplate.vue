@@ -7,10 +7,7 @@
       <template #br><br /></template>
     </i18n>
 
-    <div
-      class="area rounded"
-      :style="{ maxWidth: isPaperDisplaySize ? '944px' : '100%' }"
-    >
+    <div class="area rounded">
       <div class="relative">
         <v-tabs
           v-model="layoutMode"
@@ -27,12 +24,6 @@
             {{ $tc('components.category.categoryTemplate.contents') }}
           </v-tab>
         </v-tabs>
-
-        <TogglePaperSize
-          :value="isPaperDisplaySize"
-          :button-props="{ large: true }"
-          @input="toggleDisplaySize"
-        />
       </div>
       <v-divider />
       <div class="relative">
@@ -83,27 +74,16 @@
 <script>
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import RootNode from '@/components/activity/RootNode.vue'
-import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
-import { computed } from 'vue'
-import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 
 export default {
   name: 'CategoryTemplate',
-  components: { TogglePaperSize, CategoryChip, RootNode },
+  components: { CategoryChip, RootNode },
   mixins: [campRoleMixin],
-  provide() {
-    return {
-      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
-    }
-  },
   props: {
     category: { type: Object, required: true },
     loading: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
-  },
-  setup() {
-    return useDisplaySize()
   },
   data() {
     return {
@@ -142,12 +122,6 @@ export default {
 
 .ec-category-layoutmode-tabs :deep(.v-tab--active.v-tab:not(:focus)::before) {
   opacity: 0.12;
-}
-
-:deep(.ec-paper-size-toggle) {
-  position: absolute;
-  top: 2px;
-  right: 6px;
 }
 
 .ec-category-layoutmode-tab--hidden {

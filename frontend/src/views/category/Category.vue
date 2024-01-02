@@ -1,6 +1,12 @@
 <template>
   <v-container fluid>
-    <content-card v-if="category()" toolbar back>
+    <content-card
+      v-if="category()"
+      class="ec-category"
+      toolbar
+      back
+      :max-width="isLocalPaperDisplaySize ? '944px' : ''"
+    >
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           <CategoryChip :category="category()" dense large />
@@ -9,6 +15,7 @@
       </template>
 
       <template #title-actions>
+        <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
         <v-menu v-if="isManager" offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
@@ -75,6 +82,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
@@ -82,9 +90,13 @@ import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingActivitiesList.vue'
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
+import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
+
 export default {
   name: 'Category',
   components: {
+    TogglePaperSize,
     CategoryTemplate,
     CategoryProperties,
     ErrorExistingActivitiesList,
@@ -98,6 +110,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp(),
+      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
     }
   },
   props: {
@@ -109,6 +122,9 @@ export default {
       type: Function,
       required: true,
     },
+  },
+  setup() {
+    return useDisplaySize()
   },
   data() {
     return {
@@ -154,3 +170,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.ec-category {
+  transition: max-width 0.7s ease;
+}
+</style>
