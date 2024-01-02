@@ -26,7 +26,8 @@
     <DialogActivityForm
       :activity="entityData"
       :period="currentPeriod"
-      :hide-header-fields="hideHeaderFields"
+      :hide-location="hideHeaderFields"
+      :hide-responsibles="hideHeaderFields"
     />
   </dialog-form>
 </template>

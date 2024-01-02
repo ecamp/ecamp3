@@ -19,7 +19,12 @@
     <template #moreActions>
       <CopyActivityInfoDialog @closed="refreshCopyActivitySource">
         <template #activator="{ on }">
-          <v-btn v-show="clipboardPermission === 'prompt'" v-on="on">
+          <v-btn
+            v-show="clipboardPermission === 'prompt'"
+            text
+            class="v-btn--has-bg"
+            v-on="on"
+          >
             <v-icon left>mdi-information-outline</v-icon>
             {{ $tc('components.program.dialogActivityCreate.copyPastActivity') }}
           </v-btn>
@@ -71,7 +76,7 @@
         </v-list-item>
       </div>
     </div>
-    <DialogActivityForm :activity="entityData" :period="period">
+    <DialogActivityForm :activity="entityData" :period="period" hide-responsibles>
       <template v-if="clipboardAccessDenied" #textFieldTitleAppend>
         <PopoverPrompt
           v-model="copyActivitySourceUrlShowPopover"
