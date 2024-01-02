@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\HttpCache;
 
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Serializer\TagCollectorInterface;
 use App\Entity\BaseEntity;
 use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
@@ -17,14 +20,21 @@ use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 class TagCollector implements TagCollectorInterface {
     public const IRI_RELATION_DELIMITER = '#';
 
+    // only add tags for request URI matching below regex
+    private const PATH_REGEX = '^/(content_types|camps/[0-9a-f]*/categories)';
+
     public function __construct(private SymfonyResponseTagger $responseTagger) {}
 
     /**
      * Collect cache tags for cache invalidation.
      *
-     * @param array<string, mixed>&array{iri?: string, data?: mixed, object?: mixed, property_metadata?: \ApiPlatform\Metadata\ApiProperty, api_attribute?: string, resources?: array<string, string>} $context
+     * @param array<string, mixed>&array{iri?: string, data?: mixed, object?: mixed, property_metadata?: \ApiPlatform\Metadata\ApiProperty, api_attribute?: string, resources?: array<string, string>, request_uri?: string, root_operation?: Operation} $context
      */
     public function collect(array $context = []): void {
+        if (!self::isCacheable($context['root_operation'] ?? null, $context['request_uri'] ?? null)) {
+            return;
+        }
+
         $iri = $context['iri'] ?? null;
         $object = $context['object'] ?? null;
 
@@ -48,6 +58,18 @@ class TagCollector implements TagCollectorInterface {
         }
 
         $this->addCacheTagForResource($iri);
+    }
+
+    public static function isCacheable(?Operation $operation, ?string $requestUri): bool {
+        if (!($operation instanceof GetCollection || $operation instanceof Get)) {
+            return false;
+        }
+
+        if (preg_match('{'.self::PATH_REGEX.'}', $requestUri)) {
+            return true;
+        }
+
+        return false;
     }
 
     private function addCacheTagForResource(string $iri): void {

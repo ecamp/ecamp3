@@ -35,7 +35,16 @@ final class AddCollectionTagsListener {
         $request = $event->getRequest();
         $operation = $this->initializeOperation($request);
 
-        if (!$attributes = RequestAttributesExtractor::extractAttributes($request)) {
+        if (
+            (!$attributes = RequestAttributesExtractor::extractAttributes($request))
+            || $request->attributes->get('_api_platform_disable_listeners')
+        ) {
+            return;
+        }
+
+        if (
+            !TagCollector::isCacheable($operation, $request->getRequestUri())
+        ) {
             return;
         }
 
