@@ -20,7 +20,7 @@
               :entity="category()"
               :warning-text-entity="category().name"
               :dialog-title="$tc('views.category.category.deleteCategory')"
-              @success="goToActivityAdmin"
+              :success-handler="goToActivityAdmin"
             >
               <template #activator="{ on }">
                 <v-list-item v-on="on">
