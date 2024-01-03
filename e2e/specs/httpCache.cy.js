@@ -22,6 +22,23 @@ describe('HTTP cache tests', () => {
     cy.expectCacheMiss(uri)
   })
 
+  it('caches /content_types/318e064ea0c9', () => {
+    const uri = '/api/content_types/318e064ea0c9'
+
+    Cypress.session.clearAllSavedSessions()
+    cy.login('test@example.com')
+
+    // first request is a cache miss
+    cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+      const headers = response.headers
+      expect(headers.xkey).to.eq('318e064ea0c9')
+      expect(headers['x-cache']).to.eq('MISS')
+    })
+
+    // second request is a cache hit
+    cy.expectCacheHit(uri)
+  })
+
   it('caches /camp/{campId}/categories separately for each login', () => {
     const uri = '/api/camps/3c79b99ab424/categories'
 
@@ -100,6 +117,38 @@ describe('HTTP cache tests', () => {
       parent: '/api/content_node/column_layouts/9d7b3a220fb4',
       slot: '1',
       contentType: '/api/content_types/f17470519474',
+    }).then((response) => {
+      const newContentNodeUri = response.body._links.self.href
+
+      // ensure cache was invalidated
+      cy.expectCacheMiss(uri)
+      cy.expectCacheHit(uri)
+
+      // delete newly created contentNode
+      cy.apiDelete(newContentNodeUri)
+
+      // ensure cache was invalidated
+      cy.expectCacheMiss(uri)
+    })
+  })
+
+  it('invalidates /camp/{campId}/categories for new category', () => {
+    const uri = '/api/camps/3c79b99ab424/categories'
+
+    Cypress.session.clearAllSavedSessions()
+    cy.login('test@example.com')
+
+    // warm up cache
+    cy.expectCacheMiss(uri)
+    cy.expectCacheHit(uri)
+
+    // add new category to camp
+    cy.apiPost('/api/categories', {
+      camp: '/api/camps/3c79b99ab424',
+      short: 'new',
+      name: 'new Category',
+      color: '#000000',
+      numberingStyle: '1',
     }).then((response) => {
       const newContentNodeUri = response.body._links.self.href
 
@@ -202,5 +251,12 @@ describe('HTTP cache tests', () => {
         cy.visit('/camps')
         cy.contains('GRGR')
       })
+  })
+
+  it("doesn't cache /camps", () => {
+    const uri = '/api/camps'
+    Cypress.session.clearAllSavedSessions()
+    cy.login('test@example.com')
+    cy.expectCachePass(uri)
   })
 })

@@ -52,6 +52,13 @@ Cypress.Commands.add('expectCacheMiss', (uri) => {
   })
 })
 
+Cypress.Commands.add('expectCachePass', (uri) => {
+  cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+    const headers = response.headers
+    expect(headers['x-cache']).to.eq('PASS')
+  })
+})
+
 Cypress.Commands.add('apiPatch', (uri, body) => {
   cy.request({
     method: 'PATCH',
