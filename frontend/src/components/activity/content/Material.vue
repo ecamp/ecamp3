@@ -6,7 +6,7 @@
       :layout-mode="layoutMode"
       :material-item-collection="materialItemCollection"
       :disabled="disabled"
-      disable-period-filter
+      hide-period-filter
     />
   </ContentNodeCard>
 </template>
