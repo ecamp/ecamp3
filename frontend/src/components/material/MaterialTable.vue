@@ -381,13 +381,15 @@ export default {
       return this.materialItemCollection.items.some((item) => item.materialNode === null)
     },
   },
+  watch: {
+    periodFilterEnabled() {
+      if (!this.periodFilterEnabled) {
+        this.periodOnly = false
+      }
+    },
+  },
   mounted() {
     this.clientWidth = this.$el.clientWidth
-  },
-  updated() {
-    if (this.periodOnly && !this.periodFilterEnabled) {
-      this.periodOnly = false
-    }
   },
   methods: {
     onResize({ width }) {
