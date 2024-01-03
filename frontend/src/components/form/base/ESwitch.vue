@@ -11,7 +11,7 @@
       v-bind="$attrs"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label="defaultLabel"
+      :label="labelOrEntityFieldLabel"
       :name="name"
       :class="[inputClass]"
       :input-value="value"

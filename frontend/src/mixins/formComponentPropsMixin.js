@@ -50,7 +50,7 @@ export const formComponentPropsMixin = {
     },
   },
   computed: {
-    defaultLabel() {
+    labelOrEntityFieldLabel() {
       if (this.label !== undefined) {
         return this.label
       }
