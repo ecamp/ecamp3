@@ -29,11 +29,10 @@
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { VTextField } from 'vuetify/lib'
-import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 
 export default {
   name: 'BaseComponent',
-  components: { VTiptapEditor, ValidationProvider, VTextField },
+  components: { ValidationProvider, VTextField },
   mixins: [formComponentPropsMixin],
   props: {
     inputComponent: {
