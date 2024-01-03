@@ -15,7 +15,8 @@
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label="label || name"
+      :label="defaultLabel"
+      :name="name"
       :class="[inputClass]"
       v-on="$listeners"
     >

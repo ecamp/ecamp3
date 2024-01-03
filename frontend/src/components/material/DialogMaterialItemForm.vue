@@ -1,36 +1,38 @@
 <template>
-  <div>
+  <e-form name="materialItem">
     <e-text-field
       v-model.number="localMaterialItem.quantity"
-      :name="$tc('entity.materialItem.fields.quantity')"
+      name="quantity"
       inputmode="numeric"
       autofocus
     />
-    <e-text-field
-      v-model="localMaterialItem.unit"
-      :name="$tc('entity.materialItem.fields.unit')"
-      maxlength="32"
-    />
+
+    <e-text-field v-model="localMaterialItem.unit" name="unit" maxlength="32" />
+
     <e-text-field
       v-model="localMaterialItem.article"
-      :name="$tc('entity.materialItem.fields.article')"
+      name="article"
       vee-rules="required"
       maxlength="64"
     />
+
     <e-select
       v-model="localMaterialItem.materialList"
       dense
       vee-rules="required"
-      :name="$tc('entity.materialList.name')"
-      fieldname="materialList"
+      name="materialList"
+      :label="$tc('entity.materialList.name')"
       :items="materialListArray"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
+import EForm from '@/components/form/base/EForm.vue'
+
 export default {
   name: 'DialogMaterialItemForm',
+  components: { EForm },
   props: {
     materialLists: { type: Function, required: true },
     materialItem: { type: Object, required: true },

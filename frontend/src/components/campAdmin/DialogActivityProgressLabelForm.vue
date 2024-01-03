@@ -1,17 +1,20 @@
 <template>
-  <div>
+  <e-form name="activityProgressLabel">
     <e-text-field
       v-model="localActivityProgressLabel.title"
-      :name="$tc('entity.activityProgressLabel.fields.title')"
+      name="title"
       autofocus
       vee-rules="required"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
+import EForm from '@/components/form/base/EForm.vue'
+
 export default {
   name: 'DialogActivityProgressLabelForm',
+  components: { EForm },
   props: {
     activityProgressLabel: { type: Object, required: true },
   },

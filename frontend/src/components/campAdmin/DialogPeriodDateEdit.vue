@@ -12,94 +12,75 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div v-if="mode == 'move'" class="e-form-container">
-      <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.movePeriod') }}</p>
-      <e-date-picker
-        v-model="entityData.start"
-        :name="$tc('entity.period.fields.start')"
-        icon="mdi-calendar-start"
-        vee-rules="required"
-        @input="startChanged"
-      />
-      <div class="e-form-container">
-        <v-text-field
-          :value="endString"
-          :label="$tc('entity.period.fields.end')"
-          hide-details
-          filled
-          disabled
-        >
-          <template #prepend><v-icon>mdi-calendar-end</v-icon></template>
-        </v-text-field>
+    <e-form name="period">
+      <div v-if="mode === 'move'" class="e-form-container">
+        <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.movePeriod') }}</p>
+        <e-date-picker
+          v-model="entityData.start"
+          name="start"
+          icon="mdi-calendar-start"
+          vee-rules="required"
+          @input="startChanged"
+        />
+        <e-text-field
+          v-model="endString"
+          name="end"
+          readonly
+          prepend-icon="mdi-calendar-end"
+        />
       </div>
-    </div>
-    <div v-if="mode == 'changeStart'" class="e-form-container">
-      <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeStart') }}</p>
-      <e-date-picker
-        v-model="entityData.start"
-        :name="$tc('entity.period.fields.start')"
-        icon="mdi-calendar-start"
-        :vee-rules="'required|lessThanOrEqual_date:' + endString"
-        @input="startChanged"
-      />
-      <div class="e-form-container">
-        <v-text-field
+      <div v-if="mode === 'changeStart'" class="e-form-container">
+        <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeStart') }}</p>
+        <e-date-picker
+          v-model="entityData.start"
+          name="start"
+          icon="mdi-calendar-start"
+          :vee-rules="'required|lessThanOrEqual_date:' + endString"
+          @input="startChanged"
+        />
+        <e-text-field
           :value="endString"
-          :label="$tc('entity.period.fields.end')"
-          hide-details
-          filled
-          disabled
-        >
-          <template #prepend>
-            <v-icon>mdi-calendar-end</v-icon>
-          </template>
-        </v-text-field>
+          name="end"
+          readonly
+          prepend-icon="mdi-calendar-end"
+        />
       </div>
-    </div>
-    <div v-if="mode == 'changeEnd'" class="e-form-container">
-      <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeEnd') }}</p>
-      <div class="e-form-container">
-        <v-text-field
+      <div v-if="mode === 'changeEnd'" class="e-form-container">
+        <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeEnd') }}</p>
+        <e-text-field
           :value="startString"
-          :label="$tc('entity.period.fields.start')"
-          hide-details
-          filled
-          disabled
-        >
-          <template #prepend>
-            <v-icon>mdi-calendar-start</v-icon>
-          </template>
-        </v-text-field>
+          name="start"
+          readonly
+          prepend-icon="mdi-calendar-start"
+        />
+        <e-date-picker
+          v-if="mode === 'changeEnd'"
+          v-model="entityData.end"
+          name="end"
+          icon="mdi-calendar-end"
+          :vee-rules="'required|greaterThanOrEqual_date:' + startString"
+        />
       </div>
-      <e-date-picker
-        v-if="mode == 'changeEnd'"
-        v-model="entityData.end"
-        :name="$tc('entity.period.fields.end')"
-        icon="mdi-calendar-end"
-        :vee-rules="'required|greaterThanOrEqual_date:' + startString"
-      />
-    </div>
-    <div class="e-form-container">
-      <v-text-field
-        :value="periodDurationInDays"
-        :label="$tc('components.campAdmin.dialogPeriodDateEdit.periodDuration')"
-        hide-details
-        filled
-        disabled
-      >
-        <template #prepend><v-icon>mdi-calendar-expand-horizontal</v-icon></template>
-      </v-text-field>
-    </div>
+      <div class="e-form-container">
+        <e-text-field
+          :value="periodDurationInDays"
+          :label="$tc('components.campAdmin.dialogPeriodDateEdit.periodDuration')"
+          readonly
+          prepend-icon="mdi-calendar-expand-horizontal"
+        />
+      </div>
+    </e-form>
   </dialog-form>
 </template>
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogPeriodDateEdit',
-  components: { DialogForm },
+  components: { EForm, DialogForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true },

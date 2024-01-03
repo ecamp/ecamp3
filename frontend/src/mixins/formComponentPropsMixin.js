@@ -1,4 +1,7 @@
 export const formComponentPropsMixin = {
+  inject: {
+    entityName: { default: null },
+  },
   props: {
     id: {
       type: String,
@@ -14,7 +17,7 @@ export const formComponentPropsMixin = {
 
     // vuetify property hideDetails
     hideDetails: {
-      type: String,
+      type: [String, Boolean],
       default: 'auto',
     },
 
@@ -25,18 +28,18 @@ export const formComponentPropsMixin = {
       required: false,
     },
 
-    // used as field name for validation and as label (if no override label is provided)
+    // used as field name for validation
     name: {
       type: String,
       required: false,
       default: null,
     },
 
-    // override the label which is displayed to the user; name is used instead if no label is provided
+    // set the label which is displayed to the user
     label: {
       type: String,
       required: false,
-      default: null,
+      default: undefined,
     },
 
     // error messages from outside which should be displayed on the component
@@ -44,6 +47,17 @@ export const formComponentPropsMixin = {
       type: Array,
       required: false,
       default: () => [],
+    },
+  },
+  computed: {
+    defaultLabel() {
+      if (this.label !== undefined) {
+        return this.label
+      }
+      if (!this.entityName || !this.name) {
+        return null
+      }
+      return this.$t(`entity.${this.entityName}.fields.${this.name}`)
     },
   },
 }

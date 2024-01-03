@@ -1,38 +1,27 @@
 <template>
-  <div>
-    <e-text-field
-      v-model="localCategory.short"
-      :name="$tc('entity.category.fields.short')"
-      vee-rules="required"
-    />
+  <e-form name="category">
+    <e-text-field v-model="localCategory.short" name="short" vee-rules="required" />
 
-    <e-text-field
-      v-model="localCategory.name"
-      :name="$tc('entity.category.fields.name')"
-      vee-rules="required"
-    />
+    <e-text-field v-model="localCategory.name" name="name" vee-rules="required" />
 
-    <e-color-picker
-      v-model="localCategory.color"
-      :name="$tc('entity.category.fields.color')"
-      vee-rules="required"
-    />
+    <e-color-picker v-model="localCategory.color" name="color" vee-rules="required" />
 
     <e-select
       v-model="localCategory.numberingStyle"
       :items="numberingStyles"
-      :name="$tc('entity.category.fields.numberingStyle')"
+      name="numberingStyle"
       vee-rules="required"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
 import ESelect from '../form/base/ESelect.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogCategoryForm',
-  components: { ESelect },
+  components: { EForm, ESelect },
   props: {
     camp: { type: Object, required: true },
     isNew: { type: Boolean, required: true },

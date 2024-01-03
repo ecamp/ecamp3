@@ -17,22 +17,12 @@ Displays fields which don't apply to all camps, but are required for some
           >
             <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
             <div v-else class="mt-3">
-              <api-form :entity="camp()">
-                <api-text-field
-                  fieldname="organizer"
-                  :name="$tc('entity.camp.fields.organizer')"
-                  :disabled="disabled"
-                />
-                <api-text-field
-                  fieldname="kind"
-                  :name="$tc('entity.camp.fields.kind')"
-                  :disabled="disabled"
-                />
-                <api-text-field
-                  fieldname="coachName"
-                  :name="$tc('entity.camp.fields.coachName')"
-                  :disabled="disabled"
-                />
+              <api-form :entity="camp()" name="camp">
+                <api-text-field fieldname="organizer" :disabled="disabled" />
+
+                <api-text-field fieldname="kind" :disabled="disabled" />
+
+                <api-text-field fieldname="coachName" :disabled="disabled" />
               </api-form>
             </div>
           </content-group>
@@ -43,27 +33,14 @@ Displays fields which don't apply to all camps, but are required for some
           >
             <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
             <div v-else class="mt-3">
-              <api-form :entity="camp()">
-                <api-text-field
-                  fieldname="courseNumber"
-                  :name="$tc('entity.camp.fields.courseNumber')"
-                  :disabled="disabled"
-                />
-                <api-text-field
-                  fieldname="courseKind"
-                  :name="$tc('entity.camp.fields.courseKind')"
-                  :disabled="disabled"
-                />
-                <api-text-field
-                  fieldname="trainingAdvisorName"
-                  :name="$tc('entity.camp.fields.trainingAdvisorName')"
-                  :disabled="disabled"
-                />
-                <api-checkbox
-                  fieldname="printYSLogoOnPicasso"
-                  :name="$tc('entity.camp.fields.printYSLogoOnPicasso')"
-                  :disabled="disabled"
-                />
+              <api-form :entity="camp()" name="camp">
+                <api-text-field fieldname="courseNumber" :disabled="disabled" />
+
+                <api-text-field fieldname="courseKind" :disabled="disabled" />
+
+                <api-text-field fieldname="trainingAdvisorName" :disabled="disabled" />
+
+                <api-checkbox fieldname="printYSLogoOnPicasso" :disabled="disabled" />
               </api-form>
             </div>
           </content-group>

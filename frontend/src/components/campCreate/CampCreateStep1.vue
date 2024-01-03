@@ -1,54 +1,50 @@
 <template>
   <v-stepper-content :step="1" class="pa-0">
-    <ValidationObserver v-slot="{ handleSubmit, valid, validate }">
-      <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('next-step'))">
-        <v-card-text>
-          <e-text-field
-            v-model="localCamp.name"
-            :name="$tc('entity.camp.fields.name')"
-            vee-rules="required"
-            required
-            autofocus
-          />
-          <e-text-field
-            v-model="localCamp.title"
-            :name="$tc('entity.camp.fields.title')"
-            vee-rules="required"
-            required
-          />
-          <e-text-field
-            v-model="localCamp.motto"
-            :name="$tc('entity.camp.fields.motto')"
-          />
-          <create-camp-periods
-            :add-period="addPeriod"
-            :periods="localCamp.periods"
-            :delete-period="deletePeriod"
-            :period-deletable="periodDeletable"
-          />
-        </v-card-text>
-        <v-divider />
-        <ContentActions>
-          <v-spacer />
-          <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
-          <ButtonContinue v-if="valid" @click="$emit('next-step')" />
-          <v-tooltip v-else top>
-            <template #activator="{ attrs, on }">
-              <v-btn
-                elevation="0"
-                color="secondary"
-                v-bind="attrs"
-                @click="validate()"
-                v-on="on"
-              >
-                {{ $tc('global.button.continue') }}
-              </v-btn>
-            </template>
-            {{ $tc('components.campCreate.campCreateStep1.submitTooltip') }}
-          </v-tooltip>
-        </ContentActions>
-      </v-form>
-    </ValidationObserver>
+    <e-form name="camp">
+      <ValidationObserver v-slot="{ handleSubmit, valid, validate }">
+        <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('next-step'))">
+          <v-card-text>
+            <e-text-field
+              v-model="localCamp.name"
+              name="name"
+              vee-rules="required"
+              autofocus
+            />
+
+            <e-text-field v-model="localCamp.title" name="title" vee-rules="required" />
+
+            <e-text-field v-model="localCamp.motto" name="motto" />
+
+            <create-camp-periods
+              :add-period="addPeriod"
+              :periods="localCamp.periods"
+              :delete-period="deletePeriod"
+              :period-deletable="periodDeletable"
+            />
+          </v-card-text>
+          <v-divider />
+          <ContentActions>
+            <v-spacer />
+            <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
+            <ButtonContinue v-if="valid" @click="$emit('next-step')" />
+            <v-tooltip v-else top>
+              <template #activator="{ attrs, on }">
+                <v-btn
+                  elevation="0"
+                  color="secondary"
+                  v-bind="attrs"
+                  @click="validate()"
+                  v-on="on"
+                >
+                  {{ $tc('global.button.continue') }}
+                </v-btn>
+              </template>
+              {{ $tc('components.campCreate.campCreateStep1.submitTooltip') }}
+            </v-tooltip>
+          </ContentActions>
+        </v-form>
+      </ValidationObserver>
+    </e-form>
   </v-stepper-content>
 </template>
 <script>
@@ -58,10 +54,12 @@ import ButtonContinue from '@/components/buttons/ButtonContinue.vue'
 import ContentActions from '@/components/layout/ContentActions.vue'
 import CreateCampPeriods from '@/components/campAdmin/CreateCampPeriods.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'CampCreateStep1',
   components: {
+    EForm,
     ButtonCancel,
     ButtonContinue,
     ContentActions,

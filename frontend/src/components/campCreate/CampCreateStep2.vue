@@ -8,7 +8,8 @@
             v-model="localCamp.campPrototype"
             :vee-rules="{ required: false, excluded: ['', false, true] }"
             :skip-if-empty="false"
-            :name="$tc('entity.camp.prototype')"
+            name="prototype"
+            :label="$tc('entity.camp.prototype')"
             :hint="prorotypeHint"
             persistent-hint
             :items="campTemplates"

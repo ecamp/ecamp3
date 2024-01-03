@@ -1,17 +1,20 @@
 <template>
-  <div>
+  <e-form name="materialList">
     <e-text-field
       v-model="localMaterialList.name"
-      :name="$tc('entity.materialList.fields.name')"
+      name="name"
       autofocus
       vee-rules="required"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
+import EForm from '@/components/form/base/EForm.vue'
+
 export default {
   name: 'DialogMaterialListForm',
+  components: { EForm },
   props: {
     materialList: { type: Object, required: true },
   },

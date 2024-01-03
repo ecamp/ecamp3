@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <e-form name="activity">
     <div class="e-form-container d-flex gap-2">
       <e-text-field
         v-model="localActivity.title"
-        :name="$tc('entity.activity.fields.title')"
+        name="title"
         vee-rules="required"
         class="flex-grow-1"
       />
@@ -12,7 +12,7 @@
 
     <e-select
       v-model="localActivity.category"
-      :name="$tc('entity.activity.fields.category')"
+      name="category"
       :items="categories.items"
       item-value="_meta.self"
       item-text="name"
@@ -34,10 +34,7 @@
       </template>
     </e-select>
 
-    <e-text-field
-      v-model="localActivity.location"
-      :name="$tc('entity.activity.fields.location')"
-    />
+    <e-text-field v-model="localActivity.location" name="location" />
 
     <form-schedule-entry-list
       v-if="activity.scheduleEntries"
@@ -45,16 +42,18 @@
       :period="period"
       :periods="camp.periods().items"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import FormScheduleEntryList from './FormScheduleEntryList.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogActivityForm',
   components: {
+    EForm,
     CategoryChip,
     FormScheduleEntryList,
   },

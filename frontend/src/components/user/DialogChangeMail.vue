@@ -12,10 +12,10 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div v-if="status === 'initial'">
+    <e-form v-if="status === 'initial'" name="user">
       <e-text-field
         v-model="entityData.newEmail"
-        :name="$tc('entity.user.fields.email')"
+        name="email"
         vee-rules="email|required"
         append-icon="mdi-at"
         autofocus
@@ -23,7 +23,7 @@
       <p class="mt-5">
         {{ $tc('components.user.dialogChangeMail.message') }}
       </p>
-    </div>
+    </e-form>
     <div v-if="status == 'success'">
       {{ $tc('components.user.dialogChangeMail.success') }}
     </div>
@@ -36,10 +36,11 @@
 <script>
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogChangeMail',
-  components: { DialogForm },
+  components: { EForm, DialogForm },
   extends: DialogBase,
   data() {
     return {

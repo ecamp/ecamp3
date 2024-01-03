@@ -12,24 +12,25 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div>
+    <e-form name="period">
       <e-text-field
         v-model="entityData.description"
-        :name="$tc('entity.period.fields.description')"
+        name="description"
         autofocus
         vee-rules="required"
       />
-    </div>
+    </e-form>
   </dialog-form>
 </template>
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogPeriodDescriptionEdit',
-  components: { DialogForm },
+  components: { EForm, DialogForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true },

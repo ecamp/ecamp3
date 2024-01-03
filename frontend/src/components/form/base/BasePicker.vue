@@ -22,7 +22,7 @@ Displays a field as a picker (can be used with v-model)
           :hide-details="hideDetails"
           :input-class="inputClass"
           :name="name"
-          :label="label"
+          :label="defaultLabel"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           :filled="filled"

@@ -7,11 +7,12 @@
   >
     <component
       :is="inputComponent"
+      :name="name"
       v-bind="$attrs"
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label.prop="label || name"
+      :label.prop="defaultLabel"
       :class="[inputClass]"
       v-on="$listeners"
     >
@@ -28,10 +29,11 @@
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { VTextField } from 'vuetify/lib'
+import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 
 export default {
   name: 'BaseComponent',
-  components: { ValidationProvider, VTextField },
+  components: { VTiptapEditor, ValidationProvider, VTextField },
   mixins: [formComponentPropsMixin],
   props: {
     inputComponent: {

@@ -6,6 +6,7 @@ Displays a field as a date picker + write access via API wrapper
   <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
     <e-date-picker
       :value="wrapper.localValue || ''"
+      :name="fieldname"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

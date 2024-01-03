@@ -6,27 +6,14 @@ Displays address and allows to edit
   <content-group :title="$tc('components.campAdmin.campAddress.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else class="mt-3">
-      <api-form :entity="camp()">
-        <api-text-field
-          fieldname="addressName"
-          :name="$tc('entity.camp.fields.addressName')"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="addressStreet"
-          :name="$tc('entity.camp.fields.addressStreet')"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="addressZipcode"
-          :name="$tc('entity.camp.fields.addressZipcode')"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="addressCity"
-          :name="$tc('entity.camp.fields.addressCity')"
-          :disabled="disabled"
-        />
+      <api-form :entity="camp()" name="camp">
+        <api-text-field fieldname="addressName" :disabled="disabled" />
+
+        <api-text-field fieldname="addressStreet" :disabled="disabled" />
+
+        <api-text-field fieldname="addressZipcode" :disabled="disabled" />
+
+        <api-text-field fieldname="addressCity" :disabled="disabled" />
       </api-form>
     </div>
   </content-group>

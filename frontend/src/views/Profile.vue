@@ -10,50 +10,36 @@
     >
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
-          <e-text-field
-            class="e-profile--email"
-            :name="$tc('entity.user.fields.email')"
-            :value="profile.email"
-            fieldname="email"
-            outlined
-            :filled="false"
-            readonly
-            required
-          >
-            <template #append>
-              <dialog-change-mail>
-                <template #activator="{ on }">
-                  <ButtonEdit text class="v-btn--has-bg" v-on="on">
-                    {{ $tc('views.profile.changeEmail') }}
-                  </ButtonEdit>
-                </template>
-              </dialog-change-mail>
-            </template>
-          </e-text-field>
-          <api-text-field
-            :name="$tc('entity.user.fields.firstname')"
-            :uri="profile._meta.self"
-            fieldname="firstname"
-            @finished="reloadUser()"
-          />
-          <api-text-field
-            :name="$tc('entity.user.fields.surname')"
-            :uri="profile._meta.self"
-            fieldname="surname"
-            @finished="reloadUser()"
-          />
-          <api-text-field
-            :name="$tc('entity.user.fields.nickname')"
-            :uri="profile._meta.self"
-            fieldname="nickname"
-            @finished="reloadUser()"
-          />
-          <api-select
-            :name="$tc('entity.user.fields.language')"
-            :uri="profile._meta.self"
-            fieldname="language"
-            :items="availableLocales"
-          />
+          <api-form :entity="profile" name="user">
+            <e-text-field
+              class="e-profile--email"
+              name="email"
+              :value="profile.email"
+              fieldname="email"
+              outlined
+              :filled="false"
+              readonly
+              required
+            >
+              <template #append>
+                <dialog-change-mail>
+                  <template #activator="{ on }">
+                    <ButtonEdit text class="v-btn--has-bg" v-on="on">
+                      {{ $tc('views.profile.changeEmail') }}
+                    </ButtonEdit>
+                  </template>
+                </dialog-change-mail>
+              </template>
+            </e-text-field>
+
+            <api-text-field fieldname="firstname" @finished="reloadUser()" />
+
+            <api-text-field fieldname="surname" @finished="reloadUser()" />
+
+            <api-text-field fieldname="nickname" @finished="reloadUser()" />
+
+            <api-select fieldname="language" :items="availableLocales" />
+          </api-form>
           <p class="text-caption blue-grey--text mb-0">
             {{ $tc('global.lokaliseMessage') }}
           </p>
@@ -85,10 +71,12 @@ import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.v
 import VueI18n from '@/plugins/i18n'
 import { mapGetters } from 'vuex'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
 
 export default {
   name: 'Home',
   components: {
+    ApiForm,
     ButtonEdit,
     ApiSelect,
     ApiTextField,
