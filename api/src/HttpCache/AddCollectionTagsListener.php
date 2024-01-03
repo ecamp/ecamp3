@@ -20,14 +20,13 @@ use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\State\UriVariablesResolverTrait;
 use ApiPlatform\State\Util\OperationRequestInitiatorTrait;
 use ApiPlatform\Symfony\Util\RequestAttributesExtractor;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 final class AddCollectionTagsListener {
     use OperationRequestInitiatorTrait;
     use UriVariablesResolverTrait;
 
-    public function __construct(private readonly IriConverterInterface $iriConverter, ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private SymfonyResponseTagger $responseTagger) {
+    public function __construct(private readonly IriConverterInterface $iriConverter, ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private ResponseTagger $responseTagger) {
         $this->resourceMetadataCollectionFactory = $resourceMetadataCollectionFactory;
     }
 
@@ -38,12 +37,6 @@ final class AddCollectionTagsListener {
         if (
             (!$attributes = RequestAttributesExtractor::extractAttributes($request))
             || $request->attributes->get('_api_platform_disable_listeners')
-        ) {
-            return;
-        }
-
-        if (
-            !TagCollector::isCacheable($operation, $request->getRequestUri())
         ) {
             return;
         }

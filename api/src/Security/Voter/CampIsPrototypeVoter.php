@@ -5,9 +5,9 @@ namespace App\Security\Voter;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\Camp;
+use App\HttpCache\ResponseTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -20,7 +20,7 @@ class CampIsPrototypeVoter extends Voter {
 
     public function __construct(
         private EntityManagerInterface $em,
-        private SymfonyResponseTagger $responseTagger
+        private ResponseTagger $responseTagger
     ) {}
 
     protected function supports($attribute, $subject): bool {

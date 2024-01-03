@@ -9,10 +9,10 @@ use App\Entity\CampCollaboration;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\Period;
 use App\Entity\User;
+use App\HttpCache\ResponseTagger;
 use App\Security\Voter\CampRoleVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -27,13 +27,13 @@ class CampRoleVoterTest extends TestCase {
     private CampRoleVoter $voter;
     private MockObject|TokenInterface $token;
     private EntityManagerInterface|MockObject $em;
-    private MockObject|SymfonyResponseTagger $responseTagger;
+    private MockObject|ResponseTagger $responseTagger;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createMock(TokenInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
-        $this->responseTagger = $this->createMock(SymfonyResponseTagger::class);
+        $this->responseTagger = $this->createMock(ResponseTagger::class);
         $this->voter = new CampRoleVoter($this->em, $this->responseTagger);
     }
 
