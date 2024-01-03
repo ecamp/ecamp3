@@ -9,10 +9,7 @@
       </TextAlignBaseline>
       <br />
       <CategoryChip
-        v-if="
-          (isLoadingEndpoints ? !loadingEndpoints?.categories : true) &&
-          !scheduleEntry._meta.loading
-        "
+        v-if="!loadingEndpoints?.categories && !scheduleEntry._meta.loading"
         small
         dense
         :category="category"
@@ -22,10 +19,7 @@
     </th>
     <td class="d-none d-sm-table-cell">
       <CategoryChip
-        v-if="
-          (isLoadingEndpoints ? !loadingEndpoints?.categories : true) &&
-          !scheduleEntry._meta.loading
-        "
+        v-if="!loadingEndpoints?.categories && !scheduleEntry._meta.loading"
         small
         dense
         :category="category"
@@ -49,10 +43,7 @@
       </router-link>
 
       <span
-        v-if="
-          (isLoadingEndpoints ? !loadingEndpoints?.progressLabels : true) &&
-          $vuetify.breakpoint.mdAndUp
-        "
+        v-if="!loadingEndpoints?.progressLabels && $vuetify.breakpoint.mdAndUp"
         class="e-subtitle e-subtitle--smaller"
       >
         {{ progressLabel }}
@@ -63,12 +54,7 @@
         <span class="e-subtitle">{{ location }}</span>
       </template>
 
-      <template
-        v-if="
-          (isLoadingEndpoints ? !loadingEndpoints?.progressLabels : true) &&
-          !$vuetify.breakpoint.mdAndUp
-        "
-      >
+      <template v-if="!loadingEndpoints?.progressLabels && !$vuetify.breakpoint.mdAndUp">
         <br />
         <span class="e-subtitle e-subtitle--smaller">
           {{ progressLabel }}
@@ -85,10 +71,7 @@
     </td>
     <td class="contentrow avatarrow overflow-visible">
       <AvatarRow
-        v-if="
-          (isLoadingEndpoints ? !loadingEndpoints?.campCollaborations : true) &&
-          !scheduleEntry._meta.loading
-        "
+        v-if="!loadingEndpoints?.campCollaborations && !scheduleEntry._meta.loading"
         :camp-collaborations="collaborators"
         max-size="28"
         class="ml-auto"
@@ -117,7 +100,7 @@ export default {
   props: {
     scheduleEntry: { type: Object, default: () => ({ _meta: { loading: true } }) },
     loadingEndpoints: {
-      type: [Boolean, Object],
+      type: Object,
       default: () => ({
         categories: true,
         periods: true,
@@ -135,9 +118,6 @@ export default {
     },
     category() {
       return this.scheduleEntry.activity().category()
-    },
-    isLoadingEndpoints() {
-      return this.loadingEndpoints !== false && this.loadingEndpoints !== true
     },
     title() {
       return this.scheduleEntry.activity().title
