@@ -36,13 +36,12 @@ import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import DetailPane from '@/components/generic/DetailPane.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import CollaboratorForm from '@/components/collaborator/CollaboratorForm.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
 export default {
   name: 'CollaboratorCreate',
-  components: { EForm, ButtonAdd, DetailPane, CollaboratorForm },
+  components: { ButtonAdd, DetailPane, CollaboratorForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },

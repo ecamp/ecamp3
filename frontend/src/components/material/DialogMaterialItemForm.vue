@@ -28,11 +28,8 @@
 </template>
 
 <script>
-import EForm from '@/components/form/base/EForm.vue'
-
 export default {
   name: 'DialogMaterialItemForm',
-  components: { EForm },
   props: {
     materialLists: { type: Function, required: true },
     materialItem: { type: Object, required: true },

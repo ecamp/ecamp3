@@ -88,11 +88,8 @@
 </template>
 
 <script>
-import EForm from '@/components/form/base/EForm.vue'
-
 export default {
   name: 'SettingsCollaboratorForm',
-  components: { EForm },
   props: {
     collaboration: { type: Object, required: true },
     status: { type: [String, Boolean], required: false, default: false },

@@ -17,11 +17,10 @@
 
 <script>
 import ESelect from '../form/base/ESelect.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogCategoryForm',
-  components: { EForm, ESelect },
+  components: { ESelect },
   props: {
     camp: { type: Object, required: true },
     isNew: { type: Boolean, required: true },

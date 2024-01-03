@@ -76,11 +76,10 @@
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogPeriodDateEdit',
-  components: { EForm, DialogForm },
+  components: { DialogForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true },

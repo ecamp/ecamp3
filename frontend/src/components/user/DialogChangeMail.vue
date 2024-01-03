@@ -36,11 +36,10 @@
 <script>
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogChangeMail',
-  components: { EForm, DialogForm },
+  components: { DialogForm },
   extends: DialogBase,
   data() {
     return {

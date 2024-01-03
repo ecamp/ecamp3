@@ -26,11 +26,8 @@
 </template>
 
 <script>
-import EForm from '@/components/form/base/EForm.vue'
-
 export default {
   name: 'DialogPeriodForm',
-  components: { EForm },
   props: {
     period: { type: Object, required: true },
   },

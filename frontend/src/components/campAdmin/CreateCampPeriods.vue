@@ -78,12 +78,10 @@
 <script>
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'CreateCampPeriods',
   components: {
-    EForm,
     EDatePicker,
     ETextField,
   },

@@ -48,12 +48,10 @@
 <script>
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import FormScheduleEntryList from './FormScheduleEntryList.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogActivityForm',
   components: {
-    EForm,
     CategoryChip,
     FormScheduleEntryList,
   },

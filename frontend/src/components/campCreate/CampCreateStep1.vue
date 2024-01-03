@@ -54,12 +54,10 @@ import ButtonContinue from '@/components/buttons/ButtonContinue.vue'
 import ContentActions from '@/components/layout/ContentActions.vue'
 import CreateCampPeriods from '@/components/campAdmin/CreateCampPeriods.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
-import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'CampCreateStep1',
   components: {
-    EForm,
     ButtonCancel,
     ButtonContinue,
     ContentActions,
