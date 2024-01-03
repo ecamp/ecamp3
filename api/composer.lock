@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b80734a3ef79fb3bfc6762418d7b37c",
+    "content-hash": "26e21dc35f9ccf4358f32630dcf91216",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10945,21 +10945,22 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.44.0",
+            "version": "v3.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "5445834057a744c1a434ed60fcac566b4de3a0f2"
+                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/5445834057a744c1a434ed60fcac566b4de3a0f2",
-                "reference": "5445834057a744c1a434ed60fcac566b4de3a0f2",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/be6831c9af1740470d2a773119b9273f8ac1c3d2",
+                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.4",
                 "composer/xdebug-handler": "^3.0.3",
+                "ext-filter": "*",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
                 "php": "^7.4 || ^8.0",
@@ -11023,7 +11024,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.44.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.46.0"
             },
             "funding": [
                 {
@@ -11031,7 +11032,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-29T20:21:16+00:00"
+            "time": "2024-01-03T21:38:46+00:00"
         },
         {
             "name": "hautelook/alice-bundle",
