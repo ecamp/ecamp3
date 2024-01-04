@@ -3,7 +3,7 @@
 namespace App\Tests\Api\ResetPassword;
 
 use App\Entity\User;
-use App\Security\ReCaptcha\ReCaptcha;
+use App\Security\ReCaptcha\ReCaptchaWrapper;
 use App\Tests\Api\ECampApiTestCase;
 use ReCaptcha\Response;
 
@@ -98,7 +98,7 @@ class UpdatePasswordTest extends ECampApiTestCase {
 
     protected function mockRecaptcha($shouldReturnSuccess = true) {
         $container = static::getContainer();
-        $recaptcha = $this->createMock(ReCaptcha::class);
+        $recaptcha = $this->createMock(ReCaptchaWrapper::class);
         $response = $this->createMock(Response::class);
         $recaptcha->expects(self::any())
             ->method('verify')
@@ -108,6 +108,6 @@ class UpdatePasswordTest extends ECampApiTestCase {
             ->method('isSuccess')
             ->willReturn($shouldReturnSuccess)
         ;
-        $container->set(ReCaptcha::class, $recaptcha);
+        $container->set(ReCaptchaWrapper::class, $recaptcha);
     }
 }

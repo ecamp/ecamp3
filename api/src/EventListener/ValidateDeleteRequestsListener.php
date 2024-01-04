@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Util\RequestAttributesExtractor;
 use ApiPlatform\Validator\ValidatorInterface;
@@ -24,7 +25,7 @@ class ValidateDeleteRequestsListener implements EventSubscriberInterface {
     }
 
     /**
-     * @throws \ApiPlatform\Exception\ResourceClassNotFoundException
+     * @throws ResourceClassNotFoundException
      */
     public function validateDeleteRequest(ViewEvent $event): void {
         $controllerResult = $event->getControllerResult();
