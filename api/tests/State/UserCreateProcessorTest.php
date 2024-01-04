@@ -5,7 +5,7 @@ namespace App\Tests\State;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\User;
-use App\Security\ReCaptcha\ReCaptcha;
+use App\Security\ReCaptcha\ReCaptchaWrapper;
 use App\Service\MailService;
 use App\State\UserCreateProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,7 +19,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserCreateProcessorTest extends TestCase {
     private UserCreateProcessor $processor;
-    private MockObject|ReCaptcha $recaptcha;
+    private MockObject|ReCaptchaWrapper $recaptcha;
     private MockObject|Response $recaptchaResponse;
     private MockObject|UserPasswordHasherInterface $userPasswordHasher;
     private MailService|MockObject $mailService;
@@ -32,7 +32,7 @@ class UserCreateProcessorTest extends TestCase {
         $this->user = new User();
 
         $this->recaptchaResponse = $this->createMock(Response::class);
-        $this->recaptcha = $this->createMock(ReCaptcha::class);
+        $this->recaptcha = $this->createMock(ReCaptchaWrapper::class);
         $this->recaptcha->expects(self::any())
             ->method('verify')
             ->willReturn($this->recaptchaResponse)
