@@ -18,7 +18,7 @@ class InvitationGraphQLTest extends ECampApiTestCase {
      */
     public function testFindInvitationWhenNotLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         $query = "
         {
           invitation(id: \"invitations/{$campCollaboration->inviteKey}/find\") {

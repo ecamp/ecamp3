@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteDayTest extends ECampApiTestCase {
     public function testDeleteDayIsNotAllowed() {
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         static::createClientWithCredentials()->request('DELETE', '/days/'.$day->getId());
 
         $this->assertResponseStatusCodeSame(405); // method not allowed

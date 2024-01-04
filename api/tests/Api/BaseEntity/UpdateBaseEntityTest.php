@@ -18,7 +18,7 @@ class UpdateBaseEntityTest extends ECampApiTestCase {
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
     public function testIdNotWriteable() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/camps/'.$camp->getId(),
@@ -43,7 +43,7 @@ class UpdateBaseEntityTest extends ECampApiTestCase {
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
     public function testCreateTimeNotWriteable() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/camps/'.$camp->getId(),
@@ -68,7 +68,7 @@ class UpdateBaseEntityTest extends ECampApiTestCase {
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
     public function testUpdateTimeNotWriteable() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/camps/'.$camp->getId(),

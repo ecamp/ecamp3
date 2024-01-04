@@ -19,6 +19,7 @@ use App\Repository\ProfileRepository;
 use App\Util\ArrayDeepSort;
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\ORM\EntityManagerInterface;
+use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\BrowserKit\Cookie;
@@ -128,10 +129,14 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function getIriFor($entityOrFixtureName): string {
         if (is_string($entityOrFixtureName)) {
             // Assume we want to get the IRI for a fixture
-            $entityOrFixtureName = static::$fixtures[$entityOrFixtureName];
+            $entityOrFixtureName = self::getFixture($entityOrFixtureName);
         }
 
         return $this->getIriConverter()->getIriFromResource($entityOrFixtureName);
+    }
+
+    protected static function getFixture(string $entityOrFixtureName): mixed {
+        return FixtureStore::getFixtures()[$entityOrFixtureName];
     }
 
     protected function getSchemaFactory(): SchemaFactoryInterface {

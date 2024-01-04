@@ -14,7 +14,7 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
 
         $this->endpoint = '/content_node/multi_selects';
         $this->entityClass = MultiSelect::class;
-        $this->defaultContentType = static::$fixtures['contentTypeMultiSelect'];
+        $this->defaultContentType = static::getFixture('contentTypeMultiSelect');
     }
 
     public function testCreateMultiSelectCopiesOptionsFromContentType() {

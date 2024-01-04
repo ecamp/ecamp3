@@ -20,7 +20,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationSuccessfulWhenUserIsManager() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials(['email' => static::$fixtures['user1manager']->getEmail()])->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
@@ -48,7 +48,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationSuccessfulWhenUserIsMember() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
@@ -76,7 +76,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationSuccessfulWhenInvitedUserExists() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
         static::createClientWithCredentials(['email' => static::$fixtures['user1manager']->getEmail()])->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
@@ -100,7 +100,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWhenNotAuthenticated() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClient()->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
@@ -121,7 +121,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWhenUserNotPartOfCamp() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request(
                 'PATCH',
@@ -144,7 +144,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWhenUserIsInvited() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
         static::createClientWithCredentials(['email' => static::$fixtures['user6invited']->getEmail()])
             ->request(
                 'PATCH',
@@ -167,7 +167,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWhenUserIsInactive() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request(
                 'PATCH',
@@ -190,7 +190,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWhenUserIsGuest() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request(
                 'PATCH',
@@ -213,7 +213,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWhenCampCollaborationIsNotInStatusInvited() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2member'];
+        $campCollaboration = static::getFixture('campCollaboration2member');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
@@ -234,7 +234,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      */
     public function testResendInvitationFailsWithAdditionalAttribute() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2member'];
+        $campCollaboration = static::getFixture('campCollaboration2member');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
