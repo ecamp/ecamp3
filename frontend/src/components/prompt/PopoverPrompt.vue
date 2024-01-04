@@ -47,6 +47,7 @@
           :color="submitColor"
           type="submit"
           :loading="isSaving"
+          :disabled="!submitEnabled"
           @click="doSubmit"
         >
           <v-icon v-if="!!submitIcon" left>
