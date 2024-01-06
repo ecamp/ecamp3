@@ -27,15 +27,17 @@ export const AutoLinkDecoration = Extension.create({
               if (!['http:', 'https:'].includes(link.protocol)) {
                 return
               }
-              decorations.push(
-                Decoration.inline(pos + index, pos + lastIndex, {
-                  nodeName: 'a',
-                  href: url,
-                  class: 'autolink',
-                  target: '_blank',
-                  rel: 'noopener noreferrer',
-                })
-              )
+              const attrs = {
+                nodeName: 'a',
+                href: url,
+                class: 'autolink',
+                target: '_blank',
+                rel: 'noopener noreferrer',
+              }
+              if (this.editor.isEditable) {
+                attrs.onclick = `(event.metaKey || event.ctrlKey) && window.open("${link}", "_blank");`
+              }
+              decorations.push(Decoration.inline(pos + index, pos + lastIndex, attrs))
             } catch (error) {
               /* It can't be parsed as an url */
             }
