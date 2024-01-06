@@ -79,6 +79,16 @@ body {
     }
   }
 
+  .v-alert.warning--text {
+    .v-alert__icon {
+      color: #d25f00 !important;
+    }
+    .v-alert__content {
+      color: #972e00 !important;
+    }
+    border-color: #ffe0b2 !important;
+  }
+
   .elevation-4--light {
     box-shadow:
       0 2px 4px -1px rgba(0, 0, 0, 0.1),
