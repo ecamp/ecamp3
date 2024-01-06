@@ -16,31 +16,32 @@ export const AutoLinkDecoration = Extension.create({
         if (node.isText && linkify.pretest(node.text)) {
           const matches = linkify.match(node.text)
           matches?.forEach(({ index, lastIndex, url }) => {
+            if (url.charAt(0) === '/') {
+              return
+            }
+            let link
             try {
-              if (url.charAt(0) === '/') {
-                return
-              }
-              const link = new URL(url)
-              if (!link.host.includes('.') && !link.port) {
-                return
-              }
-              if (!['http:', 'https:'].includes(link.protocol)) {
-                return
-              }
-              const attrs = {
-                nodeName: 'a',
-                href: url,
-                class: 'autolink',
-                target: '_blank',
-                rel: 'noopener noreferrer',
-              }
-              if (this.editor.isEditable) {
-                attrs.onclick = `(event.metaKey || event.ctrlKey) && window.open("${link}", "_blank");`
-              }
-              decorations.push(Decoration.inline(pos + index, pos + lastIndex, attrs))
-            } catch (error) {
+              link = new URL(url)
+            } catch (_) {
               /* It can't be parsed as an url */
             }
+            if (!link.host.includes('.') && !link.port) {
+              return
+            }
+            if (!['http:', 'https:'].includes(link.protocol)) {
+              return
+            }
+            const attrs = {
+              nodeName: 'a',
+              href: url,
+              class: 'autolink',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+            }
+            if (this.editor.isEditable) {
+              attrs.onclick = `(event.metaKey || event.ctrlKey) && window.open("${link}", "_blank");`
+            }
+            decorations.push(Decoration.inline(pos + index, pos + lastIndex, attrs))
           })
         }
       })
