@@ -3,9 +3,9 @@
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.campAdmin.campCategories.title') }}
-        <dialog-category-create v-if="!disabled" :camp="camp()">
+        <DialogCategoryCreate v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add
+            <ButtonAdd
               color="secondary"
               text
               :hide-label="$vuetify.breakpoint.xsOnly"
@@ -13,99 +13,36 @@
               v-on="on"
             >
               {{ $tc('components.campAdmin.campCategories.create') }}
-            </button-add>
+            </ButtonAdd>
           </template>
-        </dialog-category-create>
+        </DialogCategoryCreate>
       </div>
     </slot>
-    <v-skeleton-loader v-if="camp().categories()._meta.loading" type="article" />
-    <v-list>
+    <v-skeleton-loader
+      v-if="camp().categories()._meta.loading"
+      type="list-item@3"
+      class="mx-n4"
+    />
+    <v-list class="mx-n2">
       <v-list-item
         v-for="category in categories.items"
         :key="category._meta.self"
-        class="px-0"
+        class="px-2 rounded"
+        :to="categoryRoute(camp(), category)"
       >
-        <v-list-item-content class="pt-0 pb-2">
+        <v-list-item-content>
           <v-list-item-title>
-            <CategoryChip :category="category">
+            <CategoryChip :category="category" class="pointer-events-none">
               (1.{{ category.numberingStyle }}) {{ category.short }}: {{ category.name }}
-
-              <dialog-category-edit v-if="!disabled" :camp="camp()" :category="category">
-                <template #activator="{ on }">
-                  <v-icon class="ml-2" size="150%" v-on="on">mdi-pencil</v-icon>
-                </template>
-              </dialog-category-edit>
             </CategoryChip>
           </v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-action v-if="!disabled" style="display: inline">
           <v-item-group>
-            <button-edit
-              class="mr-1"
-              icon="mdi-view-dashboard-variant"
-              :to="categoryRoute(camp(), category)"
-            >
-              {{ $tc('components.campAdmin.campCategories.editLayout') }}
-            </button-edit>
+            <ButtonEdit color="primary--text" text class="my-n1 v-btn--has-bg" />
           </v-item-group>
         </v-list-item-action>
-
-        <v-menu v-if="!disabled" offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-item-group>
-              <v-list-item-action>
-                <dialog-entity-delete :entity="category">
-                  {{ $tc('components.campAdmin.campCategories.deleteCategoryQuestion') }}
-                  <ul>
-                    <li>{{ category.short }}: {{ category.name }}</li>
-                  </ul>
-                  <template #activator="{ on }">
-                    <button-delete v-on="on" />
-                  </template>
-                  <template v-if="findActivities(category).length > 0" #error>
-                    {{
-                      $tc(
-                        'components.campAdmin.campCategories.deleteCategoryNotPossibleInUse'
-                      )
-                    }}
-                    <ul>
-                      <li
-                        v-for="activity in findActivities(category)"
-                        :key="activity._meta.self"
-                      >
-                        {{ activity.title }}
-                        <ul>
-                          <li
-                            v-for="scheduleEntry in activity.scheduleEntries().items"
-                            :key="scheduleEntry._meta.self"
-                          >
-                            <router-link
-                              :to="{
-                                name: 'activity',
-                                params: {
-                                  campId: camp().id,
-                                  scheduleEntryId: scheduleEntry.id,
-                                },
-                              }"
-                            >
-                              {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
-                            </router-link>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </template>
-                </dialog-entity-delete>
-              </v-list-item-action>
-            </v-item-group>
-          </v-card>
-        </v-menu>
       </v-list-item>
     </v-list>
   </content-group>
@@ -115,12 +52,9 @@
 import { categoryRoute } from '@/router.js'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
-import DialogCategoryEdit from './DialogCategoryEdit.vue'
 import DialogCategoryCreate from './DialogCategoryCreate.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
@@ -128,12 +62,9 @@ export default {
   components: {
     ButtonAdd,
     ButtonEdit,
-    ButtonDelete,
     ContentGroup,
     CategoryChip,
-    DialogCategoryEdit,
     DialogCategoryCreate,
-    DialogEntityDelete,
   },
   mixins: [dateHelperUTCFormatted],
   props: {
@@ -150,12 +81,6 @@ export default {
   },
   methods: {
     categoryRoute,
-    findActivities(category) {
-      const activities = this.camp().activities()
-      return activities.items.filter((a) => a.category().id === category.id)
-    },
   },
 }
 </script>
-
-<style scoped></style>

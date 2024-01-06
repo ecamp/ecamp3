@@ -39,8 +39,10 @@
         "create": "Crear in status",
         "deleteError": "Impussibel da stizzar il status. Il status vegn anc utilisà.",
         "deleteWarning": "Vuls ti propi stizzar quest status?",
+        "exit": "Terminar il reordinar",
         "moveDown": "Engiu",
         "moveUp": "Ensi",
+        "reorder": "Reordinatur",
         "title": "Status da l'activitad"
       },
       "campAddress": {
@@ -48,9 +50,6 @@
       },
       "campCategories": {
         "create": "Crear ina categoria dad activitad",
-        "deleteCategoryNotPossibleInUse": "Impussibel da stizzar la categoria d'activitad. Ella vegn anc utilisada:",
-        "deleteCategoryQuestion": "Vuls ti propi stizzar questa categoria d'activitad?",
-        "editLayout": "Modifitgar il model",
         "title": "Categorias d'activitads"
       },
       "campConditionalFields": {
@@ -100,6 +99,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Crear in status"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Modifitgar il status"
+      },
       "dialogCategoryCreate": {
         "title": "Crear ina categoria d'activitad"
       },
@@ -120,6 +122,17 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Spustar las activitads"
+      },
+      "errorExistingActivitiesList": {
+        "description": "I na po betg vegnir extendì. Las suandantas activitads vegnan anc utilisadas:"
+      }
+    },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Cuntegns",
+        "createLayoutHelp": "Qua pudais vus definir il project per novas activitads da {categoryShort}.{br}Il cuntegn ed il layout ch'èn gia vegnidas fatgas da {categoryShort} na vegnan betg adattads.",
+        "layout": "Layout",
+        "noTemplate": "Nagin model"
       }
     },
     "collaborator": {
@@ -153,8 +166,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Propi stizzar?",
-        "warningText": "Vuls ti propi stizzar quai?"
+        "title": "Propi stizzar?"
       }
     },
     "form": {
@@ -318,8 +330,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Propi stizzar?",
-        "warningText": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
+        "title": "Propi stizzar?"
       }
     },
     "toast": {
@@ -378,6 +389,7 @@
       "move": "Spustar",
       "ok": "OK",
       "open": "Avrir",
+      "remove": "Allontanar",
       "rename": "Renumnar",
       "save": "Memorisar",
       "saving": "Memorisà",
@@ -411,17 +423,13 @@
       "greaterThanOrEqual_date": "{_field_} na dastga betg esser avant {min}",
       "greaterThan_time": "{_field_} sto esser suenter {min}",
       "lessThanOrEqual_date": "{_field_} na dastga betg esser suenter {max}"
+    },
+    "warning": {
+      "delete": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
     }
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Modifitgar il layout da model",
-        "contents": "Cuntegns",
-        "createLayoutHelp": "Qua pos ti definir co ils blocs novs da {categoryShort} duain vesair ora tenor standard.{br}Attenziun: Sche ti has gia blocs da {categoryShort} en il champ, na vegnan quels betg adattads automaticamain..",
-        "editContents": "Modifitgar il cuntegn dal model",
-        "layout": "Layout"
-      },
       "printPreview": "Avrir la prevista da stampa",
       "sideBarProgram": {
         "title": "Survista dal di"
@@ -604,6 +612,16 @@
       "pastCamps": "Champs vegls",
       "prototypeCamps": "Models",
       "title": "Mes champs"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Stizzar la categoria",
+        "properties": "Proprietad",
+        "template": "Model per novas activitads"
+      },
+      "sideBarCategory": {
+        "title": "Categorias"
+      }
     },
     "material": {
       "materialOverview": {

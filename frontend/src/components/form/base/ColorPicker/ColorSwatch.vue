@@ -6,7 +6,9 @@
     width="30"
     height="30"
     :color="color"
-    @click="picker.onInput(color)"
+    :ripple="false"
+    @click="$emit('selectColor', color)"
+    v-on="$listeners"
   ></v-btn>
 </template>
 <script>
@@ -15,12 +17,12 @@ import { contrastColor } from '@/common/helpers/colors.js'
 export default {
   name: 'ColorSwatch',
   props: {
-    picker: { type: Object, required: true },
     color: { type: String, required: true },
   },
   computed: {
     contrast() {
-      return this.color ? contrastColor(this.color) : 'black'
+      // Vuetify returns invalid value #NANNAN in the initialization phase
+      return this.color && this.color !== '#NANNAN' ? contrastColor(this.color) : 'black'
     },
   },
 }

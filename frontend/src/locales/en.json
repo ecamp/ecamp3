@@ -34,7 +34,9 @@
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
         "copyScheduleEntry": "Copy activity",
-        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
+        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Switch to full size",
         "switchToPaperSize": "Switch to paper size"
       }
@@ -52,8 +54,10 @@
         "create": "Create a state",
         "deleteError": "State can't be deleted. It is still used.",
         "deleteWarning": "Do you really want to delete this state?",
+        "exit": "Exit reordering",
         "moveDown": "Move down",
         "moveUp": "Move up",
+        "reorder": "Reorder",
         "title": "Activity state"
       },
       "campAddress": {
@@ -61,9 +65,6 @@
       },
       "campCategories": {
         "create": "Create activity category",
-        "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
-        "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
-        "editLayout": "Edit template",
         "title": "Activity categories"
       },
       "campConditionalFields": {
@@ -113,6 +114,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Create activity state"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Edit activity state"
+      },
       "dialogCategoryCreate": {
         "title": "Create activity category"
       },
@@ -133,6 +137,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Move schedule entries"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Cannot be deleted. Still used by the following activities:"
       }
     },
     "campCreate": {
@@ -161,6 +168,14 @@
         "prototypeHintEmpty": "Don't copy categories, activity templates and states.",
         "prototypeHintSelected": "Copy categories, activity templates and states from this template.",
         "submitTooltipPrototype": "You need to choose if and which template you want."
+      }
+    },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Contents",
+        "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be adjusted.",
+        "layout": "Layout",
+        "noTemplate": "No template"
       }
     },
     "collaborator": {
@@ -194,8 +209,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Really delete?",
-        "warningText": "Do you really want to delete this?"
+        "title": "Really delete?"
       }
     },
     "form": {
@@ -368,8 +382,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Really delete?",
-        "warningText": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
+        "title": "Really delete?"
       }
     },
     "toast": {
@@ -429,6 +442,7 @@
       "move": "Move",
       "ok": "OK",
       "open": "Open",
+      "remove": "Remove",
       "rename": "Rename",
       "save": "Save",
       "saving": "Saving",
@@ -466,17 +480,13 @@
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
       "lessThanOrEqual_date": "{_field_} may not be later than {max}"
+    },
+    "warning": {
+      "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
     }
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Change template layout",
-        "contents": "Contents",
-        "createLayoutHelp": "Here you can define how new {categoryShort} activities should look by default.{br}Note: If you already have {categoryShort} activities in the camp, they will not be automatically adjusted.",
-        "editContents": "Set template contents",
-        "layout": "Layout"
-      },
       "printPreview": "Open print preview",
       "sideBarProgram": {
         "title": "Activities on this day"
@@ -652,6 +662,16 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Delete category",
+        "properties": "Properties",
+        "template": "Template for new activities"
+      },
+      "sideBarCategory": {
+        "title": "Categories"
+      }
     },
     "material": {
       "materialLists": {
