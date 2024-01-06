@@ -3,39 +3,36 @@ vcl 4.0;
 import std;
 import xkey;
 import cookie;
+import var;
 
-
-include "./fos/fos_tags_xkey.vcl";
-include "./fos/fos_debug.vcl";
-
-
-backend default {
-  .host = "caddy";
-  .port = "3000";
-}
-
-# Hosts allowed to send BAN requests
-acl invalidators {
-  "php";
-}
+include "./_config.vcl";
+include "./fos_tags_xkey.vcl";
+include "./fos_debug.vcl";
 
 sub vcl_recv {
+
+  var.set("originalUrl", req.http.X-Forwarded-Prefix + req.url);
+
+  if(var.get("originalUrl") ~ "^/api/varnish/healthcheck") {
+    return(synth(200,"OK"));
+  }
+
   # Support xkey purge requests
   # see https://raw.githubusercontent.com/varnish/varnish-modules/master/src/vmod_xkey.vcc
   call fos_tags_xkey_recv;
   
   # exclude other services (frontend, print, etc.)
-  if (req.url !~ "^/api") {
+  if (var.get("originalUrl") !~ "^/api") {
     return(pass);
   }
 
   # exclude API documentation, profiler and graphql endpoint
-  if (req.url ~ "^/api/docs" 
-    || req.url ~ "^/api/graphql" 
-    || req.url ~ "^/api/bundles" 
-    || req.url ~ "^/api/contexts" 
-    || req.url ~ "^/api/_profiler" 
-    || req.url ~ "^/api/_wdt") {
+  if (var.get("originalUrl") ~ "^/api/docs" 
+    || var.get("originalUrl") ~ "^/api/graphql" 
+    || var.get("originalUrl") ~ "^/api/bundles" 
+    || var.get("originalUrl") ~ "^/api/contexts" 
+    || var.get("originalUrl") ~ "^/api/_profiler" 
+    || var.get("originalUrl") ~ "^/api/_wdt") {
     return(pass);
   }
 

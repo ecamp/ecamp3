@@ -219,7 +219,23 @@ ingress:
   className: nginx
   tls:
 
-
+apiCache:
+  enabled: true
+  image:
+    repository: "docker.io/library/varnish"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag: "7.4.2-alpine"
+  service:
+    type: ClusterIP
+    port: 3000
+  varnishSize: 50M
+  varnishHttpPort: 8080
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+  
 autoscaling:
   enabled: false
   minReplicas: 1

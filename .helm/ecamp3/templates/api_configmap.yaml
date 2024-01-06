@@ -22,3 +22,6 @@ data:
   SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
+  {{- if .Values.apiCache.enabled }}
+  VARNISH_API_URL: {{  printf "%s:%d" (include "apiCache.name" .) (.Values.apiCache.service.port | int)  | quote }}
+  {{- end}}

@@ -1,4 +1,6 @@
 fos_http_cache:
+    debug:
+        enabled: true # this sets the X-Cache-Debug response header; can be removed later-on
     tags:
         enabled: true
         annotations:

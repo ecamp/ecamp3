@@ -99,8 +99,7 @@ services:
     depends_on:
       - caddy
     volumes:
-      - ./api/docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
-      - ./api/docker/varnish/fos:/etc/varnish/fos:ro
+      - ./api/docker/varnish/vcl/:/etc/varnish/:ro
     tmpfs:
       - /var/lib/varnish/varnishd:exec
     ports:

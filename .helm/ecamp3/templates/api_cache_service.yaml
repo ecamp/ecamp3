@@ -1,0 +1,18 @@
+{{- if .Values.apiCache.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "apiCache.name" . }}
+  labels:
+    {{- include "apiCache.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.apiCache.service.type }}
+  ports:
+    - port: {{ .Values.apiCache.service.port }}
+      targetPort: api-cache-http
+      protocol: TCP
+      name: api-cache-http
+  selector:
+    {{- include "apiCache.selectorLabels" . | nindent 4 }}
+{{- end }}
