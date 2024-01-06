@@ -156,57 +156,54 @@ Displays a single scheduleEntry
         <!-- Header -->
         <v-row dense class="activity-header">
           <v-col class="col col-sm-6 col-12 px-0 pt-0">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col" class="pb-2 pr-4">
-                    {{ $tc('entity.scheduleEntry.fields.nr') }}
-                  </th>
-                  <th scope="col" class="text-left pb-2 pr-4">
-                    {{ $tc('entity.scheduleEntry.fields.duration') }}
-                  </th>
-                  <th scope="col" class="text-left pb-2" colspan="2">
-                    {{ $tc('entity.scheduleEntry.fields.time') }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="scheduleEntryItem in scheduleEntries"
-                  :key="scheduleEntryItem._meta.self"
-                >
-                  <th class="text-right tabular-nums pb-2 pr-4">
-                    {{ scheduleEntryItem.number }}
-                  </th>
-                  <td class="text-left tabular-nums pb-2 pr-4">
-                    {{
-                      timeDurationShort(scheduleEntryItem.start, scheduleEntryItem.end)
-                    }}
-                  </td>
-                  <td class="text-right tabular-nums pb-2 pr-1">
-                    {{ dateShort(scheduleEntryItem.start) }}
-                  </td>
-                  <td class="text-left tabular-nums pb-2 pr-0">
-                    {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot v-if="activity">
-                <tr>
-                  <td colspan="4">
-                    <DialogActivityEdit
-                      :period="scheduleEntry().period"
-                      :activity="activity"
-                      hide-header-fields
-                    >
-                      <template #activator="{ on }">
-                        <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
-                      </template>
-                    </DialogActivityEdit>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+            <div class="d-flex flex-wrap gap-x-4">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col" class="pb-2 pr-4">
+                      {{ $tc('entity.scheduleEntry.fields.nr') }}
+                    </th>
+                    <th scope="col" class="text-left pb-2 pr-4">
+                      {{ $tc('entity.scheduleEntry.fields.duration') }}
+                    </th>
+                    <th scope="col" class="text-left pb-2" colspan="2">
+                      {{ $tc('entity.scheduleEntry.fields.time') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="scheduleEntryItem in scheduleEntries"
+                    :key="scheduleEntryItem._meta.self"
+                  >
+                    <th class="text-right tabular-nums pb-2 pr-4">
+                      {{ scheduleEntryItem.number }}
+                    </th>
+                    <td class="text-left tabular-nums pb-2 pr-4">
+                      {{
+                        timeDurationShort(scheduleEntryItem.start, scheduleEntryItem.end)
+                      }}
+                    </td>
+                    <td class="text-right tabular-nums pb-2 pr-1">
+                      {{ dateShort(scheduleEntryItem.start) }}
+                    </td>
+                    <td class="text-left tabular-nums pb-2 pr-0">
+                      {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <DialogActivityEdit
+                v-if="activity"
+                :period="scheduleEntry().period"
+                :activity="activity"
+                hide-header-fields
+              >
+                <template #activator="{ on }">
+                  <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
+                </template>
+              </DialogActivityEdit>
+            </div>
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
             <v-row dense>
