@@ -31,6 +31,9 @@ export const AutoLinkDecoration = Extension.create({
                 Decoration.inline(pos + index, pos + lastIndex, {
                   nodeName: 'a',
                   href: url,
+                  class: 'autolink',
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
                 })
               )
             } catch (error) {
