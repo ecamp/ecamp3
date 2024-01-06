@@ -20,7 +20,7 @@
     "postinstall": "./scripts/install-twemoji.sh"
   },
   "dependencies": {
-    "@intlify/core": "9.8.0",
+    "@intlify/core": "9.9.0",
     "@mdi/font": "7.4.47",
     "@react-pdf/font": "2.3.7",
     "@react-pdf/layout": "3.6.3",
