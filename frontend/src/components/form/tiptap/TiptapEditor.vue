@@ -121,6 +121,7 @@ import Underline from '@tiptap/extension-underline'
 import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import TiptapToolbarButton from '@/components/form/tiptap/TiptapToolbarButton.vue'
+import { AutoLinkDecoration } from '@/components/form/tiptap/AutoLinkDecoration.js'
 
 export default {
   name: 'TiptapEditor',
@@ -170,6 +171,7 @@ export default {
           ListItem,
           BulletList,
           OrderedList,
+          AutoLinkDecoration,
           // headings currently disabled (see issue #2657)
           HardBreak,
         ]
