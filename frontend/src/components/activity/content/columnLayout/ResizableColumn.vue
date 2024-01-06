@@ -10,7 +10,7 @@
     }"
   >
     <template v-if="layoutMode && isDefaultVariant && showHeader">
-      <resizable-column-header
+      <ResizableColumnHeader
         v-if="!last"
         class="ec-column-head"
         :width="width"
@@ -22,29 +22,29 @@
       <div v-else class="ec-column-head"></div>
     </template>
 
-    <mobile-column-width-indicator
-      v-if="layoutMode && !isDefaultVariant && numColumns > 1 && showHeader"
+    <slot />
+    <ColumnIndicator
+      v-if="layoutMode && numColumns > 1 && showHeader"
       :num-columns="numColumns"
       :width="width"
       :width-left="widthLeft"
       :width-right="widthRight"
-      :color="color"
+      :slot-name="slotName"
+      :show-progress="!isDefaultVariant"
     />
-
-    <slot />
   </LayoutItem>
 </template>
 
 <script>
 import ResizableColumnHeader from '@/components/activity/content/columnLayout/ResizableColumnHeader.vue'
-import MobileColumnWidthIndicator from '@/components/activity/content/columnLayout/MobileColumnWidthIndicator.vue'
+import ColumnIndicator from '@/components/activity/content/columnLayout/ColumnIndicator.vue'
 import LayoutItem from '@/components/activity/content/layout/LayoutItem.vue'
 
 export default {
   name: 'ResizableColumn',
   components: {
     LayoutItem,
-    MobileColumnWidthIndicator,
+    ColumnIndicator,
     ResizableColumnHeader,
   },
   props: {
@@ -60,6 +60,7 @@ export default {
     color: { type: String, required: true },
     showHeader: { type: Boolean, default: true },
     isDefaultVariant: { type: Boolean, default: true },
+    slotName: { type: [String, Number], required: true },
   },
   data() {
     return {
@@ -83,6 +84,12 @@ export default {
 <style scoped lang="scss">
 .ec-resizable-col {
   width: 0;
+  flex-direction: column-reverse;
+
+  &.ec-resizable-col--layout-mode {
+    padding-top: 4px;
+  }
+
   &:not(.ec-resizable-col--layout-mode) {
     & + .ec-resizable-col--default:not(.ec-resizable-col--layout-mode) {
       border-left: 1px solid #ccc;
@@ -97,7 +104,6 @@ export default {
 }
 
 .ec-column-head {
-  height: 60px;
   position: relative;
 }
 </style>

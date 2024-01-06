@@ -1,0 +1,1367 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": "LS",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "category-label schedule-entry-category-label",
+                        "style": {
+                          "backgroundColor": "#4DBB52",
+                          "color": "#000",
+                        },
+                      },
+                      "style": {
+                        "alignSelf": "center",
+                        "backgroundColor": "#4DBB52",
+                        "borderRadius": "50%",
+                        "color": "#000",
+                        "fontSize": "12pt",
+                        "lineHeight": "1",
+                        "margin": "4pt 0",
+                        "padding": "2pt 8pt 4pt",
+                      },
+                      "type": "TEXT",
+                    },
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": "1.1 Stadt Game 🐭",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "bookmark": "LS 1.1 Stadt Game 🐭",
+                        "class": "schedule-entry-number-and-title",
+                        "id": "entry-0-4bc1873a73f2",
+                      },
+                      "style": {
+                        "margin": "4pt 4pt",
+                        "maxWidth": "345pt",
+                      },
+                      "type": "TEXT",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-title",
+                    "id": "scheduleEntry_4bc1873a73f2",
+                  },
+                  "style": {
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flexGrow": "1",
+                    "fontSize": "14",
+                    "fontWeight": "semibold",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "Fri 5/10/2024 5:00 PM - 6:00 PM",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-date",
+                  },
+                  "style": {
+                    "fontSize": "11pt",
+                  },
+                  "type": "TEXT",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "schedule-entry-header-title",
+                "style": {
+                  "borderBottomColor": "#4DBB52",
+                },
+              },
+              "style": {
+                "alignItems": "baseline",
+                "borderBottom": "2pt solid #aaaaaa",
+                "borderBottomColor": "#4DBB52",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingBottom": "2pt",
+              },
+              "type": "VIEW",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "entity.activity.fields.location:",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "schedule-entry-header-metadata-label",
+                            "key": 0,
+                          },
+                          "style": {
+                            "flexGrow": "0",
+                            "flexShrink": "0",
+                            "fontWeight": "semibold",
+                          },
+                          "type": "TEXT",
+                        },
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "Oerlikon 👂",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {},
+                          "style": {},
+                          "type": "TEXT",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "schedule-entry-header-metadata-entry",
+                      },
+                      "style": {
+                        "alignItems": "flex-start",
+                        "columnGap": "6pt",
+                        "flexDirection": "row",
+                      },
+                      "type": "VIEW",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-header-metadata",
+                  },
+                  "style": {
+                    "padding": "2pt 0",
+                    "width": "50%",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-header-divider",
+                  },
+                  "style": {
+                    "borderLeft": "0.5pt solid black",
+                    "marginLeft": "3.5pt",
+                    "paddingLeft": "5pt",
+                  },
+                  "type": "VIEW",
+                },
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "entity.activity.fields.responsible:",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "schedule-entry-header-metadata-label",
+                            "key": 0,
+                          },
+                          "style": {
+                            "flexGrow": "0",
+                            "flexShrink": "0",
+                            "fontWeight": "semibold",
+                          },
+                          "type": "TEXT",
+                        },
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": "inactive@test.com (entity.campCollaboration.status.inactive)",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {},
+                              "style": {},
+                              "type": "TEXT",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "key": 1,
+                            "style": {
+                              "display": "flex",
+                              "flex-direction": "row",
+                              "flex-wrap": "wrap",
+                              "max-width": "200pt",
+                            },
+                          },
+                          "style": {
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "flexWrap": "wrap",
+                            "maxWidth": "200pt",
+                          },
+                          "type": "VIEW",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "schedule-entry-header-metadata-entry",
+                      },
+                      "style": {
+                        "alignItems": "flex-start",
+                        "columnGap": "6pt",
+                        "flexDirection": "row",
+                      },
+                      "type": "VIEW",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "schedule-entry-header-metadata",
+                  },
+                  "style": {
+                    "padding": "2pt 0",
+                    "width": "50%",
+                  },
+                  "type": "VIEW",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "schedule-entry-header",
+                "key": 0,
+              },
+              "style": {
+                "borderBottom": "0.5pt solid black",
+                "display": "flex",
+                "flexDirection": "row",
+                "fontSize": "10pt",
+                "justifyContent": "space-between",
+                "marginBottom": "10pt",
+              },
+              "type": "VIEW",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "minPresenceAhead": 75,
+            "wrap": false,
+          },
+          "style": {},
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "contentNode.storyboard.name",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "content-node-instance-name",
+                                  },
+                                  "style": {
+                                    "borderBottom": "1.5pt solid black",
+                                    "fontSize": "11pt",
+                                    "fontWeight": "bold",
+                                    "marginBottom": "1pt",
+                                    "paddingBottom": "3pt",
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "contentNode.storyboard.entity.section.fields.column1",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-header-cell storyboard-column-1",
+                                      },
+                                      "style": {
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "fontWeight": "semibold",
+                                        "lineHeight": "1.4",
+                                        "overflow": "hidden",
+                                        "paddingRight": "2pt",
+                                        "width": "28pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "contentNode.storyboard.entity.section.fields.column2Html",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-header-cell storyboard-column-2",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
+                                        "fontWeight": "semibold",
+                                        "lineHeight": "1.4",
+                                        "paddingHorizontal": "2pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "contentNode.storyboard.entity.section.fields.column3",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-header-cell storyboard-column-3",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "40pt",
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "fontWeight": "semibold",
+                                        "lineHeight": "1.4",
+                                        "overflow": "hidden",
+                                        "paddingLeft": "2pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "storyboard-header-row",
+                                    "key": 0,
+                                  },
+                                  "style": {
+                                    "borderBottom": "0.75pt solid #94A3B8",
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                  },
+                                  "type": "VIEW",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-1",
+                                      },
+                                      "style": {
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingRight": "2pt",
+                                        "paddingTop": "1pt",
+                                        "width": "28pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Wir besammeln uns beim Bahnhof Oerlikon und gehen nach der Besammlung zum MFO-Park.",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Die Leiter haben leider die Flugtickets verloren. Die Einzelteile sind nun in ganz Oerlikon verteilt. Wir müssen sie nun wieder einsammeln. 🦫",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "box": {},
+                                              "children": [
+                                                {
+                                                  "box": {},
+                                                  "children": [
+                                                    {
+                                                      "parent": [Circular],
+                                                      "type": "TEXT_INSTANCE",
+                                                      "value": "2. test",
+                                                    },
+                                                  ],
+                                                  "parent": [Circular],
+                                                  "props": {
+                                                    "class": "p",
+                                                  },
+                                                  "style": {
+                                                    "marginBottom": "2pt",
+                                                  },
+                                                  "type": "TEXT",
+                                                },
+                                              ],
+                                              "parent": [Circular],
+                                              "props": {
+                                                "style": {
+                                                  "marginLeft": "4pt",
+                                                },
+                                              },
+                                              "style": {
+                                                "marginLeft": "4pt",
+                                              },
+                                              "type": "VIEW",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "VIEW",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-2",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
+                                        "lineHeight": "1.5",
+                                        "paddingBottom": "3pt",
+                                        "paddingHorizontal": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-3",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "40pt",
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingLeft": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "storyboard-row",
+                                  },
+                                  "style": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                  },
+                                  "type": "VIEW",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-1",
+                                      },
+                                      "style": {
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingRight": "2pt",
+                                        "paddingTop": "1pt",
+                                        "width": "28pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Um die Gruppen einzuteilen machen wir ein Atömle: Es rennen alle durcheinander und eine Leitperson sagt eine Zahl. Nun müssen die TN's sich in Gruppen dieser Anzahl stellen. Alle die nicht in einer Gruppe (einem Atom) sind scheiden aus und werden in Gruppen eingeteilt",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "box": {},
+                                              "children": [
+                                                {
+                                                  "box": {},
+                                                  "children": [
+                                                    {
+                                                      "parent": [Circular],
+                                                      "type": "TEXT_INSTANCE",
+                                                      "value": "1. xyz",
+                                                    },
+                                                  ],
+                                                  "parent": [Circular],
+                                                  "props": {
+                                                    "class": "p",
+                                                  },
+                                                  "style": {
+                                                    "marginBottom": "2pt",
+                                                  },
+                                                  "type": "TEXT",
+                                                },
+                                              ],
+                                              "parent": [Circular],
+                                              "props": {
+                                                "style": {
+                                                  "marginLeft": "4pt",
+                                                },
+                                              },
+                                              "style": {
+                                                "marginLeft": "4pt",
+                                              },
+                                              "type": "VIEW",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "VIEW",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-2",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
+                                        "lineHeight": "1.5",
+                                        "paddingBottom": "3pt",
+                                        "paddingHorizontal": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-3",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "40pt",
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingLeft": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "storyboard-row",
+                                  },
+                                  "style": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                  },
+                                  "type": "VIEW",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-1",
+                                      },
+                                      "style": {
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingRight": "2pt",
+                                        "paddingTop": "1pt",
+                                        "width": "28pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Jede Gruppe bekommt eine Karte und es findet ein Stern-OL statt.",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Bei jedem Posten finden sie einen Teil des Tickets",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Jede Gruppe muss bei jedem Posten vorbei.",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-2",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
+                                        "lineHeight": "1.5",
+                                        "paddingBottom": "3pt",
+                                        "paddingHorizontal": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-3",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "40pt",
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingLeft": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "storyboard-row",
+                                  },
+                                  "style": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                  },
+                                  "type": "VIEW",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-1",
+                                      },
+                                      "style": {
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingRight": "2pt",
+                                        "paddingTop": "1pt",
+                                        "width": "28pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": "Alle Gruppen waren bei allen Posten. Nun müssen sie die Tickets zusammensetzten",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-2",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
+                                        "lineHeight": "1.5",
+                                        "paddingBottom": "3pt",
+                                        "paddingHorizontal": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [],
+                                          "parent": [Circular],
+                                          "props": {},
+                                          "style": {},
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "storyboard-cell storyboard-column-3",
+                                      },
+                                      "style": {
+                                        "borderLeft": "0.75pt solid #94A3B8",
+                                        "flexBasis": "40pt",
+                                        "flexGrow": "0",
+                                        "flexShrink": "0",
+                                        "lineHeight": "1.5",
+                                        "overflow": "hidden",
+                                        "paddingBottom": "3pt",
+                                        "paddingLeft": "2pt",
+                                        "paddingTop": "1pt",
+                                      },
+                                      "type": "VIEW",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "storyboard-row",
+                                  },
+                                  "style": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                  },
+                                  "type": "VIEW",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "content-node storyboard-container",
+                              },
+                              "style": {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "marginBottom": "6pt",
+                              },
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "contentNode.material.name",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "content-node-instance-name",
+                                  },
+                                  "style": {
+                                    "borderBottom": "1.5pt solid black",
+                                    "fontSize": "11pt",
+                                    "fontWeight": "bold",
+                                    "marginBottom": "1pt",
+                                    "paddingBottom": "3pt",
+                                  },
+                                  "type": "TEXT",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "content-node material",
+                              },
+                              "style": {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "marginBottom": "6pt",
+                              },
+                              "type": "VIEW",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "style": {
+                              "borderLeft": "none",
+                              "flexBasis": "9000pt",
+                              "padding": "2pt 1% 2pt 0",
+                            },
+                          },
+                          "style": {
+                            "borderLeft": "none",
+                            "flexBasis": "9000pt",
+                            "padding": "2pt 1% 2pt 0",
+                          },
+                          "type": "VIEW",
+                        },
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "contentNode.storycontext.name",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "content-node-instance-name",
+                                  },
+                                  "style": {
+                                    "borderBottom": "1.5pt solid black",
+                                    "fontSize": "11pt",
+                                    "fontWeight": "bold",
+                                    "marginBottom": "1pt",
+                                    "paddingBottom": "3pt",
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "parent": [Circular],
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "Unsere Flugtickets sind davongeflogen (Wind) wir müssen sie wieder einsammeln",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "p",
+                                      },
+                                      "style": {
+                                        "marginBottom": "2pt",
+                                      },
+                                      "type": "TEXT",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "style": {
+                                      "line-height": "1.4",
+                                    },
+                                  },
+                                  "style": {
+                                    "lineHeight": "1.4",
+                                  },
+                                  "type": "VIEW",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "content-node",
+                              },
+                              "style": {
+                                "marginBottom": "6pt",
+                              },
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "contentNode.safetyConcept.name",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "content-node-instance-name",
+                                  },
+                                  "style": {
+                                    "borderBottom": "1.5pt solid black",
+                                    "fontSize": "11pt",
+                                    "fontWeight": "bold",
+                                    "marginBottom": "1pt",
+                                    "paddingBottom": "3pt",
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "style": {
+                                      "line-height": "1.4",
+                                    },
+                                  },
+                                  "style": {
+                                    "lineHeight": "1.4",
+                                  },
+                                  "type": "VIEW",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "content-node",
+                              },
+                              "style": {
+                                "marginBottom": "6pt",
+                              },
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "contentNode.notes.name",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "content-node-instance-name",
+                                  },
+                                  "style": {
+                                    "borderBottom": "1.5pt solid black",
+                                    "fontSize": "11pt",
+                                    "fontWeight": "bold",
+                                    "marginBottom": "1pt",
+                                    "paddingBottom": "3pt",
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "style": {
+                                      "line-height": "1.4",
+                                    },
+                                  },
+                                  "style": {
+                                    "lineHeight": "1.4",
+                                  },
+                                  "type": "VIEW",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "content-node",
+                              },
+                              "style": {
+                                "marginBottom": "6pt",
+                              },
+                              "type": "VIEW",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "style": {
+                              "borderLeft": "1pt solid black",
+                              "flexBasis": "3000pt",
+                              "padding": "2pt 0 2pt 1%",
+                            },
+                          },
+                          "style": {
+                            "borderLeft": "1pt solid black",
+                            "flexBasis": "3000pt",
+                            "padding": "2pt 0 2pt 1%",
+                          },
+                          "type": "VIEW",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {
+                        "class": "column-layout-container",
+                        "key": 0,
+                      },
+                      "style": {
+                        "display": "flex",
+                        "flexDirection": "row",
+                      },
+                      "type": "VIEW",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "style": {
+                      "borderLeft": "none",
+                      "flexBasis": "12000pt",
+                      "padding": "2pt 0 2pt 0",
+                    },
+                  },
+                  "style": {
+                    "borderLeft": "none",
+                    "flexBasis": "12000pt",
+                    "padding": "2pt 0 2pt 0",
+                  },
+                  "type": "VIEW",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "column-layout-container",
+                "key": 0,
+              },
+              "style": {
+                "display": "flex",
+                "flexDirection": "row",
+              },
+              "type": "VIEW",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "font-size": "10pt",
+              "padding-bottom": "20pt",
+            },
+          },
+          "style": {
+            "fontSize": "10pt",
+            "paddingBottom": "20pt",
+          },
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "class": "page activity-page",
+        "id": "entry-0",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "8pt",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {
+    "locale": "de",
+    "pdfVersion": "1.7",
+    "store": {
+      "get": [Function],
+      "href": [Function],
+    },
+    "tc": [Function],
+  },
+  "style": {},
+  "type": "DOCUMENT",
+}

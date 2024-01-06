@@ -14,6 +14,7 @@ use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\State\CampCollaborationCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -130,9 +131,7 @@ class CampCollaborationCreateProcessorTest extends TestCase {
         $this->processor->onAfter($result, new Post());
     }
 
-    /**
-     * @dataProvider notInvitedStatuses
-     */
+    #[DataProvider('notInvitedStatuses')]
     public function testAfterCreateDoesNotSendEmailIfStatusNotInvited(string $status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;

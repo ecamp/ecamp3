@@ -17,6 +17,11 @@
     margin: 35px auto;
   }
 
+  .tw-break-after-page.landscape-page {
+    max-width: 1123px; /* page width: A4 landscape width of 297mm at 96dpi */
+    min-height: 794px; /* page height: A4 landscape height of 210mm at 96dpi */
+  }
+
   .tw-break-after-page .tw-break-after-page {
     margin: 0; /* avoid margin stacking for nested `tw-break-after-page` */
     padding: 0;

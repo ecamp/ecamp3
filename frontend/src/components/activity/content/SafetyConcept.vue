@@ -1,26 +1,25 @@
 <template>
-  <card-content-node v-bind="$props">
+  <ContentNodeCard v-bind="$props">
     <api-richtext
       :uri="contentNode._meta.self"
       fieldname="data.html"
       :placeholder="$tc('contentNode.safetyConcept.name')"
       rows="2"
       :disabled="layoutMode || disabled"
-      :filled="layoutMode"
       class="grow-v-slot"
     />
-  </card-content-node>
+  </ContentNodeCard>
 </template>
 
 <script>
 import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
-import CardContentNode from '@/components/activity/CardContentNode.vue'
+import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCard.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'SafetyConcept',
   components: {
-    CardContentNode,
+    ContentNodeCard,
     ApiRichtext,
   },
   mixins: [contentNodeMixin],

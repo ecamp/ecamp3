@@ -5,6 +5,7 @@ namespace App\Tests\Api\CampCollaborations;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -264,9 +265,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertEmailCount(1);
     }
 
-    /**
-     * @dataProvider usersWhichCanEditCampCollaborations
-     */
+    #[DataProvider('usersWhichCanEditCampCollaborations')]
     public function testRejectsPatchStatusFromEstablishedToInactiveIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
 
@@ -295,9 +294,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
-    /**
-     * @dataProvider usersWhichCanEditCampCollaborations
-     */
+    #[DataProvider('usersWhichCanEditCampCollaborations')]
     public function testRejectsPatchRoleToMemberIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
 
@@ -326,9 +323,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
-    /**
-     * @dataProvider usersWhichCanEditCampCollaborations
-     */
+    #[DataProvider('usersWhichCanEditCampCollaborations')]
     public function testRejectsPatchRoleToGuestIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
 

@@ -296,6 +296,24 @@ export default new Router({
       },
     },
     {
+      name: 'admin/activity/category',
+      path: '/camps/:campId/:campTitle?/category/:categoryId/:categoryName?',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/category/Category.vue'),
+        aside: () => import('./views/category/SideBarCategory.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp, requireCategory]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+          category: categoryFromRoute(route),
+        }),
+      },
+    },
+    {
       path: '/camps/:campId/:campTitle?/admin',
       components: {
         navigation: NavigationCamp,
@@ -323,12 +341,6 @@ export default new Router({
           name: 'admin/activity',
           component: () => import('./views/admin/Activity.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
-        },
-        {
-          path: 'category/:categoryId/:categoryName?',
-          name: 'admin/activity/category',
-          component: () => import('./views/activity/Category.vue'),
-          props: (route) => ({ category: categoryFromRoute(route) }),
         },
         {
           path: 'collaborators',
@@ -449,6 +461,21 @@ async function requirePeriod(to, from, next) {
     })
 }
 
+async function requireCategory(to, from, next) {
+  await categoryFromRoute(to)
+    .call({ api: { get: apiStore.get } })
+    ._meta.load.then(() => {
+      next()
+    })
+    .catch(() => {
+      next({
+        name: 'PageNotFound',
+        params: [to.fullPath, ''],
+        replace: true,
+      })
+    })
+}
+
 async function requireMaterialList(to, from, next) {
   await materialListFromRoute(to)
     .call({ api: { get: apiStore.get } })
@@ -487,7 +514,7 @@ function scheduleEntryFromRoute(route) {
 function categoryFromRoute(route) {
   return function () {
     const camp = this.api.get().camps({ id: route.params.campId })
-    return camp.categories().items.find((c) => c.id === route.params.categoryId)
+    return camp.categories().allItems.find((c) => c.id === route.params.categoryId)
   }
 }
 

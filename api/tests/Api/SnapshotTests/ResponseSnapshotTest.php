@@ -8,6 +8,7 @@ use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
 use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use App\Util\ArrayDeepSort;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -76,9 +77,8 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
-     *
-     * @dataProvider getCollectionEndpoints
      */
+    #[DataProvider('getCollectionEndpoints')]
     public function testGetCollectionMatchesStructure(Client $client, string $endpoint) {
         $response = $client->request('GET', $endpoint);
 
@@ -135,9 +135,8 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
-     *
-     * @dataProvider getItemEndpoints
      */
+    #[DataProvider('getItemEndpoints')]
     public function testGetItemMatchesStructure(Client $client, string $endpoint) {
         /** @var BaseEntity $fixtureFor */
         $fixtureFor = $this->getFixtureFor($endpoint);
@@ -170,9 +169,8 @@ class ResponseSnapshotTest extends ECampApiTestCase {
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
-     *
-     * @dataProvider getPatchEndpoints
      */
+    #[DataProvider('getPatchEndpoints')]
     public function testPatchResponseMatchesGetItemResponse(Client $client, string $endpoint) {
         /** @var BaseEntity $fixtureFor */
         $fixtureFor = $this->getFixtureFor($endpoint);

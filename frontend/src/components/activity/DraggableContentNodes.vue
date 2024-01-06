@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-grow-1">
+  <div class="ec-draggable-content-nodes d-flex flex-column flex-grow-1 relative">
     <draggable
       v-if="contentNodeIds"
       v-model="localContentNodeIds"
@@ -7,11 +7,12 @@
       :group="{ name: 'contentNodes', put: responsiveLayoutsOnlyInRoot }"
       class="draggable-area flex-grow-1"
       :class="{
-        'min-height draggable-area--layout-mode pb-2': layoutMode,
+        'min-height draggable-area--layout-mode': layoutMode,
         'draggable-area--read-mode': !layoutMode,
         'draggable-area--root': isRoot,
         'draggable-area--column d-flex flex-column': direction === 'column',
         'draggable-area--row d-flex flex-row flex-wrap': direction === 'row',
+        'absolute inset-0': layoutMode && draggableContentNodeIds.length === 0,
       }"
       :swap-threshold="0.65"
       :inverted-swap-threshold="0.65"
@@ -38,12 +39,14 @@
       ></v-sheet>
     </draggable>
 
-    <button-nested-content-node-add
-      v-if="layoutMode"
-      class="flex-grow-0"
+    <ButtonNestedContentNodeAdd
+      v-if="layoutMode && !disabled"
+      :class="{ 'flex-grow-0': draggableContentNodeIds.length !== 0 }"
       :layout-mode="layoutMode"
       :parent-content-node="parentContentNode"
       :slot-name="slotName"
+      :root="isRoot"
+      :single="!compact && draggableContentNodeIds.length === 0"
     />
   </div>
 </template>
@@ -69,6 +72,7 @@ export default {
     disabled: { type: Boolean, default: false },
     direction: { type: String, default: 'column' },
     isRoot: { type: Boolean, default: false },
+    compact: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -170,15 +174,47 @@ export default {
 .draggable-area ::v-deep .content-node {
   margin: 0 !important;
   flex-grow: 1;
+  transition: all 0.4s 25ms ease;
+  transition-property: background-color, border-color, box-shadow;
+}
+
+.draggable-area--layout-mode :deep(.content-node) {
+  border: 1px solid rgb(0 0 0 / 28%);
+}
+
+.draggable-area--layout-mode :deep(.content-node.draggable.sortable-chosen) {
+  background-color: white;
+}
+
+@supports selector(:has(+ *)) {
+  .draggable-area--layout-mode :deep(.content-node:has(.content-node:hover)) {
+    background: white;
+  }
+}
+
+@supports selector(:has(+ *)) {
+  .draggable-area--layout-mode
+    ::v-deep
+    .content-node:hover:is(
+      :not(:has(.content-node:hover)):not(:has(.ec-button-contentnode-add:hover)):not(
+          :has(.resize-btn:hover)
+        )
+    ) {
+    box-shadow:
+      0 4px 6px -3px rgba(0, 0, 0, 0.2),
+      0 8px 14px 1px rgba(0, 0, 0, 0.14),
+      0 2px 18px 3px rgba(0, 0, 0, 0.12) !important;
+  }
 }
 
 .draggable-area--row ::v-deep .content-node {
-  flex: 1 0 320px;
+  flex: 1 0 320px !important;
 }
 
 .draggable-area--layout-mode {
   display: flex !important;
-  gap: 4px;
+  gap: 6px 4px;
+  margin-bottom: 6px;
 }
 
 .draggable-area--read-mode {
@@ -194,13 +230,13 @@ export default {
       pointer-events: none;
       display: block;
       position: absolute;
-      top: 4px;
-      bottom: 4px;
-      left: 4px;
-      right: 4px;
-      border-radius: 5px;
-      border: 2px dotted map-get($blue-grey, 'base');
-      background: map-get($blue-grey, 'lighten-4');
+      top: -4px;
+      bottom: -4px;
+      left: -4px;
+      right: -4px;
+      opacity: 40%;
+      border-radius: 8px;
+      border: 2px dotted map-get($blue, 'darken-2');
       opacity: 40%;
       content: '';
     }

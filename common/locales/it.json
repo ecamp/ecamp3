@@ -10,7 +10,7 @@
     "columnLayout": {
       "entity": {
         "column": {
-          "name": "Colonna"
+          "name": "Colonna|Colonna {name}"
         }
       },
       "name": "Layout delle colonne"

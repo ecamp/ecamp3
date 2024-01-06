@@ -8,6 +8,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -730,9 +731,7 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    /**
-     * @dataProvider notWriteableUserProperties
-     */
+    #[DataProvider('notWriteableUserProperties')]
     public function testNotWriteableUserProperties(string $property) {
         static::createClientWithCredentials()->request(
             'POST',
@@ -760,9 +759,7 @@ class CreateUserTest extends ECampApiTestCase {
         ];
     }
 
-    /**
-     * @dataProvider notWriteableProfileProperties
-     */
+    #[DataProvider('notWriteableProfileProperties')]
     public function testNotWriteableProfileProperties(string $property) {
         static::createClientWithCredentials()->request(
             'POST',

@@ -4,15 +4,14 @@ namespace App\Tests\InputFilter;
 
 use App\InputFilter\TrimFilter;
 use App\InputFilter\UnexpectedValueException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
 class TrimFilterTest extends TestCase {
-    /**
-     * @dataProvider getExamples
-     */
+    #[DataProvider('getExamples')]
     public function testInputFiltering(string $input, string $output) {
         // given
         $data = ['key' => $input];
@@ -26,7 +25,7 @@ class TrimFilterTest extends TestCase {
         $this->assertEquals($outputData, $result);
     }
 
-    public function getExamples() {
+    public static function getExamples() {
         return [
             ['', ''],
             ['abc', 'abc'],

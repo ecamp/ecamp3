@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\OAuthState;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,8 +20,8 @@ class OAuthStateRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function findOneUnexpiredBy(string $state, \DateTime $expiresAfter): ?OAuthState {
         return $this->createQueryBuilder('o')

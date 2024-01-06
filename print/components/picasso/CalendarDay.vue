@@ -31,12 +31,12 @@ import keyBy from 'lodash/keyBy.js'
 
 import {
   filterScheduleEntriesByDay,
-  dayStartTimestamp,
-  dayEndTimestamp,
   positionStyles,
+  dayStart,
+  dayEnd,
 } from '../../../common/helpers/picasso.js'
 
-import { utcStringToTimestamp } from '../../../common/helpers/dateHelperVCalendar.js'
+import dayjs from '../../../common/helpers/dayjs'
 
 export default {
   props: {
@@ -56,18 +56,18 @@ export default {
       const radius = '2pt'
       return keyBy(
         this.relevantScheduleEntries.map((scheduleEntry) => {
-          const start = utcStringToTimestamp(scheduleEntry.start)
+          const start = dayjs.utc(scheduleEntry.start)
           const startsOnThisDay =
-            start >= dayStartTimestamp(this.day, this.times) &&
-            start <= dayEndTimestamp(this.day, this.times)
+            start.isSameOrAfter(dayStart(this.day, this.times)) &&
+            start.isSameOrBefore(dayEnd(this.day, this.times))
           const topStyles = startsOnThisDay
             ? { borderTopRightRadius: radius, borderTopLeftRadius: radius }
             : {}
 
-          const end = utcStringToTimestamp(scheduleEntry.end)
+          const end = dayjs.utc(scheduleEntry.end)
           const endsOnThisDay =
-            end >= dayStartTimestamp(this.day, this.times) &&
-            end <= dayEndTimestamp(this.day, this.times)
+            end.isSameOrAfter(dayStart(this.day, this.times)) &&
+            end.isSameOrBefore(dayEnd(this.day, this.times))
           const bottomStyles = endsOnThisDay
             ? { borderBottomRightRadius: radius, borderBottomLeftRadius: radius }
             : {}

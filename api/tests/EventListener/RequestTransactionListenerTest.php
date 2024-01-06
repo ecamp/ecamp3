@@ -4,7 +4,9 @@ namespace App\Tests\EventListener;
 
 use App\EventListener\RequestTransactionListener;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -42,7 +44,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testIgnoresRequestEventForSubRequest() {
         $this->entityManager->expects(never())->method('getConnection');
@@ -57,7 +59,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testStartsTransactionForRequestEventForMainRequest() {
         $this->entityManager->expects(exactly(2))->method('getConnection');
@@ -72,7 +74,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testThrowsIfMultipleTransactionsStarted() {
         $this->entityManager->expects(exactly(2))->method('getConnection');
@@ -95,7 +97,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testIgnoresResponseEventForSubRequest() {
         $this->entityManager->expects(never())->method('getConnection');
@@ -111,7 +113,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testCommitsForResponseEventForMainRequest() {
         $this->entityManager->expects(exactly(4))->method('getConnection');
@@ -135,7 +137,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testThrowsOnCommitIfNoTransactionStarted() {
         $this->entityManager->expects(never())->method('getConnection');
@@ -151,7 +153,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testThrowsOnCommitForUnexpectedTransactionNestingLevel() {
         $this->entityManager->expects(exactly(3))->method('getConnection');
@@ -179,10 +181,9 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @dataProvider methodsWhichDontChangeState
-     *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
+    #[DataProvider('methodsWhichDontChangeState')]
     public function testIgnoresExceptionsForRequestsWhichDontChangeState(string $method) {
         $this->request->expects(once())->method('getMethod')->willReturn($method);
         $this->entityManager->expects(never())->method('getConnection');
@@ -204,10 +205,9 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @dataProvider methodsWhichChangeState
-     *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
+    #[DataProvider('methodsWhichChangeState')]
     public function testRollsBackTransactionForExceptionsForOtherMethods(string $method) {
         $this->request->expects(once())->method('getMethod')->willReturn($method);
         $this->entityManager->expects(exactly(4))->method('getConnection');
@@ -236,7 +236,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testThrowsOnRollbackIfNoTransactionStartedButStillTriesToRollBack() {
         $this->entityManager->expects(once())->method('getConnection');
@@ -253,7 +253,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testThrowsOnRollbackForUnexpectedTransactionNestingLevelButStillTriesToRollBack() {
         $this->entityManager->expects(exactly(4))->method('getConnection');
@@ -282,7 +282,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testStillClearsEntityManagerWhenRollbackThrowsException() {
         $this->request->expects(once())->method('getMethod')->willReturn('DELETE');
@@ -314,7 +314,7 @@ class RequestTransactionListenerTest extends TestCase {
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testLogsReasonForRollbackWhenRollbackThrowsException() {
         $this->request->expects(once())->method('getMethod')->willReturn('DELETE');

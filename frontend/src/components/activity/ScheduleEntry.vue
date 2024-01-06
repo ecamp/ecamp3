@@ -8,7 +8,7 @@ Displays a single scheduleEntry
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
-    :max-width="isPaperDisplaySize ? '944px' : ''"
+    :max-width="isLocalPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -93,32 +93,7 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <v-tooltip bottom>
-        <template #activator="{ on }">
-          <v-btn
-            text
-            icon
-            class="d-none d-md-block"
-            :aria-label="
-              isPaperDisplaySize
-                ? $tc('components.activity.scheduleEntry.switchToFullSize')
-                : $tc('components.activity.scheduleEntry.switchToPaperSize')
-            "
-            @click="toggleDisplaySize"
-            v-on="on"
-          >
-            <v-icon v-if="isPaperDisplaySize" class="resize-icon"
-              >$vuetify.icons.bigScreen</v-icon
-            >
-            <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
-          </v-btn>
-        </template>
-        {{
-          isPaperDisplaySize
-            ? $tc('components.activity.scheduleEntry.switchToFullSize')
-            : $tc('components.activity.scheduleEntry.switchToPaperSize')
-        }}
-      </v-tooltip>
+      <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
@@ -264,6 +239,7 @@ Displays a single scheduleEntry
 </template>
 
 <script>
+import { computed } from 'vue'
 import { sortBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
@@ -279,10 +255,13 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    TogglePaperSize,
     DialogEntityDelete,
     ContentCard,
     ApiTextField,
@@ -299,6 +278,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp,
+      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
     }
   },
   props: {
@@ -307,13 +287,15 @@ export default {
       required: true,
     },
   },
+  setup() {
+    return useDisplaySize()
+  },
   data() {
     return {
       layoutMode: false,
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
-      isPaperDisplaySize: true,
     }
   },
   computed: {
@@ -369,8 +351,6 @@ export default {
 
   // reload data every time user navigates to Activity view
   async mounted() {
-    this.isPaperDisplaySize =
-      localStorage.getItem('activityIsPaperDisplaySize') !== 'false'
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
@@ -428,10 +408,6 @@ export default {
       // redirect to Picasso
       this.$router.push(periodRoute(this.scheduleEntry().period()))
     },
-    toggleDisplaySize() {
-      this.isPaperDisplaySize = !this.isPaperDisplaySize
-      localStorage.setItem('activityIsPaperDisplaySize', this.isPaperDisplaySize)
-    },
   },
 }
 </script>
@@ -449,10 +425,5 @@ export default {
 
 .ec-schedule-entry {
   transition: max-width 0.7s ease;
-}
-
-.resize-icon,
-.resize-icon :deep(svg) {
-  width: 28px !important;
 }
 </style>

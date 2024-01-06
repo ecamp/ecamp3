@@ -5,6 +5,8 @@ export default {
     // manual error handler to generate error message
     // should return an error message as string (or null, in which case the default error message is displayed)
     errorHandler: { type: Function, required: false, default: null },
+
+    successHandler: { type: Function, required: false, default: null },
   },
   data() {
     return {
@@ -116,6 +118,9 @@ export default {
     },
     onSuccess(response) {
       this.$emit('success')
+      if (this.successHandler) {
+        this.successHandler(response)
+      }
       this.close()
       return response
     },

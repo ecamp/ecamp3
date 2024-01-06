@@ -65,8 +65,14 @@ body {
   }
 
   .e-title-link {
-    color: #000;
+    color: inherit;
+    text-underline-offset: 0.1em;
     text-decoration-color: #1976d2;
+    outline-offset: 0.2em;
+
+    &:focus {
+      text-decoration-line: none;
+    }
 
     &:hover {
       text-decoration-thickness: 2px;
@@ -82,10 +88,22 @@ body {
     }
     border-color: #ffe0b2 !important;
   }
+
+  .elevation-4--light {
+    box-shadow:
+      0 2px 4px -1px rgba(0, 0, 0, 0.1),
+      0 4px 5px 0px rgba(0, 0, 0, 0.07),
+      0 1px 10px 0px rgba(0, 0, 0, 0.06) !important;
+  }
 }
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+.v-list-item--link:before {
+  border-radius: inherit;
+}
+
 .e-form-container + .e-form-container {
   margin-top: 12px;
 }
@@ -175,6 +193,10 @@ body {
 
 .pointer-events-none {
   pointer-events: none;
+}
+
+.user-select-none {
+  user-select: none;
 }
 
 .opacity-60 {

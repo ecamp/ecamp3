@@ -1,0 +1,110 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "print.toc.title",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "bookmark": "print.toc.title",
+            "class": "toc-title",
+            "id": "entry-0",
+          },
+          "style": {
+            "borderBottom": "2pt solid #aaaaaa",
+            "fontSize": "14pt",
+            "fontWeight": "semibold",
+            "marginBottom": "8pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "TEXT",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "print.toc.title",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {},
+                  "style": {},
+                  "type": "TEXT",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "toc-entry",
+                "entry": {
+                  "options": {},
+                  "type": "Toc",
+                },
+                "href": "#entry-0",
+              },
+              "style": {
+                "color": "black",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "textDecoration": "none",
+              },
+              "type": "LINK",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1.6",
+            },
+          },
+          "style": {
+            "lineHeight": "1.6",
+          },
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "class": "page",
+        "size": "A4",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "12",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {
+    "locale": "de",
+    "pdfVersion": "1.7",
+    "store": {
+      "get": [Function],
+      "href": [Function],
+    },
+    "tc": [Function],
+  },
+  "style": {},
+  "type": "DOCUMENT",
+}

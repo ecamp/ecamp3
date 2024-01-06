@@ -2,9 +2,8 @@
   <div>
     <slot>
       <v-btn
-        v-if="$vuetify.breakpoint.mdAndUp"
         icon
-        outlined
+        text
         color="primary"
         class="resize-btn"
         :class="{ dragging }"
@@ -108,41 +107,60 @@ export default {
 <style scoped lang="scss">
 .resize-btn {
   position: absolute;
-  right: -26px;
-  top: 13px;
+  right: -35px;
+  top: -48px;
   z-index: 2;
   cursor: pointer;
-
+  border: 1px solid transparent !important;
+  transition: color 0.2s ease;
+  .v-icon {
+    transition: color 0.2s ease;
+  }
+  &:active,
+  &:hover {
+    color: map-get($blue, 'darken-4') !important;
+    cursor: col-resize;
+  }
   &::after {
-    opacity: 0;
     position: absolute;
-    top: 105%;
-    left: 50%;
+    top: calc(-1 * var(--column-height) + 48px);
+    left: calc(50% - 1px - 12px);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    background-clip: content-box;
+    box-sizing: content-box;
     display: block;
-    height: calc(var(--column-height) - 60px);
+    height: calc(var(--column-height) - 48px);
     width: 2px;
     background-image: linear-gradient(
       to bottom,
-      transparent,
-      transparent 40%,
-      map-get($blue, 'lighten-2') 40%,
-      map-get($blue, 'lighten-2') 100%
+      rgb(21, 101, 192, 0.1),
+      rgb(21, 101, 192, 0.1) 40%,
+      map-get($blue, 'darken-3') 40%,
+      map-get($blue, 'darken-3') 100%
     );
-    background-size: 100% 15px;
+    border-image: linear-gradient(
+        to right,
+        transparent 0%,
+        map-get($blue, 'lighten-2') 46%,
+        map-get($blue, 'lighten-2') 53%,
+        transparent 100%
+      )
+      1;
+    background-size: 100% 16px;
     background-repeat: repeat, repeat;
     content: '';
-    transition: opacity 0.2s ease;
+    filter: saturate(0.2) brightness(2.2);
+    transition: filter 0.2s ease;
   }
-
   &.dragging {
     cursor: move;
   }
-
   &:hover::after,
   &:active::after,
   &:focus::after,
   &.dragging::after {
-    opacity: 100%;
+    filter: saturate(1) brightness(1);
   }
 }
 </style>
