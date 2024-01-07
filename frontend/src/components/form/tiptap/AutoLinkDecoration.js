@@ -41,7 +41,7 @@ export const AutoLinkDecoration = Extension.create({
               rel: 'noopener noreferrer',
             }
             if (this.editor.isEditable) {
-              attrs.onclick = `(event.metaKey || event.ctrlKey) && window.open("${link}", "_blank");`
+              attrs.onclick = `(event.metaKey || event.ctrlKey || event.detail > 1) && window.open("${link}", "_blank");`
             }
             decorations.push(
               Decoration.inline(pos + index, pos + lastIndex, attrs, {
