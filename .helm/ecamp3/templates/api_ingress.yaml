@@ -32,7 +32,7 @@ spec:
                 {{- if .Values.apiCache.enabled }}
                 name: {{ include "apiCache.name" . }}
                 port:
-                  number: {{ .Values.apiCache.service.port }}
+                  number: {{ .Values.apiCache.service.ports.http }}
                 {{- else }}
                 name: {{ include "api.name" . }}
                 port:

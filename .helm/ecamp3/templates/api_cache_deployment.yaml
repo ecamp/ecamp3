@@ -34,11 +34,19 @@ spec:
             - name: api-cache-http
               containerPort: {{ .Values.apiCache.varnishHttpPort }}
               protocol: TCP
+            - name: api-cache-purge
+              containerPort: {{ .Values.apiCache.varnishPurgePort }}
+              protocol: TCP
           env:
             - name: VARNISH_SIZE
               value: "{{ .Values.apiCache.varnishSize }}"
             - name: VARNISH_HTTP_PORT
               value: "{{ .Values.apiCache.varnishHttpPort }}"
+          args:
+            - -a
+            - {{ printf ":%d,HTTP" (.Values.apiCache.varnishPurgePort | int) }}
+            - -p
+            - http_max_hdr=96
           resources:
             {{- toYaml .Values.apiCache.resources | nindent 12 }}
           volumeMounts:

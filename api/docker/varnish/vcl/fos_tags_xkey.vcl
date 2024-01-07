@@ -12,12 +12,10 @@ import xkey;
 sub fos_tags_xkey_recv {
     if (req.method == "PURGEKEYS") {
 
-        # comparing client.ip with the invalidators array doesn't work in Kubernetes,
-        # because client.ip is the POD IP of the API, which is not known at the time of setup
-        # TODO: find alternative solution for auth check for PURGING
-        # if (!client.ip ~ invalidators) {
-        #     return (synth(405, "Not allowed"));
-        # }
+        # only allow purge requests on port 8081
+        if (std.port(server.ip) != 8081) {
+            return (synth(405, "Not allowed"));
+        } 
 
         # If neither of the headers are provided we return 400 to simplify detecting wrong configuration
         if (!req.http.xkey-purge && !req.http.xkey-softpurge) {

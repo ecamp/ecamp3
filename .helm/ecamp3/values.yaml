@@ -228,9 +228,12 @@ apiCache:
     tag: "7.4.2-alpine"
   service:
     type: ClusterIP
-    port: 3000
+    ports:
+      http: 3000
+      purge: 3001
   varnishSize: 50M
   varnishHttpPort: 8080
+  varnishPurgePort: 8081
   resources:
     requests:
       cpu: 10m

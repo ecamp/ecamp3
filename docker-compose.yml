@@ -103,10 +103,10 @@ services:
     tmpfs:
       - /var/lib/varnish/varnishd:exec
     ports:
-      - target: 80
+      - target: 8080
         published: 3004
         protocol: tcp
-    command: -p http_max_hdr=96
+    command: -a :8080 -a :8081 -p http_max_hdr=96
 
   pdf:
     image: node:20.9.0

@@ -9,10 +9,14 @@ metadata:
 spec:
   type: {{ .Values.apiCache.service.type }}
   ports:
-    - port: {{ .Values.apiCache.service.port }}
+    - port: {{ .Values.apiCache.service.ports.http }}
       targetPort: api-cache-http
       protocol: TCP
       name: api-cache-http
+    - port: {{ .Values.apiCache.service.ports.purge }}
+      targetPort: api-cache-purge
+      protocol: TCP
+      name: api-cache-purge
   selector:
     {{- include "apiCache.selectorLabels" . | nindent 4 }}
 {{- end }}
