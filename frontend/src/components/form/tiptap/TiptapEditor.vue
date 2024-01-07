@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor" :class="{ 'editor--editable': editable }">
     <bubble-menu
       v-if="withExtensions"
       ref="bubbleMenu"
@@ -360,5 +360,8 @@ div.editor:deep(.editor__content .ProseMirror li p) {
 }
 div.editor:deep(.editor__content .ProseMirror li p:not(:last-child)) {
   margin-bottom: 0;
+}
+.editor.editor--editable:deep(.autolink) {
+  cursor: text;
 }
 </style>
