@@ -3,6 +3,8 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import LinkifyIt from 'linkify-it'
 
+export const AutoLinkKey = new PluginKey('autoLinkDecoration')
+
 export const AutoLinkDecoration = Extension.create({
   name: 'autoLinkDecoration',
   addProseMirrorPlugins() {
@@ -41,7 +43,12 @@ export const AutoLinkDecoration = Extension.create({
             if (this.editor.isEditable) {
               attrs.onclick = `(event.metaKey || event.ctrlKey) && window.open("${link}", "_blank");`
             }
-            decorations.push(Decoration.inline(pos + index, pos + lastIndex, attrs))
+            decorations.push(
+              Decoration.inline(pos + index, pos + lastIndex, attrs, {
+                start: pos + index,
+                end: pos + lastIndex,
+              })
+            )
           })
         }
       })
@@ -50,7 +57,7 @@ export const AutoLinkDecoration = Extension.create({
 
     return [
       new Plugin({
-        key: new PluginKey('autoLinkDecoration'),
+        key: AutoLinkKey,
         state: {
           init: (_, { doc }) => {
             return urlDecoration(doc)

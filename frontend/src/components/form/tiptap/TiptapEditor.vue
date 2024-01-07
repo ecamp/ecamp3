@@ -2,7 +2,9 @@
   <div class="editor">
     <bubble-menu
       v-if="withExtensions"
+      ref="bubbleMenu"
       :editor="editor"
+      :should-show="shouldShow"
       :tippy-options="{ maxWidth: 'none' }"
     >
       <div class="elevation-4 ec-tiptap-toolbar white">
@@ -121,7 +123,11 @@ import Underline from '@tiptap/extension-underline'
 import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import TiptapToolbarButton from '@/components/form/tiptap/TiptapToolbarButton.vue'
-import { AutoLinkDecoration } from '@/components/form/tiptap/AutoLinkDecoration.js'
+import {
+  AutoLinkDecoration,
+  AutoLinkKey,
+} from '@/components/form/tiptap/AutoLinkDecoration.js'
+import { isTextSelection } from '@tiptap/core'
 
 export default {
   name: 'TiptapEditor',
@@ -190,6 +196,42 @@ export default {
         emptyParagraph: /<p><\/p>/,
         lineBreak1: /<br>/g,
         lineBreak2: /<br\/>/g,
+      },
+      // copied from @tiptap/extension-bubble-menu
+      shouldShow: ({ view, state, from, to }) => {
+        const { doc, selection } = state
+        const { empty } = selection
+
+        // Sometime check for `empty` is not enough.
+        // Doubleclick an empty paragraph returns a node size of 2.
+        // So we check also for an empty text size.
+        const isEmptyTextBlock =
+          !doc.textBetween(from, to).length && isTextSelection(state.selection)
+
+        // Don't show if selection is within of an autolink
+        if (this.withExtensions) {
+          const links = AutoLinkKey.getState(state).find(
+            from,
+            to,
+            (decoration) => decoration.start <= from && to <= decoration.end
+          )
+          if (links.length) {
+            return false
+          }
+        }
+
+        // When clicking on an element inside the bubble menu the editor "blur" event
+        // is called and the bubble menu item is focussed. In this case we should
+        // consider the menu as part of the editor and keep showing the menu
+        const isChildOfMenu = this.$refs.bubbleMenu.$el.contains(document.activeElement)
+
+        const hasEditorFocus = view.hasFocus() || isChildOfMenu
+
+        if (!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable) {
+          return false
+        }
+
+        return true
       },
     }
   },
