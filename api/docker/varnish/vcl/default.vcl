@@ -80,5 +80,10 @@ sub vcl_backend_response {
 sub vcl_deliver {
   call fos_tags_xkey_deliver;
   call fos_debug_deliver;
+
+  # reset cache control header to avoid caching by any other upstream proxies
+  if (resp.http.Content-Type ~ "application/hal\+json"){
+    set resp.http.Cache-Control = "no-cache, private";
+  }
 }
 
