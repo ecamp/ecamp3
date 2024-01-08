@@ -185,7 +185,6 @@
         "title": "Inviter une personne"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Tu ne peux pas attribuer un autre rôle au dernier manager.",
         "cannotRemoveLastManager": "Tu ne peux pas supprimer le dernier manager.",
         "deactivate": "Désactiver",
         "delete": "Veux-tu vraiment supprimer la personne '{name}' ?",
