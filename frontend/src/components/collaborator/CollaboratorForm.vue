@@ -24,7 +24,6 @@
             aria-readonly="true"
             aria-describedby="readonly"
             :items="items"
-            :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
             persistent-hint
             item-value="key"
             item-text="role"
@@ -50,7 +49,6 @@
       v-model="localCollaboration.role"
       path="role"
       :items="items"
-      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
       item-value="key"
       item-text="role"
