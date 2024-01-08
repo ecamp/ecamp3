@@ -25,7 +25,7 @@ class UpdatePasswordTest extends ECampApiTestCase {
         $this->client = static::createBasicClient();
         $this->client->disableReboot();
 
-        $this->user = static::$fixtures['user1manager'];
+        $this->user = static::getFixture('user1manager');
         $this->passwordResetKey = 'dGVzdEBleGFtcGxlLmNvbSM3OWIwZGVkNmEzNGRmNzJkMTU4MzEzNzFlNGVjZWM1ZGYwMWU0ZTc5YzM3ODg4N2IzYjAzOTQzNWNmMmM0MWFj';
         $this->getEntityManager()->createQueryBuilder()->update(User::class, 'u')
             ->set('u.passwordResetKeyHash', ':hash')

@@ -319,7 +319,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
 
     public function testCreateCampCollaborationWithInviteEmailOfExistingUserAttachesUser() {
         /** @var User $userunrelated */
-        $userunrelated = static::$fixtures['user4unrelated'];
+        $userunrelated = static::getFixture('user4unrelated');
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => $userunrelated->getEmail(),
         ], ['user'])]);
@@ -339,7 +339,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
 
     public function testCreateCampCollaborationWithInviteEmailOfExistingUserWhichIsAlreadyInCampFails() {
         /** @var User $user2member */
-        $user2member = static::$fixtures['user2member'];
+        $user2member = static::getFixture('user2member');
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => $user2member->getEmail(),
         ], ['user'])]);

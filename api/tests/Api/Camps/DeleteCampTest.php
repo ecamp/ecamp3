@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteCampTest extends ECampApiTestCase {
     public function testDeleteCampIsDeniedForAnonymousUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createBasicClient()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteCampTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
@@ -32,7 +32,7 @@ class DeleteCampTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampIsDeniedForOtherwiseUnrelatedCreator() {
-        $camp = static::$fixtures['camp2'];
+        $camp = static::getFixture('camp2');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
@@ -44,7 +44,7 @@ class DeleteCampTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampIsDeniedForCollaboratorThatIsNotOwner() {
-        $camp = static::$fixtures['camp2'];
+        $camp = static::getFixture('camp2');
         static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -54,14 +54,14 @@ class DeleteCampTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampIsAllowedForCampOwner() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
     }
 
     public function testDeletePrototypeCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['campPrototype'];
+        $camp = static::getFixture('campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([

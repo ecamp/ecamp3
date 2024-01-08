@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsDeniedForAnonymousUser() {
         /** @var Period $period */
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createBasicClient()->request('GET', '/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadPeriodTest extends ECampApiTestCase {
 
     public function testGetSinglePeriodIsDeniedForUnrelatedUser() {
         /** @var Period $period */
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/periods/'.$period->getId())
         ;
@@ -35,7 +35,7 @@ class ReadPeriodTest extends ECampApiTestCase {
 
     public function testGetSinglePeriodIsDeniedForInactiveCollaborator() {
         /** @var Period $period */
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/periods/'.$period->getId())
         ;
@@ -48,7 +48,7 @@ class ReadPeriodTest extends ECampApiTestCase {
 
     public function testGetSinglePeriodIsAllowedForGuest() {
         /** @var Period $period */
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/periods/'.$period->getId())
         ;
@@ -72,7 +72,7 @@ class ReadPeriodTest extends ECampApiTestCase {
 
     public function testGetSinglePeriodIsAllowedForMember() {
         /** @var Period $period */
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/periods/'.$period->getId())
         ;
@@ -94,7 +94,7 @@ class ReadPeriodTest extends ECampApiTestCase {
 
     public function testGetSinglePeriodIsAllowedForManager() {
         /** @var Period $period */
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials()->request('GET', '/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -113,7 +113,7 @@ class ReadPeriodTest extends ECampApiTestCase {
 
     public function testGetSinglePeriodFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var Period $period */
-        $period = static::$fixtures['period1campPrototype'];
+        $period = static::getFixture('period1campPrototype');
 
         // Precondition: no collaborations on the camp.
         // This is to make sure a left join from camp to collaborations is used.

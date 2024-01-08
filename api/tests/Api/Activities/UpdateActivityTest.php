@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateActivityTest extends ECampApiTestCase {
     public function testPatchActivityIsDeniedForAnonymousUser() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createBasicClient()->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
             'title' => 'Hello World',
             'location' => 'Stoos',
@@ -23,7 +23,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityIsDeniedForUnrelatedUser() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -39,7 +39,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityIsDeniedForInactiveCollaborator() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -55,7 +55,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityIsDeniedForGuest() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -71,7 +71,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityIsAllowedForMember() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -90,7 +90,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityIsAllowedForManager() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials()->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
             'title' => 'Hello World',
             'location' => 'Stoos',
@@ -107,7 +107,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $activity = static::$fixtures['activity1campPrototype'];
+        $activity = static::getFixture('activity1campPrototype');
         static::createClientWithCredentials()->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
             'title' => 'Hello World',
             'location' => 'Stoos',
@@ -121,7 +121,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityValidatesCategoryFromSameCamp() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials()->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
             'category' => $this->getIriFor('category1camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -138,7 +138,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityValidatesNullTitle() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => null,
@@ -153,7 +153,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityValidatesTitleMinLength() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => '',
@@ -172,7 +172,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityValidatesTitleMaxLength() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => str_repeat('a', 33),
@@ -191,7 +191,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityCleansForbiddenCharactersFromTitle() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
@@ -205,7 +205,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityTrimsTitle() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => " \t".str_repeat('a', 32)." \t",
@@ -219,7 +219,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityValidatesNullLocation() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'location' => null,
@@ -234,7 +234,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityAllowsSettingLocationToEmptyString() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'location' => '',
@@ -248,7 +248,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityValidatesLocationMaxLength() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'location' => str_repeat('a', 65),
@@ -267,7 +267,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityCleansForbiddenCharactersFromLocation() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'location' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
@@ -281,7 +281,7 @@ class UpdateActivityTest extends ECampApiTestCase {
     }
 
     public function testPatchActivityTrimsLocation() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'location' => " \t".str_repeat('a', 64)." \t",

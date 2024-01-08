@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeletePeriodTest extends ECampApiTestCase {
     public function testDeletePeriodIsDeniedForAnonymousUser() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createBasicClient()->request('DELETE', '/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeletePeriodTest extends ECampApiTestCase {
     }
 
     public function testDeletePeriodIsDeniedForUnrelatedUser() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
@@ -33,7 +33,7 @@ class DeletePeriodTest extends ECampApiTestCase {
     }
 
     public function testDeletePeriodIsDeniedForInactiveCollaborator() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
@@ -46,7 +46,7 @@ class DeletePeriodTest extends ECampApiTestCase {
     }
 
     public function testDeletePeriodIsDeniedForGuest() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
@@ -59,7 +59,7 @@ class DeletePeriodTest extends ECampApiTestCase {
     }
 
     public function testDeletePeriodIsAllowedForMember() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
@@ -68,14 +68,14 @@ class DeletePeriodTest extends ECampApiTestCase {
     }
 
     public function testDeletePeriodIsAllowedForManager() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         static::createClientWithCredentials()->request('DELETE', '/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(Period::class)->find($period->getId()));
     }
 
     public function testDeletePeriodFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $period = static::$fixtures['period1campPrototype'];
+        $period = static::getFixture('period1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/periods/'.$period->getId());
 
         $this->assertResponseStatusCodeSame(403);
@@ -86,7 +86,7 @@ class DeletePeriodTest extends ECampApiTestCase {
     }
 
     public function testDeleteLastPeriodIsRejected() {
-        $period = static::$fixtures['period1camp2'];
+        $period = static::getFixture('period1camp2');
         static::createClientWithCredentials()
             ->request('DELETE', '/periods/'.$period->getId())
         ;
