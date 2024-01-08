@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class ReadCampTest extends ECampApiTestCase {
     public function testGetSingleCampIsDeniedForAnonymousUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createBasicClient()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class ReadCampTest extends ECampApiTestCase {
     }
 
     public function testGetSingleCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['campUnrelated'];
+        $camp = static::getFixture('campUnrelated');
         static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
@@ -30,7 +30,7 @@ class ReadCampTest extends ECampApiTestCase {
     }
 
     public function testGetSingleCampIsDeniedForInactiveCollaborator() {
-        $camp = static::$fixtures['campUnrelated'];
+        $camp = static::getFixture('campUnrelated');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/camps/'.$camp->getId())
         ;
@@ -43,8 +43,8 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSingleCampIsAllowedForGuest() {
         /** @var Camp $camp */
-        $camp = static::$fixtures['camp1'];
-        $user = static::$fixtures['user3guest'];
+        $camp = static::getFixture('camp1');
+        $user = static::getFixture('user3guest');
         static::createClientWithCredentials(['email' => $user->getEmail()])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -71,8 +71,8 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSingleCampIsAllowedForMember() {
         /** @var Camp $camp */
-        $camp = static::$fixtures['camp1'];
-        $user = static::$fixtures['user2member'];
+        $camp = static::getFixture('camp1');
+        $user = static::getFixture('user2member');
         static::createClientWithCredentials(['email' => $user->getEmail()])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -99,7 +99,7 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSingleCampIsAllowedForManager() {
         /** @var Camp $camp */
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -126,7 +126,7 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSinglePrototypeCampIsAllowedForUnrelatedUser() {
         /** @var Camp $camp */
-        $camp = static::$fixtures['campPrototype'];
+        $camp = static::getFixture('campPrototype');
         static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -147,7 +147,7 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSinglePrototypeCampIsAllowedForUnrelatedUserEvenWithoutAnyCollaborations() {
         /** @var Camp $camp */
-        $camp = static::$fixtures['campPrototype'];
+        $camp = static::getFixture('campPrototype');
 
         // Precondition: no collaborations on the camp.
         // This is to make sure a left join from camp to collaborations is used.
@@ -172,7 +172,7 @@ class ReadCampTest extends ECampApiTestCase {
     }
 
     public function testGetSingleCampDoesntExposeCampPrototypeId() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
 
         $this->assertResponseStatusCodeSame(200);
@@ -181,8 +181,8 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSingleCampEmbedsCampCollaborationsAndItsUser() {
         /** @var Camp $camp */
-        $camp = static::$fixtures['camp1'];
-        $user = static::$fixtures['user2member'];
+        $camp = static::getFixture('camp1');
+        $user = static::getFixture('user2member');
         static::createClientWithCredentials(['email' => $user->getEmail()])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertMatchesJsonSchema([

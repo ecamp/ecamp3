@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserIsDeniedForAnonymousUser() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createBasicClient()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -22,7 +22,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserIsDeniedForDifferentUser() {
-        $user2 = static::$fixtures['user2member'];
+        $user2 = static::getFixture('user2member');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user2->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -34,7 +34,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserIsAllowedForSelf() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'password' => 'passwordpassword',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -45,7 +45,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesBlankPassword() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'password' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -61,7 +61,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserDoesNotAllowPatchingProfile() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/users/'.$user->getId(),
@@ -83,7 +83,7 @@ class UpdateUserTest extends ECampApiTestCase {
 
     #[DataProvider('notWriteableUserProperties')]
     public function testNotWriteableProperties(string $property) {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/users/'.$user->getId(),

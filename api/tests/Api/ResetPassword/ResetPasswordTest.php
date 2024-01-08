@@ -15,7 +15,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class ResetPasswordTest extends ECampApiTestCase {
     public function testPostResetPasswordResetsPasswordForAnonymousUser() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         $this->createBasicClient()->request(
             'POST',
@@ -45,7 +45,7 @@ class ResetPasswordTest extends ECampApiTestCase {
      */
     public function testPostResetPasswordResetsPasswordForUserLoggedInWithThisEmail() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         $this->createClientWithCredentials(['email' => $user->getEmail()])
             ->request(
@@ -71,7 +71,7 @@ class ResetPasswordTest extends ECampApiTestCase {
      */
     public function testPostResetPasswordResetsPasswordForUserLoggedInWithAnotherEmail() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         $this->createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
@@ -91,7 +91,7 @@ class ResetPasswordTest extends ECampApiTestCase {
 
     public function testPostResetPasswordTrimsEmail() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         $this->createBasicClient()->request(
             'POST',

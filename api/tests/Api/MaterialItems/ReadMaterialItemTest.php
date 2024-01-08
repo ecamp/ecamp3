@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadMaterialItemTest extends ECampApiTestCase {
     public function testGetSingleMaterialItemIsDeniedForAnonymousUser() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createBasicClient()->request('GET', '/material_items/'.$materialItem->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
 
     public function testGetSingleMaterialItemIsDeniedForUnrelatedUser() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
@@ -35,7 +35,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
 
     public function testGetSingleMaterialItemIsDeniedForInactiveCollaborator() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
@@ -48,7 +48,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
 
     public function testGetSingleMaterialItemIsAllowedForGuest() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
@@ -68,7 +68,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
 
     public function testGetSingleMaterialItemIsAllowedForMember() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
@@ -88,7 +88,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
 
     public function testGetSingleMaterialItemIsAllowedForManager() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('GET', '/material_items/'.$materialItem->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -106,7 +106,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
 
     public function testGetSingleMaterialItemInCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1period1campPrototype'];
+        $materialItem = static::getFixture('materialItem1period1campPrototype');
         static::createClientWithCredentials()->request('GET', '/material_items/'.$materialItem->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

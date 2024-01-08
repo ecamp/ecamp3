@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteCategoryTest extends ECampApiTestCase {
     public function testDeleteCategoryIsDeniedForAnonymousUser() {
-        $category = static::$fixtures['categoryWithNoActivities'];
+        $category = static::getFixture('categoryWithNoActivities');
         static::createBasicClient()->request('DELETE', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
     }
 
     public function testDeleteCategoryIsDeniedForUnrelatedUser() {
-        $category = static::$fixtures['categoryWithNoActivities'];
+        $category = static::getFixture('categoryWithNoActivities');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
     }
 
     public function testDeleteCategoryIsDeniedForInactiveCollaborator() {
-        $category = static::$fixtures['categoryWithNoActivities'];
+        $category = static::getFixture('categoryWithNoActivities');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
     }
 
     public function testDeleteCategoryIsDeniedForGuest() {
-        $category = static::$fixtures['categoryWithNoActivities'];
+        $category = static::getFixture('categoryWithNoActivities');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
     }
 
     public function testDeleteCategoryIsAllowedForMember() {
-        $category = static::$fixtures['categoryWithNoActivities'];
+        $category = static::getFixture('categoryWithNoActivities');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
@@ -68,14 +68,14 @@ class DeleteCategoryTest extends ECampApiTestCase {
     }
 
     public function testDeleteCategoryIsAllowedForManager() {
-        $category = static::$fixtures['categoryWithNoActivities'];
+        $category = static::getFixture('categoryWithNoActivities');
         static::createClientWithCredentials()->request('DELETE', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(Category::class)->find($category->getId()));
     }
 
     public function testDeleteCategoryFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $category = static::$fixtures['category1campPrototype'];
+        $category = static::getFixture('category1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/categories/'.$category->getId());
 
         $this->assertResponseStatusCodeSame(403);
@@ -86,7 +86,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
     }
 
     public function testDeleteCategoryValidatesThatCategoryHasNoActivities() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()
             ->request('DELETE', '/categories/'.$category->getId())
         ;

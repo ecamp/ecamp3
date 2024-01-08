@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
 class UpdateActivityProgressLabelTest extends ECampApiTestCase {
     public function testPatchActivityProgressLabelIsDeniedForAnonymousUser() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createBasicClient()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'position' => 3,
@@ -26,7 +26,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelIsDeniedForUnrelatedUser() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'position' => 3,
@@ -42,7 +42,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelIsDeniedForInactiveCollaborator() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'position' => 3,
@@ -58,7 +58,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelIsDeniedForGuest() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'position' => 3,
@@ -74,7 +74,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelIsDeniedForMember() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'position' => 1,
@@ -90,7 +90,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelIsAllowedForManager() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'position' => 1,
@@ -111,7 +111,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelDisallowsChangingCamp() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'camp' => $this->getIriFor('camp2'),
@@ -125,7 +125,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelValidatesBlankTitle() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'title' => '',
@@ -144,7 +144,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelTitleIsTrimmed() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'title' => 'NewTitle  ',
@@ -163,7 +163,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelValidatesTitleLength() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'title' => 'Label 6789 123456789 123456789 12',
@@ -182,7 +182,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelValidatesTitleIsNotBlank() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'title' => '',
@@ -201,7 +201,7 @@ class UpdateActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testPatchActivityProgressLabelFiltersTitleByCleanText() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('PATCH', '/activity_progress_labels/'.$activityProgressLabel->getId(), ['json' => [
                 'title' => "New\r\nTitle",

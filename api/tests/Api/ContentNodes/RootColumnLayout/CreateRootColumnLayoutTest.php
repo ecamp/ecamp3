@@ -16,7 +16,7 @@ class CreateRootColumnLayoutTest extends CreateContentNodeTestCase {
 
         $this->endpoint = '/content_node/column_layouts';
         $this->entityClass = ColumnLayout::class;
-        $this->defaultContentType = static::$fixtures['contentTypeColumnLayout'];
+        $this->defaultContentType = static::getFixture('contentTypeColumnLayout');
     }
 
     public function testCreateColumnLayoutSetsRootToParentsRoot() {

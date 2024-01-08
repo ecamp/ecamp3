@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadDayResponsibleTest extends ECampApiTestCase {
     public function testGetSingleDayResponsibleIsDeniedForAnonymousUser() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createBasicClient()->request('GET', '/day_responsibles/'.$dayResponsible->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleDayResponsibleIsDeniedForUnrelatedUser() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -35,7 +35,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleDayResponsibleIsDeniedForInactiveCollaborator() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -48,7 +48,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleDayResponsibleIsAllowedForGuest() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -64,7 +64,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleDayResponsibleIsAllowedForMember() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -80,7 +80,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleDayResponsibleIsAllowedForManager() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials()->request('GET', '/day_responsibles/'.$dayResponsible->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -94,7 +94,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleDayResponsibleInCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var DayResponsible $dayResponsible */
-        $dayResponsible = static::$fixtures['dayResponsible1day1period1campPrototype'];
+        $dayResponsible = static::getFixture('dayResponsible1day1period1campPrototype');
         static::createClientWithCredentials()->request('GET', '/day_responsibles/'.$dayResponsible->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

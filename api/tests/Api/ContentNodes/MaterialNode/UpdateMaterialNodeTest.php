@@ -12,6 +12,6 @@ class UpdateMaterialNodeTest extends UpdateContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/material_nodes';
-        $this->defaultEntity = static::$fixtures['materialNode1'];
+        $this->defaultEntity = static::getFixture('materialNode1');
     }
 }

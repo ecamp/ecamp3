@@ -13,7 +13,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     // TODO validation tests
 
     public function testPatchScheduleEntryIsDeniedForAnonymousUser() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createBasicClient()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
             'start' => '2023-04-15T00:10:00+00:00',
@@ -29,7 +29,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryIsDeniedForUnrelatedUser() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
@@ -47,7 +47,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryIsDeniedForInactiveCollaborator() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
@@ -65,7 +65,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryIsDeniedForGuest() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
@@ -83,7 +83,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryIsAllowedForMember() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
@@ -106,7 +106,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryIsAllowedForManager() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
             'start' => '2023-04-15T00:10:00+00:00',
@@ -127,7 +127,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryInCampPrototypeIsDeniedForUnrelatedUser() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
             'start' => '2023-04-15T00:10:00+00:00',
@@ -143,7 +143,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryDisallowsChangingActivity() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'activity' => $this->getIriFor('activity2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -155,7 +155,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryValidatesPeriodFromSameCamp() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period1camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -172,7 +172,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryValidatesMissingStart() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'start' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -184,7 +184,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryValidatesStartBeforePeriodStart() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         $response = static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'start' => '2023-04-30T23:59:59+00:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -201,7 +201,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryValidatesMissingEnd() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'end' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -213,7 +213,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryValidatesNegativeLength() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'start' => '2023-05-01T00:40:00+00:00',
             'end' => '2023-05-01T00:10:00+00:00',
@@ -231,7 +231,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryAllowsMissingLeft() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'left' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -242,7 +242,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryAllowsMissingWidth() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'width' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -253,7 +253,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryValidatesEndAfterPeriodEnd() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'start' => '2023-05-03T23:00:00+00:00',
             'end' => '2023-05-04T00:01:00+00:00',
@@ -271,7 +271,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testPatchScheduleEntryAllowsToEndAtMidnightOfLastDay() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'start' => '2023-05-03T23:00:00+00:00',
             'end' => '2023-05-04T00:00:00+00:00',
@@ -283,7 +283,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     public function testPatchScheduleEntryWorksCorrectlyDuringClockChanges() {
         date_default_timezone_set('Europe/Zurich'); // clock changes to daylight saving on 2023-03-26 at 2am
 
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'start' => '2023-03-25T22:00:00+00:00',
             'end' => '2023-03-26T09:00:00+00:00',

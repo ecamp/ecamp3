@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateCampTest extends ECampApiTestCase {
     public function testPatchCampIsDeniedForAnonymousUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createBasicClient()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -21,7 +21,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -35,7 +35,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampIsDeniedForInactiveCollaborator() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -49,7 +49,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampIsDeniedForGuest() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -63,7 +63,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampIsAllowedForMember() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
@@ -76,7 +76,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampIsAllowedForManager() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -87,7 +87,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchPrototypeCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['campPrototype'];
+        $camp = static::getFixture('campPrototype');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -99,7 +99,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampDisallowsEditingPeriods() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'periods' => [],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -111,7 +111,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampDisallowsSettingIsPrototype() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'isPrototype' => true,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -123,7 +123,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'name' => " So-La\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -135,7 +135,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'name' => "So-\n\tLa",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -147,7 +147,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesBlankName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'name' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -164,7 +164,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'name' => 'A very long camp name which is not really useful',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -181,7 +181,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsTitle() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => " Sommerlager\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -193,7 +193,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromTitle() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => "Sommer\n\tlager",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -205,7 +205,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesBlankTitle() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -222,7 +222,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongTitle() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'A very long camp title which is not really useful',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -239,7 +239,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsMotto() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'motto' => " Dschungelbuch\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -251,7 +251,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromMotto() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'motto' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -263,7 +263,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsNullMotto() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'motto' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -275,7 +275,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsEmptyMotto() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'motto' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -287,7 +287,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongMotto() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'motto' => 'This camp has an extremely long motto. This camp has an extremely long motto. This camp has an extremely long motto. This camp ha',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -304,7 +304,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsAddressName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressName' => " Auf dem Hügel\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -316,7 +316,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromAddressName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressName' => "Auf dem Hügel\n\t",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -328,7 +328,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsNullAddressName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressName' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -340,7 +340,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsEmptyAddressName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressName' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -352,7 +352,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongAddressName() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressName' => 'This camp has an extremely long address. This camp has an extremely long address. This camp has an extremely long address. This!!',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -369,7 +369,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsAddressStreet() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressStreet' => " Suppenstrasse 123a\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -381,7 +381,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromAddressStreet() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressStreet' => "Suppenstrasse \n\t123a",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -393,7 +393,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsNullAddressStreet() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressStreet' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -405,7 +405,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsEmptyAddressStreet() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressStreet' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -417,7 +417,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongAddressStreet() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressStreet' => 'This camp has an extremely long address. This camp has an extremely long address. This camp has an extremely long address. This!!',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -434,7 +434,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsAddressZipcode() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressZipcode' => " 8000\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -446,7 +446,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromAddressZipcode() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressZipcode' => "800\n\t0",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -458,7 +458,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsNullAddressZipcode() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressZipcode' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -470,7 +470,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsEmptyAddressZipcode() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressZipcode' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -482,7 +482,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongAddressZipcode() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressZipcode' => 'This camp has an extremely long zipcode. This camp has an extremely long zipcode. This camp has an extremely long zipcode. This!!',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -499,7 +499,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampTrimsAddressCity() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressZipcode' => " Unterberg\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -511,7 +511,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCleansForbiddenCharactersFromAddressCity() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressCity' => "Unter\n\tberg",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -523,7 +523,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsNullAddressCity() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressCity' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -535,7 +535,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampAllowsEmptyAddressCity() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressCity' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -547,7 +547,7 @@ class UpdateCampTest extends ECampApiTestCase {
     }
 
     public function testPatchCampValidatesLongAddressCity() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'addressCity' => 'This camp has an extremely long city. This camp has an extremely long city. This camp has an extremely long city. This camp, I\'m telling you!',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

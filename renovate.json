@@ -40,7 +40,28 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "dependencyDashboardApproval": true
+      "matchFileNames": [
+        "print/package.json",
+        "pdf/package.json"
+      ],
+      "dependencyDashboardApproval": true,
+      "groupName": "vue-major-print-pdf"
+    },
+
+    {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchFileNames": [
+        "print/package.json",
+        "pdf/package.json"
+      ],
+      "dependencyDashboardApproval": false,
+      "groupName": "vue-minor-print-pdf"
     },
     {
       "extends": [
@@ -54,7 +75,8 @@
       "matchFileNames": [
         "frontend/package.json"
       ],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "groupName": "vue-frontend"
     },
     {
       "matchPackageNames": [

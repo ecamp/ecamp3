@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteUserTest extends ECampApiTestCase {
     public function testDeleteUserIsDeniedForAnonymousUser() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createBasicClient()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -19,7 +19,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsDeniedForRelatedUser() {
-        $user2 = static::$fixtures['user2member'];
+        $user2 = static::getFixture('user2member');
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user2->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -29,7 +29,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsDeniedForDifferentUser() {
-        $user2 = static::$fixtures['user4unrelated'];
+        $user2 = static::getFixture('user4unrelated');
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user2->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -39,7 +39,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsDeniedForSelf() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([

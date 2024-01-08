@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteContentNodeTest extends ECampApiTestCase {
     public function testDeleteContentNodeIsNotAllowed() {
-        $contentNode = static::$fixtures['columnLayoutChild1'];
+        $contentNode = static::getFixture('columnLayoutChild1');
         static::createClientWithCredentials()->request('DELETE', '/content_nodes/'.$contentNode->getId());
         $this->assertResponseStatusCodeSame(405);
     }

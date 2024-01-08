@@ -12,6 +12,6 @@ class DeleteResponsiveLayoutTest extends DeleteContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/responsive_layouts';
-        $this->defaultEntity = static::$fixtures['responsiveLayout1'];
+        $this->defaultEntity = static::getFixture('responsiveLayout1');
     }
 }

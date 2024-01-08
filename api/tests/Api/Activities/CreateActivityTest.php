@@ -32,7 +32,7 @@ class CreateActivityTest extends ECampApiTestCase {
 
     public function testCreateActivityIsNotPossibleForUnrelatedUserBecausePeriodIsNotReadable() {
         /** @var User $user */
-        $user = static::$fixtures['user4unrelated'];
+        $user = static::getFixture('user4unrelated');
         static::createClientWithCredentials(['email' => $user->getEmail()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;

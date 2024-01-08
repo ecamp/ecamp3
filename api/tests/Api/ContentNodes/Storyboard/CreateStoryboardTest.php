@@ -14,7 +14,7 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
 
         $this->endpoint = '/content_node/storyboards';
         $this->entityClass = Storyboard::class;
-        $this->defaultContentType = static::$fixtures['contentTypeStoryboard'];
+        $this->defaultContentType = static::getFixture('contentTypeStoryboard');
     }
 
     public function testCreateStoryboardAcceptsValidJson() {

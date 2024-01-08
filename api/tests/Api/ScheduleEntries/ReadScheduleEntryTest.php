@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsDeniedForAnonymousUser() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createBasicClient()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
     public function testGetSingleScheduleEntryIsDeniedForUnrelatedUser() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -35,7 +35,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
     public function testGetSingleScheduleEntryIsDeniedForInactiveCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -48,7 +48,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
     public function testGetSingleScheduleEntryIsAllowedForGuest() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
 
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
@@ -74,7 +74,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
     public function testGetSingleScheduleEntryIsAllowedForMember() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
 
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
@@ -99,7 +99,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
     public function testGetSingleScheduleEntryIsAllowedForManager() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
 
         static::createClientWithCredentials()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(200);
@@ -122,7 +122,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
     public function testGetSingleScheduleEntryInCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
 
         static::createClientWithCredentials()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(200);

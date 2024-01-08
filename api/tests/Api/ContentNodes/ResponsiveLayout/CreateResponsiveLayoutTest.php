@@ -14,7 +14,7 @@ class CreateResponsiveLayoutTest extends CreateContentNodeTestCase {
 
         $this->endpoint = '/content_node/responsive_layouts';
         $this->entityClass = ResponsiveLayout::class;
-        $this->defaultContentType = static::$fixtures['contentTypeResponsiveLayout'];
+        $this->defaultContentType = static::getFixture('contentTypeResponsiveLayout');
     }
 
     public function testCreateResponsiveLayoutAcceptsValidJson() {

@@ -44,7 +44,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByPeriodIsAllowedForCollaborator() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -64,7 +64,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByPeriodIsDeniedForUnrelatedUser() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId())
         ;
@@ -76,7 +76,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByPeriodIsDeniedForInactiveCollaborator() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId())
         ;
@@ -88,7 +88,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByPeriodInCampPrototypeIsAllowedForUnrelatedUser() {
-        $period = static::$fixtures['period1campPrototype'];
+        $period = static::getFixture('period1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -107,7 +107,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByActivityIsAllowedForCollaborator() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -126,7 +126,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByActivityIsDeniedForUnrelatedUser() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId())
         ;
@@ -138,7 +138,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByActivityIsDeniedForInactiveCollaborator() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId())
         ;
@@ -150,7 +150,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     }
 
     public function testListScheduleEntriesFilteredByActivityInCampPrototypeIsAllowedForUnrelatedUser() {
-        $activity = static::$fixtures['activity1campPrototype'];
+        $activity = static::getFixture('activity1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -170,7 +170,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByStartBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -190,7 +190,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByStartStrictlyBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -209,7 +209,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByStartAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -231,7 +231,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByStartStrictlyAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -274,7 +274,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByEndBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -294,7 +294,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByEndStrictlyBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -313,7 +313,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByEndAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -335,7 +335,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByEndStrictlyAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

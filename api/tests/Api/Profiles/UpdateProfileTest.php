@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class UpdateProfileTest extends ECampApiTestCase {
     public function testPatchProfileIsDeniedForAnonymousProfile() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createBasicClient()->request('PATCH', '/profiles/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -19,7 +19,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileIsDeniedForRelatedProfile() {
-        $user2 = static::$fixtures['user2member'];
+        $user2 = static::getFixture('user2member');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$user2->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -27,7 +27,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileIsDeniedForUnrelatedProfile() {
-        $user2 = static::$fixtures['user4unrelated'];
+        $user2 = static::getFixture('user4unrelated');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$user2->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -35,7 +35,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileIsAllowedForSelf() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -54,7 +54,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileIsAllowedForSelfIfSelfHasNoCampCollaborations() {
-        $profile = static::$fixtures['profileWithoutCampCollaborations'];
+        $profile = static::getFixture('profileWithoutCampCollaborations');
         static::createClientWithCredentials(['email' => $profile->user->getEmail()])
             ->request(
                 'PATCH',
@@ -81,7 +81,7 @@ class UpdateProfileTest extends ECampApiTestCase {
 
     public function testPatchProfileDisallowsChangingEmail() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'email' => 'e@mail.com',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -92,7 +92,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileTrimsFirstname() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'firstname' => "\tHello ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -103,7 +103,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileCleansForbiddenCharactersFromFirstname() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'firstname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -115,7 +115,7 @@ class UpdateProfileTest extends ECampApiTestCase {
 
     public function testPatchProfileValidatesFirstnameMaxLength() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'firstname' => str_repeat('a', 65),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -126,7 +126,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileTrimsSurname() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'surname' => "\tHello ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -137,7 +137,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileCleansForbiddenCharactersFromSurname() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'surname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -149,7 +149,7 @@ class UpdateProfileTest extends ECampApiTestCase {
 
     public function testPatchProfileValidatesSurnameMaxLength() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'surname' => str_repeat('a', 65),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -160,7 +160,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileTrimsNickname() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'nickname' => "\tHello ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -171,7 +171,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileCleansForbiddenCharactersFromNickname() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'nickname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -183,7 +183,7 @@ class UpdateProfileTest extends ECampApiTestCase {
 
     public function testPatchProfileValidatesNicknameMaxLength() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'nickname' => str_repeat('a', 33),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -194,7 +194,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileTrimsLanguage() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'language' => "\tde ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -205,7 +205,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileValidatesInvalidLanguage() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
             'language' => 'französisch',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -221,7 +221,7 @@ class UpdateProfileTest extends ECampApiTestCase {
     }
 
     public function testPatchProfileDoesNotAllowPatchingUser() {
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/profiles/'.$profile->getId(),
@@ -243,7 +243,7 @@ class UpdateProfileTest extends ECampApiTestCase {
 
     #[DataProvider('notWriteableProfileProperties')]
     public function testNotWriteableProperties(string $property) {
-        $user = static::$fixtures['profile1manager'];
+        $user = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/profiles/'.$user->getId(),

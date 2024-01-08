@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForAnonymousUser() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         static::createBasicClient()->request('GET', '/days/'.$day->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadDayTest extends ECampApiTestCase {
 
     public function testGetSingleDayIsDeniedForUnrelatedUser() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
@@ -35,7 +35,7 @@ class ReadDayTest extends ECampApiTestCase {
 
     public function testGetSingleDayIsDeniedForInactiveCollaborator() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
@@ -48,7 +48,7 @@ class ReadDayTest extends ECampApiTestCase {
 
     public function testGetSingleDayIsAllowedForGuest() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         $start = $day->getStart()->format(\DateTime::W3C);
         $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
@@ -69,7 +69,7 @@ class ReadDayTest extends ECampApiTestCase {
 
     public function testGetSingleDayIsAllowedForMember() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         $start = $day->getStart()->format(\DateTime::W3C);
         $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
@@ -90,7 +90,7 @@ class ReadDayTest extends ECampApiTestCase {
 
     public function testGetSingleDayIsAllowedForManager() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         $start = $day->getStart()->format(\DateTime::W3C);
         $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials()->request('GET', '/days/'.$day->getId());
@@ -109,7 +109,7 @@ class ReadDayTest extends ECampApiTestCase {
 
     public function testGetSingleDayFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var Day $day */
-        $day = static::$fixtures['day1period1campPrototype'];
+        $day = static::getFixture('day1period1campPrototype');
         $start = $day->getStart()->format(\DateTime::W3C);
         $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials()->request('GET', '/days/'.$day->getId());
@@ -131,7 +131,7 @@ class ReadDayTest extends ECampApiTestCase {
         date_default_timezone_set('Asia/Singapore');
 
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
 
         // when
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
@@ -151,7 +151,7 @@ class ReadDayTest extends ECampApiTestCase {
         date_default_timezone_set('America/New_York');
 
         /** @var Day $day */
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
 
         // when
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])

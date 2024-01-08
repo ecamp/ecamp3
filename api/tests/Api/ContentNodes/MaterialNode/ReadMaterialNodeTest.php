@@ -14,7 +14,7 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/material_nodes';
-        $this->defaultEntity = static::$fixtures['materialNode1'];
+        $this->defaultEntity = static::getFixture('materialNode1');
     }
 
     public function testGetMaterialNode() {
@@ -23,7 +23,7 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
         $contentNode = $this->defaultEntity;
 
         /** @var MaterialItem $materialItem */
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
 
         // when
         $this->get($contentNode);

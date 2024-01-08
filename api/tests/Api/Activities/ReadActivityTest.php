@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsDeniedForAnonymousUser() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createBasicClient()->request('GET', '/activities/'.$activity->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadActivityTest extends ECampApiTestCase {
 
     public function testGetSingleActivityIsDeniedForUnrelatedUser() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
@@ -35,7 +35,7 @@ class ReadActivityTest extends ECampApiTestCase {
 
     public function testGetSingleActivityIsDeniedForInactiveCollaborator() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
@@ -48,7 +48,7 @@ class ReadActivityTest extends ECampApiTestCase {
 
     public function testGetSingleActivityIsAllowedForGuest() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
@@ -70,7 +70,7 @@ class ReadActivityTest extends ECampApiTestCase {
 
     public function testGetSingleActivityIsAllowedForMember() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $result = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
@@ -98,7 +98,7 @@ class ReadActivityTest extends ECampApiTestCase {
 
     public function testGetSingleActivityIsAllowedForManager() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         static::createClientWithCredentials()->request('GET', '/activities/'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -118,7 +118,7 @@ class ReadActivityTest extends ECampApiTestCase {
 
     public function testGetSingleActivityFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var Activity $activity */
-        $activity = static::$fixtures['activity1campPrototype'];
+        $activity = static::getFixture('activity1campPrototype');
         static::createClientWithCredentials()->request('GET', '/activities/'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

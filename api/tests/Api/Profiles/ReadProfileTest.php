@@ -10,20 +10,20 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class ReadProfileTest extends ECampApiTestCase {
     public function testGetSingleProfileIsDeniedForAnonymousUser() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createBasicClient()->request('GET', '/profiles/'.$user->getId());
         $this->assertResponseStatusCodeSame(404);
     }
 
     public function testGetSingleProfileIsDeniedForUnrelatedUser() {
-        $user2 = static::$fixtures['user4unrelated'];
+        $user2 = static::getFixture('user4unrelated');
         static::createClientWithCredentials()->request('GET', '/profiles/'.$user2->getId());
         $this->assertResponseStatusCodeSame(404);
     }
 
     public function testGetSingleProfileIsAllowedForSelf() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profile1manager'];
+        $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('GET', '/profiles/'.$profile->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -47,7 +47,7 @@ class ReadProfileTest extends ECampApiTestCase {
 
     public function testGetSingleProfileIsAllowedForRelatedUser() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profile2member'];
+        $profile = static::getFixture('profile2member');
         static::createClientWithCredentials()->request('GET', '/profiles/'.$profile->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -71,7 +71,7 @@ class ReadProfileTest extends ECampApiTestCase {
 
     public function testGetSingleProfileIsAllowedForSelfIfSelfHasNoCampCollaborations() {
         /** @var Profile $profile */
-        $profile = static::$fixtures['profileWithoutCampCollaborations'];
+        $profile = static::getFixture('profileWithoutCampCollaborations');
         static::createClientWithCredentials(['email' => $profile->email])
             ->request('GET', '/profiles/'.$profile->getId())
         ;

@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteActivityResponsibleTest extends ECampApiTestCase {
     public function testDeleteActivityResponsibleIsDeniedForAnonymousUser() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createBasicClient()->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteActivityResponsibleIsDeniedForUnrelatedUser() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteActivityResponsibleIsDeniedForInactiveCollaborator() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteActivityResponsibleIsDeniedForGuest() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteActivityResponsibleIsAllowedForMember() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -68,14 +68,14 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteActivityResponsibleIsAllowedForManager() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials()->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(ActivityResponsible::class)->find($activityResponsible->getId()));
     }
 
     public function testDeleteActivityResponsibleFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $activityResponsible = static::$fixtures['activityResponsible1campPrototype'];
+        $activityResponsible = static::getFixture('activityResponsible1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId());
 
         $this->assertResponseStatusCodeSame(403);

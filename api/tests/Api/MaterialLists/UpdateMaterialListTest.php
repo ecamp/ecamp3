@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateMaterialListTest extends ECampApiTestCase {
     public function testPatchMaterialListIsDeniedForAnonymousUser() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createBasicClient()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => 'Something',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -21,7 +21,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListIsDeniedForUnrelatedUser() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
@@ -35,7 +35,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListIsDeniedForInactiveCollaborator() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
@@ -49,7 +49,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListIsDeniedForGuest() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
@@ -63,7 +63,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListIsAllowedForMember() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
@@ -76,7 +76,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListIsAllowedForManager() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => 'Something',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -87,7 +87,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testSetNameOfMaterialListWithCampCollaborationOverwritesGeneratedName() {
-        $materialList = static::$fixtures['materialList3Manager'];
+        $materialList = static::getFixture('materialList3Manager');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => 'Something',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -98,7 +98,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListInCampPrototypeIsDeniedForUnrelatedUser() {
-        $materialList = static::$fixtures['materialList1campPrototype'];
+        $materialList = static::getFixture('materialList1campPrototype');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => 'Something',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -110,7 +110,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListDisallowsChangingCamp() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'camp' => $this->getIriFor('camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -122,7 +122,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListDisallowsChangingCampCollaboration() {
-        $materialList = static::$fixtures['materialList3Manager'];
+        $materialList = static::getFixture('materialList3Manager');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'campCollaboration' => $this->getIriFor('campCollaboration2member'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -134,7 +134,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListValidatesMissingName() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -151,7 +151,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListValidatesTooLongName() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => 'a very long name with more than a',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -168,7 +168,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListTrimsNameBeforeValidatingLength() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'a very long name with more than  ',
@@ -181,7 +181,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListTrimsName() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => ' Something ',
@@ -194,7 +194,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialListCleansForbiddenCharactersFromName() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => " \n\t<b>t</b ",

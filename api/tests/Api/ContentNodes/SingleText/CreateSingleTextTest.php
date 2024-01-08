@@ -14,7 +14,7 @@ class CreateSingleTextTest extends CreateContentNodeTestCase {
 
         $this->endpoint = '/content_node/single_texts';
         $this->entityClass = SingleText::class;
-        $this->defaultContentType = static::$fixtures['contentTypeNotes'];
+        $this->defaultContentType = static::getFixture('contentTypeNotes');
     }
 
     public function testCreateSingleTextFromString() {

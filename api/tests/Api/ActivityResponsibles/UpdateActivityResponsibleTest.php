@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateActivityResponsibleTest extends ECampApiTestCase {
     public function testPatchActivityResponsibleIsNotAllowed() {
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials()->request('PATCH', '/activity_responsibles/'.$activityResponsible->getId(), ['json' => [
             'activity' => $this->getIriFor('activity2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

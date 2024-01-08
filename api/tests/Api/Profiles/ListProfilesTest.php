@@ -42,7 +42,7 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testListProfilesForLoggedInUserWithoutCampCollaborationShowsOnlyThemself() {
-        $profile = static::$fixtures['profileWithoutCampCollaborations'];
+        $profile = static::getFixture('profileWithoutCampCollaborations');
         $response = static::createClientWithCredentials(['email' => $profile->email])
             ->request('GET', '/profiles')
         ;
@@ -62,7 +62,7 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testListProfilesFilteredByCampIsAllowedForCollaborator() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()->request('GET', '/profiles?user.collaborations.camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -83,7 +83,7 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testListProfilesFilteredByCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/profiles?user.collaborations.camp=%2Fcamps%2F'.$camp->getId())
         ;
@@ -93,7 +93,7 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testListProfilesFilteredByCampForInactiveCollaboratorShowsOnlyThemself() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/profiles?user.collaborations.camp=%2Fcamps%2F'.$camp->getId())
         ;
@@ -105,7 +105,7 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testListProfilesFilteredByCampPrototypeIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['campPrototype'];
+        $camp = static::getFixture('campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/profiles?user.collaborations.camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 0]);

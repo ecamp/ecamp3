@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadCampCollaborationTest extends ECampApiTestCase {
     public function testGetSingleCampCollaborationIsDeniedForAnonymousUser() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createBasicClient()->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationIsDeniedForUnrelatedUser() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -35,7 +35,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationIsDeniedForInactiveCollaborator() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -48,7 +48,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationIsAllowedForGuest() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -67,7 +67,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationIsAllowedForMember() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -86,7 +86,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationIsAllowedForManager() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials()->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -103,7 +103,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1campPrototype'];
+        $campCollaboration = static::getFixture('campCollaboration1campPrototype');
         static::createClientWithCredentials()->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -120,7 +120,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testSqlQueryCount() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
 
         $client = static::createClientWithCredentials();
         $client->enableProfiler();

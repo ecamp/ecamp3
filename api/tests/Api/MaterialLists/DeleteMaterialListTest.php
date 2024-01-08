@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteMaterialListTest extends ECampApiTestCase {
     public function testDeleteMaterialListIsDeniedForAnonymousUser() {
-        $materialList = static::$fixtures['materialList2WithNoItems'];
+        $materialList = static::getFixture('materialList2WithNoItems');
         static::createBasicClient()->request('DELETE', '/material_lists/'.$materialList->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
     }
 
     public function testDeleteMaterialListIsDeniedForUnrelatedUser() {
-        $materialList = static::$fixtures['materialList2WithNoItems'];
+        $materialList = static::getFixture('materialList2WithNoItems');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
     }
 
     public function testDeleteMaterialListIsDeniedForInactiveCollaborator() {
-        $materialList = static::$fixtures['materialList2WithNoItems'];
+        $materialList = static::getFixture('materialList2WithNoItems');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
     }
 
     public function testDeleteMaterialListIsDeniedForGuest() {
-        $materialList = static::$fixtures['materialList2WithNoItems'];
+        $materialList = static::getFixture('materialList2WithNoItems');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
     }
 
     public function testDeleteMaterialListIsAllowedForMember() {
-        $materialList = static::$fixtures['materialList2WithNoItems'];
+        $materialList = static::getFixture('materialList2WithNoItems');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
@@ -68,14 +68,14 @@ class DeleteMaterialListTest extends ECampApiTestCase {
     }
 
     public function testDeleteMaterialListIsAllowedForManager() {
-        $materialList = static::$fixtures['materialList2WithNoItems'];
+        $materialList = static::getFixture('materialList2WithNoItems');
         static::createClientWithCredentials()->request('DELETE', '/material_lists/'.$materialList->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(MaterialList::class)->find($materialList->getId()));
     }
 
     public function testDeleteMaterialListFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $materialList = static::$fixtures['materialList1campPrototype'];
+        $materialList = static::getFixture('materialList1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/material_lists/'.$materialList->getId());
 
         $this->assertResponseStatusCodeSame(403);
@@ -86,7 +86,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
     }
 
     public function testDeleteMaterialListValidatesThatListHasNoItems() {
-        $materialList = static::$fixtures['materialList1'];
+        $materialList = static::getFixture('materialList1');
         static::createClientWithCredentials()->request('DELETE', '/material_lists/'.$materialList->getId());
 
         $this->assertResponseStatusCodeSame(422);

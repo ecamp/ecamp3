@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteCampCollaborationTest extends ECampApiTestCase {
     public function testDeleteCampCollaborationIsDeniedForAnonymousUser() {
-        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
         static::createBasicClient()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsDeniedForUnrelatedUser() {
-        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsDeniedForInactiveCollaborator() {
-        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsDeniedForGuest() {
-        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsAllowedForMember() {
-        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -68,20 +68,20 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsAllowedForManager() {
-        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
         static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(CampCollaboration::class)->find($campCollaboration->getId()));
     }
 
     public function testDeleteCampCollaborationIsDeniedIfStatusNotInactive() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(422);
     }
 
     public function testDeleteCampCollaborationFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $campCollaboration = static::$fixtures['campCollaboration1campPrototype'];
+        $campCollaboration = static::getFixture('campCollaboration1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
 
         $this->assertResponseStatusCodeSame(403);

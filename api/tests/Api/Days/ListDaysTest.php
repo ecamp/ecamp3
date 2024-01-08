@@ -46,7 +46,7 @@ class ListDaysTest extends ECampApiTestCase {
     }
 
     public function testListDaysFilteredByPeriodIsAllowedForCollaborator() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         $response = static::createClientWithCredentials()->request('GET', '/days?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -66,7 +66,7 @@ class ListDaysTest extends ECampApiTestCase {
     }
 
     public function testListDaysFilteredByPeriodIsDeniedForUnrelatedUser() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/days?period=%2Fperiods%2F'.$period->getId())
         ;
@@ -78,7 +78,7 @@ class ListDaysTest extends ECampApiTestCase {
     }
 
     public function testListDaysFilteredByPeriodIsDeniedForInactiveCollaborator() {
-        $period = static::$fixtures['period1'];
+        $period = static::getFixture('period1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/days?period=%2Fperiods%2F'.$period->getId())
         ;
@@ -106,7 +106,7 @@ class ListDaysTest extends ECampApiTestCase {
     }
 
     public function testListDaysFilteredByPeriodInCampPrototypeIsAllowedForCollaborator() {
-        $period = static::$fixtures['period1campPrototype'];
+        $period = static::getFixture('period1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/days?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

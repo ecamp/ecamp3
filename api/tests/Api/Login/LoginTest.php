@@ -35,7 +35,7 @@ class LoginTest extends ECampApiTestCase {
      */
     public function testLoginWrongPassword() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         static::createBasicClient()->request(
             'POST',
@@ -56,7 +56,7 @@ class LoginTest extends ECampApiTestCase {
      */
     public function testLoginWithNoPassword() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         static::createBasicClient()->request(
             'POST',
@@ -93,7 +93,7 @@ class LoginTest extends ECampApiTestCase {
      */
     public function testLoginWithValidCredentials() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
 
         $this->createBasicClient()->request(
             'POST',
@@ -112,7 +112,7 @@ class LoginTest extends ECampApiTestCase {
 
     public function testLoginWithDeletedUserFails() {
         /** @var User $user */
-        $user = static::$fixtures['userWithStateDeleted'];
+        $user = static::getFixture('userWithStateDeleted');
 
         static::createBasicClient()->request(
             'POST',
@@ -134,7 +134,7 @@ class LoginTest extends ECampApiTestCase {
 
     public function testLoginWithDeletedUserAndInvalidCredentials() {
         /** @var User $user */
-        $user = static::$fixtures['userWithStateDeleted'];
+        $user = static::getFixture('userWithStateDeleted');
 
         static::createBasicClient()->request(
             'POST',

@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateCategoryTest extends ECampApiTestCase {
     public function testPatchCategoryIsDeniedForAnonymousUser() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createBasicClient()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'short' => 'LP',
             'name' => 'Lagerprogramm',
@@ -28,7 +28,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryIsDeniedForUnrelatedUser() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
@@ -49,7 +49,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryIsDeniedForInactiveCollaborator() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
@@ -70,7 +70,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryIsDeniedForGuest() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
@@ -91,7 +91,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryIsAllowedForMember() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
@@ -119,7 +119,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryIsAllowedForManager() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         $response = static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'short' => 'LP',
             'name' => 'Lagerprogramm',
@@ -145,7 +145,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryInCampPrototypeIsDeniedForUnrelatedUser() {
-        $category = static::$fixtures['category1campPrototype'];
+        $category = static::getFixture('category1campPrototype');
         $response = static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'short' => 'LP',
             'name' => 'Lagerprogramm',
@@ -164,7 +164,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryDisallowsChangingCamp() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'camp' => $this->getIriFor('camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -176,7 +176,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryIsAllowsEmptyPreferredContentTypes() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         $client = static::createClientWithCredentials();
         $client->disableReboot();
         $client->request(
@@ -203,7 +203,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesNullShort() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -223,7 +223,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesBlankShort() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -247,7 +247,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesTooLongShort() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -271,7 +271,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryTrimsShort() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -290,7 +290,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryCleansForbiddenCharactersFromShort() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -309,7 +309,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesNullName() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -329,7 +329,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesBlankName() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -353,7 +353,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesTooLongName() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -377,7 +377,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryTrimsName() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -396,7 +396,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryCleansForbiddenCharactersFromName() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         $client = static::createClientWithCredentials();
         $client->disableReboot();
         $client->request(
@@ -417,7 +417,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesNullColor() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -436,7 +436,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesEmptyColor() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -460,7 +460,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesInvalidColor() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'color' => 'green',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -477,7 +477,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryTrimsColor() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
@@ -496,7 +496,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
     }
 
     public function testPatchCategoryValidatesInvalidNumberingStyle() {
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'numberingStyle' => 'X',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

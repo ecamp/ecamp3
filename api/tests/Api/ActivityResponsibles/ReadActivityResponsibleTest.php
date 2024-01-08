@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadActivityResponsibleTest extends ECampApiTestCase {
     public function testGetSingleActivityResponsibleIsDeniedForAnonymousUser() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createBasicClient()->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleActivityResponsibleIsDeniedForUnrelatedUser() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -35,7 +35,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleActivityResponsibleIsDeniedForInactiveCollaborator() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -48,7 +48,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleActivityResponsibleIsAllowedForGuest() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -64,7 +64,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleActivityResponsibleIsAllowedForMember() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
@@ -80,7 +80,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleActivityResponsibleIsAllowedForManager() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1'];
+        $activityResponsible = static::getFixture('activityResponsible1');
         static::createClientWithCredentials()->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -94,7 +94,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
 
     public function testGetSingleActivityResponsibleFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var ActivityResponsible $activityResponsible */
-        $activityResponsible = static::$fixtures['activityResponsible1campPrototype'];
+        $activityResponsible = static::getFixture('activityResponsible1campPrototype');
         static::createClientWithCredentials()->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
