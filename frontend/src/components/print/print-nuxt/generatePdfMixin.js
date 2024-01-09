@@ -3,6 +3,7 @@ import slugify from 'slugify'
 import { cloneDeep } from 'lodash'
 import axios from 'axios'
 import { getEnv } from '@/environment.js'
+import * as Sentry from '@sentry/browser'
 
 const PRINT_URL = getEnv().PRINT_URL
 
@@ -58,6 +59,7 @@ export const generatePdfMixin = {
         } else {
           this.$toast.error(this.$tc('components.print.printNuxt.generatePdfMixin.error'))
         }
+        Sentry.captureException(new Error(error))
       } finally {
         this.loading = false
       }
