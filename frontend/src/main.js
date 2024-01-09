@@ -29,7 +29,8 @@ if (env && env.SENTRY_FRONTEND_DSN) {
     Vue,
     dsn: env.SENTRY_FRONTEND_DSN,
     environment: sentryEnvironment,
-    tracing: false,
+    enableTracing: false,
+    autoSessionTracking: false,
     logErrors: process.env.NODE_ENV !== 'production',
   })
 }
