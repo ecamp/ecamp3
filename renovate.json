@@ -38,11 +38,45 @@
         "monorepo:vue"
       ],
       "matchUpdateTypes": [
-        "patch",
-        "minor",
         "major"
       ],
-      "dependencyDashboardApproval": true
+      "matchFileNames": [
+        "print/package.json",
+        "pdf/package.json"
+      ],
+      "dependencyDashboardApproval": true,
+      "groupName": "vue-major-print-pdf"
+    },
+
+    {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchFileNames": [
+        "print/package.json",
+        "pdf/package.json"
+      ],
+      "dependencyDashboardApproval": false,
+      "groupName": "vue-minor-print-pdf"
+    },
+    {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "matchFileNames": [
+        "frontend/package.json"
+      ],
+      "dependencyDashboardApproval": true,
+      "groupName": "vue-frontend"
     },
     {
       "matchPackageNames": [

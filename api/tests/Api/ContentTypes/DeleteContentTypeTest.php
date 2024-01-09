@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteContentTypeTest extends ECampApiTestCase {
     public function testDeleteContentTypeIsNotAllowed() {
-        $contentType = static::$fixtures['contentTypeSafetyConcept'];
+        $contentType = static::getFixture('contentTypeSafetyConcept');
         static::createClientWithCredentials()->request('DELETE', '/content_types/'.$contentType->getId());
 
         $this->assertResponseStatusCodeSame(405); // method not allowed

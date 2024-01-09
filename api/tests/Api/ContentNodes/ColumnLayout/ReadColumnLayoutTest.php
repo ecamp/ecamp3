@@ -13,7 +13,7 @@ class ReadColumnLayoutTest extends ReadContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/column_layouts';
-        $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        $this->defaultEntity = static::getFixture('columnLayoutChild1');
     }
 
     public function testGetColumnLayout() {
@@ -37,7 +37,7 @@ class ReadColumnLayoutTest extends ReadContentNodeTestCase {
     public function testGetColumnLayoutInCategory() {
         // given
         /** @var ColumnLayout $contentNode */
-        $contentNode = static::$fixtures['columnLayout2']; // root content node of category1
+        $contentNode = static::getFixture('columnLayout2'); // root content node of category1
 
         // when
         $this->get($contentNode);

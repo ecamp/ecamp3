@@ -12,7 +12,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/column_layouts';
-        $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        $this->defaultEntity = static::getFixture('columnLayoutChild1');
     }
 
     public function testPatchColumnLayoutAcceptsValidJson() {
@@ -22,7 +22,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             ['slot' => '3', 'width' => 3],
         ];
 
-        $contentNode = static::$fixtures['columnLayout2'];
+        $contentNode = static::getFixture('columnLayout2');
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $VALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -38,7 +38,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             'data' => 'value',
         ];
 
-        $contentNode = static::$fixtures['columnLayout2'];
+        $contentNode = static::getFixture('columnLayout2');
         $response = static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $INVALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -53,7 +53,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             ['slot' => '2', 'width' => 5],
         ];
 
-        $contentNode = static::$fixtures['columnLayout1'];
+        $contentNode = static::getFixture('columnLayout1');
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -74,7 +74,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             ['slot' => '1', 'width' => 12],
         ];
 
-        $contentNode = static::$fixtures['columnLayoutChild1'];
+        $contentNode = static::getFixture('columnLayoutChild1');
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

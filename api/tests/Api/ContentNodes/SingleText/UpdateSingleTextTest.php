@@ -12,7 +12,7 @@ class UpdateSingleTextTest extends UpdateContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/single_texts';
-        $this->defaultEntity = static::$fixtures['singleText1'];
+        $this->defaultEntity = static::getFixture('singleText1');
     }
 
     public function testPatchText() {

@@ -36,7 +36,7 @@
         />
 
         <v-btn
-          v-if="!editInstanceName && !layoutMode"
+          v-if="!editInstanceName && !layoutMode && !disabled"
           icon
           class="visible-on-hover"
           width="36"

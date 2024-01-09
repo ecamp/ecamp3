@@ -12,7 +12,7 @@ class ReadContentNodeTest extends ECampApiTestCase {
     public function testGetSingleContentNodeIsNotImplemented() {
         // given
         /** @var ContentNode $contentNode */
-        $contentNode = static::$fixtures['columnLayoutChild1'];
+        $contentNode = static::getFixture('columnLayoutChild1');
 
         // when (requesting with anonymous user)
         static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
