@@ -402,8 +402,20 @@ jobs:
       - print-tests
       - e2e-tests-run
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - run: exit 0
+      - name: Fail if not all jobs were successful
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const needs = `${{ toJSON(needs) }}`;
+            const needsObject = JSON.parse(needs);
+
+            for (const [key, value] of Object.entries(needsObject)) {
+              if (value.result != 'success') {
+                core.setFailed(`Job ${key} failed`);
+              }
+            }
 
   ci-passed-event:
     name: 'Send out CI success event'
