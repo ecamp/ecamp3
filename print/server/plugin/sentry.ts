@@ -14,6 +14,8 @@ export default defineNitroPlugin((nitroApp) => {
   Sentry.init({
     dsn: sentry.dsn,
     environment: sentry.environment,
+    enableTracing: false,
+    autoSessionTracking: false,
     integrations: [new CaptureConsole({ levels: ['warn', 'error'] })],
   })
 
