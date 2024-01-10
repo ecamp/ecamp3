@@ -63,7 +63,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -92,7 +92,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -121,7 +121,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -150,7 +150,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -253,7 +253,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -296,7 +296,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -335,7 +335,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.9.0'
 
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
         with:
@@ -402,8 +402,20 @@ jobs:
       - print-tests
       - e2e-tests-run
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - run: exit 0
+      - name: Fail if not all jobs were successful
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const needs = `${{ toJSON(needs) }}`;
+            const needsObject = JSON.parse(needs);
+
+            for (const [key, value] of Object.entries(needsObject)) {
+              if (value.result != 'success') {
+                core.setFailed(`Job ${key} failed`);
+              }
+            }
 
   ci-passed-event:
     name: 'Send out CI success event'
