@@ -2,7 +2,7 @@
   "components": {
     "story": {
       "storyDay": {
-        "noStory": "No story content found on this day..."
+        "noStory": "The blocks on this day do not contain any story content."
       }
     }
   },
