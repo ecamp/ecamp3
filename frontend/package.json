@@ -13,7 +13,6 @@
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}",
     "start": "vite --host 0.0.0.0",
     "dev": "vite --host 0.0.0.0",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test:unit": "vitest run --coverage",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/.bin/vitest --no-cache --runInBand",
     "test:unit:watch": "vitest --watch",
