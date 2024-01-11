@@ -81,7 +81,7 @@
     "vuedraggable": "2.24.3",
     "vuetify": "2.7.1",
     "vuex": "3.6.2",
-    "xlsx": "0.18.5"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.23.3",
