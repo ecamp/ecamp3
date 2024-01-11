@@ -3,86 +3,82 @@ import {
   roundTimeToNearestQuarterHour,
   roundTimeUpToNextQuarterHour,
 } from '@/helpers/vCalendarDragAndDrop.js'
+import dayjs from '@/common/helpers/dayjs.js'
+import { parseDate } from 'vuetify/src/components/VCalendar/util/timestamp'
 
 describe('toTime', () => {
-  it.each([
-    [
-      {
-        date: '2023-05-08',
-        time: '14:13',
-        year: 2023,
-        month: 5,
-        day: 8,
-        weekday: 1,
-        hour: 14,
-        minute: 13,
-        hasDay: true,
-        hasTime: true,
-        past: false,
-        present: false,
-        future: true,
-      },
-      1683508380000,
-    ],
-    [
-      {
-        date: '2023-05-07',
-        time: '10:20',
-        year: 2023,
-        month: 5,
-        day: 7,
-        weekday: 0,
-        hour: 10,
-        minute: 20,
-        hasDay: true,
-        hasTime: true,
-        past: false,
-        present: false,
-        future: true,
-      },
-      1683408000000,
-    ],
-    [
-      {
-        date: '2022-04-05',
-        time: '22:22',
-        year: 2022,
-        month: 4,
-        day: 5,
-        weekday: 5,
-        hour: 22,
-        minute: 22,
-        hasDay: true,
-        hasTime: true,
-        past: false,
-        present: false,
-        future: true,
-      },
-      1649150520000,
-    ],
-  ])('maps %p to %p', (input, expected) => {
-    expect(toTime(input)).toEqual(expected)
-  })
+  const dateTimesToTest = [
+    dayjs('2023-05-08T14:13'),
+    dayjs('2023-05-07T10:20'),
+    dayjs('2023-04-05T22:22'),
+    dayjs.utc('2023-03-26T01:30'), //daylight saving time change
+    dayjs.utc('2023-10-29T01:30'), //daylight saving time change
+  ]
+
+  const parametersToTest = dateTimesToTest.map((dateTime) => ({
+    calendarTimestamp: {
+      ...parseDate(dateTime.toDate()),
+      json: JSON.stringify(parseDate(dateTime.toDate())),
+    },
+    epochMillis: dateTime.valueOf(),
+  }))
+
+  it.each(parametersToTest)(
+    'maps $calendarTimestamp.json to $epochMillis',
+    ({ calendarTimestamp, _, epochMillis }) => {
+      expect(toTime(calendarTimestamp)).toEqual(epochMillis)
+    }
+  )
 })
 
 describe('roundTimeToNearestQuarterHour', () => {
   it.each([
-    [1649190120000, 1649189700000],
-    [1683447600000, 1683447300000],
-    [1683543980000, 1683543600000],
-    [1683547980999, 1683548100000],
-  ])('maps %p to %p', (input, expected) => {
-    expect(roundTimeToNearestQuarterHour(input)).toEqual(expected)
+    ['22:22:00', '22:15'],
+    ['22:22:31', '22:30'],
+    ['10:20:00', '10:15'],
+    ['13:00:20', '13:00'],
+    ['14:13:00', '14:15'],
+    ['23:52:31', '00:00'],
+  ])('maps %s to %s', (input, expected) => {
+    const epochMillis = asEpochMillis(input)
+    const roundedEpoch = roundTimeToNearestQuarterHour(epochMillis)
+    expect(fromEpochMillis(roundedEpoch)).toEqual(expected)
   })
 })
 
 describe('roundTimeUpToNextQuarterHour', () => {
   it.each([
-    [1649190120000, 1649190600000],
-    [1683447600000, 1683448200000],
-    [1683543980000, 1683544500000],
-    [1683547980999, 1683548100000],
-  ])('maps %p to %p', (input, expected) => {
-    expect(roundTimeUpToNextQuarterHour(input)).toEqual(expected)
+    ['22:22:00', '22:30'],
+    ['10:20:00', '10:30'],
+    ['13:00:20', '13:15'],
+    ['14:13:00', '14:15'],
+  ])('maps %s to %s', (input, expected) => {
+    const epochMillis = asEpochMillis(input)
+    const roundedEpoch = roundTimeUpToNextQuarterHour(epochMillis)
+    expect(fromEpochMillis(roundedEpoch)).toEqual(expected)
   })
 })
+
+/**
+ * Converts a time string (HH:mm:ss) in local timezone into epoch millis
+ *
+ * @param timeStr {string} HH:mm:ss
+ * @returns {number} epoch millis
+ */
+function asEpochMillis(timeStr) {
+  return dayjs('2023-12-24')
+    .hour(Number(timeStr.slice(0, 2)))
+    .minute(Number(timeStr.slice(3, 5)))
+    .second(Number(timeStr.slice(6, 8)))
+    .valueOf()
+}
+
+/**
+ * Converts a given epoch millisecond value to a formatted time string in the format 'HH:mm'.
+ *
+ * @param {number} epochMillis - The epoch millisecond value to be converted.
+ * @return {string} The formatted time string in the format 'HH:mm'.
+ */
+function fromEpochMillis(epochMillis) {
+  return dayjs(epochMillis).year(2023).month(12).date(24).format('HH:mm')
+}
