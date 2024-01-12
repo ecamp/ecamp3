@@ -2,7 +2,7 @@
   "components": {
     "story": {
       "storyDay": {
-        "noStory": "The blocks on this day do not contain any story content."
+        "noStory": "The activities on this day do not contain any story content."
       }
     }
   },
