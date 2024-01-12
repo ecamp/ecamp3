@@ -17,8 +17,8 @@ The following commonly requested improvements over eCamp v2 are already implemen
 - Improved saving features - where possible, data are auto-saved on the fly.
 - Usability on mobile phones - the design is mobile-first.
 - Login via MiData account of the Swiss Guide and Scouts Movement is possible
-- Switching the user interface language, powered by [Lokalise](https://lokalise.com)
-- Formatting texts (bold, italic, etc.)
+- Switching the user interface language
+- Formatting texts (bold, italic, bullet lists etc.)
 
 eCamp v3 is made up of a backend based on the PHP framework API Platform (Symfony), which offers an API, as well as a Vue.js frontend and some other smaller services.
 
@@ -27,6 +27,7 @@ eCamp v3 is made up of a backend based on the PHP framework API Platform (Symfon
 Thanks for helping! There are a few ways to get started.
 
 - Visit our test environment at [https://dev.ecamp3.ch](https://dev.ecamp3.ch). If you discover a bug, [open a new issue for it](https://github.com/ecamp/ecamp3/issues/new).
+- To help us translate eCamp v3 into other languages, visit our [translation tool](https://translate.ecamp3.ch).
 - To run the project locally on your computer, follow one of the installation guides:
   - [Installation with Docker on Linux](https://github.com/ecamp/ecamp3/wiki/Development-install-on-linux)
   - [Installation with Docker on Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows)
@@ -49,8 +50,8 @@ Folgende Verbesserungen, die bei eCamp v2 oft gewünscht wurden, sind bereits im
 - Bessere Speicher-Funktion - wo immer möglich werden die Daten laufend automatisch gespeichert.
 - Benutzbarkeit auf dem Mobiltelefon - das Design ist mobile-first.
 - Login via MiData-Account der Pfadibewegung Schweiz ist möglich
-- Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
-- Formatierung in Texten (fett, kursiv, etc.)
+- Mehrsprachigkeit
+- Formatierung in Texten (fett, kursiv, Aufzählungen etc.)
 
 eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework API Platform (Symfony), welches eine API anbietet, einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
 
@@ -59,6 +60,7 @@ eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework API Platform 
 Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
 
 - Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
+- Wenn du uns helfen möchtest, eCamp v3 auf andere Sprachen zu übersetzen, besuche unser [Übersetzungs-Tool](https://translate.ecamp3.ch).
 - Um das Projekt bei dir auf dem Computer laufen zu lassen, folge einer der Installationsanleitungen:
   - [Installation mit Docker auf Linux](https://github.com/ecamp/ecamp3/wiki/Development-install-on-linux#Deutsch)
   - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Development-installation-on-Windows) (nur englisch)
