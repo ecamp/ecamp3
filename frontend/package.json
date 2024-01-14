@@ -113,7 +113,7 @@
     "sass": "1.32.13",
     "unplugin-vue-components": "0.26.0",
     "vite": "5.0.11",
-    "vite-plugin-comlink": "3.0.5",
+    "vite-plugin-comlink": "4.0.2",
     "vite-plugin-vue2-svg": "0.4.0",
     "vitest": "1.2.0",
     "vitest-canvas-mock": "0.3.3",
