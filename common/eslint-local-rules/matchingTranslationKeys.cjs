@@ -1,5 +1,5 @@
 module.exports = (path, utils, fs) => {
-  const { packageDirectory } = require('./packageDirectory.js')(path, fs)
+  const { packageDirectory } = require('./packageDirectory.cjs')(path, fs)
 
   /**
    * Convert a file path to our convention for translation key structures

@@ -48,6 +48,7 @@
     "@tiptap/vue-3": "2.1.13",
     "@vee-validate/i18n": "4.12.4",
     "@vee-validate/rules": "4.12.4",
+    "@vue/compat": "3.3.13",
     "@zxcvbn-ts/core": "3.0.4",
     "@zxcvbn-ts/language-common": "3.0.4",
     "@zxcvbn-ts/language-de": "3.0.2",
@@ -74,7 +75,6 @@
     "v-resize-observer": "2.1.0",
     "vee-validate": "4.12.4",
     "vue": "3.3.13",
-    "@vue/compat": "3.3.13",
     "vue-axios": "3.5.2",
     "vue-i18n": "9.8.0",
     "vue-recaptcha-v3": "2.0.1",
@@ -98,10 +98,10 @@
     "@vue/cli-service": "5.0.8",
     "@vue/compiler-dom": "3.3.13",
     "@vue/compiler-sfc": "3.3.13",
+    "@vue/eslint-config-prettier": "9.0.0",
     "@vue/runtime-dom": "3.3.13",
     "@vue/server-renderer": "3.3.13",
     "@vue/shared": "3.3.13",
-    "@vue/eslint-config-prettier": "9.0.0",
     "@vue/test-utils": "2.4.3",
     "babel-plugin-require-context-hook": "1.0.0",
     "eslint": "8.56.0",
@@ -112,6 +112,7 @@
     "eslint-plugin-prettier": "5.1.2",
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-vue": "9.19.2",
+    "eslint-plugin-vuetify": "^2.1.1",
     "flush-promises": "1.0.2",
     "jest-serializer-vue-tjw": "3.20.0",
     "jsdom": "23.0.1",
@@ -134,7 +135,7 @@
       "jest": true
     },
     "extends": [
-      "plugin:vue/recommended",
+      "plugin:vue/vue3-recommended",
       "eslint:recommended",
       "plugin:prettier/recommended",
       "@vue/eslint-config-prettier"
@@ -156,13 +157,6 @@
         "error",
         {
           "argsIgnorePattern": "^_$"
-        }
-      ],
-      "local-rules/matching-translation-keys": [
-        "error",
-        {
-          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
-          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
         }
       ],
       "vue/no-mutating-props": [

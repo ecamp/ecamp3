@@ -43,8 +43,8 @@ Show all activity schedule entries of a single period.
             :start="period().start"
             :end="period().end"
             :editable="editMode"
-            @newEntry="slotProps.on.newEntry"
-            @unlockReminder="showUnlockReminder"
+            @new-entry="slotProps.on.newEntry"
+            @unlock-reminder="showUnlockReminder"
           />
         </template>
       </template>

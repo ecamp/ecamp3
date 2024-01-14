@@ -12,72 +12,72 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-<!--    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">-->
-      <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
-      <v-form @submit.prevent="handleSubmit(doSubmit)">
-        <v-card>
-          <v-toolbar dense elevation="0" class="ec-dialog-toolbar">
-            <v-icon left>
-              {{ icon }}
+    <!--    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">-->
+    <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
+    <v-form @submit.prevent="handleSubmit(doSubmit)">
+      <v-card>
+        <v-toolbar dense elevation="0" class="ec-dialog-toolbar">
+          <v-icon left>
+            {{ icon }}
+          </v-icon>
+          <v-toolbar-title>
+            {{ title }}
+          </v-toolbar-title>
+          <v-btn
+            v-if="$vuetify.breakpoint.smAndUp && cancelAction != null"
+            icon
+            class="ml-auto"
+            :title="$tc('global.button.cancel')"
+            @click="doCancel"
+          >
+            <v-icon>mdi-close</v-icon>
+            <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
+          </v-btn>
+        </v-toolbar>
+        <div class="pa-4">
+          <v-skeleton-loader v-if="loading" type="article" />
+          <slot v-else />
+        </div>
+
+        <v-card-text>
+          <!-- error message via slot -->
+          <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
+            <slot name="error" />
+          </v-alert>
+
+          <!-- error message via props -->
+          <server-error v-else :server-error="error" />
+        </v-card-text>
+
+        <v-card-actions>
+          <slot name="moreActions" />
+          <v-spacer />
+          <v-btn
+            v-if="cancelVisible && cancelAction != null"
+            :color="cancelColor"
+            text
+            :disabled="!cancelEnabled"
+            @click="doCancel"
+          >
+            {{ cancelLabel }}
+          </v-btn>
+          <v-btn
+            v-if="submitAction != null"
+            :color="submitColor"
+            type="submit"
+            :loading="currentlySaving"
+            :disabled="!submitEnabled"
+          >
+            <v-icon v-if="!!submitIcon" left>
+              {{ submitIcon }}
             </v-icon>
-            <v-toolbar-title>
-              {{ title }}
-            </v-toolbar-title>
-            <v-btn
-              v-if="$vuetify.breakpoint.smAndUp && cancelAction != null"
-              icon
-              class="ml-auto"
-              :title="$tc('global.button.cancel')"
-              @click="doCancel"
-            >
-              <v-icon>mdi-close</v-icon>
-              <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
-            </v-btn>
-          </v-toolbar>
-          <div class="pa-4">
-            <v-skeleton-loader v-if="loading" type="article" />
-            <slot v-else />
-          </div>
-
-          <v-card-text>
-            <!-- error message via slot -->
-            <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
-              <slot name="error" />
-            </v-alert>
-
-            <!-- error message via props -->
-            <server-error v-else :server-error="error" />
-          </v-card-text>
-
-          <v-card-actions>
-            <slot name="moreActions" />
-            <v-spacer />
-            <v-btn
-              v-if="cancelVisible && cancelAction != null"
-              :color="cancelColor"
-              text
-              :disabled="!cancelEnabled"
-              @click="doCancel"
-            >
-              {{ cancelLabel }}
-            </v-btn>
-            <v-btn
-              v-if="submitAction != null"
-              :color="submitColor"
-              type="submit"
-              :loading="currentlySaving"
-              :disabled="!submitEnabled"
-            >
-              <v-icon v-if="!!submitIcon" left>
-                {{ submitIcon }}
-              </v-icon>
-              {{ submitLabel }}
-            </v-btn>
-            <slot name="actions" />
-          </v-card-actions>
-        </v-card>
-      </v-form>
-<!--    </ValidationObserver>-->
+            {{ submitLabel }}
+          </v-btn>
+          <slot name="actions" />
+        </v-card-actions>
+      </v-card>
+    </v-form>
+    <!--    </ValidationObserver>-->
   </v-dialog>
 </template>
 
@@ -90,7 +90,7 @@ export default {
   name: 'DialogForm',
   components: {
     // ValidationObserver,
-    ServerError
+    ServerError,
   },
   extends: DialogUiBase,
   props: {

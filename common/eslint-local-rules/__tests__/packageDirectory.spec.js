@@ -1,4 +1,4 @@
-import factory from '../packageDirectory.js'
+import factory from '../packageDirectory.cjs'
 import path from 'path'
 import fs from 'fs'
 

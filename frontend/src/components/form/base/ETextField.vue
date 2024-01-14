@@ -1,35 +1,35 @@
 <template>
-<!--  <ValidationProvider-->
-<!--    v-slot="{ errors: veeErrors }"-->
-<!--    ref="validationProvider"-->
-<!--    tag="div"-->
-<!--    :name="name"-->
-<!--    :vid="veeId"-->
-<!--    :rules="veeRules"-->
-<!--    :required="required"-->
-<!--    class="e-form-container"-->
-<!--  >-->
-    <v-text-field
-      ref="textField"
-      v-bind="$attrs"
-      :filled="filled"
-      :required="required"
-      :hide-details="hideDetails"
-      :error-messages="veeErrors.concat(errorMessages)"
-      :label="label || name"
-      :class="[inputClass]"
-      :type="type"
-      v-on="inputListeners"
-    >
-      <!-- passing through all slots -->
-      <template v-for="(_, name) in $slots" #[name]>
-        <slot :name="name" />
-      </template>
-      <template v-for="(_, name) in $scopedSlots" #[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
-      </template>
-    </v-text-field>
-<!--  </ValidationProvider>-->
+  <!--  <ValidationProvider-->
+  <!--    v-slot="{ errors: veeErrors }"-->
+  <!--    ref="validationProvider"-->
+  <!--    tag="div"-->
+  <!--    :name="name"-->
+  <!--    :vid="veeId"-->
+  <!--    :rules="veeRules"-->
+  <!--    :required="required"-->
+  <!--    class="e-form-container"-->
+  <!--  >-->
+  <v-text-field
+    ref="textField"
+    v-bind="$attrs"
+    :filled="filled"
+    :required="required"
+    :hide-details="hideDetails"
+    :error-messages="veeErrors.concat(errorMessages)"
+    :label="label || name"
+    :class="[inputClass]"
+    :type="type"
+    v-on="inputListeners"
+  >
+    <!-- passing through all slots -->
+    <template v-for="(_, name) in $slots" #[name]>
+      <slot :name="name" />
+    </template>
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData" />
+    </template>
+  </v-text-field>
+  <!--  </ValidationProvider>-->
 </template>
 
 <script>

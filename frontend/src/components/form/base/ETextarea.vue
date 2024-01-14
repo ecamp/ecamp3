@@ -1,32 +1,32 @@
 <template>
-<!--  <ValidationProvider-->
-<!--    v-slot="{ errors: veeErrors }"-->
-<!--    tag="div"-->
-<!--    :name="name"-->
-<!--    :vid="veeId"-->
-<!--    :rules="veeRules"-->
-<!--    :required="required"-->
-<!--    class="e-form-container"-->
-<!--  >-->
-    <v-tiptap-editor
-      v-bind="$attrs"
-      :with-extensions="false"
-      :filled="filled"
-      :hide-details="hideDetails"
-      :error-messages="veeErrors.concat(errorMessages)"
-      :label="label || name"
-      :class="[inputClass]"
-      v-on="$listeners"
-    >
-      <!-- passing through all slots -->
-      <template v-for="(_, name) in $slots" #[name]>
-        <slot :name="name" />
-      </template>
-      <template v-for="(_, name) in $scopedSlots" #[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
-      </template>
-    </v-tiptap-editor>
-<!--  </ValidationProvider>-->
+  <!--  <ValidationProvider-->
+  <!--    v-slot="{ errors: veeErrors }"-->
+  <!--    tag="div"-->
+  <!--    :name="name"-->
+  <!--    :vid="veeId"-->
+  <!--    :rules="veeRules"-->
+  <!--    :required="required"-->
+  <!--    class="e-form-container"-->
+  <!--  >-->
+  <v-tiptap-editor
+    v-bind="$attrs"
+    :with-extensions="false"
+    :filled="filled"
+    :hide-details="hideDetails"
+    :error-messages="veeErrors.concat(errorMessages)"
+    :label="label || name"
+    :class="[inputClass]"
+    v-on="$listeners"
+  >
+    <!-- passing through all slots -->
+    <template v-for="(_, name) in $slots" #[name]>
+      <slot :name="name" />
+    </template>
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData" />
+    </template>
+  </v-tiptap-editor>
+  <!--  </ValidationProvider>-->
 </template>
 
 <script>

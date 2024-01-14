@@ -21,8 +21,8 @@
         :item-key="key"
         :layout-mode="layoutMode"
         @delete="deleteItem"
-        @moveDown="moveDown"
-        @moveUp="moveUp"
+        @move-down="moveDown"
+        @move-up="moveUp"
       />
       <StoryboardRowDense
         v-else-if="variant === 'dense'"
@@ -32,8 +32,8 @@
         :item-key="key"
         :layout-mode="layoutMode"
         @delete="deleteItem"
-        @moveDown="moveDown"
-        @moveUp="moveUp"
+        @move-down="moveDown"
+        @move-up="moveUp"
       />
     </template>
   </draggable>

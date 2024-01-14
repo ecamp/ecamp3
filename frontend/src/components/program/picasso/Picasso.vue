@@ -61,8 +61,8 @@ Listing all given activity schedule entries in a calendar view.
         <PicassoEntry
           :schedule-entry="event"
           :editable="editable"
-          @startResize="startResize(event)"
-          @finishEdit="reloadScheduleEntries"
+          @start-resize="startResize(event)"
+          @finish-edit="reloadScheduleEntries"
         />
       </template>
     </v-calendar>

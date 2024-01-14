@@ -5,7 +5,7 @@
       ref="dialogActivityCreate"
       :period="period"
       :schedule-entry="newScheduleEntry"
-      @activityCreated="afterCreateActivity($event)"
+      @activity-created="afterCreateActivity($event)"
     />
 
     <v-btn
