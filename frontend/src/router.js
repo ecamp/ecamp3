@@ -392,8 +392,6 @@ const router = createRouter({
   ],
 })
 
-Vue.use(router)
-
 export default router
 
 function evaluateGuards(guards, to, from, next) {

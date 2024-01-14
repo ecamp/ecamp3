@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router.js'
 import {
@@ -22,38 +22,43 @@ import 'vue-toastification/dist/index.css'
 import { Resize } from 'vuetify/directives'
 import ResizeObserver from 'v-resize-observer'
 
-const env = getEnv()
-if (env && env.SENTRY_FRONTEND_DSN) {
-  const sentryEnvironment = env.SENTRY_ENVIRONMENT ?? 'local'
-  Sentry.init({
-    Vue,
-    dsn: env.SENTRY_FRONTEND_DSN,
-    environment: sentryEnvironment,
-    tracing: false,
-    logErrors: process.env.NODE_ENV !== 'production',
-  })
-}
+// const env = getEnv()
+// if (env && env.SENTRY_FRONTEND_DSN) {
+//   const sentryEnvironment = env.SENTRY_ENVIRONMENT ?? 'local'
+//   Sentry.init({
+//     Vue,
+//     dsn: env.SENTRY_FRONTEND_DSN,
+//     environment: sentryEnvironment,
+//     tracing: false,
+//     logErrors: process.env.NODE_ENV !== 'production',
+//   })
+// }
 
-Vue.use(auth)
-Vue.use(formBaseComponents)
-Vue.use(ignoreNativeBindingWarnMessages)
-Vue.use(storeLoader)
-Vue.use(vuetifyLoader)
-Vue.use(dayjs)
-Vue.use(veeValidate)
-Vue.use(Toast, {
+const app = createApp(App)
+
+app.use(auth)
+app.use(formBaseComponents)
+app.use(ignoreNativeBindingWarnMessages)
+app.use(storeLoader)
+app.use(vuetifyLoader)
+app.use(dayjs)
+app.use(veeValidate)
+app.use(Toast, {
   maxToasts: 2,
 })
-Vue.use(halJsonVuex)
+app.use(halJsonVuex)
+app.use(router)
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
-Vue.directive('resize', Resize)
-Vue.directive('resizeobserver', ResizeObserver.directive)
+app.directive('resize', Resize)
+app.directive('resizeobserver', ResizeObserver.directive)
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app')
+// new Vue({
+//   router,
+//   store,
+//   vuetify,
+//   i18n,
+//   render: (h) => h(App),
+// }).$mount('#app')'
+
+app.mount('#app')

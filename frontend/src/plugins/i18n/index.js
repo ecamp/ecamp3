@@ -106,7 +106,7 @@ const i18n = createI18n({
   silentTranslationWarn: true,
 })
 
-Vue.use(i18n)
+// Vue.use(i18n)
 
 Object.defineProperty(i18n, 'browserPreferredLocale', {
   get: function () {

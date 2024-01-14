@@ -4,15 +4,14 @@ import auth from './auth'
 
 class StorePlugin {
   install(Vue) {
-    Vue.use(Vuex)
-
-    store = new Vuex.Store({
-      modules: {
-        lang,
-        auth,
-      },
-      strict: process.env.NODE_ENV !== 'production',
-    })
+    // Vue.use(Vuex)
+    // store = new Vuex.Store({
+    //   modules: {
+    //     lang,
+    //     auth,
+    //   },
+    //   strict: process.env.NODE_ENV !== 'production',
+    // })
   }
 }
 
