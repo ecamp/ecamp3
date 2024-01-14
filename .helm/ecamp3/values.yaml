@@ -220,7 +220,7 @@ ingress:
   tls:
 
 apiCache:
-  enabled: false
+  enabled: true
   image:
     repository: "docker.io/library/varnish"
     pullPolicy: IfNotPresent
