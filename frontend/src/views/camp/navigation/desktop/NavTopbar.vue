@@ -5,10 +5,7 @@
     <v-toolbar-items>
       <v-btn :to="campRoute(camp())" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-tent</v-icon>
-        <span class="sr-only-sm-and-down">{{
-          camp().title
-            | loading($tc('views.camp.navigation.desktop.navTopbar.campIsLoading'))
-        }}</span>
+        <span class="sr-only-sm-and-down">{{ camp().title }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>

@@ -1,5 +1,5 @@
 <template>
-  <v-avatar :size="size" :color="color" :title="displayName" v-bind="$attrs">
+  <v-avatar v-bind="$attrs" :size="size" :color="color" :title="displayName">
     <span :aria-hidden="shortAria ? null : 'true'" :style="style">{{ initials }}</span>
     <span v-if="shortAria" class="d-sr-only">{{ displayName }}</span>
   </v-avatar>
