@@ -40,15 +40,24 @@ sub vcl_recv {
   if (req.url !~ "\.jsonhal$" && req.http.Accept !~ "application/hal\+json"){
     return(pass);
   }
+
+   # Extract JWT cookie for later use in vcl_hash
+   # Failsafe: Pass cache if JWT cookie is not set (also for example, if COOKIE_PREFIX is not properly configured)
+  if (req.http.Cookie) {
+    cookie.parse(req.http.Cookie);
+    cookie.keep(std.getenv("COOKIE_PREFIX") + "jwt_hp," + std.getenv("COOKIE_PREFIX") + "jwt_s");
+
+    if(cookie.get_string() == ""){
+      return(pass);
+    }
+
+    var.set("JWT", cookie.get_string());
+  }
 }
 
 sub vcl_hash {
-  if (req.http.Cookie) {
-    # Include JWT cookies in cache hash 
-    cookie.parse(req.http.Cookie);
-    cookie.keep("localhost_jwt_hp,localhost_jwt_s");
-    hash_data(cookie.get_string());
-  }
+  # Include JWT cookies in cache hash 
+  hash_data(var.get("JWT"));
 
   # using URL (=path), but not using Host/ServerIP; this allows to share cache between print & normal API calls
   hash_data(req.url);

@@ -42,6 +42,8 @@ spec:
               value: "{{ .Values.apiCache.varnishSize }}"
             - name: VARNISH_HTTP_PORT
               value: "{{ .Values.apiCache.varnishHttpPort }}"
+            - name: COOKIE_PREFIX
+              value: {{ include "api.cookiePrefix" . | quote }}
           args:
             - -a
             - {{ printf ":%d,HTTP" (.Values.apiCache.varnishPurgePort | int) }}

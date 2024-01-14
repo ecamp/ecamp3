@@ -107,6 +107,8 @@ services:
         published: 3004
         protocol: tcp
     command: -a :8080 -a :8081 -p http_max_hdr=96
+    environment:
+      - COOKIE_PREFIX=localhost_
 
   pdf:
     image: node:20.9.0
