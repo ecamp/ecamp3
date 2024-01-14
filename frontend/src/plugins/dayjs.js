@@ -1,14 +1,14 @@
 import dayjs from '@/common/helpers/dayjs.js'
 
 export default {
-  install: (Vue) => {
-    Object.defineProperties(Vue.prototype, {
+  install: (app) => {
+    Object.defineProperties(app.config.globalProperties, {
       $date: {
         get() {
           return dayjs
         },
       },
     })
-    Vue.dayjs = dayjs
+    // Vue.dayjs = dayjs
   },
 }
