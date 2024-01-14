@@ -74,14 +74,14 @@ async function resetPassword(id, password, recaptchaToken) {
 
 async function loadUser() {
   if (!getJWTPayloadFromCookie()) {
-    store.commit('logout')
+    // store.commit('logout')
     return null
   }
 
   try {
     const user = await apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)._meta
       .load
-    store.commit('login', user)
+    // store.commit('login', user)
     return user
   } catch (e) {
     if (e.response && [401, 403, 404].includes(e.response.status)) {
@@ -136,7 +136,7 @@ async function loginJublaDB() {
 
 export async function logout() {
   Cookies.remove(headerAndPayloadCookieName())
-  store.commit('logout')
+  // store.commit('logout')
   return router
     .push({ name: 'login' })
     .catch(() => {}) // prevents throwing NavigationDuplicated is already on /login
