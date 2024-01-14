@@ -41,6 +41,11 @@ sub vcl_recv {
     return(pass);
   }
 
+  # exclude any request with query parameters, until cache handling of query params is properly implemented
+  if (req.url ~ "\?"){
+    return(pass);
+  }
+
    # Extract JWT cookie for later use in vcl_hash
    # Failsafe: Pass cache if JWT cookie is not set (also for example, if COOKIE_PREFIX is not properly configured)
   if (req.http.Cookie) {
