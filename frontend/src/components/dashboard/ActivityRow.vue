@@ -54,7 +54,7 @@
         {{ title }}
       </router-link>
 
-      <span v-if="$vuetify.breakpoint.mdAndUp" class="e-subtitle e-subtitle--smaller">
+      <span v-if="$vuetify.display.mdAndUp" class="e-subtitle e-subtitle--smaller">
         {{ progressLabel }}
       </span>
 
@@ -63,7 +63,7 @@
         <span class="e-subtitle">{{ location }}</span>
       </template>
 
-      <template v-if="!$vuetify.breakpoint.mdAndUp">
+      <template v-if="!$vuetify.display.mdAndUp">
         <br />
         <span class="e-subtitle e-subtitle--smaller">
           {{ progressLabel }}

@@ -1,5 +1,6 @@
 <template>
   <component
+    v-bind="$attrs"
     :is="contentNode.contentTypeName"
     v-if="!contentNode.loading"
     class="content-node"
@@ -8,7 +9,6 @@
     :layout-mode="layoutMode"
     :draggable="draggable"
     :disabled="disabled"
-    v-bind="$attrs"
   />
 </template>
 

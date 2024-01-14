@@ -1,8 +1,8 @@
 <template>
   <v-btn
+    v-bind="$attrs"
     :icon="!visibleLabel"
     :aria-label="$tc('global.button.back')"
-    v-bind="$attrs"
     @click="$router.go(-1)"
   >
     <v-icon :left="visibleLabel">mdi-arrow-left</v-icon>

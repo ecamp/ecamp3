@@ -1,6 +1,7 @@
 <template>
   <PopoverPrompt
     v-model="showDialog"
+    v-bind="$attrs"
     type="error"
     :error="error"
     :submit-action="deactivateUser"
@@ -10,7 +11,6 @@
     submit-icon="mdi-cancel"
     cancel-icon=""
     :cancel-action="close"
-    v-bind="$attrs"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />

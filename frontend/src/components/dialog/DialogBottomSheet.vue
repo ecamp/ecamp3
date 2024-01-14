@@ -1,8 +1,8 @@
 <template>
   <v-bottom-sheet
+    v-bind="$attrs"
     content-class="ec-dialog-form"
     eager
-    v-bind="$attrs"
     :value="value"
     v-on="$listeners"
     @input="onInput"

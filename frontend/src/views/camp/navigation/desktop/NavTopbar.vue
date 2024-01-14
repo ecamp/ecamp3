@@ -4,29 +4,29 @@
 
     <v-toolbar-items>
       <v-btn :to="campRoute(camp())" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-tent</v-icon>
+        <v-icon :left="$vuetify.display.mdAndUp">mdi-tent</v-icon>
         <span class="sr-only-sm-and-down">{{ camp().title }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'program')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>
+        <v-icon :left="$vuetify.display.mdAndUp">mdi-view-dashboard</v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.program')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-book-open-variant </v-icon>
+        <v-icon :left="$vuetify.display.mdAndUp"> mdi-book-open-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.story')
         }}</span>
       </v-btn>
       <v-btn :to="materialListRoute(camp())" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-package-variant </v-icon>
+        <v-icon :left="$vuetify.display.mdAndUp"> mdi-package-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.material')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'admin')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-cogs </v-icon>
+        <v-icon :left="$vuetify.display.mdAndUp"> mdi-cogs </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('global.navigation.admin.title')
         }}</span>

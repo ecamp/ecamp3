@@ -22,7 +22,7 @@
         name="email"
         vee-rules="email"
         append-icon="mdi-at"
-        :dense="$vuetify.breakpoint.xsOnly"
+        :dense="$vuetify.display.xsOnly"
         type="email"
         autocomplete="username"
         autofocus
@@ -33,7 +33,7 @@
         :color="email ? 'blue darken-2' : 'blue lightne-4'"
         :disabled="!email"
         outlined
-        :x-large="$vuetify.breakpoint.smAndUp"
+        :x-large="$vuetify.display.smAndUp"
         class="my-4"
       >
         <v-progress-circular v-if="status == 'sending'" indeterminate size="24" />

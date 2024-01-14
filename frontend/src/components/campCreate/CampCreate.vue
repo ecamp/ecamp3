@@ -1,7 +1,7 @@
 <template>
   <v-stepper v-model="step" flat>
     <v-stepper-header class="elevation-0">
-      <v-spacer v-if="$vuetify.breakpoint.smAndUp" />
+      <v-spacer v-if="$vuetify.display.smAndUp" />
       <v-stepper-step :complete="step > 1" :step="1" class="px-4">
         {{ $tc('components.campCreate.campCreate.steps.infos') }}
       </v-stepper-step>
@@ -9,7 +9,7 @@
       <v-stepper-step :complete="step > 2" :step="2" class="px-4">
         {{ $tc('components.campCreate.campCreate.steps.template') }}
       </v-stepper-step>
-      <v-spacer v-if="$vuetify.breakpoint.smAndUp" />
+      <v-spacer v-if="$vuetify.display.smAndUp" />
     </v-stepper-header>
     <v-divider />
     <v-stepper-items>

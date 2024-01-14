@@ -10,8 +10,8 @@ Displays a field as a e-select + write access via API wrapper
     v-on="$listeners"
   >
     <e-select
-      :value="wrapper.localValue"
       v-bind="$attrs"
+      :value="wrapper.localValue"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"

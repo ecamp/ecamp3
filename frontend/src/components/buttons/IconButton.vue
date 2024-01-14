@@ -1,9 +1,9 @@
 <template>
   <v-btn
+    v-bind="$attrs"
     class="px-3 px-sm-4"
     min-width="0"
     :color="color"
-    v-bind="$attrs"
     v-on="$listeners"
   >
     <v-icon v-if="!iconLast" :left="!hideLabel" size="150%" :class="{ animate: animate }">

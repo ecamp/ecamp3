@@ -86,7 +86,7 @@ Displays a single scheduleEntry
         outlined
         @click="layoutMode = false"
       >
-        <template v-if="$vuetify.breakpoint.smAndUp">
+        <template v-if="$vuetify.display.smAndUp">
           <v-icon left>mdi-file-document-edit-outline</v-icon>
           {{ $tc('components.activity.scheduleEntry.backToContents') }}
         </template>

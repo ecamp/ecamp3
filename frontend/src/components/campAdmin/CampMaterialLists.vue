@@ -8,7 +8,7 @@
             <button-add
               color="secondary"
               text
-              :hide-label="$vuetify.breakpoint.xsOnly"
+              :hide-label="$vuetify.display.xsOnly"
               class="my-n1"
               v-on="on"
             >

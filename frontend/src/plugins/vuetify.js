@@ -14,9 +14,10 @@ import ResponsiveLayout from '@/assets/icons/ResponsiveLayout.svg'
 import ColumnLayout from '@/assets/icons/ColumnLayout.svg'
 import i18n from '@/plugins/i18n'
 import * as colors from 'vuetify/util/colors'
+import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 
 class VuetifyLoaderPlugin {
-  install(Vue) {
+  install(app) {
     const opts = {
       lang: {
         t: (key, ...params) => i18n.tc(key, 0, params),
@@ -44,7 +45,9 @@ class VuetifyLoaderPlugin {
       },
     }
 
-    vuetify = new createVuetify(opts)
+    vuetify = createVuetify(opts)
+
+    app.use(vuetify)
   }
 }
 

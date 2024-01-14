@@ -84,7 +84,7 @@ export default {
       return keyBy(this.allContentNodes().items, 'id')
     },
     draggingEnabled() {
-      return this.layoutMode && this.$vuetify.breakpoint.mdAndUp && !this.disabled
+      return this.layoutMode && this.$vuetify.display.mdAndUp && !this.disabled
     },
     contentNodeIds() {
       return sortBy(

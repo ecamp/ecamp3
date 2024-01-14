@@ -16,6 +16,7 @@ Displays a field as a picker (can be used with v-model)
     >
       <template #activator="{ on }">
         <e-text-field
+          v-bind="$attrs"
           :id="id"
           ref="textField"
           :value="fieldValue"
@@ -23,7 +24,6 @@ Displays a field as a picker (can be used with v-model)
           :input-class="inputClass"
           :name="name"
           :label="label"
-          v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"

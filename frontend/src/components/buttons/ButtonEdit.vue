@@ -1,10 +1,10 @@
 <template>
   <IconButton
+    v-bind="$attrs"
     class="px-3 px-sm-4"
     color="primary"
     :icon="icon"
-    :hide-label="hideLabel || $vuetify.breakpoint.xsOnly"
-    v-bind="$attrs"
+    :hide-label="hideLabel || $vuetify.display.xsOnly"
     v-on="$listeners"
   >
     <slot>{{ $tc('global.button.edit') }}</slot>

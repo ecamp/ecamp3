@@ -3,12 +3,12 @@
     <div class="hill">
       <div class="d-flex absolute w-100 top-0 localnav">
         <ButtonBack
-          v-if="!$vuetify.breakpoint.mdAndUp && hasHistory"
+          v-if="!$vuetify.display.mdAndUp && hasHistory"
           visible-label
           text
           dark
         />
-        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only />
+        <UserMeta v-if="!$vuetify.display.mdAndUp" avatar-only />
       </div>
       <ShootingStar class="shootingstar" />
       <TentNight class="tent" />

@@ -44,12 +44,12 @@ export default {
   },
   methods: {
     click() {
-      if (this.$vuetify.breakpoint.xsOnly) {
+      if (this.$vuetify.display.xsOnly) {
         this.showTooltip = !this.showTooltip
       }
     },
     mouseenter() {
-      if (!this.$vuetify.breakpoint.xsOnly) {
+      if (!this.$vuetify.display.xsOnly) {
         this.showTooltip = true
       }
     },

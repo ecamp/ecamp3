@@ -88,7 +88,7 @@
         :name="$tc('views.auth.register.acceptTermsOfService')"
       >
         <template #label>
-          <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
+          <span style="hyphens: auto" :class="{ 'body-2': $vuetify.display.xsOnly }">
             {{ $tc('views.auth.register.acceptTermsOfService') }}
           </span>
         </template>

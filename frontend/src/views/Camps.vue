@@ -2,7 +2,7 @@
   <v-container fluid>
     <content-card :title="$tc('views.camps.title')" max-width="800" toolbar>
       <template #title-actions>
-        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only btn-classes="mr-n4" />
+        <UserMeta v-if="!$vuetify.display.mdAndUp" avatar-only btn-classes="mr-n4" />
       </template>
       <v-list class="py-0">
         <template v-if="loading">

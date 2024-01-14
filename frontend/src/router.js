@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isLoggedIn } from '@/plugins/auth'

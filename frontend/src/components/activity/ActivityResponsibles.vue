@@ -1,6 +1,7 @@
 <template>
   <e-select
     v-model="selectedCampCollaborations"
+    v-bind="$attrs"
     :items="availableCampCollaborations"
     :loading="isSaving || isLoading ? 'secondary' : false"
     :name="$tc('entity.activity.fields.responsible')"
@@ -12,7 +13,6 @@
     chips
     deletable-chips
     small-chips
-    v-bind="$attrs"
     @input="onInput"
   >
     <template #selection="{ item }">

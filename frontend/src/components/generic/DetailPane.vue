@@ -1,6 +1,6 @@
 <template>
   <DialogBottomSheet
-    v-if="$vuetify.breakpoint.smAndDown"
+    v-if="$vuetify.display.smAndDown"
     v-model:saving-override="isSaving"
     :value="value"
     v-bind="{ ...$props, ...$attrs }"

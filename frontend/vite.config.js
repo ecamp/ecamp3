@@ -151,10 +151,6 @@ export default defineConfig(({ mode }) => ({
         find: 'dayjs',
         replacement: path.resolve(__dirname, 'node_modules', 'dayjs'),
       },
-      {
-        find: 'vue',
-        replacement: '@vue/compat',
-      },
     ],
     preserveSymlinks: true,
   },

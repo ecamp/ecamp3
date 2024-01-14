@@ -5,8 +5,8 @@ Displays a field as a date picker + write access via API wrapper
 <template>
   <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
     <e-date-picker
-      :value="wrapper.localValue || ''"
       v-bind="$attrs"
+      :value="wrapper.localValue || ''"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"

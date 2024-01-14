@@ -1,9 +1,9 @@
 <template>
   <v-dialog
-    content-class="ec-dialog-form"
-    :fullscreen="$vuetify.breakpoint.xsOnly"
-    eager
     v-bind="$attrs"
+    content-class="ec-dialog-form"
+    :fullscreen="$vuetify.display.xsOnly"
+    eager
     :value="value"
     :max-width="maxWidth"
     v-on="$listeners"
@@ -24,7 +24,7 @@
             {{ title }}
           </v-toolbar-title>
           <v-btn
-            v-if="$vuetify.breakpoint.smAndUp && cancelAction != null"
+            v-if="$vuetify.display.smAndUp && cancelAction != null"
             icon
             class="ml-auto"
             :title="$tc('global.button.cancel')"

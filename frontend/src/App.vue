@@ -1,16 +1,17 @@
 <template>
   <v-app>
-    <router-view name="navigation" />
+    HELLO WORLD!
+    <!-- <router-view name="navigation" />
 
-    <router-view name="aside" />
+    <router-view name="aside" /> -->
 
     <!-- main content -->
-    <v-main>
+    <!-- <v-main>
       <router-view />
-    </v-main>
+    </v-main> -->
 
     <!-- footer -->
-    <v-footer v-if="$vuetify.breakpoint.mdAndUp" app color="grey lighten-5">
+    <!-- <v-footer v-if="$vuetify.display.mdAndUp" app color="grey lighten-5">
       <small
         >eCamp
         <a v-if="version" :href="versionLink" target="_blank">
@@ -20,7 +21,7 @@
       >
       <v-spacer />
       <language-switcher v-if="isDev" />
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 

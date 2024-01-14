@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import axios from 'axios'
 import VueI18n from '@/plugins/i18n'
 import { dayjsLocaleMap } from '@/common/helpers/dayjs.js'

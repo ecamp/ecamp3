@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$vuetify.breakpoint.mdAndUp" class="e-pages-config__wrapper">
+  <div v-if="$vuetify.display.mdAndUp" class="e-pages-config__wrapper">
     <div
       class="e-pages-config"
       :class="{

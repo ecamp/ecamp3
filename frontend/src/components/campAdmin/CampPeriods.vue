@@ -15,7 +15,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
               color="secondary"
               text
               class="my-n2"
-              :hide-label="$vuetify.breakpoint.xsOnly"
+              :hide-label="$vuetify.display.xsOnly"
               v-on="on"
             >
               {{ $tc('components.campAdmin.campPeriods.createPeriod') }}

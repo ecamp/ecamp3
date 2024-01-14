@@ -13,14 +13,14 @@
 
       <template #title-actions>
         <v-btn v-if="!layoutMode" color="primary" outlined @click="layoutMode = true">
-          <template v-if="$vuetify.breakpoint.smAndUp">
+          <template v-if="$vuetify.display.smAndUp">
             <v-icon left>mdi-puzzle-edit-outline</v-icon>
             {{ $tc('views.activity.category.changeLayout') }}
           </template>
           <template v-else>{{ $tc('views.activity.category.layout') }}</template>
         </v-btn>
         <v-btn v-else color="success" outlined @click="layoutMode = false">
-          <template v-if="$vuetify.breakpoint.smAndUp">
+          <template v-if="$vuetify.display.smAndUp">
             <v-icon left>mdi-file-document-arrow-right-outline</v-icon>
             {{ $tc('views.activity.category.editContents') }}
           </template>

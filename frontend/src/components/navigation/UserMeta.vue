@@ -6,7 +6,7 @@
     dark
     right
     :content-class="
-      ['ec-usermenu', $vuetify.breakpoint.xsOnly && 'rounded-lg mt-2'].join(' ')
+      ['ec-usermenu', $vuetify.display.xsOnly && 'rounded-lg mt-2'].join(' ')
     "
     transition="slide-y-transition"
     :close-on-content-click="false"

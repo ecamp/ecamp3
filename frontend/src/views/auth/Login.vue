@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <div v-if="isProdSuffix && $vuetify.breakpoint.smAndDown" class="text-center">
+    <div v-if="isProdSuffix && $vuetify.display.smAndDown" class="text-center">
       <v-icon size="64"> $vuetify.icons.ecamp </v-icon>
     </div>
 
@@ -35,7 +35,7 @@
         :label="$tc('views.auth.login.email')"
         name="email"
         append-icon="mdi-account-outline"
-        :dense="$vuetify.breakpoint.xsOnly"
+        :dense="$vuetify.display.xsOnly"
         type="email"
         autocomplete="username"
       />
@@ -47,7 +47,7 @@
         vee-rules="required"
         name="password"
         append-icon="mdi-lock-outline"
-        :dense="$vuetify.breakpoint.xsOnly"
+        :dense="$vuetify.display.xsOnly"
         type="password"
         autocomplete="current-password"
       />
@@ -67,7 +67,7 @@
         block
         :disabled="!(email && password) || authenticationInProgress"
         outlined
-        :x-large="$vuetify.breakpoint.smAndUp"
+        :x-large="$vuetify.display.smAndUp"
         class="my-4"
       >
         <v-progress-circular v-if="authenticationInProgress" indeterminate size="24" />
@@ -83,7 +83,7 @@
       <v-btn
         dark
         color="#91697f"
-        :x-large="$vuetify.breakpoint.smAndUp"
+        :x-large="$vuetify.display.smAndUp"
         text
         @click="loginPbsMiData"
       >
@@ -95,7 +95,7 @@
       <v-btn
         dark
         color="green"
-        :x-large="$vuetify.breakpoint.smAndUp"
+        :x-large="$vuetify.display.smAndUp"
         text
         @click="loginCeviDB"
       >
@@ -107,7 +107,7 @@
       <v-btn
         dark
         color="blue"
-        :x-large="$vuetify.breakpoint.smAndUp"
+        :x-large="$vuetify.display.smAndUp"
         text
         @click="loginJublaDB"
       >
@@ -119,7 +119,7 @@
       <v-btn
         dark
         color="blue-grey lighten-3"
-        :x-large="$vuetify.breakpoint.smAndUp"
+        :x-large="$vuetify.display.smAndUp"
         text
         @click="loginGoogle"
       >

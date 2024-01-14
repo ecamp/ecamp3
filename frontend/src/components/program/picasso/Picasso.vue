@@ -295,9 +295,9 @@ export default {
       return this.period.camp()
     },
     computedIntervalHeight() {
-      return this.intervalHeight ?? this.$vuetify.breakpoint.xsOnly
-        ? (1.3 * (this.$vuetify.breakpoint.height - 140)) / this.intervalCount
-        : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
+      return this.intervalHeight ?? this.$vuetify.display.xsOnly
+        ? (1.3 * (this.$vuetify.display.height - 140)) / this.intervalCount
+        : 1.3 * Math.max((this.$vuetify.display.height - 204) / this.intervalCount, 32)
     },
   },
   mounted() {
@@ -333,7 +333,7 @@ export default {
         .format(this.$tc('global.datetime.hourLong'))
     },
     dayFormat(day) {
-      if (this.$vuetify.breakpoint.smAndDown) {
+      if (this.$vuetify.display.smAndDown) {
         return this.$date.utc(day.date).format(this.$tc('global.datetime.dateShort'))
       } else {
         return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))

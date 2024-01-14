@@ -6,17 +6,17 @@
       md="5"
       lg="4"
       class="pa-0 pa-sm-4 pb-sm-12"
-      :class="{ 'fill-height': $vuetify.breakpoint.xsOnly }"
+      :class="{ 'fill-height': $vuetify.display.xsOnly }"
     >
       <v-card
         class="pa-8 sso--card"
-        :tile="$vuetify.breakpoint.xsOnly"
-        :class="{ 'fill-min-height': $vuetify.breakpoint.xsOnly }"
+        :tile="$vuetify.display.xsOnly"
+        :class="{ 'fill-min-height': $vuetify.display.xsOnly }"
       >
         <slot />
       </v-card>
     </v-col>
-    <span v-if="$vuetify.breakpoint.smAndUp" class="photo_credits ma-3 pa-1">
+    <span v-if="$vuetify.display.smAndUp" class="photo_credits ma-3 pa-1">
       {{ $tc('components.layout.authContainer.photoCredits') }}
     </span>
   </v-container>

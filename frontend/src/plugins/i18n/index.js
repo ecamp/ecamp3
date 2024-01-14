@@ -1,4 +1,3 @@
-import Vue from '@vue/compat'
 import { createI18n } from 'vue-i18n'
 import deepmerge from 'deepmerge'
 

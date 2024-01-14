@@ -1,13 +1,13 @@
 <template>
   <div class="bg">
     <div class="hill">
-      <v-icon :size="$vuetify.breakpoint.smAndUp ? 300 : 200" class="tent"
+      <v-icon :size="$vuetify.display.smAndUp ? 300 : 200" class="tent"
         >$vuetify.icons.tentDay
       </v-icon>
       <div class="trees"></div>
       <div class="localnav justify-space-between d-flex w-100 py-2">
-        <ButtonBack v-if="!$vuetify.breakpoint.mdAndUp" text dark visible-label />
-        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only />
+        <ButtonBack v-if="!$vuetify.display.mdAndUp" text dark visible-label />
+        <UserMeta v-if="!$vuetify.display.mdAndUp" avatar-only />
       </div>
       <h1 class="wood text-center align-self-end">
         <span class="rope"></span>
@@ -43,7 +43,7 @@
             colored-border
             color="primary"
             class="mb-1"
-            :icon="$vuetify.breakpoint.smAndUp ? 'mdi-information-outline' : false"
+            :icon="$vuetify.display.smAndUp ? 'mdi-information-outline' : false"
             type="info"
           >
             {{ $tc('views.camp.invitation.userAlreadyInCamp') }}

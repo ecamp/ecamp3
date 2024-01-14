@@ -10,8 +10,8 @@
 
     <v-btn
       v-if="showButton"
-      :fixed="$vuetify.breakpoint.mdAndUp"
-      :absolute="!$vuetify.breakpoint.mdAndUp"
+      :fixed="$vuetify.display.mdAndUp"
+      :absolute="!$vuetify.display.mdAndUp"
       dark
       fab
       style="z-index: 3"
