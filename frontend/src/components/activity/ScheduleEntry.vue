@@ -107,10 +107,8 @@ Displays a single scheduleEntry
             @click="toggleDisplaySize"
             v-on="on"
           >
-            <v-icon v-if="isLocalPaperDisplaySize" class="resize-icon"
-              >$vuetify.icons.bigScreen</v-icon
-            >
-            <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
+            <v-icon v-if="isLocalPaperDisplaySize" class="resize-icon">$bigScreen</v-icon>
+            <v-icon v-else class="resize-icon">$paperSize</v-icon>
           </v-btn>
         </template>
         {{

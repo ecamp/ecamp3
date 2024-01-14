@@ -7,7 +7,6 @@ import {
   storeLoader,
   halJsonVuex,
   formBaseComponents,
-  ignoreNativeBindingWarnMessages,
   i18n,
   dayjs,
   veeValidate,
@@ -38,7 +37,7 @@ const app = createApp(App)
 
 app.use(auth)
 app.use(formBaseComponents)
-app.use(ignoreNativeBindingWarnMessages)
+// app.use(ignoreNativeBindingWarnMessages)
 app.use(storeLoader)
 app.use(vuetifyLoader)
 app.use(dayjs)
@@ -48,6 +47,7 @@ app.use(Toast, {
 })
 app.use(halJsonVuex)
 app.use(router)
+app.use(i18n)
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
 app.directive('resize', Resize)

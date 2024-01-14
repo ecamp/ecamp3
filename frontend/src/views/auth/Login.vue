@@ -1,7 +1,7 @@
 <template>
   <auth-container>
     <div v-if="isProdSuffix && $vuetify.display.smAndDown" class="text-center">
-      <v-icon size="64"> $vuetify.icons.ecamp </v-icon>
+      <v-icon size="64"> $ecamp </v-icon>
     </div>
 
     <h1 class="display-1 text-center" :class="{ 'my-4': isProdSuffix }">
@@ -71,7 +71,7 @@
         class="my-4"
       >
         <v-progress-circular v-if="authenticationInProgress" indeterminate size="24" />
-        <v-icon v-else>$vuetify.icons.ecamp</v-icon>
+        <v-icon v-else>$ecamp</v-icon>
         <v-spacer />
         <span>{{ $tc('views.auth.login.provider.ecamp') }}</span>
         <v-spacer />
@@ -87,7 +87,7 @@
         text
         @click="loginPbsMiData"
       >
-        <v-icon class="my-1" color="#521d3a">$vuetify.icons.pbs</v-icon>
+        <v-icon class="my-1" color="#521d3a">$pbs</v-icon>
         <span class="text--secondary body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.midata')
         }}</span>
@@ -99,7 +99,7 @@
         text
         @click="loginCeviDB"
       >
-        <v-icon class="my-1">$vuetify.icons.cevi</v-icon>
+        <v-icon class="my-1">$cevi</v-icon>
         <span class="text--secondary body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.cevidb')
         }}</span>
@@ -111,7 +111,7 @@
         text
         @click="loginJublaDB"
       >
-        <v-icon size="32">$vuetify.icons.jubla</v-icon>
+        <v-icon size="32">$jubla</v-icon>
         <span class="text--secondary body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.jubladb')
         }}</span>
@@ -123,7 +123,7 @@
         text
         @click="loginGoogle"
       >
-        <v-icon class="my-1">$vuetify.icons.google</v-icon>
+        <v-icon class="my-1">$google</v-icon>
         <span class="text--secondary body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.google')
         }}</span>

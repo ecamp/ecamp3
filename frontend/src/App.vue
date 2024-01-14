@@ -1,14 +1,13 @@
 <template>
   <v-app>
-    HELLO WORLD!
     <!-- <router-view name="navigation" />
 
     <router-view name="aside" /> -->
 
     <!-- main content -->
-    <!-- <v-main>
+    <v-main>
       <router-view />
-    </v-main> -->
+    </v-main>
 
     <!-- footer -->
     <!-- <v-footer v-if="$vuetify.display.mdAndUp" app color="grey lighten-5">

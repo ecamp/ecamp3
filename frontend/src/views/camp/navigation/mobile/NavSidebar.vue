@@ -8,7 +8,7 @@
   >
     <div class="d-flex flex-column fill-height">
       <div class="d-flex flex-column align-center blue-grey darken-4 white--text py-6">
-        <v-icon x-large>$vuetify.icons.ecamp</v-icon>
+        <v-icon x-large>$ecamp</v-icon>
         <h2 class="title text-center">eCamp</h2>
       </div>
       <v-divider class="blue-grey darken-2" />

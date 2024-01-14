@@ -87,7 +87,7 @@
         class="my-4"
       >
         <v-progress-circular v-if="status == 'reseting'" indeterminate size="24" />
-        <v-icon v-else>$vuetify.icons.ecamp</v-icon>
+        <v-icon v-else>$ecamp</v-icon>
         <v-spacer />
         <span>{{ $tc('views.auth.resetPassword.send') }}</span>
         <v-spacer />

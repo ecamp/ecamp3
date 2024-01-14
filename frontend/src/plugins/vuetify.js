@@ -23,7 +23,19 @@ class VuetifyLoaderPlugin {
         t: (key, ...params) => i18n.tc(key, 0, params),
       },
       icons: {
-        values: {
+        aliases: {
+          pbs: 'mdi-close-circle',
+          google: 'mdi-close-circle',
+          ecamp: 'mdi-close-circle',
+          cevi: 'mdi-close-circle',
+          jubla: 'mdi-close-circle',
+          tentDay: 'mdi-close-circle',
+          paperSize: 'mdi-close-circle',
+          bigScreen: 'mdi-close-circle',
+          columnLayout: 'mdi-close-circle',
+          responsiveLayout: 'mdi-close-circle',
+        },
+        sets: {
           pbs: { component: PbsLogo },
           google: { component: GoogleLogo },
           ecamp: { component: eCampLogo },

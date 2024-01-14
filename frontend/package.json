@@ -48,7 +48,6 @@
     "@tiptap/vue-3": "2.1.13",
     "@vee-validate/i18n": "4.12.4",
     "@vee-validate/rules": "4.12.4",
-    "@vue/compat": "3.3.13",
     "@zxcvbn-ts/core": "3.0.4",
     "@zxcvbn-ts/language-common": "3.0.4",
     "@zxcvbn-ts/language-de": "3.0.2",

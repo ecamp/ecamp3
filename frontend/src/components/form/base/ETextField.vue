@@ -15,7 +15,7 @@
     :filled="filled"
     :required="required"
     :hide-details="hideDetails"
-    :error-messages="veeErrors.concat(errorMessages)"
+    :error-messages="errorMessages"
     :label="label || name"
     :class="[inputClass]"
     :type="type"
@@ -81,7 +81,7 @@ export default {
   mounted() {
     this.preventValidationOnBlur =
       'autofocus' in this.$attrs &&
-      'required' in this.$refs.validationProvider.$attrs &&
+      /*'required' in this.$refs.validationProvider.$attrs && */
       this.$refs.textField.value == ''
   },
   methods: {

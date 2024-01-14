@@ -1,9 +1,7 @@
 <template>
   <div class="bg">
     <div class="hill">
-      <v-icon :size="$vuetify.display.smAndUp ? 300 : 200" class="tent"
-        >$vuetify.icons.tentDay
-      </v-icon>
+      <v-icon :size="$vuetify.display.smAndUp ? 300 : 200" class="tent">$tentDay </v-icon>
       <div class="trees"></div>
       <div class="localnav justify-space-between d-flex w-100 py-2">
         <ButtonBack v-if="!$vuetify.display.mdAndUp" text dark visible-label />
