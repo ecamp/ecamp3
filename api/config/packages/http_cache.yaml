@@ -3,16 +3,12 @@ fos_http_cache:
         enabled: true # this sets the X-Cache-Debug response header; can be removed later-on
     tags:
         enabled: true
+        response_header: xkey
         annotations:
             enabled: false
         max_header_value_length: 4096
-    proxy_client:
-        varnish:
-            tag_mode: purgekeys
-            tags_header: xkey-purge
-            http:
-                servers:
-                    - '%env(VARNISH_API_URL)%'
+    cache_manager:
+        custom_proxy_client: App\HttpCache\VarnishProxyClient
     cache_control:
         defaults:
             overwrite: true
