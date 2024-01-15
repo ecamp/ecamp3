@@ -1,14 +1,14 @@
 {
     "inviteToCamp": {
-        "subject": "[eCamp3] You were invited to collaborate in camp \"{campName}\""
+        "subject": "[eCamp v3] You were invited to collaborate in camp \"{campName}\""
     },
     "userActivation": {
         "subject": "Welcome to eCamp3"
     },
     "passwordReset": {
-        "subject": "[eCamp3] Password reset"
+        "subject": "[eCamp v3] Password reset"
     },
     "emailVerification": {
-        "subject": "[eCamp3] Verify email address"
+        "subject": "[eCamp v3] Verify email address"
     }
 }
