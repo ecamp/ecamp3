@@ -24,7 +24,7 @@
   "peerDependencies": {
     "@react-pdf/font": "2.3.7",
     "@react-pdf/layout": "3.6.4",
-    "@react-pdf/pdfkit": "3.0.3",
+    "@react-pdf/pdfkit": "3.0.4",
     "@react-pdf/render": "3.2.7",
     "colorjs.io": "0.4.5",
     "lodash": "4.17.21",
