@@ -11,7 +11,6 @@ import {
   veeValidate,
 } from './plugins'
 import { store } from './plugins/store'
-import { vuetify } from './plugins/vuetify'
 import { getEnv } from '@/environment.js'
 import * as Sentry from '@sentry/vue'
 import Toast from 'vue-toastification'

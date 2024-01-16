@@ -2,9 +2,8 @@
   <v-menu
     v-if="authUser"
     v-model="open"
-    offset-y
     dark
-    location="right"
+    location="bottom right"
     :content-class="
       ['ec-usermenu', $vuetify.display.xsOnly && 'rounded-lg mt-2'].join(' ')
     "
@@ -12,14 +11,13 @@
     :close-on-content-click="false"
     z-index="5"
   >
-    <template #activator="{ on, value, attrs }">
+    <template #activator="{ props }">
       <v-toolbar-items v-if="!avatarOnly">
         <v-btn
           location="right"
           variant="text"
-          v-bind="attrs"
+          v-bind="props"
           :class="[btnClasses, { 'v-btn--open': value }]"
-          v-on="on"
         >
           <user-avatar v-if="authUser" :user="authUser" :size="40" />
           <span class="sr-only-sm-and-down mx-3">
@@ -31,9 +29,8 @@
         v-else
         fab
         variant="text"
-        v-bind="attrs"
+        v-bind="props"
         :class="[btnClasses, { 'v-btn--open': value }]"
-        v-on="on"
       >
         <user-avatar v-if="authUser" :user="authUser" :size="40" />
         <span class="sr-only-sm-and-down mx-3">

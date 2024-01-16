@@ -7,19 +7,11 @@ import * as path from 'path'
 import Components from 'unplugin-vue-components/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { configDefaults } from 'vitest/config'
-import vuetify from 'vite-plugin-vuetify'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 const plugins = [
   comlink(), // must be first
-  vue({
-    template: {
-      compilerOptions: {
-        compatConfig: {
-          MODE: 2,
-        },
-      },
-    },
-  }),
+  vue({}),
   Components({
     resolvers: [
       // // Vuetify
@@ -165,9 +157,9 @@ export default defineConfig(({ mode }) => ({
         @import "./node_modules/vuetify/dist/_component-variables-labs.sass";
         `,
       },
-      sass: {
-        additionalData: '@import "./src/scss/variables.scss"\n', // vuetify variable overrides
-      },
+      // sass: {
+      //   additionalData: '@import "./src/scss/variables.scss"\n', // vuetify variable overrides
+      // },
     },
   },
   test: {

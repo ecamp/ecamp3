@@ -16,6 +16,9 @@ import i18n from '@/plugins/i18n'
 import * as colors from 'vuetify/util/colors'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 
+// Styles
+import 'vuetify/styles'
+
 class VuetifyLoaderPlugin {
   install(app) {
     const opts = {
