@@ -38,15 +38,14 @@ function getJWTExpirationTimestamp() {
 }
 
 export function isLoggedIn() {
-  return false
+  const isLoggedIn = Date.now() < getJWTExpirationTimestamp()
 
-  // const isLoggedIn = Date.now() < getJWTExpirationTimestamp()
-
+  // TODO: commented code creates an infinite-loop
   // if (isLoggedIn) {
   //   loadUser()
   // }
 
-  // return isLoggedIn
+  return isLoggedIn
 }
 
 export function isAdmin() {
@@ -75,32 +74,29 @@ async function resetPassword(id, password, recaptchaToken) {
 }
 
 async function loadUser() {
-  // TODO: remove
-  return null
+  if (!getJWTPayloadFromCookie()) {
+    store.commit('logout')
+    return null
+  }
 
-  // if (!getJWTPayloadFromCookie()) {
-  //   // store.commit('logout')
-  //   return null
-  // }
+  try {
+    const user = await apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)._meta
+      .load
+    store.commit('login', user)
+    return user
+  } catch (e) {
+    if (e.response && [401, 403, 404].includes(e.response.status)) {
+      // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
+      // 403 means we can theoretically interact in some way with the user, but apparently not read it
+      // 404 means the user doesn't exist or we don't have access to it
+      // Either way, we aren't allowed to access the user from the token, so it's best to ask the user
+      // to log in again.
+      auth.logout()
+      return null
+    }
 
-  // try {
-  //   const user = await apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)._meta
-  //     .load
-  //   // store.commit('login', user)
-  //   return user
-  // } catch (e) {
-  //   if (e.response && [401, 403, 404].includes(e.response.status)) {
-  //     // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
-  //     // 403 means we can theoretically interact in some way with the user, but apparently not read it
-  //     // 404 means the user doesn't exist or we don't have access to it
-  //     // Either way, we aren't allowed to access the user from the token, so it's best to ask the user
-  //     // to log in again.
-  //     auth.logout()
-  //     return null
-  //   }
-
-  //   throw e
-  // }
+    throw e
+  }
 }
 
 async function register(data) {
@@ -141,7 +137,7 @@ async function loginJublaDB() {
 
 export async function logout() {
   Cookies.remove(headerAndPayloadCookieName())
-  // store.commit('logout')
+  store.commit('logout')
   return router
     .push({ name: 'login' })
     .catch(() => {}) // prevents throwing NavigationDuplicated is already on /login

@@ -206,7 +206,7 @@ export default {
     },
   },
   mounted() {
-    // this.$store.commit('setLanguage', this.$i18n.browserPreferredLocale)
+    this.$store.commit('setLanguage', this.$i18n.browserPreferredLocale)
   },
   methods: {
     async login() {

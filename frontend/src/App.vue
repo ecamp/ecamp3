@@ -54,16 +54,16 @@ export default {
     },
   },
   created() {
-    // this.$store.commit('setLanguage', this.$store.state.lang.language)
+    this.$store.commit('setLanguage', this.$store.state.lang.language)
   },
   async mounted() {
     if (this.$auth.isLoggedIn()) {
       const user = await this.$auth.loadUser()
       const profile = await user.profile()._meta.load
 
-      if (VueI18n.availableLocales.includes(profile.language)) {
-        // this.$store.commit('setLanguage', profile.language)
-      }
+      // if (VueI18n.availableLocales.includes(profile.language)) {
+      //   this.$store.commit('setLanguage', profile.language)
+      // }
     }
   },
 }

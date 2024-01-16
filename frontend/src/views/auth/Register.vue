@@ -191,7 +191,7 @@ export default {
   watch: {
     language() {
       if (VueI18n.availableLocales.includes(this.language)) {
-        // this.$store.commit('setLanguage', this.language)
+        this.$store.commit('setLanguage', this.language)
       }
     },
   },

@@ -33,7 +33,7 @@ export default {
   name: 'LanguageSwitcher',
   methods: {
     changeLang(lang) {
-      // this.$store.commit('setLanguage', lang)
+      this.$store.commit('setLanguage', lang)
     },
   },
 }

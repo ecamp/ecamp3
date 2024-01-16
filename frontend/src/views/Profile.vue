@@ -116,7 +116,7 @@ export default {
   watch: {
     profile() {
       if (VueI18n.availableLocales.includes(this.profile?.language)) {
-        // this.$store.commit('setLanguage', this.profile?.language)
+        this.$store.commit('setLanguage', this.profile?.language)
       }
     },
   },
