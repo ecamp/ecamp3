@@ -6,14 +6,13 @@
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "build": "vite build",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "vue-cli-service lint",
+    "lint:eslint": "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
     "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,md}",
     "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
-    "lint:check:eslint": "vue-cli-service lint --no-fix",
+    "lint:check:eslint": "eslint . --ext .vue,.js --no-fix --ignore-path .gitignore",
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}",
     "start": "vite --host 0.0.0.0",
     "dev": "vite --host 0.0.0.0",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test:unit": "vitest run --coverage",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/.bin/vitest --no-cache --runInBand",
     "test:unit:watch": "vitest --watch",
@@ -91,11 +90,10 @@
     "@testing-library/vue": "5.9.0",
     "@vitejs/plugin-vue2": "2.3.1",
     "@vitest/coverage-v8": "1.2.0",
-    "@vue/cli-plugin-babel": "5.0.8",
-    "@vue/cli-plugin-eslint": "5.0.8",
-    "@vue/cli-service": "5.0.8",
+    "@vue/babel-preset-app": "5.0.8",
     "@vue/eslint-config-prettier": "9.0.0",
     "@vue/test-utils": "1.3.6",
+    "autoprefixer": "10.4.16",
     "babel-plugin-require-context-hook": "1.0.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
@@ -117,7 +115,6 @@
     "vite-plugin-vue2-svg": "0.4.0",
     "vitest": "1.2.0",
     "vitest-canvas-mock": "0.3.3",
-    "vue-cli-plugin-vuetify": "2.5.8",
     "vue-template-compiler": "2.7.15"
   },
   "eslintConfig": {
@@ -187,11 +184,11 @@
   },
   "lint-staged": {
     "*.js": [
-      "vue-cli-service lint",
+      "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
       "git add"
     ],
     "*.vue": [
-      "vue-cli-service lint",
+      "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
       "git add"
     ]
   }
