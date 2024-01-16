@@ -15,7 +15,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-expansion-panels v-model="openPanels" flat accordion multiple>
+    <v-expansion-panels v-model="openPanels" flat variant="accordion" multiple>
       <CampConditionalFields :camp="camp" :disabled="!isManager" />
       <CampDangerZone v-if="isManager" :camp="camp" />
     </v-expansion-panels>

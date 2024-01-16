@@ -22,9 +22,9 @@
         <template v-if="index === 0">
           <v-list
             v-if="selectionCount > 0"
-            :two-line="selectionCount > 3"
-            :three-line="selectionCount <= 3"
-            class="flex-grow-1 transparent"
+            :lines="selectionCount > 3 && 'two'"
+            :lines="selectionCount <= 3 && 'three'"
+            class="flex-grow-1 bg-transparent"
           >
             <template v-for="[key] in dataOptions">
               <v-list-item
@@ -52,19 +52,18 @@
         </template>
       </template>
       <template #item="{ item, parent, on, attrs }">
-        <v-list-item three-line class="ec-lta-item" v-bind="attrs" v-on="on">
+        <v-list-item lines="three" class="ec-lta-item" v-bind="attrs" v-on="on">
           <v-list-item-action>
-            <v-simple-checkbox
+            <v-checkbox-btn
               class="pointer-events-none"
               :value="parent.hasItem(item)"
               :color="parent.color"
               :ripple="false"
             />
           </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-            <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
-          </v-list-item-content>
+
+          <v-list-item-title>{{ item.text }}</v-list-item-title>
+          <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
         </v-list-item>
       </template>
     </e-select>

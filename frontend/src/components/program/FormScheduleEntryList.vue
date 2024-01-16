@@ -1,6 +1,6 @@
 <template>
   <div class="e-form-container">
-    <v-card outlined color="grey lighten-3" class="period mb-2 rounded-b-0">
+    <v-card variant="outlined" color="grey-lighten-3" class="period mb-2 rounded-b-0">
       <v-row no-gutters>
         <v-col class="header mb-3">
           <legend class="pa-2 float-left">

@@ -15,9 +15,7 @@
                   <v-list-item-icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-content>{{
-                    $tc('global.button.edit')
-                  }}</v-list-item-content>
+                  {{ $tc('global.button.edit') }}
                 </v-list-item>
               </template>
             </DialogMaterialListEdit>
@@ -25,9 +23,7 @@
               <v-list-item-icon>
                 <v-icon>mdi-microsoft-excel</v-icon>
               </v-list-item-icon>
-              <v-list-item-content>{{
-                $tc('global.button.download')
-              }}</v-list-item-content>
+              {{ $tc('global.button.download') }}
             </v-list-item>
           </v-list>
         </v-menu>
@@ -37,7 +33,7 @@
         v-model="openPeriods"
         multiple
         flat
-        accordion
+        variant="accordion"
       >
         <PeriodMaterialLists
           v-for="{ period, materialItems } in collection"

@@ -3,8 +3,8 @@
     <v-menu offset-y>
       <template #activator="{ on, attrs, value }">
         <v-btn
-          text
-          large
+          variant="text"
+          size="large"
           class="justify-start px-2"
           height="auto"
           block
@@ -14,8 +14,8 @@
           <h1 class="text-subtitle-1">
             {{ period().description }}
           </h1>
-          <v-icon v-if="value" right>mdi-menu-up</v-icon>
-          <v-icon v-else right>mdi-menu-down</v-icon>
+          <v-icon v-if="value" end>mdi-menu-up</v-icon>
+          <v-icon v-else end>mdi-menu-down</v-icon>
         </v-btn>
       </template>
       <v-list>
@@ -24,20 +24,18 @@
           v-for="item in period().camp().periods().items"
           :key="item._meta.self"
           :to="periodRoute(item, routeName)"
-          two-line
+          lines="two"
         >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.description }}</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ dateRange(item.start, item.end) }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
+          <v-list-item-title>{{ item.description }}</v-list-item-title>
+          <v-list-item-subtitle>
+            {{ dateRange(item.start, item.end) }}
+          </v-list-item-subtitle>
         </v-list-item>
       </v-list>
     </v-menu>
   </v-toolbar-items>
   <v-toolbar-title v-else>
-    <h1 class="subtitle-1">
+    <h1 class="text-subtitle-1">
       {{ period().description }}
     </h1>
   </v-toolbar-title>

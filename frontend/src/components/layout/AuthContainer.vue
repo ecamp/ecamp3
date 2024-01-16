@@ -10,7 +10,7 @@
     >
       <v-card
         class="pa-8 sso--card"
-        :tile="$vuetify.display.xsOnly"
+        :rounded="$vuetify.display.xsOnly && '0'"
         :class="{ 'fill-min-height': $vuetify.display.xsOnly }"
       >
         <slot />

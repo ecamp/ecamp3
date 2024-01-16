@@ -6,7 +6,7 @@ Displays the content wrapped inside a card.
   <v-card
     :max-width="maxWidth"
     width="100%"
-    :tile="$vuetify.display.xsOnly"
+    :rounded="$vuetify.display.xsOnly && '0'"
     class="mx-auto"
   >
     <v-toolbar

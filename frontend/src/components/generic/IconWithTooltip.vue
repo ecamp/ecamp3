@@ -1,5 +1,11 @@
 <template>
-  <v-tooltip v-if="showIcon" v-model="showTooltip" max-width="300px" color="#333" bottom>
+  <v-tooltip
+    v-if="showIcon"
+    v-model="showTooltip"
+    max-width="300px"
+    color="#333"
+    location="bottom"
+  >
     <!-- eslint-disable-next-line vue/no-unused-vars -->
     <template #activator="_">
       <v-btn

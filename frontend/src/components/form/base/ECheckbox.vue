@@ -13,8 +13,8 @@
     :error-messages="veeErrors.concat(errorMessages)"
     :label="label || name"
     :class="[inputClass]"
-    :input-value="value"
-    @change="$emit('input', $event)"
+    :model-value="value"
+    @update:model-value="$emit('input', $event)"
     v-on="$listeners"
   >
     <!-- passing through all slots -->

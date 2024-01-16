@@ -58,7 +58,7 @@
           {{ $tc('components.material.materialCreateItem.noMaterialListAvailable') }}
         </p>
         <v-btn :to="campRoute(camp, 'admin')">
-          <v-icon :left="$vuetify.display.mdAndUp">mdi-cogs</v-icon>
+          <v-icon :start="$vuetify.display.mdAndUp">mdi-cogs</v-icon>
           {{ $tc('components.material.materialCreateItem.campSettingsButton') }}
         </v-btn>
       </div>

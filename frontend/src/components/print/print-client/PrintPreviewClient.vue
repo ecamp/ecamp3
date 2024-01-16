@@ -7,7 +7,7 @@
       v-bind="$attrs"
       height="800px"
     />
-    <v-overlay absolute :value="loading || error" z-index="2">
+    <v-overlay absolute :model-value="loading || error" z-index="2">
       <div v-if="error">
         {{ $tc('components.print.printClient.printPreviewClient.previewError') }}
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip :disabled="tooltip == ''" bottom>
+  <v-tooltip :disabled="tooltip == ''" location="bottom">
     <template #activator="{ on }">
       <button
         :aria-label="tooltip"
@@ -9,8 +9,8 @@
         @click="onClick"
         v-on="on"
       >
-        <v-icon v-if="value" small>mdi-lock-open-variant</v-icon>
-        <v-icon v-else small>mdi-lock</v-icon>
+        <v-icon v-if="value" size="small">mdi-lock-open-variant</v-icon>
+        <v-icon v-else size="small">mdi-lock</v-icon>
       </button>
     </template>
     <span>{{ tooltip }}</span>

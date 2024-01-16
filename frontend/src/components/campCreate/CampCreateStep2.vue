@@ -18,7 +18,7 @@
           <h3 class="mt-2 h3">
             {{ $tc('components.campCreate.campCreateStep2.preview') }}
           </h3>
-          <v-list class="w-100" dense color="transparent">
+          <v-list class="w-100" density="compact" color="transparent">
             <v-subheader class="px-0" style="height: auto">
               {{ $tc('components.campCreate.campCreateStep2.category') }}
             </v-subheader>
@@ -30,7 +30,7 @@
               <v-list-item-title class="d-flex gap-2 align-baseline">
                 <CategoryChip :category="category" class="mx-0 flex-shrink-0" dense />
                 <span class="font-weight-medium">{{ category.name }}</span>
-                <small class="blue-grey--text">{{
+                <small class="text-blue-grey">{{
                   category
                     .preferredContentTypes()
                     .items.map((item) =>
@@ -41,7 +41,7 @@
               </v-list-item-title>
             </v-list-item>
           </v-list>
-          <v-list class="w-100" dense color="transparent">
+          <v-list class="w-100" density="compact" color="transparent">
             <v-subheader class="px-0" style="height: auto">
               {{ $tc('components.campCreate.campCreateStep2.progressStates') }}
             </v-subheader>
@@ -74,12 +74,12 @@
       <v-divider />
       <ContentActions>
         <v-btn
-          text
+          variant="text"
           color="secondary"
           :disabled="isSaving"
           @click="$emit('previous-step')"
         >
-          <v-icon left>mdi-arrow-left</v-icon>
+          <v-icon start>mdi-arrow-left</v-icon>
           {{ $tc('global.button.back') }}
         </v-btn>
         <div class="ml-auto">
@@ -87,7 +87,7 @@
           <ButtonAdd v-if="valid" type="submit" :loading="isSaving">
             {{ $tc('components.campCreate.campCreateStep2.create') }}
           </ButtonAdd>
-          <v-tooltip v-else top>
+          <v-tooltip v-else location="top">
             <template #activator="{ attrs, on }">
               <ButtonAdd
                 color="secondary"

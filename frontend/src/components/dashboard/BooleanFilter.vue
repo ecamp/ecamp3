@@ -1,7 +1,7 @@
 <template>
   <v-chip
     label
-    outlined
+    variant="outlined"
     :color="value ? 'primary' : null"
     @click="$emit('input', !value)"
     >{{ label }}</v-chip

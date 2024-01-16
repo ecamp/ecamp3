@@ -3,7 +3,7 @@
     <td v-if="!layoutMode" class="e-storyboard-row__handle">
       <v-btn
         icon
-        small
+        size="small"
         class="drag-and-drop-handle"
         :disabled="isLastSection"
         :aria-label="$tc('global.button.move')"
@@ -42,7 +42,7 @@
         <template #activator="{ on }">
           <v-btn
             icon
-            small
+            size="small"
             class="e-storyboard-row__delete"
             color="error"
             :disabled="isLastSection"

@@ -3,7 +3,7 @@
     v-if="$vuetify.display.mdAndUp"
     app
     clipped-left
-    color="blue-grey darken-4"
+    color="blue-grey-darken-4"
     dark
   >
     <logo text />

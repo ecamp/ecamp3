@@ -7,7 +7,7 @@
     clipped
     permanent
     :temporary="!mini && !$vuetify.display.mdAndUp"
-    mini-variant-width="40"
+    rail-width="40"
     :width="$vuetify.display.xl || (!mini && !$vuetify.display.mdAndUp) ? 350 : 256"
     :color="!title || mini ? 'blue-grey lighten-4' : null"
   >
@@ -16,7 +16,7 @@
         <v-icon>{{ icon }}</v-icon>
       </v-list-item>
       <v-list-item v-else class="py-1 pr-2">
-        <v-list-item-title class="subtitle-1 font-weight-bold">
+        <v-list-item-title class="text-subtitle-1 font-weight-bold">
           {{ title }}
         </v-list-item-title>
         <v-btn icon @click.stop="overrideExpanded = false">

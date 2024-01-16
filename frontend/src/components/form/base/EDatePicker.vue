@@ -33,7 +33,7 @@ Displays a field as a date picker (can be used with v-model)
         @input="picker.onInput"
       >
         <v-spacer />
-        <v-btn text color="primary" @click="picker.close">
+        <v-btn variant="text" color="primary" @click="picker.close">
           {{ $tc('global.button.close') }}
         </v-btn>
       </v-date-picker>

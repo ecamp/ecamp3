@@ -18,9 +18,9 @@ Displays a field as a color picker (can be used with v-model)
     <template #default="picker">
       <v-card :style="{ '--picker-contrast-color': contrast }" data-testid="colorpicker">
         <v-color-picker
-          :value="removeAlpha(picker.value || '')"
+          :model-value="removeAlpha(picker.value || '')"
           flat
-          @input="picker.onInput"
+          @update:model-value="picker.onInput"
         />
         <v-divider />
         <div class="d-flex gap-2 pa-4 flex-wrap">

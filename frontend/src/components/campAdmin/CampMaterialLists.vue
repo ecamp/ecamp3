@@ -1,7 +1,7 @@
 <template>
   <content-group>
     <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
+      <div class="ec-content-group__title py-1 text-subtitle-1">
         {{ $tc('components.campAdmin.campMaterialLists.title') }}
         <dialog-material-list-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">

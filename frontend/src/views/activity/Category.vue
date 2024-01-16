@@ -12,16 +12,21 @@
       </template>
 
       <template #title-actions>
-        <v-btn v-if="!layoutMode" color="primary" outlined @click="layoutMode = true">
+        <v-btn
+          v-if="!layoutMode"
+          color="primary"
+          variant="outlined"
+          @click="layoutMode = true"
+        >
           <template v-if="$vuetify.display.smAndUp">
-            <v-icon left>mdi-puzzle-edit-outline</v-icon>
+            <v-icon start>mdi-puzzle-edit-outline</v-icon>
             {{ $tc('views.activity.category.changeLayout') }}
           </template>
           <template v-else>{{ $tc('views.activity.category.layout') }}</template>
         </v-btn>
-        <v-btn v-else color="success" outlined @click="layoutMode = false">
+        <v-btn v-else color="success" variant="outlined" @click="layoutMode = false">
           <template v-if="$vuetify.display.smAndUp">
-            <v-icon left>mdi-file-document-arrow-right-outline</v-icon>
+            <v-icon start>mdi-file-document-arrow-right-outline</v-icon>
             {{ $tc('views.activity.category.editContents') }}
           </template>
           <template v-else>{{ $tc('views.activity.category.contents') }}</template>
@@ -32,7 +37,7 @@
 
         <div
           v-if="!loading && category().rootContentNode().children().items.length === 0"
-          class="text-center blue lighten-4 blue--text py-4 px-2 text--darken-4 create-layout-help"
+          class="text-center bg-blue-lighten-4 text-blue-darken-4 py-4 px-2 create-layout-help"
         >
           <i18n path="views.activity.category.createLayoutHelp">
             <template #categoryShort>{{ category().short }}</template>

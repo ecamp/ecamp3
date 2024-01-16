@@ -5,10 +5,10 @@
         <v-icon v-if="icon">{{ icon }}</v-icon>
       </v-list-item-icon>
     </slot>
-    <v-list-item-content>
-      <v-list-item-title>{{ title }}</v-list-item-title>
-      <v-list-item-subtitle v-if="subtitle">{{ subtitle }}</v-list-item-subtitle>
-    </v-list-item-content>
+
+    <v-list-item-title>{{ title }}</v-list-item-title>
+    <v-list-item-subtitle v-if="subtitle">{{ subtitle }}</v-list-item-subtitle>
+
     <v-list-item-icon v-if="!hideChevron">
       <v-icon style="opacity: 0.6">mdi-chevron-right</v-icon>
     </v-list-item-icon>

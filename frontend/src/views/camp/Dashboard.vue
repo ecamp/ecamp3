@@ -77,7 +77,7 @@
               (filter.progressLabel && filter.progressLabel.length > 0)
             "
             label
-            outlined
+            variant="outlined"
             @click="
               filter = {
                 period: null,
@@ -87,7 +87,7 @@
               }
             "
           >
-            <v-icon left>mdi-close</v-icon>
+            <v-icon start>mdi-close</v-icon>
             {{ $tc('views.camp.dashboard.clearFilters') }}
           </v-chip>
         </template>

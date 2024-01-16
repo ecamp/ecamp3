@@ -1,11 +1,10 @@
 <template>
   <v-list>
     <v-list-item :to="materialListRoute(camp(), '/all', { isDetail: true })" exact-path>
-      <v-list-item-content>
-        {{ $tc('components.material.materialLists.overview') }}
-      </v-list-item-content>
+      {{ $tc('components.material.materialLists.overview') }}
+
       <v-list-item-icon>
-        <v-icon color="blue-grey lighten-3">mdi-chevron-right</v-icon>
+        <v-icon color="blue-grey-lighten-3">mdi-chevron-right</v-icon>
       </v-list-item-icon>
     </v-list-item>
     <v-skeleton-loader v-if="materialLists._meta.loading" type="list-item@3" />
@@ -15,22 +14,21 @@
       :to="materialListRoute(camp(), materialList, { isDetail: true })"
       exact-path
     >
-      <v-list-item-content>
-        <v-list-item-title>{{ materialList.name }}</v-list-item-title>
-        <v-list-item-subtitle
-          >{{
-            $tc(
-              'components.material.materialLists.materialsCount',
-              materialList.itemCount,
-              {
-                count: materialList.itemCount,
-              }
-            )
-          }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
+      <v-list-item-title>{{ materialList.name }}</v-list-item-title>
+      <v-list-item-subtitle
+        >{{
+          $tc(
+            'components.material.materialLists.materialsCount',
+            materialList.itemCount,
+            {
+              count: materialList.itemCount,
+            }
+          )
+        }}
+      </v-list-item-subtitle>
+
       <v-list-item-icon>
-        <v-icon color="blue-grey lighten-3">mdi-chevron-right</v-icon>
+        <v-icon color="blue-grey-lighten-3">mdi-chevron-right</v-icon>
       </v-list-item-icon>
     </v-list-item>
   </v-list>

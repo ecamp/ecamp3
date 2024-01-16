@@ -1,17 +1,17 @@
 <template>
   <v-navigation-drawer
-    :value="value"
+    :model-value="value"
     app
-    right
+    location="right"
     width="300"
-    @input="$emit('input', $event)"
+    @update:model-value="$emit('input', $event)"
   >
     <div class="d-flex flex-column fill-height">
-      <div class="d-flex flex-column align-center blue-grey darken-4 white--text py-6">
-        <v-icon x-large>$ecamp</v-icon>
-        <h2 class="title text-center">eCamp</h2>
+      <div class="d-flex flex-column align-center bg-blue-grey-darken-4 text-white py-6">
+        <v-icon size="x-large">$ecamp</v-icon>
+        <h2 class="text-h6 text-center">eCamp</h2>
       </div>
-      <v-divider class="blue-grey darken-2" />
+      <v-divider class="bg-blue-grey-darken-2" />
       <v-list>
         <SidebarListItem
           v-if="user && !user._meta.loading"
@@ -79,16 +79,16 @@
       </v-list>
       <div class="mt-auto">
         <v-btn
-          x-large
+          size="x-large"
           height="56"
-          text
+          variant="text"
           tile
           block
           class="ec-close-drawer pb-safe"
           @click="$emit('input', false)"
         >
           {{ $tc('views.camp.navigation.mobile.navSidebar.itemClose') }}
-          <v-icon right>mdi-close</v-icon>
+          <v-icon end>mdi-close</v-icon>
         </v-btn>
       </div>
     </div>

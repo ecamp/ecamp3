@@ -16,9 +16,9 @@
       />
       <div class="e-pages-config__inner" v-bind="$attrs" v-on="$listeners">
         <div class="e-pages-config__scroller">
-          <v-icon v-if="template" x-large class="ma-auto">mdi-plus</v-icon>
+          <v-icon v-if="template" size="x-large" class="ma-auto">mdi-plus</v-icon>
           <h3
-            class="e-pages-config__title title py-4 white sticky"
+            class="e-pages-config__text-h6 text-h6 py-4 bg-white sticky"
             :class="{ handle: !template }"
           >
             <TextAlignBaseline v-if="!template"

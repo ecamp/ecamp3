@@ -4,7 +4,7 @@
       <v-icon size="64"> $ecamp </v-icon>
     </div>
 
-    <h1 class="display-1 text-center" :class="{ 'my-4': isProdSuffix }">
+    <h1 class="text-h4 text-center" :class="{ 'my-4': isProdSuffix }">
       {{ $tc('global.button.login') }}
     </h1>
 
@@ -12,8 +12,8 @@
       v-if="!isProdSuffix"
       class="mt-2 text-justify"
       text
-      dense
-      border="left"
+      density="compact"
+      border="start"
       style="hypens: auto"
       color="warning"
     >
@@ -23,7 +23,7 @@
         </i18n>
       </div>
     </v-alert>
-    <v-alert v-if="error" outlined text border="left" type="error">
+    <v-alert v-if="error" variant="outlined" text border="start" type="error">
       {{ error }}
     </v-alert>
     <v-form @submit.prevent="login">
@@ -66,8 +66,8 @@
         :color="email && password ? 'blue darken-2' : 'blue lighten-4'"
         block
         :disabled="!(email && password) || authenticationInProgress"
-        outlined
-        :x-large="$vuetify.display.smAndUp"
+        variant="outlined"
+        :size="$vuetify.display.smAndUp && 'x-large'"
         class="my-4"
       >
         <v-progress-circular v-if="authenticationInProgress" indeterminate size="24" />
@@ -83,48 +83,48 @@
       <v-btn
         dark
         color="#91697f"
-        :x-large="$vuetify.display.smAndUp"
-        text
+        :size="$vuetify.display.smAndUp && 'x-large'"
+        variant="text"
         @click="loginPbsMiData"
       >
         <v-icon class="my-1" color="#521d3a">$pbs</v-icon>
-        <span class="text--secondary body-2 font-weight-medium">{{
+        <span class="text--secondary text-body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.midata')
         }}</span>
       </v-btn>
       <v-btn
         dark
         color="green"
-        :x-large="$vuetify.display.smAndUp"
-        text
+        :size="$vuetify.display.smAndUp && 'x-large'"
+        variant="text"
         @click="loginCeviDB"
       >
         <v-icon class="my-1">$cevi</v-icon>
-        <span class="text--secondary body-2 font-weight-medium">{{
+        <span class="text--secondary text-body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.cevidb')
         }}</span>
       </v-btn>
       <v-btn
         dark
         color="blue"
-        :x-large="$vuetify.display.smAndUp"
-        text
+        :size="$vuetify.display.smAndUp && 'x-large'"
+        variant="text"
         @click="loginJublaDB"
       >
         <v-icon size="32">$jubla</v-icon>
-        <span class="text--secondary body-2 font-weight-medium">{{
+        <span class="text--secondary text-body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.jubladb')
         }}</span>
       </v-btn>
       <v-btn
         dark
-        color="blue-grey lighten-3"
-        :x-large="$vuetify.display.smAndUp"
-        text
+        color="blue-grey-lighten-3"
+        :size="$vuetify.display.smAndUp && 'x-large'"
+        variant="text"
         @click="loginGoogle"
       >
         <v-icon class="my-1">$google</v-icon>
-        <span class="text--secondary body-2 font-weight-medium">{{
+        <span class="text--secondary text-body-2 font-weight-medium">{{
           $tc('views.auth.login.provider.google')
         }}</span>
       </v-btn>

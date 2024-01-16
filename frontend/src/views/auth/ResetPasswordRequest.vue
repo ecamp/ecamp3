@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center mb-4">
+    <h1 class="text-h4 text-center mb-4">
       {{ $tc('views.auth.resetPasswordRequest.title') }}
     </h1>
 
@@ -32,8 +32,8 @@
         block
         :color="email ? 'blue darken-2' : 'blue lightne-4'"
         :disabled="!email"
-        outlined
-        :x-large="$vuetify.display.smAndUp"
+        variant="outlined"
+        :size="$vuetify.display.smAndUp && 'x-large'"
         class="my-4"
       >
         <v-progress-circular v-if="status == 'sending'" indeterminate size="24" />

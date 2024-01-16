@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
+    <h1 class="text-h4 text-center">{{ $tc('views.auth.register.title') }}</h1>
     <!--    <validation-observer v-slot="{ handleSubmit }">-->
     <v-form @submit.prevent="handleSubmit(register)">
       <e-text-field
@@ -51,7 +51,7 @@
       >
         <template #progress>
           <v-progress-linear
-            :value="passwordStrength"
+            :model-value="passwordStrength"
             :color="passwordStrengthColor"
             absolute
             height="5"
@@ -94,7 +94,7 @@
         </template>
         <template #append>
           <v-btn
-            text
+            variant="text"
             dense
             min-width="0"
             :title="$tc('global.button.open')"
@@ -103,7 +103,7 @@
             :href="termsOfServiceLink"
             tabindex="-1"
           >
-            <v-icon small>mdi-open-in-new</v-icon>
+            <v-icon size="small">mdi-open-in-new</v-icon>
           </v-btn>
         </template>
       </e-checkbox>
@@ -115,7 +115,7 @@
         </small>
       </p>
 
-      <v-btn type="submit" color="primary" block x-large>
+      <v-btn type="submit" color="primary" block size="x-large">
         <v-progress-circular v-if="registering" indeterminate size="24" />
         <v-spacer />
         <span>{{ $tc('views.auth.register.register') }}</span>

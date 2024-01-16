@@ -5,7 +5,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 <template>
   <content-group>
     <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
+      <div class="ec-content-group__title py-1 text-subtitle-1">
         {{
           $tc('components.campAdmin.campPeriods.title', api.get().camps().items.length)
         }}

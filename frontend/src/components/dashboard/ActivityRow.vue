@@ -49,7 +49,7 @@
     <td v-if="!scheduleEntry._meta.loading" class="w-100 contentrow">
       <router-link
         :to="routerLink"
-        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium"
+        class="text-decoration-none text-decoration-hover-underline text-black font-weight-medium"
       >
         {{ title }}
       </router-link>

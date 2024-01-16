@@ -51,13 +51,13 @@
 
       <template #drawer>
         <v-expansion-panels v-if="isDev" flat class="e-print-configurator__cnf">
-          <v-expansion-panel class="transparent rounded-0">
-            <v-expansion-panel-header class="subtitle py-2"
+          <v-expansion-panel class="bg-transparent rounded-0">
+            <v-expansion-panel-title class="subtitle py-2"
               >View Print-Config
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <pre style="font-size: 12px">{{ cnf }}</pre>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </template>

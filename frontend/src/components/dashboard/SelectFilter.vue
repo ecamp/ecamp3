@@ -1,27 +1,33 @@
 <template>
   <v-menu offset-y :close-on-content-click="!multiple">
     <template #activator="{ on, attrs }">
-      <v-chip label outlined :color="active ? 'primary' : null" v-bind="attrs" v-on="on">
+      <v-chip
+        label
+        variant="outlined"
+        :color="active ? 'primary' : null"
+        v-bind="attrs"
+        v-on="on"
+      >
         <span class="d-none d-sm-inline">{{
           labelValue ? `${label}: ${labelValue}` : label
         }}</span>
         <span class="d-sm-none">{{ labelValue || label }}</span>
-        <v-icon right>mdi-chevron-down</v-icon>
+        <v-icon end>mdi-chevron-down</v-icon>
       </v-chip>
     </template>
-    <v-list dense>
-      <v-list-item dense color="primary" @click.prevent="clear()">
-        <v-list-item-title class="d-flex align-center grey--text text--darken-1">
+    <v-list density="compact">
+      <v-list-item density="compact" color="primary" @click.prevent="clear()">
+        <v-list-item-title class="d-flex align-center text-grey-darken-1">
           <span class="flex-grow-1">{{
             $tc('components.dashboard.selectFilter.clear')
           }}</span>
-          <v-icon right class="d-flex grey--text">mdi-close</v-icon>
+          <v-icon end class="d-flex text-grey">mdi-close</v-icon>
         </v-list-item-title>
       </v-list-item>
       <v-list-item
         v-for="(item, self) in processedItems"
         :key="self"
-        dense
+        density="compact"
         :input-value="item.selected"
         color="primary"
         @click.prevent="toggle(item.value, item.exclusiveNone)"

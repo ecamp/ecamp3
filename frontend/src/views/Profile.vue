@@ -54,7 +54,7 @@
             fieldname="language"
             :items="availableLocales"
           />
-          <p class="text-caption blue-grey--text mb-0">
+          <p class="text-caption text-blue-grey mb-0">
             {{ $tc('global.lokaliseMessage') }}
           </p>
           <v-btn
@@ -62,7 +62,7 @@
             class="mt-2"
             color="red"
             block
-            large
+            size="large"
             dark
             @click="$auth.logout()"
           >

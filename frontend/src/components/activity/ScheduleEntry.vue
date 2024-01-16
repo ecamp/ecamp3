@@ -32,7 +32,7 @@ Displays a single scheduleEntry
             >
               <template #after>
                 <v-icon
-                  right
+                  end
                   class="ml-0 e-category-chip-save-icon"
                   :class="{ 'mdi-spin': categoryChangeState === 'saving' }"
                 >
@@ -83,20 +83,20 @@ Displays a single scheduleEntry
         v-if="layoutMode"
         color="success"
         class="ml-3"
-        outlined
+        variant="outlined"
         @click="layoutMode = false"
       >
         <template v-if="$vuetify.display.smAndUp">
-          <v-icon left>mdi-file-document-edit-outline</v-icon>
+          <v-icon start>mdi-file-document-edit-outline</v-icon>
           {{ $tc('components.activity.scheduleEntry.backToContents') }}
         </template>
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <v-tooltip bottom>
+      <v-tooltip location="bottom">
         <template #activator="{ on }">
           <v-btn
-            text
+            variant="text"
             icon
             class="d-none d-md-block"
             :aria-label="

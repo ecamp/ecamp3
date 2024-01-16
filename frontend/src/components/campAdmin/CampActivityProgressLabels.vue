@@ -1,7 +1,7 @@
 <template>
   <content-group>
     <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
+      <div class="ec-content-group__title py-1 text-subtitle-1">
         {{ $tc('components.campAdmin.campActivityProgressLabels.title') }}
         <dialog-activity-progress-label-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
@@ -26,13 +26,12 @@
         class="px-0"
       >
         <v-list-item-avatar>
-          <v-avatar color="grey lighten-2" size="32">{{ idx + 1 }}</v-avatar>
+          <v-avatar color="grey-lighten-2" size="32">{{ idx + 1 }}</v-avatar>
         </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ progressLabel.title }}
-          </v-list-item-title>
-        </v-list-item-content>
+
+        <v-list-item-title>
+          {{ progressLabel.title }}
+        </v-list-item-title>
 
         <v-list-item-action v-if="!disabled" style="display: inline">
           <v-item-group>

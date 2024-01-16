@@ -20,7 +20,7 @@
       <CopyActivityInfoDialog @closed="refreshCopyActivitySource">
         <template #activator="{ on }">
           <v-btn v-show="clipboardPermission === 'prompt'" v-on="on">
-            <v-icon left>mdi-information-outline</v-icon>
+            <v-icon start>mdi-information-outline</v-icon>
             {{ $tc('components.program.dialogActivityCreate.copyPastActivity') }}
           </v-btn>
         </template>
@@ -44,24 +44,20 @@
           </div>
         </div>
         <v-list-item
-          class="ec-copy-source rounded-xl blue-grey lighten-5 blue-grey--text text--darken-4 mt-1"
+          class="ec-copy-source rounded-xl bg-blue-grey-lighten-5 text-blue-grey-darken-4 mt-1"
         >
           <v-list-item-avatar>
             <v-icon color="blue-grey">mdi-clipboard-check-outline</v-icon>
           </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>
-              <CategoryChip
-                :category="copyActivitySource.category()"
-                class="mx-1"
-                dense
-              />
-              {{ copyActivitySource.title }}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{ copyActivitySource.camp().title }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
+
+          <v-list-item-title>
+            <CategoryChip :category="copyActivitySource.category()" class="mx-1" dense />
+            {{ copyActivitySource.title }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{ copyActivitySource.camp().title }}
+          </v-list-item-subtitle>
+
           <v-list-item-action>
             <e-checkbox
               v-model="copyContent"
@@ -81,7 +77,7 @@
           <template #activator="scope">
             <v-btn
               :title="$tc('components.program.dialogActivityCreate.pasteActivity')"
-              text
+              variant="text"
               class="v-btn--has-bg"
               height="56"
               v-on="scope.on"

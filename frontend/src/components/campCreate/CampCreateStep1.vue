@@ -29,7 +29,7 @@
         <v-spacer />
         <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
         <ButtonContinue v-if="valid" @click="$emit('next-step')" />
-        <v-tooltip v-else top>
+        <v-tooltip v-else location="top">
           <template #activator="{ attrs, on }">
             <v-btn
               elevation="0"

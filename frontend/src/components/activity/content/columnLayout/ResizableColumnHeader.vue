@@ -3,7 +3,7 @@
     <slot>
       <v-btn
         icon
-        text
+        variant="text"
         color="primary"
         class="resize-btn"
         :class="{ dragging }"

@@ -17,7 +17,7 @@
           height="48"
         />
         <template v-else-if="variant === 'default' && invitationFound !== false">
-          <span class="subtitle-2 font-weight-bold">{{
+          <span class="text-subtitle-2 font-weight-bold">{{
             $tc('views.camp.invitation.title')
           }}</span>
           <span v-if="!invite?._meta.loading">{{ invite?.campTitle }}</span>
@@ -37,7 +37,7 @@
         <div v-if="authUser">
           <v-alert
             v-if="invite?.userAlreadyInCamp"
-            border="left"
+            border="start"
             colored-border
             color="primary"
             class="mb-1"
@@ -46,13 +46,13 @@
           >
             {{ $tc('views.camp.invitation.userAlreadyInCamp') }}
             <div class="mt-2 d-flex flex-wrap gap-2">
-              <v-btn small color="primary" :to="campLink" elevation="0">
+              <v-btn size="small" color="primary" :to="campLink" elevation="0">
                 {{ $tc('views.camp.invitation.openCamp') }}
               </v-btn>
               <v-btn
                 color="primary"
-                text
-                small
+                variant="text"
+                size="small"
                 class="v-btn--has-bg"
                 @click="useAnotherAccount"
               >
@@ -61,29 +61,34 @@
             </div>
           </v-alert>
           <div v-else class="d-grid gap-2 grid-cols-fill">
-            <v-btn color="primary" x-large @click="acceptInvitation">
+            <v-btn color="primary" size="x-large" @click="acceptInvitation">
               {{ $tc('views.camp.invitation.acceptCurrentAuth') }}<br />
             </v-btn>
-            <v-btn dark text class="mt-2" @click="useAnotherAccount">
+            <v-btn dark variant="text" class="mt-2" @click="useAnotherAccount">
               {{ $tc('views.camp.invitation.useOtherAuth') }}
             </v-btn>
           </div>
         </div>
         <div v-else class="d-grid gap-2 grid-cols-2">
-          <v-btn color="primary" x-large :to="loginLink">
+          <v-btn color="primary" size="x-large" :to="loginLink">
             {{ $tc('global.button.login') }}
           </v-btn>
-          <v-btn color="secondary" x-large :to="{ name: 'register' }">
+          <v-btn color="secondary" size="x-large" :to="{ name: 'register' }">
             {{ $tc('views.camp.invitation.register') }}
           </v-btn>
         </div>
-        <v-btn dark text :small="invite?.userAlreadyInCamp" @click="rejectInvitation">
+        <v-btn
+          dark
+          variant="text"
+          :size="invite?.userAlreadyInCamp && 'small'"
+          @click="rejectInvitation"
+        >
           {{ $tc('views.camp.invitation.reject') }}
         </v-btn>
       </div>
       <div class="justify-center d-flex col gap-2">
-        <v-btn v-if="authUser" text dark :to="{ name: 'home' }">
-          <v-icon left>mdi-tent</v-icon>
+        <v-btn v-if="authUser" variant="text" dark :to="{ name: 'home' }">
+          <v-icon start>mdi-tent</v-icon>
           {{ $tc('views.camp.invitation.backToHome') }}
         </v-btn>
       </div>

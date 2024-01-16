@@ -13,18 +13,15 @@
           v-for="camp in upcomingCamps"
           v-else
           :key="camp._meta.self"
-          two-line
+          lines="two"
           :to="campRoute(camp)"
         >
-          <v-list-item-content>
-            <v-list-item-title>{{ camp.title }}</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ camp.name }} - {{ camp.motto }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
+          <v-list-item-title>{{ camp.title }}</v-list-item-title>
+          <v-list-item-subtitle>
+            {{ camp.name }} - {{ camp.motto }}
+          </v-list-item-subtitle>
         </v-list-item>
         <v-list-item>
-          <v-list-item-content />
           <v-list-item-action>
             <button-add icon="mdi-plus" :to="{ name: 'camps/create' }">
               {{ $tc('views.camps.create') }}
@@ -38,55 +35,51 @@
         "
         multiple
         flat
-        accordion
+        variant="accordion"
       >
         <v-expansion-panel v-if="isAdmin() && prototypeCamps.length > 0">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <h3>
               {{ $tc('views.camps.prototypeCamps') }}
             </h3>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <v-list class="py-0">
               <v-list-item
                 v-for="camp in prototypeCamps"
                 :key="camp._meta.self"
-                two-line
+                lines="two"
                 :to="campRoute(camp)"
               >
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+                <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ camp.name }} - {{ camp.motto }}
+                </v-list-item-subtitle>
               </v-list-item>
             </v-list>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
         <v-expansion-panel v-if="!loading && pastCamps.length > 0">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <h3>
               {{ $tc('views.camps.pastCamps') }}
             </h3>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <v-list class="py-0">
               <v-list-item
                 v-for="camp in pastCamps"
                 :key="camp._meta.self"
-                two-line
+                lines="two"
                 :to="campRoute(camp)"
               >
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+                <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ camp.name }} - {{ camp.motto }}
+                </v-list-item-subtitle>
               </v-list-item>
             </v-list>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </content-card>

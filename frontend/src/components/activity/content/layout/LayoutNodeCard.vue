@@ -9,7 +9,7 @@
   >
     <div
       v-if="!isRoot && layoutMode"
-      class="text-center d-flex align-center px-2 py-1 justify-space-between gap-1 ec-layout-nodecard-header blue--text text--darken-2"
+      class="text-center d-flex align-center px-2 py-1 justify-space-between gap-1 ec-layout-nodecard-header text-blue-darken-2"
     >
       <slot name="header" />
     </div>

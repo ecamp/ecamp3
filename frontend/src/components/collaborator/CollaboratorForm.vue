@@ -11,7 +11,7 @@
         <slot name="statusChange" />
       </template>
     </e-text-field>
-    <v-tooltip v-if="readonlyRole" eager bottom>
+    <v-tooltip v-if="readonlyRole" eager location="bottom">
       <span id="readonly">
         {{ $tc('components.collaborator.collaboratorForm.roleHint') }}
       </span>
@@ -34,8 +34,8 @@
             <template #selection="{ item }">
               <span
                 >{{ item.role }} &middot;
-                <span class="grey--text"
-                  ><v-icon v-for="icon in item.icons" :key="icon" x-small>{{
+                <span class="text-grey"
+                  ><v-icon v-for="icon in item.icons" :key="icon" size="x-small">{{
                     icon
                   }}</v-icon
                   >&thinsp; ></span
@@ -59,14 +59,15 @@
       vee-rules="required"
     >
       <template #item="{ item, on, attrs }">
-        <v-list-item v-bind="attrs" two-line v-on="on">
-          <v-list-item-content>
-            <v-list-item-title>{{ item.role }}</v-list-item-title>
-            <span class="caption">{{ item.abilities }}</span>
-          </v-list-item-content>
+        <v-list-item v-bind="attrs" lines="two" v-on="on">
+          <v-list-item-title>{{ item.role }}</v-list-item-title>
+          <span class="text-caption">{{ item.abilities }}</span>
+
           <v-list-item-action-text class="text-right">
             <span
-              ><v-icon v-for="icon in item.icons" :key="icon" small>{{ icon }}</v-icon
+              ><v-icon v-for="icon in item.icons" :key="icon" size="small">{{
+                icon
+              }}</v-icon
               >&thinsp;</span
             >
           </v-list-item-action-text>
@@ -75,8 +76,10 @@
       <template #selection="{ item }">
         <span
           >{{ item.role }} &middot;
-          <span class="grey--text"
-            ><v-icon v-for="icon in item.icons" :key="icon" x-small>{{ icon }}</v-icon
+          <span class="text-grey"
+            ><v-icon v-for="icon in item.icons" :key="icon" size="x-small">{{
+              icon
+            }}</v-icon
             >&thinsp;</span
           >
         </span>

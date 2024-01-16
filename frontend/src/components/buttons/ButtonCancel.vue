@@ -1,5 +1,5 @@
 <template>
-  <v-btn text color="secondary" v-bind="$attrs" v-on="$listeners">
+  <v-btn variant="text" color="secondary" v-bind="$attrs" v-on="$listeners">
     {{ $tc('global.button.cancel') }}
   </v-btn>
 </template>

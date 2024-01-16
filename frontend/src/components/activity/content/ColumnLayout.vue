@@ -8,7 +8,7 @@
   >
     <template #header>
       <strong>
-        <v-icon color="blue darken-2">$columnLayout</v-icon>
+        <v-icon color="blue-darken-2">$columnLayout</v-icon>
         {{ $tc('contentNode.columnLayout.name') }}
       </strong>
       <MenuCardlessContentNode :content-node="contentNode">

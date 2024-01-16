@@ -13,13 +13,13 @@
       <ShootingStar class="shootingstar" />
       <TentNight class="tent" />
       <div class="relative">
-        <p class="white--text text-center px-3 d-flex justify-center mb-n8 relative">
+        <p class="text-white text-center px-3 d-flex justify-center mb-n8 relative">
           <i18n path="views.pageNotFound.detail">
             <template #br><br /></template>
           </i18n>
           <br />
-          <v-btn text dark :to="{ name: 'home' }" class="absolute bottom-n100">
-            <v-icon left>mdi-tent</v-icon>
+          <v-btn variant="text" dark :to="{ name: 'home' }" class="absolute bottom-n100">
+            <v-icon start>mdi-tent</v-icon>
             {{ $tc('views.pageNotFound.backToHome') }}
           </v-btn>
         </p>

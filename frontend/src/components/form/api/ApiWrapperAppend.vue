@@ -9,13 +9,13 @@
 
     <!-- Retry/Cancel button if saving failed -->
     <template v-if="wrapper.hasServerError">
-      <v-tooltip bottom class="ml-auto">
+      <v-tooltip location="bottom" class="ml-auto">
         <template #activator="{ on }">
           <v-btn
             fab
             dark
-            depressed
-            x-small
+            variant="flat"
+            size="x-small"
             color="error"
             type="submit"
             class="mr-1"
@@ -28,13 +28,13 @@
         </template>
         <span>{{ $tc('global.button.tryagain') }}</span>
       </v-tooltip>
-      <v-tooltip bottom class="ml-auto">
+      <v-tooltip location="bottom" class="ml-auto">
         <template #activator="{ on }">
           <v-btn
             fab
             dark
-            depressed
-            x-small
+            variant="flat"
+            size="x-small"
             color="grey"
             :aria-label="$tc('global.button.cancel')"
             v-on="on"
@@ -48,13 +48,13 @@
     </template>
 
     <template v-else-if="!wrapper.autoSave">
-      <v-tooltip v-if="wrapper.dirty" bottom class="ml-auto">
+      <v-tooltip v-if="wrapper.dirty" location="bottom" class="ml-auto">
         <template #activator="{ on }">
           <v-btn
             fab
             dark
-            depressed
-            x-small
+            variant="flat"
+            size="x-small"
             color="success"
             type="submit"
             class="mr-1"
@@ -66,13 +66,13 @@
         </template>
         <span>{{ $tc('global.button.save') }}</span>
       </v-tooltip>
-      <v-tooltip bottom class="ml-auto">
+      <v-tooltip location="bottom" class="ml-auto">
         <template #activator="{ on }">
           <v-btn
             fab
             dark
-            depressed
-            x-small
+            variant="flat"
+            size="x-small"
             color="grey"
             :aria-label="$tc('global.button.cancel')"
             v-on="on"

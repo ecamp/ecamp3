@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1">{{ $tc('views.auth.activate.title') }}</h1>
+    <h1 class="text-h4">{{ $tc('views.auth.activate.title') }}</h1>
 
     <div v-if="loading" class="text-center">
       <v-progress-circular :size="100" indeterminate color="green" />
@@ -15,7 +15,7 @@
         v-if="!loading"
         color="primary"
         :to="{ name: 'login' }"
-        x-large
+        size="x-large"
         class="my-4"
         block
       >

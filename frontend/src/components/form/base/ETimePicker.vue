@@ -28,7 +28,7 @@ Allows 15min steps only
         @input="picker.onInput"
       >
         <v-spacer />
-        <v-btn text color="primary" @click="picker.close">
+        <v-btn variant="text" color="primary" @click="picker.close">
           {{ $tc('global.button.close') }}
         </v-btn>
       </v-time-picker>

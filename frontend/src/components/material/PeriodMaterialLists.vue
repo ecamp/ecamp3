@@ -1,11 +1,11 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-header>
-      <h3 class="grey--text text--darken-1">
+    <v-expansion-panel-title>
+      <h3 class="text-grey-darken-1">
         {{ period.description }}
       </h3>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
       <material-table
         :camp="camp"
         :material-item-collection="materialItemCollection"
@@ -13,7 +13,7 @@
         :period="period"
         :disabled="disabled"
       />
-    </v-expansion-panel-content>
+    </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 

@@ -31,7 +31,7 @@
         v-if="collaborator.status === 'invited'"
         text
         class="v-btn--has-bg"
-        color="blue-grey darken-2"
+        color="blue-grey-darken-2"
         :icon="
           resendingEmail
             ? 'mdi-refresh'
@@ -71,7 +71,7 @@
         <v-tooltip
           v-if="collaborator.status !== 'inactive'"
           :disabled="disabled || !isLastManager"
-          top
+          location="top"
           eager
         >
           <template #activator="{ on, attrs }">

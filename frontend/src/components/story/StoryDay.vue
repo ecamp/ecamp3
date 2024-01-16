@@ -1,9 +1,9 @@
 <template>
   <v-expansion-panel ref="panel">
-    <v-expansion-panel-header>
+    <v-expansion-panel-title>
       <h3>{{ dateLong(day.start) }}</h3>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
       <template v-if="entriesWithStory.length">
         <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
           <div v-for="chapter in storyChapters" :key="chapter._meta.self">
@@ -48,7 +48,7 @@
       <p v-else>
         {{ $tc('components.story.storyDay.noStory') }}
       </p>
-    </v-expansion-panel-content>
+    </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 <script>

@@ -23,10 +23,10 @@
       />
       <div class="e-form-container">
         <v-text-field
-          :value="endString"
+          :model-value="endString"
           :label="$tc('entity.period.fields.end')"
           hide-details
-          filled
+          variant="filled"
           disabled
         >
           <template #prepend><v-icon>mdi-calendar-end</v-icon></template>
@@ -44,10 +44,10 @@
       />
       <div class="e-form-container">
         <v-text-field
-          :value="endString"
+          :model-value="endString"
           :label="$tc('entity.period.fields.end')"
           hide-details
-          filled
+          variant="filled"
           disabled
         >
           <template #prepend>
@@ -60,10 +60,10 @@
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeEnd') }}</p>
       <div class="e-form-container">
         <v-text-field
-          :value="startString"
+          :model-value="startString"
           :label="$tc('entity.period.fields.start')"
           hide-details
-          filled
+          variant="filled"
           disabled
         >
           <template #prepend>
@@ -81,10 +81,10 @@
     </div>
     <div class="e-form-container">
       <v-text-field
-        :value="periodDurationInDays"
+        :model-value="periodDurationInDays"
         :label="$tc('components.campAdmin.dialogPeriodDateEdit.periodDuration')"
         hide-details
-        filled
+        variant="filled"
         disabled
       >
         <template #prepend><v-icon>mdi-calendar-expand-horizontal</v-icon></template>

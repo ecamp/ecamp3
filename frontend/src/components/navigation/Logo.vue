@@ -1,6 +1,13 @@
 <template>
   <v-toolbar-items>
-    <v-btn text class="px-2 e-logo" min-width="0" rounded exact :to="{ name: 'home' }">
+    <v-btn
+      variant="text"
+      class="px-2 e-logo"
+      min-width="0"
+      rounded
+      exact
+      :to="{ name: 'home' }"
+    >
       <v-toolbar-title>
         <v-icon>$ecamp</v-icon><span v-show="text" class="mx-2 e-logo-text">eCamp</span>
       </v-toolbar-title>

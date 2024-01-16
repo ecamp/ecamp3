@@ -1,32 +1,32 @@
 <template>
-  <v-list-item class="px-2 rounded e-collaborator-item" two-line v-on="$listeners">
+  <v-list-item class="px-2 rounded e-collaborator-item" lines="two" v-on="$listeners">
     <v-list-item-action>
       <user-avatar size="40" :camp-collaboration="collaborator" omit-sr />
     </v-list-item-action>
-    <v-list-item-content>
-      <v-list-item-title>
-        {{ name }}
-      </v-list-item-title>
-      <v-list-item-subtitle>
-        <v-tooltip right>
-          <template #activator="{ on }">
-            <button v-on="on">
-              {{ $tc(roles[collaborator.role].roleTranslation)
-              }}<span>
-                &middot;<v-icon
-                  v-for="icon in roles[collaborator.role].icons"
-                  :key="icon"
-                  x-small
-                  class="vertical-baseline"
-                  >{{ icon }}</v-icon
-                >&thinsp;</span
-              >
-            </button>
-          </template>
-          {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
-        </v-tooltip>
-      </v-list-item-subtitle>
-    </v-list-item-content>
+
+    <v-list-item-title>
+      {{ name }}
+    </v-list-item-title>
+    <v-list-item-subtitle>
+      <v-tooltip location="right">
+        <template #activator="{ on }">
+          <button v-on="on">
+            {{ $tc(roles[collaborator.role].roleTranslation)
+            }}<span>
+              &middot;<v-icon
+                v-for="icon in roles[collaborator.role].icons"
+                :key="icon"
+                size="x-small"
+                class="vertical-baseline"
+                >{{ icon }}</v-icon
+              >&thinsp;</span
+            >
+          </button>
+        </template>
+        {{ $tc(roles[collaborator.role].abilitiesTranslation) }}
+      </v-tooltip>
+    </v-list-item-subtitle>
+
     <v-list-item-action class="e-collaborator-item__actions ml-2">
       <button-edit
         v-if="editable"

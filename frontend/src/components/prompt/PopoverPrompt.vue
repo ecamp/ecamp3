@@ -4,10 +4,10 @@
     :content-class="contentClass"
     offset-y
     :close-on-content-click="false"
-    :close-on-click="true"
+    :persistent="!true"
     allow-overflow
     v-bind="{ ...$attrs, ...positions }"
-    @input="onInput"
+    @update:model-value="onInput"
   >
     <template #activator="{ attrs, on }">
       <slot name="activator" v-bind="{ attrs, on }" />
@@ -28,14 +28,20 @@
       }"
     >
       <slot />
-      <v-alert v-if="$slots.error" text outlined :color="color" icon="mdi-alert">
+      <v-alert
+        v-if="$slots.error"
+        text
+        variant="outlined"
+        :color="color"
+        icon="mdi-alert"
+      >
         <slot name="error" />
       </v-alert>
       <div class="ec-prompt-buttons mt-2">
         <v-btn
           v-if="cancelVisible && cancelAction != null"
           :color="cancelColor"
-          text
+          variant="text"
           :disabled="!cancelEnabled"
           class="v-btn--has-bg"
           @click="doCancel"
@@ -49,7 +55,7 @@
           :loading="isSaving"
           @click="doSubmit"
         >
-          <v-icon v-if="!!submitIcon" left>
+          <v-icon v-if="!!submitIcon" start>
             {{ submitIcon }}
           </v-icon>
           {{ submitLabel }}

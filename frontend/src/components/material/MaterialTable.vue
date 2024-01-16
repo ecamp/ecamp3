@@ -8,7 +8,7 @@
     :disable-sort="layoutMode"
     mobile-breakpoint="0"
     item-class="rowClass"
-    class="transparent"
+    class="bg-transparent"
     :class="{
       'ec-material-table--dense': !isDefaultVariant,
       'ec-material-table--default': isDefaultVariant,
@@ -123,9 +123,9 @@
         />
 
         <div v-if="item.serverError" class="d-flex gap-2 align-center">
-          <v-tooltip top color="red darken-2">
+          <v-tooltip location="top" color="red-darken-2">
             <template #activator="{ on, attrs }">
-              <span v-bind="attrs" class="red--text text--darken-2" v-on="on">{{
+              <span v-bind="attrs" class="text-red-darken-2" v-on="on">{{
                 $tc('global.serverError.short')
               }}</span>
             </template>
@@ -157,7 +157,7 @@
               : $tc('components.material.materialTable.reference')
           }}
         </span>
-        <v-icon aria-hidden="true" small :color="periodOnly ? 'primary' : null">
+        <v-icon aria-hidden="true" size="small" :color="periodOnly ? 'primary' : null">
           {{ periodOnly ? 'mdi-filter' : 'mdi-filter-outline' }}
         </v-icon>
       </button>

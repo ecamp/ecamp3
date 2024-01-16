@@ -10,7 +10,7 @@
     </v-btn>
     <v-btn :to="campRoute(camp(), 'dashboard')">
       <span>{{ camp().name }}</span>
-      <v-icon large>mdi-tent</v-icon>
+      <v-icon size="large">mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="materialListRoute(camp(), '/lists')">
       <span>{{ $tc('views.camp.navigation.mobile.navBottombar.material') }}</span>

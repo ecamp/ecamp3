@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center mb-4">
+    <h1 class="text-h4 text-center mb-4">
       {{ $tc('views.auth.resetPassword.title') }}
     </h1>
 
@@ -55,7 +55,7 @@
       >
         <template #progress>
           <v-progress-linear
-            :value="passwordStrength"
+            :model-value="passwordStrength"
             :color="passwordStrengthColor"
             absolute
             height="5"
@@ -82,8 +82,8 @@
         block
         :color="email ? 'blue darken-2' : 'blue lightne-4'"
         :disabled="!email"
-        outlined
-        :x-large="$vuetify.display.smAndUp"
+        variant="outlined"
+        :size="$vuetify.display.smAndUp && 'x-large'"
         class="my-4"
       >
         <v-progress-circular v-if="status == 'reseting'" indeterminate size="24" />

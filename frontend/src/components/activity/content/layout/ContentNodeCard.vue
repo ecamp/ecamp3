@@ -1,7 +1,7 @@
 <template>
   <v-card
     :elevation="draggable ? 4 : 0"
-    :tile="!layoutMode"
+    :rounded="!layoutMode && '0'"
     class="ec-content-nodecard d-flex flex-column"
     :class="{ 'mx-2 my-2 elevation-4--light': draggable }"
   >
@@ -50,7 +50,7 @@
           <template #activator="{ on }">
             <v-btn
               icon
-              small
+              size="small"
               color="error"
               class="float-right"
               width="36"

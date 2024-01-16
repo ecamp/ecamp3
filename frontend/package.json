@@ -7,7 +7,7 @@
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "build": "vite build",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "vue-cli-service lint",
+    "lint:eslint": "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
     "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,md}",
     "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
     "lint:check:eslint": "vue-cli-service lint --no-fix",
@@ -164,7 +164,8 @@
         {
           "shallowOnly": false
         }
-      ]
+      ],
+      "vuetify/no-deprecated-slots": "off"
     },
     "parserOptions": {
       "parser": "@babel/eslint-parser"

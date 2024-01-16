@@ -4,7 +4,7 @@
     v-model="open"
     offset-y
     dark
-    right
+    location="right"
     :content-class="
       ['ec-usermenu', $vuetify.display.xsOnly && 'rounded-lg mt-2'].join(' ')
     "
@@ -15,8 +15,8 @@
     <template #activator="{ on, value, attrs }">
       <v-toolbar-items v-if="!avatarOnly">
         <v-btn
-          right
-          text
+          location="right"
+          variant="text"
           v-bind="attrs"
           :class="[btnClasses, { 'v-btn--open': value }]"
           v-on="on"
@@ -30,7 +30,7 @@
       <v-btn
         v-else
         fab
-        text
+        variant="text"
         v-bind="attrs"
         :class="[btnClasses, { 'v-btn--open': value }]"
         v-on="on"
@@ -41,18 +41,18 @@
         </span>
       </v-btn>
     </template>
-    <v-list dense class="user-nav" tag="ul" light color="blue-grey lighten-5">
+    <v-list density="compact" class="user-nav" tag="ul" light color="blue-grey-lighten-5">
       <v-list-item
         tag="li"
         block
         :to="{ name: 'profile', query: { isDetail: true } }"
         @click="open = false"
       >
-        <v-icon left>mdi-account</v-icon>
+        <v-icon start>mdi-account</v-icon>
         <span>{{ $tc('components.navigation.userMeta.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li" exact :to="{ name: 'camps' }" @click="open = false">
-        <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
+        <v-icon start>mdi-format-list-bulleted-triangle</v-icon>
         <span>{{ $tc('components.navigation.userMeta.myCamps') }}</span>
       </v-list-item>
       <v-list-item block tag="li" @click="logout">
@@ -62,7 +62,7 @@
           size="18"
           class="mr-2"
         />
-        <v-icon v-else left>mdi-logout</v-icon>
+        <v-icon v-else start>mdi-logout</v-icon>
 
         <span>{{ $tc('components.navigation.userMeta.logOut') }}</span>
       </v-list-item>

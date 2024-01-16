@@ -4,24 +4,23 @@ Critical operations on camp
 
 <template>
   <v-expansion-panel active-class="red lighten-5 red--text text--darken-4">
-    <v-expansion-panel-header>
-      <h2 class="subtitle-1 font-weight-bold">
+    <v-expansion-panel-title>
+      <h2 class="text-subtitle-1 font-weight-bold">
         {{ $tc('components.campAdmin.campDangerZone.title') }}
       </h2>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
       <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
       <div v-else>
         <v-list class="py-0" color="transparent">
           <v-list-item class="px-0">
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $tc('components.campAdmin.campDangerZone.deleteCamp.title') }}
-              </v-list-item-title>
-              <div class="body-2 grey--text text--darken-3">
-                {{ $tc('components.campAdmin.campDangerZone.deleteCamp.description') }}
-              </div>
-            </v-list-item-content>
+            <v-list-item-title>
+              {{ $tc('components.campAdmin.campDangerZone.deleteCamp.title') }}
+            </v-list-item-title>
+            <div class="text-body-2 text-grey-darken-3">
+              {{ $tc('components.campAdmin.campDangerZone.deleteCamp.description') }}
+            </div>
+
             <v-list-item-action>
               <dialog-entity-delete
                 :entity="camp()"
@@ -41,7 +40,7 @@ Critical operations on camp
                     {{ $tc('global.button.delete') }}
                   </button-delete>
                 </template>
-                <p class="body-1">
+                <p class="text-body-1">
                   {{
                     $tc('components.campAdmin.campDangerZone.deleteCamp.explanation', 0, {
                       campName: camp().name,
@@ -61,7 +60,7 @@ Critical operations on camp
           </v-list-item>
         </v-list>
       </div>
-    </v-expansion-panel-content>
+    </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 

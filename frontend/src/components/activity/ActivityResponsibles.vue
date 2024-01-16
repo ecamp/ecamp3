@@ -16,7 +16,7 @@
     @input="onInput"
   >
     <template #selection="{ item }">
-      <v-chip :key="item.value" small class="mx-0">
+      <v-chip :key="item.value" size="small" class="mx-0">
         <UserAvatar
           :camp-collaboration="item.campCollaboration"
           left

@@ -10,7 +10,7 @@
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
-          <v-btn class="ml-auto" text icon v-bind="attrs" v-on="on">
+          <v-btn class="ml-auto" variant="text" icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>

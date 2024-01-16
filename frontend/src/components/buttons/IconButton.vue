@@ -6,13 +6,18 @@
     :color="color"
     v-on="$listeners"
   >
-    <v-icon v-if="!iconLast" :left="!hideLabel" size="150%" :class="{ animate: animate }">
+    <v-icon
+      v-if="!iconLast"
+      :start="!hideLabel"
+      size="150%"
+      :class="{ animate: animate }"
+    >
       {{ icon }}
     </v-icon>
     <span :class="{ 'd-sr-only': hideLabel }">
       <slot />
     </span>
-    <v-icon v-if="iconLast" :right="!hideLabel" size="150%" :class="{ animate: animate }">
+    <v-icon v-if="iconLast" :end="!hideLabel" size="150%" :class="{ animate: animate }">
       {{ icon }}
     </v-icon>
   </v-btn>

@@ -9,7 +9,7 @@
       'ec-button-contentnode-add-wrapper--single': single,
     }"
   >
-    <v-menu bottom left offset-y>
+    <v-menu location="bottom left" offset-y>
       <template #activator="{ on, attrs }">
         <v-btn
           class="ec-button-contentnode-add"
@@ -19,7 +19,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon left>mdi-plus-circle-outline</v-icon>
+          <v-icon start>mdi-plus-circle-outline</v-icon>
           {{ $tc('global.button.add') }}
         </v-btn>
       </template>

@@ -15,7 +15,7 @@
     <v-form @submit.prevent="handleSubmit(doSubmit)">
       <v-card rounded="b-0">
         <v-toolbar dense elevation="0" class="ec-dialog-toolbar">
-          <v-icon left>
+          <v-icon start>
             {{ icon }}
           </v-icon>
           <v-toolbar-title>
@@ -39,7 +39,13 @@
 
         <v-card-text class="py-0 error-area">
           <!-- error message via slot -->
-          <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
+          <v-alert
+            v-if="$slots.error"
+            text
+            variant="outlined"
+            color="warning"
+            icon="mdi-alert"
+          >
             <slot name="error" />
           </v-alert>
 
@@ -59,7 +65,7 @@
             <v-btn
               v-if="cancelVisible && cancelAction != null"
               :color="cancelColor"
-              text
+              variant="text"
               :disabled="!cancelEnabled"
               @click="doCancel"
             >
@@ -72,7 +78,7 @@
               :loading="currentlySaving"
               :disabled="!submitEnabled"
             >
-              <v-icon v-if="!!submitIcon" left>
+              <v-icon v-if="!!submitIcon" start>
                 {{ submitIcon }}
               </v-icon>
               {{ submitLabel }}
