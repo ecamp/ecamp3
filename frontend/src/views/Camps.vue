@@ -3,6 +3,9 @@
     <content-card :title="$tc('views.camps.title')" max-width="800" toolbar>
       <template #title-actions>
         <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only btn-classes="mr-n4" />
+        <ButtonAdd v-else icon="mdi-plus" class="mr-n2" :to="{ name: 'camps/create' }">
+          {{ $tc('views.camps.create') }}
+        </ButtonAdd>
       </template>
       <v-list class="py-0">
         <template v-if="loading">
@@ -17,19 +20,21 @@
           :to="campRoute(camp)"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ camp.title }}</v-list-item-title>
+            <v-list-item-title>
+              <strong>{{ camp.name }}</strong>
+            </v-list-item-title>
             <v-list-item-subtitle>
-              {{ camp.name }} - {{ camp.motto }}
+              {{ camp.motto }}
             </v-list-item-subtitle>
           </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content />
-          <v-list-item-action>
-            <button-add icon="mdi-plus" :to="{ name: 'camps/create' }">
-              {{ $tc('views.camps.create') }}
-            </button-add>
-          </v-list-item-action>
+          <v-list-item-content class="text-right">
+            <v-list-item-title>
+              {{ i18nDateRange(camp.periods().items[0].start) }}
+            </v-list-item-title>
+            <v-list-item-subtitle v-if="camp.organizer">
+              {{ camp.organizer }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
       <v-expansion-panels
@@ -100,6 +105,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import { mapGetters } from 'vuex'
 import UserMeta from '@/components/navigation/UserMeta.vue'
+import { dateMedium } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'Camps',
@@ -143,6 +149,9 @@ export default {
   methods: {
     campRoute,
     isAdmin,
+    i18nDateRange(start) {
+      return dateMedium(start, this.$i18n.tc.bind(this.$i18n))
+    },
     async loadCamps() {
       // Only reload camps if they were loaded before, to avoid console error
       if (this.camps._meta.self !== null) {

@@ -449,6 +449,10 @@
       "unlock": "Entsperren",
       "update": "Aktualisieren"
     },
+    "buttons": {
+      "help": "Hilfe",
+      "news": "News"
+    },
     "changeLanguage": "Sprache ändern",
     "collaborationAbilities": {
       "guest": "Nur Leserecht",

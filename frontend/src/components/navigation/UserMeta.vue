@@ -5,8 +5,9 @@
     offset-y
     dark
     right
+    rounded
     :content-class="
-      ['ec-usermenu', $vuetify.breakpoint.xsOnly && 'rounded-lg mt-2'].join(' ')
+      ['ec-usermenu my-4', $vuetify.breakpoint.xsOnly && 'rounded-lg mt-2'].join(' ')
     "
     transition="slide-y-transition"
     :close-on-content-click="false"
@@ -41,7 +42,7 @@
         </span>
       </v-btn>
     </template>
-    <v-list dense class="user-nav" tag="ul" light color="blue-grey lighten-5">
+    <v-list class="user-nav py-0" tag="ul" light>
       <v-list-item
         tag="li"
         block
@@ -55,6 +56,24 @@
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
         <span>{{ $tc('components.navigation.userMeta.myCamps') }}</span>
       </v-list-item>
+      <v-list-item
+        v-if="!$vuetify.breakpoint.lgAndUp"
+        block
+        href="https://www.ecamp3.ch/faq"
+        target="_blank"
+      >
+        <v-icon left>mdi-help-circle</v-icon>
+        <span>{{ $tc('global.buttons.help') }}</span>
+        <v-spacer />
+        <v-icon small right>mdi-open-in-new</v-icon>
+      </v-list-item>
+      <v-list-item block href="https://www.ecamp3.ch/blog" target="_blank">
+        <v-icon left>mdi-script-text-outline</v-icon>
+        <span>{{ $tc('global.buttons.news') }}</span>
+        <v-spacer />
+        <v-icon small right>mdi-open-in-new</v-icon>
+      </v-list-item>
+      <v-divider />
       <v-list-item block tag="li" @click="logout">
         <v-progress-circular
           v-if="logoutInProgress"

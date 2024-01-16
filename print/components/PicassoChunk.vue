@@ -10,11 +10,10 @@
           {{ period.description }}
         </h1>
         <span>{{ camp.organizer }}</span>
-        <img
+        <YSLogo
           v-if="camp.printYSLogoOnPicasso"
           height="35"
           width="35"
-          :src="ysLogoUrl"
           class="tw-self-start tw-ml-2"
         />
       </div>
@@ -96,9 +95,10 @@
 import CategoryLabel from './generic/CategoryLabel.vue'
 import dayjs from '@/../common/helpers/dayjs.js'
 import campCollaborationLegalName from '@/../common/helpers/campCollaborationLegalName.js'
+import YSLogo from '~/components/generic/YSLogo.vue'
 
 export default {
-  components: { CategoryLabel },
+  components: { YSLogo, CategoryLabel },
   props: {
     period: { type: Object, required: true },
     scheduleEntries: { type: Array, required: true },
@@ -110,9 +110,6 @@ export default {
   computed: {
     camp() {
       return this.period.camp()
-    },
-    ysLogoUrl() {
-      return this.$i18n.locale.match(/it/i) ? './gs-logo.svg' : './js-logo.svg'
     },
     address() {
       return this.joinWithoutBlanks(

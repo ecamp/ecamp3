@@ -4,10 +4,13 @@
       v-if="user"
       max-width="800"
       :title="
-        $tc('views.profile.profile') + ': ' + (user._meta.loading ? '' : user.displayName)
+        $tc('views.profile.profile') + (user._meta.loading ? '' : ': ' + user.displayName)
       "
       toolbar
     >
+      <template #title-actions>
+        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only btn-classes="mr-n4" />
+      </template>
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
           <e-text-field
@@ -85,10 +88,12 @@ import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.v
 import VueI18n from '@/plugins/i18n'
 import { mapGetters } from 'vuex'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import UserMeta from '@/components/navigation/UserMeta.vue'
 
 export default {
   name: 'Home',
   components: {
+    UserMeta,
     ButtonEdit,
     ApiSelect,
     ApiTextField,
