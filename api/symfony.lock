@@ -193,16 +193,15 @@
         "version": "1.8.1"
     },
     "hautelook/alice-bundle": {
-        "version": "2.1",
+        "version": "2.13",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.1",
-            "ref": "71822522faf7ed2792d86b7f94ce73443358ccb9"
+            "branch": "main",
+            "version": "2.2",
+            "ref": "c84e4f2b9d7f436d7d52e8369230b393367607ec"
         },
         "files": [
-            "config/packages/dev/hautelook_alice.yaml",
-            "config/packages/test/hautelook_alice.yaml",
+            "config/packages/hautelook_alice.yaml",
             "fixtures/.gitignore"
         ]
     },
