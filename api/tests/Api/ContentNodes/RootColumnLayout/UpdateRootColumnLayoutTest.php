@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\ColumnLayout;
+namespace App\Tests\Api\ContentNodes\RootColumnLayout;
 
 use App\Tests\Api\ContentNodes\UpdateContentNodeTestCase;
 
