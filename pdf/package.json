@@ -34,7 +34,7 @@
     "@babel/eslint-parser": "7.23.3",
     "@rushstack/eslint-patch": "1.7.0",
     "@vitejs/plugin-vue": "5.0.2",
-    "@vitest/coverage-v8": "1.2.0",
+    "@vitest/coverage-v8": "1.2.1",
     "@vue/babel-preset-app": "5.0.8",
     "@vue/compiler-dom": "3.4.14",
     "@vue/compiler-sfc": "3.4.14",
@@ -52,7 +52,7 @@
     "prettier": "3.2.2",
     "url-template": "3.1.1",
     "vite": "5.0.11",
-    "vitest": "1.2.0"
+    "vitest": "1.2.1"
   },
   "eslintConfig": {
     "root": true,
