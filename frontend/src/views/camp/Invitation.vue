@@ -206,6 +206,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use 'src/scss/variables';
+
 .bg {
   height: 100%;
   background-image: radial-gradient(
@@ -243,7 +245,7 @@ export default {
     bottom 58% right -5%;
 }
 
-@media #{map-get($display-breakpoints, 'sm-and-up')} {
+@media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
   .hill {
     background-image: radial-gradient(
         150vmax 75% at bottom,
@@ -262,7 +264,7 @@ export default {
   }
 }
 
-@media #{map-get($display-breakpoints, 'md-and-up')} {
+@media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
   .hill {
     transition: background-position 0.5s ease-in-out;
     background-position:
@@ -272,7 +274,7 @@ export default {
   }
 }
 
-@media #{map-get($display-breakpoints, 'lg-and-up')} {
+@media #{map-get(variables.$display-breakpoints, 'lg-and-up')} {
   .hill {
     background-position:
       bottom center,
@@ -333,7 +335,7 @@ export default {
   order: -1;
 }
 
-@media #{map-get($display-breakpoints, 'xs')} {
+@media #{map-get(variables.$display-breakpoints, 'xs')} {
   .wood {
     font-size: 22px;
   }
@@ -400,7 +402,7 @@ export default {
   right: min(5%, 42px);
 }
 
-@media #{map-get($display-breakpoints, 'xs')} {
+@media #{map-get(variables.$display-breakpoints, 'xs')} {
   .rope,
   .rope::before,
   .rope::after {
@@ -432,17 +434,17 @@ export default {
   background-size:
     auto 40%,
     auto 65%;
-  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
     background-size:
       auto 44%,
       auto 65%;
   }
-  @media #{map-get($display-breakpoints, 'md-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
     background-size:
       auto 49%,
       auto 75%;
   }
-  @media #{map-get($display-breakpoints, 'lg-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'lg-and-up')} {
     background-size:
       auto 100%,
       auto 90%;

@@ -227,6 +227,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use 'src/scss/variables';
+
 div.editor:deep(p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder);
   float: left;
@@ -252,7 +254,7 @@ div.editor:deep(.ec-tiptap-toolbar) {
 .ec-tiptap-toolbar--second,
 .ec-tiptap-toolbar__mobile-divider {
   display: block;
-  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
     display: none;
   }
 }

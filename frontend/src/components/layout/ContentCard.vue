@@ -60,8 +60,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use 'src/scss/variables';
+
 .ec-content-card__toolbar {
-  @media #{map-get($display-breakpoints, 'xs')} {
+  @media #{map-get(variables.$display-breakpoints, 'xs')} {
     position: sticky;
     top: 0;
     z-index: 5;

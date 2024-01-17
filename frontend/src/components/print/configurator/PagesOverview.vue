@@ -23,7 +23,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@media #{map-get($display-breakpoints, 'md-and-up')} {
+@use 'src/scss/variables';
+
+@media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
   .e-pages-overview {
     background: #eee;
     position: relative;

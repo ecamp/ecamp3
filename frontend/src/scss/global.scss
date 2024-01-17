@@ -155,11 +155,11 @@ body {
     display: contents !important;
   }
 
-  @media #{map-get($display-breakpoints, 'sm-and-up')} {
-    .d-sm-contents {
-      display: contents !important;
-    }
-  }
+  // @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
+  //   .d-sm-contents {
+  //     display: contents !important;
+  //   }
+  // }
 }
 
 .d-grid {

@@ -99,10 +99,12 @@ export default {
 </script>
 
 <style lang="scss">
+@use 'src/scss/variables';
+
 .fab--bottom_nav {
   position: fixed;
   bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
-  @media #{map-get($display-breakpoints, 'md-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
     bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
   }
 }

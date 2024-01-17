@@ -50,6 +50,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use 'src/scss/variables';
 .v-bottom-navigation--fixed {
   height: auto !important;
   min-height: 56px;
@@ -57,7 +58,7 @@ export default {
 }
 
 .v-application .ec-close-drawer {
-  background-color: #{map-get($blue-grey, 'lighten-5')};
-  border-top: 1px solid #{map-get($blue-grey, 'lighten-4')};
+  background-color: #{map-get(variables.$blue-grey, 'lighten-5')};
+  border-top: 1px solid #{map-get(variables.$blue-grey, 'lighten-4')};
 }
 </style>

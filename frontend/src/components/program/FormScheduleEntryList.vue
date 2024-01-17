@@ -86,6 +86,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@use 'src/scss/variables';
 .period.period {
   border-bottom-width: 1px !important;
   border-bottom-style: solid !important;
@@ -93,7 +94,7 @@ export default {
 }
 
 .header {
-  border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
+  border-bottom: 1px solid map-get(variables.$blue-grey, 'lighten-4');
 }
 .transition-list-item {
   transition: all 0.5s;

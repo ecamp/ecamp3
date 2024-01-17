@@ -19,6 +19,8 @@ import 'vue-toastification/dist/index.css'
 import { Resize } from 'vuetify/directives'
 import ResizeObserver from 'v-resize-observer'
 
+import '@/scss/main.scss'
+
 // const env = getEnv()
 // if (env && env.SENTRY_FRONTEND_DSN) {
 //   const sentryEnvironment = env.SENTRY_ENVIRONMENT ?? 'local'

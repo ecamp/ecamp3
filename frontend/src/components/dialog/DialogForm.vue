@@ -143,7 +143,9 @@ export default {
 </script>
 
 <style lang="scss">
-@media #{map-get($display-breakpoints, 'xs')} {
+@use 'src/scss/variables';
+
+@media #{map-get(variables.$display-breakpoints, 'xs')} {
   .ec-dialog-form {
     .v-form,
     .v-form > .v-sheet {

@@ -17,6 +17,7 @@ import * as colors from 'vuetify/util/colors'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 
 // Styles
+import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
 class VuetifyLoaderPlugin {

@@ -51,11 +51,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use 'src/scss/variables';
+
 .e-avatarrow {
   display: flex;
   flex-direction: row-reverse;
   gap: 0.8em;
-  @media #{map-get($display-breakpoints, 'md-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
     gap: 1.1em;
   }
 
@@ -65,7 +67,7 @@ export default {
 }
 
 .e-avatarrow--narrow {
-  @media #{map-get($display-breakpoints, 'md-and-up')} {
+  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
     gap: 0.8em;
   }
 }
