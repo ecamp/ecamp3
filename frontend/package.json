@@ -22,7 +22,7 @@
     "@intlify/core": "9.9.0",
     "@mdi/font": "7.4.47",
     "@react-pdf/font": "2.3.8",
-    "@react-pdf/layout": "3.8.0",
+    "@react-pdf/layout": "3.9.1",
     "@react-pdf/pdfkit": "3.0.4",
     "@react-pdf/primitives": "3.0.1",
     "@react-pdf/render": "3.2.8",
