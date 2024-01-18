@@ -20,12 +20,20 @@
           }
         }
       },
+      "copyActivityInfoDialog": {
+        "allow": "Autoriser maintenant",
+        "denied": "Vous avez refusé l'accès à votre presse-papiers. Par conséquent, vous ne pouvez pas coller les activités copiées.",
+        "description": "Pour coller une activité copiée, vous devez autoriser eCamp à lire votre presse-papiers.",
+        "granted": "Vous pouvez maintenant coller les activités copiées.",
+        "title": "Copier et coller une activité"
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Doit être vide pour être supprimé"
       },
       "scheduleEntry": {
         "backToContents": "Retour à l'édition du contenu",
         "changeLayout": "Changer la mise en page",
+        "copyScheduleEntry": "Copier une activité",
         "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé."
       },
       "togglePaperSize": {
@@ -138,7 +146,7 @@
       "campCreate": {
         "steps": {
           "configurate": "Configuration",
-          "infos": "Info",
+          "infos": "Infos",
           "template": "Modèle"
         }
       },
@@ -166,7 +174,7 @@
       "categoryTemplate": {
         "contents": "Contenus",
         "createLayoutHelp": "Ici, vous pouvez définir le modèle pour de nouvelles activités {categoryShort}.{br}Le contenu et la mise en page des activités {categoryShort} déjà créées ne seront pas ajustés.",
-        "layout": "Layout",
+        "layout": "Mise en page",
         "noTemplate": "Pas de modèle"
       }
     },
@@ -312,7 +320,7 @@
         "config": {
           "Activity": "Activité unique",
           "Cover": "Page de couverture",
-          "Picasso": "Picasso",
+          "Picasso": "Programme général",
           "Program": "Programme",
           "Story": "Histoire",
           "Toc": "Table des matières"
@@ -337,6 +345,15 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clearClipboard": "Vider le presse-papier",
+        "clipboard": "Presse-papier",
+        "copyActivity": "Copier une activité",
+        "copyActivityContent": "Copier le contenu depuis une activité",
+        "copyPastActivity": "Copier et coller une activité",
+        "copySourceInfo": "Vous pouvez coller ici l'URL d'une activité pour copier son contenu.",
+        "pasteActivity": "coller l'activité"
+      },
       "formScheduleEntryItem": {
         "end": "Fin",
         "start": "Début"
@@ -414,13 +431,13 @@
       "discard": "Rejeter",
       "download": "Télécharger",
       "edit": "Éditer",
-      "editable": "Editable",
+      "editable": "Modifiable",
       "filter": "Filtrer",
       "lock": "Verrouiller",
       "login": "Se connecter",
       "logout": "Déconnexion",
       "move": "Déplacer",
-      "ok": "OK",
+      "ok": "Ok",
       "open": "Ouvrir",
       "remove": "Retirer",
       "rename": "Renommer",
@@ -452,6 +469,9 @@
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
     },
+    "toast": {
+      "copied": "{source} copié"
+    },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
@@ -480,7 +500,7 @@
         "inactiveCollaborators": "Inactif",
         "members": "Membres",
         "openInvitations": "Invitations ouvertes",
-        "title": "Team"
+        "title": "Équipe"
       },
       "info": {
         "title": "Infos sur le camp"
@@ -491,7 +511,7 @@
       "sideBarAdmin": {
         "itemActivity": "Activités",
         "itemActivitySubtitle": "Catégorie, modèle & statut",
-        "itemCollaborators": "Team",
+        "itemCollaborators": "Équipe",
         "itemInfos": "Infos sur le camp",
         "itemMaterialLists": "Liste de matériel",
         "itemPrint": "PDF / Imprimer"
@@ -604,7 +624,7 @@
             "print": "Imprimer",
             "program": "Programme",
             "story": "Histoire",
-            "team": "Team"
+            "team": "Équipe"
           }
         },
         "mobile": {
@@ -619,7 +639,7 @@
             "itemActivitySubtitle": "Catégorie, modèle & statut",
             "itemCamps": "Mes Camps",
             "itemClose": "Fermer le menu",
-            "itemCollaborators": "Team",
+            "itemCollaborators": "Équipe",
             "itemInfos": "Infos sur le camp",
             "itemMaterialLists": "Liste de matériel",
             "itemPrinting": "PDF / Imprimer"
