@@ -35,11 +35,12 @@
     </e-select>
 
     <e-text-field
+      v-if="!hideLocation"
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')"
     />
 
-    <form-schedule-entry-list
+    <FormScheduleEntryList
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
@@ -67,6 +68,10 @@ export default {
     period: {
       type: Function,
       required: true,
+    },
+    hideLocation: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
