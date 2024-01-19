@@ -13,7 +13,7 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/multi_selects';
-        $this->defaultEntity = static::$fixtures['multiSelect1'];
+        $this->defaultEntity = static::getFixture('multiSelect1');
     }
 
     public function testGetMultiSelect() {

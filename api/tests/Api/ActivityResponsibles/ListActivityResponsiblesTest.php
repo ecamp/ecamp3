@@ -40,7 +40,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByActivityIsAllowedForCollaborator() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -58,7 +58,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForUnrelatedUser() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId())
         ;
@@ -70,7 +70,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForInactiveCollaborator() {
-        $activity = static::$fixtures['activity1'];
+        $activity = static::getFixture('activity1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId())
         ;
@@ -82,7 +82,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByActivityInCampPrototypeIsAllowedForUnrelatedUser() {
-        $activity = static::$fixtures['activity1campPrototype'];
+        $activity = static::getFixture('activity1campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId());
 
         $this->assertResponseStatusCodeSame(200);
@@ -94,7 +94,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByCampIsAllowedForCollaborator() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -113,7 +113,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activity_responsibles?activity.camp=%2Fcamps%2F'.$camp->getId())
         ;
@@ -125,7 +125,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
-        $camp = static::$fixtures['campPrototype'];
+        $camp = static::getFixture('campPrototype');
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=%2Fcamps%2F'.$camp->getId());
 
         $this->assertResponseStatusCodeSame(200);

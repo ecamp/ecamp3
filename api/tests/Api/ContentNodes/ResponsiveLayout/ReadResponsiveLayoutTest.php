@@ -13,7 +13,7 @@ class ReadResponsiveLayoutTest extends ReadContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/responsive_layouts';
-        $this->defaultEntity = static::$fixtures['responsiveLayout1'];
+        $this->defaultEntity = static::getFixture('responsiveLayout1');
     }
 
     public function testGetResponsiveLayout() {

@@ -13,7 +13,7 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/storyboards';
-        $this->defaultEntity = static::$fixtures['storyboard1'];
+        $this->defaultEntity = static::getFixture('storyboard1');
     }
 
     public function testGetStoryboard() {

@@ -185,14 +185,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 40
-              },
-              {
-                "color": "red",
-                "value": 50
               }
             ]
           }
@@ -231,7 +223,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select count(1)\nfrom camp c\nwhere c.isprototype = false\nand exists (\n  select 1\n  from  period p\n  where p.campid = c.id\n  and   p.end >  TO_DATE('20230601','YYYYMMDD')\n  and   p.start <  TO_DATE('20230831','YYYYMMDD')\n)",
+          "rawSql": "select count(1)\nfrom camp c\nwhere c.isprototype = false\nand exists (\n  select 1\n  from  period p\n  where p.campid = c.id\n  and   p.end >  TO_DATE('20240601','YYYYMMDD')\n  and   p.start <  TO_DATE('20240831','YYYYMMDD')\n)",
           "refId": "A",
           "select": [
             [
@@ -255,7 +247,7 @@
           ]
         }
       ],
-      "title": "Sommerlager 2023",
+      "title": "Sommerlager 2024",
       "type": "stat"
     },
     {
@@ -950,7 +942,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
@@ -1391,6 +1383,6 @@
   "timezone": "",
   "title": "eCamp3",
   "uid": "SfJlY9XVk",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }

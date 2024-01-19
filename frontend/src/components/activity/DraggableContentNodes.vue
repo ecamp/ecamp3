@@ -40,7 +40,7 @@
     </draggable>
 
     <ButtonNestedContentNodeAdd
-      v-if="layoutMode"
+      v-if="layoutMode && !disabled"
       :class="{ 'flex-grow-0': draggableContentNodeIds.length !== 0 }"
       :layout-mode="layoutMode"
       :parent-content-node="parentContentNode"
@@ -208,7 +208,7 @@ export default {
 }
 
 .draggable-area--row ::v-deep .content-node {
-  flex: 1 0 320px;
+  flex: 1 0 320px !important;
 }
 
 .draggable-area--layout-mode {

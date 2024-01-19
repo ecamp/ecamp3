@@ -30,14 +30,23 @@ Displays a field as a picker (can be used with v-model)
           @click="(...args) => (openOnTextFieldClick ? onMenuOpen(on, ...args) : null)"
           @input="debouncedParseValue"
         >
-          <template v-if="icon" #prepend>
-            <v-icon
+          <template #prepend>
+            <slot
+              name="prepend"
               :color="iconColor"
-              :aria-label="$tc(buttonAriaLabelI18nKey, 0, { label: label || name })"
-              @click="(...args) => onMenuOpen(on, ...args)"
+              :attrs="{
+                'aria-label': $tc(buttonAriaLabelI18nKey, 0, { label: label || name }),
+              }"
+              :on="{ click: (...args) => onMenuOpen(on, ...args) }"
             >
-              {{ icon }}
-            </v-icon>
+              <v-icon
+                :color="iconColor"
+                :aria-label="$tc(buttonAriaLabelI18nKey, 0, { label: label || name })"
+                @click="(...args) => onMenuOpen(on, ...args)"
+              >
+                {{ icon }}
+              </v-icon>
+            </slot>
           </template>
 
           <!-- passing the append slot through -->
@@ -174,7 +183,6 @@ export default {
     },
     setValue(val) {
       if (this.localValue !== val) {
-        this.$emit('input', val)
         this.localValue = val
 
         if (this.localValueInitialized) {
@@ -203,6 +211,9 @@ export default {
       this.showPicker = false
     },
     async inputFromPicker(val) {
+      if (this.value === val) {
+        return
+      }
       try {
         if (this.parsePicker !== null) {
           val = await this.parsePicker(val)

@@ -10,9 +10,11 @@ exports[`An EColorPicker > looks like a color picker > pickerclosed 1`] = `
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
                               <button aria-label="Dialog öffnen um eine Farbe für test zu wählen"
-                                      class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
-                                      style="color: rgb(255, 0, 0); caret-color: #ff0000;"
-                                      type="button"></button>
+                                      class="e-colorswatch mt-n1 v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                      style="height: 30px; width: 30px; background-color: rgb(255, 0, 0); border-color: #ff0000; --ee5e0d96-contrast: #fff;"
+                                      type="button">
+                                   <span class="v-btn__content"></span>
+                              </button>
                          </div>
                          <div class="v-input__control">
                               <div class="v-input__slot">
@@ -43,9 +45,11 @@ exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
                          <button aria-label="Dialog öffnen um eine Farbe für test zu wählen"
-                                 class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
-                                 style="color: rgb(255, 0, 0); caret-color: #ff0000;"
-                                 type="button"></button>
+                                 class="e-colorswatch mt-n1 v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                                 style="height: 30px; width: 30px; background-color: rgb(255, 0, 0); border-color: #ff0000; --ee5e0d96-contrast: #fff;"
+                                 type="button">
+                              <span class="v-btn__content"></span>
+                         </button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">

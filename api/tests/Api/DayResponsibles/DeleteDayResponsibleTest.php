@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteDayResponsibleTest extends ECampApiTestCase {
     public function testDeleteDayResponsibleIsDeniedForAnonymousUser() {
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createBasicClient()->request('DELETE', '/day_responsibles/'.$dayResponsible->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteDayResponsibleIsDeniedForUnrelatedUser() {
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteDayResponsibleIsDeniedForInactiveCollaborator() {
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteDayResponsibleIsDeniedForGuest() {
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteDayResponsibleIsAllowedForMember() {
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
@@ -68,14 +68,14 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testDeleteDayResponsibleIsAllowedForManager() {
-        $dayResponsible = static::$fixtures['dayResponsible1'];
+        $dayResponsible = static::getFixture('dayResponsible1');
         static::createClientWithCredentials()->request('DELETE', '/day_responsibles/'.$dayResponsible->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(DayResponsible::class)->find($dayResponsible->getId()));
     }
 
     public function testDeleteDayResponsibleInCampPrototypeIsDeniedForUnrelatedUser() {
-        $dayResponsible = static::$fixtures['dayResponsible1day1period1campPrototype'];
+        $dayResponsible = static::getFixture('dayResponsible1day1period1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/day_responsibles/'.$dayResponsible->getId());
 
         $this->assertResponseStatusCodeSame(403);

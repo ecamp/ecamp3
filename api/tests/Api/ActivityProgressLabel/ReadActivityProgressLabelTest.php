@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadActivityProgressLabelTest extends ECampApiTestCase {
     public function testGetSingleActivityProgressLabelIsDeniedForAnonymousUser() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createBasicClient()
             ->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
@@ -24,7 +24,7 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testGetSingleActivityProgressLabelIsDeniedForUnrelatedUser() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
@@ -37,7 +37,7 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testGetSingleActivityProgressLabelIsDeniedForInactiveCollaborator() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
@@ -50,7 +50,7 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testGetSingleActivityProgressLabelIsAllowedForGuest() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
@@ -65,7 +65,7 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testGetSingleActivityProgressLabelIsAllowedForMember() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;
@@ -80,7 +80,7 @@ class ReadActivityProgressLabelTest extends ECampApiTestCase {
 
     public function testGetSingleActivityProgressLabelIsAllowedForManager() {
         /** @var ActivityProgressLabel $activityProgressLabel */
-        $activityProgressLabel = static::$fixtures['activityProgressLabel1'];
+        $activityProgressLabel = static::getFixture('activityProgressLabel1');
         static::createClientWithCredentials()
             ->request('GET', '/activity_progress_labels/'.$activityProgressLabel->getId())
         ;

@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: node:20.9.0
+    image: node:20.11.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -94,7 +94,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   pdf:
-    image: node:20.9.0
+    image: node:20.11.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -113,7 +113,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.9.0
+    image: node:20.11.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -179,7 +179,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:13.6.2
+    image: cypress/included:13.6.3
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
@@ -192,7 +192,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.9.0
+    image: node:20.11.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:

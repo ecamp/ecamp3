@@ -26,7 +26,9 @@
       "scheduleEntry": {
         "backToContents": "Retour à l'édition du contenu",
         "changeLayout": "Changer la mise en page",
-        "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé.",
+        "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Passer au format large",
         "switchToPaperSize": "Passer au format papier"
       }
@@ -44,8 +46,10 @@
         "create": "Créer un statut",
         "deleteError": "Le statut ne peut pas être supprimé. Il est toujours utilisé.",
         "deleteWarning": "Veux-tu vraiment supprimer ce statut?",
+        "exit": "Fin du réagencement",
         "moveDown": "Descendre",
         "moveUp": "Monter",
+        "reorder": "Réordonner",
         "title": "Statut des activités"
       },
       "campAddress": {
@@ -53,9 +57,6 @@
       },
       "campCategories": {
         "create": "Créer une catégorie d'activité",
-        "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
-        "deleteCategoryQuestion": "Veux-tu vraiment supprimer la catégorie d'activité?",
-        "editLayout": "Modifier la modèle",
         "title": "Catégories d'activités"
       },
       "campConditionalFields": {
@@ -105,6 +106,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Créer un statut"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Modifier le statut"
+      },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
       },
@@ -125,6 +129,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Déplacer les entrées du calendrier"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Ne peut pas être supprimé. Toujours utilisé par les activités suivantes :"
       }
     },
     "campCreate": {
@@ -153,6 +160,14 @@
         "prototypeHintEmpty": "Ne pas copier de catégories, de modèles de blocs et de statuts de blocs à partir d'un modèle de camp.",
         "prototypeHintSelected": "Copie les catégories, les modèles de blocs et les statuts de blocs de ce modèle de camp.",
         "submitTooltipPrototype": "Tu dois encore choisir si tu veux utiliser un modèle de champ et lequel."
+      }
+    },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Contenus",
+        "createLayoutHelp": "Ici, vous pouvez définir le modèle pour de nouvelles activités {categoryShort}.{br}Le contenu et la mise en page des activités {categoryShort} déjà créées ne seront pas ajustés.",
+        "layout": "Layout",
+        "noTemplate": "Pas de modèle"
       }
     },
     "collaborator": {
@@ -186,8 +201,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment supprimer cet élément ?"
+        "title": "Confirmation de suppression"
       }
     },
     "form": {
@@ -351,8 +365,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Confirmation de suppression",
-        "warningText": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
+        "title": "Confirmation de suppression"
       }
     },
     "toast": {
@@ -400,7 +413,7 @@
       "content": "Contenu",
       "continue": "Continuer",
       "create": "Créer",
-      "delete": "Effacer",
+      "delete": "Supprimer",
       "discard": "Rejeter",
       "download": "Télécharger",
       "edit": "Éditer",
@@ -412,6 +425,7 @@
       "move": "Déplacer",
       "ok": "OK",
       "open": "Ouvrir",
+      "remove": "Retirer",
       "rename": "Renommer",
       "save": "Sauvegarder",
       "saving": "En cours de sauvegarde",
@@ -432,7 +446,6 @@
     },
     "language": "Français",
     "loading": "Chargement ...",
-    "lokaliseMessage": "Changement de langue grâce à lokalise.com",
     "navigation": {
       "admin": {
         "title": "Admin"
@@ -446,17 +459,13 @@
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
       "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}"
+    },
+    "warning": {
+      "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
     }
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Modifier la mise en page du modèle",
-        "contents": "Contenu",
-        "createLayoutHelp": "Ici, tu peux définir l'apparence par défaut des nouvelles activités {categoryShort}.{br}Attention : Si tu as déjà des activités {categoryShort} dans le camp, elles ne seront pas automatiquement adaptées.",
-        "editContents": "Modifier le contenu du modèle",
-        "layout": "Mise en page"
-      },
       "printPreview": "Ouvrir l'aperçu avant impression",
       "sideBarProgram": {
         "title": "Activités du jour"
@@ -632,6 +641,16 @@
       "pastCamps": "Anciens camps",
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Supprimer l'activité",
+        "properties": "Propriétés",
+        "template": "Modèle pour nouvelles activités"
+      },
+      "sideBarCategory": {
+        "title": "Catégories"
+      }
     },
     "material": {
       "materialLists": {

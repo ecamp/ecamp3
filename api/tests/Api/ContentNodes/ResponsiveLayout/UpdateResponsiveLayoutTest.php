@@ -12,7 +12,7 @@ class UpdateResponsiveLayoutTest extends UpdateContentNodeTestCase {
         parent::setUp();
 
         $this->endpoint = '/content_node/responsive_layouts';
-        $this->defaultEntity = static::$fixtures['responsiveLayout1'];
+        $this->defaultEntity = static::getFixture('responsiveLayout1');
     }
 
     public function testPatchResponsiveLayoutAcceptsValidJson() {
@@ -22,7 +22,7 @@ class UpdateResponsiveLayoutTest extends UpdateContentNodeTestCase {
             ['slot' => 'aside-bottom'],
         ];
 
-        $contentNode = static::$fixtures['responsiveLayout1'];
+        $contentNode = static::getFixture('responsiveLayout1');
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'items' => $VALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -38,7 +38,7 @@ class UpdateResponsiveLayoutTest extends UpdateContentNodeTestCase {
             'data' => 'value',
         ];
 
-        $contentNode = static::$fixtures['responsiveLayout1'];
+        $contentNode = static::getFixture('responsiveLayout1');
         $response = static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'items' => $INVALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
