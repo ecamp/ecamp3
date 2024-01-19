@@ -36,7 +36,7 @@
       </template>
     </e-select>
 
-    <e-text-field v-model="localActivity.location" path="location" />
+    <e-text-fieldv-if="!hideLocation" v-model="localActivity.location" path="location" />
 
     <FormScheduleEntryList
       v-if="activity.scheduleEntries"
@@ -70,6 +70,10 @@ export default {
       required: true,
     },
     autoselectTitle: {
+      type: Boolean,
+      default: false,
+    },
+    hideLocation: {
       type: Boolean,
       default: false,
     },

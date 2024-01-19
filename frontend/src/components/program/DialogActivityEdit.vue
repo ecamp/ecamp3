@@ -14,7 +14,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <template #moreActions>
+    <template v-if="scheduleEntry" #moreActions>
       <v-btn
         v-if="!scheduleEntry.tmpEvent"
         color="primary"
@@ -23,7 +23,11 @@
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
-    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period()" />
+    <DialogActivityForm
+      :activity="entityData"
+      :period="currentPeriod"
+      :hide-location="hideHeaderFields"
+    />
   </dialog-form>
 </template>
 
@@ -38,7 +42,13 @@ export default {
   components: { DialogForm, DialogActivityForm },
   extends: DialogBase,
   props: {
-    scheduleEntry: { type: Object, required: true },
+    scheduleEntry: { type: Object, required: false, default: null },
+    activity: { type: Object, required: false, default: null },
+    period: { type: Function, required: false, default: null },
+    hideHeaderFields: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -48,16 +58,19 @@ export default {
   },
   computed: {
     scheduleEntries() {
-      return this.activity.scheduleEntries()
+      return this.currentActivity.scheduleEntries()
     },
-    activity() {
-      return this.scheduleEntry.activity()
+    currentPeriod() {
+      return this.period || this.scheduleEntry.period
+    },
+    currentActivity() {
+      return this.activity || this.scheduleEntry.activity()
     },
   },
   watch: {
     showDialog: async function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.activity._meta.self)
+        this.loadEntityData(this.currentActivity._meta.self)
 
         const scheduleEntries = await this.scheduleEntries.$loadItems()
         this.$set(
@@ -107,12 +120,15 @@ export default {
           period: entry.period()._meta.self,
           start: entry.start,
           end: entry.end,
-          activity: this.activity._meta.self,
+          activity: this.currentActivity._meta.self,
         })
       })
 
       // patch activity entity
       const activityPayload = { ...this.entityData }
+      if (this.hideHeaderFields) {
+        delete activityPayload.location
+      }
       delete activityPayload.scheduleEntries
       promises.push(this.api.patch(this.entityUri, activityPayload))
 
