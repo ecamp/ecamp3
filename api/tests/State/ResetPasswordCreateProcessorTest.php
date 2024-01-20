@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\Post;
 use App\DTO\ResetPassword;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Security\ReCaptcha\ReCaptcha;
+use App\Security\ReCaptcha\ReCaptchaWrapper;
 use App\Service\MailService;
 use App\State\ResetPasswordCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +26,7 @@ class ResetPasswordCreateProcessorTest extends TestCase {
 
     private ResetPassword $resetPassword;
 
-    private MockObject|ReCaptcha $recaptcha;
+    private MockObject|ReCaptchaWrapper $recaptcha;
     private MockObject|Response $recaptchaResponse;
     private EntityManagerInterface|MockObject $entityManager;
     private MockObject|UserRepository $userRepository;
@@ -42,7 +42,7 @@ class ResetPasswordCreateProcessorTest extends TestCase {
         $this->resetPassword = new ResetPassword();
 
         $this->recaptchaResponse = $this->createMock(Response::class);
-        $this->recaptcha = $this->createMock(ReCaptcha::class);
+        $this->recaptcha = $this->createMock(ReCaptchaWrapper::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->pwHasherFactory = $this->createMock(PasswordHasherFactory::class);

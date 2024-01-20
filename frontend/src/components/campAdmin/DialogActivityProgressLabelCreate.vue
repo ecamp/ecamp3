@@ -6,6 +6,7 @@
     icon="mdi-progress-check"
     :title="$tc('components.campAdmin.dialogActivityProgressLabelCreate.title')"
     :submit-action="createDialogActivityProgressLabelCreate"
+    :submit-label="$tc('global.button.create')"
     submit-color="success"
     :cancel-action="close"
   >

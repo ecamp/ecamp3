@@ -123,37 +123,6 @@ function isValidParamEntry(entry) {
 }
 
 /**
- * Load and process collections from the API.
- * @param {Object} camp - The camp object.
- * @returns {Promise<{
- *   categories: string[],
- *   periods: string[],
- *   collaborators: string[],
- *   progressLabels: string[]
- * }>} - The Available Items for every Filteroption
- */
-export async function loadAndProcessCollections(camp) {
-  const loadedCollections = await Promise.all([
-    camp.categories()._meta.load,
-    camp.periods()._meta.load,
-    camp.campCollaborations()._meta.load,
-    camp.progressLabels()._meta.load,
-    camp.activities()._meta.load,
-  ])
-
-  const [categories, periods, collaborators, progressLabels] = loadedCollections
-    .slice(0, 4)
-    .map((collection) => collection.allItems.map((entry) => entry._meta.self))
-
-  return {
-    categories,
-    periods,
-    collaborators: [...collaborators, 'none'],
-    progressLabels: [...progressLabels, 'none'],
-  }
-}
-
-/**
  * Checks if the filter contains updated values
  * @param {Record<string, string|string[]>} filter
  * @param {Dictionary<string | (string | null)[]>} query

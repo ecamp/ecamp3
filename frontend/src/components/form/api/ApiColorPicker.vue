@@ -32,10 +32,6 @@ export default {
   name: 'ApiColorPicker',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
-  props: {
-    // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false },
-  },
   data() {
     return {}
   },

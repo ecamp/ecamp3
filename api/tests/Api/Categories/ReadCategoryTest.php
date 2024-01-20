@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadCategoryTest extends ECampApiTestCase {
     public function testGetSingleCategoryIsDeniedForAnonymousUser() {
         /** @var Category $category */
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createBasicClient()->request('GET', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -22,7 +22,7 @@ class ReadCategoryTest extends ECampApiTestCase {
 
     public function testGetSingleCategoryIsDeniedForUnrelatedUser() {
         /** @var Category $category */
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
@@ -35,7 +35,7 @@ class ReadCategoryTest extends ECampApiTestCase {
 
     public function testGetSingleCategoryIsDeniedForInactiveCollaborator() {
         /** @var Category $category */
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
@@ -48,7 +48,7 @@ class ReadCategoryTest extends ECampApiTestCase {
 
     public function testGetSingleCategoryIsAllowedForGuest() {
         /** @var Category $category */
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
@@ -70,7 +70,7 @@ class ReadCategoryTest extends ECampApiTestCase {
 
     public function testGetSingleCategoryIsAllowedForMember() {
         /** @var Category $category */
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
@@ -92,7 +92,7 @@ class ReadCategoryTest extends ECampApiTestCase {
 
     public function testGetSingleCategoryIsAllowedForManager() {
         /** @var Category $category */
-        $category = static::$fixtures['category1'];
+        $category = static::getFixture('category1');
         static::createClientWithCredentials()->request('GET', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -112,7 +112,7 @@ class ReadCategoryTest extends ECampApiTestCase {
 
     public function testGetSingleCategoryFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var Category $category */
-        $category = static::$fixtures['category1campPrototype'];
+        $category = static::getFixture('category1campPrototype');
         static::createClientWithCredentials()->request('GET', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

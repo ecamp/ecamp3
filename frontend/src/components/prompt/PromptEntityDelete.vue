@@ -19,11 +19,15 @@
         <ButtonDelete v-bind="{ ...scope.attrs, ...btnAttrs }" v-on="scope.on" />
       </slot>
     </template>
-    <slot>{{
-      $tc('components.prompt.promptEntityDelete.warningText', warningTextEntity ? 2 : 0, {
-        entity: warningTextEntity,
-      })
-    }}</slot>
+    <slot>
+      <p>
+        {{
+          $tc('global.warning.delete', warningTextEntity ? 2 : 0, {
+            entity: warningTextEntity,
+          })
+        }}
+      </p>
+    </slot>
     <template v-if="$slots.error || error" #error>
       <slot name="error">
         {{ error }}

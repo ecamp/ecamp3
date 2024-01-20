@@ -9,34 +9,22 @@
       </TextAlignBaseline>
       <br />
       <CategoryChip
-        v-if="!scheduleEntry._meta.loading"
+        v-if="!loadingEndpoints?.categories && !scheduleEntry._meta.loading"
         small
         dense
         :category="category"
         class="d-sm-none"
       />
-      <v-skeleton-loader
-        v-else
-        type="text"
-        width="3ch"
-        height="20"
-        class="d-sm-none v-skeleton-loader--inherit-size rounded-pill"
-      />
+      <CategoryChip v-else class="d-sm-none" small dense skeleton />
     </th>
     <td class="d-none d-sm-table-cell">
       <CategoryChip
-        v-if="!scheduleEntry._meta.loading"
+        v-if="!loadingEndpoints?.categories && !scheduleEntry._meta.loading"
         small
         dense
         :category="category"
       />
-      <v-skeleton-loader
-        v-else
-        type="text"
-        width="3ch"
-        height="20"
-        class="v-skeleton-loader--no-margin v-skeleton-loader--inherit-size rounded-pill mt-2px"
-      />
+      <CategoryChip v-else small dense skeleton />
     </td>
     <td v-if="!scheduleEntry._meta.loading" class="nowrap">
       {{ start }}<br />
@@ -54,7 +42,10 @@
         {{ title }}
       </router-link>
 
-      <span v-if="$vuetify.breakpoint.mdAndUp" class="e-subtitle e-subtitle--smaller">
+      <span
+        v-if="!loadingEndpoints?.progressLabels && $vuetify.breakpoint.mdAndUp"
+        class="e-subtitle e-subtitle--smaller"
+      >
         {{ progressLabel }}
       </span>
 
@@ -63,7 +54,7 @@
         <span class="e-subtitle">{{ location }}</span>
       </template>
 
-      <template v-if="!$vuetify.breakpoint.mdAndUp">
+      <template v-if="!loadingEndpoints?.progressLabels && !$vuetify.breakpoint.mdAndUp">
         <br />
         <span class="e-subtitle e-subtitle--smaller">
           {{ progressLabel }}
@@ -80,7 +71,7 @@
     </td>
     <td class="contentrow avatarrow overflow-visible">
       <AvatarRow
-        v-if="!scheduleEntry._meta.loading"
+        v-if="!loadingEndpoints?.campCollaborations && !scheduleEntry._meta.loading"
         :camp-collaborations="collaborators"
         max-size="28"
         class="ml-auto"
@@ -108,6 +99,15 @@ export default {
   mixins: [dateHelperUTCFormatted],
   props: {
     scheduleEntry: { type: Object, default: () => ({ _meta: { loading: true } }) },
+    loadingEndpoints: {
+      type: Object,
+      default: () => ({
+        categories: true,
+        periods: true,
+        campCollaborations: true,
+        progressLabels: true,
+      }),
+    },
   },
   computed: {
     collaborators() {

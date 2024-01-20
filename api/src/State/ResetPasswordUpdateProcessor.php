@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ResetPassword;
 use App\Repository\UserRepository;
-use App\Security\ReCaptcha\ReCaptcha;
+use App\Security\ReCaptcha\ReCaptchaWrapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
  */
 class ResetPasswordUpdateProcessor implements ProcessorInterface {
     public function __construct(
-        private ReCaptcha $reCaptcha,
+        private ReCaptchaWrapper $reCaptcha,
         private EntityManagerInterface $em,
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,

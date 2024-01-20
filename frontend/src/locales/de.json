@@ -34,7 +34,9 @@
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "copyScheduleEntry": "Aktivität kopieren",
-        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+      },
+      "togglePaperSize": {
         "switchToFullSize": "Zum Breitformat umschalten",
         "switchToPaperSize": "Zum Papierformat umschalten"
       }
@@ -52,8 +54,10 @@
         "create": "Status erstellen",
         "deleteError": "Status konnte nicht gelöscht werden. Der Status wird noch verwendet.",
         "deleteWarning": "Möchtest du dieses Status wirklich löschen?",
+        "exit": "Umsortieren beenden",
         "moveDown": "Nach unten",
         "moveUp": "Nach oben",
+        "reorder": "Umsortieren",
         "title": "Block-Status"
       },
       "campAddress": {
@@ -61,9 +65,6 @@
       },
       "campCategories": {
         "create": "Block-Kategorie erstellen",
-        "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
-        "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-        "editLayout": "Vorlage bearbeiten",
         "title": "Block-Kategorien"
       },
       "campConditionalFields": {
@@ -113,6 +114,9 @@
       "dialogActivityProgressLabelCreate": {
         "title": "Block-Status erstellen"
       },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Status bearbeiten"
+      },
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
       },
@@ -133,6 +137,9 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Aktivitäten verschieben"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Kann nicht gelöscht werden. Wird noch von folgenden Aktivitäten verwendet:"
       }
     },
     "campCreate": {
@@ -161,6 +168,14 @@
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
         "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
+      }
+    },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Inhalte",
+        "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
+        "layout": "Layout",
+        "noTemplate": "Keine Vorlage"
       }
     },
     "collaborator": {
@@ -194,8 +209,7 @@
     },
     "dialog": {
       "dialogEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
+        "title": "Wirklich löschen?"
       }
     },
     "form": {
@@ -365,8 +379,7 @@
     },
     "prompt": {
       "promptEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
+        "title": "Wirklich löschen?"
       }
     },
     "toast": {
@@ -426,6 +439,7 @@
       "move": "Verschieben",
       "ok": "OK",
       "open": "Öffnen",
+      "remove": "Entfernen",
       "rename": "Umbenennen",
       "save": "Speichern",
       "saving": "Speichert",
@@ -446,7 +460,6 @@
     },
     "language": "Deutsch",
     "loading": "Laden …",
-    "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "navigation": {
       "admin": {
         "title": "Admin"
@@ -463,17 +476,13 @@
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
       "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
+    },
+    "warning": {
+      "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
     }
   },
   "views": {
     "activity": {
-      "category": {
-        "changeLayout": "Vorlage-Layout ändern",
-        "contents": "Inhalte",
-        "createLayoutHelp": "Hier kannst du definieren, wie neue {categoryShort}-Blöcke standardmässig aussehen sollen.{br}Achtung: Falls du bereits {categoryShort}-Blöcke im Lager hast, werden diese nicht automatisch angepasst.",
-        "editContents": "Vorlage-Inhalt ändern",
-        "layout": "Layout"
-      },
       "printPreview": "Druckvorschau öffnen",
       "sideBarProgram": {
         "title": "Tagesübersicht"
@@ -649,6 +658,16 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
+    },
+    "category": {
+      "category": {
+        "deleteCategory": "Kategorie löschen",
+        "properties": "Eigenschaften",
+        "template": "Vorlage für neue Blöcke"
+      },
+      "sideBarCategory": {
+        "title": "Kategorien"
+      }
     },
     "material": {
       "materialLists": {

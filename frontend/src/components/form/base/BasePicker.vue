@@ -183,7 +183,6 @@ export default {
     },
     setValue(val) {
       if (this.localValue !== val) {
-        this.$emit('input', val)
         this.localValue = val
 
         if (this.localValueInitialized) {
@@ -212,6 +211,9 @@ export default {
       this.showPicker = false
     },
     async inputFromPicker(val) {
+      if (this.value === val) {
+        return
+      }
       try {
         if (this.parsePicker !== null) {
           val = await this.parsePicker(val)

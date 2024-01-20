@@ -8,6 +8,7 @@ use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
 use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use App\Util\ArrayDeepSort;
+use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -215,7 +216,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
     }
 
     private function getFixtureFor(string $collectionEndpoint) {
-        $fixtures = static::$fixtures;
+        $fixtures = FixtureStore::getFixtures();
 
         return ReadItemFixtureMap::get($collectionEndpoint, $fixtures);
     }

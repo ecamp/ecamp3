@@ -31,7 +31,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->defaultParent = static::$fixtures['columnLayout1'];
+        $this->defaultParent = static::getFixture('columnLayout1');
     }
 
     public function testCreateIsDeniedForAnonymousUser() {
@@ -93,7 +93,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
 
     #[DataProvider('getContentNodesWhichCannotHaveChildren')]
     public function testCreateRejectsParentsWhichDontSupportChildren(string $idOfParentFixture) {
-        $this->defaultParent = static::$fixtures[$idOfParentFixture];
+        $this->defaultParent = static::getFixture($idOfParentFixture);
 
         $this->create(user: static::$fixtures['user2member']);
         $this->assertResponseStatusCodeSame(422);
@@ -110,7 +110,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function testCreateValidatesIncompatibleContentType() {
         // given
         /** @var ContentType $contentType */
-        $contentType = static::$fixtures[ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
+        $contentType = static::getFixture(ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout');
 
         // when
         $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor($contentType)]));
