@@ -5,7 +5,6 @@ import {
   vuetifyLoader,
   auth,
   storeLoader,
-  filterLoading,
   formBaseComponents,
   ignoreNativeBindingWarnMessages,
   i18n,
@@ -35,7 +34,6 @@ if (env && env.SENTRY_FRONTEND_DSN) {
 }
 
 Vue.use(auth)
-Vue.use(filterLoading)
 Vue.use(formBaseComponents)
 Vue.use(ignoreNativeBindingWarnMessages)
 Vue.use(storeLoader)

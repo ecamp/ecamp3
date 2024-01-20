@@ -380,7 +380,7 @@ export default new Router({
         default: () => import('./views/activity/Activity.vue'),
         aside: () => import('./views/activity/SideBarProgram.vue'),
       },
-      beforeEnter: requireAuth,
+      beforeEnter: all([requireAuth, requireCamp]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
