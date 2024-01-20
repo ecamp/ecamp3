@@ -194,9 +194,9 @@ Displays a single scheduleEntry
             </table>
             <DialogActivityEdit
               v-if="activity && isContributor"
-              :period="scheduleEntry().period"
-              :activity="activity"
+              :schedule-entry="scheduleEntry"
               hide-header-fields
+              @activityUpdated="activity.$reload()"
             >
               <template #activator="{ on }">
                 <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
@@ -268,7 +268,7 @@ import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
 import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
-import DialogActivityEdit from '@/components/program/DialogActivityEdit.vue'
+import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.vue'
 
 export default {
   name: 'ScheduleEntry',

@@ -47,6 +47,11 @@
           <v-icon x-small color="white">mdi-pencil</v-icon>
         </v-btn>
       </template>
+      <template #moreActions>
+        <v-btn color="primary" :to="scheduleEntryRoute">
+          {{ $tc('global.button.open') }}
+        </v-btn>
+      </template>
     </DialogActivityEdit>
 
     <h4 class="e-picasso-entry__title">
@@ -125,7 +130,7 @@
 </template>
 <script>
 import { ref, toRefs } from 'vue'
-import DialogActivityEdit from '../DialogActivityEdit.vue'
+import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { timestampToUtcString } from './dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'

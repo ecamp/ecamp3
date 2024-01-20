@@ -20,6 +20,14 @@
           }
         }
       },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Modifier l'activité"
+        },
+        "formScheduleEntryList": {
+          "name": "Dates planifiées"
+        }
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Doit être vide pour être supprimé"
       },
@@ -337,16 +345,6 @@
       }
     },
     "program": {
-      "dialogActivityEdit": {
-        "title": "Modifier l'activité"
-      },
-      "formScheduleEntryItem": {
-        "end": "Fin",
-        "start": "Début"
-      },
-      "formScheduleEntryList": {
-        "name": "Dates planifiées"
-      },
       "periodSwitcher": {
         "title": "Choisir la période"
       },
