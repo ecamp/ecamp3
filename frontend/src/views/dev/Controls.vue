@@ -271,7 +271,7 @@ export default {
       return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
     },
     availableLocales() {
-      return VueI18n.availableLocales.map((l) => ({
+      return VueI18n.global.availableLocales.map((l) => ({
         value: l,
         text: this.$tc('global.language', 1, l),
       }))

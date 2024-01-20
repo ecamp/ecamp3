@@ -61,7 +61,7 @@ export default {
       const user = await this.$auth.loadUser()
       const profile = await user.profile()._meta.load
 
-      if (VueI18n.availableLocales.includes(profile.language)) {
+      if (VueI18n.global.availableLocales.includes(profile.language)) {
         this.$store.commit('setLanguage', profile.language)
       }
     }

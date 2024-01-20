@@ -175,7 +175,7 @@ export default {
       }
     },
     availableLocales() {
-      return VueI18n.availableLocales.map((l) => ({
+      return VueI18n.global.availableLocales.map((l) => ({
         value: l,
         text: this.$tc('global.language', 1, l),
       }))
@@ -190,7 +190,7 @@ export default {
   },
   watch: {
     language() {
-      if (VueI18n.availableLocales.includes(this.language)) {
+      if (VueI18n.global.availableLocales.includes(this.language)) {
         this.$store.commit('setLanguage', this.language)
       }
     },

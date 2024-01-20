@@ -15,7 +15,7 @@ export default {
         auth,
       },
       strict: debug,
-      plugins: debug ? [createLogger()] : [],
+      // plugins: debug ? [createLogger()] : [],
     })
 
     app.use(store)
