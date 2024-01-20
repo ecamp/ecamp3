@@ -379,7 +379,7 @@ export default new Router({
         default: () => import('./views/activity/Activity.vue'),
         aside: () => import('./views/activity/SideBarProgram.vue'),
       },
-      beforeEnter: requireAuth,
+      beforeEnter: all([requireAuth, requireCamp, requireScheduleEntry]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
@@ -437,6 +437,21 @@ function requireAuth(to, from, next) {
 
 async function requireCamp(to, from, next) {
   await campFromRoute(to)
+    .call({ api: { get: apiStore.get } })
+    ._meta.load.then(() => {
+      next()
+    })
+    .catch(() => {
+      next({
+        name: 'PageNotFound',
+        params: [to.fullPath, ''],
+        replace: true,
+      })
+    })
+}
+
+async function requireScheduleEntry(to, from, next) {
+  await scheduleEntryFromRoute(to)
     .call({ api: { get: apiStore.get } })
     ._meta.load.then(() => {
       next()
