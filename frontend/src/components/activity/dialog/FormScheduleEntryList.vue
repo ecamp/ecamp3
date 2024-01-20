@@ -4,7 +4,7 @@
       <v-row no-gutters>
         <v-col class="header mb-3">
           <legend class="pa-2 float-left">
-            {{ $tc('components.program.formScheduleEntryList.name') }}
+            {{ $tc('components.activity.dialog.formScheduleEntryList.name') }}
           </legend>
 
           <button-add

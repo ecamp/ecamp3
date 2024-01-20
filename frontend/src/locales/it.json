@@ -20,6 +20,14 @@
           }
         }
       },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Modificare l'actività"
+        },
+        "formScheduleEntryList": {
+          "name": "Programmato"
+        }
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Deve essere vuoto per essere eliminato"
       },

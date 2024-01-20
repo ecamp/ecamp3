@@ -14,18 +14,12 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <template v-if="scheduleEntry" #moreActions>
-      <v-btn
-        v-if="!scheduleEntry.tmpEvent"
-        color="primary"
-        :to="scheduleEntryRoute(scheduleEntry)"
-      >
-        {{ $tc('global.button.open') }}
-      </v-btn>
+    <template #moreActions>
+      <slot name="moreActions" />
     </template>
     <DialogActivityForm
       :activity="entityData"
-      :period="currentPeriod"
+      :period="scheduleEntry.period"
       :hide-location="hideHeaderFields"
     />
   </dialog-form>
@@ -35,16 +29,13 @@
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
-import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'DialogActivityEdit',
   components: { DialogForm, DialogActivityForm },
   extends: DialogBase,
   props: {
-    scheduleEntry: { type: Object, required: false, default: null },
-    activity: { type: Object, required: false, default: null },
-    period: { type: Function, required: false, default: null },
+    scheduleEntry: { type: Object, required: true },
     hideHeaderFields: {
       type: Boolean,
       default: false,
@@ -57,20 +48,17 @@ export default {
     }
   },
   computed: {
+    activity() {
+      return this.scheduleEntry.activity()
+    },
     scheduleEntries() {
-      return this.currentActivity.scheduleEntries()
-    },
-    currentPeriod() {
-      return this.period || this.scheduleEntry.period
-    },
-    currentActivity() {
-      return this.activity || this.scheduleEntry.activity()
+      return this.activity.scheduleEntries()
     },
   },
   watch: {
     showDialog: async function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.currentActivity._meta.self)
+        this.loadEntityData(this.activity._meta.self)
 
         const scheduleEntries = await this.scheduleEntries.$loadItems()
         this.$set(
@@ -120,7 +108,7 @@ export default {
           period: entry.period()._meta.self,
           start: entry.start,
           end: entry.end,
-          activity: this.currentActivity._meta.self,
+          activity: this.activity._meta.self,
         })
       })
 
@@ -144,7 +132,6 @@ export default {
       this.close()
       this.$emit('activity-updated', data)
     },
-    scheduleEntryRoute,
   },
 }
 </script>

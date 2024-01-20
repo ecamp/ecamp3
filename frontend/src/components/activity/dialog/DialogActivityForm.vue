@@ -36,7 +36,7 @@
       </template>
     </e-select>
 
-    <e-text-fieldv-if="!hideLocation" v-model="localActivity.location" path="location" />
+    <e-text-field v-if="!hideLocation" v-model="localActivity.location" path="location" />
 
     <FormScheduleEntryList
       v-if="activity.scheduleEntries"

@@ -27,6 +27,14 @@
         "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
         "title": "Aktivität kopieren & einfügen"
       },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Aktivität bearbeiten"
+        },
+        "formScheduleEntryList": {
+          "name": "Geplante Termine"
+        }
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
       },
