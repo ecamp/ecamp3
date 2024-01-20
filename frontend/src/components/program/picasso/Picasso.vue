@@ -6,6 +6,12 @@ Listing all given activity schedule entries in a calendar view.
   <div>
     <v-calendar
       ref="calendar"
+      v-model="calendarValue"
+      view-mode="week"
+      :events="events"
+    ></v-calendar>
+    <!-- <v-calendar
+      ref="calendar"
       v-model="value"
       v-resize="resize"
       :class="['e-picasso', editable && 'e-picasso--editable']"
@@ -32,9 +38,9 @@ Listing all given activity schedule entries in a calendar view.
       v-on="vCalendarListeners"
       @mouseleave.native="onMouseleave"
       @mousedown.native.prevent="preventMiddleButtonFromStartingScrollBehaviour"
-    >
-      <!-- day header -->
-      <template #day-label-header="{ date }">
+    > -->
+    <!-- day header -->
+    <!-- <template #day-label-header="{ date }">
         <slot name="day-label-header" :date="date">
           <div class="e-picasso-daily_head-day-label">
             {{
@@ -54,27 +60,27 @@ Listing all given activity schedule entries in a calendar view.
           </div>
           <day-responsibles :date="date" :period="period" :readonly="!editable" />
         </slot>
-      </template>
+      </template> -->
 
-      <!-- template for single scheduleEntry -->
-      <template #event="{ event }">
+    <!-- template for single scheduleEntry -->
+    <!-- <template #event="{ event }">
         <PicassoEntry
           :schedule-entry="event"
           :editable="editable"
           @start-resize="startResize(event)"
           @finish-edit="reloadScheduleEntries"
         />
-      </template>
-    </v-calendar>
+      </template> -->
+    <!-- </v-calendar> -->
 
-    <v-snackbar v-model="isSaving" light>
+    <!-- <v-snackbar v-model="isSaving" light>
       <v-icon class="mdi-spin">mdi-loading</v-icon>
       {{ $tc('global.button.saving') }}
-    </v-snackbar>
+    </v-snackbar> -->
   </div>
 </template>
 <script>
-import Vue, { reactive, ref, toRefs, watch } from 'vue'
+import { reactive, ref, toRefs, watch } from 'vue'
 import { useDragAndDropMove } from './useDragAndDropMove.js'
 import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
@@ -82,16 +88,16 @@ import { useDragAndDropReminder } from './useDragAndDropReminder.js'
 import { apiStore as api } from '@/plugins/store'
 import mergeListeners from '@/helpers/mergeListeners.js'
 import { timestampToUtcString, utcStringToTimestamp } from './dateHelperVCalendar.js'
-import DayResponsibles from './DayResponsibles.vue'
+// import DayResponsibles from './DayResponsibles.vue'
 import { ONE_DAY_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
-import { errorToMultiLineToast } from '@/components/toast/toasts'
-import PicassoEntry from './PicassoEntry.vue'
+// import { errorToMultiLineToast } from '@/components/toast/toasts'
+//import PicassoEntry from './PicassoEntry.vue'
 
 export default {
   name: 'Picasso',
   components: {
-    PicassoEntry,
-    DayResponsibles,
+    // PicassoEntry,
+    // DayResponsibles,
   },
   props: {
     // period for which to show picasso
@@ -162,7 +168,8 @@ export default {
       api
         .patch(scheduleEntry._meta.self, patchData)
         .catch((error) => {
-          Vue.$toast.error(errorToMultiLineToast(error))
+          console.log(error)
+          // Vue.$toast.error(errorToMultiLineToast(error))
         })
         .finally(() => {
           isSaving.value = false
@@ -231,16 +238,28 @@ export default {
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
       events.value = scheduleEntries.value.items.map((entry) => ({
-        ...entry,
+        /*...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
         timed: true,
         isResizing: false,
-        isMoving: false,
+        isMoving: false,*/
+
+        // VCalendar v3
+        title:
+          (entry.number ? entry.number + ' ' : '') +
+          (entry.activity().category().short
+            ? entry.activity().category().short + ': '
+            : '') +
+          entry.activity().title,
+        start: new Date(utcStringToTimestamp(entry.start)),
+        end: new Date(utcStringToTimestamp(entry.end)),
+        color: entry.activity().category().color,
+        allDay: false,
       }))
 
       // add placeholder for drag & drop (create new entry)
-      events.value.push(placeholder)
+      // events.value.push(placeholder)
     }
     loadCalenderEventsFromScheduleEntries()
 
@@ -279,6 +298,9 @@ export default {
       intervalMinutes: 60,
       firstInterval: 0,
       intervalCount: 24,
+
+      // VCalendar v3 demo
+      calendarValue: [new Date('2023-12-15')],
     }
   },
   computed: {
@@ -317,6 +339,8 @@ export default {
     // scroll a bit down to hide the night hours
     const scroller = this.$el.querySelector('.v-calendar')
     scroller.scrollTo({ top: 250 })
+
+    this.calendarValue = [new Date(this.period.start)]
   },
   methods: {
     resize() {
