@@ -9,7 +9,9 @@
       <v-icon>mdi-book-open-variant</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'dashboard')">
-      <span>{{ camp().name }}</span>
+      <span class="nav-ellipsis">{{
+        $vuetify.breakpoint.smAndUp ? camp().title : camp().name
+      }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="materialListRoute(camp(), '/lists')">

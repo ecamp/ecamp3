@@ -19,17 +19,19 @@
           two-line
           :to="campRoute(camp)"
         >
-          <v-list-item-content>
+          <v-list-item-content class="basis-auto">
             <v-list-item-title>
-              <strong>{{ camp.name }}</strong>
+              <strong>
+                {{ $vuetify.breakpoint.lgAndUp ? camp.title : camp.name }}
+              </strong>
             </v-list-item-title>
             <v-list-item-subtitle>
               {{ camp.motto }}
             </v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-content class="text-right">
+          <v-list-item-content class="text-right basis-auto">
             <v-list-item-title>
-              {{ i18nDateRange(camp.periods().items[0].start) }}
+              {{ camp.dateText }}
             </v-list-item-title>
             <v-list-item-subtitle v-if="camp.organizer">
               {{ camp.organizer }}
@@ -83,10 +85,22 @@
                 two-line
                 :to="campRoute(camp)"
               >
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                <v-list-item-content class="basis-auto">
+                  <v-list-item-title>
+                    <strong>
+                      {{ $vuetify.breakpoint.lgAndUp ? camp.title : camp.name }}
+                    </strong>
+                  </v-list-item-title>
                   <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
+                    {{ camp.motto }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-content class="text-right basis-auto">
+                  <v-list-item-title>
+                    {{ camp.dateText }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle v-if="camp.organizer">
+                    {{ camp.organizer }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -105,7 +119,6 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import { mapGetters } from 'vuex'
 import UserMeta from '@/components/navigation/UserMeta.vue'
-import { dateMedium } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'Camps',
@@ -124,10 +137,20 @@ export default {
       return this.api.get().camps()
     },
     prototypeCamps() {
-      return this.camps.items.filter((c) => c.isPrototype)
+      return this.camps.items
+        .filter((c) => c.isPrototype)
+        .map((camp) => ({
+          ...camp,
+          dateText: this.getCombinedDate(camp.periods().items),
+        }))
     },
     nonPrototypeCamps() {
-      return this.camps.items.filter((c) => !c.isPrototype)
+      return this.camps.items
+        .filter((c) => !c.isPrototype)
+        .map((camp) => ({
+          ...camp,
+          dateText: this.getCombinedDate(camp.periods().items),
+        }))
     },
     upcomingCamps() {
       return this.nonPrototypeCamps.filter((c) =>
@@ -149,8 +172,20 @@ export default {
   methods: {
     campRoute,
     isAdmin,
-    i18nDateRange(start) {
-      return dateMedium(start, this.$i18n.tc.bind(this.$i18n))
+    getCombinedDate(periods) {
+      if (!periods.length) return
+      const formatMY = new Intl.DateTimeFormat(this.$i18n.locale, {
+        year: 'numeric',
+        month: 'short',
+      })
+      return [...periods]
+        .sort((a, b) => new Date(a.start) - new Date(b.start))
+        .map((period) => {
+          const start = new Date(period.start)
+          const end = new Date(period.end)
+          return formatMY.formatRange(start, end)
+        })
+        .join(' | ')
     },
     async loadCamps() {
       // Only reload camps if they were loaded before, to avoid console error

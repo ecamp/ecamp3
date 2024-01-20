@@ -5,7 +5,13 @@
     <v-toolbar-items>
       <v-btn :to="campRoute(camp())" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-tent</v-icon>
-        <span class="sr-only-sm-and-down">{{ campName }}</span>
+        <strong class="nav-ellipsis">{{
+          camp()._meta.loading
+            ? $tc('views.camp.navigation.desktop.navTopbar.campIsLoading')
+            : $vuetify.breakpoint.lgAndUp
+              ? camp().title
+              : camp().name
+        }}</strong>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>
@@ -64,12 +70,6 @@ export default {
     ...mapGetters({
       user: 'getLoggedInUser',
     }),
-    campName() {
-      if (this.camp()._meta.loading) {
-        return this.$tc('views.camp.navigation.desktop.navTopbar.campIsLoading')
-      }
-      return this.camp().name
-    },
   },
   methods: {
     materialListRoute,
