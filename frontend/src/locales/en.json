@@ -449,6 +449,10 @@
       "unlock": "Unlock",
       "update": "Update"
     },
+    "buttons": {
+      "help": "Help",
+      "news": "News"
+    },
     "changeLanguage": "Change language",
     "collaborationAbilities": {
       "guest": "Read-only",

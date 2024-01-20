@@ -34,6 +34,15 @@ export default {
   width: 100%;
 }
 
+:deep(.nav-ellipsis) {
+  max-width: 20ch;
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    max-width: 42ch;
+  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .v-bottom-navigation--fixed {
   height: auto !important;
   min-height: 56px;

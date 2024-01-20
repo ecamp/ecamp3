@@ -4,7 +4,10 @@ Displays collaborators of a single camp.
 <template>
   <content-card :title="$tc('views.admin.collaborators.title')" toolbar>
     <v-card-text>
-      <ContentGroup :title="$tc('views.admin.collaborators.members')">
+      <ContentGroup
+        :title="$tc('views.admin.collaborators.members')"
+        icon="mdi-account-group"
+      >
         <template #title-actions>
           <CollaboratorCreate v-if="isManager" :camp="camp()" />
         </template>
@@ -14,6 +17,7 @@ Displays collaborators of a single camp.
       <ContentGroup
         v-if="invited.length > 0"
         :title="$tc('views.admin.collaborators.openInvitations')"
+        icon="mdi-email-open"
       >
         <CollaboratorList :collaborators="invited" :is-manager="isManager" />
       </ContentGroup>
@@ -21,6 +25,7 @@ Displays collaborators of a single camp.
       <ContentGroup
         v-if="inactive.length > 0"
         :title="$tc('views.admin.collaborators.inactiveCollaborators')"
+        icon="mdi-account-off"
       >
         <CollaboratorList :collaborators="inactive" :is-manager="isManager" inactive />
       </ContentGroup>

@@ -432,6 +432,10 @@
       "unlock": "Sblocca",
       "update": "Aggiornare"
     },
+    "buttons": {
+      "help": "Aiuto",
+      "news": "Notizie"
+    },
     "changeLanguage": "Cambia lingua",
     "collaborationAbilities": {
       "guest": "Solo lettura",

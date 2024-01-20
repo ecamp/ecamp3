@@ -1,5 +1,11 @@
 <template>
-  <v-list-item link :to="to" @click="$emit('click', $event)">
+  <v-list-item
+    link
+    :to="to"
+    :href="href"
+    :target="target"
+    @click="$emit('click', $event)"
+  >
     <slot name="pre">
       <v-list-item-icon v-if="!hideAvatar">
         <v-icon v-if="icon">{{ icon }}</v-icon>
@@ -25,6 +31,8 @@ export default {
     hideAvatar: { type: Boolean, default: false },
     hideChevron: { type: Boolean, default: false },
     to: { type: [String, Object], default: null },
+    href: { type: String, default: null },
+    target: { type: String, default: null },
   },
 }
 </script>

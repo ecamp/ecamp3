@@ -432,6 +432,10 @@
       "unlock": "Déverrouiller",
       "update": "Mise à jour"
     },
+    "buttons": {
+      "help": "Aida",
+      "news": "Actualités"
+    },
     "changeLanguage": "Changer de langue",
     "collaborationAbilities": {
       "guest": "Lecture uniquement",

@@ -2,10 +2,7 @@
   <v-container class="sso--container fill-height justify-center align-center" fluid>
     <v-col
       cols="12"
-      sm="8"
-      md="5"
-      lg="4"
-      class="pa-0 pa-sm-4 pb-sm-12"
+      class="pa-0 pa-sm-4 pb-sm-12 auth-column"
       :class="{ 'fill-height': $vuetify.breakpoint.xsOnly }"
     >
       <v-card
@@ -36,7 +33,6 @@ export default {
   background: #000;
   color: #fff;
   font-size: 10px;
-  max-width: calc(34vw / 2);
   text-decoration: none;
 }
 .sso--container {
@@ -49,5 +45,8 @@ export default {
 }
 .fill-min-height {
   min-height: 100%;
+}
+.auth-column {
+  max-width: 600px;
 }
 </style>

@@ -3,6 +3,9 @@
     <content-card :title="$tc('views.camps.title')" max-width="800" toolbar>
       <template #title-actions>
         <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only btn-classes="mr-n4" />
+        <ButtonAdd v-else icon="mdi-plus" class="mr-n2" :to="{ name: 'camps/create' }">
+          {{ $tc('views.camps.create') }}
+        </ButtonAdd>
       </template>
       <v-list class="py-0">
         <template v-if="loading">
@@ -16,20 +19,24 @@
           two-line
           :to="campRoute(camp)"
         >
-          <v-list-item-content>
-            <v-list-item-title>{{ camp.title }}</v-list-item-title>
+          <v-list-item-content class="basis-auto">
+            <v-list-item-title>
+              <strong>
+                {{ $vuetify.breakpoint.lgAndUp ? camp.title : camp.name }}
+              </strong>
+            </v-list-item-title>
             <v-list-item-subtitle>
-              {{ camp.name }} - {{ camp.motto }}
+              {{ camp.motto }}
             </v-list-item-subtitle>
           </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content />
-          <v-list-item-action>
-            <button-add icon="mdi-plus" :to="{ name: 'camps/create' }">
-              {{ $tc('views.camps.create') }}
-            </button-add>
-          </v-list-item-action>
+          <v-list-item-content class="text-right basis-auto">
+            <v-list-item-title>
+              {{ camp.dateText }}
+            </v-list-item-title>
+            <v-list-item-subtitle v-if="camp.organizer">
+              {{ camp.organizer }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
       <v-expansion-panels
@@ -78,10 +85,22 @@
                 two-line
                 :to="campRoute(camp)"
               >
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                <v-list-item-content class="basis-auto">
+                  <v-list-item-title>
+                    <strong>
+                      {{ $vuetify.breakpoint.lgAndUp ? camp.title : camp.name }}
+                    </strong>
+                  </v-list-item-title>
                   <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
+                    {{ camp.motto }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-content class="text-right basis-auto">
+                  <v-list-item-title>
+                    {{ camp.dateText }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle v-if="camp.organizer">
+                    {{ camp.organizer }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -118,10 +137,20 @@ export default {
       return this.api.get().camps()
     },
     prototypeCamps() {
-      return this.camps.items.filter((c) => c.isPrototype)
+      return this.camps.items
+        .filter((c) => c.isPrototype)
+        .map((camp) => ({
+          ...camp,
+          dateText: this.getCombinedDate(camp.periods().items),
+        }))
     },
     nonPrototypeCamps() {
-      return this.camps.items.filter((c) => !c.isPrototype)
+      return this.camps.items
+        .filter((c) => !c.isPrototype)
+        .map((camp) => ({
+          ...camp,
+          dateText: this.getCombinedDate(camp.periods().items),
+        }))
     },
     upcomingCamps() {
       return this.nonPrototypeCamps.filter((c) =>
@@ -143,6 +172,21 @@ export default {
   methods: {
     campRoute,
     isAdmin,
+    getCombinedDate(periods) {
+      if (!periods.length) return
+      const formatMY = new Intl.DateTimeFormat(this.$i18n.locale, {
+        year: 'numeric',
+        month: 'short',
+      })
+      return [...periods]
+        .sort((a, b) => new Date(a.start) - new Date(b.start))
+        .map((period) => {
+          const start = new Date(period.start)
+          const end = new Date(period.end)
+          return formatMY.formatRange(start, end)
+        })
+        .join(' | ')
+    },
     async loadCamps() {
       // Only reload camps if they were loaded before, to avoid console error
       if (this.camps._meta.self !== null) {

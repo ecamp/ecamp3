@@ -33,6 +33,18 @@
           icon="mdi-format-list-bulleted-triangle"
           :to="{ name: 'camps', query: { isDetail: true } }"
         />
+        <SidebarListItem
+          :title="$tc('global.buttons.help')"
+          icon="mdi-help-circle-outline"
+          href="https://ecamp3.ch/faq"
+          target="_blank"
+        />
+        <SidebarListItem
+          :title="$tc('global.buttons.news')"
+          icon="mdi-news"
+          href="https://ecamp3.ch/blog"
+          target="_blank"
+        />
       </v-list>
 
       <v-divider />

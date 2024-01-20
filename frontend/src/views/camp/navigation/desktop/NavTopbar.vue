@@ -5,10 +5,13 @@
     <v-toolbar-items>
       <v-btn :to="campRoute(camp())" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-tent</v-icon>
-        <span class="sr-only-sm-and-down">{{
-          camp().title
-            | loading($tc('views.camp.navigation.desktop.navTopbar.campIsLoading'))
-        }}</span>
+        <strong class="nav-ellipsis">{{
+          camp()._meta.loading
+            ? $tc('views.camp.navigation.desktop.navTopbar.campIsLoading')
+            : $vuetify.breakpoint.lgAndUp
+              ? camp().title
+              : camp().name
+        }}</strong>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>
@@ -36,6 +39,12 @@
       </v-btn>
     </v-toolbar-items>
     <v-spacer />
+    <v-toolbar-items v-if="$vuetify.breakpoint.lgAndUp">
+      <v-btn href="https://ecamp3.ch/faq" target="_blank" text>
+        {{ $tc('global.buttons.help') }}
+        <span class="blue-grey--text"><v-icon small right>mdi-open-in-new</v-icon></span>
+      </v-btn>
+    </v-toolbar-items>
     <user-meta />
   </v-app-bar>
 </template>
@@ -56,11 +65,6 @@ export default {
   mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true },
-  },
-  data() {
-    return {
-      open: false,
-    }
   },
   computed: {
     ...mapGetters({
