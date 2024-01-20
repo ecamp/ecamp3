@@ -462,38 +462,38 @@ async function requireMaterialList(to, from, next) {
 
 export function campFromRoute(route) {
   return function () {
-    return this.api.get().camps({ id: route.params.campId })
+    return apiStore.get().camps({ id: route.params.campId })
   }
 }
 
 export function invitationFromInviteKey(inviteKey) {
   return function () {
-    return this.api.get().invitations({ action: 'find', id: inviteKey })
+    return apiStore.get().invitations({ action: 'find', id: inviteKey })
   }
 }
 
 export function periodFromRoute(route) {
   return function () {
-    return this.api.get().periods({ id: route.params.periodId })
+    return apiStore.get().periods({ id: route.params.periodId })
   }
 }
 
 function scheduleEntryFromRoute(route) {
   return function () {
-    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId })
+    return apiStore.get().scheduleEntries({ id: route.params.scheduleEntryId })
   }
 }
 
 function categoryFromRoute(route) {
   return function () {
-    const camp = this.api.get().camps({ id: route.params.campId })
+    const camp = apiStore.get().camps({ id: route.params.campId })
     return camp.categories().items.find((c) => c.id === route.params.categoryId)
   }
 }
 
 export function materialListFromRoute(route) {
   return function () {
-    return this.api.get().materialLists({ id: route.params.materialId })
+    return apiStore.get().materialLists({ id: route.params.materialId })
   }
 }
 
@@ -517,7 +517,7 @@ function getContentLayout(route) {
 
 function dayFromScheduleEntryInRoute(route) {
   return function () {
-    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
+    return apiStore.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
   }
 }
 
