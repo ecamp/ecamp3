@@ -8,7 +8,7 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed
           <div class="v-menu">
                <div class="e-form-container"
                     value>
-                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
                               <button aria-label="Dialog öffnen um eine Zeit für test zu wählen"
                                       class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
@@ -17,10 +17,8 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed
                          <div class="v-input__control">
                               <div class="v-input__slot">
                                    <div class="v-text-field__slot">
-                                        <label class="v-label theme--light"
-                                               for
-                                               style="left: 0px; position: absolute;">test</label>
                                         <input id
+                                               name="test"
                                                type="text">
                                    </div>
                               </div>
@@ -40,7 +38,7 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1
           vee-rules>
           <div class="e-form-container"
                value="09:52">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
                          <button aria-label="Dialog öffnen um eine Zeit für test zu wählen"
                                  class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
@@ -49,10 +47,8 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1
                     <div class="v-input__control">
                          <div class="v-input__slot">
                               <div class="v-text-field__slot">
-                                   <label class="v-label v-label--active theme--light"
-                                          for
-                                          style="left: 0px; position: absolute;">test</label>
                                    <input id
+                                          name="test"
                                           type="text">
                               </div>
                          </div>
@@ -207,7 +203,7 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed
           <div class="v-menu">
                <div class="e-form-container"
                     value>
-                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
                               <button aria-label="Open dialog to select a time for test"
                                       class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
@@ -216,10 +212,8 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed
                          <div class="v-input__control">
                               <div class="v-input__slot">
                                    <div class="v-text-field__slot">
-                                        <label class="v-label theme--light"
-                                               for
-                                               style="left: 0px; position: absolute;">test</label>
                                         <input id
+                                               name="test"
                                                type="text">
                                    </div>
                               </div>
@@ -239,7 +233,7 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickeropen 1
           vee-rules>
           <div class="e-form-container"
                value="9:52 AM">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
                          <button aria-label="Open dialog to select a time for test"
                                  class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
@@ -248,10 +242,8 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickeropen 1
                     <div class="v-input__control">
                          <div class="v-input__slot">
                               <div class="v-text-field__slot">
-                                   <label class="v-label v-label--active theme--light"
-                                          for
-                                          style="left: 0px; position: absolute;">test</label>
                                    <input id
+                                          name="test"
                                           type="text">
                               </div>
                          </div>

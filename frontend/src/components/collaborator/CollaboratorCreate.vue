@@ -17,13 +17,15 @@
       </ButtonAdd>
     </template>
 
-    <e-text-field
-      v-model="entityData.inviteEmail"
-      type="email"
-      :name="$tc('entity.campCollaboration.fields.inviteEmail')"
-      vee-rules="required|email"
-      class="mb-2"
-    />
+    <e-form name="campCollaboration">
+      <e-text-field
+        v-model="entityData.inviteEmail"
+        type="email"
+        name="inviteEmail"
+        vee-rules="required|email"
+        class="mb-2"
+      />
+    </e-form>
 
     <CollaboratorForm :collaboration="entityData" />
   </DetailPane>

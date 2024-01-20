@@ -1,20 +1,18 @@
 <template>
-  <div class="e-form-container">
+  <div>
     <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ApiForm',
+  name: 'EForm',
   provide() {
     return {
-      apiUri: this.entity._meta.self,
       entityName: this.name,
     }
   },
   props: {
-    entity: { required: true, type: Object },
     name: { required: false, type: String, default: null },
   },
 }

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <e-form name="activityProgressLabel">
     <e-text-field
       v-model="localActivityProgressLabel.title"
-      :name="$tc('entity.activityProgressLabel.fields.title')"
+      name="title"
       autofocus
       vee-rules="required"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>

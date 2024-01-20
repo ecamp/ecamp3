@@ -7,11 +7,12 @@
   >
     <component
       :is="inputComponent"
+      :name="name"
       v-bind="$attrs"
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label.prop="label || name"
+      :label.prop="defaultLabel"
       :class="[inputClass]"
       v-on="$listeners"
     >

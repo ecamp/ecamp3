@@ -8,6 +8,7 @@ Displays a field as a e-checkbox + write access via API wrapper
   <api-wrapper v-slot="wrapper" v-bind="$props" separate-buttons v-on="$listeners">
     <e-switch
       :value="wrapper.localValue"
+      :name="fieldname"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

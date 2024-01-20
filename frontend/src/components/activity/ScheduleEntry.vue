@@ -194,27 +194,25 @@ Displays a single scheduleEntry
             </table>
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
-            <v-row dense>
-              <v-col class="col col-sm-8 col-12">
-                <api-text-field
-                  :name="$tc('entity.activity.fields.location')"
-                  :uri="activity._meta.self"
-                  fieldname="location"
-                  :disabled="layoutMode || !isContributor"
-                  dense
-                />
-              </v-col>
-              <v-col class="col col-sm-4 col-12">
-                <api-select
-                  :name="$tc('entity.activity.fields.progressLabel')"
-                  :uri="activity._meta.self"
-                  fieldname="progressLabel"
-                  :items="progressLabels"
-                  :disabled="layoutMode || !isContributor"
-                  dense
-                />
-              </v-col>
-            </v-row>
+            <ApiForm :entity="activity" name="activity">
+              <v-row dense>
+                <v-col class="col col-sm-8 col-12">
+                  <api-text-field
+                    fieldname="location"
+                    :disabled="layoutMode || !isContributor"
+                    dense
+                  />
+                </v-col>
+                <v-col class="col col-sm-4 col-12">
+                  <api-select
+                    fieldname="progressLabel"
+                    :items="progressLabels"
+                    :disabled="layoutMode || !isContributor"
+                    dense
+                  />
+                </v-col>
+              </v-row>
+            </ApiForm>
             <v-row dense>
               <v-col>
                 <activity-responsibles
@@ -257,10 +255,12 @@ import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
 import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
+import ApiForm from '@/components/form/api/ApiForm.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    ApiForm,
     TogglePaperSize,
     DialogEntityDelete,
     ContentCard,

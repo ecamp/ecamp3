@@ -1,26 +1,28 @@
 <template>
-  <div>
+  <e-form name="period">
     <e-text-field
       v-model="localPeriod.description"
-      :name="$tc('entity.period.fields.description')"
+      name="description"
       vee-rules="required"
     />
 
     <e-date-picker
       v-model="localPeriod.start"
-      :name="$tc('entity.period.fields.start')"
+      name="start"
       vee-id="start"
       vee-rules="required"
       :max="localPeriod.end"
+      icon="mdi-calendar-start"
     />
 
     <e-date-picker
       v-model="localPeriod.end"
-      :name="$tc('entity.period.fields.end')"
+      name="end"
       vee-rules="required|greaterThanOrEqual_date:@start"
       :min="localPeriod.start"
+      icon="mdi-calendar-end"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>

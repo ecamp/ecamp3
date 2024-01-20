@@ -7,6 +7,7 @@ Displays a field as a e-text-field + write access via API wrapper
     <e-text-field
       ref="textField"
       :value="wrapper.localValue"
+      :name="fieldname"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

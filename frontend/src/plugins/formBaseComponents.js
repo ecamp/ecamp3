@@ -3,6 +3,7 @@
 import ECheckbox from '@/components/form/base/ECheckbox.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
+import EForm from '@/components/form/base/EForm.vue'
 import ERichtext from '@/components/form/base/ERichtext.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import ESwitch from '@/components/form/base/ESwitch.vue'
@@ -15,6 +16,7 @@ class FormBaseComponentsPlugin {
     Vue.component('ECheckbox', ECheckbox)
     Vue.component('EColorPicker', EColorPicker)
     Vue.component('EDatePicker', EDatePicker)
+    Vue.component('EForm', EForm)
     Vue.component('ERichtext', ERichtext)
     Vue.component('ESelect', ESelect)
     Vue.component('ESwitch', ESwitch)
