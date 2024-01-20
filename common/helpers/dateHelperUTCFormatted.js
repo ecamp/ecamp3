@@ -4,10 +4,6 @@ function dateShort(dateTimeString, tc) {
   return dayjs.utc(dateTimeString).format(tc('global.datetime.dateShort'))
 }
 
-function dateMedium(dateTimeString, tc) {
-  return dayjs.utc(dateTimeString).format(tc('global.datetime.dateMedium'))
-}
-
 function dateLong(dateTimeString, tc) {
   return dayjs.utc(dateTimeString).format(tc('global.datetime.dateLong'))
 }
@@ -97,7 +93,6 @@ function dateRange(start, end, tc) {
 
 export {
   dateShort,
-  dateMedium,
   dateLong,
   timeDurationShort,
   hourShort,

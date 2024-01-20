@@ -185,7 +185,6 @@
   "global": {
     "datetime": {
       "dateLong": "dd L",
-      "dateMedium": "M YYYY",
       "dateShort": "dd D.M.",
       "dateTimeLong": "dd L LT",
       "duration": {
