@@ -1,53 +1,148 @@
 <template>
-  <!--  <ValidationProvider-->
-  <!--    v-slot="{ errors: veeErrors }"-->
-  <!--    ref="validationProvider"-->
-  <!--    tag="div"-->
-  <!--    :name="name"-->
-  <!--    :vid="veeId"-->
-  <!--    :rules="veeRules"-->
-  <!--    :required="required"-->
-  <!--    class="e-form-container"-->
-  <!--  >-->
-  <v-text-field
-    ref="textField"
-    v-bind="$attrs"
-    :filled="filled"
-    :required="required"
-    :hide-details="hideDetails"
-    :error-messages="errorMessages"
-    :label="label || name"
-    :class="[inputClass]"
-    :type="type"
-    v-on="inputListeners"
-  >
-    <!-- passing through all slots -->
-    <template v-for="(_, name) in $slots" #[name]>
-      <slot :name="name" />
-    </template>
-    <template v-for="(_, name) in $slots" #[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
-    </template>
-  </v-text-field>
-  <!--  </ValidationProvider>-->
+  <div class="e-form-container">
+    <v-text-field
+      v-bind="$attrs"
+      :id="name"
+      ref="textField"
+      :name="name"
+      :type="type"
+      :model-value="inputValue"
+      :error-messages="errorMessage"
+      :label="label || name"
+      :class="[inputClass]"
+      :filled="filled"
+      :required="required"
+      :hide-details="hideDetails"
+      @update:model-value="handleChange"
+      @blur="handleBlur"
+    >
+      <!-- passing through all slots -->
+      <template v-for="(_, name) in $slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </v-text-field>
+  </div>
 </template>
 
-<script>
-// import { ValidationProvider } from 'vee-validate'
+<script setup>
+import { toRef } from 'vue'
+import { useField } from 'vee-validate'
+
+// TODO: test & implement the following props: "veeId", "required"
+
+const props = defineProps({
+  /**
+   * from vee-validate example at https://vee-validate.logaretm.com/v4/examples/custom-inputs/
+   */
+
+  modelValue: {
+    type: String,
+    default: undefined,
+  },
+  successMessage: {
+    type: String,
+    default: '',
+  },
+
+  /**
+   * props from formComponentPropsMixin
+   */
+  id: {
+    type: String,
+    required: false,
+    default: null,
+  },
+
+  // vuetify property hideDetails
+  filled: {
+    type: Boolean,
+    default: true,
+  },
+
+  // vuetify property hideDetails
+  hideDetails: {
+    type: String,
+    default: 'auto',
+  },
+
+  // set classes on input
+  inputClass: {
+    type: String,
+    default: '',
+    required: false,
+  },
+
+  // used as field name for validation and as label (if no override label is provided)
+  name: {
+    type: String,
+    required: false,
+    default: null,
+  },
+
+  // override the label which is displayed to the user; name is used instead if no label is provided
+  label: {
+    type: String,
+    required: false,
+    default: null,
+  },
+
+  // error messages from outside which should be displayed on the component
+  errorMessages: {
+    type: Array,
+    required: false,
+    default: () => [],
+  },
+
+  /**
+   * props from formComponentMixin.js
+   */
+
+  // ID for vee-validation
+  veeId: {
+    type: String,
+    required: false,
+    default: null,
+  },
+
+  // rules for vee-validation
+  veeRules: {
+    type: [String, Object],
+    required: false,
+    default: '',
+  },
+
+  /**
+   * additional props for ETextField
+   */
+  type: {
+    type: String,
+    default: 'text',
+  },
+})
+
+const name = toRef(props, 'name')
+const rules = toRef(props, 'veeRules')
+const {
+  value: inputValue,
+  errorMessage,
+  errors,
+  handleBlur,
+  handleChange,
+  meta,
+} = useField(name, rules, {
+  initialValue: props.modelValue,
+})
+</script>
+
+<!-- <script>
+import { Field } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ETextField',
   components: {
-    // ValidationProvider
-  },
-  mixins: [formComponentPropsMixin, formComponentMixin],
-  props: {
-    type: {
-      type: String,
-      default: 'text',
-    },
+    Field,
   },
   data() {
     return {
@@ -88,9 +183,15 @@ export default {
     focus() {
       this.$refs.textField.focus()
     },
+    isRequired(value) {
+      if (value && value.trim()) {
+        return true
+      }
+      return 'This is required'
+    },
   },
 }
-</script>
+</script> -->
 
 <style scoped>
 [required]:deep(label::after) {
