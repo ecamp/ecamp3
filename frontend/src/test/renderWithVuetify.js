@@ -45,7 +45,7 @@ export const createVuexStore = (storeOptions) => {
  */
 export const setTestLocale = (locale) => {
   const language = locale.substring(0, 2)
-  VueI18n.locale = locale
+  VueI18n.global.locale = locale
   Vue.dayjs.locale(locale)
   localize(language)
 }

@@ -39,10 +39,10 @@
           v-if="!loading && category().rootContentNode().children().items.length === 0"
           class="text-center bg-blue-lighten-4 text-blue-darken-4 py-4 px-2 create-layout-help"
         >
-          <i18n path="views.activity.category.createLayoutHelp">
+          <i18n-t keypath="views.activity.category.createLayoutHelp">
             <template #categoryShort>{{ category().short }}</template>
             <template #br><br /></template>
-          </i18n>
+          </i18n-t>
         </div>
         <root-node
           v-if="!loading"

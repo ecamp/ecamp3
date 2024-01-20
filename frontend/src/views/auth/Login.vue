@@ -18,9 +18,9 @@
       color="warning"
     >
       <div>
-        <i18n :path="infoTextKey">
+        <i18n-t :keypath="infoTextKey">
           <template #br><br /></template>
-        </i18n>
+        </i18n-t>
       </div>
     </v-alert>
     <v-alert v-if="error" variant="outlined" text border="start" type="error">
@@ -129,8 +129,8 @@
         }}</span>
       </v-btn>
       <small class="w-100">
-        <i18n
-          path="views.auth.login.acceptTermsOfServiceOnOAuthLogin"
+        <i18n-t
+          keypath="views.auth.login.acceptTermsOfServiceOnOAuthLogin"
           tag="p"
           class="text--secondary text-center w-100 mt-2"
           style="hyphens: auto"
@@ -140,7 +140,7 @@
               $tc('views.auth.login.termsOfServiceLink')
             }}</a>
           </template>
-        </i18n>
+        </i18n-t>
       </small>
     </div>
     <p class="mt-8 mb-0 text--secondary text-center">

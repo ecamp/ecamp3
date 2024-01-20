@@ -21,9 +21,12 @@ export const mutations = {
     }
 
     state.language = lang
-    VueI18n.locale = lang
+    VueI18n.global.locale = lang
     dayjs.locale(Object.keys(dayjsLocaleMap).includes(lang) ? dayjsLocaleMap[lang] : lang)
+
+    // TODO: commented line throws error
     // this.$validator.localize(lang)
+
     axios.defaults.headers.common['Accept-Language'] = lang
     document.querySelector('html').setAttribute('lang', lang)
     window.localStorage.setItem(LANG_KEY, lang)

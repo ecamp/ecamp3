@@ -500,7 +500,7 @@
         "accountless": "Vous n'avez pas encore de compte?",
         "email": "E-mail",
         "infoText": {
-          "dev": "Ceci est la version de développement d'eCamp v3.{br}IMPORTANT : Ceci est destiné à un usage de développement uniquement. Toutes les données sont publiques et seront supprimées périodiquement !{br}Login : test@example.com / test"
+          "dev": "Ceci est la version de développement d'eCamp v3.{br}IMPORTANT : Ceci est destiné à un usage de développement uniquement. Toutes les données sont publiques et seront supprimées périodiquement !{br}Login : test{'@'}example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Vous allez être connecté"

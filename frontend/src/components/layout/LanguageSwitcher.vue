@@ -1,14 +1,13 @@
 <template>
-  <v-menu offset-y>
-    <template #activator="{ on, attrs }">
+  <v-menu location="top right">
+    <template #activator="{ props }">
       <v-btn
         id="languageSwitcher"
         variant="text"
         class="my-n2"
         size="small"
         :aria-label="$tc('global.changeLanguage')"
-        v-bind="attrs"
-        v-on="on"
+        v-bind="props"
       >
         <v-icon start size="small">mdi-translate</v-icon>
         {{ $tc('global.language') }}

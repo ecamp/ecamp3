@@ -14,9 +14,9 @@
       <TentNight class="tent" />
       <div class="relative">
         <p class="text-white text-center px-3 d-flex justify-center mb-n8 relative">
-          <i18n path="views.pageNotFound.detail">
+          <i18n-t keypath="views.pageNotFound.detail">
             <template #br><br /></template>
-          </i18n>
+          </i18n-t>
           <br />
           <v-btn variant="text" dark :to="{ name: 'home' }" class="absolute bottom-n100">
             <v-icon start>mdi-tent</v-icon>

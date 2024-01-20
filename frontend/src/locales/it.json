@@ -500,7 +500,7 @@
         "accountless": "Non hanno ancora un conto?",
         "email": "Indirizzo e-mail",
         "infoText": {
-          "dev": "Questa è la versione di sviluppo di eCamp v3.{br}IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!{br}Login: test@example.com / test"
+          "dev": "Questa è la versione di sviluppo di eCamp v3.{br}IMPORTANTE: è destinata esclusivamente all'uso per lo sviluppo. Tutti i dati sono pubblici e verranno cancellati periodicamente!{br}Login: test{'@'}example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Sarai loggato"

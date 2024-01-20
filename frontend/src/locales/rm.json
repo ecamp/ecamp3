@@ -466,7 +466,7 @@
         "email": "E-mail",
         "infoText": {
           "beta": "Quai è la versiun beta dad eCamp v3. Questa versiun po servir per planisaziuns da champs reals che na fan dentant betg prescha. Il dumber limità da persunas ch'utiliseschan la versiun beta sto quintar cun interrupziuns pervia da lavurs da mantegniment.",
-          "dev": "Quai è la versiun per sviluppaders dad eCamp v3.{br}IMPURTANT: Mo adattà per il diever da sviluppaders. Tut las datas èn publicas e vegnan stizzadas regularmain!{br}Annunzia: test@example.com / test"
+          "dev": "Quai è la versiun per sviluppaders dad eCamp v3.{br}IMPURTANT: Mo adattà per il diever da sviluppaders. Tut las datas èn publicas e vegnan stizzadas regularmain!{br}Annunzia: test{'@'}example.com / test"
         },
         "loginCallback": {
           "loginInProgress": "Ti vegns annunzià"
