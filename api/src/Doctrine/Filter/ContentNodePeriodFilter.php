@@ -71,8 +71,7 @@ final class ContentNodePeriodFilter extends AbstractFilter {
         $queryBuilder
             ->join("{$rootAlias}.root", $rootJoinAlias)
             ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
-            ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
-            ->andWhere($queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
+            ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias, Join::WITH, $queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
         ;
 
         $queryBuilder->setParameter($periodParameterName, $period);
