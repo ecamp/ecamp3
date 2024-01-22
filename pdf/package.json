@@ -23,7 +23,7 @@
   },
   "peerDependencies": {
     "@react-pdf/font": "2.4.2",
-    "@react-pdf/layout": "3.10.1",
+    "@react-pdf/layout": "3.10.2",
     "@react-pdf/pdfkit": "3.0.4",
     "@react-pdf/render": "3.3.2",
     "colorjs.io": "0.4.5",
