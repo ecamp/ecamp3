@@ -74,12 +74,12 @@ describe('HTTP cache tests', () => {
   })
 
   it('invalidates /camp/{campId}/categories for all users on category patch', () => {
-    const uri = '/api/camps/3c79b99ab424/categories'
+    const uri = '/api/camps/9c2447aefe38/categories'
 
     // bring data into defined state
     Cypress.session.clearAllSavedSessions()
-    cy.login('castor@example.com')
-    cy.apiPatch('/api/categories/ebfd46a1c181', {
+    cy.login('bruce@wayne.com')
+    cy.apiPatch('/api/categories/c5e1bc565094', {
       name: 'old_name',
     })
 
@@ -92,13 +92,13 @@ describe('HTTP cache tests', () => {
     cy.expectCacheHit(uri)
 
     // touch category
-    cy.apiPatch('/api/categories/ebfd46a1c181', {
+    cy.apiPatch('/api/categories/c5e1bc565094', {
       name: 'new_name',
     })
 
     // ensure cache was invalidated
     cy.expectCacheMiss(uri)
-    cy.login('castor@example.com')
+    cy.login('bruce@wayne.com')
     cy.expectCacheMiss(uri)
   })
 

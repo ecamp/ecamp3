@@ -7,6 +7,7 @@ fos_http_cache:
         annotations:
             enabled: false
         max_header_value_length: 4096
+        separator: ' '
     cache_manager:
         custom_proxy_client: App\HttpCache\VarnishProxyClient
     cache_control:
