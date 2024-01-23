@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateContentNodeTest extends ECampApiTestCase {
     public function testPatchContentNodeIsAllowedForCollaborator() {
-        $contentNode = static::$fixtures['columnLayoutChild1'];
+        $contentNode = static::getFixture('columnLayoutChild1');
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), [
             'json' => [],
             'headers' => ['Content-Type' => 'application/merge-patch+json'],

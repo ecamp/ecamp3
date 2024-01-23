@@ -1,0 +1,9 @@
+files:
+  - source: /frontend/src/locales/en.json
+    translation: /frontend/src/locales/%locale%.json
+  - source: /common/locales/en.json
+    translation: /common/locales/%locale%.json
+  - source: /api/translations/email+intl-icu.en.json
+    translation: /api/translations/email+intl-icu.%locale%.json
+  - source: /api/translations/validators.en.yml
+    translation: /api/translations/validators.%locale_with_underscore%.yml

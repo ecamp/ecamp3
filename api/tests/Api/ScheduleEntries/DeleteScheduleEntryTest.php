@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteScheduleEntryTest extends ECampApiTestCase {
     public function testDeleteScheduleEntryIsDeniedForAnonymousUser() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createBasicClient()->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testDeleteScheduleEntryIsDeniedForUnrelatedUser() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testDeleteScheduleEntryIsDeniedForInactiveCollaborator() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testDeleteScheduleEntryIsDeniedForGuest() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testDeleteScheduleEntryIsAllowedForMember() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -68,14 +68,14 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testDeleteScheduleEntryIsAllowedForManager() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(ScheduleEntry::class)->find($scheduleEntry->getId()));
     }
 
     public function testDeleteScheduleEntryFromCampPrototypeIsDeniedForUnrelatedUser() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId());
 
         $this->assertResponseStatusCodeSame(403);
@@ -86,7 +86,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testDeleteScheduleEntryIsDeniedForLastScheduleEntryOfActivity() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp1'];
+        $scheduleEntry = static::getFixture('scheduleEntry1period1camp1');
         static::createClientWithCredentials()->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId());
 
         $this->assertResponseStatusCodeSame(422);

@@ -25,7 +25,7 @@ class RejectInvitationTest extends ECampApiTestCase {
      */
     public function testRejectInvitationSucceedsWhenNotLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
         static::createBasicClient()->request(
             'PATCH',
             "/invitations/{$campCollaboration->inviteKey}/".Invitation::REJECT,
@@ -51,7 +51,7 @@ class RejectInvitationTest extends ECampApiTestCase {
      */
     public function testCannotFindInvitationAfterSuccessfulReject() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
         $client = static::createBasicClient();
         $client->disableReboot();
         $client->request(
@@ -87,7 +87,7 @@ class RejectInvitationTest extends ECampApiTestCase {
      */
     public function testRejectInvitationSucceedsWhenLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
         static::createClientWithCredentials()->request(
             'PATCH',
             "/invitations/{$campCollaboration->inviteKey}/".Invitation::REJECT,
@@ -117,7 +117,7 @@ class RejectInvitationTest extends ECampApiTestCase {
      */
     public function testRejectInvitationFailsWithExtraAttribute() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
         static::createClientWithCredentials()->request(
             'PATCH',
             "/invitations/{$campCollaboration->inviteKey}/".Invitation::REJECT,
@@ -140,7 +140,7 @@ class RejectInvitationTest extends ECampApiTestCase {
      */
     public function testRejectInvitationSucceedsWhenUserAlreadyInCamp() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials()->request(
             'PATCH',
             "/invitations/{$campCollaboration->inviteKey}/".Invitation::REJECT,
@@ -171,7 +171,7 @@ class RejectInvitationTest extends ECampApiTestCase {
     #[DataProvider('invalidMethods')]
     public function testInvalidRequestWhenWrongMethod(string $method) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
         static::createClientWithCredentials()->request($method, "/invitations/{$campCollaboration->inviteKey}/".Invitation::REJECT);
         $this->assertResponseStatusCodeSame(405);
     }

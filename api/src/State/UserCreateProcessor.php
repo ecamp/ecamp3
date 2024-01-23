@@ -5,7 +5,7 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\User;
-use App\Security\ReCaptcha\ReCaptcha;
+use App\Security\ReCaptcha\ReCaptchaWrapper;
 use App\Service\MailService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\IdGenerator;
@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
-        private ReCaptcha $reCaptcha,
+        private ReCaptchaWrapper $reCaptcha,
         private UserPasswordHasherInterface $userPasswordHasher,
         private MailService $mailService
     ) {

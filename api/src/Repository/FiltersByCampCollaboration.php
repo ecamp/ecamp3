@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\CampCollaboration;
 use App\Entity\User;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 trait FiltersByCampCollaboration {
@@ -14,14 +15,19 @@ trait FiltersByCampCollaboration {
      * the alias of the camp as the third argument if it's anything other than "camp".
      */
     public function filterByCampCollaboration(QueryBuilder $queryBuilder, User $user, string $campAlias = 'camp'): void {
-        $queryBuilder->leftJoin("{$campAlias}.collaborations", "filter_{$campAlias}_campCollaboration");
+        $queryBuilder->leftJoin(
+            "{$campAlias}.collaborations",
+            "filter_{$campAlias}_campCollaboration",
+            Join::WITH,
+            $queryBuilder->expr()->andX(
+                $queryBuilder->expr()->eq("filter_{$campAlias}_campCollaboration.user", ':current_user'),
+                $queryBuilder->expr()->eq("filter_{$campAlias}_campCollaboration.status", ':established'),
+            )
+        );
         $queryBuilder->andWhere(
             $queryBuilder->expr()->orX(
                 // user is established collaborator in the camp
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->eq("filter_{$campAlias}_campCollaboration.user", ':current_user'),
-                    $queryBuilder->expr()->eq("filter_{$campAlias}_campCollaboration.status", ':established'),
-                ),
+                $queryBuilder->expr()->isNotNull("filter_{$campAlias}_campCollaboration.id"),
 
                 // camp is a Prototype = all Prototypes are readable
                 $queryBuilder->expr()->eq("{$campAlias}.isPrototype", ':true'),

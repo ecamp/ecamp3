@@ -9,19 +9,19 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteProfileTest extends ECampApiTestCase {
     public function testDeleteProfileIsDeniedForAnonymousUser() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createBasicClient()->request('DELETE', '/profiles/'.$user->getId());
         $this->assertResponseStatusCodeSame(405);
     }
 
     public function testDeleteProfileIsDeniedForDifferentProfile() {
-        $user2 = static::$fixtures['user2member'];
+        $user2 = static::getFixture('user2member');
         static::createClientWithCredentials()->request('DELETE', '/profiles/'.$user2->getId());
         $this->assertResponseStatusCodeSame(405);
     }
 
     public function testDeleteProfileIsDeniedForSelf() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('DELETE', '/profiles/'.$user->getId());
         $this->assertResponseStatusCodeSame(405);
     }

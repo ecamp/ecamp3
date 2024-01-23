@@ -65,12 +65,28 @@ body {
   }
 
   .e-title-link {
-    color: #000;
+    color: inherit;
+    text-underline-offset: 0.1em;
     text-decoration-color: #1976d2;
+    outline-offset: 0.2em;
+
+    &:focus {
+      text-decoration-line: none;
+    }
 
     &:hover {
       text-decoration-thickness: 2px;
     }
+  }
+
+  .v-alert.warning--text {
+    .v-alert__icon {
+      color: #d25f00 !important;
+    }
+    .v-alert__content {
+      color: #972e00 !important;
+    }
+    border-color: #ffe0b2 !important;
   }
 
   .elevation-4--light {
@@ -83,6 +99,11 @@ body {
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+.v-list-item--link:before {
+  border-radius: inherit;
+}
+
 .e-form-container + .e-form-container {
   margin-top: 12px;
 }

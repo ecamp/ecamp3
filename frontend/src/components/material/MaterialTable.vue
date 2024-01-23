@@ -142,9 +142,10 @@
 
     <template #[`header.lastColumn`]>
       <button
+        v-if="!hidePeriodFilter"
         class="ec-material-table__filterbutton"
         :class="{ 'primary--text': periodOnly }"
-        :disabled="layoutMode"
+        :disabled="layoutMode || !periodFilterEnabled"
         @click="periodOnly = !periodOnly"
       >
         <span>
@@ -157,7 +158,12 @@
               : $tc('components.material.materialTable.reference')
           }}
         </span>
-        <v-icon aria-hidden="true" small :color="periodOnly ? 'primary' : null">
+        <v-icon
+          v-if="periodFilterEnabled"
+          aria-hidden="true"
+          small
+          :color="periodOnly ? 'primary' : null"
+        >
           {{ periodOnly ? 'mdi-filter' : 'mdi-filter-outline' }}
         </v-icon>
       </button>
@@ -252,6 +258,9 @@ export default {
 
     // period Entity for displaying material items within a period (should be null if materialNode is provided)
     period: { type: Object, required: false, default: null },
+
+    // Hide the filter button activity / period
+    hidePeriodFilter: { type: Boolean, required: false, default: false },
   },
   data() {
     return {
@@ -366,6 +375,17 @@ export default {
     },
     isDefaultVariant() {
       return this.clientWidth > 710
+    },
+    // Show filter just if period material is in the list
+    periodFilterEnabled() {
+      return this.materialItemCollection.items.some((item) => item.materialNode === null)
+    },
+  },
+  watch: {
+    periodFilterEnabled() {
+      if (!this.periodFilterEnabled) {
+        this.periodOnly = false
+      }
     },
   },
   mounted() {

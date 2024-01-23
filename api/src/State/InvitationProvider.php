@@ -8,6 +8,8 @@ use App\DTO\Invitation;
 use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
@@ -23,8 +25,8 @@ class InvitationProvider implements ProviderInterface {
     ) {}
 
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
+     * @throws NonUniqueResultException
+     * @throws NoResultException
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Invitation {
         $id = $uriVariables['inviteKey'];

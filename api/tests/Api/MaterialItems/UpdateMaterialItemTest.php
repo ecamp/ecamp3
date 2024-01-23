@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateMaterialItemTest extends ECampApiTestCase {
     public function testPatchMaterialItemIsDeniedForAnonymousUser() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createBasicClient()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialList' => $this->getIriFor('materialList2WithNoItems'),
             'period' => $this->getIriFor('period1'),
@@ -25,7 +25,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemIsDeniedForUnrelatedUser() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
@@ -44,7 +44,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemIsDeniedForInactiveCollaborator() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
@@ -63,7 +63,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemIsDeniedForGuest() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
@@ -82,7 +82,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemIsAllowedForMember() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
@@ -107,7 +107,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemIsAllowedForManager() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialList' => $this->getIriFor('materialList2WithNoItems'),
             'period' => $this->getIriFor('period1'),
@@ -130,7 +130,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemInCampPrototypeIsDeniedForUnrelatedUser() {
-        $materialItem = static::$fixtures['materialItem1period1campPrototype'];
+        $materialItem = static::getFixture('materialItem1period1campPrototype');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialNode' => null,
             'article' => 'Mehl',
@@ -145,7 +145,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesMissingMaterialList() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialList' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -157,7 +157,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesMaterialListFromDifferentCamp() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialList' => $this->getIriFor('materialList1camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -174,7 +174,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemAllowsPeriodInsteadOfMaterialNode() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => $this->getIriFor('period1'),
             'materialNode' => null,
@@ -190,7 +190,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesMissingPeriodAndMaterialNode() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => null,
             'materialNode' => null,
@@ -212,7 +212,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesConflictingPeriodAndMaterialNode() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => $this->getIriFor('period1'),
             'materialNode' => $this->getIriFor('materialNode1'),
@@ -234,7 +234,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesPeriodFromDifferentCamp() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => $this->getIriFor('period1camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -251,7 +251,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesMaterialNodeFromDifferentCamp() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialNode' => $this->getIriFor('materialNode2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -268,7 +268,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesMissingArticle() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'article' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -280,7 +280,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesArticleMinLength() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'article' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -297,7 +297,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesArticleMaxLength() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'article' => str_repeat('a', 65),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -314,7 +314,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesTrimsArticle() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'article' => " \tarticle\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -326,7 +326,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesCleansTextOnArticle() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'article' => "\u{000A}article\u{0007}",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -338,7 +338,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemAllowsMissingQuantity() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'quantity' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -348,7 +348,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesInvalidQuantity() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'quantity' => '1',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -360,7 +360,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemAcceptsLargeNumberForQuantity() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             // around PHP_FLOAT_MAX. We cannot send a greater number with php.
             // Via the Swagger UI values greater than FLOAT_MAX result in 0.
@@ -374,7 +374,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemDoesNotCrashForLargeNumberForQuantity() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request(
             'PATCH',
             '/material_items/'.$materialItem->getId(),
@@ -397,7 +397,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemAllowsMissingUnit() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'unit' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -407,7 +407,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesUnitMaxLength() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'unit' => str_repeat('a', 33),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -424,7 +424,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesTrimsUnit() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'unit' => " \tunit\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -436,7 +436,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testPatchMaterialItemValidatesCleansTextOnUnit() {
-        $materialItem = static::$fixtures['materialItem1'];
+        $materialItem = static::getFixture('materialItem1');
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'unit' => "\u{000A}unit\u{0007}",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

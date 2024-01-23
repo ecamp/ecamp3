@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class ReadUserTest extends ECampApiTestCase {
     public function testGetSingleUserIsDeniedForAnonymousUser() {
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createBasicClient()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -32,7 +32,7 @@ class ReadUserTest extends ECampApiTestCase {
     }
 
     public function testGetSingleUserIsAllowedForUnrelatedUser() {
-        $user = static::$fixtures['user4unrelated'];
+        $user = static::getFixture('user4unrelated');
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -51,7 +51,7 @@ class ReadUserTest extends ECampApiTestCase {
 
     public function testGetSingleUserIsAllowedForSelf() {
         /** @var User $user */
-        $user = static::$fixtures['user1manager'];
+        $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonEquals([
@@ -70,7 +70,7 @@ class ReadUserTest extends ECampApiTestCase {
 
     public function testGetSingleUserIsAllowedForRelatedUser() {
         /** @var User $user */
-        $user = static::$fixtures['user2member'];
+        $user = static::getFixture('user2member');
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonEquals([

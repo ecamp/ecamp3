@@ -2,10 +2,13 @@
 
 namespace App\Security\ReCaptcha;
 
-class ReCaptcha {
+use ReCaptcha\ReCaptcha;
+use ReCaptcha\Response;
+
+class ReCaptchaWrapper {
     public function __construct(
         private string $reCaptchaSecret,
-        private \ReCaptcha\ReCaptcha $reCaptcha,
+        private ReCaptcha $reCaptcha,
     ) {}
 
     public function verify($response, $remoteIp = null) {
@@ -14,6 +17,6 @@ class ReCaptcha {
         }
 
         // if no reCaptchaSecret (dev & test) -> auto-success
-        return new \ReCaptcha\Response(true);
+        return new Response(true);
     }
 }

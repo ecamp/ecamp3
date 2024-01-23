@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateDayTest extends ECampApiTestCase {
     public function testPatchDayIsNotAllowed() {
-        $day = static::$fixtures['day1period1'];
+        $day = static::getFixture('day1period1');
         static::createClientWithCredentials()->request('PATCH', '/days/'.$day->getId(), ['json' => [
             'dayOffset' => 3,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

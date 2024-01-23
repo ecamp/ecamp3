@@ -45,7 +45,7 @@ class ListActivityProgressLabelTest extends ECampApiTestCase {
     }
 
     public function testListActivityProgressLabelsFilteredByCampIsAllowedForCollaborator() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()
             ->request('GET', '/activity_progress_labels?camp=%2Fcamps%2F'.$camp->getId())
         ;
@@ -66,7 +66,7 @@ class ListActivityProgressLabelTest extends ECampApiTestCase {
     }
 
     public function testListActivityProgressLabelsFilteredByCampIsDeniedForUnrelatedUser() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activity_progress_labels?camp=%2Fcamps%2F'.$camp->getId())
         ;

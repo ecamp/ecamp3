@@ -54,9 +54,6 @@
             fieldname="language"
             :items="availableLocales"
           />
-          <p class="text-caption blue-grey--text mb-0">
-            {{ $tc('global.lokaliseMessage') }}
-          </p>
           <v-btn
             v-if="!$vuetify.breakpoint.mdAndUp"
             class="mt-2"

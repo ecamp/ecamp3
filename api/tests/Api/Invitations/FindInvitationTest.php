@@ -5,21 +5,26 @@ namespace App\Tests\Api\Invitations;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * @internal
  */
 class FindInvitationTest extends ECampApiTestCase {
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function testFindInvitationWhenNotLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createBasicClient()->request('GET', "/invitations/{$campCollaboration->inviteKey}/find");
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -34,15 +39,15 @@ class FindInvitationTest extends ECampApiTestCase {
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
     public function testFindInvitationWhenLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration2invitedCampUnrelated'];
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
         static::createClientWithCredentials()->request('GET', "/invitations/{$campCollaboration->inviteKey}/find");
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -57,18 +62,18 @@ class FindInvitationTest extends ECampApiTestCase {
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
     public function testUserAlreadyInCampFalseForOwnCampCollaboration() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
 
         /** @var User $invitedUser */
-        $invitedUser = static::$fixtures['user6invited'];
+        $invitedUser = static::getFixture('user6invited');
         static::createClientWithCredentials(['email' => $invitedUser->getEmail()])
             ->request('GET', "/invitations/{$campCollaboration->inviteKey}/find")
         ;
@@ -85,15 +90,15 @@ class FindInvitationTest extends ECampApiTestCase {
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
     public function testUserAlreadyInCampTrueWhenUserAlreadyInCamp() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
         static::createClientWithCredentials()->request('GET', "/invitations/{$campCollaboration->inviteKey}/find");
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -111,18 +116,18 @@ class FindInvitationTest extends ECampApiTestCase {
      * A user should not accept a second invitation, because we cannot have 2 invitations with the same user attached.
      * Thus we tell him that there is already an invitation with his user, and he should use that one.
      *
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
     public function testUserAlreadyInCampTrueWhenUserAlreadyInCampEvenIfInactive() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        $campCollaboration = static::getFixture('campCollaboration4invited');
 
         /** @var User $inactiveUser */
-        $inactiveUser = static::$fixtures['user5inactive'];
+        $inactiveUser = static::getFixture('user5inactive');
         static::createClientWithCredentials(['email' => $inactiveUser->getEmail()])
             ->request('GET', "/invitations/{$campCollaboration->inviteKey}/find")
         ;

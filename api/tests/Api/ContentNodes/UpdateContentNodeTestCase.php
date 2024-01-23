@@ -103,7 +103,7 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
 
     public function testPatchRejectsNullSlotOnNonRootNodes() {
         if ($this->defaultEntity instanceof ColumnLayout) {
-            $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+            $this->defaultEntity = static::getFixture('columnLayoutChild1');
         }
         $this->patch(
             payload: [
@@ -136,7 +136,7 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
 
     public function testPatchResortsEntriesIfExistingPositionWasUsed() {
         if ($this->defaultEntity instanceof ColumnLayout) {
-            $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+            $this->defaultEntity = static::getFixture('columnLayoutChild1');
         }
         $this->patch(
             payload: [

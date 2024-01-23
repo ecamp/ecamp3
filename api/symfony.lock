@@ -154,15 +154,15 @@
         "version": "1.5.1"
     },
     "friendsofphp/php-cs-fixer": {
-        "version": "2.17",
+        "version": "3.46",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.17",
-            "ref": "f0d4b4ddb4e2bb73b227e3987b6ecc53cd8be431"
+            "branch": "main",
+            "version": "3.0",
+            "ref": "be2103eb4a20942e28a6dd87736669b757132435"
         },
         "files": [
-            ".php_cs.dist"
+            ".php-cs-fixer.dist.php"
         ]
     },
     "friendsofphp/proxy-manager-lts": {
@@ -246,12 +246,12 @@
         "version": "4.0.0"
     },
     "lexik/jwt-authentication-bundle": {
-        "version": "2.5",
+        "version": "2.20",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "2.5",
-            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+            "ref": "e9481b233a11ef7e15fe055a2b21fd3ac1aa2bb7"
         },
         "files": [
             "config/packages/lexik_jwt_authentication.yaml"

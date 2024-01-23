@@ -11,6 +11,7 @@ use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Exception\InvalidStateException;
 use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
@@ -104,7 +105,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
      * After this custom state parameter check, we delegate to the original implementation to finish the OAuth
      * flow.
      *
-     * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
+     * @throws IdentityProviderException
      */
     public function getAccessToken(array $options = []): AccessTokenInterface {
         $jwt = $this->getCurrentRequest()->cookies->get($this->getCookieName($this->cookiePrefix));

@@ -17,7 +17,7 @@ exports[`An ETextArea > looks like a textarea > mountAsInControls 1`] = `
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
                               <div auto-grow
-                                   class="editor"
+                                   class="editor editor--editable"
                                    id
                                    rows="3">
                                    <!---->
@@ -46,7 +46,7 @@ exports[`An ETextArea > looks like a textarea > multiline 1`] = `
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
-                              <div class="editor"
+                              <div class="editor editor--editable"
                                    id
                                    multi-line>
                                    <!---->
@@ -67,7 +67,7 @@ exports[`An ETextArea > looks like a textarea > notext 1`] = `
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
-                              <div class="editor"
+                              <div class="editor editor--editable"
                                    id>
                                    <!---->
                                    <div class="editor__content"></div>
@@ -94,7 +94,7 @@ exports[`An ETextArea > looks like a textarea > withtext 1`] = `
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
-                              <div class="editor"
+                              <div class="editor editor--editable"
                                    id>
                                    <!---->
                                    <div class="editor__content">
