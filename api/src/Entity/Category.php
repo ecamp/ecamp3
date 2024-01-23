@@ -56,13 +56,13 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            security: 'is_granted("CAMP_COLLABORATOR", request) or is_granted("CAMP_IS_PROTOTYPE", request)',
             name: 'BelongsToCamp_App\Entity\Category_get_collection',
             uriTemplate: '/camps/{campId}/categories.{_format}',
             uriVariables: [
                 'campId' => new Link(
                     fromClass: Camp::class,
-                    fromProperty: 'categories'
+                    toProperty: 'camp',
+                    security: 'is_granted("CAMP_COLLABORATOR", camp) or is_granted("CAMP_IS_PROTOTYPE", camp)'
                 ),
             ],
         ),

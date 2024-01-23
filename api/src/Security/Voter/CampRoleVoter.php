@@ -10,7 +10,6 @@ use App\Entity\User;
 use App\HttpCache\ResponseTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -34,7 +33,7 @@ class CampRoleVoter extends Voter {
 
     protected function supports($attribute, $subject): bool {
         return in_array($attribute, array_keys(self::RULE_MAPPING))
-            && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeTreeInterface || $subject instanceof Request);
+            && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeTreeInterface);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {
@@ -43,11 +42,7 @@ class CampRoleVoter extends Voter {
             return false;
         }
 
-        if ($subject instanceof Request) {
-            $camp = $this->em->getRepository(Camp::class)->find($subject->attributes->get('campId'));
-        } else {
-            $camp = $this->getCampFromInterface($subject, $this->em);
-        }
+        $camp = $this->getCampFromInterface($subject, $this->em);
 
         if (null === $camp) {
             // Allow access when camp is null.

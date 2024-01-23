@@ -96,4 +96,33 @@ class ListCategoriesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('category1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testListCategoriesAsCampSubresourceIsAllowedForCollaborator() {
+        $camp = static::getFixture('camp1');
+        $response = static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId().'/categories');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 3,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('category1')],
+            ['href' => $this->getIriFor('category2')],
+            ['href' => $this->getIriFor('categoryWithNoActivities')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListCategoriesAsCampSubresourceIsDeniedForUnrelatedUser() {
+        $camp = static::getFixture('camp1');
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/camps/'.$camp->getId().'/categories')
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

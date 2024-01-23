@@ -15,8 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -267,34 +265,6 @@ class CampRoleVoterTest extends TestCase {
 
         // when
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
-
-        // then
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
-    }
-
-    public function testGrantsAccessViaRequestParameter() {
-        // given
-        $user = $this->createMock(User::class);
-        $user->method('getId')->willReturn('idFromTest');
-        $user2 = $this->createMock(User::class);
-        $user2->method('getId')->willReturn('idFromTest');
-        $this->token->method('getUser')->willReturn($user);
-        $collaboration = new CampCollaboration();
-        $collaboration->user = $user2;
-        $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
-        $collaboration->role = CampCollaboration::ROLE_MANAGER;
-        $camp = new Camp();
-        $camp->collaborations->add($collaboration);
-        $repository = $this->createMock(EntityRepository::class);
-        $this->em->method('getRepository')->willReturn($repository);
-        $repository->method('find')->willReturn($camp);
-
-        $request = $this->createMock(Request::class);
-        $request->attributes = $this->createMock(ParameterBag::class);
-        $request->attributes->method('get')->with('campId')->willReturn('campId-123');
-
-        // when
-        $result = $this->voter->vote($this->token, $request, ['CAMP_COLLABORATOR']);
 
         // then
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
