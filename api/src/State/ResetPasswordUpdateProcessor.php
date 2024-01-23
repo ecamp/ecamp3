@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
- * @implements ProcessorInterface<ResetPassword>
+ * @implements ProcessorInterface<ResetPassword, ResetPassword>
  */
 class ResetPasswordUpdateProcessor implements ProcessorInterface {
     public function __construct(

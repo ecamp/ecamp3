@@ -12,7 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 /**
- * @implements ProcessorInterface<Invitation>
+ * @implements ProcessorInterface<Invitation, Invitation>
  */
 class InvitationAcceptProcessor implements ProcessorInterface {
     public function __construct(

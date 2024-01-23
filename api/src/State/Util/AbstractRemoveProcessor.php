@@ -8,7 +8,7 @@ use ApiPlatform\State\ProcessorInterface;
 /**
  * @template T
  *
- * @template-implements ProcessorInterface<T>
+ * @template-implements ProcessorInterface<T, T>
  */
 abstract class AbstractRemoveProcessor implements ProcessorInterface {
     public function __construct(

@@ -8,7 +8,7 @@ use ApiPlatform\State\ProcessorInterface;
 /**
  * @template T
  *
- * @template-implements ProcessorInterface<T>
+ * @template-implements ProcessorInterface<T, T>
  */
 abstract class AbstractPersistProcessor implements ProcessorInterface {
     /**

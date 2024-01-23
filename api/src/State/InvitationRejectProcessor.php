@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 /**
- * @implements ProcessorInterface<Invitation>
+ * @implements ProcessorInterface<Invitation, Invitation>
  */
 class InvitationRejectProcessor implements ProcessorInterface {
     public function __construct(
