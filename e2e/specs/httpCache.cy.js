@@ -218,7 +218,7 @@ describe('HTTP cache tests', () => {
       url: Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal',
       failOnStatusCode: false,
     }).then((response) => {
-      expect(response.status).to.eq(403)
+      expect(response.status).to.eq(404)
     })
 
     // delete old emails
