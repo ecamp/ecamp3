@@ -10,6 +10,7 @@
       <dialog-entity-delete
         v-if="showDelete"
         :entity="contentNode"
+        :warning-text-entity="contentNodeName"
         @error="deletingFailed"
       >
         <template #activator="{ on }">
@@ -29,6 +30,7 @@
 <script>
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import camelCase from 'lodash/camelCase.js'
 
 export default {
   name: 'MenuCardlessContentNode',
@@ -61,6 +63,9 @@ export default {
       return this.deletingDisabled
         ? this.$tc('components.activity.menuCardlessContentNode.deletingDisabled')
         : this.$tc('global.button.delete')
+    },
+    contentNodeName() {
+      return this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.name`)
     },
   },
   methods: {
