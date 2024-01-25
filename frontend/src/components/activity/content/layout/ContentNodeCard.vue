@@ -46,7 +46,11 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
 
-        <DialogEntityDelete v-if="layoutMode && !disabled" :entity="contentNode">
+        <DialogEntityDelete
+          v-if="layoutMode && !disabled"
+          :entity="contentNode"
+          :warning-text-entity="instanceOrContentTypeName"
+        >
           <template #activator="{ on }">
             <v-btn
               icon
