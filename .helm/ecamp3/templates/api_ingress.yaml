@@ -29,7 +29,13 @@ spec:
             pathType: Prefix
             backend:
               service:
+                {{- if .Values.apiCache.enabled }}
+                name: {{ include "apiCache.name" . }}
+                port:
+                  number: {{ .Values.apiCache.service.ports.http }}
+                {{- else }}
                 name: {{ include "api.name" . }}
                 port:
                   number: {{ .Values.api.service.port }}
+                {{- end }}
 {{- end }}

@@ -187,7 +187,10 @@ class RejectInvitationTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      */
     public function testNotFoundWhenInviteKeyDoesNotMatch() {
-        static::createClientWithCredentials()->request('PATCH', '/invitations/notExisting/'.Invitation::REJECT);
+        static::createClientWithCredentials()->request('PATCH', '/invitations/notExisting/'.Invitation::REJECT, [
+            'json' => [],
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
         $this->assertResponseStatusCodeSame(404);
     }
 
@@ -198,7 +201,10 @@ class RejectInvitationTest extends ECampApiTestCase {
      * @throws ClientExceptionInterface
      */
     public function testNotFoundWhenNoInviteKey() {
-        static::createClientWithCredentials()->request('PATCH', '/invitations/'.Invitation::REJECT);
+        static::createClientWithCredentials()->request('PATCH', '/invitations/'.Invitation::REJECT, [
+            'json' => [],
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
         $this->assertResponseStatusCodeSame(404);
     }
 }

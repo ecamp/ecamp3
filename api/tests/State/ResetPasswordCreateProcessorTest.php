@@ -96,6 +96,8 @@ class ResetPasswordCreateProcessorTest extends TestCase {
         $this->resetPassword->email = self::EMAIL;
 
         $data = $this->processor->process($this->resetPassword, new Post());
+
+        self::assertThat($data, self::isNull());
     }
 
     public function testCreateWithKnowneMailCreatesResetKey() {
@@ -124,6 +126,6 @@ class ResetPasswordCreateProcessorTest extends TestCase {
         $this->resetPassword->email = self::EMAIL;
         $data = $this->processor->process($this->resetPassword, new Post());
 
-        self::assertThat($data->id, self::logicalNot(self::isNull()));
+        self::assertThat($data, self::isNull());
     }
 }

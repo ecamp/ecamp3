@@ -5,12 +5,14 @@ namespace App\Serializer\Normalizer;
 use ApiPlatform\Api\FilterInterface;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Exception\OperationNotFoundException;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Entity\BaseEntity;
+use App\Entity\BelongsToCampInterface;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Metadata\Resource\OperationHelper;
 use App\Util\ClassInfoTrait;
@@ -174,7 +176,22 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         }
 
         $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($relatedResourceClass);
-        $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
+
+        $operation = null;
+        $parameters[$relatedFilterName] = urlencode($this->iriConverter->getIriFromResource($object));
+
+        try {
+            if (is_a($relatedResourceClass, BelongsToCampInterface::class, true) && is_a($object, BelongsToCampInterface::class, true)) {
+                $operation = $resourceMetadataCollection->getOperation("BelongsToCamp_{$relatedResourceClass}_get_collection");
+                $parameters['campId'] = $object->getCamp()->getId();
+                $parameters['camp'] = null;
+            }
+        } catch (OperationNotFoundException $e) {
+        } finally {
+            if (!$operation) {
+                $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
+            }
+        }
 
         if (!$operation) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not implement GetCollection() operation.');
@@ -184,7 +201,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
         }
 
-        return $this->router->generate($operation->getName(), [$relatedFilterName => urlencode($this->iriConverter->getIriFromResource($object))], UrlGeneratorInterface::ABS_PATH);
+        return $this->router->generate($operation->getName(), $parameters, UrlGeneratorInterface::ABS_PATH);
     }
 
     protected function getRelatedCollectionLinkAnnotation(string $className, string $propertyName): ?RelatedCollectionLink {

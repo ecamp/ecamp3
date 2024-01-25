@@ -24,5 +24,6 @@ module.exports = defineConfig({
   env: {
     PRINT_URL: 'http://localhost:3000/print',
     API_ROOT_URL: 'http://localhost:3000/api',
+    API_ROOT_URL_CACHED: 'http://localhost:3004',
   },
 })
