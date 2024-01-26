@@ -211,6 +211,7 @@ Displays a single scheduleEntry
                   fieldname="progressLabel"
                   :items="progressLabels"
                   :disabled="layoutMode || !isContributor"
+                  clearable
                   dense
                 />
               </v-col>
