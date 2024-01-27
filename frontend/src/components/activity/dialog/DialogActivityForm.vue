@@ -3,7 +3,8 @@
     <div class="e-form-container d-flex gap-2">
       <e-text-field
         v-model="localActivity.title"
-        :name="$tc('entity.activity.fields.title')"
+        name="title"
+        :label="$tc('entity.activity.fields.title')"
         vee-rules="required"
         class="flex-grow-1"
       />
@@ -12,7 +13,8 @@
 
     <e-select
       v-model="localActivity.category"
-      :name="$tc('entity.activity.fields.category')"
+      name="category"
+      :label="$tc('entity.activity.fields.category')"
       :items="categories.items"
       item-value="_meta.self"
       item-text="name"
@@ -35,11 +37,13 @@
     </e-select>
 
     <e-text-field
+      v-if="!hideLocation"
       v-model="localActivity.location"
-      :name="$tc('entity.activity.fields.location')"
+      name="location"
+      :label="$tc('entity.activity.fields.location')"
     />
 
-    <form-schedule-entry-list
+    <FormScheduleEntryList
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
@@ -67,6 +71,10 @@ export default {
     period: {
       type: Function,
       required: true,
+    },
+    hideLocation: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

@@ -155,7 +155,7 @@ Displays a single scheduleEntry
       <template v-else>
         <!-- Header -->
         <v-row dense class="activity-header">
-          <v-col class="col col-sm-6 col-12 px-0 pt-0">
+          <v-col class="col col-sm-6 col-12 px-0 pt-0 d-flex flex-wrap gap-x-4">
             <table>
               <thead>
                 <tr>
@@ -192,6 +192,16 @@ Displays a single scheduleEntry
                 </tr>
               </tbody>
             </table>
+            <DialogActivityEdit
+              v-if="activity && isContributor"
+              :schedule-entry="scheduleEntry()"
+              hide-header-fields
+              @activityUpdated="activity.$reload()"
+            >
+              <template #activator="{ on }">
+                <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
+              </template>
+            </DialogActivityEdit>
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
             <v-row dense>
@@ -258,10 +268,14 @@ import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
 import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    DialogActivityEdit,
+    ButtonEdit,
     TogglePaperSize,
     DialogEntityDelete,
     ContentCard,

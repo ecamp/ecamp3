@@ -192,7 +192,9 @@
     "scheduleEntry": {
       "fields": {
         "duration": "Dauer",
+        "end": "Ende",
         "nr": "Nr.",
+        "start": "Start",
         "time": "Zeitpunkt"
       },
       "name": "Zeitplaneintrag"

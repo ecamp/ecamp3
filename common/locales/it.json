@@ -176,7 +176,9 @@
     "scheduleEntry": {
       "fields": {
         "duration": "Durata",
+        "end": "Fine",
         "nr": "N.",
+        "start": "Inizio",
         "time": "Tempo"
       },
       "name": "Inserimento nel programma"
