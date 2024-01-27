@@ -6,10 +6,12 @@
       :label="$tc('components.print.config.programConfig.periods')"
       multiple
       :filled="false"
+      @input="$emit('input')"
     />
     <e-checkbox
       v-model="options.dayOverview"
       :label="$tc('components.print.config.programConfig.dayOverview')"
+      @input="$emit('input')"
     />
   </div>
 </template>

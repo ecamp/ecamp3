@@ -6,12 +6,14 @@
       :items="periods"
       multiple
       :filled="false"
+      @input="$emit('input')"
     />
     <e-select
       v-model="options.orientation"
       :label="$tc('components.print.config.picassoConfig.orientation')"
       :items="orientations"
       :filled="false"
+      @input="$emit('input')"
     />
   </div>
 </template>

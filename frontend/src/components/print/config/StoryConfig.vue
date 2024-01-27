@@ -6,6 +6,7 @@
       :label="$tc('components.print.config.storyConfig.periods')"
       multiple
       :filled="false"
+      @input="$emit('input')"
     />
   </div>
 </template>

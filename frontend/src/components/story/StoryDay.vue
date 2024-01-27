@@ -31,12 +31,12 @@
             <api-form :entity="chapter">
               <api-richtext
                 class="e-story-day"
-                :class="{ 'e-story-day--textmode': !editing }"
+                :class="{ 'e-story-day--textmode': !editMode }"
                 :outlined="false"
                 :solo="false"
                 auto-grow
                 dense
-                :readonly="!editing"
+                :readonly="!editMode"
                 fieldname="data.html"
                 aria-label="Erfassen"
                 label=""
@@ -66,7 +66,7 @@ export default {
   mixins: [dateHelperUTCFormatted],
   props: {
     day: { type: Object, required: true },
-    editing: { type: Boolean, default: false },
+    editMode: { type: Boolean, default: false },
     periodStoryChapters: { type: Array, required: true },
   },
   computed: {
