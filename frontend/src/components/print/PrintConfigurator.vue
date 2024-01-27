@@ -110,6 +110,7 @@ import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdf
 import DownloadClientPdfButton from '@/components/print/print-client/DownloadClientPdfButton.vue'
 import { getEnv } from '@/environment.js'
 import cloneDeep from 'lodash/cloneDeep'
+import VueI18n from '../../plugins/i18n/index.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -152,13 +153,15 @@ export default {
       return this.$store.state.lang.language
     },
     cnf() {
-      return cloneDeep(
-        this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
-          language: this.lang,
-          documentName: this.camp().name,
-          camp: this.camp()._meta.self,
-          contents: this.defaultContents(),
-        })
+      return this.repairConfig(
+        cloneDeep(
+          this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
+            language: this.lang,
+            documentName: this.camp().name,
+            camp: this.camp()._meta.self,
+            contents: this.defaultContents(),
+          })
+        )
       )
     },
     isDev() {
@@ -238,6 +241,22 @@ export default {
           printConfig: cloneDeep(this.cnf),
         })
       })
+    },
+    repairConfig(config) {
+      if (!(config.language in VueI18n.availableLocales)) config.language = 'en'
+      if (!config.documentName) config.documentName = this.camp().name
+      if (config.camp !== this.camp()._meta.self) config.camp = this.camp()._meta.self
+      config.contents = config.contents
+        .map((content) => {
+          if (!content.type) return null
+          const component = this.contentComponents[content.type]
+          if (!component) return null
+          if (typeof component.repairConfig !== 'function') return content
+          return component.repairConfig(content, this.camp())
+        })
+        .filter((component) => component)
+
+      return config
     },
   },
 }

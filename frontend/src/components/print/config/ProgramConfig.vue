@@ -48,5 +48,15 @@ export default {
   design: {
     multiple: true,
   },
+  repairConfig(config, camp) {
+    if (!config.options) config.options = {}
+    if (!config.options.periods) config.options.periods = []
+    const knownPeriods = camp.periods().items.map((p) => p._meta.self)
+    config.options.periods = config.options.periods.filter((period) => {
+      return knownPeriods.includes(period)
+    })
+    if (typeof config.options.dayOverview !== 'boolean') config.options.dayOverview = true
+    return config
+  },
 }
 </script>
