@@ -130,6 +130,7 @@
       "@vue/eslint-config-prettier"
     ],
     "rules": {
+      "prefer-const": "error",
       "prettier/prettier": "error",
       "vue/component-tags-order": [
         "error",

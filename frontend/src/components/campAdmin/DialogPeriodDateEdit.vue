@@ -118,8 +118,8 @@ export default {
       return this.$date.utc(this.entityData.end, 'YYYY-MM-DD').format('L')
     },
     periodDurationInDays() {
-      let start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
-      let end = this.$date.utc(this.entityData.end, 'YYYY-MM-DD')
+      const start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
+      const end = this.$date.utc(this.entityData.end, 'YYYY-MM-DD')
       return 1 + end.diff(start, 'day')
     },
   },
@@ -139,11 +139,11 @@ export default {
   methods: {
     startChanged() {
       if (this.mode == 'move') {
-        let origStart = this.$date.utc(this.period.start, 'YYYY-MM-DD')
-        let origEnd = this.$date.utc(this.period.end, 'YYYY-MM-DD')
-        let origLength = origEnd - origStart
-        let start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
-        let end = start.add(origLength)
+        const origStart = this.$date.utc(this.period.start, 'YYYY-MM-DD')
+        const origEnd = this.$date.utc(this.period.end, 'YYYY-MM-DD')
+        const origLength = origEnd - origStart
+        const start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
+        const end = start.add(origLength)
         this.entityData.end = end.format('YYYY-MM-DD')
       }
     },
