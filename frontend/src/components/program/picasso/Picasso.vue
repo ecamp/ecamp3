@@ -76,7 +76,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import Vue, { reactive, ref, toRefs, watch } from 'vue'
+import Vue, { reactive, ref, toRefs, watch, computed } from 'vue'
 import { useDragAndDropMove } from './useDragAndDropMove.js'
 import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
@@ -140,6 +140,12 @@ export default {
       required: false,
       default: null,
     },
+
+    // This should probably be done in ScheduleEntries and be used for Dashboard and CampProgram
+    filtered: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   // emitted events
@@ -150,7 +156,7 @@ export default {
 
   // composition API setup
   setup(props, { emit }) {
-    const { editable, scheduleEntries, start, end } = toRefs(props)
+    const { editable, scheduleEntries, start, end, filtered } = toRefs(props)
 
     const isSaving = ref(false)
 
@@ -239,6 +245,9 @@ export default {
         timed: true,
         isResizing: false,
         isMoving: false,
+
+        // just to show the effect
+        isFiltered: computed(() => filtered.value && Math.random() > 0.5),
       }))
 
       // add placeholder for drag & drop (create new entry)
