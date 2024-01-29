@@ -36,6 +36,7 @@
             "prettier"
         ],
         "rules": {
+            "prefer-const": "error",
             "prettier/prettier": "error",
             "no-unused-vars": [
                 "error",

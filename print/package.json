@@ -70,6 +70,7 @@
       "no-undef": "off",
       "no-console": "off",
       "prettier/prettier": "error",
+      "prefer-const": "error",
       "vue/multi-word-component-names": "off",
       "local-rules/matching-translation-keys": [
         "error",
