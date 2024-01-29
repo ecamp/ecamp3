@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const KEY = 'preferences'
 
 let initialValue
@@ -24,6 +26,12 @@ export const getters = {
     },
 }
 
+function setPreferenceValue(state, campUri, key, value) {
+  if (!(campUri in state.preferences)) Vue.set(state.preferences, campUri, {})
+  Vue.set(state.preferences[campUri], key, value)
+  window.localStorage.setItem(KEY, JSON.stringify(state.preferences))
+}
+
 export const mutations = {
   /**
    * Changes the edit mode of the picasso (locked or unlocked)
@@ -32,9 +40,7 @@ export const mutations = {
    * @param editMode boolean value, true meaning unlocked, false meaning locked
    */
   setPicassoEditMode(state, { campUri, editMode }) {
-    state.preferences[campUri] = state.preferences[campUri] || {}
-    state.preferences[campUri].picassoEditMode = editMode
-    window.localStorage.setItem(KEY, JSON.stringify(state.preferences))
+    setPreferenceValue(state, campUri, 'picassoEditMode', editMode)
   },
   /**
    * Changes the edit mode of the story context overview (locked or unlocked)
@@ -43,9 +49,7 @@ export const mutations = {
    * @param editMode boolean value, true meaning unlocked, false meaning locked
    */
   setStoryContextEditMode(state, { campUri, editMode }) {
-    state.preferences[campUri] = state.preferences[campUri] || {}
-    state.preferences[campUri].storyContextEditMode = editMode
-    window.localStorage.setItem(KEY, JSON.stringify(state.preferences))
+    setPreferenceValue(state, campUri, 'storyContextEditMode', editMode)
   },
   /**
    * Remembers the last used PDF print settings
@@ -54,9 +58,7 @@ export const mutations = {
    * @param printConfig an object describing the last used print configuration
    */
   setLastPrintConfig(state, { campUri, printConfig }) {
-    state.preferences[campUri] = state.preferences[campUri] || {}
-    state.preferences[campUri].lastPrintConfig = printConfig
-    window.localStorage.setItem(KEY, JSON.stringify(state.preferences))
+    setPreferenceValue(state, campUri, 'lastPrintConfig', printConfig)
   },
 }
 
