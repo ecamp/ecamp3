@@ -6,7 +6,7 @@
   "force": {
     "constraints": {
       "node": "20.11.0",
-      "php": "8.3.1"
+      "php": "8.3.2"
     }
   },
   "automergeType": "branch",
