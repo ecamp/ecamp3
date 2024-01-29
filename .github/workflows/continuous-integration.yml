@@ -397,9 +397,11 @@ jobs:
       - frontend-eslint
       - print-eslint
       - e2e-lint
+      - client-print-eslint
       - api-tests
       - frontend-tests
       - print-tests
+      - pdf-tests
       - e2e-tests-run
     runs-on: ubuntu-latest
     if: always()
