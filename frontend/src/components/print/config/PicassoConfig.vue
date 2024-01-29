@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import cloneDeep from 'lodash/cloneDeep'
+
 const ORIENTATIONS = [
   {
     value: 'L',
@@ -38,7 +40,7 @@ export default {
   },
   data() {
     return {
-      orientations: ORIENTATIONS,
+      orientations: cloneDeep(ORIENTATIONS),
     }
   },
   computed: {
