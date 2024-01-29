@@ -8,7 +8,7 @@ Displays a single scheduleEntry
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
-    :max-width="isLocalPaperDisplaySize ? '944px' : ''"
+    :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -93,7 +93,7 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
+      <TogglePaperSize v-model="isPaperDisplaySize" />
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
@@ -240,7 +240,6 @@ Displays a single scheduleEntry
 </template>
 
 <script>
-import { computed } from 'vue'
 import { sortBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
@@ -248,8 +247,7 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import { periodRoute, scheduleEntryRoute } from '@/router.js'
-import router from '@/router.js'
+import router, { periodRoute, scheduleEntryRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
@@ -257,7 +255,6 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
-import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 
 export default {
   name: 'ScheduleEntry',
@@ -279,7 +276,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp,
-      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
+      isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
@@ -287,9 +284,6 @@ export default {
       type: Function,
       required: true,
     },
-  },
-  setup() {
-    return useDisplaySize()
   },
   data() {
     return {
@@ -347,6 +341,17 @@ export default {
           },
         ],
       }
+    },
+    isPaperDisplaySize: {
+      get() {
+        return this.$store.getters.getPaperDisplaySize(this.camp._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setPaperDisplaySize', {
+          campUri: this.camp._meta.self,
+          paperDisplaySize: value,
+        })
+      },
     },
   },
 

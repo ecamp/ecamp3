@@ -19,6 +19,9 @@ export const getters = {
   getStoryContextEditMode: (state) => (campUri) => {
     return state.preferences[campUri]?.storyContextEditMode ?? false
   },
+  getPaperDisplaySize: (state) => (campUri) => {
+    return state.preferences[campUri]?.paperDisplaySize ?? true
+  },
   getLastPrintConfig:
     (state) =>
     (campUri, fallback = {}) => {
@@ -50,6 +53,15 @@ export const mutations = {
    */
   setStoryContextEditMode(state, { campUri, editMode }) {
     setPreferenceValue(state, campUri, 'storyContextEditMode', editMode)
+  },
+  /**
+   * Changes the width of the displayed activity details between paper size and full-screen width
+   * @param state Vuex state
+   * @param campUri The URI of the camp to which this preference belongs
+   * @param paperDisplaySize boolean value, true meaning unlocked, false meaning locked
+   */
+  setPaperDisplaySize(state, { campUri, paperDisplaySize }) {
+    setPreferenceValue(state, campUri, 'paperDisplaySize', paperDisplaySize)
   },
   /**
    * Remembers the last used PDF print settings
