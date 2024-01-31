@@ -415,7 +415,7 @@
         "password": "Passwort",
         "surname": "Nachname"
       },
-      "name": "Benutzer"
+      "name": "User"
     }
   },
   "global": {
@@ -618,7 +618,7 @@
       "navigation": {
         "desktop": {
           "navTopbar": {
-            "admin": "Administrator",
+            "admin": "Admin",
             "campIsLoading": "Lager wird geladen",
             "material": "Material",
             "print": "Drucken",
