@@ -146,7 +146,7 @@
       "campCreate": {
         "steps": {
           "configurate": "Configuration",
-          "infos": "Infos",
+          "infos": "Info",
           "template": "Modèle"
         }
       },
@@ -174,7 +174,7 @@
       "categoryTemplate": {
         "contents": "Contenus",
         "createLayoutHelp": "Ici, vous pouvez définir le modèle pour de nouvelles activités {categoryShort}.{br}Le contenu et la mise en page des activités {categoryShort} déjà créées ne seront pas ajustés.",
-        "layout": "Mise en page",
+        "layout": "Layout",
         "noTemplate": "Pas de modèle"
       }
     },
@@ -320,7 +320,7 @@
         "config": {
           "Activity": "Activité unique",
           "Cover": "Page de couverture",
-          "Picasso": "Programme général",
+          "Picasso": "Picasso",
           "Program": "Programme",
           "Story": "Histoire",
           "Toc": "Table des matières"
@@ -431,13 +431,13 @@
       "discard": "Rejeter",
       "download": "Télécharger",
       "edit": "Éditer",
-      "editable": "Modifiable",
+      "editable": "Editable",
       "filter": "Filtrer",
       "lock": "Verrouiller",
       "login": "Se connecter",
       "logout": "Déconnexion",
       "move": "Déplacer",
-      "ok": "Ok",
+      "ok": "OK",
       "open": "Ouvrir",
       "remove": "Retirer",
       "rename": "Renommer",
@@ -500,7 +500,7 @@
         "inactiveCollaborators": "Inactif",
         "members": "Membres",
         "openInvitations": "Invitations ouvertes",
-        "title": "Équipe"
+        "title": "Team"
       },
       "info": {
         "title": "Infos sur le camp"
@@ -511,7 +511,7 @@
       "sideBarAdmin": {
         "itemActivity": "Activités",
         "itemActivitySubtitle": "Catégorie, modèle & statut",
-        "itemCollaborators": "Équipe",
+        "itemCollaborators": "Team",
         "itemInfos": "Infos sur le camp",
         "itemMaterialLists": "Liste de matériel",
         "itemPrint": "PDF / Imprimer"
@@ -624,7 +624,7 @@
             "print": "Imprimer",
             "program": "Programme",
             "story": "Histoire",
-            "team": "Équipe"
+            "team": "Team"
           }
         },
         "mobile": {
@@ -639,7 +639,7 @@
             "itemActivitySubtitle": "Catégorie, modèle & statut",
             "itemCamps": "Mes Camps",
             "itemClose": "Fermer le menu",
-            "itemCollaborators": "Équipe",
+            "itemCollaborators": "Team",
             "itemInfos": "Infos sur le camp",
             "itemMaterialLists": "Liste de matériel",
             "itemPrinting": "PDF / Imprimer"
