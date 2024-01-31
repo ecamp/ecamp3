@@ -99,8 +99,8 @@
       },
       "campPeriodsListItem": {
         "changePeriodDescription": "Bezeichnung ändern",
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
-        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden.",
+        "deleteWarning": "Möchtest du diesen Lagerabschnitt wirklich löschen?",
+        "lastPeriodNotDeletable": "Der letzte Lagerabschnitt kann nicht gelöscht werden.",
         "movePeriod": "Lagerabschnitt verschieben",
         "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
         "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen"
