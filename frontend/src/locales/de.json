@@ -174,7 +174,7 @@
       "categoryTemplate": {
         "contents": "Inhalte",
         "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
-        "layout": "Layout",
+        "layout": "Format",
         "noTemplate": "Keine Vorlage"
       }
     },
@@ -415,7 +415,7 @@
         "password": "Passwort",
         "surname": "Nachname"
       },
-      "name": "User"
+      "name": "Benutzer"
     }
   },
   "global": {
@@ -462,7 +462,7 @@
     "loading": "Laden …",
     "navigation": {
       "admin": {
-        "title": "Admin"
+        "title": "Administrator"
       }
     },
     "serverError": {
@@ -516,7 +516,7 @@
         "itemMaterialLists": "Materiallisten",
         "itemPrint": "PDF / Drucken"
       },
-      "title": "Admin"
+      "title": "Administrator"
     },
     "auth": {
       "activate": {
@@ -618,7 +618,7 @@
       "navigation": {
         "desktop": {
           "navTopbar": {
-            "admin": "Admin",
+            "admin": "Administrator",
             "campIsLoading": "Lager wird geladen",
             "material": "Material",
             "print": "Drucken",
