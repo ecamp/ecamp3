@@ -3,5 +3,5 @@ Cannot delete the last schedule entry.: "Der letzte Kalendereintrag konnte nicht
 "Either this value or {{ other }} should not be null.": "Dieser Wert oder {{ other }} sollte nicht null sein."
 This inviteEmail is already present in the camp.: "Diese Email ist bereits im Lager vorhanden."
 This is a test message for i18n variants: "en"
-This user is already present in the camp.: "Dieser Benutzer oder ein Benutzer mit dieser Email Adresse nimmt bereits an diesem Lager teil."
+This user is already present in the camp.: "Dieser Benutzer oder ein Benutzer mit dieser E-Mail-Adresse nimmt bereits an diesem Lager teil."
 "value must be one of {{ to }}, was {{ value }}": "Wert sollte einer von {{ to }} sein, war {{ value }}"
