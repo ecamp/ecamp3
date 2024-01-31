@@ -48,7 +48,7 @@
     "eslint": "8.56.0",
     "eslint-plugin-local-rules": "2.0.1",
     "eslint-plugin-vue": "9.20.1",
-    "jsdom": "23.2.0",
+    "jsdom": "24.0.0",
     "prettier": "3.2.2",
     "url-template": "3.1.1",
     "vite": "5.0.12",
