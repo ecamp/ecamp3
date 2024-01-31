@@ -137,7 +137,6 @@ export default {
     },
     isPaperDisplaySize: {
       get() {
-        console.log('calling getter')
         return this.$store.getters.getPaperDisplaySize(this.camp()._meta.self)
       },
       set(value) {
@@ -145,7 +144,6 @@ export default {
           campUri: this.camp()._meta.self,
           paperDisplaySize: value,
         })
-        console.log('calling setter')
       },
     },
   },
