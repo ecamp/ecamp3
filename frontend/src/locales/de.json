@@ -174,7 +174,7 @@
       "categoryTemplate": {
         "contents": "Inhalte",
         "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
-        "layout": "Format",
+        "layout": "Layout",
         "noTemplate": "Keine Vorlage"
       }
     },
@@ -462,7 +462,7 @@
     "loading": "Laden …",
     "navigation": {
       "admin": {
-        "title": "Administrator"
+        "title": "Admin"
       }
     },
     "serverError": {
@@ -516,7 +516,7 @@
         "itemMaterialLists": "Materiallisten",
         "itemPrint": "PDF / Drucken"
       },
-      "title": "Administrator"
+      "title": "Admin"
     },
     "auth": {
       "activate": {
