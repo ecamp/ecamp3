@@ -25,10 +25,7 @@ export default {
   },
   computed: {
     sortedScheduleEntries() {
-      return sortBy(this.period.scheduleEntries().items, [
-        'dayNumber',
-        'scheduleEntryNumber',
-      ])
+      return this.period.scheduleEntries().items
     },
   },
 }

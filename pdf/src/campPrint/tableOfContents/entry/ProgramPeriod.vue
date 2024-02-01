@@ -31,10 +31,7 @@ export default {
       return this.period.scheduleEntries().items.length
     },
     scheduleEntries() {
-      return sortBy(this.period.scheduleEntries().items, [
-        'dayNumber',
-        'scheduleEntryNumber',
-      ]).map((scheduleEntry) => {
+      return this.period.scheduleEntries().items.map((scheduleEntry) => {
         const activity = scheduleEntry.activity()
         return {
           ...scheduleEntry,
