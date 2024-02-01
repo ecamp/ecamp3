@@ -18,7 +18,6 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import sortBy from 'lodash/sortBy.js'
 
 export default {
   name: 'Program',
