@@ -22,7 +22,7 @@
       },
       "copyActivityInfoDialog": {
         "allow": "Jetzt erlauben",
-        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "denied": "Du hast das Lesen aus der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
         "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
         "title": "Aktivität kopieren & einfügen"
@@ -167,7 +167,7 @@
         "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
-        "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
+        "submitTooltipPrototype": "Du musst noch auswählen, ob und welche Lagervorlage du verwenden möchtest."
       }
     },
     "category": {
@@ -215,15 +215,15 @@
     "form": {
       "base": {
         "eColorPicker": {
-          "openPicker": "Dialog öffnen um eine Farbe für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein",
-          "openPicker": "Dialog öffnen um ein Datum für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um ein Datum für {label} zu wählen"
         },
         "eTimePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib die Zeit im Format HH:MM ein",
-          "openPicker": "Dialog öffnen um eine Zeit für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Zeit für {label} zu wählen"
         }
       }
     },
@@ -351,7 +351,7 @@
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
         "copyPastActivity": "Aktivität kopieren & einfügen",
-        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
       },
       "formScheduleEntryItem": {
