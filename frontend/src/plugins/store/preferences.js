@@ -1,26 +1,38 @@
 import Vue from 'vue'
 
-const KEY = 'preferences'
+const LOCAL_STORAGE_PREFIX = 'preferences:'
 
-let initialValue
-try {
-  initialValue = JSON.parse(window.localStorage.getItem(KEY)) || {}
-} catch (error) {
-  initialValue = {}
+function loadFromLocalStorage(localStorage = window.localStorage) {
+  let values = {}
+  Object.keys(localStorage)
+    .filter((key) => key.startsWith(LOCAL_STORAGE_PREFIX))
+    .forEach((key) => {
+      try {
+        const [, uri, identifier] = key.match(
+          new RegExp(`^${LOCAL_STORAGE_PREFIX}(.*):(.*)$`)
+        )
+        values[uri] = values[uri] || {}
+        values[uri][identifier] = JSON.parse(localStorage[key])
+      } catch (error) {
+        // Just ignore this key and continue with the others
+      }
+    })
+  return values
 }
+
 export const state = {
-  preferences: initialValue,
+  preferences: loadFromLocalStorage(),
 }
 
 export const getters = {
   getPicassoEditMode: (state) => (campUri) => {
-    return state.preferences[campUri]?.picassoEditMode ?? false
+    return !!(state.preferences[campUri]?.picassoEditMode ?? false)
   },
   getStoryContextEditMode: (state) => (campUri) => {
-    return state.preferences[campUri]?.storyContextEditMode ?? false
+    return !!(state.preferences[campUri]?.storyContextEditMode ?? false)
   },
   getPaperDisplaySize: (state) => (campUri) => {
-    return state.preferences[campUri]?.paperDisplaySize ?? true
+    return !!(state.preferences[campUri]?.paperDisplaySize ?? true)
   },
   getLastPrintConfig:
     (state) =>
@@ -29,10 +41,13 @@ export const getters = {
     },
 }
 
-function setPreferenceValue(state, campUri, key, value) {
+function setPreferenceValue(state, campUri, identifier, value) {
   if (!(campUri in state.preferences)) Vue.set(state.preferences, campUri, {})
-  Vue.set(state.preferences[campUri], key, value)
-  window.localStorage.setItem(KEY, JSON.stringify(state.preferences))
+  Vue.set(state.preferences[campUri], identifier, value)
+  window.localStorage.setItem(
+    `${LOCAL_STORAGE_PREFIX}${campUri}:${identifier}`,
+    JSON.stringify(state.preferences[campUri][identifier])
+  )
 }
 
 export const mutations = {

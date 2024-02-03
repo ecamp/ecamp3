@@ -249,9 +249,13 @@ export default {
       })
     },
     repairConfig(config) {
+      if (!config) config = {}
       if (!(config.language in VueI18n.availableLocales)) config.language = 'en'
       if (!config.documentName) config.documentName = this.camp().name
       if (config.camp !== this.camp()._meta.self) config.camp = this.camp()._meta.self
+      if (typeof config.contents?.map !== 'function') {
+        config.contents = this.defaultContents()
+      }
       config.contents = config.contents
         .map((content) => {
           if (!content.type) return null
