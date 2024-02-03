@@ -140,17 +140,20 @@ export default {
     },
   },
   watch: {
-    apiValue: function (newValue) {
-      // override local value if it wasn't dirty
-      if (!this.dirty || this.overrideDirty) {
-        this.localValue = newValue
-        this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
-      }
+    apiValue: {
+      handler: function (newValue) {
+        // override local value if it wasn't dirty
+        if (!this.dirty || this.overrideDirty) {
+          this.localValue = newValue
+          this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
+        }
 
-      // clear dirty if outside value changes to same as local value (e.g. after save operation)
-      if (this.parsedLocalValue === newValue) {
-        this.dirty = false
-      }
+        // clear dirty if outside value changes to same as local value (e.g. after save operation)
+        if (this.parsedLocalValue === newValue) {
+          this.dirty = false
+        }
+      },
+      immediate: true,
     },
   },
   created() {
