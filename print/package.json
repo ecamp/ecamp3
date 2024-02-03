@@ -26,7 +26,7 @@
     "hal-json-vuex": "3.0.0-alpha.1",
     "isomorphic-dompurify": "2.3.0",
     "lodash": "4.17.21",
-    "puppeteer-core": "21.10.0",
+    "puppeteer-core": "21.11.0",
     "runes": "0.4.3",
     "vuex": "4.1.0"
   },
