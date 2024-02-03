@@ -185,6 +185,12 @@ export default {
       })
   },
   methods: {
+    resetConfig() {
+      this.$store.commit('setLastPrintConfig', {
+        campUri: this.camp()._meta.self,
+        printConfig: undefined,
+      })
+    },
     defaultContents() {
       const contents = [
         {

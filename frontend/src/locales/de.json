@@ -506,6 +506,7 @@
         "title": "Lagerinfos"
       },
       "print": {
+        "reset": "Zurücksetzen",
         "title": "Lager drucken"
       },
       "sideBarAdmin": {
