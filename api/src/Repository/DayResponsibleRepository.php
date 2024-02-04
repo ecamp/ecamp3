@@ -25,7 +25,6 @@ class DayResponsibleRepository extends ServiceEntityRepository implements CanFil
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.day", 'day');
         $queryBuilder->innerJoin('day.period', 'period');
-        $queryBuilder->innerJoin('period.camp', 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, 'period.camp');
     }
 }

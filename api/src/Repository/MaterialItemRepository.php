@@ -24,7 +24,6 @@ class MaterialItemRepository extends ServiceEntityRepository implements CanFilte
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.materialList", 'materialList');
-        $queryBuilder->innerJoin('materialList.camp', 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, 'materialList.camp');
     }
 }

@@ -24,7 +24,6 @@ class DayRepository extends ServiceEntityRepository implements CanFilterByUserIn
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.period", 'period');
-        $queryBuilder->innerJoin('period.camp', 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, 'period.camp');
     }
 }

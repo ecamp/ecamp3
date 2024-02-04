@@ -31,9 +31,6 @@ trait FiltersByContentNode {
          */
         $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category = cn_activity.category OR cn_category.rootContentNode = root');
 
-        // load owning camp via category
-        $queryBuilder->join('cn_category.camp', 'cn_camp');
-
-        $this->filterByCampCollaboration($queryBuilder, $user, 'cn_camp');
+        $this->filterByCampCollaboration($queryBuilder, $user, 'cn_category.camp');
     }
 }
