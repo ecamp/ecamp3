@@ -33,6 +33,18 @@
           icon="mdi-format-list-bulleted-triangle"
           :to="{ name: 'camps', query: { isDetail: true } }"
         />
+        <SidebarListItem
+          :title="$tc('global.navigation.help')"
+          icon="mdi-help-circle-outline"
+          :href="helpLink"
+          target="_blank"
+        />
+        <SidebarListItem
+          :title="$tc('global.navigation.news')"
+          icon="mdi-news"
+          :href="newsLink"
+          target="_blank"
+        />
       </v-list>
 
       <v-divider />
@@ -100,6 +112,7 @@ import { campRoute, adminRoute } from '@/router'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 import { mapGetters } from 'vuex'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'NavSidebar',
@@ -112,6 +125,12 @@ export default {
     camp: { type: Function, required: true },
   },
   computed: {
+    newsLink() {
+      return getEnv().NEWS_LINK
+    },
+    helpLink() {
+      return getEnv().HELP_LINK
+    },
     ...mapGetters({
       user: 'getLoggedInUser',
     }),
