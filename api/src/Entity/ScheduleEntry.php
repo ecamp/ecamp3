@@ -251,9 +251,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The cardinal number of this schedule entry, when chronologically ordering all
-     * schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e.
-     * if the schedule entry is the second entry with roman numbering on a given day,
-     * its number will be 2.
+     * schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
+     * the schedule entry is the second entry with roman numbering on a given day, its
+     * number will be 2.
      */
     #[ApiProperty(example: '2')]
     #[Groups(['read'])]
