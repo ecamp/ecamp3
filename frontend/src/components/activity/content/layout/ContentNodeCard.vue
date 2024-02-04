@@ -27,6 +27,18 @@
           {{ instanceOrContentTypeName }}
         </v-toolbar-title>
 
+        <v-btn
+          v-if="!editInstanceName && !disabled"
+          icon
+          class="ml-1"
+          :class="{ 'visible-on-hover': !layoutMode }"
+          width="24"
+          height="24"
+          @click="toggleEditInstanceName"
+        >
+          <v-icon small>mdi-pencil</v-icon>
+        </v-btn>
+
         <v-spacer v-if="!editInstanceName" />
         <IconWithTooltip
           v-if="!editInstanceName && !layoutMode"
@@ -34,17 +46,6 @@
           width="36"
           height="36"
         />
-
-        <v-btn
-          v-if="!editInstanceName && !layoutMode && !disabled"
-          icon
-          class="visible-on-hover"
-          width="36"
-          height="36"
-          @click="toggleEditInstanceName"
-        >
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
 
         <DialogEntityDelete
           v-if="layoutMode && !disabled"
@@ -134,23 +135,14 @@ export default {
   }
 }
 
-.v-card:not(:hover):deep(button.visible-on-hover),
+:deep(.v-toolbar__content:not(:hover) button.visible-on-hover:not(:focus)),
 .v-card:not(:hover):deep(button.tooltip-activator) {
   opacity: 0;
-  width: 0px !important;
-
-  transition:
-    opacity 0.2s linear,
-    width 0.3s steps(1, end);
 }
-.v-card:hover:deep(button.visible-on-hover),
+:deep(.v-toolbar__content button.visible-on-hover),
 .v-card:hover:deep(button.tooltip-activator) {
   opacity: 1;
-  width: 36px !important;
-
-  transition:
-    opacity 0.2s linear,
-    width 0.3s steps(1, start);
+  transition: opacity 0.2s linear;
 }
 
 ::v-deep {

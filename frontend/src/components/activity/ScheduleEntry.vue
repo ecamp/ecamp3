@@ -61,10 +61,20 @@ Displays a single scheduleEntry
             </v-list-item>
           </v-list>
         </v-menu>
-        <a v-if="!editActivityTitle" style="color: inherit" @click="makeTitleEditable()">
+        <a v-if="!editActivityTitle" style="color: inherit">
           {{ activity.title }}
         </a>
       </v-toolbar-title>
+      <v-btn
+        v-if="isContributor && !editActivityTitle"
+        icon
+        class="ml-1 visible-on-hover"
+        width="24"
+        height="24"
+        @click="makeTitleEditable()"
+      >
+        <v-icon small>mdi-pencil</v-icon>
+      </v-btn>
       <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
         <api-text-field
           :uri="activity._meta.self"
@@ -418,6 +428,15 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
+}
+
+:deep(.ec-content-card__toolbar:not(:hover) button.visible-on-hover:not(:focus)) {
+  opacity: 0;
+}
+
+:deep(.ec-content-card__toolbar button.visible-on-hover) {
+  opacity: 1;
+  transition: opacity 0.2s linear;
 }
 
 .e-category-chip-save-icon {
