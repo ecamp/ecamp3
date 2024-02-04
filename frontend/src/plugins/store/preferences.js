@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 const LOCAL_STORAGE_PREFIX = 'preferences:'
 
-function loadFromLocalStorage(localStorage = window.localStorage) {
+export function loadFromLocalStorage(localStorage = window.localStorage) {
   let values = {}
   Object.keys(localStorage)
     .filter((key) => key.startsWith(LOCAL_STORAGE_PREFIX))
@@ -17,12 +17,12 @@ function loadFromLocalStorage(localStorage = window.localStorage) {
         // Just ignore this key and continue with the others
       }
     })
-  return values
+  return {
+    preferences: values,
+  }
 }
 
-export const state = {
-  preferences: loadFromLocalStorage(),
-}
+export const state = loadFromLocalStorage()
 
 export const getters = {
   getPicassoEditMode: (state) => (campUri) => {
@@ -46,7 +46,7 @@ function setPreferenceValue(state, campUri, identifier, value) {
   Vue.set(state.preferences[campUri], identifier, value)
   window.localStorage.setItem(
     `${LOCAL_STORAGE_PREFIX}${campUri}:${identifier}`,
-    JSON.stringify(state.preferences[campUri][identifier])
+    JSON.stringify(value)
   )
 }
 
