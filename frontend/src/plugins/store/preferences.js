@@ -3,7 +3,7 @@ import Vue from 'vue'
 const LOCAL_STORAGE_PREFIX = 'preferences:'
 
 export function loadFromLocalStorage(localStorage = window.localStorage) {
-  let values = {}
+  const values = {}
   Object.keys(localStorage)
     .filter((key) => key.startsWith(LOCAL_STORAGE_PREFIX))
     .forEach((key) => {
