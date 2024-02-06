@@ -121,7 +121,7 @@ export default {
     },
     isDefaultVariant() {
       return (
-        !this.isPaperDisplaySize &&
+        !this.isPaperDisplaySize() &&
         this.clientWidth >= ASIDE_CONTENT_WIDTH + MAIN_CONTENT_WIDTH + GAP
       )
     },
