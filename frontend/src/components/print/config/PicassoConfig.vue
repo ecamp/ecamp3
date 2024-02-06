@@ -6,17 +6,32 @@
       :items="periods"
       multiple
       :filled="false"
+      @input="$emit('input')"
     />
     <e-select
       v-model="options.orientation"
       :label="$tc('components.print.config.picassoConfig.orientation')"
       :items="orientations"
       :filled="false"
+      @input="$emit('input')"
     />
   </div>
 </template>
 
 <script>
+import cloneDeep from 'lodash/cloneDeep'
+
+const ORIENTATIONS = [
+  {
+    value: 'L',
+    text: 'Landscape',
+  },
+  {
+    value: 'P',
+    text: 'Portrait',
+  },
+]
+
 export default {
   name: 'PicassoConfig',
   props: {
@@ -25,16 +40,7 @@ export default {
   },
   data() {
     return {
-      orientations: [
-        {
-          value: 'L',
-          text: 'Landscape',
-        },
-        {
-          value: 'P',
-          text: 'Portrait',
-        },
-      ],
+      orientations: cloneDeep(ORIENTATIONS),
     }
   },
   computed: {
@@ -61,6 +67,18 @@ export default {
   },
   design: {
     multiple: false,
+  },
+  repairConfig(config, camp) {
+    if (!config.options) config.options = {}
+    if (!config.options.periods) config.options.periods = []
+    const knownPeriods = camp.periods().items.map((p) => p._meta.self)
+    config.options.periods = config.options.periods.filter((period) => {
+      return knownPeriods.includes(period)
+    })
+    if (!(config.options.orientation in ORIENTATIONS.map((o) => o.value))) {
+      config.options.orientation = 'L'
+    }
+    return config
   },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
   <div v-else>
-    <PagesOverview v-model="cnf.contents">
+    <PagesOverview v-model="cnf.contents" @input="onChange">
       <PagesConfig
         v-for="(content, idx) in cnf.contents"
         :key="idx"
@@ -11,12 +11,13 @@
           contentComponents[content.type].design.multiple ||
           content.options?.periods?.length > 1
         "
-        @remove="cnf.contents.splice(idx, 1)"
+        @remove="removeContent(idx)"
       >
         <component
           :is="contentComponents[content.type]"
-          v-model="content.options"
+          :value="content.options"
           :camp="camp()"
+          @input="onChange"
         />
       </PagesConfig>
 
@@ -36,7 +37,7 @@
             v-for="(component, idx) in contentComponents"
             :key="idx"
             @click="
-              cnf.contents.push({
+              addContent({
                 type: idx,
                 options: component.defaultOptions(),
               })
@@ -108,6 +109,8 @@ import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
 import DownloadClientPdfButton from '@/components/print/print-client/DownloadClientPdfButton.vue'
 import { getEnv } from '@/environment.js'
+import cloneDeep from 'lodash/cloneDeep'
+import VueI18n from '../../plugins/i18n/index.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -142,18 +145,24 @@ export default {
         Activity: ActivityConfig,
         Toc: TocConfig,
       },
-      cnf: {
-        language: '',
-        documentName: this.camp().name,
-        camp: this.camp()._meta.self,
-        contents: this.defaultContents(),
-      },
       previewTab: null,
     }
   },
   computed: {
     lang() {
       return this.$store.state.lang.language
+    },
+    cnf() {
+      return this.repairConfig(
+        cloneDeep(
+          this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
+            language: this.lang,
+            documentName: this.camp().name,
+            camp: this.camp()._meta.self,
+            contents: this.defaultContents(),
+          })
+        )
+      )
     },
     isDev() {
       return getEnv().FEATURE_DEVELOPER ?? false
@@ -176,6 +185,12 @@ export default {
       })
   },
   methods: {
+    resetConfig() {
+      this.$store.commit('setLastPrintConfig', {
+        campUri: this.camp()._meta.self,
+        printConfig: undefined,
+      })
+    },
     defaultContents() {
       const contents = [
         {
@@ -216,6 +231,42 @@ export default {
       })
 
       return contents
+    },
+    addContent(content) {
+      this.cnf.contents.push(content)
+      this.onChange()
+    },
+    removeContent(idx) {
+      this.cnf.contents.splice(idx, 1)
+      this.onChange()
+    },
+    onChange() {
+      this.$nextTick(() => {
+        this.$store.commit('setLastPrintConfig', {
+          campUri: this.camp()._meta.self,
+          printConfig: cloneDeep(this.cnf),
+        })
+      })
+    },
+    repairConfig(config) {
+      if (!config) config = {}
+      if (!(config.language in VueI18n.availableLocales)) config.language = 'en'
+      if (!config.documentName) config.documentName = this.camp().name
+      if (config.camp !== this.camp()._meta.self) config.camp = this.camp()._meta.self
+      if (typeof config.contents?.map !== 'function') {
+        config.contents = this.defaultContents()
+      }
+      config.contents = config.contents
+        .map((content) => {
+          if (!content.type) return null
+          const component = this.contentComponents[content.type]
+          if (!component) return null
+          if (typeof component.repairConfig !== 'function') return content
+          return component.repairConfig(content, this.camp())
+        })
+        .filter((component) => component)
+
+      return config
     },
   },
 }

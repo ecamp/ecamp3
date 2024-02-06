@@ -5,7 +5,7 @@
       class="ec-category"
       toolbar
       back
-      :max-width="isLocalPaperDisplaySize ? '944px' : ''"
+      :max-width="isPaperDisplaySize ? '944px' : ''"
     >
       <template #title>
         <v-toolbar-title class="font-weight-bold">
@@ -15,7 +15,7 @@
       </template>
 
       <template #title-actions>
-        <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
+        <TogglePaperSize v-model="isPaperDisplaySize" />
         <v-menu v-if="isManager" offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import { computed } from 'vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
@@ -91,7 +90,6 @@ import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingAct
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
-import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 
 export default {
   name: 'Category',
@@ -110,7 +108,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp(),
-      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
+      isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
@@ -122,9 +120,6 @@ export default {
       type: Function,
       required: true,
     },
-  },
-  setup() {
-    return useDisplaySize()
   },
   data() {
     return {
@@ -139,6 +134,17 @@ export default {
     },
     preferredContentTypes() {
       return this.category().preferredContentTypes()
+    },
+    isPaperDisplaySize: {
+      get() {
+        return this.$store.getters.getPaperDisplaySize(this.camp()._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setPaperDisplaySize', {
+          campUri: this.camp()._meta.self,
+          paperDisplaySize: value,
+        })
+      },
     },
   },
 
