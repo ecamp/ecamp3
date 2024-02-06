@@ -22,8 +22,8 @@
     "html-parse-stringify": "3.0.1"
   },
   "peerDependencies": {
-    "@react-pdf/font": "2.4.3",
-    "@react-pdf/layout": "3.10.4",
+    "@react-pdf/font": "2.4.2",
+    "@react-pdf/layout": "3.11.0",
     "@react-pdf/pdfkit": "3.1.2",
     "@react-pdf/render": "3.4.1",
     "colorjs.io": "0.4.5",
