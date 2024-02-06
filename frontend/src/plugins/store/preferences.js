@@ -11,7 +11,7 @@ export function loadFromLocalStorage(localStorage = window.localStorage) {
         const [, uri, identifier] = key.match(
           new RegExp(`^${LOCAL_STORAGE_PREFIX}(.*):(.*)$`)
         )
-        values[uri] = values[uri] || {}
+        values[uri] ||= {}
         values[uri][identifier] = JSON.parse(localStorage[key])
       } catch (error) {
         // Just ignore this key and continue with the others
