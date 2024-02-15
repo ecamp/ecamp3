@@ -15,7 +15,7 @@
         "@pulumi/awsx": "2.5.0"
     },
     "devDependencies": {
-        "@babel/eslint-parser": "7.23.3",
+        "@babel/eslint-parser": "7.23.10",
         "@types/node": "20.11.19",
         "eslint": "8.56.0",
         "eslint-config-prettier": "9.1.0",
@@ -23,7 +23,7 @@
         "eslint-plugin-node": "11.1.0",
         "eslint-plugin-prettier": "5.1.3",
         "eslint-plugin-promise": "6.1.1",
-        "prettier": "3.2.2"
+        "prettier": "3.2.5"
     },
     "eslintConfig": {
         "root": true,
