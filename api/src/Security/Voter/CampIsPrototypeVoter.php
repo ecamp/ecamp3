@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * @extends Voter<string,mixed>
+ * @extends Voter<string,BelongsToCampInterface | BelongsToContentNodeTreeInterface>
  */
 class CampIsPrototypeVoter extends Voter {
     use GetCampFromContentNodeTrait;
