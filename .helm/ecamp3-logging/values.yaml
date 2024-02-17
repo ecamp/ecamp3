@@ -1,0 +1,51 @@
+elastic:
+  version: 8.12.1
+
+elasticsearch:
+  version:
+  main:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 300m
+        memory: 400Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    persistence:
+      resources:
+        requests:
+          storage: 10Gi
+  data:
+    replicas: 0
+    resources:
+      requests:
+        cpu: 300m
+        memory: 400Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    persistence:
+      resources:
+        requests:
+          storage: 10Gi
+
+kibana:
+  version:
+  resources:
+    requests:
+      cpu: 300m
+      memory: 400Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+filebeat:
+  version:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limits:
+      cpu: 120m
+      memory: 120Mi

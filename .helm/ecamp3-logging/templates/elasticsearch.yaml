@@ -1,0 +1,128 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  version: {{ .Values.elasticsearch.version | default .Values.elastic.version }}
+  nodeSets:
+    - name: main
+      count: {{ .Values.elasticsearch.main.replicas }}
+      config:
+        node.roles:
+          - master
+        xpack.ml.enabled: true
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch
+              resources:
+                {{- toYaml .Values.elasticsearch.main.resources | nindent 16 }}
+              startupProbe:
+                exec:
+                  command:
+                    - bash
+                    - -c
+                    - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+                failureThreshold: 20
+                initialDelaySeconds: 90
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 12
+              readinessProbe:
+                exec:
+                  command:
+                    - bash
+                    - -c
+                    - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+                failureThreshold: 3
+                initialDelaySeconds: 10
+                periodSeconds: 12
+                successThreshold: 1
+                timeoutSeconds: 12
+              env:
+                - name: READINESS_PROBE_TIMEOUT
+                  value: "10"
+          initContainers:
+            - name: sysctl
+              securityContext:
+                privileged: true
+                runAsUser: 0
+              command: [ 'sh', '-c', 'sysctl -w vm.max_map_count=262144' ]
+
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+            labels:
+              app: elasticsearch
+              {{- include "app.commonLabels" . | nindent 14 }}
+              {{- include "app.commonSelectorLabels" . | nindent 14 }}
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              {{- toYaml .Values.elasticsearch.main.persistence.resources | nindent 14 }}
+            storageClassName: do-block-storage
+    - name: data
+      # this is here because we now know how to set it up
+      # if we need more nodes for our data, we can increase the count
+      count: {{ .Values.elasticsearch.data.replicas }}
+      config:
+        node.roles:
+          - "data"
+          - "ingest"
+          - "ml"
+          - "transform"
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch
+              resources:
+                 {{- toYaml .Values.elasticsearch.data.resources | nindent 16 }}
+              startupProbe:
+                exec:
+                  command:
+                    - bash
+                    - -c
+                    - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+                failureThreshold: 20
+                initialDelaySeconds: 90
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 12
+              readinessProbe:
+                exec:
+                  command:
+                    - bash
+                    - -c
+                    - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+                failureThreshold: 3
+                initialDelaySeconds: 10
+                periodSeconds: 12
+                successThreshold: 1
+                timeoutSeconds: 12
+              env:
+                - name: READINESS_PROBE_TIMEOUT
+                  value: "10"
+          initContainers:
+            - name: sysctl
+              securityContext:
+                privileged: true
+                runAsUser: 0
+              command: [ 'sh', '-c', 'sysctl -w vm.max_map_count=262144' ]
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+            labels:
+              app: elasticsearch
+              {{- include "app.commonLabels" . | nindent 14 }}
+              {{- include "app.commonSelectorLabels" . | nindent 14 }}
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              {{- toYaml .Values.elasticsearch.data.persistence.resources | nindent 14 }}
+            storageClassName: do-block-storage
