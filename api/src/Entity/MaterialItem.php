@@ -78,7 +78,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
      * The content node to which this item belongs, if it does not belong to a period.
      */
     #[AssertBelongsToSameCamp]
-    #[AssertEitherisNull(other: 'period')]
+    #[AssertEitherIsNull(other: 'period')]
     #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
     #[Groups(['read', 'write'])]
     #[ORM\ManyToOne(targetEntity: MaterialNode::class, inversedBy: 'materialItems')]
