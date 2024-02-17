@@ -25,7 +25,7 @@ class CampRoleVoter extends Voter {
     ];
 
     public function __construct(
-        private EntityManagerInterface $em,
+        private readonly EntityManagerInterface $em,
     ) {}
 
     protected function supports($attribute, $subject): bool {

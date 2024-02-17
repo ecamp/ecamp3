@@ -16,7 +16,7 @@ class CampIsPrototypeVoter extends Voter {
     use GetCampFromContentNodeTrait;
 
     public function __construct(
-        private EntityManagerInterface $em,
+        private readonly EntityManagerInterface $em,
     ) {}
 
     protected function supports($attribute, $subject): bool {
