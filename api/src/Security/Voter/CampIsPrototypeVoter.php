@@ -10,13 +10,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * @extends Voter<string,mixed>
+ * @extends Voter<string,BelongsToCampInterface | BelongsToContentNodeTreeInterface>
  */
 class CampIsPrototypeVoter extends Voter {
     use GetCampFromContentNodeTrait;
 
     public function __construct(
-        private EntityManagerInterface $em,
+        private readonly EntityManagerInterface $em,
     ) {}
 
     protected function supports($attribute, $subject): bool {
