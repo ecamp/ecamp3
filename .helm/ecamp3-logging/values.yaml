@@ -2,6 +2,7 @@ elastic:
   version: 8.12.1
 
 elasticsearch:
+  name: elasticsearch
   version:
   main:
     replicas: 1
@@ -31,6 +32,7 @@ elasticsearch:
           storage: 10Gi
 
 kibana:
+  name: kibana
   version:
   resources:
     requests:
@@ -40,7 +42,8 @@ kibana:
       cpu: 500m
       memory: 1Gi
 
-filebeat:
+beat:
+  name: filebeat
   version:
   resources:
     requests:

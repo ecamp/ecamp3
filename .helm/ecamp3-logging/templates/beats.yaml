@@ -1,0 +1,106 @@
+apiVersion: beat.k8s.elastic.co/v1beta1
+kind: Beat
+metadata:
+  name: {{ .Values.beat.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.beat.name }}
+    k8s-app: {{ .Values.beat.name }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  type: filebeat
+  version: {{ .Values.beat.version | default .Values.elastic.version }}
+  elasticsearchRef:
+    name: {{ .Values.elasticsearch.name }}
+  config:
+    filebeat.inputs:
+      - type: container
+        paths:
+          - /var/log/containers/ecamp3-*.log
+          - /var/log/containers/ingress-nginx-controller*.log
+    processors:
+      - decode_json_fields:
+          fields: [ "message" ]
+          target: json
+          max_depth: 20
+          add_error_key: true
+
+      - add_kubernetes_metadata:
+          host: ${NODE_NAME}
+          matchers:
+            - logs_path:
+                logs_path: "/var/log/containers/"
+
+      - copy_fields:
+          fields:
+            - from: json.httpRequest.requestUrl
+              to: json.httpRequest.escapedUrl
+          fail_on_error: false
+          ignore_missing: true
+
+      - replace:
+          fields:
+            - field: json.httpRequest.escapedUrl
+              pattern: "/[0-9a-f]{6,}/?"
+              replacement: "/{id}/"
+          fail_on_error: false
+          ignore_missing: true
+
+      - replace:
+          fields:
+            - field: json.httpRequest.escapedUrl
+              pattern: "%2F[0-9a-f]{6,}(%2F)?"
+              replacement: "%2F{id}%2F"
+          fail_on_error: false
+          ignore_missing: true
+
+      - copy_fields:
+          fields:
+            - from: json.httpRequest.escapedUrl
+              to: json.httpRequest.escapedUrlWithoutQuery
+          fail_on_error: false
+          ignore_missing: true
+
+      - replace:
+          fields:
+            - field: json.httpRequest.escapedUrlWithoutQuery
+              pattern: "\\?.*$"
+              replacement: ""
+          fail_on_error: false
+          ignore_missing: true
+
+  daemonSet:
+    podTemplate:
+      metadata:
+        labels:
+          app: filebeat
+          {{- include "app.commonLabels" . | nindent 8 }}
+          {{- include "app.commonSelectorLabels" . | nindent 8 }}
+      spec:
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        securityContext:
+          runAsUser: 0
+        containers:
+          - name: filebeat
+            volumeMounts:
+              - name: varlogcontainers
+                mountPath: /var/log/containers
+              - name: varlogpods
+                mountPath: /var/log/pods
+              - name: varlibdockercontainers
+                mountPath: /var/lib/docker/containers
+            resources:
+              {{- toYaml .Values.beat.resources | nindent 14 }}
+
+        volumes:
+          - name: varlogcontainers
+            hostPath:
+              path: /var/log/containers
+          - name: varlogpods
+            hostPath:
+              path: /var/log/pods
+          - name: varlibdockercontainers
+            hostPath:
+              path: /var/lib/docker/containers

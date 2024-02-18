@@ -1,7 +1,7 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: elasticsearch
+  name: {{ .Values.elasticsearch.name }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "app.commonLabels" . | nindent 4 }}
