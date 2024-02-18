@@ -1,0 +1,20 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: {{ .Values.kibana.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: kibana
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  version: {{ .Values.kibana.version | default .Values.elastic.version }}
+  count: 1
+  elasticsearchRef:
+    name: {{ .Values.elasticsearch.name }}
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            {{- toYaml .Values.kibana.resources | nindent 12 }}

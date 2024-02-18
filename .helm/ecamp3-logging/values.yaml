@@ -36,10 +36,8 @@ kibana:
   version:
   resources:
     requests:
-      cpu: 300m
-      memory: 400Mi
+      memory: 500Mi
     limits:
-      cpu: 500m
       memory: 1Gi
 
 beat:
