@@ -21,7 +21,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -30,7 +29,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -56,7 +54,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -66,7 +63,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
@@ -105,7 +101,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -114,7 +109,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -142,7 +136,6 @@ components:
               $ref: '#/components/schemas/ActivityProgressLabel-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         rootContentNode:
           $ref: '#/components/schemas/ColumnLayout-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
@@ -150,7 +143,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           items:
@@ -182,7 +174,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -191,7 +182,6 @@ components:
               $ref: '#/components/schemas/Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -219,7 +209,6 @@ components:
               $ref: '#/components/schemas/ActivityProgressLabel-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         rootContentNode:
           $ref: '#/components/schemas/ColumnLayout-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
@@ -227,7 +216,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           items:
@@ -262,7 +250,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -271,7 +258,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -297,7 +283,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -307,7 +292,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
@@ -343,7 +327,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         location:
           description: "The physical location where this activity's programme will be carried out."
@@ -354,7 +337,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -378,13 +360,11 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         copyActivitySource:
           description: 'Copy Contents from this Source-Activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -397,7 +377,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -448,7 +427,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -457,7 +435,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -483,7 +460,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -493,7 +469,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
@@ -541,7 +516,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -550,7 +524,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -578,7 +551,6 @@ components:
               $ref: '#/components/schemas/ActivityProgressLabel.jsonhal-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         rootContentNode:
           $ref: '#/components/schemas/ColumnLayout.jsonhal-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
@@ -586,7 +558,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           items:
@@ -627,7 +598,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -636,7 +606,6 @@ components:
               $ref: '#/components/schemas/Category.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -664,7 +633,6 @@ components:
               $ref: '#/components/schemas/ActivityProgressLabel.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         rootContentNode:
           $ref: '#/components/schemas/ColumnLayout.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
@@ -672,7 +640,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           items:
@@ -707,7 +674,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -716,7 +682,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -742,7 +707,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -752,7 +716,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
@@ -797,13 +760,11 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         copyActivitySource:
           description: 'Copy Contents from this Source-Activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -816,7 +777,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -881,7 +841,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -890,7 +849,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -916,7 +874,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -926,7 +883,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
@@ -971,7 +927,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -980,7 +935,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -1008,7 +962,6 @@ components:
               $ref: '#/components/schemas/ActivityProgressLabel.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         rootContentNode:
           $ref: '#/components/schemas/ColumnLayout.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
@@ -1016,7 +969,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           items:
@@ -1071,7 +1023,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -1080,7 +1031,6 @@ components:
               $ref: '#/components/schemas/Category.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -1108,7 +1058,6 @@ components:
               $ref: '#/components/schemas/ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         rootContentNode:
           $ref: '#/components/schemas/ColumnLayout.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
@@ -1116,7 +1065,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           items:
@@ -1174,7 +1122,6 @@ components:
           description: 'The camp to which this activity belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         category:
@@ -1183,7 +1130,6 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -1209,7 +1155,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -1219,7 +1164,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
@@ -1255,13 +1199,11 @@ components:
             of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
           example: /categories/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         copyActivitySource:
           description: 'Copy Contents from this Source-Activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -1274,7 +1216,6 @@ components:
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -1310,7 +1251,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1339,7 +1279,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1368,7 +1307,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1417,7 +1355,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         position:
           default: -1
@@ -1451,7 +1388,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1480,7 +1416,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1509,7 +1444,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1549,7 +1483,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         position:
           default: -1
@@ -1597,7 +1530,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1649,7 +1581,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1701,7 +1632,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1732,7 +1662,6 @@ components:
           description: 'The camp to which this label belongs.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         position:
           default: -1
@@ -1755,13 +1684,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1781,13 +1708,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1807,13 +1732,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1833,13 +1756,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       required:
         - activity
@@ -1862,13 +1783,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1888,13 +1807,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1914,13 +1831,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -1949,13 +1864,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       required:
         - activity
@@ -1992,13 +1905,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -2041,13 +1952,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -2090,13 +1999,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -2116,13 +2023,11 @@ components:
           description: 'The activity that the person is responsible for.'
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The person that is responsible. Must be a collaborator in the same camp as the activity.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       required:
         - activity
@@ -2215,7 +2120,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -2412,7 +2316,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -2598,7 +2501,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -2791,7 +2693,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -2937,7 +2838,6 @@ components:
           description: 'The prototype camp that will be used as a template to create this camp.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -3220,7 +3120,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -3426,7 +3325,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -3612,7 +3510,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -3805,7 +3702,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -3960,7 +3856,6 @@ components:
           description: 'The prototype camp that will be used as a template to create this camp.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -4155,7 +4050,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -4375,7 +4269,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -4584,7 +4477,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -4800,7 +4692,6 @@ components:
             leaves the camp.
           example: 'https://example.com/'
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type: string
         id:
@@ -4946,7 +4837,6 @@ components:
           description: 'The prototype camp that will be used as a template to create this camp.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5039,7 +4929,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5085,7 +4974,6 @@ components:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5102,7 +4990,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5150,7 +5037,6 @@ components:
               $ref: '#/components/schemas/User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - camp
@@ -5167,7 +5053,6 @@ components:
               $ref: '#/components/schemas/Camp-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5215,7 +5100,6 @@ components:
               $ref: '#/components/schemas/User-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - camp
@@ -5234,7 +5118,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         inviteEmail:
           description: |-
@@ -5264,7 +5147,6 @@ components:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5318,7 +5200,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5364,7 +5245,6 @@ components:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5381,7 +5261,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5429,7 +5308,6 @@ components:
               $ref: '#/components/schemas/User.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - camp
@@ -5455,7 +5333,6 @@ components:
               $ref: '#/components/schemas/Camp.jsonhal-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5503,7 +5380,6 @@ components:
               $ref: '#/components/schemas/User.jsonhal-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - camp
@@ -5527,7 +5403,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         inviteEmail:
           description: |-
@@ -5557,7 +5432,6 @@ components:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5596,7 +5470,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5642,7 +5515,6 @@ components:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5682,7 +5554,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5730,7 +5601,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - camp
@@ -5770,7 +5640,6 @@ components:
               $ref: '#/components/schemas/Camp.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -5818,7 +5687,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - camp
@@ -5833,7 +5701,6 @@ components:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         inviteEmail:
           description: |-
@@ -5863,7 +5730,6 @@ components:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -5883,7 +5749,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -5939,7 +5804,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -5964,7 +5828,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6020,7 +5883,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6049,7 +5911,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6102,7 +5963,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6131,7 +5991,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6257,7 +6116,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6313,7 +6171,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6338,7 +6195,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6394,7 +6250,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6432,7 +6287,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6485,7 +6339,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6523,7 +6376,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6608,7 +6460,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6664,7 +6515,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6712,7 +6562,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6768,7 +6617,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6820,7 +6668,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6873,7 +6720,6 @@ components:
             The programme contents, organized as a tree of content nodes. The root content node cannot be
             exchanged, but all the contents attached to it can.
           example: /content_nodes/1a2b3c4d
-          'owl:maxCardinality': 1
           readOnly: true
         short:
           description: |-
@@ -6902,7 +6748,6 @@ components:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         color:
           description: 'The color of the activities in this category, as a hex color string.'
@@ -6972,7 +6817,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7016,7 +6860,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7033,7 +6876,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7073,7 +6915,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7117,7 +6958,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7134,7 +6974,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7174,7 +7013,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7218,7 +7056,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7235,7 +7072,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7275,7 +7111,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7319,7 +7154,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7336,7 +7170,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7376,7 +7209,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7420,7 +7252,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7437,7 +7268,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7468,7 +7298,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"columns":[{"slot":"1","width":6},{"slot":"2","width":6}]}'
@@ -7501,7 +7330,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7562,7 +7390,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7615,7 +7442,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7659,7 +7485,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7676,7 +7501,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7716,7 +7540,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7760,7 +7583,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7777,7 +7599,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7817,7 +7638,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7861,7 +7681,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7878,7 +7697,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -7918,7 +7736,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -7962,7 +7779,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -7979,7 +7795,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8019,7 +7834,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8063,7 +7877,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8080,7 +7893,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8120,7 +7932,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"columns":[{"slot":"1","width":6},{"slot":"2","width":6}]}'
@@ -8153,7 +7964,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8222,7 +8032,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8266,7 +8075,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8283,7 +8091,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8346,7 +8153,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8390,7 +8196,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8407,7 +8212,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8470,7 +8274,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8514,7 +8317,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8531,7 +8333,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8594,7 +8395,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8638,7 +8438,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8655,7 +8454,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8718,7 +8516,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8762,7 +8559,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8779,7 +8575,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8810,7 +8605,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"columns":[{"slot":"1","width":6},{"slot":"2","width":6}]}'
@@ -8843,7 +8637,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8894,7 +8687,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -8932,7 +8724,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -8949,7 +8740,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -8988,7 +8778,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9026,7 +8815,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9043,7 +8831,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9082,7 +8869,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9120,7 +8906,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9137,7 +8922,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9190,7 +8974,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9228,7 +9011,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9245,7 +9027,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9284,7 +9065,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9322,7 +9102,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9339,7 +9118,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9378,7 +9156,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9416,7 +9193,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9433,7 +9209,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9483,7 +9258,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9521,7 +9295,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9538,7 +9311,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9600,7 +9372,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9638,7 +9409,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9655,7 +9425,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -9717,7 +9486,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -9755,7 +9523,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -9772,7 +9539,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -10121,7 +9887,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10186,7 +9951,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10251,7 +10015,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10316,7 +10079,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10390,7 +10152,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10455,7 +10216,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10543,7 +10303,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10631,7 +10390,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10719,7 +10477,6 @@ components:
           description: 'The time period that this day belongs to.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntries:
           description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
@@ -10751,13 +10508,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -10777,13 +10532,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -10803,13 +10556,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       required:
         - campCollaboration
@@ -10832,13 +10583,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -10858,13 +10607,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -10893,13 +10640,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       required:
         - campCollaboration
@@ -10936,13 +10681,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -10985,13 +10728,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -11011,13 +10752,11 @@ components:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which the person is responsible.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       required:
         - campCollaboration
@@ -11184,13 +10923,11 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11198,7 +10935,6 @@ components:
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11233,13 +10969,11 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11247,7 +10981,6 @@ components:
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11294,13 +11027,11 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11308,7 +11039,6 @@ components:
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11353,13 +11083,11 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11367,7 +11095,6 @@ components:
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11432,13 +11159,11 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11446,7 +11171,6 @@ components:
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11482,13 +11206,11 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11496,7 +11218,6 @@ components:
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11527,13 +11248,11 @@ components:
           description: 'The camp this material list belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The campCollaboration this material list belongs to.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -11595,7 +11314,6 @@ components:
           description: 'The camp this material list belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         name:
           description: 'The human readable name of the material list.'
@@ -11627,13 +11345,11 @@ components:
           description: 'The camp this material list belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The campCollaboration this material list belongs to.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -11688,7 +11404,6 @@ components:
           description: 'The camp this material list belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         name:
           description: 'The human readable name of the material list.'
@@ -11734,13 +11449,11 @@ components:
           description: 'The camp this material list belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         campCollaboration:
           description: 'The campCollaboration this material list belongs to.'
           example: /camp_collaborations/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -11786,7 +11499,6 @@ components:
           description: 'The camp this material list belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         name:
           description: 'The human readable name of the material list.'
@@ -11819,7 +11531,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -11861,7 +11572,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11878,7 +11588,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -11909,7 +11618,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -11936,7 +11644,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -11990,7 +11697,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12042,7 +11748,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -12084,7 +11789,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12101,7 +11805,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -12141,7 +11844,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -12168,7 +11870,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12236,7 +11937,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -12278,7 +11978,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12295,7 +11994,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -12326,7 +12024,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -12353,7 +12050,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12398,7 +12094,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -12442,7 +12137,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12459,7 +12153,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -12489,7 +12182,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -12522,7 +12214,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12582,7 +12273,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12635,7 +12325,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -12679,7 +12368,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12696,7 +12384,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -12735,7 +12422,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -12768,7 +12454,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12836,7 +12521,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -12880,7 +12564,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12897,7 +12580,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -12927,7 +12609,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -12960,7 +12641,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -12995,7 +12675,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13088,7 +12767,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13181,7 +12859,6 @@ components:
               $ref: '#/components/schemas/Camp-read_Period.Camp_Period.Days'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13310,7 +12987,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
@@ -13364,7 +13040,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13457,7 +13132,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13559,7 +13233,6 @@ components:
               $ref: '#/components/schemas/Camp.jsonhal-read_Period.Camp_Period.Days'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13659,7 +13332,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
@@ -13727,7 +13399,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13843,7 +13514,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -13959,7 +13629,6 @@ components:
               $ref: '#/components/schemas/Camp.jsonld-read_Period.Camp_Period.Days'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -14050,7 +13719,6 @@ components:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
@@ -14157,7 +13825,6 @@ components:
         user:
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -14234,7 +13901,6 @@ components:
         user:
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -14451,7 +14117,6 @@ components:
         user:
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -14528,7 +14193,6 @@ components:
         user:
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -14697,7 +14361,6 @@ components:
         user:
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -14797,7 +14460,6 @@ components:
         user:
           example: /users/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15072,7 +14734,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -15119,7 +14780,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15136,7 +14796,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15167,7 +14826,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
@@ -15203,7 +14861,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15267,7 +14924,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15320,7 +14976,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -15367,7 +15022,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15384,7 +15038,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15424,7 +15077,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
@@ -15460,7 +15112,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15529,7 +15180,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -15576,7 +15226,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15593,7 +15242,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15624,7 +15272,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"items":[{"slot":"main"},{"slot":"aside-top"},{"slot":"aside-bottom"}]}'
@@ -15660,7 +15307,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -15698,13 +15344,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15747,7 +15391,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -15787,13 +15430,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15837,7 +15478,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -15878,13 +15518,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -15928,7 +15566,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -15971,13 +15608,11 @@ components:
               $ref: '#/components/schemas/Activity-read_ScheduleEntry.Activity'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16021,7 +15656,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16078,7 +15712,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         start:
           description: 'Start date and time of the schedule entry.'
@@ -16112,7 +15745,6 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         end:
           description: 'End date and time of the schedule entry.'
@@ -16134,7 +15766,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         start:
           description: 'Start date and time of the schedule entry.'
@@ -16178,13 +15809,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16227,7 +15856,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16267,13 +15895,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16317,7 +15943,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16358,13 +15983,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16408,7 +16031,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16460,13 +16082,11 @@ components:
               $ref: '#/components/schemas/Activity.jsonhal-read_ScheduleEntry.Activity'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16510,7 +16130,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16562,7 +16181,6 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         end:
           description: 'End date and time of the schedule entry.'
@@ -16584,7 +16202,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         start:
           description: 'Start date and time of the schedule entry.'
@@ -16642,13 +16259,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16691,7 +16306,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16754,13 +16368,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16804,7 +16416,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16868,13 +16479,11 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -16918,7 +16527,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -16984,13 +16592,11 @@ components:
               $ref: '#/components/schemas/Activity.jsonld-read_ScheduleEntry.Activity'
             -
               type: 'null'
-          'owl:maxCardinality': 1
           readOnly: true
         day:
           description: 'The day on which this schedule entry starts.'
           example: /days/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -17034,7 +16640,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         scheduleEntryNumber:
           description: |-
@@ -17077,7 +16682,6 @@ components:
             once the schedule entry is created.
           example: /activities/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         end:
           description: 'End date and time of the schedule entry.'
@@ -17099,7 +16703,6 @@ components:
           description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
           example: /periods/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         start:
           description: 'Start date and time of the schedule entry.'
@@ -17142,7 +16745,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -17183,7 +16785,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17200,7 +16801,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -17231,7 +16831,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"html":""}'
@@ -17261,7 +16860,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17319,7 +16917,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17372,7 +16969,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -17413,7 +17009,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17430,7 +17025,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -17470,7 +17064,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"html":""}'
@@ -17500,7 +17093,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17569,7 +17161,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -17610,7 +17201,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17627,7 +17217,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -17658,7 +17247,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           default: '{"html":""}'
@@ -17688,7 +17276,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17734,7 +17321,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -17779,7 +17365,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17796,7 +17381,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -17826,7 +17410,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -17860,7 +17443,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17921,7 +17503,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -17974,7 +17555,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -18019,7 +17599,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -18036,7 +17615,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -18075,7 +17653,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -18109,7 +17686,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -18177,7 +17753,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
@@ -18222,7 +17797,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -18239,7 +17813,6 @@ components:
             content node is the root.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           readOnly: true
           type:
             - 'null'
@@ -18269,7 +17842,6 @@ components:
             in a content node. The content type may not be changed once the content node is created.
           example: /content_types/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
         data:
           description: |-
@@ -18303,7 +17875,6 @@ components:
             as the new parent is in the same camp as the old one.
           example: /content_nodes/1a2b3c4d
           format: iri-reference
-          'owl:maxCardinality': 1
           type:
             - 'null'
             - string
@@ -18368,7 +17939,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
@@ -18396,7 +17966,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User-read_CampCollaboration.Camp_CampCollaboration.User:
@@ -18424,7 +17993,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User-read_User.create:
@@ -18448,7 +18016,6 @@ components:
           type: string
         profile:
           $ref: '#/components/schemas/Profile-read_User.create'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - profile
@@ -18498,7 +18065,6 @@ components:
             language: en
             nickname: Bi-Pi
             surname: Baden-Powell
-          'owl:maxCardinality': 1
         recaptchaToken:
           description: 'ReCaptchaToken used on Register-View.'
           type:
@@ -18545,7 +18111,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
@@ -18573,7 +18138,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User.jsonhal-read_CampCollaboration.Camp_CampCollaboration.User:
@@ -18601,7 +18165,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User.jsonhal-read_User.create:
@@ -18634,7 +18197,6 @@ components:
           type: string
         profile:
           $ref: '#/components/schemas/Profile.jsonhal-read_User.create'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - profile
@@ -18674,7 +18236,6 @@ components:
             language: en
             nickname: Bi-Pi
             surname: Baden-Powell
-          'owl:maxCardinality': 1
         recaptchaToken:
           description: 'ReCaptchaToken used on Register-View.'
           type:
@@ -18735,7 +18296,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
@@ -18786,7 +18346,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
@@ -18837,7 +18396,6 @@ components:
             nickname: Bi-Pi
             surname: Baden-Powell
           format: iri-reference
-          'owl:maxCardinality': 1
           type: string
       type: object
     User.jsonld-read_User.create:
@@ -18884,7 +18442,6 @@ components:
           type: string
         profile:
           $ref: '#/components/schemas/Profile.jsonld-read_User.create'
-          'owl:maxCardinality': 1
           readOnly: true
       required:
         - profile
@@ -18915,7 +18472,6 @@ components:
             language: en
             nickname: Bi-Pi
             surname: Baden-Powell
-          'owl:maxCardinality': 1
         recaptchaToken:
           description: 'ReCaptchaToken used on Register-View.'
           type:
