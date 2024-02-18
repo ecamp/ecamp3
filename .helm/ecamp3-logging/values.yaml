@@ -8,11 +8,9 @@ elasticsearch:
     replicas: 1
     resources:
       requests:
-        cpu: 300m
-        memory: 400Mi
+        memory: 800Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        memory: 1.5Gi
     persistence:
       resources:
         requests:
@@ -21,11 +19,9 @@ elasticsearch:
     replicas: 0
     resources:
       requests:
-        cpu: 300m
-        memory: 400Mi
+        memory: 800Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        memory: 1.5Gi
     persistence:
       resources:
         requests:
