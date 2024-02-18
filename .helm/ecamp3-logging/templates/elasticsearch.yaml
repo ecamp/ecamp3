@@ -1,3 +1,9 @@
+{{- $mainMinHeapSpace := .Values.elasticsearch.main.resources.requests.memory | replace "Mi" "" -}}
+{{- $mainMaxHeapSpace := .Values.elasticsearch.main.resources.limits.memory | replace "Mi" "" -}}
+
+{{- $dataMinHeapSpace := .Values.elasticsearch.data.resources.requests.memory | replace "Mi" "" -}}
+{{- $dataMaxHeapSpace := .Values.elasticsearch.data.resources.limits.memory | replace "Mi" "" -}}
+
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -14,7 +20,8 @@ spec:
       config:
         node.roles:
           - master
-        xpack.ml.enabled: true
+        xpack.ml.enabled: false
+        xpack.security.enabled: false
       podTemplate:
         spec:
           containers:
@@ -46,6 +53,12 @@ spec:
               env:
                 - name: READINESS_PROBE_TIMEOUT
                   value: "20"
+{{/*                  Without this env, it runs with a heap space of 900m but cannot do the
+                      migrations kibana wants to do*/}}
+{{/*                  If Xms is not equal to Xmx, it crashes at the start with an error, that the 2 must be equal*/}}
+{{/*                  If we set both to the same value, it just crashes without an error*/}}
+{{/*                - name: ES_JAVA_OPTS*/}}
+{{/*                  value: "-Xms{{ $mainMaxHeapSpace }}m -Xmx{{ $mainMaxHeapSpace }}m"*/}}
           initContainers:
             - name: sysctl
               securityContext:
@@ -107,6 +120,8 @@ spec:
               env:
                 - name: READINESS_PROBE_TIMEOUT
                   value: "20"
+                - name: ES_JAVA_OPTS
+                  value: "-Xms{{ $dataMinHeapSpace }}m -Xmx{{ $dataMaxHeapSpace }}m"
           initContainers:
             - name: sysctl
               securityContext:

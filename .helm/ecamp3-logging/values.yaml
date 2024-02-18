@@ -10,7 +10,7 @@ elasticsearch:
       requests:
         memory: 800Mi
       limits:
-        memory: 1.5Gi
+        memory: 1500Mi
     persistence:
       resources:
         requests:
@@ -21,7 +21,7 @@ elasticsearch:
       requests:
         memory: 800Mi
       limits:
-        memory: 1.5Gi
+        memory: 1500Mi
     persistence:
       resources:
         requests:
@@ -45,4 +45,4 @@ beat:
       memory: 100Mi
     limits:
       cpu: 120m
-      memory: 120Mi
+      memory: 150Mi
