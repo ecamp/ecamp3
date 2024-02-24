@@ -52,7 +52,6 @@
   </v-expansion-panel>
 </template>
 <script>
-import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
@@ -79,11 +78,8 @@ export default {
           return scheduleEntry.day()._meta.self === this.day._meta.self
         })
     },
-    sortedScheduleEntries() {
-      return sortBy(this.scheduleEntries, (scheduleEntry) => scheduleEntry.start)
-    },
     entries() {
-      return this.sortedScheduleEntries.map((scheduleEntry) => ({
+      return this.scheduleEntries.map((scheduleEntry) => ({
         scheduleEntry: scheduleEntry,
         storyChapters: this.periodStoryChapters.filter(
           (contentNode) =>
