@@ -3,6 +3,7 @@
 namespace App\Tests\Api\SnapshotTests;
 
 use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -51,7 +52,7 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
         assertThat($not200Responses, isEmpty());
 
-        $this->assertMatchesSnapshot($numberOfQueries);
+        $this->assertMatchesSnapshot($numberOfQueries, new ECampYamlSnapshotDriver());
     }
 
     /**
