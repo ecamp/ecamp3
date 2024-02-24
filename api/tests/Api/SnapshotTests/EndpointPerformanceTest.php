@@ -16,8 +16,11 @@ use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\equalTo;
 use function PHPUnit\Framework\greaterThanOrEqual;
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\lessThan;
 use function PHPUnit\Framework\lessThanOrEqual;
 use function PHPUnit\Framework\logicalAnd;
+
+const MAX_EXECUTION_TIME_SECONDS = 0.5;
 
 /**
  * @internal
@@ -33,24 +36,30 @@ class EndpointPerformanceTest extends ECampApiTestCase {
     public function testPerformanceDidNotChangeForStableEndpoints() {
         $numberOfQueries = [];
         $responseCodes = [];
+        $queryExecutionTime = [];
         $collectionEndpoints = self::getCollectionEndpoints();
         foreach ($collectionEndpoints as $collectionEndpoint) {
             if ('/users' !== $collectionEndpoint && !str_contains($collectionEndpoint, '/content_node')) {
-                list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
+                list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor($collectionEndpoint);
                 $responseCodes[$collectionEndpoint] = $statusCode;
                 $numberOfQueries[$collectionEndpoint] = $queryCount;
+                $queryExecutionTime[$collectionEndpoint] = $executionTimeSeconds;
             }
 
             if (!str_contains($collectionEndpoint, '/content_node')) {
                 $fixtureFor = $this->getFixtureFor($collectionEndpoint);
-                list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+                list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
                 $responseCodes["{$collectionEndpoint}/item"] = $statusCode;
                 $numberOfQueries["{$collectionEndpoint}/item"] = $queryCount;
+                $queryExecutionTime["{$collectionEndpoint}/item"] = $executionTimeSeconds;
             }
         }
 
         $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
         assertThat($not200Responses, isEmpty());
+
+        $endpointsWithTooLongExecutionTime = array_filter($queryExecutionTime, fn ($value) => MAX_EXECUTION_TIME_SECONDS < $value);
+        assertThat($endpointsWithTooLongExecutionTime, equalTo([]));
 
         $this->assertMatchesSnapshot($numberOfQueries, new ECampYamlSnapshotDriver());
     }
@@ -91,9 +100,11 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             self::markTestSkipped("{$collectionEndpoint} does not support get item endpoint");
         }
         $fixtureFor = $this->getFixtureFor($collectionEndpoint);
-        list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+        list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
 
         assertThat($statusCode, equalTo(200));
+
+        assertThat($executionTimeSeconds, lessThan(MAX_EXECUTION_TIME_SECONDS));
 
         $queryCountRanges = self::getContentNodeEndpointQueryCountRanges()[$collectionEndpoint.'/item'];
         assertThat(
@@ -120,8 +131,11 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         $statusCode = $response->getStatusCode();
         $collector = $client->getProfile()->getCollector('db');
         $queryCount = $collector->getQueryCount();
+        // because measurements below 0.03 are flaky, we do not record
+        // times below 0.03.
+        $executionTimeSeconds = max(0.03, round($collector->getTime(), 2));
 
-        return [$statusCode, $queryCount];
+        return [$statusCode, $queryCount, $executionTimeSeconds];
     }
 
     public static function getContentNodeEndpoints(): array {
