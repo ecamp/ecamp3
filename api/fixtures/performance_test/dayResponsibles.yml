@@ -1,0 +1,7 @@
+App\Entity\DayResponsible:
+  additional_dayResponsible1_{1..400}:
+    campCollaboration: '@additionalCampCollaboration_<current()>'
+    day: '@additional_day1period1_<current()>'
+  additional_dayResponsible2_{1..400}:
+    campCollaboration: '@additionalCampCollaboration_<current()>'
+    day: '@additional_day2period1_<current()>'

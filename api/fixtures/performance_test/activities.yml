@@ -1,0 +1,78 @@
+App\Entity\Activity:
+  additional_activity_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    title: 'Activity <current()>'
+    location: <word()>
+    rootContentNode: '@additional_columnLayout1_<current()>'
+    category: '@additionalCategoryForCampNumber1_<current()>'
+
+App\Entity\ScheduleEntry:
+  additional_scheduleEntry1_{1..400}:
+    period: '@additionalPeriod_<current()>'
+    activity: '@additional_activity_<current()>'
+    startOffset: 480
+    endOffset: 540
+  additional_scheduleEntry2_{1..400}:
+    period: '@additionalPeriod_<current()>'
+    activity: '@additional_activity_<current()>'
+    startOffset: 1980
+    endOffset: 2040
+
+# Root node
+App\Entity\ContentNode\ColumnLayout:
+  additional_columnLayout1_{1..400}:
+    root: '@self'
+    parent: null
+    slot: null
+    position: 0
+    data: { columns: [{ slot: '1', width: 12 }] }
+    instanceName: 'columnLayoutRoot<current()>'
+    contentType: '@contentTypeColumnLayout'
+
+# Reponsive layout
+App\Entity\ContentNode\ResponsiveLayout:
+  additional_responsiveLayout1_{1..400}:
+    root: '@additional_columnLayout1_<current()>'
+    parent: '@additional_columnLayout1_<current()>'
+    slot: '1'
+    position: 0
+    data: { items: [{ slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' }] }
+    instanceName: 'responsiveLayout<current()>'
+    contentType: '@contentTypeResponsiveLayout'
+    
+App\Entity\ContentNode\MultiSelect:
+  additional_multiSelect1_{1..400}:
+    root: '@additional_columnLayout1_<current()>'
+    parent: '@additional_responsiveLayout1_<current()>'
+    slot: 'aside-top'
+    position: 0
+    instanceName: 'multiSelect<current()>'
+    contentType: '@contentTypeMultiSelect'
+    data: { options: { 'key1': { 'checked': true }, 'key2': { 'checked': true } } }
+
+App\Entity\ContentNode\MaterialNode:
+  additional_materialNode1_{1..400}:
+    root: '@additional_columnLayout1_<current()>'
+    parent: '@additional_responsiveLayout1_<current()>'
+    slot: 'aside-top'
+    position: 1
+    instanceName: 'materialNode<current()>'
+    contentType: '@contentTypeMaterial'
+
+App\Entity\ContentNode\SingleText:
+  additional_singleText1_{1..400}:
+    root: '@additional_columnLayout1_<current()>'
+    parent: '@additional_responsiveLayout1_<current()>'
+    slot: 'aside-top'
+    position: 2
+    instanceName: 'singleText<current()>'
+    contentType: '@contentTypeNotes'
+    data: { html: <word()> }
+  additional_safetyConcept1_{1..400}:
+    root: '@additional_columnLayout1_<current()>'
+    parent: '@additional_responsiveLayout1_<current()>'
+    slot: 'aside-top'
+    position: 3
+    instanceName: 'safetyConcept<current()>'
+    contentType: '@contentTypeSafetyConcept'
+    data: { html: <sentence()> }

@@ -1,0 +1,6 @@
+App\Entity\CampCollaboration:
+  additionalCampCollaboration_{1..400}:
+    user: '@additionalUser_<current()>'
+    camp: '@additionalCamp_<current()>'
+    status: established
+    role: manager
