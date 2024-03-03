@@ -22,7 +22,7 @@ use function PHPUnit\Framework\logicalAnd;
 /**
  * @internal
  */
-class EndpointQueryCountTest extends ECampApiTestCase {
+class EndpointPerformanceTest extends ECampApiTestCase {
     /**
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -30,7 +30,7 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function testNumberOfQueriesDidNotChangeForStableEndpoints() {
+    public function testPerformanceDidNotChangeForStableEndpoints() {
         $numberOfQueries = [];
         $responseCodes = [];
         $collectionEndpoints = self::getCollectionEndpoints();
