@@ -153,6 +153,12 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         });
     }
 
+    protected function getSnapshotId(): string {
+        $env = static::$kernel->getContainer()->getParameter('kernel.environment');
+
+        return $env.'_'.parent::getSnapshotId();
+    }
+
     private static function getContentNodeEndpointQueryCountRanges(): array {
         return [
             '/content_nodes' => [8, 9],
