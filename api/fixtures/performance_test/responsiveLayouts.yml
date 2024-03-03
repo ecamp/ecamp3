@@ -1,0 +1,17 @@
+App\Entity\ContentNode\ResponsiveLayout:
+  additional_responsiveLayout1_{1..400}:
+    root: '@additionalColumnLayoutForCampNumber1_<current()>'
+    parent: '@additionalColumnLayoutForCampNumber1_<current()>'
+    slot: '1'
+    position: 0
+    data: { items: [ { slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' } ] }
+    instanceName: 'additional_responsiveLayout_<current()>'
+    contentType: '@contentTypeResponsiveLayout'
+  additional_responsiveLayout2_{1..400}:
+    root: '@additionalColumnLayoutForCampNumber2_<current()>'
+    parent: '@additionalColumnLayoutForCampNumber2_<current()>'
+    slot: '1'
+    position: 0
+    data: { items: [ { slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' } ] }
+    instanceName: 'additional_responsiveLayout_<current()>'
+    contentType: '@contentTypeResponsiveLayout'

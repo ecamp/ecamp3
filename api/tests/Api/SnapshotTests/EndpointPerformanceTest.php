@@ -73,6 +73,9 @@ class EndpointPerformanceTest extends ECampApiTestCase {
      */
     #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeCollectionEndpoints(string $collectionEndpoint) {
+        if ('test' !== $this->getEnvironment()) {
+            self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
+        }
         list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
 
         assertThat($statusCode, equalTo(200));
@@ -96,6 +99,9 @@ class EndpointPerformanceTest extends ECampApiTestCase {
      */
     #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeItemEndpoints(string $collectionEndpoint) {
+        if ('test' !== $this->getEnvironment()) {
+            self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
+        }
         if ('/content_nodes' === $collectionEndpoint) {
             self::markTestSkipped("{$collectionEndpoint} does not support get item endpoint");
         }
@@ -154,9 +160,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
     }
 
     protected function getSnapshotId(): string {
-        $env = static::$kernel->getContainer()->getParameter('kernel.environment');
-
-        return $env.'_'.parent::getSnapshotId();
+        return $this->getEnvironment().'_'.parent::getSnapshotId();
     }
 
     private static function getContentNodeEndpointQueryCountRanges(): array {
@@ -215,5 +219,9 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         $fixtures = FixtureStore::getFixtures();
 
         return ReadItemFixtureMap::get($collectionEndpoint, $fixtures);
+    }
+
+    private function getEnvironment(): string {
+        return static::$kernel->getContainer()->getParameter('kernel.environment');
     }
 }

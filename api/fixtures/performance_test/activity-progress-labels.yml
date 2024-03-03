@@ -1,0 +1,9 @@
+App\Entity\ActivityProgressLabel:
+  additional_activityProgressLabel1_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    position: 0
+    title: 'In Planung'
+  additional_activityProgressLabel2_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    position: 1
+    title: 'Geplant'
