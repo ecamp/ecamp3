@@ -62,7 +62,7 @@
     "hal-json-vuex": "2.0.0-alpha.16",
     "inter-ui": "3.19.3",
     "js-cookie": "3.0.5",
-    "linkify-it": "4.0.1",
+    "linkify-it": "5.0.0",
     "lodash": "4.17.21",
     "runes": "0.4.3",
     "slugify": "1.6.6",
