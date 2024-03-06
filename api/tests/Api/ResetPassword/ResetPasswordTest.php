@@ -31,7 +31,7 @@ class ResetPasswordTest extends ECampApiTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage();
         self::assertEmailAddressContains($mailerMessage, 'To', $user->getEmail());
-        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp3] Password reset');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp v3] Password reset');
 
         self::assertEmailHtmlBodyContains($mailerMessage, $user->getDisplayName());
         self::assertEmailHtmlBodyContains($mailerMessage, 'http://localhost:3000/reset-password/');

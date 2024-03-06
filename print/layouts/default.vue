@@ -41,14 +41,14 @@ header.style = [
 
                     @page {
                       font-family: "Helvetica", sans-serif;
-                      size: A4 portrait;              
+                      size: A4 portrait;
                       margin-bottom: 15mm;
                       margin-left: 15mm;
                       margin-right: 15mm;
                       margin-top: 15mm;
 
                       @top-center {
-                        content: 'eCamp3';
+                        content: 'eCamp v3';
                         font-size: var(--ecamp-margin-font-size);
                       }
                       @bottom-center {
