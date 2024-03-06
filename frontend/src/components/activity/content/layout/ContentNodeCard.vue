@@ -15,7 +15,7 @@
             autofocus
             :auto-save="false"
             :uri="contentNode._meta.self"
-            fieldname="instanceName"
+            path="instanceName"
             @finished="editInstanceName = false"
           />
         </div>

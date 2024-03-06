@@ -8,22 +8,22 @@ Displays address and allows to edit
     <div v-else class="mt-3">
       <api-form :entity="camp()">
         <api-text-field
-          fieldname="addressName"
+          path="addressName"
           :name="$tc('entity.camp.fields.addressName')"
           :disabled="disabled"
         />
         <api-text-field
-          fieldname="addressStreet"
+          path="addressStreet"
           :name="$tc('entity.camp.fields.addressStreet')"
           :disabled="disabled"
         />
         <api-text-field
-          fieldname="addressZipcode"
+          path="addressZipcode"
           :name="$tc('entity.camp.fields.addressZipcode')"
           :disabled="disabled"
         />
         <api-text-field
-          fieldname="addressCity"
+          path="addressCity"
           :name="$tc('entity.camp.fields.addressCity')"
           :disabled="disabled"
         />

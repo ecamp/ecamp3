@@ -199,7 +199,11 @@
     "scheduleEntry": {
       "fields": {
         "duration": "Duration",
+        "endDate": "Enddate",
+        "endTime": "Endtime",
         "nr": "No.",
+        "startDate": "Startdate",
+        "startTime": "Starttime",
         "time": "Time"
       },
       "name": "Activity scheduled"

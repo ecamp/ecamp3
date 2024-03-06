@@ -2,7 +2,7 @@
   <div>
     <api-text-field
       :uri="category._meta.self"
-      fieldname="short"
+      path="short"
       :name="$tc('entity.category.fields.short')"
       :disabled="disabled"
       vee-rules="required"
@@ -10,7 +10,7 @@
 
     <api-text-field
       :uri="category._meta.self"
-      fieldname="name"
+      path="name"
       :name="$tc('entity.category.fields.name')"
       :disabled="disabled"
       vee-rules="required"
@@ -18,7 +18,7 @@
 
     <api-color-picker
       :uri="category._meta.self"
-      fieldname="color"
+      path="color"
       :name="$tc('entity.category.fields.color')"
       :disabled="disabled"
       vee-rules="required"
@@ -26,7 +26,7 @@
 
     <api-select
       :uri="category._meta.self"
-      fieldname="numberingStyle"
+      path="numberingStyle"
       :items="numberingStyles"
       :name="$tc('entity.category.fields.numberingStyle')"
       :disabled="disabled"

@@ -5,8 +5,7 @@
         <e-date-picker
           v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.program.formScheduleEntryItem.start')"
-          vee-id="startDate"
+          path="startDate"
           vee-rules="required"
           :allowed-dates="dateIsInAnyPeriod"
           :filled="false"
@@ -67,6 +66,11 @@ import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 export default {
   name: 'FormScheduleEntryItem',
   components: { ButtonDelete },
+  provide() {
+    return {
+      entityName: 'scheduleEntry',
+    }
+  },
   props: {
     // scheduleEntry to display
     scheduleEntry: {

@@ -191,7 +191,11 @@
     "scheduleEntry": {
       "fields": {
         "duration": "Durée",
+        "endDate": "Date de fin",
+        "endTime": "Heure de fin",
         "nr": "No.",
+        "startDate": "Date de début",
+        "startTime": "Heure de début",
         "time": "Moment"
       },
       "name": "Inscription au calendrier"

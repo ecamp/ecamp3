@@ -21,8 +21,6 @@ Displays a field as a picker (can be used with v-model)
           :value="fieldValue"
           :hide-details="hideDetails"
           :input-class="inputClass"
-          :name="name"
-          :label="label"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           :filled="filled"
