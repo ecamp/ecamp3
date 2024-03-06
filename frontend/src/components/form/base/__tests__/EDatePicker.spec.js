@@ -13,7 +13,7 @@ describe('An EDatePicker', () => {
       date2: '19.03.2020',
       dateShort: '2.4.2021',
       dateInWrongLocale: '03/19/2020',
-      labelText: 'Dialog öffnen um ein Datum für test zu wählen',
+      labelText: 'Dialog öffnen, um ein Datum für test zu wählen',
       date1Heading: 'März 2020',
       date3Heading: 'Januar 2111',
       date4Heading: 'Januar 1999',
