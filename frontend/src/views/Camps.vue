@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import dayjs from '@/common/helpers/dayjs.js'
 import { campRoute } from '@/router.js'
 import { isAdmin } from '@/plugins/auth'
 import ContentCard from '@/components/layout/ContentCard.vue'
@@ -125,12 +126,12 @@ export default {
     },
     upcomingCamps() {
       return this.nonPrototypeCamps.filter((c) =>
-        c.periods().items.some((p) => new Date(p.end) > new Date())
+        c.periods().items.some((p) => dayjs(p.end).endOf('day').isAfter(dayjs()))
       )
     },
     pastCamps() {
       return this.nonPrototypeCamps.filter(
-        (c) => !c.periods().items.some((p) => new Date(p.end) > new Date())
+        (c) => !c.periods().items.some((p) => dayjs(p.end).endOf('day').isAfter(dayjs()))
       )
     },
     ...mapGetters({
