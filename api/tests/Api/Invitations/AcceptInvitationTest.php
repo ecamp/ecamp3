@@ -12,6 +12,9 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
+use function PHPUnit\Framework\assertThat;
+use function PHPUnit\Framework\greaterThanOrEqual;
+
 /**
  * @internal
  */
@@ -31,6 +34,33 @@ class AcceptInvitationTest extends ECampApiTestCase {
             ]
         );
         $this->assertResponseStatusCodeSame(401);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function testAcceptInvitationDoesNotHitDBWhenNotLoggedIn() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
+        $client = static::createBasicClient();
+        $client->enableProfiler();
+        $client->request(
+            'PATCH',
+            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $collector = $client->getProfile()->getCollector('db');
+        /*
+         * 3 is:
+         * BEGIN TRANSACTION
+         * SAVEPOINT
+         * RELEASE SAVEPOINT
+         */
+        assertThat($collector->getQueryCount(), greaterThanOrEqual(3));
     }
 
     /**
