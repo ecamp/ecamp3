@@ -11,6 +11,7 @@ Displays a field as a date picker (can be used with v-model)
     :parse="parse"
     :parse-picker="parsePicker"
     :required="required"
+    :vee-id="veeId"
     :vee-rules="veeRules"
     button-aria-label-i18n-key="components.form.base.eDatePicker.openPicker"
     close-on-picker-input

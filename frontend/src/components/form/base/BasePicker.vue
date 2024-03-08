@@ -3,7 +3,7 @@ Displays a field as a picker (can be used with v-model)
 -->
 
 <template>
-  <div class="e-form-container">
+  <div class="e-form-container e-picker-base">
     <v-menu
       v-model="showPicker"
       :disabled="disabled || readonly"
@@ -16,15 +16,10 @@ Displays a field as a picker (can be used with v-model)
     >
       <template #activator="{ on }">
         <e-text-field
-          :id="id"
           ref="textField"
           :value="fieldValue"
-          :hide-details="hideDetails"
-          :input-class="inputClass"
-          v-bind="$attrs"
+          v-bind="{ ...$attrs, ...$props }"
           :error-messages="combinedErrorMessages"
-          :filled="filled"
-          :disabled="disabled"
           @click="(...args) => (openOnTextFieldClick ? onMenuOpen(on, ...args) : null)"
           @input="debouncedParseValue"
         >
@@ -33,13 +28,17 @@ Displays a field as a picker (can be used with v-model)
               name="prepend"
               :color="iconColor"
               :attrs="{
-                'aria-label': $tc(buttonAriaLabelI18nKey, 0, { label: label || name }),
+                'aria-label': $tc(buttonAriaLabelI18nKey, 0, {
+                  label: labelOrEntityFieldLabel,
+                }),
               }"
               :on="{ click: (...args) => onMenuOpen(on, ...args) }"
             >
               <v-icon
                 :color="iconColor"
-                :aria-label="$tc(buttonAriaLabelI18nKey, 0, { label: label || name })"
+                :aria-label="
+                  $tc(buttonAriaLabelI18nKey, 0, { label: labelOrEntityFieldLabel })
+                "
                 @click="(...args) => onMenuOpen(on, ...args)"
               >
                 {{ icon }}
@@ -62,7 +61,7 @@ Displays a field as a picker (can be used with v-model)
 
 <script>
 import { debounce } from 'lodash'
-import { formComponentPropsMixin } from '../../../mixins/formComponentPropsMixin.js'
+import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 
 export default {
   name: 'BasePicker',

@@ -23,7 +23,7 @@ describe('An ESwitch', () => {
       },
       template: `
         <div data-app>
-          <e-switch v-model="data"/>
+          <e-switch label="test" v-model="data"/>
         </div>
       `,
     })

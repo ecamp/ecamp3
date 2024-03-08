@@ -44,7 +44,7 @@ export const formComponentPropsMixin = {
     label: {
       type: String,
       required: false,
-      default: null,
+      default: undefined,
     },
 
     /**
@@ -53,7 +53,7 @@ export const formComponentPropsMixin = {
     validationLabelOverride: {
       type: String,
       required: false,
-      default: null,
+      default: undefined,
     },
 
     // error messages from outside which should be displayed on the component

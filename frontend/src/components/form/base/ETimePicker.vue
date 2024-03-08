@@ -12,6 +12,7 @@ Allows 15min steps only
     :parse="parse"
     :parse-picker="parsePicker"
     v-bind="$attrs"
+    :vee-id="veeId"
     :vee-rules="veeRules"
     button-aria-label-i18n-key="components.form.base.eTimePicker.openPicker"
     @input="$emit('input', $event)"

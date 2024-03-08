@@ -17,10 +17,7 @@
               vee-rules="required"
               required
             />
-            <e-text-field
-              v-model="localCamp.motto"
-              path="motto"
-            />
+            <e-text-field v-model="localCamp.motto" path="motto" />
             <CreateCampPeriods
               :add-period="addPeriod"
               :periods="localCamp.periods"

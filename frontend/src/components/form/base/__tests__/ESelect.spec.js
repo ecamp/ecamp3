@@ -37,7 +37,7 @@ describe('An ESelect', () => {
       },
       template: `
           <div data-app>
-          <e-select :items="selectValues" v-model="data"/>
+          <e-select label='test' :items="selectValues" v-model="data"/>
           </div>
         `,
     })

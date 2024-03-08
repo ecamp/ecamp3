@@ -5,7 +5,7 @@ exports[`An ESelect > looks like a dropdown > dropdown closed with selected valu
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]"
           value="1">
-          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select primary--text">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--filled v-text-field--enclosed v-select primary--text">
                <div class="v-input__control">
                     <div aria-expanded="false"
                          aria-haspopup="listbox"
@@ -13,6 +13,9 @@ exports[`An ESelect > looks like a dropdown > dropdown closed with selected valu
                          class="v-input__slot"
                          role="button">
                          <div class="v-select__slot">
+                              <label class="v-label v-label--active theme--light primary--text"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="v-select__selections">
                                    <div class="v-select__selection v-select__selection--comma">firstOption</div>
                                    <input aria-readonly="false"
@@ -79,7 +82,7 @@ exports[`An ESelect > looks like a dropdown > dropdown open 1`] = `
 <div data-app>
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]">
-          <div class="v-input v-input--hide-details v-input--is-focused theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select v-select--is-menu-active primary--text">
+          <div class="v-input v-input--hide-details v-input--is-focused theme--light v-text-field v-text-field--filled v-text-field--enclosed v-select v-select--is-menu-active primary--text">
                <div class="v-input__control">
                     <div aria-expanded="true"
                          aria-haspopup="listbox"
@@ -87,6 +90,9 @@ exports[`An ESelect > looks like a dropdown > dropdown open 1`] = `
                          class="v-input__slot"
                          role="button">
                          <div class="v-select__slot">
+                              <label class="v-label v-label--active theme--light primary--text"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="v-select__selections">
                                    <input aria-readonly="false"
                                           autocomplete="off"
@@ -152,7 +158,7 @@ exports[`An ESelect > looks like a dropdown > dropdown open with selected value 
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]"
           value="1">
-          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select v-select--is-menu-active primary--text">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--filled v-text-field--enclosed v-select v-select--is-menu-active primary--text">
                <div class="v-input__control">
                     <div aria-expanded="true"
                          aria-haspopup="listbox"
@@ -160,6 +166,9 @@ exports[`An ESelect > looks like a dropdown > dropdown open with selected value 
                          class="v-input__slot"
                          role="button">
                          <div class="v-select__slot">
+                              <label class="v-label v-label--active theme--light primary--text"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="v-select__selections">
                                    <div class="v-select__selection v-select__selection--comma">firstOption</div>
                                    <input aria-readonly="false"
@@ -226,7 +235,7 @@ exports[`An ESelect > looks like a dropdown > no item selected 1`] = `
 <div data-app>
      <div class="e-form-container"
           items="[object Object],[object Object],[object Object]">
-          <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select">
+          <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed v-select">
                <div class="v-input__control">
                     <div aria-expanded="false"
                          aria-haspopup="listbox"
@@ -234,6 +243,9 @@ exports[`An ESelect > looks like a dropdown > no item selected 1`] = `
                          class="v-input__slot"
                          role="button">
                          <div class="v-select__slot">
+                              <label class="v-label theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="v-select__selections">
                                    <input aria-readonly="false"
                                           autocomplete="off"
