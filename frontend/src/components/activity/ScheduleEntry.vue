@@ -75,9 +75,8 @@ Displays a single scheduleEntry
       >
         <v-icon small>mdi-pencil</v-icon>
       </v-btn>
-      <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
+      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-1">
         <api-text-field
-          :uri="activity._meta.self"
           path="title"
           :disabled="layoutMode"
           dense
@@ -85,7 +84,7 @@ Displays a single scheduleEntry
           :auto-save="false"
           @finished="editActivityTitle = false"
         />
-      </div>
+      </api-form>
     </template>
     <template #title-actions>
       <!-- layout/content switch (back to content) -->
