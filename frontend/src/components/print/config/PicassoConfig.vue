@@ -75,7 +75,7 @@ export default {
     config.options.periods = config.options.periods.filter((period) => {
       return knownPeriods.includes(period)
     })
-    if (!(config.options.orientation in ORIENTATIONS.map((o) => o.value))) {
+    if (!ORIENTATIONS.map((o) => o.value).includes(config.options.orientation)) {
       config.options.orientation = 'L'
     }
     return config
