@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90b4329a9990a0ad6ada810eda8ccace",
+    "content-hash": "fa4b99d84eddbd6aa1a0cb1ee18d2b56",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10004,16 +10004,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.11.0",
+            "version": "v15.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "b4ca60c0d0249674877bd8c7dc253bbc5376f40a"
+                "reference": "ab4ff2719b101dc3bfc3aaaf800edc21a98c56dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/b4ca60c0d0249674877bd8c7dc253bbc5376f40a",
-                "reference": "b4ca60c0d0249674877bd8c7dc253bbc5376f40a",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/ab4ff2719b101dc3bfc3aaaf800edc21a98c56dc",
+                "reference": "ab4ff2719b101dc3bfc3aaaf800edc21a98c56dc",
                 "shasum": ""
             },
             "require": {
@@ -10066,7 +10066,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.11.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.11.1"
             },
             "funding": [
                 {
@@ -10074,7 +10074,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-03-10T14:29:50+00:00"
+            "time": "2024-03-11T10:21:05+00:00"
         },
         {
             "name": "willdurand/negotiation",
