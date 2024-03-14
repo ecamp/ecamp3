@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep'
+
 export default function repairConfig(
   config,
   camp,
@@ -5,14 +7,14 @@ export default function repairConfig(
   componentRepairers,
   defaultContents
 ) {
-  if (!config) config = {}
-  if (!availableLocales.includes(config.language)) config.language = 'en'
-  if (!config.documentName) config.documentName = camp.name
-  if (config.camp !== camp._meta.self) config.camp = camp._meta.self
-  if (typeof config.contents?.map !== 'function') {
-    config.contents = defaultContents
+  const configClone = config ? cloneDeep(config) : {}
+  if (!availableLocales.includes(configClone.language)) configClone.language = 'en'
+  if (!configClone.documentName) configClone.documentName = camp.name
+  if (configClone.camp !== camp._meta.self) configClone.camp = camp._meta.self
+  if (typeof configClone.contents?.map !== 'function') {
+    configClone.contents = defaultContents
   }
-  config.contents = config.contents
+  configClone.contents = configClone.contents
     .map((content) => {
       if (!content.type || !(content.type in componentRepairers)) return null
       const componentRepairer = componentRepairers[content.type]
@@ -21,5 +23,5 @@ export default function repairConfig(
     })
     .filter((component) => component)
 
-  return config
+  return configClone
 }

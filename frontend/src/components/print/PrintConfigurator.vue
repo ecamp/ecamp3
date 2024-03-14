@@ -155,14 +155,12 @@ export default {
     },
     cnf() {
       return this.repairConfig(
-        cloneDeep(
-          this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
-            language: this.lang,
-            documentName: this.camp().name,
-            camp: this.camp()._meta.self,
-            contents: this.defaultContents(),
-          })
-        )
+        this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
+          language: this.lang,
+          documentName: this.camp().name,
+          camp: this.camp()._meta.self,
+          contents: this.defaultContents(),
+        })
       )
     },
     isDev() {
