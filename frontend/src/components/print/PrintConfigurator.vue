@@ -111,6 +111,7 @@ import DownloadClientPdfButton from '@/components/print/print-client/DownloadCli
 import { getEnv } from '@/environment.js'
 import cloneDeep from 'lodash/cloneDeep'
 import VueI18n from '../../plugins/i18n/index.js'
+import repairConfig from './repairPrintConfig.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -249,24 +250,20 @@ export default {
       })
     },
     repairConfig(config) {
-      if (!config) config = {}
-      if (!(VueI18n.availableLocales.includes(config.language))) config.language = 'en'
-      if (!config.documentName) config.documentName = this.camp().name
-      if (config.camp !== this.camp()._meta.self) config.camp = this.camp()._meta.self
-      if (typeof config.contents?.map !== 'function') {
-        config.contents = this.defaultContents()
-      }
-      config.contents = config.contents
-        .map((content) => {
-          if (!content.type) return null
-          const component = this.contentComponents[content.type]
-          if (!component) return null
-          if (typeof component.repairConfig !== 'function') return content
-          return component.repairConfig(content, this.camp())
-        })
-        .filter((component) => component)
+      const repairers = Object.fromEntries(
+        Object.entries(this.contentComponents).map(([componentName, component]) => [
+          componentName,
+          component.repairConfig,
+        ])
+      )
 
-      return config
+      return repairConfig(
+        config,
+        this.camp(),
+        VueI18n.availableLocales,
+        repairers,
+        this.defaultContents()
+      )
     },
   },
 }
