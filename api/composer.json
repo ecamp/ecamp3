@@ -8,7 +8,7 @@
         "api-platform/core": "3.2.15",
         "composer/package-versions-deprecated": "1.11.99",
         "cweagans/composer-patches": "1.7.3",
-        "doctrine/doctrine-bundle": "2.11.1",
+        "doctrine/doctrine-bundle": "2.11.3",
         "doctrine/doctrine-migrations-bundle": "3.3.0",
         "doctrine/orm": "2.19.1",
         "exercise/htmlpurifier-bundle": "5.0",
