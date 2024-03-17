@@ -200,9 +200,9 @@
       "fields": {
         "duration": "Duration",
         "endDate": "Enddate",
-        "endTime": "Endtime",
+        "endDatetime": "Endtime",
         "nr": "No.",
-        "startDate": "Startdate",
+        "startDatetime": "Startdate",
         "startTime": "Starttime",
         "time": "Time"
       },

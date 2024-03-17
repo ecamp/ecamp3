@@ -193,10 +193,10 @@
       "fields": {
         "duration": "Dauer",
         "endDate": "Enddatum",
-        "endTime": "Endzeit",
+        "endDatetime": "Endzeit",
         "nr": "Nr.",
         "time": "Zeitpunkt",
-        "startDate": "Startdatum",
+        "startDatetime": "Startdatum",
         "startTime": "Startzeit"
       },
       "name": "Zeitplaneintrag"

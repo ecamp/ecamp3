@@ -192,9 +192,9 @@
       "fields": {
         "duration": "Durée",
         "endDate": "Date de fin",
-        "endTime": "Heure de fin",
+        "endDatetime": "Heure de fin",
         "nr": "No.",
-        "startDate": "Date de début",
+        "startDatetime": "Date de début",
         "startTime": "Heure de début",
         "time": "Moment"
       },

@@ -177,9 +177,9 @@
       "fields": {
         "duration": "Durata",
         "endDate": "Data di fine",
-        "endTime": "Ora di fine",
+        "endDatetime": "Ora di fine",
         "nr": "N.",
-        "startDate": "Data di inizio",
+        "startDatetime": "Data di inizio",
         "startTime": "Ora di inizio",
         "time": "Tempo"
       },
