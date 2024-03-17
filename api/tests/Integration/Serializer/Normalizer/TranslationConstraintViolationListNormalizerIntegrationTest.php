@@ -48,7 +48,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
         $result = $this->translationConstraintViolationListNormalizer->normalize(
             $constraintViolationList,
             $format,
-            []
+            ['api_error_resource' => true]
         );
 
         self::assertArraySubset(['violations' => [
@@ -95,7 +95,7 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
         $result = $this->translationConstraintViolationListNormalizer->normalize(
             $constraintViolationList,
             $format,
-            []
+            ['api_error_resource' => true]
         );
 
         self::assertArraySubset(['violations' => [
