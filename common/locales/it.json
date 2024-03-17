@@ -179,8 +179,8 @@
         "endDate": "Data di fine",
         "endDatetime": "Ora di fine",
         "nr": "N.",
-        "startDatetime": "Data di inizio",
-        "startTime": "Ora di inizio",
+        "startDate": "Data di inizio",
+        "startDatetime": "Ora di inizio",
         "time": "Tempo"
       },
       "name": "Inserimento nel programma"

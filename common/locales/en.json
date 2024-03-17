@@ -202,8 +202,8 @@
         "endDate": "Enddate",
         "endDatetime": "Endtime",
         "nr": "No.",
-        "startDatetime": "Startdate",
-        "startTime": "Starttime",
+        "startDate": "Startdate",
+        "startDatetime": "Starttime",
         "time": "Time"
       },
       "name": "Activity scheduled"

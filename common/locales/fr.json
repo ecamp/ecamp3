@@ -194,8 +194,8 @@
         "endDate": "Date de fin",
         "endDatetime": "Heure de fin",
         "nr": "No.",
-        "startDatetime": "Date de début",
-        "startTime": "Heure de début",
+        "startDate": "Date de début",
+        "startDatetime": "Heure de début",
         "time": "Moment"
       },
       "name": "Inscription au calendrier"

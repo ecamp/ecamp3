@@ -196,8 +196,8 @@
         "endDatetime": "Endzeit",
         "nr": "Nr.",
         "time": "Zeitpunkt",
-        "startDatetime": "Startdatum",
-        "startTime": "Startzeit"
+        "startDate": "Startdatum",
+        "startDatetime": "Startzeit"
       },
       "name": "Zeitplaneintrag"
     }
