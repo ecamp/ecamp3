@@ -4,11 +4,18 @@ export default function repairConfig(
   config,
   camp,
   availableLocales,
+  fallbackLocale,
   componentRepairers,
   defaultContents
 ) {
   const configClone = config ? cloneDeep(config) : {}
-  if (!availableLocales.includes(configClone.language)) configClone.language = 'en'
+  if (!availableLocales.includes(configClone.language)) {
+    configClone.language = availableLocales.includes(fallbackLocale)
+      ? fallbackLocale
+      : availableLocales.length > 0
+        ? availableLocales[0]
+        : 'en'
+  }
   if (!configClone.documentName) configClone.documentName = camp.name
   if (configClone.camp !== camp._meta.self) configClone.camp = camp._meta.self
   if (typeof configClone.contents?.map !== 'function') {

@@ -259,6 +259,7 @@ export default {
         config,
         this.camp(),
         VueI18n.availableLocales,
+        this.lang,
         repairers,
         this.defaultContents()
       )

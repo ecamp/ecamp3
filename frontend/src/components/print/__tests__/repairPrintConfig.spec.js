@@ -32,7 +32,7 @@ describe('repairConfig', () => {
   const defaultContents = [
     { type: 'Picasso', options: { periods: ['/periods/1a2b3c4d'], orientation: 'L' } },
   ]
-  const args = [camp, availableLocales, componentRepairers, defaultContents]
+  const args = [camp, availableLocales, 'en', componentRepairers, defaultContents]
 
   test('fills empty config with default data', async () => {
     // given
@@ -51,7 +51,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -66,7 +66,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -82,7 +82,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -117,7 +117,7 @@ describe('repairConfig', () => {
     })
   })
 
-  test('replaces invalid language', async () => {
+  test('replaces invalid language with fallback language', async () => {
     // given
     const config = {
       camp: '/camps/1a2b3c4d',
@@ -132,7 +132,14 @@ describe('repairConfig', () => {
     }
 
     // when
-    const result = repairConfig(config, ...args)
+    const result = repairConfig(
+      config,
+      camp,
+      availableLocales,
+      'de-CH-scout',
+      componentRepairers,
+      defaultContents
+    )
 
     // then
     expect(result).toEqual({
@@ -144,7 +151,45 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'de-CH-scout',
+    })
+  })
+
+  test('replaces invalid language with any valid language if fallback language is also invalid', async () => {
+    // given
+    const config = {
+      camp: '/camps/1a2b3c4d',
+      contents: [
+        {
+          type: 'Picasso',
+          options: { periods: ['/periods/1a2b3c4d'], orientation: 'L' },
+        },
+      ],
+      documentName: 'test camp',
+      language: 'definitely-not-a-supported-language',
+    }
+
+    // when
+    const result = repairConfig(
+      config,
+      camp,
+      availableLocales,
+      'definitely-not-a-valid-language',
+      componentRepairers,
+      defaultContents
+    )
+
+    // then
+    expect(result).toEqual({
+      camp: '/camps/1a2b3c4d',
+      contents: [
+        {
+          type: 'Picasso',
+          options: { periods: ['/periods/1a2b3c4d'], orientation: 'L' },
+        },
+      ],
+      documentName: 'test camp',
+      language: 'en-GB',
     })
   })
 
@@ -159,7 +204,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'foobar',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -175,7 +220,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'foobar',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -190,7 +235,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: '',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -206,7 +251,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -221,7 +266,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -237,7 +282,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -247,7 +292,7 @@ describe('repairConfig', () => {
       camp: '/camps/1a2b3c4d',
       contents: {},
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -263,7 +308,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -273,7 +318,7 @@ describe('repairConfig', () => {
       camp: '/camps/1a2b3c4d',
       contents: null,
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -289,7 +334,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -299,7 +344,7 @@ describe('repairConfig', () => {
       camp: '/camps/1a2b3c4d',
       contents: [],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -310,7 +355,7 @@ describe('repairConfig', () => {
       camp: '/camps/1a2b3c4d',
       contents: [],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -325,7 +370,7 @@ describe('repairConfig', () => {
         },
       ],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     }
 
     // when
@@ -336,7 +381,7 @@ describe('repairConfig', () => {
       camp: '/camps/1a2b3c4d',
       contents: [],
       documentName: 'test camp',
-      language: 'en',
+      language: 'en-GB',
     })
   })
 
@@ -352,7 +397,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -368,7 +413,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
   })
@@ -385,7 +430,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -401,7 +446,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
   })
@@ -417,7 +462,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -433,7 +478,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -448,7 +493,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -464,7 +509,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -479,7 +524,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -495,7 +540,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -510,7 +555,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -526,7 +571,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -541,7 +586,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -557,7 +602,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -575,7 +620,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -591,7 +636,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
   })
@@ -607,7 +652,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -626,7 +671,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -643,7 +688,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -662,7 +707,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -680,7 +725,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -699,7 +744,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -714,7 +759,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -730,7 +775,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -748,7 +793,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -767,7 +812,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
   })
@@ -783,7 +828,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -799,7 +844,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -814,7 +859,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -830,7 +875,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
 
@@ -847,7 +892,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -863,7 +908,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
   })
@@ -880,7 +925,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       }
 
       // when
@@ -896,7 +941,7 @@ describe('repairConfig', () => {
           },
         ],
         documentName: 'test camp',
-        language: 'en',
+        language: 'en-GB',
       })
     })
   })
