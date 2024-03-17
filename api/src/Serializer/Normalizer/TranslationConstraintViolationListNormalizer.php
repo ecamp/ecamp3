@@ -21,11 +21,11 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
     ) {}
 
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool {
-        return $this->getNormalizerCollection()->exists(fn ($_, $elem) => $elem->supportsNormalization($data, $format));
+        return $this->getNormalizerCollection()->exists(fn ($_, $elem) => $elem->supportsNormalization($data, $format, $context));
     }
 
     public function normalize(mixed $object, string $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
-        $normalizer = $this->getNormalizerCollection()->filter(fn ($elem) => $elem->supportsNormalization($object, $format))->first();
+        $normalizer = $this->getNormalizerCollection()->filter(fn ($elem) => $elem->supportsNormalization($object, $format, $context))->first();
         if (false === $normalizer) {
             throw new \RuntimeException("Did not find a normalizer to normalize response to format {$format}");
         }
