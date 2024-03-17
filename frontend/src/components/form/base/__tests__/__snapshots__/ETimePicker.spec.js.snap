@@ -6,13 +6,7 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed
           label="test"
           vee-rules>
           <div class="v-menu">
-               <div buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-                    class="e-form-container"
-                    format="function () { [native code] }"
-                    formatpicker="function () { [native code] }"
-                    icon="mdi-clock-outline"
-                    parse="function () { [native code] }"
-                    parsepicker="function () { [native code] }"
+               <div class="e-form-container"
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
@@ -26,13 +20,7 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed
                                         <label class="v-label theme--light"
                                                for
                                                style="left: 0px; position: absolute;">test</label>
-                                        <input buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-                                               format="function () { [native code] }"
-                                               formatpicker="function () { [native code] }"
-                                               icon="mdi-clock-outline"
-                                               id
-                                               parse="function () { [native code] }"
-                                               parsepicker="function () { [native code] }"
+                                        <input id
                                                type="text">
                                    </div>
                               </div>
@@ -50,13 +38,7 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1
      <div class="e-form-container e-picker-base"
           label="test"
           vee-rules>
-          <div buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-               class="e-form-container"
-               format="function () { [native code] }"
-               formatpicker="function () { [native code] }"
-               icon="mdi-clock-outline"
-               parse="function () { [native code] }"
-               parsepicker="function () { [native code] }"
+          <div class="e-form-container"
                value="09:52">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
@@ -70,13 +52,7 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1
                                    <label class="v-label v-label--active theme--light"
                                           for
                                           style="left: 0px; position: absolute;">test</label>
-                                   <input buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-                                          format="function () { [native code] }"
-                                          formatpicker="function () { [native code] }"
-                                          icon="mdi-clock-outline"
-                                          id
-                                          parse="function () { [native code] }"
-                                          parsepicker="function () { [native code] }"
+                                   <input id
                                           type="text">
                               </div>
                          </div>
@@ -229,13 +205,7 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed
           label="test"
           vee-rules>
           <div class="v-menu">
-               <div buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-                    class="e-form-container"
-                    format="function () { [native code] }"
-                    formatpicker="function () { [native code] }"
-                    icon="mdi-clock-outline"
-                    parse="function () { [native code] }"
-                    parsepicker="function () { [native code] }"
+               <div class="e-form-container"
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
@@ -249,13 +219,7 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed
                                         <label class="v-label theme--light"
                                                for
                                                style="left: 0px; position: absolute;">test</label>
-                                        <input buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-                                               format="function () { [native code] }"
-                                               formatpicker="function () { [native code] }"
-                                               icon="mdi-clock-outline"
-                                               id
-                                               parse="function () { [native code] }"
-                                               parsepicker="function () { [native code] }"
+                                        <input id
                                                type="text">
                                    </div>
                               </div>
@@ -273,13 +237,7 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickeropen 1
      <div class="e-form-container e-picker-base"
           label="test"
           vee-rules>
-          <div buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-               class="e-form-container"
-               format="function () { [native code] }"
-               formatpicker="function () { [native code] }"
-               icon="mdi-clock-outline"
-               parse="function () { [native code] }"
-               parsepicker="function () { [native code] }"
+          <div class="e-form-container"
                value="9:52 AM">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
@@ -293,13 +251,7 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickeropen 1
                                    <label class="v-label v-label--active theme--light"
                                           for
                                           style="left: 0px; position: absolute;">test</label>
-                                   <input buttonarialabeli18nkey="components.form.base.eTimePicker.openPicker"
-                                          format="function () { [native code] }"
-                                          formatpicker="function () { [native code] }"
-                                          icon="mdi-clock-outline"
-                                          id
-                                          parse="function () { [native code] }"
-                                          parsepicker="function () { [native code] }"
+                                   <input id
                                           type="text">
                               </div>
                          </div>

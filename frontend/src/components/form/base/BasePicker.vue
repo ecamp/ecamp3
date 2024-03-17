@@ -16,9 +16,18 @@ Displays a field as a picker (can be used with v-model)
     >
       <template #activator="{ on }">
         <e-text-field
+          :id="id"
           ref="textField"
           :value="fieldValue"
-          v-bind="{ ...$attrs, ...$props }"
+          :readonly="readonly"
+          :disabled="disabled"
+          :filled="filled"
+          :hide-details="hideDetails"
+          :input-class="inputClass"
+          :path="path"
+          :label="label"
+          :validation-label-override="validationLabelOverride"
+          v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           @click="(...args) => (openOnTextFieldClick ? onMenuOpen(on, ...args) : null)"
           @input="debouncedParseValue"

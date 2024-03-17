@@ -6,14 +6,7 @@ exports[`An EDatePicker > in locale de > looks like a date picker > pickerclosed
           label="test"
           vee-rules>
           <div class="v-menu">
-               <div buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-                    class="e-form-container"
-                    closeonpickerinput="true"
-                    format="function () { [native code] }"
-                    formatpicker="function () { [native code] }"
-                    icon="mdi-calendar"
-                    parse="function () { [native code] }"
-                    parsepicker="function () { [native code] }"
+               <div class="e-form-container"
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
@@ -27,14 +20,7 @@ exports[`An EDatePicker > in locale de > looks like a date picker > pickerclosed
                                         <label class="v-label theme--light"
                                                for
                                                style="left: 0px; position: absolute;">test</label>
-                                        <input buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-                                               closeonpickerinput="true"
-                                               format="function () { [native code] }"
-                                               formatpicker="function () { [native code] }"
-                                               icon="mdi-calendar"
-                                               id
-                                               parse="function () { [native code] }"
-                                               parsepicker="function () { [native code] }"
+                                        <input id
                                                type="text">
                                    </div>
                               </div>
@@ -52,14 +38,7 @@ exports[`An EDatePicker > in locale de > looks like a date picker > pickeropen 1
      <div class="e-form-container e-picker-base"
           label="test"
           vee-rules>
-          <div buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-               class="e-form-container"
-               closeonpickerinput="true"
-               format="function () { [native code] }"
-               formatpicker="function () { [native code] }"
-               icon="mdi-calendar"
-               parse="function () { [native code] }"
-               parsepicker="function () { [native code] }"
+          <div class="e-form-container"
                value="01.03.2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
@@ -73,14 +52,7 @@ exports[`An EDatePicker > in locale de > looks like a date picker > pickeropen 1
                                    <label class="v-label v-label--active theme--light"
                                           for
                                           style="left: 0px; position: absolute;">test</label>
-                                   <input buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-                                          closeonpickerinput="true"
-                                          format="function () { [native code] }"
-                                          formatpicker="function () { [native code] }"
-                                          icon="mdi-calendar"
-                                          id
-                                          parse="function () { [native code] }"
-                                          parsepicker="function () { [native code] }"
+                                   <input id
                                           type="text">
                               </div>
                          </div>
@@ -441,14 +413,7 @@ exports[`An EDatePicker > in locale en > looks like a date picker > pickerclosed
           label="test"
           vee-rules>
           <div class="v-menu">
-               <div buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-                    class="e-form-container"
-                    closeonpickerinput="true"
-                    format="function () { [native code] }"
-                    formatpicker="function () { [native code] }"
-                    icon="mdi-calendar"
-                    parse="function () { [native code] }"
-                    parsepicker="function () { [native code] }"
+               <div class="e-form-container"
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
@@ -462,14 +427,7 @@ exports[`An EDatePicker > in locale en > looks like a date picker > pickerclosed
                                         <label class="v-label theme--light"
                                                for
                                                style="left: 0px; position: absolute;">test</label>
-                                        <input buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-                                               closeonpickerinput="true"
-                                               format="function () { [native code] }"
-                                               formatpicker="function () { [native code] }"
-                                               icon="mdi-calendar"
-                                               id
-                                               parse="function () { [native code] }"
-                                               parsepicker="function () { [native code] }"
+                                        <input id
                                                type="text">
                                    </div>
                               </div>
@@ -487,14 +445,7 @@ exports[`An EDatePicker > in locale en > looks like a date picker > pickeropen 1
      <div class="e-form-container e-picker-base"
           label="test"
           vee-rules>
-          <div buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-               class="e-form-container"
-               closeonpickerinput="true"
-               format="function () { [native code] }"
-               formatpicker="function () { [native code] }"
-               icon="mdi-calendar"
-               parse="function () { [native code] }"
-               parsepicker="function () { [native code] }"
+          <div class="e-form-container"
                value="03/01/2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
@@ -508,14 +459,7 @@ exports[`An EDatePicker > in locale en > looks like a date picker > pickeropen 1
                                    <label class="v-label v-label--active theme--light"
                                           for
                                           style="left: 0px; position: absolute;">test</label>
-                                   <input buttonarialabeli18nkey="components.form.base.eDatePicker.openPicker"
-                                          closeonpickerinput="true"
-                                          format="function () { [native code] }"
-                                          formatpicker="function () { [native code] }"
-                                          icon="mdi-calendar"
-                                          id
-                                          parse="function () { [native code] }"
-                                          parsepicker="function () { [native code] }"
+                                   <input id
                                           type="text">
                               </div>
                          </div>

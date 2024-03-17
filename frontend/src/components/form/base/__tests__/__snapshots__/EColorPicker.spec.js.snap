@@ -6,12 +6,7 @@ exports[`An EColorPicker > looks like a color picker > pickerclosed 1`] = `
           label="test"
           vee-rules="[object Object]">
           <div class="v-menu">
-               <div buttonarialabeli18nkey="components.form.base.eColorPicker.openPicker"
-                    class="e-form-container"
-                    icon="mdi-palette"
-                    iconcolor="#ff0000"
-                    openontextfieldclick="true"
-                    parsepicker="function () { [native code] }">
+               <div class="e-form-container">
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
                               <button aria-label="Dialog öffnen um eine Farbe für test zu wählen"
@@ -27,12 +22,7 @@ exports[`An EColorPicker > looks like a color picker > pickerclosed 1`] = `
                                         <label class="v-label theme--light"
                                                for
                                                style="left: 0px; position: absolute;">test</label>
-                                        <input buttonarialabeli18nkey="components.form.base.eColorPicker.openPicker"
-                                               icon="mdi-palette"
-                                               iconcolor="#ff0000"
-                                               id
-                                               openontextfieldclick="true"
-                                               parsepicker="function () { [native code] }"
+                                        <input id
                                                type="text">
                                    </div>
                               </div>
@@ -50,12 +40,7 @@ exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
      <div class="e-form-container e-picker-base"
           label="test"
           vee-rules="[object Object]">
-          <div buttonarialabeli18nkey="components.form.base.eColorPicker.openPicker"
-               class="e-form-container"
-               icon="mdi-palette"
-               iconcolor="#ff0000"
-               openontextfieldclick="true"
-               parsepicker="function () { [native code] }"
+          <div class="e-form-container"
                value="#ff0000">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
@@ -72,12 +57,7 @@ exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
                                    <label class="v-label v-label--active theme--light"
                                           for
                                           style="left: 0px; position: absolute;">test</label>
-                                   <input buttonarialabeli18nkey="components.form.base.eColorPicker.openPicker"
-                                          icon="mdi-palette"
-                                          iconcolor="#ff0000"
-                                          id
-                                          openontextfieldclick="true"
-                                          parsepicker="function () { [native code] }"
+                                   <input id
                                           type="text">
                               </div>
                          </div>
