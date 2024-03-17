@@ -13,7 +13,6 @@
           <api-form :entity="profile" name="user">
             <e-text-field
               class="e-profile--email"
-              :name="$tc('entity.user.fields.email')"
               :value="profile.email"
               path="email"
               outlined
