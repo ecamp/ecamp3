@@ -53,6 +53,7 @@ export default {
       localValue: null,
       parsedLocalValue: null,
       isSaving: false,
+      isPreSaving: false,
       isLoading: false,
       isMounted: false,
       showIconSuccess: false,
@@ -173,13 +174,14 @@ export default {
       this.localValue = newValue
       this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
       this.dirty = this.parsedLocalValue !== this.apiValue
+      this.isPreSaving = true
 
       if (this.autoSave) {
         this.debouncedSave()
       }
     },
     async onBlur() {
-      if (!this.isSaving && this.autoSave) {
+      if (!(this.isSaving || this.isPreSaving) && this.autoSave) {
         this.localValue = this.apiValue
         this.parsedLocalValue = this.parse ? this.parse(this.apiValue) : this.apiValue
       }
@@ -236,6 +238,7 @@ export default {
 
       // reset all dirty flags and start saving
       this.resetErrors()
+      this.isPreSaving = false
       this.isSaving = true
 
       // construct payload (nested path allowed)
