@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     numberingStyles() {
-      return ['1', 'a', 'A', 'i', 'I'].map((i) => ({
+      return ['1', 'a', 'A', 'i', 'I', '-'].map((i) => ({
         value: i,
         text: this.$tc('entity.category.numberingStyles.' + i),
       }))
