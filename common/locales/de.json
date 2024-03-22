@@ -153,7 +153,8 @@
         "A": "A, B, C - grosse Buchstaben",
         "I": "I, II, III - grosse römische Zahlen",
         "a": "a, b, c - kleine Buchstaben",
-        "i": "i, ii, iii - kleine römische Zahlen"
+        "i": "i, ii, iii - kleine römische Zahlen",
+        "-": "keine Nummerierung"
       }
     },
     "contentType": {
@@ -210,7 +211,8 @@
       },
       "hourLong": "LT",
       "hourShort": "H:mm"
-    }
+    },
+    "shortScheduleEntryDescription": "{title} (Tag {dayNumber})"
   },
   "print": {
     "cover": {
