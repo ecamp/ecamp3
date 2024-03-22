@@ -60,7 +60,7 @@
         "symfony/css-selector": "7.0.3",
         "symfony/debug-bundle": "7.0.3",
         "symfony/http-client": "7.0.5",
-        "symfony/maker-bundle": "1.56.0",
+        "symfony/maker-bundle": "1.57.0",
         "symfony/phpunit-bridge": "7.0.4",
         "symfony/stopwatch": "7.0.3",
         "symfony/var-dumper": "7.0.4",
