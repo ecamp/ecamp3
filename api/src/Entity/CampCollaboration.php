@@ -298,7 +298,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     /**
      * Returns user's email, fallback to inviteEmail if user not yet known (pending email invitation).
      */
-    public function getEmail(): null|string {
+    public function getEmail(): ?string {
         return $this->user?->getEmail() ?? $this->inviteEmail;
     }
 }
