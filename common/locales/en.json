@@ -219,7 +219,7 @@
       "hourLong": "LT",
       "hourShort": "H:mm"
     },
-    "shortScheduleEntryDescription": "{title} (day {dayNumber})"
+    "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
     "cover": {
