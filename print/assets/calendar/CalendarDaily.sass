@@ -108,14 +108,18 @@
   height: 100%
 
 .v-calendar-daily__intervals-body
+  display: flex
+  flex-direction: column
+  height: 100%
   flex: none
   user-select: none
 
 .v-calendar-daily__interval
+  display: flex
+  flex-basis: 0
   text-align: $calendar-daily-interval-gutter-align
   padding-right: $calendar-daily-interval-gutter-line-width
   border-bottom: none
-  position: relative
 
   &::after
     width: $calendar-daily-interval-gutter-line-width
