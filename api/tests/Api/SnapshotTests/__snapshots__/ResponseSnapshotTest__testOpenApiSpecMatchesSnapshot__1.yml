@@ -7722,6 +7722,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -7801,6 +7802,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -7884,6 +7886,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -7956,6 +7959,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8012,6 +8016,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8461,6 +8466,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8549,6 +8555,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8641,6 +8648,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8722,6 +8730,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8821,6 +8830,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -8923,6 +8933,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -9029,6 +9040,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I
@@ -9101,6 +9113,7 @@ components:
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
           enum:
+            - '-'
             - '1'
             - A
             - I

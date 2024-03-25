@@ -112,7 +112,7 @@ class ScheduleEntryTest extends TestCase {
         $this->scheduleEntry2->activity = $activity;
         $this->assertEquals('1.1', $this->scheduleEntry1->getNumber());
         $this->assertEquals('', $this->scheduleEntry2->getNumber());
-        $this->assertEquals('', $this->scheduleEntry3->getNumber());
+        $this->assertEquals('2.1', $this->scheduleEntry3->getNumber());
     }
 
     public function testGetNumberOrdersSamePeriodOffsetByLeft() {
