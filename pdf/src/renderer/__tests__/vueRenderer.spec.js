@@ -8,6 +8,27 @@ import CampPrint from '../../CampPrint.vue'
 import { createCircularReplacer } from '@/renderer/__tests__/createCircularReplacer'
 import { cloneDeep } from 'lodash'
 import dayjs from '../../../common/helpers/dayjs.js'
+import enCommon from '../../../common/locales/en.json'
+import {
+  compileToFunction,
+  createCoreContext,
+  fallbackWithLocaleChain,
+  resolveValue,
+  translate,
+} from '@intlify/core'
+
+const context = createCoreContext({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: { en: enCommon },
+  messageResolver: resolveValue,
+  messageCompiler: compileToFunction,
+  localeFallbacker: fallbackWithLocaleChain,
+})
+
+const tcMock = (...args) => {
+  return translate(context, ...args)
+}
 
 it('renders a simple Vue component', () => {
   // given
@@ -29,7 +50,7 @@ describe('rendering a full camp', () => {
     // when
     const result = renderVueToPdfStructure(CampPrint, {
       store,
-      $tc: (key) => key,
+      $tc: tcMock,
       locale: 'de',
       config: {
         language: 'de',
@@ -65,7 +86,7 @@ describe('rendering a full camp', () => {
         // when
         const result = renderVueToPdfStructure(CampPrint, {
           store,
-          $tc: (key) => key,
+          $tc: tcMock,
           locale: 'de',
           config: {
             language: 'de',
@@ -96,7 +117,7 @@ describe('rendering a full camp', () => {
     // when
     const result = renderVueToPdfStructure(CampPrint, {
       store,
-      $tc: (key) => key,
+      $tc: tcMock,
       locale: 'de',
       config: {
         language: 'de',
@@ -124,7 +145,7 @@ describe('rendering a full camp', () => {
     // when
     const result = renderVueToPdfStructure(CampPrint, {
       store,
-      $tc: (key) => key,
+      $tc: tcMock,
       locale: 'de',
       config: {
         language: 'de',
@@ -152,7 +173,7 @@ describe('rendering a full camp', () => {
     // when
     const result = renderVueToPdfStructure(CampPrint, {
       store,
-      $tc: (key) => key,
+      $tc: tcMock,
       locale: 'de',
       config: {
         language: 'de',
@@ -181,7 +202,7 @@ describe('rendering a full camp', () => {
     // when
     const result = renderVueToPdfStructure(CampPrint, {
       store,
-      $tc: (key) => key,
+      $tc: tcMock,
       locale: 'de',
       config: {
         language: 'de',
@@ -230,7 +251,7 @@ describe('renders a single activity', () => {
     // when
     const result = renderVueToPdfStructure(CampPrint, {
       store,
-      $tc: (key) => key,
+      $tc: tcMock,
       locale: 'de',
       config: {
         language: 'de',

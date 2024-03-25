@@ -69,7 +69,7 @@
       ],
       "parent": [Circular],
       "props": {
-        "bookmark": "print.cover.title",
+        "bookmark": "Cover page",
         "class": "page",
         "id": "entry-0",
         "size": "A4",

@@ -10,12 +10,12 @@
             {
               "parent": [Circular],
               "type": "TEXT_INSTANCE",
-              "value": "print.toc.title",
+              "value": "Table of contents",
             },
           ],
           "parent": [Circular],
           "props": {
-            "bookmark": "print.toc.title",
+            "bookmark": "Table of contents",
             "class": "toc-title",
             "id": "entry-0",
           },
@@ -40,7 +40,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "print.toc.title",
+                      "value": "Table of contents",
                     },
                   ],
                   "parent": [Circular],

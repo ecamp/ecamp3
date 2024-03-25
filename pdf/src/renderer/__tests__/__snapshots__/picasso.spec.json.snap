@@ -13,14 +13,14 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "print.picasso.title",
+                  "value": "Program overview Hauptlager",
                 },
               ],
               "parent": [Circular],
               "props": {
                 "bookmark": {
                   "fit": true,
-                  "title": "print.picasso.title",
+                  "title": "Program overview Hauptlager",
                 },
                 "class": "picasso-title",
                 "id": "entry-0-16b2fcffdd8e",
@@ -139,7 +139,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "05/12/2024",
+                      "value": "Fr 05/10/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -179,7 +179,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "05/12/2024",
+                      "value": "Sa 05/11/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -218,7 +218,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "05/12/2024",
+                      "value": "Su 05/12/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -257,7 +257,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "05/13/2024",
+                      "value": "Mo 05/13/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -8861,7 +8861,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "g5/10/2024obam5/10/2024.5amteti0e.5amte05/10/2024ong - g5/13/2024obam5/13/2024.1amteti0e.1amte05/13/2024ong",
+                      "value": "Fr 05/10/2024 - Mo 05/13/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -8898,7 +8898,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "print.picasso.picassoFooter.leaders",
+                      "value": "Lead: Robert Baden-Powell & Hans Muster",
                     },
                   ],
                   "parent": [Circular],
