@@ -22,7 +22,12 @@ export default {
   },
   computed: {
     date() {
-      return this.$date.utc(this.day.start).hour(0).minute(0).second(0).format('ddd LL')
+      return this.$date
+        .utc(this.day.start)
+        .hour(0)
+        .minute(0)
+        .second(0)
+        .format(this.$tc('global.datetime.dateLong'))
     },
     dayResponsibles() {
       if (filterDayResponsiblesByDay(this.day).length === 0) return ''
