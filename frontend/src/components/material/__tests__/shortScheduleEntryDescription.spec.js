@@ -1,6 +1,11 @@
 import shortScheduleEntryDescription from '../shortScheduleEntryDescription.js'
+import createI18n from '@/components/print/print-client/i18n.js'
+import { i18n } from '@/plugins/i18n'
 
 describe('shortScheduleEntryDescription', () => {
+  const { translate } = createI18n(i18n.messages, 'en')
+  const tc = (key, _count, params) => translate(key, params)
+
   it.each([
     [{ _meta: { loading: true } }, ''],
     [null, ''],
@@ -24,11 +29,11 @@ describe('shortScheduleEntryDescription', () => {
           title: 'foo',
         }),
         dayNumber: '3',
+        start: '2024-01-01T10:00:00+00:00',
       },
-      '["global.shortScheduleEntryDescription",1,{"title":"foo","dayNumber":"3"}]',
+      'day 3 10:00',
     ],
-  ])('maps %p to %p', (input, expected) => {
-    const tc = (...args) => JSON.stringify(args)
+  ])('maps %o to "%s"', (input, expected) => {
     expect(shortScheduleEntryDescription(input, tc)).toEqual(expected)
   })
 })

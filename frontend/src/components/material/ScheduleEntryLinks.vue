@@ -6,9 +6,7 @@
     class="e-title-link tabular-nums"
   >
     <CategoryChip dense :category="activity.category()" />&thinsp;{{
-      $vuetify.breakpoint.smAndUp
-        ? `${activity.title}: ${items[0].number}`
-        : shortDescription(items[0])
+      $vuetify.breakpoint.smAndUp ? fullDescription(items[0]) : shortDescription(items[0])
     }}
   </router-link>
   <span v-else class="d-inline-flex flex-sm-wrap gap-1 align-center py-sm-1">
@@ -68,6 +66,15 @@ export default {
   },
   methods: {
     scheduleEntryRoute,
+    fullDescription(scheduleEntry) {
+      if (this.loading) return ''
+      return (
+        this.activity.title +
+        (scheduleEntry.number
+          ? `: ${scheduleEntry.number}`
+          : ` (${this.shortDescription(scheduleEntry)})`)
+      )
+    },
     shortDescription(scheduleEntry) {
       if (this.loading) return ''
       return shortScheduleEntryDescription(scheduleEntry, this.$tc.bind(this))
