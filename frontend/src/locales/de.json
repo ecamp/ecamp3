@@ -176,6 +176,13 @@
         "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
+      },
+      "copyCategoryInfoDialog": {
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Kategorien nicht einfügen.",
+        "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "granted": "Du kannst nun kopierte Kategorien einfügen.",
+        "title": "Kategorie kopieren & einfügen"
       }
     },
     "collaborator": {
@@ -664,6 +671,7 @@
     },
     "category": {
       "category": {
+        "copyCategory": "Kategorie kopieren",
         "deleteCategory": "Kategorie löschen",
         "properties": "Eigenschaften",
         "template": "Vorlage für neue Blöcke"

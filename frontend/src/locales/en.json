@@ -176,6 +176,13 @@
         "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be adjusted.",
         "layout": "Layout",
         "noTemplate": "No template"
+      },
+      "copyActivityInfoDialog": {
+        "allow": "Allow now",
+        "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied categories.",
+        "description": "In order to paste a copied category, you must allow eCamp to read your clipboard.",
+        "granted": "You can now paste copied categories.",
+        "title": "Copy & paste category"
       }
     },
     "collaborator": {
@@ -663,6 +670,7 @@
     },
     "category": {
       "category": {
+        "copyCategory": "Copy category",
         "deleteCategory": "Delete category",
         "properties": "Properties",
         "template": "Template for new activities"
