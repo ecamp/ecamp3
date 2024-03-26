@@ -1,0 +1,7 @@
+App\Entity\ActivityResponsible:
+  additionalActivityResponsible_{1..400}:
+    campCollaboration: '@additionalCampCollaboration_<current()>'
+    activity: '@additional_activity_<current()>'
+  additionalActivityResponsible_camp1_{1..200}:
+    campCollaboration: '@additionalCampCollaboration_camp1_1'
+    activity: '@additional_activity_camp1_<current()>'

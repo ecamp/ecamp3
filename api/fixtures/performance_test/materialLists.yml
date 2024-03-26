@@ -1,0 +1,10 @@
+App\Entity\MaterialList:
+  additional_materialList1_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    name: Einkaufsliste
+  additional_materialList2_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    name: Packliste
+  additional_materialList_camp1_{1..12}:
+    camp: '@camp1'
+    name: <name()>
