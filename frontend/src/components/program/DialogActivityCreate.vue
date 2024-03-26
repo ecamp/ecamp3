@@ -71,7 +71,7 @@
         </v-list-item>
       </div>
     </div>
-    <DialogActivityForm :activity="entityData" :period="period">
+    <DialogActivityForm :activity="entityData" :period="period" :autoselect-title="true">
       <template v-if="clipboardAccessDenied" #textFieldTitleAppend>
         <PopoverPrompt
           v-model="copyActivitySourceUrlShowPopover"
@@ -191,7 +191,7 @@ export default {
       if (showDialog) {
         this.refreshCopyActivitySource()
         this.setEntityData({
-          title: this.entityData?.title || this.$tc('entity.activity.new'),
+          title: this.entityData?.title,
           location: '',
           scheduleEntries: [
             {
