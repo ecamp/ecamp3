@@ -11,7 +11,7 @@ describe('An ApiTimePicker', () => {
   const FIELD_LABEL = 'Test field'
   const TIME_1 = '2037-07-18T09:52:00+00:00'
   const TIME_2 = '2037-07-18T00:52:00+00:00'
-  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Zeit für Test field zu wählen'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Zeit für Test field zu wählen'
 
   beforeEach(() => {
     setTestLocale('de')
