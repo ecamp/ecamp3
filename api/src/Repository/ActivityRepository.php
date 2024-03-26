@@ -23,7 +23,6 @@ class ActivityRepository extends ServiceEntityRepository implements CanFilterByU
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
     }
 }

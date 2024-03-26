@@ -24,7 +24,6 @@ class ActivityResponsibleRepository extends ServiceEntityRepository implements C
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.activity", 'activity');
-        $queryBuilder->innerJoin('activity.camp', 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, 'activity.camp');
     }
 }
