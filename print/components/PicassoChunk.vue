@@ -1,7 +1,7 @@
 <template>
   <div class="tw-break-after-page" :class="{ 'landscape-page': landscape }">
-    <div :class="landscape ? 'landscape' : 'portrait'">
-      <div class="tw-flex tw-flex-row tw-items-baseline fullwidth">
+    <div class="tw-flex tw-flex-col" :class="landscape ? 'landscape' : 'portrait'">
+      <div class="tw-flex-initial tw-flex tw-flex-row tw-items-baseline fullwidth">
         <h1
           :id="`content_${index}_period_${period.id}`"
           class="text-2xl-relative tw-font-bold tw-mb-1 tw-flex-grow tw-d-inline"
@@ -19,15 +19,14 @@
         />
       </div>
 
-      <div class="fullwidth">
+      <div class="tw-flex-auto fullwidth">
         <picasso-calendar
           :days="days"
           :times="times"
           :schedule-entries="scheduleEntries"
-          :content-height="landscape ? 480 : 768"
         />
       </div>
-      <div class="categories fullwidth text-sm-relative">
+      <div class="tw-flex-initial categories fullwidth text-sm-relative">
         <div
           v-for="category in camp.categories().items"
           :key="category.id"
@@ -39,7 +38,7 @@
           </div>
         </div>
       </div>
-      <div class="footer fullwidth text-sm-relative">
+      <div class="tw-flex-initial footer fullwidth text-sm-relative">
         <div class="footer-column">
           <span v-if="camp.courseKind || camp.kind">
             {{ joinWithoutBlanks([camp.courseKind, camp.kind], ', ') }}
