@@ -5,21 +5,23 @@ import { decode } from 'html-entities'
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { h } from '@vue/runtime-core'
 
-function visit(node, parent = null) {
+function visit(node, parent = null, index = 0) {
   const rule = rules.find((rule) => rule.shouldProcessNode(node, parent))
   if (!rule) {
     console.log('unknown HTML node type', node)
     return null
   }
 
-  return rule.processNode(node, parent)
+  return rule.processNode(node, parent, index)
 }
 
 function visitChildren(children, parent) {
   return children.length
-    ? children.map((child) => visit(child, parent))
-    : [visit({ type: 'text', content: '&nbsp;' }, parent)]
+    ? children.map((child, idx) => visit(child, parent, idx))
+    : [visit({ type: 'text', content: '&nbsp;' }, parent, 0)]
 }
+
+const tableContextStack = []
 
 const rules = [
   {
@@ -95,6 +97,54 @@ const rules = [
       )
     },
   },
+  {
+    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'table',
+    processNode: (node) => {
+      tableContextStack.push([])
+      const result = h('View', { class: 'table' }, visitChildren(node.children, node))
+      tableContextStack.pop()
+      return result
+    },
+  },
+  {
+    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'colgroup',
+    processNode: (node) => {
+      visitChildren(node.children, node)
+      return null
+    },
+  },
+  {
+    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'col',
+    processNode: (node) => {
+      const width = Math.floor(
+        parseInt(node.attrs.style?.match(/width:\s*(\d+)px;/)[1]) / 1.33
+      )
+      const tableContext = tableContextStack.pop()
+      tableContext.push(width)
+      tableContextStack.push(tableContext)
+      return null
+    },
+  },
+  {
+    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'tbody',
+    processNode: (node) =>
+      h('View', { class: 'tbody' }, visitChildren(node.children, node)),
+  },
+  {
+    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'tr',
+    processNode: (node) => h('View', { class: 'tr' }, visitChildren(node.children, node)),
+  },
+  {
+    shouldProcessNode: (node) =>
+      node.type === 'tag' && (node.name === 'td' || node.name === 'th'),
+    processNode: (node, _, index) => {
+      const width = tableContextStack[tableContextStack.length - 1][index]
+      const style = width
+        ? { flexBasis: width, flexGrow: 0, flexShrink: 0 }
+        : { flexBasis: 1.33, flexGrow: 1 }
+      return h('View', { class: node.name, style }, visitChildren(node.children, node))
+    },
+  },
 ]
 
 function calculateListNumber(node, parent) {
@@ -120,7 +170,7 @@ export default {
     },
   },
   render() {
-    return [this.parsed].flat().map((node) => visit(node))
+    return [this.parsed].flat().map((node, idx) => visit(node, null, idx))
   },
 }
 </script>
@@ -139,5 +189,31 @@ export default {
 }
 .strikethrough {
   text-decoration: line-through;
+}
+.table {
+  borderLeft: 1pt solid black;
+  borderTop: 1pt solid black;
+  width: 100%;
+}
+.tr {
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+.th {
+  font-weight: bold;
+  background-color: #f1f3f5;
+  border-right: 1pt solid black;
+  border-bottom: 1pt solid black;
+  padding: 2pt 4pt 0;
+  flex-grow: 1;
+  flex-basis: 1;
+}
+.td {
+  border-right: 1pt solid black;
+  border-bottom: 1pt solid black;
+  padding: 2pt 4pt 0;
+  flex-grow: 1;
+  flex-basis: 1;
 }
 </pdf-style>
