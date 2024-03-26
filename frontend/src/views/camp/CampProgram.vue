@@ -7,6 +7,31 @@ Show all activity schedule entries of a single period.
     <template #title-actions>
       <period-switcher :period="period" />
       <v-spacer />
+      <template v-if="$vuetify.breakpoint.mdAndUp">
+        <v-toolbar-items v-if="filterSet">
+          <v-chip
+            label
+            outlined
+            :input-value="openFilter"
+            color="primary"
+            class="align-self-center mr-2"
+            @click="openFilter = !openFilter"
+          >
+            <v-icon left size="20">mdi-filter</v-icon>
+            1
+          </v-chip>
+        </v-toolbar-items>
+        <v-chip
+          v-else
+          outlined
+          label
+          class="mr-1"
+          :input-value="openFilter"
+          @click="openFilter = !openFilter"
+        >
+          <v-icon size="20" color="rgba(0, 0, 0, 0.54)">mdi-filter</v-icon>
+        </v-chip>
+      </template>
       <LockButton
         v-model="editMode"
         :shake="showReminder"
@@ -25,34 +50,104 @@ Show all activity schedule entries of a single period.
             :disabled="!isContributor"
             @click="editMode = !editMode"
           />
+          <v-list-item
+            v-if="!$vuetify.breakpoint.mdAndUp"
+            :input-value="filterSet"
+            :color="filterSet ? 'primary' : null"
+            @click="openFilter = !openFilter"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-filter</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Filter</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action v-if="filterSet">
+              <v-chip label color="primary">1</v-chip>
+            </v-list-item-action>
+          </v-list-item>
           <v-divider />
           <DownloadNuxtPdf :config="printConfig" />
           <DownloadClientPdf :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
-    <schedule-entries :period="period" :show-button="isContributor">
+    <template v-if="$vuetify.breakpoint.mdAndUp && openFilter" #title-extension>
+      <div
+        class="d-flex w-100 flex-wrap pb-4 justify-center"
+        style="overflow-y: auto; gap: 10px"
+      >
+        <BooleanFilter
+          label="Random entries"
+          :value="filterSet"
+          @input="filterSet = !filterSet"
+        />
+        <FilterDivider />
+        <BooleanFilter
+          :label="$tc('views.camp.dashboard.category')"
+          @input="notImplemented"
+        />
+        <BooleanFilter
+          :label="$tc('views.camp.dashboard.responsible')"
+          @input="notImplemented"
+        />
+        <v-chip v-if="filterSet" label outlined @click="filterSet = false">
+          <v-icon left>mdi-close</v-icon>
+          {{ $tc('views.camp.dashboard.clearFilters') }}
+        </v-chip>
+      </div>
+    </template>
+    <ScheduleEntries :period="period" :show-button="isContributor">
       <template #default="slotProps">
         <template v-if="slotProps.loading">
           <v-skeleton-loader type="table" />
         </template>
         <template v-else>
-          <picasso
+          <Picasso
             :schedule-entries="slotProps.scheduleEntries"
             :period="period()"
             :start="period().start"
             :end="period().end"
             :editable="editMode"
+            :filtered="filterSet"
             @newEntry="slotProps.on.newEntry"
             @unlockReminder="showUnlockReminder"
           />
         </template>
       </template>
-    </schedule-entries>
+    </ScheduleEntries>
     <v-snackbar v-model="showReminder" light class="mb-12">
       <v-icon>mdi-lock</v-icon>
       {{ reminderText }}
     </v-snackbar>
+    <v-bottom-sheet v-if="!$vuetify.breakpoint.mdAndUp" v-model="openFilter">
+      <v-sheet class="text-center" height="200px">
+        <div
+          class="d-flex w-100 flex-wrap pa-4 align-baseline"
+          style="overflow-y: auto; gap: 10px"
+        >
+          Filter:
+          <BooleanFilter
+            label="Random entries"
+            :value="filterSet"
+            @input="filterSet = !filterSet"
+          />
+          <FilterDivider />
+          <BooleanFilter
+            :label="$tc('views.camp.dashboard.category')"
+            @input="notImplemented"
+          />
+          <BooleanFilter
+            :label="$tc('views.camp.dashboard.responsible')"
+            @input="notImplemented"
+          />
+          <v-chip v-if="filterSet" label outlined @click="filterSet = false">
+            <v-icon left>mdi-close</v-icon>
+            {{ $tc('views.camp.dashboard.clearFilters') }}
+          </v-chip>
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
   </content-card>
 </template>
 <script>
@@ -65,10 +160,14 @@ import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListIt
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
+import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
+import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 
 export default {
   name: 'CampProgram',
   components: {
+    FilterDivider,
+    BooleanFilter,
     DownloadNuxtPdf,
     DownloadClientPdf,
     PeriodSwitcher,
@@ -86,6 +185,8 @@ export default {
     return {
       showReminder: false,
       reminderText: null,
+      openFilter: false,
+      filterSet: false,
     }
   },
   computed: {
@@ -126,6 +227,9 @@ export default {
         ? this.$tc('views.camp.campProgram.reminderLockedMove')
         : this.$tc('views.camp.campProgram.reminderLockedCreate')
       this.showReminder = true
+    },
+    notImplemented() {
+      alert('not implemented')
     },
   },
 }

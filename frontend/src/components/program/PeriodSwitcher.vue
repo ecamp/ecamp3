@@ -5,7 +5,7 @@
         <v-btn
           text
           large
-          class="justify-start px-2"
+          class="justify-start px-4 my-1 rounded-pill ec-period-switcher__button"
           height="auto"
           block
           v-bind="attrs"
@@ -61,4 +61,8 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ec-period-switcher__button {
+  height: calc(100% - 8px) !important;
+}
+</style>

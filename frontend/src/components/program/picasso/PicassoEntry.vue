@@ -208,6 +208,9 @@ export default {
     isLongDuration() {
       return this.scrollHeight <= this.clientHeight
     },
+    isFiltered() {
+      return this.scheduleEntry.isFiltered
+    },
     durationText() {
       const start = timestampToUtcString(this.scheduleEntry.startTimestamp)
       const end = timestampToUtcString(this.scheduleEntry.endTimestamp)
@@ -243,6 +246,7 @@ export default {
       return {
         color: this.activityTextColor,
         backgroundColor: this.activityColor,
+        opacity: this.isFiltered ? 0.3 : null,
       }
     },
     scheduleEntryRoute() {
