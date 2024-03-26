@@ -86,12 +86,14 @@
           icon="mdi-help-circle-outline"
           :href="helpLink"
           target="_blank"
+          hide-chevron
         />
         <SidebarListItem
           :title="$tc('global.navigation.news')"
           icon="mdi-script-text-outline"
           :href="newsLink"
           target="_blank"
+          hide-chevron
         />
       </v-list>
       <div class="mt-auto">
