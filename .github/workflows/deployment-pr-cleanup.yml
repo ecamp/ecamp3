@@ -74,7 +74,7 @@ jobs:
           helm delete ecamp3-${{ matrix.deployment-name }}
 
       - name: Remove GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         with:
           step: deactivate-env
           token: ${{ secrets.REPO_ACCESS_TOKEN }}

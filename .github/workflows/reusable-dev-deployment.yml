@@ -39,7 +39,7 @@ jobs:
           job_name: Upgrade or install deployment / Deploy to Kubernetes
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         id: deployment
         with:
           step: start
@@ -129,7 +129,7 @@ jobs:
             --set featureToggle.developer=true
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         if: always()
         with:
           step: finish
