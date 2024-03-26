@@ -123,7 +123,7 @@
         "clipboard": "Zwischenablage",
         "copyCategoryOrActivity": "Kategorie oder Aktivität kopieren",
         "copyContent": "Inhalt kopieren",
-        "copyPasteCategoryOrActivity": "Kategorie oder Aktivität kopieren & einfügen",
+        "copyPasteCategory": "Kategorie kopieren & einfügen",
         "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen um dessen Inhalte zu kopieren.",
         "pasteCategory": "Kopierte Kategorie oder Aktivität einfügen",
         "title": "Block-Kategorie erstellen"
