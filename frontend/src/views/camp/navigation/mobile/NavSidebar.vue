@@ -77,6 +77,23 @@
           :to="adminRoute(camp(), 'print')"
         />
       </v-list>
+
+      <v-divider />
+
+      <v-list>
+        <SidebarListItem
+          :title="$tc('global.navigation.help')"
+          icon="mdi-help-circle-outline"
+          :href="helpLink"
+          target="_blank"
+        />
+        <SidebarListItem
+          :title="$tc('global.navigation.news')"
+          icon="mdi-script-text-outline"
+          :href="newsLink"
+          target="_blank"
+        />
+      </v-list>
       <div class="mt-auto">
         <v-btn
           x-large
@@ -100,6 +117,7 @@ import { campRoute, adminRoute } from '@/router'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 import { mapGetters } from 'vuex'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'NavSidebar',
@@ -112,6 +130,12 @@ export default {
     camp: { type: Function, required: true },
   },
   computed: {
+    newsLink() {
+      return getEnv().NEWS_LINK
+    },
+    helpLink() {
+      return getEnv().HELP_LINK
+    },
     ...mapGetters({
       user: 'getLoggedInUser',
     }),

@@ -46,6 +46,8 @@ jobs:
             --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set postgresql.dbBackupRestoreImage.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-db-backup-restore' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
+            --set newsLink='https://ecamp3.ch/blog' \
+            --set helpLink='https://ecamp3.ch/faq' \
             --set domain=${{ env.domain }} \
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
             --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \

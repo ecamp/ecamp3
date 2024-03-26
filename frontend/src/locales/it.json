@@ -446,7 +446,9 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Aiuto",
+      "news": "Notizie"
     },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",

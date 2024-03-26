@@ -463,7 +463,9 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Hilfe",
+      "news": "News"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
