@@ -2,8 +2,8 @@
 
 exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="v-menu">
                <div class="e-form-container"
@@ -35,8 +35,8 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed
 
 exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="e-form-container"
                value="09:52">
@@ -201,8 +201,8 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1
 
 exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="v-menu">
                <div class="e-form-container"
@@ -234,8 +234,8 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed
 
 exports[`An ETimePicker > in locale en > looks like a time picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="e-form-container"
                value="9:52 AM">

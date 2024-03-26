@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <e-form name="campCollaboration">
     <e-text-field
       v-if="status"
       class="ec-status-field"
       :value="translatedStatus"
       readonly
-      :name="$tc('entity.campCollaboration.fields.status')"
+      path="status"
     >
       <template #append>
         <slot name="statusChange" />
@@ -19,11 +19,10 @@
         <div tabindex="0" class="mt-3" v-on="on">
           <e-select
             v-model="localCollaboration.role"
-            fieldname="role"
+            path="role"
             readonly
             aria-readonly="true"
             aria-describedby="readonly"
-            :name="$tc('entity.campCollaboration.fields.role')"
             :items="items"
             :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
             persistent-hint
@@ -49,8 +48,7 @@
     <e-select
       v-else
       v-model="localCollaboration.role"
-      :name="$tc('entity.campCollaboration.fields.role')"
-      fieldname="role"
+      path="role"
       :items="items"
       :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
@@ -86,7 +84,7 @@
         </span>
       </template>
     </e-select>
-  </div>
+  </e-form>
 </template>
 
 <script>

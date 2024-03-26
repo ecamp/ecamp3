@@ -27,7 +27,7 @@ describe('An ETextArea', () => {
     options,
     template = `
         <div data-app>
-          <e-textarea v-model="data"/>
+          <e-textarea label="test" v-model="data"/>
         </div>
       `
   ) => {
@@ -52,7 +52,7 @@ describe('An ETextArea', () => {
       { data: () => ({ data: multiLineText }) },
       `
         <div data-app>
-          <e-textarea v-model="data" multi-line/>
+          <e-textarea label="test" v-model="data" multi-line/>
         </div>
       `
     )
@@ -64,6 +64,7 @@ describe('An ETextArea', () => {
         <div data-app>
           <e-textarea
                 v-model="data"
+                label="test"
                 :rows="3"
                 auto-grow
           />

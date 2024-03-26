@@ -21,7 +21,7 @@ describe('An ApiSelect', () => {
   let wrapper
   let apiMock
 
-  const fieldName = 'test-field/123'
+  const path = 'test-field/123'
 
   const FIRST_OPTION = {
     value: 1,
@@ -48,23 +48,23 @@ describe('An ApiSelect', () => {
     const app = Vue.component('App', {
       components: { ApiSelect },
       props: {
-        fieldName: { type: String, default: fieldName },
+        path: { type: String, default: path },
         selectValues: { type: Array, default: () => selectValues },
       },
       template: `
         <div data-app>
-        <api-select
-          :auto-save="false"
-          :fieldname="fieldName"
-          uri="test-field/123"
-          label="Test field"
-          required="true"
-          :items="selectValues"
-        />
+          <api-select
+            :auto-save="false"
+            :path="path"
+            uri="test-field/123"
+            label="Test field"
+            required="true"
+            :items="selectValues"
+          />
         </div>
       `,
     })
-    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forPath(path))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
@@ -98,7 +98,7 @@ describe('An ApiSelect', () => {
 
   test('updates state if value in store is refreshed and has new value', async () => {
     wrapper = mount()
-    apiMock.get().thenReturn(ApiMock.success(SECOND_OPTION.value).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(SECOND_OPTION.value).forPath(path))
 
     wrapper.findComponent(ApiWrapper).vm.reload()
 

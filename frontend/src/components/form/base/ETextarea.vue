@@ -2,7 +2,7 @@
   <ValidationProvider
     v-slot="{ errors: veeErrors }"
     tag="div"
-    :name="name"
+    :name="validationLabel"
     :vid="veeId"
     :rules="veeRules"
     :required="required"
@@ -14,7 +14,7 @@
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label="label || name"
+      :label="labelOrEntityFieldLabel"
       :class="[inputClass]"
       v-on="$listeners"
     >

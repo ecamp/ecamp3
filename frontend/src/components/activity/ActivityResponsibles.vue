@@ -3,7 +3,7 @@
     v-model="selectedCampCollaborations"
     :items="availableCampCollaborations"
     :loading="isSaving || isLoading ? 'secondary' : false"
-    :name="$tc('entity.activity.fields.responsible')"
+    path="responsible"
     :error-messages="errorMessages"
     outlined
     :filled="false"
@@ -38,6 +38,11 @@ import UserAvatar from '@/components/user/UserAvatar.vue'
 export default {
   name: 'ActivityResponsibles',
   components: { UserAvatar },
+  provide() {
+    return {
+      entityName: 'activity',
+    }
+  },
   props: {
     activity: {
       type: Object,

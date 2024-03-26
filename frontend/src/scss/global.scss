@@ -139,10 +139,18 @@ body {
   color: rgb(0, 0, 0, 0.18);
 }
 
+.v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot,
 .v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot:before,
 .v-text-field.v-input--is-readonly > .v-input__control > .v-input__slot:after {
   border-color: transparent !important;
   background-color: transparent !important;
+}
+
+.v-text-field--outlined.v-input--is-readonly
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  border: none !important;
 }
 
 .v-list-item__title {

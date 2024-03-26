@@ -75,17 +75,16 @@ Displays a single scheduleEntry
       >
         <v-icon small>mdi-pencil</v-icon>
       </v-btn>
-      <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
+      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-1">
         <api-text-field
-          :uri="activity._meta.self"
-          fieldname="title"
+          path="title"
           :disabled="layoutMode"
           dense
           autofocus
           :auto-save="false"
           @finished="editActivityTitle = false"
         />
-      </div>
+      </api-form>
     </template>
     <template #title-actions>
       <!-- layout/content switch (back to content) -->
@@ -204,36 +203,34 @@ Displays a single scheduleEntry
             </table>
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
-            <v-row dense>
-              <v-col class="col col-sm-8 col-12">
-                <api-text-field
-                  :name="$tc('entity.activity.fields.location')"
-                  :uri="activity._meta.self"
-                  fieldname="location"
-                  :disabled="layoutMode || !isContributor"
-                  dense
-                />
-              </v-col>
-              <v-col class="col col-sm-4 col-12">
-                <api-select
-                  :name="$tc('entity.activity.fields.progressLabel')"
-                  :uri="activity._meta.self"
-                  fieldname="progressLabel"
-                  :items="progressLabels"
-                  :disabled="layoutMode || !isContributor"
-                  clearable
-                  dense
-                />
-              </v-col>
-            </v-row>
-            <v-row dense>
-              <v-col>
-                <activity-responsibles
-                  :activity="activity"
-                  :disabled="layoutMode || !isContributor"
-                />
-              </v-col>
-            </v-row>
+            <api-form :entity="activity" name="activity">
+              <v-row dense>
+                <v-col class="col col-sm-8 col-12">
+                  <api-text-field
+                    path="location"
+                    :disabled="layoutMode || !isContributor"
+                    dense
+                  />
+                </v-col>
+                <v-col class="col col-sm-4 col-12">
+                  <api-select
+                    path="progressLabel"
+                    :items="progressLabels"
+                    :disabled="layoutMode || !isContributor"
+                    clearable
+                    dense
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <ActivityResponsibles
+                    :activity="activity"
+                    :disabled="layoutMode || !isContributor"
+                  />
+                </v-col>
+              </v-row>
+            </api-form>
           </v-col>
         </v-row>
 
@@ -265,10 +262,14 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiSelect from '@/components/form/api/ApiSelect.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    ApiForm,
+    ApiSelect,
     TogglePaperSize,
     DialogEntityDelete,
     ContentCard,

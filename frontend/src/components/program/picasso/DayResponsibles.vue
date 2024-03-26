@@ -10,7 +10,7 @@
     v-model="selectedCampCollaborations"
     :items="availableCampCollaborations"
     :loading="isSaving || isLoading ? 'secondary' : false"
-    :name="$tc('entity.day.fields.dayResponsibles')"
+    path="dayResponsibles"
     :error-messages="errorMessages"
     :menu-props="{ closeOnClick: true, closeOnContentClick: true, overflowY: true }"
     :filled="false"
@@ -36,6 +36,11 @@ import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisp
 
 export default {
   name: 'DayResponsibles',
+  provide() {
+    return {
+      entityName: 'day',
+    }
+  },
   props: {
     // current period
     period: {

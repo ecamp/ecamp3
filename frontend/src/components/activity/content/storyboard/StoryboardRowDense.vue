@@ -17,7 +17,7 @@
       <api-text-field
         :label="$tc('contentNode.storyboard.entity.section.fields.column1')"
         :single-line="false"
-        :fieldname="`data.sections[${itemKey}].column1`"
+        :path="`data.sections[${itemKey}].column1`"
         :disabled="layoutMode || disabled"
       />
     </div>
@@ -25,14 +25,14 @@
       <api-text-field
         :label="$tc('contentNode.storyboard.entity.section.fields.column3')"
         :single-line="false"
-        :fieldname="`data.sections[${itemKey}].column3`"
+        :path="`data.sections[${itemKey}].column3`"
         :disabled="layoutMode || disabled"
       />
     </div>
     <div role="cell" class="e-storyboard-row__text">
       <api-richtext
         :label="$tc('contentNode.storyboard.entity.section.fields.column2Html')"
-        :fieldname="`data.sections[${itemKey}].column2Html`"
+        :path="`data.sections[${itemKey}].column2Html`"
         rows="4"
         :disabled="layoutMode || disabled"
       />

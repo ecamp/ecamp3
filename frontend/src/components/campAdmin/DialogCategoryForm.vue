@@ -1,30 +1,18 @@
 <template>
-  <div>
-    <e-text-field
-      v-model="localCategory.short"
-      :name="$tc('entity.category.fields.short')"
-      vee-rules="required"
-    />
+  <e-form name="category">
+    <e-text-field v-model="localCategory.short" path="short" vee-rules="required" />
 
-    <e-text-field
-      v-model="localCategory.name"
-      :name="$tc('entity.category.fields.name')"
-      vee-rules="required"
-    />
+    <e-text-field v-model="localCategory.name" path="name" vee-rules="required" />
 
-    <e-color-picker
-      v-model="localCategory.color"
-      :name="$tc('entity.category.fields.color')"
-      vee-rules="required"
-    />
+    <e-color-picker v-model="localCategory.color" path="color" vee-rules="required" />
 
     <e-select
       v-model="localCategory.numberingStyle"
       :items="numberingStyles"
-      :name="$tc('entity.category.fields.numberingStyle')"
+      path="numberingStyle"
       vee-rules="required"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>

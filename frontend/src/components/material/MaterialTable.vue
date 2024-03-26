@@ -33,7 +33,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="quantity"
+        path="quantity"
         inputmode="numeric"
       />
       <span v-if="item.readonly">{{ item.quantity }}</span>
@@ -45,7 +45,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="unit"
+        path="unit"
         maxlength="32"
       />
       <span v-if="item.readonly">{{ item.unit }}</span>
@@ -58,7 +58,7 @@
           :disabled="layoutMode || disabled"
           dense
           :uri="item.uri"
-          fieldname="article"
+          path="article"
           maxlength="64"
         />
         <span v-if="item.readonly">{{ item.article }}</span>
@@ -78,7 +78,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="materialList"
+        path="materialList"
         :items="materialLists"
       />
       <span v-if="item.readonly">{{ item.listName }}</span>

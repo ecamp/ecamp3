@@ -1,4 +1,7 @@
 export const formComponentPropsMixin = {
+  inject: {
+    entityName: { default: null },
+  },
   props: {
     id: {
       type: String,
@@ -14,7 +17,7 @@ export const formComponentPropsMixin = {
 
     // vuetify property hideDetails
     hideDetails: {
-      type: String,
+      type: [String, Boolean],
       default: 'auto',
     },
 
@@ -25,18 +28,32 @@ export const formComponentPropsMixin = {
       required: false,
     },
 
-    // used as field name for validation and as label (if no override label is provided)
-    name: {
+    /**
+     * used as field path for validation
+     * and together with entityName as label (if no override label is provided)
+     */
+    path: {
       type: String,
       required: false,
       default: null,
     },
 
-    // override the label which is displayed to the user; name is used instead if no label is provided
+    /**
+     * override the automatic entity field label
+     */
     label: {
       type: String,
       required: false,
-      default: null,
+      default: undefined,
+    },
+
+    /**
+     * override the automatic validation field name
+     */
+    validationLabelOverride: {
+      type: String,
+      required: false,
+      default: undefined,
     },
 
     // error messages from outside which should be displayed on the component
@@ -44,6 +61,26 @@ export const formComponentPropsMixin = {
       type: Array,
       required: false,
       default: () => [],
+    },
+  },
+  computed: {
+    labelOrEntityFieldLabel() {
+      if (this.label !== undefined) {
+        return this.label
+      }
+      if (!this.entityName || !this.path) {
+        return null
+      }
+      return this.$t(`entity.${this.entityName}.fields.${this.path}`)
+    },
+    validationLabel() {
+      if (this.validationLabelOverride !== undefined) {
+        return this.validationLabelOverride
+      }
+      if (this.label) {
+        return this.label
+      }
+      return this.$t(`entity.${this.entityName}.fields.${this.path}`)
     },
   },
 }

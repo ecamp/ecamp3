@@ -21,79 +21,80 @@
     </v-alert>
 
     <validation-observer v-slot="{ handleSubmit }">
-      <v-form
-        v-if="status == 'loaded' || status == 'reseting'"
-        @submit.prevent="handleSubmit(resetPassword)"
-      >
-        <e-text-field
-          :value="email"
-          :label="$tc('entity.user.fields.email')"
-          name="email"
-          append-icon="mdi-at"
-          :dense="$vuetify.breakpoint.xsOnly"
-          type="email"
-          autocomplete="username"
-          readonly
-        />
-
-        <e-text-field
-          v-model="password"
-          :name="$tc('views.auth.resetPassword.password')"
-          vee-id="password"
-          vee-rules="required|min:12|max:128"
-          validate-on-blur
-          append-icon="mdi-lock-outline"
-          :dense="$vuetify.breakpoint.xsOnly"
-          type="password"
-          autocomplete="new-password"
-          minlength="12"
-          maxlength="128"
-          passwordrules="minlength: 12; maxlength: 128;"
-          loading
-          autofocus
-          @input="debouncedPasswordStrengthCheck"
+      <e-form name="user">
+        <v-form
+          v-if="status == 'loaded' || status == 'reseting'"
+          @submit.prevent="handleSubmit(resetPassword)"
         >
-          <template #progress>
-            <v-progress-linear
-              :value="passwordStrength"
-              :color="passwordStrengthColor"
-              absolute
-              height="5"
-            />
-          </template>
-        </e-text-field>
+          <e-text-field
+            :value="email"
+            path="email"
+            append-icon="mdi-at"
+            :dense="$vuetify.breakpoint.xsOnly"
+            type="email"
+            autocomplete="username"
+            readonly
+          />
 
-        <e-text-field
-          v-model="confirmation"
-          :name="$tc('views.auth.resetPassword.passwordConfirmation')"
-          vee-rules="required|confirmed:password"
-          validate-on-blur
-          :dense="$vuetify.breakpoint.xsOnly"
-          append-icon="mdi-lock-outline"
-          type="password"
-          autocomplete="new-password"
-          minlength="12"
-          maxlength="128"
-          passwordrules="minlength: 12; maxlength: 128;"
-        />
+          <e-text-field
+            v-model="password"
+            path="password"
+            vee-rules="required|min:12|max:128"
+            validate-on-blur
+            append-icon="mdi-lock-outline"
+            :dense="$vuetify.breakpoint.xsOnly"
+            type="password"
+            autocomplete="new-password"
+            minlength="12"
+            maxlength="128"
+            passwordrules="minlength: 12; maxlength: 128;"
+            loading
+            autofocus
+            @input="debouncedPasswordStrengthCheck"
+          >
+            <template #progress>
+              <v-progress-linear
+                :value="passwordStrength"
+                :color="passwordStrengthColor"
+                absolute
+                height="5"
+              />
+            </template>
+          </e-text-field>
 
-        <v-btn
-          type="submit"
-          block
-          :color="email ? 'blue darken-2' : 'blue lightne-4'"
-          :disabled="!email"
-          outlined
-          :x-large="$vuetify.breakpoint.smAndUp"
-          class="my-4"
-        >
-          <v-progress-circular v-if="status == 'reseting'" indeterminate size="24" />
-          <v-icon v-else>$vuetify.icons.ecamp</v-icon>
-          <v-spacer />
-          <span>{{ $tc('views.auth.resetPassword.send') }}</span>
-          <v-spacer />
-          <icon-spacer />
-        </v-btn>
-      </v-form>
+          <e-text-field
+            v-model="confirmation"
+            path="passwordConfirmation"
+            :label="$tc('views.auth.resetPassword.passwordConfirmation')"
+            vee-rules="required|confirmed:password"
+            validate-on-blur
+            :dense="$vuetify.breakpoint.xsOnly"
+            append-icon="mdi-lock-outline"
+            type="password"
+            autocomplete="new-password"
+            minlength="12"
+            maxlength="128"
+            passwordrules="minlength: 12; maxlength: 128;"
+          />
+
+          <v-btn
+            type="submit"
+            block
+            :color="email ? 'blue darken-2' : 'blue lightne-4'"
+            :disabled="!email"
+            outlined
+            :x-large="$vuetify.breakpoint.smAndUp"
+            class="my-4"
+          >
+            <v-progress-circular v-if="status == 'reseting'" indeterminate size="24" />
+            <v-icon v-else>$vuetify.icons.ecamp</v-icon>
+            <v-spacer />
+            <span>{{ $tc('views.auth.resetPassword.send') }}</span>
+            <v-spacer />
+            <IconSpacer />
+          </v-btn>
+        </v-form>
+      </e-form>
     </validation-observer>
     <p class="mt-8 mb0 text--secondary text-center">
       <router-link :to="{ name: 'login' }">
@@ -108,10 +109,12 @@ import { load } from 'recaptcha-v3'
 import { ValidationObserver } from 'vee-validate'
 import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 import { getEnv } from '@/environment'
+import EForm from '@/components/form/base/EForm.vue'
+import IconSpacer from '@/components/layout/IconSpacer.vue'
 
 export default {
   name: 'ResetPassword',
-  components: { ValidationObserver },
+  components: { IconSpacer, EForm, ValidationObserver },
   mixins: [passwordStrengthMixin],
   props: {
     id: { type: String, required: true },
