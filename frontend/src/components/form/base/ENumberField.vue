@@ -5,23 +5,24 @@
     tag="div"
     :name="name"
     :vid="veeId"
-    :rules="dynamicRules"
+    :rules="veeRules"
     :required="required"
     :mode="eagerIfChanged"
     class="e-form-container"
   >
     <v-text-field
       ref="textField"
+      v-model="formattedValue"
       v-bind="$attrs"
       :filled="filled"
       :required="required"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
+      type="text"
       :class="[inputClass]"
-      :type="type"
-      :hide-spin-buttons="type === 'number'"
-      v-on="$listeners"
+      :hide-spin-buttons="true"
+      v-on="{ ...$listeners, input: undefined }"
     >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
@@ -37,32 +38,38 @@ import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 import { eagerIfChanged } from '@/helpers/veeValidateCustomInteractionMode'
-
 export default {
-  name: 'ETextField',
+  name: 'ENumberField',
   components: { ValidationProvider },
   mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
-    type: {
-      type: String,
-      default: 'text',
+    value: {
+      type: Number,
+      required: true,
     },
   },
+  emits: ['input'],
   computed: {
-    dynamicRules() {
-      if (this.type !== 'number') return this.veeRules
-      if (typeof this.veeRules === 'object') {
-        const rule =
-          this.$attrs.inputmode === 'decimal'
-            ? { double: { separator: 'comma' } }
-            : { numeric: true }
-        // if there is an existing rule, don't overwrite
-        return { ...this.veeRules, ...rule }
-      }
-      const rule = this.$attrs.inputmode === 'decimal' ? 'double:0comma' : 'numeric'
-      return `${this.veeRules}${this.veeRules?.length === 0 ? '' : '|'}${rule}`
+    formattedValue: {
+      get: function () {
+        return this.$n(this.value, 'decimal')
+      },
+      set: function (newNumber) {
+        let newValueAsNumber = newNumber
+        if (typeof newNumber !== 'number') {
+          newValueAsNumber = parseFloat(
+            newNumber
+              .replace(' ', '')
+              .replace(',', '.')
+              .replace(/[^\d,.-]/g, '')
+          )
+        }
+
+        this.$emit('input', newValueAsNumber)
+      },
     },
   },
+  mounted() {},
   methods: {
     eagerIfChanged,
     focus() {

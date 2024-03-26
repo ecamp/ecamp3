@@ -3,7 +3,7 @@
     <e-text-field
       v-model.number="localMaterialItem.quantity"
       :name="$tc('entity.materialItem.fields.quantity')"
-      inputmode="numeric"
+      inputmode="decimal"
       autofocus
     />
     <e-text-field

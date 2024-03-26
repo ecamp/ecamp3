@@ -11,7 +11,7 @@
         ref="quantity"
         v-model.number="materialItem.quantity"
         dense
-        inputmode="numeric"
+        inputmode="decimal"
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity"
       />
