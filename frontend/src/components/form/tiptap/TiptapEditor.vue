@@ -64,7 +64,60 @@
                 @click="editor.chain().focus().sinkListItem('listItem').run()"
               />
             </template>
+
+            <v-divider vertical class="mx-1" />
+
+            <TiptapToolbarButton
+              icon="mdi-table-large-plus"
+              :disabled="editor.can().addColumnBefore()"
+              @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()"
+            />
           </div>
+        </v-toolbar>
+        <v-divider v-if="$vuetify.breakpoint.smAndUp" />
+        <v-toolbar
+          v-if="shouldShowTableOptions && $vuetify.breakpoint.smAndUp"
+          class="elevation-0"
+          dense
+          color="transparent"
+        >
+          <TiptapToolbarButton
+            icon="mdi-table-column-plus-before"
+            :disabled="!editor.can().addColumnBefore()"
+            @click="editor.chain().focus().addColumnBefore().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-table-column-plus-after"
+            :disabled="!editor.can().addColumnAfter()"
+            @click="editor.chain().focus().addColumnAfter().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-table-column-remove"
+            :disabled="!editor.can().deleteColumn()"
+            @click="editor.chain().focus().deleteColumn().run()"
+          />
+          <v-divider vertical class="mx-1" />
+          <TiptapToolbarButton
+            icon="mdi-table-row-plus-before"
+            :disabled="!editor.can().addRowBefore()"
+            @click="editor.chain().focus().addRowBefore().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-table-row-plus-after"
+            :disabled="!editor.can().addRowAfter()"
+            @click="editor.chain().focus().addRowAfter().run()"
+          />
+          <TiptapToolbarButton
+            icon="mdi-table-row-remove"
+            :disabled="!editor.can().deleteRow()"
+            @click="editor.chain().focus().deleteRow().run()"
+          />
+          <v-divider vertical class="mx-1" />
+          <TiptapToolbarButton
+            icon="mdi-table-border"
+            :disabled="!editor.can().toggleHeaderCell()"
+            @click="editor.chain().focus().toggleHeaderCell().run()"
+          />
         </v-toolbar>
         <v-divider class="ec-tiptap-toolbar__mobile-divider" />
         <v-toolbar
@@ -120,6 +173,10 @@ import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
 import Underline from '@tiptap/extension-underline'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
 import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import TiptapToolbarButton from '@/components/form/tiptap/TiptapToolbarButton.vue'
@@ -180,6 +237,13 @@ export default {
           AutoLinkDecoration,
           // headings currently disabled (see issue #2657)
           HardBreak,
+          Table.configure({
+            resizable: true,
+            allowTableNodeSelection: true,
+          }),
+          TableRow,
+          TableHeader,
+          TableCell,
         ]
       )
     }
@@ -199,15 +263,6 @@ export default {
       },
       // copied from @tiptap/extension-bubble-menu
       shouldShow: ({ view, state, from, to }) => {
-        const { doc, selection } = state
-        const { empty } = selection
-
-        // Sometime check for `empty` is not enough.
-        // Doubleclick an empty paragraph returns a node size of 2.
-        // So we check also for an empty text size.
-        const isEmptyTextBlock =
-          !doc.textBetween(from, to).length && isTextSelection(state.selection)
-
         // Don't show if selection is within of an autolink
         if (this.withExtensions) {
           const links = AutoLinkKey.getState(state).find(
@@ -227,11 +282,18 @@ export default {
 
         const hasEditorFocus = view.hasFocus() || isChildOfMenu
 
-        if (!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable) {
+        if (!hasEditorFocus || !this.editor.isEditable) {
           return false
         }
 
         return true
+      },
+      shouldShowTableOptions: ({ from, to }) => {
+        if (this.withExtensions && this.from > -1 && this.to > -1) {
+          return this.editor.can().addColumnBefore()
+        }
+
+        return false
       },
     }
   },
@@ -326,6 +388,57 @@ div.editor:deep(.editor__content .ProseMirror) {
   outline: none;
   color: rgba(0, 0, 0, 0.87);
   line-height: 1.5;
+}
+
+div.editor:deep(.editor__content) .resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+
+div.editor:deep(.editor__content table) {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+
+  td, th {
+    padding: 0.2rem 0.5rem 0;
+    min-width: 1em;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    vertical-align: top;
+    text-align: left;
+    box-sizing: border-box;
+    position: relative;
+
+    > * {
+      margin-bottom: 0;
+    }
+  }
+
+  th {
+    font-weight: bold;
+    background-color: #f1f3f5;
+  }
+
+  .selectedCell:after {
+    z-index: 2;
+    position: absolute;
+    content: "";
+    left: 0; right: 0; top: 0; bottom: 0;
+    background: rgba(200, 200, 255, 0.4);
+    pointer-events: none;
+  }
+
+  .column-resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: -2px;
+    width: 4px;
+    background-color: #adf;
+    pointer-events: none;
+  }
 }
 
 .theme--light.v-input--is-disabled div.editor:deep(.editor__content .ProseMirror) {
