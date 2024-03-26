@@ -33,18 +33,6 @@
           icon="mdi-format-list-bulleted-triangle"
           :to="{ name: 'camps', query: { isDetail: true } }"
         />
-        <SidebarListItem
-          :title="$tc('global.navigation.help')"
-          icon="mdi-help-circle-outline"
-          :href="helpLink"
-          target="_blank"
-        />
-        <SidebarListItem
-          :title="$tc('global.navigation.news')"
-          icon="mdi-news"
-          :href="newsLink"
-          target="_blank"
-        />
       </v-list>
 
       <v-divider />
@@ -87,6 +75,23 @@
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemPrinting')"
           icon="mdi-file"
           :to="adminRoute(camp(), 'print')"
+        />
+      </v-list>
+
+      <v-divider />
+
+      <v-list>
+        <SidebarListItem
+          :title="$tc('global.navigation.help')"
+          icon="mdi-help-circle-outline"
+          :href="helpLink"
+          target="_blank"
+        />
+        <SidebarListItem
+          :title="$tc('global.navigation.news')"
+          icon="mdi-script-text-outline"
+          :href="newsLink"
+          target="_blank"
         />
       </v-list>
       <div class="mt-auto">
