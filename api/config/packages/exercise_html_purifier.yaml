@@ -12,7 +12,9 @@ exercise_html_purifier:
 # to know how to whitelist elements
 
 #            # whitelist attributes by tag
-#            attributes: []
+            attributes:
+                td:
+                    colwidth: Length
 
 #            # whitelist elements by name
 #            elements: []
