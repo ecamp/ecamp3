@@ -108,6 +108,13 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     public Collection $activities;
 
     /**
+     * Copy contents from this source category or activity.
+     */
+    #[ApiProperty(example: '/categories/1a2b3c4d')]
+    #[Groups(['create'])]
+    public null|Activity|Category $copyCategorySource;
+
+    /**
      * The id of the category that was used as a template for creating this category. Internal for now, is
      * not published through the API.
      */

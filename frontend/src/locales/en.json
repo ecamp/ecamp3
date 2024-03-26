@@ -65,6 +65,7 @@
       },
       "campCategories": {
         "create": "Create activity category",
+        "pasteCategory": "Paste category",
         "title": "Activity categories"
       },
       "campConditionalFields": {
@@ -118,6 +119,12 @@
         "title": "Edit activity state"
       },
       "dialogCategoryCreate": {
+        "clearClipboard": "Clear clipboard",
+        "clipboard": "Clipboard",
+        "copyCategoryOrActivity": "Copy category or activity",
+        "copyContent": "Copy content",
+        "copySourceInfo": "Here you can paste the URL of a category or an activity to copy its contents.",
+        "pasteCategory": "paste category or activity",
         "title": "Create activity category"
       },
       "dialogMaterialListCreate": {
