@@ -104,6 +104,17 @@ class ScheduleEntryTest extends TestCase {
         $this->assertEquals('2.1', $this->scheduleEntry3->getNumber());
     }
 
+    public function testGetEmptyValueWhenNumberingStyleIsNone() {
+        $category = new Category();
+        $category->numberingStyle = '-';
+        $activity = new Activity();
+        $activity->category = $category;
+        $this->scheduleEntry2->activity = $activity;
+        $this->assertEquals('1.1', $this->scheduleEntry1->getNumber());
+        $this->assertEquals('', $this->scheduleEntry2->getNumber());
+        $this->assertEquals('2.1', $this->scheduleEntry3->getNumber());
+    }
+
     public function testGetNumberOrdersSamePeriodOffsetByLeft() {
         $this->scheduleEntry1->startOffset = $this->scheduleEntry2->startOffset;
         $this->scheduleEntry1->left = 0.5;

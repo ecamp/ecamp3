@@ -316,6 +316,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '1.b')]
     #[Groups(['read'])]
     public function getNumber(): string {
+        if ('-' === $this->getNumberingStyle()) {
+            return '';
+        }
+
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();
 
