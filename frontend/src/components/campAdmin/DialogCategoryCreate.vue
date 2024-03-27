@@ -19,9 +19,7 @@
         <template #activator="{ on }">
           <v-btn v-show="clipboardPermission === 'prompt'" v-on="on">
             <v-icon left>mdi-information-outline</v-icon>
-            {{
-              $tc('components.campAdmin.dialogCategoryCreate.copyPasteCategory')
-            }}
+            {{ $tc('components.campAdmin.dialogCategoryCreate.copyPasteCategory') }}
           </v-btn>
         </template>
       </CopyCategoryInfoDialog>
