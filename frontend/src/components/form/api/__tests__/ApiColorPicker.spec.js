@@ -15,7 +15,7 @@ describe('An ApiColorPicker', () => {
   const FIELD_LABEL = 'Test field'
   const COLOR_1 = '#FF0000'
   const COLOR_2 = '#FAFFAF'
-  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Farbe für Test field zu wählen'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Farbe für Test field zu wählen'
 
   beforeEach(() => {
     apiMock = ApiMock.create()
