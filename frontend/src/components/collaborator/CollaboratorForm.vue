@@ -25,7 +25,6 @@
             aria-describedby="readonly"
             :name="$tc('entity.campCollaboration.fields.role')"
             :items="items"
-            :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
             persistent-hint
             item-value="key"
             item-text="role"
@@ -52,7 +51,6 @@
       :name="$tc('entity.campCollaboration.fields.role')"
       fieldname="role"
       :items="items"
-      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
       item-value="key"
       item-text="role"
