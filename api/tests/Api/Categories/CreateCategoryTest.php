@@ -99,10 +99,10 @@ class CreateCategoryTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $newestColumnLayout = $this->getEntityManager()->getRepository(ContentNode::class)
-            ->findBy(['contentType' => static::$fixtures['contentTypeColumnLayout']], ['createTime' => 'DESC'])[0]
+            ->findBy(['contentType' => static::$fixtures['contentTypeColumnLayout'], 'instanceName' => null], ['createTime' => 'DESC'], 1)[0]
         ;
         $this->assertJsonContains(['_links' => [
-            'rootContentNode' => ['href' => '/content_node/column_layouts/'.$newestColumnLayout->getId()],
+            'rootContentNode' => ['href' => $this->getIriFor($newestColumnLayout)],
         ]]);
     }
 
@@ -456,6 +456,102 @@ class CreateCategoryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCategoryFromCopySourceValidatesAccess() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user8memberOnlyInCamp2']->getEmail()])->request(
+            'POST',
+            '/categories',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'camp' => $this->getIriFor('camp2'),
+                    'copyCategorySource' => $this->getIriFor('category1'),
+                ]
+            )]
+        );
+
+        // No Access on category1 -> BadRequest
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testCreateCategoryFromCopySourceWithinSameCamp() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'camp' => $this->getIriFor('camp1'),
+                    'copyCategorySource' => $this->getIriFor('category1'),
+                ],
+            )]
+        );
+
+        // Category created
+        $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateCategoryFromCopySourceAcrossCamp() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'camp' => $this->getIriFor('camp2'),
+                    'copyCategorySource' => $this->getIriFor('category1'),
+                ],
+            )]
+        );
+
+        // Category created
+        $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateCategoryFromCopySourceActivityValidatesAccess() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user8memberOnlyInCamp2']->getEmail()])->request(
+            'POST',
+            '/categories',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'camp' => $this->getIriFor('camp2'),
+                    'copyCategorySource' => $this->getIriFor('activity1'),
+                ]
+            )]
+        );
+
+        // No Access on activity1 -> BadRequest
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testCreateCategoryFromCopySourceActivityWithinSameCamp() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'camp' => $this->getIriFor('camp1'),
+                    'copyCategorySource' => $this->getIriFor('activity1'),
+                ],
+            )]
+        );
+
+        // Category created
+        $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateCategoryFromCopySourceActivityAcrossCamp() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'camp' => $this->getIriFor('camp2'),
+                    'copyCategorySource' => $this->getIriFor('activity1'),
+                ],
+            )]
+        );
+
+        // Category created
+        $this->assertResponseStatusCodeSame(201);
+    }
+
     /**
      * @throws RedirectionExceptionInterface
      * @throws DecodingExceptionInterface
@@ -488,6 +584,7 @@ class CreateCategoryTest extends ECampApiTestCase {
             Category::class,
             Post::class,
             array_merge([
+                'copyCategorySource' => null,
                 'camp' => $this->getIriFor('camp1'),
                 'preferredContentTypes' => [$this->getIriFor('contentTypeSafetyConcept')],
             ], $attributes),
