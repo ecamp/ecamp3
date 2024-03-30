@@ -105,7 +105,7 @@ import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogCategoryForm from './DialogCategoryForm.vue'
 import PopoverPrompt from '../prompt/PopoverPrompt.vue'
-import router from '../../router.js'
+import router from '@/router.js'
 import CategoryChip from '../generic/CategoryChip.vue'
 import CopyCategoryInfoDialog from '../category/CopyCategoryInfoDialog.vue'
 
@@ -240,9 +240,8 @@ export default {
             navigator.clipboard
               .readText()
               .then(async (url) => {
-                this.copyCategorySource = await (
-                  await this.getCopyCategorySource(url)
-                )?._meta.load
+                const copyCategorySource = await this.getCopyCategorySource(url)
+                this.copyCategorySource = await copyCategorySource?._meta.load
               })
               .catch(() => {
                 this.clipboardPermission = 'unaccessable'

@@ -258,9 +258,8 @@ export default {
             navigator.clipboard
               .readText()
               .then(async (url) => {
-                this.copyActivitySource = await (
-                  await this.getCopyActivitySource(url)
-                )?._meta.load
+                const copyActivitySource = await this.getCopyActivitySource(url)
+                this.copyActivitySource = await copyActivitySource?._meta.load
               })
               .catch(() => {
                 this.clipboardPermission = 'unaccessable'
