@@ -8,7 +8,7 @@ Displays a single scheduleEntry
     toolbar
     back
     :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
-    :max-width="isLocalPaperDisplaySize ? '944px' : ''"
+    :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
@@ -61,10 +61,20 @@ Displays a single scheduleEntry
             </v-list-item>
           </v-list>
         </v-menu>
-        <a v-if="!editActivityTitle" style="color: inherit" @click="makeTitleEditable()">
+        <a v-if="!editActivityTitle" style="color: inherit">
           {{ activity.title }}
         </a>
       </v-toolbar-title>
+      <v-btn
+        v-if="isContributor && !editActivityTitle"
+        icon
+        class="ml-1 visible-on-hover"
+        width="24"
+        height="24"
+        @click="makeTitleEditable()"
+      >
+        <v-icon small>mdi-pencil</v-icon>
+      </v-btn>
       <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
         <api-text-field
           :uri="activity._meta.self"
@@ -93,7 +103,7 @@ Displays a single scheduleEntry
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
 
-      <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
+      <TogglePaperSize v-model="isPaperDisplaySize" />
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ on, attrs }">
@@ -211,6 +221,7 @@ Displays a single scheduleEntry
                   fieldname="progressLabel"
                   :items="progressLabels"
                   :disabled="layoutMode || !isContributor"
+                  clearable
                   dense
                 />
               </v-col>
@@ -239,7 +250,6 @@ Displays a single scheduleEntry
 </template>
 
 <script>
-import { computed } from 'vue'
 import { sortBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
@@ -247,8 +257,7 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import { periodRoute, scheduleEntryRoute } from '@/router.js'
-import router from '@/router.js'
+import router, { periodRoute, scheduleEntryRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
@@ -256,7 +265,6 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
-import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
 
 export default {
   name: 'ScheduleEntry',
@@ -278,7 +286,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp,
-      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
+      isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
@@ -286,9 +294,6 @@ export default {
       type: Function,
       required: true,
     },
-  },
-  setup() {
-    return useDisplaySize()
   },
   data() {
     return {
@@ -346,6 +351,17 @@ export default {
           },
         ],
       }
+    },
+    isPaperDisplaySize: {
+      get() {
+        return this.$store.getters.getPaperDisplaySize(this.camp._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setPaperDisplaySize', {
+          campUri: this.camp._meta.self,
+          paperDisplaySize: value,
+        })
+      },
     },
   },
 
@@ -417,6 +433,15 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
+}
+
+:deep(.ec-content-card__toolbar:not(:hover) button.visible-on-hover:not(:focus)) {
+  opacity: 0;
+}
+
+:deep(.ec-content-card__toolbar button.visible-on-hover) {
+  opacity: 1;
+  transition: opacity 0.2s linear;
 }
 
 .e-category-chip-save-icon {

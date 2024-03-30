@@ -4,6 +4,7 @@ import VueAxios from 'vue-axios/dist/vue-axios.common.min'
 import HalJsonVuex from 'hal-json-vuex'
 import lang from './lang'
 import auth from './auth'
+import preferences from './preferences'
 import { getEnv } from '@/environment.js'
 
 class StorePlugin {
@@ -14,6 +15,7 @@ class StorePlugin {
       modules: {
         lang,
         auth,
+        preferences,
       },
       strict: process.env.NODE_ENV !== 'production',
     })

@@ -11,7 +11,7 @@ describe('Nuxt print test', () => {
         const camp = response.body
         const campUri = camp._links.self.href
 
-        let printConfig = {
+        const printConfig = {
           language: 'en',
           documentName: 'camp',
           camp: campUri,

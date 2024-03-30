@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Security\ReCaptcha\ReCaptchaWrapper;
 use App\State\ResetPasswordUpdateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReCaptcha\Response;
@@ -144,6 +145,7 @@ class ResetPasswordUpdateProcessorTest extends TestCase {
         ;
         $user = new User();
         $user->passwordResetKeyHash = 'resetKey';
+        $user->state = User::STATE_REGISTERED;
 
         $this->userRepository->expects(self::once())
             ->method('loadUserByIdentifier')
@@ -167,5 +169,42 @@ class ResetPasswordUpdateProcessorTest extends TestCase {
 
         self::assertThat($user->password, self::equalTo(md5('newPassword')));
         self::assertThat($user->passwordResetKeyHash, self::isEmpty());
+        self::assertThat($user->state, self::equalTo(User::STATE_ACTIVATED));
+    }
+
+    #[TestWith([User::STATE_DELETED])]
+    #[TestWith([User::STATE_ACTIVATED])]
+    public function testUpdateWithCorrectResetKeyDoesNotChangeActivatedOrDeletedUsers(string $state) {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
+        $user = new User();
+        $user->passwordResetKeyHash = 'resetKey';
+        $user->state = $state;
+
+        $this->userRepository->expects(self::once())
+            ->method('loadUserByIdentifier')
+            ->with(self::EMAIL)
+            ->willReturn($user)
+        ;
+        $this->pwHasher->expects(self::once())
+            ->method('verify')
+            ->willReturn(true)
+        ;
+        $this->pwHasher->expects(self::once())
+            ->method('hash')
+            ->willReturnCallback(fn ($raw) => md5($raw))
+        ;
+
+        $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
+        $this->resetPassword->recaptchaToken = 'token';
+        $this->resetPassword->password = 'newPassword';
+
+        $this->processor->process($this->resetPassword, new Patch());
+
+        self::assertThat($user->password, self::equalTo(md5('newPassword')));
+        self::assertThat($user->passwordResetKeyHash, self::isEmpty());
+        self::assertThat($user->state, self::equalTo($state));
     }
 }

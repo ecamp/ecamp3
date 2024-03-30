@@ -111,7 +111,7 @@ export default {
         .isSame(this.$date.utc(this.localScheduleEntry.end), 'day')
     },
     endTimeValidation() {
-      let validator = {
+      const validator = {
         required: true,
       }
 

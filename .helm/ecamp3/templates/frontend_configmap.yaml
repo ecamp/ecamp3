@@ -21,6 +21,8 @@ data:
       VERSION: '{{ .Values.deployedVersion }}',
       VERSION_LINK_TEMPLATE: '{{ .Values.versionLinkTemplate }}',
       TERMS_OF_SERVICE_LINK_TEMPLATE: '{{ .Values.termsOfServiceLinkTemplate }}',
+      NEWS_LINK: '{{ .Values.newsLink }}',
+      HELP_LINK: '{{ .Values.helpLink }}',
     {{- if .Values.recaptcha.siteKey }}
       RECAPTCHA_SITE_KEY: '{{ .Values.recaptcha.siteKey }}',
     {{- else }}

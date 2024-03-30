@@ -9,6 +9,8 @@ domain:
 deployedVersion: "devel"
 versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
 termsOfServiceLinkTemplate: # 'https://ecamp3.ch/{lang}/tos'
+newsLink: # 'https://ecamp3.ch/blog'
+helpLink: # 'https://ecamp3.ch/faq'
 
 # enable/disable feature across the complete deployment
 featureToggle:
@@ -121,7 +123,7 @@ browserless:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
     # renovate: datasource=docker depName=browserless/chrome
-    tag: "1.61.0-puppeteer-21.4.1"
+    tag: "1.61.1-puppeteer-21.4.1"
   service:
     type: ClusterIP
     port: 3000

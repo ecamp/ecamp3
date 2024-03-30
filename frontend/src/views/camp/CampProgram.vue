@@ -84,7 +84,6 @@ export default {
   },
   data() {
     return {
-      editMode: false,
       showReminder: false,
       reminderText: null,
     }
@@ -108,6 +107,17 @@ export default {
           },
         ],
       }
+    },
+    editMode: {
+      get() {
+        return this.$store.getters.getPicassoEditMode(this.camp._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setPicassoEditMode', {
+          campUri: this.camp._meta.self,
+          editMode: value,
+        })
+      },
     },
   },
   methods: {

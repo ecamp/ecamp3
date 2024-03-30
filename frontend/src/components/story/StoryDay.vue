@@ -31,12 +31,12 @@
             <api-form :entity="chapter">
               <api-richtext
                 class="e-story-day"
-                :class="{ 'e-story-day--textmode': !editing }"
+                :class="{ 'e-story-day--textmode': !editMode }"
                 :outlined="false"
                 :solo="false"
                 auto-grow
                 dense
-                :readonly="!editing"
+                :readonly="!editMode"
                 fieldname="data.html"
                 aria-label="Erfassen"
                 label=""
@@ -52,7 +52,6 @@
   </v-expansion-panel>
 </template>
 <script>
-import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
@@ -66,7 +65,7 @@ export default {
   mixins: [dateHelperUTCFormatted],
   props: {
     day: { type: Object, required: true },
-    editing: { type: Boolean, default: false },
+    editMode: { type: Boolean, default: false },
     periodStoryChapters: { type: Array, required: true },
   },
   computed: {
@@ -79,11 +78,8 @@ export default {
           return scheduleEntry.day()._meta.self === this.day._meta.self
         })
     },
-    sortedScheduleEntries() {
-      return sortBy(this.scheduleEntries, (scheduleEntry) => scheduleEntry.start)
-    },
     entries() {
-      return this.sortedScheduleEntries.map((scheduleEntry) => ({
+      return this.scheduleEntries.map((scheduleEntry) => ({
         scheduleEntry: scheduleEntry,
         storyChapters: this.periodStoryChapters.filter(
           (contentNode) =>

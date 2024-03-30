@@ -463,7 +463,9 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Help",
+      "news": "News"
     },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
