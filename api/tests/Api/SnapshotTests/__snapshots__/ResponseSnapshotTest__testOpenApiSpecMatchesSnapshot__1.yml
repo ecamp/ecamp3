@@ -362,7 +362,7 @@ components:
           format: iri-reference
           type: string
         copyActivitySource:
-          description: 'Copy Contents from this Source-Activity.'
+          description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
           type:
@@ -759,7 +759,7 @@ components:
           format: iri-reference
           type: string
         copyActivitySource:
-          description: 'Copy Contents from this Source-Activity.'
+          description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
           type:
@@ -1168,7 +1168,7 @@ components:
           format: iri-reference
           type: string
         copyActivitySource:
-          description: 'Copy Contents from this Source-Activity.'
+          description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
           type:
@@ -1607,7 +1607,7 @@ components:
           format: iri-reference
           type: string
         copyActivitySource:
-          description: 'Copy Contents from this Source-Activity.'
+          description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
           format: iri-reference
           type:
@@ -7938,6 +7938,13 @@ components:
           maxLength: 8
           pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
+        copyCategorySource:
+          description: 'Copy contents from this source category or activity.'
+          example: /categories/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
         name:
           description: 'The full name of the category.'
           example: Lagersport
@@ -8296,6 +8303,13 @@ components:
           maxLength: 8
           pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
+        copyCategorySource:
+          description: 'Copy contents from this source category or activity.'
+          example: /categories/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
         name:
           description: 'The full name of the category.'
           example: Lagersport
@@ -8690,6 +8704,13 @@ components:
           maxLength: 8
           pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
+        copyCategorySource:
+          description: 'Copy contents from this source category or activity.'
+          example: /categories/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
         name:
           description: 'The full name of the category.'
           example: Lagersport
@@ -9062,6 +9083,13 @@ components:
           maxLength: 8
           pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
+        copyCategorySource:
+          description: 'Copy contents from this source category or activity.'
+          example: /categories/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
         name:
           description: 'The full name of the category.'
           example: Lagersport

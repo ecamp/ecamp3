@@ -65,6 +65,7 @@
       },
       "campCategories": {
         "create": "Block-Kategorie erstellen",
+        "pasteCategory": "Kopierte Kategorie einfügen",
         "title": "Block-Kategorien"
       },
       "campConditionalFields": {
@@ -118,6 +119,13 @@
         "title": "Status bearbeiten"
       },
       "dialogCategoryCreate": {
+        "clearClipboard": "Zwischenablage leeren",
+        "clipboard": "Zwischenablage",
+        "copyCategoryOrActivity": "Kategorie oder Aktivität kopieren",
+        "copyContent": "Inhalt kopieren",
+        "copyPasteCategory": "Kategorie kopieren & einfügen",
+        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "pasteCategory": "Kopierte Kategorie oder Aktivität einfügen",
         "title": "Block-Kategorie erstellen"
       },
       "dialogMaterialListCreate": {
@@ -176,6 +184,13 @@
         "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
+      },
+      "copyCategoryInfoDialog": {
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Kategorien nicht einfügen.",
+        "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "granted": "Du kannst nun kopierte Kategorien einfügen.",
+        "title": "Kategorie kopieren & einfügen"
       }
     },
     "collaborator": {
@@ -350,7 +365,7 @@
         "clipboard": "Zwischenablage",
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
-        "copyPastActivity": "Aktivität kopieren & einfügen",
+        "copyPasteActivity": "Aktivität kopieren & einfügen",
         "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
       },
@@ -664,6 +679,7 @@
     },
     "category": {
       "category": {
+        "copyCategory": "Kategorie kopieren",
         "deleteCategory": "Kategorie löschen",
         "properties": "Eigenschaften",
         "template": "Vorlage für neue Blöcke"
