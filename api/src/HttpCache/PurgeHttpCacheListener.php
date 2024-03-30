@@ -110,7 +110,9 @@ final class PurgeHttpCacheListener {
                 foreach ($metadata->getOperations() ?? [] as $operation) {
                     if ($operation instanceof GetCollection) {
                         $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
-                        $this->cacheManager->invalidateTags([$iri]);
+                        if ($iri) {
+                            $this->cacheManager->invalidateTags([$iri]);
+                        }
                     }
                 }
                 $resourceIterator->next();
@@ -142,7 +144,7 @@ final class PurgeHttpCacheListener {
         }
     }
 
-    private function addTagsFor(mixed $value, string $property = null): void {
+    private function addTagsFor(mixed $value, ?string $property = null): void {
         if (!$value || \is_scalar($value)) {
             return;
         }
@@ -162,7 +164,7 @@ final class PurgeHttpCacheListener {
         }
     }
 
-    private function addTagForItem(mixed $value, string $property = null): void {
+    private function addTagForItem(mixed $value, ?string $property = null): void {
         if (!$this->resourceClassResolver->isResourceClass($this->getObjectClass($value))) {
             return;
         }
@@ -173,10 +175,12 @@ final class PurgeHttpCacheListener {
             } else {
                 $iri = $this->iriConverter->getIriFromResource($value);
             }
-            if ($property) {
+            if ($iri && $property) {
                 $iri .= self::IRI_RELATION_DELIMITER.$property;
             }
-            $this->cacheManager->invalidateTags([$iri]);
+            if ($iri) {
+                $this->cacheManager->invalidateTags([$iri]);
+            }
         } catch (InvalidArgumentException|RuntimeException) {
         }
     }
