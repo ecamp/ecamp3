@@ -132,11 +132,6 @@ class ContentNodePeriodFilterTest extends TestCase {
 
         $this->queryBuilderMock
             ->expects($this->once())
-            ->method('andWhere')
-        ;
-
-        $this->queryBuilderMock
-            ->expects($this->once())
             ->method('setParameter')
             ->with('period_a1', $period)
         ;

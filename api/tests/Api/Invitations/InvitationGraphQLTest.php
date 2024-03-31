@@ -37,14 +37,40 @@ class InvitationGraphQLTest extends ECampApiTestCase {
 
         static::createClient()->request('GET', '/graphql?'.http_build_query(['query' => $query]));
 
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function testFindInvitationWhenLoggedIn() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration4invited');
+        $query = "
+        {
+          invitation(id: \"invitations/{$campCollaboration->inviteKey}/find\") {
+            campTitle
+            campId
+            userDisplayName
+            userAlreadyInCamp
+          }
+        }
+        ";
+
+        static::createClientWithCredentials()->request('GET', '/graphql?'.http_build_query(['query' => $query]));
+
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'data' => [
                 'invitation' => [
                     'campId' => $campCollaboration->camp->getId(),
                     'campTitle' => $campCollaboration->camp->title,
-                    'userDisplayName' => null,
-                    'userAlreadyInCamp' => null,
+                    'userDisplayName' => 'Bi-Pi',
+                    'userAlreadyInCamp' => true,
                 ],
             ],
         ]);

@@ -21,9 +21,9 @@ final class ContentNodePeriodFilter extends AbstractFilter {
     public function __construct(
         private IriConverterInterface $iriConverter,
         ManagerRegistry $managerRegistry,
-        LoggerInterface $logger = null,
-        array $properties = null,
-        NameConverterInterface $nameConverter = null
+        ?LoggerInterface $logger = null,
+        ?array $properties = null,
+        ?NameConverterInterface $nameConverter = null
     ) {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
@@ -46,7 +46,7 @@ final class ContentNodePeriodFilter extends AbstractFilter {
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        Operation $operation = null,
+        ?Operation $operation = null,
         array $context = []
     ): void {
         if (ContentNode::class !== $resourceClass) {
@@ -71,8 +71,7 @@ final class ContentNodePeriodFilter extends AbstractFilter {
         $queryBuilder
             ->join("{$rootAlias}.root", $rootJoinAlias)
             ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
-            ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
-            ->andWhere($queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
+            ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias, Join::WITH, $queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
         ;
 
         $queryBuilder->setParameter($periodParameterName, $period);

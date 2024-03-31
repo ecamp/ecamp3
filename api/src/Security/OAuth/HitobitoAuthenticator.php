@@ -74,6 +74,9 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
                     $profile->nickname = $hitobitoUser->getNickName();
                     $user = new User();
                     $user->profile = $profile;
+                }
+
+                if (in_array($user->state, [null, User::STATE_NONREGISTERED, User::STATE_REGISTERED])) {
                     $user->state = User::STATE_ACTIVATED;
                 }
 

@@ -1,6 +1,9 @@
 <p align="center"><img src="frontend/public/logo.svg" alt="Logo" width="250"></p>
 <h1 align="center">eCamp<sup><small>v3</small></sup></h1>
-<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a> <a href="https://discord.gg/tdwtRytV6P"><img src="https://discord.com/api/guilds/1165624811800768702/widget.png?style=shield" alt="Discord shield"></a></p>
+<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel" target="_blank"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a> <a href="https://discord.gg/tdwtRytV6P"><img src="https://discord.com/api/guilds/1165624811800768702/widget.png?style=shield" alt="Discord shield"></a>
+<br/>
+<a href="https://translate.ecamp3.ch" target="_blank"><img alt="Deutsche Übersetzung" src="https://img.shields.io/badge/dynamic/json?color=blue&label=deutsch&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27de-CH%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a> <a href="https://translate.ecamp3.ch" target="_blank"><img alt="traduction française" src="https://img.shields.io/badge/dynamic/json?color=blue&label=fran%C3%A7ais&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27fr-CH%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a> <a href="https://translate.ecamp3.ch" target="_blank"><img alt="Traduzione italiana" src="https://img.shields.io/badge/dynamic/json?color=blue&label=italiano&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27it-CH%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a> <a href="https://translate.ecamp3.ch" target="_blank"><img alt="translaziun rumantscha" src="https://img.shields.io/badge/dynamic/json?color=blue&label=rumantsch&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27rm-CH%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a></p>
+
 
 ## English
 
@@ -10,7 +13,7 @@ eCamp is a web application for planning J+S camps, J+S courses and other camps. 
 
 An older version called "eCamp v2" is productive and can be used at the following address (but only in german): [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
 
-eCamp3 is the re-development of eCamp with the goal of reimplementing the functionality of eCamp v2 using modern technologies and an extensible [architecture](https://github.com/ecamp/ecamp3/wiki/architecture). Currently, an MVP (minimum viable product) is in operation. Next, we will focus on course planning, and further extensions will follow later.
+eCamp v3 is the re-development of eCamp with the goal of reimplementing the functionality of eCamp v2 using modern technologies and an extensible [architecture](https://github.com/ecamp/ecamp3/wiki/architecture). Currently, an MVP (minimum viable product) is in operation. Next, we will focus on course planning, and further extensions will follow later.
 
 The following commonly requested improvements over eCamp v2 are already implemented:
 
@@ -43,7 +46,7 @@ eCamp ist eine Webapplikation, mit welcher J+S-Lager, J+S-Kurse und andere Lager
 
 Die ältere Version eCamp v2 ist produktiv im Einsatz und kann unter folgender Adresse genutzt werden: [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
 
-eCamp3 ist die Neu-Entwicklung von eCamp. Das Ziel ist es, die Funktionalität von eCamp v2 mit moderneren Technologien und einer erweiterbaren [Architektur](https://github.com/ecamp/ecamp3/wiki/architecture) neu zu implementieren. Aktuell läuft eine MVP (minimum viable product, minimale nützliche Version). Als Nächstes fokussieren wir uns auf die Kursplanung und später werden dann noch weitere Erweiterungen folgen.
+eCamp v3 ist die Neu-Entwicklung von eCamp. Das Ziel ist es, die Funktionalität von eCamp v2 mit moderneren Technologien und einer erweiterbaren [Architektur](https://github.com/ecamp/ecamp3/wiki/architecture) neu zu implementieren. Aktuell läuft eine MVP (minimum viable product, minimale nützliche Version). Als Nächstes fokussieren wir uns auf die Kursplanung und später werden dann noch weitere Erweiterungen folgen.
 
 Folgende Verbesserungen, die bei eCamp v2 oft gewünscht wurden, sind bereits implementiert:
 

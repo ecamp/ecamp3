@@ -4,9 +4,9 @@
       <period-switcher :period="period" :route-name="'camp/period/story'" />
       <v-spacer />
       <LockButton
-        v-model="editing"
+        v-model="editMode"
         :disabled-for-guest="!isContributor"
-        @click="editing = !editing"
+        @click="editMode = !editMode"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
@@ -16,9 +16,9 @@
         </template>
         <v-list class="py-0">
           <LockUnlockListItem
-            v-model="editing"
+            v-model="editMode"
             :disabled="!isContributor"
-            @click="editing = !editing"
+            @click="editMode = !editMode"
           />
           <v-divider />
           <DownloadNuxtPdf :config="printConfig" />
@@ -26,7 +26,7 @@
         </v-list>
       </v-menu>
     </template>
-    <story-period :editing="editing" :period="period()" />
+    <story-period :edit-mode="editMode" :period="period()" />
   </content-card>
 </template>
 
@@ -54,11 +54,6 @@ export default {
     period: { type: Function, required: true },
     camp: { type: Function, required: true },
   },
-  data() {
-    return {
-      editing: false,
-    }
-  },
   computed: {
     printConfig() {
       return {
@@ -76,6 +71,17 @@ export default {
           },
         ],
       }
+    },
+    editMode: {
+      get() {
+        return this.$store.getters.getStoryContextEditMode(this.camp()._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setStoryContextEditMode', {
+          campUri: this.camp()._meta.self,
+          editMode: value,
+        })
+      },
     },
   },
 }

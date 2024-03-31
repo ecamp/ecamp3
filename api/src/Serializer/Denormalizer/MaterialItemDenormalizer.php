@@ -41,7 +41,7 @@ class MaterialItemDenormalizer implements DenormalizerInterface, DenormalizerAwa
     /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool {
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool {
         // Make sure we don't run this denormalizer twice.
         if (isset($context[self::ALREADY_CALLED])) {
             return false;

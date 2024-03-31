@@ -25,7 +25,6 @@ import PdfComponent from '@/PdfComponent.js'
 import { dateLong } from '../../../common/helpers/dateHelperUTCFormatted.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import RichText from '../RichText.vue'
-import sortBy from 'lodash/sortBy.js'
 import { isEmptyHtml } from '../helpers.js'
 
 export default {
@@ -40,16 +39,13 @@ export default {
     date() {
       return dateLong(this.day.start, this.$tc)
     },
-    sortedScheduleEntries() {
-      return sortBy(
-        this.period.scheduleEntries().items.filter((scheduleEntry) => {
-          return scheduleEntry.day()._meta.self === this.day._meta.self
-        }),
-        (scheduleEntry) => scheduleEntry.start
-      )
+    scheduleEntries() {
+      return this.period.scheduleEntries().items.filter((scheduleEntry) => {
+        return scheduleEntry.day()._meta.self === this.day._meta.self
+      })
     },
     entries() {
-      return this.sortedScheduleEntries.map((scheduleEntry) => ({
+      return this.scheduleEntries.map((scheduleEntry) => ({
         scheduleEntry,
         storyChapters: this.period
           .contentNodes()

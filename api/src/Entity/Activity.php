@@ -118,7 +118,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     public ?Category $category = null;
 
     /**
-     * Copy Contents from this Source-Activity.
+     * Copy contents from this source activity.
      */
     #[ApiProperty(example: '/activities/1a2b3c4d')]
     #[Groups(['create'])]

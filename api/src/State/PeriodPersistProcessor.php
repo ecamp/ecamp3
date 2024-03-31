@@ -30,7 +30,7 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
         return $data;
     }
 
-    public static function moveDaysAndScheduleEntries(Period $period, Period $originalPeriod = null) {
+    public static function moveDaysAndScheduleEntries(Period $period, ?Period $originalPeriod = null) {
         if (!$originalPeriod) {
             return;
         }

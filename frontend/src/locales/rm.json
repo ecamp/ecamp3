@@ -410,7 +410,9 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Agid",
+      "news": "Noviteds"
     },
     "serverError": {
       "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server."

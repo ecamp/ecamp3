@@ -5,7 +5,7 @@
       class="ec-category"
       toolbar
       back
-      :max-width="isLocalPaperDisplaySize ? '944px' : ''"
+      :max-width="isPaperDisplaySize ? '944px' : ''"
     >
       <template #title>
         <v-toolbar-title class="font-weight-bold">
@@ -15,15 +15,25 @@
       </template>
 
       <template #title-actions>
-        <TogglePaperSize :value="isPaperDisplaySize" @input="toggleDisplaySize" />
-        <v-menu v-if="isManager" offset-y>
+        <TogglePaperSize v-model="isPaperDisplaySize" />
+        <v-menu offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>
+            <v-list-item @click="copyUrlToClipboard">
+              <v-list-item-icon>
+                <v-icon>mdi-content-copy</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.category.category.copyCategory') }}
+              </v-list-item-title>
+            </v-list-item>
+            <CopyCategoryInfoDialog ref="copyInfoDialog" />
             <DialogEntityDelete
+              v-if="isManager"
               :entity="category()"
               :warning-text-entity="category().name"
               :dialog-title="$tc('views.category.category.deleteCategory')"
@@ -82,7 +92,6 @@
 </template>
 
 <script>
-import { computed } from 'vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
@@ -91,11 +100,13 @@ import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingAct
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
-import { useDisplaySize } from '@/components/activity/useDisplaySize.js'
+import router, { categoryRoute } from '@/router.js'
+import CopyCategoryInfoDialog from '@/components/category/CopyCategoryInfoDialog.vue'
 
 export default {
   name: 'Category',
   components: {
+    CopyCategoryInfoDialog,
     TogglePaperSize,
     CategoryTemplate,
     CategoryProperties,
@@ -110,7 +121,7 @@ export default {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
       camp: () => this.camp(),
-      isPaperDisplaySize: computed(() => this.isPaperDisplaySize),
+      isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
@@ -122,9 +133,6 @@ export default {
       type: Function,
       required: true,
     },
-  },
-  setup() {
-    return useDisplaySize()
   },
   data() {
     return {
@@ -139,6 +147,17 @@ export default {
     },
     preferredContentTypes() {
       return this.category().preferredContentTypes()
+    },
+    isPaperDisplaySize: {
+      get() {
+        return this.$store.getters.getPaperDisplaySize(this.camp()._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setPaperDisplaySize', {
+          campUri: this.camp()._meta.self,
+          paperDisplaySize: value,
+        })
+      },
     },
   },
 
@@ -166,6 +185,27 @@ export default {
     },
     goToActivityAdmin() {
       this.$router.push({ name: 'admin/activity', params: { campId: this.camp().id } })
+    },
+    async copyUrlToClipboard() {
+      try {
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state === 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
+      }
+
+      const category = categoryRoute(this.camp(), this.category())
+      const url = window.location.origin + router.resolve(category).href
+      await navigator.clipboard.writeText(url)
+
+      this.$toast.info(
+        this.$tc('global.toast.copied', null, { source: this.category().name }),
+        {
+          timeout: 2000,
+        }
+      )
     },
   },
 }
