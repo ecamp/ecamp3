@@ -10,17 +10,17 @@ spec:
   type: {{ .Values.apiCache.service.type }}
   ports:
     - port: {{ .Values.apiCache.service.ports.http }}
-      targetPort: api-cache-http
+      targetPort: http
       protocol: TCP
-      name: api-cache-http
+      name: http
     - port: {{ .Values.apiCache.service.ports.purge }}
-      targetPort: api-cache-purge
+      targetPort: purge
       protocol: TCP
-      name: api-cache-purge
+      name: purge
     - port: {{ .Values.apiCache.prometheus.port }}
-      targetPort: api-cache-metrics
+      targetPort: metrics
       protocol: TCP
-      name: api-cache-metrics
+      name: metrics
   selector:
     {{- include "apiCache.selectorLabels" . | nindent 4 }}
 {{- end }}

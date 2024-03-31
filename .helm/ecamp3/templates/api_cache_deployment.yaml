@@ -34,10 +34,10 @@ spec:
           image: "{{ .Values.apiCache.image.repository }}:{{ .Values.apiCache.image.tag | default .Values.imageTag }}"
           imagePullPolicy: {{ .Values.apiCache.image.pullPolicy }}
           ports:
-            - name: api-cache-http
+            - name: http
               containerPort: {{ .Values.apiCache.varnishHttpPort }}
               protocol: TCP
-            - name: api-cache-purge
+            - name: purge
               containerPort: {{ .Values.apiCache.varnishPurgePort }}
               protocol: TCP
           env:
@@ -89,7 +89,7 @@ spec:
           image: "{{ .Values.apiCache.prometheus.image.repository }}:{{ .Values.apiCache.prometheus.image.tag }}"
           imagePullPolicy: {{ .Values.apiCache.prometheus.image.pullPolicy }}
           ports:
-          - name: api-cache-metrics
+          - name: metrics
             containerPort: {{ .Values.apiCache.prometheus.port }}
             protocol: TCP
           resources:
