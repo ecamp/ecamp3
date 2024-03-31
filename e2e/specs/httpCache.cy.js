@@ -238,7 +238,9 @@ describe('HTTP cache tests', () => {
     // accept invitation as Castor
     cy.login('castor@example.com')
     cy.visit('localhost:3000/mail')
-    cy.get('a').contains('[eCamp3] Du wurdest ins Lager "Pfila 2023" eingeladen').click()
+    cy.get('a')
+      .contains('[eCamp v3] Du wurdest ins Lager "Pfila 2023" eingeladen')
+      .click()
     /* eslint-disable cypress/no-unnecessary-waiting */
     cy.wait(200)
     getIframeBody()
