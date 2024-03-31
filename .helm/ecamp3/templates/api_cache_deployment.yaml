@@ -15,6 +15,9 @@ spec:
     metadata:
       labels:
         {{- include "apiCache.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/vclConfigmap: {{ include (print $.Template.BasePath "/api_cache_vcl_configmap.yaml") . | sha256sum }}
+        rollme: {{ .Values.imageTag | quote }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -25,7 +28,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       enableServiceLinks: false
       containers:
-        - name: {{ .Chart.Name }}-api-cache
+        - name: {{ .Chart.Name }}-api-cache-varnishd
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.apiCache.image.repository }}:{{ .Values.apiCache.image.tag | default .Values.imageTag }}"
@@ -54,8 +57,58 @@ spec:
           volumeMounts:
             - name: vcl-configmap
               mountPath: /etc/varnish
+            - name: vsm
+              mountPath: /var/lib/varnish
+        {{- if .Values.apiCache.logging.enabled }}
+        - name: {{ .Chart.Name }}-api-cache-varnishncsa
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.apiCache.image.repository }}:{{ .Values.apiCache.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.apiCache.image.pullPolicy }}
+          command:
+          - varnishncsa
+          {{- if .Values.apiCache.logging.customOutputJsonFormat }}
+          - -j
+          {{- end }}
+          {{- if .Values.apiCache.logging.customOutput }}
+          - -F
+          - {{ .Values.apiCache.logging.customOutput | quote }}
+          {{- end }}
+          - -t
+          - {{ .Values.apiCache.logging.timeout | quote }}
+          resources:
+            {{- toYaml .Values.apiCache.logging.resources | nindent 12 }}
+          volumeMounts:
+          - name: vsm
+            mountPath: /var/lib/varnish
+        {{- end }}
+        {{- if .Values.apiCache.prometheus.enabled }}
+        - name: {{ .Chart.Name }}-api-cache-prometheus-exporter
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.apiCache.prometheus.image.repository }}:{{ .Values.apiCache.prometheus.image.tag }}"
+          imagePullPolicy: {{ .Values.apiCache.prometheus.image.pullPolicy }}
+          ports:
+          - name: api-cache-metrics
+            containerPort: {{ .Values.apiCache.prometheus.port }}
+            protocol: TCP
+          resources:
+            {{- toYaml .Values.apiCache.prometheus.resources | nindent 12 }}
+          command:
+          - prometheus-varnish-exporter
+          - -web.telemetry-path
+          - "{{ .Values.apiCache.prometheus.path }}"
+          - -web.listen-address
+          - ":{{ .Values.apiCache.prometheus.port }}"
+          volumeMounts:
+          - name: vsm
+            mountPath: /var/lib/varnish
+        {{- end }}
       volumes:
       - name: vcl-configmap
         configMap:
           name: {{ include "apiCache.name" . }}-vcl-configmap
+      - name: vsm
+        emptyDir:
+          medium: Memory
 {{- end }}

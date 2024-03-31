@@ -240,6 +240,32 @@ apiCache:
     requests:
       cpu: 10m
       memory: 100Mi
+  logging:
+    enabled: true
+    customOutput: null
+    customOutputJsonFormat: false
+    # Timeout before returning error on initial VSM connection.
+    # If set the VSM connection is retried every 0.5 seconds for this many seconds.
+    # If zero the connection is attempted only once and will fail immediately if unsuccessful.
+    # If set to "off", the connection will not fail, allowing the utility to start and wait indefinetely for the Varnish instance to appear.
+    # Defaults to "off" in this case.
+    timeout: "off"
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  prometheus:
+    enabled: true
+    image:
+      repository: softonic/varnish
+      tag: 7.2.1
+      pullPolicy: IfNotPresent
+    path: "/metrics"
+    port: 9131
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
   
 autoscaling:
   enabled: false

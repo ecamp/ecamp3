@@ -17,6 +17,10 @@ spec:
       targetPort: api-cache-purge
       protocol: TCP
       name: api-cache-purge
+    - port: {{ .Values.apiCache.prometheus.port }}
+      targetPort: api-cache-metrics
+      protocol: TCP
+      name: api-cache-metrics
   selector:
     {{- include "apiCache.selectorLabels" . | nindent 4 }}
 {{- end }}
