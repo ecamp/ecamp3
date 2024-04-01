@@ -72,7 +72,7 @@ spec:
           {{- end }}
           {{- if .Values.apiCache.logging.customOutput }}
           - -F
-          - {{ .Values.apiCache.logging.customOutput | quote }}
+          - {{ .Values.apiCache.logging.customOutput | squote }}
           {{- end }}
           - -t
           - {{ .Values.apiCache.logging.timeout | quote }}
@@ -85,7 +85,7 @@ spec:
         {{- if .Values.apiCache.prometheus.enabled }}
         - name: {{ .Chart.Name }}-api-cache-prometheus-exporter
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.apiCache.prometheus.securityContext | nindent 12 }}
           image: "{{ .Values.apiCache.prometheus.image.repository }}:{{ .Values.apiCache.prometheus.image.tag }}"
           imagePullPolicy: {{ .Values.apiCache.prometheus.image.pullPolicy }}
           ports:

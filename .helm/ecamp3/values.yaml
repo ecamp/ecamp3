@@ -242,8 +242,8 @@ apiCache:
       memory: 100Mi
   logging:
     enabled: true
-    customOutput: null
-    customOutputJsonFormat: false
+    customOutput: '{ "received_at": "%t", "response_bytes": %b, "request_bytes": %I, "time_taken": %D, "first_line": "%r", "status": %s, "handling": "%{Varnish:handling}x" }'
+    customOutputJsonFormat: true
     # Timeout before returning error on initial VSM connection.
     # If set the VSM connection is retried every 0.5 seconds for this many seconds.
     # If zero the connection is attempted only once and will fail immediately if unsuccessful.
@@ -266,6 +266,8 @@ apiCache:
       requests:
         cpu: 10m
         memory: 20Mi
+    securityContext:
+      runAsUser: 101
   
 autoscaling:
   enabled: false
