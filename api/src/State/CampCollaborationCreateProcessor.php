@@ -42,6 +42,8 @@ class CampCollaborationCreateProcessor extends AbstractPersistProcessor {
         if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
             $profileByInviteEmail = $this->profileRepository->findOneBy(['email' => $inviteEmail]);
             if (null != $profileByInviteEmail) {
+                // Create a personal invitation, which the invited user will be able to see and
+                // accept / reject in the UI, even without receiving the invitation email
                 $data->user = $profileByInviteEmail->user;
                 $data->inviteEmail = null;
                 $this->validator->validate($data, ['groups' => ['Default', 'create']]);

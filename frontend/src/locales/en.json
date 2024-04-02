@@ -287,6 +287,16 @@
         "profile": "Profile"
       }
     },
+    "personalInvitations": {
+      "personalInvitations": {
+        "accept": "Accept",
+        "reject": "Reject"
+      },
+      "promptPersonalInvitationReject": {
+        "rejectInvitation": "Reject invitation",
+        "warningText": "Are you sure you do not want to join the camp \"{campTitle}\"?"
+      }
+    },
     "print": {
       "config": {
         "activityConfig": {
@@ -673,6 +683,7 @@
     "camps": {
       "create": "Create a camp",
       "pastCamps": "Past camps",
+      "personalInvitations": "Invitations",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
     },

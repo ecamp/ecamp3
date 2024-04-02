@@ -30,6 +30,17 @@ class CampCollaborationRepository extends ServiceEntityRepository implements Can
         return $this->findOneBy(['user' => $user, 'camp' => $camp]);
     }
 
+    public function findByUserAndIdAndInvited(User $user, string $id): ?CampCollaboration {
+        return $this->findOneBy(['user' => $user, 'id' => $id, 'status' => CampCollaboration::STATUS_INVITED]);
+    }
+
+    /**
+     * @return CampCollaboration[]
+     */
+    public function findAllByPersonallyInvitedUser(User $user): array {
+        return $this->findBy(['user' => $user, 'status' => CampCollaboration::STATUS_INVITED]);
+    }
+
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
