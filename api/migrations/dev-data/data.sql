@@ -802,6 +802,7 @@ INSERT INTO public.content_node (id, slot, "position", instancename, createtime,
 	('d82c7a45d7df', '1', 0, NULL, '2023-11-12 14:26:30', '2023-11-12 14:26:30', '190375b61413', '190375b61413', 'a4211c112939', 'responsivelayout', '{"items": [{"slot": "main"}, {"slot": "aside-top"}, {"slot": "aside-bottom"}]}'),
 	('6cdf77b5c113', 'main', 1, NULL, '2023-08-08 08:19:55', '2023-11-12 17:21:16', '0e0b0bd06918', '17ba22ea1e86', '3ef17bd1df72', 'materialnode', NULL),
 	('0253abab905c', 'aside-top', 0, NULL, '2023-08-08 09:22:58', '2023-11-12 14:39:27', '2e7a9509cd7f', 'fd1ff3d85bc6', '318e064ea0c9', 'singletext', '{"html": ""}'),
+	('95f018545e1e', '1', 1, NULL, '2024-04-01 18:07:06', '2024-04-01 18:07:06', '6fb71d916699', '6fb71d916699', '3ef17bd1df72', 'materialnode', NULL),
 	('a26a7ae09d58', 'aside-top', 0, NULL, '2023-08-08 08:19:55', '2023-11-12 17:21:33', '0e0b0bd06918', '17ba22ea1e86', '318e064ea0c9', 'singletext', '{"html": "<p>Wir stürzen ab. Der Pilot verlässt das Flugzeug früher, weil die Steuerung nicht mehr funktioniert und er der Meinung ist, dass wir in die Insel stürzen würden und er nicht sterben will. oder so ähnlch de Pilot isch denn eifach verscholle</p>"}'),
 	('17ba22ea1e86', '1', 0, NULL, '2023-11-12 17:21:12', '2023-11-12 17:21:12', '0e0b0bd06918', '0e0b0bd06918', 'a4211c112939', 'responsivelayout', '{"items": [{"slot": "main"}, {"slot": "aside-top"}, {"slot": "aside-bottom"}]}'),
 	('8e8787fea6f2', 'main', 1, NULL, '2023-08-08 10:15:50', '2023-11-12 14:16:11', '40dad30f1f06', 'fdf884fca646', '3ef17bd1df72', 'materialnode', NULL),
@@ -833,7 +834,6 @@ INSERT INTO public.content_node (id, slot, "position", instancename, createtime,
 	('e8a86edb00da', 'aside-top', 0, NULL, '2023-08-12 18:38:52', '2023-12-03 19:10:34', '20ed0b8eb618', '49debe3d36db', '318e064ea0c9', 'singletext', '{"html": "<p>Massa ultricies mi quis hendrerit dolor magna eget. Neque volutpat ac tincidunt vitae semper quis. Vel pretium lectus quam id. Varius morbi enim nunc faucibus a pellentesque. Fames ac turpis egestas sed tempus. Non blandit massa enim nec dui nunc mattis. Volutpat consequat mauris nunc congue nisi vitae. Amet consectetur adipiscing elit ut aliquam purus sit amet luctus. Lorem sed risus ultricies tristique. Magna fermentum iaculis eu non diam phasellus vestibulum lorem sed. Eget NULLa facilisi etiam dignissim diam quis enim. Enim eu turpis egestas pretium aenean pharetra magna ac.</p>"}'),
 	('49debe3d36db', '1', 0, NULL, '2023-12-03 19:09:58', '2023-12-03 19:09:58', '20ed0b8eb618', '20ed0b8eb618', 'a4211c112939', 'responsivelayout', '{"items": [{"slot": "main"}, {"slot": "aside-top"}, {"slot": "aside-bottom"}]}'),
 	('fd1ff3d85bc6', '1', 0, NULL, '2023-11-12 14:38:52', '2023-11-12 14:38:52', '2e7a9509cd7f', '2e7a9509cd7f', 'a4211c112939', 'responsivelayout', '{"items": [{"slot": "main"}, {"slot": "aside-top"}, {"slot": "aside-bottom"}]}'),
-	('95f018545e1e', '1', 1, NULL, '2024-04-01 18:07:06', '2024-04-01 18:07:06', '6fb71d916699', '6fb71d916699', '3ef17bd1df72', 'materialnode', NULL),
 	('90407006a8cd', '1', 0, NULL, '2024-04-01 18:07:04', '2024-04-01 18:07:25', '6fb71d916699', '6fb71d916699', '318e064ea0c9', 'singletext', '{"html": "<p>Wir essen in Hogwarts.</p>"}');
 
 
@@ -1003,7 +1003,6 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('d27ca1d0e6e4', NULL, NULL, 'established', 'member', NULL, '2023-08-08 09:36:01', '2023-08-08 09:44:19', 'bae69a1c9fcc', '6973c230d6b1'),
 	('c463d2a19847', NULL, NULL, 'established', 'member', NULL, '2023-08-08 09:38:01', '2023-08-08 09:44:50', 'caeba9f7e728', '6973c230d6b1'),
 	('763c0d181b63', NULL, NULL, 'established', 'manager', NULL, '2023-08-08 09:37:16', '2023-08-08 09:45:21', 'bee7cf5b3871', '6973c230d6b1'),
-	('b32db30637c8', NULL, NULL, 'established', 'manager', NULL, '2023-08-12 17:41:55', '2023-08-12 17:41:55', '9145944210a7', '9c2447aefe38'),
 	('b7d93b2fa1be', NULL, 'mLdsTtaGGptPYSZLUDgX8sAFO54=', 'established', 'member', NULL, '2023-08-12 19:10:49', '2023-08-12 19:10:49', 'a2f4f3879c85', '9c2447aefe38'),
 	('ac1cd0bcbd69', NULL, 'V30YTcBqBqs5xS7HrFM4ODRrzbw=', 'established', 'member', NULL, '2023-08-12 19:10:28', '2023-08-12 19:10:28', 'a3d9d86dc23b', '9c2447aefe38'),
 	('8be6d2f6f7dc', NULL, 'ru6jsdD9fODk8+p8wmI909rJPkQ=', 'established', 'manager', NULL, '2023-08-12 19:11:03', '2023-08-12 19:11:03', '566aea2c2759', '9c2447aefe38'),
@@ -1017,7 +1016,8 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('46d14f7c072c', NULL, '4KCuIMWvkGVAjSBtAnG5QcesOrI=', 'established', 'manager', NULL, '2023-09-29 23:41:30', '2023-09-29 23:41:30', 'a2f4f3879c85', '70ca971c992f'),
 	('b0bdb7202a9d', NULL, NULL, 'established', 'manager', NULL, '2023-08-08 07:53:12', '2023-08-08 07:53:12', '9145944210a7', '3c79b99ab424'),
 	('b00054c3c03e', NULL, 'XC/b4erYO0iZZTBEXOi3n/4AH9w=', 'established', 'guest', NULL, '2023-08-13 10:29:08', '2023-08-13 10:29:08', '9145944210a7', '0969e3c95dfc'),
-	('10d8f02ce5b4', NULL, 'n1MKxMj1RWkrcSmNfHdjUxKV3QY=', 'established', 'guest', NULL, '2023-09-29 23:25:49', '2023-09-29 23:25:49', '9145944210a7', '70ca971c992f');
+	('10d8f02ce5b4', NULL, 'n1MKxMj1RWkrcSmNfHdjUxKV3QY=', 'established', 'guest', NULL, '2023-09-29 23:25:49', '2023-09-29 23:25:49', '9145944210a7', '70ca971c992f'),
+	('b32db30637c8', NULL, 'AC/b4erYO0iZZTBEXOi3n/4AH9w=', 'invited', 'manager', NULL, '2023-08-12 17:41:55', '2023-08-12 17:41:55', '9145944210a7', '9c2447aefe38');
 
 
 
