@@ -88,7 +88,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "category": "Block Kategorie",
+        "category": "Block-Kategorie",
         "location": "Ort",
         "progressLabel": "Status",
         "responsible": "Verantwortlich",
@@ -147,7 +147,7 @@
         "numberingStyle": "Nummerierung",
         "short": "Kürzel"
       },
-      "name": "Block Kategorien",
+      "name": "Block-Kategorien",
       "numberingStyles": {
         "1": "1, 2, 3 - Zahlen",
         "A": "A, B, C - grosse Buchstaben",
