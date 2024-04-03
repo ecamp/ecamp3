@@ -15,7 +15,7 @@
           @submit="rejectInvitation(invitation)"
         >
           <template #activator="{ on }">
-            <v-btn text v-on="on">
+            <v-btn class="px-4" text v-on="on">
               {{ $tc('components.personalInvitations.personalInvitations.reject') }}
             </v-btn>
           </template>
