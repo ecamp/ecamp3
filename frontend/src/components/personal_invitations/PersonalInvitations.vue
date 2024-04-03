@@ -1,32 +1,62 @@
 <template>
   <v-list class="py-0">
-    <v-list-item
-      v-for="invitation in invitations.items"
-      :key="invitation._meta.self"
-      two-line
-    >
-      <v-list-item-content>
-        <v-list-item-title>{{ invitation.campTitle }}</v-list-item-title>
-      </v-list-item-content>
-      <v-list-item-action>
-        <PromptPersonalInvitationReject
-          :entity="invitation"
-          :camp-title="invitation.campTitle"
-          @submit="rejectInvitation(invitation)"
-        >
-          <template #activator="{ on }">
-            <v-btn class="px-4" text v-on="on">
-              {{ $tc('components.personalInvitations.personalInvitations.reject') }}
+    <template v-if="$vuetify.breakpoint.mdAndUp">
+      <v-list-item v-for="invitation in invitations.items" :key="invitation._meta.self">
+        <v-list-item-content>
+          <v-list-item-title>{{ invitation.campTitle }}</v-list-item-title>
+        </v-list-item-content>
+        <v-list-item-action>
+          <PromptPersonalInvitationReject
+            :entity="invitation"
+            :camp-title="invitation.campTitle"
+            align="right"
+            @submit="rejectInvitation(invitation)"
+          >
+            <template #activator="{ on }">
+              <v-btn class="px-4" text v-on="on">
+                {{ $tc('components.personalInvitations.personalInvitations.reject') }}
+              </v-btn>
+            </template>
+          </PromptPersonalInvitationReject>
+        </v-list-item-action>
+        <v-list-item-action>
+          <v-btn color="primary" @click="acceptInvitation(invitation)">
+            {{ $tc('components.personalInvitations.personalInvitations.accept') }}<br />
+          </v-btn>
+        </v-list-item-action>
+      </v-list-item>
+    </template>
+    <template v-else>
+      <v-list-group v-for="invitation in invitations.items" :key="invitation._meta.self">
+        <template #activator>
+          <v-list-item-content>
+            <v-list-item-title>{{ invitation.campTitle }}</v-list-item-title>
+          </v-list-item-content>
+        </template>
+        <v-list-item>
+          <v-list-item-action>
+            <PromptPersonalInvitationReject
+              :entity="invitation"
+              :camp-title="invitation.campTitle"
+              align="left"
+              @submit="rejectInvitation(invitation)"
+            >
+              <template #activator="{ on }">
+                <v-btn class="px-4" text v-on="on">
+                  {{ $tc('components.personalInvitations.personalInvitations.reject') }}
+                </v-btn>
+              </template>
+            </PromptPersonalInvitationReject>
+          </v-list-item-action>
+          <v-spacer />
+          <v-list-item-action>
+            <v-btn color="primary" @click="acceptInvitation(invitation)">
+              {{ $tc('components.personalInvitations.personalInvitations.accept') }}<br />
             </v-btn>
-          </template>
-        </PromptPersonalInvitationReject>
-      </v-list-item-action>
-      <v-list-item-action>
-        <v-btn color="primary" @click="acceptInvitation(invitation)">
-          {{ $tc('components.personalInvitations.personalInvitations.accept') }}<br />
-        </v-btn>
-      </v-list-item-action>
-    </v-list-item>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list-group>
+    </template>
   </v-list>
 </template>
 <script>
