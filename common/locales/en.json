@@ -160,7 +160,8 @@
         "A": "A, B, C - uppercase letters",
         "I": "I, II, III - uppercase roman numerals",
         "a": "a, b, c - lowercase letters",
-        "i": "i, ii, iii - lowercase roman numerals"
+        "i": "i, ii, iii - lowercase roman numerals",
+        "-": "no numbering"
       }
     },
     "contentType": {
@@ -217,7 +218,8 @@
       },
       "hourLong": "LT",
       "hourShort": "H:mm"
-    }
+    },
+    "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
     "cover": {
