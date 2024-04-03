@@ -182,6 +182,7 @@ class EndpointQueryCountTest extends ECampApiTestCase {
                 '/auth/jubladb' => false,
                 '/auth/reset_password' => false,
                 '/invitations' => false,
+                '/personal_invitations' => false,
                 default => true
             };
         });
