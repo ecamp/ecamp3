@@ -18441,6 +18441,126 @@ components:
         - moveScheduleEntries
         - start
       type: object
+    PersonalInvitation-read:
+      deprecated: false
+      description: 'An invitation for a person who already has an account to collaborate in a camp.'
+      properties:
+        campId:
+          description: |-
+            The id of the camp for which this invitation is valid. This is useful for
+            redirecting the user to the correct place after they accept.
+          example: 1a2b3c4d
+          type: string
+        campTitle:
+          description: |-
+            The full title of the camp for which this invitation is valid. This should help
+            the user to decide whether to accept or reject the invitation.
+          example: 'Abteilungs-Sommerlager 2022'
+          type: string
+        id:
+          example: 1a2b3c4d
+          type: string
+      type: object
+    PersonalInvitation-write:
+      deprecated: false
+      description: 'An invitation for a person who already has an account to collaborate in a camp.'
+      type: object
+    PersonalInvitation.jsonapi-read:
+      deprecated: false
+      description: 'An invitation for a person who already has an account to collaborate in a camp.'
+      properties:
+        campId:
+          description: |-
+            The id of the camp for which this invitation is valid. This is useful for
+            redirecting the user to the correct place after they accept.
+          example: 1a2b3c4d
+          type: string
+        campTitle:
+          description: |-
+            The full title of the camp for which this invitation is valid. This should help
+            the user to decide whether to accept or reject the invitation.
+          example: 'Abteilungs-Sommerlager 2022'
+          type: string
+        id:
+          example: 1a2b3c4d
+          type: string
+      type: object
+    PersonalInvitation.jsonapi-write:
+      deprecated: false
+      description: 'An invitation for a person who already has an account to collaborate in a camp.'
+      type: object
+    PersonalInvitation.jsonhal-read:
+      deprecated: false
+      description: 'An invitation for a person who already has an account to collaborate in a camp.'
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        campId:
+          description: |-
+            The id of the camp for which this invitation is valid. This is useful for
+            redirecting the user to the correct place after they accept.
+          example: 1a2b3c4d
+          type: string
+        campTitle:
+          description: |-
+            The full title of the camp for which this invitation is valid. This should help
+            the user to decide whether to accept or reject the invitation.
+          example: 'Abteilungs-Sommerlager 2022'
+          type: string
+        id:
+          example: 1a2b3c4d
+          type: string
+      type: object
+    PersonalInvitation.jsonld-read:
+      deprecated: false
+      description: 'An invitation for a person who already has an account to collaborate in a camp.'
+      properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        campId:
+          description: |-
+            The id of the camp for which this invitation is valid. This is useful for
+            redirecting the user to the correct place after they accept.
+          example: 1a2b3c4d
+          type: string
+        campTitle:
+          description: |-
+            The full title of the camp for which this invitation is valid. This should help
+            the user to decide whether to accept or reject the invitation.
+          example: 'Abteilungs-Sommerlager 2022'
+          type: string
+        id:
+          example: 1a2b3c4d
+          type: string
+      type: object
     Profile-read:
       deprecated: false
       description: |-
@@ -30019,6 +30139,215 @@ paths:
       summary: 'Updates the Period resource.'
       tags:
         - Period
+  /personal_invitations:
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of PersonalInvitation resources.'
+      operationId: api_personal_invitations_get_collection
+      parameters: []
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/PersonalInvitation.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PersonalInvitation-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/PersonalInvitation.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PersonalInvitation.jsonapi-read'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PersonalInvitation-read'
+                type: array
+          description: 'PersonalInvitation collection'
+      summary: 'Retrieves the collection of PersonalInvitation resources.'
+      tags:
+        - PersonalInvitation
+    parameters: []
+  '/personal_invitations/{id}':
+    get:
+      deprecated: false
+      description: 'Retrieves a PersonalInvitation resource.'
+      operationId: api_personal_invitations_id_get
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'PersonalInvitation identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonapi-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation-read'
+          description: 'PersonalInvitation resource'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a PersonalInvitation resource.'
+      tags:
+        - PersonalInvitation
+    parameters: []
+  '/personal_invitations/{id}/accept':
+    parameters: []
+    patch:
+      deprecated: false
+      description: 'Updates the PersonalInvitation resource.'
+      operationId: api_personal_invitations_idaccept_patch
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'PersonalInvitation identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/PersonalInvitation-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PersonalInvitation.jsonapi-write'
+        description: 'The updated PersonalInvitation resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonapi-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation-read'
+          description: 'PersonalInvitation resource updated'
+          links: []
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Accept a personal invitation.'
+      tags:
+        - PersonalInvitation
+  '/personal_invitations/{id}/reject':
+    parameters: []
+    patch:
+      deprecated: false
+      description: 'Updates the PersonalInvitation resource.'
+      operationId: api_personal_invitations_idreject_patch
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'PersonalInvitation identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/PersonalInvitation-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PersonalInvitation.jsonapi-write'
+        description: 'The updated PersonalInvitation resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation.jsonapi-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/PersonalInvitation-read'
+          description: 'PersonalInvitation resource updated'
+          links: []
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Reject a personal invitation.'
+      tags:
+        - PersonalInvitation
   /profiles:
     get:
       deprecated: false

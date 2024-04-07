@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Tests\Api\Invitations;
+namespace App\Tests\Api\PersonalInvitations;
 
-use App\DTO\Invitation;
+use App\DTO\PersonalInvitation;
 use App\Entity\CampCollaboration;
+use App\Entity\Profile;
 use App\Tests\Api\ECampApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -18,16 +19,16 @@ use function PHPUnit\Framework\lessThanOrEqual;
 /**
  * @internal
  */
-class AcceptInvitationTest extends ECampApiTestCase {
+class AcceptPersonalInvitationTest extends ECampApiTestCase {
     /**
      * @throws TransportExceptionInterface
      */
-    public function testAcceptInvitationFailsWhenNotLoggedIn() {
+    public function testAcceptPersonalInvitationFailsWhenNotLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
         static::createBasicClient()->request(
             'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT,
             [
                 'json' => [],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
@@ -39,14 +40,14 @@ class AcceptInvitationTest extends ECampApiTestCase {
     /**
      * @throws TransportExceptionInterface
      */
-    public function testAcceptInvitationDoesNotHitDBWhenNotLoggedIn() {
+    public function testAcceptPersonalInvitationDoesNotHitDBWhenNotLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
         $client = static::createBasicClient();
         $client->enableProfiler();
         $client->request(
             'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT,
             [
                 'json' => [],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
@@ -70,12 +71,15 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      */
-    public function testAcceptInvitationSuccess() {
+    public function testAcceptPersonalInvitationSuccess() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
-        static::createClientWithCredentials()->request(
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
+
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile6invited');
+        static::createClientWithCredentials(['email' => $profile->email])->request(
             'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT,
             [
                 'json' => [],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
@@ -84,7 +88,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
-                'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
+                'self' => ['href' => "/personal_invitations/{$campCollaboration->getId()}"],
             ],
         ]);
     }
@@ -96,14 +100,17 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      */
-    public function testCannotFindInvitationAfterSuccessfulAccept() {
+    public function testCannotFindPersonalInvitationAfterSuccessfulAccept() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
-        $client = static::createClientWithCredentials();
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
+
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile6invited');
+        $client = static::createClientWithCredentials(['email' => $profile->email]);
         $client->disableReboot();
         $client->request(
             'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT,
             [
                 'json' => [],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
@@ -112,11 +119,11 @@ class AcceptInvitationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
-                'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
+                'self' => ['href' => "/personal_invitations/{$campCollaboration->getId()}"],
             ],
         ]);
 
-        $client->request('GET', "/invitations/{$campCollaboration->inviteKey}/find");
+        $client->request('GET', "/personal_invitations/{$campCollaboration->getId()}");
         $this->assertResponseStatusCodeSame(404);
     }
 
@@ -126,12 +133,15 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      */
-    public function testAcceptInvitationFailsWithExtraAttribute() {
+    public function testAcceptPersonalInvitationFailsWithExtraAttribute() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
-        static::createClientWithCredentials()->request(
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
+
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile6invited');
+        static::createClientWithCredentials(['email' => $profile->email])->request(
             'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT,
             [
                 'json' => [
                     'userAlreadyInCamp' => true,
@@ -143,46 +153,6 @@ class AcceptInvitationTest extends ECampApiTestCase {
     }
 
     /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ClientExceptionInterface
-     */
-    public function testAcceptInvitationFailsWhenUserAlreadyInCamp() {
-        /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration4invited');
-        static::createClientWithCredentials()->request(
-            'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
-            [
-                'json' => [],
-                'headers' => ['Content-Type' => 'application/merge-patch+json'],
-            ]
-        );
-        $this->assertResponseStatusCodeSame(422);
-    }
-
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ClientExceptionInterface
-     */
-    public function testAcceptInvitationFailsWhenUserAlreadyInCampAndUserIsAttachedToInvitation() {
-        /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
-        static::createClientWithCredentials()->request(
-            'PATCH',
-            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
-            [
-                'json' => [],
-                'headers' => ['Content-Type' => 'application/merge-patch+json'],
-            ]
-        );
-        $this->assertResponseStatusCodeSame(422);
-    }
-
-    /**
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -191,8 +161,8 @@ class AcceptInvitationTest extends ECampApiTestCase {
     #[DataProvider('invalidMethods')]
     public function testInvalidRequestWhenWrongMethod(string $method) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
-        static::createClientWithCredentials()->request($method, "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT);
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
+        static::createClientWithCredentials()->request($method, "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT);
         $this->assertResponseStatusCodeSame(405);
     }
 
@@ -206,10 +176,35 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function testNotFoundWhenInviteKeyDoesNotMatch() {
-        static::createClientWithCredentials()->request(
+    public function testNotFoundWhenIdDoesNotMatch() {
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile6invited');
+        static::createClientWithCredentials(['email' => $profile->email])->request(
             'PATCH',
-            '/invitations/notExisting/'.Invitation::ACCEPT,
+            '/personal_invitations/notExisting/'.PersonalInvitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function testNotFoundWhenUserHasNoAccessToPersonalInvitation() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration6invitedWithUser');
+
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile8memberOnlyInCamp2');
+        static::createClientWithCredentials(['email' => $profile->email])->request(
+            'PATCH',
+            "/personal_invitations/{$campCollaboration->getId()}/".PersonalInvitation::ACCEPT,
             [
                 'json' => [],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
@@ -224,15 +219,17 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function testNotFoundWhenNoInviteKey() {
-        static::createClientWithCredentials()->request(
+    public function testMethodNotAllowedWhenNoId() {
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile6invited');
+        static::createClientWithCredentials(['email' => $profile->email])->request(
             'PATCH',
-            '/invitations/'.Invitation::ACCEPT,
+            '/personal_invitations/'.PersonalInvitation::ACCEPT,
             [
                 'json' => [],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
             ]
         );
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(405);
     }
 }

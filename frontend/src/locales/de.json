@@ -287,6 +287,16 @@
         "profile": "Profil"
       }
     },
+    "personalInvitations": {
+      "personalInvitations": {
+        "accept": "Akzeptieren",
+        "reject": "Ablehnen"
+      },
+      "promptPersonalInvitationReject": {
+        "rejectInvitation": "Einladung ablehnen",
+        "warningText": "Möchtest du dem Lager \"{campTitle}\" wirklich nicht beitreten?"
+      }
+    },
     "print": {
       "config": {
         "activityConfig": {
@@ -674,6 +684,7 @@
     "camps": {
       "create": "Lager erstellen",
       "pastCamps": "Alte Lager",
+      "personalInvitations": "Einladungen",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
     },
