@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @implements ProcessorInterface<PersonalInvitation,PersonalInvitation>
@@ -35,6 +36,10 @@ class PersonalInvitationAcceptProcessor implements ProcessorInterface {
         $user = $this->getUser();
 
         $campCollaboration = $this->campCollaborationRepository->findByUserAndIdAndInvited($user, $data->id);
+        if (null === $campCollaboration) {
+            throw new NoResultException();
+        }
+
         $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
         $campCollaboration->inviteKey = null;
         $campCollaboration->inviteKeyHash = null;
@@ -49,10 +54,12 @@ class PersonalInvitationAcceptProcessor implements ProcessorInterface {
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    protected function getUser(): ?User {
+    private function getUser(): ?User {
         $user = $this->security->getUser();
         if (null == $user) {
-            return null;
+            // This should never happen because it should be caught earlier by our security settings
+            // on all API operations using this processor.
+            throw new AccessDeniedHttpException();
         }
 
         return $this->userRepository->loadUserByIdentifier($user->getUserIdentifier());

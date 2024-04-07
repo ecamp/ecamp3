@@ -43,7 +43,7 @@ class PersonalInvitationProvider implements ProviderInterface {
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    protected function provideCollection(): ?array {
+    private function provideCollection(): array {
         $user = $this->getUser();
         if (null == $user) {
             return [];
@@ -51,7 +51,7 @@ class PersonalInvitationProvider implements ProviderInterface {
         $campCollaborations = $this->campCollaborationRepository->findAllByPersonallyInvitedUser($user);
 
         return array_map(function (CampCollaboration $campCollaboration) {
-            return $this->getInvitation($campCollaboration);
+            return $this->toInvitation($campCollaboration);
         }, $campCollaborations);
     }
 
@@ -59,21 +59,21 @@ class PersonalInvitationProvider implements ProviderInterface {
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    protected function provideItem(string $id): ?PersonalInvitation {
+    private function provideItem(string $id): ?PersonalInvitation {
         $user = $this->getUser();
         if (null == $id || null == $user) {
             return null;
         }
         $campCollaboration = $this->campCollaborationRepository->findByUserAndIdAndInvited($user, $id);
 
-        return $this->getInvitation($campCollaboration);
+        return $this->toInvitation($campCollaboration);
     }
 
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    protected function getUser(): ?User {
+    private function getUser(): ?User {
         $user = $this->security->getUser();
         if (null == $user) {
             return null;
@@ -82,7 +82,7 @@ class PersonalInvitationProvider implements ProviderInterface {
         return $this->userRepository->loadUserByIdentifier($user->getUserIdentifier());
     }
 
-    protected function getInvitation(?CampCollaboration $campCollaboration): ?PersonalInvitation {
+    private function toInvitation(?CampCollaboration $campCollaboration): ?PersonalInvitation {
         if (null == $campCollaboration) {
             return null;
         }
