@@ -12,7 +12,7 @@ class ReadProfileTest extends ECampApiTestCase {
     public function testGetSingleProfileIsDeniedForAnonymousUser() {
         $user = static::getFixture('user1manager');
         static::createBasicClient()->request('GET', '/profiles/'.$user->getId());
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(401);
     }
 
     public function testGetSingleProfileIsDeniedForUnrelatedUser() {

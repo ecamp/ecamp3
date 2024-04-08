@@ -111,6 +111,7 @@ import DownloadClientPdfButton from '@/components/print/print-client/DownloadCli
 import { getEnv } from '@/environment.js'
 import cloneDeep from 'lodash/cloneDeep'
 import VueI18n from '../../plugins/i18n/index.js'
+import repairConfig from './repairPrintConfig.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -154,14 +155,12 @@ export default {
     },
     cnf() {
       return this.repairConfig(
-        cloneDeep(
-          this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
-            language: this.lang,
-            documentName: this.camp().name,
-            camp: this.camp()._meta.self,
-            contents: this.defaultContents(),
-          })
-        )
+        this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
+          language: this.lang,
+          documentName: this.camp().name,
+          camp: this.camp()._meta.self,
+          contents: this.defaultContents(),
+        })
       )
     },
     isDev() {
@@ -249,24 +248,21 @@ export default {
       })
     },
     repairConfig(config) {
-      if (!config) config = {}
-      if (!(config.language in VueI18n.availableLocales)) config.language = 'en'
-      if (!config.documentName) config.documentName = this.camp().name
-      if (config.camp !== this.camp()._meta.self) config.camp = this.camp()._meta.self
-      if (typeof config.contents?.map !== 'function') {
-        config.contents = this.defaultContents()
-      }
-      config.contents = config.contents
-        .map((content) => {
-          if (!content.type) return null
-          const component = this.contentComponents[content.type]
-          if (!component) return null
-          if (typeof component.repairConfig !== 'function') return content
-          return component.repairConfig(content, this.camp())
-        })
-        .filter((component) => component)
+      const repairers = Object.fromEntries(
+        Object.entries(this.contentComponents).map(([componentName, component]) => [
+          componentName,
+          component.repairConfig,
+        ])
+      )
 
-      return config
+      return repairConfig(
+        config,
+        this.camp(),
+        VueI18n.availableLocales,
+        this.lang,
+        repairers,
+        this.defaultContents()
+      )
     },
   },
 }

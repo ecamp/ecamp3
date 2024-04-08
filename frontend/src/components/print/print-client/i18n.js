@@ -1,6 +1,8 @@
 import {
   compileToFunction,
   createCoreContext,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker,
   registerMessageCompiler,
   resolveValue,
   translate,
@@ -8,6 +10,7 @@ import {
 
 const createI18n = (translationData, language) => {
   registerMessageCompiler(compileToFunction)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
 
   const context = createCoreContext({
     locale: language,

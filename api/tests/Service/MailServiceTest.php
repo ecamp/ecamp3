@@ -52,7 +52,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp3] Du wurdest ins Lager "some camp" eingeladen');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp v3] Du wurdest ins Lager "some camp" eingeladen');
 
         self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->name);
         self::assertEmailHtmlBodyContains($mailerMessage, $this->user->getDisplayName());
@@ -89,7 +89,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', 'Willkommen bei eCamp3');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', 'Willkommen bei eCamp v3');
 
         self::assertEmailHtmlBodyContains($mailerMessage, 'Willkommen');
         self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
@@ -106,7 +106,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', 'Welcome to eCamp3');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', 'Welcome to eCamp v3');
 
         self::assertEmailHtmlBodyContains($mailerMessage, 'Welcome');
         self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
@@ -140,7 +140,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp3] Passwort zurücksetzen');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp v3] Passwort zurücksetzen');
 
         self::assertEmailHtmlBodyContains($mailerMessage, 'Passwort zurücksetzen');
         self::assertEmailHtmlBodyContains($mailerMessage, 'reset-password/some-id');
@@ -176,7 +176,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp3] E-Mail-Adresse verifizieren');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp v3] E-Mail-Adresse verifizieren');
 
         self::assertEmailHtmlBodyContains($mailerMessage, 'Wir haben die Anfrage erhalten, deine E-Mail-Adresse bei eCamp zu ändern.');
         self::assertEmailHtmlBodyContains($mailerMessage, 'profile/verify-mail/some-id');

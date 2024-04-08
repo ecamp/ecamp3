@@ -11,7 +11,7 @@ describe('An ApiDatePicker', () => {
   const FIELD_LABEL = 'Test field'
   const DATE_1 = '2020-03-01'
   const DATE_2 = '2020-03-19'
-  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um ein Datum für Test field zu wählen'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um ein Datum für Test field zu wählen'
 
   beforeEach(() => {
     setTestLocale('de')

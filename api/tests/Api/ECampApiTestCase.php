@@ -229,7 +229,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return static::createClientWithCredentials($credentials)->request('DELETE', $this->endpoint.'/'.$entity->getId());
     }
 
-    protected function create(array $payload = null, ?User $user = null) {
+    protected function create(?array $payload = null, ?User $user = null) {
         $credentials = null;
         if (null !== $user) {
             $credentials = ['email' => $user->getEmail()];

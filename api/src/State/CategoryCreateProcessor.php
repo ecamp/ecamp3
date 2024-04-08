@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
 use App\State\Util\AbstractPersistProcessor;
+use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -34,6 +35,12 @@ class CategoryCreateProcessor extends AbstractPersistProcessor {
         ;
         $rootContentNode->data = ['columns' => [['slot' => '1', 'width' => 12]]];
         $data->setRootContentNode($rootContentNode);
+
+        if (isset($data->copyCategorySource)) {
+            // CopyActivity Source is set -> copy it's content (rootContentNode)
+            $entityMap = new EntityMap();
+            $rootContentNode->copyFromPrototype($data->copyCategorySource->getRootContentNode(), $entityMap);
+        }
 
         return $data;
     }

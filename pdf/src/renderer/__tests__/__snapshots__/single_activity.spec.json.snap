@@ -130,7 +130,7 @@
                             {
                               "parent": [Circular],
                               "type": "TEXT_INSTANCE",
-                              "value": "entity.activity.fields.location:",
+                              "value": "Location:",
                             },
                           ],
                           "parent": [Circular],
@@ -208,7 +208,7 @@
                             {
                               "parent": [Circular],
                               "type": "TEXT_INSTANCE",
-                              "value": "entity.activity.fields.responsible:",
+                              "value": "Responsible:",
                             },
                           ],
                           "parent": [Circular],
@@ -232,7 +232,7 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "inactive@test.com (entity.campCollaboration.status.inactive)",
+                                  "value": "inactive@test.com (Inactive)",
                                 },
                               ],
                               "parent": [Circular],
@@ -331,7 +331,7 @@
                                     {
                                       "parent": [Circular],
                                       "type": "TEXT_INSTANCE",
-                                      "value": "contentNode.storyboard.name",
+                                      "value": "Storyboard",
                                     },
                                   ],
                                   "parent": [Circular],
@@ -359,7 +359,7 @@
                                             {
                                               "parent": [Circular],
                                               "type": "TEXT_INSTANCE",
-                                              "value": "contentNode.storyboard.entity.section.fields.column1",
+                                              "value": "Time",
                                             },
                                           ],
                                           "parent": [Circular],
@@ -392,7 +392,7 @@
                                             {
                                               "parent": [Circular],
                                               "type": "TEXT_INSTANCE",
-                                              "value": "contentNode.storyboard.entity.section.fields.column2Html",
+                                              "value": "Program",
                                             },
                                           ],
                                           "parent": [Circular],
@@ -424,7 +424,7 @@
                                             {
                                               "parent": [Circular],
                                               "type": "TEXT_INSTANCE",
-                                              "value": "contentNode.storyboard.entity.section.fields.column3",
+                                              "value": "Responsible",
                                             },
                                           ],
                                           "parent": [Circular],
@@ -1053,7 +1053,7 @@
                                     {
                                       "parent": [Circular],
                                       "type": "TEXT_INSTANCE",
-                                      "value": "contentNode.material.name",
+                                      "value": "Material",
                                     },
                                   ],
                                   "parent": [Circular],
@@ -1109,7 +1109,7 @@
                                     {
                                       "parent": [Circular],
                                       "type": "TEXT_INSTANCE",
-                                      "value": "contentNode.storycontext.name",
+                                      "value": "Story",
                                     },
                                   ],
                                   "parent": [Circular],
@@ -1177,7 +1177,7 @@
                                     {
                                       "parent": [Circular],
                                       "type": "TEXT_INSTANCE",
-                                      "value": "contentNode.safetyConcept.name",
+                                      "value": "Safety concept",
                                     },
                                   ],
                                   "parent": [Circular],
@@ -1226,7 +1226,7 @@
                                     {
                                       "parent": [Circular],
                                       "type": "TEXT_INSTANCE",
-                                      "value": "contentNode.notes.name",
+                                      "value": "Notes",
                                     },
                                   ],
                                   "parent": [Circular],

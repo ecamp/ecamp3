@@ -16,14 +16,24 @@
 
       <template #title-actions>
         <TogglePaperSize v-model="isPaperDisplaySize" />
-        <v-menu v-if="isManager" offset-y>
+        <v-menu offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>
+            <v-list-item @click="copyUrlToClipboard">
+              <v-list-item-icon>
+                <v-icon>mdi-content-copy</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.category.category.copyCategory') }}
+              </v-list-item-title>
+            </v-list-item>
+            <CopyCategoryInfoDialog ref="copyInfoDialog" />
             <DialogEntityDelete
+              v-if="isManager"
               :entity="category()"
               :warning-text-entity="category().name"
               :dialog-title="$tc('views.category.category.deleteCategory')"
@@ -90,10 +100,13 @@ import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingAct
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import router, { categoryRoute } from '@/router.js'
+import CopyCategoryInfoDialog from '@/components/category/CopyCategoryInfoDialog.vue'
 
 export default {
   name: 'Category',
   components: {
+    CopyCategoryInfoDialog,
     TogglePaperSize,
     CategoryTemplate,
     CategoryProperties,
@@ -172,6 +185,27 @@ export default {
     },
     goToActivityAdmin() {
       this.$router.push({ name: 'admin/activity', params: { campId: this.camp().id } })
+    },
+    async copyUrlToClipboard() {
+      try {
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state === 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
+      }
+
+      const category = categoryRoute(this.camp(), this.category())
+      const url = window.location.origin + router.resolve(category).href
+      await navigator.clipboard.writeText(url)
+
+      this.$toast.info(
+        this.$tc('global.toast.copied', null, { source: this.category().name }),
+        {
+          timeout: 2000,
+        }
+      )
     },
   },
 }

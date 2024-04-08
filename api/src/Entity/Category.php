@@ -108,6 +108,13 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     public Collection $activities;
 
     /**
+     * Copy contents from this source category or activity.
+     */
+    #[ApiProperty(example: '/categories/1a2b3c4d')]
+    #[Groups(['create'])]
+    public null|Activity|Category $copyCategorySource;
+
+    /**
      * The id of the category that was used as a template for creating this category. Internal for now, is
      * not published through the API.
      */
@@ -155,7 +162,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * Specifies whether the schedule entries of the activities in this category should be numbered
      * using arabic numbers, roman numerals or letters.
      */
-    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
+    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1', '-'])]
     #[ApiProperty(example: '1')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'string', length: 1, nullable: false)]
@@ -234,6 +241,9 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
 
             case 'I':
                 return strtoupper($this->getRomanNum($num));
+
+            case '-':
+                return '';
 
             default:
                 return strval($num);

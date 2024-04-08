@@ -89,21 +89,44 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
+
+      <template v-if="!loading && invitations.length > 0 && !$vuetify.breakpoint.mdAndUp">
+        <v-toolbar class="ec-content-card__toolbar" elevation="0" dense>
+          <v-toolbar-title tag="h1" class="font-weight-bold">
+            {{ $tc('views.camps.personalInvitations') }}
+          </v-toolbar-title>
+        </v-toolbar>
+        <PersonalInvitations></PersonalInvitations>
+      </template>
     </content-card>
+
+    <template v-if="!loading && invitations.length > 0 && $vuetify.breakpoint.mdAndUp">
+      <content-card
+        :title="$tc('views.camps.personalInvitations')"
+        max-width="800"
+        toolbar
+        class="mt-5"
+      >
+        <PersonalInvitations></PersonalInvitations>
+      </content-card>
+    </template>
   </v-container>
 </template>
 
 <script>
+import dayjs from '@/common/helpers/dayjs.js'
 import { campRoute } from '@/router.js'
 import { isAdmin } from '@/plugins/auth'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import { mapGetters } from 'vuex'
 import UserMeta from '@/components/navigation/UserMeta.vue'
+import PersonalInvitations from '../components/personal_invitations/PersonalInvitations.vue'
 
 export default {
   name: 'Camps',
   components: {
+    PersonalInvitations,
     UserMeta,
     ContentCard,
     ButtonAdd,
@@ -125,13 +148,16 @@ export default {
     },
     upcomingCamps() {
       return this.nonPrototypeCamps.filter((c) =>
-        c.periods().items.some((p) => new Date(p.end) > new Date())
+        c.periods().items.some((p) => dayjs(p.end).endOf('day').isAfter(dayjs()))
       )
     },
     pastCamps() {
       return this.nonPrototypeCamps.filter(
-        (c) => !c.periods().items.some((p) => new Date(p.end) > new Date())
+        (c) => !c.periods().items.some((p) => dayjs(p.end).endOf('day').isAfter(dayjs()))
       )
+    },
+    invitations() {
+      return this.api.get().personalInvitations().items
     },
     ...mapGetters({
       user: 'getLoggedInUser',

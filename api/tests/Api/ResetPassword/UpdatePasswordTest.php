@@ -5,7 +5,10 @@ namespace App\Tests\Api\ResetPassword;
 use App\Entity\User;
 use App\Security\ReCaptcha\ReCaptchaWrapper;
 use App\Tests\Api\ECampApiTestCase;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use ReCaptcha\Response;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * @internal
@@ -94,6 +97,66 @@ class UpdatePasswordTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws TransportExceptionInterface
+     * @throws NoResultException
+     */
+    public function testPatchResetPasswordActivatesUser() {
+        $this->mockRecaptcha();
+        $this->getEntityManager()->createQueryBuilder()
+            ->update(User::class, 'u')
+            ->set('u.state', ':state')
+            ->where('u.id = :id')
+            ->setParameter('state', User::STATE_REGISTERED)
+            ->setParameter('id', $this->user->getId())
+            ->getQuery()
+            ->execute()
+        ;
+
+        $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'json' => [
+                    'identifier' => $this->user->getEmail(),
+                    'password' => 'test',
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(401);
+
+        $newPassword = 'new_password';
+        $this->client->request(
+            'PATCH',
+            '/auth/reset_password/'.$this->passwordResetKey,
+            [
+                'json' => [
+                    'password' => $newPassword,
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/merge-patch+json',
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->client->request(
+            'POST',
+            '/authentication_token',
+            [
+                'json' => [
+                    'identifier' => $this->user->getEmail(),
+                    'password' => $newPassword,
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(204);
     }
 
     protected function mockRecaptcha($shouldReturnSuccess = true) {

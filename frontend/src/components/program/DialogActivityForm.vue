@@ -6,6 +6,8 @@
         path="title"
         vee-rules="required"
         class="flex-grow-1"
+        autofocus
+        @focus="autoselectTitle ? $event.target.select() : null"
       />
       <slot name="textFieldTitleAppend" />
     </div>
@@ -66,6 +68,10 @@ export default {
     period: {
       type: Function,
       required: true,
+    },
+    autoselectTitle: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

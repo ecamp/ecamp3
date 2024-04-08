@@ -403,7 +403,7 @@ export default {
     async copyUrlToClipboard() {
       try {
         const res = await navigator.permissions.query({ name: 'clipboard-read' })
-        if (res.state == 'prompt') {
+        if (res.state === 'prompt') {
           this.$refs.copyInfoDialog.open()
         }
       } catch {

@@ -15,7 +15,7 @@ describe('An ETimePicker', () => {
       time2: '18:33',
       time3: '00:52',
       firstHour: '0',
-      labelText: 'Dialog öffnen um eine Zeit für test zu wählen',
+      labelText: 'Dialog öffnen, um eine Zeit für test zu wählen',
       closeButton: 'Schliessen',
       timeInWrongLocale: '9:52 AM',
       validationMessage: 'Ungültiges Format, bitte gib die Zeit im Format HH:MM ein',

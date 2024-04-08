@@ -14,8 +14,8 @@ class AssertSlotSupportedByParent extends Constraint {
         public readonly string $message = self::MESSAGE,
         public readonly string $noParentMessage = self::NO_PARENT_MESSAGE,
         public readonly string $parentDoesNotSupportChildrenMessage = self::PARENT_DOES_NOT_SUPPORT_CHILDREN,
-        array $options = null,
-        array $groups = null,
+        ?array $options = null,
+        ?array $groups = null,
         $payload = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);

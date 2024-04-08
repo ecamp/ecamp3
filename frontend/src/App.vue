@@ -90,25 +90,9 @@ export default {
   width: 100%;
 }
 
-.user-nav {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-
 .v-btn--open {
   background: #b0bec5 !important;
   color: rgba(0, 0, 0, 0.87) !important;
-}
-
-.ec-usermenu {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  right: 0;
-  left: inherit !important;
-
-  .v-list {
-    border-radius: 0;
-  }
 }
 
 .v-app-bar .v-toolbar__content {

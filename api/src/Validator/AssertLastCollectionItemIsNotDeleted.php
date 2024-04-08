@@ -10,9 +10,9 @@ class AssertLastCollectionItemIsNotDeleted extends Constraint {
     public string $message = 'Cannot delete the last entry.';
 
     public function __construct(
-        array $options = null,
-        string $message = null,
-        array $groups = null,
+        ?array $options = null,
+        ?string $message = null,
+        ?array $groups = null,
         mixed $payload = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);

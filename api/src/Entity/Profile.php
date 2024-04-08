@@ -91,6 +91,14 @@ class Profile extends BaseEntity {
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $untrustedEmailKeyHash = null;
 
+    // ========================= start trusted Oauth provider ids =========================
+    // Note: as of https://github.com/ecamp/ecamp3/pull/4779 we are assuming that email
+    // addresses received from Oauth providers are trusted in the sense that email ownership has
+    // previously been verified by the corresponding service. When adding more providers, either
+    // - validate this assumption for the new provider, or
+    // - remove the logic setting the user state to active for existing non-activated user profiles
+    //   in the new authenticator implementation (api/src/Security/OAuth/*Authenticator.php)
+
     /**
      * Google id of the user.
      */
@@ -118,6 +126,8 @@ class Profile extends BaseEntity {
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $jubladbId = null;
+
+    // ========================= end trusted Oauth provider ids =========================
 
     /**
      * The user's (optional) first name.

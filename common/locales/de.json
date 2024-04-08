@@ -88,7 +88,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "category": "Block Kategorie",
+        "category": "Block-Kategorie",
         "location": "Ort",
         "progressLabel": "Status",
         "responsible": "Verantwortlich",
@@ -147,13 +147,14 @@
         "numberingStyle": "Nummerierung",
         "short": "Kürzel"
       },
-      "name": "Block Kategorien",
+      "name": "Block-Kategorien",
       "numberingStyles": {
         "1": "1, 2, 3 - Zahlen",
         "A": "A, B, C - grosse Buchstaben",
         "I": "I, II, III - grosse römische Zahlen",
         "a": "a, b, c - kleine Buchstaben",
-        "i": "i, ii, iii - kleine römische Zahlen"
+        "i": "i, ii, iii - kleine römische Zahlen",
+        "-": "keine Nummerierung"
       }
     },
     "contentType": {
@@ -214,7 +215,8 @@
       },
       "hourLong": "LT",
       "hourShort": "H:mm"
-    }
+    },
+    "shortScheduleEntryDescription": "Tag\u202f{dayNumber} {startTime}"
   },
   "print": {
     "cover": {

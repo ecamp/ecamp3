@@ -4,10 +4,13 @@
       v-if="user"
       max-width="800"
       :title="
-        $tc('views.profile.profile') + ': ' + (user._meta.loading ? '' : user.displayName)
+        $tc('views.profile.profile') + (user._meta.loading ? '' : ': ' + user.displayName)
       "
       toolbar
     >
+      <template #title-actions>
+        <UserMeta v-if="!$vuetify.breakpoint.mdAndUp" avatar-only btn-classes="mr-n4" />
+      </template>
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
           <api-form :entity="profile" name="user">

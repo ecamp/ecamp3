@@ -1,6 +1,14 @@
 <template>
   <e-form name="category">
-    <e-text-field v-model="localCategory.short" path="short" vee-rules="required" />
+    <div class="e-form-container d-flex gap-2">
+      <e-text-field
+        v-model="localCategory.short"
+        path="short"
+        vee-rules="required"
+        class="flex-grow-1"
+      />
+      <slot name="textFieldTitleAppend" />
+    </div>
 
     <e-text-field v-model="localCategory.name" path="name" vee-rules="required" />
 
@@ -34,7 +42,7 @@ export default {
   },
   computed: {
     numberingStyles() {
-      return ['1', 'a', 'A', 'i', 'I'].map((i) => ({
+      return ['1', 'a', 'A', 'i', 'I', '-'].map((i) => ({
         value: i,
         text: this.$tc('entity.category.numberingStyles.' + i),
       }))

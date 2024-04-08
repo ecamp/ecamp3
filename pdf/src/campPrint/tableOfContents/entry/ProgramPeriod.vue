@@ -18,7 +18,6 @@
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import sortBy from 'lodash/sortBy.js'
 
 export default {
   name: 'Program',
@@ -31,10 +30,7 @@ export default {
       return this.period.scheduleEntries().items.length
     },
     scheduleEntries() {
-      return sortBy(this.period.scheduleEntries().items, [
-        'dayNumber',
-        'scheduleEntryNumber',
-      ]).map((scheduleEntry) => {
+      return this.period.scheduleEntries().items.map((scheduleEntry) => {
         const activity = scheduleEntry.activity()
         return {
           ...scheduleEntry,

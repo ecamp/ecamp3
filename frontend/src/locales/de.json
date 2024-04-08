@@ -22,7 +22,7 @@
       },
       "copyActivityInfoDialog": {
         "allow": "Jetzt erlauben",
-        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "denied": "Du hast das Lesen aus der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
         "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
         "title": "Aktivität kopieren & einfügen"
@@ -65,6 +65,7 @@
       },
       "campCategories": {
         "create": "Block-Kategorie erstellen",
+        "pasteCategory": "Kopierte Kategorie einfügen",
         "title": "Block-Kategorien"
       },
       "campConditionalFields": {
@@ -99,8 +100,8 @@
       },
       "campPeriodsListItem": {
         "changePeriodDescription": "Bezeichnung ändern",
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
-        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden.",
+        "deleteWarning": "Möchtest du diesen Lagerabschnitt wirklich löschen?",
+        "lastPeriodNotDeletable": "Der letzte Lagerabschnitt kann nicht gelöscht werden.",
         "movePeriod": "Lagerabschnitt verschieben",
         "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
         "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen"
@@ -118,6 +119,13 @@
         "title": "Status bearbeiten"
       },
       "dialogCategoryCreate": {
+        "clearClipboard": "Zwischenablage leeren",
+        "clipboard": "Zwischenablage",
+        "copyCategoryOrActivity": "Kategorie oder Aktivität kopieren",
+        "copyContent": "Inhalt kopieren",
+        "copyPasteCategory": "Kategorie kopieren & einfügen",
+        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
+        "pasteCategory": "Kopierte Kategorie oder Aktivität einfügen",
         "title": "Block-Kategorie erstellen"
       },
       "dialogMaterialListCreate": {
@@ -167,7 +175,7 @@
         "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
-        "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
+        "submitTooltipPrototype": "Du musst noch auswählen, ob und welche Lagervorlage du verwenden möchtest."
       }
     },
     "category": {
@@ -176,6 +184,13 @@
         "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
+      },
+      "copyCategoryInfoDialog": {
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Kategorien nicht einfügen.",
+        "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "granted": "Du kannst nun kopierte Kategorien einfügen.",
+        "title": "Kategorie kopieren & einfügen"
       }
     },
     "collaborator": {
@@ -215,15 +230,15 @@
     "form": {
       "base": {
         "eColorPicker": {
-          "openPicker": "Dialog öffnen um eine Farbe für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein",
-          "openPicker": "Dialog öffnen um ein Datum für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um ein Datum für {label} zu wählen"
         },
         "eTimePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib die Zeit im Format HH:MM ein",
-          "openPicker": "Dialog öffnen um eine Zeit für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Zeit für {label} zu wählen"
         }
       }
     },
@@ -270,6 +285,16 @@
         "logOut": "Ausloggen",
         "myCamps": "Meine Lager",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "personalInvitations": {
+        "accept": "Akzeptieren",
+        "reject": "Ablehnen"
+      },
+      "promptPersonalInvitationReject": {
+        "rejectInvitation": "Einladung ablehnen",
+        "warningText": "Möchtest du dem Lager \"{campTitle}\" wirklich nicht beitreten?"
       }
     },
     "print": {
@@ -350,8 +375,8 @@
         "clipboard": "Zwischenablage",
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
-        "copyPastActivity": "Aktivität kopieren & einfügen",
-        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "copyPasteActivity": "Aktivität kopieren & einfügen",
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
       },
       "formScheduleEntryItem": {
@@ -463,7 +488,9 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Hilfe",
+      "news": "News"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
@@ -657,11 +684,13 @@
     "camps": {
       "create": "Lager erstellen",
       "pastCamps": "Alte Lager",
+      "personalInvitations": "Einladungen",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
     },
     "category": {
       "category": {
+        "copyCategory": "Kategorie kopieren",
         "deleteCategory": "Kategorie löschen",
         "properties": "Eigenschaften",
         "template": "Vorlage für neue Blöcke"

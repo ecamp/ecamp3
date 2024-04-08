@@ -16,6 +16,7 @@ Displays a field as a e-textarea + write access via API wrapper
       :filled="filled"
       :dense="dense"
       @input="wrapper.on.input"
+      @blur="wrapper.on.blur"
     >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />

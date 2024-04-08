@@ -130,7 +130,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
   test('calls api.patch after onInput was triggered', async () => {
     const newValue = 'new value'
-    const newValueFromApi = 'NEW VALUE'
+    const newValueFromApi = 'new value'
 
     await vm.onInput(newValue)
 
@@ -148,7 +148,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // saving started
     expect(vm.isSaving).toBe(true)
-    expect(vm.dirty).toBe(false)
+    expect(vm.dirty).toBe(true)
     expect(vm.status).toBe('saving')
 
     // API patch method called
@@ -163,6 +163,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     await wrapper.setProps({ value: newValueFromApi })
     await wrapper.vm.$nextTick()
     expect(vm.localValue).toBe(newValueFromApi)
+    expect(vm.dirty).toBe(false)
 
     // success state
     expect(vm.status).toBe('success')

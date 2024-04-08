@@ -5,8 +5,8 @@
   ],
   "force": {
     "constraints": {
-      "node": "20.11.1",
-      "php": "8.3.2"
+      "node": "20.12.1",
+      "php": "8.3.4"
     }
   },
   "automergeType": "branch",
@@ -95,27 +95,6 @@
         "^@tiptap\/"
       ],
       "groupName": "tiptap"
-    },
-    {
-      "matchPackagePatterns": [
-        "^(@.*\\/|(.*-)?)eslint(-.*)?$",
-        "^(@.*\\/|(.*-)?)lint(-.*)?$",
-        "^(@.*\\/|(.*-)?)stylelint(-.*)?$",
-        "^(@.*\\/|(.*-)?)prettier(-.*)?$"
-      ],
-      "excludePackageNames": [
-        "@vue/cli-plugin-eslint",
-        "lint-staged"
-      ],
-      "groupName": "js-linter"
-    },
-    {
-      "matchPackageNames": [
-        "phpstan/phpstan",
-        "friendsofphp/php-cs-fixer",
-        "vimeo/psalm"
-      ],
-      "groupName": "php-linter"
     },
     {
       "matchPackageNames": [

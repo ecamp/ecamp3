@@ -1,11 +1,11 @@
 <template>
-  <div class="v-calendar-daily__day v-future">
+  <div class="v-calendar-daily__day v-future tw-flex tw-flex-col">
     <!-- background interval shades -->
     <div
       v-for="(time, i) in displayedTimes"
       :key="i"
       class="v-calendar-daily__day-interval"
-      :style="`height: ${time.height}px`"
+      :style="`flex-grow: ${time.weight}`"
     />
 
     <div class="v-event-timed-container">
