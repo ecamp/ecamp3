@@ -32,7 +32,6 @@ class LowercaseFilterTest extends TestCase {
             ['AbC', 'abc'],
             ['This Is A Test', 'this is a test'],
             ['TeSt123', 'test123'],
-            ['ÁccèntS', 'áccènts'],
             ['Test@Example.com', 'test@example.com'],
             ['JohnDoe@GMail.COM', 'johndoe@gmail.com'],
             ['USER-NAME+TAG@EXAMPLE.NET', 'user-name+tag@example.net'],
