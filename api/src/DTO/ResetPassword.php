@@ -51,6 +51,7 @@ class ResetPassword {
     public ?string $id = null;
 
     #[InputFilter\Trim]
+    #[InputFilter\Lowercase]
     #[ApiProperty(readable: true, writable: true)]
     #[Groups(['create', 'read'])]
     public ?string $email = null;
