@@ -259,9 +259,18 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Inviti",
         "logOut": "Disconnettiti",
         "myCamps": "I miei campi",
         "profile": "Profilo"
+      }
+    },
+    "personalInvitations": {
+      "personalInvitations": {
+        "noOpenInvitations": "Nessun invito aperto. L'invito è stato inviato a un indirizzo diverso da \"{email}\"?"
+      },
+      "promptPersonalInvitationReject": {
+        "rejectInvitation": "Rifiuta l'invito"
       }
     },
     "print": {
@@ -650,6 +659,9 @@
       "sideBarCategory": {
         "title": "Categorie"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Inviti"
     },
     "material": {
       "materialLists": {

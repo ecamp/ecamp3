@@ -1,5 +1,14 @@
 <template>
-  <v-list class="py-0">
+  <div>
+    <v-card-text>
+      <p v-if="invitations.items.length === 0">
+        {{
+          $tc('components.personalInvitations.personalInvitations.noOpenInvitations', 0, {
+            email: authUser.profile().email,
+          })
+        }}
+      </p>
+    </v-card-text>
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-list-item v-for="invitation in invitations.items" :key="invitation._meta.self">
         <v-list-item-content>
@@ -57,12 +66,13 @@
         </v-list-item>
       </v-list-group>
     </template>
-  </v-list>
+  </div>
 </template>
 <script>
 import { errorToMultiLineToast } from '../toast/toasts.js'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import PromptPersonalInvitationReject from './PromptPersonalInvitationReject.vue'
+import { mapGetters } from 'vuex'
 
 const ignoreNavigationFailure = (e) => {
   if (!isNavigationFailure(e, NavigationFailureType.redirected)) {
@@ -77,6 +87,9 @@ export default {
     invitations() {
       return this.api.get().personalInvitations()
     },
+    ...mapGetters({
+      authUser: 'getLoggedInUser',
+    }),
   },
   methods: {
     acceptInvitation(invitation) {

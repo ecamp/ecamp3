@@ -224,9 +224,18 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitaziuns",
         "logOut": "Sortir",
         "myCamps": "Mes champ",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "personalInvitations": {
+        "noOpenInvitations": "Naginas invitaziuns avertas. È l'invitaziun vegnida tramessa ad in'autra adressa che \"{email}\"?"
+      },
+      "promptPersonalInvitationReject": {
+        "rejectInvitation": "Refusar l'invit"
       }
     },
     "print": {
@@ -620,6 +629,9 @@
       "sideBarCategory": {
         "title": "Categorias"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitaziuns"
     },
     "material": {
       "materialOverview": {

@@ -282,6 +282,7 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Einladungen",
         "logOut": "Ausloggen",
         "myCamps": "Meine Lager",
         "profile": "Profil"
@@ -290,6 +291,7 @@
     "personalInvitations": {
       "personalInvitations": {
         "accept": "Akzeptieren",
+        "noOpenInvitations": "Keine offene Einladungen. Wurde die Einladung an eine andere Adresse als \"{email}\" versendet?",
         "reject": "Ablehnen"
       },
       "promptPersonalInvitationReject": {
@@ -684,7 +686,6 @@
     "camps": {
       "create": "Lager erstellen",
       "pastCamps": "Alte Lager",
-      "personalInvitations": "Einladungen",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
     },
@@ -698,6 +699,9 @@
       "sideBarCategory": {
         "title": "Kategorien"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Einladungen"
     },
     "material": {
       "materialLists": {

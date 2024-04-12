@@ -282,6 +282,7 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitations",
         "logOut": "Log out",
         "myCamps": "My camps",
         "profile": "Profile"
@@ -290,6 +291,7 @@
     "personalInvitations": {
       "personalInvitations": {
         "accept": "Accept",
+        "noOpenInvitations": "No open invitations. Was the invitation sent to an address other than \"{email}\"?",
         "reject": "Reject"
       },
       "promptPersonalInvitationReject": {
@@ -683,7 +685,6 @@
     "camps": {
       "create": "Create a camp",
       "pastCamps": "Past camps",
-      "personalInvitations": "Invitations",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
     },
@@ -697,6 +698,9 @@
       "sideBarCategory": {
         "title": "Categories"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitations"
     },
     "material": {
       "materialLists": {
