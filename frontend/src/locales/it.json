@@ -266,11 +266,12 @@
       }
     },
     "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Rifiuta l'invito",
+        "warningText": "Volete davvero declinare l'invito al campo \"{campTitle}\"?"
+      },
       "personalInvitations": {
         "noOpenInvitations": "Nessun invito aperto. L'invito è stato inviato a un indirizzo diverso da \"{email}\"?"
-      },
-      "promptPersonalInvitationReject": {
-        "rejectInvitation": "Rifiuta l'invito"
       }
     },
     "print": {

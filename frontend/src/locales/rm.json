@@ -231,11 +231,12 @@
       }
     },
     "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Refusar l'invit",
+        "warningText": "Vulais Vus propi refusar l'invitaziun al champ \"{campTitle}\"?"
+      },
       "personalInvitations": {
         "noOpenInvitations": "Naginas invitaziuns avertas. È l'invitaziun vegnida tramessa ad in'autra adressa che \"{email}\"?"
-      },
-      "promptPersonalInvitationReject": {
-        "rejectInvitation": "Refusar l'invit"
       }
     },
     "print": {

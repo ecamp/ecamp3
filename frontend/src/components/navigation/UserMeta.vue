@@ -162,8 +162,9 @@ export default {
 </script>
 
 <style scoped>
-.theme--dark.v-badge:deep(.v-badge__badge::after) {
+.v-badge:deep(.v-badge__badge::after) {
   border-color: red;
   background-color: red;
+  z-index: -1;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card-text>
-      <p v-if="invitations.items.length === 0">
+    <v-card-text v-if="invitations.items.length === 0">
+      <p>
         {{
           $tc('components.personalInvitations.personalInvitations.noOpenInvitations', 0, {
             email: authUser.profile().email,
@@ -15,7 +15,7 @@
           <v-list-item-title>{{ invitation.campTitle }}</v-list-item-title>
         </v-list-item-content>
         <v-list-item-action>
-          <PromptPersonalInvitationReject
+          <DialogPersonalInvitationReject
             :entity="invitation"
             :camp-title="invitation.campTitle"
             align="right"
@@ -26,7 +26,7 @@
                 {{ $tc('components.personalInvitations.personalInvitations.reject') }}
               </v-btn>
             </template>
-          </PromptPersonalInvitationReject>
+          </DialogPersonalInvitationReject>
         </v-list-item-action>
         <v-list-item-action>
           <v-btn color="primary" @click="acceptInvitation(invitation)">
@@ -44,7 +44,7 @@
         </template>
         <v-list-item>
           <v-list-item-action>
-            <PromptPersonalInvitationReject
+            <DialogPersonalInvitationReject
               :entity="invitation"
               :camp-title="invitation.campTitle"
               align="left"
@@ -55,7 +55,7 @@
                   {{ $tc('components.personalInvitations.personalInvitations.reject') }}
                 </v-btn>
               </template>
-            </PromptPersonalInvitationReject>
+            </DialogPersonalInvitationReject>
           </v-list-item-action>
           <v-spacer />
           <v-list-item-action>
@@ -71,7 +71,7 @@
 <script>
 import { errorToMultiLineToast } from '../toast/toasts.js'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
-import PromptPersonalInvitationReject from './PromptPersonalInvitationReject.vue'
+import DialogPersonalInvitationReject from './DialogPersonalInvitationReject.vue'
 import { mapGetters } from 'vuex'
 
 const ignoreNavigationFailure = (e) => {
@@ -82,7 +82,7 @@ const ignoreNavigationFailure = (e) => {
 
 export default {
   name: 'PersonalInvitations',
-  components: { PromptPersonalInvitationReject },
+  components: { DialogPersonalInvitationReject },
   computed: {
     invitations() {
       return this.api.get().personalInvitations()

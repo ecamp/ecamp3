@@ -289,14 +289,14 @@
       }
     },
     "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Einladung ablehnen",
+        "warningText": "Möchtest du die Einladung zum Lager \"{campTitle}\" wirklich ablehnen?"
+      },
       "personalInvitations": {
         "accept": "Akzeptieren",
         "noOpenInvitations": "Keine offene Einladungen. Wurde die Einladung an eine andere Adresse als \"{email}\" versendet?",
         "reject": "Ablehnen"
-      },
-      "promptPersonalInvitationReject": {
-        "rejectInvitation": "Einladung ablehnen",
-        "warningText": "Möchtest du dem Lager \"{campTitle}\" wirklich nicht beitreten?"
       }
     },
     "print": {

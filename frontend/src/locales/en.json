@@ -289,14 +289,14 @@
       }
     },
     "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Reject invitation",
+        "warningText": "Are you sure you want to reject the initation to the camp \"{campTitle}\"?"
+      },
       "personalInvitations": {
         "accept": "Accept",
         "noOpenInvitations": "No open invitations. Was the invitation sent to an address other than \"{email}\"?",
         "reject": "Reject"
-      },
-      "promptPersonalInvitationReject": {
-        "rejectInvitation": "Reject invitation",
-        "warningText": "Are you sure you do not want to join the camp \"{campTitle}\"?"
       }
     },
     "print": {
