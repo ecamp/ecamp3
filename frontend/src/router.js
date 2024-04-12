@@ -144,6 +144,15 @@ export default new Router({
       beforeEnter: requireAuth,
     },
     {
+      path: '/invitations',
+      name: 'invitations',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/Invitations.vue'),
+      },
+      beforeEnter: requireAuth,
+    },
+    {
       path: '/camps/create',
       name: 'camps/create',
       components: {

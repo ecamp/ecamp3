@@ -22,7 +22,12 @@
           :class="[btnClasses, { 'v-btn--open': value }]"
           v-on="on"
         >
-          <user-avatar v-if="authUser" :user="authUser" :size="40" />
+          <template v-if="authUser">
+            <v-badge v-if="invitationCount > 0" color="red" dot overlap bordered>
+              <user-avatar :user="authUser" :size="40" />
+            </v-badge>
+            <UserAvatar v-else :user="authUser" :size="40" />
+          </template>
           <span class="sr-only-sm-and-down mx-3">
             {{ authUser.displayName }}
           </span>
@@ -36,7 +41,12 @@
         :class="[btnClasses, { 'v-btn--open': value }]"
         v-on="on"
       >
-        <user-avatar v-if="authUser" :user="authUser" :size="40" />
+        <template v-if="authUser">
+          <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>
+            <user-avatar :user="authUser" :size="40" />
+          </v-badge>
+          <UserAvatar v-else :user="authUser" :size="40" />
+        </template>
         <span class="sr-only-sm-and-down mx-3">
           {{ authUser.displayName }}
         </span>
@@ -55,6 +65,19 @@
       <v-list-item block tag="li" exact :to="{ name: 'camps' }" @click="open = false">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
         <span>{{ $tc('components.navigation.userMeta.myCamps') }}</span>
+      </v-list-item>
+      <v-list-item
+        block
+        tag="li"
+        exact
+        :to="{ name: 'invitations' }"
+        @click="open = false"
+      >
+        <v-icon left>mdi-email</v-icon>
+        <span>{{ $tc('components.navigation.userMeta.invitations') }}</span>
+        <v-list-item-action-text v-if="invitationCount > 0">
+          <v-badge inline bordered color="#f00" :content="invitationCount" />
+        </v-list-item-action-text>
       </v-list-item>
       <v-list-item
         v-if="!$vuetify.breakpoint.lgAndUp"
@@ -115,6 +138,9 @@ export default {
     }
   },
   computed: {
+    invitationCount() {
+      return this.api.get().personalInvitations().totalItems
+    },
     newsLink() {
       return getEnv().NEWS_LINK
     },
@@ -134,3 +160,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.v-badge:deep(.v-badge__badge::after) {
+  border-color: red;
+  background-color: red;
+  z-index: -1;
+}
+</style>
