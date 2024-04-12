@@ -19,8 +19,6 @@
     submit-icon="mdi-cancel"
     cancel-icon=""
     :cancel-action="close"
-    position="top"
-    :align="align"
     v-bind="$attrs"
   >
     <template #activator="scope">

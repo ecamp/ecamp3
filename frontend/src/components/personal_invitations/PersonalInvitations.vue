@@ -18,7 +18,6 @@
           <DialogPersonalInvitationReject
             :entity="invitation"
             :camp-title="invitation.campTitle"
-            align="right"
             @submit="rejectInvitation(invitation)"
           >
             <template #activator="{ on }">
@@ -47,7 +46,6 @@
             <DialogPersonalInvitationReject
               :entity="invitation"
               :camp-title="invitation.campTitle"
-              align="left"
               @submit="rejectInvitation(invitation)"
             >
               <template #activator="{ on }">
