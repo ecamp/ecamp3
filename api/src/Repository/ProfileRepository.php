@@ -22,21 +22,51 @@ class ProfileRepository extends ServiceEntityRepository implements CanFilterByUs
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->join("{$rootAlias}.user", 'user');
-        $queryBuilder->leftJoin('user.collaborations', 'userCampCollaborations');
-        $queryBuilder->leftJoin('userCampCollaborations.camp', 'camp');
+        $userAlias = self::getOrCreateUserAlias($queryBuilder);
+        $userCampCollaborationsAlias = self::getOrCreateCampCollaborationAlias($queryBuilder, $userAlias);
+        $queryBuilder->leftJoin("{$userCampCollaborationsAlias}.camp", 'camp');
         $queryBuilder->leftJoin('camp.collaborations', 'relatedCampCollaborations');
         $expr = new Expr();
         $queryBuilder->andWhere($expr->orX(
-            $expr->eq('user', ':current_user'),
+            $expr->eq($userAlias, ':current_user'),
             $expr->andX(
-                $expr->eq('userCampCollaborations.status', ':status_established'),
+                $expr->eq("{$userCampCollaborationsAlias}.status", ':status_established'),
                 $expr->eq('relatedCampCollaborations.status', ':status_established'),
                 $expr->eq('relatedCampCollaborations.user', ' :current_user'),
             )
         ));
         $queryBuilder->setParameter('current_user', $user);
         $queryBuilder->setParameter('status_established', CampCollaboration::STATUS_ESTABLISHED);
+    }
+
+    private static function getOrCreateUserAlias(QueryBuilder $queryBuilder) {
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        foreach ($queryBuilder->getDQLPart('join') as $rootAliasJoins) {
+            foreach ($rootAliasJoins as $joinPart) {
+                /** @var Expr\Join $joinPart */
+                if (str_contains($joinPart->getJoin(), '.user')) {
+                    return $joinPart->getAlias();
+                }
+            }
+        }
+        $userAlias = 'user';
+        $queryBuilder->join("{$rootAlias}.user", $userAlias);
+
+        return $userAlias;
+    }
+
+    private static function getOrCreateCampCollaborationAlias(QueryBuilder $queryBuilder, string $userAlias) {
+        foreach ($queryBuilder->getDQLPart('join') as $rootAliasJoins) {
+            foreach ($rootAliasJoins as $joinPart) {
+                /** @var Expr\Join $joinPart */
+                if (str_contains($joinPart->getJoin(), '.collaborations')) {
+                    return $joinPart->getAlias();
+                }
+            }
+        }
+        $collaborationsAlias = 'userCampCollaborations';
+        $queryBuilder->leftJoin("{$userAlias}.collaborations", $collaborationsAlias);
+
+        return $collaborationsAlias;
     }
 }
