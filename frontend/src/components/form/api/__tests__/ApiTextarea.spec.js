@@ -22,7 +22,7 @@ describe('An ApiTextarea', () => {
   let wrapper
   let apiMock
 
-  const fieldName = 'test-field/123'
+  const path = 'test-field/123'
   const TEXT_1 = 'some text'
   const TEXT_2 = 'another text'
 
@@ -40,19 +40,20 @@ describe('An ApiTextarea', () => {
     const app = Vue.component('App', {
       components: { ApiTextarea },
       props: {
-        fieldName: { type: String, default: fieldName },
+        path: { type: String, default: path },
       },
       template: `
         <div data-app>
-        <api-textarea
-          :auto-save="false"
-          :fieldname="fieldName"
-          uri="test-field/123"
-          label="Test field"
-          required="true"/>
+          <api-textarea
+            :auto-save="false"
+            :path="path"
+            uri="test-field/123"
+            label="Test field"
+            required="true"
+          />
         </div>`,
     })
-    apiMock.get().thenReturn(ApiMock.success(TEXT_1).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(TEXT_1).forPath(path))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
@@ -69,7 +70,7 @@ describe('An ApiTextarea', () => {
 
   test('updates state if value in store is refreshed and has new value', async () => {
     wrapper = mount()
-    apiMock.get().thenReturn(ApiMock.success(TEXT_2).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(TEXT_2).forPath(path))
 
     wrapper.findComponent(ApiWrapper).vm.reload()
 

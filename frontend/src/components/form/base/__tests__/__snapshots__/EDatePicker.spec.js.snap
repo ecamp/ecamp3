@@ -2,8 +2,8 @@
 
 exports[`An EDatePicker > in locale de > looks like a date picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="v-menu">
                <div class="e-form-container"
@@ -35,8 +35,8 @@ exports[`An EDatePicker > in locale de > looks like a date picker > pickerclosed
 
 exports[`An EDatePicker > in locale de > looks like a date picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="e-form-container"
                value="01.03.2020">
@@ -409,8 +409,8 @@ exports[`An EDatePicker > in locale de > looks like a date picker > pickeropen 1
 
 exports[`An EDatePicker > in locale en > looks like a date picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="v-menu">
                <div class="e-form-container"
@@ -442,8 +442,8 @@ exports[`An EDatePicker > in locale en > looks like a date picker > pickerclosed
 
 exports[`An EDatePicker > in locale en > looks like a date picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="e-form-container"
                value="03/01/2020">

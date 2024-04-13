@@ -176,7 +176,11 @@
     "scheduleEntry": {
       "fields": {
         "duration": "Durata",
+        "endDate": "Data di fine",
+        "endDatetime": "Ora di fine",
         "nr": "N.",
+        "startDate": "Data di inizio",
+        "startDatetime": "Ora di inizio",
         "time": "Tempo"
       },
       "name": "Inserimento nel programma"

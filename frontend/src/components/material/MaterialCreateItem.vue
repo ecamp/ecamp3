@@ -12,26 +12,18 @@
         v-model.number="materialItem.quantity"
         dense
         inputmode="numeric"
-        :name="$tc('entity.materialItem.fields.quantity')"
-        fieldname="quantity"
+        path="quantity"
       />
     </td>
     <td class="pt-1">
-      <e-text-field
-        v-model="materialItem.unit"
-        dense
-        :name="$tc('entity.materialItem.fields.unit')"
-        fieldname="unit"
-        maxlength="32"
-      />
+      <e-text-field v-model="materialItem.unit" dense path="unit" maxlength="32" />
     </td>
     <td class="pt-1">
       <e-text-field
         v-model="materialItem.article"
         dense
         vee-rules="required"
-        :name="$tc('entity.materialItem.fields.article')"
-        fieldname="article"
+        path="article"
         maxlength="64"
       />
     </td>
@@ -40,13 +32,12 @@
         v-model="materialItem.materialList"
         dense
         vee-rules="required"
-        :name="$tc('entity.materialList.name')"
-        fieldname="materialList"
+        :label="$tc('entity.materialList.name')"
         :items="materialLists"
       />
     </td>
     <td class="pt-1">
-      <button-add height="52" hide-label @click="submitForm" />
+      <ButtonAdd height="52" hide-label @click="submitForm" />
     </td>
   </ValidationObserver>
 
@@ -73,6 +64,11 @@ import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 export default {
   name: 'MaterialCreateItem',
   components: { ValidationObserver, ButtonAdd },
+  provide() {
+    return {
+      entityName: 'materialItem',
+    }
+  },
   props: {
     camp: { type: Object, required: true },
 

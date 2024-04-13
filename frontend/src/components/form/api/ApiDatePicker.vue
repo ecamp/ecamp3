@@ -7,6 +7,7 @@ Displays a field as a date picker + write access via API wrapper
     <e-date-picker
       :value="wrapper.localValue || ''"
       v-bind="$attrs"
+      :path="path"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"

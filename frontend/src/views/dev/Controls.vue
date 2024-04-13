@@ -150,7 +150,7 @@ export default {
           value: this.textfieldValue,
           props: {
             placeholder: this.placeholder,
-            fieldname: 'nickname',
+            path: 'nickname',
             uri: this.profileUri,
           },
         },
@@ -161,7 +161,7 @@ export default {
             'v-model.number': this.textfieldValue,
             placeholder: this.placeholder,
             inputmode: 'numeric',
-            fieldname: 'quantity',
+            path: 'quantity',
             uri: this.materialUri,
           },
         },
@@ -172,7 +172,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             rows: 3,
-            fieldname: 'data.html',
+            path: 'data.html',
             uri: this.singleTextUri,
           },
         },
@@ -183,7 +183,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             rows: 3,
-            fieldname: 'data.html',
+            path: 'data.html',
             uri: this.singleTextUri,
           },
         },
@@ -203,7 +203,7 @@ export default {
           component: (type) => `${type}-checkbox`,
           value: this.checkboxValue,
           props: {
-            fieldname: 'printYSLogoOnPicasso',
+            path: 'printYSLogoOnPicasso',
             uri: this.campUri,
           },
         },
@@ -212,7 +212,7 @@ export default {
           component: (type) => `${type}-switch`,
           value: this.checkboxValue,
           props: {
-            fieldname: 'printYSLogoOnPicasso',
+            path: 'printYSLogoOnPicasso',
             uri: this.campUri,
           },
         },
@@ -222,7 +222,7 @@ export default {
           value: this.dateValue,
           props: {
             placeholder: this.placeholder,
-            fieldname: 'start',
+            path: 'start',
             uri: this.periodUri,
           },
         },
@@ -233,7 +233,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             'value-format': 'YYYY-MM-DDTHH:mm:ssZ',
-            fieldname: 'start',
+            path: 'start',
             uri: this.scheduleEntryUri,
           },
         },
@@ -243,7 +243,7 @@ export default {
           value: this.colorValue,
           props: {
             placeholder: this.placeholder,
-            fieldname: 'color',
+            path: 'color',
             uri: this.categoryUri,
           },
         },

@@ -18,7 +18,7 @@ describe('An ApiSwitch', () => {
   let wrapper
   let apiMock
 
-  const fieldName = 'test-field/123'
+  const path = 'test-field/123'
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -34,13 +34,13 @@ describe('An ApiSwitch', () => {
     const app = Vue.component('App', {
       components: { ApiSwitch },
       props: {
-        fieldName: { type: String, default: fieldName },
+        path: { type: String, default: path },
       },
       template: `
         <div data-app>
           <api-switch
             :auto-save="false"
-            :fieldname="fieldName"
+            :path="path"
             uri="test-field/123"
             label="Test field"
             required="true"
@@ -48,7 +48,7 @@ describe('An ApiSwitch', () => {
         </div>
       `,
     })
-    apiMock.get().thenReturn(ApiMock.success(true).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(true).forPath(path))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
@@ -82,7 +82,7 @@ describe('An ApiSwitch', () => {
 
   test('updates state if value in store is refreshed and has new value', async () => {
     wrapper = mount()
-    apiMock.get().thenReturn(ApiMock.success(false).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(false).forPath(path))
 
     wrapper.findComponent(ApiWrapper).vm.reload()
 

@@ -2,7 +2,7 @@
   <ContentNodeCard v-bind="$props">
     <api-richtext
       :uri="contentNode._meta.self"
-      fieldname="data.html"
+      path="data.html"
       :label="$tc('contentNode.notes.name')"
       rows="4"
       auto-grow

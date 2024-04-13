@@ -72,13 +72,13 @@
           icon="mdi-content-paste"
           :title="$tc('components.campAdmin.dialogCategoryCreate.pasteCategory')"
         >
-          <template #activator="scope">
+          <template #activator="{ on }">
             <v-btn
               :title="$tc('components.campAdmin.dialogCategoryCreate.pasteCategory')"
               text
               class="v-btn--has-bg"
               height="56"
-              v-on="scope.on"
+              v-on="on"
             >
               <v-progress-circular v-if="copyCategorySourceUrlLoading" indeterminate />
               <v-icon v-else>mdi-content-paste</v-icon>
