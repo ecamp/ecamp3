@@ -20,7 +20,7 @@ trait FiltersByContentNode {
     protected function filterByContentNode(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
         $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
         $rootQry->from(ContentNode::class, 'cn')->select('cn');
-        $rootQry->join('cn.rootContentNode', 'r');
+        $rootQry->join('cn.rootContentNodes', 'r');
         $rootQry->join('r.camp', 'camp');
         $this->filterByCampCollaboration($rootQry, $user);
 
