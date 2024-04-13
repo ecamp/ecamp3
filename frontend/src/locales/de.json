@@ -402,6 +402,16 @@
           "location": "Ort:",
           "responsible": "Verantwortlich: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Kategorie",
+        "clearFilters": "Filter entfernen",
+        "onlyMyActivities": "Nur meine Aktivitäten",
+        "period": "Lagerabschnitt",
+        "progressLabel": "Status",
+        "progressLabelNone": "Kein Status",
+        "responsible": "Verantwortlich",
+        "responsibleNone": "Keine Verantwortlichen"
       }
     },
     "prompt": {
@@ -614,8 +624,6 @@
       },
       "dashboard": {
         "activities": "Aktivitäten",
-        "category": "Kategorie",
-        "clearFilters": "Filter entfernen",
         "columns": {
           "category": "Kategorie",
           "number": "Nummer",
@@ -624,12 +632,6 @@
           "title": "Titel"
         },
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
-        "onlyMyActivities": "Nur meine Aktivitäten",
-        "period": "Lagerabschnitt",
-        "progressLabel": "Status",
-        "progressLabelNone": "Kein Status",
-        "responsible": "Verantwortlich",
-        "responsibleNone": "Keine Verantwortlichen",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {

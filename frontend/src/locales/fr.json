@@ -385,6 +385,16 @@
           "location": "Lieu:",
           "responsible": "Responsable:"
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Catégorie",
+        "clearFilters": "Effacer les filtres",
+        "onlyMyActivities": "Seulement mes activités",
+        "period": "Période",
+        "progressLabel": "Statut",
+        "progressLabelNone": "Aucun statut",
+        "responsible": "Responsable",
+        "responsibleNone": "Aucun responsables"
       }
     },
     "prompt": {
@@ -597,8 +607,6 @@
       },
       "dashboard": {
         "activities": "Activités",
-        "category": "Catégorie",
-        "clearFilters": "Effacer les filtres",
         "columns": {
           "category": "Catégorie",
           "number": "Numéro",
@@ -607,12 +615,6 @@
           "title": "Titre"
         },
         "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
-        "onlyMyActivities": "Seulement mes activités",
-        "period": "Période",
-        "progressLabel": "Statut",
-        "progressLabelNone": "Aucun statut",
-        "responsible": "Responsable",
-        "responsibleNone": "Aucun responsables",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },
       "invitation": {

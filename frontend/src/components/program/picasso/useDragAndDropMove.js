@@ -88,8 +88,8 @@ export function useDragAndDropMove(
       return
     }
 
-    // only move timed events
-    if (!entry || !timed) {
+    // only move timed events and non-filtered entries
+    if (!entry || !timed || !entry.filterMatch) {
       return
     }
 

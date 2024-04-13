@@ -402,6 +402,16 @@
           "location": "Location:",
           "responsible": "Responsible: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Category",
+        "clearFilters": "Clear filters",
+        "onlyMyActivities": "Only my activities",
+        "period": "Period",
+        "progressLabel": "State",
+        "progressLabelNone": "No state",
+        "responsible": "Responsible",
+        "responsibleNone": "No responsibles"
       }
     },
     "prompt": {
@@ -614,8 +624,6 @@
       },
       "dashboard": {
         "activities": "Activities",
-        "category": "Category",
-        "clearFilters": "Clear filters",
         "columns": {
           "category": "Category",
           "number": "Number",
@@ -624,12 +632,6 @@
           "title": "Title"
         },
         "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
-        "onlyMyActivities": "Only my activities",
-        "period": "Period",
-        "progressLabel": "State",
-        "progressLabelNone": "No state",
-        "responsible": "Responsible",
-        "responsibleNone": "No responsibles",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
       "invitation": {

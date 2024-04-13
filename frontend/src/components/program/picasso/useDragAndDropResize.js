@@ -83,6 +83,8 @@ export function useDragAndDropResize(enabled, update, maxTimestamp) {
 
   // start resize operation (needs to be called manually from resize handle)
   const startResize = (event) => {
+    if (!event.filterMatch) return
+
     resizedEntry = event
     originalEndTimestamp = event.endTimestamp
   }
