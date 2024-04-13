@@ -23,7 +23,7 @@
           v-on="on"
         >
           <template v-if="authUser">
-            <v-badge v-if="invitationCount > 0" color="red" dot overlap bordered>
+            <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>
               <user-avatar :user="authUser" :size="40" />
             </v-badge>
             <UserAvatar v-else :user="authUser" :size="40" />
@@ -164,9 +164,5 @@ export default {
 <style scoped>
 .v-badge:deep(.v-badge__badge::after) {
   border-color: red;
-  background-color: red;
-}
-.v-badge.v-badge--inline:deep(.v-badge__badge::after) {
-  z-index: -1;
 }
 </style>
