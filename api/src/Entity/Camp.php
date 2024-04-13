@@ -125,6 +125,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ORM\OneToMany(targetEntity: MaterialList::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $materialLists;
 
+    /**
+     * List all CampRootContentNodes of this Camp;
+     * Calculated by the View view_camp_root_content_node
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'camp')]
     public Collection $rootContentNodes;
 
@@ -362,6 +368,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         $this->progressLabels = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+        $this->rootContentNodes = new ArrayCollection();
     }
 
     /**
