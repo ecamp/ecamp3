@@ -141,7 +141,11 @@ import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdf
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
-import { processRouteQuery } from '@/helpers/querySyncHelper.js'
+import {
+  filterAndQueryAreEqual,
+  processRouteQuery,
+  transformValuesToHalId,
+} from '@/helpers/querySyncHelper.js'
 
 export default {
   name: 'CampProgram',
@@ -219,6 +223,11 @@ export default {
       return this.filteredPropertiesCount > 0
     },
   },
+  watch: {
+    'filter.category': 'persistRouterState',
+    'filter.responsible': 'persistRouterState',
+    'filter.progressLabel': 'persistRouterState',
+  },
   async mounted() {
     await Promise.all([
       this.camp()._meta.load,
@@ -232,10 +241,9 @@ export default {
     this.loading = false
 
     const queryFilters = processRouteQuery(this.$route.query)
-    this.filter = {
-      ...this.filter,
-      ...queryFilters,
-    }
+    Object.entries(queryFilters).forEach(([key, value]) => {
+      this.filter[key] = value
+    })
   },
   methods: {
     showUnlockReminder(move) {
@@ -269,6 +277,11 @@ export default {
               scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
             )))
       )
+    },
+    persistRouterState() {
+      const query = transformValuesToHalId(this.filter)
+      if (filterAndQueryAreEqual(query, this.$route.query)) return
+      this.$router.replace({ query }).catch((err) => console.warn(err))
     },
   },
 }
