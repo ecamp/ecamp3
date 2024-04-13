@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 
 trait FiltersByCampCollaboration {
@@ -37,15 +36,5 @@ trait FiltersByCampCollaboration {
         $queryBuilder->setParameter('current_user', $user);
         $queryBuilder->setParameter('established', CampCollaboration::STATUS_ESTABLISHED);
         $queryBuilder->setParameter('true', true);
-    }
-
-    public function queryBuilderAddParameters(QueryBuilder $target, QueryBuilder $source) {
-        $params = $source->getParameters();
-
-        foreach ($params->getKeys() as $key) {
-            /** @var Parameter */
-            $param = $params->get($key);
-            $target->setParameter($param->getName(), $param->getValue());
-        }
     }
 }

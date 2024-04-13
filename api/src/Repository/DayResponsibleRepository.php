@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Doctrine\QueryBuilderHelper;
 use App\Entity\Day;
 use App\Entity\DayResponsible;
 use App\Entity\User;
@@ -34,6 +35,6 @@ class DayResponsibleRepository extends ServiceEntityRepository implements CanFil
         $this->filterByCampCollaboration($dayQry, $user);
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.day", $dayQry->getDQL()));
-        $this->queryBuilderAddParameters($queryBuilder, $dayQry);
+        QueryBuilderHelper::copyParameters($queryBuilder, $dayQry);
     }
 }
