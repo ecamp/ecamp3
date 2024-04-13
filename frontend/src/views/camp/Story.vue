@@ -64,9 +64,7 @@ export default {
           {
             type: 'Story',
             options: {
-              periods: this.camp()
-                .periods()
-                .items.map((period) => period._meta.self),
+              periods: [this.period()._meta.self],
             },
           },
         ],
