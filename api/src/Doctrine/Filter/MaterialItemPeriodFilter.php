@@ -66,14 +66,13 @@ final class MaterialItemPeriodFilter extends AbstractFilter {
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
 
-        $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
-        $rootQry->from(MaterialItem::class, $materialItem)->select($materialItem);
-        $rootQry->join("{$materialItem}.periodMaterialItems", $periodMaterialItems);
-        $rootQry->where($queryBuilder->expr()->eq("{$periodMaterialItems}.period", ":{$periodParameterName}"));
+        $materialItemQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $materialItemQry->from(MaterialItem::class, $materialItem)->select($materialItem);
+        $materialItemQry->join("{$materialItem}.periodMaterialItems", $periodMaterialItems);
+        $materialItemQry->where($queryBuilder->expr()->eq("{$periodMaterialItems}.period", ":{$periodParameterName}"));
+        $materialItemQry->setParameter($periodParameterName, $period);
 
-        $rootQry->setParameter($periodParameterName, $period);
-
-        $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}", $rootQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
+        $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}", $materialItemQry->getDQL()));
+        QueryBuilderHelper::copyParameters($queryBuilder, $materialItemQry);
     }
 }
