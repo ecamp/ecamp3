@@ -98,7 +98,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'rootContentNode')]
-    public Collection $rootContentNodes;
+    public Collection $campRootContentNodes;
 
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $data = null;
@@ -154,7 +154,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     public function __construct() {
         parent::__construct();
         $this->children = new ArrayCollection();
-        $this->rootContentNodes = new ArrayCollection();
+        $this->campRootContentNodes = new ArrayCollection();
     }
 
     /**
