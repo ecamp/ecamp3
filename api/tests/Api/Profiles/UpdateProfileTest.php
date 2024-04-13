@@ -2,9 +2,15 @@
 
 namespace App\Tests\Api\Profiles;
 
+use _PHPStan_5473b6701\Nette\Neon\Exception;
+use App\Entity\Camp;
+use App\Entity\CampCollaboration;
 use App\Entity\Profile;
 use App\Tests\Api\ECampApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
  * @internal
@@ -88,6 +94,70 @@ class UpdateProfileTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'Extra attributes are not allowed ("email" is unknown).',
+        ]);
+    }
+
+    public function testPatchProfileCollectsPersonalInvitation() {
+
+        $client = static::createClientWithCredentials();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        $camp = $this->getEntityManager()->find(Camp::class, static::getFixture('campUnrelated')->getId());
+        $camp2 = $this->getEntityManager()->find(Camp::class, static::getFixture('campPrototype')->getId());
+
+        // create an invitation which will be claimed by the user
+        $invitation1 = new CampCollaboration();
+        $invitation1->camp = $camp;
+        $invitation1->status = CampCollaboration::STATUS_INVITED;
+        $invitation1->inviteEmail = 'test@example.com';
+        $invitation1->inviteKeyHash = '1234123412341234';
+        $invitation1->role = CampCollaboration::ROLE_MANAGER;
+        $this->getEntityManager()->persist($invitation1);
+
+        // create a rejected invitation which will not be claimed by the user
+        $invitation2 = new CampCollaboration();
+        $invitation2->camp = $camp2;
+        $invitation2->status = CampCollaboration::STATUS_INACTIVE;
+        $invitation2->inviteEmail = 'test@example.com';
+        $invitation2->inviteKeyHash = '2341234123412341';
+        $invitation2->role = CampCollaboration::ROLE_MANAGER;
+        $this->getEntityManager()->persist($invitation2);
+
+        // create an unrelated invitation which will not be claimed by the user
+        $invitation3 = new CampCollaboration();
+        $invitation3->camp = $camp;
+        $invitation3->status = CampCollaboration::STATUS_INVITED;
+        $invitation3->inviteEmail = 'someone-else@example.com';
+        $invitation3->inviteKeyHash = '3412341234123412';
+        $invitation3->role = CampCollaboration::ROLE_MANAGER;
+        $this->getEntityManager()->persist($invitation3);
+
+        $this->getEntityManager()->flush();
+
+        /** @var Profile $profile */
+        $profile = static::getFixture('profile1manager');
+
+        // when
+        $client->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'nickname' => 'Linux',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+
+        // then
+        $client->request('GET', '/personal_invitations');
+
+        // User has one personal invitation waiting for them
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [
+                    ['href' => "/personal_invitations/{$invitation1->getId()}"]
+                ],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
         ]);
     }
 
