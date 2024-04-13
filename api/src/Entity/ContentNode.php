@@ -93,7 +93,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
 
     /**
      * List all CampRootContentNodes of this ContentNode;
-     * Calculated by the View view_camp_root_content_node
+     * Calculated by the View view_camp_root_content_node.
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]

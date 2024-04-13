@@ -127,7 +127,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
 
     /**
      * List all CampRootContentNodes of this Camp;
-     * Calculated by the View view_camp_root_content_node
+     * Calculated by the View view_camp_root_content_node.
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
