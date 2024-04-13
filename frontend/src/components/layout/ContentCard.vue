@@ -32,10 +32,6 @@ Displays the content wrapped inside a card.
 
       <v-skeleton-loader v-if="!loaded" type="actions" />
       <slot v-else name="title-actions" />
-
-      <template v-if="$slots['title-extension']" #extension>
-        <slot name="title-extension" />
-      </template>
     </v-toolbar>
 
     <!-- main content -->
