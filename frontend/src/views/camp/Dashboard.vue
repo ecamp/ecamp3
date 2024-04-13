@@ -2,6 +2,16 @@
   <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
     <div class="d-flow-root">
       <ScheduleEntryFilters
+        v-if="loading"
+        key="loadingstate"
+        class="ma-4"
+        :loading-endpoints="true"
+        :camp="camp"
+        :periods="periods"
+      />
+      <ScheduleEntryFilters
+        v-else
+        key="filterstate"
         v-model="filter"
         class="ma-4"
         :loading-endpoints="loadingEndpoints"
@@ -244,10 +254,9 @@ export default {
     this.loading = false
 
     const queryFilters = processRouteQuery(this.$route.query)
-    this.filter = {
-      ...this.filter,
-      ...queryFilters,
-    }
+    Object.entries(queryFilters).forEach(([key, value]) => {
+      this.filter[key] = value
+    })
 
     this.camp()
       .periods()

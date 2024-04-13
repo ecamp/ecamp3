@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-wrap items-baseline" style="overflow-y: auto; gap: 10px">
     <BooleanFilter
-      v-if="!loadingEndpoints.campCollaborations"
+      v-if="loadingEndpoints !== true && loadingEndpoints.campCollaborations !== true"
       v-model="showOnlyMyActivities"
       :label="$tc('components.program.scheduleEntryFilters.onlyMyActivities')"
     />
@@ -14,7 +14,7 @@
     />
     <FilterDivider />
     <template v-if="!!periods">
-      <template v-if="!loadingEndpoints.periods">
+      <template v-if="loadingEndpoints !== true && loadingEndpoints.periods !== true">
         <SelectFilter
           v-if="multiplePeriods"
           v-model="value.period"
@@ -32,7 +32,7 @@
       />
     </template>
     <SelectFilter
-      v-if="!loadingEndpoints.campCollaborations"
+      v-if="loadingEndpoints !== true && loadingEndpoints.campCollaborations !== true"
       v-model="value.responsible"
       multiple
       and-filter
@@ -60,7 +60,7 @@
       width="130"
     />
     <SelectFilter
-      v-if="!loadingEndpoints.categories"
+      v-if="loadingEndpoints !== true && loadingEndpoints.categories !== true"
       v-model="value.category"
       multiple
       :items="categories"
@@ -80,7 +80,7 @@
       width="100"
     />
     <SelectFilter
-      v-if="!loadingEndpoints.progressLabels"
+      v-if="loadingEndpoints !== true && loadingEndpoints.progressLabels !== true"
       v-model="value.progressLabel"
       multiple
       :items="progressLabels"
@@ -133,7 +133,7 @@ export default {
   props: {
     value: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
     camp: {
       type: Function,
@@ -144,8 +144,8 @@ export default {
       default: null,
     },
     loadingEndpoints: {
-      type: Object,
-      required: true,
+      type: [Boolean, Object],
+      default: true,
     },
   },
   computed: {
@@ -215,9 +215,11 @@ export default {
     },
   },
   mounted() {
-    this.loadEndpointData('categories', 'category')
-    this.loadEndpointData('campCollaborations', 'responsible', true)
-    this.loadEndpointData('progressLabels', 'progressLabel', true)
+    if (this.loadingEndpoints !== true) {
+      this.loadEndpointData('categories', 'category')
+      this.loadEndpointData('campCollaborations', 'responsible', true)
+      this.loadEndpointData('progressLabels', 'progressLabel', true)
+    }
   },
   methods: {
     loadEndpointData(endpoint, filterKey, hasNone = false) {
