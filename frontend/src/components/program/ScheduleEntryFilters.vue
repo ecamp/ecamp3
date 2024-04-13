@@ -120,6 +120,7 @@ import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisp
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
 }
+
 export default {
   name: 'ScheduleEntryFilters',
   components: {
@@ -133,7 +134,12 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => ({}),
+      default: () => ({
+        period: null,
+        category: [],
+        responsible: [],
+        progressLabel: [],
+      }),
     },
     camp: {
       type: Function,
@@ -151,9 +157,6 @@ export default {
   computed: {
     multiplePeriods() {
       return this.periods && Object.keys(this.periods).length > 1
-    },
-    campCollaborationDisplayName(campCollaboration) {
-      return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
     ...mapGetters({
       loggedInUser: 'getLoggedInUser',
@@ -222,6 +225,9 @@ export default {
     }
   },
   methods: {
+    campCollaborationDisplayName(campCollaboration) {
+      return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
+    },
     loadEndpointData(endpoint, filterKey, hasNone = false) {
       this.camp()
         [endpoint]()
@@ -231,7 +237,7 @@ export default {
             collection.push('none')
           }
           this.value[filterKey] =
-            this.value[filterKey]?.filter((value) => collection.includes(value)) ?? null
+            this.value[filterKey].filter((value) => collection.includes(value)) ?? null
           this.loadingEndpoints[endpoint] = false
         })
     },
