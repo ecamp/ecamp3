@@ -58,15 +58,17 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
-const { error } = await useAsyncData('ScheduleEntry', async () => {
-  await Promise.all([
-    props.scheduleEntry._meta.load,
-    props.scheduleEntry.activity()._meta.load,
-    props.scheduleEntry.activity().rootContentNode()._meta.load,
-    props.scheduleEntry.activity().category()._meta.load,
-    props.scheduleEntry.period().camp().materialLists().$loadItems(),
-    // prettier-ignore
-    props.scheduleEntry.activity().activityResponsibles().$loadItems().then(
+const { error } = await useAsyncData(
+  `ScheduleEntry-${props.scheduleEntry._meta.self}`,
+  async () => {
+    await Promise.all([
+      props.scheduleEntry._meta.load,
+      props.scheduleEntry.activity()._meta.load,
+      props.scheduleEntry.activity().rootContentNode()._meta.load,
+      props.scheduleEntry.activity().category()._meta.load,
+      props.scheduleEntry.period().camp().materialLists().$loadItems(),
+      // prettier-ignore
+      props.scheduleEntry.activity().activityResponsibles().$loadItems().then(
         (activityResponsibles) => {
           return Promise.all(activityResponsibles.items.map((activityResponsible) => {
             if ( activityResponsible.campCollaboration().user === null) {
@@ -78,8 +80,9 @@ const { error } = await useAsyncData('ScheduleEntry', async () => {
           ))
         }
       ),
-  ])
-})
+    ])
+  }
+)
 </script>
 
 <script>
