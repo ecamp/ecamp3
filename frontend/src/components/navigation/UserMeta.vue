@@ -165,6 +165,8 @@ export default {
 .v-badge:deep(.v-badge__badge::after) {
   border-color: red;
   background-color: red;
+}
+.v-badge.v-badge--inline:deep(.v-badge__badge::after) {
   z-index: -1;
 }
 </style>
