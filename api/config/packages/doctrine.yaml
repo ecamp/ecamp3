@@ -27,3 +27,4 @@ doctrine:
                 
         schema_ignore_classes:
             - App\Entity\CampRootContentNode
+            - App\Entity\PeriodMaterialItem
