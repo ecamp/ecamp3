@@ -76,7 +76,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import Vue, { reactive, ref, toRefs, watch } from 'vue'
+import Vue, { reactive, ref, toRefs, watch, computed } from 'vue'
 import { useDragAndDropMove } from './useDragAndDropMove.js'
 import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
@@ -193,8 +193,8 @@ export default {
       emit('unlockReminder', move)
     }
 
-    const calenderStartTimestamp = utcStringToTimestamp(start.value)
-    const calendarEndTimestamp = utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS
+    const calenderStartTimestamp = computed(() => utcStringToTimestamp(start.value))
+    const calendarEndTimestamp = computed(() => utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS)
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
