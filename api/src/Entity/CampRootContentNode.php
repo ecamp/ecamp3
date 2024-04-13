@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'view_camp_root_content_nodes')]
 class CampRootContentNode {
     #[ORM\Id]
-    #[ORM\OneToOne(targetEntity: ContentNode::class, inversedBy: 'campRootContentNodes')]
+    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'campRootContentNodes')]
     public ContentNode $rootContentNode;
 
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'campRootContentNodes')]
