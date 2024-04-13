@@ -1,0 +1,13 @@
+App\Entity\Camp:
+  additionalCamp_{1..400}:
+    name:  <word()>
+    title: <word()>
+    motto: <sentence()>
+    addressName: <word()>
+    addressStreet: <address()>
+    addressZipcode: <postcode()>
+    addressCity: <city()>
+    owner: '@admin'
+    creator: '@admin'
+    isPrototype: false
+    campPrototypeId: null

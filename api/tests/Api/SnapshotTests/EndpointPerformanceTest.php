@@ -3,6 +3,7 @@
 namespace App\Tests\Api\SnapshotTests;
 
 use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -14,14 +15,16 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\equalTo;
 use function PHPUnit\Framework\greaterThanOrEqual;
-use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\lessThan;
 use function PHPUnit\Framework\lessThanOrEqual;
 use function PHPUnit\Framework\logicalAnd;
+
+const MAX_EXECUTION_TIME_SECONDS = 0.5;
 
 /**
  * @internal
  */
-class EndpointQueryCountTest extends ECampApiTestCase {
+class EndpointPerformanceTest extends ECampApiTestCase {
     /**
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -29,29 +32,35 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function testNumberOfQueriesDidNotChangeForStableEndpoints() {
+    public function testPerformanceDidNotChangeForStableEndpoints() {
         $numberOfQueries = [];
         $responseCodes = [];
+        $queryExecutionTime = [];
         $collectionEndpoints = self::getCollectionEndpoints();
         foreach ($collectionEndpoints as $collectionEndpoint) {
             if ('/users' !== $collectionEndpoint && !str_contains($collectionEndpoint, '/content_node')) {
-                list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
+                list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor($collectionEndpoint);
                 $responseCodes[$collectionEndpoint] = $statusCode;
                 $numberOfQueries[$collectionEndpoint] = $queryCount;
+                $queryExecutionTime[$collectionEndpoint] = $executionTimeSeconds;
             }
 
             if (!str_contains($collectionEndpoint, '/content_node')) {
                 $fixtureFor = $this->getFixtureFor($collectionEndpoint);
-                list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+                list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
                 $responseCodes["{$collectionEndpoint}/item"] = $statusCode;
                 $numberOfQueries["{$collectionEndpoint}/item"] = $queryCount;
+                $queryExecutionTime["{$collectionEndpoint}/item"] = $executionTimeSeconds;
             }
         }
 
         $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
-        assertThat($not200Responses, isEmpty());
+        assertThat($not200Responses, equalTo([]));
 
-        $this->assertMatchesSnapshot($numberOfQueries);
+        $endpointsWithTooLongExecutionTime = array_filter($queryExecutionTime, fn ($value) => MAX_EXECUTION_TIME_SECONDS < $value);
+        assertThat($endpointsWithTooLongExecutionTime, equalTo([]));
+
+        $this->assertMatchesSnapshot($numberOfQueries, new ECampYamlSnapshotDriver());
     }
 
     /**
@@ -63,6 +72,9 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      */
     #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeCollectionEndpoints(string $collectionEndpoint) {
+        if ('test' !== $this->getEnvironment()) {
+            self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
+        }
         list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
 
         assertThat($statusCode, equalTo(200));
@@ -86,13 +98,18 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      */
     #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeItemEndpoints(string $collectionEndpoint) {
+        if ('test' !== $this->getEnvironment()) {
+            self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
+        }
         if ('/content_nodes' === $collectionEndpoint) {
             self::markTestSkipped("{$collectionEndpoint} does not support get item endpoint");
         }
         $fixtureFor = $this->getFixtureFor($collectionEndpoint);
-        list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+        list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
 
         assertThat($statusCode, equalTo(200));
+
+        assertThat($executionTimeSeconds, lessThan(MAX_EXECUTION_TIME_SECONDS));
 
         $queryCountRanges = self::getContentNodeEndpointQueryCountRanges()[$collectionEndpoint.'/item'];
         assertThat(
@@ -119,8 +136,11 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         $statusCode = $response->getStatusCode();
         $collector = $client->getProfile()->getCollector('db');
         $queryCount = $collector->getQueryCount();
+        // because measurements below 0.03 are flaky, we do not record
+        // times below 0.03.
+        $executionTimeSeconds = max(0.03, round($collector->getTime(), 2));
 
-        return [$statusCode, $queryCount];
+        return [$statusCode, $queryCount, $executionTimeSeconds];
     }
 
     public static function getContentNodeEndpoints(): array {
@@ -136,6 +156,10 @@ class EndpointQueryCountTest extends ECampApiTestCase {
 
             return $newArray;
         });
+    }
+
+    protected function getSnapshotId(): string {
+        return $this->getEnvironment().'_'.parent::getSnapshotId();
     }
 
     private static function getContentNodeEndpointQueryCountRanges(): array {
@@ -194,5 +218,9 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         $fixtures = FixtureStore::getFixtures();
 
         return ReadItemFixtureMap::get($collectionEndpoint, $fixtures);
+    }
+
+    private function getEnvironment(): string {
+        return static::$kernel->getContainer()->getParameter('kernel.environment');
     }
 }
