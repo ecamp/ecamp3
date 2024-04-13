@@ -9,6 +9,8 @@ doctrine:
         types:
             datetime: App\Types\Doctrine\UTCDateTimeType
             date: App\Types\Doctrine\UTCDateType
+            
+        schema_filter: ~^(?!view_)~
 
     orm:
         auto_generate_proxy_classes: true
@@ -22,3 +24,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+                
+        schema_ignore_classes:
+            - App\Entity\CampRootContentNode
