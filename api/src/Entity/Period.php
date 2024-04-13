@@ -94,6 +94,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public Collection $materialItems;
 
     /**
+     * List of PeriodMaterailItems containing both
+     * direct: MaterialItem -> Period
+     * indirect: MaterialItem -> ContentNode -> Activity -> ScheduleEntry -> Period.
+     */
+    #[ORM\OneToMany(targetEntity: PeriodMaterialItem::class, mappedBy: 'period')]
+    public Collection $periodMaterialItems;
+
+    /**
      * The camp that this time period belongs to. Cannot be changed once the period is created.
      */
     #[Assert\Valid(groups: ['Period:delete'])]
@@ -164,6 +172,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->materialItems = new ArrayCollection();
+        $this->periodMaterialItems = new ArrayCollection();
     }
 
     /**
