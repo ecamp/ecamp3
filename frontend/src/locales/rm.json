@@ -323,6 +323,16 @@
           "location": "Lieu:",
           "responsible": "Responsabel: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Categoria",
+        "clearFilters": "Allontanar il filter",
+        "onlyMyActivities": "Mo mias activitads",
+        "period": "Part dal champ",
+        "progressLabel": "Status",
+        "progressLabelNone": "Nagin status",
+        "responsible": "Responsabel",
+        "responsibleNone": "Naginas persunas responsablas"
       }
     },
     "prompt": {
@@ -530,8 +540,6 @@
       },
       "dashboard": {
         "activities": "Activitads",
-        "category": "Categoria",
-        "clearFilters": "Allontanar il filter",
         "columns": {
           "category": "Categoria",
           "number": "Numer",
@@ -540,12 +548,6 @@
           "title": "Titel"
         },
         "noEntries": "Chattà naginas activitads. Emprova dad allontanar ils filters u rechargia la pagina.",
-        "onlyMyActivities": "Mo mias activitads",
-        "period": "Part dal champ",
-        "progressLabel": "Status",
-        "progressLabelNone": "Nagin status",
-        "responsible": "Responsabel",
-        "responsibleNone": "Naginas persunas responsablas",
         "welcome": "Bainvegni en tes nov champ. Anc n'èn vegnidas endatadas naginas activitads."
       },
       "invitation": {

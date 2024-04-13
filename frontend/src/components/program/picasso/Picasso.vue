@@ -104,7 +104,7 @@ export default {
 
     // collection of scheduleEntries
     scheduleEntries: {
-      type: Object,
+      type: Array,
       required: true,
     },
 
@@ -141,10 +141,14 @@ export default {
       default: null,
     },
 
-    // This should probably be done in ScheduleEntries and be used for Dashboard and CampProgram
-    filtered: {
+    filterSet: {
       type: Boolean,
       default: false,
+    },
+
+    reload: {
+      type: Function,
+      default: () => {},
     },
   },
 
@@ -156,7 +160,9 @@ export default {
 
   // composition API setup
   setup(props, { emit }) {
-    const { editable, scheduleEntries, start, end, filtered } = toRefs(props)
+    const { editable, scheduleEntries, start, end, filterSet } = toRefs(props)
+
+    const dragAndDropNewEnabled = computed(() => editable.value && !filterSet.value)
 
     const isSaving = ref(false)
 
@@ -214,7 +220,11 @@ export default {
       updateEntry,
       calendarEndTimestamp
     )
-    const dragAndDropNew = useDragAndDropNew(editable, updatePlaceholder, createEntry)
+    const dragAndDropNew = useDragAndDropNew(
+      dragAndDropNewEnabled,
+      updatePlaceholder,
+      createEntry
+    )
     const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
 
     // merge mouseleave handlers
@@ -238,16 +248,13 @@ export default {
     const events = ref([])
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
-      events.value = scheduleEntries.value.items.map((entry) => ({
+      events.value = scheduleEntries.value.map((entry) => ({
         ...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
         timed: true,
         isResizing: false,
         isMoving: false,
-
-        // just to show the effect
-        isFiltered: computed(() => filtered.value && Math.random() > 0.5),
       }))
 
       // add placeholder for drag & drop (create new entry)
@@ -260,7 +267,7 @@ export default {
 
     // reloads schedule entries from API + recreates event array after reload
     const reloadScheduleEntries = async () => {
-      await api.reload(scheduleEntries.value)
+      await props.reload()
       loadCalenderEventsFromScheduleEntries()
     }
 
@@ -396,6 +403,18 @@ export default {
       padding: 0;
       white-space: normal;
       border: none !important;
+
+      &:has(.e-picasso-entry--filtered) {
+        pointer-events: none;
+      }
+
+      &:has(.e-picasso-entry:not(.e-picasso-entry--filtered)) {
+        z-index: 1;
+
+        &:hover {
+          z-index: 2;
+        }
+      }
     }
 
     .v-calendar-daily__day-container {

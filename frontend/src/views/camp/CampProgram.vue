@@ -3,11 +3,15 @@ Show all activity schedule entries of a single period.
 -->
 
 <template>
-  <content-card :title="$tc('views.camp.campProgram.title')" toolbar>
+  <content-card
+    :title="$tc('views.camp.campProgram.title')"
+    toolbar
+    :no-border="$vuetify.breakpoint.mdAndUp && openFilter"
+  >
     <template #title-actions>
       <period-switcher :period="period" />
       <v-spacer />
-      <template v-if="$vuetify.breakpoint.mdAndUp">
+      <template v-if="$vuetify.breakpoint.smAndUp">
         <v-toolbar-items v-if="filterSet">
           <v-chip
             label
@@ -18,7 +22,7 @@ Show all activity schedule entries of a single period.
             @click="openFilter = !openFilter"
           >
             <v-icon left size="20">mdi-filter</v-icon>
-            1
+            {{ filteredPropertiesCount }}
           </v-chip>
         </v-toolbar-items>
         <v-chip
@@ -41,7 +45,15 @@ Show all activity schedule entries of a single period.
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-horizontal</v-icon>
+            <v-badge
+              v-if="!$vuetify.breakpoint.smAndUp && filteredPropertiesCount > 0"
+              overlap
+              offset-x="2"
+              dot
+            >
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-badge>
+            <v-icon v-else>mdi-dots-horizontal</v-icon>
           </v-btn>
         </template>
         <v-list class="py-0">
@@ -51,7 +63,6 @@ Show all activity schedule entries of a single period.
             @click="editMode = !editMode"
           />
           <v-list-item
-            v-if="!$vuetify.breakpoint.mdAndUp"
             :input-value="filterSet"
             :color="filterSet ? 'primary' : null"
             @click="openFilter = !openFilter"
@@ -63,7 +74,7 @@ Show all activity schedule entries of a single period.
               <v-list-item-title>Filter</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action v-if="filterSet">
-              <v-chip label color="primary">1</v-chip>
+              <v-badge inline color="primary" :content="filteredPropertiesCount" />
             </v-list-item-action>
           </v-list-item>
           <v-divider />
@@ -72,48 +83,35 @@ Show all activity schedule entries of a single period.
         </v-list>
       </v-menu>
     </template>
-    <template v-if="$vuetify.breakpoint.mdAndUp && openFilter" #title-extension>
-      <div
-        class="d-flex w-100 flex-wrap pb-4 justify-center"
-        style="overflow-y: auto; gap: 10px"
-      >
-        <BooleanFilter
-          label="Random entries"
-          :value="filterSet"
-          @input="filterSet = !filterSet"
-        />
-        <FilterDivider />
-        <BooleanFilter
-          :label="$tc('views.camp.dashboard.category')"
-          @input="notImplemented"
-        />
-        <BooleanFilter
-          :label="$tc('views.camp.dashboard.responsible')"
-          @input="notImplemented"
-        />
-        <v-chip v-if="filterSet" label outlined @click="filterSet = false">
-          <v-icon left>mdi-close</v-icon>
-          {{ $tc('views.camp.dashboard.clearFilters') }}
-        </v-chip>
-      </div>
+
+    <ScheduleEntryFilters
+      v-if="$vuetify.breakpoint.mdAndUp && openFilter"
+      v-model="filter"
+      class="ec-content-card__toolbar--border pb-4 justify-center"
+      :loading-endpoints="loadingEndpoints"
+      :camp="camp"
+    />
+    <template v-if="loading">
+      <v-skeleton-loader type="table" />
     </template>
-    <ScheduleEntries :period="period" :show-button="isContributor">
+    <ScheduleEntries
+      v-else
+      :period="period"
+      :show-button="isContributor"
+      :match-fn="match"
+    >
       <template #default="slotProps">
-        <template v-if="slotProps.loading">
-          <v-skeleton-loader type="table" />
-        </template>
-        <template v-else>
-          <Picasso
-            :schedule-entries="slotProps.scheduleEntries"
-            :period="period()"
-            :start="period().start"
-            :end="period().end"
-            :editable="editMode"
-            :filtered="filterSet"
-            @newEntry="slotProps.on.newEntry"
-            @unlockReminder="showUnlockReminder"
-          />
-        </template>
+        <Picasso
+          :schedule-entries="slotProps.scheduleEntries"
+          :reload="slotProps.reloadEntries"
+          :period="period()"
+          :start="period().start"
+          :end="period().end"
+          :editable="editMode"
+          :filter-set="filterSet"
+          @newEntry="slotProps.on.newEntry"
+          @unlockReminder="showUnlockReminder"
+        />
       </template>
     </ScheduleEntries>
     <v-snackbar v-model="showReminder" light class="mb-12">
@@ -122,30 +120,12 @@ Show all activity schedule entries of a single period.
     </v-snackbar>
     <v-bottom-sheet v-if="!$vuetify.breakpoint.mdAndUp" v-model="openFilter">
       <v-sheet class="text-center" height="200px">
-        <div
-          class="d-flex w-100 flex-wrap pa-4 align-baseline"
-          style="overflow-y: auto; gap: 10px"
-        >
-          Filter:
-          <BooleanFilter
-            label="Random entries"
-            :value="filterSet"
-            @input="filterSet = !filterSet"
-          />
-          <FilterDivider />
-          <BooleanFilter
-            :label="$tc('views.camp.dashboard.category')"
-            @input="notImplemented"
-          />
-          <BooleanFilter
-            :label="$tc('views.camp.dashboard.responsible')"
-            @input="notImplemented"
-          />
-          <v-chip v-if="filterSet" label outlined @click="filterSet = false">
-            <v-icon left>mdi-close</v-icon>
-            {{ $tc('views.camp.dashboard.clearFilters') }}
-          </v-chip>
-        </div>
+        <ScheduleEntryFilters
+          v-model="filter"
+          class="pa-4"
+          :loading-endpoints="loadingEndpoints"
+          :camp="camp"
+        />
       </v-sheet>
     </v-bottom-sheet>
   </content-card>
@@ -160,14 +140,13 @@ import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListIt
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
-import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
-import FilterDivider from '@/components/dashboard/FilterDivider.vue'
+import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
+import { processRouteQuery } from '@/helpers/querySyncHelper.js'
 
 export default {
   name: 'CampProgram',
   components: {
-    FilterDivider,
-    BooleanFilter,
+    ScheduleEntryFilters,
     DownloadNuxtPdf,
     DownloadClientPdf,
     PeriodSwitcher,
@@ -186,16 +165,27 @@ export default {
       showReminder: false,
       reminderText: null,
       openFilter: false,
-      filterSet: false,
+      loading: true,
+      loadingEndpoints: {
+        categories: true,
+        periods: true,
+        campCollaborations: true,
+        progressLabels: true,
+      },
+      filter: {
+        category: [],
+        responsible: [],
+        progressLabel: [],
+      },
     }
   },
   computed: {
     camp() {
-      return this.period().camp()
+      return this.period().camp
     },
     printConfig() {
       return {
-        camp: this.period().camp()._meta.self,
+        camp: this.camp()._meta.self,
         language: this.$store.state.lang.language,
         documentName: this.camp.title + '-picasso.pdf',
         contents: [
@@ -211,15 +201,41 @@ export default {
     },
     editMode: {
       get() {
-        return this.$store.getters.getPicassoEditMode(this.camp._meta.self)
+        return this.$store.getters.getPicassoEditMode(this.camp()._meta.self)
       },
       set(value) {
         this.$store.commit('setPicassoEditMode', {
-          campUri: this.camp._meta.self,
+          campUri: this.camp()._meta.self,
           editMode: value,
         })
       },
     },
+    filteredPropertiesCount() {
+      return Object.values(this.filter).filter((item) =>
+        Array.isArray(item) ? item.length : !!item
+      ).length
+    },
+    filterSet() {
+      return this.filteredPropertiesCount > 0
+    },
+  },
+  async mounted() {
+    await Promise.all([
+      this.camp()._meta.load,
+      this.period().scheduleEntries()._meta.load,
+      this.camp().activities()._meta.load,
+      this.camp().categories()._meta.load,
+      this.period().days()._meta.load,
+      this.period().dayResponsibles()._meta.load,
+    ])
+
+    this.loading = false
+
+    const queryFilters = processRouteQuery(this.$route.query)
+    this.filter = {
+      ...this.filter,
+      ...queryFilters,
+    }
   },
   methods: {
     showUnlockReminder(move) {
@@ -228,8 +244,31 @@ export default {
         : this.$tc('views.camp.campProgram.reminderLockedCreate')
       this.showReminder = true
     },
-    notImplemented() {
-      alert('not implemented')
+    match(scheduleEntry) {
+      return (
+        this.filteredPropertiesCount === 0 ||
+        ((this.filter.category === null ||
+          this.filter.category.length === 0 ||
+          this.filter.category.includes(
+            scheduleEntry.activity().category()._meta.self
+          )) &&
+          (this.filter.responsible === null ||
+            this.filter.responsible.length === 0 ||
+            this.filter.responsible?.every((responsible) =>
+              scheduleEntry
+                .activity()
+                .activityResponsibles()
+                .items.map((responsible) => responsible.campCollaboration()._meta.self)
+                .includes(responsible)
+            ) ||
+            (this.filter.responsible[0] === 'none' &&
+              scheduleEntry.activity().activityResponsibles().items.length === 0)) &&
+          (this.filter.progressLabel === null ||
+            this.filter.progressLabel.length === 0 ||
+            this.filter.progressLabel?.includes(
+              scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
+            )))
+      )
     },
   },
 }

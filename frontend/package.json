@@ -159,7 +159,7 @@
       "vue/no-mutating-props": [
         "error",
         {
-          "shallowOnly": false
+          "shallowOnly": true
         }
       ]
     },
