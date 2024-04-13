@@ -15,7 +15,6 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\equalTo;
 use function PHPUnit\Framework\greaterThanOrEqual;
-use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\lessThan;
 use function PHPUnit\Framework\lessThanOrEqual;
 use function PHPUnit\Framework\logicalAnd;
@@ -56,7 +55,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         }
 
         $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
-        assertThat($not200Responses, isEmpty());
+        assertThat($not200Responses, equalTo([]));
 
         $endpointsWithTooLongExecutionTime = array_filter($queryExecutionTime, fn ($value) => MAX_EXECUTION_TIME_SECONDS < $value);
         assertThat($endpointsWithTooLongExecutionTime, equalTo([]));
