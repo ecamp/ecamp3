@@ -1,15 +1,23 @@
 <template>
-  <v-list class="py-0">
+  <div>
+    <v-card-text v-if="invitations.items.length === 0">
+      <p>
+        {{
+          $tc('components.personalInvitations.personalInvitations.noOpenInvitations', 0, {
+            email: authUser.profile().email,
+          })
+        }}
+      </p>
+    </v-card-text>
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-list-item v-for="invitation in invitations.items" :key="invitation._meta.self">
         <v-list-item-content>
           <v-list-item-title>{{ invitation.campTitle }}</v-list-item-title>
         </v-list-item-content>
         <v-list-item-action>
-          <PromptPersonalInvitationReject
+          <DialogPersonalInvitationReject
             :entity="invitation"
             :camp-title="invitation.campTitle"
-            align="right"
             @submit="rejectInvitation(invitation)"
           >
             <template #activator="{ on }">
@@ -17,7 +25,7 @@
                 {{ $tc('components.personalInvitations.personalInvitations.reject') }}
               </v-btn>
             </template>
-          </PromptPersonalInvitationReject>
+          </DialogPersonalInvitationReject>
         </v-list-item-action>
         <v-list-item-action>
           <v-btn color="primary" @click="acceptInvitation(invitation)">
@@ -35,10 +43,9 @@
         </template>
         <v-list-item>
           <v-list-item-action>
-            <PromptPersonalInvitationReject
+            <DialogPersonalInvitationReject
               :entity="invitation"
               :camp-title="invitation.campTitle"
-              align="left"
               @submit="rejectInvitation(invitation)"
             >
               <template #activator="{ on }">
@@ -46,7 +53,7 @@
                   {{ $tc('components.personalInvitations.personalInvitations.reject') }}
                 </v-btn>
               </template>
-            </PromptPersonalInvitationReject>
+            </DialogPersonalInvitationReject>
           </v-list-item-action>
           <v-spacer />
           <v-list-item-action>
@@ -57,12 +64,13 @@
         </v-list-item>
       </v-list-group>
     </template>
-  </v-list>
+  </div>
 </template>
 <script>
 import { errorToMultiLineToast } from '../toast/toasts.js'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
-import PromptPersonalInvitationReject from './PromptPersonalInvitationReject.vue'
+import DialogPersonalInvitationReject from './DialogPersonalInvitationReject.vue'
+import { mapGetters } from 'vuex'
 
 const ignoreNavigationFailure = (e) => {
   if (!isNavigationFailure(e, NavigationFailureType.redirected)) {
@@ -72,11 +80,14 @@ const ignoreNavigationFailure = (e) => {
 
 export default {
   name: 'PersonalInvitations',
-  components: { PromptPersonalInvitationReject },
+  components: { DialogPersonalInvitationReject },
   computed: {
     invitations() {
       return this.api.get().personalInvitations()
     },
+    ...mapGetters({
+      authUser: 'getLoggedInUser',
+    }),
   },
   methods: {
     acceptInvitation(invitation) {

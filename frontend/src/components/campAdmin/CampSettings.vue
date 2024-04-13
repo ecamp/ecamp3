@@ -6,24 +6,12 @@ Displays details on a single camp and allows to edit them.
   <content-group :title="$tc('components.campAdmin.campSettings.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else class="mt-3">
-      <api-form :entity="camp()">
-        <api-text-field
-          fieldname="name"
-          :name="$tc('entity.camp.fields.name')"
-          vee-rules="required"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="title"
-          :name="$tc('entity.camp.fields.title')"
-          vee-rules="required"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="motto"
-          :name="$tc('entity.camp.fields.motto')"
-          :disabled="disabled"
-        />
+      <api-form :entity="camp()" name="camp">
+        <api-text-field path="name" vee-rules="required" :disabled="disabled" />
+
+        <api-text-field path="title" vee-rules="required" :disabled="disabled" />
+
+        <api-text-field path="motto" :disabled="disabled" />
       </api-form>
     </div>
   </content-group>

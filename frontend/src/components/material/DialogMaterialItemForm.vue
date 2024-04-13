@@ -1,19 +1,15 @@
 <template>
-  <div>
+  <e-form name="materialItem">
     <e-text-field
       v-model.number="localMaterialItem.quantity"
-      :name="$tc('entity.materialItem.fields.quantity')"
+      path="quantity"
       inputmode="numeric"
       autofocus
     />
-    <e-text-field
-      v-model="localMaterialItem.unit"
-      :name="$tc('entity.materialItem.fields.unit')"
-      maxlength="32"
-    />
+    <e-text-field v-model="localMaterialItem.unit" path="unit" maxlength="32" />
     <e-text-field
       v-model="localMaterialItem.article"
-      :name="$tc('entity.materialItem.fields.article')"
+      path="article"
       vee-rules="required"
       maxlength="64"
     />
@@ -21,11 +17,10 @@
       v-model="localMaterialItem.materialList"
       dense
       vee-rules="required"
-      :name="$tc('entity.materialList.name')"
-      fieldname="materialList"
+      :label="$tc('entity.materialList.name')"
       :items="materialListArray"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>

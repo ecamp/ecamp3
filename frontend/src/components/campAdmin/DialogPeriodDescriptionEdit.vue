@@ -12,14 +12,14 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div>
+    <e-form name="period">
       <e-text-field
         v-model="entityData.description"
-        :name="$tc('entity.period.fields.description')"
+        path="description"
         autofocus
         vee-rules="required"
       />
-    </div>
+    </e-form>
   </dialog-form>
 </template>
 

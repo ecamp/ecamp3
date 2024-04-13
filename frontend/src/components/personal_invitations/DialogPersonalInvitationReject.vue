@@ -1,20 +1,24 @@
 <template>
-  <PopoverPrompt
+  <DialogForm
     v-model="showDialog"
     type="error"
+    icon="mdi-email"
+    :title="
+      $tc(
+        'components.personalInvitations.dialogPersonalInvitationReject.rejectInvitation'
+      )
+    "
     :error="error"
     :submit-action="submitAction"
     :submit-label="
       $tc(
-        'components.personalInvitations.promptPersonalInvitationReject.rejectInvitation'
+        'components.personalInvitations.dialogPersonalInvitationReject.rejectInvitation'
       )
     "
     submit-color="error"
     submit-icon="mdi-cancel"
     cancel-icon=""
     :cancel-action="close"
-    position="top"
-    :align="align"
     v-bind="$attrs"
   >
     <template #activator="scope">
@@ -23,7 +27,7 @@
     <slot>
       {{
         $tc(
-          'components.personalInvitations.promptPersonalInvitationReject.warningText',
+          'components.personalInvitations.dialogPersonalInvitationReject.warningText',
           0,
           { campTitle: campTitle }
         )
@@ -34,21 +38,20 @@
         {{ error }}
       </slot>
     </template>
-  </PopoverPrompt>
+  </DialogForm>
 </template>
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import PopoverPrompt from '@/components/prompt/PopoverPrompt.vue'
+import DialogForm from '@/components/dialog/DialogForm.vue'
 
 export default {
-  name: 'PromptPersonalInvitationReject',
-  components: { PopoverPrompt },
+  name: 'DialogPersonalInvitationReject',
+  components: { DialogForm },
   extends: DialogBase,
   props: {
     entity: { type: Object, required: true },
     campTitle: { type: String, required: true },
-    align: { type: String, required: true },
   },
   created() {
     this.entityUri = this.entity._meta.self

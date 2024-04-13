@@ -259,9 +259,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Inviti",
         "logOut": "Disconnettiti",
         "myCamps": "I miei campi",
         "profile": "Profilo"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Rifiuta l'invito",
+        "warningText": "Volete davvero declinare l'invito al campo \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Nessun invito aperto. L'invito è stato inviato a un indirizzo diverso da \"{email}\"?"
       }
     },
     "print": {
@@ -424,6 +434,7 @@
       "open": "Aprire",
       "remove": "Rimuovere",
       "rename": "Rinominare",
+      "reset": "Reset",
       "save": "Salvare",
       "saving": "Salvataggio",
       "search": "Ricerca",
@@ -650,6 +661,9 @@
       "sideBarCategory": {
         "title": "Categorie"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Inviti"
     },
     "material": {
       "materialLists": {

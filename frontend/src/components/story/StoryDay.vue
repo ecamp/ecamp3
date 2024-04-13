@@ -44,7 +44,7 @@
                 auto-grow
                 dense
                 :readonly="!editMode"
-                fieldname="data.html"
+                path="data.html"
                 aria-label="Erfassen"
                 label=""
               />

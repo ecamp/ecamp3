@@ -224,9 +224,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitaziuns",
         "logOut": "Sortir",
         "myCamps": "Mes champ",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Refusar l'invit",
+        "warningText": "Vulais Vus propi refusar l'invitaziun al champ \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Naginas invitaziuns avertas. È l'invitaziun vegnida tramessa ad in'autra adressa che \"{email}\"?"
       }
     },
     "print": {
@@ -388,6 +398,7 @@
       "open": "Avrir",
       "remove": "Allontanar",
       "rename": "Renumnar",
+      "reset": "Reparter",
       "save": "Memorisar",
       "saving": "Memorisà",
       "search": "Tschertgar",
@@ -620,6 +631,9 @@
       "sideBarCategory": {
         "title": "Categorias"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitaziuns"
     },
     "material": {
       "materialOverview": {

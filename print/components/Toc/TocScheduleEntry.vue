@@ -15,10 +15,13 @@ const props = defineProps({
   scheduleEntry: { type: Object, required: true },
 })
 
-const { error } = await useAsyncData('TocScheduleEntry', async () => {
-  await Promise.all([
-    props.scheduleEntry._meta.load,
-    props.scheduleEntry.activity()._meta.load,
-  ])
-})
+const { error } = await useAsyncData(
+  `TocScheduleEntry-${props.scheduleEntry._meta.self}`,
+  async () => {
+    await Promise.all([
+      props.scheduleEntry._meta.load,
+      props.scheduleEntry.activity()._meta.load,
+    ])
+  }
+)
 </script>

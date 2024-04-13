@@ -16,7 +16,7 @@
         </v-col>
       </v-row>
       <transition-group name="transition-list" tag="div" class="row no-gutters">
-        <form-schedule-entry-item
+        <FormScheduleEntryItem
           v-for="scheduleEntry in scheduleEntriesWithoutDeleted"
           :key="scheduleEntry.key"
           class="transition-list-item pa-0 mb-4"

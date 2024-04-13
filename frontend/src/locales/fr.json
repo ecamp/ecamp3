@@ -267,9 +267,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitations",
         "logOut": "Se déconnecter",
         "myCamps": "Mes camps",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Refuser l'invitation",
+        "warningText": "Tu veux vraiment refuser l'invitation au camp \"{campTitle}\" ?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Aucune invitation ouverte. L'invitation a-t-elle été envoyée à une autre adresse que \"{email}\" ?"
       }
     },
     "print": {
@@ -441,6 +451,7 @@
       "open": "Ouvrir",
       "remove": "Retirer",
       "rename": "Renommer",
+      "reset": "Réinitialiser",
       "save": "Sauvegarder",
       "saving": "En cours de sauvegarde",
       "search": "Rechercher",
@@ -670,6 +681,9 @@
       "sideBarCategory": {
         "title": "Catégories"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitations"
     },
     "material": {
       "materialLists": {

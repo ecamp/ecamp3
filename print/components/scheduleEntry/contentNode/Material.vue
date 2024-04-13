@@ -23,9 +23,12 @@ const props = defineProps({
   contentNode: { type: Object, required: true },
 })
 
-const { error } = await useAsyncData('ContentNodeMaterial', async () => {
-  await props.contentNode.materialItems().$loadItems()
-})
+const { error } = await useAsyncData(
+  `ContentNodeMaterial-${props.contentNode._meta.self}`,
+  async () => {
+    await props.contentNode.materialItems().$loadItems()
+  }
+)
 </script>
 
 <script>
