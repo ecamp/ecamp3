@@ -6,6 +6,7 @@ use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
+use App\Doctrine\QueryBuilderHelper;
 use App\Entity\Activity;
 use App\Entity\ContentNode;
 use App\Repository\FiltersByCampCollaboration;
@@ -80,6 +81,6 @@ final class ContentNodePeriodFilter extends AbstractFilter {
         $rootQry->setParameter($periodParameterName, $period);
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.root", $rootQry->getDQL()));
-        $this->queryBuilderAddParameters($queryBuilder, $rootQry);
+        QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Doctrine\QueryBuilderHelper;
 use App\Entity\ContentNode;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
@@ -25,6 +26,6 @@ trait FiltersByContentNode {
         $this->filterByCampCollaboration($rootQry, $user);
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$contentNodeAlias}.root", $rootQry->getDQL()));
-        $this->queryBuilderAddParameters($queryBuilder, $rootQry);
+        QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
     }
 }
