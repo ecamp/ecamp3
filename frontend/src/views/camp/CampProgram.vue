@@ -12,7 +12,7 @@ Show all activity schedule entries of a single period.
       <period-switcher :period="period" />
       <v-spacer />
       <template v-if="$vuetify.breakpoint.smAndUp">
-        <v-toolbar-items v-if="filterSet">
+        <v-toolbar-items v-if="isFilterSet">
           <v-chip
             label
             outlined
@@ -63,8 +63,8 @@ Show all activity schedule entries of a single period.
             @click="editMode = !editMode"
           />
           <v-list-item
-            :input-value="filterSet"
-            :color="filterSet ? 'primary' : null"
+            :input-value="isFilterSet"
+            :color="isFilterSet ? 'primary' : null"
             @click="openFilter = !openFilter"
           >
             <v-list-item-icon>
@@ -73,7 +73,7 @@ Show all activity schedule entries of a single period.
             <v-list-item-content>
               <v-list-item-title>Filter</v-list-item-title>
             </v-list-item-content>
-            <v-list-item-action v-if="filterSet">
+            <v-list-item-action v-if="isFilterSet">
               <v-badge inline color="primary" :content="filteredPropertiesCount" />
             </v-list-item-action>
           </v-list-item>
@@ -108,7 +108,7 @@ Show all activity schedule entries of a single period.
           :start="period().start"
           :end="period().end"
           :editable="editMode"
-          :filter-set="filterSet"
+          :is-filter-set="isFilterSet"
           @newEntry="slotProps.on.newEntry"
           @unlockReminder="showUnlockReminder"
         />
@@ -219,7 +219,7 @@ export default {
         Array.isArray(item) ? item.length : !!item
       ).length
     },
-    filterSet() {
+    isFilterSet() {
       return this.filteredPropertiesCount > 0
     },
   },

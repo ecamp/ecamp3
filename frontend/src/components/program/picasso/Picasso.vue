@@ -141,7 +141,7 @@ export default {
       default: null,
     },
 
-    filterSet: {
+    isFilterSet: {
       type: Boolean,
       default: false,
     },
@@ -160,9 +160,9 @@ export default {
 
   // composition API setup
   setup(props, { emit }) {
-    const { editable, scheduleEntries, start, end, filterSet } = toRefs(props)
+    const { editable, scheduleEntries, start, end, isFilterSet } = toRefs(props)
 
-    const dragAndDropNewEnabled = computed(() => editable.value && !filterSet.value)
+    const dragAndDropNewEnabled = computed(() => editable.value && !isFilterSet.value)
 
     const isSaving = ref(false)
 
