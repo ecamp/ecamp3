@@ -95,6 +95,9 @@
     v-else
     class="e-picasso-entry e-piasso-entry--link"
     :to="scheduleEntryRoute"
+    :class="{
+      'e-picasso-entry--filtered': !scheduleEntry.filterMatch,
+    }"
     :style="colorStyles"
   >
     <h4 class="e-picasso-entry__title">

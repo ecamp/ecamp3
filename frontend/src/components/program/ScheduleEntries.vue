@@ -42,7 +42,7 @@ export default {
   props: {
     period: { type: Function, required: true },
     showButton: { type: Boolean, required: true },
-    matchFn: { type: Function, required: false, default: () => false },
+    matchFn: { type: Function, required: false, default: () => true },
   },
   data() {
     return {
