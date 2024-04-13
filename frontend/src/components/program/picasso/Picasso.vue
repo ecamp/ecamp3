@@ -194,7 +194,9 @@ export default {
     }
 
     const calenderStartTimestamp = computed(() => utcStringToTimestamp(start.value))
-    const calendarEndTimestamp = computed(() => utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS)
+    const calendarEndTimestamp = computed(
+      () => utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS
+    )
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
