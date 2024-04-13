@@ -468,6 +468,7 @@
       "open": "Öffnen",
       "remove": "Entfernen",
       "rename": "Umbenennen",
+      "reset": "Zurücksetzen",
       "save": "Speichern",
       "saving": "Speichert",
       "search": "Suchen",
@@ -535,7 +536,6 @@
         "title": "Lagerinfos"
       },
       "print": {
-        "reset": "Zurücksetzen",
         "title": "Lager drucken"
       },
       "sideBarAdmin": {

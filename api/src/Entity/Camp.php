@@ -126,6 +126,13 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $materialLists;
 
     /**
+     * List all CampRootContentNodes of this Camp;
+     * Calculated by the View view_camp_root_content_node.
+     */
+    #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'camp')]
+    public Collection $campRootContentNodes;
+
+    /**
      * The id of the camp that was used as a template for creating this camp. Internal for now, is
      * not published through the API.
      */
@@ -359,6 +366,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         $this->progressLabels = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+        $this->campRootContentNodes = new ArrayCollection();
     }
 
     /**

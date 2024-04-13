@@ -91,6 +91,15 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
 
+    /**
+     * List all CampRootContentNodes of this ContentNode;
+     * Calculated by the View view_camp_root_content_node.
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'rootContentNode')]
+    public Collection $campRootContentNodes;
+
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $data = null;
 
@@ -145,6 +154,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     public function __construct() {
         parent::__construct();
         $this->children = new ArrayCollection();
+        $this->campRootContentNodes = new ArrayCollection();
     }
 
     /**

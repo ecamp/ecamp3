@@ -52,7 +52,6 @@ export default {
   props: {
     entity: { type: Object, required: true },
     campTitle: { type: String, required: true },
-    align: { type: String, required: true },
   },
   created() {
     this.entityUri = this.entity._meta.self

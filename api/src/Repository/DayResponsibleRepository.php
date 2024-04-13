@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use App\Doctrine\QueryBuilderHelper;
+use App\Entity\Day;
 use App\Entity\DayResponsible;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -24,9 +26,16 @@ class DayResponsibleRepository extends ServiceEntityRepository implements CanFil
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.day", 'day');
-        $queryBuilder->innerJoin('day.period', 'period');
-        $queryBuilder->innerJoin('period.camp', 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+
+        $dayQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $dayQry->from(Day::class, 'day')
+            ->select('day')
+            ->innerJoin('day.period', 'period')
+            ->innerJoin('period.camp', 'camp')
+        ;
+        $this->filterByCampCollaboration($dayQry, $user);
+
+        $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.day", $dayQry->getDQL()));
+        QueryBuilderHelper::copyParameters($queryBuilder, $dayQry);
     }
 }
