@@ -9,6 +9,8 @@ doctrine:
         types:
             datetime: App\Types\Doctrine\UTCDateTimeType
             date: App\Types\Doctrine\UTCDateType
+            
+        schema_filter: ~^(?!view_)~
 
     orm:
         auto_generate_proxy_classes: true

@@ -91,6 +91,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
 
+    #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'rootContentNode')]
+    public Collection $rootContentNodes;
+
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $data = null;
 

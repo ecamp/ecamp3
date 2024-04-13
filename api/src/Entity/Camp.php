@@ -125,6 +125,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ORM\OneToMany(targetEntity: MaterialList::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $materialLists;
 
+    #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'camp')]
+    public Collection $rootContentNodes;
+
     /**
      * The id of the camp that was used as a template for creating this camp. Internal for now, is
      * not published through the API.
