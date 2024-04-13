@@ -13,13 +13,16 @@ const props = defineProps({
   contentNode: { type: Object, required: true },
 })
 
-const { error } = await useAsyncData('ContentNode', async () => {
-  await Promise.all([
-    props.contentNode._meta.load,
-    props.contentNode.children().$loadItems(),
-    props.contentNode.contentType()._meta.load,
-  ])
-})
+const { error } = await useAsyncData(
+  `ContentNode-${props.contentNode._meta.self}`,
+  async () => {
+    await Promise.all([
+      props.contentNode._meta.load,
+      props.contentNode.children().$loadItems(),
+      props.contentNode.contentType()._meta.load,
+    ])
+  }
+)
 </script>
 
 <script>

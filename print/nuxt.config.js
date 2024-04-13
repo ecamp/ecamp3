@@ -48,9 +48,12 @@ export default defineNuxtConfig({
     ],
   ],
 
-  experimental: {
+  features: {
     // deactivates injecting nuxt Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     noScripts: true,
+  },
+  routeRules: {
+    '/**': { experimentalNoScripts: true },
   },
 
   /**
