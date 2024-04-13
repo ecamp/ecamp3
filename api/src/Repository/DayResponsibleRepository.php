@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\DayResponsible;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,7 +22,7 @@ class DayResponsibleRepository extends ServiceEntityRepository implements CanFil
         parent::__construct($registry, DayResponsible::class);
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.day", 'day');
         $queryBuilder->innerJoin('day.period', 'period');
