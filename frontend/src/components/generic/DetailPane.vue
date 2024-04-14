@@ -33,7 +33,7 @@ import DialogBottomSheet from '@/components/dialog/DialogBottomSheet.vue'
 import DialogUiBase from '@/components/dialog/DialogUiBase.vue'
 
 export default {
-  name: 'DetailPane',
+  name: 'DetailEdit',
   components: { DialogBottomSheet, DialogForm },
   extends: DialogUiBase,
 }

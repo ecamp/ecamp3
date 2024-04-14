@@ -20,14 +20,6 @@
           }
         }
       },
-      "dialog": {
-        "dialogActivityEdit": {
-          "title": "Modificare l'actività"
-        },
-        "formScheduleEntryList": {
-          "name": "Programmato"
-        }
-      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Deve essere vuoto per essere eliminato"
       },
@@ -355,6 +347,13 @@
       }
     },
     "program": {
+      "formScheduleEntryItem": {
+        "end": "Fine",
+        "start": "Inizio"
+      },
+      "formScheduleEntryList": {
+        "name": "Programmato"
+      },
       "periodSwitcher": {
         "title": "Scegli il periodo"
       },

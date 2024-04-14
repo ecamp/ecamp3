@@ -27,14 +27,6 @@
         "granted": "You can now paste copied activities.",
         "title": "Copy & paste activity"
       },
-      "dialog": {
-        "dialogActivityEdit": {
-          "title": "Edit activity"
-        },
-        "formScheduleEntryList": {
-          "name": "Scheduled"
-        }
-      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Must be empty to delete"
       },
@@ -388,6 +380,13 @@
         "copyPasteActivity": "Copy & paste activity",
         "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
         "pasteActivity": "paste activity"
+      },
+      "formScheduleEntryItem": {
+        "end": "End",
+        "start": "Start"
+      },
+      "formScheduleEntryList": {
+        "name": "Scheduled"
       },
       "periodSwitcher": {
         "title": "Choose period"
