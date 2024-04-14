@@ -200,7 +200,6 @@
         "title": "Invite people"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
         "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
         "delete": "Do you really want to remove collaborator '{name}'?",
