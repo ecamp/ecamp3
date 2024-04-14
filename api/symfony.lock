@@ -209,9 +209,6 @@
             "fixtures/.gitignore"
         ]
     },
-    "http-interop/http-factory-guzzle": {
-        "version": "1.2.0"
-    },
     "jean85/pretty-package-versions": {
         "version": "2.0.5"
     },
@@ -320,9 +317,6 @@
     },
     "php-http/message": {
         "version": "1.13.0"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
     },
     "php-http/promise": {
         "version": "1.1.0"
@@ -451,9 +445,6 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
-    },
-    "sentry/sdk": {
-        "version": "3.1.1"
     },
     "sentry/sentry": {
         "version": "3.4.0"
