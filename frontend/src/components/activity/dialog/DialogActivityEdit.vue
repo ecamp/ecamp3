@@ -19,6 +19,7 @@
     </template>
     <DialogActivityForm
       :activity="entityData"
+      :current-schedule-entry="scheduleEntry"
       :period="scheduleEntry.period"
       :hide-location="hideHeaderFields"
     />

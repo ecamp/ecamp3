@@ -50,7 +50,7 @@
       </v-col>
 
       <v-col cols="1" class="pt-3 text-center">
-        <button-delete v-if="!isLastItem" icon-only @click="$emit('delete')" />
+        <button-delete v-if="deletable" icon-only @click="$emit('delete')" />
       </v-col>
     </v-row>
   </v-container>
@@ -82,9 +82,9 @@ export default {
     },
 
     // true if current item is the last scheduleEntry
-    isLastItem: {
+    deletable: {
       type: Boolean,
-      required: true,
+      required: false,
     },
   },
   data() {
