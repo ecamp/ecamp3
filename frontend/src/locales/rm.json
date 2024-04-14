@@ -17,6 +17,14 @@
           "title": "Propi stizzar?"
         }
       },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Modifitgar l'activitad"
+        },
+        "formScheduleEntryList": {
+          "name": "Termins planisads"
+        }
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Sto esser vid per stizzar"
       },
@@ -312,13 +320,6 @@
       }
     },
     "program": {
-      "formScheduleEntryItem": {
-        "end": "Fin",
-        "start": "Entschatta"
-      },
-      "formScheduleEntryList": {
-        "name": "Termins planisads"
-      },
       "periodSwitcher": {
         "title": "Tscherner ina part dal champ"
       },

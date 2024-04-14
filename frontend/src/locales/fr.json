@@ -27,6 +27,14 @@
         "granted": "Vous pouvez maintenant coller les activités copiées.",
         "title": "Copier et coller une activité"
       },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Modifier l'activité"
+        },
+        "formScheduleEntryList": {
+          "name": "Dates planifiées"
+        }
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Doit être vide pour être supprimé"
       },
