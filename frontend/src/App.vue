@@ -8,51 +8,14 @@
     <v-main>
       <router-view />
     </v-main>
-
-    <!-- footer -->
-    <v-footer v-if="$vuetify.breakpoint.mdAndUp" app color="grey lighten-5">
-      <small
-        >eCamp
-        <a v-if="version" :href="versionLink" target="_blank">
-          {{ version }}
-        </a>
-        <span class="ml-1">{{ deploymentTime }}</span></small
-      >
-      <v-spacer />
-      <language-switcher v-if="isDev" />
-    </v-footer>
   </v-app>
 </template>
 
 <script>
-import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import VueI18n from '@/plugins/i18n'
-import { parseTemplate } from 'url-template'
-import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
-  components: { LanguageSwitcher },
-  computed: {
-    deploymentTime() {
-      const timestamp = getEnv().DEPLOYMENT_TIME
-      const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
-      return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
-    },
-    version() {
-      return getEnv().VERSION || ''
-    },
-    versionLink() {
-      return (
-        parseTemplate(getEnv().VERSION_LINK_TEMPLATE).expand({
-          version: this.version,
-        }) || '#'
-      )
-    },
-    isDev() {
-      return getEnv().FEATURE_DEVELOPER ?? false
-    },
-  },
   created() {
     this.$store.commit('setLanguage', this.$store.state.lang.language)
   },
