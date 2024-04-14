@@ -41,6 +41,7 @@
     <FormScheduleEntryList
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
+      :current-schedule-entry="currentScheduleEntry"
       :period="period"
       :periods="camp.periods().items"
     />
@@ -67,6 +68,10 @@ export default {
     // currently visible period
     period: {
       type: Function,
+      required: true,
+    },
+    currentScheduleEntry: {
+      type: Object,
       required: true,
     },
     autoselectTitle: {

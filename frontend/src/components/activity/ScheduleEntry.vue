@@ -168,7 +168,11 @@ Displays a single scheduleEntry
             <table>
               <thead>
                 <tr>
-                  <th scope="col" class="text-right pb-2 pr-4">
+                  <th
+                    v-if="category.numberingStyle !== '-'"
+                    scope="col"
+                    class="text-right pb-2 pr-4"
+                  >
                     {{ $tc('entity.scheduleEntry.fields.nr') }}
                   </th>
                   <th scope="col" class="text-left pb-2 pr-4">
@@ -184,8 +188,20 @@ Displays a single scheduleEntry
                   v-for="scheduleEntryItem in scheduleEntries"
                   :key="scheduleEntryItem._meta.self"
                 >
-                  <th class="text-right tabular-nums pb-2 pr-4">
-                    {{ scheduleEntryItem.number }}
+                  <th
+                    v-if="category.numberingStyle !== '-'"
+                    class="text-right tabular-nums pb-2 pr-4"
+                  >
+                    <RouterLink
+                      v-if="scheduleEntryItem._meta.self !== scheduleEntry()._meta.self"
+                      :to="scheduleEntryRoute(scheduleEntryItem)"
+                      class="e-title-link"
+                    >
+                      {{ scheduleEntryItem.number }}
+                    </RouterLink>
+                    <template v-else>
+                      {{ scheduleEntryItem.number }}
+                    </template>
                   </th>
                   <td class="text-left tabular-nums pb-2 pr-4">
                     {{
@@ -196,7 +212,19 @@ Displays a single scheduleEntry
                     {{ dateShort(scheduleEntryItem.start) }}
                   </td>
                   <td class="text-left tabular-nums pb-2 pr-0">
-                    {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                    <RouterLink
+                      v-if="
+                        category.numberingStyle === '-' &&
+                        scheduleEntryItem._meta.self !== scheduleEntry()._meta.self
+                      "
+                      :to="scheduleEntryRoute(scheduleEntryItem)"
+                      class="e-title-link"
+                    >
+                      {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                    </RouterLink>
+                    <template v-else>
+                      {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                    </template>
                   </td>
                 </tr>
               </tbody>
@@ -404,6 +432,7 @@ export default {
           this.$toast.error(errorToMultiLineToast(e))
         })
     },
+    scheduleEntryRoute,
     countContentNodes(contentType) {
       return this.contentNodes.items.filter((cn) => {
         return cn.contentType().id === contentType.id
