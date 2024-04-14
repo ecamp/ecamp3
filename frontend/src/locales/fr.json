@@ -463,9 +463,7 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      },
-      "help": "Aide",
-      "news": "Actualités"
+      }
     },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
