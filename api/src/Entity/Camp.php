@@ -75,6 +75,13 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $collaborations;
 
     /**
+     * UserCamp Collections
+     * Based von view_user_camps; lists all user who can see this camp.
+     */
+    #[ORM\OneToMany(targetEntity: UserCamp::class, mappedBy: 'camp')]
+    public Collection $userCamps;
+
+    /**
      * The time periods of the camp, there must be at least one. Periods in a camp may not overlap.
      * When creating a camp, the initial periods may be specified as nested payload, but updating,
      * adding or removing periods later should be done through the period endpoints.
@@ -361,6 +368,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public function __construct() {
         parent::__construct();
         $this->collaborations = new ArrayCollection();
+        $this->userCamps = new ArrayCollection();
         $this->periods = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->progressLabels = new ArrayCollection();
