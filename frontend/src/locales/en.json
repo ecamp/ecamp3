@@ -381,6 +381,9 @@
         "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
         "pasteActivity": "paste activity"
       },
+      "dialogActivityEdit": {
+        "title": "Edit activity"
+      },
       "formScheduleEntryItem": {
         "end": "End",
         "start": "Start"

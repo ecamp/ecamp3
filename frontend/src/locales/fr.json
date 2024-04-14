@@ -364,6 +364,9 @@
         "copySourceInfo": "Vous pouvez coller ici l'URL d'une activité pour copier son contenu.",
         "pasteActivity": "coller l'activité"
       },
+      "dialogActivityEdit": {
+        "title": "Modifier l'activité"
+      },
       "formScheduleEntryItem": {
         "end": "Fin",
         "start": "Début"
