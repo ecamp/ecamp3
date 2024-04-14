@@ -54,6 +54,13 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             }
         }
 
+        foreach ($this->getPerformanceCriticalUrls() as $url => $id) {
+            list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor($url.$id);
+            $responseCodes[$url] = $statusCode;
+            $numberOfQueries[$url] = $queryCount;
+            $queryExecutionTime[$url] = $executionTimeSeconds;
+        }
+
         $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
         assertThat($not200Responses, equalTo([]));
 
@@ -212,6 +219,25 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         });
 
         return $normalEndpoints;
+    }
+
+    private function getPerformanceCriticalUrls(): array {
+        return [
+            '/activities?camp=' => urlencode($this->getIriFor('camp1')),
+            '/activity_progress_labels?camp=' => urlencode($this->getIriFor('camp1')),
+            '/activity_responsibles?activity.camp=' => urlencode($this->getIriFor('camp1')),
+            '/camp_collaborations?camp=' => urlencode($this->getIriFor('camp1')),
+            '/camp_collaborations?activityResponsibles.activity=' => urlencode($this->getIriFor('activity1')),
+            '/categories?camp=' => urlencode($this->getIriFor('camp1')),
+            '/content_types?categories=' => urlencode($this->getIriFor('category1')),
+            '/day_responsibles?day.period=' => urlencode($this->getIriFor('period1')),
+            '/material_items?materialList=' => urlencode($this->getIriFor('materialList1')),
+            '/material_items?materialNode=' => urlencode($this->getIriFor('materialNode1')),
+            '/material_items?period=' => urlencode($this->getIriFor('period1')),
+            '/material_lists?camp=' => urlencode($this->getIriFor('camp1')),
+            '/profiles?user.collaboration.camp=' => urlencode($this->getIriFor('camp1')),
+            '/schedule_entries?period=' => urlencode($this->getIriFor('period1')),
+        ];
     }
 
     private function getFixtureFor(string $collectionEndpoint) {
