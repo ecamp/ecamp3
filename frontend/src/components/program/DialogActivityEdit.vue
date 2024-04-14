@@ -1,7 +1,6 @@
 <template>
   <dialog-form
     v-model="showDialog"
-    :title="$tc('components.activity.dialog.dialogActivityEdit.title')"
     :loading="loading"
     :error="error"
     icon="mdi-calendar-plus"
@@ -15,13 +14,15 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <template #moreActions>
-      <slot name="moreActions" />
+      <v-btn
+        v-if="!scheduleEntry.tmpEvent"
+        color="primary"
+        :to="scheduleEntryRoute(scheduleEntry)"
+      >
+        {{ $tc('global.button.open') }}
+      </v-btn>
     </template>
-    <DialogActivityForm
-      :activity="entityData"
-      :period="scheduleEntry.period"
-      :hide-location="hideHeaderFields"
-    />
+    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period" />
   </dialog-form>
 </template>
 
@@ -29,6 +30,7 @@
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
+import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'DialogActivityEdit',
@@ -36,10 +38,6 @@ export default {
   extends: DialogBase,
   props: {
     scheduleEntry: { type: Object, required: true },
-    hideHeaderFields: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -48,11 +46,11 @@ export default {
     }
   },
   computed: {
-    activity() {
-      return this.scheduleEntry.activity()
-    },
     scheduleEntries() {
       return this.activity.scheduleEntries()
+    },
+    activity() {
+      return this.scheduleEntry.activity()
     },
   },
   watch: {
@@ -114,9 +112,6 @@ export default {
 
       // patch activity entity
       const activityPayload = { ...this.entityData }
-      if (this.hideHeaderFields) {
-        delete activityPayload.location
-      }
       delete activityPayload.scheduleEntries
       promises.push(this.api.patch(this.entityUri, activityPayload))
 
@@ -132,6 +127,7 @@ export default {
       this.close()
       this.$emit('activityUpdated', data)
     },
+    scheduleEntryRoute,
   },
 }
 </script>
