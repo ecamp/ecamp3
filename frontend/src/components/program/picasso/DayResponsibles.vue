@@ -135,7 +135,7 @@ export default {
       )
       newItems.forEach((campCollaborationIRI) => {
         promises.push(
-          this.dayResponsibles.$post({
+          this.api.post('/day_responsibles', {
             day: this.day._meta.self,
             campCollaboration: campCollaborationIRI,
           })
