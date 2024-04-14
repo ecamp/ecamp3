@@ -115,6 +115,7 @@ export default {
   async mounted() {
     await Promise.all([
       this.period.camp().campCollaborations()._meta.load,
+      this.dayResponsibles._meta.load,
       this.period.days().$reload(),
     ])
 
@@ -124,18 +125,19 @@ export default {
     this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
   },
   methods: {
-    onInput() {
+    async onInput() {
       const promises = []
       this.errorMessages = []
       this.isSaving = true
 
       // add new items
+      const dayReponsiblesIri = await this.api.href(this.api.get(), 'dayResponsibles')
       const newItems = this.selectedCampCollaborations.filter(
         (item) => !this.oldSelectedCampCollaborations.includes(item)
       )
       newItems.forEach((campCollaborationIRI) => {
         promises.push(
-          this.dayResponsibles.$post({
+          this.api.post(dayReponsiblesIri, {
             day: this.day._meta.self,
             campCollaboration: campCollaborationIRI,
           })
