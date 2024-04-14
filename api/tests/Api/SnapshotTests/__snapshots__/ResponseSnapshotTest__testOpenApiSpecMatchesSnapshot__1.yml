@@ -13231,71 +13231,6 @@ components:
           example: test
           type: string
       type: object
-    Day-read:
-      deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
-      properties:
-        dayOffset:
-          description: "The 0-based offset in days from the period's start date when this day starts."
-          example: '1'
-          readOnly: true
-          type: integer
-        dayResponsibles:
-          description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
-        end:
-          description: 'The end date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-03T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        number:
-          description: 'The 1-based cardinal number of the day in the period. Not unique within the camp.'
-          example: '2'
-          readOnly: true
-          type: integer
-        period:
-          description: 'The time period that this day belongs to.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntries:
-          description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
-          example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
-          readOnly: true
-          type: array
-        start:
-          description: 'The start date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-      required:
-        - dayOffset
-        - dayResponsibles
-        - period
-      type: object
     Day-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
       description: ''
@@ -13307,10 +13242,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
+          example: '["/day_responsibles/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13374,7 +13312,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible-read_Day.DayResponsibles'
           readOnly: true
-          type: unknown_type
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13432,75 +13370,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
-        end:
-          description: 'The end date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-03T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        number:
-          description: 'The 1-based cardinal number of the day in the period. Not unique within the camp.'
-          example: '2'
-          readOnly: true
-          type: integer
-        period:
-          description: 'The time period that this day belongs to.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntries:
-          description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
-          example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
+          example: '["/day_responsibles/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
           type: array
-        start:
-          description: 'The start date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-      required:
-        - dayOffset
-        - dayResponsibles
-        - period
-      type: object
-    Day.jsonapi-read:
-      deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
-      properties:
-        dayOffset:
-          description: "The 0-based offset in days from the period's start date when this day starts."
-          example: '1'
-          readOnly: true
-          type: integer
-        dayResponsibles:
-          description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13558,10 +13434,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
+          example: '["/day_responsibles/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13625,7 +13504,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible.jsonapi-read_Day.DayResponsibles'
           readOnly: true
-          type: unknown_type
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13683,84 +13562,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
-        end:
-          description: 'The end date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-03T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        number:
-          description: 'The 1-based cardinal number of the day in the period. Not unique within the camp.'
-          example: '2'
-          readOnly: true
-          type: integer
-        period:
-          description: 'The time period that this day belongs to.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntries:
-          description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
-          example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
+          example: '["/day_responsibles/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
           type: array
-        start:
-          description: 'The start date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-      required:
-        - dayOffset
-        - dayResponsibles
-        - period
-      type: object
-    Day.jsonhal-read:
-      deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
-      properties:
-        _links:
-          properties:
-            self:
-              properties:
-                href:
-                  format: iri-reference
-                  type: string
-              type: object
-          type: object
-        dayOffset:
-          description: "The 0-based offset in days from the period's start date when this day starts."
-          example: '1'
-          readOnly: true
-          type: integer
-        dayResponsibles:
-          description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13827,10 +13635,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
+          example: '["/day_responsibles/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13903,7 +13714,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible.jsonhal-read_Day.DayResponsibles'
           readOnly: true
-          type: unknown_type
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -13970,81 +13781,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
-        end:
-          description: 'The end date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-03T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          maxLength: 16
-          readOnly: true
-          type: string
-        number:
-          description: 'The 1-based cardinal number of the day in the period. Not unique within the camp.'
-          example: '2'
-          readOnly: true
-          type: integer
-        period:
-          description: 'The time period that this day belongs to.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntries:
-          description: "All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff)."
-          example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00'
+          example: '["/day_responsibles/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
             format: iri-reference
             type: string
           readOnly: true
           type: array
-        start:
-          description: 'The start date and time of the day. This is a read-only convenience property.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date
-          readOnly: true
-          type:
-            - 'null'
-            - string
-      required:
-        - dayOffset
-        - dayResponsibles
-        - period
-      type: object
-    Day.jsonld-read:
-      deprecated: false
-      description: |-
-        A day in a time period of a camp. This is represented as a reference to the time period
-        along with a number of days offset from the period's starting date. This is to make it
-        easier to move the whole periods to different dates. Days are created automatically when
-        creating or updating periods, and are not writable through the API directly.
-      properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        dayOffset:
-          description: "The 0-based offset in days from the period's start date when this day starts."
-          example: '1'
-          readOnly: true
-          type: integer
-        dayResponsibles:
-          description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
-          readOnly: true
-          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -14125,10 +13868,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
+          example: '["/day_responsibles/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -14215,7 +13961,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible.jsonld-read_Day.DayResponsibles'
           readOnly: true
-          type: unknown_type
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -14296,10 +14042,13 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: /days/1a2b3c4d/day_responsibles
-          format: iri-reference
+          example: '["/day_responsibles/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -17270,10 +17019,13 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: /periods/1a2b3c4d/days
-          format: iri-reference
+          example: '["/days?period=/periods/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -17309,10 +17061,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -17358,7 +17113,7 @@ components:
           items:
             $ref: '#/components/schemas/Day-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -17394,10 +17149,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -17447,7 +17205,7 @@ components:
           items:
             $ref: '#/components/schemas/Day-read_Period.Camp_Period.Days'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -17483,10 +17241,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -17614,10 +17375,13 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: /periods/1a2b3c4d/days
-          format: iri-reference
+          example: '["/days?period=/periods/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -17653,10 +17417,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -17702,7 +17469,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonapi-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -17738,10 +17505,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -17791,7 +17561,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonapi-read_Period.Camp_Period.Days'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -17827,10 +17597,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -17967,10 +17740,13 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: /periods/1a2b3c4d/days
-          format: iri-reference
+          example: '["/days?period=/periods/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -18006,10 +17782,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -18064,7 +17843,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -18100,10 +17879,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -18162,7 +17944,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonhal-read_Period.Camp_Period.Days'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -18198,10 +17980,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -18323,10 +18108,13 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: /periods/1a2b3c4d/days
-          format: iri-reference
+          example: '["/days?period=/periods/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -18362,10 +18150,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -18434,7 +18225,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -18470,10 +18261,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -18546,7 +18340,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonld-read_Period.Camp_Period.Days'
           readOnly: true
-          type: unknown_type
+          type: array
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -18582,10 +18376,13 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: /periods/1a2b3c4d/schedule_entries
-          format: iri-reference
+          example: '["/schedule_entries/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
           readOnly: true
-          type: string
+          type: array
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -29349,120 +29146,6 @@ paths:
       tags:
         - Day
     parameters: []
-  '/days/{dayId}/day_responsibles':
-    get:
-      deprecated: false
-      description: 'Retrieves the collection of DayResponsible resources.'
-      operationId: api_days_dayIdday_responsibles_get_collection
-      parameters:
-        -
-          allowEmptyValue: false
-          allowReserved: false
-          deprecated: false
-          description: 'DayResponsible identifier'
-          explode: false
-          in: path
-          name: dayId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: day
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: day.period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'day.period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'day[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-      responses:
-        200:
-          content:
-            application/hal+json:
-              schema:
-                properties:
-                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/DayResponsible.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
-                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
-                  itemsPerPage: { minimum: 0, type: integer }
-                  totalItems: { minimum: 0, type: integer }
-                required:
-                  - _embedded
-                  - _links
-                type: object
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/DayResponsible-read'
-                type: array
-            application/ld+json:
-              schema:
-                properties:
-                  'hydra:member': { items: { $ref: '#/components/schemas/DayResponsible.jsonld-read' }, type: array }
-                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
-                  'hydra:totalItems': { minimum: 0, type: integer }
-                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
-                required:
-                  - 'hydra:member'
-                type: object
-            application/vnd.api+json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/DayResponsible.jsonapi-read'
-                type: array
-            text/html:
-              schema:
-                items:
-                  $ref: '#/components/schemas/DayResponsible-read'
-                type: array
-          description: 'DayResponsible collection'
-      summary: 'Retrieves the collection of DayResponsible resources.'
-      tags:
-        - DayResponsible
-    parameters: []
   '/days/{id}':
     get:
       deprecated: false
@@ -30456,330 +30139,6 @@ paths:
       summary: 'Updates the Period resource.'
       tags:
         - Period
-  '/periods/{periodId}/days':
-    get:
-      deprecated: false
-      description: 'Retrieves the collection of Day resources.'
-      operationId: api_periods_periodIddays_get_collection
-      parameters:
-        -
-          allowEmptyValue: false
-          allowReserved: false
-          deprecated: false
-          description: 'Day identifier'
-          explode: false
-          in: path
-          name: periodId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-      responses:
-        200:
-          content:
-            application/hal+json:
-              schema:
-                properties:
-                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/Day.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
-                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
-                  itemsPerPage: { minimum: 0, type: integer }
-                  totalItems: { minimum: 0, type: integer }
-                required:
-                  - _embedded
-                  - _links
-                type: object
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Day-read'
-                type: array
-            application/ld+json:
-              schema:
-                properties:
-                  'hydra:member': { items: { $ref: '#/components/schemas/Day.jsonld-read' }, type: array }
-                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
-                  'hydra:totalItems': { minimum: 0, type: integer }
-                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
-                required:
-                  - 'hydra:member'
-                type: object
-            application/vnd.api+json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Day.jsonapi-read'
-                type: array
-            text/html:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Day-read'
-                type: array
-          description: 'Day collection'
-      summary: 'Retrieves the collection of Day resources.'
-      tags:
-        - Day
-    parameters: []
-  '/periods/{periodId}/schedule_entries':
-    get:
-      deprecated: false
-      description: 'Retrieves the collection of ScheduleEntry resources.'
-      operationId: api_periods_periodIdschedule_entries_get_collection
-      parameters:
-        -
-          allowEmptyValue: false
-          allowReserved: false
-          deprecated: false
-          description: 'ScheduleEntry identifier'
-          explode: false
-          in: path
-          name: periodId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: activity
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[strictly_after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[strictly_before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[strictly_after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[strictly_before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'activity[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-      responses:
-        200:
-          content:
-            application/hal+json:
-              schema:
-                properties:
-                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/ScheduleEntry.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
-                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
-                  itemsPerPage: { minimum: 0, type: integer }
-                  totalItems: { minimum: 0, type: integer }
-                required:
-                  - _embedded
-                  - _links
-                type: object
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/ScheduleEntry-read'
-                type: array
-            application/ld+json:
-              schema:
-                properties:
-                  'hydra:member': { items: { $ref: '#/components/schemas/ScheduleEntry.jsonld-read' }, type: array }
-                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
-                  'hydra:totalItems': { minimum: 0, type: integer }
-                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
-                required:
-                  - 'hydra:member'
-                type: object
-            application/vnd.api+json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/ScheduleEntry.jsonapi-read'
-                type: array
-            text/html:
-              schema:
-                items:
-                  $ref: '#/components/schemas/ScheduleEntry-read'
-                type: array
-          description: 'ScheduleEntry collection'
-      summary: 'Retrieves the collection of ScheduleEntry resources.'
-      tags:
-        - ScheduleEntry
-    parameters: []
   /personal_invitations:
     get:
       deprecated: false

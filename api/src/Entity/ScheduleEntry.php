@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
@@ -43,13 +42,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             security: 'is_authenticated()'
         ),
-        new GetCollection(
-            uriTemplate: self::PERIOD_SUBRESOURCE_URI_TEMPLATE,
-            uriVariables: [
-                'periodId' => new Link(toProperty: 'period', fromClass: Period::class),
-            ],
-            security: 'is_fully_authenticated()',
-        ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
@@ -69,8 +61,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['startOffset'])]
 #[ORM\Index(columns: ['endOffset'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
-    public const PERIOD_SUBRESOURCE_URI_TEMPLATE = '/periods/{periodId}/schedule_entries{._format}';
-
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
         'swagger_definition_name' => 'read',
