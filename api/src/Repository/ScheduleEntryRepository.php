@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\ScheduleEntry;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -33,7 +34,7 @@ class ScheduleEntryRepository extends ServiceEntityRepository implements CanFilt
         return $qb;
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.activity", 'activity');
         $queryBuilder->innerJoin('activity.camp', 'camp');

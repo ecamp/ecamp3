@@ -67,6 +67,9 @@ class GoogleAuthenticator extends OAuth2Authenticator {
                     $profile->surname = $googleUser->getLastName();
                     $user = new User();
                     $user->profile = $profile;
+                }
+
+                if (in_array($user->state, [null, User::STATE_NONREGISTERED, User::STATE_REGISTERED])) {
                     $user->state = User::STATE_ACTIVATED;
                 }
 

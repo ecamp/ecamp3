@@ -48,7 +48,7 @@ function createConfig(overrides) {
 
   const propsData = {
     value: 'Test Value',
-    fieldname: 'testField',
+    path: 'testField',
     uri: '/testEntity/123',
     label: 'Test Field',
   }
@@ -130,7 +130,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
   test('calls api.patch after onInput was triggered', async () => {
     const newValue = 'new value'
-    const newValueFromApi = 'NEW VALUE'
+    const newValueFromApi = 'new value'
 
     await vm.onInput(newValue)
 
@@ -148,13 +148,13 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // saving started
     expect(vm.isSaving).toBe(true)
-    expect(vm.dirty).toBe(false)
+    expect(vm.dirty).toBe(true)
     expect(vm.status).toBe('saving')
 
     // API patch method called
     expect(apiPatch).toBeCalledTimes(1)
     expect(apiPatch).toBeCalledWith(config.propsData.uri, {
-      [config.propsData.fieldname]: newValue,
+      [config.propsData.path]: newValue,
     })
 
     resolvePatch({})
@@ -163,6 +163,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     await wrapper.setProps({ value: newValueFromApi })
     await wrapper.vm.$nextTick()
     expect(vm.localValue).toBe(newValueFromApi)
+    expect(vm.dirty).toBe(false)
 
     // success state
     expect(vm.status).toBe('success')
@@ -291,7 +292,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     apiGet = vi.spyOn(config.mocks.api, 'get')
 
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: 'api value',
+      [config.propsData.path]: 'api value',
       _meta: {
         load: Promise.resolve(),
       },
@@ -302,12 +303,12 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     wrapper?.destroy()
   })
 
-  test('loads value from API (fieldname = primitive value)', async () => {
+  test('loads value from API (path = primitive value)', async () => {
     // given
     const loadingValue = () => ({})
     loadingValue.loading = true
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: loadingValue,
+      [config.propsData.path]: loadingValue,
       _meta: {
         loading: true,
         load: Promise.resolve(),
@@ -324,7 +325,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
     // given
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: 'api value',
+      [config.propsData.path]: 'api value',
       _meta: {
         load: Promise.resolve(),
       },
@@ -344,7 +345,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     const loadingValue = () => ({})
     loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: loadingValue,
+      [config.propsData.path]: loadingValue,
       _meta: {
         load: Promise.reject(new Error('loading error')),
         loading: true,
@@ -363,12 +364,12 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     expect(vm.errorMessages[0]).toMatch('loading error')
   })
 
-  test('loads IRI from API (fieldname = embedded entity)', async () => {
+  test('loads IRI from API (path = embedded entity)', async () => {
     // given
     const loadingValue = () => ({})
     loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: loadingValue,
+      [config.propsData.path]: loadingValue,
       _meta: {
         load: Promise.resolve(),
         loading: true,
@@ -379,7 +380,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     vm = wrapper.vm
 
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: () => ({
+      [config.propsData.path]: () => ({
         _meta: {
           self: '/iri/5',
         },
@@ -398,12 +399,12 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     expect(vm.localValue).toBe('/iri/5')
   })
 
-  test('loads array of IRIs from API (fieldname = embedded collection)', async () => {
+  test('loads array of IRIs from API (path = embedded collection)', async () => {
     // given
     const loadingValue = () => ({})
     loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: loadingValue,
+      [config.propsData.path]: loadingValue,
       _meta: {
         load: Promise.resolve(),
         loading: true,
@@ -414,7 +415,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     vm = wrapper.vm
 
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: () => ({
+      [config.propsData.path]: () => ({
         items: [
           {
             _meta: {

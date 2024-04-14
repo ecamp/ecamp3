@@ -1,0 +1,6 @@
+App\Entity\Period:
+  additionalPeriod_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    description: Hauptlager
+    start: '<(new DateTime("2021-01-01"))>'
+    end: '<(new DateTime("2021-01-01"))>'

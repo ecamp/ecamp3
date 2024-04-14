@@ -53,6 +53,7 @@ export default {
       localValue: null,
       parsedLocalValue: null,
       isSaving: false,
+      isPreSaving: false,
       isLoading: false,
       isMounted: false,
       showIconSuccess: false,
@@ -67,6 +68,7 @@ export default {
         reset: this.reset,
         reload: this.reload,
         input: this.onInput,
+        blur: this.onBlur,
       },
     }
   },
@@ -105,15 +107,15 @@ export default {
         // return value from API unless `value` is set explicitly
       } else {
         const resource = this.api.get(this.uri)
-        let val = get(resource, this.fieldname)
+        let val = get(resource, this.path)
 
         // resource is loaded, but val is still undefined (=doesn't exist)
         if (val === undefined) {
           console.error(
-            'You are trying to use a fieldname ' +
-              this.fieldname +
+            'You are trying to use a path ' +
+              this.path +
               ' in an ApiFormComponent, but ' +
-              this.fieldname +
+              this.path +
               " doesn't exist on entity " +
               this.uri
           )
@@ -172,9 +174,16 @@ export default {
       this.localValue = newValue
       this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
       this.dirty = this.parsedLocalValue !== this.apiValue
+      this.isPreSaving = true
 
       if (this.autoSave) {
         this.debouncedSave()
+      }
+    },
+    async onBlur() {
+      if (!(this.isSaving || this.isPreSaving) && this.autoSave) {
+        this.localValue = this.apiValue
+        this.parsedLocalValue = this.parse ? this.parse(this.apiValue) : this.apiValue
       }
     },
     // reload data from API (doesn't force loading from server if available locally)
@@ -196,12 +205,12 @@ export default {
     },
     reset() {
       this.localValue = this.apiValue
+      this.dirty = false
       this.resetErrors()
       this.$emit('reseted')
       this.$emit('finished')
     },
     resetErrors() {
-      this.dirty = false
       this.hasLoadingError = false
       this.hasServerError = false
       this.serverErrorMessage = null
@@ -229,11 +238,12 @@ export default {
 
       // reset all dirty flags and start saving
       this.resetErrors()
+      this.isPreSaving = false
       this.isSaving = true
 
       // construct payload (nested path allowed)
       const payload = {}
-      set(payload, this.fieldname, this.parsedLocalValue)
+      set(payload, this.path, this.parsedLocalValue)
 
       this.api.patch(this.uri, payload).then(
         () => {
@@ -247,7 +257,7 @@ export default {
         },
         (error) => {
           this.isSaving = false
-          this.serverErrorMessage = serverErrorToString(error, this.fieldname)
+          this.serverErrorMessage = serverErrorToString(error, this.path)
           this.hasServerError = true
         }
       )

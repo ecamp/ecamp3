@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <e-form name="materialList">
     <e-text-field
       v-model="localMaterialList.name"
-      :name="$tc('entity.materialList.fields.name')"
+      path="name"
       autofocus
       vee-rules="required"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>

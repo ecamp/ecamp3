@@ -41,10 +41,38 @@ security:
 
     access_control:
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
-        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: PUBLIC_ACCESS } # Some endpoints are available to unauthenticated clients
+        - { path: ^/?$, roles: PUBLIC_ACCESS } # Without /, the frontend does not know how to login
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS } # Endpoint to login
+        - { path: ^/auth, roles: PUBLIC_ACCESS } # OAuth and resend password endpoints
+        - { path: ^/content_types, roles: PUBLIC_ACCESS } # Content types is more or less static and the same for all camps
+        - { path: ^/invitations/.*/(find|reject), roles: PUBLIC_ACCESS }
+        - { path: ^/users$, methods: [POST], roles: PUBLIC_ACCESS } # register
+        - { path: ^/users/.*/activate$, methods: [PATCH], roles: PUBLIC_ACCESS }
+        - { path: .*, roles: [ROLE_USER] } # Protect all other routes must be at the end
 
 when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            App\Entity\User:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon
+            PasswordResetKey:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon
+            EmailVerification:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon
+when@performance_test:
     security:
         password_hashers:
             # By default, password hashers are resource intensive and take time. This is

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <slot :schedule-entries="scheduleEntries" :loading="loading" :on="eventHandlers" />
+    <slot
+      :schedule-entries="filteredScheduleEntries"
+      :loading="loading"
+      :reload-entries="reloadScheduleEntries"
+      :on="eventHandlers"
+    />
     <DialogActivityCreate
       ref="dialogActivityCreate"
       :schedule-entry="newScheduleEntry"
@@ -36,6 +41,7 @@ export default {
   props: {
     period: { type: Function, required: true },
     showButton: { type: Boolean, required: true },
+    matchFn: { type: Function, required: false, default: () => true },
   },
   data() {
     return {
@@ -54,6 +60,12 @@ export default {
       // TODO for SideBar, add filtering for the current day, now that the API supports it
       return this.period().scheduleEntries()
     },
+    filteredScheduleEntries() {
+      return this.scheduleEntries.items.map((item) => ({
+        ...item,
+        filterMatch: this.matchFn(item),
+      }))
+    },
     loading() {
       return (
         this.scheduleEntries._meta.loading ||
@@ -61,12 +73,6 @@ export default {
         this.period().camp().categories()._meta.loading
       )
     },
-  },
-  mounted() {
-    this.period().scheduleEntries().$reload()
-    this.period().camp().activities().$reload()
-    this.period().camp().categories().$reload()
-    this.period().days().$reload()
   },
 
   methods: {
@@ -93,6 +99,10 @@ export default {
       this.newScheduleEntry.start = start
       this.newScheduleEntry.end = end
       this.showActivityCreateDialog()
+    },
+
+    async reloadScheduleEntries() {
+      await this.api.reload(this.scheduleEntries)
     },
   },
 }

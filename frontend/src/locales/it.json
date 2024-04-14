@@ -267,9 +267,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Inviti",
         "logOut": "Disconnettiti",
         "myCamps": "I miei campi",
         "profile": "Profilo"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Rifiuta l'invito",
+        "warningText": "Volete davvero declinare l'invito al campo \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Nessun invito aperto. L'invito è stato inviato a un indirizzo diverso da \"{email}\"?"
       }
     },
     "print": {
@@ -359,6 +369,16 @@
           "location": "Luogo:",
           "responsible": "Responsable:"
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Categoria",
+        "clearFilters": "Cancella i filtri",
+        "onlyMyActivities": "Solo le mie attività",
+        "period": "Periodo",
+        "progressLabel": "Stati",
+        "progressLabelNone": "Nessuno stato",
+        "responsible": "Responsabile",
+        "responsibleNone": "Nessuna responsabile"
       }
     },
     "prompt": {
@@ -425,6 +445,7 @@
       "open": "Aprire",
       "remove": "Rimuovere",
       "rename": "Rinominare",
+      "reset": "Reset",
       "save": "Salvare",
       "saving": "Salvataggio",
       "search": "Ricerca",
@@ -447,7 +468,9 @@
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Aiuto",
+      "news": "Notizie"
     },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
@@ -565,8 +588,6 @@
       },
       "dashboard": {
         "activities": "Attività",
-        "category": "Categoria",
-        "clearFilters": "Cancella i filtri",
         "columns": {
           "category": "Categoria",
           "number": "Numero",
@@ -575,12 +596,6 @@
           "title": "Titolo"
         },
         "noEntries": "Non sono state trovate attività. Prova a cancellare i filtri di selezione e/o a ricaricare la pagina.",
-        "onlyMyActivities": "Solo le mie attività",
-        "period": "Periodo",
-        "progressLabel": "Stati",
-        "progressLabelNone": "Nessuno stato",
-        "responsible": "Responsabile",
-        "responsibleNone": "Nessuna responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },
       "invitation": {
@@ -649,6 +664,9 @@
       "sideBarCategory": {
         "title": "Categorie"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Inviti"
     },
     "material": {
       "materialLists": {

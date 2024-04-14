@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins,
   worker: {
-    plugins: [comlink()],
+    plugins: () => [comlink()],
   },
   optimizeDeps: {
     include: [

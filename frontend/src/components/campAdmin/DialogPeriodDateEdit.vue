@@ -12,84 +12,64 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div v-if="mode == 'move'" class="e-form-container">
+    <e-form v-if="mode == 'move'" class="e-form-container" name="period">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.movePeriod') }}</p>
       <e-date-picker
         v-model="entityData.start"
-        :name="$tc('entity.period.fields.start')"
+        path="start"
         icon="mdi-calendar-start"
         vee-rules="required"
         @input="startChanged"
       />
-      <div class="e-form-container">
-        <v-text-field
-          :value="endString"
-          :label="$tc('entity.period.fields.end')"
-          hide-details
-          filled
-          disabled
-        >
-          <template #prepend><v-icon>mdi-calendar-end</v-icon></template>
-        </v-text-field>
-      </div>
-    </div>
-    <div v-if="mode == 'changeStart'" class="e-form-container">
+      <e-text-field
+        :value="endString"
+        path="end"
+        hide-details
+        readonly
+        prepend-icon="mdi-calendar-end"
+      />
+    </e-form>
+    <e-form v-if="mode == 'changeStart'" class="e-form-container" name="period">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeStart') }}</p>
       <e-date-picker
         v-model="entityData.start"
-        :name="$tc('entity.period.fields.start')"
+        path="start"
         icon="mdi-calendar-start"
         :vee-rules="'required|lessThanOrEqual_date:' + endString"
         @input="startChanged"
       />
-      <div class="e-form-container">
-        <v-text-field
-          :value="endString"
-          :label="$tc('entity.period.fields.end')"
-          hide-details
-          filled
-          disabled
-        >
-          <template #prepend>
-            <v-icon>mdi-calendar-end</v-icon>
-          </template>
-        </v-text-field>
-      </div>
-    </div>
-    <div v-if="mode == 'changeEnd'" class="e-form-container">
+      <e-text-field
+        :value="endString"
+        path="end"
+        hide-details
+        readonly
+        prepend-icon="mdi-calendar-end"
+      />
+    </e-form>
+    <e-form v-if="mode == 'changeEnd'" class="e-form-container" name="period">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeEnd') }}</p>
-      <div class="e-form-container">
-        <v-text-field
-          :value="startString"
-          :label="$tc('entity.period.fields.start')"
-          hide-details
-          filled
-          disabled
-        >
-          <template #prepend>
-            <v-icon>mdi-calendar-start</v-icon>
-          </template>
-        </v-text-field>
-      </div>
+      <e-text-field
+        :value="startString"
+        path="start"
+        hide-details
+        readonly
+        prepend-icon="mdi-calendar-start"
+      />
       <e-date-picker
         v-if="mode == 'changeEnd'"
         v-model="entityData.end"
-        :name="$tc('entity.period.fields.end')"
+        path="end"
         icon="mdi-calendar-end"
         :vee-rules="'required|greaterThanOrEqual_date:' + startString"
       />
-    </div>
-    <div class="e-form-container">
-      <v-text-field
-        :value="periodDurationInDays"
-        :label="$tc('components.campAdmin.dialogPeriodDateEdit.periodDuration')"
-        hide-details
-        filled
-        disabled
-      >
-        <template #prepend><v-icon>mdi-calendar-expand-horizontal</v-icon></template>
-      </v-text-field>
-    </div>
+    </e-form>
+    <e-text-field
+      :value="periodDurationInDays"
+      :label="$tc('components.campAdmin.dialogPeriodDateEdit.periodDuration')"
+      hide-details
+      prepend-icon="mdi-calendar-expand-horizontal"
+      readonly
+    />
   </dialog-form>
 </template>
 
@@ -118,8 +98,8 @@ export default {
       return this.$date.utc(this.entityData.end, 'YYYY-MM-DD').format('L')
     },
     periodDurationInDays() {
-      let start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
-      let end = this.$date.utc(this.entityData.end, 'YYYY-MM-DD')
+      const start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
+      const end = this.$date.utc(this.entityData.end, 'YYYY-MM-DD')
       return 1 + end.diff(start, 'day')
     },
   },
@@ -139,11 +119,11 @@ export default {
   methods: {
     startChanged() {
       if (this.mode == 'move') {
-        let origStart = this.$date.utc(this.period.start, 'YYYY-MM-DD')
-        let origEnd = this.$date.utc(this.period.end, 'YYYY-MM-DD')
-        let origLength = origEnd - origStart
-        let start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
-        let end = start.add(origLength)
+        const origStart = this.$date.utc(this.period.start, 'YYYY-MM-DD')
+        const origEnd = this.$date.utc(this.period.end, 'YYYY-MM-DD')
+        const origLength = origEnd - origStart
+        const start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
+        const end = start.add(origLength)
         this.entityData.end = end.format('YYYY-MM-DD')
       }
     },

@@ -7,6 +7,7 @@ Displays a field as a e-textarea + write access via API wrapper
     <e-richtext
       :value="wrapper.localValue"
       v-bind="$attrs"
+      :path="path"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
@@ -14,6 +15,7 @@ Displays a field as a e-textarea + write access via API wrapper
       :outlined="outlined"
       :filled="filled"
       @input="wrapper.on.input"
+      @blur="wrapper.on.blur"
     >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />

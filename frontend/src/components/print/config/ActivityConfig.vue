@@ -6,6 +6,7 @@
       :items="scheduleEntries"
       :label="$tc('components.print.config.activityConfig.activity')"
       :filled="false"
+      @input="$emit('input')"
     />
     <v-skeleton-loader v-else type="image" height="56" />
   </div>
@@ -45,7 +46,7 @@ export default {
       this.camp.periods().items.forEach((p) => {
         const periodScheduleEntries = p.scheduleEntries().items.map((se) => ({
           value: { activity: se.activity()._meta.self, scheduleEntry: se._meta.self },
-          text: '(' + se.number + ') ' + se.activity().title,
+          text: (se.number ? '(' + se.number + ') ' : '') + se.activity().title,
         }))
         scheduleEntries = [...scheduleEntries, ...periodScheduleEntries]
       })

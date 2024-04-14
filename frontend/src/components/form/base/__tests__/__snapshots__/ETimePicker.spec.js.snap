@@ -2,15 +2,15 @@
 
 exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="v-menu">
                <div class="e-form-container"
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
-                              <button aria-label="Dialog öffnen um eine Zeit für test zu wählen"
+                              <button aria-label="Dialog öffnen, um eine Zeit für test zu wählen"
                                       class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
                                       type="button"></button>
                          </div>
@@ -35,14 +35,14 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickerclosed
 
 exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="e-form-container"
                value="09:52">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button aria-label="Dialog öffnen um eine Zeit für test zu wählen"
+                         <button aria-label="Dialog öffnen, um eine Zeit für test zu wählen"
                                  class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
                                  type="button"></button>
                     </div>
@@ -201,8 +201,8 @@ exports[`An ETimePicker > in locale de > looks like a time picker > pickeropen 1
 
 exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="v-menu">
                <div class="e-form-container"
@@ -234,8 +234,8 @@ exports[`An ETimePicker > in locale en > looks like a time picker > pickerclosed
 
 exports[`An ETimePicker > in locale en > looks like a time picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          name="test"
+     <div class="e-form-container e-picker-base"
+          label="test"
           vee-rules>
           <div class="e-form-container"
                value="9:52 AM">

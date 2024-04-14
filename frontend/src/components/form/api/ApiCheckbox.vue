@@ -9,6 +9,7 @@ Displays a field as a e-checkbox + write access via API wrapper
     <e-checkbox
       :value="wrapper.localValue"
       v-bind="$attrs"
+      :path="path"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"

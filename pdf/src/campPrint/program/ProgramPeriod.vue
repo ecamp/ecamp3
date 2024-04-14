@@ -6,7 +6,7 @@
     >{{ $tc('print.program.title') }}: {{ period.description }}</Text
   >
   <ScheduleEntry
-    v-for="scheduleEntry in sortedScheduleEntries"
+    v-for="scheduleEntry in scheduleEntries"
     :id="`${id}-${period.id}-${scheduleEntry.id}`"
     :schedule-entry="scheduleEntry"
   />
@@ -14,7 +14,6 @@
 <script>
 import PdfComponent from '@/PdfComponent.js'
 import ScheduleEntry from '../scheduleEntry/ScheduleEntry.vue'
-import sortBy from 'lodash/sortBy.js'
 
 export default {
   name: 'ProgramPeriod',
@@ -24,11 +23,8 @@ export default {
     period: { type: Object, required: true },
   },
   computed: {
-    sortedScheduleEntries() {
-      return sortBy(this.period.scheduleEntries().items, [
-        'dayNumber',
-        'scheduleEntryNumber',
-      ])
+    scheduleEntries() {
+      return this.period.scheduleEntries().items
     },
   },
 }

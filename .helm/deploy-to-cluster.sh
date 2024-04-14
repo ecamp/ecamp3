@@ -35,6 +35,8 @@ app_jwt_private_key=$(echo -n "$app_jwt_passphrase" | openssl pkey -in "$SCRIPT_
 for i in 1; do
   values="$values --set imageTag=${version}"
   values="$values --set termsOfServiceLinkTemplate=https://ecamp3.ch/{lang}/tos"
+  values="$values --set newsLink=https://ecamp3.ch/blog"
+  values="$values --set helpLink=https://ecamp3.ch/faq"
   values="$values --set domain=$instance_name-"$i".$domain"
   values="$values --set mail.dummyEnabled=true"
   values="$values --set ingress.basicAuth.enabled=$BASIC_AUTH_ENABLED"
@@ -95,7 +97,7 @@ for i in 1; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-api-$imagespec"
   done
-  
+
   values="$values --set postgresql.dbBackupRestoreImage.pullPolicy=$pull_policy"
   values="$values --set postgresql.dbBackupRestoreImage.repository=docker.io/${docker_hub_account}/ecamp3-db-backup-restore"
 

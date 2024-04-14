@@ -9,16 +9,21 @@
       <v-toolbar dense flat color="transparent">
         <v-icon class="mr-2">{{ icon }}</v-icon>
 
-        <div v-if="editInstanceName" style="flex: 1" @click.stop @keyup.prevent>
+        <api-form
+          v-if="editInstanceName"
+          :entity="contentNode"
+          style="flex: 1"
+          @click.stop
+          @keyup.prevent
+        >
           <api-text-field
             dense
             autofocus
             :auto-save="false"
-            :uri="contentNode._meta.self"
-            fieldname="instanceName"
+            path="instanceName"
             @finished="editInstanceName = false"
           />
-        </div>
+        </api-form>
 
         <v-toolbar-title
           v-if="!editInstanceName"
@@ -26,6 +31,18 @@
         >
           {{ instanceOrContentTypeName }}
         </v-toolbar-title>
+
+        <v-btn
+          v-if="!editInstanceName && !disabled"
+          icon
+          class="ml-1"
+          :class="{ 'visible-on-hover': !layoutMode }"
+          width="24"
+          height="24"
+          @click="toggleEditInstanceName"
+        >
+          <v-icon small>mdi-pencil</v-icon>
+        </v-btn>
 
         <v-spacer v-if="!editInstanceName" />
         <IconWithTooltip
@@ -35,18 +52,11 @@
           height="36"
         />
 
-        <v-btn
-          v-if="!editInstanceName && !layoutMode && !disabled"
-          icon
-          class="visible-on-hover"
-          width="36"
-          height="36"
-          @click="toggleEditInstanceName"
+        <DialogEntityDelete
+          v-if="layoutMode && !disabled"
+          :entity="contentNode"
+          :warning-text-entity="instanceOrContentTypeName"
         >
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-
-        <DialogEntityDelete v-if="layoutMode && !disabled" :entity="contentNode">
           <template #activator="{ on }">
             <v-btn
               icon
@@ -78,10 +88,12 @@
 import camelCase from 'lodash/camelCase'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import IconWithTooltip from '@/components/generic/IconWithTooltip.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
 
 export default {
   name: 'ContentNodeCard',
   components: {
+    ApiForm,
     IconWithTooltip,
     DialogEntityDelete,
   },
@@ -130,23 +142,14 @@ export default {
   }
 }
 
-.v-card:not(:hover):deep(button.visible-on-hover),
+:deep(.v-toolbar__content:not(:hover) button.visible-on-hover:not(:focus)),
 .v-card:not(:hover):deep(button.tooltip-activator) {
   opacity: 0;
-  width: 0px !important;
-
-  transition:
-    opacity 0.2s linear,
-    width 0.3s steps(1, end);
 }
-.v-card:hover:deep(button.visible-on-hover),
+:deep(.v-toolbar__content button.visible-on-hover),
 .v-card:hover:deep(button.tooltip-activator) {
   opacity: 1;
-  width: 36px !important;
-
-  transition:
-    opacity 0.2s linear,
-    width 0.3s steps(1, start);
+  transition: opacity 0.2s linear;
 }
 
 ::v-deep {

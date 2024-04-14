@@ -5,6 +5,7 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ResetPassword;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\ReCaptcha\ReCaptchaWrapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
- * @implements ProcessorInterface<ResetPassword>
+ * @implements ProcessorInterface<ResetPassword,ResetPassword>
  */
 class ResetPasswordUpdateProcessor implements ProcessorInterface {
     public function __construct(
@@ -46,6 +47,9 @@ class ResetPasswordUpdateProcessor implements ProcessorInterface {
         $passwordHasher = $this->pwHasherFactory->getPasswordHasher($user);
         $user->password = $passwordHasher->hash($data->password);
         $user->passwordResetKeyHash = null;
+        if (User::STATE_REGISTERED === $user->state) {
+            $user->state = User::STATE_ACTIVATED;
+        }
         $this->em->flush();
 
         $data->password = '';

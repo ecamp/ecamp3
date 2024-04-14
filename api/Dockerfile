@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.6
+#syntax=docker/dockerfile:1.7
 
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
@@ -8,7 +8,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.1
+ARG PHP_VERSION=8.3.6
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.18
@@ -89,7 +89,7 @@ ENV COMPOSER_CACHE_DIR=/tmp/composer/cache
 RUN mkdir -p /tmp/composer/cache
 RUN chmod ugo+w /tmp/composer/cache
 
-COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.json composer.lock symfony.lock ./

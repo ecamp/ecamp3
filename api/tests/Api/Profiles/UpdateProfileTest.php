@@ -15,7 +15,7 @@ class UpdateProfileTest extends ECampApiTestCase {
         static::createBasicClient()->request('PATCH', '/profiles/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(401);
     }
 
     public function testPatchProfileIsDeniedForRelatedProfile() {

@@ -12,6 +12,9 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
+use function PHPUnit\Framework\assertThat;
+use function PHPUnit\Framework\lessThanOrEqual;
+
 /**
  * @internal
  */
@@ -31,6 +34,33 @@ class AcceptInvitationTest extends ECampApiTestCase {
             ]
         );
         $this->assertResponseStatusCodeSame(401);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function testAcceptInvitationDoesNotHitDBWhenNotLoggedIn() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration2invitedCampUnrelated');
+        $client = static::createBasicClient();
+        $client->enableProfiler();
+        $client->request(
+            'PATCH',
+            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $collector = $client->getProfile()->getCollector('db');
+        /*
+         * 3 is:
+         * BEGIN TRANSACTION
+         * SAVEPOINT
+         * RELEASE SAVEPOINT
+         */
+        assertThat($collector->getQueryCount(), lessThanOrEqual(3));
     }
 
     /**
@@ -81,11 +111,6 @@ class AcceptInvitationTest extends ECampApiTestCase {
         );
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            /*
-            'campId' => $campCollaboration->camp->getId(),
-            'campTitle' => $campCollaboration->camp->title,
-            'userDisplayName' => 'Bi-Pi',
-            'userAlreadyInCamp' => false, */
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],
@@ -182,7 +207,14 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      */
     public function testNotFoundWhenInviteKeyDoesNotMatch() {
-        static::createClientWithCredentials()->request('PATCH', '/invitations/notExisting/'.Invitation::ACCEPT);
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/invitations/notExisting/'.Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
         $this->assertResponseStatusCodeSame(404);
     }
 
@@ -193,7 +225,14 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws ClientExceptionInterface
      */
     public function testNotFoundWhenNoInviteKey() {
-        static::createClientWithCredentials()->request('PATCH', '/invitations/'.Invitation::ACCEPT);
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/invitations/'.Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
         $this->assertResponseStatusCodeSame(404);
     }
 }

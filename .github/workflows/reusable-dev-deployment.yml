@@ -32,14 +32,14 @@ jobs:
       name: ${{ inputs.env }}
     steps:
       - name: Get link to currently running job logs
-        uses: Tiryoh/gha-jobid-action@v1.1.0
+        uses: Tiryoh/gha-jobid-action@v1.2.0
         id: job-url
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           job_name: Upgrade or install deployment / Deploy to Kubernetes
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         id: deployment
         with:
           step: start
@@ -60,7 +60,7 @@ jobs:
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
           comment_tag: feature-branch-deployment-status
-      
+
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           ref: ${{ inputs.sha }}
@@ -87,6 +87,8 @@ jobs:
             --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set postgresql.dbBackupRestoreImage.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-db-backup-restore' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
+            --set newsLink='https://ecamp3.ch/blog' \
+            --set helpLink='https://ecamp3.ch/faq' \
             --set domain=${{ inputs.name }}.${{ vars.DOMAIN }} \
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
             --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
@@ -129,7 +131,7 @@ jobs:
             --set featureToggle.developer=true
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         if: always()
         with:
           step: finish

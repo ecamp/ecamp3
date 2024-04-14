@@ -11,7 +11,7 @@ class AssertEitherIsNull extends Constraint {
     public string $messageNoneNull = 'Either this value or {{ other }} should be null.';
     public string $other;
 
-    public function __construct(array $options = null, string $other = null, string $messageBothNull = null, string $messageNoneNull = null, array $groups = null, $payload = null) {
+    public function __construct(?array $options = null, ?string $other = null, ?string $messageBothNull = null, ?string $messageNoneNull = null, ?array $groups = null, $payload = null) {
         parent::__construct($options ?? [], $groups, $payload);
 
         $this->messageBothNull = $messageBothNull ?? $this->messageBothNull;

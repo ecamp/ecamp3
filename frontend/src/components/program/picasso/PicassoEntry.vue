@@ -4,17 +4,18 @@
     v-if="editable"
     class="e-picasso-entry"
     :class="{
-      'e-picasso-entry--editable': !scheduleEntry.tmpEvent,
+      'e-picasso-entry--editable': isEditable,
       'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
       'e-picasso-entry--resizing': isResizing,
       'e-picasso-entry--moving': isMoving,
+      'e-picasso-entry--filtered': !scheduleEntry.filterMatch,
     }"
     :style="colorStyles"
     v-on="listeners"
   >
     <!-- Copy -->
     <v-btn
-      v-if="!scheduleEntry.tmpEvent"
+      v-if="isEditable"
       x-small
       text
       class="e-picasso-entry__copy-url rounded-sm pr-0"
@@ -25,11 +26,11 @@
       <v-icon x-small color="white">mdi-content-copy</v-icon>
     </v-btn>
 
-    <CopyActivityInfoDialog ref="copyInfoDialog" />
+    <CopyActivityInfoDialog v-if="isEditable" ref="copyInfoDialog" />
 
     <!-- edit button & dialog -->
     <DialogActivityEdit
-      v-if="!scheduleEntry.tmpEvent"
+      v-if="isEditable"
       ref="editDialog"
       :schedule-entry="scheduleEntry"
       @activityUpdated="$emit('finishEdit')"
@@ -99,6 +100,9 @@
     v-else
     class="e-picasso-entry e-piasso-entry--link"
     :to="scheduleEntryRoute"
+    :class="{
+      'e-picasso-entry--filtered': !scheduleEntry.filterMatch,
+    }"
     :style="colorStyles"
   >
     <h4 class="e-picasso-entry__title">
@@ -129,7 +133,7 @@
   </router-link>
 </template>
 <script>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, computed } from 'vue'
 import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { timestampToUtcString } from './dateHelperVCalendar.js'
@@ -152,11 +156,13 @@ export default {
   },
   emits: ['startResize', 'finishEdit'],
   setup(props) {
-    const { editable } = toRefs(props)
+    const { editable, scheduleEntry } = toRefs(props)
     const editDialog = ref(null)
 
+    const enabled = computed(() => editable.value && scheduleEntry.value.filterMatch)
+
     // open edit dialog when clicking, but only if it wasn't a drag motion
-    const { listeners } = useClickDetector(editable, 5, () => {
+    const { listeners } = useClickDetector(enabled, 5, () => {
       editDialog.value.open()
     })
 
@@ -168,6 +174,9 @@ export default {
     clientHeight: 0,
   }),
   computed: {
+    isEditable() {
+      return this.scheduleEntry.filterMatch && !this.scheduleEntry.tmpEvent
+    },
     isResizing() {
       return this.scheduleEntry.isResizing
     },
@@ -277,7 +286,7 @@ export default {
     async copyUrlToClipboard() {
       try {
         const res = await navigator.permissions.query({ name: 'clipboard-read' })
-        if (res.state == 'prompt') {
+        if (res.state === 'prompt') {
           this.$refs.copyInfoDialog.open()
         }
       } catch {
@@ -319,10 +328,10 @@ export default {
   border-style: solid;
   border-radius: 3px;
   outline: 1px solid white;
+}
 
-  &:hover {
-    z-index: 999;
-  }
+.e-picasso-entry--filtered {
+  opacity: 0.3;
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-up')} {

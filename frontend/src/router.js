@@ -7,6 +7,7 @@ import { getEnv } from '@/environment.js'
 
 Vue.use(Router)
 
+const NavigationAuth = () => import('./views/auth/NavigationAuth.vue')
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
 const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
 const GenericPage = () => import('./components/generic/GenericPage.vue')
@@ -43,7 +44,7 @@ export default new Router({
       path: '/register',
       name: 'register',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/Register.vue'),
       },
     },
@@ -51,7 +52,7 @@ export default new Router({
       path: '/register-done',
       name: 'register-done',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/RegisterDone.vue'),
       },
     },
@@ -59,7 +60,7 @@ export default new Router({
       path: '/reset-password',
       name: 'resetPasswordRequest',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/ResetPasswordRequest.vue'),
       },
     },
@@ -67,7 +68,7 @@ export default new Router({
       path: '/reset-password/:id',
       name: 'resetPassword',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/ResetPassword.vue'),
       },
       props: {
@@ -82,7 +83,7 @@ export default new Router({
       path: '/activate/:userId/:activationKey',
       name: 'activate',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/Activate.vue'),
       },
       props: {
@@ -98,7 +99,7 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/Login.vue'),
       },
     },
@@ -106,7 +107,7 @@ export default new Router({
       path: '/loginCallback',
       name: 'loginCallback',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/LoginCallback.vue'),
       },
     },
@@ -139,6 +140,15 @@ export default new Router({
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/Camps.vue'),
+      },
+      beforeEnter: requireAuth,
+    },
+    {
+      path: '/invitations',
+      name: 'invitations',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/Invitations.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -379,7 +389,7 @@ export default new Router({
         default: () => import('./views/activity/Activity.vue'),
         aside: () => import('./views/activity/SideBarProgram.vue'),
       },
-      beforeEnter: requireAuth,
+      beforeEnter: all([requireAuth, requireCamp, requireScheduleEntry]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
@@ -437,6 +447,21 @@ function requireAuth(to, from, next) {
 
 async function requireCamp(to, from, next) {
   await campFromRoute(to)
+    .call({ api: { get: apiStore.get } })
+    ._meta.load.then(() => {
+      next()
+    })
+    .catch(() => {
+      next({
+        name: 'PageNotFound',
+        params: [to.fullPath, ''],
+        replace: true,
+      })
+    })
+}
+
+async function requireScheduleEntry(to, from, next) {
+  await scheduleEntryFromRoute(to)
     .call({ api: { get: apiStore.get } })
     ._meta.load.then(() => {
       next()

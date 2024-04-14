@@ -5,7 +5,7 @@
       v-for="day in sortedDays"
       :key="day._meta.self"
       :day="day"
-      :editing="editing"
+      :edit-mode="editMode"
       :period-story-chapters="periodStoryChapters.items"
     />
   </v-expansion-panels>
@@ -19,7 +19,7 @@ export default {
   components: { StoryDay },
   props: {
     period: { type: Object, required: true },
-    editing: { type: Boolean, default: false },
+    editMode: { type: Boolean, default: false },
   },
   data() {
     return {

@@ -1,20 +1,20 @@
 <template>
-  <div>
+  <e-form name="activity">
     <div class="e-form-container d-flex gap-2">
       <e-text-field
         v-model="localActivity.title"
-        name="title"
-        :label="$tc('entity.activity.fields.title')"
+        path="title"
         vee-rules="required"
         class="flex-grow-1"
+        autofocus
+        @focus="autoselectTitle ? $event.target.select() : null"
       />
       <slot name="textFieldTitleAppend" />
     </div>
 
     <e-select
       v-model="localActivity.category"
-      name="category"
-      :label="$tc('entity.activity.fields.category')"
+      path="category"
       :items="categories.items"
       item-value="_meta.self"
       item-text="name"
@@ -36,12 +36,7 @@
       </template>
     </e-select>
 
-    <e-text-field
-      v-if="!hideLocation"
-      v-model="localActivity.location"
-      name="location"
-      :label="$tc('entity.activity.fields.location')"
-    />
+    <e-text-field v-if="!hideLocation" v-model="localActivity.location" path="location" />
 
     <FormScheduleEntryList
       v-if="activity.scheduleEntries"
@@ -49,16 +44,18 @@
       :period="period"
       :periods="camp.periods().items"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import FormScheduleEntryList from './FormScheduleEntryList.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogActivityForm',
   components: {
+    EForm,
     CategoryChip,
     FormScheduleEntryList,
   },
@@ -71,6 +68,10 @@ export default {
     period: {
       type: Function,
       required: true,
+    },
+    autoselectTitle: {
+      type: Boolean,
+      default: false,
     },
     hideLocation: {
       type: Boolean,

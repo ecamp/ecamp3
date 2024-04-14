@@ -5,9 +5,7 @@
         <e-date-picker
           v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          name="startDate"
-          :label="$tc('entity.scheduleEntry.fields.start')"
-          vee-id="startDate"
+          path="startDate"
           vee-rules="required"
           :allowed-dates="dateIsInAnyPeriod"
           :filled="false"
@@ -17,9 +15,7 @@
 
         <e-time-picker
           v-model="localScheduleEntry.start"
-          name="startDatetime"
-          :label="$tc('entity.scheduleEntry.fields.start')"
-          vee-id="startDatetime"
+          path="startDatetime"
           vee-rules="required"
           :filled="false"
           class="float-left mt-1 time-picker"
@@ -33,9 +29,7 @@
         <e-date-picker
           v-model="localScheduleEntry.end"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          name="endDate"
-          :label="$tc('entity.scheduleEntry.fields.end')"
-          vee-id="endDate"
+          path="endDate"
           vee-rules="required|greaterThanOrEqual_date:@startDate"
           :min="localScheduleEntry.start"
           :allowed-dates="dateIsInSelectedPeriod"
@@ -46,9 +40,7 @@
 
         <e-time-picker
           v-model="localScheduleEntry.end"
-          name="endDatetime"
-          :label="$tc('entity.scheduleEntry.fields.end')"
-          vee-id="endDatetime"
+          path="endDatetime"
           :vee-rules="endTimeValidation"
           :min="minEndTime"
           :filled="false"
@@ -71,6 +63,11 @@ import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 export default {
   name: 'FormScheduleEntryItem',
   components: { ButtonDelete },
+  provide() {
+    return {
+      entityName: 'scheduleEntry',
+    }
+  },
   props: {
     // scheduleEntry to display
     scheduleEntry: {
@@ -115,7 +112,7 @@ export default {
         .isSame(this.$date.utc(this.localScheduleEntry.end), 'day')
     },
     endTimeValidation() {
-      let validator = {
+      const validator = {
         required: true,
       }
 
