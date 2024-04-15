@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Doctrine\QueryBuilderHelper;
+use App\Entity\Camp;
 use App\Entity\ContentNode;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
@@ -19,11 +20,17 @@ trait FiltersByContentNode {
      * the alias of the contentNode as the third argument.
      */
     protected function filterByContentNode(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
-        $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $em = $queryBuilder->getEntityManager();
+
+        $campQry = $em->createQueryBuilder();
+        $campQry->from(Camp::class, 'camp')->select('camp');
+        $this->filterByCampCollaboration($campQry, $user);
+
+        $rootQry = $em->createQueryBuilder();
         $rootQry->from(ContentNode::class, 'cn')->select('cn');
         $rootQry->join('cn.campRootContentNodes', 'r');
-        $rootQry->join('r.camp', 'camp');
-        $this->filterByCampCollaboration($rootQry, $user);
+        $rootQry->where($rootQry->expr()->in('r.camp', $campQry->getDQL()));
+        QueryBuilderHelper::copyParameters($rootQry, $campQry);
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$contentNodeAlias}.root", $rootQry->getDQL()));
         QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
