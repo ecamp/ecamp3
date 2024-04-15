@@ -12,6 +12,8 @@ jobs:
     name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DB_CPU_LIMIT: 4
     strategy:
       fail-fast: false
       matrix:
