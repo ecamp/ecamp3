@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
-use App\Doctrine\QueryBuilderHelper;
 use App\Entity\Camp;
 use App\Entity\User;
+use App\Entity\UserCamp;
 use Doctrine\ORM\QueryBuilder;
 
 trait FiltersByCampCollaboration {
@@ -16,12 +16,11 @@ trait FiltersByCampCollaboration {
      */
     public function filterByCampCollaboration(QueryBuilder $queryBuilder, User $user, string $campAlias = 'camp'): void {
         $campsQry = $queryBuilder->getEntityManager()->createQueryBuilder();
-        $campsQry->from(Camp::class, 'c')->select('c');
-        $campsQry->join('c.userCamps', 'uc');
-        $campsQry->where($campsQry->expr()->eq('uc.user', ':current_user'));
-        $campsQry->setParameter('current_user', $user);
+        $campsQry->select('identity(uc.camp)');
+        $campsQry->from(UserCamp::class, 'uc');
+        $campsQry->where('uc.user = :current_user');
 
         $queryBuilder->andWhere($queryBuilder->expr()->in($campAlias, $campsQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $campsQry);
+        $queryBuilder->setParameter('current_user', $user);
     }
 }

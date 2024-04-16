@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Doctrine\QueryBuilderHelper;
-use App\Entity\Camp;
+use App\Entity\CampRootContentNode;
 use App\Entity\ContentNode;
 use App\Entity\User;
+use App\Entity\UserCamp;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 trait FiltersByContentNode {
@@ -20,19 +21,13 @@ trait FiltersByContentNode {
      * the alias of the contentNode as the third argument.
      */
     protected function filterByContentNode(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
-        $em = $queryBuilder->getEntityManager();
-
-        $campQry = $em->createQueryBuilder();
-        $campQry->from(Camp::class, 'camp')->select('camp');
-        $this->filterByCampCollaboration($campQry, $user);
-
-        $rootQry = $em->createQueryBuilder();
-        $rootQry->from(ContentNode::class, 'cn')->select('cn');
-        $rootQry->join('cn.campRootContentNodes', 'r');
-        $rootQry->where($rootQry->expr()->in('r.camp', $campQry->getDQL()));
-        QueryBuilderHelper::copyParameters($rootQry, $campQry);
+        $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $rootQry->select('identity(r.rootContentNode)');
+        $rootQry->from(CampRootContentNode::class, 'r');
+        $rootQry->join(UserCamp::class, 'uc', Join::WITH, 'r.camp = uc.camp');
+        $rootQry->where('uc.user = :current_user');
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$contentNodeAlias}.root", $rootQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
+        $queryBuilder->setParameter('current_user', $user);
     }
 }
