@@ -6,7 +6,6 @@ use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
-use App\Doctrine\QueryBuilderHelper;
 use App\Entity\Activity;
 use App\Entity\ContentNode;
 use App\Repository\FiltersByCampCollaboration;
@@ -66,21 +65,19 @@ final class ContentNodePeriodFilter extends AbstractFilter {
 
         // generate alias to avoid interference with other filters
         $periodParameterName = $queryNameGenerator->generateParameterName($property);
-        $rootJoinAlias = $queryNameGenerator->generateJoinAlias('root');
         $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
         $scheduleEntryJoinAlias = $queryNameGenerator->generateJoinAlias('scheduleEntry');
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
 
         $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
-        $rootQry->from(ContentNode::class, $rootJoinAlias)
-            ->select($rootJoinAlias)
-            ->innerJoin(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
+        $rootQry
+            ->select("identity({$activityJoinAlias}.rootContentNode)")
+            ->from(Activity::class, $activityJoinAlias)
             ->innerJoin("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias, Join::WITH, $queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
         ;
-        $rootQry->setParameter($periodParameterName, $period);
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.root", $rootQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
+        $queryBuilder->setParameter($periodParameterName, $period);
     }
 }
