@@ -49,7 +49,7 @@
     },
     "learningObjectives": {
       "icon": "mdi-school",
-      "info": "Formuliere die Kompetenzen über welche die Teilnehmenden nach diesem Block verfügen in der Form von Lernzielen.",
+      "info": "Formuliere die Kompetenzen, über welche die Teilnehmenden nach diesem Block verfügen, in der Form von Lernzielen.",
       "name": "Blockziele"
     },
     "learningTopics": {
