@@ -7,11 +7,11 @@
     @keyup.enter="submitForm"
   >
     <td class="pt-1">
-      <e-text-field
+      <e-number-field
         ref="quantity"
         v-model.number="materialItem.quantity"
         dense
-        inputmode="numeric"
+        inputmode="decimal"
         path="quantity"
       />
     </td>

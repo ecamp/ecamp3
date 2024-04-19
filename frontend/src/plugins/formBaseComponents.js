@@ -22,6 +22,7 @@ class FormBaseComponentsPlugin {
     Vue.component('ESwitch', ESwitch)
     Vue.component('ETextarea', ETextarea)
     Vue.component('ETextField', ETextField)
+    Vue.component('ENumberField', ETextField)
     Vue.component('ETimePicker', ETimePicker)
   }
 }

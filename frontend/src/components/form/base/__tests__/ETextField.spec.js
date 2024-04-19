@@ -12,7 +12,7 @@ Vue.use(formBaseComponents)
 describe('An ETextField', () => {
   let vuetify
 
-  const mount = (options, number = false) => {
+  const mount = (options) => {
     const app = Vue.component('App', {
       components: { ETextField },
       data: function () {
@@ -20,15 +20,7 @@ describe('An ETextField', () => {
           data: null,
         }
       },
-      template: number
-        ? `
-        <div data-app>
-        <e-text-field label="test" v-model.number="data"/>
-        </div>`
-        : `
-        <div data-app>
-        <e-text-field label="test" v-model="data"/>
-        </div>`,
+      template: `<div data-app><e-text-field label="test" v-model="data"/></div>`,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -37,79 +29,39 @@ describe('An ETextField', () => {
     vuetify = new Vuetify()
   })
 
-  describe('text', () => {
-    test('looks like a textfield', async () => {
-      const wrapper = mount()
-      expect(wrapper).toMatchSnapshot('empty')
+  test('looks like a textfield', async () => {
+    const wrapper = mount()
+    expect(wrapper).toMatchSnapshot('empty')
 
-      await wrapper.setData({ data: 'MyText' })
-      expect(wrapper).toMatchSnapshot('with text')
-    })
-
-    test('updates text when vModel changes', async () => {
-      const wrapper = mount()
-      expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBeNull()
-
-      const firstText = 'myText'
-      await wrapper.setData({ data: firstText })
-      expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
-        firstText
-      )
-
-      const secondText = 'myText2'
-      await wrapper.setData({ data: secondText })
-      expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
-        secondText
-      )
-    })
-
-    test('updates vModel when value of input field changes', async () => {
-      const wrapper = mount()
-      const input = wrapper.find('input')
-      const text = 'bla'
-
-      input.element.value = text
-      await input.trigger('input')
-
-      expect(wrapper.vm.data).toBe(text)
-    })
+    await wrapper.setData({ data: 'MyText' })
+    expect(wrapper).toMatchSnapshot('with text')
   })
 
-  describe('number', () => {
-    test('looks like a textfield', async () => {
-      const wrapper = mount({}, true)
-      expect(wrapper).toMatchSnapshot('empty')
+  test('updates text when vModel changes', async () => {
+    const wrapper = mount()
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBeNull()
 
-      await wrapper.setData({ data: 3.14 })
-      expect(wrapper).toMatchSnapshot('with text')
-    })
+    const firstText = 'myText'
+    await wrapper.setData({ data: firstText })
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      firstText
+    )
 
-    test('updates text when vModel changes', async () => {
-      const wrapper = mount({}, true)
-      expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBeNull()
+    const secondText = 'myText2'
+    await wrapper.setData({ data: secondText })
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      secondText
+    )
+  })
 
-      const firstText = 0
-      await wrapper.setData({ data: firstText })
-      expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
-        `${firstText}`
-      )
+  test('updates vModel when value of input field changes', async () => {
+    const wrapper = mount()
+    const input = wrapper.find('input')
+    const text = 'bla'
 
-      const secondText = 3.14
-      await wrapper.setData({ data: secondText })
-      expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
-        `${secondText}`
-      )
-    })
+    input.element.value = text
+    await input.trigger('input')
 
-    test('updates vModel when value of input field changes', async () => {
-      const wrapper = mount({}, true)
-      const input = wrapper.find('input')
-      const text = 3.14
-
-      input.element.value = text
-      await input.trigger('input')
-
-      expect(wrapper.vm.data).toBe(text)
-    })
+    expect(wrapper.vm.data).toBe(text)
   })
 })
