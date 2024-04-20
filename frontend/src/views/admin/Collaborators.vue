@@ -6,7 +6,7 @@ Displays collaborators of a single camp.
     <v-card-text>
       <ContentGroup :title="$tc('views.admin.collaborators.members')">
         <template #title-actions>
-          <CollaboratorCreate v-if="isManager" :camp="camp()" />
+          <CollaboratorCreate v-if="isManager" :camp="camp" />
         </template>
         <CollaboratorList :collaborators="established" :is-manager="isManager" />
       </ContentGroup>
@@ -44,11 +44,11 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   computed: {
     collaborators() {
-      return this.camp().campCollaborations().items
+      return this.camp.campCollaborations().items
     },
     established() {
       return this.collaborators.filter((c) => c.status === 'established')
@@ -61,7 +61,7 @@ export default {
     },
   },
   created() {
-    return this.camp().campCollaborations()
+    return this.camp.campCollaborations()
   },
 }
 </script>

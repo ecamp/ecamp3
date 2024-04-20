@@ -14,7 +14,7 @@ export default {
   name: 'SideBarMaterialLists',
   components: { MaterialLists, SideBar },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
 }
 </script>

@@ -9,7 +9,7 @@ describe('Admin view', () => {
     const camp = createCampWithRole('manager')
     const { getByText } = render(Admin, {
       props: {
-        camp: () => camp,
+        camp,
       },
       routes: [],
       store: createStoreObject(),
@@ -33,7 +33,7 @@ describe('Admin view', () => {
     const camp = createCampWithRole('member')
     const { queryByText } = render(Admin, {
       props: {
-        camp: () => camp,
+        camp,
       },
       routes: [],
       store: createStoreObject(),
@@ -53,7 +53,7 @@ describe('Admin view', () => {
     const camp = createCampWithRole('guest')
     const { queryByText } = render(Admin, {
       props: {
-        camp: () => camp,
+        camp,
       },
       routes: [],
       store: createStoreObject(),

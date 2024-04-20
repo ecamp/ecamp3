@@ -7,13 +7,13 @@ Displays a single scheduleEntry
     class="ec-schedule-entry"
     toolbar
     back
-    :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
+    :loaded="!scheduleEntry._meta.loading && !activity.camp()._meta.loading"
     :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
         <span class="tabular-nums">
-          {{ scheduleEntry().number }}
+          {{ scheduleEntry.number }}
         </span>
         <v-menu
           offset-y
@@ -24,7 +24,7 @@ Displays a single scheduleEntry
         >
           <template #activator="{ on, attrs }">
             <CategoryChip
-              :schedule-entry="scheduleEntry()"
+              :schedule-entry="scheduleEntry"
               large
               dense
               v-bind="attrs"
@@ -37,11 +37,11 @@ Displays a single scheduleEntry
                   :class="{ 'mdi-spin': categoryChangeState === 'saving' }"
                 >
                   <template v-if="categoryChangeState === 'saving'"
-                    >mdi-autorenew</template
-                  >
+                    >mdi-autorenew
+                  </template>
                   <template v-else-if="categoryChangeState === 'error'"
-                    >mdi-alert</template
-                  >
+                    >mdi-alert
+                  </template>
                   <template v-else>mdi-chevron-down</template>
                 </v-icon>
               </template>
@@ -286,13 +286,13 @@ export default {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
-      camp: () => this.camp,
+      camp: this.camp,
       isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
     scheduleEntry: {
-      type: Function,
+      type: Object,
       required: true,
     },
   },
@@ -306,7 +306,7 @@ export default {
   },
   computed: {
     activity() {
-      return this.scheduleEntry().activity()
+      return this.scheduleEntry.activity()
     },
     camp() {
       return this.activity.camp()
@@ -319,7 +319,7 @@ export default {
     },
     activityName() {
       return (
-        (this.scheduleEntry().number ? this.scheduleEntry().number + ' ' : '') +
+        (this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : '') +
         (this.category.short ? this.category.short + ': ' : '') +
         this.activity.title
       )
@@ -347,7 +347,7 @@ export default {
             type: 'Activity',
             options: {
               activity: this.activity._meta.self,
-              scheduleEntry: this.scheduleEntry()._meta.self,
+              scheduleEntry: this.scheduleEntry._meta.self,
             },
           },
         ],
@@ -369,11 +369,11 @@ export default {
   // reload data every time user navigates to Activity view
   async mounted() {
     this.loading = true
-    await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
+    await this.scheduleEntry.activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
 
     // to avoid stale data, trigger reload (which includes embedded contentNode data). However, don't await in order to render early with cached data.
-    this.scheduleEntry().activity().$reload()
+    this.scheduleEntry.activity().$reload()
   },
 
   methods: {
@@ -410,7 +410,7 @@ export default {
         console.warn('clipboard permission not requestable')
       }
 
-      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry())
+      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry)
       const url = window.location.origin + router.resolve(scheduleEntry).href
       await navigator.clipboard.writeText(url)
 
@@ -423,7 +423,7 @@ export default {
     },
     onDelete() {
       // redirect to Picasso
-      this.$router.push(periodRoute(this.scheduleEntry().period()))
+      this.$router.push(periodRoute(this.scheduleEntry.period()))
     },
   },
 }

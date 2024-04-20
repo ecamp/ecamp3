@@ -4,9 +4,9 @@ Displays address and allows to edit
 
 <template>
   <content-group :title="$tc('components.campAdmin.campAddress.title')">
-    <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+    <v-skeleton-loader v-if="camp._meta.loading" type="article" />
     <div v-else class="mt-3">
-      <api-form :entity="camp()" name="camp">
+      <api-form :entity="camp" name="camp">
         <api-text-field path="addressName" :disabled="disabled" />
 
         <api-text-field path="addressStreet" :disabled="disabled" />
@@ -29,7 +29,7 @@ export default {
   components: { ContentGroup, ApiTextField, ApiForm },
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
     disabled: {

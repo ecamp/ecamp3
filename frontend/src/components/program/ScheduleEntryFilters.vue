@@ -142,7 +142,7 @@ export default {
       }),
     },
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
     periods: {
@@ -176,14 +176,14 @@ export default {
           label: this.$tc('components.program.scheduleEntryFilters.responsibleNone'),
           _meta: { self: 'none' },
         },
-        ...keyBy(this.camp().campCollaborations().items, '_meta.self'),
+        ...keyBy(this.camp.campCollaborations().items, '_meta.self'),
       }
     },
     categories() {
-      return keyBy(this.camp().categories().items, '_meta.self')
+      return keyBy(this.camp.categories().items, '_meta.self')
     },
     progressLabels() {
-      const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
+      const labels = sortBy(this.camp.progressLabels().items, (l) => l.position)
       return {
         none: {
           title: this.$tc('components.program.scheduleEntryFilters.progressLabelNone'),
@@ -229,17 +229,15 @@ export default {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
     loadEndpointData(endpoint, filterKey, hasNone = false) {
-      this.camp()
-        [endpoint]()
-        ._meta.load.then(({ allItems }) => {
-          const collection = allItems.map((entry) => entry._meta.self)
-          if (hasNone) {
-            collection.push('none')
-          }
-          this.value[filterKey] =
-            this.value[filterKey].filter((value) => collection.includes(value)) ?? null
-          this.loadingEndpoints[endpoint] = false
-        })
+      this.camp[endpoint]()._meta.load.then(({ allItems }) => {
+        const collection = allItems.map((entry) => entry._meta.self)
+        if (hasNone) {
+          collection.push('none')
+        }
+        this.value[filterKey] =
+          this.value[filterKey].filter((value) => collection.includes(value)) ?? null
+        this.loadingEndpoints[endpoint] = false
+      })
     },
     resetFilter() {
       this.value.period = null

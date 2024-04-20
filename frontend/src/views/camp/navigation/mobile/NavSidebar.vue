@@ -37,23 +37,23 @@
 
       <v-divider />
 
-      <v-list v-if="!camp()._meta.loading">
+      <v-list v-if="!camp._meta.loading">
         <SidebarListItem
-          :title="camp().name"
-          :subtitle="camp().motto"
+          :title="camp.name"
+          :subtitle="camp.motto"
           two-line
           hide-avatar
           hide-chevron
         />
         <v-divider inset i />
         <SidebarListItem
-          :to="adminRoute(camp(), 'info')"
+          :to="adminRoute(camp, 'info')"
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemInfos')"
           icon="mdi-cogs"
         />
         <v-divider inset />
         <SidebarListItem
-          :to="adminRoute(camp(), 'activity')"
+          :to="adminRoute(camp, 'activity')"
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemActivity')"
           :subtitle="$tc('views.camp.navigation.mobile.navSidebar.itemActivitySubtitle')"
           icon="mdi-view-dashboard"
@@ -62,11 +62,11 @@
         <SidebarListItem
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"
-          :to="adminRoute(camp(), 'collaborators')"
+          :to="adminRoute(camp, 'collaborators')"
         />
         <v-divider inset />
         <SidebarListItem
-          :to="adminRoute(camp(), 'material')"
+          :to="adminRoute(camp, 'material')"
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemMaterialLists')"
           icon="mdi-package-variant"
         />
@@ -74,7 +74,7 @@
         <SidebarListItem
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemPrinting')"
           icon="mdi-file"
-          :to="adminRoute(camp(), 'print')"
+          :to="adminRoute(camp, 'print')"
         />
       </v-list>
 
@@ -129,7 +129,7 @@ export default {
   },
   props: {
     value: { type: Boolean, required: true },
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   computed: {
     newsLink() {

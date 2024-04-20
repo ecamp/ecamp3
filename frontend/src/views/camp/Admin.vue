@@ -60,15 +60,15 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {}
   },
   mounted() {
-    this.api.reload(this.camp())
-    this.api.reload(this.camp().materialLists())
-    this.api.reload(this.camp().progressLabels())
+    this.api.reload(this.camp)
+    this.api.reload(this.camp.materialLists())
+    this.api.reload(this.camp.progressLabels())
   },
 }
 </script>
