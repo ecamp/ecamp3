@@ -48,28 +48,24 @@ export default {
         // override @input listener for correct handling of numeric values
         {
           input: function (value) {
-            if (/\d/.test(value) || /\./.test(value) || !/,/.test(value)) {
-              // Convert from 2,000.00 to 2000.00
-              if (value.match(/^[^,]*,[^,.]+$/g)) {
-                value = value.replace(/\./g, '').replace(/,/g, '.')
-              }
-
-              // Remove all dots except the first one
-              let firstDotFound = false
-              value = value.replace(/\./g, (match) =>
-                firstDotFound ? '' : (firstDotFound = match)
-              )
-
-              // Remove everything except numbers, dots and the first minus sign
-              const negative = value.startsWith('-')
-              value = value.replace(/[^0-9.]/g, '')
-              value = negative ? '-' + value : value
-
-              vm.$refs.textField.lazyValue = value
-              vm.$emit('input', value)
-            } else {
-              vm.$emit('input', null)
+            // Convert from 2,000.00 to 2000.00
+            if (/\d/.test(value) && value.match(/^[^,]*,[^,.]+$/g)) {
+              value = value.replace(/\./g, '').replace(/,/g, '.')
             }
+
+            // Remove all dots except the first one
+            let firstDotFound = false
+            value = value.replace(/\./g, (match) =>
+              firstDotFound ? '' : (firstDotFound = match)
+            )
+
+            // Remove everything except numbers, dots and the first minus sign
+            const negative = value.startsWith('-')
+            value = value.replace(/[^0-9.]/g, '')
+            value = negative ? '-' + value : value
+
+            vm.$refs.textField.lazyValue = value
+            vm.$emit('input', value)
           },
         }
       )

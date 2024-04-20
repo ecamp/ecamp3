@@ -76,7 +76,7 @@ describe('An ENumberField', () => {
     ['2kg', 2],
     ['8,000.20', 8000.2],
     ['abc123', 123],
-    ['Hello, World?', null],
+    ['Hello, World?', ''],
     ['eCamp. Super!', '.'],
     ['+123..456..789', 123.456789],
     ['-10', -10],
