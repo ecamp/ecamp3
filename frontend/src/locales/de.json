@@ -498,6 +498,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Es werden keine Daten gespeichert.",
+        "title": "Offline"
+      }
+    },
     "language": "Deutsch",
     "loading": "Laden …",
     "navigation": {

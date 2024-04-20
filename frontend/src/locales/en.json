@@ -498,6 +498,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "ampm"
     },
+    "info": {
+      "offline": {
+        "description": "No data will be saved.",
+        "title": "Offline"
+      }
+    },
     "language": "English",
     "loading": "Loading …",
     "navigation": {

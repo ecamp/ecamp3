@@ -428,6 +428,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24 h"
     },
+    "info": {
+      "offline": {
+        "description": "Naginas datas na vegnan salvadas.",
+        "title": "Offline"
+      }
+    },
     "language": "Rumantsch",
     "loading": "Chargiar…",
     "navigation": {

@@ -464,6 +464,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Nessun dato verrà salvato.",
+        "title": "Offline"
+      }
+    },
     "language": "Italiano",
     "loading": "Caricamento ...",
     "navigation": {

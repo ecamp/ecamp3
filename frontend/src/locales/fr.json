@@ -481,6 +481,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Aucune donnée ne sera enregistrée.",
+        "title": "Offline"
+      }
+    },
     "language": "Français",
     "loading": "Chargement ...",
     "navigation": {
