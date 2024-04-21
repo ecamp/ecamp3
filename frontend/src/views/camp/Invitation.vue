@@ -142,7 +142,7 @@ export default {
 
     if (this.variant === 'default') {
       // Content of api response depends on authenticated user --> reload every time this component is mounted
-      this.invitation.$reload().then(
+      this.invitation?.$reload().then(
         () => {
           this.invitationFound = true
         },
