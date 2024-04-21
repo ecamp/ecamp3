@@ -11,6 +11,14 @@ App\Entity\ContentType:
     name: 'Notes'
     active: true
     entityClass: 'App\Entity\ContentNode\SingleText'
+  contentTypeLearningObjectives:
+    name: 'LearningObjectives'
+    active: true
+    entityClass: 'App\Entity\ContentNode\SingleText'
+  contentTypeLearningTopics:
+    name: 'LearningTopics'
+    active: true
+    entityClass: 'App\Entity\ContentNode\SingleText'
   contentTypeColumnLayout:
     name: 'ColumnLayout'
     active: true
