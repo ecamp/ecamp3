@@ -466,7 +466,7 @@
       }
     },
     "serverError": {
-      "409": "Ooops... This action caused an server-side error.",
+      "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"
     },
     "toast": {
@@ -684,7 +684,7 @@
     },
     "pageNotFound": {
       "backToHome": "Back to home",
-      "detail": "Whoops. You've lost your way…{br}Unfortunately, this link does not work."
+      "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
     },
     "profile": {
       "changeEmail": "Change",
