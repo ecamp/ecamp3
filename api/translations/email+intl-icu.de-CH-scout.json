@@ -6,9 +6,9 @@
         "subject": "Willkommen auf eCamp v3"
     },
     "passwordReset": {
-        "subject": "Passwort zurücksetzen"
+        "subject": "[eCamp v3] Passwort zurücksetzen"
     },
     "emailVerification": {
-        "subject": "E-Mail-Adresse verifizieren"
+        "subject": "[eCamp v3] E-Mail-Adresse verifizieren"
     }
 }
