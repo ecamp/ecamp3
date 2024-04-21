@@ -62,6 +62,25 @@ describe('An ENumberField', () => {
     expect(wrapper.vm.data).toBe(number)
   })
 
+  test('updates vModel with null or valid numbers', async () => {
+    const wrapper = mount()
+    const input = wrapper.find('input')
+
+    expect(wrapper.vm.data).toBeNull()
+
+    input.element.value = '.'
+    await input.trigger('input')
+    expect(wrapper.vm.data).toBeNull()
+
+    input.element.value = '.0'
+    await input.trigger('input')
+    expect(wrapper.vm.data).toBeNull()
+
+    input.element.value = '.01'
+    await input.trigger('input')
+    expect(wrapper.vm.data).toBe(0.01)
+  })
+
   test.each([
     ['1', 1],
     ['1.', 1],
