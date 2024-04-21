@@ -30,6 +30,8 @@ import NotImplemented from './NotImplemented.vue'
 import ColumnLayout from './ColumnLayout.vue'
 import ResponsiveLayout from './ResponsiveLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
+import LearningObjectives from './LearningObjectives.vue'
+import LearningTopics from './LearningTopics.vue'
 import Material from './Material.vue'
 import Notes from './Notes.vue'
 import SafetyConcept from './SafetyConcept.vue'
@@ -42,6 +44,8 @@ export default defineNuxtComponent({
     ColumnLayout,
     ResponsiveLayout,
     LAThematicArea,
+    LearningObjectives,
+    LearningTopics,
     Material,
     Notes,
     SafetyConcept,

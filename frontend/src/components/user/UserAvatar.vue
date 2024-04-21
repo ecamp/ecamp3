@@ -31,7 +31,7 @@ export default {
     },
     color() {
       if (this.isLoading) {
-        return defaultColor
+        return defaultColor()
       }
       return this.user
         ? userColor(this.user)
