@@ -163,9 +163,9 @@ export default {
           id: 'number-field',
           component: (type) => (type === 'v' ? '' : `${type}-number-field`),
           value: this.numberfieldValue,
-          valueNumber: true,
           props: {
             placeholder: this.placeholder,
+            inputmode: 'decimal',
             path: 'quantity',
             uri: this.materialUri,
           },
