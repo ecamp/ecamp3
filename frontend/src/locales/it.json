@@ -466,8 +466,8 @@
     },
     "info": {
       "offline": {
-        "description": "Nessun dato verrà salvato.",
-        "title": "Offline"
+        "description": "Impossibile salvare/caricare dati.",
+        "title": "Sei offline:"
       }
     },
     "language": "Italiano",

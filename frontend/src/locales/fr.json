@@ -483,8 +483,8 @@
     },
     "info": {
       "offline": {
-        "description": "Aucune donnée ne sera enregistrée.",
-        "title": "Offline"
+        "description": "Impossible d'enregistrer / de charger des données.",
+        "title": "Tu es hors ligne :"
       }
     },
     "language": "Français",

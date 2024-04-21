@@ -430,8 +430,8 @@
     },
     "info": {
       "offline": {
-        "description": "Naginas datas na vegnan salvadas.",
-        "title": "Offline"
+        "description": "Salvament/chargiament da datas nu è pussaivel.",
+        "title": "Ti es offline:"
       }
     },
     "language": "Rumantsch",

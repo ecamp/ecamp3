@@ -500,8 +500,8 @@
     },
     "info": {
       "offline": {
-        "description": "No data will be saved.",
-        "title": "Offline"
+        "description": "Data saving/loading not possible.",
+        "title": "Your are offline:"
       }
     },
     "language": "English",

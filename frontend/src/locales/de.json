@@ -500,8 +500,8 @@
     },
     "info": {
       "offline": {
-        "description": "Es werden keine Daten gespeichert.",
-        "title": "Offline"
+        "description": "Daten speichern/laden nicht möglich.",
+        "title": "Du bist offline:"
       }
     },
     "language": "Deutsch",

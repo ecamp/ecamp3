@@ -141,5 +141,6 @@ export default {
   z-index: 4;
   background: #fbdfdf;
   color: #7a0f0f;
+  font-size: 80%;
 }
 </style>
