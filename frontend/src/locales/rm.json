@@ -17,14 +17,6 @@
           "title": "Propi stizzar?"
         }
       },
-      "dialog": {
-        "dialogActivityEdit": {
-          "title": "Modifitgar l'activitad"
-        },
-        "formScheduleEntryList": {
-          "name": "Termins planisads"
-        }
-      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Sto esser vid per stizzar"
       },
@@ -150,7 +142,6 @@
         "title": "Envidar ina persuna"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Ti na pos betg attribuir in'autra rolla a l'ultima persuna cun dretgs d'administraziun.",
         "cannotRemoveLastManager": "Ti na pos betg deactivar l'ultima persuna cun dretgs d'administraziun.",
         "deactivate": "Deactivar",
         "delete": "Vuls ti propi allontanar la persuna '{name}'?",
@@ -320,6 +311,16 @@
       }
     },
     "program": {
+      "dialogActivityEdit": {
+        "title": "Modifitgar l'activitad"
+      },
+      "formScheduleEntryItem": {
+        "end": "Fin",
+        "start": "Entschatta"
+      },
+      "formScheduleEntryList": {
+        "name": "Termins planisads"
+      },
       "periodSwitcher": {
         "title": "Tscherner ina part dal champ"
       },

@@ -127,7 +127,7 @@ RUN rm $PHP_INI_DIR/conf.d/api-platform.prod.ini; \
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.3.1
+ARG XDEBUG_VERSION=3.3.2
 RUN set -eux; \
 	install-php-extensions \
 	xdebug-$XDEBUG_VERSION \

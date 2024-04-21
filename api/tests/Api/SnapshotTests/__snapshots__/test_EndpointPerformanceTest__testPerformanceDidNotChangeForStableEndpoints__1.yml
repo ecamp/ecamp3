@@ -27,3 +27,17 @@
 /schedule_entries: 23
 /schedule_entries/item: 21
 /users/item: 6
+'/activities?camp=': 13
+'/activity_progress_labels?camp=': 6
+'/activity_responsibles?activity.camp=': 6
+'/camp_collaborations?camp=': 13
+'/camp_collaborations?activityResponsibles.activity=': 15
+'/categories?camp=': 9
+'/content_types?categories=': 6
+'/day_responsibles?day.period=': 6
+'/material_items?materialList=': 7
+'/material_items?materialNode=': 7
+'/material_items?period=': 8
+'/material_lists?camp=': 6
+'/profiles?user.collaboration.camp=': 6
+'/schedule_entries?period=': 13

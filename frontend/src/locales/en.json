@@ -27,14 +27,6 @@
         "granted": "You can now paste copied activities.",
         "title": "Copy & paste activity"
       },
-      "dialog": {
-        "dialogActivityEdit": {
-          "title": "Edit activity"
-        },
-        "formScheduleEntryList": {
-          "name": "Scheduled"
-        }
-      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Must be empty to delete"
       },
@@ -208,7 +200,6 @@
         "title": "Invite people"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
         "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
         "delete": "Do you really want to remove collaborator '{name}'?",
@@ -388,6 +379,16 @@
         "copyPasteActivity": "Copy & paste activity",
         "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
         "pasteActivity": "paste activity"
+      },
+      "dialogActivityEdit": {
+        "title": "Edit activity"
+      },
+      "formScheduleEntryItem": {
+        "end": "End",
+        "start": "Start"
+      },
+      "formScheduleEntryList": {
+        "name": "Scheduled"
       },
       "periodSwitcher": {
         "title": "Choose period"

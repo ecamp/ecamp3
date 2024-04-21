@@ -41,6 +41,13 @@ export default new Router({
 
     // Prod-Pages:
     {
+      path: '/debug',
+      name: 'debug',
+      components: {
+        default: () => import('./views/dev/Debug.vue'),
+      },
+    },
+    {
       path: '/register',
       name: 'register',
       components: {

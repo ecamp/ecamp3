@@ -27,14 +27,6 @@
         "granted": "Vous pouvez maintenant coller les activités copiées.",
         "title": "Copier et coller une activité"
       },
-      "dialog": {
-        "dialogActivityEdit": {
-          "title": "Modifier l'activité"
-        },
-        "formScheduleEntryList": {
-          "name": "Dates planifiées"
-        }
-      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Doit être vide pour être supprimé"
       },
@@ -193,7 +185,6 @@
         "title": "Inviter une personne"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Tu ne peux pas attribuer un autre rôle au dernier manager.",
         "cannotRemoveLastManager": "Tu ne peux pas supprimer le dernier manager.",
         "deactivate": "Désactiver",
         "delete": "Veux-tu vraiment supprimer la personne '{name}' ?",
@@ -371,6 +362,9 @@
         "copyPastActivity": "Copier et coller une activité",
         "copySourceInfo": "Vous pouvez coller ici l'URL d'une activité pour copier son contenu.",
         "pasteActivity": "coller l'activité"
+      },
+      "dialogActivityEdit": {
+        "title": "Modifier l'activité"
       },
       "formScheduleEntryItem": {
         "end": "Fin",

@@ -20,14 +20,6 @@
           }
         }
       },
-      "dialog": {
-        "dialogActivityEdit": {
-          "title": "Modificare l'actività"
-        },
-        "formScheduleEntryList": {
-          "name": "Programmato"
-        }
-      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Deve essere vuoto per essere eliminato"
       },
@@ -185,7 +177,6 @@
         "title": "Invitare una persona"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Non puoi assegnare un altro ruolo all'ultimo manager.",
         "cannotRemoveLastManager": "Non è possibile rimuovere l'ultimo gestore.",
         "deactivate": "Disattivare",
         "delete": "Vuoi davvero rimuovere la persona '{name}'?",
@@ -355,6 +346,16 @@
       }
     },
     "program": {
+      "dialogActivityEdit": {
+        "title": "Modificare l'actività"
+      },
+      "formScheduleEntryItem": {
+        "end": "Fine",
+        "start": "Inizio"
+      },
+      "formScheduleEntryList": {
+        "name": "Programmato"
+      },
       "periodSwitcher": {
         "title": "Scegli il periodo"
       },
