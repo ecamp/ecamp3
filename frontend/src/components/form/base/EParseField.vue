@@ -121,7 +121,7 @@ export default {
       handler(val) {
         // if the value is the same, we don't need to parse it again
         this.parseError = null
-        if (this.parse && this.parse(val) === this.parse(this.localValue)) {
+        if (val === this.localValue) {
           return
         }
         this.localValue = val
