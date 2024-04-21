@@ -42,7 +42,7 @@ import { ValidationProvider } from 'vee-validate'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
-  name: 'EFormattedField',
+  name: 'EParseField',
   components: { ValidationProvider },
   mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
