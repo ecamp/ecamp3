@@ -3,7 +3,7 @@ Displays a field as a e-number-field + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper v-slot="wrapper" :parse="parse" v-bind="$props" v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
     <e-number-field
       ref="textField"
       :value="wrapper.localValue"
@@ -47,13 +47,6 @@ export default {
   methods: {
     focus() {
       this.$refs.textField.focus()
-    },
-    parse(input) {
-      if (input !== null && input !== '' && !Number.isNaN(Number(input))) {
-        return Number(input)
-      } else {
-        return null
-      }
     },
   },
 }

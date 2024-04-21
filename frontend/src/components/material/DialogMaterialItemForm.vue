@@ -1,7 +1,7 @@
 <template>
   <e-form name="materialItem">
     <e-number-field
-      v-model.number="localMaterialItem.quantity"
+      v-model="localMaterialItem.quantity"
       path="quantity"
       inputmode="decimal"
       autofocus

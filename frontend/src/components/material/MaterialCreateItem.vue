@@ -9,7 +9,7 @@
     <td class="pt-1">
       <e-number-field
         ref="quantity"
-        v-model.number="materialItem.quantity"
+        v-model="materialItem.quantity"
         dense
         inputmode="decimal"
         path="quantity"

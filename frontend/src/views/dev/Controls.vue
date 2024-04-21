@@ -40,13 +40,6 @@
         <template #[`item.e`]="{ item }">
           <component
             :is="item.component('e')"
-            v-if="item.valueNumber"
-            v-model.number="item.value"
-            v-bind="{ ...item.props, ...config }"
-          />
-          <component
-            :is="item.component('e')"
-            v-else
             v-model="item.value"
             v-bind="{ ...item.props, ...config }"
           />

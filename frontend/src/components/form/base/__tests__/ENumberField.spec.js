@@ -20,7 +20,7 @@ describe('An ENumberField', () => {
           data: null,
         }
       },
-      template: `<div data-app><e-number-field label="test" v-model.number="data"/></div>`,
+      template: `<div data-app><e-number-field label="test" v-model="data"/></div>`,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -39,19 +39,16 @@ describe('An ENumberField', () => {
 
   test('updates text when vModel changes', async () => {
     const wrapper = mount()
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBeNull()
+    const input = wrapper.find('input').element
+    expect(input.value).toBeDefined()
 
     const firstNumber = 0
     await wrapper.setData({ data: firstNumber })
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
-      `${firstNumber}`
-    )
+    expect(input.value).toBe(`${firstNumber}`)
 
     const secondNumber = 3.14
     await wrapper.setData({ data: secondNumber })
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
-      `${secondNumber}`
-    )
+    expect(input.value).toBe(`${secondNumber}`)
   })
 
   test('updates vModel when value of input field changes', async () => {
@@ -76,14 +73,14 @@ describe('An ENumberField', () => {
     ['2kg', 2],
     ['8,000.20', 8000.2],
     ['abc123', 123],
-    ['Hello, World?', ''],
-    ['eCamp. Super!', '.'],
+    ['Hello, World?', null],
+    ['eCamp. Super!', null],
     ['+123..456..789', 123.456789],
     ['-10', -10],
     ['2-4 Stück', 24],
     ['-0', -0],
-    ['.', '.'],
-    ['.a', '.'],
+    ['.', null],
+    ['.a', null],
     ['.a02', 0.02],
   ])('parses "%s" as "%s"', async (string, expected) => {
     const wrapper = mount()
