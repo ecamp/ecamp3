@@ -481,6 +481,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Impossible d'enregistrer / de charger des données.",
+        "title": "Tu es hors ligne :"
+      }
+    },
     "language": "Français",
     "loading": "Chargement ...",
     "navigation": {

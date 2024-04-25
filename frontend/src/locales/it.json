@@ -464,6 +464,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Impossibile salvare/caricare dati.",
+        "title": "Sei offline:"
+      }
+    },
     "language": "Italiano",
     "loading": "Caricamento ...",
     "navigation": {

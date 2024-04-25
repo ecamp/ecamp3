@@ -8,6 +8,13 @@
     <v-main>
       <router-view />
     </v-main>
+
+    <v-footer v-if="offline" app>
+      <p class="mb-0">
+        <strong>{{ $tc('global.info.offline.title') }}</strong>
+        {{ $tc('global.info.offline.description') }}
+      </p>
+    </v-footer>
   </v-app>
 </template>
 
@@ -16,8 +23,14 @@ import VueI18n from '@/plugins/i18n'
 
 export default {
   name: 'App',
+  data: () => ({
+    offline: false,
+  }),
   created() {
     this.$store.commit('setLanguage', this.$store.state.lang.language)
+
+    window.addEventListener('offline', this.offlineListener)
+    window.addEventListener('online', this.onlineListener)
   },
   async mounted() {
     if (this.$auth.isLoggedIn()) {
@@ -28,6 +41,18 @@ export default {
         this.$store.commit('setLanguage', profile.language)
       }
     }
+  },
+  destroyed() {
+    window.removeEventListener('offline', this.offlineListener)
+    window.removeEventListener('online', this.onlineListener)
+  },
+  methods: {
+    offlineListener() {
+      this.offline = true
+    },
+    onlineListener() {
+      this.offline = false
+    },
   },
 }
 </script>
@@ -107,5 +132,15 @@ export default {
     clip-path: inset(50%);
     border: 0;
   }
+}
+</style>
+
+<style scoped>
+.v-footer {
+  border-top: 3px solid #c80d0d;
+  z-index: 4;
+  background: #fbdfdf;
+  color: #7a0f0f;
+  font-size: 80%;
 }
 </style>
