@@ -1,0 +1,8 @@
+grafana-proxy:
+  ingress:
+    enabled: true
+    className: nginx
+  extraArgs: 
+    provider: github
+    github-org: ecamp
+    upstream: http://kube-prometheus-stack-grafana.kube-prometheus-stack.svc.cluster.local:80

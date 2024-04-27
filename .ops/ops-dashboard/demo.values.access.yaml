@@ -1,0 +1,16 @@
+grafana-proxy:
+  ingress: 
+    hosts:
+      # dev, stage or prod grafana url
+      - dev-grafana.ecamp3.ch
+  extraArgs:
+    # dev, stage or prod grafana url
+    whitelist-domain: dev-grafana.ecamp3.ch
+  config:
+    # OAuth client ID
+    clientID: ""
+    # OAuth client secret
+    clientSecret: ""
+    # Create a new secret with the following command
+    # openssl rand -base64 32 | head -c 32 | base64
+    cookieSecret: ""
