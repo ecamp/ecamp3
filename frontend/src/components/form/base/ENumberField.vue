@@ -1,5 +1,6 @@
 <template>
   <EParseField
+    ref="input"
     :value="value"
     :format="format"
     :parse="parse"
@@ -54,6 +55,9 @@ export default {
      */
     parse(value) {
       return isNaN(parseFloat(value)) || /^\.0*$/.test(value) ? null : parseFloat(value)
+    },
+    focus() {
+      this.$refs.input.focus()
     },
   },
 }

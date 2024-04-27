@@ -170,6 +170,9 @@ export default {
         this.parseError = error
       }
     },
+    focus() {
+      this.$refs.textField.focus()
+    },
   },
 }
 </script>
