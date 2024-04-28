@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Tests\HttpCache\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Resource linked to a standard object.
@@ -24,14 +23,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity]
 class ContainNonResource extends BaseEntity {
     /**
-     * @var ContainNonResource
-     */
-    #[Groups('contain_non_resource')]
-    public $nested;
-
-    /**
      * @var NotAResource
      */
-    #[Groups('contain_non_resource')]
     public $notAResource;
+
+    /**
+     * @var NotAResource[]
+     */
+    public $collectionOfNotAResource;
 }
