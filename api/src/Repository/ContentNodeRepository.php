@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\ContentNode;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +28,7 @@ class ContentNodeRepository extends SortableServiceEntityRepository implements C
         parent::__construct($em, $entityClass);
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $this->filterByContentNode($queryBuilder, $user, $queryBuilder->getRootAliases()[0]);
     }
 }

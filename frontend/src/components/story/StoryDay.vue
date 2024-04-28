@@ -9,8 +9,15 @@
           <div v-for="chapter in storyChapters" :key="chapter._meta.self">
             <h4 class="mt-3 mt-sm-5">
               <span class="d-inline-flex align-center">
-                <span class="tabular-nums">{{ scheduleEntry.number }}</span>
-                <CategoryChip :schedule-entry="scheduleEntry" class="mx-1" dense />
+                <span v-if="scheduleEntry.number" class="tabular-nums">{{
+                  scheduleEntry.number
+                }}</span>
+                <CategoryChip
+                  :schedule-entry="scheduleEntry"
+                  class="mr-1"
+                  :class="{ 'ml-1': scheduleEntry.number }"
+                  dense
+                />
               </span>
               <router-link
                 :to="{
@@ -37,7 +44,7 @@
                 auto-grow
                 dense
                 :readonly="!editMode"
-                fieldname="data.html"
+                path="data.html"
                 aria-label="Erfassen"
                 label=""
               />

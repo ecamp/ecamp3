@@ -1,58 +1,47 @@
 <template>
-  <div>
+  <e-form name="campCollaboration">
     <e-text-field
       v-if="status"
       class="ec-status-field"
       :value="translatedStatus"
       readonly
-      :name="$tc('entity.campCollaboration.fields.status')"
+      path="status"
     >
       <template #append>
         <slot name="statusChange" />
       </template>
     </e-text-field>
-    <v-tooltip v-if="readonlyRole" eager bottom>
-      <span id="readonly">
-        {{ $tc('components.collaborator.collaboratorForm.roleHint') }}
-      </span>
-      <template #activator="{ on }">
-        <div tabindex="0" class="mt-3" v-on="on">
-          <e-select
-            v-model="localCollaboration.role"
-            fieldname="role"
-            readonly
-            aria-readonly="true"
-            aria-describedby="readonly"
-            :name="$tc('entity.campCollaboration.fields.role')"
-            :items="items"
-            :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
-            persistent-hint
-            item-value="key"
-            item-text="role"
-            vee-rules="required"
+    <e-select
+      v-if="readonlyRole"
+      v-model="localCollaboration.role"
+      path="role"
+      readonly
+      aria-readonly="true"
+      aria-describedby="readonly"
+      :items="items"
+      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
+      persistent-hint
+      item-value="key"
+      item-text="role"
+      vee-rules="required"
+    >
+      <template #selection="{ item }">
+        <span
+          >{{ item.role }} &middot;
+          <span class="grey--text"
+            ><template v-for="icon in item.icons"
+              ><v-icon :key="icon" x-small>{{ icon }}</v-icon
+              >&thinsp;</template
+            ></span
           >
-            <template #selection="{ item }">
-              <span
-                >{{ item.role }} &middot;
-                <span class="grey--text"
-                  ><template v-for="icon in item.icons"
-                    ><v-icon :key="icon" x-small>{{ icon }}</v-icon
-                    >&thinsp;</template
-                  ></span
-                >
-              </span>
-            </template>
-          </e-select>
-        </div>
+        </span>
       </template>
-    </v-tooltip>
+    </e-select>
     <e-select
       v-else
       v-model="localCollaboration.role"
-      :name="$tc('entity.campCollaboration.fields.role')"
-      fieldname="role"
+      path="role"
       :items="items"
-      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
       item-value="key"
       item-text="role"
@@ -86,7 +75,7 @@
         </span>
       </template>
     </e-select>
-  </div>
+  </e-form>
 </template>
 
 <script>

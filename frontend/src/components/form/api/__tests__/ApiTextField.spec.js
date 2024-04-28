@@ -18,7 +18,7 @@ describe('An ApiTextField', () => {
   let wrapper
   let apiMock
 
-  const fieldName = 'test-field/123'
+  const path = 'test-field/123'
   const TEXT_1 = 'some text'
   const TEXT_2 = 'another text'
   const NUMBER_1 = 1.2
@@ -38,13 +38,13 @@ describe('An ApiTextField', () => {
     const app = Vue.component('App', {
       components: { ApiTextField },
       props: {
-        fieldName: { type: String, default: fieldName },
+        path: { type: String, default: path },
       },
       template: number
         ? `<div data-app>
             <api-text-field
               :auto-save="false"
-              :fieldname="fieldName"
+              :path="path"
               uri="test-field/123"
               label="Test field"
               required="true"
@@ -54,14 +54,14 @@ describe('An ApiTextField', () => {
         : `<div data-app>
             <api-text-field
               :auto-save="false"
-              :fieldname="fieldName"
+              :path="path"
               uri="test-field/123"
               label="Test field"
               required="true"
             />
           </div>`,
     })
-    apiMock.get().thenReturn(ApiMock.success(TEXT_1).forFieldName(fieldName))
+    apiMock.get().thenReturn(ApiMock.success(TEXT_1).forPath(path))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
@@ -96,7 +96,7 @@ describe('An ApiTextField', () => {
 
     test('updates state if value in store is refreshed and has new value', async () => {
       wrapper = mount()
-      apiMock.get().thenReturn(ApiMock.success(TEXT_2).forFieldName(fieldName))
+      apiMock.get().thenReturn(ApiMock.success(TEXT_2).forPath(path))
 
       wrapper.findComponent(ApiWrapper).vm.reload()
 
@@ -128,7 +128,7 @@ describe('An ApiTextField', () => {
 
     test('updates state if value in store is refreshed and has new value', async () => {
       wrapper = mount({}, true)
-      apiMock.get().thenReturn(ApiMock.success(NUMBER_1).forFieldName(fieldName))
+      apiMock.get().thenReturn(ApiMock.success(NUMBER_1).forPath(path))
 
       wrapper.findComponent(ApiWrapper).vm.reload()
 

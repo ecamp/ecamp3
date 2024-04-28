@@ -4,8 +4,7 @@ import { toTime, roundTimeUpToNextQuarterHour } from '@/helpers/vCalendarDragAnd
  *
  * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
  * @param update {(scheduleEntry: object, startTime: number, endTime: number) => void} callback for update actions
- * @param minTimestamp {number}  minimum allowed start timestamp (calendar start)
- * @param maxTimestamp {number}  maximum allowed end timestamp (calendar end)
+ * @param maxTimestamp {Ref<number>}  maximum allowed end timestamp (calendar end)
  * @returns
  */
 export function useDragAndDropResize(enabled, update, maxTimestamp) {
@@ -27,7 +26,10 @@ export function useDragAndDropResize(enabled, update, maxTimestamp) {
   const resizeEntry = (entry, mouse) => {
     const newEndTimestamp = roundTimeUpToNextQuarterHour(mouse)
 
-    if (newEndTimestamp <= maxTimestamp && newEndTimestamp - entry.startTimestamp > 0) {
+    if (
+      newEndTimestamp <= maxTimestamp.value &&
+      newEndTimestamp - entry.startTimestamp > 0
+    ) {
       // TODO review: Here we're changing the store value directly.
       entry.endTimestamp = newEndTimestamp
     }
@@ -81,6 +83,8 @@ export function useDragAndDropResize(enabled, update, maxTimestamp) {
 
   // start resize operation (needs to be called manually from resize handle)
   const startResize = (event) => {
+    if (!event.filterMatch) return
+
     resizedEntry = event
     originalEndTimestamp = event.endTimestamp
   }

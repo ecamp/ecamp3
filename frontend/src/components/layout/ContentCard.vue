@@ -12,6 +12,7 @@ Displays the content wrapped inside a card.
     <v-toolbar
       v-if="back || !$vuetify.breakpoint.mdAndUp || toolbar"
       class="ec-content-card__toolbar"
+      :class="{ 'ec-content-card__toolbar--border': !noBorder }"
       elevation="0"
       dense
     >
@@ -53,6 +54,7 @@ export default {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },
     toolbar: { type: Boolean, required: false, default: false },
+    noBorder: { type: Boolean, required: false, default: false },
     back: { type: Boolean, required: false, default: false },
     maxWidth: { type: String, default: '' },
   },
@@ -66,6 +68,11 @@ export default {
     top: 0;
     z-index: 5;
   }
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+</style>
+
+<style>
+.ec-content-card__toolbar--border {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 </style>

@@ -12,7 +12,7 @@ describe('An EColorPicker', () => {
   const COLOR2 = '#ff00ff'
   const COLOR3 = '#FAFFAF'
   const INVALID_COLOR = 'some new color'
-  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Farbe für test zu wählen'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Farbe für test zu wählen'
   const VALIDATION_MESSAGE = 'test is not valid'
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('An EColorPicker', () => {
     render(EColorPicker, {
       props: {
         value: COLOR1,
-        name: 'test',
+        label: 'test',
       },
     })
 
@@ -40,7 +40,7 @@ describe('An EColorPicker', () => {
 
     // when
     const { container } = render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
 
     // then
@@ -57,7 +57,7 @@ describe('An EColorPicker', () => {
   it('opens the picker when the text field is clicked', async () => {
     // given
     render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
 
@@ -73,7 +73,7 @@ describe('An EColorPicker', () => {
   it('opens the picker when the icon button is clicked', async () => {
     // given
     render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
 
@@ -89,7 +89,7 @@ describe('An EColorPicker', () => {
   it('closes the picker when clicking outside', async () => {
     // given
     render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     await user.click(button)
@@ -109,7 +109,7 @@ describe('An EColorPicker', () => {
   it('closes the picker when pressing escape', async () => {
     // given
     render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     await user.click(button)
@@ -129,7 +129,7 @@ describe('An EColorPicker', () => {
   it('does not close the picker when selecting a color', async () => {
     // given
     const { container } = render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     await user.click(button)
@@ -154,7 +154,7 @@ describe('An EColorPicker', () => {
   it('updates v-model when the value changes', async () => {
     // given
     const { emitted } = render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
 
@@ -183,7 +183,7 @@ describe('An EColorPicker', () => {
   it('updates v-model when a new color is selected in the picker', async () => {
     // given
     const { emitted, container } = render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     await screen.findByDisplayValue(COLOR1)
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
@@ -218,7 +218,7 @@ describe('An EColorPicker', () => {
   it('validates the input', async () => {
     // given
     render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, path: 'test', validationLabelOverride: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
 
@@ -232,7 +232,7 @@ describe('An EColorPicker', () => {
 
   it('accepts 3-digit hex color codes, after picker has been shown', async () => {
     render(EColorPicker, {
-      props: { value: COLOR1, name: 'test' },
+      props: { value: COLOR1, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)

@@ -5,9 +5,9 @@
   >
     <v-list>
       <v-list-item
-        v-for="category in camp().categories().items"
+        v-for="category in camp.categories().items"
         :key="category._meta.self"
-        :to="categoryRoute(camp(), category)"
+        :to="categoryRoute(camp, category)"
         replace
       >
         <v-list-item-title class="d-flex gap-2 align-baseline">
@@ -31,7 +31,7 @@ export default {
   name: 'SideBarCategory',
   components: { CategoryChip, SideBar },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   methods: { categoryRoute },
 }

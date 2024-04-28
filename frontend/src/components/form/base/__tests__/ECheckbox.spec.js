@@ -22,7 +22,7 @@ describe('An ECheckbox', () => {
       },
       template: `
         <div data-app>
-          <e-checkbox v-model="data"/>
+          <e-checkbox label="test" v-model="data"/>
         </div>
       `,
     })

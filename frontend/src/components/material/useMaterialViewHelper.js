@@ -6,6 +6,7 @@ import i18n from '@/plugins/i18n/index.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import { apiStore } from '@/plugins/store/index.js'
 import { materialListFromRoute } from '@/router.js'
+import shortScheduleEntryDescription from './shortScheduleEntryDescription.js'
 
 function generateFilename(camp, materialList) {
   const description = materialList
@@ -47,7 +48,7 @@ async function getSheets(camp, collection, materialList) {
           const activity = await getActivity(camp, materialItem)
           const scheduleEntries = activity
             ?.scheduleEntries()
-            .items.map((item) => item.number)
+            .items.map((item) => shortScheduleEntryDescription(item, i18n.tc.bind(i18n)))
             .join(', ')
           data.push([
             materialItem.quantity,
@@ -105,9 +106,7 @@ function loadPeriods(camp) {
  * @param {boolean} [list]
  */
 export function useMaterialViewHelper(camp, list) {
-  const computedList = computed(() =>
-    list ? materialListFromRoute(useRoute()).call({ api: apiStore }) : null
-  )
+  const computedList = computed(() => (list ? materialListFromRoute(useRoute()) : null))
 
   const collection = computed(() => {
     const materialList = computedList.value?._meta.self

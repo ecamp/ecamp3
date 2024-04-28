@@ -82,7 +82,7 @@ export default {
   name: 'DaySwitcher',
   components: { AvatarRow },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
     daySelection: { type: Object, required: true },
     loading: { type: Boolean },
   },
@@ -104,7 +104,7 @@ export default {
       )
     },
     periods() {
-      return sortBy(this.camp().periods().items, 'start')
+      return sortBy(this.camp.periods().items, 'start')
     },
   },
   methods: {

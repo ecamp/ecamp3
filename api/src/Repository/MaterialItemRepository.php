@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\MaterialItem;
+use App\Entity\MaterialList;
 use App\Entity\User;
+use App\Entity\UserCamp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,10 +25,15 @@ class MaterialItemRepository extends ServiceEntityRepository implements CanFilte
         parent::__construct($registry, MaterialItem::class);
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
+        $materialListQry = $this->getEntityManager()->createQueryBuilder();
+        $materialListQry->select('ml');
+        $materialListQry->from(MaterialList::class, 'ml');
+        $materialListQry->join(UserCamp::class, 'uc', Join::WITH, 'ml.camp = uc.camp');
+        $materialListQry->where('uc.user = :current_user');
+
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.materialList", 'materialList');
-        $queryBuilder->innerJoin('materialList.camp', 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.materialList", $materialListQry->getDQL()));
+        $queryBuilder->setParameter('current_user', $user);
     }
 }

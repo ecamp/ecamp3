@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
@@ -30,9 +31,19 @@ class CampCollaborationRepository extends ServiceEntityRepository implements Can
         return $this->findOneBy(['user' => $user, 'camp' => $camp]);
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+    public function findByUserAndIdAndInvited(User $user, string $id): ?CampCollaboration {
+        return $this->findOneBy(['user' => $user, 'id' => $id, 'status' => CampCollaboration::STATUS_INVITED]);
+    }
+
+    /**
+     * @return CampCollaboration[]
+     */
+    public function findAllByPersonallyInvitedUser(User $user): array {
+        return $this->findBy(['user' => $user, 'status' => CampCollaboration::STATUS_INVITED]);
+    }
+
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
     }
 }

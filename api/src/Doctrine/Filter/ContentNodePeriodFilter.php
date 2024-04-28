@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
 use App\Entity\Activity;
 use App\Entity\ContentNode;
+use App\Repository\FiltersByCampCollaboration;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,6 +17,8 @@ use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class ContentNodePeriodFilter extends AbstractFilter {
+    use FiltersByCampCollaboration;
+
     public const PERIOD_QUERY_NAME = 'period';
 
     public function __construct(
@@ -62,18 +65,19 @@ final class ContentNodePeriodFilter extends AbstractFilter {
 
         // generate alias to avoid interference with other filters
         $periodParameterName = $queryNameGenerator->generateParameterName($property);
-        $rootJoinAlias = $queryNameGenerator->generateJoinAlias('root');
         $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
         $scheduleEntryJoinAlias = $queryNameGenerator->generateJoinAlias('scheduleEntry');
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
 
-        $queryBuilder
-            ->join("{$rootAlias}.root", $rootJoinAlias)
-            ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
-            ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias, Join::WITH, $queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
+        $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $rootQry
+            ->select("identity({$activityJoinAlias}.rootContentNode)")
+            ->from(Activity::class, $activityJoinAlias)
+            ->innerJoin("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias, Join::WITH, $queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
         ;
 
+        $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.root", $rootQry->getDQL()));
         $queryBuilder->setParameter($periodParameterName, $period);
     }
 }

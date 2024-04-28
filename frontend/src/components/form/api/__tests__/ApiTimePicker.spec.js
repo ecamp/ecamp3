@@ -7,11 +7,11 @@ import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 describe('An ApiTimePicker', () => {
   let apiMock
 
-  const FIELD_NAME = 'test-field/123'
+  const FIELD_PATH = 'test-field/123'
   const FIELD_LABEL = 'Test field'
   const TIME_1 = '2037-07-18T09:52:00+00:00'
   const TIME_2 = '2037-07-18T00:52:00+00:00'
-  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Zeit für Test field zu wählen'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Zeit für Test field zu wählen'
 
   beforeEach(() => {
     setTestLocale('de')
@@ -24,12 +24,12 @@ describe('An ApiTimePicker', () => {
 
   it('triggers api.patch and status update if input changes', async () => {
     // given
-    apiMock.get().thenReturn(ApiMock.success(TIME_1).forFieldName(FIELD_NAME))
+    apiMock.get().thenReturn(ApiMock.success(TIME_1).forPath(FIELD_PATH))
     apiMock.patch().thenReturn(ApiMock.success(TIME_2))
     render(ApiTimePicker, {
       props: {
         autoSave: false,
-        fieldname: FIELD_NAME,
+        path: FIELD_PATH,
         uri: 'test-field/123',
         label: FIELD_LABEL,
         required: true,
@@ -59,11 +59,11 @@ describe('An ApiTimePicker', () => {
 
   it('updates state if value in store is refreshed and has new value', async () => {
     // given
-    apiMock.get().thenReturn(ApiMock.networkError().forFieldName(FIELD_NAME))
+    apiMock.get().thenReturn(ApiMock.networkError().forPath(FIELD_PATH))
     render(ApiTimePicker, {
       props: {
         autoSave: false,
-        fieldname: FIELD_NAME,
+        path: FIELD_PATH,
         uri: 'test-field/123',
         label: FIELD_LABEL,
         required: true,
@@ -75,7 +75,7 @@ describe('An ApiTimePicker', () => {
     await screen.findByText('A network error occurred.')
     expect((await screen.findByLabelText(FIELD_LABEL)).value).not.toBe('09:52')
     const retryButton = await screen.findByText('Erneut versuchen')
-    apiMock.get().thenReturn(ApiMock.success(TIME_1).forFieldName(FIELD_NAME))
+    apiMock.get().thenReturn(ApiMock.success(TIME_1).forPath(FIELD_PATH))
 
     // when
     await user.click(retryButton)

@@ -2,7 +2,7 @@
   <ContentNodeCard v-bind="$props">
     <api-richtext
       :uri="contentNode._meta.self"
-      fieldname="data.html"
+      path="data.html"
       :placeholder="$tc('contentNode.safetyConcept.name')"
       rows="2"
       :disabled="layoutMode || disabled"

@@ -22,7 +22,7 @@
       },
       "copyActivityInfoDialog": {
         "allow": "Jetzt erlauben",
-        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "denied": "Du hast das Lesen aus der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
         "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
         "title": "Aktivität kopieren & einfügen"
@@ -100,8 +100,8 @@
       },
       "campPeriodsListItem": {
         "changePeriodDescription": "Bezeichnung ändern",
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
-        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden.",
+        "deleteWarning": "Möchtest du diesen Lagerabschnitt wirklich löschen?",
+        "lastPeriodNotDeletable": "Der letzte Lagerabschnitt kann nicht gelöscht werden.",
         "movePeriod": "Lagerabschnitt verschieben",
         "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
         "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen"
@@ -124,7 +124,7 @@
         "copyCategoryOrActivity": "Kategorie oder Aktivität kopieren",
         "copyContent": "Inhalt kopieren",
         "copyPasteCategory": "Kategorie kopieren & einfügen",
-        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
         "pasteCategory": "Kopierte Kategorie oder Aktivität einfügen",
         "title": "Block-Kategorie erstellen"
       },
@@ -175,7 +175,7 @@
         "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
-        "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
+        "submitTooltipPrototype": "Du musst noch auswählen, ob und welche Lagervorlage du verwenden möchtest."
       }
     },
     "category": {
@@ -200,7 +200,6 @@
         "title": "Person einladen"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Du kannst der letzten Person mit administrativen Rechten keine andere Rolle zuteilen.",
         "cannotRemoveLastManager": "Du kannst die letzte Person mit administrativen Rechten nicht deaktivieren",
         "deactivate": "Deaktivieren",
         "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
@@ -230,15 +229,15 @@
     "form": {
       "base": {
         "eColorPicker": {
-          "openPicker": "Dialog öffnen um eine Farbe für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein",
-          "openPicker": "Dialog öffnen um ein Datum für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um ein Datum für {label} zu wählen"
         },
         "eTimePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib die Zeit im Format HH:MM ein",
-          "openPicker": "Dialog öffnen um eine Zeit für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Zeit für {label} zu wählen"
         }
       }
     },
@@ -282,9 +281,21 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Einladungen",
         "logOut": "Ausloggen",
         "myCamps": "Meine Lager",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Einladung ablehnen",
+        "warningText": "Möchtest du die Einladung zum Lager \"{campTitle}\" wirklich ablehnen?"
+      },
+      "personalInvitations": {
+        "accept": "Akzeptieren",
+        "noOpenInvitations": "Keine offene Einladungen. Wurde die Einladung an eine andere Adresse als \"{email}\" versendet?",
+        "reject": "Ablehnen"
       }
     },
     "print": {
@@ -366,8 +377,11 @@
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
         "copyPasteActivity": "Aktivität kopieren & einfügen",
-        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
+      },
+      "dialogActivityEdit": {
+        "title": "Aktivität bearbeiten"
       },
       "formScheduleEntryItem": {
         "end": "Ende",
@@ -390,6 +404,16 @@
           "location": "Ort:",
           "responsible": "Verantwortlich: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Kategorie",
+        "clearFilters": "Filter entfernen",
+        "onlyMyActivities": "Nur meine Aktivitäten",
+        "period": "Lagerabschnitt",
+        "progressLabel": "Status",
+        "progressLabelNone": "Kein Status",
+        "responsible": "Verantwortlich",
+        "responsibleNone": "Keine Verantwortlichen"
       }
     },
     "prompt": {
@@ -456,6 +480,7 @@
       "open": "Öffnen",
       "remove": "Entfernen",
       "rename": "Umbenennen",
+      "reset": "Zurücksetzen",
       "save": "Speichern",
       "saving": "Speichert",
       "search": "Suchen",
@@ -472,6 +497,12 @@
     },
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
+    },
+    "info": {
+      "offline": {
+        "description": "Daten speichern/laden nicht möglich.",
+        "title": "Du bist offline:"
+      }
     },
     "language": "Deutsch",
     "loading": "Laden …",
@@ -523,7 +554,6 @@
         "title": "Lagerinfos"
       },
       "print": {
-        "reset": "Zurücksetzen",
         "title": "Lager drucken"
       },
       "sideBarAdmin": {
@@ -602,8 +632,6 @@
       },
       "dashboard": {
         "activities": "Aktivitäten",
-        "category": "Kategorie",
-        "clearFilters": "Filter entfernen",
         "columns": {
           "category": "Kategorie",
           "number": "Nummer",
@@ -612,12 +640,6 @@
           "title": "Titel"
         },
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
-        "onlyMyActivities": "Nur meine Aktivitäten",
-        "period": "Lagerabschnitt",
-        "progressLabel": "Status",
-        "progressLabelNone": "Kein Status",
-        "responsible": "Verantwortlich",
-        "responsibleNone": "Keine Verantwortlichen",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
@@ -687,6 +709,9 @@
       "sideBarCategory": {
         "title": "Kategorien"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Einladungen"
     },
     "material": {
       "materialLists": {

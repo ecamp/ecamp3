@@ -10,7 +10,7 @@ Critical operations on camp
       </h2>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+      <v-skeleton-loader v-if="camp._meta.loading" type="article" />
       <div v-else>
         <v-list class="py-0" color="transparent">
           <v-list-item class="px-0">
@@ -24,8 +24,8 @@ Critical operations on camp
             </v-list-item-content>
             <v-list-item-action>
               <dialog-entity-delete
-                :entity="camp()"
-                :submit-enabled="promptText === camp().name"
+                :entity="camp"
+                :submit-enabled="promptText === camp.name"
                 icon="mdi-bomb"
                 @submit="$router.push({ name: 'camps' })"
               >
@@ -44,14 +44,14 @@ Critical operations on camp
                 <p class="body-1">
                   {{
                     $tc('components.campAdmin.campDangerZone.deleteCamp.explanation', 0, {
-                      campName: camp().name,
+                      campName: camp.name,
                     })
                   }}
                 </p>
                 <label>
                   {{
                     $tc('components.campAdmin.campDangerZone.deleteCamp.label', 0, {
-                      campName: camp().name,
+                      campName: camp.name,
                     })
                   }}
                   <e-text-field v-model="promptText" />
@@ -79,7 +79,7 @@ export default {
   },
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
   },

@@ -174,7 +174,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * Specifies whether the schedule entries of the activities in this category should be numbered
      * using arabic numbers, roman numerals or letters.
      */
-    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
+    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1', '-'])]
     #[ApiProperty(example: '1')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'string', length: 1, nullable: false)]
@@ -253,6 +253,9 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
 
             case 'I':
                 return strtoupper($this->getRomanNum($num));
+
+            case '-':
+                return '';
 
             default:
                 return strval($num);

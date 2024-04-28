@@ -8,7 +8,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.4
+ARG PHP_VERSION=8.3.6
 
 # renovate: datasource=docker depName=alpine
 ARG ALPINE_VERSION=3.18
@@ -127,7 +127,7 @@ RUN rm $PHP_INI_DIR/conf.d/api-platform.prod.ini; \
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.3.1
+ARG XDEBUG_VERSION=3.3.2
 RUN set -eux; \
 	install-php-extensions \
 	xdebug-$XDEBUG_VERSION \

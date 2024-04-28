@@ -3,6 +3,7 @@
 namespace App\Tests\Api\SnapshotTests;
 
 use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -14,14 +15,16 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\equalTo;
 use function PHPUnit\Framework\greaterThanOrEqual;
-use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\lessThan;
 use function PHPUnit\Framework\lessThanOrEqual;
 use function PHPUnit\Framework\logicalAnd;
+
+const MAX_EXECUTION_TIME_SECONDS = 0.5;
 
 /**
  * @internal
  */
-class EndpointQueryCountTest extends ECampApiTestCase {
+class EndpointPerformanceTest extends ECampApiTestCase {
     /**
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -29,29 +32,42 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function testNumberOfQueriesDidNotChangeForStableEndpoints() {
+    public function testPerformanceDidNotChangeForStableEndpoints() {
         $numberOfQueries = [];
         $responseCodes = [];
+        $queryExecutionTime = [];
         $collectionEndpoints = self::getCollectionEndpoints();
         foreach ($collectionEndpoints as $collectionEndpoint) {
             if ('/users' !== $collectionEndpoint && !str_contains($collectionEndpoint, '/content_node')) {
-                list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
+                list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor($collectionEndpoint);
                 $responseCodes[$collectionEndpoint] = $statusCode;
                 $numberOfQueries[$collectionEndpoint] = $queryCount;
+                $queryExecutionTime[$collectionEndpoint] = $executionTimeSeconds;
             }
 
             if (!str_contains($collectionEndpoint, '/content_node')) {
                 $fixtureFor = $this->getFixtureFor($collectionEndpoint);
-                list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+                list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
                 $responseCodes["{$collectionEndpoint}/item"] = $statusCode;
                 $numberOfQueries["{$collectionEndpoint}/item"] = $queryCount;
+                $queryExecutionTime["{$collectionEndpoint}/item"] = $executionTimeSeconds;
             }
         }
 
-        $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
-        assertThat($not200Responses, isEmpty());
+        foreach ($this->getPerformanceCriticalUrls() as $url => $id) {
+            list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor($url.$id);
+            $responseCodes[$url] = $statusCode;
+            $numberOfQueries[$url] = $queryCount;
+            $queryExecutionTime[$url] = $executionTimeSeconds;
+        }
 
-        $this->assertMatchesSnapshot($numberOfQueries);
+        $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
+        assertThat($not200Responses, equalTo([]));
+
+        $endpointsWithTooLongExecutionTime = array_filter($queryExecutionTime, fn ($value) => MAX_EXECUTION_TIME_SECONDS < $value);
+        assertThat($endpointsWithTooLongExecutionTime, equalTo([]));
+
+        $this->assertMatchesSnapshot($numberOfQueries, new ECampYamlSnapshotDriver());
     }
 
     /**
@@ -63,6 +79,9 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      */
     #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeCollectionEndpoints(string $collectionEndpoint) {
+        if ('test' !== $this->getEnvironment()) {
+            self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
+        }
         list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
 
         assertThat($statusCode, equalTo(200));
@@ -86,13 +105,18 @@ class EndpointQueryCountTest extends ECampApiTestCase {
      */
     #[DataProvider('getContentNodeEndpoints')]
     public function testNumberOfQueriesDidNotChangeForContentNodeItemEndpoints(string $collectionEndpoint) {
+        if ('test' !== $this->getEnvironment()) {
+            self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
+        }
         if ('/content_nodes' === $collectionEndpoint) {
             self::markTestSkipped("{$collectionEndpoint} does not support get item endpoint");
         }
         $fixtureFor = $this->getFixtureFor($collectionEndpoint);
-        list($statusCode, $queryCount) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
+        list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
 
         assertThat($statusCode, equalTo(200));
+
+        assertThat($executionTimeSeconds, lessThan(MAX_EXECUTION_TIME_SECONDS));
 
         $queryCountRanges = self::getContentNodeEndpointQueryCountRanges()[$collectionEndpoint.'/item'];
         assertThat(
@@ -119,8 +143,11 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         $statusCode = $response->getStatusCode();
         $collector = $client->getProfile()->getCollector('db');
         $queryCount = $collector->getQueryCount();
+        // because measurements below 0.03 are flaky, we do not record
+        // times below 0.03.
+        $executionTimeSeconds = max(0.03, round($collector->getTime(), 2));
 
-        return [$statusCode, $queryCount];
+        return [$statusCode, $queryCount, $executionTimeSeconds];
     }
 
     public static function getContentNodeEndpoints(): array {
@@ -136,6 +163,10 @@ class EndpointQueryCountTest extends ECampApiTestCase {
 
             return $newArray;
         });
+    }
+
+    protected function getSnapshotId(): string {
+        return $this->getEnvironment().'_'.parent::getSnapshotId();
     }
 
     private static function getContentNodeEndpointQueryCountRanges(): array {
@@ -182,6 +213,7 @@ class EndpointQueryCountTest extends ECampApiTestCase {
                 '/auth/jubladb' => false,
                 '/auth/reset_password' => false,
                 '/invitations' => false,
+                '/personal_invitations' => false,
                 default => true
             };
         });
@@ -189,9 +221,32 @@ class EndpointQueryCountTest extends ECampApiTestCase {
         return $normalEndpoints;
     }
 
+    private function getPerformanceCriticalUrls(): array {
+        return [
+            '/activities?camp=' => urlencode($this->getIriFor('camp1')),
+            '/activity_progress_labels?camp=' => urlencode($this->getIriFor('camp1')),
+            '/activity_responsibles?activity.camp=' => urlencode($this->getIriFor('camp1')),
+            '/camp_collaborations?camp=' => urlencode($this->getIriFor('camp1')),
+            '/camp_collaborations?activityResponsibles.activity=' => urlencode($this->getIriFor('activity1')),
+            '/categories?camp=' => urlencode($this->getIriFor('camp1')),
+            '/content_types?categories=' => urlencode($this->getIriFor('category1')),
+            '/day_responsibles?day.period=' => urlencode($this->getIriFor('period1')),
+            '/material_items?materialList=' => urlencode($this->getIriFor('materialList1')),
+            '/material_items?materialNode=' => urlencode($this->getIriFor('materialNode1')),
+            '/material_items?period=' => urlencode($this->getIriFor('period1')),
+            '/material_lists?camp=' => urlencode($this->getIriFor('camp1')),
+            '/profiles?user.collaboration.camp=' => urlencode($this->getIriFor('camp1')),
+            '/schedule_entries?period=' => urlencode($this->getIriFor('period1')),
+        ];
+    }
+
     private function getFixtureFor(string $collectionEndpoint) {
         $fixtures = FixtureStore::getFixtures();
 
         return ReadItemFixtureMap::get($collectionEndpoint, $fixtures);
+    }
+
+    private function getEnvironment(): string {
+        return static::$kernel->getContainer()->getParameter('kernel.environment');
     }
 }

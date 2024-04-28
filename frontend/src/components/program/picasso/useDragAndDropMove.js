@@ -4,8 +4,8 @@ import { toTime, roundTimeToNearestQuarterHour } from '@/helpers/vCalendarDragAn
  * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
  * @param threshold {number}     min. mouse movement needed to detect drag & drop
  * @param update {(scheduleEntry: object, startTime: number, endTime: number) => void} callback for update actions
- * @param minTimestamp {number}  minimum allowed start timestamp (calendar start)
- * @param maxTimestamp {number}  maximum allowed end timestamp (calendar end)
+ * @param minTimestamp {Ref<number>}  minimum allowed start timestamp (calendar start)
+ * @param maxTimestamp {Ref<number>}  maximum allowed end timestamp (calendar end)
  * @returns
  */
 export function useDragAndDropMove(
@@ -53,7 +53,8 @@ export function useDragAndDropMove(
     const newStart = roundTimeToNearestQuarterHour(mouse - mouseOffset)
     const newEnd = newStart + duration
 
-    if (newStart >= minTimestamp && newEnd <= maxTimestamp) {
+    const isWithinBounds = newStart >= minTimestamp.value && newEnd <= maxTimestamp.value
+    if (isWithinBounds) {
       draggedEntry.startTimestamp = newStart
       draggedEntry.endTimestamp = newEnd
     }
@@ -87,8 +88,8 @@ export function useDragAndDropMove(
       return
     }
 
-    // only move timed events
-    if (!entry || !timed) {
+    // only move timed events and non-filtered entries
+    if (!entry || !timed || !entry.filterMatch) {
       return
     }
 

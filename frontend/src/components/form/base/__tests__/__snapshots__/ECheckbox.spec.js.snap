@@ -16,6 +16,9 @@ exports[`An ECheckbox > looks like a checkbox > checked 1`] = `
                                      value>
                               <div class="v-input--selection-controls__ripple primary--text"></div>
                          </div>
+                         <label class="v-label theme--light"
+                                for
+                                style="left: 0px; position: relative;">test</label>
                     </div>
                </div>
           </div>
@@ -39,6 +42,9 @@ exports[`An ECheckbox > looks like a checkbox > unchecked 1`] = `
                                      value>
                               <div class="v-input--selection-controls__ripple"></div>
                          </div>
+                         <label class="v-label theme--light"
+                                for
+                                style="left: 0px; position: relative;">test</label>
                     </div>
                </div>
           </div>

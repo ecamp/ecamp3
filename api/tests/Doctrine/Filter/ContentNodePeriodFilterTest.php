@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\IriConverterInterface;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode;
 use App\Entity\Period;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,6 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentNodePeriodFilterTest extends TestCase {
     private ManagerRegistry|MockObject $managerRegistryMock;
+    private EntityManager|MockObject $entityManagerMock;
     private MockObject|QueryBuilder $queryBuilderMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
     private IriConverterInterface|MockObject $iriConverterMock;
@@ -25,9 +28,30 @@ class ContentNodePeriodFilterTest extends TestCase {
     public function setUp(): void {
         parent::setUp();
         $this->managerRegistryMock = $this->createMock(ManagerRegistry::class);
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
         $this->queryNameGeneratorInterfaceMock = $this->createMock(QueryNameGeneratorInterface::class);
         $this->iriConverterMock = $this->createMock(IriConverterInterface::class);
+
+        $this->entityManagerMock
+            ->method('createQueryBuilder')
+            ->will($this->returnValue($this->queryBuilderMock))
+        ;
+
+        $this->queryBuilderMock
+            ->method('from')
+            ->will($this->returnSelf())
+        ;
+
+        $this->queryBuilderMock
+            ->method('select')
+            ->will($this->returnSelf())
+        ;
+
+        $this->queryBuilderMock
+            ->method('innerJoin')
+            ->will($this->returnSelf())
+        ;
 
         $this->queryBuilderMock
             ->method('join')
@@ -44,10 +68,20 @@ class ContentNodePeriodFilterTest extends TestCase {
             ->willReturn(['o'])
         ;
 
+        $this->queryBuilderMock
+            ->method('getParameters')
+            ->willReturn(new ArrayCollection())
+        ;
+
         $expr = new Expr();
         $this->queryBuilderMock
             ->method('expr')
             ->will($this->returnValue($expr))
+        ;
+
+        $this->queryBuilderMock
+            ->method('getEntityManager')
+            ->will($this->returnValue($this->entityManagerMock))
         ;
 
         $this->queryNameGeneratorInterfaceMock
@@ -137,8 +171,13 @@ class ContentNodePeriodFilterTest extends TestCase {
         ;
 
         $this->queryBuilderMock
-            ->expects($this->exactly(3))
-            ->method('join')
+            ->expects($this->exactly(1))
+            ->method('innerJoin')
+        ;
+
+        $this->queryBuilderMock
+            ->expects($this->once())
+            ->method('andWhere')
         ;
 
         // when

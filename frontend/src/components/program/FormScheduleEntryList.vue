@@ -16,7 +16,7 @@
         </v-col>
       </v-row>
       <transition-group name="transition-list" tag="div" class="row no-gutters">
-        <form-schedule-entry-item
+        <FormScheduleEntryItem
           v-for="scheduleEntry in scheduleEntriesWithoutDeleted"
           :key="scheduleEntry.key"
           class="transition-list-item pa-0 mb-4"
@@ -55,7 +55,7 @@ export default {
 
     // currently visible period
     period: {
-      type: Function,
+      type: Object,
       required: true,
     },
   },
@@ -72,9 +72,9 @@ export default {
   methods: {
     addScheduleEntry() {
       this.localScheduleEntries.push({
-        period: () => this.period(),
-        start: dayjs.utc(this.period().start).add(7, 'hour').format(),
-        end: dayjs.utc(this.period().start).add(8, 'hour').format(),
+        period: () => this.period,
+        start: dayjs.utc(this.period.start).add(7, 'hour').format(),
+        end: dayjs.utc(this.period.start).add(8, 'hour').format(),
         key: uniqueId(),
         deleted: false,
       })

@@ -25,11 +25,14 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data: periods, error } = await useAsyncData('ToPicasso', async () => {
-  await props.camp.periods().$loadItems()
+const { data: periods, error } = await useAsyncData(
+  `TocPicasso-${props.index}`,
+  async () => {
+    await props.camp.periods().$loadItems()
 
-  return props.options.periods.map((periodUri) => {
-    return $api.get(periodUri)
-  })
-})
+    return props.options.periods.map((periodUri) => {
+      return $api.get(periodUri)
+    })
+  }
+)
 </script>

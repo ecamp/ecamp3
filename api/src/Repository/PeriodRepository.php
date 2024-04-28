@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Period;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,9 +22,8 @@ class PeriodRepository extends ServiceEntityRepository implements CanFilterByUse
         parent::__construct($registry, Period::class);
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
-        $this->filterByCampCollaboration($queryBuilder, $user);
+        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
     }
 }
