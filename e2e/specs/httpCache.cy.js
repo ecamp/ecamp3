@@ -9,7 +9,7 @@ describe('HTTP cache tests', () => {
     cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
       const headers = response.headers
       expect(headers.xkey).to.eq(
-        'a4211c112939 f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
+        'c462edd869f3 5e2028c55ee4 a4211c112939 f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
       )
       expect(headers['x-cache']).to.eq('MISS')
     })
@@ -78,7 +78,7 @@ describe('HTTP cache tests', () => {
 
     // bring data into defined state
     Cypress.session.clearAllSavedSessions()
-    cy.login('bruce@wayne.com')
+    cy.login('felicity@smoak.com')
     cy.apiPatch('/api/categories/c5e1bc565094', {
       name: 'old_name',
     })
@@ -98,7 +98,7 @@ describe('HTTP cache tests', () => {
 
     // ensure cache was invalidated
     cy.expectCacheMiss(uri)
-    cy.login('bruce@wayne.com')
+    cy.login('felicity@smoak.com')
     cy.expectCacheMiss(uri)
   })
 
