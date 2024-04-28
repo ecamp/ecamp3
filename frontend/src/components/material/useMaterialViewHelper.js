@@ -106,9 +106,7 @@ function loadPeriods(camp) {
  * @param {boolean} [list]
  */
 export function useMaterialViewHelper(camp, list) {
-  const computedList = computed(() =>
-    list ? materialListFromRoute(useRoute()).call({ api: apiStore }) : null
-  )
+  const computedList = computed(() => (list ? materialListFromRoute(useRoute()) : null))
 
   const collection = computed(() => {
     const materialList = computedList.value?._meta.self

@@ -104,9 +104,9 @@ Show all activity schedule entries of a single period.
         <Picasso
           :schedule-entries="slotProps.scheduleEntries"
           :reload="slotProps.reloadEntries"
-          :period="period()"
-          :start="period().start"
-          :end="period().end"
+          :period="period"
+          :start="period.start"
+          :end="period.end"
           :editable="editMode"
           :is-filter-set="isFilterSet"
           @newEntry="slotProps.on.newEntry"
@@ -162,7 +162,7 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    period: { type: Function, required: true },
+    period: { type: Object, required: true },
   },
   data() {
     return {
@@ -185,18 +185,18 @@ export default {
   },
   computed: {
     camp() {
-      return this.period().camp
+      return this.period.camp()
     },
     printConfig() {
       return {
-        camp: this.camp()._meta.self,
+        camp: this.camp._meta.self,
         language: this.$store.state.lang.language,
         documentName: this.camp.title + '-picasso.pdf',
         contents: [
           {
             type: 'Picasso',
             options: {
-              periods: [this.period()._meta.self],
+              periods: [this.period._meta.self],
               orientation: 'L',
             },
           },
@@ -205,11 +205,11 @@ export default {
     },
     editMode: {
       get() {
-        return this.$store.getters.getPicassoEditMode(this.camp()._meta.self)
+        return this.$store.getters.getPicassoEditMode(this.camp._meta.self)
       },
       set(value) {
         this.$store.commit('setPicassoEditMode', {
-          campUri: this.camp()._meta.self,
+          campUri: this.camp._meta.self,
           editMode: value,
         })
       },
@@ -230,12 +230,12 @@ export default {
   },
   async mounted() {
     await Promise.all([
-      this.camp()._meta.load,
-      this.period().scheduleEntries()._meta.load,
-      this.camp().activities()._meta.load,
-      this.camp().categories()._meta.load,
-      this.period().days()._meta.load,
-      this.period().dayResponsibles()._meta.load,
+      this.camp._meta.load,
+      this.period.scheduleEntries()._meta.load,
+      this.camp.activities()._meta.load,
+      this.camp.categories()._meta.load,
+      this.period.days()._meta.load,
+      this.period.dayResponsibles()._meta.load,
     ])
 
     this.loading = false

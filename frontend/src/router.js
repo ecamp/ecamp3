@@ -453,107 +453,136 @@ function requireAuth(to, from, next) {
 }
 
 async function requireCamp(to, from, next) {
-  await campFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const camp = await campFromRoute(to)
+  if (camp === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next({
-        name: 'PageNotFound',
-        params: [to.fullPath, ''],
-        replace: true,
+  } else {
+    await camp._meta.load
+      .then(() => {
+        next()
       })
-    })
+      .catch(() => {
+        next({
+          name: 'PageNotFound',
+          params: [to.fullPath, ''],
+          replace: true,
+        })
+      })
+  }
 }
 
 async function requireScheduleEntry(to, from, next) {
-  await scheduleEntryFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const scheduleEntry = await scheduleEntryFromRoute(to)
+  if (scheduleEntry === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next({
-        name: 'PageNotFound',
-        params: [to.fullPath, ''],
-        replace: true,
+  } else {
+    await scheduleEntry._meta.load
+      .then(() => {
+        next()
       })
-    })
+      .catch(() => {
+        next({
+          name: 'PageNotFound',
+          params: [to.fullPath, ''],
+          replace: true,
+        })
+      })
+  }
 }
 
 async function requirePeriod(to, from, next) {
-  await periodFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const period = await periodFromRoute(to)
+  if (period === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
-    })
+  } else {
+    await period._meta.load
+      .then(() => {
+        next()
+      })
+      .catch(() => {
+        next(campRoute(campFromRoute(to)))
+      })
+  }
 }
 
 async function requireCategory(to, from, next) {
-  await categoryFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const category = await categoryFromRoute(to)
+  if (category === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next({
-        name: 'PageNotFound',
-        params: [to.fullPath, ''],
-        replace: true,
+  } else {
+    await category._meta.load
+      .then(() => {
+        next()
       })
-    })
+      .catch(() => {
+        next({
+          name: 'PageNotFound',
+          params: [to.fullPath, ''],
+          replace: true,
+        })
+      })
+  }
 }
 
 async function requireMaterialList(to, from, next) {
-  await materialListFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const materialList = await materialListFromRoute(to)
+  if (materialList === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
-    })
+  } else {
+    await materialList._meta.load
+      .then(() => {
+        next()
+      })
+      .catch(() => {
+        next(campRoute(campFromRoute(to)))
+      })
+  }
 }
 
 export function campFromRoute(route) {
-  return function () {
-    return this.api.get().camps({ id: route.params.campId })
-  }
+  return apiStore.get().camps({ id: route.params.campId })
 }
 
 export function invitationFromInviteKey(inviteKey) {
-  return function () {
-    return this.api.get().invitations({ action: 'find', id: inviteKey })
-  }
+  return apiStore.get().invitations({ action: 'find', id: inviteKey })
 }
 
 export function periodFromRoute(route) {
-  return function () {
-    return this.api.get().periods({ id: route.params.periodId })
-  }
+  return apiStore.get().periods({ id: route.params.periodId })
 }
 
 function scheduleEntryFromRoute(route) {
-  return function () {
-    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId })
-  }
+  return apiStore.get().scheduleEntries({ id: route.params.scheduleEntryId })
 }
 
 function categoryFromRoute(route) {
-  return function () {
-    const camp = this.api.get().camps({ id: route.params.campId })
-    return camp.categories().allItems.find((c) => c.id === route.params.categoryId)
-  }
+  return campFromRoute(route)
+    .categories()
+    .allItems.find((c) => c.id === route.params.categoryId)
 }
 
 export function materialListFromRoute(route) {
-  return function () {
-    return this.api.get().materialLists({ id: route.params.materialId })
-  }
+  return apiStore.get().materialLists({ id: route.params.materialId })
 }
 
 function getContentLayout(route) {
@@ -575,9 +604,7 @@ function getContentLayout(route) {
 }
 
 function dayFromScheduleEntryInRoute(route) {
-  return function () {
-    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
-  }
+  return apiStore.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
 }
 
 /**

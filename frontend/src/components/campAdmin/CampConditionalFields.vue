@@ -15,9 +15,9 @@ Displays fields which don't apply to all camps, but are required for some
           <content-group
             :title="$tc('components.campAdmin.campConditionalFields.ysCamp.title')"
           >
-            <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+            <v-skeleton-loader v-if="camp._meta.loading" type="article" />
             <div v-else class="mt-3">
-              <api-form :entity="camp()" name="camp">
+              <api-form :entity="camp" name="camp">
                 <api-text-field path="organizer" :disabled="disabled" />
 
                 <api-text-field path="kind" :disabled="disabled" />
@@ -31,9 +31,9 @@ Displays fields which don't apply to all camps, but are required for some
           <content-group
             :title="$tc('components.campAdmin.campConditionalFields.course.title')"
           >
-            <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+            <v-skeleton-loader v-if="camp._meta.loading" type="article" />
             <div v-else class="mt-3">
-              <api-form :entity="camp()" name="camp">
+              <api-form :entity="camp" name="camp">
                 <api-text-field path="courseNumber" :disabled="disabled" />
 
                 <api-text-field path="courseKind" :disabled="disabled" />
@@ -61,7 +61,7 @@ export default {
   components: { ContentGroup, ApiTextField, ApiCheckbox, ApiForm },
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
     disabled: {

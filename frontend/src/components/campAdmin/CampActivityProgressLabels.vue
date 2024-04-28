@@ -3,7 +3,7 @@
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.campAdmin.campActivityProgressLabels.title') }}
-        <DialogActivityProgressLabelCreate v-if="!disabled" :camp="camp()">
+        <DialogActivityProgressLabelCreate v-if="!disabled" :camp="camp">
           <template #activator="{ on }">
             <ButtonAdd
               color="secondary"
@@ -19,7 +19,7 @@
       </div>
     </slot>
     <v-skeleton-loader
-      v-if="camp().progressLabels()._meta.loading"
+      v-if="camp.progressLabels()._meta.loading"
       type="list-item@3"
       class="mx-n4"
     />
@@ -69,7 +69,7 @@
       <template v-else>
         <api-sortable
           v-slot="{ itemPosition, item, on }"
-          :endpoint="camp().progressLabels()"
+          :endpoint="camp.progressLabels()"
         >
           <v-list-item class="px-2 rounded drag-and-drop-handle" v-on="on">
             <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
@@ -120,7 +120,7 @@ export default {
     DialogActivityProgressLabelEdit,
   },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
   },
   data: () => ({
@@ -128,7 +128,7 @@ export default {
   }),
   computed: {
     progressLabels() {
-      return sortBy(this.camp().progressLabels().allItems, (label) => label.position)
+      return sortBy(this.camp.progressLabels().allItems, (label) => label.position)
     },
   },
 }

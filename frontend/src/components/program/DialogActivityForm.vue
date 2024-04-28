@@ -66,7 +66,7 @@ export default {
     },
     // currently visible period
     period: {
-      type: Function,
+      type: Object,
       required: true,
     },
     autoselectTitle: {
@@ -84,7 +84,7 @@ export default {
       return this.camp.categories()
     },
     camp() {
-      return this.period().camp()
+      return this.period.camp()
     },
   },
 }

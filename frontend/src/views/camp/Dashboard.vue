@@ -147,7 +147,7 @@ export default {
   },
   mixins: [dateHelperUTCFormatted],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {
@@ -171,7 +171,7 @@ export default {
   },
   computed: {
     periods() {
-      return keyBy(this.camp().periods().items, '_meta.self')
+      return keyBy(this.camp.periods().items, '_meta.self')
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -243,12 +243,10 @@ export default {
   },
   async mounted() {
     await Promise.all([
-      this.camp()._meta.load,
-      this.api.get().days({ 'period.camp': this.camp()._meta.self }),
-      ...this.camp()
-        .periods()
-        .items.map((period) => period.scheduleEntries()._meta.load),
-      this.camp().activities()._meta.load,
+      this.camp._meta.load,
+      this.api.get().days({ 'period.camp': this.camp._meta.self }),
+      ...this.camp.periods().items.map((period) => period.scheduleEntries()._meta.load),
+      this.camp.activities()._meta.load,
     ])
 
     this.loading = false
@@ -258,14 +256,12 @@ export default {
       this.filter[key] = value
     })
 
-    this.camp()
-      .periods()
-      ._meta.load.then(({ allItems }) => {
-        const collection = allItems.map((entry) => entry._meta.self)
-        this.filter.periods =
-          this.filter.periods?.filter((value) => collection.includes(value)) ?? null
-        this.loadingEndpoints.periods = false
-      })
+    this.camp.periods()._meta.load.then(({ allItems }) => {
+      const collection = allItems.map((entry) => entry._meta.self)
+      this.filter.periods =
+        this.filter.periods?.filter((value) => collection.includes(value)) ?? null
+      this.loadingEndpoints.periods = false
+    })
   },
   methods: {
     persistRouterState() {

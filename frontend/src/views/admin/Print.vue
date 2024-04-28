@@ -25,7 +25,7 @@ export default {
     PrintConfigurator,
   },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {}

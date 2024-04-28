@@ -28,7 +28,7 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
 }
 </script>

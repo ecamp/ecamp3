@@ -3,7 +3,7 @@
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.campAdmin.campMaterialLists.title') }}
-        <dialog-material-list-create v-if="!disabled" :camp="camp()">
+        <dialog-material-list-create v-if="!disabled" :camp="camp">
           <template #activator="{ on }">
             <button-add
               color="secondary"
@@ -18,7 +18,7 @@
         </dialog-material-list-create>
       </div>
     </slot>
-    <v-skeleton-loader v-if="camp().materialLists()._meta.loading" type="article" />
+    <v-skeleton-loader v-if="camp.materialLists()._meta.loading" type="article" />
     <v-list>
       <camp-material-lists-item
         v-for="materialList in materialLists.allItems"
@@ -46,7 +46,7 @@ export default {
     DialogMaterialListCreate,
   },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
   },
   data() {
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     materialLists() {
-      return this.camp().materialLists()
+      return this.camp.materialLists()
     },
   },
 }
