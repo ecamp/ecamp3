@@ -243,7 +243,7 @@ apiCache:
       memory: 100Mi
   logging:
     enabled: true
-    customOutput: '{ "received_at": "%t", "response_bytes": %b, "request_bytes": %I, "time_taken": %D, "first_line": "%r", "status": %s, "handling": "%{Varnish:handling}x" }'
+    customOutput: '{ "received_at": "%t", "method": "%m", "url": "%U", "query": "%q", "response_bytes": %b, "time_taken": %D, "status": %s, "handling": "%{Varnish:handling}x" }'
     customOutputJsonFormat: true
     # Timeout before returning error on initial VSM connection.
     # If set the VSM connection is retried every 0.5 seconds for this many seconds.

@@ -105,7 +105,7 @@ for i in 1; do
   values="$values --set postgresql.dbBackupRestoreImage.repository=docker.io/${docker_hub_account}/ecamp3-db-backup-restore"
 
   helm uninstall ecamp3-"$instance_name"-"$i" || true
-  helm upgrade --install ecamp3-"$instance_name"-"$i" $SCRIPT_DIR/ecamp3 $values
+  helm upgrade --install --debug --dry-run ecamp3-"$instance_name"-"$i" $SCRIPT_DIR/ecamp3 $values
 done
 
 rm -f private.pem
