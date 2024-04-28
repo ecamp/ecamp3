@@ -45,7 +45,7 @@
     "@vue/shared": "3.4.25",
     "@vue/test-utils": "2.4.5",
     "css": "3.0.0",
-    "dayjs": "1.11.10",
+    "dayjs": "1.11.11",
     "eslint": "8.57.0",
     "eslint-plugin-local-rules": "2.0.1",
     "eslint-plugin-vue": "9.25.0",
