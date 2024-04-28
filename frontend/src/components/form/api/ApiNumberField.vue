@@ -1,10 +1,10 @@
 <!--
-Displays a field as a e-text-field + write access via API wrapper
+Displays a field as a e-number-field + write access via API wrapper
 -->
 
 <template>
   <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
-    <e-text-field
+    <e-number-field
       ref="textField"
       :value="wrapper.localValue"
       v-bind="$attrs"
@@ -22,7 +22,7 @@ Displays a field as a e-text-field + write access via API wrapper
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
-    </e-text-field>
+    </e-number-field>
   </api-wrapper>
 </template>
 
@@ -32,7 +32,7 @@ import ApiWrapper from './ApiWrapper.vue'
 import ApiWrapperAppend from './ApiWrapperAppend.vue'
 
 export default {
-  name: 'ApiTextField',
+  name: 'ApiNumberField',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
   props: {

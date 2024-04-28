@@ -32,16 +32,16 @@
           <component
             :is="item.component('v')"
             v-if="item.component('v') !== ''"
-            v-bind="{ ...item.props, ...config }"
             v-model="item.value"
+            v-bind="{ ...item.props, ...config }"
           />
           <span v-else v-text="item.value" />
         </template>
         <template #[`item.e`]="{ item }">
           <component
             :is="item.component('e')"
-            v-bind="{ ...item.props, ...config }"
             v-model="item.value"
+            v-bind="{ ...item.props, ...config }"
           />
         </template>
         <template #[`item.api`]="{ item }">
@@ -68,6 +68,7 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
+import ENumberField from '@/components/form/base/ENumberField.vue'
 import ETextarea from '@/components/form/base/ETextarea.vue'
 import ERichtext from '@/components/form/base/ERichtext.vue'
 import ECheckbox from '@/components/form/base/ECheckbox.vue'
@@ -77,6 +78,7 @@ import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
+import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
@@ -95,6 +97,8 @@ export default {
     VTextField,
     ETextField,
     ApiTextField,
+    ENumberField,
+    ApiNumberField,
     VTextarea,
     ETextarea,
     ApiTextarea,
@@ -125,6 +129,7 @@ export default {
     labelText: 'Label',
 
     textfieldValue: 'FFFFFFFFFF',
+    numberfieldValue: 10,
     textareaValue: 'FFFFFFFFFF',
     richtextValue: '<p>FFFFFFFFFF</p>',
     checkboxValue: false,
@@ -155,12 +160,12 @@ export default {
           },
         },
         {
-          id: 'text-field.numeric',
-          component: (type) => `${type}-text-field`,
+          id: 'number-field',
+          component: (type) => (type === 'v' ? '' : `${type}-number-field`),
+          value: this.numberfieldValue,
           props: {
-            'v-model.number': this.textfieldValue,
             placeholder: this.placeholder,
-            inputmode: 'numeric',
+            inputmode: 'decimal',
             path: 'quantity',
             uri: this.materialUri,
           },

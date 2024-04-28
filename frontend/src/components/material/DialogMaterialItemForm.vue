@@ -1,9 +1,9 @@
 <template>
   <e-form name="materialItem">
-    <e-text-field
-      v-model.number="localMaterialItem.quantity"
+    <e-number-field
+      v-model="localMaterialItem.quantity"
       path="quantity"
-      inputmode="numeric"
+      inputmode="decimal"
       autofocus
     />
     <e-text-field v-model="localMaterialItem.unit" path="unit" maxlength="32" />
