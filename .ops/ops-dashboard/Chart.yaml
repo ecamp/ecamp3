@@ -28,3 +28,10 @@ dependencies:
     alias: grafana-proxy
     version: 7.4.1
     repository: https://oauth2-proxy.github.io/manifests
+  - name: kubernetes-dashboard
+    version: 7.3.2
+    repository: https://kubernetes.github.io/dashboard/
+  - name: oauth2-proxy
+    alias: kubernetes-dashboard-proxy
+    version: 7.4.1
+    repository: https://oauth2-proxy.github.io/manifests

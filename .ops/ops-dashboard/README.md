@@ -13,6 +13,13 @@ helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
 helm repo update
 ```
 
+You also need the kubernetes-dashboard helm chart:
+
+```shell
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm repo update
+```
+
 ## Deployment
 
 First, make sure you don't overwrite the configuration currently applied:
