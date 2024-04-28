@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Tests\HttpCache\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -22,15 +21,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-#[ApiResource(filters: ['my_dummy.property'], normalizationContext: ['groups' => ['contain_non_resource']])]
 #[ORM\Entity]
-class ContainNonResource {
-    #[ORM\Column(type: 'integer')]
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups('contain_non_resource')]
-    public $id;
-
+class ContainNonResource extends BaseEntity {
     /**
      * @var ContainNonResource
      */

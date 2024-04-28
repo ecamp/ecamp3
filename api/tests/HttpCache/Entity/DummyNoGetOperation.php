@@ -25,22 +25,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 #[ApiResource(operations: [new Put(), new Post()])]
 #[ORM\Entity]
-class DummyNoGetOperation {
+class DummyNoGetOperation extends BaseEntity {
     /**
      * @var string
      */
     #[ORM\Column]
     public $lorem;
-
-    /**
-     * @var int The id
-     */
-    #[ORM\Column(type: 'integer')]
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $id;
-
-    public function setId($id): void {
-        $this->id = $id;
-    }
 }

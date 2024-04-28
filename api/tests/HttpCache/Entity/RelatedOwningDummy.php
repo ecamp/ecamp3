@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Tests\HttpCache\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,36 +20,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author Sergey V. Ryabov <sryabov@mhds.ru>
  */
-#[ApiResource(types: ['https://schema.org/Product'])]
 #[ORM\Entity]
-class RelatedOwningDummy {
-    /**
-     * @var null|string A name
-     */
-    #[ORM\Column(nullable: true)]
-    public $name;
+class RelatedOwningDummy extends BaseEntity {
     #[ORM\OneToOne(targetEntity: Dummy::class, cascade: ['persist'], mappedBy: 'relatedOwningDummy')]
     public ?Dummy $ownedDummy = null;
-    #[ORM\Column(type: 'integer')]
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $id;
-
-    public function getId() {
-        return $this->id;
-    }
-
-    public function setId($id): void {
-        $this->id = $id;
-    }
-
-    public function setName($name): void {
-        $this->name = $name;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
 
     /**
      * Get owned dummy.

@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace App\Tests\HttpCache\Entity;
 
-use Symfony\Component\Serializer\Annotation\Groups;
-
 /**
  * This class is not mapped as an API resource.
  *
@@ -22,9 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class NotAResource {
     public function __construct(
-        #[Groups('contain_non_resource')]
         private $foo,
-        #[Groups('contain_non_resource')]
         private $bar
     ) {}
 
