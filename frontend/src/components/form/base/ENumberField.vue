@@ -11,7 +11,15 @@
     reset-on-blur
     v-bind="$attrs"
     @input="$emit('input', $event)"
-  />
+  >
+    <!-- passing through all slots -->
+    <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
+    <template #scoped="{ scopedSlots }">
+      <template v-for="(_, name) in scopedSlots" :slot="name" slot-scope="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </template>
+  </EParseField>
 </template>
 
 <script>
