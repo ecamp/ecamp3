@@ -99,6 +99,8 @@ for i in 1; do
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-api-$imagespec"
   done
 
+  values="$values --set apiCache.image.repository=docker.io/${docker_hub_account}/ecamp3-varnish"
+
   values="$values --set postgresql.dbBackupRestoreImage.pullPolicy=$pull_policy"
   values="$values --set postgresql.dbBackupRestoreImage.repository=docker.io/${docker_hub_account}/ecamp3-db-backup-restore"
 

@@ -225,10 +225,10 @@ ingress:
 apiCache:
   enabled: true
   image:
-    repository: "docker.io/library/varnish"
+    repository: "docker.io/ecamp/ecamp3-varnish"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
-    tag: "7.4.2-alpine"
+    tag:
   service:
     type: ClusterIP
     ports:
@@ -257,18 +257,12 @@ apiCache:
         memory: 20Mi
   prometheus:
     enabled: true
-    image:
-      repository: softonic/varnish
-      tag: 7.2.1
-      pullPolicy: IfNotPresent
     path: "/metrics"
     port: 9131
     resources:
       requests:
         cpu: 10m
         memory: 20Mi
-    securityContext:
-      runAsUser: 101
   
 autoscaling:
   enabled: false
