@@ -171,7 +171,7 @@ class ContentNodePeriodFilterTest extends TestCase {
         ;
 
         $this->queryBuilderMock
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(1))
             ->method('innerJoin')
         ;
 

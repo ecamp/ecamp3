@@ -40,7 +40,7 @@ export default {
     DialogActivityCreate,
   },
   props: {
-    period: { type: Function, required: true },
+    period: { type: Object, required: true },
     showButton: { type: Boolean, required: true },
     matchFn: { type: Function, required: false, default: () => true },
   },
@@ -50,7 +50,7 @@ export default {
         newEntry: this.newEntryFromPicasso,
       },
       newScheduleEntry: {
-        period: () => this.period(),
+        period: () => this.period,
         start: null,
         end: null,
       },
@@ -59,7 +59,7 @@ export default {
   computed: {
     scheduleEntries() {
       // TODO for SideBar, add filtering for the current day, now that the API supports it
-      return this.period().scheduleEntries()
+      return this.period.scheduleEntries()
     },
     filteredScheduleEntries() {
       return this.scheduleEntries.items.map((item) => ({
@@ -70,8 +70,8 @@ export default {
     loading() {
       return (
         this.scheduleEntries._meta.loading ||
-        this.period().camp().activities()._meta.loading ||
-        this.period().camp().categories()._meta.loading
+        this.period.camp().activities()._meta.loading ||
+        this.period.camp().categories()._meta.loading
       )
     },
   },
@@ -79,11 +79,11 @@ export default {
   methods: {
     createNewActivity() {
       this.newScheduleEntry.start = this.$date
-        .utc(this.period().start)
+        .utc(this.period.start)
         .add(8, 'hour')
         .format()
       this.newScheduleEntry.end = this.$date
-        .utc(this.period().start)
+        .utc(this.period.start)
         .add(9, 'hour')
         .format()
       this.showActivityCreateDialog()
@@ -92,7 +92,7 @@ export default {
       this.$refs.dialogActivityCreate.showDialog = true
     },
     afterCreateActivity() {
-      this.api.reload(this.period().scheduleEntries())
+      this.api.reload(this.period.scheduleEntries())
     },
 
     // Event Handler on.newEntry: update position & open create dialog

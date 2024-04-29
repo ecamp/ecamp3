@@ -1,5 +1,5 @@
 <template>
-  <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+  <v-skeleton-loader v-if="camp._meta.loading" type="article" />
   <div v-else>
     <PagesOverview v-model="cnf.contents" @input="onChange">
       <PagesConfig
@@ -16,7 +16,7 @@
         <component
           :is="contentComponents[content.type]"
           :value="content.options"
-          :camp="camp()"
+          :camp="camp"
           @input="onChange"
         />
       </PagesConfig>
@@ -132,7 +132,7 @@ export default {
   },
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
   },
@@ -155,10 +155,10 @@ export default {
     },
     cnf() {
       return this.repairConfig(
-        this.$store.getters.getLastPrintConfig(this.camp()._meta.self, {
+        this.$store.getters.getLastPrintConfig(this.camp._meta.self, {
           language: this.lang,
-          documentName: this.camp().name,
-          camp: this.camp()._meta.self,
+          documentName: this.camp.name,
+          camp: this.camp._meta.self,
           contents: this.defaultContents(),
         })
       )
@@ -176,17 +176,15 @@ export default {
     },
   },
   mounted() {
-    this.camp()
-      .periods()
-      .items.forEach((period) => {
-        period.days().$reload()
-        period.contentNodes().$reload()
-      })
+    this.camp.periods().items.forEach((period) => {
+      period.days().$reload()
+      period.contentNodes().$reload()
+    })
   },
   methods: {
     resetConfig() {
       this.$store.commit('setLastPrintConfig', {
-        campUri: this.camp()._meta.self,
+        campUri: this.camp._meta.self,
         printConfig: undefined,
       })
     },
@@ -199,30 +197,26 @@ export default {
         {
           type: 'Picasso',
           options: {
-            periods: this.camp()
-              .periods()
-              .items.map((period) => period._meta.self),
+            periods: this.camp.periods().items.map((period) => period._meta.self),
             orientation: 'L',
           },
         },
       ]
 
-      this.camp()
-        .periods()
-        .items.forEach((period) => {
-          contents.push({
-            type: 'Story',
-            options: {
-              periods: [period._meta.self],
-            },
-          })
-          contents.push({
-            type: 'Program',
-            options: {
-              periods: [period._meta.self],
-            },
-          })
+      this.camp.periods().items.forEach((period) => {
+        contents.push({
+          type: 'Story',
+          options: {
+            periods: [period._meta.self],
+          },
         })
+        contents.push({
+          type: 'Program',
+          options: {
+            periods: [period._meta.self],
+          },
+        })
+      })
 
       contents.push({
         type: 'Toc',
@@ -242,7 +236,7 @@ export default {
     onChange() {
       this.$nextTick(() => {
         this.$store.commit('setLastPrintConfig', {
-          campUri: this.camp()._meta.self,
+          campUri: this.camp._meta.self,
           printConfig: cloneDeep(this.cnf),
         })
       })
@@ -257,7 +251,7 @@ export default {
 
       return repairConfig(
         config,
-        this.camp(),
+        this.camp,
         VueI18n.availableLocales,
         this.lang,
         repairers,

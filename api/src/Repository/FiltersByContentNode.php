@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
-use App\Doctrine\QueryBuilderHelper;
+use App\Entity\CampRootContentNode;
 use App\Entity\ContentNode;
 use App\Entity\User;
+use App\Entity\UserCamp;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 trait FiltersByContentNode {
@@ -20,12 +22,12 @@ trait FiltersByContentNode {
      */
     protected function filterByContentNode(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
         $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
-        $rootQry->from(ContentNode::class, 'cn')->select('cn');
-        $rootQry->join('cn.campRootContentNodes', 'r');
-        $rootQry->join('r.camp', 'camp');
-        $this->filterByCampCollaboration($rootQry, $user);
+        $rootQry->select('identity(r.rootContentNode)');
+        $rootQry->from(CampRootContentNode::class, 'r');
+        $rootQry->join(UserCamp::class, 'uc', Join::WITH, 'r.camp = uc.camp');
+        $rootQry->where('uc.user = :current_user');
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$contentNodeAlias}.root", $rootQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $rootQry);
+        $queryBuilder->setParameter('current_user', $user);
     }
 }

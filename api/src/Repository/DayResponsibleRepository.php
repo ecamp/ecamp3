@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use App\Doctrine\QueryBuilderHelper;
 use App\Entity\Day;
 use App\Entity\DayResponsible;
 use App\Entity\User;
+use App\Entity\UserCamp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,17 +26,15 @@ class DayResponsibleRepository extends ServiceEntityRepository implements CanFil
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
+        $dayQry = $this->getEntityManager()->createQueryBuilder();
+        $dayQry->select('d');
+        $dayQry->from(Day::class, 'd');
+        $dayQry->join('d.period', 'p');
+        $dayQry->join(UserCamp::class, 'uc', Join::WITH, 'p.camp = uc.camp');
+        $dayQry->where('uc.user = :current_user');
+
         $rootAlias = $queryBuilder->getRootAliases()[0];
-
-        $dayQry = $queryBuilder->getEntityManager()->createQueryBuilder();
-        $dayQry->from(Day::class, 'day')
-            ->select('day')
-            ->innerJoin('day.period', 'period')
-            ->innerJoin('period.camp', 'camp')
-        ;
-        $this->filterByCampCollaboration($dayQry, $user);
-
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}.day", $dayQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $dayQry);
+        $queryBuilder->setParameter('current_user', $user);
     }
 }

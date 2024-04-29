@@ -6,8 +6,8 @@ use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
-use App\Doctrine\QueryBuilderHelper;
 use App\Entity\MaterialItem;
+use App\Entity\PeriodMaterialItem;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -61,18 +61,16 @@ final class MaterialItemPeriodFilter extends AbstractFilter {
 
         // generate alias to avoid interference with other filters
         $periodParameterName = $queryNameGenerator->generateParameterName($property);
-        $materialItem = $queryNameGenerator->generateJoinAlias('materialItem');
         $periodMaterialItems = $queryNameGenerator->generateJoinAlias('periodMaterialItem');
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
 
         $materialItemQry = $queryBuilder->getEntityManager()->createQueryBuilder();
-        $materialItemQry->from(MaterialItem::class, $materialItem)->select($materialItem);
-        $materialItemQry->join("{$materialItem}.periodMaterialItems", $periodMaterialItems);
+        $materialItemQry->select("identity({$periodMaterialItems}.materialItem)");
+        $materialItemQry->from(PeriodMaterialItem::class, $periodMaterialItems);
         $materialItemQry->where($queryBuilder->expr()->eq("{$periodMaterialItems}.period", ":{$periodParameterName}"));
-        $materialItemQry->setParameter($periodParameterName, $period);
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$rootAlias}", $materialItemQry->getDQL()));
-        QueryBuilderHelper::copyParameters($queryBuilder, $materialItemQry);
+        $queryBuilder->setParameter($periodParameterName, $period);
     }
 }

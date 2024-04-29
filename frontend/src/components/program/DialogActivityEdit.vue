@@ -23,7 +23,7 @@
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
-    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period" />
+    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period()" />
   </dialog-form>
 </template>
 

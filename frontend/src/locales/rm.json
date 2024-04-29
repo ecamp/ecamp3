@@ -428,6 +428,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24 h"
     },
+    "info": {
+      "offline": {
+        "description": "Salvament/chargiament da datas nu è pussaivel.",
+        "title": "Ti es offline:"
+      }
+    },
     "language": "Rumantsch",
     "loading": "Chargiar…",
     "navigation": {

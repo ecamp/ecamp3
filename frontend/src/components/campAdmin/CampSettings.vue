@@ -4,9 +4,9 @@ Displays details on a single camp and allows to edit them.
 
 <template>
   <content-group :title="$tc('components.campAdmin.campSettings.title')">
-    <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+    <v-skeleton-loader v-if="camp._meta.loading" type="article" />
     <div v-else class="mt-3">
-      <api-form :entity="camp()" name="camp">
+      <api-form :entity="camp" name="camp">
         <api-text-field path="name" vee-rules="required" :disabled="disabled" />
 
         <api-text-field path="title" vee-rules="required" :disabled="disabled" />
@@ -27,7 +27,7 @@ export default {
   components: { ContentGroup, ApiTextField, ApiForm },
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
     disabled: {

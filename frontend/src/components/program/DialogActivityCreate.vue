@@ -127,7 +127,7 @@ export default {
     scheduleEntry: { type: Object, required: true },
 
     // currently visible period
-    period: { type: Function, required: true },
+    period: { type: Object, required: true },
   },
   data() {
     return {
@@ -143,7 +143,7 @@ export default {
   },
   computed: {
     camp() {
-      return this.period().camp()
+      return this.period.camp()
     },
     clipboardAccessDenied() {
       return (

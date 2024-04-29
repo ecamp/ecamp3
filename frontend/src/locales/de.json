@@ -498,6 +498,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Daten speichern/laden nicht möglich.",
+        "title": "Du bist offline:"
+      }
+    },
     "language": "Deutsch",
     "loading": "Laden …",
     "navigation": {

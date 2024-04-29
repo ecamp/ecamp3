@@ -1,9 +1,9 @@
 <template>
   <e-form name="materialItem">
-    <e-text-field
-      v-model.number="localMaterialItem.quantity"
+    <e-number-field
+      v-model="localMaterialItem.quantity"
       path="quantity"
-      inputmode="numeric"
+      inputmode="decimal"
       autofocus
     />
     <e-text-field v-model="localMaterialItem.unit" path="unit" maxlength="32" />
@@ -27,7 +27,7 @@
 export default {
   name: 'DialogMaterialItemForm',
   props: {
-    materialLists: { type: Function, required: true },
+    materialLists: { type: Object, required: true },
     materialItem: { type: Object, required: true },
   },
   computed: {
@@ -35,7 +35,7 @@ export default {
       return this.materialItem
     },
     materialListArray() {
-      return this.materialLists().items.map((l) => ({
+      return this.materialLists.items.map((l) => ({
         value: l._meta.self,
         text: l.name,
       }))

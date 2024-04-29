@@ -3,32 +3,32 @@
     <logo text />
 
     <v-toolbar-items>
-      <v-btn :to="campRoute(camp())" text>
+      <v-btn :to="campRoute(camp)" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-tent</v-icon>
         <span class="sr-only-sm-and-down">{{
-          camp().title
+          camp.title
             | loading($tc('views.camp.navigation.desktop.navTopbar.campIsLoading'))
         }}</span>
       </v-btn>
-      <v-btn :to="campRoute(camp(), 'program')" text>
+      <v-btn :to="campRoute(camp, 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.program')
         }}</span>
       </v-btn>
-      <v-btn :to="campRoute(camp(), 'story')" text>
+      <v-btn :to="campRoute(camp, 'story')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-book-open-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.story')
         }}</span>
       </v-btn>
-      <v-btn :to="materialListRoute(camp())" text>
+      <v-btn :to="materialListRoute(camp)" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-package-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.material')
         }}</span>
       </v-btn>
-      <v-btn :to="campRoute(camp(), 'admin')" text>
+      <v-btn :to="campRoute(camp, 'admin')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-cogs </v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('global.navigation.admin.title')
@@ -62,7 +62,7 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {
