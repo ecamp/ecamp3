@@ -39,6 +39,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
             uriVariables: [
                 'periodId' => new Link(toProperty: 'period', fromClass: Period::class),
             ],
+            normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             security: 'is_fully_authenticated()',
         ),
     ],
