@@ -2,6 +2,7 @@ api_platform:
     title: eCamp v3
     version: 1.0.0
     show_webby: false
+    use_symfony_listeners: true
     mapping:
         paths:
             - '%kernel.project_dir%/src/Entity'
