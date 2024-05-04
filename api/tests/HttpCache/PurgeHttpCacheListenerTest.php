@@ -109,12 +109,12 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $toInsert2 = new Dummy();
 
         $toDelete1 = new Dummy();
-        $toDelete1->setId(3);
+        $toDelete1->setId('3');
         $toDelete2 = new Dummy();
-        $toDelete2->setId(4);
+        $toDelete2->setId('4');
 
         $toDeleteNoPurge = new DummyNoGetOperation();
-        $toDeleteNoPurge->setId(5);
+        $toDeleteNoPurge->setId('5');
 
         $cacheManagerProphecy = $this->prophesize(CacheManager::class);
         $cacheManagerProphecy->invalidateTags(['/dummies'])->willReturn($cacheManagerProphecy)->shouldBeCalled();
@@ -174,13 +174,13 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
     public function testPreUpdate(): void {
         $oldRelatedDummy = new RelatedDummy();
-        $oldRelatedDummy->setId(1);
+        $oldRelatedDummy->setId('1');
 
         $newRelatedDummy = new RelatedDummy();
-        $newRelatedDummy->setId(2);
+        $newRelatedDummy->setId('2');
 
         $dummy = new Dummy();
-        $dummy->setId(1);
+        $dummy->setId('1');
 
         $cacheManagerProphecy = $this->prophesize(CacheManager::class);
         $cacheManagerProphecy->invalidateTags(['/dummies/1'])->shouldBeCalled()->willReturn($cacheManagerProphecy);
@@ -216,7 +216,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
     public function testNothingToPurge(): void {
         $dummyNoGetOperation = new DummyNoGetOperation();
-        $dummyNoGetOperation->setId(1);
+        $dummyNoGetOperation->setId('1');
 
         $purgerProphecy = $this->prophesize(PurgerInterface::class);
         $purgerProphecy->purge([])->shouldNotBeCalled();
@@ -299,9 +299,9 @@ class PurgeHttpCacheListenerTest extends TestCase {
     public function testInsertingShouldPurgeSubresourceCollections(): void {
         // given
         $toInsert1 = new Dummy();
-        $toInsert1->setId(1);
+        $toInsert1->setId('1');
         $relatedDummy = new RelatedDummy();
-        $relatedDummy->setId(100);
+        $relatedDummy->setId('100');
         $toInsert1->setRelatedDummy($relatedDummy);
 
         $this->uowProphecy->getScheduledEntityInsertions()->willReturn([$toInsert1]);
@@ -320,9 +320,9 @@ class PurgeHttpCacheListenerTest extends TestCase {
     public function testDeleteShouldPurgeSubresourceCollections(): void {
         // given
         $toDelete1 = new Dummy();
-        $toDelete1->setId(1);
+        $toDelete1->setId('1');
         $relatedDummy = new RelatedDummy();
-        $relatedDummy->setId(100);
+        $relatedDummy->setId('100');
         $toDelete1->setRelatedDummy($relatedDummy);
 
         $this->uowProphecy->getScheduledEntityInsertions()->willReturn([]);

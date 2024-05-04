@@ -7,7 +7,7 @@ namespace App\HttpCache;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Serializer\TagCollectorInterface;
-use App\Entity\BaseEntity;
+use App\Entity\HasId;
 
 /**
  * Collects cache tags during normalization.
@@ -28,7 +28,7 @@ class TagCollector implements TagCollectorInterface {
         $iri = $context['iri'] ?? null;
         $object = $context['object'] ?? null;
 
-        if ($object && $object instanceof BaseEntity) {
+        if ($object && $object instanceof HasId) {
             $iri = $object->getId();
         }
 
