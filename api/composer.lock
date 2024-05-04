@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b735592cca4540bc0226dfa1ae871c24",
+    "content-hash": "3771cb07978fe149b1f4ea9f7b379862",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2004,16 +2004,16 @@
         },
         {
             "name": "friendsofsymfony/http-cache",
-            "version": "3.x-dev",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCache.git",
-                "reference": "24a47d586b81a7a9a21fe8aad88b20948e6856cf"
+                "reference": "2b2ccae740c164c55ea43c6ccf5fca3011d00537"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/24a47d586b81a7a9a21fe8aad88b20948e6856cf",
-                "reference": "24a47d586b81a7a9a21fe8aad88b20948e6856cf",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/2b2ccae740c164c55ea43c6ccf5fca3011d00537",
+                "reference": "2b2ccae740c164c55ea43c6ccf5fca3011d00537",
                 "shasum": ""
             },
             "require": {
@@ -2027,7 +2027,6 @@
                 "symfony/options-resolver": "^6.4 || ^7.0"
             },
             "conflict": {
-                "guzzlehttp/psr7": "<2",
                 "toflar/psr6-symfony-http-cache-store": "<2.2.1"
             },
             "require-dev": {
@@ -2044,7 +2043,6 @@
                 "monolog/monolog": "For logging issues while invalidating",
                 "phpunit/phpunit": "To build tests with the WebServerSubscriber, ^10.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2082,26 +2080,26 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSHttpCache/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSHttpCache/tree/3.x"
+                "source": "https://github.com/FriendsOfSymfony/FOSHttpCache/tree/3.0.0"
             },
-            "time": "2024-04-08T12:10:48+00:00"
+            "time": "2024-05-04T18:09:55+00:00"
         },
         {
             "name": "friendsofsymfony/http-cache-bundle",
-            "version": "3.x-dev",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle.git",
-                "reference": "9afe5ec19ff3cfbf480e97c0cf1821ccb6136155"
+                "reference": "d9606c656c0bc4d81ca8130c7fb3fca572dce93c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/9afe5ec19ff3cfbf480e97c0cf1821ccb6136155",
-                "reference": "9afe5ec19ff3cfbf480e97c0cf1821ccb6136155",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/d9606c656c0bc4d81ca8130c7fb3fca572dce93c",
+                "reference": "d9606c656c0bc4d81ca8130c7fb3fca572dce93c",
                 "shasum": ""
             },
             "require": {
-                "friendsofsymfony/http-cache": "^2.15 || 3.x-dev",
+                "friendsofsymfony/http-cache": "^2.15 || ^3.0",
                 "php": "^8.1",
                 "symfony/expression-language": "^6.4 || ^7.0",
                 "symfony/framework-bundle": "^6.4 || ^7.0",
@@ -2114,6 +2112,7 @@
                 "twig/twig": "<1.12.0"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.54",
                 "guzzlehttp/guzzle": "^7.2",
                 "jean-beru/fos-http-cache-cloudfront": "^1.1",
                 "matthiasnoback/symfony-config-test": "^4.3.0 || ^5.1",
@@ -2181,9 +2180,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/tree/3.x"
+                "source": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/tree/3.0.0"
             },
-            "time": "2024-05-03T16:18:00+00:00"
+            "time": "2024-05-04T18:15:18+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -14365,10 +14364,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "friendsofsymfony/http-cache": 20,
-        "friendsofsymfony/http-cache-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
