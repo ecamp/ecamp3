@@ -294,8 +294,7 @@ export default {
       }
     },
     scheduleEntryFiltersHeightChanged(h) {
-      console.log(h)
-      var root = document.querySelector(':root')
+      const root = document.querySelector(':root')
       root.style.setProperty('--schedule-entry-filters-height', h)
     },
   },
