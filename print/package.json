@@ -17,8 +17,8 @@
   "dependencies": {
     "@jamescoyle/vue-icon": "0.1.2",
     "@mdi/js": "7.4.47",
-    "@sentry/integrations": "7.112.2",
-    "@sentry/node": "7.112.2",
+    "@sentry/integrations": "7.113.0",
+    "@sentry/node": "7.113.0",
     "axios": "1.6.8",
     "colorjs.io": "0.5.0",
     "dayjs": "1.11.11",
@@ -36,7 +36,7 @@
     "@nuxtjs/i18n": "8.3.1",
     "@nuxtjs/tailwindcss": "6.12.0",
     "@tailwindcss/typography": "0.5.13",
-    "@vitest/coverage-v8": "1.5.3",
+    "@vitest/coverage-v8": "1.6.0",
     "@vue/compiler-dom": "3.4.26",
     "@vue/compiler-sfc": "3.4.26",
     "@vue/test-utils": "2.4.5",
@@ -51,7 +51,7 @@
     "nuxt": "3.11.2",
     "prettier": "3.2.5",
     "sass": "1.69.4",
-    "vitest": "1.5.3",
+    "vitest": "1.6.0",
     "vue": "3.4.26"
   },
   "eslintConfig": {
