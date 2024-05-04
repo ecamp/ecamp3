@@ -2329,13 +2329,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2525,13 +2522,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2710,13 +2704,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2902,13 +2893,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3501,13 +3489,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3706,13 +3691,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3900,13 +3882,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4101,13 +4080,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4449,13 +4425,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4668,13 +4641,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4876,13 +4846,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -5091,13 +5058,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'

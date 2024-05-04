@@ -101,7 +101,11 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     /**
      * Types of programme, such as sports activities or meal times.
      */
-    #[ApiProperty(writable: false, example: '["/categories/1a2b3c4d"]')]
+    #[ApiProperty(
+        writable: false,
+        uriTemplate: Category::CAMP_SUBRESOURCE_URI_TEMPLATE,
+        example: '"/camp/1a2b3c4d/categories"'
+    )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $categories;
