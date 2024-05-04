@@ -67,6 +67,8 @@ spec:
           imagePullPolicy: {{ .Values.apiCache.image.pullPolicy }}
           command:
           - varnishncsa
+          - -b
+          - -c
           {{- if .Values.apiCache.logging.customOutputJsonFormat }}
           - -j
           {{- end }}
