@@ -223,6 +223,12 @@ export default {
       this.loadEndpointData('campCollaborations', 'responsible', true)
       this.loadEndpointData('progressLabels', 'progressLabel', true)
     }
+    const resizeObserver = new ResizeObserver(() => {
+      const rs = getComputedStyle(this.$el)
+      const h = rs.getPropertyValue('height')
+      this.$emit('height-changed', h)
+    })
+    resizeObserver.observe(this.$el)
   },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
