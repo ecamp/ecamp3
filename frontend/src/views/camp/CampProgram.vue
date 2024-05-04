@@ -290,12 +290,12 @@ export default {
     },
     openFilterChanged(openFilter) {
       if (!openFilter) {
-        this.scheduleEntryFiltersHeightChanged('0px')
+        this.scheduleEntryFiltersHeightChanged(0)
       }
     },
     scheduleEntryFiltersHeightChanged(h) {
       const root = document.querySelector(':root')
-      root.style.setProperty('--schedule-entry-filters-height', h)
+      root.style.setProperty('--schedule-entry-filters-height', `${h}px`)
     },
   },
 }
