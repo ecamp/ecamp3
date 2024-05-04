@@ -18,7 +18,7 @@ doctrine:
         naming_strategy: App\Util\CamelPascalNamingStrategy
         auto_mapping: true
         report_fields_where_declared: true
-        validate_xml_mapping: true
+        validate_xml_mapping: false
         mappings:
             App:
                 type: attribute
