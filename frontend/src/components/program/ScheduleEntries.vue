@@ -114,7 +114,7 @@ export default {
   position: fixed;
   bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
   @media #{map-get($display-breakpoints, 'md-and-up')} {
-    bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
+    bottom: calc(16px + env(safe-area-inset-bottom)) !important;
   }
 }
 </style>
