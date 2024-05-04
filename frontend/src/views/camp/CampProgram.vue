@@ -225,7 +225,10 @@ export default {
     },
   },
   watch: {
-    openFilter: 'openFilterChanged',
+    openFilter: {
+      immediate: true,
+      handler: 'openFilterChanged',
+    },
     'filter.category': 'persistRouterState',
     'filter.responsible': 'persistRouterState',
     'filter.progressLabel': 'persistRouterState',
