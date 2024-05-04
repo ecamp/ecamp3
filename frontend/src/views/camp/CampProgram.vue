@@ -90,6 +90,7 @@ Show all activity schedule entries of a single period.
       class="ec-content-card__toolbar--border pb-4 justify-center"
       :loading-endpoints="loadingEndpoints"
       :camp="camp"
+      @height-changed="scheduleEntryFiltersHeightChanged"
     />
     <template v-if="loading">
       <v-skeleton-loader type="table" />
@@ -224,6 +225,10 @@ export default {
     },
   },
   watch: {
+    openFilter: {
+      immediate: true,
+      handler: 'openFilterChanged',
+    },
     'filter.category': 'persistRouterState',
     'filter.responsible': 'persistRouterState',
     'filter.progressLabel': 'persistRouterState',
@@ -283,6 +288,21 @@ export default {
       if (filterAndQueryAreEqual(query, this.$route.query)) return
       this.$router.replace({ query }).catch((err) => console.warn(err))
     },
+    openFilterChanged(openFilter) {
+      if (!openFilter) {
+        this.scheduleEntryFiltersHeightChanged(0)
+      }
+    },
+    scheduleEntryFiltersHeightChanged(h) {
+      const root = document.querySelector(':root')
+      root.style.setProperty('--schedule-entry-filters-height', `${h}px`)
+    },
   },
 }
 </script>
+
+<style>
+:root {
+  --schedule-entry-filters-height: 0px;
+}
+</style>
