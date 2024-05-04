@@ -122,12 +122,15 @@ final class PurgeHttpCacheListener {
         }
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     private function gatherRelationTags(EntityManagerInterface $em, object $entity): void {
         $associationMappings = $em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
 
         foreach ($associationMappings as $property => $associationMapping) {
             // @phpstan-ignore-next-line
-            if ($associationMapping instanceof AssociationMapping && ($associationMapping->targetEntity ?? null) && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
+            if (class_exists(AssociationMapping::class) && $associationMapping instanceof AssociationMapping && ($associationMapping->targetEntity ?? null) && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
                 return;
             }
 
