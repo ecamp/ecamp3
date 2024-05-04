@@ -38,6 +38,7 @@ use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -48,6 +49,61 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class PurgeHttpCacheListenerTest extends TestCase {
     use ProphecyTrait;
 
+    private ObjectProphecy $cacheManagerProphecy;
+    private ObjectProphecy $resourceClassResolverProphecy;
+    private ObjectProphecy $uowProphecy;
+    private ObjectProphecy $emProphecy;
+    private ObjectProphecy $propertyAccessorProphecy;
+    private ObjectProphecy $iriConverterProphecy;
+    private ObjectProphecy $metadataFactoryProphecy;
+
+    protected function setUp(): void {
+        $this->cacheManagerProphecy = $this->prophesize(CacheManager::class);
+        $this->cacheManagerProphecy->flush(Argument::any())->willReturn(0);
+
+        $this->resourceClassResolverProphecy = $this->prophesize(ResourceClassResolverInterface::class);
+        $this->resourceClassResolverProphecy->isResourceClass(Argument::type('string'))->willReturn(true);
+        $this->resourceClassResolverProphecy->getResourceClass(Argument::type(Dummy::class))->willReturn(Dummy::class);
+
+        $this->uowProphecy = $this->prophesize(UnitOfWork::class);
+
+        $this->emProphecy = $this->prophesize(EntityManagerInterface::class);
+        $this->emProphecy->getUnitOfWork()->willReturn($this->uowProphecy->reveal());
+        $dummyClassMetadata = new ClassMetadata(Dummy::class);
+        $dummyClassMetadata->mapManyToOne(['fieldName' => 'relatedDummy', 'targetEntity' => RelatedDummy::class, 'inversedBy' => 'dummies']);
+        $dummyClassMetadata->mapOneToOne(['fieldName' => 'relatedOwningDummy', 'targetEntity' => RelatedOwningDummy::class, 'inversedBy' => 'ownedDummy']);
+
+        $this->emProphecy->getClassMetadata(Dummy::class)->willReturn($dummyClassMetadata);
+
+        $this->propertyAccessorProphecy = $this->prophesize(PropertyAccessorInterface::class);
+        $this->propertyAccessorProphecy->isReadable(Argument::type(Dummy::class), 'relatedDummy')->willReturn(true);
+        $this->propertyAccessorProphecy->isReadable(Argument::type(Dummy::class), 'relatedOwningDummy')->willReturn(false);
+        $this->propertyAccessorProphecy->getValue(Argument::type(Dummy::class), 'relatedDummy')->willReturn(null);
+        $this->propertyAccessorProphecy->getValue(Argument::type(Dummy::class), 'relatedOwningDummy')->willReturn(null);
+
+        $this->metadataFactoryProphecy = $this->prophesize(ResourceMetadataCollectionFactoryInterface::class);
+        $operation = (new GetCollection())->withShortName('Dummy')->withClass(Dummy::class);
+        $operation2 = (new GetCollection())->withShortName('DummyAsSubresource')->withClass(Dummy::class);
+        $this->metadataFactoryProphecy->create(Dummy::class)->willReturn(new ResourceMetadataCollection('Dummy', [
+            (new ApiResource('Dummy'))
+                ->withShortName('Dummy')
+                ->withOperations(new Operations([
+                    'get_collection' => $operation,
+                    'related_dummies/{id}/dummmies_get_collection' => $operation2,
+                ])),
+        ]));
+
+        $this->iriConverterProphecy = $this->prophesize(IriConverterInterface::class);
+        $this->iriConverterProphecy->getIriFromResource(Argument::type(Dummy::class), UrlGeneratorInterface::ABS_PATH, $operation)->willReturn('/dummies');
+        $this->iriConverterProphecy->getIriFromResource(Argument::type(Dummy::class), UrlGeneratorInterface::ABS_PATH, $operation2)->will(function ($args) { return '/related_dummies/'.$args[0]->getRelatedDummy()->getId().'/dummies'; });
+        $this->iriConverterProphecy->getIriFromResource(Argument::type(Dummy::class))->will(function ($args) { return '/dummies/'.$args[0]->getId(); });
+    }
+
+    /**
+     * the following tests are copied from upstream PurgeHttpCacheListenerTest
+     * only adjusted to passt the tests with adjusted logic from PurgeHttpCacheListener.
+     * Other than that, kept changes to a minimum, in order to simplify copying changes to upstream test.
+     */
     public function testOnFlush(): void {
         $toInsert1 = new Dummy();
         $toInsert2 = new Dummy();
@@ -235,5 +291,51 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
         $listener = new PurgeHttpCacheListener($iriConverterProphecy->reveal(), $resourceClassResolverProphecy->reveal(), $propertyAccessorProphecy->reveal(), $metadataFactoryProphecy->reveal(), $cacheManagerProphecy->reveal());
         $listener->onFlush($eventArgs);
+    }
+
+    /**
+     * the following tests are additional tests, created to test specific new behavior of PurgeHttpCacheListener.
+     */
+    public function testInsertingShouldPurgeSubresourceCollections(): void {
+        // given
+        $toInsert1 = new Dummy();
+        $toInsert1->setId(1);
+        $relatedDummy = new RelatedDummy();
+        $relatedDummy->setId(100);
+        $toInsert1->setRelatedDummy($relatedDummy);
+
+        $this->uowProphecy->getScheduledEntityInsertions()->willReturn([$toInsert1]);
+        $this->uowProphecy->getScheduledEntityDeletions()->willReturn([]);
+
+        // then
+        $this->cacheManagerProphecy->invalidateTags(['/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+        $this->cacheManagerProphecy->invalidateTags(['/related_dummies/100/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+
+        // when
+        $listener = new PurgeHttpCacheListener($this->iriConverterProphecy->reveal(), $this->resourceClassResolverProphecy->reveal(), $this->propertyAccessorProphecy->reveal(), $this->metadataFactoryProphecy->reveal(), $this->cacheManagerProphecy->reveal());
+        $listener->onFlush(new OnFlushEventArgs($this->emProphecy->reveal()));
+        $listener->postFlush();
+    }
+
+    public function testDeleteShouldPurgeSubresourceCollections(): void {
+        // given
+        $toDelete1 = new Dummy();
+        $toDelete1->setId(1);
+        $relatedDummy = new RelatedDummy();
+        $relatedDummy->setId(100);
+        $toDelete1->setRelatedDummy($relatedDummy);
+
+        $this->uowProphecy->getScheduledEntityInsertions()->willReturn([]);
+        $this->uowProphecy->getScheduledEntityDeletions()->willReturn([$toDelete1]);
+
+        // then
+        $this->cacheManagerProphecy->invalidateTags(['/dummies/1'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+        $this->cacheManagerProphecy->invalidateTags(['/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+        $this->cacheManagerProphecy->invalidateTags(['/related_dummies/100/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+
+        // when
+        $listener = new PurgeHttpCacheListener($this->iriConverterProphecy->reveal(), $this->resourceClassResolverProphecy->reveal(), $this->propertyAccessorProphecy->reveal(), $this->metadataFactoryProphecy->reveal(), $this->cacheManagerProphecy->reveal());
+        $listener->onFlush(new OnFlushEventArgs($this->emProphecy->reveal()));
+        $listener->postFlush();
     }
 }
