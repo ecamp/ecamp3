@@ -23,7 +23,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-drop-job
-          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Values.imageTag }}"
           command: ["php", "bin/console", "doctrine:database:drop", "--if-exists", "-f"]
           env:
             - name: DATABASE_URL

@@ -1,12 +1,7 @@
 #!/bin/sh
 set -e
 
-# first arg is `-f` or `--some-option`
-if [ "${1#-}" != "$1" ]; then
-  set -- php-fpm "$@"
-fi
-
-if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1" = 'composer' ] || [ "$1" = 'bin/phpunit' ]; then  
+if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1" = 'composer' ] || [ "$1" = 'bin/phpunit' ]; then  
 
   if [ "$APP_ENV" = 'prod' ]; then
     setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
@@ -28,7 +23,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1
     
     composer install --prefer-dist --no-progress --no-interaction
 
-    if grep -q DATABASE_URL= .env; then
+    if grep -q ^DATABASE_URL= .env; then
       migrate-database || exit 1
       migrate-database -e test || exit 1
     fi

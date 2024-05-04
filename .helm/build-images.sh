@@ -25,13 +25,9 @@ frontend_image_tag="${docker_hub_account}/ecamp3-frontend:${version}"
 docker build "$REPO_DIR" -f "$REPO_DIR"/.docker-hub/frontend/Dockerfile $frontend_sentry_build_args -t "$frontend_image_tag"
 docker push "$frontend_image_tag"
 
-api_image_tag="${docker_hub_account}/ecamp3-api-php:${version}"
-docker build "$REPO_DIR"/api -f "$REPO_DIR"/api/Dockerfile -t "$api_image_tag" --target api_platform_php $sentry_build_args
+api_image_tag="${docker_hub_account}/ecamp3-api:${version}"
+docker build "$REPO_DIR"/api -f "$REPO_DIR"/api/Dockerfile -t "$api_image_tag" --target frankenphp_prod $sentry_build_args
 docker push "$api_image_tag"
-
-caddy_image_tag="${docker_hub_account}/ecamp3-api-caddy:${version}"
-docker build "$REPO_DIR"/api -f "$REPO_DIR"/api/Dockerfile -t "$caddy_image_tag" --target api_platform_caddy_prod
-docker push "$caddy_image_tag"
 
 print_sentry_build_args="$sentry_build_args --build-arg SENTRY_PRINT_PROJECT=$SENTRY_PRINT_PROJECT"
 

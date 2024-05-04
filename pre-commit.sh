@@ -30,7 +30,7 @@ execute_or_run() {
 execute_or_run "frontend" "ecamp3-frontend" "frontend" "npm run lint" &
 
 # API/PHP
-execute_or_run "api" "ecamp3-api-php" "php" "composer cs-fix" &
+execute_or_run "api" "ecamp3-api" "php" "composer cs-fix" &
 
 # Print
 execute_or_run "print" "ecamp3-print" "print" "npm run lint" &

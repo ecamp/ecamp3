@@ -88,14 +88,9 @@ for i in 1; do
     values="$values --set postgresql.restore.inviteSupportAccountToInterestingCamps=$RESTORE_INVITE_TO_INTERESTING_CAMPS"
   fi
 
-  for imagespec in "frontend" "print"; do
+  for imagespec in "frontend" "print" "api"; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
-  done
-
-  for imagespec in "php" "caddy"; do
-    values="$values --set $imagespec.image.pullPolicy=$pull_policy"
-    values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-api-$imagespec"
   done
 
   values="$values --set postgresql.dbBackupRestoreImage.pullPolicy=$pull_policy"

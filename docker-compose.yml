@@ -26,21 +26,29 @@ services:
     depends_on:
       - pdf
 
-  php:
-    image: ecamp/ecamp3-dev-api-php
+  api:
+    image: ecamp/ecamp3-dev-api
     build:
       context: ./api
-      target: api_platform_php_dev
+      target: frankenphp_dev
       cache_from:
-        - ecamp/ecamp3-dev-api-php
-    container_name: 'ecamp3-api-php'
+        - ecamp/ecamp3-dev-api
+    container_name: 'ecamp3-api'
     depends_on:
       - database
       - docker-host
-    restart: unless-stopped
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 2019
+        published: 2019
+        protocol: tcp
     volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./api:/srv/api:rw,delegated
+      - ./api:/app:rw,delegated
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
       - ./.cache/composer:/tmp/composer/cache:delegated
@@ -66,32 +74,6 @@ services:
     user: ${USER_ID:-1000}
     extra_hosts:
       - 'host.docker.internal:host-gateway'
-
-  caddy:
-    image: ecamp/ecamp3-dev-api-caddy
-    build:
-      context: ./api
-      target: api_platform_caddy
-      cache_from:
-        - ecamp/ecamp3-dev-api-caddy
-    container_name: 'ecamp3-api-caddy'
-    depends_on:
-      - php
-    ports:
-      - target: 3000
-        published: 3000
-        protocol: tcp
-      - target: 2019
-        published: 2019
-        protocol: tcp
-    restart: unless-stopped
-    user: ${USER_ID:-1000}
-    volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./.caddy/data:/data:delegated
-      - ./.caddy/config-cache:/config:delegated
-      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./api/public:/srv/api/public:ro
 
   pdf:
     image: node:20.12.2
@@ -205,3 +187,5 @@ services:
 
 volumes:
   db-data-postgres: null
+  caddy_data:
+  caddy_config:
