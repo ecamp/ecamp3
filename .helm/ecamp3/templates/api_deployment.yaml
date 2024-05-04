@@ -31,7 +31,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       enableServiceLinks: false
       containers:
-        - name: name: {{ .Chart.Name }}-api
+        - name: {{ .Chart.Name }}-api
           {{/* Define the api container as a template, so it can be reused in other places */}}
           {{- define "api.container" }}
           securityContext:
@@ -151,7 +151,7 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
           {{- end }}
-          {{- template "api.phpContainer" . }}
+          {{- template "api.container" . }}
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
           readinessProbe:
