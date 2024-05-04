@@ -30,6 +30,7 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -123,8 +124,21 @@ final class PurgeHttpCacheListener {
 
     private function gatherRelationTags(EntityManagerInterface $em, object $entity): void {
         $associationMappings = $em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
-        foreach ($associationMappings as $property => $mappings) {
-            $relatedProperty = $mappings['isOwningSide'] ? $mappings['inversedBy'] : $mappings['mappedBy'];
+
+        foreach ($associationMappings as $property => $associationMapping) {
+            // @phpstan-ignore-next-line
+            if ($associationMapping instanceof AssociationMapping && ($associationMapping->targetEntity ?? null) && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
+                return;
+            }
+
+            // @phpstan-ignore-next-line
+            if (\is_array($associationMapping)
+                && \array_key_exists('targetEntity', $associationMapping)
+                && !$this->resourceClassResolver->isResourceClass($associationMapping['targetEntity'])) {
+                return;
+            }
+
+            $relatedProperty = $associationMapping['isOwningSide'] ? $associationMapping['inversedBy'] : $associationMapping['mappedBy'];
             if (!$relatedProperty) {
                 continue;
             }
