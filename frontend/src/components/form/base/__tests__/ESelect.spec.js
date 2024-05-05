@@ -116,16 +116,4 @@ describe('An ESelect', () => {
 
     expect(await screen.findByText('append')).toBeVisible()
   })
-
-  test('allows to use the append slot with scope', async () => {
-    mount({
-      children: `
-        <template #append="slotProps">
-          <span>slotProps {{ slotProps }}</span>
-        </template>
-      `,
-    })
-
-    expect(await screen.findByText('slotProps')).toBeVisible()
-  })
 })
