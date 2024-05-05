@@ -167,8 +167,9 @@ spec:
           startupProbe:
             tcpSocket:
               port: 3001
-            failureThreshold: 40
-            periodSeconds: 3
+            failureThreshold: 10
+            periodSeconds: 15
+            timeoutSeconds: 10
 
       volumes:
       - name: php-socket
