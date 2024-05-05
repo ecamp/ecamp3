@@ -126,9 +126,6 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
             ->request('GET', '/days/'.$day->getId().'/day_responsibles')
         ;
 
-        $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+        $this->assertResponseStatusCodeSame(404);
     }
 }

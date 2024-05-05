@@ -37,7 +37,11 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         new GetCollection(
             uriTemplate: self::PERIOD_SUBRESOURCE_URI_TEMPLATE,
             uriVariables: [
-                'periodId' => new Link(toProperty: 'period', fromClass: Period::class),
+                'periodId' => new Link(
+                    toProperty: 'period',
+                    fromClass: Period::class,
+                    security: 'is_granted("CAMP_COLLABORATOR", period) or is_granted("CAMP_IS_PROTOTYPE", period)'
+                ),
             ],
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             security: 'is_fully_authenticated()',

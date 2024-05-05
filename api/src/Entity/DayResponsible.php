@@ -35,9 +35,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             uriTemplate: self::DAY_SUBRESOURCE_URI_TEMPLATE,
             uriVariables: [
-                'dayId' => new Link(toProperty: 'day', fromClass: Day::class),
+                'dayId' => new Link(
+                    toProperty: 'day',
+                    fromClass: Day::class,
+                    security: 'is_granted("CAMP_COLLABORATOR", day) or is_granted("CAMP_IS_PROTOTYPE", day)'
+                ),
             ],
-            security: 'is_fully_authenticated()',
         ),
         new Post(
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'

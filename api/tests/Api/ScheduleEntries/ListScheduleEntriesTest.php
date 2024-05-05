@@ -402,9 +402,6 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
             ->request('GET', '/periods/'.$period->getId().'/schedule_entries')
         ;
 
-        $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+        $this->assertResponseStatusCodeSame(404);
     }
 }

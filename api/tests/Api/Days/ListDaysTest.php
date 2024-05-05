@@ -149,9 +149,6 @@ class ListDaysTest extends ECampApiTestCase {
             ->request('GET', '/periods/'.$period->getId().'/days')
         ;
 
-        $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+        $this->assertResponseStatusCodeSame(404);
     }
 }
