@@ -25,7 +25,7 @@
 {$CADDY_EXTRA_CONFIG}
 
 
-{$SERVER_NAME:localhost}:3001 {
+{$SERVER_NAME:localhost} {
 	log
 
 	root * /app/public
