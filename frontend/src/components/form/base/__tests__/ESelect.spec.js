@@ -116,4 +116,20 @@ describe('An ESelect', () => {
 
     expect(await screen.findByText('append')).toBeVisible()
   })
+
+  test('allows to use the append slot with scope', async () => {
+    const wrapper = mount({
+      children: `
+        <template #item="{ item, on, attrs }">
+        <v-list-item :key="item" v-bind="attrs" v-on="on">
+          {{ item }}
+        </v-list-item>
+      </template>
+      `,
+    })
+
+    await wrapper.find('.v-input__slot').trigger('click')
+
+    expect(await screen.findByText(FIRST_OPTION.text)).toBeInTheDocument()
+  })
 })
