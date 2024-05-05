@@ -5,6 +5,9 @@
 		{$FRANKENPHP_CONFIG}
 	}
 
+	# https://caddyserver.com/docs/caddyfile/directives#sorting-algorithm
+	order php_server before file_server
+
 	http_port 3001
 	https_port 3443
 	auto_https off
@@ -22,7 +25,7 @@
 {$CADDY_EXTRA_CONFIG}
 
 
-{$SERVER_NAME:localhost} {
+{$SERVER_NAME:localhost}:3001 {
 	log
 
 	root * /app/public
@@ -42,6 +45,7 @@
 			header Content-Type image/svg+xml*
 			# Custom formats supported
 			header Content-Type application/ld+json*
+			header Content-Type application/hal+json*
 		}
 	}
 
