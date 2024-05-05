@@ -5,6 +5,7 @@ import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import ECheckbox from '../ECheckbox.vue'
+import { screen } from '@testing-library/vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -22,7 +23,9 @@ describe('An ECheckbox', () => {
       },
       template: `
         <div data-app>
-          <e-checkbox label="test" v-model="data"/>
+          <e-checkbox label="test" v-model="data">
+            ${options?.children}
+          </e-checkbox>
         </div>
       `,
     })
@@ -81,5 +84,17 @@ describe('An ECheckbox', () => {
     jest.resetAllMocks()
     await input.trigger('click')
     expect(wrapper.vm.data).toBe(false)
+  })
+
+  test('allows to use the append slot', async () => {
+    mount({
+      children: `
+        <template #append>
+          <span>append</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('append')).toBeVisible()
   })
 })

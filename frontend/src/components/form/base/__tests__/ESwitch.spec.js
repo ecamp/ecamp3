@@ -6,6 +6,7 @@ import formBaseComponents from '@/plugins/formBaseComponents'
 import { mount as mountComponent } from '@vue/test-utils'
 import ESwitch from '@/components/form/base/ESwitch.vue'
 import { touch } from '@/test/util'
+import { screen } from '@testing-library/vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -23,7 +24,9 @@ describe('An ESwitch', () => {
       },
       template: `
         <div data-app>
-          <e-switch label="test" v-model="data"/>
+          <e-switch label="test" v-model="data">
+            ${options?.children}
+          </e-switch>
         </div>
       `,
     })
@@ -106,5 +109,17 @@ describe('An ESwitch', () => {
     jest.resetAllMocks()
     input.trigger('keydown.left')
     expect(wrapper.vm.data).toBe(false)
+  })
+
+  test('allows to use the append slot', async () => {
+    mount({
+      children: `
+        <template #append>
+          <span>append</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('append')).toBeVisible()
   })
 })
