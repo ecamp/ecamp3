@@ -20,7 +20,11 @@ describe('An ETextField', () => {
           data: null,
         }
       },
-      template: `<div data-app><e-text-field label="test" v-model="data"/></div>`,
+      template: `
+        <div data-app>
+          <e-text-field label="test" v-model="data"/>
+        </div>
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }

@@ -28,7 +28,11 @@ describe('An EParseField', () => {
           return value === null ? '' : `${value}`
         },
       },
-      template: `<div data-app><e-parse-field label="test" :parse="parse" :format="format" v-model="data"/></div>`,
+      template: `
+        <div data-app>
+          <e-parse-field label="test" :parse="parse" :format="format" v-model="data" :value="data"/>
+        </div>
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
