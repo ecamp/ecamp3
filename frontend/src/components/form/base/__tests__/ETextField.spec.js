@@ -5,6 +5,7 @@ import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import ETextField from '../ETextField.vue'
+import { screen } from '@testing-library/vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -22,7 +23,9 @@ describe('An ETextField', () => {
       },
       template: `
         <div data-app>
-          <e-text-field label="test" v-model="data"/>
+          <e-text-field label="test" v-model="data">
+            ${options?.children}
+          </e-text-field>
         </div>
       `,
     })
@@ -67,5 +70,29 @@ describe('An ETextField', () => {
     await input.trigger('input')
 
     expect(wrapper.vm.data).toBe(text)
+  })
+
+  test('allows to use the append slot', async () => {
+    mount({
+      children: `
+        <template #append>
+          <span>append</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('append')).toBeVisible()
+  })
+
+  test('allows to use the append slot with scope', async () => {
+    mount({
+      children: `
+        <template #append="slotProps">
+          <span>slotProps {{ slotProps }}</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('slotProps')).toBeVisible()
   })
 })
