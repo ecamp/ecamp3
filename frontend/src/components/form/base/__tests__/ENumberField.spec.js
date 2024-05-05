@@ -20,7 +20,11 @@ describe('An ENumberField', () => {
           data: null,
         }
       },
-      template: `<div data-app><e-number-field label="test" v-model="data"/></div>`,
+      template: `
+      <div data-app>
+        <e-number-field label="test" v-model="data"/>
+      </div>
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
