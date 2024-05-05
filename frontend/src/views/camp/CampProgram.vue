@@ -110,8 +110,8 @@ Show all activity schedule entries of a single period.
           :end="period.end"
           :editable="editMode"
           :is-filter-set="isFilterSet"
-          @newEntry="slotProps.on.newEntry"
-          @unlockReminder="showUnlockReminder"
+          @new-entry="slotProps.on.newEntry"
+          @unlock-reminder="showUnlockReminder"
         />
       </template>
     </ScheduleEntries>

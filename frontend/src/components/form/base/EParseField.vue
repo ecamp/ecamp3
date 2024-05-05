@@ -27,7 +27,9 @@ Displays a field as a textfield (can be used with v-model)
       v-on="inputListeners"
     >
       <!-- passing through all slots -->
-      <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
+      <template v-for="(_, name) in $slots" #[name]>
+        <slot :name="name" />
+      </template>
     </v-text-field>
   </ValidationProvider>
 </template>

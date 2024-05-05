@@ -172,7 +172,7 @@ export default {
 
     this.setValue(this.value)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.clickOutsideHandler) {
       document.removeEventListener('click', this.clickOutsideHandler)
     }

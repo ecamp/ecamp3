@@ -42,7 +42,7 @@ export default {
       }
     }
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener('offline', this.offlineListener)
     window.removeEventListener('online', this.onlineListener)
   },

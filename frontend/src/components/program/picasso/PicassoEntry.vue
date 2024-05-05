@@ -33,7 +33,7 @@
       v-if="isEditable"
       ref="editDialog"
       :schedule-entry="scheduleEntry"
-      @activityUpdated="$emit('finishEdit')"
+      @activity-updated="$emit('finishEdit')"
       @error="$emit('finishEdit')"
     >
       <template #activator="{ on }">
@@ -265,7 +265,7 @@ export default {
     this.scrollHeight = this.$el.scrollHeight
     window.addEventListener('resize', this.onResize)
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener('resize', this.onResize)
   },
   methods: {

@@ -52,7 +52,7 @@ export default {
     document.documentElement.addEventListener('touchcancel', this.mouseUp, true)
     document.documentElement.addEventListener('touchstart', this.mouseUp, true)
   },
-  beforeDestroy: function () {
+  beforeUnmount: function () {
     document.documentElement.removeEventListener('mousemove', this.mouseMove)
     document.documentElement.removeEventListener('mouseup', this.mouseUp)
     document.documentElement.removeEventListener('mouseleave', this.mouseUp)
