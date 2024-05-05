@@ -37,11 +37,11 @@
             "templated": true
         },
         "dayResponsibles": {
-            "href": "\/day_responsibles{\/id}{\/action}{?day,day[],day.period,day.period[]}",
+            "href": "\/day_responsibles{\/id}{?day,day[],day.period,day.period[]}",
             "templated": true
         },
         "days": {
-            "href": "\/days{\/id}{\/action}{?period,period[],period.camp,period.camp[]}",
+            "href": "\/days{\/id}{?period,period[],period.camp,period.camp[]}",
             "templated": true
         },
         "invitations": {
@@ -104,7 +104,7 @@
             "templated": true
         },
         "scheduleEntries": {
-            "href": "\/schedule_entries{\/id}{\/action}{?period,period[],activity,activity[],start[before],start[strictly_before],start[after],start[strictly_after],end[before],end[strictly_before],end[after],end[strictly_after]}",
+            "href": "\/schedule_entries{\/id}{?period,period[],activity,activity[],start[before],start[strictly_before],start[after],start[strictly_after],end[before],end[strictly_before],end[after],end[strictly_after]}",
             "templated": true
         },
         "self": {
