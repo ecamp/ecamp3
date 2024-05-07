@@ -25,10 +25,13 @@
           class="mx-4 mt-6 mb-3"
           style="border-collapse: collapse"
         >
-          <caption class="font-weight-bold text-left">
-            {{
-              periods[uri].description
-            }}
+          <caption class="text-left">
+            <router-link
+              :to="periodRoute(periods[uri])"
+              class="text-decoration-none text-decoration-hover-underline black--text font-weight-bold"
+            >
+              {{ periods[uri].description }}
+            </router-link>
           </caption>
           <thead :key="uri + '_head'">
             <tr class="d-sr-only">
@@ -124,6 +127,7 @@
 </template>
 
 <script>
+import { periodRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import { keyBy, groupBy, mapValues } from 'lodash'
@@ -264,6 +268,7 @@ export default {
     })
   },
   methods: {
+    periodRoute,
     persistRouterState() {
       const query = transformValuesToHalId(this.filter)
       if (filterAndQueryAreEqual(query, this.$route.query)) return
@@ -307,5 +312,9 @@ export default {
 
 .day-header__row + tr > :is(th, td) {
   border-top: 0;
+}
+
+.text-decoration-hover-underline:hover {
+  text-decoration: underline !important;
 }
 </style>
