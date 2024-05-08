@@ -46,7 +46,7 @@
     "@vue/test-utils": "2.4.5",
     "css": "3.0.0",
     "dayjs": "1.11.11",
-    "eslint": "8.57.0",
+    "eslint": "9.2.0",
     "eslint-plugin-local-rules": "2.0.1",
     "eslint-plugin-vue": "9.25.0",
     "jsdom": "24.0.0",
