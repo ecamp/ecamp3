@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       entityProperties: ['camp', 'inviteEmail', 'role'],
-      entityUri: '/camp_collaborations',
+      entityUri: '',
     }
   },
   watch: {
@@ -68,6 +68,11 @@ export default {
         this.clearEntityData()
       }
     },
+  },
+  mounted() {
+    this.api
+      .href(this.api.get(), 'campCollaborations')
+      .then((uri) => (this.entityUri = uri))
   },
   methods: {
     createCollaboration() {

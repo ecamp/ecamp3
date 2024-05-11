@@ -126,7 +126,7 @@ export default {
     return {
       entityProperties: ['camp', 'short', 'name', 'color', 'numberingStyle'],
       embeddedCollections: ['preferredContentTypes'],
-      entityUri: '/categories',
+      entityUri: '',
       clipboardPermission: 'unknown',
       copyCategorySource: null,
       copyCategorySourceUrl: null,
@@ -223,6 +223,9 @@ export default {
         }
       )
     },
+  },
+  mounted() {
+    this.api.href(this.api.get(), 'categories').then((uri) => (this.entityUri = uri))
   },
   methods: {
     async createCategory() {

@@ -153,7 +153,7 @@ export default {
       resendingEmail: false,
       emailSent: false,
       entityProperties: ['camp', 'inviteEmail', 'role', 'status'],
-      entityUri: '/camp_collaborations',
+      entityUri: '',
     }
   },
   computed: {
@@ -194,6 +194,11 @@ export default {
         this.clearEntityData()
       }
     },
+  },
+  mounted() {
+    this.api
+      .href(this.api.get(), 'campCollaborations')
+      .then((uri) => (this.entityUri = uri))
   },
   methods: {
     resendInvitation() {

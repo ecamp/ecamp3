@@ -138,7 +138,7 @@ export default {
       copyActivitySourceUrlShowPopover: false,
       entityProperties: ['title', 'location', 'scheduleEntries'],
       embeddedEntities: ['category'],
-      entityUri: '/activities',
+      entityUri: '',
     }
   },
   computed: {
@@ -246,6 +246,9 @@ export default {
         }
       )
     },
+  },
+  mounted() {
+    this.api.href(this.api.get(), 'activities').then((url) => (this.entityUri = url))
   },
   methods: {
     refreshCopyActivitySource() {
