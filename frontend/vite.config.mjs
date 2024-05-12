@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue2'
-import { createSvgPlugin } from 'vite-plugin-vue2-svg'
 import { comlink } from 'vite-plugin-comlink'
 import * as path from 'path'
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { configDefaults } from 'vitest/config'
+import { svg4VuePlugin } from "vite-plugin-svg4vue";
 
 const plugins = [
   comlink(), // must be first
@@ -17,7 +17,9 @@ const plugins = [
       VuetifyResolver(),
     ],
   }),
-  createSvgPlugin(),
+  svg4VuePlugin({
+      skipSvgo: true
+  }),
 ]
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
 if (sentryAuthToken) {
