@@ -17,7 +17,7 @@ import { contrastColor } from '@/common/helpers/colors.js'
 export default {
   name: 'ColorSwatch',
   props: {
-    color: { type: String, required: true },
+    color: { type: String, default: null },
   },
   computed: {
     contrast() {

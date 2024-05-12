@@ -77,6 +77,7 @@ import ESelect from '@/components/form/base/ESelect.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
+import EColorPicker2 from '@/components/form/base/EColorPicker2.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
@@ -119,6 +120,7 @@ export default {
     ETimePicker,
     ApiTimePicker,
     EColorPicker,
+    EColorPicker2,
     ApiColorPicker,
   },
   data: () => ({
@@ -197,7 +199,7 @@ export default {
           component: (type) => `${type}-select`,
           value: this.selectValue,
           props: {
-            fieldname: 'language',
+            path: 'language',
             placeholder: this.placeholder,
             items: this.availableLocales,
             uri: this.profileUri,
@@ -245,6 +247,16 @@ export default {
         {
           id: 'color-picker',
           component: (type) => (type === 'v' ? '' : `${type}-color-picker`),
+          value: this.colorValue,
+          props: {
+            placeholder: this.placeholder,
+            path: 'color',
+            uri: this.categoryUri,
+          },
+        },
+        {
+          id: 'color-picker2',
+          component: (type) => (type === 'v' ? '' : `${type}-color-picker2`),
           value: this.colorValue,
           props: {
             placeholder: this.placeholder,
