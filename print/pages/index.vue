@@ -36,6 +36,8 @@ const { data: camp, error } = await useAsyncData(
 )
 </script>
 
+<!-- these styles should be global, thus we don't want the vue-scoped-css/enforce-style-type warning here -->
+<!-- eslint-disable-next-line -->
 <style>
 :root {
   --tw-prose-body: #000 !important;

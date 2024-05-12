@@ -156,6 +156,8 @@ export default {
 }
 </script>
 
+<!-- these styles seem to effect the whole picasso, thus we don't want the vue-scoped-css/enforce-style-type warning here -->
+<!-- eslint-disable-next-line -->
 <style lang="scss">
 $portrait-content-width: 680; /* 794px minus 114px (=2*15mm margin) */
 $portrait-content-height: 1009; /* 1123px minus 114px (=2*15mm margin) */

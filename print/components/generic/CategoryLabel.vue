@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .category-label {
   font-size: 80%;
   letter-spacing: 0.05em;

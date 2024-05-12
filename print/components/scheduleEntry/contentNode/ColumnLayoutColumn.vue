@@ -53,7 +53,7 @@ export default defineNuxtComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ec-col {
   flex: 0 0 100%;
 }
