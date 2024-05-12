@@ -18,8 +18,10 @@
     <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
       <slot v-if="name !== 'prepend'" :name="name" v-bind="slotData" />
     </template>
-    <template #prepend="{ serializedValue }">
-      <ColorSwatch class="mt-n1" :color="serializedValue" />
+    <template #prepend="props">
+      <slot name="prepend" v-bind="props">
+        <ColorSwatch class="mt-n1" :color="props.serializedValue" disabled />
+      </slot>
     </template>
   </EParseField>
 </template>
@@ -31,7 +33,7 @@ import { parse, serialize, ColorSpace, sRGB } from 'colorjs.io/fn'
 import ColorSwatch from '@/components/form/base/ColorPicker/ColorSwatch.vue'
 
 export default {
-  name: 'EColorPicker2',
+  name: 'EColorField',
   components: { ColorSwatch },
   mixins: [formComponentMixin],
   props: {
