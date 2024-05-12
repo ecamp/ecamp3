@@ -19,7 +19,7 @@
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
-            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatz- einrichtungen und Sportgeräten.",
+            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatzeinrichtungen und Sportgeräten.",
             "name": "Lagerplatz/Umgebung"
           },
           "natureAndEnvironment": {
@@ -31,7 +31,7 @@
             "name": "Outdoortechniken"
           },
           "pioneeringTechnique": {
-            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seil- bahnen, Seilbrücken, Abseilen.",
+            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seilbahnen, Seilbrücken, Abseilen.",
             "name": "Pioniertechnik"
           },
           "preventionAndIntegration": {
