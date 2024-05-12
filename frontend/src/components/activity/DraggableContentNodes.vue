@@ -114,7 +114,7 @@ export default {
       },
     },
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.cleanupDrag()
   },
   methods: {

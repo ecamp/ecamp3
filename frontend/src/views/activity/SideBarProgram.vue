@@ -9,7 +9,7 @@
           :camp="camp"
           :day-selection="daySelection"
           :loading="slotProps.loading"
-          @changeDay="selectedDay = $event"
+          @change-day="selectedDay = $event"
         />
         <v-divider />
         <v-skeleton-loader v-if="slotProps.loading" class="mx-1" type="list-item@6" />

@@ -1,7 +1,7 @@
 <template>
   <DialogBottomSheet
     v-if="$vuetify.breakpoint.smAndDown"
-    :saving-override.sync="isSaving"
+    :saving-override="isSaving"
     :value="value"
     v-bind="{ ...$props, ...$attrs }"
     v-on="$listeners"
@@ -13,9 +13,9 @@
   </DialogBottomSheet>
   <DialogForm
     v-else
+    :saving-override="isSaving"
     content-class="ec-dialog-form"
     eager
-    :saving-override.sync="isSaving"
     :value="value"
     v-bind="{ ...$props, ...$attrs }"
     v-on="$listeners"
