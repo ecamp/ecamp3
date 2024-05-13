@@ -1,12 +1,13 @@
 <?php
 
 /*
- * This file is part of the API Platform project.
+ * This file was originally copied from api-platform/core, but modified to implement our own cache tag logic.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * For original author and license information see upstream file.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Upstream file (main branch):               https://github.com/api-platform/core/blob/main/src/Doctrine/EventListener/PurgeHttpCacheListener.php
+ * Upstream file (last synchronized version): https://github.com/api-platform/core/blob/d8e2d0c5e9b48c15d60a734086b0102b6ecf95c8/src/Doctrine/EventListener/PurgeHttpCacheListener.php
+ * Last synchronized commit:                  2024-03-05 / d8e2d0c5e9b48c15d60a734086b0102b6ecf95c8
  */
 
 declare(strict_types=1);
@@ -37,8 +38,6 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Purges responses containing modified entities from the proxy cache.
- *
- * @author Kévin Dunglas <dunglas@gmail.com>
  */
 final class PurgeHttpCacheListener {
     use ClassInfoTrait;

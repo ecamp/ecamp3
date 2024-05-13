@@ -1,12 +1,13 @@
 <?php
 
 /*
- * This file is part of the API Platform project.
+ * This file was partially copied from api-platform/core.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * For original author and license information see upstream file.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Upstream file (main branch):               https://github.com/api-platform/core/blob/main/tests/Doctrine/EventListener/PurgeHttpCacheListenerTest.php
+ * Upstream file (last synchronized version): https://github.com/api-platform/core/blob/1821a05eebd107fd495376b43bfc9f64d72d6e7c/tests/Doctrine/EventListener/PurgeHttpCacheListenerTest.php
+ * Last synchronized commit:                  2023-10-27 / 1821a05eebd107fd495376b43bfc9f64d72d6e7c
  */
 
 declare(strict_types=1);
