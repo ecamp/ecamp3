@@ -7,6 +7,7 @@
     height="30"
     :color="color"
     :ripple="false"
+    v-bind="$attrs"
     @click="$emit('selectColor', color)"
     v-on="$listeners"
   ></v-btn>
@@ -28,6 +29,19 @@ export default {
 }
 </script>
 <style scoped>
+.e-colorswatch::before {
+  background: transparent;
+}
+.e-colorswatch:focus {
+  transform: scale(1.1);
+}
+.e-colorswatch:focus::before {
+  opacity: 1;
+  outline: 1px solid v-bind(contrast);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.3),
+    0 4px 6px -4px rgb(0 0 0 / 0.4);
+}
 .e-colorswatch::after {
   content: '•';
   color: v-bind(contrast);

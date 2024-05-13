@@ -92,7 +92,7 @@ export default {
     /**
      * Override the default serialized values comparison function
      */
-    compare: { type: Function, required: false, default: () => (a, b) => a === b },
+    compare: { type: Function, required: false, default: (a, b) => a === b },
 
     /**
      * Remove unwanted characters from the input value

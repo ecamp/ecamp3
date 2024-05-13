@@ -19,7 +19,7 @@ import * as Sentry from '@sentry/vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 
-import { Resize } from 'vuetify/lib/directives'
+import { ClickOutside, Resize } from 'vuetify/lib/directives'
 import ResizeObserver from 'v-resize-observer'
 
 const env = getEnv()
@@ -48,6 +48,7 @@ Vue.use(Toast, {
 })
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
+Vue.directive('click-outside', ClickOutside)
 Vue.directive('resize', Resize)
 Vue.directive('resizeobserver', ResizeObserver.directive)
 

@@ -10,7 +10,7 @@
     :vee-id="veeId"
     :vee-rules="veeRules"
     reset-on-blur
-    v-bind="$attrs"
+    v-on="$listeners"
     @input="$emit('input', $event)"
   >
     <!-- passing through all slots -->
@@ -20,7 +20,12 @@
     </template>
     <template #prepend="props">
       <slot name="prepend" v-bind="props">
-        <ColorSwatch class="mt-n1" :color="props.serializedValue" disabled />
+        <ColorSwatch
+          class="mt-n1"
+          :color="props.serializedValue"
+          tag="div"
+          :aria-label="props.serializedValue"
+        />
       </slot>
     </template>
   </EParseField>
@@ -37,7 +42,7 @@ export default {
   components: { ColorSwatch },
   mixins: [formComponentMixin],
   props: {
-    value: { type: [String], required: false, default: null },
+    value: { type: String, required: false, default: null },
   },
   emits: ['input'],
   setup() {
