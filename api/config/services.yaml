@@ -183,6 +183,10 @@ services:
             $apiCacheEnabled: '%env(API_CACHE_ENABLED)%'
             $varnishApiUrl: '%env(VARNISH_API_URL)%'
 
+    App\HttpCache\ResponseTagger:
+        arguments:
+            $matchPath: '%app.httpCache.matchPath%'
+
     # Entity Filter
     App\Doctrine\FilterByCurrentUserExtension:
         tags:
