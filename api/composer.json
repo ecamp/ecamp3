@@ -63,7 +63,6 @@
         "symfony/browser-kit": "7.0.7",
         "symfony/css-selector": "7.0.7",
         "symfony/debug-bundle": "7.0.7",
-        "symfony/http-client": "7.0.7",
         "symfony/maker-bundle": "1.59.1",
         "symfony/phpunit-bridge": "7.0.7",
         "symfony/stopwatch": "7.0.7",
