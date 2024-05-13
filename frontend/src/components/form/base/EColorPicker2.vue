@@ -4,6 +4,7 @@ Displays a field as a color picker (can be used with v-model)
 <template>
   <div
     v-click-outside="{ handler: closePicker, closeConditional: closePickerConditional }"
+    class="e-form-container"
   >
     <v-menu
       v-model="pickerOpen"
@@ -22,6 +23,8 @@ Displays a field as a color picker (can be used with v-model)
           <EColorField
             ref="input"
             :value="pickerValue"
+            :vee-id="veeId"
+            :vee-rules="veeRules"
             v-bind="$attrs"
             @input="onInput($event)"
             @click.prevent="onInputClick"
@@ -43,7 +46,12 @@ Displays a field as a color picker (can be used with v-model)
         </div>
       </template>
       <v-card ref="picker" :ripple="false" tabindex="-1">
-        <v-color-picker :value="pickerValue" flat @update:color="onInput($event.hex)" />
+        <v-color-picker
+          :value="pickerValue"
+          :style="{ '--picker-contrast-color': contrast }"
+          flat
+          @update:color="onPickerInput($event.hex)"
+        />
         <v-divider />
         <div class="d-flex gap-2 pa-4 flex-wrap">
           <ColorSwatch
@@ -67,6 +75,7 @@ export default {
   name: 'EColorPicker2',
   components: { ColorSwatch },
   mixins: [formComponentMixin],
+  inheritAttrs: false,
   props: {
     value: { type: String, required: true },
   },
@@ -105,6 +114,13 @@ export default {
       },
       immediate: true,
     },
+    pickerOpen: {
+      handler(open) {
+        if (!open) {
+          this.onPickerClose()
+        }
+      },
+    },
   },
   methods: {
     onInputClick() {
@@ -124,6 +140,9 @@ export default {
       this.pickerValue = value
       this.$emit('input', this.pickerValue)
     },
+    onPickerInput(value) {
+      this.pickerValue = value
+    },
     onSwatchSelect(color) {
       this.pickerValue = color
       this.$emit('input', this.pickerValue)
@@ -137,6 +156,7 @@ export default {
       return this.pickerOpen && !this.$refs.picker?.$el.contains(event.target)
     },
     onPickerClose() {
+      this.$emit('input', this.pickerValue)
       switch (this.activator) {
         case 'input':
           this.$refs.input.focus()
@@ -153,7 +173,7 @@ export default {
 <style scoped>
 :deep(.v-color-picker__dot > div::before) {
   content: '•';
-  color: v-bind(contrast);
+  color: var(--picker-contrast-color);
   display: block;
   width: 100%;
   line-height: 26px;

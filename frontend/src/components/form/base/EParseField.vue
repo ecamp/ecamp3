@@ -189,7 +189,7 @@ export default {
       this.$emit('blur', event)
     },
     setValue(val) {
-      if (this.compare(this.serializedValue, this.serialize?.(val) ?? val)) {
+      if (!this.compare(this.serializedValue, this.serialize?.(val) ?? val)) {
         this.internalValue = val
 
         this.serializedValue = this.serialize?.(val) ?? val
