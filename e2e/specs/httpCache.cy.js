@@ -173,34 +173,6 @@ describe('HTTP cache tests', () => {
     })
   })
 
-  const getIframeDocument = () => {
-    return (
-      cy
-        .get('iframe.panel-html')
-        // Cypress yields jQuery element, which has the real
-        // DOM element under property "0".
-        // From the real DOM iframe element we can get
-        // the "document" element, it is stored in "contentDocument" property
-        // Cypress "its" command can access deep properties using dot notation
-        // https://on.cypress.io/its
-        .its('0.contentDocument')
-        .should('exist')
-    )
-  }
-
-  const getIframeBody = () => {
-    // get the document
-    return (
-      getIframeDocument()
-        // automatically retries until body is loaded
-        .its('body')
-        .should('not.be.undefined')
-        // wraps "body" DOM element to allow
-        // chaining more Cypress commands, like ".find(...)"
-        .then(cy.wrap)
-    )
-  }
-
   it('invalidates cached data when user leaves a camp', () => {
     Cypress.session.clearAllSavedSessions()
     const uri = '/api/camps/3c79b99ab424/categories'
@@ -231,11 +203,10 @@ describe('HTTP cache tests', () => {
     })
 
     // delete old emails
-    cy.visit('localhost:3000/mail')
-    cy.get('a[title="Delete all emails"]').click()
-    /* eslint-disable cypress/no-unnecessary-waiting */
-    cy.wait(50)
-    cy.get('a[title="Delete all emails"]').click()
+    cy.request({
+      url: 'localhost:3000/mail/email/all',
+      method: 'DELETE',
+    })
 
     // invite Castor
     cy.login('test@example.com')
@@ -246,22 +217,22 @@ describe('HTTP cache tests', () => {
 
     // accept invitation as Castor
     cy.login('castor@example.com')
-    cy.visit('localhost:3000/mail')
-    cy.get('a')
-      .contains('[eCamp v3] Du wurdest ins Lager "Pfila 2023" eingeladen')
-      .click()
-    /* eslint-disable cypress/no-unnecessary-waiting */
-    cy.wait(200)
-    getIframeBody()
-      .find('a')
-      .then(($a) => {
-        const href = $a.prop('href')
-        cy.visit(href)
-        cy.get('button').contains('Einladung mit aktuellem Account akzeptieren').click()
-        cy.wait('@invitations')
-        cy.visit('/camps')
-        cy.contains('GRGR')
+
+    cy.request({
+      url: 'localhost:3000/mail/email',
+    }).then((response) => {
+      const emailHtmlContent = response.body[0].html
+      cy.document().then((document) => {
+        document.documentElement.innerHTML = emailHtmlContent
       })
+
+      cy.get('a:contains("Einladung beantworten")').invoke('removeAttr', 'target').click()
+
+      cy.get('button:contains("Einladung mit aktuellem Account akzeptieren")').click()
+      cy.wait('@invitations')
+      cy.visit('/camps')
+      cy.contains('GRGR')
+    })
   })
 
   it("doesn't cache /camps", () => {
