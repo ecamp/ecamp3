@@ -50,7 +50,7 @@ Displays a field as a color picker (can be used with v-model)
           :value="pickerValue"
           :style="{ '--picker-contrast-color': contrast }"
           flat
-          @update:color="onPickerInput($event.hex)"
+          @update:color="debouncedPickerValue($event.hex)"
         />
         <v-divider />
         <div class="d-flex gap-2 pa-4 flex-wrap">
@@ -70,6 +70,7 @@ Displays a field as a color picker (can be used with v-model)
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import ColorSwatch from '@/components/form/base/ColorPicker/ColorSwatch.vue'
+import { debounce } from 'lodash'
 
 export default {
   name: 'EColorPicker2',
@@ -83,6 +84,7 @@ export default {
   data: () => ({
     pickerOpen: false,
     pickerValue: null,
+    debouncedPickerValue: null,
     swatches: [
       '#90B7E4',
       '#6EDBE9',
@@ -122,6 +124,9 @@ export default {
       },
     },
   },
+  created() {
+    this.debouncedPickerValue = debounce(this.onInput, 300)
+  },
   methods: {
     onInputClick() {
       this.activator = 'input'
@@ -140,9 +145,6 @@ export default {
       this.pickerValue = value
       this.$emit('input', this.pickerValue)
     },
-    onPickerInput(value) {
-      this.pickerValue = value
-    },
     onSwatchSelect(color) {
       this.pickerValue = color
       this.$emit('input', this.pickerValue)
@@ -156,7 +158,6 @@ export default {
       return this.pickerOpen && !this.$refs.picker?.$el.contains(event.target)
     },
     onPickerClose() {
-      this.$emit('input', this.pickerValue)
       switch (this.activator) {
         case 'input':
           this.$refs.input.focus()
