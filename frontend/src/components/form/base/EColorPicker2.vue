@@ -42,6 +42,9 @@ Displays a field as a color picker (can be used with v-model)
                 @click="onInputSwatchClick"
               />
             </template>
+            <template #append>
+              <slot name="append" />
+            </template>
           </EColorField>
         </div>
       </template>
