@@ -21,10 +21,18 @@ Displays a field as a color picker (can be used with v-model)
       <template #activator="{ on }">
         <div v-on="on">
           <EColorField
+            :id="id"
             ref="input"
             :value="pickerValue"
             :vee-id="veeId"
             :vee-rules="veeRules"
+            :filled="filled"
+            :hide-details="hideDetails"
+            :input-class="inputClass"
+            :path="path"
+            :label="label"
+            :validation-label-override="validationLabelOverride"
+            :error-messages="errorMessages"
             v-bind="$attrs"
             @input="onInput($event)"
             @click.prevent="onInputClick"
@@ -35,7 +43,11 @@ Displays a field as a color picker (can be used with v-model)
                 :color="serializedValue"
                 class="mt-n1"
                 :aria-label="
-                  pickerOpen ? $tc('global.button.close') : $tc('global.button.open')
+                  pickerOpen
+                    ? $tc('components.form.base.eColorPicker.closePicker')
+                    : $tc('components.form.base.eColorPicker.openPicker', 0, {
+                        label: labelOrEntityFieldLabel,
+                      })
                 "
                 aria-haspopup="true"
                 :aria-expanded="pickerOpen ? 'true' : 'false'"
@@ -74,11 +86,12 @@ import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import ColorSwatch from '@/components/form/base/ColorPicker/ColorSwatch.vue'
 import { debounce } from 'lodash'
+import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 
 export default {
   name: 'EColorPicker2',
   components: { ColorSwatch },
-  mixins: [formComponentMixin],
+  mixins: [formComponentMixin, formComponentPropsMixin],
   inheritAttrs: false,
   props: {
     value: { type: String, required: true },

@@ -171,6 +171,7 @@
     "form": {
       "base": {
         "eColorPicker": {
+          "closePicker": "Terminar il dialog",
           "openPicker": "Avrir il dialog per tscherner ina colur per {label}"
         },
         "eDatePicker": {

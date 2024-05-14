@@ -214,6 +214,7 @@
     "form": {
       "base": {
         "eColorPicker": {
+          "closePicker": "Fermer le dialogue",
           "openPicker": "Ouvre un dialogue pour sélectionner une couleur pour {label}"
         },
         "eDatePicker": {
