@@ -100,8 +100,6 @@ services:
       - caddy
     volumes:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
-    tmpfs:
-      - /var/lib/varnish/varnishd:exec
     ports:
       - target: 8080
         published: 3004
