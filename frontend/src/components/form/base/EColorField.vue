@@ -23,7 +23,7 @@
       <slot name="prepend" v-bind="props">
         <ColorSwatch
           class="mt-n1"
-          :color="props.serializedValue"
+          :color="props.serializedValue == null ? '#f0f0f0' : props.serializedValue"
           tag="div"
           :aria-label="props.serializedValue"
         />

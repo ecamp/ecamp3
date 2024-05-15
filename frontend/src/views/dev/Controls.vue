@@ -309,7 +309,7 @@ export default {
       return {
         hint: this.hint,
         'persistent-hint': this.persistentHint,
-        label: this.label ? this.labelText : null,
+        label: this.label ? this.labelText : undefined,
       }
     },
   },

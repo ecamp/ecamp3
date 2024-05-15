@@ -40,7 +40,7 @@ Displays a field as a color picker (can be used with v-model)
             <template #prepend="{ serializedValue }">
               <ColorSwatch
                 ref="inputSwatch"
-                :color="serializedValue"
+                :color="serializedValue ? serializedValue : '#f0f0f0'"
                 class="mt-n1"
                 :aria-label="
                   pickerOpen
@@ -60,7 +60,7 @@ Displays a field as a color picker (can be used with v-model)
           </EColorField>
         </div>
       </template>
-      <v-card ref="picker" :ripple="false" tabindex="-1">
+      <v-card ref="picker" :ripple="false" tabindex="-1" data-testid="colorpicker">
         <v-color-picker
           :value="pickerValue"
           :style="{ '--picker-contrast-color': contrast }"
@@ -94,7 +94,7 @@ export default {
   mixins: [formComponentMixin, formComponentPropsMixin],
   inheritAttrs: false,
   props: {
-    value: { type: String, required: true },
+    value: { type: String, required: false, default: null },
   },
   emits: ['input'],
   data: () => ({
@@ -143,6 +143,12 @@ export default {
   created() {
     this.debouncedPickerValue = debounce(this.onInput, 300)
   },
+  mounted() {
+    document.addEventListener('keydown', this.escapeHandler)
+  },
+  beforeUnmount() {
+    document.removeEventListener('keydown', this.escapeHandler)
+  },
   methods: {
     onInputClick() {
       this.activator = 'input'
@@ -180,6 +186,13 @@ export default {
           break
         case 'swatch':
           this.$refs.inputSwatch.$el.focus()
+          break
+      }
+    },
+    escapeHandler(event) {
+      switch (event.code) {
+        case 'Escape':
+          this.closePicker()
           break
       }
     },
