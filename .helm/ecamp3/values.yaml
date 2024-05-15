@@ -223,7 +223,7 @@ ingress:
   tls:
 
 apiCache:
-  enabled: true
+  enabled: false
   image:
     repository: "docker.io/ecamp/ecamp3-varnish"
     pullPolicy: IfNotPresent
