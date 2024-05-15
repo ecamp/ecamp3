@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use App\Repository\DayResponsibleRepository;
 use App\Validator\AssertBelongsToSameCamp;
@@ -31,6 +32,16 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             security: 'is_authenticated()'
         ),
+        new GetCollection(
+            uriTemplate: self::DAY_SUBRESOURCE_URI_TEMPLATE,
+            uriVariables: [
+                'dayId' => new Link(
+                    toProperty: 'day',
+                    fromClass: Day::class,
+                    security: 'is_granted("CAMP_COLLABORATOR", day) or is_granted("CAMP_IS_PROTOTYPE", day)'
+                ),
+            ],
+        ),
         new Post(
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
@@ -46,6 +57,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: DayResponsibleRepository::class)]
 #[ORM\UniqueConstraint(name: 'day_campCollaboration_unique', columns: ['dayId', 'campCollaborationId'])]
 class DayResponsible extends BaseEntity implements BelongsToCampInterface {
+    public const DAY_SUBRESOURCE_URI_TEMPLATE = '/days/{dayId}/day_responsibles{._format}';
+
     /**
      * The day on which the person is responsible.
      */

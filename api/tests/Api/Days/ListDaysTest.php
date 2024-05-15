@@ -122,4 +122,33 @@ class ListDaysTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testListDaysAsPeriodSubresourceIsAllowedForCollaborator() {
+        $period = static::getFixture('period1');
+        $response = static::createClientWithCredentials()->request('GET', '/periods/'.$period->getId().'/days');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 3,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('day1period1')],
+            ['href' => $this->getIriFor('day2period1')],
+            ['href' => $this->getIriFor('day3period1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListDaysAsPeriodSubresourceIsDeniedForUnrelatedUser() {
+        $period = static::getFixture('period1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/periods/'.$period->getId().'/days')
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

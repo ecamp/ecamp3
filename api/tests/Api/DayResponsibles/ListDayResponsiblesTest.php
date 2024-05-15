@@ -101,4 +101,31 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('dayResponsible1day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testListDayResponsiblesAsDaySubresourceIsAllowedForCollaborator() {
+        $day = static::getFixture('day1period1');
+        $response = static::createClientWithCredentials()->request('GET', '/days/'.$day->getId().'/day_responsibles');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('dayResponsible1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListDayResponsiblesAsDaySubresourceIsDeniedForUnrelatedUser() {
+        $day = static::getFixture('day1period1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/days/'.$day->getId().'/day_responsibles')
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

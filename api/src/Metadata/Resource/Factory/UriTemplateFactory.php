@@ -68,9 +68,11 @@ class UriTemplateFactory {
         $getCollectionOperation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
         $baseUri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::ABS_PATH, $getCollectionOperation);
+        $relativeUri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::REL_PATH, $getCollectionOperation);
+
         $idParameter = $this->getIdParameter($resourceMetadataCollection);
         $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadataCollection);
-        $additionalPathParameter = $this->allowsActionParameter($resourceMetadataCollection) ? '{/action}' : '';
+        $additionalPathParameter = $this->allowsActionParameter($relativeUri, $resourceMetadataCollection) ? '{/action}' : '';
 
         return [
             $baseUri.$idParameter.$additionalPathParameter.$queryParameters,
@@ -150,18 +152,19 @@ class UriTemplateFactory {
         return $parameters;
     }
 
-    protected function allowsActionParameter(ResourceMetadataCollection $resourceMetadataCollection): bool {
+    protected function allowsActionParameter(string $uriTemplateBase, ResourceMetadataCollection $resourceMetadataCollection): bool {
         foreach ($resourceMetadataCollection->getIterator()->current()->getOperations() as $operation) {
             /*
              * Matches:
-             * {/inviteKey}/find
-             * users{/id}/activate
+             * - invitations/{/inviteKey}/find
+             * - /users{/id}/activate
              *
              * Does not match:
-             * profiles{/id}
+             * - profiles{/id}
+             * - any uriTemplate, which doesn't start with the same $uriTemplateBase
              */
             if ($operation instanceof HttpOperation) {
-                if (preg_match('/^.*\\/?{.*}\\/.+$/', $operation->getUriTemplate() ?? '')) {
+                if (preg_match('/^\/?'.preg_quote($uriTemplateBase, '/').'.*\\/?{.*}\\/.+$/', $operation->getUriTemplate() ?? '')) {
                     return true;
                 }
             }
