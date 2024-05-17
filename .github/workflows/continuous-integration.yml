@@ -63,7 +63,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -92,7 +92,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -121,7 +121,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -150,7 +150,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -253,7 +253,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -296,7 +296,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -335,7 +335,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: '20.13.1'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
