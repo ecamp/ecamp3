@@ -54,7 +54,7 @@
         "php-coveralls/php-coveralls": "2.7.0",
         "phpstan/phpstan": "1.11.1",
         "phpunit/phpunit": "10.5.20",
-        "rector/rector": "1.0.5",
+        "rector/rector": "1.1.0",
         "spatie/phpunit-snapshot-assertions": "5.1.6",
         "symfony/browser-kit": "7.0.7",
         "symfony/css-selector": "7.0.7",
