@@ -50,9 +50,6 @@ final class PurgeHttpCacheListener {
      * Collects tags from the previous and the current version of the updated entities to purge related documents.
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs): void {
-        $object = $eventArgs->getObject();
-        $this->addTagForItem($object);
-
         $changeSet = $eventArgs->getEntityChangeSet();
         $objectManager = method_exists($eventArgs, 'getObjectManager') ? $eventArgs->getObjectManager() : $eventArgs->getEntityManager();
         $associationMappings = $objectManager->getClassMetadata(ClassUtils::getClass($eventArgs->getObject()))->getAssociationMappings();
@@ -73,7 +70,7 @@ final class PurgeHttpCacheListener {
     }
 
     /**
-     * Collects tags from inserted and deleted entities, including relations.
+     * Collects tags from inserted, updated and deleted entities, including relations.
      */
     public function onFlush(OnFlushEventArgs $eventArgs): void {
         $em = method_exists($eventArgs, 'getObjectManager') ? $eventArgs->getObjectManager() : $eventArgs->getEntityManager();
@@ -84,10 +81,17 @@ final class PurgeHttpCacheListener {
             $this->gatherRelationTags($em, $entity);
         }
 
-        foreach ($uow->getScheduledEntityDeletions() as $entity) {
+        foreach ($uow->getScheduledEntityUpdates() as $entity) {
+            $originalEntity = $this->getOriginalEntity($entity, $em);
             $this->addTagForItem($entity);
-            $this->gatherResourceTags($entity);
-            $this->gatherRelationTags($em, $entity);
+            $this->gatherResourceTags($entity, $originalEntity);
+        }
+
+        foreach ($uow->getScheduledEntityDeletions() as $entity) {
+            $originalEntity = $this->getOriginalEntity($entity, $em);
+            $this->addTagForItem($originalEntity);
+            $this->gatherResourceTags($originalEntity);
+            $this->gatherRelationTags($em, $originalEntity);
         }
     }
 
@@ -98,7 +102,30 @@ final class PurgeHttpCacheListener {
         $this->cacheManager->flush();
     }
 
-    private function gatherResourceTags(object $entity): void {
+    /**
+     * Computes the original state of the entity based on the current entity and on the changeset.
+     */
+    private function getOriginalEntity($entity, $em) {
+        $uow = $em->getUnitOfWork();
+        $changeSet = $uow->getEntityChangeSet($entity);
+        $classMetadata = $em->getClassMetadata(ClassUtils::getClass($entity));
+
+        $originalEntity = clone $entity;
+        $em->detach($originalEntity);
+        foreach ($changeSet as $key => $value) {
+            $classMetadata->setFieldValue($originalEntity, $key, $value[0]);
+        }
+
+        return $originalEntity;
+    }
+
+    /**
+     * Purges all collections (GetCollection operations), in which entity is listed on top level.
+     *
+     * If oldEntity is provided, purge is only done if the IRI of the collection has changed
+     * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
+     */
+    private function gatherResourceTags(object $entity, ?object $oldEntity = null): void {
         try {
             $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
             $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
@@ -109,10 +136,7 @@ final class PurgeHttpCacheListener {
 
                 foreach ($metadata->getOperations() ?? [] as $operation) {
                     if ($operation instanceof GetCollection) {
-                        $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
-                        if ($iri) {
-                            $this->cacheManager->invalidateTags([$iri]);
-                        }
+                        $this->invalidateCollection($operation, $entity, $oldEntity);
                     }
                 }
                 $resourceIterator->next();
@@ -122,6 +146,34 @@ final class PurgeHttpCacheListener {
     }
 
     /**
+     * Purges a single collection (GetCollection operation).
+     *
+     * If oldEntity is provided, purge is only done if the IRI of the collection has changed
+     * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
+     */
+    private function invalidateCollection(GetCollection $operation, object $entity, ?object $oldEntity = null): void {
+        $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+
+        if (!$iri) {
+            return;
+        }
+
+        if (!$oldEntity) {
+            $this->cacheManager->invalidateTags([$iri]);
+
+            return;
+        }
+
+        $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
+        if ($iri !== $oldIri) {
+            $this->cacheManager->invalidateTags([$iri]);
+            $this->cacheManager->invalidateTags([$oldIri]);
+        }
+    }
+
+    /**
+     * Invalidate all relation tags of foreign objects ($relatedObject), in which $entity appears.
+     *
      * @psalm-suppress UndefinedClass
      */
     private function gatherRelationTags(EntityManagerInterface $em, object $entity): void {

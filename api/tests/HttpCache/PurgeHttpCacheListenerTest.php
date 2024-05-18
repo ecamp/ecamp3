@@ -69,12 +69,31 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $this->uowProphecy = $this->prophesize(UnitOfWork::class);
 
         $this->emProphecy = $this->prophesize(EntityManagerInterface::class);
+        $this->emProphecy->detach(Argument::any())->willReturn();
         $this->emProphecy->getUnitOfWork()->willReturn($this->uowProphecy->reveal());
-        $dummyClassMetadata = new ClassMetadata(Dummy::class);
-        $dummyClassMetadata->mapManyToOne(['fieldName' => 'relatedDummy', 'targetEntity' => RelatedDummy::class, 'inversedBy' => 'dummies']);
-        $dummyClassMetadata->mapOneToOne(['fieldName' => 'relatedOwningDummy', 'targetEntity' => RelatedOwningDummy::class, 'inversedBy' => 'ownedDummy']);
 
-        $this->emProphecy->getClassMetadata(Dummy::class)->willReturn($dummyClassMetadata);
+        $classMetadataProphecy = $this->prophesize(ClassMetadata::class);
+        $classMetadataProphecy->getAssociationMappings()->willReturn([
+            'relatedDummy' => [
+                'targetEntity' => 'App\\Tests\\HttpCache\\Entity\\RelatedDummy',
+                'isOwningSide' => true,
+                'inversedBy' => 'dummies',
+                'mappedBy' => null,
+            ],
+            'relatedOwningDummy' => [
+                'targetEntity' => 'App\\Tests\\HttpCache\\Entity\\RelatedOwningDummy',
+                'isOwningSide' => true,
+                'inversedBy' => 'ownedDummy',
+                'mappedBy' => null,
+            ],
+        ]);
+        $classMetadataProphecy->setFieldValue(Argument::any(), Argument::any(), Argument::any())->will(function ($args) {
+            $entity = $args[0];
+            $field = $args[1];
+            $value = $args[2];
+            $entity->{$field} = $value;
+        });
+        $this->emProphecy->getClassMetadata(Dummy::class)->willReturn($classMetadataProphecy->reveal());
 
         $this->propertyAccessorProphecy = $this->prophesize(PropertyAccessorInterface::class);
         $this->propertyAccessorProphecy->isReadable(Argument::type(Dummy::class), 'relatedDummy')->willReturn(true);
@@ -148,12 +167,15 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $resourceClassResolverProphecy->getResourceClass(Argument::type(Dummy::class))->willReturn(Dummy::class)->shouldBeCalled();
         $resourceClassResolverProphecy->getResourceClass(Argument::type(DummyNoGetOperation::class))->willReturn(DummyNoGetOperation::class)->shouldBeCalled();
 
-        $uowProphecy = $this->prophesize(UnitOfWork::class);
-        $uowProphecy->getScheduledEntityInsertions()->willReturn([$toInsert1, $toInsert2])->shouldBeCalled();
-        $uowProphecy->getScheduledEntityDeletions()->willReturn([$toDelete1, $toDelete2, $toDeleteNoPurge])->shouldBeCalled();
+        $uowMock = $this->createMock(UnitOfWork::class);
+        $uowMock->method('getScheduledEntityInsertions')->willReturn([$toInsert1, $toInsert2]);
+        $uowMock->method('getScheduledEntityUpdates')->willReturn([]);
+        $uowMock->method('getScheduledEntityDeletions')->willReturn([$toDelete1, $toDelete2, $toDeleteNoPurge]);
+        $uowMock->method('getEntityChangeSet')->willReturn([]);
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
-        $emProphecy->getUnitOfWork()->willReturn($uowProphecy->reveal())->shouldBeCalled();
+        $emProphecy->getUnitOfWork()->willReturn($uowMock)->shouldBeCalled();
+        $emProphecy->detach(Argument::any())->willReturn();
         $dummyClassMetadata = new ClassMetadata(Dummy::class);
         $dummyClassMetadata->mapManyToOne(['fieldName' => 'relatedDummy', 'targetEntity' => RelatedDummy::class, 'inversedBy' => 'dummies']);
         $dummyClassMetadata->mapOneToOne(['fieldName' => 'relatedOwningDummy', 'targetEntity' => RelatedOwningDummy::class, 'inversedBy' => 'ownedDummy']);
@@ -184,7 +206,6 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $dummy->setId('1');
 
         $cacheManagerProphecy = $this->prophesize(CacheManager::class);
-        $cacheManagerProphecy->invalidateTags(['/dummies/1'])->shouldBeCalled()->willReturn($cacheManagerProphecy);
         $cacheManagerProphecy->invalidateTags(['/related_dummies/old#dummies'])->shouldBeCalled()->willReturn($cacheManagerProphecy);
         $cacheManagerProphecy->invalidateTags(['/related_dummies/new#dummies'])->shouldBeCalled()->willReturn($cacheManagerProphecy);
         $cacheManagerProphecy->flush(Argument::any())->willReturn(0);
@@ -192,7 +213,6 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $metadataFactoryProphecy = $this->prophesize(ResourceMetadataCollectionFactoryInterface::class);
 
         $iriConverterProphecy = $this->prophesize(IriConverterInterface::class);
-        $iriConverterProphecy->getIriFromResource($dummy)->willReturn('/dummies/1')->shouldBeCalled();
         $iriConverterProphecy->getIriFromResource($oldRelatedDummy)->willReturn('/related_dummies/old')->shouldBeCalled();
         $iriConverterProphecy->getIriFromResource($newRelatedDummy)->willReturn('/related_dummies/new')->shouldBeCalled();
 
@@ -229,10 +249,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $metadataFactoryProphecy = $this->prophesize(ResourceMetadataCollectionFactoryInterface::class);
 
         $iriConverterProphecy = $this->prophesize(IriConverterInterface::class);
-        $iriConverterProphecy->getIriFromResource($dummyNoGetOperation)->willReturn(null)->shouldBeCalled();
 
         $resourceClassResolverProphecy = $this->prophesize(ResourceClassResolverInterface::class);
-        $resourceClassResolverProphecy->isResourceClass(Argument::type('string'))->willReturn(true)->shouldBeCalled();
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
 
@@ -274,6 +292,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowProphecy = $this->prophesize(UnitOfWork::class);
         $uowProphecy->getScheduledEntityInsertions()->willReturn([$containNonResource])->shouldBeCalled();
         $uowProphecy->getScheduledEntityDeletions()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
         $emProphecy->getUnitOfWork()->willReturn($uowProphecy->reveal())->shouldBeCalled();
@@ -307,6 +326,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
         $this->uowProphecy->getScheduledEntityInsertions()->willReturn([$toInsert1]);
         $this->uowProphecy->getScheduledEntityDeletions()->willReturn([]);
+        $this->uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
 
         // then
         $this->cacheManagerProphecy->invalidateTags(['/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
@@ -326,13 +346,48 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $relatedDummy->setId('100');
         $toDelete1->setRelatedDummy($relatedDummy);
 
-        $this->uowProphecy->getScheduledEntityInsertions()->willReturn([]);
-        $this->uowProphecy->getScheduledEntityDeletions()->willReturn([$toDelete1]);
+        $uowMock = $this->createMock(UnitOfWork::class);
+        $uowMock->method('getScheduledEntityInsertions')->willReturn([]);
+        $uowMock->method('getScheduledEntityUpdates')->willReturn([]);
+        $uowMock->method('getScheduledEntityDeletions')->willReturn([$toDelete1]);
+        $uowMock->method('getEntityChangeSet')->willReturn([]);
+
+        $this->emProphecy->getUnitOfWork()->willReturn($uowMock)->shouldBeCalled();
 
         // then
         $this->cacheManagerProphecy->invalidateTags(['/dummies/1'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
         $this->cacheManagerProphecy->invalidateTags(['/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
         $this->cacheManagerProphecy->invalidateTags(['/related_dummies/100/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+
+        // when
+        $listener = new PurgeHttpCacheListener($this->iriConverterProphecy->reveal(), $this->resourceClassResolverProphecy->reveal(), $this->propertyAccessorProphecy->reveal(), $this->metadataFactoryProphecy->reveal(), $this->cacheManagerProphecy->reveal());
+        $listener->onFlush(new OnFlushEventArgs($this->emProphecy->reveal()));
+        $listener->postFlush();
+    }
+
+    public function testUpdateShouldPurgeSubresourceCollections(): void {
+        // given
+        $toUpdate1 = new Dummy();
+        $toUpdate1->setId('1');
+        $relatedDummy = new RelatedDummy();
+        $relatedDummy->setId('100');
+        $toUpdate1->setRelatedDummy($relatedDummy);
+
+        $relatedDummyOld = new RelatedDummy();
+        $relatedDummyOld->setId('99');
+
+        $uowMock = $this->createMock(UnitOfWork::class);
+        $uowMock->method('getScheduledEntityInsertions')->willReturn([]);
+        $uowMock->method('getScheduledEntityUpdates')->willReturn([$toUpdate1]);
+        $uowMock->method('getScheduledEntityDeletions')->willReturn([]);
+        $uowMock->method('getEntityChangeSet')->willReturn(['relatedDummy' => [$relatedDummyOld, $relatedDummy]]);
+
+        $this->emProphecy->getUnitOfWork()->willReturn($uowMock)->shouldBeCalled();
+
+        // then
+        $this->cacheManagerProphecy->invalidateTags(['/dummies/1'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+        $this->cacheManagerProphecy->invalidateTags(['/related_dummies/100/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
+        $this->cacheManagerProphecy->invalidateTags(['/related_dummies/99/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
 
         // when
         $listener = new PurgeHttpCacheListener($this->iriConverterProphecy->reveal(), $this->resourceClassResolverProphecy->reveal(), $this->propertyAccessorProphecy->reveal(), $this->metadataFactoryProphecy->reveal(), $this->cacheManagerProphecy->reveal());
