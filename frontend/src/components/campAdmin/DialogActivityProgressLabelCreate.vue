@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       entityProperties: ['camp', 'position', 'title'],
-      entityUri: '/activity_progress_labels',
+      entityUri: '',
     }
   },
   watch: {
@@ -52,6 +52,11 @@ export default {
         this.clearEntityData()
       }
     },
+  },
+  mounted() {
+    this.api
+      .href(this.api.get(), 'activityProgressLabels')
+      .then((uri) => (this.entityUri = uri))
   },
   methods: {
     createDialogActivityProgressLabelCreate() {
