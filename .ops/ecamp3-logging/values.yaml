@@ -1,0 +1,57 @@
+fluent-operator:
+  containerRuntime: containerd
+  fluentbit:
+    enable: true
+    input:
+      tail:
+        enable: true
+      systemd:
+        enable: false
+    filter:
+      kubernetes:
+        labels: true
+        annotations: true
+    output:
+      stdout: 
+        # enable to debug fluentbit
+        enable: false
+  fluentd:
+    watchedNamespaces:
+      - default
+      - ingress-nginx
+    enable: true
+
+fluentd:
+  output:
+    elasticsearch:
+      enable: true
+      scheme: http
+      host: "elasticsearch.ecamp3-logging.svc.cluster.local"
+      port: 9200
+      index: "kubernetes"
+      suppressTypeName: true
+
+elastic:
+  version: 8.13.2
+
+elasticsearch:
+  elasticNode:
+    resources:
+      requests:
+        memory: 1000Mi
+      limits:
+        memory: 1000Mi
+  persistence:
+    storageClassName: do-block-storage
+    resources:
+      requests:
+        storage: 10Gi
+
+kibana:
+  name: kibana
+  version:
+  resources:
+    requests:
+      memory: 500Mi
+    limits:
+      memory: 1Gi

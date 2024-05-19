@@ -1,0 +1,50 @@
+# from: https://stackoverflow.com/questions/41991128/parsing-inner-json-inside-fluentd
+apiVersion: fluentd.fluent.io/v1alpha1
+kind: ClusterFilter
+metadata:
+  name: cluster-filters
+  labels:
+    filter.fluentd.fluent.io/enabled: "true"
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  filters:
+    - customPlugin:
+        config: |
+          <filter **>
+            @type parser
+            key_name log
+            reserve_data true
+            remove_key_name_field false
+            hash_value_field json
+            <parse>
+              @type multi_format
+              <pattern>
+                format json
+              </pattern>
+              <pattern>
+                format none
+              </pattern>
+            </parse>
+          </filter>
+          <filter **>
+            @type record_transformer
+            enable_ruby
+            <record>
+              requestUrl ${if record['json'] && record['json']['httpRequest'] && record['json']['httpRequest']['requestUrl']; then record['json']['httpRequest']['requestUrl']; else nil; end}
+            </record>
+          </filter>
+          <filter **>
+            @type record_transformer
+            enable_ruby
+            <record>
+              escapedUrl ${if record['requestUrl']; then record['requestUrl'].gsub(/\/[0-9a-f]{6,}\/?/, "/{id}/").gsub(/%2F[0-9a-f]{6,}(%2F)?/, "%2F{id}%2F"); else nil; end}
+            </record>
+          </filter>
+          <filter **>
+            @type record_transformer
+            enable_ruby
+            <record>
+              escapedUrlWithoutQuery ${if record['escapedUrl']; then record['escapedUrl'].gsub(/\?.*$/, ""); else nil; end}
+            </record>
+          </filter>
