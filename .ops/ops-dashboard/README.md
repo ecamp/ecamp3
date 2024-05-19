@@ -25,7 +25,7 @@ helm repo update
 First, make sure you don't overwrite the configuration currently applied:
 
 ```shell
-helm get values ops-dashboard
+helm -n ops-dashboard get values ops-dashboard
 ```
 
 Fill in the values for values.access.yaml according to demo.values.access.yaml
