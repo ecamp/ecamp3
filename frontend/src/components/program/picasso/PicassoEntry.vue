@@ -33,8 +33,8 @@
       v-if="isEditable"
       ref="editDialog"
       :schedule-entry="scheduleEntry"
-      @activity-updated="$emit('finishEdit')"
-      @error="$emit('finishEdit')"
+      @activity-updated="$emit('finish-edit')"
+      @error="$emit('finish-edit')"
     >
       <template #activator="{ on }">
         <v-btn
@@ -81,7 +81,7 @@
     <div
       v-if="!scheduleEntry.tmpEvent"
       class="e-picasso-entry__drag-bottom"
-      @mousedown.stop="$emit('startResize')"
+      @mousedown.stop="$emit('start-resize')"
     />
 
     <!-- Duration Display -->
@@ -149,7 +149,7 @@ export default {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
   },
-  emits: ['startResize', 'finishEdit'],
+  emits: ['start-resize', 'finish-edit'],
   setup(props) {
     const { editable, scheduleEntry } = toRefs(props)
     const editDialog = ref(null)
