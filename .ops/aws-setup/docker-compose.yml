@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   aws-setup:
     image: pulumi/pulumi-nodejs:3.116.1
