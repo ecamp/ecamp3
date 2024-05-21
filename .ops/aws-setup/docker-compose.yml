@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   aws-setup:
-    image: pulumi/pulumi-nodejs:3.115.2
+    image: pulumi/pulumi-nodejs:3.116.1
     container_name: 'ecamp3-aws-setup'
     volumes:
       - ../../.prettierrc:/.prettierrc:delegated
@@ -15,7 +13,7 @@ services:
       - AWS_DEFAULT_REGION=eu-west-3
 
   aws-cli:
-    image: amazon/aws-cli:2.15.50
+    image: amazon/aws-cli:2.15.54
     container_name: 'ecamp3-aws-cli'
     volumes:
       - ./.aws:/root/.aws:delegated
