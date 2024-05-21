@@ -106,7 +106,7 @@
     "flush-promises": "1.0.2",
     "jest-serializer-vue-tjw": "3.20.0",
     "jsdom": "24.0.0",
-    "lint-staged": "15.2.2",
+    "lint-staged": "15.2.4",
     "prettier": "3.2.5",
     "sass": "1.32.13",
     "unplugin-vue-components": "0.27.0",
