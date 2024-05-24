@@ -52,7 +52,7 @@
         "hautelook/alice-bundle": "2.13.0",
         "justinrainbow/json-schema": "5.2.13",
         "php-coveralls/php-coveralls": "2.7.0",
-        "phpstan/phpstan": "1.11.1",
+        "phpstan/phpstan": "1.11.2",
         "phpunit/phpunit": "10.5.20",
         "rector/rector": "1.1.0",
         "spatie/phpunit-snapshot-assertions": "5.1.6",
