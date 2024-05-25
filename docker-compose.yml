@@ -77,7 +77,7 @@ services:
     image: varnish:7.5.0
     container_name: 'ecamp3-http-cache'
     depends_on:
-      - caddy
+      - api
     volumes:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
     ports:
