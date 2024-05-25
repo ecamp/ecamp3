@@ -154,15 +154,14 @@ final class PurgeHttpCacheListener {
             return;
         }
 
-        if (!$oldEntity) {
-            $this->cacheManager->invalidateTags([$iri]);
+        $this->cacheManager->invalidateTags([$iri]);
 
+        if (!$oldEntity) {
             return;
         }
 
         $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
-        if ($iri !== $oldIri) {
-            $this->cacheManager->invalidateTags([$iri]);
+        if ($oldIri && $iri !== $oldIri) {
             $this->cacheManager->invalidateTags([$oldIri]);
         }
     }
