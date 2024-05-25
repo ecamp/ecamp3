@@ -33,7 +33,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.6'
+          php-version: '8.3.7'
           tools: composer:2.7.0
           coverage: none
 
@@ -197,7 +197,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.6'
+          php-version: '8.3.7'
           extensions: intl-73.1
           tools: composer:2.7.0
           coverage: pcov
