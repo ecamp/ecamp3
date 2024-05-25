@@ -1,0 +1,5 @@
+fos_http_cache:
+    proxy_client:
+        noop: ~
+    cache_manager:
+        custom_proxy_client: fos_http_cache.proxy_client.noop

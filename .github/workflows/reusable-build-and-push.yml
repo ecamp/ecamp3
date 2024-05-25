@@ -95,6 +95,18 @@ jobs:
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max
 
+      - name: Build and push varnish docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: .docker-hub/varnish/Dockerfile
+          tags: |
+            ${{ ((inputs.tag != '') && format('{0}/ecamp3-varnish:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-varnish:${{ inputs.sha }}
+          context: .
+          cache-from: type=gha,scope=print
+          cache-to: type=gha,scope=print,mode=max
+
       - name: Build and push db-backup-restore docker image
         uses: docker/build-push-action@v5
         with:

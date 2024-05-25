@@ -4,6 +4,8 @@ namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
+use App\Entity\Camp;
+use App\HttpCache\ResponseTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -17,6 +19,7 @@ class CampIsPrototypeVoter extends Voter {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly ResponseTagger $responseTagger
     ) {}
 
     protected function supports($attribute, $subject): bool {
@@ -34,6 +37,12 @@ class CampIsPrototypeVoter extends Voter {
             return true;
         }
 
-        return $camp->isPrototype;
+        if ($camp->isPrototype) {
+            $this->responseTagger->addTags([$camp->getId()]);
+
+            return true;
+        }
+
+        return false;
     }
 }

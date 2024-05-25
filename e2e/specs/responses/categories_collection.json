@@ -1,0 +1,254 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/camps/3c79b99ab424/categories.jsonhal"
+    },
+    "items": [
+      {
+        "href": "/api/categories/ebfd46a1c181"
+      },
+      {
+        "href": "/api/categories/1a869b162875"
+      },
+      {
+        "href": "/api/categories/dfa531302823"
+      },
+      {
+        "href": "/api/categories/a023e85227ac"
+      }
+    ]
+  },
+  "totalItems": 4,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "/api/categories/ebfd46a1c181"
+          },
+          "camp": {
+            "href": "/api/camps/3c79b99ab424"
+          },
+          "preferredContentTypes": {
+            "href": "/api/content_types?categories=%2Fapi%2Fcategories%2Febfd46a1c181"
+          },
+          "rootContentNode": {
+            "href": "/api/content_node/column_layouts/9d7b3a220fb4"
+          },
+          "contentNodes": {
+            "href": "/api/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F9d7b3a220fb4"
+          }
+        },
+        "_embedded": {
+          "rootContentNode": {
+            "_links": {
+              "self": {
+                "href": "/api/content_node/column_layouts/9d7b3a220fb4"
+              },
+              "root": {
+                "href": "/api/content_node/column_layouts/9d7b3a220fb4"
+              },
+              "parent": null,
+              "children": [],
+              "contentType": {
+                "href": "/api/content_types/f17470519474"
+              }
+            },
+            "data": {
+              "columns": [
+                {
+                  "slot": "1",
+                  "width": 12
+                }
+              ]
+            },
+            "slot": null,
+            "position": 0,
+            "instanceName": null,
+            "id": "9d7b3a220fb4",
+            "contentTypeName": "ColumnLayout"
+          }
+        },
+        "short": "ES",
+        "name": "Essen",
+        "color": "#BBBBBB",
+        "numberingStyle": "-",
+        "id": "ebfd46a1c181"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/categories/1a869b162875"
+          },
+          "camp": {
+            "href": "/api/camps/3c79b99ab424"
+          },
+          "preferredContentTypes": {
+            "href": "/api/content_types?categories=%2Fapi%2Fcategories%2F1a869b162875"
+          },
+          "rootContentNode": {
+            "href": "/api/content_node/column_layouts/be9b6b7f23f6"
+          },
+          "contentNodes": {
+            "href": "/api/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2Fbe9b6b7f23f6"
+          }
+        },
+        "_embedded": {
+          "rootContentNode": {
+            "_links": {
+              "self": {
+                "href": "/api/content_node/column_layouts/be9b6b7f23f6"
+              },
+              "root": {
+                "href": "/api/content_node/column_layouts/be9b6b7f23f6"
+              },
+              "parent": null,
+              "children": [
+                {
+                  "href": "/api/content_node/responsive_layouts/179ba93a4bb9"
+                }
+              ],
+              "contentType": {
+                "href": "/api/content_types/f17470519474"
+              }
+            },
+            "data": {
+              "columns": [
+                {
+                  "slot": "1",
+                  "width": 12
+                }
+              ]
+            },
+            "slot": null,
+            "position": 0,
+            "instanceName": null,
+            "id": "be9b6b7f23f6",
+            "contentTypeName": "ColumnLayout"
+          }
+        },
+        "short": "LA",
+        "name": "Lageraktivität",
+        "color": "#FF9800",
+        "numberingStyle": "A",
+        "id": "1a869b162875"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/categories/dfa531302823"
+          },
+          "camp": {
+            "href": "/api/camps/3c79b99ab424"
+          },
+          "preferredContentTypes": {
+            "href": "/api/content_types?categories=%2Fapi%2Fcategories%2Fdfa531302823"
+          },
+          "rootContentNode": {
+            "href": "/api/content_node/column_layouts/63cbc734fa04"
+          },
+          "contentNodes": {
+            "href": "/api/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F63cbc734fa04"
+          }
+        },
+        "_embedded": {
+          "rootContentNode": {
+            "_links": {
+              "self": {
+                "href": "/api/content_node/column_layouts/63cbc734fa04"
+              },
+              "root": {
+                "href": "/api/content_node/column_layouts/63cbc734fa04"
+              },
+              "parent": null,
+              "children": [
+                {
+                  "href": "/api/content_node/responsive_layouts/801027c511e6"
+                }
+              ],
+              "contentType": {
+                "href": "/api/content_types/f17470519474"
+              }
+            },
+            "data": {
+              "columns": [
+                {
+                  "slot": "1",
+                  "width": 12
+                }
+              ]
+            },
+            "slot": null,
+            "position": 0,
+            "instanceName": null,
+            "id": "63cbc734fa04",
+            "contentTypeName": "ColumnLayout"
+          }
+        },
+        "short": "LP",
+        "name": "Lagerprogramm",
+        "color": "#90B7E4",
+        "numberingStyle": "1",
+        "id": "dfa531302823"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/categories/a023e85227ac"
+          },
+          "camp": {
+            "href": "/api/camps/3c79b99ab424"
+          },
+          "preferredContentTypes": {
+            "href": "/api/content_types?categories=%2Fapi%2Fcategories%2Fa023e85227ac"
+          },
+          "rootContentNode": {
+            "href": "/api/content_node/column_layouts/2cce9e17a368"
+          },
+          "contentNodes": {
+            "href": "/api/content_nodes?root=%2Fapi%2Fcontent_node%2Fcolumn_layouts%2F2cce9e17a368"
+          }
+        },
+        "_embedded": {
+          "rootContentNode": {
+            "_links": {
+              "self": {
+                "href": "/api/content_node/column_layouts/2cce9e17a368"
+              },
+              "root": {
+                "href": "/api/content_node/column_layouts/2cce9e17a368"
+              },
+              "parent": null,
+              "children": [
+                {
+                  "href": "/api/content_node/responsive_layouts/80d79bc8f484"
+                }
+              ],
+              "contentType": {
+                "href": "/api/content_types/f17470519474"
+              }
+            },
+            "data": {
+              "columns": [
+                {
+                  "slot": "1",
+                  "width": 12
+                }
+              ]
+            },
+            "slot": null,
+            "position": 0,
+            "instanceName": "est",
+            "id": "2cce9e17a368",
+            "contentTypeName": "ColumnLayout"
+          }
+        },
+        "short": "LS",
+        "name": "Lagersport",
+        "color": "#4DBB52",
+        "numberingStyle": "1",
+        "id": "a023e85227ac"
+      }
+    ]
+  }
+}

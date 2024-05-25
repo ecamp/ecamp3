@@ -93,6 +93,7 @@ jobs:
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
             --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
             --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
+            --set apiCache.enabled=${{ vars.API_CACHE_ENABLED || false }} \
             --set mail.dummyEnabled=true \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \

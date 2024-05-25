@@ -29,8 +29,6 @@ api_platform:
         versions: [3]
     defaults:
         stateless: true
-        cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
         pagination_enabled: false
         itemOperations: [ 'get', 'patch', 'delete' ]
         collection_operations:

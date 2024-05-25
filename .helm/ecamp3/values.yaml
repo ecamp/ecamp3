@@ -222,7 +222,48 @@ ingress:
   className: nginx
   tls:
 
-
+apiCache:
+  enabled: false
+  image:
+    repository: "docker.io/ecamp/ecamp3-varnish"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  service:
+    type: ClusterIP
+    ports:
+      http: 3000
+      purge: 3001
+  varnishSize: 50M
+  varnishHttpPort: 8080
+  varnishPurgePort: 8081
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+  logging:
+    enabled: true
+    customOutput: '{ "received_at": "%t", "varnish_side": "%{Varnish:side}x", "method": "%m", "url": "%U", "query": "%q", "response_bytes": %b, "time_taken": %D, "status": %s, "handling": "%{Varnish:handling}x", "response_reason": "%{VSL:RespReason}x", "fetch_error": "%{VSL:FetchError}x" }'
+    customOutputJsonFormat: true
+    # Timeout before returning error on initial VSM connection.
+    # If set the VSM connection is retried every 0.5 seconds for this many seconds.
+    # If zero the connection is attempted only once and will fail immediately if unsuccessful.
+    # If set to "off", the connection will not fail, allowing the utility to start and wait indefinetely for the Varnish instance to appear.
+    # Defaults to "off" in this case.
+    timeout: "off"
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  prometheus:
+    enabled: true
+    path: "/metrics"
+    port: 9131
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  
 autoscaling:
   enabled: false
   minReplicas: 1

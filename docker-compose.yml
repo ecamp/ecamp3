@@ -91,6 +91,22 @@ services:
       - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/public:/srv/api/public:ro
 
+  http-cache:
+    image: varnish:7.5.0
+    container_name: 'ecamp3-http-cache'
+    depends_on:
+      - caddy
+    volumes:
+      - ./api/docker/varnish/vcl/:/etc/varnish/:ro
+    ports:
+      - target: 8080
+        published: 3004
+        protocol: tcp
+    command: -a :8081,HTTP -p http_max_hdr=96
+    environment:
+      - COOKIE_PREFIX=localhost_
+      - VARNISH_HTTP_PORT=8080
+
   pdf:
     image: node:20.13.1
     container_name: 'ecamp3-pdf'
