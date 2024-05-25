@@ -263,9 +263,6 @@
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
-    "namshi/jose": {
-        "version": "7.2.3"
-    },
     "nelmio/alice": {
         "version": "3.2",
         "recipe": {
@@ -684,9 +681,6 @@
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.23.0"
-    },
-    "symfony/polyfill-php56": {
-        "version": "v1.20.0"
     },
     "symfony/polyfill-uuid": {
         "version": "v1.25.0"
