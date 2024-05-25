@@ -1,0 +1,13 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/content_types/318e064ea0c9"
+    },
+    "contentNodes": {
+      "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F318e064ea0c9"
+    }
+  },
+  "name": "Storycontext",
+  "active": true,
+  "id": "318e064ea0c9"
+}

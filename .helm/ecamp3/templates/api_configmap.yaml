@@ -23,3 +23,9 @@ data:
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
   CADDY_GLOBAL_OPTIONS: {{ .Values.api.caddyGlobalOptions | quote }}
+  API_CACHE_ENABLED: {{ .Values.apiCache.enabled | quote }}
+  {{- if .Values.apiCache.enabled }}
+  VARNISH_API_URL: {{  printf "%s:%d" (include "apiCache.name" .) (.Values.apiCache.service.ports.purge | int)  | quote }}
+  {{- else }}
+  VARNISH_API_URL: {{ "" | quote }}
+  {{- end}}

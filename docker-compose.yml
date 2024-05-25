@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:20.12.2
+    image: node:20.13.1
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -73,8 +73,24 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
+  http-cache:
+    image: varnish:7.5.0
+    container_name: 'ecamp3-http-cache'
+    depends_on:
+      - caddy
+    volumes:
+      - ./api/docker/varnish/vcl/:/etc/varnish/:ro
+    ports:
+      - target: 8080
+        published: 3004
+        protocol: tcp
+    command: -a :8081,HTTP -p http_max_hdr=96
+    environment:
+      - COOKIE_PREFIX=localhost_
+      - VARNISH_HTTP_PORT=8080
+
   pdf:
-    image: node:20.12.2
+    image: node:20.13.1
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -93,7 +109,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.12.2
+    image: node:20.13.1
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -159,7 +175,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:13.8.1
+    image: cypress/included:13.10.0
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
@@ -172,7 +188,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.12.2
+    image: node:20.13.1
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:

@@ -61,7 +61,7 @@ jobs:
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
           comment_tag: feature-branch-deployment-status
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
         with:
           ref: ${{ inputs.sha }}
 
@@ -92,6 +92,7 @@ jobs:
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
             --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
             --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
+            --set apiCache.enabled=${{ vars.API_CACHE_ENABLED || false }} \
             --set mail.dummyEnabled=true \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \

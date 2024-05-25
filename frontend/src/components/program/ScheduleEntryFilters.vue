@@ -1,5 +1,9 @@
 <template>
-  <div class="d-flex flex-wrap items-baseline" style="overflow-y: auto; gap: 10px">
+  <div
+    v-resizeobserver:0.immediate="onResize"
+    class="d-flex flex-wrap items-baseline"
+    style="overflow-y: auto; gap: 10px"
+  >
     <BooleanFilter
       v-if="loadingEndpoints !== true && loadingEndpoints.campCollaborations !== true"
       v-model="showOnlyMyActivities"
@@ -244,6 +248,9 @@ export default {
       this.value.category = []
       this.value.responsible = []
       this.value.progressLabel = []
+    },
+    onResize({ height }) {
+      this.$emit('height-changed', height)
     },
   },
 }

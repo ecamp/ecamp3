@@ -35,6 +35,10 @@ print_image_tag="${docker_hub_account}/ecamp3-print:${version}"
 docker build "$REPO_DIR" -f "$REPO_DIR"/.docker-hub/print/Dockerfile $print_sentry_build_args -t "$print_image_tag"
 docker push "$print_image_tag"
 
+varnish_image_tag="${docker_hub_account}/ecamp3-varnish:${version}"
+docker build "$REPO_DIR" -f "$REPO_DIR"/.docker-hub/varnish/Dockerfile -t "$varnish_image_tag"
+docker push "$varnish_image_tag"
+
 export REPO_OWNER=${docker_hub_account}
 export VERSION=${version}
 db_backup_restore_docker_compose_path="$REPO_DIR"/.helm/ecamp3/files/db-backup-restore-image/docker-compose.yml

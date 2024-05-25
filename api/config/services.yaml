@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.httpCache.maxHeaderSize: 31500 # lower than Vanish default http_resp_size (32k)
 
 services:
     # default configuration for services in *this* file
@@ -146,6 +147,45 @@ services:
     App\EventListener\JWTCreatedListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    App\HttpCache\PurgeHttpCacheListener:
+        arguments:
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
+
+    api_platform.http_cache.tag_collector:
+        class: App\HttpCache\TagCollector
+
+    api_platform.http_cache.listener.response.configure:
+         class: ApiPlatform\HttpCache\EventListener\AddHeadersListener
+         tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: 11 }
+
+    App\HttpCache\AddCollectionTagsListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: 12 }
+
+    App\HttpCache\CacheControlListener:
+        arguments:
+            $apiCacheEnabled: '%env(API_CACHE_ENABLED)%'
+            $maxHeaderSize: '%app.httpCache.maxHeaderSize%'
+            $headerKey: '%fos_http_cache.tag_handler.response_header%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: -1 } # priority -1, executed after FOSHttpCacheBundle Listeners
+
+    App\HttpCache\VarnishProxyClient:
+        arguments:
+            $apiCacheEnabled: '%env(API_CACHE_ENABLED)%'
+            $varnishApiUrl: '%env(VARNISH_API_URL)%'
+
+    App\HttpCache\ResponseTagger:
+        arguments:
+            $matchPath: '%app.httpCache.matchPath%'
 
     # Entity Filter
     App\Doctrine\FilterByCurrentUserExtension:

@@ -42,6 +42,7 @@ for i in 1; do
   values="$values --set ingress.basicAuth.enabled=$BASIC_AUTH_ENABLED"
   values="$values --set ingress.basicAuth.username=$BASIC_AUTH_USERNAME"
   values="$values --set ingress.basicAuth.password=$BASIC_AUTH_PASSWORD"
+  values="$values --set apiCache.enabled=$API_CACHE_ENABLED"
   values="$values --set postgresql.enabled=false"
   values="$values --set postgresql.url=$POSTGRES_URL/ecamp3$instance_name-"$i"?sslmode=require"
   values="$values --set postgresql.adminUrl=$POSTGRES_ADMIN_URL/ecamp3$instance_name-"$i"?sslmode=require"
@@ -92,6 +93,8 @@ for i in 1; do
     values="$values --set $imagespec.image.pullPolicy=$pull_policy"
     values="$values --set $imagespec.image.repository=docker.io/${docker_hub_account}/ecamp3-$imagespec"
   done
+
+  values="$values --set apiCache.image.repository=docker.io/${docker_hub_account}/ecamp3-varnish"
 
   values="$values --set postgresql.dbBackupRestoreImage.pullPolicy=$pull_policy"
   values="$values --set postgresql.dbBackupRestoreImage.repository=docker.io/${docker_hub_account}/ecamp3-db-backup-restore"

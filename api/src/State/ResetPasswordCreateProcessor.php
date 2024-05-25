@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
- * @implements ProcessorInterface<ResetPassword,ResetPassword>
+ * @implements ProcessorInterface<ResetPassword,null>
  */
 class ResetPasswordCreateProcessor implements ProcessorInterface {
     public function __construct(
@@ -29,7 +29,7 @@ class ResetPasswordCreateProcessor implements ProcessorInterface {
     /**
      * @param ResetPassword $data
      */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ResetPassword {
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): null {
         $resp = $this->reCaptcha->verify($data->recaptchaToken);
         if (!$resp->isSuccess()) {
             throw new HttpException(422, 'ReCaptcha failed');
@@ -38,7 +38,7 @@ class ResetPasswordCreateProcessor implements ProcessorInterface {
         $user = $this->userRepository->loadUserByIdentifier($data->email);
 
         if (null == $user) {
-            return $data;
+            return null;
         }
 
         $resetKey = IdGenerator::generateRandomHexString(64);
@@ -49,7 +49,7 @@ class ResetPasswordCreateProcessor implements ProcessorInterface {
 
         $this->mailService->sendPasswordResetLink($user, $data);
 
-        return $data;
+        return null;
     }
 
     private function getResetKeyHasher(): PasswordHasherInterface {

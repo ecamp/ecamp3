@@ -68,7 +68,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * The days in this time period. These are generated automatically.
      */
-    #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
+    #[ApiProperty(
+        writable: false,
+        uriTemplate: Day::PERIOD_SUBRESOURCE_URI_TEMPLATE,
+        example: '/periods/1a2b3c4d/days'
+    )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Day::class, mappedBy: 'period', orphanRemoval: true, cascade: ['persist'])]
     #[ORM\OrderBy(['dayOffset' => 'ASC'])]
@@ -80,7 +84,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * @var Collection<int, ScheduleEntry>
      */
-    #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
+    #[ApiProperty(
+        writable: false,
+        uriTemplate: ScheduleEntry::PERIOD_SUBRESOURCE_URI_TEMPLATE,
+        example: '/periods/1a2b3c4d/schedule_entries'
+    )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'period')]
     #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'id' => 'ASC'])]
@@ -178,7 +186,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * @return Day[]
      */
-    #[ApiProperty(readableLink: true)]
+    #[ApiProperty(
+        readableLink: true,
+        uriTemplate: Day::PERIOD_SUBRESOURCE_URI_TEMPLATE,
+    )]
     #[SerializedName('days')]
     #[Groups('Period:Days')]
     public function getEmbeddedDays(): array {

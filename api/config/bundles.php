@@ -5,6 +5,7 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 use Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle;
 use Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle;
+use FOS\HttpCacheBundle\FOSHttpCacheBundle;
 use Hautelook\AliceBundle\HautelookAliceBundle;
 use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle;
@@ -42,4 +43,5 @@ return [
     KnpUOAuth2ClientBundle::class => ['all' => true],
     SentryBundle::class => ['all' => true],
     TwigExtraBundle::class => ['all' => true],
+    FOSHttpCacheBundle::class => ['all' => true],
 ];

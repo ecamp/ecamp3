@@ -83,6 +83,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{/*
+Name for all HTTP cache-related resources.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "apiCache.name" -}}
+{{- $name := default .Chart.Name .Values.chartNameOverride }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-api-cache" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-api-cache" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Name for all db_backup_job releated resources.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
@@ -224,6 +237,14 @@ Selector labels for Browserless
 */}}
 {{- define "browserless.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "chart.name" . }}-browserless
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for HTTP Cache
+*/}}
+{{- define "apiCache.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-api-cache
 {{ include "app.commonSelectorLabels" . }}
 {{- end }}
 

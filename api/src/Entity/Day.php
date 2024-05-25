@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use App\Repository\DayRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,18 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             security: 'is_authenticated()'
         ),
+        new GetCollection(
+            uriTemplate: self::PERIOD_SUBRESOURCE_URI_TEMPLATE,
+            uriVariables: [
+                'periodId' => new Link(
+                    toProperty: 'period',
+                    fromClass: Period::class,
+                    security: 'is_granted("CAMP_COLLABORATOR", period) or is_granted("CAMP_IS_PROTOTYPE", period)'
+                ),
+            ],
+            normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
+            security: 'is_fully_authenticated()',
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -43,6 +56,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ORM\Entity(repositoryClass: DayRepository::class)]
 #[ORM\UniqueConstraint(name: 'offset_period_idx', columns: ['periodId', 'dayOffset'])]
 class Day extends BaseEntity implements BelongsToCampInterface {
+    public const PERIOD_SUBRESOURCE_URI_TEMPLATE = '/periods/{periodId}/days{._format}';
+
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
             'read',
@@ -61,7 +76,11 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list of people who have a whole-day responsibility on this day.
      */
-    #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[ApiProperty(
+        writable: false,
+        uriTemplate: DayResponsible::DAY_SUBRESOURCE_URI_TEMPLATE,
+        example: '/days/1a2b3c4d/day_responsibles'
+    )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: DayResponsible::class, mappedBy: 'day', orphanRemoval: true)]
     public Collection $dayResponsibles;
@@ -161,7 +180,10 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * @return DayResponsible[]
      */
-    #[ApiProperty(readableLink: true)]
+    #[ApiProperty(
+        readableLink: true,
+        uriTemplate: DayResponsible::DAY_SUBRESOURCE_URI_TEMPLATE,
+    )]
     #[SerializedName('dayResponsibles')]
     #[Groups(['Day:DayResponsibles'])]
     public function getEmbeddedDayResponsibles(): array {

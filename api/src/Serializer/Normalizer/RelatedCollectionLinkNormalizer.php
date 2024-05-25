@@ -2,7 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Api\FilterInterface;
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
@@ -239,7 +239,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         $filterIds = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters() ?? [];
 
         return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
-            /** @var FilterInterface $filter */
+            /** @var SearchFilterInterface $filter */
             $filter = $this->filterLocator->get($filterId);
             if (!$filter instanceof SearchFilter) {
                 return false;

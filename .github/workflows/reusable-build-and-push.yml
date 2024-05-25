@@ -22,7 +22,7 @@ jobs:
     name: Build images and push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
         with:
           ref: ${{ inputs.sha }}
 
@@ -79,6 +79,18 @@ jobs:
             SENTRY_ORG=${{ vars.SENTRY_ORG }}
             SENTRY_PRINT_PROJECT=${{ vars.SENTRY_PRINT_PROJECT }}
             SENTRY_RELEASE_NAME=${{ inputs.sha }}
+          cache-from: type=gha,scope=print
+          cache-to: type=gha,scope=print,mode=max
+
+      - name: Build and push varnish docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: .docker-hub/varnish/Dockerfile
+          tags: |
+            ${{ ((inputs.tag != '') && format('{0}/ecamp3-varnish:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-varnish:${{ inputs.sha }}
+          context: .
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max
 

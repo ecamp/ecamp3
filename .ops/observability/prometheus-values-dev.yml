@@ -31,6 +31,16 @@ prometheus:
           - default
       endpoints:
         - port: "api-metrics"
+    - name: "varnish"
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: ecamp3-dev
+          app.kubernetes.io/name: ecamp3-api-cache
+      namespaceSelector:
+        matchNames:
+          - default
+      endpoints:
+        - port: "api-cache-metrics"
   prometheusSpec:
     storageSpec:
       volumeClaimTemplate:

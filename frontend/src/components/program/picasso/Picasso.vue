@@ -382,7 +382,7 @@ export default {
   }
 
   @media #{map-get($display-breakpoints, 'md-and-up')} {
-    height: calc(100vh - 168px);
+    height: calc(100vh - 136px - var(--schedule-entry-filters-height));
   }
 
   :deep {

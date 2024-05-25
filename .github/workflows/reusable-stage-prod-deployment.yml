@@ -16,7 +16,7 @@ jobs:
       environment: ${{ github.ref_name }}
       domain: ${{ vars.SUBDOMAIN }}.${{ vars.DOMAIN }}
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.5.0
@@ -51,6 +51,7 @@ jobs:
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
             --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
             --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
+            --set apiCache.enabled=${{ vars.API_CACHE_ENABLED || false }} \
             --set mail.dsn=${{ secrets.MAILER_DSN }} \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/${{ secrets.DB_NAME }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=false \
