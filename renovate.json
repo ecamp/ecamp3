@@ -78,13 +78,13 @@
       "groupName": "vue-frontend"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "sass"
       ],
       "dependencyDashboardApproval": true
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "php",
         "dunglas/frankenphp"
       ],
@@ -98,7 +98,7 @@
       "groupName": "tiptap"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "browserless/chrome",
         "caddy",
         "krakjoe/apcu",
@@ -115,19 +115,19 @@
       ]
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "browserless/chrome"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "dunglas/frankenphp"
       ],
       "versioning": "regex:^(?<build>\\d+)\\.(?<revision>\\d+)-(?<compatibility>\\w+)(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "postgres"
       ],
       "allowedVersions": "15-alpine"
