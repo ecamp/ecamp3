@@ -150,6 +150,7 @@
       "vue/no-deprecated-props-default-this": "warn",
       "vue/no-deprecated-slot-attribute": "off",
       "vue/no-deprecated-slot-scope-attribute": "off",
+      "vue/no-deprecated-v-bind-sync": "off",
       "vue/no-deprecated-v-on-native-modifier": "warn",
       "vue/no-v-for-template-key-on-child": "warn",
       "vue/no-v-model-argument": "warn",
