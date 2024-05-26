@@ -1,5 +1,6 @@
 <template>
-  <span>{{ logoSvgRaw }}</span>
+  <!-- eslint-disable-next-line vue/no-v-html -->
+  <span v-html="logoSvgRaw" />
 </template>
 
 <script setup>
