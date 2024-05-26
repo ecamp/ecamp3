@@ -1,5 +1,6 @@
 {
   "extends": [
+    "mergeConfidence:all-badges",
     "config:recommended",
     ":prConcurrentLimitNone"
   ],
