@@ -144,6 +144,7 @@
         }
       ],
       "vue/multi-word-component-names": "off",
+      "vue/no-deprecated-destroyed-lifecycle": "off",
       "vue/no-deprecated-dollar-listeners-api": "warn",
       "vue/no-deprecated-dollar-scopedslots-api": "off",
       "vue/no-deprecated-filter": "warn",

@@ -20,7 +20,7 @@ Displays a field as a date picker (can be used with v-model)
   >
     <template #default="picker">
       <v-date-picker
-        :picker-date="pickerMonth"
+        :picker-date.sync="pickerMonth"
         :value="picker.value || ''"
         :locale="$i18n.locale"
         first-day-of-week="1"

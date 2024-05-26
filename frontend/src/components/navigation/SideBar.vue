@@ -2,7 +2,7 @@
   <v-navigation-drawer
     v-if="$vuetify.breakpoint.smAndUp"
     v-model="drawer"
-    :mini-variant="mini"
+    :mini-variant.sync="mini"
     app
     clipped
     permanent
