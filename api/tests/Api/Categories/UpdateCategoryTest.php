@@ -521,19 +521,20 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'short' => 'LP',
             'preferredContentTypes' => [
                 $this->getIriFor('contentTypeColumnLayout'),
-                $this->getIriFor('contentTypeSafetyConcept'),
+                $this->getIriFor('contentTypeNotes'),
             ],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
 
         $contentTypeColumnLayout = static::getFixture('contentTypeColumnLayout');
+        $contentTypeNotes = static::getFixture('contentTypeNotes');
         $contentTypeSafetyConcept = static::getFixture('contentTypeSafetyConcept');
         self::assertEqualsCanonicalizing([
             $category->getId(),
-            // TODO: fix PurgeHttpCacheListener to include the following tags:
-            // $contentTypeColumnLayout->getId().'#categories',
-            // $contentTypeSafetyConcept->getId().'#categories',
+            $contentTypeColumnLayout->getId().'#categories',
+            $contentTypeNotes->getId().'#categories',
+            $contentTypeSafetyConcept->getId().'#categories', // SafetyConcept was previously in the list, so this is purged because it was removed
         ], $purgedCacheTags);
     }
 }

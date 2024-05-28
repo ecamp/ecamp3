@@ -372,7 +372,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $cacheManager
             ->method('invalidateTags')
             ->willReturnCallback(function ($tags) use (&$purgedCacheTags, $cacheManager) {
-                $purgedCacheTags = array_merge($purgedCacheTags, $tags);
+                $purgedCacheTags = array_unique(array_merge($purgedCacheTags, $tags));
 
                 return $cacheManager;
             })

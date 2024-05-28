@@ -31,6 +31,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -72,6 +73,7 @@ final class PurgeHttpCacheListener {
      * Collects tags from inserted, updated and deleted entities, including relations.
      */
     public function onFlush(OnFlushEventArgs $eventArgs): void {
+        /** @var EntityManagerInterface */
         $em = method_exists($eventArgs, 'getObjectManager') ? $eventArgs->getObjectManager() : $eventArgs->getEntityManager();
         $uow = $em->getUnitOfWork();
 
@@ -92,6 +94,16 @@ final class PurgeHttpCacheListener {
             $this->gatherResourceTags($em, $originalEntity);
             $this->gatherRelationTags($em, $originalEntity);
         }
+
+        // trigger cache purges for changes on many-to-many relations
+        // for some reason, changes to Many-To-Many relations are not included in the preUpdate changeSet
+        foreach ($uow->getScheduledCollectionUpdates() as $collection) {
+            $this->addTagsForManyToManyRelations($collection, $collection->getInsertDiff());
+            $this->addTagsForManyToManyRelations($collection, $collection->getDeleteDiff());
+        }
+        foreach ($uow->getScheduledCollectionDeletions() as $collection) {
+            $this->addTagsForManyToManyRelations($collection, $collection->getDeleteDiff());
+        }
     }
 
     /**
@@ -99,6 +111,23 @@ final class PurgeHttpCacheListener {
      */
     public function postFlush(): void {
         $this->cacheManager->flush();
+    }
+
+    private function addTagsForManyToManyRelations($collection, $entities) {
+        $associationMapping = $collection->getMapping();
+
+        if (ClassMetadataInfo::MANY_TO_MANY !== $associationMapping['type']) {
+            return;
+        }
+
+        foreach ($entities as $entity) {
+            $relatedProperty = $associationMapping['isOwningSide'] ? $associationMapping['inversedBy'] : $associationMapping['mappedBy'];
+            if (!$relatedProperty) {
+                continue;
+            }
+
+            $this->addTagForItem($entity, $relatedProperty);
+        }
     }
 
     /**
