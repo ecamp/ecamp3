@@ -565,8 +565,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         self::assertEqualsCanonicalizing([
             '/categories',
             '/camps/'.$camp1->getId().'/categories',
-            // TODO: fix PurgeHttpCacheListener to include the following tags:
-            // '/content_nodes',
+            '/content_nodes',
             '/content_node/column_layouts',
             $camp1->getId().'#categories',
             $contentType->getId().'#categories',

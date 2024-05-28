@@ -76,20 +76,20 @@ final class PurgeHttpCacheListener {
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            $this->gatherResourceTags($entity);
+            $this->gatherResourceTags($em, $entity);
             $this->gatherRelationTags($em, $entity);
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
             $originalEntity = $this->getOriginalEntity($entity, $em);
             $this->addTagForItem($entity);
-            $this->gatherResourceTags($entity, $originalEntity);
+            $this->gatherResourceTags($em, $entity, $originalEntity);
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             $originalEntity = $this->getOriginalEntity($entity, $em);
             $this->addTagForItem($originalEntity);
-            $this->gatherResourceTags($originalEntity);
+            $this->gatherResourceTags($em, $originalEntity);
             $this->gatherRelationTags($em, $originalEntity);
         }
     }
@@ -124,8 +124,18 @@ final class PurgeHttpCacheListener {
      * If oldEntity is provided, purge is only done if the IRI of the collection has changed
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
-    private function gatherResourceTags(object $entity, ?object $oldEntity = null): void {
+    private function gatherResourceTags(EntityManagerInterface $em, object $entity, ?object $oldEntity = null): void {
         $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
+        $this->gatherResourceTagsForClass($resourceClass, $entity, $oldEntity);
+
+        // also purge parent classes (e.g. /content_nodes)
+        $classMetadata = $em->getClassMetadata(ClassUtils::getClass($entity));
+        foreach ($classMetadata->parentClasses as $parentClass) {
+            $this->gatherResourceTagsForClass($parentClass, $entity, $oldEntity);
+        }
+    }
+
+    private function gatherResourceTagsForClass(string $resourceClass, object $entity, ?object $oldEntity = null): void {
         $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
         $resourceIterator = $resourceMetadataCollection->getIterator();
         while ($resourceIterator->valid()) {

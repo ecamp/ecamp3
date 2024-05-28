@@ -262,8 +262,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         self::assertEqualsCanonicalizing([
-            // TODO: fix PurgeHttpCacheListener to include the following tags:
-            // '/content_nodes',
+            '/content_nodes',
             $this->endpoint,
             $this->defaultParent->getRoot()->getId().'#rootDescendants',
             $this->defaultParent->getId().'#children',

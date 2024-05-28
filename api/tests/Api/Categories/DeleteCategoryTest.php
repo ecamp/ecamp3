@@ -114,8 +114,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
             '/categories',
             '/camps/'.$camp->getId().'/categories',
             $camp->getId().'#categories',
-            // TODO: fix PurgeHttpCacheListener to include the following tags:
-            // '/content_nodes',
+            '/content_nodes',
             '/content_node/column_layouts',
             $rootContentNode->getId(),
             $rootContentNode->getId().'#rootDescendants',
