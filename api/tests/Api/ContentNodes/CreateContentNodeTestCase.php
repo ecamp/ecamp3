@@ -254,6 +254,22 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         assertThat($createArray, CompatibleHalResponse::isHalCompatibleWith($getItemResponse->toArray()));
     }
 
+    public function testCreatePurgesCacheTags() {
+        $client = static::createClientWithCredentials();
+        $purgedCacheTags = &$this->getPurgedCacheTags();
+
+        $client->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(201);
+        self::assertEqualsCanonicalizing([
+            // TODO: fix PurgeHttpCacheListener to include the following tags:
+            // '/content_nodes',
+            $this->endpoint,
+            $this->defaultParent->getRoot()->getId().'#rootDescendants',
+            $this->defaultParent->getId().'#children',
+        ], $purgedCacheTags);
+    }
+
     public static function getContentNodesWhichCannotHaveChildren(): array {
         return [
             ContentNode\MaterialNode::class => [

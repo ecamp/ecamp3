@@ -19,6 +19,7 @@ use App\Repository\ProfileRepository;
 use App\Util\ArrayDeepSort;
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\HttpCacheBundle\CacheManager;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -358,6 +359,27 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $sortedResponseArray = ArrayDeepSort::sort($responseArray);
         $this->assertMatchesJsonSnapshot($sortedResponseArray);
+    }
+
+    /**
+     * mocks CacheManager and keeps track of purged cache tags.
+     */
+    protected function &getPurgedCacheTags(): array {
+        $container = static::getContainer();
+        $cacheManager = $this->createMock(CacheManager::class);
+
+        $purgedCacheTags = [];
+        $cacheManager
+            ->method('invalidateTags')
+            ->willReturnCallback(function ($tags) use (&$purgedCacheTags, $cacheManager) {
+                $purgedCacheTags = array_merge($purgedCacheTags, $tags);
+
+                return $cacheManager;
+            })
+        ;
+        $container->set(CacheManager::class, $cacheManager);
+
+        return $purgedCacheTags;
     }
 
     private static function escapeValues(mixed &$object): void {
