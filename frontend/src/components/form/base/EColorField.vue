@@ -23,7 +23,7 @@
       <slot name="prepend" v-bind="props">
         <ColorSwatch
           class="mt-n1"
-          :color="props.serializedValue == null ? '#f0f0f0' : props.serializedValue"
+          :color="props.serializedValue"
           tag="div"
           :aria-label="props.serializedValue"
         />
@@ -65,9 +65,17 @@ export default {
       if (value === '') {
         return null
       }
-      const color = parse(value)
-      color.alpha = 1
-      return reactive(color)
+      try {
+        const color = parse(value)
+        color.alpha = 1
+        return reactive(color)
+      } catch (e) {
+        if (e instanceof TypeError) {
+          throw new Error(this.$tc('components.form.base.eColorField.parseError'))
+        } else {
+          throw e
+        }
+      }
     },
     /**
      * @param {string|null} value

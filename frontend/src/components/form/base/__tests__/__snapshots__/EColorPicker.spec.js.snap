@@ -2,8 +2,7 @@
 
 exports[`An EColorPicker2 > looks like a color picker > pickerclosed 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          data-gugus="test">
+     <div class="e-form-container">
           <div class="v-menu">
                <div>
                     <div class="e-form-container"
@@ -45,8 +44,7 @@ exports[`An EColorPicker2 > looks like a color picker > pickerclosed 1`] = `
 
 exports[`An EColorPicker2 > looks like a color picker > pickeropen 1`] = `
 <div data-app="true">
-     <div class="e-form-container"
-          data-gugus="test">
+     <div class="e-form-container">
           <div>
                <div class="e-form-container"
                     error-messages
@@ -236,8 +234,8 @@ exports[`An EColorPicker2 > looks like a color picker > pickeropen 1`] = `
                             type="button">
                          <span class="v-btn__content"></span>
                     </button>
-                    <button class="e-colorswatch v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
-                            style="height: 30px; width: 30px; background-color: rgb(87, 87, 87); border-color: #575757; --ee5e0d96-contrast: #fff;"
+                    <button class="e-colorswatch reset v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                            style="height: 30px; width: 30px; background-color: rgb(0, 0, 0); border-color: #000000; --ee5e0d96-contrast: #fff;"
                             type="button">
                          <span class="v-btn__content"></span>
                     </button>

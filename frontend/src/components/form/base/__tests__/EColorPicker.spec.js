@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/vue'
+import { fireEvent, screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
 import EColorPicker2 from '../EColorPicker2.vue'
@@ -13,7 +13,7 @@ describe('An EColorPicker2', () => {
   const COLOR3 = '#FAFFAF'
   const INVALID_COLOR = 'some new color'
   const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Farbe für test zu wählen'
-  const VALIDATION_MESSAGE = 'test is not valid'
+  const VALIDATION_MESSAGE = 'Bitte valide Farbe eingeben.'
 
   beforeEach(() => {
     setTestLocale('de')
@@ -225,6 +225,7 @@ describe('An EColorPicker2', () => {
     // when
     await user.clear(inputField)
     await user.keyboard(INVALID_COLOR)
+    await fireEvent.blur(inputField)
 
     // then
     await screen.findByText(VALIDATION_MESSAGE)
@@ -242,6 +243,7 @@ describe('An EColorPicker2', () => {
     // when
     await user.clear(inputField)
     await user.keyboard('#abc')
+    await fireEvent.blur(inputField)
 
     // then
     await waitFor(() => {

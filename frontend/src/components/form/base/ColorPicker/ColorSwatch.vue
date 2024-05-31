@@ -1,6 +1,7 @@
 <template>
   <v-btn
     class="e-colorswatch"
+    :class="{ 'e-colorswatch--null': color == null }"
     fab
     elevation="0"
     width="30"
@@ -39,8 +40,8 @@ export default {
   opacity: 1;
   outline: 1px solid v-bind(contrast);
   box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.3),
-    0 4px 6px -4px rgb(0 0 0 / 0.4);
+    0 10px 15px -3px rgba(0, 0, 0, 0.3),
+    0 4px 6px -4px rgba(0, 0, 0, 0.4);
 }
 .e-colorswatch::after {
   content: '•';
@@ -51,5 +52,11 @@ export default {
   line-height: 26px;
   font-size: 28px;
   text-align: center;
+}
+.e-colorswatch--null {
+  background: #f0f0f0;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 0 10px rgba(0, 0, 0, 0.02) !important;
 }
 </style>

@@ -40,7 +40,7 @@ Displays a field as a color picker (can be used with v-model)
             <template #prepend="{ serializedValue }">
               <ColorSwatch
                 ref="inputSwatch"
-                :color="serializedValue ? serializedValue : '#f0f0f0'"
+                :color="serializedValue"
                 class="mt-n1"
                 :aria-label="
                   pickerOpen
@@ -62,6 +62,16 @@ Displays a field as a color picker (can be used with v-model)
       </template>
       <v-card ref="picker" :ripple="false" tabindex="-1" data-testid="colorpicker">
         <v-color-picker
+          v-if="pickerNull"
+          key="model"
+          value="#FF0000"
+          :style="{ '--picker-contrast-color': contrast }"
+          flat
+          @update:color="onPickerInput($event.hex)"
+        />
+        <v-color-picker
+          v-else
+          key="null"
           :value="pickerValue"
           :style="{ '--picker-contrast-color': contrast }"
           flat
@@ -70,10 +80,16 @@ Displays a field as a color picker (can be used with v-model)
         <v-divider />
         <div class="d-flex gap-2 pa-4 flex-wrap">
           <ColorSwatch
-            v-for="swatch in swatches"
+            v-for="swatch in swatchesWithReset"
             :key="swatch"
             :color="swatch"
             @selectColor="onSwatchSelect($event)"
+          />
+          <ColorSwatch
+            v-if="!mandatory"
+            color="#000000"
+            class="reset"
+            @selectColor="onSwatchSelect(null)"
           />
         </div>
       </v-card>
@@ -95,11 +111,13 @@ export default {
   inheritAttrs: false,
   props: {
     value: { type: String, required: false, default: null },
+    mandatory: { type: Boolean, required: false, default: false },
   },
   emits: ['input'],
   data: () => ({
     pickerOpen: false,
     pickerValue: null,
+    pickerNull: false,
     debouncedPickerValue: null,
     swatches: [
       '#90B7E4',
@@ -124,11 +142,17 @@ export default {
       // Vuetify returns invalid value #NANNAN in the initialization phase
       return this.value && this.value !== '#NANNAN' ? contrastColor(this.value) : 'black'
     },
+    swatchesWithReset() {
+      return this.mandatory
+        ? this.swatches
+        : this.swatches.slice(0, this.swatches.length - 1)
+    },
   },
   watch: {
     value: {
       handler(newValue) {
         this.pickerValue = newValue
+        this.pickerNull = newValue === null
       },
       immediate: true,
     },
@@ -141,7 +165,7 @@ export default {
     },
   },
   created() {
-    this.debouncedPickerValue = debounce(this.onInput, 300)
+    this.debouncedPickerValue = debounce(this.onPickerInput, 300)
   },
   mounted() {
     document.addEventListener('keydown', this.escapeHandler)
@@ -165,6 +189,11 @@ export default {
     },
     onInput(value) {
       this.pickerValue = value
+      this.$emit('input', this.pickerValue)
+    },
+    onPickerInput(value) {
+      this.pickerValue = value.toUpperCase()
+      this.pickerNull = false
       this.$emit('input', this.pickerValue)
     },
     onSwatchSelect(color) {
@@ -209,5 +238,9 @@ export default {
   line-height: 26px;
   font-size: 28px;
   text-align: center;
+}
+
+:deep(.e-colorswatch.reset::after) {
+  content: '×';
 }
 </style>

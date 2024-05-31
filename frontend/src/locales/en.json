@@ -228,6 +228,9 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Please enter a valid color."
+        },
         "eColorPicker": {
           "closePicker": "Close dialog",
           "openPicker": "Open dialog to select a color for {label}"
