@@ -164,6 +164,11 @@ services:
       - target: 5432
         published: 5432
         protocol: tcp
+    deploy:
+      resources:
+        limits:
+          memory: ${DB_MEMORY_LIMIT:-128G}
+          cpus: ${DB_CPU_LIMIT:-8}
 
   mail:
     image: maildev/maildev
