@@ -50,7 +50,7 @@ jobs:
       # start necessary containers
       - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
 
-      - uses: cypress-io/github-action@v5
+      - uses: cypress-io/github-action@v6.7.0
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}
