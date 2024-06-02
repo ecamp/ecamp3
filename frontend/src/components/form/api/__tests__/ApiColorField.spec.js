@@ -43,7 +43,8 @@ describe('An ApiColorField', () => {
 
     // when
     const inputField = await screen.findByLabelText(FIELD_LABEL)
-    await fireEvent.input(inputField, { target: { value: COLOR_2 } })
+    inputField.value = COLOR_2
+    await fireEvent.input(inputField)
     // click the button to open the picker
     // click the save button
     await waitFor(async () => {
