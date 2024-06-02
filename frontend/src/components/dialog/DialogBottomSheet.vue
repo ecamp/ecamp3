@@ -113,14 +113,14 @@ export default {
   methods: {
     async doSubmit() {
       this.isSaving = true
-      this.$emit('update:savingOverride', true)
+      this.$emit('update:saving-override', true)
       await this.submitAction()
       this.isSaving = false
-      this.$emit('update:savingOverride', false)
+      this.$emit('update:saving-override', false)
     },
     doCancel() {
       this.isSaving = false
-      this.$emit('update:savingOverride', false)
+      this.$emit('update:saving-override', false)
       if (this.cancelAction != null) {
         this.cancelAction()
       }

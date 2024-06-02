@@ -85,13 +85,13 @@ Displays a field as a color picker (can be used with v-model)
             v-for="swatch in swatchesWithReset"
             :key="swatch"
             :color="swatch"
-            @selectColor="onSwatchSelect($event)"
+            @select-color="onSwatchSelect($event)"
           />
           <ColorSwatch
             v-if="!required"
             color="#000000"
             class="reset"
-            @selectColor="onSwatchSelect(null)"
+            @select-color="onSwatchSelect(null)"
           />
         </div>
       </v-card>

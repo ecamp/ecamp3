@@ -29,6 +29,9 @@ api_platform:
         versions: [3]
     defaults:
         stateless: true
+        extra_properties:
+            standard_put: true
+            rfc_7807_compliant_errors: false
         pagination_enabled: false
         itemOperations: [ 'get', 'patch', 'delete' ]
         collection_operations:
@@ -39,3 +42,4 @@ api_platform:
             skip_null_values: false
         order:
             createTime: DESC
+    keep_legacy_inflector: false
