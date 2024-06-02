@@ -9,6 +9,9 @@ export default defineNitroPlugin((nitroApp) => {
     return
   }
 
+  // Next line can be disabled, once https://github.com/getsentry/sentry-javascript/issues/12059 is resolved
+  globalThis._sentryEsmLoaderHookRegistered = true
+
   // Initialize Sentry
   Sentry.init({
     dsn: sentry.dsn,
