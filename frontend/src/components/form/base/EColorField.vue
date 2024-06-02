@@ -66,7 +66,7 @@ export default {
         return null
       }
       try {
-        const color = parse(value)
+        const color = parse(value, { space: 'srgb' })
         color.alpha = 1
         return reactive(color)
       } catch (e) {
