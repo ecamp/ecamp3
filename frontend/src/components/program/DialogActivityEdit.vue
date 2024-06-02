@@ -126,7 +126,7 @@ export default {
     },
     updatedSuccessful(data) {
       this.close()
-      this.$emit('activityUpdated', data)
+      this.$emit('activity-updated', data)
     },
     scheduleEntryRoute,
   },

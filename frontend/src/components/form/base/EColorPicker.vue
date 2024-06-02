@@ -31,7 +31,7 @@ Displays a field as a color picker (can be used with v-model)
             v-for="swatch in swatches"
             :key="swatch"
             :color="swatch"
-            @selectColor="picker.onInput"
+            @select-color="picker.onInput"
           />
         </div>
       </v-card>

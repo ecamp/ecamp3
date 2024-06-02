@@ -77,7 +77,6 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "cweagans/composer-patches": true,
             "php-http/discovery": false,
             "symfony/flex": true,

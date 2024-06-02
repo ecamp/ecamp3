@@ -18,12 +18,16 @@ doctrine:
         naming_strategy: App\Util\CamelPascalNamingStrategy
         auto_mapping: true
         report_fields_where_declared: true
+        validate_xml_mapping: false
         mappings:
             App:
+                type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        controller_resolver:
+            auto_mapping: true
                 
         schema_ignore_classes:
             - App\Entity\CampRootContentNode

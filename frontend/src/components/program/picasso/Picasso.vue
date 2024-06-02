@@ -63,8 +63,8 @@ Listing all given activity schedule entries in a calendar view.
         <PicassoEntry
           :schedule-entry="event"
           :editable="editable"
-          @startResize="startResize(event)"
-          @finishEdit="reloadScheduleEntries"
+          @start-resize="startResize(event)"
+          @finish-edit="reloadScheduleEntries"
         />
       </template>
     </v-calendar>
@@ -154,8 +154,8 @@ export default {
 
   // emitted events
   emits: [
-    'newEntry', // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
-    'unlockReminder', // triggered when we think someone is trying to create/move in non-editable mode
+    'new-entry', // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
+    'unlock-reminder', // triggered when we think someone is trying to create/move in non-editable mode
   ],
 
   // composition API setup
@@ -198,11 +198,11 @@ export default {
     const createEntry = (startTimestamp, endTimestamp) => {
       const start = timestampToUtcString(startTimestamp)
       const end = timestampToUtcString(endTimestamp)
-      emit('newEntry', start, end)
+      emit('new-entry', start, end)
     }
 
     const showReminder = (move) => {
-      emit('unlockReminder', move)
+      emit('unlock-reminder', move)
     }
 
     const calenderStartTimestamp = computed(() => utcStringToTimestamp(start.value))

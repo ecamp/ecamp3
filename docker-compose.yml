@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:20.14.0
+    image: node:22.2.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -24,21 +24,29 @@ services:
     depends_on:
       - pdf
 
-  php:
-    image: ecamp/ecamp3-dev-api-php
+  api:
+    image: ecamp/ecamp3-dev-api
     build:
       context: ./api
-      target: api_platform_php_dev
+      target: frankenphp_dev
       cache_from:
-        - ecamp/ecamp3-dev-api-php
-    container_name: 'ecamp3-api-php'
+        - ecamp/ecamp3-dev-api
+    container_name: 'ecamp3-api'
     depends_on:
       - database
       - docker-host
-    restart: unless-stopped
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 2019
+        published: 2019
+        protocol: tcp
     volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./api:/srv/api:rw,delegated
+      - ./api:/app:rw,delegated
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
       - ./.cache/composer:/tmp/composer/cache:delegated
@@ -65,37 +73,11 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
-  caddy:
-    image: ecamp/ecamp3-dev-api-caddy
-    build:
-      context: ./api
-      target: api_platform_caddy
-      cache_from:
-        - ecamp/ecamp3-dev-api-caddy
-    container_name: 'ecamp3-api-caddy'
-    depends_on:
-      - php
-    ports:
-      - target: 3000
-        published: 3000
-        protocol: tcp
-      - target: 2019
-        published: 2019
-        protocol: tcp
-    restart: unless-stopped
-    user: ${USER_ID:-1000}
-    volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./.caddy/data:/data:delegated
-      - ./.caddy/config-cache:/config:delegated
-      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./api/public:/srv/api/public:ro
-
   http-cache:
     image: varnish:7.5.0
     container_name: 'ecamp3-http-cache'
     depends_on:
-      - caddy
+      - api
     volumes:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
     ports:
@@ -108,7 +90,7 @@ services:
       - VARNISH_HTTP_PORT=8080
 
   pdf:
-    image: node:20.14.0
+    image: node:22.2.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -127,7 +109,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.14.0
+    image: node:22.2.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -211,7 +193,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.14.0
+    image: node:22.2.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -224,3 +206,5 @@ services:
 
 volumes:
   db-data-postgres: null
+  caddy_data:
+  caddy_config:
