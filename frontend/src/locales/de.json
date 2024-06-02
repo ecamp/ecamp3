@@ -229,7 +229,7 @@
     "form": {
       "base": {
         "eColorField": {
-          "parseError": "Bitte valide Farbe eingeben."
+          "parseError": "Bitte gültige Farbe eingeben."
         },
         "eColorPicker": {
           "closePicker": "Dialog schliessen",
