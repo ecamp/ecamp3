@@ -13,7 +13,7 @@ describe('An EColorPicker', () => {
   const COLOR3 = '#FAFFAF'
   const INVALID_COLOR = 'some new color'
   const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Farbe für test zu wählen'
-  const VALIDATION_MESSAGE = 'Bitte valide Farbe eingeben.'
+  const VALIDATION_MESSAGE = 'Bitte gültige Farbe eingeben.'
 
   beforeEach(() => {
     setTestLocale('de')
