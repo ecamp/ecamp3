@@ -64,6 +64,14 @@ export default new Router({
       },
     },
     {
+      path: '/resend-activation',
+      name: 'resendActivation',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import('./views/auth/ResendActivation.vue'),
+      },
+    },
+    {
       path: '/reset-password',
       name: 'resetPasswordRequest',
       components: {

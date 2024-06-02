@@ -20667,6 +20667,84 @@ components:
         - password
         - profile
       type: object
+    UserActivation-create:
+      deprecated: false
+      description: ''
+      properties:
+        email:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
+        recaptchaToken:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
+      type: object
+    UserActivation.jsonapi:
+      deprecated: false
+      description: ''
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                email:
+                  type: ['null', string]
+                  writeOnly: true
+                recaptchaToken:
+                  type: ['null', string]
+                  writeOnly: true
+              type: object
+            id:
+              type: string
+            type:
+              type: string
+          required:
+            - id
+            - type
+          type: object
+      type: object
+    UserActivation.jsonhal-create:
+      deprecated: false
+      description: ''
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        email:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
+        recaptchaToken:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
+      type: object
+    UserActivation.jsonld-create:
+      deprecated: false
+      description: ''
+      properties:
+        email:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
+        recaptchaToken:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
+      type: object
   securitySchemes:
     JWT:
       bearerFormat: JWT
@@ -21497,6 +21575,54 @@ paths:
         - OAuth
     parameters: []
     ref: 'PBS MiData OAuth'
+  /auth/resend_activation:
+    parameters: []
+    post:
+      deprecated: false
+      description: 'Activation email will be sent to the given email again.'
+      operationId: api_authresend_activation_post
+      parameters: []
+      requestBody:
+        content:
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/UserActivation.jsonhal-create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserActivation-create'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/UserActivation.jsonld-create'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UserActivation.jsonapi'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/UserActivation-create'
+        description: 'The new UserActivation resource'
+        required: true
+      responses:
+        204:
+          content:
+            application/hal+json:
+              schema: []
+            application/json:
+              schema: []
+            application/ld+json:
+              schema: []
+            application/vnd.api+json:
+              schema: []
+            text/html:
+              schema: []
+          description: 'UserActivation resource created'
+          links: []
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Request activation email again'
+      tags:
+        - UserActivation
   /auth/reset_password:
     parameters: []
     post:

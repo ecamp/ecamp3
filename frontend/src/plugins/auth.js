@@ -72,6 +72,11 @@ async function resetPassword(id, password, recaptchaToken) {
   return apiStore.patch(url, { password: password, recaptchaToken: recaptchaToken })
 }
 
+async function resendUserActivation(email, recaptchaToken) {
+  const url = await apiStore.href(apiStore.get(), 'resendActivation')
+  return apiStore.post(url, { email: email, recaptchaToken: recaptchaToken })
+}
+
 async function loadUser() {
   if (!getJWTPayloadFromCookie()) {
     store.commit('logout')
@@ -165,6 +170,7 @@ export const auth = {
   loadUser,
   resetPasswordRequest,
   resetPassword,
+  resendUserActivation,
 }
 
 class AuthPlugin {
