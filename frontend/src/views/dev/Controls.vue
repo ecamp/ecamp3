@@ -137,7 +137,7 @@ export default {
     textareaValue: 'FFFFFFFFFF',
     richtextValue: '<p>FFFFFFFFFF</p>',
     checkboxValue: false,
-    colorValue: '#FFFFFF',
+    colorValue: null,
     selectValue: null,
     dateValue: '2020-01-01',
     timeValue: '2020-01-01T14:45:00+00:00',
@@ -264,7 +264,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             path: 'color',
-            uri: this.categoryUri,
+            uri: this.campCollaborationUri,
             veeRules: 'required',
           },
         },
@@ -290,6 +290,9 @@ export default {
     },
     scheduleEntryUri() {
       return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
+    },
+    campCollaborationUri() {
+      return '/camp_collaborations/3229d273decd' // Harry Potter - Snoopy
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({

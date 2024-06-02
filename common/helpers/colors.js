@@ -58,6 +58,10 @@ function campCollaborationColor(campCollaboration) {
     (typeof campCollaboration.user === 'function' &&
       campCollaboration.user()._meta?.loading)
 
+  if (campCollaboration?.color) {
+    return campCollaboration.color
+  }
+
   return idToColor(
     typeof campCollaboration.user === 'function'
       ? campCollaboration.user().id

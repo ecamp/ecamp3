@@ -202,6 +202,25 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     #[ORM\Column(type: 'string', length: 16, nullable: false)]
     public string $role;
 
+    /**
+     * The color of the avatar as a hex color string.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
+    #[ApiProperty(example: '#4DBB52')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'string', length: 8, nullable: true)]
+    public ?string $color = null;
+
+    /**
+     * The abbreviation in th avatar.
+     */
+    #[InputFilter\Trim]
+    #[ApiProperty(example: 'AB')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'string', length: 2, nullable: true)]
+    public ?string $abbr = null;
+
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $collaborationAcceptedBy = null;

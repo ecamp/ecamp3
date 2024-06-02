@@ -147,6 +147,8 @@
     },
     "campCollaboration": {
       "fields": {
+        "abbr": "Abbreviation",
+        "color": "Color",
         "inviteEmail": "Email",
         "role": "Role",
         "status": "Status"

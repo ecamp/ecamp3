@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      entityProperties: ['camp', 'inviteEmail', 'role'],
+      entityProperties: ['abbr', 'camp', 'color', 'inviteEmail', 'role'],
       entityUri: '',
     }
   },
@@ -59,7 +59,9 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
+          abbr: '',
           camp: this.camp._meta.self,
+          color: '',
           inviteEmail: '',
           role: DEFAULT_INVITE_ROLE,
         })

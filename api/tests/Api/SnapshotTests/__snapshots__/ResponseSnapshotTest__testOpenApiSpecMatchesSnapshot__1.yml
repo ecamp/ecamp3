@@ -5322,11 +5322,23 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5363,11 +5375,26 @@ components:
       deprecated: false
       description: ''
       properties:
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5424,6 +5451,13 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           anyOf:
             -
@@ -5431,6 +5465,14 @@ components:
             -
               type: 'null'
           readOnly: true
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5491,11 +5533,26 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         inviteEmail:
           description: |-
             The receiver email address of the invitation email, in case the collaboration does not yet have
@@ -5535,6 +5592,21 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         role:
           description: |-
             The role that this person has in the camp. Depending on the role, the collaborator might have
@@ -5574,6 +5646,17 @@ components:
                   maxLength: 16
                   readOnly: true
                   type: string
+                abbr:
+                  description: 'The abbreviation in th avatar.'
+                  example: AB
+                  maxLength: 2
+                  type: ['null', string]
+                color:
+                  description: 'The color of the avatar as a hex color string.'
+                  example: '#4DBB52'
+                  maxLength: 8
+                  pattern: '^(#[0-9a-zA-Z]{6})$'
+                  type: ['null', string]
                 inviteEmail:
                   description: |-
                     The receiver email address of the invitation email, in case the collaboration does not yet have
@@ -5648,11 +5731,23 @@ components:
                   type: string
               type: object
           type: object
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5698,11 +5793,26 @@ components:
                   type: string
               type: object
           type: object
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5768,6 +5878,13 @@ components:
                   type: string
               type: object
           type: object
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           anyOf:
             -
@@ -5775,6 +5892,14 @@ components:
             -
               type: 'null'
           readOnly: true
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5840,11 +5965,26 @@ components:
                   type: string
               type: object
           type: object
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         inviteEmail:
           description: |-
             The receiver email address of the invitation email, in case the collaboration does not yet have
@@ -5907,11 +6047,23 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5971,11 +6123,26 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -6055,6 +6222,13 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           anyOf:
             -
@@ -6062,6 +6236,14 @@ components:
             -
               type: 'null'
           readOnly: true
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -6118,11 +6300,26 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
+        abbr:
+          description: 'The abbreviation in th avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
         camp:
           description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         inviteEmail:
           description: |-
             The receiver email address of the invitation email, in case the collaboration does not yet have

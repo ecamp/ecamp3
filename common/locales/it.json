@@ -122,6 +122,13 @@
       "prototype": "Modello di campo"
     },
     "campCollaboration": {
+      "fields": {
+        "abbr": "Abbreviazione",
+        "color": "Colore",
+        "inviteEmail": "E-mail",
+        "role": "Ruolo",
+        "status": "Stato"
+      },
       "inactive": "non attivo"
     },
     "category": {
