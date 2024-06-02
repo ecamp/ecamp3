@@ -7,7 +7,7 @@
     height="30"
     :color="color"
     :ripple="false"
-    @click="$emit('selectColor', color)"
+    @click="$emit('select-color', color)"
     v-on="$listeners"
   ></v-btn>
 </template>

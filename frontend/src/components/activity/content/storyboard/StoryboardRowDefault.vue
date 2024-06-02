@@ -7,8 +7,8 @@
         class="drag-and-drop-handle"
         :disabled="isLastSection"
         :aria-label="$tc('global.button.move')"
-        @keydown.down="$emit('moveDown', itemKey)"
-        @keydown.up="$emit('moveUp', itemKey)"
+        @keydown.down="$emit('move-down', itemKey)"
+        @keydown.up="$emit('move-up', itemKey)"
       >
         <v-icon>mdi-drag</v-icon>
       </v-btn>

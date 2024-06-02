@@ -316,7 +316,7 @@ export default {
     },
     onSuccess(activity) {
       this.close()
-      this.$emit('activityCreated', activity)
+      this.$emit('activity-created', activity)
     },
   },
 }

@@ -125,6 +125,7 @@
     },
     "extends": [
       "plugin:vue/recommended",
+      "plugin:vue/vue3-recommended",
       "eslint:recommended",
       "plugin:prettier/recommended",
       "@vue/eslint-config-prettier"
@@ -143,6 +144,18 @@
         }
       ],
       "vue/multi-word-component-names": "off",
+      "vue/no-deprecated-destroyed-lifecycle": "off",
+      "vue/no-deprecated-dollar-listeners-api": "warn",
+      "vue/no-deprecated-dollar-scopedslots-api": "off",
+      "vue/no-deprecated-filter": "warn",
+      "vue/no-deprecated-props-default-this": "warn",
+      "vue/no-deprecated-slot-attribute": "off",
+      "vue/no-deprecated-slot-scope-attribute": "off",
+      "vue/no-deprecated-v-bind-sync": "off",
+      "vue/no-deprecated-v-on-native-modifier": "warn",
+      "vue/no-v-for-template-key-on-child": "warn",
+      "vue/no-v-model-argument": "warn",
+      "vue/require-explicit-emits": "off",
       "no-unused-vars": [
         "error",
         {
