@@ -1,5 +1,11 @@
 <template>
-  <div class="editor" :class="{ 'editor--editable': editable }">
+  <div
+    class="editor"
+    :class="{
+      'editor--editable': editable,
+      'editor--link-cursor': hoverCursor,
+    }"
+  >
     <bubble-menu
       v-if="withExtensions"
       ref="bubbleMenu"
@@ -185,6 +191,7 @@ export default {
     }
 
     return {
+      hoverCursor: false,
       editor: new Editor({
         extensions: extensions,
         content: this.value,
@@ -259,12 +266,31 @@ export default {
       })
     },
   },
+  mounted() {
+    document.removeEventListener('keydown', this.specialKeyListeners)
+    document.removeEventListener('keyup', this.specialKeyListeners)
+    document.removeEventListener('contextmenu', this.specialMenuListeners)
+    document.addEventListener('keydown', this.specialKeyListeners, { passive: true })
+    document.addEventListener('keyup', this.specialKeyListeners, { passive: true })
+    document.addEventListener('contextmenu', this.specialMenuListeners, { passive: true })
+  },
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.specialKeyListeners)
+    document.removeEventListener('keyup', this.specialKeyListeners)
+    document.removeEventListener('contextmenu', this.specialMenuListeners)
+  },
   methods: {
     focus() {
       this.editor.commands.focus()
     },
     onUpdate() {
       this.$emit('input', this.html)
+    },
+    specialKeyListeners(event) {
+      this.hoverCursor = event.metaKey || event.ctrlKey
+    },
+    specialMenuListeners() {
+      this.hoverCursor = false
     },
   },
 }
@@ -363,5 +389,8 @@ div.editor:deep(.editor__content .ProseMirror li p:not(:last-child)) {
 }
 .editor.editor--editable:deep(.autolink) {
   cursor: text;
+}
+.editor.editor--link-cursor:deep(.autolink) {
+  cursor: pointer;
 }
 </style>
