@@ -18,7 +18,7 @@ await useAsyncData(`CategoryLabel-${props.category._meta.self}`, async () => {
 </script>
 
 <script>
-import { contrastColor } from '@/../common/helpers/colors.js'
+import { contrastColor } from '@/common/helpers/colors.js'
 export default {
   methods: {
     style() {

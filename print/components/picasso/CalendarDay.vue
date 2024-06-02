@@ -34,9 +34,9 @@ import {
   positionStyles,
   dayStart,
   dayEnd,
-} from '../../../common/helpers/picasso.js'
+} from '@/common/helpers/picasso.js'
 
-import dayjs from '../../../common/helpers/dayjs'
+import dayjs from '@/common/helpers/dayjs'
 
 export default {
   props: {

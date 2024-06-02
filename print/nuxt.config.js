@@ -1,3 +1,5 @@
+import svgLoader from 'vite-svg-loader'
+
 export default defineNuxtConfig({
   app: {
     baseURL: '/print/',
@@ -97,6 +99,7 @@ export default defineNuxtConfig({
         'dayjs/plugin/utc',
       ],
     },
+    plugins: [svgLoader()],
   },
 
   vue: {
