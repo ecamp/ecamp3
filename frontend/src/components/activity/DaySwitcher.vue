@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     changeDay(value) {
-      this.$emit('changeDay', value)
+      this.$emit('change-day', value)
     },
   },
 }

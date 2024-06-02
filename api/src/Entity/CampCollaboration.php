@@ -44,6 +44,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['Default', 'update']]
         ),
         new Delete(
+            validate: true,
+            validationContext: ['groups' => ['delete']],
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Patch(

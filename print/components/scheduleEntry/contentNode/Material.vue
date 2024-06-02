@@ -53,11 +53,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.material-row {
-  display: flex;
-  flex-direction: row;
-}
-
 .item {
   flex-basis: 7000px;
   padding-right: 4px;
@@ -65,10 +60,5 @@ export default {
   td:not(:last-child) {
     padding-right: 4px;
   }
-}
-
-.list-name {
-  flex-basis: 3000px;
-  padding-left: 4px;
 }
 </style>

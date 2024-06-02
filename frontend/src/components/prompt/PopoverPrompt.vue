@@ -151,25 +151,25 @@ export default {
   flex-grow: 1;
 }
 
-.ec-popover-prompt ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt ::v-deep(.ec-activator .v-btn) {
   position: absolute;
   background-color: white !important;
   color: #424242 !important;
 }
 
-.ec-popover-prompt ::v-deep .ec-activator .v-btn:hover::before {
+.ec-popover-prompt ::v-deep(.ec-activator .v-btn:hover::before) {
   opacity: 0;
 }
 
-.ec-popover-prompt--align-left ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--align-left ::v-deep(.ec-activator .v-btn) {
   left: 0;
 }
 
-.ec-popover-prompt--align-right ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--align-right ::v-deep(.ec-activator .v-btn) {
   right: 0;
 }
 
-.ec-popover-prompt--position-bottom ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--position-bottom ::v-deep(.ec-activator .v-btn) {
   bottom: 100%;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -179,7 +179,7 @@ export default {
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.ec-popover-prompt--position-top ::v-deep .ec-activator .v-btn {
+.ec-popover-prompt--position-top ::v-deep(.ec-activator .v-btn) {
   top: calc(100% - 10px);
   z-index: 10;
   border-top-right-radius: 0;
