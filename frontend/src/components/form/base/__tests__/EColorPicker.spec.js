@@ -1,13 +1,13 @@
 import { fireEvent, screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
-import EColorPicker2 from '../EColorPicker2.vue'
+import EColorPicker from '../EColorPicker.vue'
 
 import { regex } from 'vee-validate/dist/rules'
 import { extend } from 'vee-validate'
 extend('regex', regex)
 
-describe('An EColorPicker2', () => {
+describe('An EColorPicker', () => {
   const COLOR1 = '#FF0000'
   const COLOR2 = '#FF00FF'
   const COLOR3 = '#FAFFAF'
@@ -23,7 +23,7 @@ describe('An EColorPicker2', () => {
     // given
 
     // when
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: {
         value: COLOR1,
         label: 'test',
@@ -39,7 +39,7 @@ describe('An EColorPicker2', () => {
     // given
 
     // when
-    const { container } = render(EColorPicker2, {
+    const { container } = render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
 
@@ -56,7 +56,7 @@ describe('An EColorPicker2', () => {
 
   it('opens the picker when the text field is clicked', async () => {
     // given
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
@@ -72,7 +72,7 @@ describe('An EColorPicker2', () => {
 
   it('opens the picker when the icon button is clicked', async () => {
     // given
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
@@ -88,7 +88,7 @@ describe('An EColorPicker2', () => {
 
   it('closes the picker when clicking outside', async () => {
     // given
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
@@ -108,7 +108,7 @@ describe('An EColorPicker2', () => {
 
   it('closes the picker when pressing escape', async () => {
     // given
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
@@ -128,7 +128,7 @@ describe('An EColorPicker2', () => {
 
   it('does not close the picker when selecting a color', async () => {
     // given
-    const { container } = render(EColorPicker2, {
+    const { container } = render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
@@ -153,7 +153,7 @@ describe('An EColorPicker2', () => {
 
   it('updates v-model when the value changes', async () => {
     // given
-    const { emitted } = render(EColorPicker2, {
+    const { emitted } = render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
@@ -182,7 +182,7 @@ describe('An EColorPicker2', () => {
 
   it('updates v-model when a new color is selected in the picker', async () => {
     // given
-    const { emitted, container } = render(EColorPicker2, {
+    const { emitted, container } = render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     await screen.findByDisplayValue(COLOR1)
@@ -217,7 +217,7 @@ describe('An EColorPicker2', () => {
 
   it('validates the input', async () => {
     // given
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR1, path: 'test', validationLabelOverride: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
@@ -232,7 +232,7 @@ describe('An EColorPicker2', () => {
   })
 
   it('accepts 3-digit hex color codes, after picker has been shown', async () => {
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR1, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
@@ -252,7 +252,7 @@ describe('An EColorPicker2', () => {
   })
 
   it('accepts null', async () => {
-    render(EColorPicker2, {
+    render(EColorPicker, {
       props: { value: COLOR2, label: 'test' },
     })
     const inputField = await screen.findByDisplayValue(COLOR2)

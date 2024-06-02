@@ -77,7 +77,6 @@ import ESelect from '@/components/form/base/ESelect.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
-import EColorPicker2 from '@/components/form/base/EColorPicker2.vue'
 import EColorField from '@/components/form/base/EColorField.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
@@ -90,7 +89,6 @@ import ApiColorField from '@/components/form/api/ApiColorField.vue'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker.vue'
 import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
-import ApiColorPicker2 from '@/components/form/api/ApiColorPicker2.vue'
 import VueI18n from '@/plugins/i18n'
 import { VTextField, VTextarea, VCheckbox, VSwitch, VSelect } from 'vuetify/lib'
 
@@ -123,10 +121,8 @@ export default {
     ETimePicker,
     ApiTimePicker,
     EColorPicker,
-    EColorPicker2,
     EColorField,
     ApiColorPicker,
-    ApiColorPicker2,
     ApiColorField,
   },
   data: () => ({
@@ -258,22 +254,12 @@ export default {
             placeholder: this.placeholder,
             path: 'color',
             uri: this.categoryUri,
+            veeRules: 'required',
           },
         },
         {
           id: 'color-field',
           component: (type) => (type !== 'v' ? `${type}-color-field` : ''),
-          value: this.colorValue,
-          props: {
-            placeholder: this.placeholder,
-            path: 'color',
-            uri: this.categoryUri,
-            veeRules: 'required',
-          },
-        },
-        {
-          id: 'color-picker2',
-          component: (type) => (type === 'v' ? '' : `${type}-color-picker2`),
           value: this.colorValue,
           props: {
             placeholder: this.placeholder,

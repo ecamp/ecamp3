@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`An EColorPicker2 > looks like a color picker > pickerclosed 1`] = `
+exports[`An EColorPicker > looks like a color picker > pickerclosed 1`] = `
 <div data-app="true">
      <div class="e-form-container">
           <div class="v-menu">
@@ -42,7 +42,7 @@ exports[`An EColorPicker2 > looks like a color picker > pickerclosed 1`] = `
 </div>
 `;
 
-exports[`An EColorPicker2 > looks like a color picker > pickeropen 1`] = `
+exports[`An EColorPicker > looks like a color picker > pickeropen 1`] = `
 <div data-app="true">
      <div class="e-form-container">
           <div>

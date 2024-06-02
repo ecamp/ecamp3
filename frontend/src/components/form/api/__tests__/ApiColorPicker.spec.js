@@ -1,4 +1,4 @@
-import ApiColorPicker2 from '../ApiColorPicker2.vue'
+import ApiColorPicker from '../ApiColorPicker.vue'
 import { screen, waitFor } from '@testing-library/vue'
 import { render } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
@@ -29,7 +29,7 @@ describe('An ApiColorPicker', () => {
     // given
     apiMock.get().thenReturn(ApiMock.success(COLOR_1).forPath(FIELD_PATH))
     apiMock.patch().thenReturn(ApiMock.success(COLOR_2))
-    const { container } = render(ApiColorPicker2, {
+    const { container } = render(ApiColorPicker, {
       props: {
         autoSave: false,
         path: FIELD_PATH,
@@ -64,7 +64,7 @@ describe('An ApiColorPicker', () => {
   test('updates state if value in store is refreshed and has new value', async () => {
     // given
     apiMock.get().thenReturn(ApiMock.networkError().forPath(FIELD_PATH))
-    render(ApiColorPicker2, {
+    render(ApiColorPicker, {
       props: {
         autoSave: false,
         path: FIELD_PATH,
