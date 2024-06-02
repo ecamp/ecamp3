@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\MappedSuperclass]
 #[ORM\Index(columns: ['createTime'])]
 #[ORM\Index(columns: ['updateTime'])]
-abstract class BaseEntity {
+abstract class BaseEntity implements HasId {
     /**
      * An internal, unique, randomly generated identifier of this entity.
      */

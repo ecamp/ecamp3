@@ -4,8 +4,10 @@ namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
+use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
+use App\HttpCache\ResponseTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -26,6 +28,7 @@ class CampRoleVoter extends Voter {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly ResponseTagger $responseTagger
     ) {}
 
     protected function supports($attribute, $subject): bool {
@@ -48,12 +51,20 @@ class CampRoleVoter extends Voter {
             return true;
         }
 
-        return $camp->collaborations
+        $campCollaboration = $camp->collaborations
             ->filter(self::withStatus(CampCollaboration::STATUS_ESTABLISHED))
             ->filter(self::ofUser($user))
             ->filter(self::withRole($attribute))
-            ->exists(fn () => true)
+            ->first()
         ;
+
+        if ($campCollaboration) {
+            $this->responseTagger->addTags([$campCollaboration->getId()]);
+
+            return true;
+        }
+
+        return false;
     }
 
     private static function withStatus($status) {

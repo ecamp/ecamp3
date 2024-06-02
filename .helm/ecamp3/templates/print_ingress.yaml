@@ -12,6 +12,7 @@ metadata:
     {{- end }}
     {{- include "ingress.basicAuth.annotations" . | nindent 4 }}
     {{- if not (.Values.print.ingress.readTimeoutSeconds | empty) }}
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.print.ingress.readTimeoutSeconds | quote }}
     {{- end }}
 spec:

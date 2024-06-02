@@ -1,0 +1,174 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/content_types.jsonhal"
+    },
+    "items": [
+      {
+        "href": "/api/content_types/c462edd869f3"
+      },
+      {
+        "href": "/api/content_types/5e2028c55ee4"
+      },
+      {
+        "href": "/api/content_types/a4211c112939"
+      },
+      {
+        "href": "/api/content_types/f17470519474"
+      },
+      {
+        "href": "/api/content_types/1a0f84e322c8"
+      },
+      {
+        "href": "/api/content_types/3ef17bd1df72"
+      },
+      {
+        "href": "/api/content_types/4f0c657fecef"
+      },
+      {
+        "href": "/api/content_types/44dcc7493c65"
+      },
+      {
+        "href": "/api/content_types/cfccaecd4bad"
+      },
+      {
+        "href": "/api/content_types/318e064ea0c9"
+      }
+    ]
+  },
+  "totalItems": 10,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/c462edd869f3"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2Fc462edd869f3"
+          }
+        },
+        "name": "LearningObjectives",
+        "active": true,
+        "id": "c462edd869f3"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/5e2028c55ee4"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F5e2028c55ee4"
+          }
+        },
+        "name": "LearningTopics",
+        "active": true,
+        "id": "5e2028c55ee4"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/a4211c112939"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/responsive_layouts?contentType=%2Fapi%2Fcontent_types%2Fa4211c112939"
+          }
+        },
+        "name": "ResponsiveLayout",
+        "active": true,
+        "id": "a4211c112939"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/f17470519474"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/column_layouts?contentType=%2Fapi%2Fcontent_types%2Ff17470519474"
+          }
+        },
+        "name": "ColumnLayout",
+        "active": true,
+        "id": "f17470519474"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/1a0f84e322c8"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/multi_selects?contentType=%2Fapi%2Fcontent_types%2F1a0f84e322c8"
+          }
+        },
+        "name": "LAThematicArea",
+        "active": true,
+        "id": "1a0f84e322c8"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/3ef17bd1df72"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/material_nodes?contentType=%2Fapi%2Fcontent_types%2F3ef17bd1df72"
+          }
+        },
+        "name": "Material",
+        "active": true,
+        "id": "3ef17bd1df72"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/4f0c657fecef"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F4f0c657fecef"
+          }
+        },
+        "name": "Notes",
+        "active": true,
+        "id": "4f0c657fecef"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/44dcc7493c65"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F44dcc7493c65"
+          }
+        },
+        "name": "SafetyConcept",
+        "active": true,
+        "id": "44dcc7493c65"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/cfccaecd4bad"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/storyboards?contentType=%2Fapi%2Fcontent_types%2Fcfccaecd4bad"
+          }
+        },
+        "name": "Storyboard",
+        "active": true,
+        "id": "cfccaecd4bad"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/318e064ea0c9"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F318e064ea0c9"
+          }
+        },
+        "name": "Storycontext",
+        "active": true,
+        "id": "318e064ea0c9"
+      }
+    ]
+  }
+}

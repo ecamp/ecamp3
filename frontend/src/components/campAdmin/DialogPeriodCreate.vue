@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       entityProperties: ['camp', 'description', 'start', 'end'],
-      entityUri: '/periods',
+      entityUri: '',
     }
   },
   watch: {
@@ -49,6 +49,9 @@ export default {
         this.clearEntityData()
       }
     },
+  },
+  mounted() {
+    this.api.href(this.api.get(), 'periods').then((uri) => (this.entityUri = uri))
   },
   methods: {
     createPeriod() {

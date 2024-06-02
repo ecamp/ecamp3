@@ -62,8 +62,8 @@ class ReadPeriodTest extends ECampApiTestCase {
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
-                'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
-                'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
+                'days' => ['href' => '/periods/'.$period->getId().'/days'],
+                'scheduleEntries' => ['href' => '/periods/'.$period->getId().'/schedule_entries'],
                 'contentNodes' => ['href' => '/content_nodes?period=%2Fperiods%2F'.$period->getId()],
                 'dayResponsibles' => ['href' => '/day_responsibles?day.period=%2Fperiods%2F'.$period->getId()],
             ],
@@ -86,8 +86,8 @@ class ReadPeriodTest extends ECampApiTestCase {
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
-                'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
-                'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
+                'days' => ['href' => '/periods/'.$period->getId().'/days'],
+                'scheduleEntries' => ['href' => '/periods/'.$period->getId().'/schedule_entries'],
             ],
         ]);
     }
@@ -105,8 +105,8 @@ class ReadPeriodTest extends ECampApiTestCase {
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
-                'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
-                'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
+                'days' => ['href' => '/periods/'.$period->getId().'/days'],
+                'scheduleEntries' => ['href' => '/periods/'.$period->getId().'/schedule_entries'],
             ],
         ]);
     }

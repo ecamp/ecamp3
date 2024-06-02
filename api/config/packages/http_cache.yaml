@@ -1,0 +1,35 @@
+parameters:
+    app.httpCache.matchPath: '^/(content_types|camps/[0-9a-f]*/categories)'
+
+fos_http_cache:
+    debug:
+        enabled: true # this sets the X-Cache-Debug response header; can be removed later-on
+    tags:
+        enabled: true
+        response_header: xkey
+        max_header_value_length: 4096
+        separator: ' '
+    cache_manager:
+        custom_proxy_client: App\HttpCache\VarnishProxyClient
+    cache_control:
+        defaults:
+            overwrite: true
+        rules:
+            # matches /content_types endpoint
+            # matches /camps/133/categories endpoint
+            -
+                match:
+                    path: '%app.httpCache.matchPath%'
+                headers:
+                    overwrite: true
+                    cache_control: { public: true, max_age: 0, s_maxage: 3600 }
+                    vary: [Accept, Content-Type, Authorization, Origin]
+
+            # match everything else to set defaults
+            -
+                match:
+                    path: ^/
+                headers:
+                    overwrite: true
+                    cache_control: { no-cache: true, private: true }
+                    vary: [Accept, Content-Type, Authorization, Origin]

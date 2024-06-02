@@ -12,6 +12,8 @@ jobs:
     name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DB_CPU_LIMIT: 4
     strategy:
       fail-fast: false
       matrix:
@@ -20,7 +22,7 @@ jobs:
           - firefox
           - edge
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
 
       - run: cp .env.ci .env
 
@@ -49,9 +51,9 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
+      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host http-cache mail
 
-      - uses: cypress-io/github-action@v5
+      - uses: cypress-io/github-action@v6.7.0
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}

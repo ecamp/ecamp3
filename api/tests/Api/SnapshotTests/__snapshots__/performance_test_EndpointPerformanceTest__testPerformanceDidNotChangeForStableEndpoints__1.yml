@@ -5,15 +5,15 @@
 /activity_responsibles: 6
 /activity_responsibles/item: 8
 /camps: 39
-/camps/item: 38
+/camps/item: 32
 /camp_collaborations: 25
 /camp_collaborations/item: 25
 /categories: 11
 /categories/item: 9
 /content_types: 6
 /content_types/item: 6
-/days: 17
-/days/item: 11
+/days: 26
+/days/item: 12
 /day_responsibles: 6
 /day_responsibles/item: 9
 /material_items: 207
@@ -21,7 +21,7 @@
 /material_lists: 6
 /material_lists/item: 7
 /periods: 6
-/periods/item: 29
+/periods/item: 28
 /profiles: 6
 /profiles/item: 6
 /schedule_entries: 23

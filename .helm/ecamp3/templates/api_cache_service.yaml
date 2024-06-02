@@ -1,0 +1,26 @@
+{{- if .Values.apiCache.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "apiCache.name" . }}
+  labels:
+    {{- include "apiCache.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.apiCache.service.type }}
+  ports:
+    - port: {{ .Values.apiCache.service.ports.http }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: {{ .Values.apiCache.service.ports.purge }}
+      targetPort: purge
+      protocol: TCP
+      name: purge
+    - port: {{ .Values.apiCache.prometheus.port }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+  selector:
+    {{- include "apiCache.selectorLabels" . | nindent 4 }}
+{{- end }}

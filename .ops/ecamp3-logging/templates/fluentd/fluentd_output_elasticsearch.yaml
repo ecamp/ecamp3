@@ -1,0 +1,24 @@
+{{- if .Values.fluentd.output.elasticsearch.enable -}}
+apiVersion: fluentd.fluent.io/v1alpha1
+kind: ClusterOutput
+metadata:
+  name: fluentd-output-elasticsearch
+  labels:
+    output.fluentd.fluent.io/enabled: "true"
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+spec:
+  outputs:
+    - elasticsearch:
+        host: {{ .Values.fluentd.output.elasticsearch.host }}
+        port: {{ .Values.fluentd.output.elasticsearch.port }}
+        scheme: {{ .Values.fluentd.output.elasticsearch.scheme }}
+        logstashFormat: true
+        logstashPrefix: {{ .Values.fluentd.output.elasticsearch.logstashPrefix }}
+        sslVerify: {{ .Values.fluentd.output.elasticsearch.sslVerify }}
+      {{- if .Values.fluentd.output.elasticsearch.buffer }}
+      buffer:
+        type: {{ .Values.fluentd.output.elasticsearch.buffer.type }}
+        path: {{ .Values.fluentd.output.elasticsearch.buffer.path }}
+      {{- end }}
+{{- end }}

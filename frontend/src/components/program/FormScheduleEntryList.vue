@@ -68,13 +68,32 @@ export default {
     scheduleEntriesWithoutDeleted() {
       return this.scheduleEntries.filter((entry) => !entry.deleted)
     },
+    lastScheduleEntry() {
+      return this.localScheduleEntries[this.localScheduleEntries.length - 1]
+    },
+    lastScheduleEntryStart() {
+      return dayjs.utc(this.lastScheduleEntry.start)
+    },
+    lastScheduleEntryEnd() {
+      return dayjs.utc(this.lastScheduleEntry.end)
+    },
+    lastScheduleEntryDuration() {
+      return this.lastScheduleEntryEnd.diff(this.lastScheduleEntryStart)
+    },
   },
   methods: {
     addScheduleEntry() {
+      const proposedStart = this.lastScheduleEntryStart.add(1, 'day')
+      const proposedEnd = proposedStart.add(this.lastScheduleEntryDuration)
+      const periodEnd = dayjs.utc(this.period.end).add(24, 'hour')
+      const start = proposedEnd.isSameOrBefore(periodEnd)
+        ? proposedStart
+        : dayjs.utc(this.period.start).add(7, 'hour')
+      const end = start.add(this.lastScheduleEntryDuration)
       this.localScheduleEntries.push({
         period: () => this.period,
-        start: dayjs.utc(this.period.start).add(7, 'hour').format(),
-        end: dayjs.utc(this.period.start).add(8, 'hour').format(),
+        start: start.format(),
+        end: end.format(),
         key: uniqueId(),
         deleted: false,
       })

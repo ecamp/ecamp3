@@ -2329,13 +2329,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2525,13 +2522,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2710,13 +2704,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2902,13 +2893,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3501,13 +3489,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3706,13 +3691,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3900,13 +3882,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4101,13 +4080,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4449,13 +4425,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4668,13 +4641,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4876,13 +4846,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -5091,13 +5058,10 @@ components:
           type: array
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
-          example: '["/categories/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -10847,13 +10811,10 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: '["/day_responsibles/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /days/1a2b3c4d/day_responsibles
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -10917,7 +10878,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible-read_Day.DayResponsibles'
           readOnly: true
-          type: array
+          type: unknown_type
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -10975,13 +10936,10 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: '["/day_responsibles/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /days/1a2b3c4d/day_responsibles
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -11126,13 +11084,10 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: '["/day_responsibles/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /days/1a2b3c4d/day_responsibles
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -11205,7 +11160,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible.jsonhal-read_Day.DayResponsibles'
           readOnly: true
-          type: array
+          type: unknown_type
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -11272,13 +11227,10 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: '["/day_responsibles/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /days/1a2b3c4d/day_responsibles
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -11359,13 +11311,10 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: '["/day_responsibles/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /days/1a2b3c4d/day_responsibles
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -11452,7 +11401,7 @@ components:
           items:
             $ref: '#/components/schemas/DayResponsible.jsonld-read_Day.DayResponsibles'
           readOnly: true
-          type: array
+          type: unknown_type
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -11533,13 +11482,10 @@ components:
           type: integer
         dayResponsibles:
           description: 'The list of people who have a whole-day responsibility on this day.'
-          example: '["/day_responsibles/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /days/1a2b3c4d/day_responsibles
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         end:
           description: 'The end date and time of the day. This is a read-only convenience property.'
           example: '2022-01-03T00:00:00+00:00'
@@ -14204,13 +14150,10 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: '["/days?period=/periods/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/days
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -14246,13 +14189,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -14298,7 +14238,7 @@ components:
           items:
             $ref: '#/components/schemas/Day-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: array
+          type: unknown_type
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -14334,13 +14274,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -14390,7 +14327,7 @@ components:
           items:
             $ref: '#/components/schemas/Day-read_Period.Camp_Period.Days'
           readOnly: true
-          type: array
+          type: unknown_type
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -14426,13 +14363,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -14664,13 +14598,10 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: '["/days?period=/periods/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/days
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -14706,13 +14637,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -14767,7 +14695,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: array
+          type: unknown_type
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -14803,13 +14731,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -14868,7 +14793,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonhal-read_Period.Camp_Period.Days'
           readOnly: true
-          type: array
+          type: unknown_type
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -14904,13 +14829,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -15032,13 +14954,10 @@ components:
           type: array
         days:
           description: 'The days in this time period. These are generated automatically.'
-          example: '["/days?period=/periods/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/days
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -15074,13 +14993,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -15149,7 +15065,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
           readOnly: true
-          type: array
+          type: unknown_type
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -15185,13 +15101,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -15264,7 +15177,7 @@ components:
           items:
             $ref: '#/components/schemas/Day.jsonld-read_Period.Camp_Period.Days'
           readOnly: true
-          type: array
+          type: unknown_type
         description:
           description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
           example: Hauptlager
@@ -15300,13 +15213,10 @@ components:
           description: |-
             All time slots for programme that are part of this time period. A schedule entry
             may span over multiple days, but may not end later than the period.
-          example: '["/schedule_entries/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: /periods/1a2b3c4d/schedule_entries
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         start:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
@@ -22352,6 +22262,94 @@ paths:
       summary: 'Creates a Camp resource.'
       tags:
         - Camp
+  '/camps/{campId}/categories':
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of Category resources.'
+      operationId: BelongsToCamp_App\Entity\Category_get_collection
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Category identifier'
+          explode: false
+          in: path
+          name: campId
+          required: true
+          schema:
+            type: string
+          style: simple
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/Category.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Category-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/Category.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Category.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Category-read'
+                type: array
+          description: 'Category collection'
+      summary: 'Retrieves the collection of Category resources.'
+      tags:
+        - Category
+    parameters: []
   '/camps/{id}':
     delete:
       deprecated: false
@@ -25017,6 +25015,120 @@ paths:
       tags:
         - Day
     parameters: []
+  '/days/{dayId}/day_responsibles':
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of DayResponsible resources.'
+      operationId: api_days_dayIdday_responsibles_get_collection
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'DayResponsible identifier'
+          explode: false
+          in: path
+          name: dayId
+          required: true
+          schema:
+            type: string
+          style: simple
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: day
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: day.period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'day.period[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'day[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/DayResponsible.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DayResponsible-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/DayResponsible.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DayResponsible.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DayResponsible-read'
+                type: array
+          description: 'DayResponsible collection'
+      summary: 'Retrieves the collection of DayResponsible resources.'
+      tags:
+        - DayResponsible
+    parameters: []
   '/days/{id}':
     get:
       deprecated: false
@@ -26010,6 +26122,330 @@ paths:
       summary: 'Updates the Period resource.'
       tags:
         - Period
+  '/periods/{periodId}/days':
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of Day resources.'
+      operationId: api_periods_periodIddays_get_collection
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Day identifier'
+          explode: false
+          in: path
+          name: periodId
+          required: true
+          schema:
+            type: string
+          style: simple
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: period.camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'period.camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'period[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/Day.jsonhal-read_Day.DayResponsibles' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Day-read_Day.DayResponsibles'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/Day.jsonld-read_Day.DayResponsibles' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Day.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Day-read_Day.DayResponsibles'
+                type: array
+          description: 'Day collection'
+      summary: 'Retrieves the collection of Day resources.'
+      tags:
+        - Day
+    parameters: []
+  '/periods/{periodId}/schedule_entries':
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of ScheduleEntry resources.'
+      operationId: api_periods_periodIdschedule_entries_get_collection
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ScheduleEntry identifier'
+          explode: false
+          in: path
+          name: periodId
+          required: true
+          schema:
+            type: string
+          style: simple
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: activity
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'end[after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'end[before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'end[strictly_after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'end[strictly_before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'start[after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'start[before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'start[strictly_after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: 'start[strictly_before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'activity[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'period[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/ScheduleEntry.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ScheduleEntry-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/ScheduleEntry.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ScheduleEntry.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ScheduleEntry-read'
+                type: array
+          description: 'ScheduleEntry collection'
+      summary: 'Retrieves the collection of ScheduleEntry resources.'
+      tags:
+        - ScheduleEntry
+    parameters: []
   /personal_invitations:
     get:
       deprecated: false

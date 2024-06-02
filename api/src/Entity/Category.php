@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
@@ -54,6 +55,17 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
+        new GetCollection(
+            name: 'BelongsToCamp_App\Entity\Category_get_collection',
+            uriTemplate: self::CAMP_SUBRESOURCE_URI_TEMPLATE,
+            uriVariables: [
+                'campId' => new Link(
+                    fromClass: Camp::class,
+                    toProperty: 'camp',
+                    security: 'is_granted("CAMP_COLLABORATOR", camp) or is_granted("CAMP_IS_PROTOTYPE", camp)'
+                ),
+            ],
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -64,6 +76,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
     use HasRootContentNodeTrait;
+
+    public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/categories.{_format}';
 
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
