@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped>
-.ec-status-field::v-deep .v-input__append-inner {
+.ec-status-field::v-deep(.v-input__append-inner) {
   margin-top: 0;
   align-self: center;
   margin-right: -4px;
