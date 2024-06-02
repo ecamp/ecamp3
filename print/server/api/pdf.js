@@ -11,6 +11,7 @@ import puppeteer from 'puppeteer-core'
 import { performance } from 'perf_hooks'
 import { URL } from 'url'
 import { memoryUsage } from 'process'
+import * as Sentry from '@sentry/node'
 
 let lastTime = null
 function measurePerformance(msg) {
@@ -165,8 +166,8 @@ export default defineEventHandler(async (event) => {
  * @param {Error} error
  */
 function captureError(error) {
-  if (process.sentry) {
-    process.sentry.captureException(error)
+  if (Sentry.isInitialized()) {
+    Sentry.captureException(error)
   } else {
     console.error(error)
   }
