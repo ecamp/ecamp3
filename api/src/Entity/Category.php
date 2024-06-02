@@ -44,7 +44,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Delete(
             processor: CategoryRemoveProcessor::class,
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validate: true,
+            validationContext: ['groups' => ['delete']],
         ),
         new GetCollection(
             security: 'is_authenticated()'

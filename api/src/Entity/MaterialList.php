@@ -34,7 +34,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Delete(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validate: true,
+            validationContext: ['groups' => ['delete']]
         ),
         new GetCollection(
             security: 'is_authenticated()'
