@@ -38,8 +38,7 @@ jobs:
 
       - name: Load images
         run: |
-          docker load --input /tmp/ecamp3-dev-api-php.tar
-          docker load --input /tmp/ecamp3-dev-api-caddy.tar
+          docker load --input /tmp/ecamp3-dev-api.tar
           docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
@@ -51,7 +50,7 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host http-cache mail
+      - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
 
       - uses: cypress-io/github-action@v6.7.0
         with:

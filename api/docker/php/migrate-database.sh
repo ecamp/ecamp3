@@ -23,5 +23,5 @@ else
 fi
 
 if [ "$( find ./migrations -iname '*.php' -print -quit )" ]; then
-  php bin/console doctrine:migrations:migrate --no-interaction "$@"
+  php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing "$@"
 fi

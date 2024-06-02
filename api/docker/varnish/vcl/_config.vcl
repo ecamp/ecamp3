@@ -1,4 +1,4 @@
 backend default {
-  .host = "caddy";
+  .host = "api";
   .port = "3000";
 }

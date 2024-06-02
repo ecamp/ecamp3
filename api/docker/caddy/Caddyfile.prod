@@ -1,6 +1,12 @@
 {
-	# Debug
-	{$CADDY_DEBUG}
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+
+	# https://caddyserver.com/docs/caddyfile/directives#sorting-algorithm
+	order php_server before file_server
 
 	http_port 3001
 	https_port 3443
@@ -16,19 +22,38 @@
 	}
 }
 
-{$SERVER_NAME}
+{$CADDY_EXTRA_CONFIG}
 
-log
 
-route {
-	root * /srv/api/public
+{$SERVER_NAME:localhost} {
+	log
+
+	root * /app/public
+
+	encode {
+		zstd
+		br
+		gzip
+
+		match {
+			header Content-Type text/*
+			header Content-Type application/json*
+			header Content-Type application/javascript*
+			header Content-Type application/xhtml+xml*
+			header Content-Type application/atom+xml*
+			header Content-Type application/rss+xml*
+			header Content-Type image/svg+xml*
+			# Custom formats supported
+			header Content-Type application/ld+json*
+			header Content-Type application/hal+json*
+		}
+	}
 
 	# Add links to the API docs if not set explicitly (e.g. the PWA)
 	header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"`
 
-	php_fastcgi unix//var/run/php/php-fpm.sock {
-		env HTTP_X_FORWARDED_PREFIX {header.X-Forwarded-Prefix}
-	}
-	encode zstd gzip
-	file_server
+	# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
+	header ?Permissions-Policy "browsing-topics=()"
+
+	php_server
 }

@@ -63,7 +63,7 @@ export default defineNuxtConfig({
     basicAuthToken: null,
     browserWsEndpoint: 'ws://browserless:3000',
     printUrl: 'http://print:3003/print',
-    internalApiRootUrl: 'http://caddy:3000/api',
+    internalApiRootUrl: 'http://api:3000/api',
     cookiePrefix: 'localhost_',
     renderHtmlTimeoutMs: null,
     renderPdfTimeoutMs: null,
