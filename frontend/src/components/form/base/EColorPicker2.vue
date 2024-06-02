@@ -29,11 +29,13 @@ Displays a field as a color picker (can be used with v-model)
             :filled="filled"
             :hide-details="hideDetails"
             :input-class="inputClass"
+            :required="required"
             :path="path"
             :label="label"
             :validation-label-override="validationLabelOverride"
             :error-messages="errorMessages"
             v-bind="$attrs"
+            @blur="onBlur"
             @input="onInput($event)"
             @click.prevent="onInputClick"
           >
@@ -86,7 +88,7 @@ Displays a field as a color picker (can be used with v-model)
             @selectColor="onSwatchSelect($event)"
           />
           <ColorSwatch
-            v-if="!mandatory"
+            v-if="!required"
             color="#000000"
             class="reset"
             @selectColor="onSwatchSelect(null)"
@@ -111,7 +113,6 @@ export default {
   inheritAttrs: false,
   props: {
     value: { type: String, required: false, default: null },
-    mandatory: { type: Boolean, required: false, default: false },
   },
   emits: ['input'],
   data: () => ({
@@ -122,10 +123,10 @@ export default {
     swatches: [
       '#90B7E4',
       '#6EDBE9',
-      '#4dbb52',
+      '#4DBB52',
       '#FF9800',
       '#FD7A7A',
-      '#d584e9',
+      '#D584E9',
       '#BBBBBB',
 
       '#1964B1',
@@ -139,11 +140,17 @@ export default {
   }),
   computed: {
     contrast() {
-      // Vuetify returns invalid value #NANNAN in the initialization phase
-      return this.value && this.value !== '#NANNAN' ? contrastColor(this.value) : 'black'
+      try {
+        // Vuetify returns invalid value #NANNAN in the initialization phase
+        return this.value && this.value !== '#NANNAN'
+          ? contrastColor(this.value)
+          : 'black'
+      } catch (error) {
+        return 'black'
+      }
     },
     swatchesWithReset() {
-      return this.mandatory
+      return this.required
         ? this.swatches
         : this.swatches.slice(0, this.swatches.length - 1)
     },
@@ -152,7 +159,7 @@ export default {
     value: {
       handler(newValue) {
         this.pickerValue = newValue
-        this.pickerNull = newValue === null
+        this.pickerNull = [null, ''].includes(newValue)
       },
       immediate: true,
     },
@@ -191,6 +198,11 @@ export default {
       this.pickerValue = value
       this.$emit('input', this.pickerValue)
     },
+    onBlur(event) {
+      if (!this.pickerOpen) {
+        this.$emit('blur', event)
+      }
+    },
     onPickerInput(value) {
       this.pickerValue = value.toUpperCase()
       this.pickerNull = false
@@ -217,6 +229,7 @@ export default {
           this.$refs.inputSwatch.$el.focus()
           break
       }
+      this.$emit('blur')
     },
     escapeHandler(event) {
       switch (event.code) {

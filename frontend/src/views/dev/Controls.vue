@@ -86,9 +86,11 @@ import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
 import ApiSwitch from '@/components/form/api/ApiSwitch.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import ApiColorField from '@/components/form/api/ApiColorField.vue'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker.vue'
 import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
+import ApiColorPicker2 from '@/components/form/api/ApiColorPicker2.vue'
 import VueI18n from '@/plugins/i18n'
 import { VTextField, VTextarea, VCheckbox, VSwitch, VSelect } from 'vuetify/lib'
 
@@ -124,6 +126,8 @@ export default {
     EColorPicker2,
     EColorField,
     ApiColorPicker,
+    ApiColorPicker2,
+    ApiColorField,
   },
   data: () => ({
     placeholder: 'Dummy placeholder',
@@ -258,22 +262,24 @@ export default {
         },
         {
           id: 'color-field',
-          component: (type) => (type === 'e' ? `${type}-color-field` : ''),
+          component: (type) => (type !== 'v' ? `${type}-color-field` : ''),
           value: this.colorValue,
           props: {
             placeholder: this.placeholder,
             path: 'color',
             uri: this.categoryUri,
+            veeRules: 'required',
           },
         },
         {
           id: 'color-picker2',
-          component: (type) => (type === 'e' ? `${type}-color-picker2` : ''),
+          component: (type) => (type === 'v' ? '' : `${type}-color-picker2`),
           value: this.colorValue,
           props: {
             placeholder: this.placeholder,
             path: 'color',
             uri: this.categoryUri,
+            veeRules: 'required',
           },
         },
       ]

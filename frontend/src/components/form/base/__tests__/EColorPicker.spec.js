@@ -250,4 +250,19 @@ describe('An EColorPicker2', () => {
       screen.getByDisplayValue('#AABBCC')
     })
   })
+
+  it('accepts null', async () => {
+    render(EColorPicker2, {
+      props: { value: COLOR2, label: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR2)
+    expect(inputField).toHaveValue(COLOR2)
+    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
+    // click the button to open the picker
+    await user.click(button)
+
+    // when
+    await user.click(screen.getByTestId('colorpicker').querySelector('.reset'))
+    expect(inputField).toHaveValue('')
+  })
 })
