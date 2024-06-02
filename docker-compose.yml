@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:20.14.0
+    image: node:22.2.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -90,7 +90,7 @@ services:
       - VARNISH_HTTP_PORT=8080
 
   pdf:
-    image: node:20.14.0
+    image: node:22.2.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -109,7 +109,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.14.0
+    image: node:22.2.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -193,7 +193,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.14.0
+    image: node:22.2.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
