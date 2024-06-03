@@ -15,7 +15,6 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\equalTo;
 use function PHPUnit\Framework\greaterThanOrEqual;
-use function PHPUnit\Framework\lessThan;
 use function PHPUnit\Framework\lessThanOrEqual;
 use function PHPUnit\Framework\logicalAnd;
 
@@ -64,6 +63,10 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         $not200Responses = array_filter($responseCodes, fn ($value) => 200 != $value);
         assertThat($not200Responses, equalTo([]));
 
+        if (static::isPerformanceTestDebugOutput()) {
+            var_dump($queryExecutionTime);
+        }
+
         $endpointsWithTooLongExecutionTime = array_filter($queryExecutionTime, fn ($value) => MAX_EXECUTION_TIME_SECONDS < $value);
         assertThat($endpointsWithTooLongExecutionTime, equalTo([]));
 
@@ -82,9 +85,13 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         if ('test' !== $this->getEnvironment()) {
             self::markTestSkipped(__FUNCTION__.' is only run in test environment, not in '.$this->getEnvironment());
         }
-        list($statusCode, $queryCount) = $this->measurePerformanceFor($collectionEndpoint);
+        list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor($collectionEndpoint);
 
         assertThat($statusCode, equalTo(200));
+
+        if (static::isPerformanceTestDebugOutput()) {
+            echo "{$collectionEndpoint}: {$executionTimeSeconds}\n";
+        }
 
         $queryCountRanges = self::getContentNodeEndpointQueryCountRanges()[$collectionEndpoint];
         assertThat(
@@ -115,6 +122,10 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         list($statusCode, $queryCount, $executionTimeSeconds) = $this->measurePerformanceFor("{$collectionEndpoint}/{$fixtureFor->getId()}");
 
         assertThat($statusCode, equalTo(200));
+
+        if (static::isPerformanceTestDebugOutput()) {
+            echo "{$collectionEndpoint}: {$executionTimeSeconds}\n";
+        }
 
         assertThat($executionTimeSeconds, lessThan(MAX_EXECUTION_TIME_SECONDS));
 
@@ -248,5 +259,9 @@ class EndpointPerformanceTest extends ECampApiTestCase {
 
     private function getEnvironment(): string {
         return static::$kernel->getContainer()->getParameter('kernel.environment');
+    }
+
+    private static function isPerformanceTestDebugOutput(): bool {
+        return 'true' === getenv('PERFORMANCE_TEST_DEBUG_OUTPUT');
     }
 }

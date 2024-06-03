@@ -64,6 +64,7 @@ services:
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
       ADDITIONAL_TRUSTED_HOSTS: '.*'
+      PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
     healthcheck:
       interval: 10s
       timeout: 3s
