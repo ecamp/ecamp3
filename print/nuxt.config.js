@@ -101,7 +101,7 @@ export default defineNuxtConfig({
     },
     plugins: [
       svgLoader({
-        defaultImport: 'raw',
+        defaultImport: 'component',
       }),
     ],
   },
