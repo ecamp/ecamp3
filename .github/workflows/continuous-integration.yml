@@ -233,6 +233,8 @@ jobs:
 
       - run: composer test
         working-directory: api
+        env:
+          PERFORMANCE_TEST_DEBUG_OUTPUT: ${{ vars.PERFORMANCE_TEST_DEBUG_OUTPUT }}
 
       - name: send coveralls report
         run: |

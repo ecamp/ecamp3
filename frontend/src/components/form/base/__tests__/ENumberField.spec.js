@@ -5,6 +5,7 @@ import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import ENumberField from '../ENumberField.vue'
+import { screen } from '@testing-library/vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -20,7 +21,13 @@ describe('An ENumberField', () => {
           data: null,
         }
       },
-      template: `<div data-app><e-number-field label="test" v-model="data"/></div>`,
+      template: `
+        <div data-app>
+          <e-number-field label="test" v-model="data">
+            ${options?.children}
+          </e-number-field>
+        </div>
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -109,5 +116,17 @@ describe('An ENumberField', () => {
     await input.trigger('input')
 
     expect(wrapper.vm.data).toBe(expected)
+  })
+
+  test('allows to use the append slot', async () => {
+    mount({
+      children: `
+        <template #append>
+          <span>append</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('append')).toBeVisible()
   })
 })

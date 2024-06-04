@@ -494,7 +494,7 @@ export default {
   }
 }
 
-:deep .e-avatarrow {
+:deep(.e-avatarrow) {
   position: absolute;
   bottom: 2px;
   right: 2px;
