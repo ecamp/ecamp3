@@ -29,3 +29,18 @@ kubernetes-dashboard-proxy:
     clientSecret: ""
     # use the same cookieSecret as above
     cookieSecret: ""
+logging-proxy:
+  config:
+    # OAuth client ID
+    clientID:
+    # OAuth client secret
+    clientSecret:
+    # use the same cookieSecret as above
+    cookieSecret:
+  extraArgs:
+    # dev, stage or prod kubernetes-dashboard url
+    whitelist-domain: dev-logging.ecamp3.ch
+  ingress:
+    hosts:
+      # dev, stage or prod kubernetes-dashboard url
+      - dev-logging.ecamp3.ch

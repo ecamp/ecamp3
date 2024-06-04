@@ -35,3 +35,7 @@ dependencies:
     alias: kubernetes-dashboard-proxy
     version: 7.7.1
     repository: https://oauth2-proxy.github.io/manifests
+  - name: oauth2-proxy
+    alias: logging-proxy
+    version: 7.7.1
+    repository: https://oauth2-proxy.github.io/manifests
