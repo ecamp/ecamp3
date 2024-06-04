@@ -7,3 +7,4 @@ export { default as ignoreNativeBindingWarnMessages } from './ignoreNativeBindin
 export { default as i18n } from './i18n'
 export { default as veeValidate } from './veeValidate'
 export { default as dayjs } from './dayjs'
+export { default as color } from './color'

@@ -5,9 +5,11 @@ import user from '@testing-library/user-event'
 import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 import { extend } from 'vee-validate'
 import { regex } from 'vee-validate/dist/rules'
+import { ColorSpace, sRGB } from 'colorjs.io/fn'
 
 extend('regex', regex)
 
+ColorSpace.register(sRGB)
 describe('An ApiColorField', () => {
   let apiMock
 

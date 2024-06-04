@@ -35,7 +35,7 @@
 <script>
 import { reactive } from 'vue'
 import { formComponentMixin } from '@/mixins/formComponentMixin.js'
-import { parse, serialize, ColorSpace, sRGB } from 'colorjs.io/fn'
+import { parse, serialize } from 'colorjs.io/fn'
 import ColorSwatch from '@/components/form/base/ColorPicker/ColorSwatch.vue'
 
 export default {
@@ -46,11 +46,6 @@ export default {
     value: { type: String, required: false, default: null },
   },
   emits: ['input'],
-  setup() {
-    if (!('srgb' in ColorSpace.registry)) {
-      ColorSpace.register(sRGB)
-    }
-  },
   methods: {
     format(value) {
       if (typeof value === 'string') {

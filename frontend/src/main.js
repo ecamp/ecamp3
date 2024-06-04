@@ -10,6 +10,7 @@ import {
   ignoreNativeBindingWarnMessages,
   i18n,
   dayjs,
+  color,
   veeValidate,
 } from './plugins'
 import { store } from './plugins/store'
@@ -42,6 +43,7 @@ Vue.use(ignoreNativeBindingWarnMessages)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
 Vue.use(dayjs)
+Vue.use(color)
 Vue.use(veeValidate)
 Vue.use(Toast, {
   maxToasts: 2,

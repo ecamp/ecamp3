@@ -5,8 +5,11 @@ import EColorPicker from '../EColorPicker.vue'
 
 import { regex } from 'vee-validate/dist/rules'
 import { extend } from 'vee-validate'
+import { ColorSpace, sRGB } from 'colorjs.io/fn'
+
 extend('regex', regex)
 
+ColorSpace.register(sRGB)
 describe('An EColorPicker', () => {
   const COLOR1 = '#FF0000'
   const COLOR2 = '#FF00FF'
