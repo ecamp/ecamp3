@@ -68,3 +68,5 @@ jobs:
 
       - run: composer performance_test
         working-directory: api
+        env:
+          PERFORMANCE_TEST_DEBUG_OUTPUT: ${{ vars.PERFORMANCE_TEST_DEBUG_OUTPUT }}
