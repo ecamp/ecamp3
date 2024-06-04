@@ -267,9 +267,6 @@ export default {
     },
   },
   mounted() {
-    document.removeEventListener('keydown', this.specialKeyListeners)
-    document.removeEventListener('keyup', this.specialKeyListeners)
-    document.removeEventListener('contextmenu', this.specialMenuListeners)
     document.addEventListener('keydown', this.specialKeyListeners, { passive: true })
     document.addEventListener('keyup', this.specialKeyListeners, { passive: true })
     document.addEventListener('contextmenu', this.specialMenuListeners, { passive: true })
