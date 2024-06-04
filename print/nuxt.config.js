@@ -99,7 +99,11 @@ export default defineNuxtConfig({
         'dayjs/plugin/utc',
       ],
     },
-    plugins: [svgLoader()],
+    plugins: [
+      svgLoader({
+        defaultImport: 'raw',
+      }),
+    ],
   },
 
   vue: {
