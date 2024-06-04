@@ -47,7 +47,9 @@ export default {
   },
   emits: ['input'],
   setup() {
-    ColorSpace.register(sRGB)
+    if (!('srgb' in ColorSpace.registry)) {
+      ColorSpace.register(sRGB)
+    }
   },
   methods: {
     format(value) {
@@ -56,7 +58,11 @@ export default {
       }
       return !value
         ? ''
-        : serialize(value, { format: 'hex', collapse: false }).toUpperCase()
+        : serialize(value, {
+            space: 'srgb',
+            format: 'hex',
+            collapse: false,
+          }).toUpperCase()
     },
     /**
      * @param {string} value
@@ -66,7 +72,7 @@ export default {
         return null
       }
       try {
-        const color = parse(value, { space: 'srgb' })
+        const color = parse(value)
         color.alpha = 1
         return reactive(color)
       } catch (e) {
