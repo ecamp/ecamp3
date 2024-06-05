@@ -5,6 +5,7 @@ namespace App\Doctrine\Filter;
 use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
 use ApiPlatform\Doctrine\Common\Filter\DateFilterTrait;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
@@ -15,6 +16,7 @@ use Doctrine\ORM\QueryBuilder;
  * Filters a computed property on the collection by date intervals.
  */
 class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInterface {
+    use PropertyHelperTrait;
     use DateFilterTrait;
 
     /**
