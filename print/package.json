@@ -50,7 +50,7 @@
     "eslint-plugin-vue": "9.26.0",
     "eslint-plugin-vue-scoped-css": "2.8.0",
     "nuxt": "3.11.2",
-    "prettier": "3.3.0",
+    "prettier": "3.3.1",
     "sass": "1.69.4",
     "vitest": "1.6.0",
     "vue": "3.4.27"
