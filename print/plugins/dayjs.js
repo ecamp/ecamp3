@@ -1,4 +1,4 @@
-import dayjs from '@/../common/helpers/dayjs.js'
+import dayjs from '@/common/helpers/dayjs.js'
 
 // avoid tree-shaking of dayjs/locales
 import('dayjs/locale/en-gb')

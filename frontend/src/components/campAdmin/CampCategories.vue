@@ -1,23 +1,23 @@
 <template>
-  <content-group>
-    <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.campAdmin.campCategories.title') }}
-        <DialogCategoryCreate v-if="!disabled" :camp="camp">
-          <template #activator="{ on }">
-            <ButtonAdd
-              color="secondary"
-              text
-              :hide-label="$vuetify.breakpoint.xsOnly"
-              class="my-n2"
-              v-on="on"
-            >
-              {{ $tc('components.campAdmin.campCategories.create') }}
-            </ButtonAdd>
-          </template>
-        </DialogCategoryCreate>
-      </div>
-    </slot>
+  <content-group
+    :title="$tc('components.campAdmin.campCategories.title')"
+    icon="mdi-shape"
+  >
+    <template #title-actions>
+      <DialogCategoryCreate v-if="!disabled" :camp="camp">
+        <template #activator="{ on }">
+          <ButtonAdd
+            color="secondary"
+            text
+            :hide-label="$vuetify.breakpoint.xsOnly"
+            class="my-n2"
+            v-on="on"
+          >
+            {{ $tc('components.campAdmin.campCategories.create') }}
+          </ButtonAdd>
+        </template>
+      </DialogCategoryCreate>
+    </template>
     <v-skeleton-loader
       v-if="camp.categories()._meta.loading"
       type="list-item@3"

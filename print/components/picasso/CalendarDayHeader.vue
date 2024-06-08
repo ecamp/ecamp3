@@ -15,7 +15,7 @@
 import {
   dayResponsiblesCommaSeparated,
   filterDayResponsiblesByDay,
-} from '@/../common/helpers/dayResponsibles.js'
+} from '@/common/helpers/dayResponsibles.js'
 
 export default {
   props: {

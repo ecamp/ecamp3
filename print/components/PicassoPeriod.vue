@@ -71,11 +71,7 @@ const { error } = await useAsyncData(
 </script>
 
 <script>
-import {
-  splitDaysIntoPages,
-  calculateBedtime,
-  times,
-} from '@/../common/helpers/picasso.js'
+import { splitDaysIntoPages, calculateBedtime, times } from '@/common/helpers/picasso.js'
 import sortBy from 'lodash/sortBy.js'
 
 export default {
