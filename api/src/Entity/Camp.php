@@ -137,6 +137,15 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $materialLists;
 
     /**
+     * List of all Checklists of this Camp.
+     * Each Checklist is a List of ChecklistItems.
+     */
+    #[ApiProperty(writable: false, example: '["/checklists/1a2b3c4d"]')]
+    #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: Checklist::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
+    public Collection $checklists;
+
+    /**
      * List all CampRootContentNodes of this Camp;
      * Calculated by the View view_camp_root_content_node.
      */
@@ -378,6 +387,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         $this->progressLabels = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+        $this->checklists = new ArrayCollection();
         $this->campRootContentNodes = new ArrayCollection();
     }
 
@@ -592,6 +602,32 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     }
 
     /**
+     * @return Checklist[]
+     */
+    public function getChecklists(): array {
+        return $this->checklists->getValues();
+    }
+
+    public function addChecklist(Checklist $checklist): self {
+        if (!$this->checklists->contains($checklist)) {
+            $this->checklists[] = $checklist;
+            $checklist->camp = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeChecklist(Checklist $checklist): self {
+        if ($this->checklists->removeElement($checklist)) {
+            if ($checklist->camp === $this) {
+                $checklist->camp = null;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @param Camp      $prototype
      * @param EntityMap $entityMap
      */
@@ -606,6 +642,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
             $this->addMaterialList($materialList);
 
             $materialList->copyFromPrototype($materialListPrototype, $entityMap);
+        }
+
+        // copy Checklists
+        foreach ($prototype->getChecklists() as $checklistPrototype) {
+            $checklist = new Checklist();
+            $this->addChecklist($checklist);
+
+            $checklist->copyFromPrototype($checklistPrototype, $entityMap);
         }
 
         // copy Categories
