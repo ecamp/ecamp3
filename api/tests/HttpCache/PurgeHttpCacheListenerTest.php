@@ -287,6 +287,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
         $resourceClassResolverProphecy = $this->prophesize(ResourceClassResolverInterface::class);
         $resourceClassResolverProphecy->getResourceClass(Argument::type(ContainNonResource::class))->willReturn(ContainNonResource::class)->shouldBeCalled();
+        $resourceClassResolverProphecy->isResourceClass(ContainNonResource::class)->willReturn(true)->shouldBeCalled();
         $resourceClassResolverProphecy->isResourceClass(NotAResource::class)->willReturn(false)->shouldBeCalled();
 
         $uowProphecy = $this->prophesize(UnitOfWork::class);
