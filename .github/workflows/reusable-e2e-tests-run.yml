@@ -38,6 +38,9 @@ jobs:
           name: e2e-tests-images
           path: /tmp
 
+      - name: Set up Docker
+        uses: crazy-max/ghaction-setup-docker@v3
+
       - name: Load images
         run: |
           docker load --input /tmp/ecamp3-dev-api.tar
