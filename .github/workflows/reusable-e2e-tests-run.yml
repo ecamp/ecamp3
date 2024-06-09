@@ -40,6 +40,8 @@ jobs:
 
       - name: Set up Docker
         uses: crazy-max/ghaction-setup-docker@v3
+        with:
+          version: 'v24.0.9'
 
       - name: Load images
         run: |
