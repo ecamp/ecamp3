@@ -140,7 +140,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ec-responsivelayout--layout-mode {
   border: 1px solid black;
   border-radius: 10px;
