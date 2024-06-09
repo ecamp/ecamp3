@@ -49,7 +49,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .draggable {
   cursor: move;
   transition: background-color 0.3s 25ms ease;
