@@ -10,7 +10,10 @@ on:
 jobs:
   e2e-tests-run:
     name: 'Tests: End-to-end'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    container:
+      image: cypress/browsers:node-20.13.1-chrome-125.0.6422.60-1-ff-126.0-edge-125.0.2535.51-1
+      options: --user 1001
     timeout-minutes: 20
     env:
       DB_CPU_LIMIT: 4
@@ -52,7 +55,8 @@ jobs:
       # start necessary containers
       - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
 
-      - uses: cypress-io/github-action@v6.7.0
+      - name: Cypress run
+        uses: cypress-io/github-action@v6.7.0
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}
