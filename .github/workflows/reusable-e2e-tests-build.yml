@@ -6,7 +6,10 @@ on:
 jobs:
   e2e-tests-build:
     name: 'Tests: End-to-end (build job)'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    container:
+      image: cypress/browsers:node-20.13.1-chrome-125.0.6422.60-1-ff-126.0-edge-125.0.2535.51-1
+      options: --user 1001
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
