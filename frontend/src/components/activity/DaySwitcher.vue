@@ -115,15 +115,21 @@ export default {
 }
 </script>
 
+<!-- these styles should apply to inner elements -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style>
 .basis-num {
   flex-basis: 2.5ch;
 }
 
+/* .e-day-switcher__menu is in the <e-select> tag */
+/*noinspection CssUnusedSymbol*/
 .e-day-switcher__menu {
   transform: translateX(-12px);
 }
 
+/* ..v-input__append-inner is in an inner tag */
+/*noinspection CssUnusedSymbol*/
 .e-day-switcher__select .v-input__append-inner {
   align-self: center;
   margin-top: 0;
