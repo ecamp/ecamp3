@@ -32,7 +32,7 @@ jobs:
       name: ${{ inputs.env }}
     steps:
       - name: Get link to currently running job logs
-        uses: Tiryoh/gha-jobid-action@v1.2.0
+        uses: Tiryoh/gha-jobid-action@v1.3.0
         id: job-url
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
