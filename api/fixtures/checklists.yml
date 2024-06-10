@@ -1,0 +1,16 @@
+App\Entity\Checklist:
+  checklist1:
+    camp: '@camp1'
+    name: 'J+S Ausbildungsziele'
+  checklist2WithNoItems:
+    camp: '@camp1'
+    name: 'PBS Ausbildungsziele'
+  checklist1camp2:
+    camp: '@camp2'
+    name: 'J+S Ausbildungsziele'
+  checklist1campUnrelated:
+    camp: '@campUnrelated'
+    name: 'J+S Ausbildungsziele'
+  checklist1campPrototype:
+    camp: '@campPrototype'
+    name: 'J+S Ausbildungsziele'
