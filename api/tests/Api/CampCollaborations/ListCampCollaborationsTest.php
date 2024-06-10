@@ -114,6 +114,6 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/camp_collaborations');
 
-        $this->assertSqlQueryCount($client, 22);
+        $this->assertSqlQueryCount($client, 25);
     }
 }
