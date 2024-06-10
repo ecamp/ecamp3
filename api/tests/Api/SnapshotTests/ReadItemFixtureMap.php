@@ -11,6 +11,7 @@ class ReadItemFixtureMap {
             '/camp_collaborations' => $fixtures['campCollaboration1manager'],
             '/camps' => $fixtures['camp1'],
             '/categories' => $fixtures['category1'],
+            '/checklists' => $fixtures['checklist1'],
             '/content_node/column_layouts' => $fixtures['columnLayout2'],
             '/content_node/responsive_layouts' => $fixtures['responsiveLayout1'],
             '/content_types' => $fixtures['contentTypeSafetyConsiderations'],

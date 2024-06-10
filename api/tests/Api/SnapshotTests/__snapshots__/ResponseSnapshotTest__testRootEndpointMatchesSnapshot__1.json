@@ -24,6 +24,10 @@
             "href": "\/categories{\/id}{?camp,camp[]}",
             "templated": true
         },
+        "checklists": {
+            "href": "\/checklists{\/id}{?camp,camp[]}",
+            "templated": true
+        },
         "columnLayouts": {
             "href": "\/content_node\/column_layouts{\/id}{?contentType,contentType[],root,root[],period}",
             "templated": true
