@@ -3,7 +3,7 @@
 # Adapted from https://github.com/api-platform/api-platform/blob/fa1c5808305d7cadbf7b8392e0fddb6e80fb2092/api/Dockerfile
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.7
+ARG PHP_VERSION=8.3.8
 
 # Versions
 FROM dunglas/frankenphp:1.1.4-php${PHP_VERSION} AS frankenphp_upstream
