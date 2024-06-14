@@ -30,6 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            api
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -60,6 +63,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            frontend
+            common
 
       - uses: actions/setup-node@v4
         with:
@@ -89,6 +96,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            pdf
+            common
 
       - uses: actions/setup-node@v4
         with:
@@ -118,6 +129,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            print
+            common
 
       - uses: actions/setup-node@v4
         with:
@@ -147,6 +162,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            e2e
 
       - uses: actions/setup-node@v4
         with:
@@ -194,6 +212,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            api
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -252,6 +273,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            frontend
+            pdf
+            common
 
       - uses: actions/setup-node@v4
         with:
@@ -282,7 +308,7 @@ jobs:
       - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
-          
+
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@v2
         with:
@@ -295,6 +321,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            print
+            common
 
       - uses: actions/setup-node@v4
         with:
@@ -334,6 +364,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+        with:
+          sparse-checkout: |
+            pdf
+            common
 
       - uses: actions/setup-node@v4
         with:
@@ -391,7 +425,7 @@ jobs:
           parallel-finished: true
           carryforward: "api,frontend,print,pdf"
           fail-on-error: false
-          
+
   workflow-success:
     name: workflow-success
     needs:
