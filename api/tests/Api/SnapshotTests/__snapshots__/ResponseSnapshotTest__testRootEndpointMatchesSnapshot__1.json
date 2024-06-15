@@ -24,6 +24,10 @@
             "href": "\/categories{\/id}{?camp,camp[]}",
             "templated": true
         },
+        "checklistItems": {
+            "href": "\/checklist_items{\/id}{?checklist,checklist[]}",
+            "templated": true
+        },
         "checklists": {
             "href": "\/checklists{\/id}{?camp,camp[]}",
             "templated": true
