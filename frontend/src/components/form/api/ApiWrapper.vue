@@ -5,7 +5,7 @@ Wrapper component for form components to save data back to API
 <template>
   <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>
     <v-form
-      :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
+      :class="[{ 'api-wrapper--inline': true }]"
       class="e-form-container"
       @submit.prevent="onEnter"
     >
@@ -280,6 +280,8 @@ export default {
 }
 </style>
 
+<!-- This does not work with scoped css -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style lang="scss">
 .api-wrapper--inline .v-text-field {
   border-top-right-radius: 0;
