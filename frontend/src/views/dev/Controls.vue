@@ -197,7 +197,7 @@ export default {
           component: (type) => `${type}-select`,
           value: this.selectValue,
           props: {
-            fieldname: 'language',
+            path: 'language',
             placeholder: this.placeholder,
             items: this.availableLocales,
             uri: this.profileUri,
