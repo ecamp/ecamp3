@@ -145,6 +145,7 @@
           ]
         }
       ],
+      "vue-scoped-css/enforce-style-type": "error",
       "vue/multi-word-component-names": "off",
       "vue/no-deprecated-destroyed-lifecycle": "off",
       "vue/no-deprecated-dollar-listeners-api": "off",
