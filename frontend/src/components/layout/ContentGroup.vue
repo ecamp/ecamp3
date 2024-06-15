@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .ec-content-group__title {
   border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
   display: flex;
