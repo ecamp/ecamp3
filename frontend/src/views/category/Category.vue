@@ -213,7 +213,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .ec-category {
   transition: max-width 0.7s ease;
 }
