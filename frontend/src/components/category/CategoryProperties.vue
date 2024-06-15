@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style scoped>
+/* makes the input fields smaller */
+/* eslint-disable-next-line vue-scoped-css/no-unused-selector */
 div {
   max-width: 600px;
 }
