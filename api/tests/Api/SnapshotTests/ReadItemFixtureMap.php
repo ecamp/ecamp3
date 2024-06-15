@@ -12,6 +12,7 @@ class ReadItemFixtureMap {
             '/camps' => $fixtures['camp1'],
             '/categories' => $fixtures['category1'],
             '/checklists' => $fixtures['checklist1'],
+            '/checklist_items' => $fixtures['checklistItem1_1_1'],
             '/content_node/column_layouts' => $fixtures['columnLayout2'],
             '/content_node/responsive_layouts' => $fixtures['responsiveLayout1'],
             '/content_types' => $fixtures['contentTypeSafetyConcept'],

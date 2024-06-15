@@ -16,6 +16,8 @@ use App\InputFilter;
 use App\Repository\ChecklistRepository;
 use App\State\ChecklistCreateProcessor;
 use App\Util\EntityMap;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -83,6 +85,14 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     public ?Checklist $copyChecklistSource;
 
     /**
+     * All ChecklistItems that belong to this Checklist.
+     */
+    #[ApiProperty(writable: false, example: '["/checklist_items/1a2b3c4d"]')]
+    #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: ChecklistItem::class, mappedBy: 'checklist', cascade: ['persist'])]
+    public Collection $checklistItems;
+
+    /**
      * The human readable name of the checklist.
      */
     #[ApiProperty(example: 'PBS Ausbildungsziele')]
@@ -96,10 +106,38 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
 
     public function __construct() {
         parent::__construct();
+        $this->checklistItems = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+
+    /**
+     * @return ChecklistItem[]
+     */
+    public function getChecklistItems(): array {
+        return $this->checklistItems->getValues();
+    }
+
+    public function addChecklistItem(ChecklistItem $checklistItem): self {
+        if (!$this->checklistItems->contains($checklistItem)) {
+            $this->checklistItems[] = $checklistItem;
+            $checklistItem->checklist = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeChecklistItem(ChecklistItem $checklistItem): self {
+        if ($this->checklistItems->removeElement($checklistItem)) {
+            // set the owning side to null (unless already changed)
+            if ($checklistItem->checklist === $this) {
+                $checklistItem->checklist = null;
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -109,6 +147,19 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 
+        // copy Checklist base properties
         $this->name = $prototype->name;
+
+        // deep copy ChecklistItems
+        foreach ($prototype->getChecklistItems() as $checklistItemPrototype) {
+            // deep copy root ChecklistItems
+            // skip non-root ChecklistItems as these are copyed by there parent
+            if (null == $checklistItemPrototype->parent) {
+                $checklistItem = new ChecklistItem();
+                $this->addChecklistItem($checklistItem);
+
+                $checklistItem->copyFromPrototype($checklistItemPrototype, $entityMap);
+            }
+        }
     }
 }
