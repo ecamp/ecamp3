@@ -133,7 +133,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @media #{map-get($display-breakpoints, 'xs-only')} {
   .ec-dialog-form {
     .v-form,
