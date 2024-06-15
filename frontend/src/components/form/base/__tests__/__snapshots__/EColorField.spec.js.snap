@@ -1,0 +1,58 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`An EColorField > looks like a textfield > empty 1`] = `
+<div data-app>
+     <div class="e-form-container"
+          label="test">
+          <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+               <div class="v-input__prepend-outer">
+                    <div class="e-colorswatch mt-n1 v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default e-colorswatch--null"
+                         style="height: 30px; width: 30px; --ee5e0d96-contrast: black;"
+                         tag="div">
+                         <span class="v-btn__content"></span>
+                    </div>
+               </div>
+               <div class="v-input__control">
+                    <div class="v-input__slot">
+                         <div class="v-text-field__slot">
+                              <label class="v-label theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
+                              <input id
+                                     type="text">
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+`;
+
+exports[`An EColorField > looks like a textfield > with text 1`] = `
+<div data-app>
+     <div class="e-form-container"
+          label="test">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+               <div class="v-input__prepend-outer">
+                    <div aria-label="#FF0000"
+                         class="e-colorswatch mt-n1 v-btn v-btn--fab v-btn--has-bg v-btn--round theme--light elevation-0 v-size--default"
+                         style="height: 30px; width: 30px; --ee5e0d96-contrast: #fff; background-color: rgb(255, 0, 0); border-color: #ff0000;"
+                         tag="div">
+                         <span class="v-btn__content"></span>
+                    </div>
+               </div>
+               <div class="v-input__control">
+                    <div class="v-input__slot">
+                         <div class="v-text-field__slot">
+                              <label class="v-label v-label--active theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
+                              <input id
+                                     type="text">
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+`;

@@ -1,5 +1,5 @@
-import ApiColorPicker from '../ApiColorPicker.vue'
-import { screen, waitFor } from '@testing-library/vue'
+import ApiColorField from '../ApiColorField.vue'
+import { fireEvent, screen, waitFor } from '@testing-library/vue'
 import { render } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
 import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
@@ -10,14 +10,13 @@ import { ColorSpace, sRGB } from 'colorjs.io/fn'
 extend('regex', regex)
 
 ColorSpace.register(sRGB)
-describe('An ApiColorPicker', () => {
+describe('An ApiColorField', () => {
   let apiMock
 
   const FIELD_PATH = 'test-field/123'
   const FIELD_LABEL = 'Test field'
   const COLOR_1 = '#FF0000'
   const COLOR_2 = '#FAFFAF'
-  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Farbe für Test field zu wählen'
 
   beforeEach(() => {
     apiMock = ApiMock.create()
@@ -31,7 +30,7 @@ describe('An ApiColorPicker', () => {
     // given
     apiMock.get().thenReturn(ApiMock.success(COLOR_1).forPath(FIELD_PATH))
     apiMock.patch().thenReturn(ApiMock.success(COLOR_2))
-    const { container } = render(ApiColorPicker, {
+    render(ApiColorField, {
       props: {
         autoSave: false,
         path: FIELD_PATH,
@@ -45,11 +44,10 @@ describe('An ApiColorPicker', () => {
     })
 
     // when
+    const inputField = await screen.findByLabelText(FIELD_LABEL)
+    inputField.value = COLOR_2
+    await fireEvent.input(inputField)
     // click the button to open the picker
-    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
-    // click inside the color picker canvas to select a different color
-    const canvas = container.querySelector('canvas')
-    await user.click(canvas, { clientX: 10, clientY: 10 })
     // click the save button
     await waitFor(async () => {
       await user.click(screen.getByLabelText('Speichern'))
@@ -66,7 +64,7 @@ describe('An ApiColorPicker', () => {
   test('updates state if value in store is refreshed and has new value', async () => {
     // given
     apiMock.get().thenReturn(ApiMock.networkError().forPath(FIELD_PATH))
-    render(ApiColorPicker, {
+    render(ApiColorField, {
       props: {
         autoSave: false,
         path: FIELD_PATH,

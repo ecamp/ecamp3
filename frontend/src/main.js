@@ -10,6 +10,7 @@ import {
   ignoreNativeBindingWarnMessages,
   i18n,
   dayjs,
+  color,
   veeValidate,
 } from './plugins'
 import { store } from './plugins/store'
@@ -19,7 +20,7 @@ import * as Sentry from '@sentry/vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 
-import { Resize } from 'vuetify/lib/directives'
+import { ClickOutside, Resize } from 'vuetify/lib/directives'
 import ResizeObserver from 'v-resize-observer'
 
 const env = getEnv()
@@ -42,12 +43,14 @@ Vue.use(ignoreNativeBindingWarnMessages)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
 Vue.use(dayjs)
+Vue.use(color)
 Vue.use(veeValidate)
 Vue.use(Toast, {
   maxToasts: 2,
 })
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
+Vue.directive('click-outside', ClickOutside)
 Vue.directive('resize', Resize)
 Vue.directive('resizeobserver', ResizeObserver.directive)
 
