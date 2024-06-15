@@ -12,6 +12,13 @@ spec:
     - customPlugin:
         config: |
           <filter **>
+            @type record_transformer
+            enable_ruby
+            <record>
+              log ${record['log'].gsub(/^.*stdout F {/, "{")}
+            </record>
+          </filter>
+          <filter **>
             @type parser
             key_name log
             reserve_data true
