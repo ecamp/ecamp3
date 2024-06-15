@@ -69,9 +69,7 @@ export default {
     z-index: 5;
   }
 }
-</style>
 
-<style>
 .ec-content-card__toolbar--border {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
