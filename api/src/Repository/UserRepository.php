@@ -32,8 +32,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         $user->password = $newHashedPassword;
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -41,7 +41,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @throws NoResultException
      */
     public function loadUserByIdentifier(string $identifier): ?User {
-        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder->select('user');
         $queryBuilder->from(User::class, 'user');
         $queryBuilder->join('user.profile', 'profile');

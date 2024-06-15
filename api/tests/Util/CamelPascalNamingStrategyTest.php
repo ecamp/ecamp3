@@ -41,7 +41,7 @@ class CamelPascalNamingStrategyTest extends TestCase {
         $strategy = new CamelPascalNamingStrategy();
 
         // when
-        $result = $strategy->propertyToColumnName($input);
+        $result = $strategy->propertyToColumnName($input, '');
 
         // then
         $this->assertEquals($output, $result);
