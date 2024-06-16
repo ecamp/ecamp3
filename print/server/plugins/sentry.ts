@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/node'
-import { CaptureConsole } from '@sentry/integrations'
 
 export default defineNitroPlugin((nitroApp) => {
   const { sentry } = useRuntimeConfig()
@@ -10,13 +9,16 @@ export default defineNitroPlugin((nitroApp) => {
     return
   }
 
+  // Next line can be disabled, once https://github.com/getsentry/sentry-javascript/issues/12059 is resolved
+  globalThis._sentryEsmLoaderHookRegistered = true
+
   // Initialize Sentry
   Sentry.init({
     dsn: sentry.dsn,
     environment: sentry.environment,
     enableTracing: false,
     autoSessionTracking: false,
-    integrations: [new CaptureConsole({ levels: ['warn', 'error'] })],
+    integrations: [Sentry.captureConsoleIntegration({ levels: ['warn', 'error'] })],
   })
 
   nitroApp.hooks.hook('error', (error) => {

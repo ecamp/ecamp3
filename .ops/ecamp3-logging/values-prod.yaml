@@ -1,0 +1,7 @@
+elasticsearch:
+  elasticNode:
+    resources:
+      requests:
+        memory: 1500Mi
+      limits:
+        memory: 1500Mi

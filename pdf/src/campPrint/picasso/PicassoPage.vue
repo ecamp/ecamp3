@@ -1,16 +1,16 @@
 <template>
   <Page size="A4" :orientation="orientation" class="page">
     <View class="picasso-title-container">
-      <Text :id="`${id}-${period.id}`" :bookmark="bookmark" class="picasso-title">
-        {{ $tc('print.picasso.title', { period: period.description }) }}
-      </Text>
-      <Text class="picasso-organizer">{{ period.camp().organizer }}</Text>
       <YSLogo
         v-if="period.camp().printYSLogoOnPicasso"
         :size="20"
         :locale="config.language"
         class="picasso-ys-logo"
       />
+      <Text :id="`${id}-${period.id}`" :bookmark="bookmark" class="picasso-title">
+        {{ $tc('print.picasso.title', { period: period.description }) }}
+      </Text>
+      <Text class="picasso-organizer">{{ period.camp().organizer }}</Text>
     </View>
     <View class="picasso-calendar-header-container">
       <TimeColumnSpacer :times="times.slice(0, times.length - 1)" />
@@ -99,8 +99,10 @@ export default {
 .picasso-title-container {
   display: flex;
   flex-direction: row;
-  margin-top: -6pt;
-  align-items: baseline;
+  margin-top: -4pt;
+  margin-bottom: 4pt;
+  align-items: center;
+  gap: 8pt;
 }
 .picasso-title {
   flex-grow: 1;
@@ -112,7 +114,7 @@ export default {
 }
 .picasso-ys-logo {
   align-self: flex-end;
-  margin-left: 3pt;
+  margin-top: 3pt;
   size: 20;
 }
 .picasso-calendar-header-container {

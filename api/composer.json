@@ -5,7 +5,7 @@
         "php": ">=8.1.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "api-platform/core": "3.3.5",
+        "api-platform/core": "3.3.6",
         "composer/package-versions-deprecated": "1.11.99",
         "cweagans/composer-patches": "1.7.3",
         "doctrine/doctrine-bundle": "2.12.0",
@@ -48,7 +48,7 @@
         "symfony/yaml": "7.0.7",
         "twig/cssinliner-extra": "^3.4",
         "twig/extra-bundle": "^3.4",
-        "webonyx/graphql-php": "15.11.1"
+        "webonyx/graphql-php": "15.12.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.58.1",
@@ -56,8 +56,8 @@
         "justinrainbow/json-schema": "5.2.13",
         "php-coveralls/php-coveralls": "2.7.0",
         "phpspec/prophecy-phpunit": "2.2",
-        "phpstan/phpstan": "1.11.3",
-        "phpunit/phpunit": "10.5.20",
+        "phpstan/phpstan": "1.11.4",
+        "phpunit/phpunit": "10.5.21",
         "rector/rector": "1.1.0",
         "spatie/phpunit-snapshot-assertions": "5.1.6",
         "symfony/browser-kit": "7.0.7",
@@ -77,7 +77,6 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "cweagans/composer-patches": true,
             "php-http/discovery": false,
             "symfony/flex": true,

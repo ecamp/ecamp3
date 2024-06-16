@@ -13,9 +13,9 @@
   </DialogBottomSheet>
   <DialogForm
     v-else
+    :saving-override.sync="isSaving"
     content-class="ec-dialog-form"
     eager
-    :saving-override.sync="isSaving"
     :value="value"
     v-bind="{ ...$props, ...$attrs }"
     v-on="$listeners"

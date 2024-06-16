@@ -228,7 +228,11 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Bitte gültige Farbe eingeben."
+        },
         "eColorPicker": {
+          "closePicker": "Dialog schliessen",
           "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {

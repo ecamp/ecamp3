@@ -125,19 +125,22 @@ final class PurgeHttpCacheListener {
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
     private function gatherResourceTags(object $entity, ?object $oldEntity = null): void {
-        $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
-        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
-        $resourceIterator = $resourceMetadataCollection->getIterator();
-        while ($resourceIterator->valid()) {
-            /** @var ApiResource $metadata */
-            $metadata = $resourceIterator->current();
+        $entityClass = $this->getObjectClass($entity);
+        if ($this->resourceClassResolver->isResourceClass($entityClass)) {
+            $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
+            $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+            $resourceIterator = $resourceMetadataCollection->getIterator();
+            while ($resourceIterator->valid()) {
+                /** @var ApiResource $metadata */
+                $metadata = $resourceIterator->current();
 
-            foreach ($metadata->getOperations() ?? [] as $operation) {
-                if ($operation instanceof GetCollection) {
-                    $this->invalidateCollection($operation, $entity, $oldEntity);
+                foreach ($metadata->getOperations() ?? [] as $operation) {
+                    if ($operation instanceof GetCollection) {
+                        $this->invalidateCollection($operation, $entity, $oldEntity);
+                    }
                 }
+                $resourceIterator->next();
             }
-            $resourceIterator->next();
         }
     }
 

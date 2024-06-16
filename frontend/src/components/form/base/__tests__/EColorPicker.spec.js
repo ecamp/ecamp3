@@ -1,19 +1,22 @@
-import { screen, waitFor } from '@testing-library/vue'
+import { fireEvent, screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
 import user from '@testing-library/user-event'
 import EColorPicker from '../EColorPicker.vue'
 
 import { regex } from 'vee-validate/dist/rules'
 import { extend } from 'vee-validate'
+import { ColorSpace, sRGB } from 'colorjs.io/fn'
+
 extend('regex', regex)
 
+ColorSpace.register(sRGB)
 describe('An EColorPicker', () => {
-  const COLOR1 = '#ff0000'
-  const COLOR2 = '#ff00ff'
+  const COLOR1 = '#FF0000'
+  const COLOR2 = '#FF00FF'
   const COLOR3 = '#FAFFAF'
   const INVALID_COLOR = 'some new color'
   const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen, um eine Farbe für test zu wählen'
-  const VALIDATION_MESSAGE = 'test is not valid'
+  const VALIDATION_MESSAGE = 'Bitte gültige Farbe eingeben.'
 
   beforeEach(() => {
     setTestLocale('de')
@@ -225,27 +228,24 @@ describe('An EColorPicker', () => {
     // when
     await user.clear(inputField)
     await user.keyboard(INVALID_COLOR)
+    await fireEvent.blur(inputField)
 
     // then
     await screen.findByText(VALIDATION_MESSAGE)
   })
 
-  it('accepts 3-digit hex color codes, after picker has been shown', async () => {
+  it('accepts null', async () => {
     render(EColorPicker, {
-      props: { value: COLOR1, label: 'test' },
+      props: { value: COLOR2, label: 'test' },
     })
-    const inputField = await screen.findByDisplayValue(COLOR1)
+    const inputField = await screen.findByDisplayValue(COLOR2)
+    expect(inputField).toHaveValue(COLOR2)
     const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
     // click the button to open the picker
     await user.click(button)
 
     // when
-    await user.clear(inputField)
-    await user.keyboard('#abc')
-
-    // then
-    await waitFor(() => {
-      screen.getByDisplayValue('#AABBCC')
-    })
+    await user.click(screen.getByTestId('colorpicker').querySelector('.reset'))
+    expect(inputField).toHaveValue('')
   })
 })
