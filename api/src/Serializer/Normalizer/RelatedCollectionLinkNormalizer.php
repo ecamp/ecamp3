@@ -22,7 +22,6 @@ use Rize\UriTemplate;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
@@ -140,7 +139,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
         $resourceClass = $this->getObjectClass($object);
 
-        if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
+        if ($this->nameConverter instanceof NameConverterInterface) {
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
         }
 
