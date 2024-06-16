@@ -51,6 +51,7 @@
         "webonyx/graphql-php": "15.12.5"
     },
     "require-dev": {
+        "brianium/paratest": "^7.4",
         "friendsofphp/php-cs-fixer": "3.62.0",
         "hautelook/alice-bundle": "2.13.0",
         "justinrainbow/json-schema": "6.0.0",
@@ -113,6 +114,10 @@
         "test": [
             "Composer\\Config::disableProcessTimeout",
             "bin/phpunit -d memory_limit=-1"
+        ],
+        "paratest": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/paratest --passthru-php=\"-d memory_limit=-1\""
         ],
         "update-snapshots": [
             "Composer\\Config::disableProcessTimeout",
