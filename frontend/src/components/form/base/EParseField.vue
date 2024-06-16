@@ -26,13 +26,22 @@ Displays a field as a textfield (can be used with v-model)
       type="text"
       v-on="inputListeners"
     >
-      <!-- passing through all slots -->
-      <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
-      <slot name="scoped" :scoped-slots="$scopedSlots">
-        <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
-          <slot :name="name" v-bind="slotData" />
-        </template>
-      </slot>
+      <template #prepend>
+        <slot
+          name="prepend"
+          :string-value="stringValue"
+          :internal-value="internalValue"
+          :serialized-value="serializedValue"
+        />
+      </template>
+      <template #append>
+        <slot
+          name="append"
+          :string-value="stringValue"
+          :internal-value="internalValue"
+          :serialized-value="serializedValue"
+        />
+      </template>
     </v-text-field>
   </ValidationProvider>
 </template>
@@ -61,14 +70,29 @@ export default {
     resetOnBlur: { type: Boolean, default: false },
 
     /**
-     * Format internal value for display in the UI
+     * Format internal value to string
      */
     format: { type: Function, required: false, default: null },
 
     /**
-     * Parse a user-supplied value into the internal format
+     * Parse a user-supplied value into the internal value type
      */
     parse: { type: Function, required: false, default: null },
+
+    /**
+     * Serialize the internal value for output
+     */
+    serialize: { type: Function, required: false, default: null },
+
+    /**
+     * Deserialize the serialized value into the internal value type
+     */
+    deserialize: { type: Function, required: false, default: null },
+
+    /**
+     * Override the default serialized values comparison function
+     */
+    compare: { type: Function, required: false, default: (a, b) => a === b },
 
     /**
      * Remove unwanted characters from the input value
@@ -83,10 +107,16 @@ export default {
       stringValue: null,
 
       /**
-       * valid value (parsed type or null)
+       * parsed value (parsed type or null)
        */
-      localValue: null,
+      internalValue: null,
 
+      /**
+       * serialized value (for output)
+       */
+      serializedValue: null,
+
+      intermediateParseError: null,
       parseError: null,
 
       /**
@@ -123,10 +153,12 @@ export default {
       handler(val) {
         // if the value is the same, we don't need to parse it again
         this.parseError = null
-        if (val === this.localValue) {
+        this.intermediateParseError = null
+        if (this.compare(val, this.serializedValue)) {
           return
         }
-        this.localValue = val
+        this.serializedValue = val
+        this.internalValue = this.deserialize?.(val) ?? val
         this.stringValue = this.format?.(val) ?? val
       },
       immediate: true,
@@ -138,6 +170,8 @@ export default {
         value = this.inputFilter(value)
         this.stringValue = value
         this.$refs.textField.lazyValue = value
+      } else {
+        this.stringValue = value
       }
       if (this.debouncedParse) {
         this.debounceParseValue(value)
@@ -146,18 +180,20 @@ export default {
       }
     },
     onBlur(event) {
-      if (this.resetOnBlur) {
-        this.stringValue = this.format?.(this.localValue) ?? this.localValue
+      if (this.resetOnBlur && !this.intermediateParseError) {
+        this.stringValue = this.format?.(this.internalValue) ?? this.internalValue
+        this.$refs.textField.lazyValue = this.stringValue
       }
+      this.parseError = this.intermediateParseError
+      this.$refs.validationProvider.validate(this.serializedValue)
       this.$emit('blur', event)
     },
     setValue(val) {
-      if (
-        (this.parse?.(this.localValue) ?? this.localValue) !== (this.parse?.(val) ?? val)
-      ) {
-        this.localValue = val
+      if (!this.compare(this.serializedValue, this.serialize?.(val) ?? val)) {
+        this.internalValue = val
 
-        this.$emit('input', val)
+        this.serializedValue = this.serialize?.(val) ?? val
+        this.$emit('input', this.serialize?.(val) ?? val)
       }
     },
     async parseValue(val) {
@@ -166,10 +202,10 @@ export default {
           val = await this.parse(val)
         }
         this.setValue(val)
-        // after saving value, trigger validations
-        this.$refs.validationProvider.validate(this.localValue)
+        this.parseError = null
+        this.intermediateParseError = null
       } catch (error) {
-        this.parseError = error
+        this.intermediateParseError = error
       }
     },
     focus() {

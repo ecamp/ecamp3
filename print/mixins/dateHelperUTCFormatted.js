@@ -1,4 +1,4 @@
-import { dateLong, rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import { dateLong, rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export const dateHelperUTCFormatted = {
   methods: {

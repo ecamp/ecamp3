@@ -15,3 +15,11 @@ kubernetes-dashboard-proxy:
     github-org: ecamp
     upstream: https://ops-dashboard-kong-proxy.ops-dashboard.svc.cluster.local
     ssl-upstream-insecure-skip-verify: true
+logging-proxy:
+  ingress:
+    enabled: true
+    className: nginx
+  extraArgs:
+    provider: github
+    github-org: ecamp
+    upstream: http://kibana.ecamp3-logging.svc.cluster.local:5601

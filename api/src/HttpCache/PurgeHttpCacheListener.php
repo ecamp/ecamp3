@@ -154,6 +154,11 @@ final class PurgeHttpCacheListener {
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
     private function gatherResourceTags(EntityManagerInterface $em, object $entity, ?object $oldEntity = null): void {
+        $entityClass = $this->getObjectClass($entity);
+        if (!$this->resourceClassResolver->isResourceClass($entityClass)) {
+            return;
+        }
+
         $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
         $this->gatherResourceTagsForClass($resourceClass, $entity, $oldEntity);
 

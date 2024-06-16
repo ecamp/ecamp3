@@ -1,23 +1,23 @@
 <template>
-  <content-group>
-    <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.campAdmin.campActivityProgressLabels.title') }}
-        <DialogActivityProgressLabelCreate v-if="!disabled" :camp="camp">
-          <template #activator="{ on }">
-            <ButtonAdd
-              color="secondary"
-              text
-              :hide-label="$vuetify.breakpoint.xsOnly"
-              class="my-n2"
-              v-on="on"
-            >
-              {{ $tc('components.campAdmin.campActivityProgressLabels.create') }}
-            </ButtonAdd>
-          </template>
-        </DialogActivityProgressLabelCreate>
-      </div>
-    </slot>
+  <content-group
+    :title="$tc('components.campAdmin.campActivityProgressLabels.title')"
+    icon="mdi-eye-check"
+  >
+    <template #title-actions>
+      <DialogActivityProgressLabelCreate v-if="!disabled" :camp="camp">
+        <template #activator="{ on }">
+          <ButtonAdd
+            color="secondary"
+            text
+            :hide-label="$vuetify.breakpoint.xsOnly"
+            class="my-n2"
+            v-on="on"
+          >
+            {{ $tc('components.campAdmin.campActivityProgressLabels.create') }}
+          </ButtonAdd>
+        </template>
+      </DialogActivityProgressLabelCreate>
+    </template>
     <v-skeleton-loader
       v-if="camp.progressLabels()._meta.loading"
       type="list-item@3"

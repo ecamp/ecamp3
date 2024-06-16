@@ -5,6 +5,7 @@ import formBaseComponents from '@/plugins/formBaseComponents'
 
 import EParseField from '@/components/form/base/EParseField.vue'
 import { mount as mountComponent } from '@vue/test-utils'
+import { screen } from '@testing-library/vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -28,7 +29,13 @@ describe('An EParseField', () => {
           return value === null ? '' : `${value}`
         },
       },
-      template: `<div data-app><e-parse-field label="test" :parse="parse" :format="format" v-model="data"/></div>`,
+      template: `
+        <div data-app>
+          <e-parse-field label="test" :parse="parse" :format="format" v-model="data" :value="data">
+            ${options?.children}
+          </e-parse-field>
+        </div>
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -85,5 +92,17 @@ describe('An EParseField', () => {
     await input.trigger('input')
 
     expect(wrapper.vm.data).toBe(expected)
+  })
+
+  test('allows to use the append slot', async () => {
+    mount({
+      children: `
+        <template #append>
+          <span>append</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('append')).toBeVisible()
   })
 })

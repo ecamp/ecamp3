@@ -270,6 +270,39 @@ class PurgeHttpCacheListenerTest extends TestCase {
     }
 
     public function testNotAResourceClass(): void {
+        $nonResource = new NotAResource('foo', 'bar');
+
+        $cacheManagerProphecy = $this->prophesize(CacheManager::class);
+        $cacheManagerProphecy->invalidateTags(Argument::any())->shouldNotBeCalled();
+        $cacheManagerProphecy->flush(Argument::any())->willReturn(0);
+
+        $iriConverterProphecy = $this->prophesize(IriConverterInterface::class);
+        $iriConverterProphecy->getIriFromResource($nonResource)->shouldNotBeCalled();
+
+        $metadataFactoryProphecy = $this->prophesize(ResourceMetadataCollectionFactoryInterface::class);
+
+        $resourceClassResolverProphecy = $this->prophesize(ResourceClassResolverInterface::class);
+        $resourceClassResolverProphecy->isResourceClass(NotAResource::class)->willReturn(false)->shouldBeCalled();
+
+        $uowProphecy = $this->prophesize(UnitOfWork::class);
+        $uowProphecy->getScheduledEntityInsertions()->willReturn([$nonResource])->shouldBeCalled();
+        $uowProphecy->getScheduledEntityDeletions()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
+
+        $emProphecy = $this->prophesize(EntityManagerInterface::class);
+        $emProphecy->getUnitOfWork()->willReturn($uowProphecy->reveal())->shouldBeCalled();
+
+        $dummyClassMetadata = new ClassMetadata(ContainNonResource::class);
+        $emProphecy->getClassMetadata(NotAResource::class)->willReturn($dummyClassMetadata);
+        $eventArgs = new OnFlushEventArgs($emProphecy->reveal());
+
+        $propertyAccessorProphecy = $this->prophesize(PropertyAccessorInterface::class);
+
+        $listener = new PurgeHttpCacheListener($iriConverterProphecy->reveal(), $resourceClassResolverProphecy->reveal(), $propertyAccessorProphecy->reveal(), $metadataFactoryProphecy->reveal(), $cacheManagerProphecy->reveal());
+        $listener->onFlush($eventArgs);
+    }
+
+    public function testPropertyIsNotAResourceClass(): void {
         $containNonResource = new ContainNonResource();
         $nonResource = new NotAResource('foo', 'bar');
 
@@ -289,6 +322,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
         $resourceClassResolverProphecy = $this->prophesize(ResourceClassResolverInterface::class);
         $resourceClassResolverProphecy->getResourceClass(Argument::type(ContainNonResource::class))->willReturn(ContainNonResource::class)->shouldBeCalled();
+        $resourceClassResolverProphecy->isResourceClass(ContainNonResource::class)->willReturn(true)->shouldBeCalled();
         $resourceClassResolverProphecy->isResourceClass(NotAResource::class)->willReturn(false)->shouldBeCalled();
 
         $uowProphecy = $this->prophesize(UnitOfWork::class);

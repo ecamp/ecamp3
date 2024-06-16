@@ -249,14 +249,14 @@ export default {
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  :deep .v-btn {
+  :deep(.v-btn) {
     height: auto;
     min-width: auto;
     padding: 4px 0;
     flex-grow: 1;
   }
 
-  :deep .v-btn__content {
+  :deep(.v-btn__content) {
     flex-direction: column;
   }
 }

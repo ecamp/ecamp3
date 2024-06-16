@@ -29,7 +29,7 @@ jobs:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -59,11 +59,11 @@ jobs:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -88,11 +88,11 @@ jobs:
     name: 'Lint: ClientPrint (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -117,11 +117,11 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -146,11 +146,11 @@ jobs:
     name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -193,7 +193,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -233,6 +233,8 @@ jobs:
 
       - run: composer test
         working-directory: api
+        env:
+          PERFORMANCE_TEST_DEBUG_OUTPUT: ${{ vars.PERFORMANCE_TEST_DEBUG_OUTPUT }}
 
       - name: send coveralls report
         run: |
@@ -249,11 +251,11 @@ jobs:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -292,11 +294,11 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
@@ -331,11 +333,11 @@ jobs:
     name: 'Tests: PDF'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.13.1'
+          node-version: '22.3.0'
 
       - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:

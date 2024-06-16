@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
-import { contrastColor } from '@/../common/helpers/colors.js'
+import { activityResponsiblesCommaSeparated } from '@/common/helpers/activityResponsibles.js'
+import { contrastColor } from '@/common/helpers/colors.js'
 
 export default {
   props: {

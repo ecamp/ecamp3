@@ -5330,7 +5330,6 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
-          maxLength: 16
           readOnly: true
           type: string
         inviteEmail:
@@ -5338,11 +5337,6 @@ components:
             The receiver email address of the invitation email, in case the collaboration does not yet have
             a user account. Either this field or the user field should be null.
           example: some-email@example.com
-          externalDocs:
-            url: 'https://schema.org/email'
-          format: email
-          maxLength: 128
-          minLength: 1
           type:
             - 'null'
             - string
@@ -5350,22 +5344,12 @@ components:
           description: |-
             The role that this person has in the camp. Depending on the role, the collaborator might have
             different access rights. There must always be at least one manager in a camp.
-          enum:
-            - guest
-            - manager
-            - member
           example: member
-          maxLength: 16
           type: string
         status:
           default: invited
           description: 'Indicates whether the collaborator is still invited, has left the camp, or is participating normally.'
-          enum:
-            - established
-            - inactive
-            - invited
           example: inactive
-          maxLength: 16
           type: string
         user:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
@@ -5374,10 +5358,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - camp
-        - role
-        - status
       type: object
     CampCollaboration-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
@@ -5676,7 +5656,6 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
-          maxLength: 16
           readOnly: true
           type: string
         inviteEmail:
@@ -5684,11 +5663,6 @@ components:
             The receiver email address of the invitation email, in case the collaboration does not yet have
             a user account. Either this field or the user field should be null.
           example: some-email@example.com
-          externalDocs:
-            url: 'https://schema.org/email'
-          format: email
-          maxLength: 128
-          minLength: 1
           type:
             - 'null'
             - string
@@ -5696,22 +5670,12 @@ components:
           description: |-
             The role that this person has in the camp. Depending on the role, the collaborator might have
             different access rights. There must always be at least one manager in a camp.
-          enum:
-            - guest
-            - manager
-            - member
           example: member
-          maxLength: 16
           type: string
         status:
           default: invited
           description: 'Indicates whether the collaborator is still invited, has left the camp, or is participating normally.'
-          enum:
-            - established
-            - inactive
-            - invited
           example: inactive
-          maxLength: 16
           type: string
         user:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
@@ -5720,10 +5684,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - camp
-        - role
-        - status
       type: object
     CampCollaboration.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
@@ -5955,7 +5915,6 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
-          maxLength: 16
           readOnly: true
           type: string
         inviteEmail:
@@ -5963,11 +5922,6 @@ components:
             The receiver email address of the invitation email, in case the collaboration does not yet have
             a user account. Either this field or the user field should be null.
           example: some-email@example.com
-          externalDocs:
-            url: 'https://schema.org/email'
-          format: email
-          maxLength: 128
-          minLength: 1
           type:
             - 'null'
             - string
@@ -5975,22 +5929,12 @@ components:
           description: |-
             The role that this person has in the camp. Depending on the role, the collaborator might have
             different access rights. There must always be at least one manager in a camp.
-          enum:
-            - guest
-            - manager
-            - member
           example: member
-          maxLength: 16
           type: string
         status:
           default: invited
           description: 'Indicates whether the collaborator is still invited, has left the camp, or is participating normally.'
-          enum:
-            - established
-            - inactive
-            - invited
           example: inactive
-          maxLength: 16
           type: string
         user:
           description: 'The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.'
@@ -5999,10 +5943,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - camp
-        - role
-        - status
       type: object
     CampCollaboration.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       deprecated: false
@@ -6234,8 +6174,6 @@ components:
         color:
           description: 'The color of the activities in this category, as a hex color string.'
           example: '#4DBB52'
-          maxLength: 8
-          pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -6249,28 +6187,18 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
-          maxLength: 16
           readOnly: true
           type: string
         name:
           description: 'The full name of the category.'
           example: Lagersport
-          maxLength: 32
           type: string
         numberingStyle:
           default: '1'
           description: |-
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
-          enum:
-            - '-'
-            - '1'
-            - A
-            - I
-            - a
-            - i
           example: '1'
-          maxLength: 1
           type: string
         preferredContentTypes:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
@@ -6292,15 +6220,7 @@ components:
             An abbreviated name of the category, for display in tight spaces, often together with the day and
             schedule entry number, e.g. LS 3.a, where LS is the category's short name.
           example: LS
-          maxLength: 16
           type: string
-      required:
-        - camp
-        - color
-        - name
-        - numberingStyle
-        - preferredContentTypes
-        - short
       type: object
     Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
@@ -6702,8 +6622,6 @@ components:
         color:
           description: 'The color of the activities in this category, as a hex color string.'
           example: '#4DBB52'
-          maxLength: 8
-          pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -6717,28 +6635,18 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
-          maxLength: 16
           readOnly: true
           type: string
         name:
           description: 'The full name of the category.'
           example: Lagersport
-          maxLength: 32
           type: string
         numberingStyle:
           default: '1'
           description: |-
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
-          enum:
-            - '-'
-            - '1'
-            - A
-            - I
-            - a
-            - i
           example: '1'
-          maxLength: 1
           type: string
         preferredContentTypes:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
@@ -6760,15 +6668,7 @@ components:
             An abbreviated name of the category, for display in tight spaces, often together with the day and
             schedule entry number, e.g. LS 3.a, where LS is the category's short name.
           example: LS
-          maxLength: 16
           type: string
-      required:
-        - camp
-        - color
-        - name
-        - numberingStyle
-        - preferredContentTypes
-        - short
       type: object
     Category.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false
@@ -7066,8 +6966,6 @@ components:
         color:
           description: 'The color of the activities in this category, as a hex color string.'
           example: '#4DBB52'
-          maxLength: 8
-          pattern: '^(#[0-9a-zA-Z]{6})$'
           type: string
         contentNodes:
           description: 'All the content nodes that make up the tree of programme content.'
@@ -7081,28 +6979,18 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
-          maxLength: 16
           readOnly: true
           type: string
         name:
           description: 'The full name of the category.'
           example: Lagersport
-          maxLength: 32
           type: string
         numberingStyle:
           default: '1'
           description: |-
             Specifies whether the schedule entries of the activities in this category should be numbered
             using arabic numbers, roman numerals or letters.
-          enum:
-            - '-'
-            - '1'
-            - A
-            - I
-            - a
-            - i
           example: '1'
-          maxLength: 1
           type: string
         preferredContentTypes:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
@@ -7124,15 +7012,7 @@ components:
             An abbreviated name of the category, for display in tight spaces, often together with the day and
             schedule entry number, e.g. LS 3.a, where LS is the category's short name.
           example: LS
-          maxLength: 16
           type: string
-      required:
-        - camp
-        - color
-        - name
-        - numberingStyle
-        - preferredContentTypes
-        - short
       type: object
     Category.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       deprecated: false

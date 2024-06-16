@@ -23,7 +23,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-create-job
-          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Values.imageTag }}"
           command: ["php", "bin/console", "doctrine:database:create", "--if-not-exists"]
           env:
             - name: DATABASE_URL

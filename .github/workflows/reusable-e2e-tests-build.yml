@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - name: Set up Docker Buildx
         id: buildx
@@ -23,27 +23,12 @@ jobs:
           context: './api'
           push: false
           load: true
-          target: api_platform_php_dev
+          target: frankenphp_dev
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-api-php
+          tags: ecamp/ecamp3-dev-api
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
-          outputs: type=docker,dest=/tmp/ecamp3-dev-api-php.tar
-
-      # build caddy (using cache; provide image to docker compose)
-      - name: Build docker image (Caddy)
-        uses: docker/build-push-action@v5
-        with:
-          file: api/Dockerfile
-          context: './api'
-          push: false
-          load: true
-          target: api_platform_caddy
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-api-caddy
-          cache-from: type=gha,scope=caddy
-          cache-to: type=gha,scope=caddy,mode=max
-          outputs: type=docker,dest=/tmp/ecamp3-dev-api-caddy.tar
+          outputs: type=docker,dest=/tmp/ecamp3-dev-api.tar
 
       - uses: actions/upload-artifact@v4
         with:

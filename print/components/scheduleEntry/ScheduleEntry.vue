@@ -89,7 +89,7 @@ const { error } = await useAsyncData(
 import CategoryLabel from '../generic/CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
-import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
+import { activityResponsiblesCommaSeparated } from '@/common/helpers/activityResponsibles.js'
 
 export default defineNuxtComponent({
   components: { CategoryLabel, ContentNode },

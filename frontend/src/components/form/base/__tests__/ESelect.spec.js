@@ -5,6 +5,7 @@ import { formBaseComponents } from '@/plugins'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import ESelect from '../ESelect.vue'
+import { screen } from '@testing-library/vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -36,10 +37,12 @@ describe('An ESelect', () => {
         }
       },
       template: `
-          <div data-app>
-          <e-select label='test' :items="selectValues" v-model="data"/>
-          </div>
-        `,
+        <div data-app>
+          <e-select label="test" :items="selectValues" v-model="data">
+            ${options?.children}
+          </e-select>
+        </div>
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -100,5 +103,37 @@ describe('An ESelect', () => {
     expect(
       wrapper.findAll('[role="option"]').at(0).element.getAttribute('aria-selected')
     ).not.toBe('true')
+  })
+
+  test('allows to use the append slot', async () => {
+    mount({
+      children: `
+        <template #append>
+          <span>append</span>
+        </template>
+      `,
+    })
+
+    expect(await screen.findByText('append')).toBeVisible()
+  })
+
+  test('allows to use the append slot with scope', async () => {
+    const textText = 'myTestText'
+    const wrapper = mount({
+      children: `
+        <template #item="{ item, on, attrs }">
+          <v-list-item-title :key="item.text" v-bind="attrs" v-on="on">
+            {{ item }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            ${textText}
+          </v-list-item-subtitle>
+      </template>
+      `,
+    })
+
+    await wrapper.find('.v-input__slot').trigger('click')
+
+    expect(await screen.findAllByText(textText)).toHaveLength(3)
   })
 })

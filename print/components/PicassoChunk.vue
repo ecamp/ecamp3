@@ -1,22 +1,15 @@
 <template>
   <div class="tw-break-after-page" :class="{ 'landscape-page': landscape }">
     <div class="tw-flex tw-flex-col" :class="landscape ? 'landscape' : 'portrait'">
-      <div class="tw-flex-initial tw-flex tw-flex-row tw-items-baseline fullwidth">
-        <h1
-          :id="`content_${index}_period_${period.id}`"
-          class="text-2xl-relative tw-font-bold tw-mb-1 tw-flex-grow tw-d-inline"
-        >
+      <div
+        class="tw-flex-initial tw-flex tw-flex-row tw-items-center tw-gap-2 tw-mb-3 tw-font-semibold"
+      >
+        <YSLogo v-if="camp.printYSLogoOnPicasso" class="tw-self-center" width="7mm" />
+        <h1 :id="`content_${index}_period_${period.id}`" class="tw-text-2xl tw-flex-grow">
           {{ $t('print.picasso.title') }}
           {{ period.description }}
         </h1>
-        <span>{{ camp.organizer }}</span>
-        <img
-          v-if="camp.printYSLogoOnPicasso"
-          height="35"
-          width="35"
-          :src="ysLogoUrl"
-          class="tw-self-start tw-ml-2"
-        />
+        <p class="tw-text-md tw-text-end">{{ camp.organizer }}</p>
       </div>
 
       <div class="tw-flex-auto fullwidth">
@@ -93,11 +86,12 @@
 
 <script>
 import CategoryLabel from './generic/CategoryLabel.vue'
-import dayjs from '@/../common/helpers/dayjs.js'
-import campCollaborationLegalName from '@/../common/helpers/campCollaborationLegalName.js'
+import dayjs from '@/common/helpers/dayjs.js'
+import campCollaborationLegalName from '@/common/helpers/campCollaborationLegalName.js'
+import YSLogo from '@/components/generic/YSLogo.vue'
 
 export default {
-  components: { CategoryLabel },
+  components: { YSLogo, CategoryLabel },
   props: {
     period: { type: Object, required: true },
     scheduleEntries: { type: Array, required: true },
@@ -109,9 +103,6 @@ export default {
   computed: {
     camp() {
       return this.period.camp()
-    },
-    ysLogoUrl() {
-      return this.$i18n.locale.match(/it/i) ? './gs-logo.svg' : './js-logo.svg'
     },
     address() {
       return this.joinWithoutBlanks(
@@ -156,6 +147,8 @@ export default {
 }
 </script>
 
+<!-- these styles seem to effect the whole picasso, thus we don't want the vue-scoped-css/enforce-style-type warning here -->
+<!-- eslint-disable-next-line -->
 <style lang="scss">
 $portrait-content-width: 680; /* 794px minus 114px (=2*15mm margin) */
 $portrait-content-height: 1009; /* 1123px minus 114px (=2*15mm margin) */
