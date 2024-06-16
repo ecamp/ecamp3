@@ -47,7 +47,6 @@
       "dependencyDashboardApproval": true,
       "groupName": "vue-major-print-pdf"
     },
-
     {
       "extends": [
         "monorepo:vue"
@@ -86,9 +85,11 @@
     },
     {
       "matchPackageNames": [
-        "php"
+        "php",
+        "dunglas/frankenphp"
       ],
-      "automerge": false
+      "automerge": false,
+      "groupName": "php"
     },
     {
       "matchPackagePatterns": [
@@ -118,6 +119,12 @@
         "browserless/chrome"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
+    },
+    {
+      "matchPackageNames": [
+        "dunglas/frankenphp"
+      ],
+      "versioning": "regex:^(?<build>\\d+)\\.(?<revision>\\d+)-(?<compatibility>\\w+)(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
     {
       "matchPackageNames": [
