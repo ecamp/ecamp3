@@ -42,6 +42,30 @@ jobs:
             ]
           do_not_skip: '["workflow_dispatch", "schedule"]'
   
+  e2e-check-needed:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: 'same_content_newer'
+          skip_after_successful_duplicate: 'true'
+          paths: |
+            [
+              ".github/workflows/continuous-integration.yml",
+              "api/**",
+              "common/**",
+              "e2e/**",
+              "frontend/**",
+              "pdf/**",
+              "print/**",
+              "docker-compose.yml",
+              ".env.ci"
+            ]
+          do_not_skip: '["workflow_dispatch", "schedule"]'
+  
   api-cs-check:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
