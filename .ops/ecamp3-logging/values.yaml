@@ -19,9 +19,6 @@ fluent-operator:
     watchedNamespaces:
       - default
       - ingress-nginx
-    image: 
-      repository: bacluc/fluentd
-      tag: 1.15.3
     enable: true
 
 fluentd:
