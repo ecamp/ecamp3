@@ -25,9 +25,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  api-check-needed:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: 'same_content_newer'
+          skip_after_successful_duplicate: 'true'
+          paths: |
+            [
+              "api/**",
+              ".github/workflows/continuous-integration.yml"
+            ]
+          do_not_skip: '["workflow_dispatch", "schedule"]'
+  
   api-cs-check:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
+    needs:
+      - api-check-needed
+    if: needs.api-check-needed.outputs.should_skip != 'true'
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
@@ -145,6 +165,9 @@ jobs:
   e2e-lint:
     name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
+    needs:
+      - e2e-check-needed
+    if: needs.e2e-check-needed.outputs.should_skip != 'true'
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
@@ -174,6 +197,9 @@ jobs:
   api-tests:
     name: 'Tests: API'
     runs-on: ubuntu-latest
+    needs:
+      - api-check-needed
+    if: needs.api-check-needed.outputs.should_skip != 'true'
     env:
       TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
 
@@ -369,6 +395,9 @@ jobs:
   e2e-tests-build:
     name: 'Tests: End-to-end build'
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
+    needs:
+      - e2e-check-needed
+    if: needs.e2e-check-needed.outputs.should_skip != 'true'
 
   e2e-tests-run:
     name: 'Tests: End-to-end run'
@@ -404,6 +433,7 @@ jobs:
       - frontend-tests
       - print-tests
       - pdf-tests
+      - e2e-tests-build
       - e2e-tests-run
     runs-on: ubuntu-latest
     if: always()
@@ -416,8 +446,8 @@ jobs:
             const needsObject = JSON.parse(needs);
 
             for (const [key, value] of Object.entries(needsObject)) {
-              if (value.result != 'success') {
-                core.setFailed(`Job ${key} failed`);
+              if (!['success', 'skipped'].includes(value.result)) {
+                core.setFailed(`Job ${key} failed with status ${value.result}`);
               }
             }
 
