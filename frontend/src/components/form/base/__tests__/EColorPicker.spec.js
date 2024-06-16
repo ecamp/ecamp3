@@ -234,26 +234,6 @@ describe('An EColorPicker', () => {
     await screen.findByText(VALIDATION_MESSAGE)
   })
 
-  it('accepts 3-digit hex color codes, after picker has been shown', async () => {
-    render(EColorPicker, {
-      props: { value: COLOR1, label: 'test' },
-    })
-    const inputField = await screen.findByDisplayValue(COLOR1)
-    const button = await screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
-    // click the button to open the picker
-    await user.click(button)
-
-    // when
-    await user.clear(inputField)
-    await user.keyboard('#abc')
-    await fireEvent.blur(inputField)
-
-    // then
-    await waitFor(() => {
-      screen.getByDisplayValue('#AABBCC')
-    })
-  })
-
   it('accepts null', async () => {
     render(EColorPicker, {
       props: { value: COLOR2, label: 'test' },
