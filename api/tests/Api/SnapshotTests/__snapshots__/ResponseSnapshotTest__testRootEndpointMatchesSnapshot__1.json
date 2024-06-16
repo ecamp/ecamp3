@@ -28,6 +28,10 @@
             "href": "\/checklist_items{\/id}{?checklist,checklist[]}",
             "templated": true
         },
+        "checklistNodes": {
+            "href": "\/content_node\/checklist_nodes{\/id}{?contentType,contentType[],root,root[],period}",
+            "templated": true
+        },
         "checklists": {
             "href": "\/checklists{\/id}{?camp,camp[]}",
             "templated": true

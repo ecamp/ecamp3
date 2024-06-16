@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Entity\ContentNode\ChecklistNode;
 use App\InputFilter;
 use App\Repository\ChecklistItemRepository;
 use App\Util\EntityMap;
@@ -101,6 +102,12 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     public Collection $children;
 
     /**
+     * All ChecklistNodes that have selected this ChecklistItem.
+     */
+    #[ORM\ManyToMany(targetEntity: ChecklistNode::class, mappedBy: 'checklistItems')]
+    public Collection $checklistNodes;
+
+    /**
      * The human readable text of the checklist-item.
      */
     #[ApiProperty(example: 'Pfaditechnick')]
@@ -125,6 +132,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     public function __construct() {
         parent::__construct();
         $this->children = new ArrayCollection();
+        $this->checklistNodes = new ArrayCollection();
     }
 
     #[ApiProperty(readable: false)]
