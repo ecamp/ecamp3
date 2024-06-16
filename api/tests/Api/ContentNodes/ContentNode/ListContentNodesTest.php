@@ -23,7 +23,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 21,
+            'totalItems' => 22,
             '_links' => [
                 'items' => [],
             ],
@@ -37,6 +37,7 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('columnLayoutChild1')],
             ['href' => $this->getIriFor('columnLayout2Child1')],
             ['href' => $this->getIriFor('columnLayout3')],
+            ['href' => $this->getIriFor('checklistNode3')],
             ['href' => $this->getIriFor('columnLayout4')],
             ['href' => $this->getIriFor('columnLayout5')],
             ['href' => $this->getIriFor('columnLayout1camp2')],
@@ -61,7 +62,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 12,
+            'totalItems' => 13,
             '_links' => [
                 'items' => [],
             ],
@@ -73,6 +74,7 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('columnLayout1')],
             ['href' => $this->getIriFor('columnLayoutChild1')],
             ['href' => $this->getIriFor('columnLayout3')],
+            ['href' => $this->getIriFor('checklistNode3')],
             ['href' => $this->getIriFor('singleText1')],
             ['href' => $this->getIriFor('singleText2')],
             ['href' => $this->getIriFor('safetyConcept1')],

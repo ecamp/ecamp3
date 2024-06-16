@@ -1,0 +1,15 @@
+App\Entity\ContentNode\ChecklistNode:
+  checklistNode3:
+    root: '@columnLayout3'
+    parent: '@columnLayout3'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeChecklist'
+  checklistNodeCampUnrelated:
+    root: '@columnLayout1campUnrelated'
+    parent: '@columnLayout1campUnrelated'
+    slot: '1'
+    position: 5
+    instanceName: <word()>
+    contentType: '@contentTypeChecklist'

@@ -186,9 +186,11 @@ class EndpointPerformanceTest extends ECampApiTestCase {
 
     private static function getContentNodeEndpointQueryCountRanges(): array {
         return [
-            '/content_nodes' => [8, 9],
+            '/content_nodes' => [8, 10],
             '/content_node/column_layouts' => [6, 6],
             '/content_node/column_layouts/item' => [10, 10],
+            '/content_node/checklist_nodes' => [6, 7],
+            '/content_node/checklist_nodes/item' => [9, 9],
             '/content_node/material_nodes' => [6, 7],
             '/content_node/material_nodes/item' => [9, 9],
             '/content_node/multi_selects' => [6, 7],
