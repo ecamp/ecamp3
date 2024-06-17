@@ -109,6 +109,10 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
      */
     public function getAccessToken(array $options = []): AccessTokenInterface {
         $jwt = $this->getCurrentRequest()->cookies->get($this->getCookieName($this->cookiePrefix));
+        if (null === $jwt) {
+            throw new InvalidStateException('Expired state');
+        }
+
         $actualState = $this->getCurrentRequest()->get('state');
 
         try {
