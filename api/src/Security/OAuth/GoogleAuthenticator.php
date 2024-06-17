@@ -12,6 +12,7 @@ use League\OAuth2\Client\Provider\GoogleUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,6 +101,6 @@ class GoogleAuthenticator extends OAuth2Authenticator {
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
-        return new Response($message, Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['message' => $message, 'code' => Response::HTTP_FORBIDDEN], Response::HTTP_FORBIDDEN);
     }
 }
