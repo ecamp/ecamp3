@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push frontend docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
@@ -53,7 +53,7 @@ jobs:
           cache-to: type=gha,scope=frontend,mode=max
 
       - name: Build and push api docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: api/Dockerfile
@@ -66,7 +66,7 @@ jobs:
           cache-to: type=gha,scope=api,mode=max
 
       - name: Build and push print docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .docker-hub/print/Dockerfile
@@ -83,7 +83,7 @@ jobs:
           cache-to: type=gha,scope=print,mode=max
 
       - name: Build and push varnish docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .docker-hub/varnish/Dockerfile
@@ -95,7 +95,7 @@ jobs:
           cache-to: type=gha,scope=varnish,mode=max
 
       - name: Build and push db-backup-restore docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .helm/ecamp3/files/db-backup-restore-image/Dockerfile

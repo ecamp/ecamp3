@@ -17,7 +17,7 @@ jobs:
 
       # build API (using cache; provide image to docker compose)
       - name: Build docker image (API/PHP)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: api/Dockerfile
           context: './api'
