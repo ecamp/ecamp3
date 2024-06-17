@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * longer-living token and with parts of the cookie available to JavaScript.
  */
 class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface {
-    public const JWT_TTL = 300; // seconds, i.e. 5 minutes of validity for the JWT token
+    public const JWT_TTL = 900; // seconds, i.e. 15 minutes of validity for the JWT token
 
     public function __construct(
         AbstractProvider $provider,
@@ -101,7 +101,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
     /**
      * Checks the validity of the temporary JWT cookie, and checks that the state parameter is correct.
      * Any irregularities would indicate someone tampering with the login system (or someone taking longer
-     * than 5 minutes to authenticate with the external service...)
+     * than 15 minutes to authenticate with the external service...)
      * After this custom state parameter check, we delegate to the original implementation to finish the OAuth
      * flow.
      *
