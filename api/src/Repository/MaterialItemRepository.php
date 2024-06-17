@@ -19,8 +19,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method MaterialItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class MaterialItemRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
-    use FiltersByCampCollaboration;
-
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, MaterialItem::class);
     }
