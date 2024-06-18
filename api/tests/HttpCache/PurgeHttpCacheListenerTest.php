@@ -288,6 +288,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowProphecy->getScheduledEntityInsertions()->willReturn([$nonResource])->shouldBeCalled();
         $uowProphecy->getScheduledEntityDeletions()->willReturn([])->shouldBeCalled();
         $uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledCollectionUpdates()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledCollectionDeletions()->willReturn([])->shouldBeCalled();
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
         $emProphecy->getUnitOfWork()->willReturn($uowProphecy->reveal())->shouldBeCalled();
