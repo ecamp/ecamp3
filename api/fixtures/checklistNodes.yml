@@ -1,4 +1,11 @@
 App\Entity\ContentNode\ChecklistNode:
+  checklistNode1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeChecklist'
   checklistNode3:
     root: '@columnLayout3'
     parent: '@columnLayout3'

@@ -8315,13 +8315,6 @@ components:
       deprecated: false
       description: ''
       properties:
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
         checklistItems:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -8429,21 +8422,6 @@ components:
           type:
             - array
             - 'null'
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
-          type: array
         contentType:
           description: |-
             Defines the type of this content node. There is a fixed list of types that are implemented
@@ -8504,7 +8482,6 @@ components:
             - 'null'
             - string
       required:
-        - checklistItems
         - contentType
         - parent
         - position
@@ -8520,21 +8497,6 @@ components:
           type:
             - array
             - 'null'
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
-          type: array
         data:
           description: 'Holds the actual data of the content node.'
           example:
@@ -8587,7 +8549,6 @@ components:
             - 'null'
             - string
       required:
-        - checklistItems
         - position
       type: object
     ChecklistNode.jsonapi:
@@ -8602,13 +8563,6 @@ components:
             - array
             - 'null'
           writeOnly: true
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
         checklistItems:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -8616,6 +8570,7 @@ components:
             example: 'https://example.com/'
             format: iri-reference
             type: string
+          readOnly: true
           type: array
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -8727,13 +8682,6 @@ components:
                   type: string
               type: object
           type: object
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
         checklistItems:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -8850,21 +8798,6 @@ components:
           type:
             - array
             - 'null'
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
-          type: array
         contentType:
           description: |-
             Defines the type of this content node. There is a fixed list of types that are implemented
@@ -8925,7 +8858,6 @@ components:
             - 'null'
             - string
       required:
-        - checklistItems
         - contentType
         - parent
         - position
@@ -8957,13 +8889,6 @@ components:
         '@type':
           readOnly: true
           type: string
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
         checklistItems:
           description: 'The content types that are most likely to be useful for planning programme of this category.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -9071,21 +8996,6 @@ components:
           type:
             - array
             - 'null'
-        checklist:
-          description: 'The Checklist this Item belongs to.'
-          example: /checklists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
-          type: array
         contentType:
           description: |-
             Defines the type of this content node. There is a fixed list of types that are implemented
@@ -9146,7 +9056,6 @@ components:
             - 'null'
             - string
       required:
-        - checklistItems
         - contentType
         - parent
         - position

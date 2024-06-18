@@ -220,6 +220,9 @@
                     "children": [
                         {
                             "href": "escaped_value"
+                        },
+                        {
+                            "href": "escaped_value"
                         }
                     ],
                     "contentType": {
