@@ -554,7 +554,7 @@ class CreateCategoryTest extends ECampApiTestCase {
 
     public function testCreateCategoryPurgesCacheTags() {
         $client = static::createClientWithCredentials();
-        $purgedCacheTags = &$this->getPurgedCacheTags();
+        $cacheManager = $this->mockCacheManager();
 
         $client->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
 
@@ -569,7 +569,7 @@ class CreateCategoryTest extends ECampApiTestCase {
             '/content_node/column_layouts',
             $camp1->getId().'#categories',
             $contentType->getId().'#categories',
-        ], $purgedCacheTags);
+        ], $cacheManager->getInvalidatedTags());
     }
 
     /**

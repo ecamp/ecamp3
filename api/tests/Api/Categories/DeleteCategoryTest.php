@@ -100,7 +100,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryPurgesCacheTags() {
         $client = static::createClientWithCredentials();
-        $purgedCacheTags = &$this->getPurgedCacheTags();
+        $cacheManager = $this->mockCacheManager();
 
         $category = static::getFixture('categoryWithNoActivities');
         $client->request('DELETE', '/categories/'.$category->getId());
@@ -118,6 +118,6 @@ class DeleteCategoryTest extends ECampApiTestCase {
             '/content_node/column_layouts',
             $rootContentNode->getId(),
             $rootContentNode->getId().'#rootDescendants',
-        ], $purgedCacheTags);
+        ], $cacheManager->getInvalidatedTags());
     }
 }

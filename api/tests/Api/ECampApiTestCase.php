@@ -16,6 +16,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
+use App\Tests\HttpCache\CacheManagerMock;
 use App\Util\ArrayDeepSort;
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\ORM\EntityManagerInterface;
@@ -362,24 +363,13 @@ abstract class ECampApiTestCase extends ApiTestCase {
     }
 
     /**
-     * mocks CacheManager and keeps track of purged cache tags.
+     * mocks CacheManager.
      */
-    protected function &getPurgedCacheTags(): array {
-        $container = static::getContainer();
-        $cacheManager = $this->createMock(CacheManager::class);
+    protected function mockCacheManager(): CacheManagerMock {
+        $cacheManager = new CacheManagerMock();
+        static::getContainer()->set(CacheManager::class, $cacheManager);
 
-        $purgedCacheTags = [];
-        $cacheManager
-            ->method('invalidateTags')
-            ->willReturnCallback(function ($tags) use (&$purgedCacheTags, $cacheManager) {
-                $purgedCacheTags = array_unique(array_merge($purgedCacheTags, $tags));
-
-                return $cacheManager;
-            })
-        ;
-        $container->set(CacheManager::class, $cacheManager);
-
-        return $purgedCacheTags;
+        return $cacheManager;
     }
 
     private static function escapeValues(mixed &$object): void {

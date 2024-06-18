@@ -256,7 +256,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
 
     public function testCreatePurgesCacheTags() {
         $client = static::createClientWithCredentials();
-        $purgedCacheTags = &$this->getPurgedCacheTags();
+        $cacheManager = $this->mockCacheManager();
 
         $client->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
 
@@ -266,7 +266,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
             $this->endpoint,
             $this->defaultParent->getRoot()->getId().'#rootDescendants',
             $this->defaultParent->getId().'#children',
-        ], $purgedCacheTags);
+        ], $cacheManager->getInvalidatedTags());
     }
 
     public static function getContentNodesWhichCannotHaveChildren(): array {

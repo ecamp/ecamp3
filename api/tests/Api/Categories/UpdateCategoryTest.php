@@ -514,7 +514,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryPurgesCacheTags() {
         $client = static::createClientWithCredentials();
-        $purgedCacheTags = &$this->getPurgedCacheTags();
+        $cacheManager = $this->mockCacheManager();
 
         $category = static::getFixture('category1');
         $client->request('PATCH', '/categories/'.$category->getId(), ['json' => [
@@ -535,6 +535,6 @@ class UpdateCategoryTest extends ECampApiTestCase {
             $contentTypeColumnLayout->getId().'#categories',
             $contentTypeNotes->getId().'#categories',
             $contentTypeSafetyConcept->getId().'#categories', // SafetyConcept was previously in the list, so this is purged because it was removed
-        ], $purgedCacheTags);
+        ], $cacheManager->getInvalidatedTags());
     }
 }
