@@ -179,11 +179,10 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
             ],
             ['position']
         ));
-
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
             'slot' => '1',
-            'position' => 1,
+            'position' => 2,
         ]);
     }
 

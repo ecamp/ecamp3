@@ -80,7 +80,30 @@
             },
             {
                 "_links": {
-                    "checklist": "escaped_value",
+                    "checklistItems": [],
+                    "children": [],
+                    "contentType": {
+                        "href": "escaped_value"
+                    },
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "root": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "contentTypeName": "escaped_value",
+                "data": "escaped_value",
+                "id": "escaped_value",
+                "instanceName": "escaped_value",
+                "position": "escaped_value",
+                "slot": "escaped_value"
+            },
+            {
+                "_links": {
                     "checklistItems": [],
                     "children": [],
                     "contentType": {
@@ -582,6 +605,9 @@
                     "children": [
                         {
                             "href": "escaped_value"
+                        },
+                        {
+                            "href": "escaped_value"
                         }
                     ],
                     "contentType": {
@@ -709,6 +735,9 @@
     },
     "_links": {
         "items": [
+            {
+                "href": "escaped_value"
+            },
             {
                 "href": "escaped_value"
             },
