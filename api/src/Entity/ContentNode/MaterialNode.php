@@ -58,8 +58,6 @@ class MaterialNode extends ContentNode {
     public function __construct() {
         parent::__construct();
         $this->materialItems = new ArrayCollection();
-
-        parent::__construct();
     }
 
     /**
