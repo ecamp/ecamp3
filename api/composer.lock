@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a72b12f22e64cb7e709863cdd0c72f3e",
+    "content-hash": "04c678f8eca0ebcb9cf4e93c5a4fc8fa",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10206,16 +10206,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.12.1",
+            "version": "v15.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "d8ea59bb02af10fd58a1192f7a781ae8aedac2d6"
+                "reference": "7e3ef03e1962bce7fd54c2841e6f8d3603a7c5f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/d8ea59bb02af10fd58a1192f7a781ae8aedac2d6",
-                "reference": "d8ea59bb02af10fd58a1192f7a781ae8aedac2d6",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/7e3ef03e1962bce7fd54c2841e6f8d3603a7c5f9",
+                "reference": "7e3ef03e1962bce7fd54c2841e6f8d3603a7c5f9",
                 "shasum": ""
             },
             "require": {
@@ -10228,7 +10228,7 @@
                 "amphp/http-server": "^2.1",
                 "dms/phpunit-arraysubset-asserts": "dev-master",
                 "ergebnis/composer-normalize": "^2.28",
-                "friendsofphp/php-cs-fixer": "3.58.1",
+                "friendsofphp/php-cs-fixer": "3.59.3",
                 "mll-lab/php-cs-fixer-config": "^5",
                 "nyholm/psr7": "^1.5",
                 "phpbench/phpbench": "^1.2",
@@ -10236,7 +10236,7 @@
                 "phpstan/phpstan": "1.11.4",
                 "phpstan/phpstan-phpunit": "1.4.0",
                 "phpstan/phpstan-strict-rules": "1.6.0",
-                "phpunit/phpunit": "^9.5 || ^10",
+                "phpunit/phpunit": "^9.5 || ^10.5.21",
                 "psr/http-message": "^1 || ^2",
                 "react/http": "^1.6",
                 "react/promise": "^2.0 || ^3.0",
@@ -10268,7 +10268,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.12.1"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.12.3"
             },
             "funding": [
                 {
@@ -10276,7 +10276,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-06-11T12:48:47+00:00"
+            "time": "2024-06-17T09:32:30+00:00"
         },
         {
             "name": "willdurand/negotiation",
@@ -12068,16 +12068,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.4",
+            "version": "1.11.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "9100a76ce8015b9aa7125b9171ae3a76887b6c82"
+                "reference": "490f0ae1c92b082f154681d7849aee776a7c1443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9100a76ce8015b9aa7125b9171ae3a76887b6c82",
-                "reference": "9100a76ce8015b9aa7125b9171ae3a76887b6c82",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/490f0ae1c92b082f154681d7849aee776a7c1443",
+                "reference": "490f0ae1c92b082f154681d7849aee776a7c1443",
                 "shasum": ""
             },
             "require": {
@@ -12122,7 +12122,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-06T12:19:22+00:00"
+            "time": "2024-06-17T15:10:54+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
