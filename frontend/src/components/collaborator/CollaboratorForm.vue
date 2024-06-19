@@ -76,7 +76,11 @@
       </template>
     </e-select>
 
-    <e-text-field v-model="localCollaboration.abbr" path="abbr" maxlength="2" />
+    <e-text-field
+      v-model="localCollaboration.abbreviation"
+      path="abbreviation"
+      maxlength="2"
+    />
 
     <e-color-picker v-model="localCollaboration.color" path="color" />
   </e-form>

@@ -71,7 +71,7 @@
             "href": "escaped_value"
         }
     },
-    "abbr": "escaped_value",
+    "abbreviation": "escaped_value",
     "color": "escaped_value",
     "id": "escaped_value",
     "inviteEmail": "escaped_value",

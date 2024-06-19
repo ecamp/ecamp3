@@ -5322,8 +5322,8 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
           type:
             - 'null'
@@ -5375,10 +5375,9 @@ components:
       deprecated: false
       description: ''
       properties:
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -5451,10 +5450,9 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -5533,10 +5531,9 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -5592,10 +5589,9 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -5646,10 +5642,9 @@ components:
                   maxLength: 16
                   readOnly: true
                   type: string
-                abbr:
-                  description: 'The abbreviation in th avatar.'
+                abbreviation:
+                  description: 'The abbreviation in the avatar.'
                   example: AB
-                  maxLength: 2
                   type: ['null', string]
                 color:
                   description: 'The color of the avatar as a hex color string.'
@@ -5731,8 +5726,8 @@ components:
                   type: string
               type: object
           type: object
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
           type:
             - 'null'
@@ -5793,10 +5788,9 @@ components:
                   type: string
               type: object
           type: object
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -5878,10 +5872,9 @@ components:
                   type: string
               type: object
           type: object
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -5965,10 +5958,9 @@ components:
                   type: string
               type: object
           type: object
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -6047,8 +6039,8 @@ components:
         '@type':
           readOnly: true
           type: string
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
           type:
             - 'null'
@@ -6123,10 +6115,9 @@ components:
         '@type':
           readOnly: true
           type: string
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -6222,10 +6213,9 @@ components:
         '@type':
           readOnly: true
           type: string
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string
@@ -6300,10 +6290,9 @@ components:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
-        abbr:
-          description: 'The abbreviation in th avatar.'
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
           example: AB
-          maxLength: 2
           type:
             - 'null'
             - string

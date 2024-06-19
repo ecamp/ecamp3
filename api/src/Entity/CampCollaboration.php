@@ -213,13 +213,13 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public ?string $color = null;
 
     /**
-     * The abbreviation in th avatar.
+     * The abbreviation in the avatar.
      */
     #[InputFilter\Trim]
     #[ApiProperty(example: 'AB')]
     #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'string', length: 2, nullable: true)]
-    public ?string $abbr = null;
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $abbreviation = null;
 
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'text', nullable: true)]
