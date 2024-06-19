@@ -25,7 +25,7 @@
       class="mb-2"
     />
 
-    <CollaboratorForm :collaboration="entityData" />
+    <CollaboratorForm :collaboration="entityData" variant="create" />
   </DetailPane>
 </template>
 
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      entityProperties: ['abbreviation', 'camp', 'color', 'inviteEmail', 'role'],
+      entityProperties: ['camp', 'inviteEmail', 'role'],
       entityUri: '',
     }
   },
@@ -59,9 +59,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          abbreviation: '',
           camp: this.camp._meta.self,
-          color: '',
           inviteEmail: '',
           role: DEFAULT_INVITE_ROLE,
         })
