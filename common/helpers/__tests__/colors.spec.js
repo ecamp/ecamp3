@@ -39,7 +39,8 @@ describe('campCollaborationColor', () => {
     [{ id: 'fffffff', _meta: {} }, '#992600'],
     [{ _meta: { loading: true } }, '#4d4d4d'],
     [{ id: 'fffffff', user: () => ({ _meta: { loading: true } }) }, '#4d4d4d'],
-  ])('maps %p to %p', (input, expected) => {
+    [{ color: '#ECA110' }, '#ECA110'],
+  ])('maps %o to "%s"', (input, expected) => {
     expect(campCollaborationColor(input)).toEqual(expected)
   })
 })
