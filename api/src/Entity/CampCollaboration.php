@@ -222,10 +222,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $abbreviation = null;
 
-    #[ApiProperty(readable: false, writable: false)]
-    #[ORM\Column(type: 'text', nullable: true)]
-    public ?string $collaborationAcceptedBy = null;
-
     public function __construct() {
         parent::__construct();
         $this->dayResponsibles = new ArrayCollection();
