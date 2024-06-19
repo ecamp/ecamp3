@@ -4,6 +4,7 @@ import i18n from '@/plugins/i18n'
 import greaterThan_time from './veeValidate/greaterThan_time.js'
 import greaterThanOrEqual_date from './veeValidate/greaterThanOrEqual_date.js'
 import lessThanOrEqual_date from './veeValidate/lessThanOrEqual_date.js'
+import oneEmojiOrTwoCharacters from '@/plugins/veeValidate/oneEmojiOrTwoCharacters.js'
 
 class VeeValidatePlugin {
   install(Vue) {
@@ -36,6 +37,9 @@ class VeeValidatePlugin {
 
     // check if date (value) is equal or less than another date (max)
     extend('lessThanOrEqual_date', lessThanOrEqual_date(Vue.dayjs, i18n))
+
+    // check if date (value) is equal or less than another date (max)
+    extend('oneEmojiOrTwoCharacters', oneEmojiOrTwoCharacters(i18n))
   }
 }
 

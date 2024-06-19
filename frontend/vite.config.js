@@ -97,6 +97,7 @@ export default defineConfig(({ mode }) => ({
       'lodash/sortBy.js',
       'lodash/minBy.js',
       'lodash/maxBy.js',
+      'lodash/size.js',
       'runes',
       'vee-validate',
       'vue',

@@ -487,7 +487,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} non può essere prima che {min}",
       "greaterThan_time": "{_camp_} deve essere posteriore a {min}",
-      "lessThanOrEqual_date": "{_camp_} non può essere successivo a {max}"
+      "lessThanOrEqual_date": "{_camp_} non può essere successivo a {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} può contenere solo 1 emoji o 2 lettere/numeri"
     },
     "warning": {
       "delete": "Volete davvero cancellarlo? | Volete davvero cancellarlo \"{entity}\"?"

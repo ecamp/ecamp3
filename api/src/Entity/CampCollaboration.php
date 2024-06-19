@@ -216,6 +216,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * The abbreviation in the avatar.
      */
     #[InputFilter\Trim]
+    #[Assert\Length(max: 2, countUnit: Assert\Length::COUNT_GRAPHEMES)]
     #[ApiProperty(example: 'AB')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]

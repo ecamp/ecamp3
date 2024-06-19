@@ -527,7 +527,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
-      "lessThanOrEqual_date": "{_field_} may not be later than {max}"
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} may only have 1 emoji or 2 letters/numbers"
     },
     "warning": {
       "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"

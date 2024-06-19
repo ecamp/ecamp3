@@ -5378,6 +5378,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -5453,6 +5454,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -5534,6 +5536,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -5592,6 +5595,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -5645,6 +5649,7 @@ components:
                 abbreviation:
                   description: 'The abbreviation in the avatar.'
                   example: AB
+                  maxLength: 2
                   type: ['null', string]
                 color:
                   description: 'The color of the avatar as a hex color string.'
@@ -5791,6 +5796,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -5875,6 +5881,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -5961,6 +5968,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -6118,6 +6126,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -6216,6 +6225,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string
@@ -6293,6 +6303,7 @@ components:
         abbreviation:
           description: 'The abbreviation in the avatar.'
           example: AB
+          maxLength: 2
           type:
             - 'null'
             - string

@@ -79,7 +79,7 @@
     <e-text-field
       v-model="localCollaboration.abbreviation"
       path="abbreviation"
-      maxlength="2"
+      vee-rules="oneEmojiOrTwoCharacters"
     />
 
     <e-color-picker v-model="localCollaboration.color" path="color" />
