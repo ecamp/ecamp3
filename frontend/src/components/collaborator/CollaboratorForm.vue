@@ -75,6 +75,19 @@
         </span>
       </template>
     </e-select>
+
+    <e-text-field
+      v-if="variant === 'edit'"
+      v-model="localCollaboration.abbreviation"
+      path="abbreviation"
+      vee-rules="oneEmojiOrTwoCharacters"
+    />
+
+    <e-color-picker
+      v-if="variant === 'edit'"
+      v-model="localCollaboration.color"
+      path="color"
+    />
   </e-form>
 </template>
 
@@ -85,6 +98,7 @@ export default {
     collaboration: { type: Object, required: true },
     status: { type: [String, Boolean], required: false, default: false },
     readonlyRole: { type: [String, Boolean], required: false, default: false },
+    variant: { type: String, required: false, default: 'edit' },
   },
   computed: {
     items() {

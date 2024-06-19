@@ -15,7 +15,9 @@ describe('campCollaborationInitials', () => {
       'BA',
     ],
     [{ inviteEmail: 'ecamp@ecamp3.ch', status: 'inactive', user: null }, 'EC'],
-  ])('maps %p to %p', (input, expected) => {
+    [{ abbreviation: 'B', inviteEmail: null, user: null }, 'B'],
+    [{ abbreviation: 'AA', user: () => ({ displayName: 'Bi-Pi' }) }, 'AA'],
+  ])('maps %o to "%s"', (input, expected) => {
     expect(campCollaborationInitials(input)).toEqual(expected)
   })
 })

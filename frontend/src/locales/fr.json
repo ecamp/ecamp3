@@ -507,7 +507,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
-      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}"
+      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} ne peut avoir que 1 emoji ou 2 lettres/chiffres"
     },
     "warning": {
       "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"

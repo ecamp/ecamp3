@@ -152,7 +152,14 @@ export default {
     return {
       resendingEmail: false,
       emailSent: false,
-      entityProperties: ['camp', 'inviteEmail', 'role', 'status'],
+      entityProperties: [
+        'abbreviation',
+        'camp',
+        'color',
+        'inviteEmail',
+        'role',
+        'status',
+      ],
       entityUri: '',
     }
   },
@@ -187,6 +194,8 @@ export default {
         this.emailSent = false
         this.entityUri = this.collaborator._meta.self
         this.setEntityData({
+          abbreviation: this.collaborator.abbreviation,
+          color: this.collaborator.color || '',
           role: this.collaborator.role,
         })
       } else {
