@@ -194,6 +194,7 @@
         "title": "Modifier {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Remplacer l'avatar pour ce camp",
         "roleHint": "Chaque camp nécessite au moins une personne disposant de droits d'administrateur."
       },
       "promptCollaboratorDeactivate": {
@@ -425,20 +426,6 @@
         "success": "L'adresse e-mail a été modifiée avec succès.",
         "title": "Changement d'adresse e-mail"
       }
-    }
-  },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Anniversaire",
-        "email": "Adresse e-mail",
-        "firstname": "Prénom",
-        "language": "Langue",
-        "nickname": "Surnom",
-        "password": "Mot de passe",
-        "surname": "Nom de famille"
-      },
-      "name": "Utilisateur"
     }
   },
   "global": {

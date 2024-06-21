@@ -209,6 +209,7 @@
         "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Avatar für dieses Lager überschreiben",
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
       },
       "promptCollaboratorDeactivate": {
@@ -445,20 +446,6 @@
         "success": "E-Mail-Adresse erfolgreich geändert.",
         "title": "E-Mail-Adresse wird geändert"
       }
-    }
-  },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Geburtstag",
-        "email": "E-Mail-Adresse",
-        "firstname": "Vorname",
-        "language": "Sprache",
-        "nickname": "Spitzname",
-        "password": "Passwort",
-        "surname": "Nachname"
-      },
-      "name": "User"
     }
   },
   "global": {

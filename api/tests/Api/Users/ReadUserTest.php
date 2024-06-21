@@ -57,6 +57,8 @@ class ReadUserTest extends ECampApiTestCase {
         $this->assertJsonEquals([
             'id' => $user->getId(),
             'displayName' => $user->getDisplayName(),
+            'abbreviation' => $user->getAbbreviation(),
+            'color' => $user->getColor(),
             '_links' => [
                 'self' => [
                     'href' => $this->getIriFor('user1manager'),
@@ -76,6 +78,8 @@ class ReadUserTest extends ECampApiTestCase {
         $this->assertJsonEquals([
             'id' => $user->getId(),
             'displayName' => $user->getDisplayName(),
+            'abbreviation' => $user->getAbbreviation(),
+            'color' => $user->getColor(),
             '_links' => [
                 'self' => [
                     'href' => $this->getIriFor('user2member'),

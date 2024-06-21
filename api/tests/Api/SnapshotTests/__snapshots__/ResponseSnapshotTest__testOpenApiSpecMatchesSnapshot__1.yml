@@ -15488,6 +15488,21 @@ components:
         The properties available to related eCamp users are here.
         Related means that they were or are collaborators in the same camp.
       properties:
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -15564,6 +15579,21 @@ components:
       deprecated: false
       description: ''
       properties:
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -15643,6 +15673,21 @@ components:
         The properties available to related eCamp users are here.
         Related means that they were or are collaborators in the same camp.
       properties:
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -15709,6 +15754,21 @@ components:
         The properties available to related eCamp users are here.
         Related means that they were or are collaborators in the same camp.
       properties:
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         firstname:
           description: "The user's (optional) first name."
           example: Robert
@@ -15781,6 +15841,17 @@ components:
                   maxLength: 16
                   readOnly: true
                   type: string
+                abbreviation:
+                  description: 'The default abbreviation in the avatar.'
+                  example: AB
+                  maxLength: 2
+                  type: ['null', string]
+                color:
+                  description: 'The default color of the avatar as a hex color string.'
+                  example: '#4DBB52'
+                  maxLength: 8
+                  pattern: '^(#[0-9a-zA-Z]{6})$'
+                  type: ['null', string]
                 email:
                   description: 'Unique email of the user.'
                   example: bi-pi@example.com
@@ -15871,6 +15942,21 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -15956,6 +16042,21 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -16044,6 +16145,21 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -16133,6 +16249,21 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -16232,6 +16363,21 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -16311,6 +16457,21 @@ components:
         The properties available to related eCamp users are here.
         Related means that they were or are collaborators in the same camp.
       properties:
+        abbreviation:
+          description: 'The default abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'The default color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
         email:
           description: 'Unique email of the user.'
           example: bi-pi@example.com
@@ -20218,6 +20379,20 @@ components:
         A person using eCamp.
         The properties available for all other eCamp users are here.
       properties:
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20245,6 +20420,20 @@ components:
       deprecated: false
       description: ''
       properties:
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20272,6 +20461,20 @@ components:
       deprecated: false
       description: ''
       properties:
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20301,6 +20504,20 @@ components:
         A person using eCamp.
         The properties available for all other eCamp users are here.
       properties:
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20391,10 +20608,20 @@ components:
                   maxLength: 16
                   readOnly: true
                   type: string
+                abbreviation:
+                  description: 'A displayable name of the user.'
+                  example: AB
+                  readOnly: true
+                  type: ['null', string]
                 activationKey:
                   description: 'User-Input for activation.'
                   type: ['null', string]
                   writeOnly: true
+                color:
+                  description: 'A displayable name of the user.'
+                  example: '#ff0000'
+                  readOnly: true
+                  type: ['null', string]
                 displayName:
                   description: 'A displayable name of the user.'
                   example: 'Robert Baden-Powell'
@@ -20454,6 +20681,20 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20490,6 +20731,20 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20526,6 +20781,20 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20564,6 +20833,20 @@ components:
                   type: string
               type: object
           type: object
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20657,6 +20940,20 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20707,6 +21004,20 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20757,6 +21068,20 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -20809,6 +21134,20 @@ components:
         '@type':
           readOnly: true
           type: string
+        abbreviation:
+          description: 'A displayable name of the user.'
+          example: AB
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        color:
+          description: 'A displayable name of the user.'
+          example: '#ff0000'
+          readOnly: true
+          type:
+            - 'null'
+            - string
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'

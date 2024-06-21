@@ -2,22 +2,22 @@
 
 
 
-INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash, jubladbid) VALUES
-	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
-	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'de-CH-scout', '["ROLE_USER"]', '2022-01-23 16:19:10', '2023-08-08 09:11:11', NULL, NULL, NULL, NULL, NULL, NULL),
-	('0870635edda6', 'idefix@example.com', 'Tremaine', 'Kohler', 'Idefix', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4cda72af2704', 'et@example.com', 'Karlie', 'Terry', 'ET', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL, NULL),
-	('22dce794d4e2', 'snoopy@example.com', 'Pat', 'Fadel', 'Snoopy', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL, NULL),
-	('d46337a76a2c', 'salamander@example.com', 'Fritz', 'Müller', 'Salamander', 'de', '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL, NULL),
-	('f9f1a2f9af25', 'baghira@example.com', 'Zora', 'Steuber', 'Baghira', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL, NULL),
-	('7d03c967be7e', 'castor@example.com', 'Hans', 'Muster', 'Castor', 'de', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL, NULL),
-	('d36197370d44', 'sed@example.com', 'Clifford', 'Beier', 'sed', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
-	('e5433660140b', 'sit@example.com', 'Wanda', 'Koelpin', 'sit', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4bc441dc4b29', 'luke@skywalker.com', 'Luke', 'Skywalker', NULL, 'en', '["ROLE_USER"]', '2023-08-12 16:43:34', '2023-08-12 16:43:34', NULL, NULL, NULL, NULL, NULL, NULL),
-	('5552108bf43e', 'john@wick.com', 'John', 'Wick', NULL, 'en', '["ROLE_USER"]', '2023-08-12 16:46:43', '2023-08-12 16:46:43', NULL, NULL, NULL, NULL, NULL, NULL),
-	('abfcbcbd4566', 'clark@kent.com', 'Clark', 'Kent', NULL, 'en', '["ROLE_USER"]', '2023-08-12 16:49:27', '2023-08-12 16:49:27', NULL, NULL, NULL, NULL, NULL, NULL),
-	('3f3fa9319dd2', 'bruce@wayne.com', 'Bruce', 'Wayne', NULL, 'en', '["ROLE_USER"]', '2023-08-12 16:55:28', '2023-08-12 16:55:28', NULL, NULL, NULL, NULL, NULL, NULL),
-	('51245d0e2ad4', 'felicity@smoak.com', 'Felicity', 'Smoak', NULL, 'en', '["ROLE_USER"]', '2023-08-12 16:59:38', '2023-08-12 16:59:38', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.profile (id, email, firstname, surname, nickname, language, color, abbreviation, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash, jubladbid) VALUES
+	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', NULL, NULL, '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'de-CH-scout', '#6a209b', '⚜️', '["ROLE_USER"]', '2022-01-23 16:19:10', '2023-08-08 09:11:11', NULL, NULL, NULL, NULL, NULL, NULL),
+	('0870635edda6', 'idefix@example.com', 'Tremaine', 'Kohler', 'Idefix', 'en', NULL, NULL, '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('4cda72af2704', 'et@example.com', 'Karlie', 'Terry', 'ET', 'en', NULL, NULL, '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:21:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('22dce794d4e2', 'snoopy@example.com', 'Pat', 'Fadel', 'Snoopy', 'en', NULL, NULL, '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:19:40', NULL, NULL, NULL, NULL, NULL, NULL),
+	('d46337a76a2c', 'salamander@example.com', 'Fritz', 'Müller', 'Salamander', 'de', NULL, NULL, '["ROLE_USER"]', '2022-02-04 19:26:22', '2022-02-04 23:08:12', NULL, NULL, NULL, NULL, NULL, NULL),
+	('f9f1a2f9af25', 'baghira@example.com', 'Zora', 'Steuber', 'Baghira', 'en', NULL, NULL, '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL, NULL),
+	('7d03c967be7e', 'castor@example.com', 'Hans', 'Muster', 'Castor', 'de', NULL, 'C', '["ROLE_USER"]', '2022-02-04 19:25:07', '2022-02-04 23:07:57', NULL, NULL, NULL, NULL, NULL, NULL),
+	('d36197370d44', 'sed@example.com', 'Clifford', 'Beier', 'sed', 'en', NULL, NULL, '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('e5433660140b', 'sit@example.com', 'Wanda', 'Koelpin', 'sit', 'en', NULL, NULL, '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL),
+	('4bc441dc4b29', 'luke@skywalker.com', 'Luke', 'Skywalker', NULL, 'en', NULL, NULL, '["ROLE_USER"]', '2023-08-12 16:43:34', '2023-08-12 16:43:34', NULL, NULL, NULL, NULL, NULL, NULL),
+	('5552108bf43e', 'john@wick.com', 'John', 'Wick', NULL, 'en', NULL, NULL, '["ROLE_USER"]', '2023-08-12 16:46:43', '2023-08-12 16:46:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	('abfcbcbd4566', 'clark@kent.com', 'Clark', 'Kent', NULL, 'en', NULL, NULL, '["ROLE_USER"]', '2023-08-12 16:49:27', '2023-08-12 16:49:27', NULL, NULL, NULL, NULL, NULL, NULL),
+	('3f3fa9319dd2', 'bruce@wayne.com', 'Bruce', 'Wayne', NULL, 'en', NULL, NULL, '["ROLE_USER"]', '2023-08-12 16:55:28', '2023-08-12 16:55:28', NULL, NULL, NULL, NULL, NULL, NULL),
+	('51245d0e2ad4', 'felicity@smoak.com', 'Felicity', 'Smoak', NULL, 'en', NULL, NULL, '["ROLE_USER"]', '2023-08-12 16:59:38', '2023-08-12 16:59:38', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 
@@ -988,36 +988,36 @@ INSERT INTO public.activity (id, title, location, campid, categoryid, rootconten
 
 
 
-INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, role, createtime, updatetime, userid, campid) VALUES
-	('237abf0bd057', 'e.mail2@test.com', 'myInviteKey2', 'invited', 'member', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '6430aecc5422'),
-	('0e524d43e799', NULL, NULL, 'established', 'manager', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e7b00084dabf', '6430aecc5422'),
-	('2c313fa367b3', NULL, NULL, 'established', 'manager', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', 'e5027d852487'),
-	('2b3cf1ce6341', 'x@z.com', 'd12ntPWBK0qmPxfMGg/QRWh98XE=', 'invited', 'member', '2023-08-08 08:03:06', '2023-08-08 08:03:06', NULL, '3c79b99ab424'),
-	('dba39edd9910', NULL, NULL, 'established', 'member', '2023-08-08 07:59:24', '2023-08-08 08:11:28', 'bee7cf5b3871', '3c79b99ab424'),
-	('c88fd78c90ea', NULL, NULL, 'established', 'manager', '2023-08-08 07:58:53', '2023-08-08 08:12:12', 'caeba9f7e728', '3c79b99ab424'),
-	('5111b2972441', 'inactive@test.com', 'Vazgl+0DsuUKrcTezKxA+KmBgOA=', 'inactive', 'member', '2023-08-08 07:59:53', '2023-08-08 09:18:22', NULL, '3c79b99ab424'),
-	('68694999fa8d', NULL, NULL, 'established', 'manager', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '9145944210a7', '6973c230d6b1'),
-	('3229d273decd', NULL, '5eO+mQd6F+AQwCITx5mV8dX9/6U=', 'invited', 'manager', '2023-08-08 09:38:27', '2023-08-08 09:43:11', '130684395770', '6973c230d6b1'),
-	('7cae64a7800c', 'e.mail@test.com', '7FUv2lrEcRjMbW/Nb1mTkBaAPOs=', 'invited', 'member', '2023-08-08 09:37:38', '2023-08-08 09:43:21', NULL, '6973c230d6b1'),
-	('878426563205', NULL, NULL, 'established', 'guest', '2023-08-08 09:36:41', '2023-08-08 09:43:52', '48f00685a292', '6973c230d6b1'),
-	('d27ca1d0e6e4', NULL, NULL, 'established', 'member', '2023-08-08 09:36:01', '2023-08-08 09:44:19', 'bae69a1c9fcc', '6973c230d6b1'),
-	('c463d2a19847', NULL, NULL, 'established', 'member', '2023-08-08 09:38:01', '2023-08-08 09:44:50', 'caeba9f7e728', '6973c230d6b1'),
-	('763c0d181b63', NULL, NULL, 'established', 'manager', '2023-08-08 09:37:16', '2023-08-08 09:45:21', 'bee7cf5b3871', '6973c230d6b1'),
-	('b7d93b2fa1be', NULL, 'mLdsTtaGGptPYSZLUDgX8sAFO54=', 'established', 'member', '2023-08-12 19:10:49', '2023-08-12 19:10:49', 'a2f4f3879c85', '9c2447aefe38'),
-	('ac1cd0bcbd69', NULL, 'V30YTcBqBqs5xS7HrFM4ODRrzbw=', 'established', 'member', '2023-08-12 19:10:28', '2023-08-12 19:10:28', 'a3d9d86dc23b', '9c2447aefe38'),
-	('8be6d2f6f7dc', NULL, 'ru6jsdD9fODk8+p8wmI909rJPkQ=', 'established', 'manager', '2023-08-12 19:11:03', '2023-08-12 19:11:03', '566aea2c2759', '9c2447aefe38'),
-	('0e26982c9895', NULL, 'ao9OQRgXWBpCVaD4lGQaUFzvKwI=', 'established', 'member', '2023-08-12 19:10:14', '2023-08-12 19:10:14', 'dac7116e02ed', '9c2447aefe38'),
-	('b2f127cb410f', NULL, NULL, 'established', 'manager', '2023-08-13 06:32:29', '2023-08-13 06:32:29', 'dac7116e02ed', '0969e3c95dfc'),
-	('d806a59915f8', NULL, 'SuP47raE2s/2hGLsdBiO/icIU0E=', 'established', 'member', '2023-08-13 10:29:25', '2023-08-13 10:29:25', 'a3d9d86dc23b', '0969e3c95dfc'),
-	('7db6a9ffc210', NULL, 'yyXTSd6kGh7kNENlcGDeYtq4ftQ=', 'established', 'guest', '2023-08-13 10:29:47', '2023-08-13 10:29:47', 'a2f4f3879c85', '0969e3c95dfc'),
-	('60a470e1aff6', NULL, 'uGXywHjal9lK+rcdtRBcXh8y5qA=', 'established', 'manager', '2023-08-13 10:29:55', '2023-08-13 10:29:55', '566aea2c2759', '0969e3c95dfc'),
-	('d1c0a4522283', NULL, NULL, 'established', 'manager', '2023-09-29 23:24:38', '2023-09-29 23:24:38', 'dac7116e02ed', '70ca971c992f'),
-	('5b24ce470d9f', NULL, 'XisYzAgXUozfJA1M/y39ow8t5Vw=', 'established', 'member', '2023-09-29 23:27:54', '2023-09-29 23:27:54', 'a3d9d86dc23b', '70ca971c992f'),
-	('46d14f7c072c', NULL, '4KCuIMWvkGVAjSBtAnG5QcesOrI=', 'established', 'manager', '2023-09-29 23:41:30', '2023-09-29 23:41:30', 'a2f4f3879c85', '70ca971c992f'),
-	('b0bdb7202a9d', NULL, NULL, 'established', 'manager', '2023-08-08 07:53:12', '2023-08-08 07:53:12', '9145944210a7', '3c79b99ab424'),
-	('b00054c3c03e', NULL, 'XC/b4erYO0iZZTBEXOi3n/4AH9w=', 'established', 'guest', '2023-08-13 10:29:08', '2023-08-13 10:29:08', '9145944210a7', '0969e3c95dfc'),
-	('10d8f02ce5b4', NULL, 'n1MKxMj1RWkrcSmNfHdjUxKV3QY=', 'established', 'guest', '2023-09-29 23:25:49', '2023-09-29 23:25:49', '9145944210a7', '70ca971c992f'),
-	('b32db30637c8', NULL, 'AC/b4erYO0iZZTBEXOi3n/4AH9w=', 'invited', 'manager', '2023-08-12 17:41:55', '2023-08-12 17:41:55', '9145944210a7', '9c2447aefe38');
+INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, color, abbreviation, role, createtime, updatetime, userid, campid) VALUES
+	('237abf0bd057', 'e.mail2@test.com', 'myInviteKey2', 'invited', NULL, NULL, 'member', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, '6430aecc5422'),
+	('0e524d43e799', NULL, NULL, 'established', NULL, NULL, 'manager', '2022-01-23 16:19:10', '2022-01-23 16:19:10', 'e7b00084dabf', '6430aecc5422'),
+	('2c313fa367b3', NULL, NULL, 'established', NULL, NULL, 'manager', '2022-01-23 16:19:10', '2022-01-23 16:19:10', '3b41dca5c568', 'e5027d852487'),
+	('2b3cf1ce6341', 'x@z.com', 'd12ntPWBK0qmPxfMGg/QRWh98XE=', 'invited', NULL, NULL, 'member', '2023-08-08 08:03:06', '2023-08-08 08:03:06', NULL, '3c79b99ab424'),
+	('dba39edd9910', NULL, NULL, 'established', NULL, NULL, 'member', '2023-08-08 07:59:24', '2023-08-08 08:11:28', 'bee7cf5b3871', '3c79b99ab424'),
+	('c88fd78c90ea', NULL, NULL, 'established', NULL, NULL, 'manager', '2023-08-08 07:58:53', '2023-08-08 08:12:12', 'caeba9f7e728', '3c79b99ab424'),
+	('5111b2972441', 'inactive@test.com', 'Vazgl+0DsuUKrcTezKxA+KmBgOA=', 'inactive', NULL, NULL, 'member', '2023-08-08 07:59:53', '2023-08-08 09:18:22', NULL, '3c79b99ab424'),
+	('68694999fa8d', NULL, NULL, 'established', NULL, NULL, 'manager', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '9145944210a7', '6973c230d6b1'),
+	('3229d273decd', NULL, '5eO+mQd6F+AQwCITx5mV8dX9/6U=', 'invited', NULL, NULL, 'manager', '2023-08-08 09:38:27', '2023-08-08 09:43:11', '130684395770', '6973c230d6b1'),
+	('7cae64a7800c', 'e.mail@test.com', '7FUv2lrEcRjMbW/Nb1mTkBaAPOs=', 'invited', NULL, NULL, 'member', '2023-08-08 09:37:38', '2023-08-08 09:43:21', NULL, '6973c230d6b1'),
+	('878426563205', NULL, NULL, 'established', NULL, NULL, 'guest', '2023-08-08 09:36:41', '2023-08-08 09:43:52', '48f00685a292', '6973c230d6b1'),
+	('d27ca1d0e6e4', NULL, NULL, 'established', '#ff0080', '🐈‍⬛', 'member', '2023-08-08 09:36:01', '2023-08-08 09:44:19', 'bae69a1c9fcc', '6973c230d6b1'),
+	('c463d2a19847', NULL, NULL, 'established', NULL, 'Ca', 'member', '2023-08-08 09:38:01', '2023-08-08 09:44:50', 'caeba9f7e728', '6973c230d6b1'),
+	('763c0d181b63', NULL, NULL, 'established', NULL, NULL, 'manager', '2023-08-08 09:37:16', '2023-08-08 09:45:21', 'bee7cf5b3871', '6973c230d6b1'),
+	('b7d93b2fa1be', NULL, 'mLdsTtaGGptPYSZLUDgX8sAFO54=', 'established', NULL, NULL, 'member', '2023-08-12 19:10:49', '2023-08-12 19:10:49', 'a2f4f3879c85', '9c2447aefe38'),
+	('ac1cd0bcbd69', NULL, 'V30YTcBqBqs5xS7HrFM4ODRrzbw=', 'established', NULL, NULL, 'member', '2023-08-12 19:10:28', '2023-08-12 19:10:28', 'a3d9d86dc23b', '9c2447aefe38'),
+	('8be6d2f6f7dc', NULL, 'ru6jsdD9fODk8+p8wmI909rJPkQ=', 'established', NULL, NULL, 'manager', '2023-08-12 19:11:03', '2023-08-12 19:11:03', '566aea2c2759', '9c2447aefe38'),
+	('0e26982c9895', NULL, 'ao9OQRgXWBpCVaD4lGQaUFzvKwI=', 'established', NULL, NULL, 'member', '2023-08-12 19:10:14', '2023-08-12 19:10:14', 'dac7116e02ed', '9c2447aefe38'),
+	('b2f127cb410f', NULL, NULL, 'established', NULL, NULL, 'manager', '2023-08-13 06:32:29', '2023-08-13 06:32:29', 'dac7116e02ed', '0969e3c95dfc'),
+	('d806a59915f8', NULL, 'SuP47raE2s/2hGLsdBiO/icIU0E=', 'established', NULL, NULL, 'member', '2023-08-13 10:29:25', '2023-08-13 10:29:25', 'a3d9d86dc23b', '0969e3c95dfc'),
+	('7db6a9ffc210', NULL, 'yyXTSd6kGh7kNENlcGDeYtq4ftQ=', 'established', NULL, NULL, 'guest', '2023-08-13 10:29:47', '2023-08-13 10:29:47', 'a2f4f3879c85', '0969e3c95dfc'),
+	('60a470e1aff6', NULL, 'uGXywHjal9lK+rcdtRBcXh8y5qA=', 'established', NULL, NULL, 'manager', '2023-08-13 10:29:55', '2023-08-13 10:29:55', '566aea2c2759', '0969e3c95dfc'),
+	('d1c0a4522283', NULL, NULL, 'established', NULL, NULL, 'manager', '2023-09-29 23:24:38', '2023-09-29 23:24:38', 'dac7116e02ed', '70ca971c992f'),
+	('5b24ce470d9f', NULL, 'XisYzAgXUozfJA1M/y39ow8t5Vw=', 'established', NULL, NULL, 'member', '2023-09-29 23:27:54', '2023-09-29 23:27:54', 'a3d9d86dc23b', '70ca971c992f'),
+	('46d14f7c072c', NULL, '4KCuIMWvkGVAjSBtAnG5QcesOrI=', 'established', NULL, NULL, 'manager', '2023-09-29 23:41:30', '2023-09-29 23:41:30', 'a2f4f3879c85', '70ca971c992f'),
+	('b0bdb7202a9d', NULL, NULL, 'established', NULL, NULL, 'manager', '2023-08-08 07:53:12', '2023-08-08 07:53:12', '9145944210a7', '3c79b99ab424'),
+	('b00054c3c03e', NULL, 'XC/b4erYO0iZZTBEXOi3n/4AH9w=', 'established', NULL, NULL, 'guest', '2023-08-13 10:29:08', '2023-08-13 10:29:08', '9145944210a7', '0969e3c95dfc'),
+	('10d8f02ce5b4', NULL, 'n1MKxMj1RWkrcSmNfHdjUxKV3QY=', 'established', NULL, NULL, 'guest', '2023-09-29 23:25:49', '2023-09-29 23:25:49', '9145944210a7', '70ca971c992f'),
+	('b32db30637c8', NULL, 'AC/b4erYO0iZZTBEXOi3n/4AH9w=', 'invited', NULL, NULL, 'manager', '2023-08-12 17:41:55', '2023-08-12 17:41:55', '9145944210a7', '9c2447aefe38');
 
 
 

@@ -202,6 +202,19 @@
       },
       "name": "Lagerabschnitt | Lagerabschnitte"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
+        "email": "E-Mail-Adresse",
+        "firstname": "Vorname",
+        "language": "Sprache",
+        "nickname": "Spitzname",
+        "password": "Passwort",
+        "surname": "Nachname"
+      },
+      "name": "Profil"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Dauer",

@@ -209,6 +209,7 @@
         "title": "Edit {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Overwrite avatar for this camp",
         "roleHint": "Each camp needs at least one person with administrative rights."
       },
       "promptCollaboratorDeactivate": {
@@ -445,20 +446,6 @@
         "success": "Email address successfully changed.",
         "title": "Changing email address"
       }
-    }
-  },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Birthday",
-        "email": "Email address",
-        "firstname": "Firstname",
-        "language": "Language",
-        "nickname": "Nickname",
-        "password": "Password",
-        "surname": "Lastname"
-      },
-      "name": "User"
     }
   },
   "global": {

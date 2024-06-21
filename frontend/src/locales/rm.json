@@ -375,20 +375,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Di da naschientscha",
-        "email": "Adressa dad e-mail",
-        "firstname": "Prenum",
-        "language": "Lingua",
-        "nickname": "Surnum",
-        "password": "Pled-clav",
-        "surname": "Num da famiglia"
-      },
-      "name": "Utilisad*ra"
-    }
-  },
   "global": {
     "button": {
       "add": "Agiuntar",

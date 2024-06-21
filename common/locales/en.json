@@ -209,6 +209,19 @@
       },
       "name": "Period | Periods"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
+        "email": "Email address",
+        "firstname": "Firstname",
+        "language": "Language",
+        "nickname": "Nickname",
+        "password": "Password",
+        "surname": "Lastname"
+      },
+      "name": "Profile"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Duration",

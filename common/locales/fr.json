@@ -190,6 +190,19 @@
       },
       "name": "Période | Périodes"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abréviation",
+        "color": "Couleur",
+        "email": "Adresse e-mail",
+        "firstname": "Prénom",
+        "language": "Langue",
+        "nickname": "Surnom",
+        "password": "Mot de passe",
+        "surname": "Nom de famille"
+      },
+      "name": "Profil"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Durée",
