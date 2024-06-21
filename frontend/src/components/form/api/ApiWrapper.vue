@@ -5,7 +5,7 @@ Wrapper component for form components to save data back to API
 <template>
   <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>
     <v-form
-      :class="[{ 'api-wrapper--inline': true }]"
+      :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
       class="e-form-container"
       @submit.prevent="onEnter"
     >
