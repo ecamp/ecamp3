@@ -27,7 +27,11 @@
             },
             {
                 "_links": {
-                    "checklistItems": [],
+                    "checklistItems": [
+                        {
+                            "href": "escaped_value"
+                        }
+                    ],
                     "children": [],
                     "contentType": {
                         "href": "escaped_value"
