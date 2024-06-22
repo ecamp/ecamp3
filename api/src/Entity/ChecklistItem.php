@@ -16,8 +16,8 @@ use App\Entity\ContentNode\ChecklistNode;
 use App\InputFilter;
 use App\Repository\ChecklistItemRepository;
 use App\Util\EntityMap;
+use App\Validator\AssertNoLoop;
 use App\Validator\ChecklistItem\AssertBelongsToChecklist;
-use App\Validator\ChecklistItem\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -67,7 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist'])]
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
-class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
+class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface, HasParentInterface {
     public const CHECKLIST_SUBRESOURCE_URI_TEMPLATE = '/checklists/{checklistId}/checklist_items.{_format}';
 
     /**
@@ -138,6 +138,10 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->checklist?->getCamp();
+    }
+
+    public function getParent(): ?HasParentInterface {
+        return $this->parent;
     }
 
     /**
