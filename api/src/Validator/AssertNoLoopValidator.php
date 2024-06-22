@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Validator\ContentNode;
+namespace App\Validator;
 
-use App\Entity\ContentNode;
+use App\Entity\HasParentInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -19,7 +19,7 @@ class AssertNoLoopValidator extends ConstraintValidator {
 
         $object = $this->context->getObject();
 
-        /** @var ContentNode $parent */
+        /** @var HasParentInterface $parent */
         $parent = $value;
 
         // $seen keeps track of all parents that we have visited. This is for a safety
@@ -36,7 +36,7 @@ class AssertNoLoopValidator extends ConstraintValidator {
             }
 
             $seen[] = $parent->getId();
-            $parent = $parent->parent;
+            $parent = $parent->getParent();
         }
     }
 }
