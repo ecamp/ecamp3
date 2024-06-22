@@ -43,7 +43,7 @@
     "@vue/runtime-dom": "3.4.30",
     "@vue/server-renderer": "3.4.30",
     "@vue/shared": "3.4.30",
-    "@vue/test-utils": "2.4.5",
+    "@vue/test-utils": "2.4.6",
     "css": "3.0.0",
     "dayjs": "1.11.11",
     "eslint": "8.57.0",
