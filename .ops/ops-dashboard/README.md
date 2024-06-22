@@ -33,3 +33,12 @@ Fill in the values for values.access.yaml according to demo.values.access.yaml
 ```shell
 cp demo.values.access.yaml values.access.yaml 
 ```
+
+To diff the deployment
+```shell
+helm template \
+    --namespace ops-dashboard --no-hooks --skip-tests \
+    ops-dashboard . \
+    --values values.yaml \
+    --values values.access.yaml | kubectl diff --namespace ops-dashboard -f - | batcat -l diff -
+```
