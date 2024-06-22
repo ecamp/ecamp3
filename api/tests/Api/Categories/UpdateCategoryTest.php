@@ -511,4 +511,30 @@ class UpdateCategoryTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testPatchCategoryPurgesCacheTags() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $category = static::getFixture('category1');
+        $client->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+            'short' => 'LP',
+            'preferredContentTypes' => [
+                $this->getIriFor('contentTypeColumnLayout'),
+                $this->getIriFor('contentTypeNotes'),
+            ],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $contentTypeColumnLayout = static::getFixture('contentTypeColumnLayout');
+        $contentTypeNotes = static::getFixture('contentTypeNotes');
+        $contentTypeSafetyConcept = static::getFixture('contentTypeSafetyConcept');
+        self::assertEqualsCanonicalizing([
+            $category->getId(),
+            $contentTypeColumnLayout->getId().'#categories',
+            $contentTypeNotes->getId().'#categories',
+            $contentTypeSafetyConcept->getId().'#categories', // SafetyConcept was previously in the list, so this is purged because it was removed
+        ], $cacheManager->getInvalidatedTags());
+    }
 }

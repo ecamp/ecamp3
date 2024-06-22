@@ -552,6 +552,26 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
     }
 
+    public function testCreateCategoryPurgesCacheTags() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $client->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $camp1 = static::getFixture('camp1');
+        $contentType = static::getFixture('contentTypeSafetyConcept');
+        self::assertEqualsCanonicalizing([
+            '/categories',
+            '/camps/'.$camp1->getId().'/categories',
+            '/content_nodes',
+            '/content_node/column_layouts',
+            $camp1->getId().'#categories',
+            $contentType->getId().'#categories',
+        ], $cacheManager->getInvalidatedTags());
+    }
+
     /**
      * @throws RedirectionExceptionInterface
      * @throws DecodingExceptionInterface
