@@ -2,11 +2,8 @@
 
 # Adapted from https://github.com/api-platform/api-platform/blob/fa1c5808305d7cadbf7b8392e0fddb6e80fb2092/api/Dockerfile
 
-# renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.7
-
 # Versions
-FROM dunglas/frankenphp:1.1.4-php${PHP_VERSION} AS frankenphp_upstream
+FROM dunglas/frankenphp:1.1-php8.3.7 AS frankenphp_upstream
 
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
