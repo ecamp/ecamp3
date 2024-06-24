@@ -19,7 +19,7 @@
         "knpuniversity/oauth2-client-bundle": "2.18.1",
         "league/oauth2-google": "4.0.1",
         "lexik/jwt-authentication-bundle": "3.0.0",
-        "nelmio/cors-bundle": "2.4.0",
+        "nelmio/cors-bundle": "2.5.0",
         "phpdocumentor/reflection-docblock": "5.4.1",
         "phpmyadmin/sql-parser": "5.9.0",
         "ramsey/uuid": "4.7.6",
