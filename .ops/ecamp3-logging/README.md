@@ -32,3 +32,10 @@ To restore [kibana-objects.ndjson](files%2Fkibana%2Fkibana-objects.ndjson) to a 
 kubectl -n ecamp3-logging port-forward services/kibana 5601:5601
 sh files/kibana/restore-kibana-objects.sh
 ```
+
+To diff the deployment
+```shell
+helm template \
+    --namespace ecamp3-logging --no-hooks --skip-tests \
+    ecamp3-logging . | kubectl diff --namespace ecamp3-logging -f - | batcat -l diff -
+```
