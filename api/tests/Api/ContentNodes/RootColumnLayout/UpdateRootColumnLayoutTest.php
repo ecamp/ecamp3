@@ -62,7 +62,7 @@ class UpdateRootColumnLayoutTest extends UpdateContentNodeTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'parent',
-                    'message' => 'This value should be of type App\\Entity\\ContentNode.',
+                    'message' => 'This value should be of type App\Entity\ContentNode.',
                 ],
             ],
         ]);
