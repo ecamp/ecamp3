@@ -24,7 +24,7 @@ spec:
         - name: kibana
           image: "docker.elastic.co/kibana/kibana:{{ .Values.elastic.version }}"
           resources:
-            {{- toYaml .Values.elasticsearch.elasticNode.resources | nindent 12 }}
+            {{- toYaml .Values.kibana.resources | nindent 12 }}
           env:
             - name: ELASTICSEARCH_URL
               value: http://elasticsearch:9200
