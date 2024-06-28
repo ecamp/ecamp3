@@ -75,13 +75,13 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $classMetadataProphecy = $this->prophesize(ClassMetadata::class);
         $classMetadataProphecy->getAssociationMappings()->willReturn([
             'relatedDummy' => [
-                'targetEntity' => 'App\\Tests\\HttpCache\\Entity\\RelatedDummy',
+                'targetEntity' => 'App\Tests\HttpCache\Entity\RelatedDummy',
                 'isOwningSide' => true,
                 'inversedBy' => 'dummies',
                 'mappedBy' => null,
             ],
             'relatedOwningDummy' => [
-                'targetEntity' => 'App\\Tests\\HttpCache\\Entity\\RelatedOwningDummy',
+                'targetEntity' => 'App\Tests\HttpCache\Entity\RelatedOwningDummy',
                 'isOwningSide' => true,
                 'inversedBy' => 'ownedDummy',
                 'mappedBy' => null,

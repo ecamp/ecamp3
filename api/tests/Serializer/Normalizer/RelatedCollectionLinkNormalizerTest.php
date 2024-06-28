@@ -189,7 +189,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->uriTemplateFactory
             ->expects($this->once())
             ->method('createFromResourceClass')
-            ->with('App\\Entity\\DummyEntity')
+            ->with('App\Entity\DummyEntity')
             ->willReturn(['/relatedEntities{/id}{?test_param}', true])
         ;
         $this->uriTemplate
@@ -498,7 +498,7 @@ class ParentEntity {
         return '';
     }
 
-    #[RelatedCollectionLink('App\\Entity\\DummyEntity', ['test_param' => 'filterValue'])]
+    #[RelatedCollectionLink('App\Entity\DummyEntity', ['test_param' => 'filterValue'])]
     public function getRelatedEntities(): array {
         return [];
     }
