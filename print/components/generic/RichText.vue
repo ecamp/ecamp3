@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="tw-prose tw-prose-neutral" v-html="purifiedHtml" />
+  <div class="tw-prose tw-prose-neutral wrap-anywhere" v-html="purifiedHtml" />
 </template>
 
 <script>
@@ -23,3 +23,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.wrap-anywhere {
+  word-wrap: anywhere;
+}
+</style>
