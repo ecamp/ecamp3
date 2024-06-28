@@ -294,6 +294,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+div.editor:deep(div.ProseMirror) {
+  word-wrap: anywhere;
+}
 div.editor:deep(p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder);
   float: left;
