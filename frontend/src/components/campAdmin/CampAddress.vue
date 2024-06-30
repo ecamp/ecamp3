@@ -14,9 +14,14 @@ Displays address and allows to edit
 
         <api-text-field path="addressStreet" :disabled="disabled" />
 
-        <api-text-field path="addressZipcode" :disabled="disabled" />
-
-        <api-text-field path="addressCity" :disabled="disabled" />
+        <v-row class="mt-3">
+          <v-col cols="12" md="4" class="pt-0">
+            <api-text-field path="addressZipcode" :disabled="disabled" />
+          </v-col>
+          <v-col cols="12" md="8" class="pt-0 pl-md-0">
+            <api-text-field path="addressCity" :disabled="disabled" />
+          </v-col>
+        </v-row>
       </api-form>
     </div>
   </content-group>
