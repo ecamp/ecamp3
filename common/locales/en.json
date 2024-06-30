@@ -176,6 +176,18 @@
         "-": "no numbering"
       }
     },
+    "checklist": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Checklist | Checklists"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Text"
+      },
+      "name": "Checklist entry"
+    },
     "contentType": {
       "name": "Contenttype | Contenttypes"
     },

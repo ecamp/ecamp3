@@ -193,6 +193,21 @@
         "title": "Kategorie kopieren & einfügen"
       }
     },
+    "checklist": {
+      "checklistCreate": {
+        "title": "Checkliste erstellen"
+      },
+      "checklistItemCreate": {
+        "add": "Checklisteneintrag erstellen",
+        "title": "Checklisteneintrag hinzufügen"
+      },
+      "checklistItemEdit": {
+        "title": "Checklisteneintrag bearbeiten"
+      },
+      "sortableChecklist": {
+        "add": "Zu \"{parent}\" hinzufügen"
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Einladung verschicken",

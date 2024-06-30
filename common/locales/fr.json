@@ -157,6 +157,17 @@
         "i": "i, ii, iii - chiffres romains minuscules"
       }
     },
+    "checklist": {
+      "fields": {
+        "name": "Nom"
+      },
+      "name": "Check-list | Check-lists"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Text"
+      }
+    },
     "contentType": {
       "name": "Type de contenu | Types de contenu"
     },

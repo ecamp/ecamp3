@@ -18,6 +18,11 @@
         icon="mdi-account-group-outline"
       />
       <SidebarListItem
+        :to="adminRoute(camp, 'checklists')"
+        title="Checklists"
+        icon="mdi-list-box-outline"
+      />
+      <SidebarListItem
         :to="adminRoute(camp, 'material')"
         :title="$tc('views.admin.sideBarAdmin.itemMaterialLists')"
         icon="mdi-package-variant-closed"

@@ -169,6 +169,18 @@
         "-": "keine Nummerierung"
       }
     },
+    "checklist": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Checkliste | Checklisten"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Text"
+      },
+      "name": "Checklisteneintrag"
+    },
     "contentType": {
       "name": "Inhalttyp | Inhalttypen"
     },

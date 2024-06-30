@@ -193,6 +193,21 @@
         "title": "Copy & paste category"
       }
     },
+    "checklist": {
+      "checklistCreate": {
+        "title": "Create checklist"
+      },
+      "checklistItemCreate": {
+        "add": "Create checklist entry",
+        "title": "Add checklist entry"
+      },
+      "checklistItemEdit": {
+        "title": "Edit checklist entry"
+      },
+      "sortableChecklist": {
+        "add": "Add to \"{parent}\""
+      }
+    },
     "collaborator": {
       "collaboratorCreate": {
         "invite": "Send invitation",
