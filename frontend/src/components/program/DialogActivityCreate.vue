@@ -189,6 +189,18 @@ export default {
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
+        if (!this.scheduleEntry.start) {
+          this.scheduleEntry.start = this.$date
+            .utc(this.period.start)
+            .add(8, 'hour')
+            .format()
+        }
+        if (!this.scheduleEntry.end) {
+          this.scheduleEntry.end = this.$date
+            .utc(this.period.start)
+            .add(9, 'hour')
+            .format()
+        }
         this.refreshCopyActivitySource()
         this.setEntityData({
           title: this.entityData?.title,
@@ -249,6 +261,10 @@ export default {
   },
   mounted() {
     this.api.href(this.api.get(), 'activities').then((url) => (this.entityUri = url))
+    window.addEventListener('paste', this.pasteHandler)
+  },
+  beforeUnmount() {
+    window.removeEventListener('paste', this.pasteHandler)
   },
   methods: {
     refreshCopyActivitySource() {
@@ -276,24 +292,43 @@ export default {
         }
       )
     },
+    isActivitySource(value) {
+      if (value?.startsWith(window.location.origin)) {
+        const url = value.substring(window.location.origin.length)
+        const match = router.matcher.match(url)
+        return match.name === 'activity'
+      }
+      return false
+    },
     async getCopyActivitySource(url) {
-      if (url?.startsWith(window.location.origin)) {
+      if (this.isActivitySource(url)) {
         url = url.substring(window.location.origin.length)
         const match = router.matcher.match(url)
+        const scheduleEntry = await this.api
+          .get()
+          .scheduleEntries({ id: match.params['scheduleEntryId'] })
 
-        if (match.name === 'activity') {
-          const scheduleEntry = await this.api
-            .get()
-            .scheduleEntries({ id: match.params['scheduleEntryId'] })
-
-          return await scheduleEntry.activity()
-        }
+        return await scheduleEntry.activity()
       }
       return null
     },
     async clearClipboard() {
       await navigator.clipboard.writeText('')
       this.refreshCopyActivitySource()
+    },
+    /// Handles the Paste event which still can be used if the user doesnt grant permission
+    async pasteHandler(event) {
+      const url = (event.clipboardData || window.clipboardData).getData('text')
+      if (!this.isActivitySource(url) || this.copyActivitySourceUrlShowPopover) return
+      if (this.copyActivitySource == null) {
+        const copyActivitySource = await this.getCopyActivitySource(url)
+        this.copyActivitySource = await copyActivitySource?._meta.load
+      }
+      if (this.copyActivitySource != null) {
+        this.showDialog = true // on paste make sure this dialog opens
+        this.copyContent = true
+        event.preventDefault()
+      }
     },
     cancelCreate() {
       this.close()

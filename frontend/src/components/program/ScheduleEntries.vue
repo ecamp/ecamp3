@@ -24,7 +24,7 @@
       right
       class="fab--bottom_nav float-right"
       color="red"
-      @click.stop="createNewActivity()"
+      @click.stop="showActivityCreateDialog()"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -77,17 +77,6 @@ export default {
   },
 
   methods: {
-    createNewActivity() {
-      this.newScheduleEntry.start = this.$date
-        .utc(this.period.start)
-        .add(8, 'hour')
-        .format()
-      this.newScheduleEntry.end = this.$date
-        .utc(this.period.start)
-        .add(9, 'hour')
-        .format()
-      this.showActivityCreateDialog()
-    },
     showActivityCreateDialog() {
       this.$refs.dialogActivityCreate.showDialog = true
     },
