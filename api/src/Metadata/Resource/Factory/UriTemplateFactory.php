@@ -164,7 +164,7 @@ class UriTemplateFactory {
              * - any uriTemplate, which doesn't start with the same $uriTemplateBase
              */
             if ($operation instanceof HttpOperation) {
-                if (preg_match('/^\/?'.preg_quote($uriTemplateBase, '/').'.*\\/?{.*}\\/.+$/', $operation->getUriTemplate() ?? '')) {
+                if (preg_match('/^\/?'.preg_quote($uriTemplateBase, '/').'.*\/?{.*}\/.+$/', $operation->getUriTemplate() ?? '')) {
                     return true;
                 }
             }

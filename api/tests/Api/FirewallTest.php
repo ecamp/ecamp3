@@ -102,7 +102,7 @@ class FirewallTest extends ECampApiTestCase {
         $responseArray = $response->toArray();
         $onlyUrls = array_map(fn (array $item) => $item['href'], $responseArray['_links']);
 
-        return array_map(fn (string $uriTemplate) => preg_replace('/\\{[^}]*}/', '', $uriTemplate), $onlyUrls);
+        return array_map(fn (string $uriTemplate) => preg_replace('/\{[^}]*}/', '', $uriTemplate), $onlyUrls);
     }
 
     private static function isProtectedByFirewall(mixed $endpoint): bool {
