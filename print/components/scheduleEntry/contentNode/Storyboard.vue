@@ -14,7 +14,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="tw-break-anywhere">
         <tr v-for="(section, key) in sections" :key="key">
           <td class="column column1 tw-tabular-nums tw-text-right">
             {{ section.column1 }}

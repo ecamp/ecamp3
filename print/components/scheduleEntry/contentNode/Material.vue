@@ -2,7 +2,11 @@
   <content-node-content :content-node="contentNode" :icon-path="mdiPackageVariant">
     <generic-error-message v-if="error" :error="error" />
     <table v-else>
-      <tr v-for="item in items" :key="item.id" class="item tw-tabular-nums">
+      <tr
+        v-for="item in items"
+        :key="item.id"
+        class="item tw-tabular-nums tw-break-anywhere"
+      >
         <td align="right">
           {{ item.quantity }}
         </td>
