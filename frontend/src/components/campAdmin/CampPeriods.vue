@@ -7,7 +7,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
     :title="$tc('components.campAdmin.campPeriods.title', api.get().camps().items.length)"
     icon="mdi-calendar-multiple"
   >
-    <template #title-actiona>
+    <template #title-actions>
       <dialog-period-create v-if="!disabled" :camp="camp">
         <template #activator="{ on }">
           <button-add
