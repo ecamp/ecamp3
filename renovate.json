@@ -4,11 +4,9 @@
     "config:recommended",
     ":prConcurrentLimitNone"
   ],
-  "force": {
-    "constraints": {
-      "node": "22.3.0",
-      "php": "8.3.7"
-    }
+  "constraints": {
+    "node": "22.3.0",
+    "php": "8.3.7"
   },
   "automergeType": "branch",
   "rebaseWhen": "conflicted",
