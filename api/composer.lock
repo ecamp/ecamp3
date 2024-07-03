@@ -11547,16 +11547,16 @@
         },
         {
             "name": "nelmio/alice",
-            "version": "3.13.5",
+            "version": "3.13.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/alice.git",
-                "reference": "f05bd9740f8513da8a9ca78df6a08451a1dea787"
+                "reference": "76caab8675c68956d56a2dd03f66384251e0aa7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/alice/zipball/f05bd9740f8513da8a9ca78df6a08451a1dea787",
-                "reference": "f05bd9740f8513da8a9ca78df6a08451a1dea787",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/76caab8675c68956d56a2dd03f66384251e0aa7c",
+                "reference": "76caab8675c68956d56a2dd03f66384251e0aa7c",
                 "shasum": ""
             },
             "require": {
@@ -11630,7 +11630,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/alice/issues",
-                "source": "https://github.com/nelmio/alice/tree/3.13.5"
+                "source": "https://github.com/nelmio/alice/tree/3.13.6"
             },
             "funding": [
                 {
@@ -11638,7 +11638,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-02T09:07:42+00:00"
+            "time": "2024-07-03T17:54:12+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
