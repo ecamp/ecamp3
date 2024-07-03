@@ -33,7 +33,6 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
         with:
-          concurrent_skipping: 'same_content_newer'
           skip_after_successful_duplicate: 'true'
           paths: |
             [
@@ -50,7 +49,6 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
         with:
-          concurrent_skipping: 'same_content_newer'
           skip_after_successful_duplicate: 'true'
           paths: |
             [
