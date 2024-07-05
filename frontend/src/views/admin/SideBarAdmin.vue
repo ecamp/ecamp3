@@ -20,7 +20,7 @@
       <SidebarListItem
         :to="adminRoute(camp, 'checklists')"
         title="Checklists"
-        icon="mdi-list-box-outline"
+        icon="mdi-clipboard-list-outline"
       />
       <SidebarListItem
         :to="adminRoute(camp, 'material')"

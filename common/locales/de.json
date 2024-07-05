@@ -7,6 +7,10 @@
     }
   },
   "contentNode": {
+    "checklist": {
+      "icon": "mdi-clipboard-list-outline",
+      "name": "Checkliste"
+    },
     "columnLayout": {
       "entity": {
         "column": {

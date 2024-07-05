@@ -2,6 +2,9 @@
   "components": {
     "activity": {
       "content": {
+        "checklist": {
+          "title": "Edit checklist"
+        },
         "columnLayout": {
           "columnOperations": {
             "addColumn": "Add a column",

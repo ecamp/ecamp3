@@ -2,6 +2,9 @@
   "components": {
     "activity": {
       "content": {
+        "checklist": {
+          "title": "Checkliste bearbeiten"
+        },
         "columnLayout": {
           "columnOperations": {
             "addColumn": "Spalte hinzufügen",

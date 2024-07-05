@@ -3,7 +3,7 @@
     <draggable
       class="e-checklist-dragarea--inner"
       :list="sortedItems"
-      ghost-class="e-checklist-item--ghost"
+      ghost-class="e-sortable-checklist-item--ghost"
       handle=".drag-and-drop-handle"
       filter=".add-item"
       :disabled="disabled"
@@ -13,7 +13,7 @@
       @start="dragStart"
       @end="dragStop"
     >
-      <ChecklistItem
+      <SortableChecklistItem
         v-for="(item, i) in localSortedItems"
         :key="item._meta.self"
         :data-href="item._meta.self"
@@ -32,7 +32,7 @@
     >
       <template #activator="{ on }">
         <v-list-item
-          class="e-checklist-item__add ml-10 mr-2 my-n1 px-0 rounded-pill min-h-0"
+          class="e-sortable-checklist-item__add ml-10 mr-2 my-n1 px-0 rounded-pill min-h-0"
           v-on="on"
         >
           <v-avatar class="mr-2" size="32"
@@ -56,14 +56,14 @@ import { computed } from 'vue'
 import draggable from 'vuedraggable'
 import { every, sortBy, filter } from 'lodash'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
-import ChecklistItem from '@/components/checklist/ChecklistItem.vue'
+import SortableChecklistItem from '@/components/checklist/SortableChecklistItem.vue'
 import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
 
 export default {
   name: 'SortableChecklist',
   components: {
     ChecklistItemCreate,
-    ChecklistItem,
+    SortableChecklistItem,
     draggable,
   },
   inject: {
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style scoped>
-.e-checklist-item--ghost {
+.e-sortable-checklist-item--ghost {
   opacity: 0.5;
   background: rgb(196, 196, 196);
   filter: saturate(0);
@@ -185,17 +185,18 @@ export default {
   background: rgba(0, 130, 236, 0.15);
   padding-bottom: 0;
 }
-.e-checklist-item__add {
+.e-sortable-checklist-item__add {
   padding-top: 2px;
   padding-bottom: 2px;
 }
-.e-checklist-item__add:not(:hover):not(:focus-within) {
+.e-sortable-checklist-item__add:not(:hover):not(:focus-within) {
   opacity: 0.6;
 }
-.e-checklist-item__add:is(:hover, :focus-within) {
+.e-sortable-checklist-item__add:is(:hover, :focus-within) {
   color: #1976d2 !important;
 }
-.e-checklist-dragarea:not(:hover):not(:focus-within) :deep(.e-checklist-item__add) {
+.e-checklist-dragarea:not(:hover):not(:focus-within)
+  :deep(.e-sortable-checklist-item__add) {
   display: none;
 }
 </style>
