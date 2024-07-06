@@ -6,6 +6,10 @@ on:
       run-identifier:
         required: false
         type: string
+      retries:
+        required: false
+        type: string
+        default: 0
 
 jobs:
   e2e-tests-run:
@@ -58,6 +62,8 @@ jobs:
       - run: sh -x wait-for-container-startup.sh
 
       - run: docker compose --profile e2e run --rm e2e --browser ${{ matrix.browser }}
+        env:
+          E2E_RUNMODE_RETRIES: ${{ inputs.retries }}
 
       - run: sudo chown -R $USER e2e
         if: always()

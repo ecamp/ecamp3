@@ -9,6 +9,12 @@ on:
           Number of times the tests should run
         required: true
         default: 10
+      retries:
+        type: number
+        description: |
+          Number of retries for cypress
+        required: false
+        default: 0
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
   schedule:
@@ -53,6 +59,7 @@ jobs:
     uses: ./.github/workflows/reusable-e2e-tests-run.yml
     with:
       run-identifier: ${{ matrix.array }}
+      retries: '${{ inputs.retries }}'
     strategy:
       fail-fast: false
       matrix:

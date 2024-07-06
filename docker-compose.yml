@@ -186,6 +186,7 @@ services:
     container_name: 'ecamp3-e2e'
     environment:
       - DISPLAY
+      - E2E_RUNMODE_RETRIES
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./e2e:/e2e:delegated
