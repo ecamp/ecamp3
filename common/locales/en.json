@@ -10,7 +10,7 @@
     "columnLayout": {
       "entity": {
         "column": {
-          "name": "Column|Column {name}"
+          "name": "Column"
         }
       },
       "icon": "mdi-view-column",
@@ -208,6 +208,19 @@
         "start": "Start"
       },
       "name": "Period | Periods"
+    },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
+        "email": "Email address",
+        "firstname": "Firstname",
+        "language": "Language",
+        "nickname": "Nickname",
+        "password": "Password",
+        "surname": "Lastname"
+      },
+      "name": "Profile"
     },
     "scheduleEntry": {
       "fields": {
