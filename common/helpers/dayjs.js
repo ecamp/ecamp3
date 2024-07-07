@@ -10,6 +10,7 @@ import 'dayjs/locale/it-ch'
 
 import utc from 'dayjs/plugin/utc'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import objectSupport from 'dayjs/plugin/objectSupport'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import isBetween from 'dayjs/plugin/isBetween'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
@@ -21,6 +22,7 @@ import timezone from 'dayjs/plugin/timezone'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(customParseFormat)
+dayjs.extend(objectSupport)
 dayjs.extend(localizedFormat)
 dayjs.extend(isBetween)
 dayjs.extend(isSameOrBefore)
