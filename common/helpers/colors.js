@@ -41,8 +41,11 @@ function defaultColor() {
 /**
  * @returns {string} color for a user based on their id
  */
-function userColor(user) {
-  return idToColor(user.id, user._meta?.loading)
+function userColor(user, inactive = user._meta?.loading) {
+  if (user.color && !inactive) {
+    return user.color
+  }
+  return idToColor(user.id, inactive)
 }
 
 /**
@@ -53,21 +56,21 @@ function campCollaborationColor(campCollaboration) {
     return idToColor('', true)
   }
 
-  const loading =
-    campCollaboration._meta?.loading ||
-    (typeof campCollaboration.user === 'function' &&
-      campCollaboration.user()._meta?.loading)
+  const inactive =
+    campCollaboration._meta?.loading || campCollaboration.status === 'inactive'
 
-  if (campCollaboration?.color) {
+  if (campCollaboration?.color && !inactive) {
     return campCollaboration.color
   }
 
-  return idToColor(
-    typeof campCollaboration.user === 'function'
-      ? campCollaboration.user().id
-      : campCollaboration.id,
-    campCollaboration.status === 'inactive' || loading
-  )
+  if (typeof campCollaboration.user === 'function') {
+    return userColor(
+      campCollaboration.user(),
+      inactive || campCollaboration.user()._meta?.loading
+    )
+  } else {
+    return idToColor(campCollaboration.id, inactive)
+  }
 }
 
 export { contrastColor, defaultColor, userColor, campCollaborationColor, idToColor }

@@ -1,1 +1,16 @@
-{}
+{
+  "entity": {
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviaziun",
+        "color": "Colur",
+        "email": "Adressa dad e-mail",
+        "firstname": "Prenum",
+        "language": "Lingua",
+        "nickname": "Surnum",
+        "password": "Pled-clav",
+        "surname": "Num da famiglia"
+      }
+    }
+  }
+}

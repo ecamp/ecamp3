@@ -66,6 +66,7 @@
       :collaboration="entityData"
       :status="collaborator.status"
       :readonly-role="isLastManager"
+      :initial-collaboration="collaborator"
     >
       <template #statusChange>
         <v-tooltip
@@ -152,14 +153,7 @@ export default {
     return {
       resendingEmail: false,
       emailSent: false,
-      entityProperties: [
-        'abbreviation',
-        'camp',
-        'color',
-        'inviteEmail',
-        'role',
-        'status',
-      ],
+      entityProperties: ['abbreviation', 'color', 'role', 'status'],
       entityUri: '',
     }
   },

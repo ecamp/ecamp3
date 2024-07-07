@@ -186,6 +186,7 @@
         "title": "Éditer {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Sovrascrivere l'avatar per questo campo",
         "roleHint": "Ogni campo ha bisogno di almeno una persona con diritti di amministratore."
       },
       "promptCollaboratorDeactivate": {
@@ -408,20 +409,6 @@
         "success": "L'indirizzo e-mail è stato modificato con successo.",
         "title": "Modifica dell'indirizzo e-mail"
       }
-    }
-  },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Compleanno",
-        "email": "Indirizzo email",
-        "firstname": "Nome",
-        "language": "Lingua",
-        "nickname": "Soprannome",
-        "password": "Parola d'ordine",
-        "surname": "Cognome"
-      },
-      "name": "Utente"
     }
   },
   "global": {

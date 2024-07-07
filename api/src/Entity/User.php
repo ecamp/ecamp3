@@ -182,6 +182,24 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->profile->getDisplayName();
     }
 
+    /**
+     * A displayable name of the user.
+     */
+    #[ApiProperty(example: '#ff0000')]
+    #[Groups(['read'])]
+    public function getColor(): ?string {
+        return $this->profile->color;
+    }
+
+    /**
+     * A displayable name of the user.
+     */
+    #[ApiProperty(example: 'AB')]
+    #[Groups(['read'])]
+    public function getAbbreviation(): ?string {
+        return $this->profile->abbreviation;
+    }
+
     #[ApiProperty]
     #[SerializedName('profile')]
     #[Groups(['read'])]

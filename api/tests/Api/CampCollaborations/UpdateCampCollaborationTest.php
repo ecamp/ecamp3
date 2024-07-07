@@ -265,6 +265,53 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertEmailCount(1);
     }
 
+    public function testPatchCampCollaborationValidatesInvalidColor() {
+        $campCollaboration = static::getFixture('campCollaboration3guest');
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'color' => 'red',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'color',
+                    'message' => 'This value is not valid.',
+                ],
+            ],
+        ]);
+    }
+
+    #[DataProvider('invalidAbbreviations')]
+    public function testPatchCampCollaborationValidatesInvalidAbbreviation($abbreviation) {
+        $campCollaboration = static::getFixture('campCollaboration3guest');
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'abbreviation' => $abbreviation,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'abbreviation',
+                    'message' => 'This value is too long. It should have 2 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    #[DataProvider('validAbbreviations')]
+    public function testPatchCampCollaborationValidatesValidAbbreviation($abbreviation) {
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'abbreviation' => $abbreviation,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'abbreviation' => $abbreviation,
+        ]);
+    }
+
     #[DataProvider('usersWhichCanEditCampCollaborations')]
     public function testRejectsPatchStatusFromEstablishedToInactiveIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::getFixture('campCollaboration1camp2manager');
@@ -354,5 +401,24 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public static function usersWhichCanEditCampCollaborations(): array {
         return ['user1manager' => ['user1manager'], 'user2member' => ['user2member']];
+    }
+
+    public static function invalidAbbreviations(): array {
+        return [
+            ['ABC'],
+            ['D3C'],
+            ['🧑🏿‍🚀🙋🏼‍♀️😊'],
+        ];
+    }
+
+    public static function validAbbreviations(): array {
+        return [
+            ['A'],
+            ['33'],
+            ['X4'],
+            ['✅😊'],
+            ['🧑🏿‍🚀🧑🏼‍🔧'],
+            ['⚜️'],
+        ];
     }
 }

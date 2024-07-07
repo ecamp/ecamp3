@@ -25,7 +25,7 @@
       class="mb-2"
     />
 
-    <CollaboratorForm :collaboration="entityData" variant="create" />
+    <CollaboratorForm :collaboration="entityData" />
   </DetailPane>
 </template>
 
