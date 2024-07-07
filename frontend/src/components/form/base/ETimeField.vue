@@ -103,7 +103,7 @@ export default {
         return null
       } catch (e) {
         if (e instanceof TypeError) {
-          throw new Error(this.$tc('components.form.base.eColorField.parseError'))
+          throw new Error(this.$tc('components.form.base.eTimeField.parseError'))
         } else {
           throw e
         }
