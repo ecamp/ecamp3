@@ -317,7 +317,7 @@ components:
         - scheduleEntries
         - title
       type: object
-    Activity-write:
+    Activity-write.patch:
       deprecated: false
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
@@ -345,10 +345,6 @@ components:
           example: Sportolympiade
           maxLength: 32
           type: string
-      required:
-        - category
-        - location
-        - title
       type: object
     Activity-write_create:
       deprecated: false
@@ -388,7 +384,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
-            $ref: '#/components/schemas/ScheduleEntry-write_create'
+            $ref: '#/components/schemas/ScheduleEntry-write_create.patch'
           minItems: 1
           type: array
         title:
@@ -1434,7 +1430,7 @@ components:
         - position
         - title
       type: object
-    ActivityProgressLabel-write:
+    ActivityProgressLabel-write.patch:
       deprecated: false
       description: |-
         Progress labels in a camp.
@@ -1448,9 +1444,6 @@ components:
           example: Planned
           maxLength: 32
           type: string
-      required:
-        - position
-        - title
       type: object
     ActivityProgressLabel-write_create:
       deprecated: false
@@ -3128,7 +3121,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
-            $ref: '#/components/schemas/Period-write_create'
+            $ref: '#/components/schemas/Period-write_create.patch'
           minItems: 1
           type: array
         printYSLogoOnPicasso:
@@ -3153,7 +3146,7 @@ components:
         - printYSLogoOnPicasso
         - title
       type: object
-    Camp-write_update:
+    Camp-write_update.patch:
       deprecated: false
       description: |-
         The main entity that eCamp is designed to manage. Contains programme which may be
@@ -3250,10 +3243,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - name
-        - printYSLogoOnPicasso
-        - title
       type: object
     Camp.jsonapi:
       deprecated: false
@@ -5525,7 +5514,7 @@ components:
         - role
         - status
       type: object
-    CampCollaboration-resend_invitation:
+    CampCollaboration-resend_invitation.patch:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       type: object
@@ -5588,7 +5577,7 @@ components:
         - camp
         - role
       type: object
-    CampCollaboration-write_update:
+    CampCollaboration-write_update.patch:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
@@ -5628,9 +5617,6 @@ components:
           example: inactive
           maxLength: 16
           type: string
-      required:
-        - role
-        - status
       type: object
     CampCollaboration.jsonapi:
       deprecated: false
@@ -6649,7 +6635,7 @@ components:
         - preferredContentTypes
         - short
       type: object
-    Category-write_update:
+    Category-write_update.patch:
       deprecated: false
       description: |-
         A type of programme, such as sports activities or meal times, is called a category. A category
@@ -6698,12 +6684,6 @@ components:
           example: LS
           maxLength: 16
           type: string
-      required:
-        - color
-        - name
-        - numberingStyle
-        - preferredContentTypes
-        - short
       type: object
     Category.jsonapi:
       deprecated: false
@@ -8045,7 +8025,7 @@ components:
         - parent
         - position
       type: object
-    ColumnLayout-write_update:
+    ColumnLayout-write_update.patch:
       deprecated: false
       description: ''
       properties:
@@ -8099,9 +8079,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - data
-        - position
       type: object
     ColumnLayout.jsonapi:
       deprecated: false
@@ -10514,8 +10491,6 @@ components:
           description: 'API endpoint link for creating new entities of type entityClass.'
           example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
           format: iri-reference
-          items:
-            type: string
           readOnly: true
           type: array
         id:
@@ -10550,8 +10525,6 @@ components:
           description: 'API endpoint link for creating new entities of type entityClass.'
           example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
           format: iri-reference
-          items:
-            type: string
           readOnly: true
           type: array
         id:
@@ -10599,7 +10572,6 @@ components:
                   description: 'API endpoint link for creating new entities of type entityClass.'
                   example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
                   format: iri-reference
-                  items: { type: string }
                   readOnly: true
                   type: array
                 entityClass:
@@ -10680,8 +10652,6 @@ components:
           description: 'API endpoint link for creating new entities of type entityClass.'
           example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
           format: iri-reference
-          items:
-            type: string
           readOnly: true
           type: array
         id:
@@ -10725,8 +10695,6 @@ components:
           description: 'API endpoint link for creating new entities of type entityClass.'
           example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
           format: iri-reference
-          items:
-            type: string
           readOnly: true
           type: array
         id:
@@ -10787,8 +10755,6 @@ components:
           description: 'API endpoint link for creating new entities of type entityClass.'
           example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
           format: iri-reference
-          items:
-            type: string
           readOnly: true
           type: array
         id:
@@ -10846,8 +10812,6 @@ components:
           description: 'API endpoint link for creating new entities of type entityClass.'
           example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d'
           format: iri-reference
-          items:
-            type: string
           readOnly: true
           type: array
         id:
@@ -10897,9 +10861,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10930,9 +10891,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -10961,9 +10919,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10994,9 +10949,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11022,9 +10974,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11055,9 +11004,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11091,7 +11037,6 @@ components:
                   example: '2022-01-03T00:00:00+00:00'
                   format: date
                   readOnly: true
-                  type: ['null', string]
                 number:
                   description: 'The 1-based cardinal number of the day in the period. Not unique within the camp.'
                   example: '2'
@@ -11102,7 +11047,6 @@ components:
                   example: '2022-01-02T00:00:00+00:00'
                   format: date
                   readOnly: true
-                  type: ['null', string]
               required:
                 - dayOffset
               type: object
@@ -11170,9 +11114,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11203,9 +11144,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11243,9 +11181,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11276,9 +11211,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11313,9 +11245,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11346,9 +11275,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11397,9 +11323,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11430,9 +11353,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11484,9 +11404,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11517,9 +11434,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11568,9 +11482,6 @@ components:
           example: '2022-01-03T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -11601,9 +11512,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date
           readOnly: true
-          type:
-            - 'null'
-            - string
       required:
         - dayOffset
         - dayResponsibles
@@ -11960,7 +11868,7 @@ components:
             - 'null'
             - string
       type: object
-    Invitation-write:
+    Invitation-write.patch:
       deprecated: false
       description: |-
         An invitation for a person to collaborate in a camp. The person may or may not
@@ -12163,6 +12071,53 @@ components:
         - materialList
       type: object
     MaterialItem-write:
+      deprecated: false
+      description: 'A physical item that is needed for carrying out a programme or camp.'
+      properties:
+        article:
+          description: 'The name of the item that is required.'
+          example: Volleyball
+          maxLength: 64
+          type: string
+        materialList:
+          description: |-
+            The list to which this item belongs. Lists are used to keep track of who is
+            responsible to prepare and bring the item to the camp.
+          example: /material_lists/1a2b3c4d
+          format: iri-reference
+          type: string
+        materialNode:
+          description: 'The content node to which this item belongs, if it does not belong to a period.'
+          example: /content_node/material_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        period:
+          description: 'The period to which this item belongs, if it does not belong to a content node.'
+          example: /periods/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        quantity:
+          description: 'The number of items or the amount in the unit of items that are required.'
+          example: 1.5
+          type:
+            - 'null'
+            - number
+        unit:
+          description: 'An optional unit for measuring the amount of items required.'
+          example: kg
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - article
+        - materialList
+      type: object
+    MaterialItem-write.patch:
       deprecated: false
       description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
@@ -12560,7 +12515,7 @@ components:
         - materialItems
         - name
       type: object
-    MaterialList-write:
+    MaterialList-write.patch:
       deprecated: false
       description: |-
         A list of material items that someone needs to bring to the camp. A material list
@@ -12573,8 +12528,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - name
       type: object
     MaterialList-write_create:
       deprecated: false
@@ -13003,7 +12956,7 @@ components:
         - parent
         - position
       type: object
-    MaterialNode-write_update:
+    MaterialNode-write_update.patch:
       deprecated: false
       description: ''
       properties:
@@ -13051,8 +13004,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - position
       type: object
     MaterialNode.jsonapi:
       deprecated: false
@@ -13671,7 +13622,7 @@ components:
         - parent
         - position
       type: object
-    MultiSelect-write_update:
+    MultiSelect-write_update.patch:
       deprecated: false
       description: ''
       properties:
@@ -13725,9 +13676,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - data
-        - position
       type: object
     MultiSelect.jsonapi:
       deprecated: false
@@ -14244,7 +14192,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -14274,7 +14221,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -14329,7 +14275,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -14359,7 +14304,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -14418,7 +14362,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -14448,7 +14391,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -14458,7 +14400,7 @@ components:
         - scheduleEntries
         - start
       type: object
-    Period-write:
+    Period-write.patch:
       deprecated: false
       description: |-
         A time period in which the programme of a camp will take place. There may be multiple
@@ -14477,7 +14419,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         moveScheduleEntries:
           default: true
           description: |-
@@ -14489,12 +14430,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
-      required:
-        - description
-        - end
-        - moveScheduleEntries
-        - start
       type: object
     Period-write_create:
       deprecated: false
@@ -14520,7 +14455,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         moveScheduleEntries:
           default: true
           description: |-
@@ -14532,13 +14466,48 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - description
         - end
         - moveScheduleEntries
         - start
+      type: object
+    Period-write_create.patch:
+      deprecated: false
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
+      properties:
+        camp:
+          description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        description:
+          description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
+          example: Hauptlager
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        end:
+          description: |-
+            The (inclusive) day at the end of which the period ends, as an ISO date string. Should
+            not be before "start".
+          example: '2022-01-08'
+          format: date
+        moveScheduleEntries:
+          default: true
+          description: |-
+            If the start date of the period is changing, moveScheduleEntries defines what happens with the schedule
+            entries in the period.
+          example: true
+          type: boolean
+        start:
+          description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
+          example: '2022-01-01'
+          format: date
       type: object
     Period.jsonapi:
       deprecated: false
@@ -14567,7 +14536,6 @@ components:
                     not be before "start".
                   example: '2022-01-08'
                   format: date
-                  type: string
                 moveScheduleEntries:
                   default: true
                   description: |-
@@ -14580,7 +14548,6 @@ components:
                   description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
                   example: '2022-01-01'
                   format: date
-                  type: string
               required:
                 - description
                 - end
@@ -14692,7 +14659,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -14722,7 +14688,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -14786,7 +14751,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -14816,7 +14780,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -14884,7 +14847,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -14914,7 +14876,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -14957,7 +14918,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         moveScheduleEntries:
           default: true
           description: |-
@@ -14969,7 +14929,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - description
@@ -15048,7 +15007,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -15078,7 +15036,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -15156,7 +15113,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -15186,7 +15142,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -15268,7 +15223,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -15298,7 +15252,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - days
@@ -15332,7 +15285,6 @@ components:
             not be before "start".
           example: '2022-01-08'
           format: date
-          type: string
         moveScheduleEntries:
           default: true
           description: |-
@@ -15344,7 +15296,6 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
-          type: string
       required:
         - camp
         - description
@@ -15372,7 +15323,7 @@ components:
           example: 1a2b3c4d
           type: string
       type: object
-    PersonalInvitation-write:
+    PersonalInvitation-write.patch:
       deprecated: false
       description: 'An invitation for a person who already has an account to collaborate in a camp.'
       type: object
@@ -15666,7 +15617,7 @@ components:
       required:
         - email
       type: object
-    Profile-write_create:
+    Profile-write_create.patch:
       deprecated: false
       description: |-
         The profile of a person using eCamp.
@@ -15744,10 +15695,8 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - email
       type: object
-    Profile-write_update:
+    Profile-write_update.patch:
       deprecated: false
       description: |-
         The profile of a person using eCamp.
@@ -16572,7 +16521,7 @@ components:
             - string
           writeOnly: true
       type: object
-    ResetPassword-update:
+    ResetPassword-update.patch:
       deprecated: false
       description: ''
       properties:
@@ -16916,7 +16865,7 @@ components:
         - parent
         - position
       type: object
-    ResponsiveLayout-write_update:
+    ResponsiveLayout-write_update.patch:
       deprecated: false
       description: ''
       properties:
@@ -16973,9 +16922,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - data
-        - position
       type: object
     ResponsiveLayout.jsonapi:
       deprecated: false
@@ -17494,7 +17440,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -17537,7 +17482,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -17581,7 +17525,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -17625,7 +17568,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -17670,7 +17612,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -17714,7 +17655,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -17761,7 +17701,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -17805,7 +17744,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -17822,7 +17760,7 @@ components:
         - end
         - start
       type: object
-    ScheduleEntry-write:
+    ScheduleEntry-write.patch:
       deprecated: false
       description: |-
         A calendar event in a period of the camp, at which some activity will take place. The start time
@@ -17832,7 +17770,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         left:
           description: |-
             When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
@@ -17853,7 +17790,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -17865,9 +17801,6 @@ components:
           type:
             - 'null'
             - number
-      required:
-        - end
-        - start
       type: object
     ScheduleEntry-write_create:
       deprecated: false
@@ -17886,7 +17819,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         left:
           description: |-
             When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
@@ -17907,7 +17839,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -17920,9 +17851,57 @@ components:
             - 'null'
             - number
       required:
-        - activity
         - end
         - start
+      type: object
+    ScheduleEntry-write_create.patch:
+      deprecated: false
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
+      properties:
+        activity:
+          description: |-
+            The activity that will take place at the time defined by this schedule entry. Can not be changed
+            once the schedule entry is created.
+          example: /activities/1a2b3c4d
+          format: iri-reference
+          type: string
+        end:
+          description: 'End date and time of the schedule entry.'
+          example: '2022-01-02T01:30:00+00:00'
+          format: date-time
+        left:
+          description: |-
+            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
+            should be from the left border of the day column, as a fractional amount of the width of the whole
+            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
+            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
+            API currently does not enforce this.
+          example: 0.6
+          type:
+            - 'null'
+            - number
+        period:
+          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
+          example: /periods/1a2b3c4d
+          format: iri-reference
+          type: string
+        start:
+          description: 'Start date and time of the schedule entry.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+        width:
+          default: 1
+          description: |-
+            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
+            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
+            overlapping schedule entries such that all of them are visible. Should be a decimal number
+            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
+          example: 0.4
+          type:
+            - 'null'
+            - number
       type: object
     ScheduleEntry.jsonapi:
       deprecated: false
@@ -17949,7 +17928,6 @@ components:
                   description: 'End date and time of the schedule entry.'
                   example: '2022-01-02T01:30:00+00:00'
                   format: date-time
-                  type: string
                 left:
                   description: |-
                     When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
@@ -17980,7 +17958,6 @@ components:
                   description: 'Start date and time of the schedule entry.'
                   example: '2022-01-02T00:00:00+00:00'
                   format: date-time
-                  type: string
                 width:
                   default: 1
                   description: |-
@@ -18067,7 +18044,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18110,7 +18086,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18163,7 +18138,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18207,7 +18181,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18261,7 +18234,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18305,7 +18277,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18361,7 +18332,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18405,7 +18375,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18448,7 +18417,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         left:
           description: |-
             When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
@@ -18469,7 +18437,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18539,7 +18506,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18582,7 +18548,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18649,7 +18614,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18693,7 +18657,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18761,7 +18724,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18805,7 +18767,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18875,7 +18836,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -18919,7 +18879,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -18953,7 +18912,6 @@ components:
           description: 'End date and time of the schedule entry.'
           example: '2022-01-02T01:30:00+00:00'
           format: date-time
-          type: string
         left:
           description: |-
             When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
@@ -18974,7 +18932,6 @@ components:
           description: 'Start date and time of the schedule entry.'
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
-          type: string
         width:
           default: 1
           description: |-
@@ -19151,7 +19108,7 @@ components:
         - parent
         - position
       type: object
-    SingleText-write_update:
+    SingleText-write_update.patch:
       deprecated: false
       description: ''
       properties:
@@ -19202,9 +19159,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - data
-        - position
       type: object
     SingleText.jsonapi:
       deprecated: false
@@ -19829,7 +19783,7 @@ components:
         - parent
         - position
       type: object
-    Storyboard-write_update:
+    Storyboard-write_update.patch:
       deprecated: false
       description: ''
       properties:
@@ -19884,9 +19838,6 @@ components:
           type:
             - 'null'
             - string
-      required:
-        - data
-        - position
       type: object
     Storyboard.jsonapi:
       deprecated: false
@@ -20360,7 +20311,7 @@ components:
         - parent
         - position
       type: object
-    User-activate:
+    User-activate.patch:
       deprecated: false
       description: |-
         A person using eCamp.
@@ -20537,7 +20488,7 @@ components:
       required:
         - profile
       type: object
-    User-write:
+    User-write.patch:
       deprecated: false
       description: |-
         A person using eCamp.
@@ -20575,7 +20526,7 @@ components:
             - string
           writeOnly: true
         profile:
-          $ref: '#/components/schemas/Profile-write_create'
+          $ref: '#/components/schemas/Profile-write_create.patch'
           example:
             email: bi-pi@example.com
             firstname: Robert
@@ -21367,7 +21318,6 @@ paths:
       summary: 'Retrieves the collection of Activity resources.'
       tags:
         - Activity
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a Activity resource.'
@@ -21486,7 +21436,6 @@ paths:
       summary: 'Retrieves a Activity resource.'
       tags:
         - Activity
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the Activity resource.'
@@ -21508,7 +21457,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Activity-write'
+              $ref: '#/components/schemas/Activity-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Activity.jsonapi'
@@ -21618,7 +21567,6 @@ paths:
       summary: 'Retrieves the collection of ActivityProgressLabel resources.'
       tags:
         - ActivityProgressLabel
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ActivityProgressLabel resource.'
@@ -21737,7 +21685,6 @@ paths:
       summary: 'Retrieves a ActivityProgressLabel resource.'
       tags:
         - ActivityProgressLabel
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ActivityProgressLabel resource.'
@@ -21759,7 +21706,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ActivityProgressLabel-write'
+              $ref: '#/components/schemas/ActivityProgressLabel-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ActivityProgressLabel.jsonapi'
@@ -21895,7 +21842,6 @@ paths:
       summary: 'Retrieves the collection of ActivityResponsible resources.'
       tags:
         - ActivityResponsible
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ActivityResponsible resource.'
@@ -22014,7 +21960,6 @@ paths:
       summary: 'Retrieves a ActivityResponsible resource.'
       tags:
         - ActivityResponsible
-    parameters: []
   /auth/cevidb:
     get:
       operationId: oauthCevidbRedirect
@@ -22037,7 +21982,6 @@ paths:
       summary: 'Log in using CeviDB Oauth.'
       tags:
         - OAuth
-    parameters: []
     ref: 'CeviDB OAuth'
   /auth/google:
     get:
@@ -22061,7 +22005,6 @@ paths:
       summary: 'Log in using Google Oauth.'
       tags:
         - OAuth
-    parameters: []
     ref: 'Google OAuth'
   /auth/jubladb:
     get:
@@ -22085,7 +22028,6 @@ paths:
       summary: 'Log in using JublaDB Oauth.'
       tags:
         - OAuth
-    parameters: []
     ref: 'JublaDB OAuth'
   /auth/pbsmidata:
     get:
@@ -22109,10 +22051,8 @@ paths:
       summary: 'Log in using PBS MiData Oauth.'
       tags:
         - OAuth
-    parameters: []
     ref: 'PBS MiData OAuth'
   /auth/resend_activation:
-    parameters: []
     post:
       deprecated: false
       description: 'Activation email will be sent to the given email again.'
@@ -22160,7 +22100,6 @@ paths:
       tags:
         - UserActivation
   /auth/reset_password:
-    parameters: []
     post:
       deprecated: false
       description: 'Password-Reset-Link will be sent to the given email'
@@ -22249,7 +22188,6 @@ paths:
       summary: 'Retrieves a ResetPassword resource.'
       tags:
         - ResetPassword
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ResetPassword resource.'
@@ -22271,7 +22209,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ResetPassword-update'
+              $ref: '#/components/schemas/ResetPassword-update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ResetPassword.jsonapi'
@@ -22307,7 +22245,6 @@ paths:
       tags:
         - ResetPassword
   /authentication_token:
-    parameters: []
     post:
       description: 'Creates a user token.'
       operationId: login_check_post
@@ -22443,7 +22380,6 @@ paths:
       summary: 'Retrieves the collection of CampCollaboration resources.'
       tags:
         - CampCollaboration
-    parameters: []
     post:
       deprecated: false
       description: 'Also sends an invitation email to the inviteEmail address, if specified.'
@@ -22562,7 +22498,6 @@ paths:
       summary: 'Retrieves a CampCollaboration resource.'
       tags:
         - CampCollaboration
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the CampCollaboration resource.'
@@ -22584,7 +22519,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/CampCollaboration-write_update'
+              $ref: '#/components/schemas/CampCollaboration-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/CampCollaboration.jsonapi'
@@ -22620,7 +22555,6 @@ paths:
       tags:
         - CampCollaboration
   '/camp_collaborations/{id}/resend_invitation':
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the CampCollaboration resource.'
@@ -22642,7 +22576,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/CampCollaboration-resend_invitation'
+              $ref: '#/components/schemas/CampCollaboration-resend_invitation.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/CampCollaboration.jsonapi'
@@ -22752,7 +22686,6 @@ paths:
       summary: 'Retrieves the collection of Camp resources.'
       tags:
         - Camp
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a Camp resource.'
@@ -22891,7 +22824,6 @@ paths:
       summary: 'Retrieves the collection of Category resources.'
       tags:
         - Category
-    parameters: []
   '/camps/{id}':
     delete:
       deprecated: false
@@ -22959,7 +22891,6 @@ paths:
       summary: 'Retrieves a Camp resource.'
       tags:
         - Camp
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the Camp resource.'
@@ -22981,7 +22912,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Camp-write_update'
+              $ref: '#/components/schemas/Camp-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Camp.jsonapi'
@@ -23091,7 +23022,6 @@ paths:
       summary: 'Retrieves the collection of Category resources.'
       tags:
         - Category
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a Category resource.'
@@ -23210,7 +23140,6 @@ paths:
       summary: 'Retrieves a Category resource.'
       tags:
         - Category
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the Category resource.'
@@ -23232,7 +23161,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Category-write_update'
+              $ref: '#/components/schemas/Category-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Category.jsonapi'
@@ -23380,7 +23309,6 @@ paths:
       summary: 'Retrieves the collection of ColumnLayout resources.'
       tags:
         - ColumnLayout
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ColumnLayout resource.'
@@ -23499,7 +23427,6 @@ paths:
       summary: 'Retrieves a ColumnLayout resource.'
       tags:
         - ColumnLayout
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ColumnLayout resource.'
@@ -23521,7 +23448,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ColumnLayout-write_update'
+              $ref: '#/components/schemas/ColumnLayout-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ColumnLayout.jsonapi'
@@ -23669,7 +23596,6 @@ paths:
       summary: 'Retrieves the collection of MaterialNode resources.'
       tags:
         - MaterialNode
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a MaterialNode resource.'
@@ -23788,7 +23714,6 @@ paths:
       summary: 'Retrieves a MaterialNode resource.'
       tags:
         - MaterialNode
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the MaterialNode resource.'
@@ -23810,7 +23735,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialNode-write_update'
+              $ref: '#/components/schemas/MaterialNode-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialNode.jsonapi'
@@ -23958,7 +23883,6 @@ paths:
       summary: 'Retrieves the collection of MultiSelect resources.'
       tags:
         - MultiSelect
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a MultiSelect resource.'
@@ -24077,7 +24001,6 @@ paths:
       summary: 'Retrieves a MultiSelect resource.'
       tags:
         - MultiSelect
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the MultiSelect resource.'
@@ -24099,7 +24022,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MultiSelect-write_update'
+              $ref: '#/components/schemas/MultiSelect-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MultiSelect.jsonapi'
@@ -24247,7 +24170,6 @@ paths:
       summary: 'Retrieves the collection of ResponsiveLayout resources.'
       tags:
         - ResponsiveLayout
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ResponsiveLayout resource.'
@@ -24366,7 +24288,6 @@ paths:
       summary: 'Retrieves a ResponsiveLayout resource.'
       tags:
         - ResponsiveLayout
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ResponsiveLayout resource.'
@@ -24388,7 +24309,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ResponsiveLayout-write_update'
+              $ref: '#/components/schemas/ResponsiveLayout-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ResponsiveLayout.jsonapi'
@@ -24536,7 +24457,6 @@ paths:
       summary: 'Retrieves the collection of SingleText resources.'
       tags:
         - SingleText
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a SingleText resource.'
@@ -24655,7 +24575,6 @@ paths:
       summary: 'Retrieves a SingleText resource.'
       tags:
         - SingleText
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the SingleText resource.'
@@ -24677,7 +24596,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/SingleText-write_update'
+              $ref: '#/components/schemas/SingleText-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/SingleText.jsonapi'
@@ -24825,7 +24744,6 @@ paths:
       summary: 'Retrieves the collection of Storyboard resources.'
       tags:
         - Storyboard
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a Storyboard resource.'
@@ -24944,7 +24862,6 @@ paths:
       summary: 'Retrieves a Storyboard resource.'
       tags:
         - Storyboard
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the Storyboard resource.'
@@ -24966,7 +24883,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Storyboard-write_update'
+              $ref: '#/components/schemas/Storyboard-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Storyboard.jsonapi'
@@ -25114,7 +25031,6 @@ paths:
       summary: 'Retrieves the collection of ContentNode resources.'
       tags:
         - ContentNode
-    parameters: []
   /content_types:
     get:
       deprecated: false
@@ -25190,7 +25106,6 @@ paths:
       summary: 'Retrieves the collection of ContentType resources.'
       tags:
         - ContentType
-    parameters: []
   '/content_types/{id}':
     get:
       deprecated: false
@@ -25233,7 +25148,6 @@ paths:
       summary: 'Retrieves a ContentType resource.'
       tags:
         - ContentType
-    parameters: []
   /day_responsibles:
     get:
       deprecated: false
@@ -25335,7 +25249,6 @@ paths:
       summary: 'Retrieves the collection of DayResponsible resources.'
       tags:
         - DayResponsible
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a DayResponsible resource.'
@@ -25454,7 +25367,6 @@ paths:
       summary: 'Retrieves a DayResponsible resource.'
       tags:
         - DayResponsible
-    parameters: []
   /days:
     get:
       deprecated: false
@@ -25556,7 +25468,6 @@ paths:
       summary: 'Retrieves the collection of Day resources.'
       tags:
         - Day
-    parameters: []
   '/days/{dayId}/day_responsibles':
     get:
       deprecated: false
@@ -25670,7 +25581,6 @@ paths:
       summary: 'Retrieves the collection of DayResponsible resources.'
       tags:
         - DayResponsible
-    parameters: []
   '/days/{id}':
     get:
       deprecated: false
@@ -25713,9 +25623,7 @@ paths:
       summary: 'Retrieves a Day resource.'
       tags:
         - Day
-    parameters: []
   '/invitations/{inviteKey}/accept':
-    parameters: []
     patch:
       deprecated: false
       description: 'Use myInviteKey2 to accept an invitation in dev environment.'
@@ -25737,7 +25645,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Invitation-write'
+              $ref: '#/components/schemas/Invitation-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Invitation.jsonapi'
@@ -25814,9 +25722,7 @@ paths:
       summary: 'Retrieves a Invitation resource.'
       tags:
         - Invitation
-    parameters: []
   '/invitations/{inviteKey}/reject':
-    parameters: []
     patch:
       deprecated: false
       description: 'Use myInviteKey to reject an invitation in dev environment.'
@@ -25838,7 +25744,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Invitation-write'
+              $ref: '#/components/schemas/Invitation-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Invitation.jsonapi'
@@ -25986,7 +25892,6 @@ paths:
       summary: 'Retrieves the collection of MaterialItem resources.'
       tags:
         - MaterialItem
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a MaterialItem resource.'
@@ -26105,7 +26010,6 @@ paths:
       summary: 'Retrieves a MaterialItem resource.'
       tags:
         - MaterialItem
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the MaterialItem resource.'
@@ -26127,7 +26031,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialItem-write'
+              $ref: '#/components/schemas/MaterialItem-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialItem.jsonapi'
@@ -26237,7 +26141,6 @@ paths:
       summary: 'Retrieves the collection of MaterialList resources.'
       tags:
         - MaterialList
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a MaterialList resource.'
@@ -26356,7 +26259,6 @@ paths:
       summary: 'Retrieves a MaterialList resource.'
       tags:
         - MaterialList
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the MaterialList resource.'
@@ -26378,7 +26280,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialList-write'
+              $ref: '#/components/schemas/MaterialList-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialList.jsonapi'
@@ -26488,7 +26390,6 @@ paths:
       summary: 'Retrieves the collection of Period resources.'
       tags:
         - Period
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a Period resource.'
@@ -26607,7 +26508,6 @@ paths:
       summary: 'Retrieves a Period resource.'
       tags:
         - Period
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the Period resource.'
@@ -26629,7 +26529,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Period-write'
+              $ref: '#/components/schemas/Period-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Period.jsonapi'
@@ -26777,7 +26677,6 @@ paths:
       summary: 'Retrieves the collection of Day resources.'
       tags:
         - Day
-    parameters: []
   '/periods/{periodId}/schedule_entries':
     get:
       deprecated: false
@@ -26987,7 +26886,6 @@ paths:
       summary: 'Retrieves the collection of ScheduleEntry resources.'
       tags:
         - ScheduleEntry
-    parameters: []
   /personal_invitations:
     get:
       deprecated: false
@@ -27037,7 +26935,6 @@ paths:
       summary: 'Retrieves the collection of PersonalInvitation resources.'
       tags:
         - PersonalInvitation
-    parameters: []
   '/personal_invitations/{id}':
     get:
       deprecated: false
@@ -27080,9 +26977,7 @@ paths:
       summary: 'Retrieves a PersonalInvitation resource.'
       tags:
         - PersonalInvitation
-    parameters: []
   '/personal_invitations/{id}/accept':
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the PersonalInvitation resource.'
@@ -27104,7 +26999,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/PersonalInvitation-write'
+              $ref: '#/components/schemas/PersonalInvitation-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/PersonalInvitation.jsonapi'
@@ -27140,7 +27035,6 @@ paths:
       tags:
         - PersonalInvitation
   '/personal_invitations/{id}/reject':
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the PersonalInvitation resource.'
@@ -27162,7 +27056,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/PersonalInvitation-write'
+              $ref: '#/components/schemas/PersonalInvitation-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/PersonalInvitation.jsonapi'
@@ -27272,7 +27166,6 @@ paths:
       summary: 'Retrieves the collection of Profile resources.'
       tags:
         - Profile
-    parameters: []
   '/profiles/{id}':
     get:
       deprecated: false
@@ -27315,7 +27208,6 @@ paths:
       summary: 'Retrieves a Profile resource.'
       tags:
         - Profile
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the Profile resource.'
@@ -27337,7 +27229,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Profile-write_update'
+              $ref: '#/components/schemas/Profile-write_update.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Profile.jsonapi'
@@ -27569,7 +27461,6 @@ paths:
       summary: 'Retrieves the collection of ScheduleEntry resources.'
       tags:
         - ScheduleEntry
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ScheduleEntry resource.'
@@ -27688,7 +27579,6 @@ paths:
       summary: 'Retrieves a ScheduleEntry resource.'
       tags:
         - ScheduleEntry
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ScheduleEntry resource.'
@@ -27710,7 +27600,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry-write'
+              $ref: '#/components/schemas/ScheduleEntry-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ScheduleEntry.jsonapi'
@@ -27794,7 +27684,6 @@ paths:
       summary: 'Retrieves the collection of User resources.'
       tags:
         - User
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a User resource.'
@@ -27913,7 +27802,6 @@ paths:
       summary: 'Retrieves a User resource.'
       tags:
         - User
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the User resource.'
@@ -27935,7 +27823,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/User-write'
+              $ref: '#/components/schemas/User-write.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/User.jsonapi'
@@ -27971,7 +27859,6 @@ paths:
       tags:
         - User
   '/users/{id}/activate':
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the User resource.'
@@ -27993,7 +27880,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/User-activate'
+              $ref: '#/components/schemas/User-activate.patch'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/User.jsonapi'
