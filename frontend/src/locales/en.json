@@ -209,6 +209,7 @@
         "title": "Edit {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Overwrite avatar for this camp",
         "roleHint": "Each camp needs at least one person with administrative rights."
       },
       "promptCollaboratorDeactivate": {
@@ -447,20 +448,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Birthday",
-        "email": "Email address",
-        "firstname": "Firstname",
-        "language": "Language",
-        "nickname": "Nickname",
-        "password": "Password",
-        "surname": "Lastname"
-      },
-      "name": "User"
-    }
-  },
   "global": {
     "button": {
       "add": "Add",
@@ -518,7 +505,7 @@
       "news": "News"
     },
     "serverError": {
-      "409": "Uuuups... This action caused an server-side error.",
+      "409": "Ooops... This action caused an server-side error.",
       "short": "Server error"
     },
     "toast": {
@@ -733,7 +720,7 @@
     },
     "pageNotFound": {
       "backToHome": "Back to home",
-      "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
+      "detail": "Whoops. You've lost your way…{br}Unfortunately, this link does not work."
     },
     "profile": {
       "changeEmail": "Change",
