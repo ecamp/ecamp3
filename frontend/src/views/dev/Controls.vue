@@ -78,6 +78,7 @@ import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
 import EColorField from '@/components/form/base/EColorField.vue'
+import ETimeField from '@/components/form/base/ETimeField.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
@@ -115,6 +116,7 @@ export default {
     ApiSwitch,
     VSelect,
     ESelect,
+    ETimeField,
     ApiSelect,
     EDatePicker,
     ApiDatePicker,
@@ -141,6 +143,7 @@ export default {
     selectValue: null,
     dateValue: '2020-01-01',
     timeValue: '2020-01-01T14:45:00+00:00',
+    timeValue2: '00:00',
 
     headers: [
       { text: 'Type', value: 'id' },
@@ -266,6 +269,16 @@ export default {
             path: 'color',
             uri: this.campCollaborationUri,
             veeRules: 'required',
+          },
+        },
+        {
+          id: 'time-field',
+          component: (type) => (type === 'e' ? `${type}-time-field` : ''),
+          value: this.timeValue2,
+          props: {
+            placeholder: this.placeholder,
+            path: 'start',
+            uri: this.scheduleEntryUri,
           },
         },
       ]
