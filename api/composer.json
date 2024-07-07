@@ -52,7 +52,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.59.3",
-        "hautelook/alice-bundle": "2.13.0",
+        "hautelook/alice-bundle": "2.14.1",
         "justinrainbow/json-schema": "5.3.0",
         "php-coveralls/php-coveralls": "2.7.0",
         "phpspec/prophecy-phpunit": "2.2",
