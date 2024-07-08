@@ -26,7 +26,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.7'
+          php-version: '8.3.9'
           tools: composer:2.7.0
           coverage: xdebug
 
