@@ -171,4 +171,13 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep {
+  .v-text-field.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense)
+    .editor {
+    margin-top: 10px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
+}
+</style>
