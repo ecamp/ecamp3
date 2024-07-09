@@ -66,14 +66,14 @@ class CreateChecklistItemTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload(['position' => 5]));
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
     }
 
     public function testCreateChecklistItemIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/checklist_items', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload(['position' => 5]));
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
     }
 
     public function testCreateChecklistItemInCampPrototypeIsDeniedForUnrelatedUser() {
@@ -181,7 +181,7 @@ class CreateChecklistItemTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload(
             [
                 'text' => 'Ziel 1',
-                'position' => 5,
+                'position' => 2,
             ]
         ));
     }
@@ -203,7 +203,7 @@ class CreateChecklistItemTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload(
             [
                 'text' => '<b>Ziel 1',
-                'position' => 5,
+                'position' => 2,
             ]
         ));
     }

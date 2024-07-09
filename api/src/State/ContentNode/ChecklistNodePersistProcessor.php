@@ -25,13 +25,19 @@ class ChecklistNodePersistProcessor extends ContentNodePersistProcessor {
         if (null !== $data->addChecklistItemIds) {
             foreach ($data->addChecklistItemIds as $checklistItemId) {
                 $checklistItem = $this->checklistItemRepository->find($checklistItemId);
-                $data->addChecklistItem($checklistItem);
+                if (null != $checklistItem) {
+                    // if a checklistItem does not exists, do not add it
+                    $data->addChecklistItem($checklistItem);
+                }
             }
         }
         if (null !== $data->removeChecklistItemIds) {
             foreach ($data->removeChecklistItemIds as $checklistItemId) {
                 $checklistItem = $this->checklistItemRepository->find($checklistItemId);
-                $data->removeChecklistItem($checklistItem);
+                if (null != $checklistItem) {
+                    // if a checklistItem no longer exists, it does not have to be removed
+                    $data->removeChecklistItem($checklistItem);
+                }
             }
         }
 

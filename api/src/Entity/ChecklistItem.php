@@ -67,6 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist'])]
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
+#[ORM\UniqueConstraint(name: 'checklistitem_checklistid_parentid_position_unique', columns: ['checklistid', 'parentid', 'position'])]
 class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface, HasParentInterface {
     public const CHECKLIST_SUBRESOURCE_URI_TEMPLATE = '/checklists/{checklistId}/checklist_items.{_format}';
 
@@ -74,6 +75,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
      * The Checklist this Item belongs to.
      */
     #[ApiProperty(example: '/checklists/1a2b3c4d')]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: Checklist::class, inversedBy: 'checklistItems')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
