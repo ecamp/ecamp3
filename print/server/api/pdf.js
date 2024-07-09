@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
     browser = await puppeteer.connect({
       browserWSEndpoint: browserWsEndpoint,
     })
-    const context = await browser.createIncognitoBrowserContext()
+    const context = await browser.createBrowserContext()
     measurePerformance(performanceMeasurements, 'puppeteer_connect')
 
     const page = await context.newPage()
