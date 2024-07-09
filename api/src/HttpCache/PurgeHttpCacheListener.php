@@ -31,7 +31,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -121,7 +121,7 @@ final class PurgeHttpCacheListener {
     private function addTagsForManyToManyRelations($collection, $entities) {
         $associationMapping = $collection->getMapping();
 
-        if (ClassMetadataInfo::MANY_TO_MANY !== $associationMapping['type']) {
+        if (ClassMetadata::MANY_TO_MANY !== $associationMapping['type']) {
             return;
         }
 
