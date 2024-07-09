@@ -47,7 +47,7 @@
     "css": "3.0.0",
     "dayjs": "1.11.11",
     "eslint": "8.57.0",
-    "eslint-plugin-local-rules": "2.0.1",
+    "eslint-plugin-local-rules": "3.0.2",
     "eslint-plugin-vue": "9.27.0",
     "jsdom": "24.1.0",
     "prettier": "3.3.2",
