@@ -12,6 +12,8 @@ jobs:
     name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DB_CPU_LIMIT: 4
     strategy:
       fail-fast: false
       matrix:
@@ -20,7 +22,7 @@ jobs:
           - firefox
           - edge
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - run: cp .env.ci .env
 
@@ -36,12 +38,11 @@ jobs:
 
       - name: Load images
         run: |
-          docker load --input /tmp/ecamp3-dev-api-php.tar
-          docker load --input /tmp/ecamp3-dev-api-caddy.tar
+          docker load --input /tmp/ecamp3-dev-api.tar
           docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: .cache
           key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
@@ -49,9 +50,9 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d php caddy frontend pdf print browserless database docker-host
+      - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
 
-      - uses: cypress-io/github-action@v5
+      - uses: cypress-io/github-action@v6.7.1
         with:
           working-directory: e2e
           browser: ${{ matrix.browser }}

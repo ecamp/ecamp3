@@ -21,15 +21,15 @@ final class FilterByCurrentUserExtension implements QueryCollectionExtensionInte
         $this->entityManager = $entityManager;
     }
 
-    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass = null, Operation $operation = null, array $context = []): void {
-        $this->addWhere($queryBuilder, $resourceClass);
+    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, ?string $resourceClass = null, ?Operation $operation = null, array $context = []): void {
+        $this->addWhere($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 
-    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, Operation $operation = null, array $context = []): void {
-        $this->addWhere($queryBuilder, $resourceClass);
+    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, ?Operation $operation = null, array $context = []): void {
+        $this->addWhere($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 
-    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void {
+    private function addWhere(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass): void {
         $repository = $this->entityManager->getRepository($resourceClass);
 
         /** @var null|User $user */
@@ -39,6 +39,6 @@ final class FilterByCurrentUserExtension implements QueryCollectionExtensionInte
             return;
         }
 
-        $repository->filterByUser($queryBuilder, $user);
+        $repository->filterByUser($queryBuilder, $queryNameGenerator, $user);
     }
 }

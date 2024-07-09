@@ -13,7 +13,7 @@ describe('An EDatePicker', () => {
       date2: '19.03.2020',
       dateShort: '2.4.2021',
       dateInWrongLocale: '03/19/2020',
-      labelText: 'Dialog öffnen um ein Datum für test zu wählen',
+      labelText: 'Dialog öffnen, um ein Datum für test zu wählen',
       date1Heading: 'März 2020',
       date3Heading: 'Januar 2111',
       date4Heading: 'Januar 1999',
@@ -44,7 +44,7 @@ describe('An EDatePicker', () => {
       // given
 
       // when
-      render(EDatePicker, { props: { value: DATE1_ISO, name: 'test' } })
+      render(EDatePicker, { props: { value: DATE1_ISO, label: 'test' } })
 
       // then
       await screen.findByDisplayValue(data.date1)
@@ -56,7 +56,7 @@ describe('An EDatePicker', () => {
 
       // when
       const { container } = render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
 
       // then
@@ -74,7 +74,7 @@ describe('An EDatePicker', () => {
     it('does not open the picker when the text field is clicked', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const inputField = await screen.findByDisplayValue(data.date1)
 
@@ -91,7 +91,7 @@ describe('An EDatePicker', () => {
     it('opens the picker when the icon button is clicked', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -107,7 +107,7 @@ describe('An EDatePicker', () => {
     it('closes the picker when clicking the close button', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -128,7 +128,7 @@ describe('An EDatePicker', () => {
     it('closes the picker when clicking outside', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -148,7 +148,7 @@ describe('An EDatePicker', () => {
     it('closes the picker when pressing escape', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -168,7 +168,7 @@ describe('An EDatePicker', () => {
     it('closes the picker when selecting a date', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -189,7 +189,7 @@ describe('An EDatePicker', () => {
     it('re-opens the picker when clicking the button again after selecting a date', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -214,7 +214,7 @@ describe('An EDatePicker', () => {
     it('updates v-model when the input field is changed', async () => {
       // given
       const { emitted } = render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const inputField = await screen.findByDisplayValue(data.date1)
 
@@ -243,7 +243,7 @@ describe('An EDatePicker', () => {
     it('updates v-model when a new date is selected in the picker', async () => {
       // given
       const { emitted } = render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       await screen.findByDisplayValue(data.date1)
       const button = await screen.getByLabelText(data.labelText)
@@ -275,7 +275,7 @@ describe('An EDatePicker', () => {
     it('validates the input', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const inputField = await screen.findByDisplayValue(data.date1)
 
@@ -290,7 +290,7 @@ describe('An EDatePicker', () => {
     it('allows inputting a date in short format', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test' },
+        props: { value: DATE1_ISO, label: 'test' },
       })
       const inputField = await screen.findByDisplayValue(data.date1)
 
@@ -309,7 +309,7 @@ describe('An EDatePicker', () => {
     it('autoscrolls forward to the earliest allowable month based on min', async () => {
       // given
       render(EDatePicker, {
-        props: { value: '', name: 'test', min: '2111-01-01' },
+        props: { value: '', label: 'test', min: '2111-01-01' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -325,7 +325,7 @@ describe('An EDatePicker', () => {
     it('does not autoscroll forward if given a value', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test', min: '2111-01-01' },
+        props: { value: DATE1_ISO, label: 'test', min: '2111-01-01' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -341,7 +341,7 @@ describe('An EDatePicker', () => {
     it('does not autoscroll backward based on min', async () => {
       // given
       render(EDatePicker, {
-        props: { value: '', name: 'test', min: '1999-01-01' },
+        props: { value: '', label: 'test', min: '1999-01-01' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -357,7 +357,7 @@ describe('An EDatePicker', () => {
     it('autoscrolls back to the latest allowable month based on max', async () => {
       // given
       render(EDatePicker, {
-        props: { value: '', name: 'test', max: '1999-01-01' },
+        props: { value: '', label: 'test', max: '1999-01-01' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -373,7 +373,7 @@ describe('An EDatePicker', () => {
     it('does not autoscroll forward based on max', async () => {
       // given
       render(EDatePicker, {
-        props: { value: '', name: 'test', max: '2111-01-01' },
+        props: { value: '', label: 'test', max: '2111-01-01' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -389,7 +389,7 @@ describe('An EDatePicker', () => {
     it('does not autoscroll backward if given a value', async () => {
       // given
       render(EDatePicker, {
-        props: { value: DATE1_ISO, name: 'test', max: '1999-01-01' },
+        props: { value: DATE1_ISO, label: 'test', max: '1999-01-01' },
       })
       const button = await screen.getByLabelText(data.labelText)
 

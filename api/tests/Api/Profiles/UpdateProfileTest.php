@@ -204,6 +204,53 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchProfileValidatesInvalidColor() {
+        $profile = static::getFixture('profile1manager');
+        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'color' => 'red',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'color',
+                    'message' => 'This value is not valid.',
+                ],
+            ],
+        ]);
+    }
+
+    #[DataProvider('invalidAbbreviations')]
+    public function testPatchCampCollaborationValidatesInvalidAbbreviation($abbreviation) {
+        $profile = static::getFixture('profile1manager');
+        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'abbreviation' => $abbreviation,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'abbreviation',
+                    'message' => 'This value is too long. It should have 2 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    #[DataProvider('validAbbreviations')]
+    public function testPatchCampCollaborationValidatesValidAbbreviation($abbreviation) {
+        $profile = static::getFixture('profile1manager');
+        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'abbreviation' => $abbreviation,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'abbreviation' => $abbreviation,
+        ]);
+    }
+
     public function testPatchProfileValidatesInvalidLanguage() {
         $profile = static::getFixture('profile1manager');
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
@@ -268,6 +315,24 @@ class UpdateProfileTest extends ECampApiTestCase {
             'pbsmidataId' => ['pbsmidataId'],
             'roles' => ['roles'],
             'user' => ['user'],
+        ];
+    }
+
+    public static function invalidAbbreviations(): array {
+        return [
+            ['ABC'],
+            ['D3C'],
+            ['🧑🏿‍🚀🙋🏼‍♀️😊'],
+        ];
+    }
+
+    public static function validAbbreviations(): array {
+        return [
+            ['AB'],
+            ['33'],
+            ['X4'],
+            ['✅😊'],
+            ['🧑🏿‍🚀🧑🏼‍🔧'],
         ];
     }
 }

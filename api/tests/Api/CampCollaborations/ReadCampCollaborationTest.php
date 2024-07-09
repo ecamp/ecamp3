@@ -126,6 +126,6 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
         $client->enableProfiler();
         $client->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
 
-        $this->assertSqlQueryCount($client, 15);
+        $this->assertSqlQueryCount($client, 14);
     }
 }

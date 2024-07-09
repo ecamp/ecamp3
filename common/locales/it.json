@@ -122,6 +122,13 @@
       "prototype": "Modello di campo"
     },
     "campCollaboration": {
+      "fields": {
+        "abbreviation": "Abbreviazione",
+        "color": "Colore",
+        "inviteEmail": "E-mail",
+        "role": "Ruolo",
+        "status": "Stato"
+      },
       "inactive": "non attivo"
     },
     "category": {
@@ -173,10 +180,27 @@
       },
       "name": "Periodo | Periodi"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviazione",
+        "color": "Colore",
+        "email": "Indirizzo email",
+        "firstname": "Nome",
+        "language": "Lingua",
+        "nickname": "Soprannome",
+        "password": "Parola d'ordine",
+        "surname": "Cognome"
+      },
+      "name": "Profilo"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Durata",
+        "endDate": "Data di fine",
+        "endDatetime": "Ora di fine",
         "nr": "N.",
+        "startDate": "Data di inizio",
+        "startDatetime": "Ora di inizio",
         "time": "Tempo"
       },
       "name": "Inserimento nel programma"

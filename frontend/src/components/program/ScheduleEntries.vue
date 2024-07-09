@@ -1,11 +1,16 @@
 <template>
   <div>
-    <slot :schedule-entries="scheduleEntries" :loading="loading" :on="eventHandlers" />
+    <slot
+      :schedule-entries="filteredScheduleEntries"
+      :loading="loading"
+      :reload-entries="reloadScheduleEntries"
+      :on="eventHandlers"
+    />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :period="period"
       :schedule-entry="newScheduleEntry"
-      @activityCreated="afterCreateActivity($event)"
+      @activity-created="afterCreateActivity($event)"
     />
 
     <v-btn
@@ -35,8 +40,9 @@ export default {
     DialogActivityCreate,
   },
   props: {
-    period: { type: Function, required: true },
+    period: { type: Object, required: true },
     showButton: { type: Boolean, required: true },
+    matchFn: { type: Function, required: false, default: () => true },
   },
   data() {
     return {
@@ -44,7 +50,7 @@ export default {
         newEntry: this.newEntryFromPicasso,
       },
       newScheduleEntry: {
-        period: () => this.period(),
+        period: () => this.period,
         start: null,
         end: null,
       },
@@ -53,31 +59,31 @@ export default {
   computed: {
     scheduleEntries() {
       // TODO for SideBar, add filtering for the current day, now that the API supports it
-      return this.period().scheduleEntries()
+      return this.period.scheduleEntries()
+    },
+    filteredScheduleEntries() {
+      return this.scheduleEntries.items.map((item) => ({
+        ...item,
+        filterMatch: this.matchFn(item),
+      }))
     },
     loading() {
       return (
         this.scheduleEntries._meta.loading ||
-        this.period().camp().activities()._meta.loading ||
-        this.period().camp().categories()._meta.loading
+        this.period.camp().activities()._meta.loading ||
+        this.period.camp().categories()._meta.loading
       )
     },
-  },
-  mounted() {
-    this.period().scheduleEntries().$reload()
-    this.period().camp().activities().$reload()
-    this.period().camp().categories().$reload()
-    this.period().days().$reload()
   },
 
   methods: {
     createNewActivity() {
       this.newScheduleEntry.start = this.$date
-        .utc(this.period().start)
+        .utc(this.period.start)
         .add(8, 'hour')
         .format()
       this.newScheduleEntry.end = this.$date
-        .utc(this.period().start)
+        .utc(this.period.start)
         .add(9, 'hour')
         .format()
       this.showActivityCreateDialog()
@@ -86,7 +92,7 @@ export default {
       this.$refs.dialogActivityCreate.showDialog = true
     },
     afterCreateActivity() {
-      this.api.reload(this.period().scheduleEntries())
+      this.api.reload(this.period.scheduleEntries())
     },
 
     // Event Handler on.newEntry: update position & open create dialog
@@ -94,6 +100,10 @@ export default {
       this.newScheduleEntry.start = start
       this.newScheduleEntry.end = end
       this.showActivityCreateDialog()
+    },
+
+    async reloadScheduleEntries() {
+      await this.api.reload(this.scheduleEntries)
     },
   },
 }
@@ -104,7 +114,7 @@ export default {
   position: fixed;
   bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
   @media #{map-get($display-breakpoints, 'md-and-up')} {
-    bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
+    bottom: calc(16px + env(safe-area-inset-bottom)) !important;
   }
 }
 </style>

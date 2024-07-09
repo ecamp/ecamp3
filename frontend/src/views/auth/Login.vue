@@ -24,7 +24,19 @@
       </div>
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
-      {{ error }}
+      <span class="d-block">{{ error }}</span>
+      <span class="d-block mt-1"
+        >{{ $tc('views.auth.login.passwordForgotten') }}
+        <router-link :to="{ name: 'resetPasswordRequest' }">
+          {{ $tc('views.auth.login.resetPassword') }}
+        </router-link>
+      </span>
+      <span class="d-block mt-1"
+        >{{ $tc('views.auth.login.notActivated') }}
+        <router-link :to="{ name: 'resendActivation' }">
+          {{ $tc('views.auth.login.resendActivation') }}
+        </router-link>
+      </span>
     </v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
@@ -249,14 +261,14 @@ export default {
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  :deep .v-btn {
+  :deep(.v-btn) {
     height: auto;
     min-width: auto;
     padding: 4px 0;
     flex-grow: 1;
   }
 
-  :deep .v-btn__content {
+  :deep(.v-btn__content) {
     flex-direction: column;
   }
 }

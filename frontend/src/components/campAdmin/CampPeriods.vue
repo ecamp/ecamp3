@@ -3,28 +3,26 @@ Displays all periods of a single camp and allows to edit them & create new ones
 -->
 
 <template>
-  <content-group>
-    <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
-        {{
-          $tc('components.campAdmin.campPeriods.title', api.get().camps().items.length)
-        }}
-        <dialog-period-create v-if="!disabled" :camp="camp()">
-          <template #activator="{ on }">
-            <button-add
-              color="secondary"
-              text
-              class="my-n2"
-              :hide-label="$vuetify.breakpoint.xsOnly"
-              v-on="on"
-            >
-              {{ $tc('components.campAdmin.campPeriods.createPeriod') }}
-            </button-add>
-          </template>
-        </dialog-period-create>
-      </div>
-    </slot>
-    <v-skeleton-loader v-if="camp().periods()._meta.loading" type="article" />
+  <content-group
+    :title="$tc('components.campAdmin.campPeriods.title', api.get().camps().items.length)"
+    icon="mdi-calendar-multiple"
+  >
+    <template #title-actions>
+      <dialog-period-create v-if="!disabled" :camp="camp">
+        <template #activator="{ on }">
+          <button-add
+            color="secondary"
+            text
+            class="my-n2"
+            :hide-label="$vuetify.breakpoint.xsOnly"
+            v-on="on"
+          >
+            {{ $tc('components.campAdmin.campPeriods.createPeriod') }}
+          </button-add>
+        </template>
+      </dialog-period-create>
+    </template>
+    <v-skeleton-loader v-if="camp.periods()._meta.loading" type="article" />
     <v-list>
       <period-item
         v-for="period in periods.items"
@@ -47,7 +45,7 @@ export default {
   name: 'CampPeriods',
   components: { ContentGroup, ButtonAdd, PeriodItem, DialogPeriodCreate },
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
   },
   data() {
@@ -55,7 +53,7 @@ export default {
   },
   computed: {
     periods() {
-      return this.camp().periods()
+      return this.camp.periods()
     },
   },
 }

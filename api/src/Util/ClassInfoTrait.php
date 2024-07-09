@@ -29,7 +29,7 @@ trait ClassInfoTrait {
      */
     private function getRealClassName(string $className): string {
         // __CG__: Doctrine Common Marker for Proxy (ODM < 2.0 and ORM < 3.0)
-        $positionCg = strrpos($className, '\\__CG__\\');
+        $positionCg = strrpos($className, '\__CG__\\');
 
         if (false === $positionCg) {
             return $className;

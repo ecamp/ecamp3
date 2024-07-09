@@ -210,8 +210,8 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
 
 class MyConstraint extends Constraint {
     public function __construct(
-        array $options = null,
-        array $groups = null,
+        ?array $options = null,
+        ?array $groups = null,
         $payload = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);

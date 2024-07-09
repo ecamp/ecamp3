@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraint;
 class AssertAllowTransitions extends Constraint {
     public function __construct(
         public array $transitions,
-        array $options = null,
-        array $groups = null,
+        ?array $options = null,
+        ?array $groups = null,
         $payload = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);

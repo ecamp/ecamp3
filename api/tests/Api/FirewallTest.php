@@ -1,9 +1,9 @@
 <?php
 
-namespace Api;
+namespace App\Tests\Api;
 
-use App\Tests\Api\ECampApiTestCase;
 use App\Util\ParametrizedTestHelper;
+use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -26,12 +26,15 @@ class FirewallTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    #[DataProvider('getProtectedEnpoints')]
+    #[DataProvider('getProtectedEndpoints')]
     public function testProtectedEndpointsDontResultInQuery(string $endpoint) {
         $client = self::createBasicClient();
         $client->enableProfiler();
         $client->request('GET', $endpoint);
 
+        /**
+         * @var DoctrineDataCollector
+         */
         $collector = $client->getProfile()->getCollector('db');
         /*
          * 3 is:
@@ -42,12 +45,12 @@ class FirewallTest extends ECampApiTestCase {
         assertThat($collector->getQueryCount(), equalTo(3));
     }
 
-    public static function getProtectedEnpoints(): array {
-        $protectedEnpoints = array_filter(self::getEndPoints(), function (string $endpoint) {
+    public static function getProtectedEndpoints(): array {
+        $protectedEndpoints = array_filter(self::getEndPoints(), function (string $endpoint) {
             return self::isProtectedByFirewall($endpoint);
         });
 
-        return ParametrizedTestHelper::asParameterTestSets($protectedEnpoints);
+        return ParametrizedTestHelper::asParameterTestSets($protectedEndpoints);
     }
 
     /**
@@ -57,12 +60,15 @@ class FirewallTest extends ECampApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    #[DataProvider('getUnprotectedEnpoints')]
+    #[DataProvider('getUnprotectedEndpoints')]
     public function testUnprotectedEndpointsMayResultInQuery(string $endpoint) {
         $client = self::createBasicClient();
         $client->enableProfiler();
         $client->request('GET', $endpoint);
 
+        /**
+         * @var DoctrineDataCollector
+         */
         $collector = $client->getProfile()->getCollector('db');
         /*
          * 3 is:
@@ -73,12 +79,12 @@ class FirewallTest extends ECampApiTestCase {
         assertThat($collector->getQueryCount(), greaterThanOrEqual(3));
     }
 
-    public static function getUnprotectedEnpoints() {
-        $protectedEnpoints = array_filter(self::getEndPoints(), function (string $endpoint) {
+    public static function getUnprotectedEndpoints() {
+        $protectedEndpoints = array_filter(self::getEndPoints(), function (string $endpoint) {
             return !self::isProtectedByFirewall($endpoint);
         });
 
-        return ParametrizedTestHelper::asParameterTestSets($protectedEnpoints);
+        return ParametrizedTestHelper::asParameterTestSets($protectedEndpoints);
     }
 
     /**
@@ -96,7 +102,7 @@ class FirewallTest extends ECampApiTestCase {
         $responseArray = $response->toArray();
         $onlyUrls = array_map(fn (array $item) => $item['href'], $responseArray['_links']);
 
-        return array_map(fn (string $uriTemplate) => preg_replace('/\\{[^}]*}/', '', $uriTemplate), $onlyUrls);
+        return array_map(fn (string $uriTemplate) => preg_replace('/\{[^}]*}/', '', $uriTemplate), $onlyUrls);
     }
 
     private static function isProtectedByFirewall(mixed $endpoint): bool {
@@ -107,6 +113,7 @@ class FirewallTest extends ECampApiTestCase {
             '/auth/cevidb' => false,
             '/auth/jubladb' => false,
             '/auth/reset_password' => false,
+            '/auth/resend_activation' => false,
             '/content_types' => false,
             '/invitations' => false,
             default => true

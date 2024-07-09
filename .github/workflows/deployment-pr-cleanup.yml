@@ -13,7 +13,7 @@ jobs:
       to-uninstall: ${{ steps.to-uninstall.outputs.list }}
       never-uninstall: ${{ steps.to-uninstall.outputs.never_uninstall }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - name: Find all open PRs that have a "deploy!" label
         id: deployment-candidates
@@ -74,7 +74,7 @@ jobs:
           helm delete ecamp3-${{ matrix.deployment-name }}
 
       - name: Remove GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         with:
           step: deactivate-env
           token: ${{ secrets.REPO_ACCESS_TOKEN }}

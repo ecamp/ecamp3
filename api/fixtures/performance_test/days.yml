@@ -1,0 +1,10 @@
+App\Entity\Day:
+  additional_day1period1_{1..400}:
+    period: '@additionalPeriod_<current()>'
+    dayOffset: 0
+  additional_day2period1_{1..400}:
+    period: '@additionalPeriod_<current()>'
+    dayOffset: 1
+  additional_day3period1_{1..400}:
+    period: '@additionalPeriod_<current()>'
+    dayOffset: 2

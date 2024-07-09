@@ -9,7 +9,7 @@
           :camp="camp"
           :day-selection="daySelection"
           :loading="slotProps.loading"
-          @changeDay="selectedDay = $event"
+          @change-day="selectedDay = $event"
         />
         <v-divider />
         <v-skeleton-loader v-if="slotProps.loading" class="mx-1" type="list-item@6" />
@@ -17,7 +17,7 @@
           v-else
           class="ec-sidebar-program__picasso"
           :schedule-entries="slotProps.scheduleEntries"
-          :period="period()"
+          :period="period"
           :start="currentDayAsString"
           :interval-height="36"
           :end="currentDayAsString"
@@ -42,8 +42,8 @@ export default {
   name: 'SideBarProgram',
   components: { DaySwitcher, SideBar, Picasso, ScheduleEntries },
   props: {
-    day: { type: Function, required: true },
-    camp: { type: Function, required: true },
+    day: { type: Object, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {
@@ -52,10 +52,10 @@ export default {
   },
   computed: {
     period() {
-      return this.daySelection.period
+      return this.daySelection.period()
     },
     daySelection() {
-      return this.selectedDay ?? this.day()
+      return this.selectedDay ?? this.day
     },
     currentDayAsString() {
       return this.$date.utc(this.daySelection.start).format(HTML5_FMT.DATE)

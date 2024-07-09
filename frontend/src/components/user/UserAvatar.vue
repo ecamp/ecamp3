@@ -31,27 +31,27 @@ export default {
     },
     color() {
       if (this.isLoading) {
-        return defaultColor
+        return defaultColor()
       }
-      return this.user
-        ? userColor(this.user)
-        : campCollaborationColor(this.campCollaboration)
+      return this.campCollaboration
+        ? campCollaborationColor(this.campCollaboration)
+        : userColor(this.user)
     },
     initials() {
       if (this.isLoading) {
         return ''
       }
-      return this.user
-        ? userInitials(this.user)
-        : campCollaborationInitials(this.campCollaboration)
+      return this.campCollaboration
+        ? campCollaborationInitials(this.campCollaboration)
+        : userInitials(this.user)
     },
     displayName() {
       if (this.isLoading) {
         return ''
       }
-      return this.user
-        ? userDisplayName(this.user)
-        : campCollaborationDisplayName(this.campCollaboration, this.$tc.bind(this))
+      return this.campCollaboration
+        ? campCollaborationDisplayName(this.campCollaboration, this.$tc.bind(this))
+        : userDisplayName(this.user)
     },
     /**
      * Font size of small avatars should be half the size,

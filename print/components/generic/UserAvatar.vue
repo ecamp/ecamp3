@@ -8,9 +8,9 @@ import {
   campCollaborationColor,
   defaultColor,
   userColor,
-} from '@/../common/helpers/colors.js'
-import userInitials from '@/../common/helpers/userInitials.js'
-import campCollaborationInitials from '@/../common/helpers/campCollaborationInitials.js'
+} from '@/common/helpers/colors.js'
+import userInitials from '@/common/helpers/userInitials.js'
+import campCollaborationInitials from '@/common/helpers/campCollaborationInitials.js'
 
 export default {
   props: {

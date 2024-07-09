@@ -1,0 +1,18 @@
+{{- if .Values.apiCache.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "apiCache.name" . }}-vcl-configmap
+  labels:
+    {{- include "apiCache.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+data:
+# includes all files except the ones starting with _
+{{ (.Files.Glob "files/vcl/[!_]*").AsConfig | indent 2 }}
+  # override backend config
+  _config.vcl: |-
+    backend default {
+      .host = "{{ include "api.name" .}}";
+      .port = "{{ .Values.api.service.port }}";
+    }
+{{- end }}

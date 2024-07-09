@@ -1,13 +1,12 @@
 {
   "extends": [
-    "config:base",
+    "mergeConfidence:all-badges",
+    "config:recommended",
     ":prConcurrentLimitNone"
   ],
-  "force": {
-    "constraints": {
-      "node": "20.11.1",
-      "php": "8.3.4"
-    }
+  "constraints": {
+    "node": "22.3.0",
+    "php": "8.3.9"
   },
   "automergeType": "branch",
   "rebaseWhen": "conflicted",
@@ -25,7 +24,7 @@
   ],
   "packageRules": [
     {
-      "updateTypes": [
+      "matchUpdateTypes": [
         "minor",
         "patch",
         "pin",
@@ -47,7 +46,6 @@
       "dependencyDashboardApproval": true,
       "groupName": "vue-major-print-pdf"
     },
-
     {
       "extends": [
         "monorepo:vue"
@@ -79,25 +77,37 @@
       "groupName": "vue-frontend"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
+        "@vue/test-utils"
+      ],
+      "matchFileNames": [
+        "frontend/package.json"
+      ],
+      "dependencyDashboardApproval": true,
+      "groupName": "vue-test-utils-frontend"
+    },
+    {
+      "matchDepNames": [
         "sass"
       ],
       "dependencyDashboardApproval": true
     },
     {
-      "matchPackageNames": [
-        "php"
+      "matchDepNames": [
+        "php",
+        "dunglas/frankenphp"
       ],
-      "automerge": false
+      "automerge": false,
+      "groupName": "php"
     },
     {
       "matchPackagePatterns": [
-        "^@tiptap\/"
+        "^@tiptap/"
       ],
       "groupName": "tiptap"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "browserless/chrome",
         "caddy",
         "krakjoe/apcu",
@@ -109,25 +119,32 @@
       ],
       "groupName": "docker-images",
       "schedule": [
-        "after 10pm every sunday",
-        "before 7am every monday"
+        "after 10pm on sunday",
+        "before 7am on monday"
       ]
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "browserless/chrome"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
+        "dunglas/frankenphp"
+      ],
+      "versioning": "regex:^(?<build>\\d+)\\.(?<revision>\\d+)-(?<compatibility>\\w+)(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
+    },
+    {
+      "matchDepNames": [
         "postgres"
       ],
       "allowedVersions": "15-alpine"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [
         "^api/phpunit.xml.dist$"
       ],
@@ -138,6 +155,7 @@
       "datasourceTemplate": "packagist"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^api/Dockerfile$"
       ],
@@ -147,6 +165,7 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^.helm/ecamp3/values.ya?ml$"
       ],
@@ -155,6 +174,7 @@
       ]
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^.github/workflows/.+\\.ya?ml$"
       ],
@@ -162,12 +182,13 @@
         "php-version: '(?<currentValue>[0-9.]+)'"
       ],
       "depNameTemplate": "php",
-      "lookupNameTemplate": "php/php-src",
+      "packageNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$",
       "extractVersionTemplate": "^php-(?<version>.*)$"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^renovate.json$"
       ],
@@ -175,12 +196,13 @@
         "\"php\": \"(?<currentValue>[^\"]+).*\".*"
       ],
       "depNameTemplate": "php",
-      "lookupNameTemplate": "php/php-src",
+      "packageNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$",
       "extractVersionTemplate": "^php-(?<version>.*)$"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^.github/workflows/.+\\.ya?ml$"
       ],
@@ -188,11 +210,12 @@
         "tools: composer:(?<currentValue>[0-9.]+)"
       ],
       "depNameTemplate": "composer",
-      "lookupNameTemplate": "composer/composer",
+      "packageNameTemplate": "composer/composer",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+).*?$"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^.github/workflows/.+\\.ya?ml$"
       ],
@@ -200,12 +223,13 @@
         "node-version: '(?<currentValue>[^']+)'.*"
       ],
       "depNameTemplate": "node",
-      "lookupNameTemplate": "nodejs/node",
+      "packageNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*?$",
       "extractVersionTemplate": "^v(?<version>.*)$"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         ".nvmrc"
       ],
@@ -213,12 +237,13 @@
         "(?<currentValue>[^'\n]+).*"
       ],
       "depNameTemplate": "node",
-      "lookupNameTemplate": "nodejs/node",
+      "packageNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*?$",
       "extractVersionTemplate": "^v(?<version>.*)$"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^renovate.json$"
       ],
@@ -226,12 +251,13 @@
         "\"node\": \"(?<currentValue>[^\"]+).*\".*"
       ],
       "depNameTemplate": "node",
-      "lookupNameTemplate": "nodejs/node",
+      "packageNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*?$",
       "extractVersionTemplate": "^v(?<version>.*)$"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "^.github/workflows/.+\\.ya?ml$"
       ],

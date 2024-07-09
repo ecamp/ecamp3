@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\greaterThanOrEqual;
+use function PHPUnit\Framework\lessThanOrEqual;
 
 /**
  * @internal
@@ -60,7 +60,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
          * SAVEPOINT
          * RELEASE SAVEPOINT
          */
-        assertThat($collector->getQueryCount(), greaterThanOrEqual(3));
+        assertThat($collector->getQueryCount(), lessThanOrEqual(3));
     }
 
     /**
@@ -111,11 +111,6 @@ class AcceptInvitationTest extends ECampApiTestCase {
         );
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            /*
-            'campId' => $campCollaboration->camp->getId(),
-            'campTitle' => $campCollaboration->camp->title,
-            'userDisplayName' => 'Bi-Pi',
-            'userAlreadyInCamp' => false, */
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],
@@ -212,7 +207,14 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws TransportExceptionInterface
      */
     public function testNotFoundWhenInviteKeyDoesNotMatch() {
-        static::createClientWithCredentials()->request('PATCH', '/invitations/notExisting/'.Invitation::ACCEPT);
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/invitations/notExisting/'.Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
         $this->assertResponseStatusCodeSame(404);
     }
 
@@ -223,7 +225,14 @@ class AcceptInvitationTest extends ECampApiTestCase {
      * @throws ClientExceptionInterface
      */
     public function testNotFoundWhenNoInviteKey() {
-        static::createClientWithCredentials()->request('PATCH', '/invitations/'.Invitation::ACCEPT);
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/invitations/'.Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
         $this->assertResponseStatusCodeSame(404);
     }
 }

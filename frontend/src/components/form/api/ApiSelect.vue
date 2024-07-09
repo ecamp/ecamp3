@@ -12,6 +12,7 @@ Displays a field as a e-select + write access via API wrapper
     <e-select
       :value="wrapper.localValue"
       v-bind="$attrs"
+      :path="path"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"

@@ -24,7 +24,7 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
      */
     protected const HAL_CIRCULAR_REFERENCE_LIMIT_COUNTERS = 'hal_circular_reference_limit_counters';
 
-    public function __construct(private NormalizerInterface $decorated, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, ClassMetadataFactoryInterface $classMetadataFactory = null, array $defaultContext = [], ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory = null, ?ResourceAccessCheckerInterface $resourceAccessChecker = null) {
+    public function __construct(private NormalizerInterface $decorated, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ?PropertyAccessorInterface $propertyAccessor = null, ?NameConverterInterface $nameConverter = null, ?ClassMetadataFactoryInterface $classMetadataFactory = null, array $defaultContext = [], ?ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory = null, ?ResourceAccessCheckerInterface $resourceAccessChecker = null) {
         $defaultContext[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER] = function ($object) {
             return ['_links' => ['self' => ['href' => $this->iriConverter->getIriFromResource($object)]]];
         };
@@ -91,7 +91,7 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
      *
      * @throws CircularReferenceException
      */
-    protected function handleHalCircularReference(object $object, string $format = null, array $context = []) {
+    protected function handleHalCircularReference(object $object, ?string $format = null, array $context = []) {
         $circularReferenceHandler = $context[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER] ?? $this->defaultContext[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER];
         if ($circularReferenceHandler) {
             return $circularReferenceHandler($object, $format, $context);

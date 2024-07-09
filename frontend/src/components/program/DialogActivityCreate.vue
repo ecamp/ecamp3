@@ -21,7 +21,7 @@
         <template #activator="{ on }">
           <v-btn v-show="clipboardPermission === 'prompt'" v-on="on">
             <v-icon left>mdi-information-outline</v-icon>
-            {{ $tc('components.program.dialogActivityCreate.copyPastActivity') }}
+            {{ $tc('components.program.dialogActivityCreate.copyPasteActivity') }}
           </v-btn>
         </template>
       </CopyActivityInfoDialog>
@@ -71,7 +71,7 @@
         </v-list-item>
       </div>
     </div>
-    <DialogActivityForm :activity="entityData" :period="period">
+    <DialogActivityForm :activity="entityData" :period="period" :autoselect-title="true">
       <template v-if="clipboardAccessDenied" #textFieldTitleAppend>
         <PopoverPrompt
           v-model="copyActivitySourceUrlShowPopover"
@@ -127,7 +127,7 @@ export default {
     scheduleEntry: { type: Object, required: true },
 
     // currently visible period
-    period: { type: Function, required: true },
+    period: { type: Object, required: true },
   },
   data() {
     return {
@@ -138,12 +138,12 @@ export default {
       copyActivitySourceUrlShowPopover: false,
       entityProperties: ['title', 'location', 'scheduleEntries'],
       embeddedEntities: ['category'],
-      entityUri: '/activities',
+      entityUri: '',
     }
   },
   computed: {
     camp() {
-      return this.period().camp()
+      return this.period.camp()
     },
     clipboardAccessDenied() {
       return (
@@ -167,16 +167,16 @@ export default {
           const sourceCamp = this.copyActivitySource.camp()
           const sourceCategory = this.copyActivitySource.category()
 
-          if (this.camp._meta.self == sourceCamp._meta.self) {
+          if (this.camp._meta.self === sourceCamp._meta.self) {
             // same camp; use came category
             this.entityData.category = sourceCategory._meta.self
           } else {
             // different camp; use category with same short-name
             const categories = this.camp
               .categories()
-              .allItems.filter((c) => c.short == sourceCategory.short)
+              .allItems.filter((c) => c.short === sourceCategory.short)
 
-            if (categories.length == 1) {
+            if (categories.length === 1) {
               this.entityData.category = categories[0]._meta.self
             }
           }
@@ -191,7 +191,7 @@ export default {
       if (showDialog) {
         this.refreshCopyActivitySource()
         this.setEntityData({
-          title: this.entityData?.title || this.$tc('entity.activity.new'),
+          title: this.entityData?.title,
           location: '',
           scheduleEntries: [
             {
@@ -205,7 +205,6 @@ export default {
           copyActivitySource: null,
         })
       } else {
-        this.canReadClipboard = 'unknown'
         // clear the variable parts of the form on exit
         this.copyActivitySource = null
         this.copyActivitySourceUrl = null
@@ -221,8 +220,8 @@ export default {
           if (activityProxy != null) {
             activityProxy._meta.load.then(
               (activity) => {
-                this.$set(this, 'copyActivitySource', activity)
-                this.$set(this, 'copyContent', activity != null)
+                this.copyActivitySource = activity
+                this.copyContent = true
                 this.copyActivitySourceUrlLoading = false
               },
               () => {
@@ -230,15 +229,15 @@ export default {
               }
             )
           } else {
-            this.$set(this, 'copyActivitySource', null)
-            this.$set(this, 'copyContent', false)
+            this.copyActivitySource = null
+            this.copyContent = false
             this.copyActivitySourceUrlLoading = false
           }
 
           // if Paste-Popover is shown, close it now
           if (this.copyActivitySourceUrlShowPopover) {
             this.$nextTick(() => {
-              this.$set(this, 'copyActivitySourceUrlShowPopover', false)
+              this.copyActivitySourceUrlShowPopover = false
             })
           }
         },
@@ -248,22 +247,22 @@ export default {
       )
     },
   },
+  mounted() {
+    this.api.href(this.api.get(), 'activities').then((url) => (this.entityUri = url))
+  },
   methods: {
     refreshCopyActivitySource() {
       navigator.permissions.query({ name: 'clipboard-read' }).then(
         (p) => {
-          this.$set(this, 'clipboardPermission', p.state)
-          this.$set(this, 'copyActivitySource', null)
+          this.clipboardPermission = p.state
+          this.copyActivitySource = null
 
-          if (p.state == 'granted') {
+          if (p.state === 'granted') {
             navigator.clipboard
               .readText()
-              .then((url) => {
-                this.getCopyActivitySource(url).then((activityProxy) => {
-                  activityProxy._meta.load.then((activity) =>
-                    this.$set(this, 'copyActivitySource', activity)
-                  )
-                })
+              .then(async (url) => {
+                const copyActivitySource = await this.getCopyActivitySource(url)
+                this.copyActivitySource = await copyActivitySource?._meta.load
               })
               .catch(() => {
                 this.clipboardPermission = 'unaccessable'
@@ -282,7 +281,7 @@ export default {
         url = url.substring(window.location.origin.length)
         const match = router.matcher.match(url)
 
-        if (match.name == 'activity') {
+        if (match.name === 'activity') {
           const scheduleEntry = await this.api
             .get()
             .scheduleEntries({ id: match.params['scheduleEntryId'] })
@@ -317,7 +316,7 @@ export default {
     },
     onSuccess(activity) {
       this.close()
-      this.$emit('activityCreated', activity)
+      this.$emit('activity-created', activity)
     },
   },
 }

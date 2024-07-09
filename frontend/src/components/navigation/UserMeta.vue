@@ -5,8 +5,9 @@
     offset-y
     dark
     right
+    rounded
     :content-class="
-      ['ec-usermenu', $vuetify.breakpoint.xsOnly && 'rounded-lg mt-2'].join(' ')
+      ['ec-usermenu my-4', $vuetify.breakpoint.xsOnly && 'rounded-lg mt-2'].join(' ')
     "
     transition="slide-y-transition"
     :close-on-content-click="false"
@@ -21,7 +22,21 @@
           :class="[btnClasses, { 'v-btn--open': value }]"
           v-on="on"
         >
-          <user-avatar v-if="authUser" :user="authUser" :size="40" />
+          <template v-if="authUser">
+            <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>
+              <UserAvatar
+                :user="authUser"
+                :camp-collaboration="currentCampCollaboration"
+                :size="40"
+              />
+            </v-badge>
+            <UserAvatar
+              v-else
+              :user="authUser"
+              :camp-collaboration="currentCampCollaboration"
+              :size="40"
+            />
+          </template>
           <span class="sr-only-sm-and-down mx-3">
             {{ authUser.displayName }}
           </span>
@@ -35,13 +50,27 @@
         :class="[btnClasses, { 'v-btn--open': value }]"
         v-on="on"
       >
-        <user-avatar v-if="authUser" :user="authUser" :size="40" />
+        <template v-if="authUser">
+          <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>
+            <UserAvatar
+              :user="authUser"
+              :camp-collaboration="currentCampCollaboration"
+              :size="40"
+            />
+          </v-badge>
+          <UserAvatar
+            v-else
+            :user="authUser"
+            :camp-collaboration="currentCampCollaboration"
+            :size="40"
+          />
+        </template>
         <span class="sr-only-sm-and-down mx-3">
           {{ authUser.displayName }}
         </span>
       </v-btn>
     </template>
-    <v-list dense class="user-nav" tag="ul" light color="blue-grey lighten-5">
+    <v-list class="user-nav py-0" tag="ul" light>
       <v-list-item
         tag="li"
         block
@@ -55,6 +84,37 @@
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
         <span>{{ $tc('components.navigation.userMeta.myCamps') }}</span>
       </v-list-item>
+      <v-list-item
+        block
+        tag="li"
+        exact
+        :to="{ name: 'invitations' }"
+        @click="open = false"
+      >
+        <v-icon left>mdi-email</v-icon>
+        <span>{{ $tc('components.navigation.userMeta.invitations') }}</span>
+        <v-list-item-action-text v-if="invitationCount > 0">
+          <v-badge inline bordered color="#f00" :content="invitationCount" />
+        </v-list-item-action-text>
+      </v-list-item>
+      <v-list-item
+        v-if="!$vuetify.breakpoint.lgAndUp"
+        block
+        :href="helpLink"
+        target="_blank"
+      >
+        <v-icon left>mdi-help-circle</v-icon>
+        <span>{{ $tc('global.navigation.help') }}</span>
+        <v-spacer />
+        <v-icon small right>mdi-open-in-new</v-icon>
+      </v-list-item>
+      <v-list-item block :href="newsLink" target="_blank">
+        <v-icon left>mdi-script-text-outline</v-icon>
+        <span>{{ $tc('global.navigation.news') }}</span>
+        <v-spacer />
+        <v-icon small right>mdi-open-in-new</v-icon>
+      </v-list-item>
+      <v-divider />
       <v-list-item block tag="li" @click="logout">
         <v-progress-circular
           v-if="logoutInProgress"
@@ -73,6 +133,7 @@
 <script>
 import UserAvatar from '../user/UserAvatar.vue'
 import { mapGetters } from 'vuex'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'UserMeta',
@@ -87,6 +148,11 @@ export default {
       required: false,
       default: '',
     },
+    camp: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -95,9 +161,26 @@ export default {
     }
   },
   computed: {
+    invitationCount() {
+      return this.api.get().personalInvitations().totalItems
+    },
+    newsLink() {
+      return getEnv().NEWS_LINK
+    },
+    helpLink() {
+      return getEnv().HELP_LINK
+    },
     ...mapGetters({
       authUser: 'getLoggedInUser',
     }),
+    currentCampCollaboration() {
+      return this.camp
+        ?.campCollaborations()
+        .items.find(
+          (collaboration) =>
+            this.authUser?._meta?.self === collaboration.user?.()?._meta?.self
+        )
+    },
   },
   methods: {
     async logout() {
@@ -108,3 +191,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.v-badge:deep(.v-badge__badge::after) {
+  border-color: red;
+}
+</style>

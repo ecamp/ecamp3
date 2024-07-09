@@ -9,6 +9,7 @@ use App\Entity\CampCollaboration;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\Period;
 use App\Entity\User;
+use App\HttpCache\ResponseTagger;
 use App\Security\Voter\CampRoleVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -24,12 +25,14 @@ class CampRoleVoterTest extends TestCase {
     private CampRoleVoter $voter;
     private MockObject|TokenInterface $token;
     private EntityManagerInterface|MockObject $em;
+    private MockObject|ResponseTagger $responseTagger;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createMock(TokenInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
-        $this->voter = new CampRoleVoter($this->em);
+        $this->responseTagger = $this->createMock(ResponseTagger::class);
+        $this->voter = new CampRoleVoter($this->em, $this->responseTagger);
     }
 
     public function testDoesntVoteWhenAttributeWrong() {
@@ -229,6 +232,8 @@ class CampRoleVoterTest extends TestCase {
         $camp->collaborations->add($collaboration);
         $subject = $this->createMock(Period::class);
         $subject->method('getCamp')->willReturn($camp);
+
+        $this->responseTagger->expects($this->once())->method('addTags')->with([$collaboration->getId()]);
 
         // when
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);

@@ -28,13 +28,13 @@
     </template>
 
     <template #[`item.quantity`]="{ item }">
-      <api-text-field
+      <api-number-field
         v-if="!item.readonly"
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="quantity"
-        inputmode="numeric"
+        path="quantity"
+        inputmode="decimal"
       />
       <span v-if="item.readonly">{{ item.quantity }}</span>
     </template>
@@ -45,7 +45,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="unit"
+        path="unit"
         maxlength="32"
       />
       <span v-if="item.readonly">{{ item.unit }}</span>
@@ -58,7 +58,7 @@
           :disabled="layoutMode || disabled"
           dense
           :uri="item.uri"
-          fieldname="article"
+          path="article"
           maxlength="64"
         />
         <span v-if="item.readonly">{{ item.article }}</span>
@@ -78,7 +78,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="materialList"
+        path="materialList"
         :items="materialLists"
       />
       <span v-if="item.readonly">{{ item.listName }}</span>
@@ -218,6 +218,7 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import * as Sentry from '@sentry/browser'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
+import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
 
 // Non-breaking space
 const nbsp = '\u00A0'
@@ -227,6 +228,7 @@ export default {
   components: {
     PromptEntityDelete,
     ApiTextField,
+    ApiNumberField,
     ApiSelect,
     DialogMaterialItemCreate,
     DialogMaterialItemEdit,

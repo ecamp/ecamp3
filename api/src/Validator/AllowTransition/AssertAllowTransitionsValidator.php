@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class AssertAllowTransitionsValidator extends ConstraintValidator {
     public const TO_VIOLATION_MESSAGE = 'value must be one of {{ to }}, was {{ value }}';
     public const FROM_VIOLATION_MESSAGE = 'This value was previously in an unexpected state,'.
-    ' expected one of {{ from }}, but was {{ previousValue }}';
+        ' expected one of {{ from }}, but was {{ previousValue }}';
 
     public function __construct(public RequestStack $requestStack) {}
 

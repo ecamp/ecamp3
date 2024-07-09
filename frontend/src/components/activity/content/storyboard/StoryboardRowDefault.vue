@@ -7,8 +7,8 @@
         class="drag-and-drop-handle"
         :disabled="isLastSection"
         :aria-label="$tc('global.button.move')"
-        @keydown.down="$emit('moveDown', itemKey)"
-        @keydown.up="$emit('moveUp', itemKey)"
+        @keydown.down="$emit('move-down', itemKey)"
+        @keydown.up="$emit('move-up', itemKey)"
       >
         <v-icon>mdi-drag</v-icon>
       </v-btn>
@@ -17,14 +17,14 @@
       <api-text-field
         :label="null"
         single-line
-        :fieldname="`data.sections[${itemKey}].column1`"
+        :path="`data.sections[${itemKey}].column1`"
         :disabled="layoutMode || disabled"
       />
     </td>
     <td class="e-storyboard-row__text">
       <api-richtext
         :label="null"
-        :fieldname="`data.sections[${itemKey}].column2Html`"
+        :path="`data.sections[${itemKey}].column2Html`"
         rows="4"
         :disabled="layoutMode || disabled"
       />
@@ -33,7 +33,7 @@
       <api-text-field
         :label="null"
         single-line
-        :fieldname="`data.sections[${itemKey}].column3`"
+        :path="`data.sections[${itemKey}].column3`"
         :disabled="layoutMode || disabled"
       />
     </td>

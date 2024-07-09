@@ -9,52 +9,28 @@
       <router-view />
     </v-main>
 
-    <!-- footer -->
-    <v-footer v-if="$vuetify.breakpoint.mdAndUp" app color="grey lighten-5">
-      <small
-        >eCamp
-        <a v-if="version" :href="versionLink" target="_blank">
-          {{ version }}
-        </a>
-        <span class="ml-1">{{ deploymentTime }}</span></small
-      >
-      <v-spacer />
-      <language-switcher v-if="isDev" />
+    <v-footer v-if="offline" app>
+      <p class="mb-0">
+        <strong>{{ $tc('global.info.offline.title') }}</strong>
+        {{ $tc('global.info.offline.description') }}
+      </p>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import VueI18n from '@/plugins/i18n'
-import { parseTemplate } from 'url-template'
-import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
-  components: { LanguageSwitcher },
-  computed: {
-    deploymentTime() {
-      const timestamp = getEnv().DEPLOYMENT_TIME
-      const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
-      return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
-    },
-    version() {
-      return getEnv().VERSION || ''
-    },
-    versionLink() {
-      return (
-        parseTemplate(getEnv().VERSION_LINK_TEMPLATE).expand({
-          version: this.version,
-        }) || '#'
-      )
-    },
-    isDev() {
-      return getEnv().FEATURE_DEVELOPER ?? false
-    },
-  },
+  data: () => ({
+    offline: false,
+  }),
   created() {
     this.$store.commit('setLanguage', this.$store.state.lang.language)
+
+    window.addEventListener('offline', this.offlineListener)
+    window.addEventListener('online', this.onlineListener)
   },
   async mounted() {
     if (this.$auth.isLoggedIn()) {
@@ -65,6 +41,18 @@ export default {
         this.$store.commit('setLanguage', profile.language)
       }
     }
+  },
+  destroyed() {
+    window.removeEventListener('offline', this.offlineListener)
+    window.removeEventListener('online', this.onlineListener)
+  },
+  methods: {
+    offlineListener() {
+      this.offline = true
+    },
+    onlineListener() {
+      this.offline = false
+    },
   },
 }
 </script>
@@ -90,25 +78,9 @@ export default {
   width: 100%;
 }
 
-.user-nav {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-
 .v-btn--open {
   background: #b0bec5 !important;
   color: rgba(0, 0, 0, 0.87) !important;
-}
-
-.ec-usermenu {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  right: 0;
-  left: inherit !important;
-
-  .v-list {
-    border-radius: 0;
-  }
 }
 
 .v-app-bar .v-toolbar__content {
@@ -160,5 +132,15 @@ export default {
     clip-path: inset(50%);
     border: 0;
   }
+}
+</style>
+
+<style scoped>
+.v-footer {
+  border-top: 3px solid #c80d0d;
+  z-index: 4;
+  background: #fbdfdf;
+  color: #7a0f0f;
+  font-size: 80%;
 }
 </style>

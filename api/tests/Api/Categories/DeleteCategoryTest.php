@@ -97,4 +97,27 @@ class DeleteCategoryTest extends ECampApiTestCase {
             'detail' => 'activities: It\'s not possible to delete a category as long as it has an activity linked to it.',
         ]);
     }
+
+    public function testDeleteCategoryPurgesCacheTags() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $category = static::getFixture('categoryWithNoActivities');
+        $client->request('DELETE', '/categories/'.$category->getId());
+
+        $this->assertResponseStatusCodeSame(204);
+
+        $camp = $category->getCamp();
+        $rootContentNode = $category->getRootContentNode();
+        self::assertEqualsCanonicalizing([
+            $category->getId(),
+            '/categories',
+            '/camps/'.$camp->getId().'/categories',
+            $camp->getId().'#categories',
+            '/content_nodes',
+            '/content_node/column_layouts',
+            $rootContentNode->getId(),
+            $rootContentNode->getId().'#rootDescendants',
+        ], $cacheManager->getInvalidatedTags());
+    }
 }

@@ -11,6 +11,8 @@ import PdfComponent from '@/PdfComponent.js'
 import ColumnLayout from './ColumnLayout.vue'
 import ResponsiveLayout from './ResponsiveLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
+import LearningObjectives from './LearningObjectives.vue'
+import LearningTopics from './LearningTopics.vue'
 import Storyboard from './Storyboard.vue'
 import Notes from './Notes.vue'
 import SafetyConcept from './SafetyConcept.vue'
@@ -32,6 +34,8 @@ export default {
         ColumnLayout,
         ResponsiveLayout,
         LAThematicArea,
+        LearningObjectives,
+        LearningTopics,
         Storyboard,
         Notes,
         SafetyConcept,

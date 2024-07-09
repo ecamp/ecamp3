@@ -23,56 +23,55 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
-const { error } = await useAsyncData('PicassoPeriod', async () => {
-  await Promise.all([
-    props.period.scheduleEntries().$loadItems(),
-    props.camp
-      .activities()
-      .$loadItems()
-      .then((activities) => {
-        return Promise.all(
-          activities.items.map((activity) =>
-            activity
-              .activityResponsibles()
-              .$loadItems()
-              .then((activityResponsibles) => {
-                return Promise.all(
-                  activityResponsibles.items.map((activityResponsible) => {
-                    if (activityResponsible.campCollaboration().user === null) {
-                      return Promise.resolve(null)
-                    }
-                    return activityResponsible.campCollaboration().user()._meta.load
-                  })
-                )
-              })
+const { error } = await useAsyncData(
+  `PicassoPeriod-${props.period._meta.self}`,
+  async () => {
+    await Promise.all([
+      props.period.scheduleEntries().$loadItems(),
+      props.camp
+        .activities()
+        .$loadItems()
+        .then((activities) => {
+          return Promise.all(
+            activities.items.map((activity) =>
+              activity
+                .activityResponsibles()
+                .$loadItems()
+                .then((activityResponsibles) => {
+                  return Promise.all(
+                    activityResponsibles.items.map((activityResponsible) => {
+                      if (activityResponsible.campCollaboration().user === null) {
+                        return Promise.resolve(null)
+                      }
+                      return activityResponsible.campCollaboration().user()._meta.load
+                    })
+                  )
+                })
+            )
           )
-        )
-      }),
-    props.camp.categories().$loadItems(),
-    props.period.days().$loadItems(),
-    props.period
-      .dayResponsibles()
-      .$loadItems()
-      .then((dayResponsibles) => {
-        return Promise.all(
-          dayResponsibles.items.map((dayResponsible) => {
-            if (dayResponsible.campCollaboration().user === null) {
-              return Promise.resolve(null)
-            }
-            return dayResponsible.campCollaboration().user()._meta.load
-          })
-        )
-      }),
-  ])
-})
+        }),
+      props.camp.categories().$loadItems(),
+      props.period.days().$loadItems(),
+      props.period
+        .dayResponsibles()
+        .$loadItems()
+        .then((dayResponsibles) => {
+          return Promise.all(
+            dayResponsibles.items.map((dayResponsible) => {
+              if (dayResponsible.campCollaboration().user === null) {
+                return Promise.resolve(null)
+              }
+              return dayResponsible.campCollaboration().user()._meta.load
+            })
+          )
+        }),
+    ])
+  }
+)
 </script>
 
 <script>
-import {
-  splitDaysIntoPages,
-  calculateBedtime,
-  times,
-} from '@/../common/helpers/picasso.js'
+import { splitDaysIntoPages, calculateBedtime, times } from '@/common/helpers/picasso.js'
 import sortBy from 'lodash/sortBy.js'
 
 export default {

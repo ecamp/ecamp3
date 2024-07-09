@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card :title="materialList().name" toolbar>
+    <content-card :title="materialList.name" toolbar>
       <template #title-actions>
         <v-menu offset-y>
           <template #activator="{ attrs, on }">
@@ -9,7 +9,7 @@
             </v-btn>
           </template>
           <v-list class="py-0">
-            <DialogMaterialListEdit v-if="!isGuest" :material-list="materialList()">
+            <DialogMaterialListEdit v-if="!isGuest" :material-list="materialList">
               <template #activator="{ attrs, on }">
                 <v-list-item v-bind="attrs" v-on="on">
                   <v-list-item-icon>
@@ -44,7 +44,7 @@
           :key="period._meta.self"
           :period="period"
           :material-item-collection="materialItems"
-          :material-list="materialList()"
+          :material-list="materialList"
           :disabled="!isContributor"
         />
       </v-expansion-panels>
@@ -52,10 +52,10 @@
         <MaterialTable
           v-for="{ period, materialItems } in collection"
           :key="period._meta.self"
-          :camp="camp()"
+          :camp="camp"
           :material-item-collection="materialItems"
           :period="period"
-          :material-list="materialList()"
+          :material-list="materialList"
           :disabled="!isContributor"
         />
       </v-card-text>
@@ -70,7 +70,6 @@ import MaterialTable from '@/components/material/MaterialTable.vue'
 import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { useMaterialViewHelper } from '@/components/material/useMaterialViewHelper.js'
-import { apiStore } from '@/plugins/store/index.js'
 
 export default {
   name: 'MaterialDetail',
@@ -82,11 +81,11 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
-    materialList: { type: Function, required: true },
+    camp: { type: Object, required: true },
+    materialList: { type: Object, required: true },
   },
   setup(props) {
-    return useMaterialViewHelper(props.camp.call({ api: { get: apiStore.get } }), true)
+    return useMaterialViewHelper(props.camp, true)
   },
 }
 </script>

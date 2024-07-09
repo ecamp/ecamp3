@@ -2,28 +2,28 @@
   <SideBar :title="$tc('global.navigation.admin.title')" icon="mdi-menu">
     <v-list class="py-0">
       <SidebarListItem
-        :to="adminRoute(camp(), 'info')"
+        :to="adminRoute(camp, 'info')"
         :title="$tc('views.admin.sideBarAdmin.itemInfos')"
         icon="mdi-tent"
       />
       <SidebarListItem
-        :to="adminRoute(camp(), 'activity')"
+        :to="adminRoute(camp, 'activity')"
         :title="$tc('views.admin.sideBarAdmin.itemActivity')"
         :subtitle="$tc('views.admin.sideBarAdmin.itemActivitySubtitle')"
         icon="mdi-view-dashboard-outline"
       />
       <SidebarListItem
-        :to="adminRoute(camp(), 'collaborators')"
+        :to="adminRoute(camp, 'collaborators')"
         :title="$tc('views.admin.sideBarAdmin.itemCollaborators')"
         icon="mdi-account-group-outline"
       />
       <SidebarListItem
-        :to="adminRoute(camp(), 'material')"
+        :to="adminRoute(camp, 'material')"
         :title="$tc('views.admin.sideBarAdmin.itemMaterialLists')"
         icon="mdi-package-variant-closed"
       />
       <SidebarListItem
-        :to="adminRoute(camp(), 'print')"
+        :to="adminRoute(camp, 'print')"
         :title="$tc('views.admin.sideBarAdmin.itemPrint')"
         icon="mdi-file-outline"
       />
@@ -43,7 +43,7 @@ export default {
   mixins: [campRoleMixin],
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
   },

@@ -15,7 +15,15 @@ describe('campCollaborationInitials', () => {
       'BA',
     ],
     [{ inviteEmail: 'ecamp@ecamp3.ch', status: 'inactive', user: null }, 'EC'],
-  ])('maps %p to %p', (input, expected) => {
+    [{ abbreviation: 'B', inviteEmail: null, user: null }, 'B'],
+    [{ abbreviation: 'AA', user: () => ({ displayName: 'Bi-Pi' }) }, 'AA'],
+    [
+      { abbreviation: 'AA', user: () => ({ abbreviation: 'CC', displayName: 'Bi-Pi' }) },
+      'AA',
+    ],
+    [{ user: () => ({ abbreviation: 'QQ' }) }, 'QQ'],
+    [{ user: () => ({ abbreviation: 'QQ', displayName: 'Bi-Pi' }) }, 'QQ'],
+  ])('maps %o to "%s"', (input, expected) => {
     expect(campCollaborationInitials(input)).toEqual(expected)
   })
 })

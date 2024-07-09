@@ -1,58 +1,47 @@
 <template>
-  <div>
+  <e-form name="campCollaboration">
     <e-text-field
       v-if="status"
       class="ec-status-field"
       :value="translatedStatus"
       readonly
-      :name="$tc('entity.campCollaboration.fields.status')"
+      path="status"
     >
       <template #append>
         <slot name="statusChange" />
       </template>
     </e-text-field>
-    <v-tooltip v-if="readonlyRole" eager bottom>
-      <span id="readonly">
-        {{ $tc('components.collaborator.collaboratorForm.roleHint') }}
-      </span>
-      <template #activator="{ on }">
-        <div tabindex="0" class="mt-3" v-on="on">
-          <e-select
-            v-model="localCollaboration.role"
-            fieldname="role"
-            readonly
-            aria-readonly="true"
-            aria-describedby="readonly"
-            :name="$tc('entity.campCollaboration.fields.role')"
-            :items="items"
-            :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
-            persistent-hint
-            item-value="key"
-            item-text="role"
-            vee-rules="required"
+    <e-select
+      v-if="readonlyRole"
+      v-model="localCollaboration.role"
+      path="role"
+      readonly
+      aria-readonly="true"
+      aria-describedby="readonly"
+      :items="items"
+      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
+      persistent-hint
+      item-value="key"
+      item-text="role"
+      vee-rules="required"
+    >
+      <template #selection="{ item }">
+        <span
+          >{{ item.role }} &middot;
+          <span class="grey--text"
+            ><template v-for="icon in item.icons"
+              ><v-icon :key="icon" x-small>{{ icon }}</v-icon
+              >&thinsp;</template
+            ></span
           >
-            <template #selection="{ item }">
-              <span
-                >{{ item.role }} &middot;
-                <span class="grey--text"
-                  ><template v-for="icon in item.icons"
-                    ><v-icon :key="icon" x-small>{{ icon }}</v-icon
-                    >&thinsp;</template
-                  ></span
-                >
-              </span>
-            </template>
-          </e-select>
-        </div>
+        </span>
       </template>
-    </v-tooltip>
+    </e-select>
     <e-select
       v-else
       v-model="localCollaboration.role"
-      :name="$tc('entity.campCollaboration.fields.role')"
-      fieldname="role"
+      path="role"
       :items="items"
-      :hint="$tc('components.collaborator.collaboratorForm.roleHint')"
       persistent-hint
       item-value="key"
       item-text="role"
@@ -86,16 +75,50 @@
         </span>
       </template>
     </e-select>
-  </div>
+
+    <fieldset
+      v-if="!!initialCollaboration"
+      class="e-form-container e-avatar-field v-card__text rounded-t"
+    >
+      <legend>
+        {{ $tc('components.collaborator.collaboratorForm.overrideAvatar') }}
+      </legend>
+
+      <div class="d-flex gap-4 align-center">
+        <UserAvatar
+          :user="initialCollaboration?.user?.()"
+          :camp-collaboration="avatarCollaboration"
+        />
+        <div class="flex-grow-1">
+          <e-text-field
+            v-model="localCollaboration.abbreviation"
+            path="abbreviation"
+            :filled="false"
+            vee-rules="oneEmojiOrTwoCharacters"
+          />
+
+          <e-color-picker
+            v-model="localCollaboration.color"
+            :filled="false"
+            path="color"
+          />
+        </div>
+      </div>
+    </fieldset>
+  </e-form>
 </template>
 
 <script>
+import UserAvatar from '@/components/user/UserAvatar.vue'
+
 export default {
   name: 'SettingsCollaboratorForm',
+  components: { UserAvatar },
   props: {
     collaboration: { type: Object, required: true },
     status: { type: [String, Boolean], required: false, default: false },
     readonlyRole: { type: [String, Boolean], required: false, default: false },
+    initialCollaboration: { type: Object, required: false, default: null },
   },
   computed: {
     items() {
@@ -123,6 +146,12 @@ export default {
     localCollaboration() {
       return this.collaboration
     },
+    avatarCollaboration() {
+      return {
+        ...this.initialCollaboration,
+        ...this.localCollaboration,
+      }
+    },
     translatedStatus() {
       return this.$tc(`entity.campCollaboration.status.${this.status}`)
     },
@@ -131,9 +160,19 @@ export default {
 </script>
 
 <style scoped>
-.ec-status-field::v-deep .v-input__append-inner {
+.ec-status-field::v-deep(.v-input__append-inner) {
   margin-top: 0;
   align-self: center;
   margin-right: -4px;
+}
+.e-avatar-field {
+  display: grid;
+  border: none;
+  background: #eee;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42) !important;
+}
+.e-avatar-field legend {
+  float: left;
 }
 </style>

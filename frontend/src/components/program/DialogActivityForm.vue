@@ -1,18 +1,20 @@
 <template>
-  <div>
+  <e-form name="activity">
     <div class="e-form-container d-flex gap-2">
       <e-text-field
         v-model="localActivity.title"
-        :name="$tc('entity.activity.fields.title')"
+        path="title"
         vee-rules="required"
         class="flex-grow-1"
+        autofocus
+        @focus="autoselectTitle ? $event.target.select() : null"
       />
       <slot name="textFieldTitleAppend" />
     </div>
 
     <e-select
       v-model="localActivity.category"
-      :name="$tc('entity.activity.fields.category')"
+      path="category"
       :items="categories.items"
       item-value="_meta.self"
       item-text="name"
@@ -34,27 +36,26 @@
       </template>
     </e-select>
 
-    <e-text-field
-      v-model="localActivity.location"
-      :name="$tc('entity.activity.fields.location')"
-    />
+    <e-text-field v-model="localActivity.location" path="location" />
 
-    <form-schedule-entry-list
+    <FormScheduleEntryList
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
       :periods="camp.periods().items"
     />
-  </div>
+  </e-form>
 </template>
 
 <script>
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import FormScheduleEntryList from './FormScheduleEntryList.vue'
+import EForm from '@/components/form/base/EForm.vue'
 
 export default {
   name: 'DialogActivityForm',
   components: {
+    EForm,
     CategoryChip,
     FormScheduleEntryList,
   },
@@ -65,8 +66,12 @@ export default {
     },
     // currently visible period
     period: {
-      type: Function,
+      type: Object,
       required: true,
+    },
+    autoselectTitle: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -79,7 +84,7 @@ export default {
       return this.camp.categories()
     },
     camp() {
-      return this.period().camp()
+      return this.period.camp()
     },
   },
 }

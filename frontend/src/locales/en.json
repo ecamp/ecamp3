@@ -65,6 +65,7 @@
       },
       "campCategories": {
         "create": "Create activity category",
+        "pasteCategory": "Paste category",
         "title": "Activity categories"
       },
       "campConditionalFields": {
@@ -118,6 +119,13 @@
         "title": "Edit activity state"
       },
       "dialogCategoryCreate": {
+        "clearClipboard": "Clear clipboard",
+        "clipboard": "Clipboard",
+        "copyCategoryOrActivity": "Copy category or activity",
+        "copyContent": "Copy content",
+        "copyPasteCategory": "Copy & paste category",
+        "copySourceInfo": "Here you can paste the URL of a category or an activity to copy its contents.",
+        "pasteCategory": "paste category or activity",
         "title": "Create activity category"
       },
       "dialogMaterialListCreate": {
@@ -176,6 +184,13 @@
         "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be adjusted.",
         "layout": "Layout",
         "noTemplate": "No template"
+      },
+      "copyActivityInfoDialog": {
+        "allow": "Allow now",
+        "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied categories.",
+        "description": "In order to paste a copied category, you must allow eCamp to read your clipboard.",
+        "granted": "You can now paste copied categories.",
+        "title": "Copy & paste category"
       }
     },
     "collaborator": {
@@ -185,7 +200,6 @@
         "title": "Invite people"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last person with administrative rights.",
         "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
         "deactivate": "Deactivate",
         "delete": "Do you really want to remove collaborator '{name}'?",
@@ -195,6 +209,7 @@
         "title": "Edit {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Overwrite avatar for this camp",
         "roleHint": "Each camp needs at least one person with administrative rights."
       },
       "promptCollaboratorDeactivate": {
@@ -214,7 +229,11 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Please enter a valid color."
+        },
         "eColorPicker": {
+          "closePicker": "Close dialog",
           "openPicker": "Open dialog to select a color for {label}"
         },
         "eDatePicker": {
@@ -267,9 +286,21 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitations",
         "logOut": "Log out",
         "myCamps": "My camps",
         "profile": "Profile"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Reject invitation",
+        "warningText": "Are you sure you want to reject the initation to the camp \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "accept": "Accept",
+        "noOpenInvitations": "No open invitations. Was the invitation sent to an address other than \"{email}\"?",
+        "reject": "Reject"
       }
     },
     "print": {
@@ -350,9 +381,12 @@
         "clipboard": "Clipboard",
         "copyActivity": "Copy activity",
         "copyActivityContent": "Copy content from activity",
-        "copyPastActivity": "Copy & paste activity",
+        "copyPasteActivity": "Copy & paste activity",
         "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
         "pasteActivity": "paste activity"
+      },
+      "dialogActivityEdit": {
+        "title": "Edit activity"
       },
       "formScheduleEntryItem": {
         "end": "End",
@@ -375,6 +409,16 @@
           "location": "Location:",
           "responsible": "Responsible: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Category",
+        "clearFilters": "Clear filters",
+        "onlyMyActivities": "Only my activities",
+        "period": "Period",
+        "progressLabel": "State",
+        "progressLabelNone": "No state",
+        "responsible": "Responsible",
+        "responsibleNone": "No responsibles"
       }
     },
     "prompt": {
@@ -404,20 +448,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Birthday",
-        "email": "Email address",
-        "firstname": "Firstname",
-        "language": "Language",
-        "nickname": "Nickname",
-        "password": "Password",
-        "surname": "Lastname"
-      },
-      "name": "User"
-    }
-  },
   "global": {
     "button": {
       "add": "Add",
@@ -441,6 +471,7 @@
       "open": "Open",
       "remove": "Remove",
       "rename": "Rename",
+      "reset": "Reset",
       "save": "Save",
       "saving": "Saving",
       "search": "Search",
@@ -458,12 +489,20 @@
     "datetime": {
       "vuetifyTimePickerFormat": "ampm"
     },
+    "info": {
+      "offline": {
+        "description": "Data saving/loading not possible.",
+        "title": "Your are offline:"
+      }
+    },
     "language": "English",
     "loading": "Loading …",
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Help",
+      "news": "News"
     },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
@@ -475,7 +514,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
-      "lessThanOrEqual_date": "{_field_} may not be later than {max}"
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} may only have 1 emoji or 2 letters/numbers"
     },
     "warning": {
       "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
@@ -534,6 +574,7 @@
         "loginCallback": {
           "loginInProgress": "You will be logged in"
         },
+        "notActivated": "Not activated?",
         "or": "or with",
         "password": "Password",
         "passwordForgotten": "Forgotten your password?",
@@ -545,6 +586,8 @@
           "midata": "MiData"
         },
         "registernow": "Register now",
+        "resendActivation": "Send activation email again",
+        "resetPassword": "Reset password",
         "termsOfServiceLink": "terms of service"
       },
       "register": {
@@ -559,6 +602,12 @@
         "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email",
         "success": "Successfully registered",
         "title": "Create account"
+      },
+      "resendActivation": {
+        "errorMessage": "Sending the activation email again failed.",
+        "send": "Send",
+        "successMessage": "Mail with link to activate your account will be delivered.",
+        "title": "Send activation email again"
       },
       "resetPassword": {
         "errorMessage": "Reset password failed.",
@@ -584,8 +633,6 @@
       },
       "dashboard": {
         "activities": "Activities",
-        "category": "Category",
-        "clearFilters": "Clear filters",
         "columns": {
           "category": "Category",
           "number": "Number",
@@ -594,12 +641,6 @@
           "title": "Title"
         },
         "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
-        "onlyMyActivities": "Only my activities",
-        "period": "Period",
-        "progressLabel": "State",
-        "progressLabelNone": "No state",
-        "responsible": "Responsible",
-        "responsibleNone": "No responsibles",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
       "invitation": {
@@ -661,6 +702,7 @@
     },
     "category": {
       "category": {
+        "copyCategory": "Copy category",
         "deleteCategory": "Delete category",
         "properties": "Properties",
         "template": "Template for new activities"
@@ -668,6 +710,9 @@
       "sideBarCategory": {
         "title": "Categories"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitations"
     },
     "material": {
       "materialLists": {

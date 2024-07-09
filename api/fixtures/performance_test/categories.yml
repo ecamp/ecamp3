@@ -1,0 +1,17 @@
+App\Entity\Category:
+  additionalCategoryForCampNumber1_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    short: LA
+    name: Lageraktivität
+    color: '#FF9800'
+    numberingStyle: 1
+    rootContentNode: '@additionalColumnLayoutForCampNumber1_<current()>'
+    preferredContentTypes:
+      - '@contentTypeSafetyConcept'
+  additionalCategoryForCampNumber2_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    short: LP
+    name: Lagerprogramm
+    color: '#99CCFF'
+    numberingStyle: 1
+    rootContentNode: '@additionalColumnLayoutForCampNumber2_<current()>'

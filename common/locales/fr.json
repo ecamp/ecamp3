@@ -129,6 +129,8 @@
     },
     "campCollaboration": {
       "fields": {
+        "abbreviation": "Abréviation",
+        "color": "Couleur",
         "inviteEmail": "E-mail",
         "role": "Role",
         "status": "Statut"
@@ -188,10 +190,27 @@
       },
       "name": "Période | Périodes"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abréviation",
+        "color": "Couleur",
+        "email": "Adresse e-mail",
+        "firstname": "Prénom",
+        "language": "Langue",
+        "nickname": "Surnom",
+        "password": "Mot de passe",
+        "surname": "Nom de famille"
+      },
+      "name": "Profil"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Durée",
+        "endDate": "Date de fin",
+        "endDatetime": "Heure de fin",
         "nr": "No.",
+        "startDate": "Date de début",
+        "startDatetime": "Heure de début",
         "time": "Moment"
       },
       "name": "Inscription au calendrier"

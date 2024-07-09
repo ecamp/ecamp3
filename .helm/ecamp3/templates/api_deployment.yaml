@@ -31,53 +31,26 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       enableServiceLinks: false
       containers:
-        - name: caddy
+        - name: {{ .Chart.Name }}-api
+          {{/* Define the api container as a template, so it can be reused in other places */}}
+          {{- define "api.container" }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.caddy.image.repository }}:{{ .Values.caddy.image.tag | default .Values.imageTag }}"
-          imagePullPolicy: {{ .Values.caddy.image.pullPolicy }}
-          env:
-            - name: SERVER_NAME
-              value: :3001
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
           ports:
             - name: api-http
               containerPort: {{ .Values.api.service.port }}
               protocol: TCP
             - name: api-metrics
               containerPort: {{ .Values.api.metrics.port }}
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /var/run/php
-              name: php-socket
-          lifecycle:
-            preStop:
-              exec:
-                command: ["curl", "-XPOST", "http://localhost:2019/stop"]
-          readinessProbe:
-            tcpSocket:
-              port: 3001
-            initialDelaySeconds: 3
-            periodSeconds: 10
-            timeoutSeconds: 5
-          livenessProbe:
-            tcpSocket:
-              port: 3001
-            initialDelaySeconds: 3
-            periodSeconds: 10
-            timeoutSeconds: 5
-          resources:
-            {{- toYaml .Values.caddy.resources | nindent 12 }}
-        - name: php
-          {{/* Define the php container as a template, so it can be reused in other places */}}
-          {{- define "api.phpContainer" }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
-          imagePullPolicy: {{ .Values.php.image.pullPolicy }}
+              protocol: TCP     
           envFrom:
             - configMapRef:
                 name: {{ include "api.name" . }}-configmap
           env:
+            - name: SERVER_NAME
+              value: :3001
             - name: APP_SECRET
               valueFrom:
                 secretKeyRef:
@@ -103,7 +76,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: recaptcha-secret
-            {{- if .Values.php.oauth.google.clientId }}
+            {{- if .Values.api.oauth.google.clientId }}
             - name: OAUTH_GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -115,7 +88,7 @@ spec:
                   name: {{ include "api.name" . }}
                   key: oauth-google-client-secret
             {{- end }}
-            {{- if .Values.php.oauth.pbsmidata.clientId }}
+            {{- if .Values.api.oauth.pbsmidata.clientId }}
             - name: OAUTH_PBSMIDATA_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -132,7 +105,7 @@ spec:
                   name: {{ include "api.name" . }}
                   key: oauth-pbsmidata-base-url
             {{- end }}
-            {{- if .Values.php.oauth.cevidb.clientId }}
+            {{- if .Values.api.oauth.cevidb.clientId }}
             - name: OAUTH_CEVIDB_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -149,7 +122,7 @@ spec:
                   name: {{ include "api.name" . }}
                   key: oauth-cevidb-base-url
             {{- end }}
-            {{- if .Values.php.oauth.jubladb.clientId }}
+            {{- if .Values.api.oauth.jubladb.clientId }}
             - name: OAUTH_JUBLADB_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -167,12 +140,10 @@ spec:
                   key: oauth-jubladb-base-url
             {{- end }}
           volumeMounts:
-            - mountPath: /var/run/php
-              name: php-socket
-            - mountPath: /srv/api/config/jwt/public.pem
+            - mountPath: /app/config/jwt/public.pem
               name: jwt-keypair
               subPath: public.pem
-            - mountPath: /srv/api/config/jwt/private.pem
+            - mountPath: /app/config/jwt/private.pem
               name: jwt-keypair
               subPath: private.pem
           lifecycle:
@@ -180,27 +151,25 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
           {{- end }}
-          {{- template "api.phpContainer" . }}
+          {{- template "api.container" . }}
           resources:
-            {{- toYaml .Values.php.resources | nindent 12 }}
+            {{- toYaml .Values.api.resources | nindent 12 }}
           readinessProbe:
-            exec:
-              command:
-                - docker-healthcheck
+            tcpSocket:
+              port: 3001
             periodSeconds: 10
             timeoutSeconds: 5
           livenessProbe:
-            exec:
-              command:
-                - docker-healthcheck
+            tcpSocket:
+              port: 3001
             periodSeconds: 10
             timeoutSeconds: 5
           startupProbe:
-            exec:
-              command:
-                - docker-healthcheck
-            failureThreshold: 40
-            periodSeconds: 3
+            tcpSocket:
+              port: 3001
+            failureThreshold: 10
+            periodSeconds: 15
+            timeoutSeconds: 10
 
       volumes:
       - name: php-socket

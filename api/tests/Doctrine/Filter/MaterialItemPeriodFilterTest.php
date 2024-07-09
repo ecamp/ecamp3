@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\IriConverterInterface;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\MaterialItem;
 use App\Entity\Period;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -22,6 +24,7 @@ class MaterialItemPeriodFilterTest extends TestCase {
     private EntityRepository|MockObject $materialNodeRepositoryMock;
     private MockObject|QueryBuilder $materialNodeQueryBuilderMock;
     private MockObject|QueryBuilder $queryBuilderMock;
+    private EntityManager|MockObject $entityManagerMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
     private IriConverterInterface|MockObject $iriConverterMock;
 
@@ -31,6 +34,7 @@ class MaterialItemPeriodFilterTest extends TestCase {
         $this->materialNodeRepositoryMock = $this->createMock(EntityRepository::class);
         $this->materialNodeQueryBuilderMock = $this->createMock(QueryBuilder::class);
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
         $this->queryNameGeneratorInterfaceMock = $this->createMock(QueryNameGeneratorInterface::class);
         $this->iriConverterMock = $this->createMock(IriConverterInterface::class);
 
@@ -60,14 +64,44 @@ class MaterialItemPeriodFilterTest extends TestCase {
         ;
 
         $this->queryBuilderMock
+            ->method('from')
+            ->will($this->returnSelf())
+        ;
+
+        $this->queryBuilderMock
+            ->method('join')
+            ->will($this->returnSelf())
+        ;
+
+        $this->queryBuilderMock
+            ->method('where')
+            ->will($this->returnSelf())
+        ;
+
+        $this->queryBuilderMock
             ->method('getRootAliases')
             ->willReturn(['o'])
+        ;
+
+        $this->queryBuilderMock
+            ->method('getEntityManager')
+            ->will($this->returnValue($this->entityManagerMock))
+        ;
+
+        $this->queryBuilderMock
+            ->method('getParameters')
+            ->willReturn(new ArrayCollection())
         ;
 
         $expr = new Expr();
         $this->queryBuilderMock
             ->method('expr')
             ->will($this->returnValue($expr))
+        ;
+
+        $this->entityManagerMock
+            ->method('createQueryBuilder')
+            ->will($this->returnValue($this->queryBuilderMock))
         ;
 
         $this->queryNameGeneratorInterfaceMock
@@ -154,11 +188,6 @@ class MaterialItemPeriodFilterTest extends TestCase {
             ->expects($this->once())
             ->method('setParameter')
             ->with('period_a1', $period)
-        ;
-
-        $this->materialNodeQueryBuilderMock
-            ->expects($this->exactly(3))
-            ->method('join')
         ;
 
         // when

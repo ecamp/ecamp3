@@ -7,6 +7,8 @@ import GoogleLogo from '@/assets/GoogleLogo.svg'
 import eCampLogo from '@/assets/eCampLogo.svg'
 import CeviLogo from '@/assets/CeviLogo.svg'
 import JublaLogo from '@/assets/JublaLogo.svg'
+import JSLogo from '@/common/assets/logos/JSLogo.svg'
+import GSLogo from '@/common/assets/logos/GSLogo.svg'
 import TentDay from '@/assets/tents/TentDay.svg'
 import PaperSize from '@/assets/icons/PaperSize.svg'
 import BigScreen from '@/assets/icons/BigScreen.svg'
@@ -30,6 +32,8 @@ class VuetifyLoaderPlugin {
           ecamp: { component: eCampLogo },
           cevi: { component: CeviLogo },
           jubla: { component: JublaLogo },
+          js: { component: JSLogo },
+          gs: { component: GSLogo },
           tentDay: { component: TentDay },
           paperSize: { component: PaperSize },
           bigScreen: { component: BigScreen },

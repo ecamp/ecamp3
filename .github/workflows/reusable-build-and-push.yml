@@ -22,7 +22,7 @@ jobs:
     name: Build images and push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: ${{ inputs.sha }}
 
@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push frontend docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
@@ -53,33 +53,20 @@ jobs:
           cache-to: type=gha,scope=frontend,mode=max
 
       - name: Build and push api docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: api/Dockerfile
           tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api-php:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-php:${{ inputs.sha }}
+            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api:${{ inputs.sha }}
           context: './api'
-          target: api_platform_php
+          target: frankenphp_prod
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
 
-      - name: Build and push caddy docker image
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          file: api/Dockerfile
-          tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api-caddy:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy:${{ inputs.sha }}
-          context: './api'
-          target: api_platform_caddy_prod
-          cache-from: type=gha,scope=caddy
-          cache-to: type=gha,scope=caddy,mode=max
-
       - name: Build and push print docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .docker-hub/print/Dockerfile
@@ -95,8 +82,20 @@ jobs:
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max
 
+      - name: Build and push varnish docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          file: .docker-hub/varnish/Dockerfile
+          tags: |
+            ${{ ((inputs.tag != '') && format('{0}/ecamp3-varnish:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-varnish:${{ inputs.sha }}
+          context: .
+          cache-from: type=gha,scope=varnish
+          cache-to: type=gha,scope=varnish,mode=max
+
       - name: Build and push db-backup-restore docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           file: .helm/ecamp3/files/db-backup-restore-image/Dockerfile

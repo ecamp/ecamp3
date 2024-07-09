@@ -1,18 +1,18 @@
 <template>
   <v-bottom-navigation grow app background-color="blue-grey darken-4" dark>
-    <v-btn :to="campRoute(camp(), 'program')">
+    <v-btn :to="campRoute(camp, 'program')">
       <span>{{ $tc('views.camp.navigation.mobile.navBottombar.program') }}</span>
       <v-icon>mdi-view-dashboard</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp(), 'story')">
+    <v-btn :to="campRoute(camp, 'story')">
       <span>{{ $tc('views.camp.navigation.mobile.navBottombar.story') }}</span>
       <v-icon>mdi-book-open-variant</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp(), 'dashboard')">
-      <span>{{ camp().name }}</span>
+    <v-btn :to="campRoute(camp, 'dashboard')">
+      <span>{{ camp.name }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
-    <v-btn :to="materialListRoute(camp(), '/lists')">
+    <v-btn :to="materialListRoute(camp, '/lists')">
       <span>{{ $tc('views.camp.navigation.mobile.navBottombar.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
@@ -30,7 +30,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'NavBottombar',
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {

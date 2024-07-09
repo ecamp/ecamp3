@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins,
   worker: {
-    plugins: [comlink()],
+    plugins: () => [comlink()],
   },
   optimizeDeps: {
     include: [
@@ -97,6 +97,7 @@ export default defineConfig(({ mode }) => ({
       'lodash/sortBy.js',
       'lodash/minBy.js',
       'lodash/maxBy.js',
+      'lodash/size.js',
       'runes',
       'vee-validate',
       'vue',

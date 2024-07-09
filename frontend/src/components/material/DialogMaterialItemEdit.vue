@@ -26,7 +26,7 @@
     </template>
 
     <dialog-material-item-form
-      :material-lists="camp.materialLists"
+      :material-lists="camp.materialLists()"
       :material-item="entityData"
     />
   </dialog-form>

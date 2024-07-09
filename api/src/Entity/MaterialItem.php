@@ -19,6 +19,8 @@ use App\Util\EntityMap;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -75,6 +77,13 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     public ?Period $period = null;
 
     /**
+     * List of PeriodMaterailItems
+     * one entry for each affected Period.
+     */
+    #[ORM\OneToMany(targetEntity: PeriodMaterialItem::class, mappedBy: 'materialItem')]
+    public Collection $periodMaterialItems;
+
+    /**
      * The content node to which this item belongs, if it does not belong to a period.
      */
     #[AssertBelongsToSameCamp]
@@ -115,6 +124,11 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $unit = null;
+
+    public function __construct() {
+        parent::__construct();
+        $this->periodMaterialItems = new ArrayCollection();
+    }
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {

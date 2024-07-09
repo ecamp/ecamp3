@@ -9,7 +9,7 @@
             </v-btn>
           </template>
           <v-list class="py-0">
-            <DialogMaterialListCreate v-if="!isGuest" :camp="camp()">
+            <DialogMaterialListCreate v-if="!isGuest" :camp="camp">
               <template #activator="{ attrs, on }">
                 <v-list-item v-bind="attrs" v-on="on">
                   <v-list-item-icon>
@@ -50,7 +50,7 @@
         <MaterialTable
           v-for="{ period, materialItems } in collection"
           :key="period._meta.self"
-          :camp="camp()"
+          :camp="camp"
           :material-item-collection="materialItems"
           :period="period"
           :disabled="!isContributor"
@@ -67,7 +67,6 @@ import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
 import DialogMaterialListCreate from '@/components/campAdmin/DialogMaterialListCreate.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { useMaterialViewHelper } from '@/components/material/useMaterialViewHelper.js'
-import { apiStore } from '@/plugins/store/index.js'
 
 export default {
   name: 'MaterialOverview',
@@ -79,10 +78,10 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   setup(props) {
-    return useMaterialViewHelper(props.camp.call({ api: { get: apiStore.get } }))
+    return useMaterialViewHelper(props.camp)
   },
 }
 </script>

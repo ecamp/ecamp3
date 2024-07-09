@@ -43,13 +43,13 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data: () => ({
     openPanels: [],
   }),
   mounted() {
-    this.camp()._meta.load.then((camp) => {
+    this.camp._meta.load.then((camp) => {
       if (
         camp?.organizer ||
         camp?.kind ||

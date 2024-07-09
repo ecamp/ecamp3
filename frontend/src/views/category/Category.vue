@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <content-card
-      v-if="category()"
+      v-if="category"
       class="ec-category"
       toolbar
       back
@@ -9,23 +9,33 @@
     >
       <template #title>
         <v-toolbar-title class="font-weight-bold">
-          <CategoryChip :category="category()" dense large />
-          {{ category().name }}
+          <CategoryChip :category="category" dense large />
+          {{ category.name }}
         </v-toolbar-title>
       </template>
 
       <template #title-actions>
         <TogglePaperSize v-model="isPaperDisplaySize" />
-        <v-menu v-if="isManager" offset-y>
+        <v-menu offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>
+            <v-list-item @click="copyUrlToClipboard">
+              <v-list-item-icon>
+                <v-icon>mdi-content-copy</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.category.category.copyCategory') }}
+              </v-list-item-title>
+            </v-list-item>
+            <CopyCategoryInfoDialog ref="copyInfoDialog" />
             <DialogEntityDelete
-              :entity="category()"
-              :warning-text-entity="category().name"
+              v-if="isManager"
+              :entity="category"
+              :warning-text-entity="category.name"
               :dialog-title="$tc('views.category.category.deleteCategory')"
               :success-handler="goToActivityAdmin"
             >
@@ -39,10 +49,10 @@
                   </v-list-item-title>
                 </v-list-item>
               </template>
-              <template v-if="findActivities(category()).length > 0" #error>
+              <template v-if="findActivities(category).length > 0" #error>
                 <ErrorExistingActivitiesList
-                  :camp="camp()"
-                  :existing-activities="findActivities(category())"
+                  :camp="camp"
+                  :existing-activities="findActivities(category)"
                 />
               </template>
             </DialogEntityDelete>
@@ -57,7 +67,7 @@
             </h3>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <CategoryProperties :category="category()" :disabled="!isManager" />
+            <CategoryProperties :category="category" :disabled="!isManager" />
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -69,7 +79,7 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <CategoryTemplate
-              :category="category()"
+              :category="category"
               :layout-mode="layoutMode"
               :loading="loading"
               :disabled="!isManager"
@@ -90,10 +100,13 @@ import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingAct
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import router, { categoryRoute } from '@/router.js'
+import CopyCategoryInfoDialog from '@/components/category/CopyCategoryInfoDialog.vue'
 
 export default {
   name: 'Category',
   components: {
+    CopyCategoryInfoDialog,
     TogglePaperSize,
     CategoryTemplate,
     CategoryProperties,
@@ -107,18 +120,20 @@ export default {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
-      camp: () => this.camp(),
+      camp: this.camp,
       isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
     camp: {
-      type: Function,
-      required: true,
+      type: Object,
+      default: null,
+      required: false,
     },
     category: {
-      type: Function,
-      required: true,
+      type: Object,
+      default: null,
+      required: false,
     },
   },
   data() {
@@ -130,18 +145,18 @@ export default {
   },
   computed: {
     contentNodes() {
-      return this.category().contentNodes()
+      return this.category.contentNodes()
     },
     preferredContentTypes() {
-      return this.category().preferredContentTypes()
+      return this.category.preferredContentTypes()
     },
     isPaperDisplaySize: {
       get() {
-        return this.$store.getters.getPaperDisplaySize(this.camp()._meta.self)
+        return this.$store.getters.getPaperDisplaySize(this.camp._meta.self)
       },
       set(value) {
         this.$store.commit('setPaperDisplaySize', {
-          campUri: this.camp()._meta.self,
+          campUri: this.camp._meta.self,
           paperDisplaySize: value,
         })
       },
@@ -158,20 +173,41 @@ export default {
       this.openPanels = [1]
     }
     this.loading = true
-    await this.category()._meta.load // wait if category is being loaded as part of a collection
-    await this.category().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
+    await this.category._meta.load // wait if category is being loaded as part of a collection
+    await this.category.$reload() // reload as single entity to ensure all embedded entities are included in a single network request
     this.loading = false
   },
   methods: {
     findActivities(category) {
-      return this.camp()
+      return this.camp
         .activities()
         .items.filter(
           (activity) => activity.category()._meta.self === category._meta.self
         )
     },
     goToActivityAdmin() {
-      this.$router.push({ name: 'admin/activity', params: { campId: this.camp().id } })
+      this.$router.replace({ name: 'admin/activity', params: { campId: this.camp.id } })
+    },
+    async copyUrlToClipboard() {
+      try {
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state === 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
+      }
+
+      const category = categoryRoute(this.camp, this.category)
+      const url = window.location.origin + router.resolve(category).href
+      await navigator.clipboard.writeText(url)
+
+      this.$toast.info(
+        this.$tc('global.toast.copied', null, { source: this.category.name }),
+        {
+          timeout: 2000,
+        }
+      )
     },
   },
 }

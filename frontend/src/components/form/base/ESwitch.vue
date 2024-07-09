@@ -1,7 +1,7 @@
 <template>
   <ValidationProvider
     v-slot="{ errors: veeErrors }"
-    :name="name"
+    :name="validationLabel"
     :vid="veeId"
     :rules="veeRules"
     :required="required"
@@ -11,7 +11,7 @@
       v-bind="$attrs"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
-      :label="label || name"
+      :label="labelOrEntityFieldLabel"
       :class="[inputClass]"
       :input-value="value"
       @change="$emit('input', $event)"

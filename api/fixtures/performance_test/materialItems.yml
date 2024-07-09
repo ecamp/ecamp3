@@ -1,0 +1,29 @@
+App\Entity\MaterialItem:
+  additional_materialItem1_{1..400}:
+    materialList: '@additional_materialList1_<current()>'
+    period: null
+    materialNode: '@additional_materialNode1_<current()>'
+    article: Mehl
+    quantity: 1
+    unit: kg
+  additional_materialItem2_{1..400}:
+    materialList: '@additional_materialList2_<current()>'
+    period: null
+    materialNode: '@additional_materialNode1_<current()>'
+    article: Mehl
+    quantity: 1
+    unit: kg
+  additional_materialItem_camp1_1_{1..200}:
+    materialList: '@additional_materialList_camp1_1'
+    period: null
+    materialNode: '@additional_materialNode_camp1_<current()>'
+    article: <name()>
+    quantity: 1
+    unit: kg
+  additional_materialItem_camp1_2_{1..200}:
+    materialList: '@additional_materialList_camp1_1'
+    period: null
+    materialNode: '@additional_materialNode_camp1_1'
+    article: <name()>
+    quantity: 1
+    unit: kg

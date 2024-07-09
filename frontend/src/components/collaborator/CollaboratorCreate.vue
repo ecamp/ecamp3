@@ -20,7 +20,7 @@
     <e-text-field
       v-model="entityData.inviteEmail"
       type="email"
-      :name="$tc('entity.campCollaboration.fields.inviteEmail')"
+      path="inviteEmail"
       vee-rules="required|email"
       class="mb-2"
     />
@@ -41,13 +41,18 @@ export default {
   name: 'CollaboratorCreate',
   components: { ButtonAdd, DetailPane, CollaboratorForm },
   extends: DialogBase,
+  provide() {
+    return {
+      entityName: 'campCollaboration',
+    }
+  },
   props: {
     camp: { type: Object, required: true },
   },
   data() {
     return {
       entityProperties: ['camp', 'inviteEmail', 'role'],
-      entityUri: '/camp_collaborations',
+      entityUri: '',
     }
   },
   watch: {
@@ -63,6 +68,11 @@ export default {
         this.clearEntityData()
       }
     },
+  },
+  mounted() {
+    this.api
+      .href(this.api.get(), 'campCollaborations')
+      .then((uri) => (this.entityUri = uri))
   },
   methods: {
     createCollaboration() {

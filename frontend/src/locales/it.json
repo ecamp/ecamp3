@@ -177,7 +177,6 @@
         "title": "Invitare una persona"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Non puoi assegnare un altro ruolo all'ultimo manager.",
         "cannotRemoveLastManager": "Non è possibile rimuovere l'ultimo gestore.",
         "deactivate": "Disattivare",
         "delete": "Vuoi davvero rimuovere la persona '{name}'?",
@@ -187,6 +186,7 @@
         "title": "Éditer {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Sovrascrivere l'avatar per questo campo",
         "roleHint": "Ogni campo ha bisogno di almeno una persona con diritti di amministratore."
       },
       "promptCollaboratorDeactivate": {
@@ -207,6 +207,7 @@
     "form": {
       "base": {
         "eColorPicker": {
+          "closePicker": "Chiudere il dialogo",
           "openPicker": "Apri una finestra di dialogo per selezionare un colore per {label}"
         },
         "eDatePicker": {
@@ -259,9 +260,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Inviti",
         "logOut": "Disconnettiti",
         "myCamps": "I miei campi",
         "profile": "Profilo"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Rifiuta l'invito",
+        "warningText": "Volete davvero declinare l'invito al campo \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Nessun invito aperto. L'invito è stato inviato a un indirizzo diverso da \"{email}\"?"
       }
     },
     "print": {
@@ -337,6 +348,9 @@
       }
     },
     "program": {
+      "dialogActivityEdit": {
+        "title": "Modificare l'actività"
+      },
       "formScheduleEntryItem": {
         "end": "Fine",
         "start": "Inizio"
@@ -358,6 +372,16 @@
           "location": "Luogo:",
           "responsible": "Responsable:"
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Categoria",
+        "clearFilters": "Cancella i filtri",
+        "onlyMyActivities": "Solo le mie attività",
+        "period": "Periodo",
+        "progressLabel": "Stati",
+        "progressLabelNone": "Nessuno stato",
+        "responsible": "Responsabile",
+        "responsibleNone": "Nessuna responsabile"
       }
     },
     "prompt": {
@@ -387,20 +411,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Compleanno",
-        "email": "Indirizzo email",
-        "firstname": "Nome",
-        "language": "Lingua",
-        "nickname": "Soprannome",
-        "password": "Parola d'ordine",
-        "surname": "Cognome"
-      },
-      "name": "Utente"
-    }
-  },
   "global": {
     "button": {
       "add": "Aggiungere",
@@ -424,6 +434,7 @@
       "open": "Aprire",
       "remove": "Rimuovere",
       "rename": "Rinominare",
+      "reset": "Reset",
       "save": "Salvare",
       "saving": "Salvataggio",
       "search": "Ricerca",
@@ -441,12 +452,20 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Impossibile salvare/caricare dati.",
+        "title": "Sei offline:"
+      }
+    },
     "language": "Italiano",
     "loading": "Caricamento ...",
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Aiuto",
+      "news": "Notizie"
     },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
@@ -455,7 +474,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} non può essere prima che {min}",
       "greaterThan_time": "{_camp_} deve essere posteriore a {min}",
-      "lessThanOrEqual_date": "{_camp_} non può essere successivo a {max}"
+      "lessThanOrEqual_date": "{_camp_} non può essere successivo a {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} può contenere solo 1 emoji o 2 lettere/numeri"
     },
     "warning": {
       "delete": "Volete davvero cancellarlo? | Volete davvero cancellarlo \"{entity}\"?"
@@ -564,8 +584,6 @@
       },
       "dashboard": {
         "activities": "Attività",
-        "category": "Categoria",
-        "clearFilters": "Cancella i filtri",
         "columns": {
           "category": "Categoria",
           "number": "Numero",
@@ -574,12 +592,6 @@
           "title": "Titolo"
         },
         "noEntries": "Non sono state trovate attività. Prova a cancellare i filtri di selezione e/o a ricaricare la pagina.",
-        "onlyMyActivities": "Solo le mie attività",
-        "period": "Periodo",
-        "progressLabel": "Stati",
-        "progressLabelNone": "Nessuno stato",
-        "responsible": "Responsabile",
-        "responsibleNone": "Nessuna responsabile",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },
       "invitation": {
@@ -648,6 +660,9 @@
       "sideBarCategory": {
         "title": "Categorie"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Inviti"
     },
     "material": {
       "materialLists": {

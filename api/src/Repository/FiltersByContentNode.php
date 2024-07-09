@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Activity;
-use App\Entity\Category;
+use App\Entity\CampRootContentNode;
+use App\Entity\ContentNode;
 use App\Entity\User;
+use App\Entity\UserCamp;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
@@ -20,20 +21,13 @@ trait FiltersByContentNode {
      * the alias of the contentNode as the third argument.
      */
     protected function filterByContentNode(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
-        $queryBuilder->innerJoin("{$contentNodeAlias}.root", 'root');
+        $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $rootQry->select('identity(r.rootContentNode)');
+        $rootQry->from(CampRootContentNode::class, 'r');
+        $rootQry->join(UserCamp::class, 'uc', Join::WITH, 'r.camp = uc.camp');
+        $rootQry->where('uc.user = :current_user');
 
-        // assuming owner is an Activity
-        $queryBuilder->leftJoin(Activity::class, 'cn_activity', Join::WITH, 'cn_activity.rootContentNode = root.id');
-
-        /*
-         *   If owner is an Activity --> cn_activity.category is not null
-         *   If owner is a Category --> cn_category.rootContentNode = root.id is a match
-         */
-        $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category = cn_activity.category OR cn_category.rootContentNode = root');
-
-        // load owning camp via category
-        $queryBuilder->join('cn_category.camp', 'cn_camp');
-
-        $this->filterByCampCollaboration($queryBuilder, $user, 'cn_camp');
+        $queryBuilder->andWhere($queryBuilder->expr()->in("{$contentNodeAlias}.root", $rootQry->getDQL()));
+        $queryBuilder->setParameter('current_user', $user);
     }
 }

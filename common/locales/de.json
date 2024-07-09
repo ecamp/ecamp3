@@ -19,7 +19,7 @@
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
-            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatz- einrichtungen und Sportgeräten.",
+            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatzeinrichtungen und Sportgeräten.",
             "name": "Lagerplatz/Umgebung"
           },
           "natureAndEnvironment": {
@@ -31,7 +31,7 @@
             "name": "Outdoortechniken"
           },
           "pioneeringTechnique": {
-            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seil- bahnen, Seilbrücken, Abseilen.",
+            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seilbahnen, Seilbrücken, Abseilen.",
             "name": "Pioniertechnik"
           },
           "preventionAndIntegration": {
@@ -46,6 +46,16 @@
       },
       "info": "Eine J+S Lageraktivität muss mindestens eines der aufgeführten Themen behandeln.{br}Erfasse, welche Themen in diesem Block behandelt werden.",
       "name": "LA Themenbereich"
+    },
+    "learningObjectives": {
+      "icon": "mdi-school",
+      "info": "Formuliere die Kompetenzen, über welche die Teilnehmenden nach diesem Block verfügen, in der Form von Lernzielen.",
+      "name": "Blockziele"
+    },
+    "learningTopics": {
+      "icon": "mdi-school",
+      "info": "Liste die Ausbildungs-Themen auf, mit welchen die Teilnehmenden sich in diesem Block auseinandersetzen werden.",
+      "name": "Blockinhalte"
     },
     "material": {
       "info": "Hier kannst du den Material-Bedarf für diesen Block erfassen.{br}Die Materiallisten kannst du im Menu 'Admin' verwalten.{br}Eine Zusammenstellung für den Einkauf findest du im Menu 'Material'.",
@@ -88,7 +98,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "category": "Block Kategorie",
+        "category": "Block-Kategorie",
         "location": "Ort",
         "progressLabel": "Status",
         "responsible": "Verantwortlich",
@@ -130,6 +140,8 @@
     },
     "campCollaboration": {
       "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
         "inviteEmail": "E-Mail",
         "role": "Rolle",
         "status": "Status"
@@ -147,13 +159,14 @@
         "numberingStyle": "Nummerierung",
         "short": "Kürzel"
       },
-      "name": "Block Kategorien",
+      "name": "Block-Kategorien",
       "numberingStyles": {
         "1": "1, 2, 3 - Zahlen",
         "A": "A, B, C - grosse Buchstaben",
         "I": "I, II, III - grosse römische Zahlen",
         "a": "a, b, c - kleine Buchstaben",
-        "i": "i, ii, iii - kleine römische Zahlen"
+        "i": "i, ii, iii - kleine römische Zahlen",
+        "-": "keine Nummerierung"
       }
     },
     "contentType": {
@@ -189,11 +202,28 @@
       },
       "name": "Lagerabschnitt | Lagerabschnitte"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
+        "email": "E-Mail-Adresse",
+        "firstname": "Vorname",
+        "language": "Sprache",
+        "nickname": "Spitzname",
+        "password": "Passwort",
+        "surname": "Nachname"
+      },
+      "name": "Profil"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Dauer",
+        "endDate": "Enddatum",
+        "endDatetime": "Endzeit",
         "nr": "Nr.",
-        "time": "Zeitpunkt"
+        "time": "Zeitpunkt",
+        "startDate": "Startdatum",
+        "startDatetime": "Startzeit"
       },
       "name": "Zeitplaneintrag"
     }
@@ -210,7 +240,8 @@
       },
       "hourLong": "LT",
       "hourShort": "H:mm"
-    }
+    },
+    "shortScheduleEntryDescription": "Tag\u202f{dayNumber} {startTime}"
   },
   "print": {
     "cover": {

@@ -11,43 +11,6 @@
               "box": {},
               "children": [
                 {
-                  "parent": [Circular],
-                  "type": "TEXT_INSTANCE",
-                  "value": "print.picasso.title",
-                },
-              ],
-              "parent": [Circular],
-              "props": {
-                "bookmark": {
-                  "fit": true,
-                  "title": "print.picasso.title",
-                },
-                "class": "picasso-title",
-                "id": "entry-0-16b2fcffdd8e",
-              },
-              "style": {
-                "flexGrow": "1",
-                "fontSize": "14pt",
-                "fontWeight": "bold",
-              },
-              "type": "TEXT",
-            },
-            {
-              "box": {},
-              "children": [],
-              "parent": [Circular],
-              "props": {
-                "class": "picasso-organizer",
-              },
-              "style": {
-                "fontSize": "10pt",
-              },
-              "type": "TEXT",
-            },
-            {
-              "box": {},
-              "children": [
-                {
                   "box": {},
                   "children": [],
                   "parent": [Circular],
@@ -72,10 +35,47 @@
               },
               "style": {
                 "alignSelf": "flex-end",
-                "marginLeft": "3pt",
+                "marginTop": "3pt",
                 "size": "20",
               },
               "type": "SVG",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Program overview Hauptlager",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "bookmark": {
+                  "fit": true,
+                  "title": "Program overview Hauptlager",
+                },
+                "class": "picasso-title",
+                "id": "entry-0-16b2fcffdd8e",
+              },
+              "style": {
+                "flexGrow": "1",
+                "fontSize": "14pt",
+                "fontWeight": "bold",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [],
+              "parent": [Circular],
+              "props": {
+                "class": "picasso-organizer",
+              },
+              "style": {
+                "fontSize": "10pt",
+              },
+              "type": "TEXT",
             },
           ],
           "parent": [Circular],
@@ -83,10 +83,12 @@
             "class": "picasso-title-container",
           },
           "style": {
-            "alignItems": "baseline",
+            "alignItems": "center",
             "display": "flex",
             "flexDirection": "row",
-            "marginTop": "-6pt",
+            "gap": "8pt",
+            "marginBottom": "4pt",
+            "marginTop": "-4pt",
           },
           "type": "VIEW",
         },
@@ -139,7 +141,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "Fri May 10, 2024",
+                      "value": "Fr 05/10/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -179,7 +181,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "Sat May 11, 2024",
+                      "value": "Sa 05/11/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -218,7 +220,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "Sun May 12, 2024",
+                      "value": "Su 05/12/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -257,7 +259,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "Mon May 13, 2024",
+                      "value": "Mo 05/13/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -8861,7 +8863,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "g5/10/2024obam5/10/2024.5amteti0e.5amte05/10/2024ong - g5/13/2024obam5/13/2024.1amteti0e.1amte05/13/2024ong",
+                      "value": "Fr 05/10/2024 - Mo 05/13/2024",
                     },
                   ],
                   "parent": [Circular],
@@ -8898,7 +8900,7 @@
                     {
                       "parent": [Circular],
                       "type": "TEXT_INSTANCE",
-                      "value": "print.picasso.picassoFooter.leaders",
+                      "value": "Lead: Robert Baden-Powell & Hans Muster",
                     },
                   ],
                   "parent": [Circular],

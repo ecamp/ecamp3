@@ -12,10 +12,13 @@ exports[`An ETextArea > looks like a textarea > mountAsInControls 1`] = `
  in them
     and tags <i>a</i>
     ">
-          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
+                              <label class="v-label v-label--active theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div auto-grow
                                    class="editor editor--editable"
                                    id
@@ -42,10 +45,13 @@ exports[`An ETextArea > looks like a textarea > multiline 1`] = `
  in them
     and tags <i>a</i>
     ">
-          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
+                              <label class="v-label v-label--active theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="editor editor--editable"
                                    id
                                    multi-line>
@@ -63,10 +69,13 @@ exports[`An ETextArea > looks like a textarea > multiline 1`] = `
 exports[`An ETextArea > looks like a textarea > notext 1`] = `
 <div data-app>
      <div class="e-form-container">
-          <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
+          <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
+                              <label class="v-label theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="editor editor--editable"
                                    id>
                                    <!---->
@@ -90,10 +99,13 @@ exports[`An ETextArea > looks like a textarea > withtext 1`] = `
  in them
     and tags <i>a</i>
     ">
-          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
+                              <label class="v-label v-label--active theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
                               <div class="editor editor--editable"
                                    id>
                                    <!---->

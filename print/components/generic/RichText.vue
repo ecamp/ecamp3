@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="tw-prose tw-prose-neutral" v-html="purifiedHtml" />
+  <div class="tw-prose tw-prose-neutral tw-break-anywhere" v-html="purifiedHtml" />
 </template>
 
 <script>

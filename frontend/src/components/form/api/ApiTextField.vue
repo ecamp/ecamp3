@@ -3,11 +3,12 @@ Displays a field as a e-text-field + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper v-slot="wrapper" :parse="parse" v-bind="$props" v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
     <e-text-field
       ref="textField"
       :value="wrapper.localValue"
       v-bind="$attrs"
+      :path="path"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
@@ -46,16 +47,6 @@ export default {
   methods: {
     focus() {
       this.$refs.textField.focus()
-    },
-    parse(input) {
-      if (
-        (this.$attrs.inputmode === 'numeric' || this.$attrs.type === 'number') &&
-        !Number.isNaN(Number(input))
-      ) {
-        return Number(input)
-      } else {
-        return input
-      }
     },
   },
 }

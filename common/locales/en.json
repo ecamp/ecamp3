@@ -49,6 +49,16 @@
       "info": "A Y+S camp activity must address at least one of the listed topics.{br}Select what topics are covered in this block.",
       "name": "LA thematic area"
     },
+    "learningObjectives": {
+      "icon": "mdi-school",
+      "info": "Formulate as goals the competences which the participants will have after this activity.",
+      "name": "Learning objectives"
+    },
+    "learningTopics": {
+      "icon": "mdi-school",
+      "info": "List the topics about which the participants will learn something in this activity.",
+      "name": "Learning topics"
+    },
     "material": {
       "icon": "mdi-package-variant",
       "info": "Here you can enter the material requirements for this block.{br}You can manage the material lists in the menu 'Admin'.{br}You can find a summary for the purchase in the menu 'Material'.",
@@ -137,6 +147,8 @@
     },
     "campCollaboration": {
       "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
         "inviteEmail": "Email",
         "role": "Role",
         "status": "Status"
@@ -160,7 +172,8 @@
         "A": "A, B, C - uppercase letters",
         "I": "I, II, III - uppercase roman numerals",
         "a": "a, b, c - lowercase letters",
-        "i": "i, ii, iii - lowercase roman numerals"
+        "i": "i, ii, iii - lowercase roman numerals",
+        "-": "no numbering"
       }
     },
     "contentType": {
@@ -196,10 +209,27 @@
       },
       "name": "Period | Periods"
     },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
+        "email": "Email address",
+        "firstname": "Firstname",
+        "language": "Language",
+        "nickname": "Nickname",
+        "password": "Password",
+        "surname": "Lastname"
+      },
+      "name": "Profile"
+    },
     "scheduleEntry": {
       "fields": {
         "duration": "Duration",
+        "endDate": "Enddate",
+        "endDatetime": "Endtime",
         "nr": "No.",
+        "startDate": "Startdate",
+        "startDatetime": "Starttime",
         "time": "Time"
       },
       "name": "Activity scheduled"
@@ -217,7 +247,8 @@
       },
       "hourLong": "LT",
       "hourShort": "H:mm"
-    }
+    },
+    "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
     "cover": {

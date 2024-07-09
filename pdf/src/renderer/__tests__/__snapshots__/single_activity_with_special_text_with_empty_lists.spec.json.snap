@@ -181,7 +181,7 @@
                             {
                               "parent": [Circular],
                               "type": "TEXT_INSTANCE",
-                              "value": "entity.activity.fields.responsible:",
+                              "value": "Responsible:",
                             },
                           ],
                           "parent": [Circular],
@@ -316,7 +316,7 @@
                             {
                               "parent": [Circular],
                               "type": "TEXT_INSTANCE",
-                              "value": "contentNode.notes.name",
+                              "value": "Notes",
                             },
                           ],
                           "parent": [Circular],

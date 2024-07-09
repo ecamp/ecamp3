@@ -22,7 +22,7 @@
       },
       "copyActivityInfoDialog": {
         "allow": "Jetzt erlauben",
-        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
+        "denied": "Du hast das Lesen aus der Zwischenablage untersagt. Du kannst daher kopierte Aktivitäten nicht einfügen.",
         "description": "Damit du eine kopierte Aktivität einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "granted": "Du kannst nun kopierte Aktivitäten einfügen.",
         "title": "Aktivität kopieren & einfügen"
@@ -65,6 +65,7 @@
       },
       "campCategories": {
         "create": "Block-Kategorie erstellen",
+        "pasteCategory": "Kopierte Kategorie einfügen",
         "title": "Block-Kategorien"
       },
       "campConditionalFields": {
@@ -99,8 +100,8 @@
       },
       "campPeriodsListItem": {
         "changePeriodDescription": "Bezeichnung ändern",
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
-        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden.",
+        "deleteWarning": "Möchtest du diesen Lagerabschnitt wirklich löschen?",
+        "lastPeriodNotDeletable": "Der letzte Lagerabschnitt kann nicht gelöscht werden.",
         "movePeriod": "Lagerabschnitt verschieben",
         "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
         "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen"
@@ -118,6 +119,13 @@
         "title": "Status bearbeiten"
       },
       "dialogCategoryCreate": {
+        "clearClipboard": "Zwischenablage leeren",
+        "clipboard": "Zwischenablage",
+        "copyCategoryOrActivity": "Kategorie oder Aktivität kopieren",
+        "copyContent": "Inhalt kopieren",
+        "copyPasteCategory": "Kategorie kopieren & einfügen",
+        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
+        "pasteCategory": "Kopierte Kategorie oder Aktivität einfügen",
         "title": "Block-Kategorie erstellen"
       },
       "dialogMaterialListCreate": {
@@ -167,7 +175,7 @@
         "prototypeHint": "Kopiere Kategorien, Blockvorlagen und Blockstatus von einer Lagervorlage",
         "prototypeHintEmpty": "Keine Kategorien, Blockvorlagen und Blockstatus aus einer Lagervorlage kopieren",
         "prototypeHintSelected": "Kopiere Kategorien, Blockvorlagen und Blockstatus von dieser Lagervorlage",
-        "submitTooltipPrototype": "Du must noch auswählen ob und welche Lagervorlage du verwenden möchtest."
+        "submitTooltipPrototype": "Du musst noch auswählen, ob und welche Lagervorlage du verwenden möchtest."
       }
     },
     "category": {
@@ -176,6 +184,13 @@
         "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
+      },
+      "copyCategoryInfoDialog": {
+        "allow": "Jetzt erlauben",
+        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Kategorien nicht einfügen.",
+        "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
+        "granted": "Du kannst nun kopierte Kategorien einfügen.",
+        "title": "Kategorie kopieren & einfügen"
       }
     },
     "collaborator": {
@@ -185,7 +200,6 @@
         "title": "Person einladen"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Du kannst der letzten Person mit administrativen Rechten keine andere Rolle zuteilen.",
         "cannotRemoveLastManager": "Du kannst die letzte Person mit administrativen Rechten nicht deaktivieren",
         "deactivate": "Deaktivieren",
         "delete": "Möchtest du die Person '{name}' wirklich entfernen?",
@@ -195,6 +209,7 @@
         "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Avatar für dieses Lager überschreiben",
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
       },
       "promptCollaboratorDeactivate": {
@@ -214,16 +229,20 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Bitte gültige Farbe eingeben."
+        },
         "eColorPicker": {
-          "openPicker": "Dialog öffnen um eine Farbe für {label} zu wählen"
+          "closePicker": "Dialog schliessen",
+          "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein",
-          "openPicker": "Dialog öffnen um ein Datum für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um ein Datum für {label} zu wählen"
         },
         "eTimePicker": {
           "invalidFormat": "Ungültiges Format, bitte gib die Zeit im Format HH:MM ein",
-          "openPicker": "Dialog öffnen um eine Zeit für {label} zu wählen"
+          "openPicker": "Dialog öffnen, um eine Zeit für {label} zu wählen"
         }
       }
     },
@@ -267,9 +286,21 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Einladungen",
         "logOut": "Ausloggen",
         "myCamps": "Meine Lager",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Einladung ablehnen",
+        "warningText": "Möchtest du die Einladung zum Lager \"{campTitle}\" wirklich ablehnen?"
+      },
+      "personalInvitations": {
+        "accept": "Akzeptieren",
+        "noOpenInvitations": "Keine offene Einladungen. Wurde die Einladung an eine andere Adresse als \"{email}\" versendet?",
+        "reject": "Ablehnen"
       }
     },
     "print": {
@@ -350,9 +381,12 @@
         "clipboard": "Zwischenablage",
         "copyActivity": "Aktivität kopieren",
         "copyActivityContent": "Inhalt von Aktivität kopieren",
-        "copyPastActivity": "Aktivität kopieren & einfügen",
-        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen um dessen Inhalte zu kopieren.",
+        "copyPasteActivity": "Aktivität kopieren & einfügen",
+        "copySourceInfo": "Hier kannst du die URL einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
         "pasteActivity": "Kopierte Aktivität einfügen"
+      },
+      "dialogActivityEdit": {
+        "title": "Aktivität bearbeiten"
       },
       "formScheduleEntryItem": {
         "end": "Ende",
@@ -375,6 +409,16 @@
           "location": "Ort:",
           "responsible": "Verantwortlich: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Kategorie",
+        "clearFilters": "Filter entfernen",
+        "onlyMyActivities": "Nur meine Aktivitäten",
+        "period": "Lagerabschnitt",
+        "progressLabel": "Status",
+        "progressLabelNone": "Kein Status",
+        "responsible": "Verantwortlich",
+        "responsibleNone": "Keine Verantwortlichen"
       }
     },
     "prompt": {
@@ -404,20 +448,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Geburtstag",
-        "email": "E-Mail-Adresse",
-        "firstname": "Vorname",
-        "language": "Sprache",
-        "nickname": "Spitzname",
-        "password": "Passwort",
-        "surname": "Nachname"
-      },
-      "name": "User"
-    }
-  },
   "global": {
     "button": {
       "add": "Hinzufügen",
@@ -441,6 +471,7 @@
       "open": "Öffnen",
       "remove": "Entfernen",
       "rename": "Umbenennen",
+      "reset": "Zurücksetzen",
       "save": "Speichern",
       "saving": "Speichert",
       "search": "Suchen",
@@ -458,12 +489,20 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Daten speichern/laden nicht möglich.",
+        "title": "Du bist offline:"
+      }
+    },
     "language": "Deutsch",
     "loading": "Laden …",
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Hilfe",
+      "news": "News"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
@@ -475,7 +514,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
-      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
+      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
+      "oneEmojiOrTwoCharacters": "{_field_} darf nur 1 Emoji oder 2 Buchstaben/Zahlen haben"
     },
     "warning": {
       "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
@@ -506,7 +546,6 @@
         "title": "Lagerinfos"
       },
       "print": {
-        "reset": "Zurücksetzen",
         "title": "Lager drucken"
       },
       "sideBarAdmin": {
@@ -536,6 +575,7 @@
           "loginInProgress": "Du wirst eingeloggt"
         },
         "or": "oder mit",
+        "notActivated": "Nicht aktiviert?",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
@@ -546,6 +586,8 @@
           "midata": "MiData"
         },
         "registernow": "Jetzt registrieren",
+        "resendActivation": "Aktivierungsmail erneut senden",
+        "resetPassword": "Passwort zurücksetzen",
         "termsOfServiceLink": "Nutzungsbedingungen"
       },
       "register": {
@@ -560,6 +602,12 @@
         "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "success": "Erfolgreich registriert",
         "title": "Konto erstellen"
+      },
+      "resendActivation": {
+        "errorMessage": "Erneutes Senden der Aktivierung fehlgeschlagen.",
+        "send": "Abschicken",
+        "successMessage": "Mail mit Link für 'Aktivierung' wird versendet.",
+        "title": "Aktivierungsmail erneut senden"
       },
       "resetPassword": {
         "errorMessage": "Passwort konnte nicht geändert werden.",
@@ -585,8 +633,6 @@
       },
       "dashboard": {
         "activities": "Aktivitäten",
-        "category": "Kategorie",
-        "clearFilters": "Filter entfernen",
         "columns": {
           "category": "Kategorie",
           "number": "Nummer",
@@ -595,12 +641,6 @@
           "title": "Titel"
         },
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
-        "onlyMyActivities": "Nur meine Aktivitäten",
-        "period": "Lagerabschnitt",
-        "progressLabel": "Status",
-        "progressLabelNone": "Kein Status",
-        "responsible": "Verantwortlich",
-        "responsibleNone": "Keine Verantwortlichen",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
@@ -662,6 +702,7 @@
     },
     "category": {
       "category": {
+        "copyCategory": "Kategorie kopieren",
         "deleteCategory": "Kategorie löschen",
         "properties": "Eigenschaften",
         "template": "Vorlage für neue Blöcke"
@@ -669,6 +710,9 @@
       "sideBarCategory": {
         "title": "Kategorien"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Einladungen"
     },
     "material": {
       "materialLists": {

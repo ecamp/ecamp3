@@ -32,14 +32,14 @@ jobs:
       name: ${{ inputs.env }}
     steps:
       - name: Get link to currently running job logs
-        uses: Tiryoh/gha-jobid-action@v1.2.0
+        uses: Tiryoh/gha-jobid-action@v1.3.0
         id: job-url
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           job_name: Upgrade or install deployment / Deploy to Kubernetes
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         id: deployment
         with:
           step: start
@@ -60,8 +60,8 @@ jobs:
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
           comment_tag: feature-branch-deployment-status
-      
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: ${{ inputs.sha }}
 
@@ -83,14 +83,17 @@ jobs:
             --set imageTag=${{ inputs.sha }} \
             --set frontend.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-frontend' \
             --set print.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-print' \
-            --set php.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-php' \
-            --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
+            --set api.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api' \
+            --set apiCache.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-varnish' \
             --set postgresql.dbBackupRestoreImage.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-db-backup-restore' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
+            --set newsLink='https://ecamp3.ch/blog' \
+            --set helpLink='https://ecamp3.ch/faq' \
             --set domain=${{ inputs.name }}.${{ vars.DOMAIN }} \
             --set ingress.basicAuth.enabled=${{ vars.BASIC_AUTH_ENABLED || false  }} \
             --set ingress.basicAuth.username=${{ secrets.BASIC_AUTH_USERNAME }} \
             --set ingress.basicAuth.password='${{ secrets.BASIC_AUTH_PASSWORD }}' \
+            --set apiCache.enabled=${{ vars.API_CACHE_ENABLED || false }} \
             --set mail.dummyEnabled=true \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ inputs.name }}?sslmode=require' \
@@ -108,12 +111,12 @@ jobs:
             --set postgresql.restore.s3.accessKeyId='${{ secrets.RESTORE_S3_ACCESS_KEY_ID }}' \
             --set postgresql.restore.s3.accessKey='${{ secrets.RESTORE_S3_ACCESS_KEY }}' \
             --set postgresql.restore.encryptionKey=${{ secrets.RESTORE_ENCRYPTION_KEY != null && format('''{0}''', secrets.RESTORE_ENCRYPTION_KEY) || null }} \
-            --set php.dataMigrationsDir='${{ vars.DATA_MIGRATIONS_DIR }}' \
-            --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
-            --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
-            --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
-            --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
-            --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
+            --set api.dataMigrationsDir='${{ vars.DATA_MIGRATIONS_DIR }}' \
+            --set api.appSecret='${{ secrets.API_APP_SECRET }}' \
+            --set api.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
+            --set api.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
+            --set api.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
+            --set api.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
@@ -129,7 +132,7 @@ jobs:
             --set featureToggle.developer=true
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v1.4.0
+        uses: bobheadxi/deployments@v1.5.0
         if: always()
         with:
           step: finish

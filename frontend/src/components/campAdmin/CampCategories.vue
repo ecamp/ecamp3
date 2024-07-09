@@ -1,25 +1,25 @@
 <template>
-  <content-group>
-    <slot name="title">
-      <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.campAdmin.campCategories.title') }}
-        <DialogCategoryCreate v-if="!disabled" :camp="camp()">
-          <template #activator="{ on }">
-            <ButtonAdd
-              color="secondary"
-              text
-              :hide-label="$vuetify.breakpoint.xsOnly"
-              class="my-n2"
-              v-on="on"
-            >
-              {{ $tc('components.campAdmin.campCategories.create') }}
-            </ButtonAdd>
-          </template>
-        </DialogCategoryCreate>
-      </div>
-    </slot>
+  <content-group
+    :title="$tc('components.campAdmin.campCategories.title')"
+    icon="mdi-shape"
+  >
+    <template #title-actions>
+      <DialogCategoryCreate v-if="!disabled" :camp="camp">
+        <template #activator="{ on }">
+          <ButtonAdd
+            color="secondary"
+            text
+            :hide-label="$vuetify.breakpoint.xsOnly"
+            class="my-n2"
+            v-on="on"
+          >
+            {{ $tc('components.campAdmin.campCategories.create') }}
+          </ButtonAdd>
+        </template>
+      </DialogCategoryCreate>
+    </template>
     <v-skeleton-loader
-      v-if="camp().categories()._meta.loading"
+      v-if="camp.categories()._meta.loading"
       type="list-item@3"
       class="mx-n4"
     />
@@ -28,7 +28,7 @@
         v-for="category in categories.items"
         :key="category._meta.self"
         class="px-2 rounded"
-        :to="categoryRoute(camp(), category)"
+        :to="categoryRoute(camp, category)"
       >
         <v-list-item-content>
           <v-list-item-title>
@@ -68,7 +68,7 @@ export default {
   },
   mixins: [dateHelperUTCFormatted],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
   },
   data() {
@@ -76,7 +76,7 @@ export default {
   },
   computed: {
     categories() {
-      return this.camp().categories()
+      return this.camp.categories()
     },
   },
   methods: {

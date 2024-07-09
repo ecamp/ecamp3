@@ -20,11 +20,11 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
         private readonly TranslateToAllLocalesService $translateToAllLocalesService
     ) {}
 
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool {
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool {
         return $this->getNormalizerCollection()->exists(fn ($_, $elem) => $elem->supportsNormalization($data, $format, $context));
     }
 
-    public function normalize(mixed $object, string $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
+    public function normalize(mixed $object, ?string $format = null, array $context = []): null|array|\ArrayObject|bool|float|int|string {
         $normalizer = $this->getNormalizerCollection()->filter(fn ($elem) => $elem->supportsNormalization($object, $format, $context))->first();
         if (false === $normalizer) {
             throw new \RuntimeException("Did not find a normalizer to normalize response to format {$format}");
@@ -75,7 +75,7 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
             ->map(function (AbstractConstraintViolationListNormalizer $normalizer) use ($format) {
                 return $normalizer->getSupportedTypes($format);
             })
-            ->reduce(fn (null|array $left, array $right) => array_merge($left ?? [], $right), [])
+            ->reduce(fn (?array $left, array $right) => array_merge($left ?? [], $right), [])
         ;
     }
 

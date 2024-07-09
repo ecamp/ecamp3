@@ -142,7 +142,6 @@
         "title": "Envidar ina persuna"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Ti na pos betg attribuir in'autra rolla a l'ultima persuna cun dretgs d'administraziun.",
         "cannotRemoveLastManager": "Ti na pos betg deactivar l'ultima persuna cun dretgs d'administraziun.",
         "deactivate": "Deactivar",
         "delete": "Vuls ti propi allontanar la persuna '{name}'?",
@@ -172,6 +171,7 @@
     "form": {
       "base": {
         "eColorPicker": {
+          "closePicker": "Terminar il dialog",
           "openPicker": "Avrir il dialog per tscherner ina colur per {label}"
         },
         "eDatePicker": {
@@ -224,9 +224,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitaziuns",
         "logOut": "Sortir",
         "myCamps": "Mes champ",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Refusar l'invit",
+        "warningText": "Vulais Vus propi refusar l'invitaziun al champ \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Naginas invitaziuns avertas. È l'invitaziun vegnida tramessa ad in'autra adressa che \"{email}\"?"
       }
     },
     "print": {
@@ -302,6 +312,9 @@
       }
     },
     "program": {
+      "dialogActivityEdit": {
+        "title": "Modifitgar l'activitad"
+      },
       "formScheduleEntryItem": {
         "end": "Fin",
         "start": "Entschatta"
@@ -323,6 +336,16 @@
           "location": "Lieu:",
           "responsible": "Responsabel: "
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Categoria",
+        "clearFilters": "Allontanar il filter",
+        "onlyMyActivities": "Mo mias activitads",
+        "period": "Part dal champ",
+        "progressLabel": "Status",
+        "progressLabelNone": "Nagin status",
+        "responsible": "Responsabel",
+        "responsibleNone": "Naginas persunas responsablas"
       }
     },
     "prompt": {
@@ -352,20 +375,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Di da naschientscha",
-        "email": "Adressa dad e-mail",
-        "firstname": "Prenum",
-        "language": "Lingua",
-        "nickname": "Surnum",
-        "password": "Pled-clav",
-        "surname": "Num da famiglia"
-      },
-      "name": "Utilisad*ra"
-    }
-  },
   "global": {
     "button": {
       "add": "Agiuntar",
@@ -388,6 +397,7 @@
       "open": "Avrir",
       "remove": "Allontanar",
       "rename": "Renumnar",
+      "reset": "Reparter",
       "save": "Memorisar",
       "saving": "Memorisà",
       "search": "Tschertgar",
@@ -405,12 +415,20 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24 h"
     },
+    "info": {
+      "offline": {
+        "description": "Salvament/chargiament da datas nu è pussaivel.",
+        "title": "Ti es offline:"
+      }
+    },
     "language": "Rumantsch",
     "loading": "Chargiar…",
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Agid",
+      "news": "Noviteds"
     },
     "serverError": {
       "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server."
@@ -528,8 +546,6 @@
       },
       "dashboard": {
         "activities": "Activitads",
-        "category": "Categoria",
-        "clearFilters": "Allontanar il filter",
         "columns": {
           "category": "Categoria",
           "number": "Numer",
@@ -538,12 +554,6 @@
           "title": "Titel"
         },
         "noEntries": "Chattà naginas activitads. Emprova dad allontanar ils filters u rechargia la pagina.",
-        "onlyMyActivities": "Mo mias activitads",
-        "period": "Part dal champ",
-        "progressLabel": "Status",
-        "progressLabelNone": "Nagin status",
-        "responsible": "Responsabel",
-        "responsibleNone": "Naginas persunas responsablas",
         "welcome": "Bainvegni en tes nov champ. Anc n'èn vegnidas endatadas naginas activitads."
       },
       "invitation": {
@@ -618,6 +628,9 @@
       "sideBarCategory": {
         "title": "Categorias"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitaziuns"
     },
     "material": {
       "materialOverview": {

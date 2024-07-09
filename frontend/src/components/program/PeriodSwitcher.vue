@@ -1,18 +1,18 @@
 <template>
-  <v-toolbar-items v-if="period().camp().periods().items.length > 1">
+  <v-toolbar-items v-if="period.camp().periods().items.length > 1">
     <v-menu offset-y>
       <template #activator="{ on, attrs, value }">
         <v-btn
           text
           large
-          class="justify-start px-2"
+          class="justify-start px-4 my-1 rounded-pill ec-period-switcher__button"
           height="auto"
           block
           v-bind="attrs"
           v-on="on"
         >
           <h1 class="text-subtitle-1">
-            {{ period().description }}
+            {{ period.description }}
           </h1>
           <v-icon v-if="value" right>mdi-menu-up</v-icon>
           <v-icon v-else right>mdi-menu-down</v-icon>
@@ -21,7 +21,7 @@
       <v-list>
         <v-subheader>{{ $tc('components.program.periodSwitcher.title') }}</v-subheader>
         <v-list-item
-          v-for="item in period().camp().periods().items"
+          v-for="item in period.camp().periods().items"
           :key="item._meta.self"
           :to="periodRoute(item, routeName)"
           two-line
@@ -38,7 +38,7 @@
   </v-toolbar-items>
   <v-toolbar-title v-else>
     <h1 class="subtitle-1">
-      {{ period().description }}
+      {{ period.description }}
     </h1>
   </v-toolbar-title>
 </template>
@@ -51,7 +51,7 @@ export default {
   mixins: [dateHelperUTCFormatted],
   props: {
     period: {
-      type: Function,
+      type: Object,
       required: true,
     },
     routeName: { type: String, default: 'camp/period/program' },
@@ -61,4 +61,8 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ec-period-switcher__button {
+  height: calc(100% - 8px) !important;
+}
+</style>

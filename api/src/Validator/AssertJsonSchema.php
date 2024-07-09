@@ -12,7 +12,7 @@ class AssertJsonSchema extends Constraint {
         'type' => 'object',
     ];
 
-    public function __construct(array $options = null, string $message = null, array $schema = null, array $groups = null, $payload = null) {
+    public function __construct(?array $options = null, ?string $message = null, ?array $schema = null, ?array $groups = null, $payload = null) {
         parent::__construct($options ?? [], $groups, $payload);
 
         $this->message = $message ?? $this->message;

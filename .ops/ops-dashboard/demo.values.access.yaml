@@ -1,0 +1,46 @@
+grafana-proxy:
+  ingress: 
+    hosts:
+      # dev, stage or prod grafana url
+      - dev-grafana.ecamp3.ch
+  extraArgs:
+    # dev, stage or prod grafana url
+    whitelist-domain: dev-grafana.ecamp3.ch
+  config:
+    # OAuth client ID
+    clientID: ""
+    # OAuth client secret
+    clientSecret: ""
+    # Create a new secret with the following command
+    # openssl rand -base64 32 | head -c 32 | base64
+    cookieSecret: ""
+kubernetes-dashboard-proxy:
+  ingress:
+    hosts:
+      # dev, stage or prod kubernetes-dashboard url
+      - dev-kubernetes-dashboard.ecamp3.ch
+  extraArgs:
+    # dev, stage or prod kubernetes-dashboard url
+    whitelist-domain: dev-kubernetes-dashboard.ecamp3.ch
+  config:
+    # OAuth client ID
+    clientID: ""
+    # OAuth client secret
+    clientSecret: ""
+    # use the same cookieSecret as above
+    cookieSecret: ""
+logging-proxy:
+  config:
+    # OAuth client ID
+    clientID:
+    # OAuth client secret
+    clientSecret:
+    # use the same cookieSecret as above
+    cookieSecret:
+  extraArgs:
+    # dev, stage or prod kubernetes-dashboard url
+    whitelist-domain: dev-logging.ecamp3.ch
+  ingress:
+    hosts:
+      # dev, stage or prod kubernetes-dashboard url
+      - dev-logging.ecamp3.ch

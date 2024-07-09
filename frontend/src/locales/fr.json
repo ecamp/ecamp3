@@ -20,12 +20,20 @@
           }
         }
       },
+      "copyActivityInfoDialog": {
+        "allow": "Autoriser maintenant",
+        "denied": "Vous avez refusé l'accès à votre presse-papiers. Par conséquent, vous ne pouvez pas coller les activités copiées.",
+        "description": "Pour coller une activité copiée, vous devez autoriser eCamp à lire votre presse-papiers.",
+        "granted": "Vous pouvez maintenant coller les activités copiées.",
+        "title": "Copier et coller une activité"
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Doit être vide pour être supprimé"
       },
       "scheduleEntry": {
         "backToContents": "Retour à l'édition du contenu",
         "changeLayout": "Changer la mise en page",
+        "copyScheduleEntry": "Copier une activité",
         "deleteWarning": "Veux-tu vraiment supprimer cette activité ? Tout le contenu de cette activité sera supprimé."
       },
       "togglePaperSize": {
@@ -177,7 +185,6 @@
         "title": "Inviter une personne"
       },
       "collaboratorEdit": {
-        "cannotAssignAnotherRoleToLastManager": "Tu ne peux pas attribuer un autre rôle au dernier manager.",
         "cannotRemoveLastManager": "Tu ne peux pas supprimer le dernier manager.",
         "deactivate": "Désactiver",
         "delete": "Veux-tu vraiment supprimer la personne '{name}' ?",
@@ -187,6 +194,7 @@
         "title": "Modifier {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Remplacer l'avatar pour ce camp",
         "roleHint": "Chaque camp nécessite au moins une personne disposant de droits d'administrateur."
       },
       "promptCollaboratorDeactivate": {
@@ -207,6 +215,7 @@
     "form": {
       "base": {
         "eColorPicker": {
+          "closePicker": "Fermer le dialogue",
           "openPicker": "Ouvre un dialogue pour sélectionner une couleur pour {label}"
         },
         "eDatePicker": {
@@ -259,9 +268,19 @@
     },
     "navigation": {
       "userMeta": {
+        "invitations": "Invitations",
         "logOut": "Se déconnecter",
         "myCamps": "Mes camps",
         "profile": "Profil"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Refuser l'invitation",
+        "warningText": "Tu veux vraiment refuser l'invitation au camp \"{campTitle}\" ?"
+      },
+      "personalInvitations": {
+        "noOpenInvitations": "Aucune invitation ouverte. L'invitation a-t-elle été envoyée à une autre adresse que \"{email}\" ?"
       }
     },
     "print": {
@@ -337,6 +356,18 @@
       }
     },
     "program": {
+      "dialogActivityCreate": {
+        "clearClipboard": "Vider le presse-papier",
+        "clipboard": "Presse-papier",
+        "copyActivity": "Copier une activité",
+        "copyActivityContent": "Copier le contenu depuis une activité",
+        "copyPastActivity": "Copier et coller une activité",
+        "copySourceInfo": "Vous pouvez coller ici l'URL d'une activité pour copier son contenu.",
+        "pasteActivity": "coller l'activité"
+      },
+      "dialogActivityEdit": {
+        "title": "Modifier l'activité"
+      },
       "formScheduleEntryItem": {
         "end": "Fin",
         "start": "Début"
@@ -358,6 +389,16 @@
           "location": "Lieu:",
           "responsible": "Responsable:"
         }
+      },
+      "scheduleEntryFilters": {
+        "category": "Catégorie",
+        "clearFilters": "Effacer les filtres",
+        "onlyMyActivities": "Seulement mes activités",
+        "period": "Période",
+        "progressLabel": "Statut",
+        "progressLabelNone": "Aucun statut",
+        "responsible": "Responsable",
+        "responsibleNone": "Aucun responsables"
       }
     },
     "prompt": {
@@ -387,20 +428,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Anniversaire",
-        "email": "Adresse e-mail",
-        "firstname": "Prénom",
-        "language": "Langue",
-        "nickname": "Surnom",
-        "password": "Mot de passe",
-        "surname": "Nom de famille"
-      },
-      "name": "Utilisateur"
-    }
-  },
   "global": {
     "button": {
       "add": "Ajouter",
@@ -424,10 +451,11 @@
       "open": "Ouvrir",
       "remove": "Retirer",
       "rename": "Renommer",
+      "reset": "Réinitialiser",
       "save": "Sauvegarder",
       "saving": "En cours de sauvegarde",
       "search": "Rechercher",
-      "submit": "Soumettre",
+      "submit": "Envoyer",
       "tryagain": "Réessayer",
       "unlock": "Déverrouiller",
       "update": "Mise à jour"
@@ -441,21 +469,33 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Impossible d'enregistrer / de charger des données.",
+        "title": "Tu es hors ligne :"
+      }
+    },
     "language": "Français",
     "loading": "Chargement ...",
     "navigation": {
       "admin": {
         "title": "Admin"
-      }
+      },
+      "help": "Aide",
+      "news": "Actualités"
     },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
     },
+    "toast": {
+      "copied": "{source} copié"
+    },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
-      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}"
+      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} ne peut avoir que 1 emoji ou 2 lettres/chiffres"
     },
     "warning": {
       "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
@@ -564,8 +604,6 @@
       },
       "dashboard": {
         "activities": "Activités",
-        "category": "Catégorie",
-        "clearFilters": "Effacer les filtres",
         "columns": {
           "category": "Catégorie",
           "number": "Numéro",
@@ -574,12 +612,6 @@
           "title": "Titre"
         },
         "noEntries": "Aucune activité trouvée. Essaie d'effacer les filtres de sélection et/ou de recharger la page.",
-        "onlyMyActivities": "Seulement mes activités",
-        "period": "Période",
-        "progressLabel": "Statut",
-        "progressLabelNone": "Aucun statut",
-        "responsible": "Responsable",
-        "responsibleNone": "Aucun responsables",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },
       "invitation": {
@@ -648,6 +680,9 @@
       "sideBarCategory": {
         "title": "Catégories"
       }
+    },
+    "invitations": {
+      "personalInvitations": "Invitations"
     },
     "material": {
       "materialLists": {

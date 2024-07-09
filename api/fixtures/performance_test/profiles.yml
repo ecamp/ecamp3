@@ -1,0 +1,9 @@
+App\Entity\Profile:
+  additionalProfile_{1..400}:
+    user: '@additionalUser_<current()>'
+    email: 'test\@test.@additionalUser_<current()>->id'
+    firstname: 'firstName@additionalUser_<current()>->id'
+    surname: 'lastName@additionalUser_<current()>->id'
+    nickname: 'nickName@additionalUser_<current()>->id'
+    language: en
+    roles: [ 'ROLE_USER' ]

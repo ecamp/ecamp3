@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`An EParseField > looks like a textfield > empty 1`] = `
+<div data-app>
+     <div class="e-form-container">
+          <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+               <div class="v-input__control">
+                    <div class="v-input__slot">
+                         <div class="v-text-field__slot">
+                              <label class="v-label theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
+                              <input id
+                                     type="text">
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+`;
+
+exports[`An EParseField > looks like a textfield > with text 1`] = `
+<div data-app>
+     <div class="e-form-container">
+          <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+               <div class="v-input__control">
+                    <div class="v-input__slot">
+                         <div class="v-text-field__slot">
+                              <label class="v-label v-label--active theme--light"
+                                     for
+                                     style="left: 0px; position: absolute;">test</label>
+                              <input id
+                                     type="text">
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+`;

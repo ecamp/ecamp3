@@ -18,6 +18,9 @@ exports[`An ESwitch > looks like a switch > checked 1`] = `
                               <div class="v-input--switch__thumb theme--light primary--text"><transition-stub mode="out-in"
                                                     name="fab-transition"></transition-stub></div>
                          </div>
+                         <label class="v-label theme--light"
+                                for
+                                style="left: 0px; position: relative;">test</label>
                     </div>
                </div>
           </div>
@@ -43,6 +46,9 @@ exports[`An ESwitch > looks like a switch > unchecked 1`] = `
                               <div class="v-input--switch__thumb theme--light"><transition-stub mode="out-in"
                                                     name="fab-transition"></transition-stub></div>
                          </div>
+                         <label class="v-label theme--light"
+                                for
+                                style="left: 0px; position: relative;">test</label>
                     </div>
                </div>
           </div>

@@ -81,13 +81,13 @@ INSERT INTO public.content_node (id, slot, "position", instancename, createtime,
 INSERT INTO public.category (id, categoryprototypeid, short, name, color, numberingstyle, campid, rootcontentnodeid, createtime, updatetime) VALUES
 	('9adf1b7753eb', NULL, 'LS', 'Lagersport', '#4DBB52', '1', '75b3572a338e', '5f578b4a7fae', '2022-10-08 20:15:22', '2022-10-08 20:15:22'),
 	('9a8a15bf5b9d', NULL, 'LP', 'Lagerprogramm', '#90B7E4', '1', '75b3572a338e', '41bcdd2d75d2', '2022-10-08 20:16:51', '2022-10-08 20:16:51'),
-	('a0af9dd993d9', NULL, 'ES', 'Essen', '#BBBBBB', '1', '75b3572a338e', '7b41e3aff0e5', '2022-10-08 20:17:17', '2022-10-08 20:30:49'),
-	('3236c849e99d', NULL, 'R', 'Repas', '#BBBBBB', '1', '497f974e7d5d', '6403c48b0a2e', '2022-10-08 20:43:44', '2022-10-08 20:43:44'),
+	('a0af9dd993d9', NULL, 'ES', 'Essen', '#BBBBBB', '-', '75b3572a338e', '7b41e3aff0e5', '2022-10-08 20:17:17', '2022-10-08 20:30:49'),
+	('3236c849e99d', NULL, 'R', 'Repas', '#BBBBBB', '-', '497f974e7d5d', '6403c48b0a2e', '2022-10-08 20:43:44', '2022-10-08 20:43:44'),
 	('37a96aafb9f1', NULL, 'SC', 'Sport de camp', '#4DBB52', '1', '497f974e7d5d', 'c29aa1fbad8f', '2022-10-08 20:44:40', '2022-10-08 20:44:40'),
 	('b85ba544838b', NULL, 'AC', 'Activités de camp', '#FF9800', '1', '497f974e7d5d', '33d8cac7c219', '2022-10-08 20:45:16', '2022-10-08 20:45:16'),
 	('b41d284199c2', NULL, 'LA', 'Lageraktivität', '#FF9800', '1', '75b3572a338e', '195c74ab5a69', '2022-10-08 20:16:14', '2022-10-08 20:45:18'),
 	('6e1cc2c9d44d', NULL, 'PC', 'Programme de camp', '#90B7E4', '1', '497f974e7d5d', 'a5d09f5460c3', '2022-10-08 20:45:55', '2022-10-08 20:45:55'),
-	('38a5dbcf9d5a', NULL, 'ES', 'Essen', '#BBBBBB', '1', 'f92fe1cd1ae9', '714413ea63dc', '2022-10-08 20:49:57', '2022-10-08 20:49:57'),
+	('38a5dbcf9d5a', NULL, 'ES', 'Essen', '#BBBBBB', '-', 'f92fe1cd1ae9', '714413ea63dc', '2022-10-08 20:49:57', '2022-10-08 20:49:57'),
 	('e308f0eb1099', NULL, 'PR', 'Programm', '#90B7E4', '1', 'f92fe1cd1ae9', '12d742a2041b', '2022-10-08 20:50:30', '2022-10-08 20:50:30');
 
 
@@ -95,10 +95,10 @@ INSERT INTO public.category (id, categoryprototypeid, short, name, color, number
 
 
 
-INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, role, collaborationacceptedby, createtime, updatetime, userid, campid) VALUES
-	('71c07d3be9f3', NULL, NULL, 'established', 'manager', NULL, '2022-10-08 20:13:50', '2022-10-08 20:13:50', '8adf80011c2b', '75b3572a338e'),
-	('77b7a7e51080', NULL, NULL, 'established', 'manager', NULL, '2022-10-08 20:41:53', '2022-10-08 20:41:53', '8adf80011c2b', '497f974e7d5d'),
-	('1c7985ab4c7a', NULL, NULL, 'established', 'manager', NULL, '2022-10-08 20:49:03', '2022-10-08 20:49:03', '8adf80011c2b', 'f92fe1cd1ae9');
+INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, role, createtime, updatetime, userid, campid) VALUES
+	('71c07d3be9f3', NULL, NULL, 'established', 'manager', '2022-10-08 20:13:50', '2022-10-08 20:13:50', '8adf80011c2b', '75b3572a338e'),
+	('77b7a7e51080', NULL, NULL, 'established', 'manager', '2022-10-08 20:41:53', '2022-10-08 20:41:53', '8adf80011c2b', '497f974e7d5d'),
+	('1c7985ab4c7a', NULL, NULL, 'established', 'manager', '2022-10-08 20:49:03', '2022-10-08 20:49:03', '8adf80011c2b', 'f92fe1cd1ae9');
 
 
 

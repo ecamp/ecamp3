@@ -9,6 +9,8 @@ domain:
 deployedVersion: "devel"
 versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
 termsOfServiceLinkTemplate: # 'https://ecamp3.ch/{lang}/tos'
+newsLink: # 'https://ecamp3.ch/blog'
+helpLink: # 'https://ecamp3.ch/faq'
 
 # enable/disable feature across the complete deployment
 featureToggle:
@@ -16,28 +18,28 @@ featureToggle:
 
 api:
   subpath: "/api"
+  image:
+    repository: "docker.io/ecamp/ecamp3-api"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
   service:
     type: ClusterIP
     port: 3001
   metrics:
     port: 2019
   replicaCount: 1
-
-php:
-  image:
-    repository: "docker.io/ecamp/ecamp3-api-php"
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose shared default is .Values.imageTag
-    tag:
   appEnv: prod
   appDebug: "0"
   appSecret: ""
   corsAllowOrigin: "^https://.*?\\.chart-example\\.local$"
   trustedProxies:
+    - "::1"
     - "127.0.0.1"
     - "10.0.0.0/8"
     - "172.16.0.0/12"
     - "192.168.0.0/16"
+  caddyGlobalOptions: ""
   sentryDsn:
   jwt:
     passphrase:
@@ -63,17 +65,6 @@ php:
     requests:
       cpu: 10m
       memory: 120Mi
-
-caddy:
-  image:
-    repository: "docker.io/ecamp/ecamp3-api-caddy"
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose shared default is .Values.imageTag
-    tag:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 20Mi
 
 frontend:
   image:
@@ -219,7 +210,48 @@ ingress:
   className: nginx
   tls:
 
-
+apiCache:
+  enabled: false
+  image:
+    repository: "docker.io/ecamp/ecamp3-varnish"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  service:
+    type: ClusterIP
+    ports:
+      http: 3000
+      purge: 3001
+  varnishSize: 50M
+  varnishHttpPort: 8080
+  varnishPurgePort: 8081
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+  logging:
+    enabled: true
+    customOutput: '{ "received_at": "%t", "varnish_side": "%{Varnish:side}x", "method": "%m", "url": "%U", "query": "%q", "response_bytes": %b, "time_taken": %D, "status": %s, "handling": "%{Varnish:handling}x", "response_reason": "%{VSL:RespReason}x", "fetch_error": "%{VSL:FetchError}x" }'
+    customOutputJsonFormat: true
+    # Timeout before returning error on initial VSM connection.
+    # If set the VSM connection is retried every 0.5 seconds for this many seconds.
+    # If zero the connection is attempted only once and will fail immediately if unsuccessful.
+    # If set to "off", the connection will not fail, allowing the utility to start and wait indefinetely for the Varnish instance to appear.
+    # Defaults to "off" in this case.
+    timeout: "off"
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  prometheus:
+    enabled: true
+    path: "/metrics"
+    port: 9131
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  
 autoscaling:
   enabled: false
   minReplicas: 1

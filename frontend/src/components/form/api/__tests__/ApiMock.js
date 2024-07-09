@@ -10,18 +10,18 @@ function mockPromiseResolving(value) {
 }
 
 class MockStubbing {
-  constructor(fieldName, value) {
-    this._fieldName = fieldName
+  constructor(path, value) {
+    this._path = path
     this._value = value
   }
 
-  forFieldName(fieldName) {
-    this._fieldName = fieldName
+  forPath(path) {
+    this._path = path
     return this
   }
 
-  get fieldName() {
-    return this._fieldName
+  get path() {
+    return this._path
   }
 
   get value() {
@@ -56,8 +56,8 @@ class ApiMockState {
           throw new Error('apiMock must be instance of MockStubbing')
         }
         if (mockStubbing instanceof NetworkErrorMockStubbing) {
-          if (mockStubbing.fieldName === undefined || mockStubbing.value !== undefined) {
-            throw new Error('fieldName must be defined and value must be undefined')
+          if (mockStubbing.path === undefined || mockStubbing.value !== undefined) {
+            throw new Error('path must be defined and value must be undefined')
           }
           const result = {
             _meta: {
@@ -67,15 +67,15 @@ class ApiMockState {
               }),
             },
           }
-          result[mockStubbing.fieldName] = () => result
+          result[mockStubbing.path] = () => result
           apiMock._get.mockReturnValue(result)
           return this
         }
-        if (mockStubbing.fieldName === undefined || mockStubbing.value === undefined) {
-          throw new Error('fieldName and value must be defined')
+        if (mockStubbing.path === undefined || mockStubbing.value === undefined) {
+          throw new Error('path and value must be defined')
         }
         apiMock._get.mockReturnValue({
-          [mockStubbing.fieldName]: mockStubbing.value,
+          [mockStubbing.path]: mockStubbing.value,
           _meta: {
             load: Promise.resolve(mockStubbing.value),
           },
@@ -101,8 +101,8 @@ class ApiMockState {
           })
           return this
         }
-        if (mockStubbing.fieldName !== undefined || mockStubbing.value === undefined) {
-          throw new Error('fieldName must be undefined and value must be defined')
+        if (mockStubbing.path !== undefined || mockStubbing.value === undefined) {
+          throw new Error('path must be undefined and value must be defined')
         }
         apiMock._patch.mockReturnValue(mockPromiseResolving(mockStubbing.value))
         return this

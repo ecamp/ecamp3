@@ -9,16 +9,21 @@
       <v-toolbar dense flat color="transparent">
         <v-icon class="mr-2">{{ icon }}</v-icon>
 
-        <div v-if="editInstanceName" style="flex: 1" @click.stop @keyup.prevent>
+        <api-form
+          v-if="editInstanceName"
+          :entity="contentNode"
+          style="flex: 1"
+          @click.stop
+          @keyup.prevent
+        >
           <api-text-field
             dense
             autofocus
             :auto-save="false"
-            :uri="contentNode._meta.self"
-            fieldname="instanceName"
+            path="instanceName"
             @finished="editInstanceName = false"
           />
-        </div>
+        </api-form>
 
         <v-toolbar-title
           v-if="!editInstanceName"
@@ -83,10 +88,12 @@
 import camelCase from 'lodash/camelCase'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import IconWithTooltip from '@/components/generic/IconWithTooltip.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
 
 export default {
   name: 'ContentNodeCard',
   components: {
+    ApiForm,
     IconWithTooltip,
     DialogEntityDelete,
   },

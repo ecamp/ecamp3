@@ -11,23 +11,21 @@ import puppeteer from 'puppeteer-core'
 import { performance } from 'perf_hooks'
 import { URL } from 'url'
 import { memoryUsage } from 'process'
+import * as Sentry from '@sentry/node'
 
-let lastTime = null
-function measurePerformance(msg) {
+function measurePerformance(performanceMeasurements, key) {
   const now = performance.now()
   const memory = memoryUsage()
 
-  if (lastTime !== null) {
-    console.log(
-      `(took ${Math.round(now - lastTime)} millisecons / using ${
-        memory.heapUsed / 1000000
-      }MB)`
-    )
-  }
-  lastTime = now
+  const lastTime = performanceMeasurements.lastTime
 
-  console.log('\n')
-  console.log(msg || '')
+  if (lastTime !== null && key !== null) {
+    performanceMeasurements.measurements[key] = {
+      duration: Math.round(now - lastTime),
+      memory: memory.heapUsed / 1000000,
+    }
+  }
+  performanceMeasurements.lastTime = now
 }
 
 export default defineEventHandler(async (event) => {
@@ -41,16 +39,25 @@ export default defineEventHandler(async (event) => {
   } = useRuntimeConfig(event)
 
   let browser = null
+  let status = 200
+  const performanceMeasurements = {
+    lastTime: null,
+    measurements: {},
+  }
+  const logOutput = {
+    timestamp: new Date(),
+  }
 
   try {
-    measurePerformance('Connecting to puppeteer...')
+    measurePerformance(performanceMeasurements)
+
     // Connect to browserless.io (puppeteer websocket)
     browser = await puppeteer.connect({
       browserWSEndpoint: browserWsEndpoint,
     })
     const context = await browser.createBrowserContext()
+    measurePerformance(performanceMeasurements, 'puppeteer_connect')
 
-    measurePerformance('Open new page & set cookies...')
     const page = await context.newPage()
     const printUrlObj = new URL(printUrl)
     const requestCookies = parseCookies(event)
@@ -81,6 +88,7 @@ export default defineEventHandler(async (event) => {
       extraHeaders['Authorization'] = `Basic ${basicAuthToken}`
       await page.setExtraHTTPHeaders(extraHeaders)
     }
+    measurePerformance(performanceMeasurements, 'open_page')
 
     /**
      * Debugging puppeteer
@@ -100,26 +108,26 @@ export default defineEventHandler(async (event) => {
     }) */
 
     // set HTML content of current page
-    measurePerformance('Puppeteer load HTML content...')
     page.setUserAgent(
       'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0'
     )
 
     // HTTP request back to Print Nuxt App
     const queryParams = getQuery(event)
+    logOutput.config = queryParams.config
     await page.goto(`${printUrl}/?config=${queryParams.config}`, {
       timeout: renderHtmlTimeoutMs || 30000,
       waitUntil: 'networkidle0',
     })
+    measurePerformance(performanceMeasurements, 'load_content')
 
     // print pdf
-    measurePerformance('Generate PDf...')
     const pdf = await page.pdf({
       printBackground: true,
       format: 'A4',
       scale: 1,
       displayHeaderFooter: true,
-      headerTemplate: `<div id="header-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span>eCamp v3 Beta</span></div>`,
+      headerTemplate: `<div id="header-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span>eCamp v3</span></div>`,
       footerTemplate: `<div id="footer-template" style="font-size:7pt; text-align: center; width: 100%; font-family: Helvetica, sans-serif; font-weight: 500"><span class="pageNumber"></span> / <span class="totalPages"></span></div>`,
       margin: {
         bottom: '15mm',
@@ -129,10 +137,9 @@ export default defineEventHandler(async (event) => {
       },
       timeout: renderPdfTimeoutMs || 30000,
     })
+    measurePerformance(performanceMeasurements, 'generate_pdf')
 
-    measurePerformance()
     browser.disconnect()
-
     defaultContentType(event, 'application/pdf')
     return pdf
   } catch (error) {
@@ -141,7 +148,7 @@ export default defineEventHandler(async (event) => {
     }
 
     let errorMessage = null
-    let status = 500
+    status = 500
     if (error.error) {
       // error is a WebSocket ErrorEvent Object which contains an error property
       errorMessage = error.error.message
@@ -154,10 +161,14 @@ export default defineEventHandler(async (event) => {
     }
 
     captureError(error)
-
+    logOutput.error = errorMessage
     setResponseStatus(event, status)
     defaultContentType(event, 'application/problem+json')
     return { status, title: errorMessage }
+  } finally {
+    logOutput.measurements = performanceMeasurements.measurements
+    logOutput.status = status
+    console.log(JSON.stringify(logOutput))
   }
 })
 
@@ -165,8 +176,8 @@ export default defineEventHandler(async (event) => {
  * @param {Error} error
  */
 function captureError(error) {
-  if (process.sentry) {
-    process.sentry.captureException(error)
+  if (Sentry.isInitialized()) {
+    Sentry.captureException(error)
   } else {
     console.error(error)
   }

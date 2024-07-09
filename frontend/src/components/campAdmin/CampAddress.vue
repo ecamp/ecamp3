@@ -3,30 +3,25 @@ Displays address and allows to edit
 -->
 
 <template>
-  <content-group :title="$tc('components.campAdmin.campAddress.title')">
-    <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+  <content-group
+    :title="$tc('components.campAdmin.campAddress.title')"
+    icon="mdi-map-marker"
+  >
+    <v-skeleton-loader v-if="camp._meta.loading" type="article" />
     <div v-else class="mt-3">
-      <api-form :entity="camp()">
-        <api-text-field
-          fieldname="addressName"
-          :name="$tc('entity.camp.fields.addressName')"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="addressStreet"
-          :name="$tc('entity.camp.fields.addressStreet')"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="addressZipcode"
-          :name="$tc('entity.camp.fields.addressZipcode')"
-          :disabled="disabled"
-        />
-        <api-text-field
-          fieldname="addressCity"
-          :name="$tc('entity.camp.fields.addressCity')"
-          :disabled="disabled"
-        />
+      <api-form :entity="camp" name="camp">
+        <api-text-field path="addressName" :disabled="disabled" />
+
+        <api-text-field path="addressStreet" :disabled="disabled" />
+
+        <v-row class="mt-3">
+          <v-col cols="12" md="4" class="pt-0">
+            <api-text-field path="addressZipcode" :disabled="disabled" />
+          </v-col>
+          <v-col cols="12" md="8" class="pt-0 pl-md-0">
+            <api-text-field path="addressCity" :disabled="disabled" />
+          </v-col>
+        </v-row>
       </api-form>
     </div>
   </content-group>
@@ -42,7 +37,7 @@ export default {
   components: { ContentGroup, ApiTextField, ApiForm },
   props: {
     camp: {
-      type: Function,
+      type: Object,
       required: true,
     },
     disabled: {

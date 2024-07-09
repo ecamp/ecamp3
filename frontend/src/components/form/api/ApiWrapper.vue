@@ -107,15 +107,15 @@ export default {
         // return value from API unless `value` is set explicitly
       } else {
         const resource = this.api.get(this.uri)
-        let val = get(resource, this.fieldname)
+        let val = get(resource, this.path)
 
         // resource is loaded, but val is still undefined (=doesn't exist)
         if (val === undefined) {
           console.error(
-            'You are trying to use a fieldname ' +
-              this.fieldname +
+            'You are trying to use a path ' +
+              this.path +
               ' in an ApiFormComponent, but ' +
-              this.fieldname +
+              this.path +
               " doesn't exist on entity " +
               this.uri
           )
@@ -142,17 +142,20 @@ export default {
     },
   },
   watch: {
-    apiValue: function (newValue) {
-      // override local value if it wasn't dirty
-      if (!this.dirty || this.overrideDirty) {
-        this.localValue = newValue
-        this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
-      }
+    apiValue: {
+      handler: function (newValue) {
+        // override local value if it wasn't dirty
+        if (!this.dirty || this.overrideDirty) {
+          this.localValue = newValue
+          this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
+        }
 
-      // clear dirty if outside value changes to same as local value (e.g. after save operation)
-      if (this.parsedLocalValue === newValue) {
-        this.dirty = false
-      }
+        // clear dirty if outside value changes to same as local value (e.g. after save operation)
+        if (this.parsedLocalValue === newValue) {
+          this.dirty = false
+        }
+      },
+      immediate: true,
     },
   },
   created() {
@@ -243,7 +246,7 @@ export default {
 
       // construct payload (nested path allowed)
       const payload = {}
-      set(payload, this.fieldname, this.parsedLocalValue)
+      set(payload, this.path, this.parsedLocalValue)
 
       this.api.patch(this.uri, payload).then(
         () => {
@@ -257,7 +260,7 @@ export default {
         },
         (error) => {
           this.isSaving = false
-          this.serverErrorMessage = serverErrorToString(error, this.fieldname)
+          this.serverErrorMessage = serverErrorToString(error, this.path)
           this.hasServerError = true
         }
       )

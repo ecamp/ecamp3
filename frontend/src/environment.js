@@ -18,6 +18,8 @@ export function getEnv() {
       'https://github.com/ecamp/ecamp3/commit/{version}',
     TERMS_OF_SERVICE_LINK_TEMPLATE:
       env.TERMS_OF_SERVICE_LINK_TEMPLATE ?? 'https://ecamp3.ch/{lang}/tos',
+    NEWS_LINK: env.NEWS_LINK ?? 'https://ecamp3.ch/blog',
+    HELP_LINK: env.HELP_LINK ?? 'https://ecamp3.ch/faq',
     FEATURE_DEVELOPER: (env.VITE_FEATURE_DEVELOPER ?? 'true') === 'true',
     LOGIN_INFO_TEXT_KEY: env.VITE_LOGIN_INFO_TEXT_KEY ?? 'dev',
   }

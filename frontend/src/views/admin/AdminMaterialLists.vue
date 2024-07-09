@@ -5,7 +5,7 @@ Show all material lists for a camp on mobile
 <template>
   <content-card :title="$tc('views.admin.adminMaterialLists.title')" toolbar>
     <template v-if="!isGuest" #title-actions>
-      <DialogMaterialListCreate :camp="camp()">
+      <DialogMaterialListCreate :camp="camp">
         <template #activator="{ on }">
           <ButtonAdd class="mr-n2" height="32" v-on="on"
             >{{ $tc('global.button.create') }}
@@ -38,11 +38,11 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   computed: {
     materialLists() {
-      return this.camp().materialLists()
+      return this.camp.materialLists()
     },
   },
   mounted() {

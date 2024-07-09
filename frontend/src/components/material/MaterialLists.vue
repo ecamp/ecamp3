@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <v-list-item :to="materialListRoute(camp(), '/all', { isDetail: true })" exact-path>
+    <v-list-item :to="materialListRoute(camp, '/all', { isDetail: true })" exact-path>
       <v-list-item-content>
         {{ $tc('components.material.materialLists.overview') }}
       </v-list-item-content>
@@ -12,7 +12,7 @@
     <v-list-item
       v-for="materialList in materialLists.allItems"
       :key="materialList._meta.self"
-      :to="materialListRoute(camp(), materialList, { isDetail: true })"
+      :to="materialListRoute(camp, materialList, { isDetail: true })"
       exact-path
     >
       <v-list-item-content>
@@ -42,11 +42,11 @@ import { materialListRoute } from '@/router.js'
 export default {
   name: 'MaterialLists',
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   computed: {
     materialLists() {
-      return this.camp().materialLists()
+      return this.camp.materialLists()
     },
   },
   mounted() {

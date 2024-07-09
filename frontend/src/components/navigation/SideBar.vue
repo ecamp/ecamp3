@@ -2,11 +2,11 @@
   <v-navigation-drawer
     v-if="$vuetify.breakpoint.smAndUp"
     v-model="drawer"
+    :mini-variant.sync="mini"
     app
     clipped
     permanent
     :temporary="!mini && !$vuetify.breakpoint.mdAndUp"
-    :mini-variant.sync="mini"
     mini-variant-width="40"
     :width="$vuetify.breakpoint.xl || (!mini && !$vuetify.breakpoint.mdAndUp) ? 350 : 256"
     :color="!title || mini ? 'blue-grey lighten-4' : null"

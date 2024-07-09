@@ -25,15 +25,57 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  api-check-needed:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          skip_after_successful_duplicate: 'true'
+          paths: |
+            [
+              "api/**",
+              ".github/workflows/continuous-integration.yml"
+            ]
+          do_not_skip: '["workflow_dispatch", "schedule"]'
+  
+  e2e-check-needed:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          skip_after_successful_duplicate: 'true'
+          paths: |
+            [
+              ".github/workflows/continuous-integration.yml",
+              "api/**",
+              "common/**",
+              "e2e/**",
+              "frontend/**",
+              "pdf/**",
+              "print/**",
+              "docker-compose.yml",
+              ".env.ci"
+            ]
+          do_not_skip: '["workflow_dispatch", "schedule"]'
+  
   api-cs-check:
     name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
+    needs:
+      - api-check-needed
+    if: needs.api-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.4'
+          php-version: '8.3.9'
           tools: composer:2.7.0
           coverage: none
 
@@ -42,7 +84,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -59,13 +101,13 @@ jobs:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -88,13 +130,13 @@ jobs:
     name: 'Lint: ClientPrint (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -117,13 +159,13 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -145,14 +187,17 @@ jobs:
   e2e-lint:
     name: 'Lint: e2e (ESLint)'
     runs-on: ubuntu-latest
+    needs:
+      - e2e-check-needed
+    if: needs.e2e-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -174,6 +219,9 @@ jobs:
   api-tests:
     name: 'Tests: API'
     runs-on: ubuntu-latest
+    needs:
+      - api-check-needed
+    if: needs.api-check-needed.outputs.should_skip != 'true'
     env:
       TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
 
@@ -193,11 +241,11 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.4'
+          php-version: '8.3.9'
           extensions: intl-73.1
           tools: composer:2.7.0
           coverage: pcov
@@ -207,7 +255,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -233,6 +281,8 @@ jobs:
 
       - run: composer test
         working-directory: api
+        env:
+          PERFORMANCE_TEST_DEBUG_OUTPUT: ${{ vars.PERFORMANCE_TEST_DEBUG_OUTPUT }}
 
       - name: send coveralls report
         run: |
@@ -249,13 +299,13 @@ jobs:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -292,13 +342,13 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -331,13 +381,13 @@ jobs:
     name: 'Tests: PDF'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.1'
+          node-version: '22.3.0'
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -367,6 +417,9 @@ jobs:
   e2e-tests-build:
     name: 'Tests: End-to-end build'
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
+    needs:
+      - e2e-check-needed
+    if: needs.e2e-check-needed.outputs.should_skip != 'true'
 
   e2e-tests-run:
     name: 'Tests: End-to-end run'
@@ -402,6 +455,7 @@ jobs:
       - frontend-tests
       - print-tests
       - pdf-tests
+      - e2e-tests-build
       - e2e-tests-run
     runs-on: ubuntu-latest
     if: always()
@@ -414,8 +468,8 @@ jobs:
             const needsObject = JSON.parse(needs);
 
             for (const [key, value] of Object.entries(needsObject)) {
-              if (value.result != 'success') {
-                core.setFailed(`Job ${key} failed`);
+              if (!['success', 'skipped'].includes(value.result)) {
+                core.setFailed(`Job ${key} failed with status ${value.result}`);
               }
             }
 

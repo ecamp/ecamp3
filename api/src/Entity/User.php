@@ -88,6 +88,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public Collection $collaborations;
 
     /**
+     * UserCamp Collections
+     * Based von view_user_camps; lists all camps a user can see.
+     */
+    #[ORM\OneToMany(targetEntity: UserCamp::class, mappedBy: 'user')]
+    public Collection $userCamps;
+
+    /**
      * The state of this user.
      */
     #[ApiProperty(readable: false, writable: false)]
@@ -163,6 +170,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         parent::__construct();
         $this->ownedCamps = new ArrayCollection();
         $this->collaborations = new ArrayCollection();
+        $this->userCamps = new ArrayCollection();
     }
 
     /**
@@ -172,6 +180,24 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['read'])]
     public function getDisplayName(): ?string {
         return $this->profile->getDisplayName();
+    }
+
+    /**
+     * A displayable name of the user.
+     */
+    #[ApiProperty(example: '#ff0000')]
+    #[Groups(['read'])]
+    public function getColor(): ?string {
+        return $this->profile->color;
+    }
+
+    /**
+     * A displayable name of the user.
+     */
+    #[ApiProperty(example: 'AB')]
+    #[Groups(['read'])]
+    public function getAbbreviation(): ?string {
+        return $this->profile->abbreviation;
     }
 
     #[ApiProperty]

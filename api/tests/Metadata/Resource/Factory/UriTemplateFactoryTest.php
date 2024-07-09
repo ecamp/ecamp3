@@ -3,7 +3,6 @@
 namespace App\Tests\Metadata\Resource\Factory;
 
 use ApiPlatform\Api\FilterInterface;
-use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -183,11 +182,11 @@ class UriTemplateFactoryTest extends TestCase {
             ),
             new Get(
                 name: '_api_/dummys/{id}/find{._format}_get',
-                uriTemplate: '/{inviteKey}/find{._format}',
+                uriTemplate: '/dummys/{inviteKey}/find{._format}',
             ),
             new Patch(
                 name: '_api_/dummys/{id}/accept{._format}_get',
-                uriTemplate: '/{inviteKey}/accept{._format}',
+                uriTemplate: '/dummys/{inviteKey}/accept{._format}',
             ),
         ])));
         $this->createFactory();
@@ -208,7 +207,7 @@ class UriTemplateFactoryTest extends TestCase {
                 name: '_api_/dummys/{id}{._format}_get'
             ),
             new Get(
-                uriTemplate: '/profiles{inviteKey}{._format}',
+                uriTemplate: '/dummys{inviteKey}{._format}',
             ),
         ])));
         $this->createFactory();
@@ -221,12 +220,7 @@ class UriTemplateFactoryTest extends TestCase {
         self::assertThat($templated, self::isTrue());
     }
 
-    /**
-     * This behaviour was not yet implemented, because we don't have the use case yet.
-     *
-     * @throws ResourceClassNotFoundException
-     */
-    public function testDoesNotYetIgnoreActionPathsOfOtherRouteStarts() {
+    public function testIgnoreActionPathsOfOtherRouteStarts() {
         // given
         $resource = 'Dummy';
         $this->resourceMetadataCollection->append((new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
@@ -243,7 +237,7 @@ class UriTemplateFactoryTest extends TestCase {
         [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
-        self::assertThat($uri, self::equalTo('/dummys{/id}{/action}'));
+        self::assertThat($uri, self::equalTo('/dummys{/id}'));
         self::assertThat($templated, self::isTrue());
     }
 

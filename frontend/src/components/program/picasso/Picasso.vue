@@ -63,8 +63,8 @@ Listing all given activity schedule entries in a calendar view.
         <PicassoEntry
           :schedule-entry="event"
           :editable="editable"
-          @startResize="startResize(event)"
-          @finishEdit="reloadScheduleEntries"
+          @start-resize="startResize(event)"
+          @finish-edit="reloadScheduleEntries"
         />
       </template>
     </v-calendar>
@@ -76,7 +76,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import Vue, { reactive, ref, toRefs, watch } from 'vue'
+import Vue, { reactive, ref, toRefs, watch, computed } from 'vue'
 import { useDragAndDropMove } from './useDragAndDropMove.js'
 import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
@@ -104,7 +104,7 @@ export default {
 
     // collection of scheduleEntries
     scheduleEntries: {
-      type: Object,
+      type: Array,
       required: true,
     },
 
@@ -140,17 +140,29 @@ export default {
       required: false,
       default: null,
     },
+
+    isFilterSet: {
+      type: Boolean,
+      default: false,
+    },
+
+    reload: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   // emitted events
   emits: [
-    'newEntry', // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
-    'unlockReminder', // triggered when we think someone is trying to create/move in non-editable mode
+    'new-entry', // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
+    'unlock-reminder', // triggered when we think someone is trying to create/move in non-editable mode
   ],
 
   // composition API setup
   setup(props, { emit }) {
-    const { editable, scheduleEntries, start, end } = toRefs(props)
+    const { editable, scheduleEntries, start, end, isFilterSet } = toRefs(props)
+
+    const dragAndDropNewEnabled = computed(() => editable.value && !isFilterSet.value)
 
     const isSaving = ref(false)
 
@@ -186,15 +198,17 @@ export default {
     const createEntry = (startTimestamp, endTimestamp) => {
       const start = timestampToUtcString(startTimestamp)
       const end = timestampToUtcString(endTimestamp)
-      emit('newEntry', start, end)
+      emit('new-entry', start, end)
     }
 
     const showReminder = (move) => {
-      emit('unlockReminder', move)
+      emit('unlock-reminder', move)
     }
 
-    const calenderStartTimestamp = utcStringToTimestamp(start.value)
-    const calendarEndTimestamp = utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS
+    const calenderStartTimestamp = computed(() => utcStringToTimestamp(start.value))
+    const calendarEndTimestamp = computed(
+      () => utcStringToTimestamp(end.value) + ONE_DAY_IN_MILLISECONDS
+    )
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
@@ -208,7 +222,11 @@ export default {
       updateEntry,
       calendarEndTimestamp
     )
-    const dragAndDropNew = useDragAndDropNew(editable, updatePlaceholder, createEntry)
+    const dragAndDropNew = useDragAndDropNew(
+      dragAndDropNewEnabled,
+      updatePlaceholder,
+      createEntry
+    )
     const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
 
     // merge mouseleave handlers
@@ -232,7 +250,7 @@ export default {
     const events = ref([])
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
-      events.value = scheduleEntries.value.items.map((entry) => ({
+      events.value = scheduleEntries.value.map((entry) => ({
         ...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
@@ -251,7 +269,7 @@ export default {
 
     // reloads schedule entries from API + recreates event array after reload
     const reloadScheduleEntries = async () => {
-      await api.reload(scheduleEntries.value)
+      await props.reload()
       loadCalenderEventsFromScheduleEntries()
     }
 
@@ -364,7 +382,7 @@ export default {
   }
 
   @media #{map-get($display-breakpoints, 'md-and-up')} {
-    height: calc(100vh - 168px);
+    height: calc(100vh - 136px - var(--schedule-entry-filters-height));
   }
 
   :deep {
@@ -387,6 +405,18 @@ export default {
       padding: 0;
       white-space: normal;
       border: none !important;
+
+      &:has(.e-picasso-entry--filtered) {
+        pointer-events: none;
+      }
+
+      &:has(.e-picasso-entry:not(.e-picasso-entry--filtered)) {
+        z-index: 1;
+
+        &:hover {
+          z-index: 2;
+        }
+      }
     }
 
     .v-calendar-daily__day-container {

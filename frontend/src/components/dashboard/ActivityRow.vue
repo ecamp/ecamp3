@@ -1,13 +1,6 @@
 <template>
   <tr class="row" :class="{ 'row--skeleton': scheduleEntry._meta.loading }">
     <th class="tabular-nums text-left" scope="row">
-      <TextAlignBaseline
-        ><span v-if="!scheduleEntry._meta.loading" class="smaller">{{
-          scheduleEntry.number
-        }}</span>
-        <v-skeleton-loader v-else type="text" width="2ch" class="mb-0 my-6px" />
-      </TextAlignBaseline>
-      <br />
       <CategoryChip
         v-if="!loadingEndpoints?.categories && !scheduleEntry._meta.loading"
         small
@@ -16,6 +9,13 @@
         class="d-sm-none"
       />
       <CategoryChip v-else class="d-sm-none" small dense skeleton />
+      <br class="d-sm-none" />
+      <TextAlignBaseline
+        ><span v-if="!scheduleEntry._meta.loading" class="smaller">{{
+          scheduleEntry.number
+        }}</span>
+        <v-skeleton-loader v-else type="text" width="2ch" class="mb-0 my-6px" />
+      </TextAlignBaseline>
     </th>
     <td class="d-none d-sm-table-cell">
       <CategoryChip

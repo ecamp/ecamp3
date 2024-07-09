@@ -10,14 +10,14 @@
             {
               "parent": [Circular],
               "type": "TEXT_INSTANCE",
-              "value": "print.story.title: Hauptlager",
+              "value": "Storyline: Hauptlager",
             },
           ],
           "parent": [Circular],
           "props": {
             "bookmark": {
               "fit": true,
-              "title": "print.story.title: Hauptlager",
+              "title": "Storyline: Hauptlager",
             },
             "class": "story-period-title",
             "id": "entry-0-16b2fcffdd8e",
@@ -38,7 +38,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "entity.day.name 1",
+                  "value": "Day 1",
                 },
               ],
               "parent": [Circular],
@@ -58,7 +58,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "g5/10/2024obam5/10/2024.5amteti0e.5amte05/10/2024ong",
+                  "value": "Fr 05/10/2024",
                 },
               ],
               "parent": [Circular],
@@ -399,7 +399,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "entity.day.name 2",
+                  "value": "Day 2",
                 },
               ],
               "parent": [Circular],
@@ -419,7 +419,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "g5/11/2024obam5/11/2024.6amteti0e.6amte05/11/2024ong",
+                  "value": "Sa 05/11/2024",
                 },
               ],
               "parent": [Circular],
@@ -861,7 +861,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "entity.day.name 3",
+                  "value": "Day 3",
                 },
               ],
               "parent": [Circular],
@@ -881,7 +881,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "g5/12/2024obam5/12/2024.0amteti0e.0amte05/12/2024ong",
+                  "value": "Su 05/12/2024",
                 },
               ],
               "parent": [Circular],
@@ -1121,7 +1121,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "entity.day.name 4",
+                  "value": "Day 4",
                 },
               ],
               "parent": [Circular],
@@ -1141,7 +1141,7 @@
                 {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "g5/13/2024obam5/13/2024.1amteti0e.1amte05/13/2024ong",
+                  "value": "Mo 05/13/2024",
                 },
               ],
               "parent": [Circular],

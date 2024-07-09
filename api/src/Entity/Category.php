@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
@@ -43,7 +44,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Delete(
             processor: CategoryRemoveProcessor::class,
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validate: true,
+            validationContext: ['groups' => ['delete']],
         ),
         new GetCollection(
             security: 'is_authenticated()'
@@ -53,6 +56,17 @@ use Symfony\Component\Validator\Constraints as Assert;
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new GetCollection(
+            name: 'BelongsToCamp_App\Entity\Category_get_collection',
+            uriTemplate: self::CAMP_SUBRESOURCE_URI_TEMPLATE,
+            uriVariables: [
+                'campId' => new Link(
+                    fromClass: Camp::class,
+                    toProperty: 'camp',
+                    security: 'is_granted("CAMP_COLLABORATOR", camp) or is_granted("CAMP_IS_PROTOTYPE", camp)'
+                ),
+            ],
         ),
     ],
     denormalizationContext: ['groups' => ['write']],
@@ -64,6 +78,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
     use HasRootContentNodeTrait;
+
+    public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/categories.{_format}';
 
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
@@ -106,6 +122,13 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'category', orphanRemoval: true)]
     public Collection $activities;
+
+    /**
+     * Copy contents from this source category or activity.
+     */
+    #[ApiProperty(example: '/categories/1a2b3c4d')]
+    #[Groups(['create'])]
+    public null|Activity|Category $copyCategorySource;
 
     /**
      * The id of the category that was used as a template for creating this category. Internal for now, is
@@ -155,7 +178,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * Specifies whether the schedule entries of the activities in this category should be numbered
      * using arabic numbers, roman numerals or letters.
      */
-    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
+    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1', '-'])]
     #[ApiProperty(example: '1')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'string', length: 1, nullable: false)]
@@ -234,6 +257,9 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
 
             case 'I':
                 return strtoupper($this->getRomanNum($num));
+
+            case '-':
+                return '';
 
             default:
                 return strval($num);

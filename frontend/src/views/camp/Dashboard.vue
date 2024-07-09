@@ -1,128 +1,23 @@
 <template>
   <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
     <div class="d-flow-root">
-      <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
-        <BooleanFilter
-          v-if="!loadingEndpoints.campCollaborations"
-          v-model="showOnlyMyActivities"
-          :label="$tc('views.camp.dashboard.onlyMyActivities')"
-        />
-        <v-skeleton-loader
-          v-else
-          type="button"
-          class="v-skeleton-loader--inherit-size"
-          height="32"
-          width="160px"
-        />
-        <FilterDivider />
-        <template v-if="!loadingEndpoints.periods">
-          <SelectFilter
-            v-if="multiplePeriods"
-            v-model="filter.period"
-            :items="periods"
-            display-field="description"
-            :label="$tc('views.camp.dashboard.period')"
-          />
-        </template>
-        <v-skeleton-loader
-          v-else
-          type="button"
-          class="v-skeleton-loader--inherit-size"
-          height="32"
-          width="150"
-        />
-        <SelectFilter
-          v-if="!loadingEndpoints.campCollaborations"
-          v-model="filter.responsible"
-          multiple
-          and-filter
-          :items="campCollaborations"
-          :display-field="campCollaborationDisplayName"
-          :label="$tc('views.camp.dashboard.responsible')"
-        >
-          <template #item="{ item }">
-            <template v-if="item.exclusiveNone">
-              {{ item.text }}
-            </template>
-            <template v-else>
-              <TextAlignBaseline class="mr-1">
-                <UserAvatar
-                  :camp-collaboration="campCollaborations[item.value]"
-                  size="20"
-                />
-              </TextAlignBaseline>
-              {{ item.text }}
-            </template>
-          </template>
-        </SelectFilter>
-        <v-skeleton-loader
-          v-else
-          type="button"
-          class="v-skeleton-loader--inherit-size"
-          height="32"
-          width="130"
-        />
-        <SelectFilter
-          v-if="!loadingEndpoints.categories"
-          v-model="filter.category"
-          multiple
-          :items="categories"
-          display-field="short"
-          :label="$tc('views.camp.dashboard.category')"
-        >
-          <template #item="{ item }">
-            <CategoryChip dense :category="categories[item.value]" class="mr-1" />
-            {{ categories[item.value].name }}
-          </template>
-        </SelectFilter>
-        <v-skeleton-loader
-          v-else
-          type="button"
-          class="v-skeleton-loader--inherit-size"
-          height="32"
-          width="100"
-        />
-        <SelectFilter
-          v-if="!loadingEndpoints.progressLabels"
-          v-model="filter.progressLabel"
-          multiple
-          :items="progressLabels"
-          display-field="title"
-          :label="$tc('views.camp.dashboard.progressLabel')"
-        >
-          <template #item="{ item }">
-            {{ progressLabels[item.value].title }}
-          </template>
-        </SelectFilter>
-        <v-skeleton-loader
-          v-else
-          type="button"
-          class="v-skeleton-loader--inherit-size"
-          height="32"
-          width="100"
-        />
-        <v-chip
-          v-if="
-            filter.period ||
-            (filter.responsible && filter.responsible.length > 0) ||
-            (filter.category && filter.category.length > 0) ||
-            (filter.progressLabel && filter.progressLabel.length > 0)
-          "
-          label
-          outlined
-          @click="
-            filter = {
-              period: null,
-              responsible: [],
-              category: [],
-              progressLabel: [],
-            }
-          "
-        >
-          <v-icon left>mdi-close</v-icon>
-          {{ $tc('views.camp.dashboard.clearFilters') }}
-        </v-chip>
-      </div>
+      <ScheduleEntryFilters
+        v-if="loading"
+        key="loadingstate"
+        class="ma-4"
+        :loading-endpoints="true"
+        :camp="camp"
+        :periods="periods"
+      />
+      <ScheduleEntryFilters
+        v-else
+        key="filterstate"
+        v-model="filter"
+        class="ma-4"
+        :loading-endpoints="loadingEndpoints"
+        :camp="camp"
+        :periods="periods"
+      />
       <template v-if="!loading">
         <table
           v-for="(periodDays, uri) in groupedScheduleEntries"
@@ -130,10 +25,13 @@
           class="mx-4 mt-6 mb-3"
           style="border-collapse: collapse"
         >
-          <caption class="font-weight-bold text-left">
-            {{
-              periods[uri].description
-            }}
+          <caption class="text-left">
+            <router-link
+              :to="periodRoute(periods[uri])"
+              class="text-decoration-none text-decoration-hover-underline black--text font-weight-bold"
+            >
+              {{ periods[uri].description }}
+            </router-link>
           </caption>
           <thead :key="uri + '_head'">
             <tr class="d-sr-only">
@@ -229,17 +127,11 @@
 </template>
 
 <script>
+import { periodRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
-import UserAvatar from '../../components/user/UserAvatar.vue'
-import CategoryChip from '@/components/generic/CategoryChip.vue'
-import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
-import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
-import FilterDivider from '@/components/dashboard/FilterDivider.vue'
-import { keyBy, groupBy, mapValues, sortBy } from 'lodash'
-import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
+import { keyBy, groupBy, mapValues } from 'lodash'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
-import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 import { mapGetters } from 'vuex'
 import {
   filterAndQueryAreEqual,
@@ -247,27 +139,19 @@ import {
   processRouteQuery,
 } from '@/helpers/querySyncHelper'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
-
-function filterEquals(arr1, arr2) {
-  return JSON.stringify(arr1) === JSON.stringify(arr2)
-}
+import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
 
 export default {
   name: 'Dashboard',
   components: {
+    ScheduleEntryFilters,
     AvatarRow,
-    TextAlignBaseline,
-    FilterDivider,
     ActivityRow,
-    SelectFilter,
-    BooleanFilter,
-    CategoryChip,
     ContentCard,
-    UserAvatar,
   },
   mixins: [dateHelperUTCFormatted],
   props: {
-    camp: { type: Function, required: true },
+    camp: { type: Object, required: true },
   },
   data() {
     return {
@@ -290,31 +174,8 @@ export default {
     }
   },
   computed: {
-    campCollaborations() {
-      return {
-        none: {
-          exclusiveNone: true,
-          label: this.$tc('views.camp.dashboard.responsibleNone'),
-          _meta: { self: 'none' },
-        },
-        ...keyBy(this.camp().campCollaborations().items, '_meta.self'),
-      }
-    },
-    categories() {
-      return keyBy(this.camp().categories().items, '_meta.self')
-    },
     periods() {
-      return keyBy(this.camp().periods().items, '_meta.self')
-    },
-    progressLabels() {
-      const labels = sortBy(this.camp().progressLabels().items, (l) => l.position)
-      return {
-        none: {
-          title: this.$tc('views.camp.dashboard.progressLabelNone'),
-          _meta: { self: 'none' },
-        },
-        ...keyBy(labels, '_meta.self'),
-      }
+      return keyBy(this.camp.periods().items, '_meta.self')
     },
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
@@ -374,33 +235,6 @@ export default {
         })
       )
     },
-    showOnlyMyActivities: {
-      get() {
-        return (
-          filterEquals(this.filter.responsible, [this.loggedInCampCollaboration]) &&
-          filterEquals(this.filter.category, []) &&
-          filterEquals(this.filter.period, null) &&
-          filterEquals(this.filter.progressLabel, null)
-        )
-      },
-      set(value) {
-        this.filter.responsible = value ? [this.loggedInCampCollaboration] : []
-        this.filter.category = []
-        this.filter.period = null
-        this.filter.progressLabel = null
-      },
-    },
-    loggedInCampCollaboration() {
-      return Object.values(this.campCollaborations).find((collaboration) => {
-        if (typeof collaboration.user !== 'function') {
-          return false
-        }
-        return collaboration.user()?._meta?.self === this.loggedInUser._meta.self
-      })?._meta?.self
-    },
-    multiplePeriods() {
-      return Object.keys(this.periods).length > 1
-    },
     ...mapGetters({
       loggedInUser: 'getLoggedInUser',
     }),
@@ -412,50 +246,33 @@ export default {
     'filter.progressLabel': 'persistRouterState',
   },
   async mounted() {
-    this.api.reload(this.camp())
-
     await Promise.all([
-      this.api.get().days({ 'period.camp': this.camp()._meta.self }),
-      ...this.camp()
-        .periods()
-        .items.map((period) => period.scheduleEntries()._meta.load),
-      this.camp().activities()._meta.load,
+      this.camp._meta.load,
+      this.api.get().days({ 'period.camp': this.camp._meta.self }),
+      ...this.camp.periods().items.map((period) => period.scheduleEntries()._meta.load),
+      this.camp.activities()._meta.load,
     ])
 
     this.loading = false
 
     const queryFilters = processRouteQuery(this.$route.query)
-    this.filter = {
-      ...this.filter,
-      ...queryFilters,
-    }
+    Object.entries(queryFilters).forEach(([key, value]) => {
+      this.filter[key] = value
+    })
 
-    this.loadEndpointData('categories', 'category')
-    this.loadEndpointData('campCollaborations', 'responsible', true)
-    this.loadEndpointData('progressLabels', 'progressLabel', true)
-    this.loadEndpointData('periods', 'period')
+    this.camp.periods()._meta.load.then(({ allItems }) => {
+      const collection = allItems.map((entry) => entry._meta.self)
+      this.filter.periods =
+        this.filter.periods?.filter((value) => collection.includes(value)) ?? null
+      this.loadingEndpoints.periods = false
+    })
   },
   methods: {
-    campCollaborationDisplayName(campCollaboration) {
-      return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
-    },
+    periodRoute,
     persistRouterState() {
       const query = transformValuesToHalId(this.filter)
       if (filterAndQueryAreEqual(query, this.$route.query)) return
       this.$router.replace({ query }).catch((err) => console.warn(err))
-    },
-    loadEndpointData(endpoint, filterKey, hasNone = false) {
-      this.camp()
-        [endpoint]()
-        ._meta.load.then(({ allItems }) => {
-          const collection = allItems.map((entry) => entry._meta.self)
-          if (hasNone) {
-            collection.push('none')
-          }
-          this.filter[filterKey] =
-            this.filter[filterKey]?.filter((value) => collection.includes(value)) ?? null
-          this.loadingEndpoints[endpoint] = false
-        })
     },
   },
 }
@@ -495,5 +312,9 @@ export default {
 
 .day-header__row + tr > :is(th, td) {
   border-top: 0;
+}
+
+.text-decoration-hover-underline:hover {
+  text-decoration: underline !important;
 }
 </style>

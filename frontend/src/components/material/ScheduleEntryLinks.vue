@@ -6,9 +6,7 @@
     class="e-title-link tabular-nums"
   >
     <CategoryChip dense :category="activity.category()" />&thinsp;{{
-      $vuetify.breakpoint.smAndUp
-        ? `${activity.title}: ${items[0].number}`
-        : items[0].number
+      $vuetify.breakpoint.smAndUp ? fullDescription(items[0]) : shortDescription(items[0])
     }}
   </router-link>
   <span v-else class="d-inline-flex flex-sm-wrap gap-1 align-center py-sm-1">
@@ -28,7 +26,9 @@
         :to="scheduleEntryRoute(scheduleEntry)"
         small
         >{{
-          index < items.length - 1 ? `${scheduleEntry.number},` : scheduleEntry.number
+          index < items.length - 1
+            ? `${shortDescription(scheduleEntry)},`
+            : shortDescription(scheduleEntry)
         }}</router-link
       >
     </span>
@@ -38,6 +38,7 @@
 <script>
 import { scheduleEntryRoute } from '@/router.js'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
+import shortScheduleEntryDescription from './shortScheduleEntryDescription.js'
 
 export default {
   name: 'ScheduleEntryLinks',
@@ -65,6 +66,19 @@ export default {
   },
   methods: {
     scheduleEntryRoute,
+    fullDescription(scheduleEntry) {
+      if (this.loading) return ''
+      return (
+        this.activity.title +
+        (scheduleEntry.number
+          ? `: ${scheduleEntry.number}`
+          : ` (${this.shortDescription(scheduleEntry)})`)
+      )
+    },
+    shortDescription(scheduleEntry) {
+      if (this.loading) return ''
+      return shortScheduleEntryDescription(scheduleEntry, this.$tc.bind(this))
+    },
   },
 }
 </script>

@@ -17,11 +17,11 @@ jobs:
     name: 'Validate Api Platform composer.lock'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.4'
+          php-version: '8.3.9'
           tools: composer:2.7.0
           coverage: xdebug
 
@@ -32,11 +32,11 @@ jobs:
     name: 'Lint: API (psalm)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.4'
+          php-version: '8.3.9'
           tools: composer:2.7.0
           coverage: xdebug
 
@@ -45,7 +45,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -62,11 +62,11 @@ jobs:
     name: 'Lint: API (phpstan)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.4'
+          php-version: '8.3.9'
           tools: composer:2.7.0
           coverage: xdebug
 
@@ -75,7 +75,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -110,11 +110,11 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.4'
+          php-version: '8.3.9'
           tools: composer:2.7.0
           coverage: xdebug
 
@@ -123,7 +123,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}

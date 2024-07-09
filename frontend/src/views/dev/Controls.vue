@@ -32,16 +32,16 @@
           <component
             :is="item.component('v')"
             v-if="item.component('v') !== ''"
-            v-bind="{ ...item.props, ...config }"
             v-model="item.value"
+            v-bind="{ ...item.props, ...config }"
           />
           <span v-else v-text="item.value" />
         </template>
         <template #[`item.e`]="{ item }">
           <component
             :is="item.component('e')"
-            v-bind="{ ...item.props, ...config }"
             v-model="item.value"
+            v-bind="{ ...item.props, ...config }"
           />
         </template>
         <template #[`item.api`]="{ item }">
@@ -68,6 +68,7 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
+import ENumberField from '@/components/form/base/ENumberField.vue'
 import ETextarea from '@/components/form/base/ETextarea.vue'
 import ERichtext from '@/components/form/base/ERichtext.vue'
 import ECheckbox from '@/components/form/base/ECheckbox.vue'
@@ -76,12 +77,15 @@ import ESelect from '@/components/form/base/ESelect.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
+import EColorField from '@/components/form/base/EColorField.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
+import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
 import ApiSwitch from '@/components/form/api/ApiSwitch.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import ApiColorField from '@/components/form/api/ApiColorField.vue'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker.vue'
 import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
@@ -95,6 +99,8 @@ export default {
     VTextField,
     ETextField,
     ApiTextField,
+    ENumberField,
+    ApiNumberField,
     VTextarea,
     ETextarea,
     ApiTextarea,
@@ -115,7 +121,9 @@ export default {
     ETimePicker,
     ApiTimePicker,
     EColorPicker,
+    EColorField,
     ApiColorPicker,
+    ApiColorField,
   },
   data: () => ({
     placeholder: 'Dummy placeholder',
@@ -125,10 +133,11 @@ export default {
     labelText: 'Label',
 
     textfieldValue: 'FFFFFFFFFF',
+    numberfieldValue: 10,
     textareaValue: 'FFFFFFFFFF',
     richtextValue: '<p>FFFFFFFFFF</p>',
     checkboxValue: false,
-    colorValue: '#FFFFFF',
+    colorValue: null,
     selectValue: null,
     dateValue: '2020-01-01',
     timeValue: '2020-01-01T14:45:00+00:00',
@@ -150,18 +159,18 @@ export default {
           value: this.textfieldValue,
           props: {
             placeholder: this.placeholder,
-            fieldname: 'nickname',
+            path: 'nickname',
             uri: this.profileUri,
           },
         },
         {
-          id: 'text-field.numeric',
-          component: (type) => `${type}-text-field`,
+          id: 'number-field',
+          component: (type) => (type === 'v' ? '' : `${type}-number-field`),
+          value: this.numberfieldValue,
           props: {
-            'v-model.number': this.textfieldValue,
             placeholder: this.placeholder,
-            inputmode: 'numeric',
-            fieldname: 'quantity',
+            inputmode: 'decimal',
+            path: 'quantity',
             uri: this.materialUri,
           },
         },
@@ -172,7 +181,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             rows: 3,
-            fieldname: 'data.html',
+            path: 'data.html',
             uri: this.singleTextUri,
           },
         },
@@ -183,7 +192,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             rows: 3,
-            fieldname: 'data.html',
+            path: 'data.html',
             uri: this.singleTextUri,
           },
         },
@@ -192,7 +201,7 @@ export default {
           component: (type) => `${type}-select`,
           value: this.selectValue,
           props: {
-            fieldname: 'language',
+            path: 'language',
             placeholder: this.placeholder,
             items: this.availableLocales,
             uri: this.profileUri,
@@ -203,7 +212,7 @@ export default {
           component: (type) => `${type}-checkbox`,
           value: this.checkboxValue,
           props: {
-            fieldname: 'printYSLogoOnPicasso',
+            path: 'printYSLogoOnPicasso',
             uri: this.campUri,
           },
         },
@@ -212,7 +221,7 @@ export default {
           component: (type) => `${type}-switch`,
           value: this.checkboxValue,
           props: {
-            fieldname: 'printYSLogoOnPicasso',
+            path: 'printYSLogoOnPicasso',
             uri: this.campUri,
           },
         },
@@ -222,7 +231,7 @@ export default {
           value: this.dateValue,
           props: {
             placeholder: this.placeholder,
-            fieldname: 'start',
+            path: 'start',
             uri: this.periodUri,
           },
         },
@@ -233,7 +242,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             'value-format': 'YYYY-MM-DDTHH:mm:ssZ',
-            fieldname: 'start',
+            path: 'start',
             uri: this.scheduleEntryUri,
           },
         },
@@ -243,8 +252,20 @@ export default {
           value: this.colorValue,
           props: {
             placeholder: this.placeholder,
-            fieldname: 'color',
+            path: 'color',
             uri: this.categoryUri,
+            veeRules: 'required',
+          },
+        },
+        {
+          id: 'color-field',
+          component: (type) => (type !== 'v' ? `${type}-color-field` : ''),
+          value: this.colorValue,
+          props: {
+            placeholder: this.placeholder,
+            path: 'color',
+            uri: this.campCollaborationUri,
+            veeRules: 'required',
           },
         },
       ]
@@ -270,6 +291,9 @@ export default {
     scheduleEntryUri() {
       return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
     },
+    campCollaborationUri() {
+      return '/camp_collaborations/3229d273decd' // Harry Potter - Snoopy
+    },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
         value: l,
@@ -280,7 +304,7 @@ export default {
       return {
         hint: this.hint,
         'persistent-hint': this.persistentHint,
-        label: this.label ? this.labelText : null,
+        label: this.label ? this.labelText : undefined,
       }
     },
   },

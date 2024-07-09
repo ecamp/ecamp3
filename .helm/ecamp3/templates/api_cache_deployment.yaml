@@ -1,0 +1,116 @@
+{{- if .Values.apiCache.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "apiCache.name" . }}
+  labels:
+    {{- include "apiCache.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "apiCache.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "apiCache.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/vclConfigmap: {{ include (print $.Template.BasePath "/api_cache_vcl_configmap.yaml") . | sha256sum }}
+        rollme: {{ .Values.imageTag | quote }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
+      containers:
+        - name: {{ .Chart.Name }}-api-cache-varnishd
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.apiCache.image.repository }}:{{ .Values.apiCache.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.apiCache.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.apiCache.varnishHttpPort }}
+              protocol: TCP
+            - name: purge
+              containerPort: {{ .Values.apiCache.varnishPurgePort }}
+              protocol: TCP
+          env:
+            - name: VARNISH_SIZE
+              value: "{{ .Values.apiCache.varnishSize }}"
+            - name: VARNISH_HTTP_PORT
+              value: "{{ .Values.apiCache.varnishHttpPort }}"
+            - name: COOKIE_PREFIX
+              value: {{ include "api.cookiePrefix" . | quote }}
+          args:
+            - -a
+            - {{ printf ":%d,HTTP" (.Values.apiCache.varnishPurgePort | int) }}
+            - -p
+            - http_max_hdr=96
+          resources:
+            {{- toYaml .Values.apiCache.resources | nindent 12 }}
+          volumeMounts:
+            - name: vcl-configmap
+              mountPath: /etc/varnish
+            - name: vsm
+              mountPath: /var/lib/varnish
+        {{- if .Values.apiCache.logging.enabled }}
+        - name: {{ .Chart.Name }}-api-cache-varnishncsa
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.apiCache.image.repository }}:{{ .Values.apiCache.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.apiCache.image.pullPolicy }}
+          command:
+          - varnishncsa
+          - -b
+          - -c
+          {{- if .Values.apiCache.logging.customOutputJsonFormat }}
+          - -j
+          {{- end }}
+          {{- if .Values.apiCache.logging.customOutput }}
+          - -F
+          - {{ .Values.apiCache.logging.customOutput | squote }}
+          {{- end }}
+          - -t
+          - {{ .Values.apiCache.logging.timeout | quote }}
+          resources:
+            {{- toYaml .Values.apiCache.logging.resources | nindent 12 }}
+          volumeMounts:
+          - name: vsm
+            mountPath: /var/lib/varnish
+        {{- end }}
+        {{- if .Values.apiCache.prometheus.enabled }}
+        - name: {{ .Chart.Name }}-api-cache-prometheus-exporter
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.apiCache.image.repository }}:{{ .Values.apiCache.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.apiCache.image.pullPolicy }}
+          ports:
+          - name: metrics
+            containerPort: {{ .Values.apiCache.prometheus.port }}
+            protocol: TCP
+          resources:
+            {{- toYaml .Values.apiCache.prometheus.resources | nindent 12 }}
+          command:
+          - prometheus-varnish-exporter
+          - -web.telemetry-path
+          - "{{ .Values.apiCache.prometheus.path }}"
+          - -web.listen-address
+          - ":{{ .Values.apiCache.prometheus.port }}"
+          volumeMounts:
+          - name: vsm
+            mountPath: /var/lib/varnish
+        {{- end }}
+      volumes:
+      - name: vcl-configmap
+        configMap:
+          name: {{ include "apiCache.name" . }}-vcl-configmap
+      - name: vsm
+        emptyDir:
+          medium: Memory
+{{- end }}

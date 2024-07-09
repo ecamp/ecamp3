@@ -1,8 +1,6 @@
-version: '3.9'
-
 services:
   frontend:
-    image: node:20.11.1
+    image: node:22.3.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -26,21 +24,29 @@ services:
     depends_on:
       - pdf
 
-  php:
-    image: ecamp/ecamp3-dev-api-php
+  api:
+    image: ecamp/ecamp3-dev-api
     build:
       context: ./api
-      target: api_platform_php_dev
+      target: frankenphp_dev
       cache_from:
-        - ecamp/ecamp3-dev-api-php
-    container_name: 'ecamp3-api-php'
+        - ecamp/ecamp3-dev-api
+    container_name: 'ecamp3-api'
     depends_on:
       - database
       - docker-host
-    restart: unless-stopped
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 2019
+        published: 2019
+        protocol: tcp
     volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./api:/srv/api:rw,delegated
+      - ./api:/app:rw,delegated
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
       - ./.cache/composer:/tmp/composer/cache:delegated
@@ -58,6 +64,7 @@ services:
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
       ADDITIONAL_TRUSTED_HOSTS: '.*'
+      PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
     healthcheck:
       interval: 10s
       timeout: 3s
@@ -67,34 +74,24 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
-  caddy:
-    image: ecamp/ecamp3-dev-api-caddy
-    build:
-      context: ./api
-      target: api_platform_caddy
-      cache_from:
-        - ecamp/ecamp3-dev-api-caddy
-    container_name: 'ecamp3-api-caddy'
+  http-cache:
+    image: varnish:7.5.0
+    container_name: 'ecamp3-http-cache'
     depends_on:
-      - php
-    ports:
-      - target: 3000
-        published: 3000
-        protocol: tcp
-      - target: 2019
-        published: 2019
-        protocol: tcp
-    restart: unless-stopped
-    user: ${USER_ID:-1000}
+      - api
     volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./.caddy/data:/data:delegated
-      - ./.caddy/config-cache:/config:delegated
-      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./api/public:/srv/api/public:ro
+      - ./api/docker/varnish/vcl/:/etc/varnish/:ro
+    ports:
+      - target: 8080
+        published: 3004
+        protocol: tcp
+    command: -a :8081,HTTP -p http_max_hdr=96
+    environment:
+      - COOKIE_PREFIX=localhost_
+      - VARNISH_HTTP_PORT=8080
 
   pdf:
-    image: node:20.11.1
+    image: node:22.3.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -113,7 +110,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:20.11.1
+    image: node:22.3.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -150,6 +147,11 @@ services:
       - target: 5432
         published: 5432
         protocol: tcp
+    deploy:
+      resources:
+        limits:
+          memory: ${DB_MEMORY_LIMIT:-128G}
+          cpus: ${DB_CPU_LIMIT:-8}
 
   mail:
     image: maildev/maildev
@@ -179,7 +181,7 @@ services:
       - FUNCTION_ENABLE_INCOGNITO_MODE=true
 
   e2e:
-    image: cypress/included:13.7.1
+    image: cypress/included:13.13.0
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     environment:
@@ -192,7 +194,7 @@ services:
     working_dir: /e2e
 
   translation:
-    image: node:20.11.1
+    image: node:22.3.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -205,3 +207,5 @@ services:
 
 volumes:
   db-data-postgres: null
+  caddy_data:
+  caddy_config:

@@ -7,6 +7,7 @@ import { getEnv } from '@/environment.js'
 
 Vue.use(Router)
 
+const NavigationAuth = () => import('./views/auth/NavigationAuth.vue')
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
 const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
 const GenericPage = () => import('./components/generic/GenericPage.vue')
@@ -40,10 +41,17 @@ export default new Router({
 
     // Prod-Pages:
     {
+      path: '/debug',
+      name: 'debug',
+      components: {
+        default: () => import('./views/dev/Debug.vue'),
+      },
+    },
+    {
       path: '/register',
       name: 'register',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/Register.vue'),
       },
     },
@@ -51,15 +59,23 @@ export default new Router({
       path: '/register-done',
       name: 'register-done',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/RegisterDone.vue'),
+      },
+    },
+    {
+      path: '/resend-activation',
+      name: 'resendActivation',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import('./views/auth/ResendActivation.vue'),
       },
     },
     {
       path: '/reset-password',
       name: 'resetPasswordRequest',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/ResetPasswordRequest.vue'),
       },
     },
@@ -67,7 +83,7 @@ export default new Router({
       path: '/reset-password/:id',
       name: 'resetPassword',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/ResetPassword.vue'),
       },
       props: {
@@ -82,7 +98,7 @@ export default new Router({
       path: '/activate/:userId/:activationKey',
       name: 'activate',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/Activate.vue'),
       },
       props: {
@@ -98,7 +114,7 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/Login.vue'),
       },
     },
@@ -106,7 +122,7 @@ export default new Router({
       path: '/loginCallback',
       name: 'loginCallback',
       components: {
-        navigation: NavigationDefault,
+        navigation: NavigationAuth,
         default: () => import('./views/auth/LoginCallback.vue'),
       },
     },
@@ -139,6 +155,15 @@ export default new Router({
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/Camps.vue'),
+      },
+      beforeEnter: requireAuth,
+    },
+    {
+      path: '/invitations',
+      name: 'invitations',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/Invitations.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -436,107 +461,136 @@ function requireAuth(to, from, next) {
 }
 
 async function requireCamp(to, from, next) {
-  await campFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const camp = await campFromRoute(to)
+  if (camp === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next({
-        name: 'PageNotFound',
-        params: [to.fullPath, ''],
-        replace: true,
+  } else {
+    await camp._meta.load
+      .then(() => {
+        next()
       })
-    })
+      .catch(() => {
+        next({
+          name: 'PageNotFound',
+          params: [to.fullPath, ''],
+          replace: true,
+        })
+      })
+  }
 }
 
 async function requireScheduleEntry(to, from, next) {
-  await scheduleEntryFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const scheduleEntry = await scheduleEntryFromRoute(to)
+  if (scheduleEntry === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next({
-        name: 'PageNotFound',
-        params: [to.fullPath, ''],
-        replace: true,
+  } else {
+    await scheduleEntry._meta.load
+      .then(() => {
+        next()
       })
-    })
+      .catch(() => {
+        next({
+          name: 'PageNotFound',
+          params: [to.fullPath, ''],
+          replace: true,
+        })
+      })
+  }
 }
 
 async function requirePeriod(to, from, next) {
-  await periodFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const period = await periodFromRoute(to)
+  if (period === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
-    })
+  } else {
+    await period._meta.load
+      .then(() => {
+        next()
+      })
+      .catch(() => {
+        next(campRoute(campFromRoute(to)))
+      })
+  }
 }
 
 async function requireCategory(to, from, next) {
-  await categoryFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const category = await categoryFromRoute(to)
+  if (category === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next({
-        name: 'PageNotFound',
-        params: [to.fullPath, ''],
-        replace: true,
+  } else {
+    await category._meta.load
+      .then(() => {
+        next()
       })
-    })
+      .catch(() => {
+        next({
+          name: 'PageNotFound',
+          params: [to.fullPath, ''],
+          replace: true,
+        })
+      })
+  }
 }
 
 async function requireMaterialList(to, from, next) {
-  await materialListFromRoute(to)
-    .call({ api: { get: apiStore.get } })
-    ._meta.load.then(() => {
-      next()
+  const materialList = await materialListFromRoute(to)
+  if (materialList === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
     })
-    .catch(() => {
-      next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
-    })
+  } else {
+    await materialList._meta.load
+      .then(() => {
+        next()
+      })
+      .catch(() => {
+        next(campRoute(campFromRoute(to)))
+      })
+  }
 }
 
 export function campFromRoute(route) {
-  return function () {
-    return this.api.get().camps({ id: route.params.campId })
-  }
+  return apiStore.get().camps({ id: route.params.campId })
 }
 
 export function invitationFromInviteKey(inviteKey) {
-  return function () {
-    return this.api.get().invitations({ action: 'find', id: inviteKey })
-  }
+  return apiStore.get().invitations({ action: 'find', id: inviteKey })
 }
 
 export function periodFromRoute(route) {
-  return function () {
-    return this.api.get().periods({ id: route.params.periodId })
-  }
+  return apiStore.get().periods({ id: route.params.periodId })
 }
 
 function scheduleEntryFromRoute(route) {
-  return function () {
-    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId })
-  }
+  return apiStore.get().scheduleEntries({ id: route.params.scheduleEntryId })
 }
 
 function categoryFromRoute(route) {
-  return function () {
-    const camp = this.api.get().camps({ id: route.params.campId })
-    return camp.categories().allItems.find((c) => c.id === route.params.categoryId)
-  }
+  return campFromRoute(route)
+    .categories()
+    .allItems.find((c) => c.id === route.params.categoryId)
 }
 
 export function materialListFromRoute(route) {
-  return function () {
-    return this.api.get().materialLists({ id: route.params.materialId })
-  }
+  return apiStore.get().materialLists({ id: route.params.materialId })
 }
 
 function getContentLayout(route) {
@@ -558,9 +612,7 @@ function getContentLayout(route) {
 }
 
 function dayFromScheduleEntryInRoute(route) {
-  return function () {
-    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
-  }
+  return apiStore.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
 }
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Api\FilterInterface;
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
@@ -22,7 +22,6 @@ use Rize\UriTemplate;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
@@ -140,7 +139,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
         $resourceClass = $this->getObjectClass($object);
 
-        if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
+        if ($this->nameConverter instanceof NameConverterInterface) {
+            // @phpstan-ignore-next-line
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
         }
 
@@ -239,7 +239,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         $filterIds = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters() ?? [];
 
         return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
-            /** @var FilterInterface $filter */
+            /** @var SearchFilterInterface $filter */
             $filter = $this->filterLocator->get($filterId);
             if (!$filter instanceof SearchFilter) {
                 return false;

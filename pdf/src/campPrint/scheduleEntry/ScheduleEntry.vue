@@ -63,13 +63,13 @@ export default {
       return this.scheduleEntry.activity()
     },
     bookmarkTitle() {
-      return (
-        this.activity.category().short +
-        ' ' +
-        this.scheduleEntry.number +
-        ' ' +
-        this.activity.title
-      )
+      return [
+        this.activity.category().short,
+        this.scheduleEntry.number,
+        this.activity.title,
+      ]
+        .filter((entry) => entry)
+        .join(' ')
     },
     start() {
       return this.$date.utc(this.scheduleEntry.start)

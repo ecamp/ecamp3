@@ -30,27 +30,30 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data, error } = await useAsyncData('StoryPeriod', async () => {
-  const contentTypeStorycontext = (
-    await $api.get().contentTypes().$loadItems()
-  ).items.find((contentType) => contentType.name === 'Storycontext')
+const { data, error } = await useAsyncData(
+  `StoryPeriod-${props.period._meta.self}`,
+  async () => {
+    const contentTypeStorycontext = (
+      await $api.get().contentTypes().$loadItems()
+    ).items.find((contentType) => contentType.name === 'Storycontext')
 
-  const [periodStoryChapters] = await Promise.all([
-    $api
-      .get()
-      .contentNodes({
-        period: props.period._meta.self,
-        contentType: contentTypeStorycontext._meta.self,
-      })
-      .$loadItems(),
-    props.period.days().$loadItems(),
-    props.period.scheduleEntries().$loadItems(),
-    props.period.camp().categories().$loadItems(),
-  ])
+    const [periodStoryChapters] = await Promise.all([
+      $api
+        .get()
+        .contentNodes({
+          period: props.period._meta.self,
+          contentType: contentTypeStorycontext._meta.self,
+        })
+        .$loadItems(),
+      props.period.days().$loadItems(),
+      props.period.scheduleEntries().$loadItems(),
+      props.period.camp().categories().$loadItems(),
+    ])
 
-  return {
-    days: props.period.days().items,
-    periodStoryChapters: periodStoryChapters.items,
+    return {
+      days: props.period.days().items,
+      periodStoryChapters: periodStoryChapters.items,
+    }
   }
-})
+)
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\CampCollaboration;
 use App\Entity\Profile;
 use App\Entity\User;
@@ -21,19 +22,39 @@ class ProfileRepository extends ServiceEntityRepository implements CanFilterByUs
         parent::__construct($registry, Profile::class);
     }
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->join("{$rootAlias}.user", 'user');
-        $queryBuilder->leftJoin('user.collaborations', 'userCampCollaborations');
-        $queryBuilder->leftJoin('userCampCollaborations.camp', 'camp');
-        $queryBuilder->leftJoin('camp.collaborations', 'relatedCampCollaborations');
+    public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $expr = new Expr();
+
+        $relatedUserSubQueryBuilder = $this->getEntityManager()->createQueryBuilder();
+
+        $innerUserAlias = $queryNameGenerator->generateJoinAlias('user');
+        $userCollaborationsAlias = $queryNameGenerator->generateJoinAlias('collaborations');
+        $campAlias = $queryNameGenerator->generateJoinAlias('camp');
+        $relatedCollaborationsAlias = $queryNameGenerator->generateJoinAlias('collaborations');
+
+        $relatedUserQuery = $relatedUserSubQueryBuilder
+            ->select($innerUserAlias)
+            ->from(User::class, $innerUserAlias)
+            ->join("{$innerUserAlias}.collaborations", $userCollaborationsAlias)
+            ->join("{$userCollaborationsAlias}.camp", $campAlias)
+            ->join("{$campAlias}.collaborations", $relatedCollaborationsAlias)
+            ->where(
+                $expr->andX(
+                    $expr->eq("{$userCollaborationsAlias}.status", ':status_established'),
+                    $expr->eq("{$relatedCollaborationsAlias}.status", ':status_established'),
+                    $expr->eq("{$relatedCollaborationsAlias}.user", ' :current_user'),
+                )
+            )
+        ;
+
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        $userAlias = $queryNameGenerator->generateJoinAlias('user');
+        $queryBuilder->join("{$rootAlias}.user", $userAlias);
         $queryBuilder->andWhere($expr->orX(
-            $expr->eq('user', ':current_user'),
-            $expr->andX(
-                $expr->eq('userCampCollaborations.status', ':status_established'),
-                $expr->eq('relatedCampCollaborations.status', ':status_established'),
-                $expr->eq('relatedCampCollaborations.user', ' :current_user'),
+            $expr->eq($userAlias, ':current_user'),
+            $expr->in(
+                $userAlias,
+                $relatedUserQuery->getDQL()
             )
         ));
         $queryBuilder->setParameter('current_user', $user);

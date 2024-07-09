@@ -1,0 +1,6 @@
+dependencies:
+- name: fluent-operator
+  repository: https://fluent.github.io/helm-charts
+  version: 2.9.0
+digest: sha256:1fa862d7f86a135cf0bdc05acf46d6a50b32a8d3658a6128dabe307ffdf37bdb
+generated: "2024-06-15T12:44:22.4681549Z"

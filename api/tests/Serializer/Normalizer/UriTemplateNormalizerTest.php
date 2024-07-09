@@ -46,6 +46,9 @@ class UriTemplateNormalizerTest extends TestCase {
                 case 'connect_jubladb_start':
                     return '/auth/jubladb';
 
+                case '_api_/auth/resend_activation{._format}_post':
+                    return '/auth/resend_activation';
+
                 case '_api_/auth/reset_password{._format}_post':
                     return '/auth/reset_password';
 
@@ -80,6 +83,10 @@ class UriTemplateNormalizerTest extends TestCase {
             'oauthJubladb' => [
                 'href' => '/auth/jubladb{?callback}',
                 'templated' => true,
+            ],
+            'resendActivation' => [
+                'href' => '/auth/resend_activation',
+                'templated' => false,
             ],
             'resetPassword' => [
                 'href' => '/auth/reset_password{/id}',

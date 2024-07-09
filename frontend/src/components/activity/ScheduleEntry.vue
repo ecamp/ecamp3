@@ -7,13 +7,13 @@ Displays a single scheduleEntry
     class="ec-schedule-entry"
     toolbar
     back
-    :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
+    :loaded="!scheduleEntry._meta.loading && !activity.camp()._meta.loading"
     :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
         <span class="tabular-nums">
-          {{ scheduleEntry().number }}
+          {{ scheduleEntry.number }}
         </span>
         <v-menu
           offset-y
@@ -24,7 +24,7 @@ Displays a single scheduleEntry
         >
           <template #activator="{ on, attrs }">
             <CategoryChip
-              :schedule-entry="scheduleEntry()"
+              :schedule-entry="scheduleEntry"
               large
               dense
               v-bind="attrs"
@@ -37,11 +37,11 @@ Displays a single scheduleEntry
                   :class="{ 'mdi-spin': categoryChangeState === 'saving' }"
                 >
                   <template v-if="categoryChangeState === 'saving'"
-                    >mdi-autorenew</template
-                  >
+                    >mdi-autorenew
+                  </template>
                   <template v-else-if="categoryChangeState === 'error'"
-                    >mdi-alert</template
-                  >
+                    >mdi-alert
+                  </template>
                   <template v-else>mdi-chevron-down</template>
                 </v-icon>
               </template>
@@ -75,17 +75,16 @@ Displays a single scheduleEntry
       >
         <v-icon small>mdi-pencil</v-icon>
       </v-btn>
-      <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
+      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-1">
         <api-text-field
-          :uri="activity._meta.self"
-          fieldname="title"
+          path="title"
           :disabled="layoutMode"
           dense
           autofocus
           :auto-save="false"
           @finished="editActivityTitle = false"
         />
-      </div>
+      </api-form>
     </template>
     <template #title-actions>
       <!-- layout/content switch (back to content) -->
@@ -204,36 +203,34 @@ Displays a single scheduleEntry
             </table>
           </v-col>
           <v-col class="col col-sm-6 col-12 px-0">
-            <v-row dense>
-              <v-col class="col col-sm-8 col-12">
-                <api-text-field
-                  :name="$tc('entity.activity.fields.location')"
-                  :uri="activity._meta.self"
-                  fieldname="location"
-                  :disabled="layoutMode || !isContributor"
-                  dense
-                />
-              </v-col>
-              <v-col class="col col-sm-4 col-12">
-                <api-select
-                  :name="$tc('entity.activity.fields.progressLabel')"
-                  :uri="activity._meta.self"
-                  fieldname="progressLabel"
-                  :items="progressLabels"
-                  :disabled="layoutMode || !isContributor"
-                  clearable
-                  dense
-                />
-              </v-col>
-            </v-row>
-            <v-row dense>
-              <v-col>
-                <activity-responsibles
-                  :activity="activity"
-                  :disabled="layoutMode || !isContributor"
-                />
-              </v-col>
-            </v-row>
+            <api-form :entity="activity" name="activity">
+              <v-row dense>
+                <v-col class="col col-sm-8 col-12">
+                  <api-text-field
+                    path="location"
+                    :disabled="layoutMode || !isContributor"
+                    dense
+                  />
+                </v-col>
+                <v-col class="col col-sm-4 col-12">
+                  <api-select
+                    path="progressLabel"
+                    :items="progressLabels"
+                    :disabled="layoutMode || !isContributor"
+                    clearable
+                    dense
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <ActivityResponsibles
+                    :activity="activity"
+                    :disabled="layoutMode || !isContributor"
+                  />
+                </v-col>
+              </v-row>
+            </api-form>
           </v-col>
         </v-row>
 
@@ -265,10 +262,14 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiSelect from '@/components/form/api/ApiSelect.vue'
 
 export default {
   name: 'ScheduleEntry',
   components: {
+    ApiForm,
+    ApiSelect,
     TogglePaperSize,
     DialogEntityDelete,
     ContentCard,
@@ -285,13 +286,13 @@ export default {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
-      camp: () => this.camp,
+      camp: this.camp,
       isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
   props: {
     scheduleEntry: {
-      type: Function,
+      type: Object,
       required: true,
     },
   },
@@ -305,7 +306,7 @@ export default {
   },
   computed: {
     activity() {
-      return this.scheduleEntry().activity()
+      return this.scheduleEntry.activity()
     },
     camp() {
       return this.activity.camp()
@@ -318,7 +319,7 @@ export default {
     },
     activityName() {
       return (
-        (this.scheduleEntry().number ? this.scheduleEntry().number + ' ' : '') +
+        (this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : '') +
         (this.category.short ? this.category.short + ': ' : '') +
         this.activity.title
       )
@@ -346,7 +347,7 @@ export default {
             type: 'Activity',
             options: {
               activity: this.activity._meta.self,
-              scheduleEntry: this.scheduleEntry()._meta.self,
+              scheduleEntry: this.scheduleEntry._meta.self,
             },
           },
         ],
@@ -368,11 +369,11 @@ export default {
   // reload data every time user navigates to Activity view
   async mounted() {
     this.loading = true
-    await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
+    await this.scheduleEntry.activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
 
     // to avoid stale data, trigger reload (which includes embedded contentNode data). However, don't await in order to render early with cached data.
-    this.scheduleEntry().activity().$reload()
+    this.scheduleEntry.activity().$reload()
   },
 
   methods: {
@@ -402,14 +403,14 @@ export default {
     async copyUrlToClipboard() {
       try {
         const res = await navigator.permissions.query({ name: 'clipboard-read' })
-        if (res.state == 'prompt') {
+        if (res.state === 'prompt') {
           this.$refs.copyInfoDialog.open()
         }
       } catch {
         console.warn('clipboard permission not requestable')
       }
 
-      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry())
+      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry)
       const url = window.location.origin + router.resolve(scheduleEntry).href
       await navigator.clipboard.writeText(url)
 
@@ -422,7 +423,7 @@ export default {
     },
     onDelete() {
       // redirect to Picasso
-      this.$router.push(periodRoute(this.scheduleEntry().period()))
+      this.$router.push(periodRoute(this.scheduleEntry.period()))
     },
   },
 }

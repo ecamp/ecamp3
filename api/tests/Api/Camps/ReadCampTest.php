@@ -45,7 +45,7 @@ class ReadCampTest extends ECampApiTestCase {
         /** @var Camp $camp */
         $camp = static::getFixture('camp1');
         $user = static::getFixture('user3guest');
-        static::createClientWithCredentials(['email' => $user->getEmail()])->request('GET', '/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials(['email' => $user->getEmail()])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
@@ -64,9 +64,15 @@ class ReadCampTest extends ECampApiTestCase {
                 'materialLists' => ['href' => '/material_lists?camp=%2Fcamps%2F'.$camp->getId()],
                 'campCollaborations' => ['href' => '/camp_collaborations?camp=%2Fcamps%2F'.$camp->getId()],
                 'periods' => ['href' => '/periods?camp=%2Fcamps%2F'.$camp->getId()],
-                'categories' => ['href' => '/categories?camp=%2Fcamps%2F'.$camp->getId()],
+                'categories' => ['href' => "/camps/{$camp->getId()}/categories"],
             ],
         ]);
+
+        $responseArray = $response->toArray();
+        $period1 = static::getFixture('period1');
+        $period2 = static::getFixture('period2');
+        $this->assertEquals("/periods/{$period2->getId()}/days", $responseArray['_embedded']['periods'][0]['_links']['days']['href']);
+        $this->assertEquals("/periods/{$period1->getId()}/days", $responseArray['_embedded']['periods'][1]['_links']['days']['href']);
     }
 
     public function testGetSingleCampIsAllowedForMember() {
@@ -92,7 +98,7 @@ class ReadCampTest extends ECampApiTestCase {
                 'materialLists' => ['href' => '/material_lists?camp=%2Fcamps%2F'.$camp->getId()],
                 'campCollaborations' => ['href' => '/camp_collaborations?camp=%2Fcamps%2F'.$camp->getId()],
                 'periods' => ['href' => '/periods?camp=%2Fcamps%2F'.$camp->getId()],
-                'categories' => ['href' => '/categories?camp=%2Fcamps%2F'.$camp->getId()],
+                'categories' => ['href' => "/camps/{$camp->getId()}/categories"],
             ],
         ]);
     }
@@ -119,7 +125,7 @@ class ReadCampTest extends ECampApiTestCase {
                 'materialLists' => ['href' => '/material_lists?camp=%2Fcamps%2F'.$camp->getId()],
                 'campCollaborations' => ['href' => '/camp_collaborations?camp=%2Fcamps%2F'.$camp->getId()],
                 'periods' => ['href' => '/periods?camp=%2Fcamps%2F'.$camp->getId()],
-                'categories' => ['href' => '/categories?camp=%2Fcamps%2F'.$camp->getId()],
+                'categories' => ['href' => "/camps/{$camp->getId()}/categories"],
             ],
         ]);
     }

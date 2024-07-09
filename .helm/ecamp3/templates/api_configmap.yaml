@@ -8,17 +8,24 @@ metadata:
 data:
   ADDITIONAL_TRUSTED_HOSTS: {{ .Values.domain | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
-  APP_ENV: {{ .Values.php.appEnv | quote }}
-  APP_DEBUG: {{ .Values.php.appDebug | quote }}
-  {{- if .Values.php.dataMigrationsDir }}
-  DATA_MIGRATIONS_DIR: {{ .Values.php.dataMigrationsDir | quote }}
+  APP_ENV: {{ .Values.api.appEnv | quote }}
+  APP_DEBUG: {{ .Values.api.appDebug | quote }}
+  {{- if .Values.api.dataMigrationsDir }}
+  DATA_MIGRATIONS_DIR: {{ .Values.api.dataMigrationsDir | quote }}
   {{- end }}
   CORS_ALLOW_ORIGIN: {{ include "frontend.url" . | quote }}
-  TRUSTED_PROXIES: "{{ join "," .Values.php.trustedProxies }}"
-  {{- if .Values.php.sentryDsn }}
-  SENTRY_API_DSN: {{ .Values.php.sentryDsn | quote }}
+  TRUSTED_PROXIES: "{{ join "," .Values.api.trustedProxies }}"
+  {{- if .Values.api.sentryDsn }}
+  SENTRY_API_DSN: {{ .Values.api.sentryDsn | quote }}
   SENTRY_ENVIRONMENT: {{ .Values.domain | quote }}
   {{- else }}
   SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
+  CADDY_GLOBAL_OPTIONS: {{ .Values.api.caddyGlobalOptions | quote }}
+  API_CACHE_ENABLED: {{ .Values.apiCache.enabled | quote }}
+  {{- if .Values.apiCache.enabled }}
+  VARNISH_API_URL: {{  printf "%s:%d" (include "apiCache.name" .) (.Values.apiCache.service.ports.purge | int)  | quote }}
+  {{- else }}
+  VARNISH_API_URL: {{ "" | quote }}
+  {{- end}}

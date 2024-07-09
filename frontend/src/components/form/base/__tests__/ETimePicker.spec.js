@@ -15,7 +15,7 @@ describe('An ETimePicker', () => {
       time2: '18:33',
       time3: '00:52',
       firstHour: '0',
-      labelText: 'Dialog öffnen um eine Zeit für test zu wählen',
+      labelText: 'Dialog öffnen, um eine Zeit für test zu wählen',
       closeButton: 'Schliessen',
       timeInWrongLocale: '9:52 AM',
       validationMessage: 'Ungültiges Format, bitte gib die Zeit im Format HH:MM ein',
@@ -45,7 +45,7 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: {
           value: TIME1_ISO,
-          name: 'test',
+          label: 'test',
         },
       })
 
@@ -59,7 +59,7 @@ describe('An ETimePicker', () => {
 
       // when
       const { container } = render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
 
       // then
@@ -80,7 +80,7 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: {
           value: TIME1_HHMM,
-          name: 'test',
+          label: 'test',
           valueFormat: 'HH:mm',
         },
       })
@@ -93,7 +93,7 @@ describe('An ETimePicker', () => {
     it('does not open the picker when the text field is clicked', async () => {
       // given
       render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       const inputField = await screen.findByDisplayValue(data.time1)
 
@@ -110,7 +110,7 @@ describe('An ETimePicker', () => {
     it('opens the picker when the icon button is clicked', async () => {
       // given
       render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
 
@@ -126,7 +126,7 @@ describe('An ETimePicker', () => {
     it('closes the picker when clicking the close button', async () => {
       // given
       render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -147,7 +147,7 @@ describe('An ETimePicker', () => {
     it('closes the picker when clicking outside', async () => {
       // given
       render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -167,7 +167,7 @@ describe('An ETimePicker', () => {
     it('closes the picker when pressing escape', async () => {
       // given
       render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -187,7 +187,7 @@ describe('An ETimePicker', () => {
     it('does not close the picker when selecting a time', async () => {
       // given
       render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       const button = await screen.getByLabelText(data.labelText)
       await user.click(button)
@@ -290,7 +290,7 @@ describe('An ETimePicker', () => {
         }) => {
           // given
           const { emitted } = render(ETimePicker, {
-            props: { value: fromIso, name: 'test' },
+            props: { value: fromIso, label: 'test' },
           })
           const inputField = await screen.findByDisplayValue(fromLocalizedTime)
 
@@ -321,7 +321,7 @@ describe('An ETimePicker', () => {
     it('updates v-model when a new time is selected in the picker', async () => {
       // given
       const { emitted } = render(ETimePicker, {
-        props: { value: TIME1_ISO, name: 'test' },
+        props: { value: TIME1_ISO, label: 'test' },
       })
       await screen.findByDisplayValue(data.time1)
       const button = await screen.getByLabelText(data.labelText)
@@ -366,7 +366,7 @@ describe('An ETimePicker', () => {
       ])('%s', async (textInput) => {
         // given
         render(ETimePicker, {
-          props: { value: TIME1_ISO, name: 'test' },
+          props: { value: TIME1_ISO, label: 'test' },
         })
         const inputField = await screen.findByDisplayValue(data.time1)
 
@@ -386,7 +386,7 @@ describe('An ETimePicker', () => {
       render(ETimePicker, {
         props: {
           value: 'abc',
-          name: 'test',
+          label: 'test',
         },
       })
 

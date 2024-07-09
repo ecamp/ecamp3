@@ -87,9 +87,17 @@
             "href": "\/periods{\/id}{?camp,camp[]}",
             "templated": true
         },
+        "personalInvitations": {
+            "href": "\/personal_invitations{\/id}{\/action}",
+            "templated": true
+        },
         "profiles": {
             "href": "\/profiles{\/id}{?user.collaborations.camp,user.collaborations.camp[]}",
             "templated": true
+        },
+        "resendActivation": {
+            "href": "\/auth\/resend_activation",
+            "templated": false
         },
         "resetPassword": {
             "href": "\/auth\/reset_password{\/id}",

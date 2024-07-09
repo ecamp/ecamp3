@@ -1,0 +1,17 @@
+App\Entity\ContentNode\ColumnLayout:
+  additionalColumnLayoutForCampNumber1_{1..400}:
+    root: '@self'
+    parent: null
+    slot: null
+    position: 0
+    data: { columns: [ { slot: '1', width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  additionalColumnLayoutForCampNumber2_{1..400}:
+    root: '@self'
+    parent: null
+    slot: null
+    position: 0
+    data: { columns: [ { slot: '1', width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'

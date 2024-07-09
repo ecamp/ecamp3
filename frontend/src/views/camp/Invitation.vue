@@ -111,7 +111,7 @@ export default {
   name: 'Invitation',
   components: { ButtonBack, UserMeta },
   props: {
-    invitation: { type: Function, required: false, default: null },
+    invitation: { type: Object, required: false, default: null },
     variant: { type: String, default: 'default' },
   },
   data: () => ({
@@ -119,7 +119,7 @@ export default {
   }),
   computed: {
     invite() {
-      return this.invitationFound === true ? this.invitation?.() : null
+      return this.invitationFound === true ? this.invitation : null
     },
     campLink() {
       return {
@@ -142,16 +142,14 @@ export default {
 
     if (this.variant === 'default') {
       // Content of api response depends on authenticated user --> reload every time this component is mounted
-      this.invitation?.()
-        .$reload()
-        .then(
-          () => {
-            this.invitationFound = true
-          },
-          () => {
-            this.invitationFound = false
-          }
-        )
+      this.invitation?.$reload().then(
+        () => {
+          this.invitationFound = true
+        },
+        () => {
+          this.invitationFound = false
+        }
+      )
     }
   },
   methods: {

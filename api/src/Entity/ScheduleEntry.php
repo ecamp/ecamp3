@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
@@ -37,10 +38,22 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validate: true,
             validationContext: ['groups' => ['delete', 'ScheduleEntry:delete']]
         ),
         new GetCollection(
             security: 'is_authenticated()'
+        ),
+        new GetCollection(
+            uriTemplate: self::PERIOD_SUBRESOURCE_URI_TEMPLATE,
+            uriVariables: [
+                'periodId' => new Link(
+                    toProperty: 'period',
+                    fromClass: Period::class,
+                    security: 'is_granted("CAMP_COLLABORATOR", period) or is_granted("CAMP_IS_PROTOTYPE", period)'
+                ),
+            ],
+            security: 'is_fully_authenticated()',
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
@@ -61,6 +74,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['startOffset'])]
 #[ORM\Index(columns: ['endOffset'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
+    public const PERIOD_SUBRESOURCE_URI_TEMPLATE = '/periods/{periodId}/schedule_entries{._format}';
+
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
         'swagger_definition_name' => 'read',
@@ -139,7 +154,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return $this->activity?->getCamp();
     }
 
-    public function getPeriod(): null|Period {
+    public function getPeriod(): ?Period {
         return $this->period;
     }
 
@@ -221,7 +236,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getDay(): null|Day {
+    public function getDay(): ?Day {
         $dayOffset = $this->getDayOffset();
 
         $filteredDays = $this->period->days->filter(function (Day $day) use ($dayOffset) {
@@ -316,6 +331,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '1.b')]
     #[Groups(['read'])]
     public function getNumber(): string {
+        if ('-' === $this->getNumberingStyle()) {
+            return '';
+        }
+
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();
 

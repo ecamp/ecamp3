@@ -26,7 +26,7 @@
         </v-list>
       </v-menu>
     </template>
-    <story-period :edit-mode="editMode" :period="period()" />
+    <story-period :edit-mode="editMode" :period="period" />
   </content-card>
 </template>
 
@@ -51,22 +51,20 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    period: { type: Function, required: true },
-    camp: { type: Function, required: true },
+    period: { type: Object, required: true },
+    camp: { type: Object, required: true },
   },
   computed: {
     printConfig() {
       return {
-        camp: this.camp()._meta.self,
+        camp: this.camp._meta.self,
         language: this.$store.state.lang.language,
-        documentName: this.camp().title + '-StorySummary.pdf',
+        documentName: this.camp.title + '-StorySummary.pdf',
         contents: [
           {
             type: 'Story',
             options: {
-              periods: this.camp()
-                .periods()
-                .items.map((period) => period._meta.self),
+              periods: [this.period._meta.self],
             },
           },
         ],
@@ -74,11 +72,11 @@ export default {
     },
     editMode: {
       get() {
-        return this.$store.getters.getStoryContextEditMode(this.camp()._meta.self)
+        return this.$store.getters.getStoryContextEditMode(this.camp._meta.self)
       },
       set(value) {
         this.$store.commit('setStoryContextEditMode', {
-          campUri: this.camp()._meta.self,
+          campUri: this.camp._meta.self,
           editMode: value,
         })
       },

@@ -25,15 +25,18 @@ const props = defineProps({
 
 const { $api } = useNuxtApp()
 
-const { data: periods, error } = await useAsyncData('TocProgram', async () => {
-  await Promise.all([
-    props.camp.periods().$loadItems(),
-    props.camp.activities().$loadItems(),
-    props.camp.categories().$loadItems(),
-  ])
+const { data: periods, error } = await useAsyncData(
+  `TocProgram-${props.index}`,
+  async () => {
+    await Promise.all([
+      props.camp.periods().$loadItems(),
+      props.camp.activities().$loadItems(),
+      props.camp.categories().$loadItems(),
+    ])
 
-  return props.options.periods.map((periodUri) => {
-    return $api.get(periodUri)
-  })
-})
+    return props.options.periods.map((periodUri) => {
+      return $api.get(periodUri)
+    })
+  }
+)
 </script>

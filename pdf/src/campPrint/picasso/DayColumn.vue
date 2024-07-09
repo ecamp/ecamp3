@@ -32,7 +32,6 @@ import {
 } from '../../../common/helpers/picasso.js'
 
 import keyBy from 'lodash/keyBy.js'
-import dayjs from '../../../common/helpers/dayjs.js'
 
 export default {
   name: 'DayColumn',
@@ -54,7 +53,7 @@ export default {
       const radius = '2pt'
       return keyBy(
         this.relevantScheduleEntries.map((scheduleEntry) => {
-          const start = dayjs.utc(scheduleEntry.start)
+          const start = this.$date.utc(scheduleEntry.start)
           const startsOnThisDay =
             start.isSameOrAfter(dayStart(this.day, this.times)) &&
             start.isSameOrBefore(dayEnd(this.day, this.times))
@@ -62,7 +61,7 @@ export default {
             ? { borderTopRightRadius: radius, borderTopLeftRadius: radius }
             : {}
 
-          const end = dayjs.utc(scheduleEntry.end)
+          const end = this.$date.utc(scheduleEntry.end)
           const endsOnThisDay =
             end.isSameOrAfter(dayStart(this.day, this.times)) &&
             end.isSameOrBefore(dayEnd(this.day, this.times))
