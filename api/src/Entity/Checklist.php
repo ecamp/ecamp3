@@ -102,7 +102,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ORM\Column(type: 'text')]
-    public ?string $name = null;
+    public string $name;
 
     public function __construct() {
         parent::__construct();
