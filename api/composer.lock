@@ -14721,16 +14721,16 @@
         },
         {
             "name": "theofidry/alice-data-fixtures",
-            "version": "1.7.1",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceDataFixtures.git",
-                "reference": "c05882a3ba35f8858de189aec0029b0598de7dce"
+                "reference": "39a2fb2d83d683bec58e9fa0c1e22feceb17056e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceDataFixtures/zipball/c05882a3ba35f8858de189aec0029b0598de7dce",
-                "reference": "c05882a3ba35f8858de189aec0029b0598de7dce",
+                "url": "https://api.github.com/repos/theofidry/AliceDataFixtures/zipball/39a2fb2d83d683bec58e9fa0c1e22feceb17056e",
+                "reference": "39a2fb2d83d683bec58e9fa0c1e22feceb17056e",
                 "shasum": ""
             },
             "require": {
@@ -14805,7 +14805,7 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceDataFixtures/issues",
-                "source": "https://github.com/theofidry/AliceDataFixtures/tree/1.7.1"
+                "source": "https://github.com/theofidry/AliceDataFixtures/tree/1.7.2"
             },
             "funding": [
                 {
@@ -14813,7 +14813,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-18T12:41:21+00:00"
+            "time": "2024-07-05T21:18:40+00:00"
         },
         {
             "name": "theseer/tokenizer",
