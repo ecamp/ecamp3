@@ -78,6 +78,16 @@
     },
     {
       "matchDepNames": [
+        "@vue/test-utils"
+      ],
+      "matchFileNames": [
+        "frontend/package.json"
+      ],
+      "dependencyDashboardApproval": true,
+      "groupName": "vue-test-utils-frontend"
+    },
+    {
+      "matchDepNames": [
         "sass"
       ],
       "dependencyDashboardApproval": true
