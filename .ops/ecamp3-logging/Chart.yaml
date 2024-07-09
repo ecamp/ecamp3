@@ -25,5 +25,5 @@ appVersion: 0.1.0
 
 dependencies:
   - name: fluent-operator
-    version: 2.9.0
+    version: 3.0.0
     repository:  https://fluent.github.io/helm-charts
