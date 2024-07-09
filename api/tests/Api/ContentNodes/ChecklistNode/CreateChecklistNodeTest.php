@@ -22,14 +22,8 @@ class CreateChecklistNodeTest extends CreateContentNodeTestCase {
      */
     public function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
-            array_merge(
-                [
-                    'addChecklistItemIds' => null,
-                    'removeChecklistItemIds' => null,
-                ],
-                $attributes
-            ),
-            $except
+            $attributes,
+            array_merge(['addChecklistItemIds', 'removeChecklistItemIds'], $except)
         );
     }
 }
