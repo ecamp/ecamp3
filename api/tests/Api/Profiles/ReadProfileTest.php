@@ -34,6 +34,8 @@ class ReadProfileTest extends ECampApiTestCase {
             'nickname' => $profile->nickname,
             'language' => $profile->language,
             'legalName' => $profile->getLegalName(),
+            'abbreviation' => $profile->abbreviation,
+            'color' => $profile->color,
             '_links' => [
                 'self' => [
                     'href' => '/profiles/'.$profile->getId(),
@@ -58,6 +60,8 @@ class ReadProfileTest extends ECampApiTestCase {
             'nickname' => $profile->nickname,
             'language' => $profile->language,
             'legalName' => $profile->getLegalName(),
+            'abbreviation' => $profile->abbreviation,
+            'color' => $profile->color,
             '_links' => [
                 'self' => [
                     'href' => '/profiles/'.$profile->getId(),
@@ -84,6 +88,8 @@ class ReadProfileTest extends ECampApiTestCase {
             'nickname' => $profile->nickname,
             'language' => $profile->language,
             'legalName' => $profile->getLegalName(),
+            'abbreviation' => $profile->abbreviation,
+            'color' => $profile->color,
             '_links' => [
                 'self' => [
                     'href' => '/profiles/'.$profile->getId(),

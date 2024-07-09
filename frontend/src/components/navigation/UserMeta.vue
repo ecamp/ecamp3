@@ -24,9 +24,18 @@
         >
           <template v-if="authUser">
             <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>
-              <user-avatar :user="authUser" :size="40" />
+              <UserAvatar
+                :user="authUser"
+                :camp-collaboration="currentCampCollaboration"
+                :size="40"
+              />
             </v-badge>
-            <UserAvatar v-else :user="authUser" :size="40" />
+            <UserAvatar
+              v-else
+              :user="authUser"
+              :camp-collaboration="currentCampCollaboration"
+              :size="40"
+            />
           </template>
           <span class="sr-only-sm-and-down mx-3">
             {{ authUser.displayName }}
@@ -43,9 +52,18 @@
       >
         <template v-if="authUser">
           <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>
-            <user-avatar :user="authUser" :size="40" />
+            <UserAvatar
+              :user="authUser"
+              :camp-collaboration="currentCampCollaboration"
+              :size="40"
+            />
           </v-badge>
-          <UserAvatar v-else :user="authUser" :size="40" />
+          <UserAvatar
+            v-else
+            :user="authUser"
+            :camp-collaboration="currentCampCollaboration"
+            :size="40"
+          />
         </template>
         <span class="sr-only-sm-and-down mx-3">
           {{ authUser.displayName }}
@@ -130,6 +148,11 @@ export default {
       required: false,
       default: '',
     },
+    camp: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -150,6 +173,14 @@ export default {
     ...mapGetters({
       authUser: 'getLoggedInUser',
     }),
+    currentCampCollaboration() {
+      return this.camp
+        ?.campCollaborations()
+        .items.find(
+          (collaboration) =>
+            this.authUser?._meta?.self === collaboration.user?.()?._meta?.self
+        )
+    },
   },
   methods: {
     async logout() {

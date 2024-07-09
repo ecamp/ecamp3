@@ -27,7 +27,6 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -59,7 +58,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         });
 
         $this->decoratedMock = $this->createMock(NormalizerInterface::class);
-        $this->nameConverterMock = $this->createMock(AdvancedNameConverterInterface::class);
+        $this->nameConverterMock = $this->createMock(NameConverterInterface::class);
         $this->uriTemplate = $this->createMock(UriTemplate::class);
         $this->uriTemplateFactory = $this->createMock(UriTemplateFactory::class);
         $this->routerMock = $this->createMock(RouterInterface::class);
@@ -197,7 +196,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->uriTemplateFactory
             ->expects($this->once())
             ->method('createFromResourceClass')
-            ->with('App\\Entity\\DummyEntity')
+            ->with('App\Entity\DummyEntity')
             ->willReturn(['/relatedEntities{/id}{?test_param}', true])
         ;
         $this->uriTemplate
@@ -528,7 +527,7 @@ class ParentEntity {
         return '';
     }
 
-    #[RelatedCollectionLink('App\\Entity\\DummyEntity', ['test_param' => 'filterValue'])]
+    #[RelatedCollectionLink('App\Entity\DummyEntity', ['test_param' => 'filterValue'])]
     public function getRelatedEntities(): array {
         return [];
     }

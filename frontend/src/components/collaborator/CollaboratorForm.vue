@@ -75,16 +75,50 @@
         </span>
       </template>
     </e-select>
+
+    <fieldset
+      v-if="!!initialCollaboration"
+      class="e-form-container e-avatar-field v-card__text rounded-t"
+    >
+      <legend>
+        {{ $tc('components.collaborator.collaboratorForm.overrideAvatar') }}
+      </legend>
+
+      <div class="d-flex gap-4 align-center">
+        <UserAvatar
+          :user="initialCollaboration?.user?.()"
+          :camp-collaboration="avatarCollaboration"
+        />
+        <div class="flex-grow-1">
+          <e-text-field
+            v-model="localCollaboration.abbreviation"
+            path="abbreviation"
+            :filled="false"
+            vee-rules="oneEmojiOrTwoCharacters"
+          />
+
+          <e-color-picker
+            v-model="localCollaboration.color"
+            :filled="false"
+            path="color"
+          />
+        </div>
+      </div>
+    </fieldset>
   </e-form>
 </template>
 
 <script>
+import UserAvatar from '@/components/user/UserAvatar.vue'
+
 export default {
   name: 'SettingsCollaboratorForm',
+  components: { UserAvatar },
   props: {
     collaboration: { type: Object, required: true },
     status: { type: [String, Boolean], required: false, default: false },
     readonlyRole: { type: [String, Boolean], required: false, default: false },
+    initialCollaboration: { type: Object, required: false, default: null },
   },
   computed: {
     items() {
@@ -112,6 +146,12 @@ export default {
     localCollaboration() {
       return this.collaboration
     },
+    avatarCollaboration() {
+      return {
+        ...this.initialCollaboration,
+        ...this.localCollaboration,
+      }
+    },
     translatedStatus() {
       return this.$tc(`entity.campCollaboration.status.${this.status}`)
     },
@@ -124,5 +164,15 @@ export default {
   margin-top: 0;
   align-self: center;
   margin-right: -4px;
+}
+.e-avatar-field {
+  display: grid;
+  border: none;
+  background: #eee;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42) !important;
+}
+.e-avatar-field legend {
+  float: left;
 }
 </style>

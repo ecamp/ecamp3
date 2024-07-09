@@ -24,7 +24,7 @@
         >
           <template #pre>
             <v-list-item-avatar>
-              <user-avatar :user="user" />
+              <UserAvatar :user="user" :camp-collaboration="currentCampCollaboration" />
             </v-list-item-avatar>
           </template>
         </SidebarListItem>
@@ -141,6 +141,14 @@ export default {
     ...mapGetters({
       user: 'getLoggedInUser',
     }),
+    currentCampCollaboration() {
+      return this.camp
+        ?.campCollaborations()
+        .items.find(
+          (collaboration) =>
+            this.user?._meta?.self === collaboration.user?.()?._meta?.self
+        )
+    },
   },
   methods: {
     adminRoute,

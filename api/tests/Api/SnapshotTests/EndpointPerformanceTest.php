@@ -216,7 +216,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
 
         $responseArray = $response->toArray();
         $onlyUrls = array_map(fn (array $item) => $item['href'], $responseArray['_links']);
-        $withoutParameters = array_map(fn (string $uriTemplate) => preg_replace('/\\{[^}]*}/', '', $uriTemplate), $onlyUrls);
+        $withoutParameters = array_map(fn (string $uriTemplate) => preg_replace('/\{[^}]*}/', '', $uriTemplate), $onlyUrls);
         $normalEndpoints = array_filter($withoutParameters, function (string $endpoint) {
             // @noinspection PhpDuplicateMatchArmBodyInspection
             return match ($endpoint) {

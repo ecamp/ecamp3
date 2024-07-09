@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * TODO: Remove once https://github.com/tailwindlabs/tailwindcss/pull/12128 is merged
+ */
+.tw-break-anywhere {
+  overflow-wrap: anywhere;
+}

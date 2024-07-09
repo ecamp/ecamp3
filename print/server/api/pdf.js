@@ -168,7 +168,7 @@ export default defineEventHandler(async (event) => {
   } finally {
     logOutput.measurements = performanceMeasurements.measurements
     logOutput.status = status
-    console.log(logOutput)
+    console.log(JSON.stringify(logOutput))
   }
 })
 

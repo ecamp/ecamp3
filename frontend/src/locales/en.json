@@ -209,6 +209,7 @@
         "title": "Edit {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Overwrite avatar for this camp",
         "roleHint": "Each camp needs at least one person with administrative rights."
       },
       "promptCollaboratorDeactivate": {
@@ -228,7 +229,11 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Please enter a valid color."
+        },
         "eColorPicker": {
+          "closePicker": "Close dialog",
           "openPicker": "Open dialog to select a color for {label}"
         },
         "eDatePicker": {
@@ -443,20 +448,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Birthday",
-        "email": "Email address",
-        "firstname": "Firstname",
-        "language": "Language",
-        "nickname": "Nickname",
-        "password": "Password",
-        "surname": "Lastname"
-      },
-      "name": "User"
-    }
-  },
   "global": {
     "button": {
       "add": "Add",
@@ -523,7 +514,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
-      "lessThanOrEqual_date": "{_field_} may not be later than {max}"
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} may only have 1 emoji or 2 letters/numbers"
     },
     "warning": {
       "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"

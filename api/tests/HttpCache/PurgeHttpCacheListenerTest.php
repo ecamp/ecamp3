@@ -75,13 +75,13 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $classMetadataProphecy = $this->prophesize(ClassMetadata::class);
         $classMetadataProphecy->getAssociationMappings()->willReturn([
             'relatedDummy' => [
-                'targetEntity' => 'App\\Tests\\HttpCache\\Entity\\RelatedDummy',
+                'targetEntity' => 'App\Tests\HttpCache\Entity\RelatedDummy',
                 'isOwningSide' => true,
                 'inversedBy' => 'dummies',
                 'mappedBy' => null,
             ],
             'relatedOwningDummy' => [
-                'targetEntity' => 'App\\Tests\\HttpCache\\Entity\\RelatedOwningDummy',
+                'targetEntity' => 'App\Tests\HttpCache\Entity\RelatedOwningDummy',
                 'isOwningSide' => true,
                 'inversedBy' => 'ownedDummy',
                 'mappedBy' => null,
@@ -171,6 +171,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowMock->method('getScheduledEntityInsertions')->willReturn([$toInsert1, $toInsert2]);
         $uowMock->method('getScheduledEntityUpdates')->willReturn([]);
         $uowMock->method('getScheduledEntityDeletions')->willReturn([$toDelete1, $toDelete2, $toDeleteNoPurge]);
+        $uowMock->method('getScheduledCollectionUpdates')->willReturn([]);
+        $uowMock->method('getScheduledCollectionDeletions')->willReturn([]);
         $uowMock->method('getEntityChangeSet')->willReturn([]);
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -286,6 +288,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowProphecy->getScheduledEntityInsertions()->willReturn([$nonResource])->shouldBeCalled();
         $uowProphecy->getScheduledEntityDeletions()->willReturn([])->shouldBeCalled();
         $uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledCollectionUpdates()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledCollectionDeletions()->willReturn([])->shouldBeCalled();
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
         $emProphecy->getUnitOfWork()->willReturn($uowProphecy->reveal())->shouldBeCalled();
@@ -327,6 +331,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowProphecy->getScheduledEntityInsertions()->willReturn([$containNonResource])->shouldBeCalled();
         $uowProphecy->getScheduledEntityDeletions()->willReturn([])->shouldBeCalled();
         $uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledCollectionUpdates()->willReturn([])->shouldBeCalled();
+        $uowProphecy->getScheduledCollectionDeletions()->willReturn([])->shouldBeCalled();
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
         $emProphecy->getUnitOfWork()->willReturn($uowProphecy->reveal())->shouldBeCalled();
@@ -361,6 +367,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $this->uowProphecy->getScheduledEntityInsertions()->willReturn([$toInsert1]);
         $this->uowProphecy->getScheduledEntityDeletions()->willReturn([]);
         $this->uowProphecy->getScheduledEntityUpdates()->willReturn([])->shouldBeCalled();
+        $this->uowProphecy->getScheduledCollectionUpdates()->willReturn([]);
+        $this->uowProphecy->getScheduledCollectionDeletions()->willReturn([]);
 
         // then
         $this->cacheManagerProphecy->invalidateTags(['/dummies'])->willReturn($this->cacheManagerProphecy)->shouldBeCalled();
@@ -384,6 +392,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowMock->method('getScheduledEntityInsertions')->willReturn([]);
         $uowMock->method('getScheduledEntityUpdates')->willReturn([]);
         $uowMock->method('getScheduledEntityDeletions')->willReturn([$toDelete1]);
+        $uowMock->method('getScheduledCollectionUpdates')->willReturn([]);
+        $uowMock->method('getScheduledCollectionDeletions')->willReturn([]);
         $uowMock->method('getEntityChangeSet')->willReturn([]);
 
         $this->emProphecy->getUnitOfWork()->willReturn($uowMock)->shouldBeCalled();
@@ -414,6 +424,8 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $uowMock->method('getScheduledEntityInsertions')->willReturn([]);
         $uowMock->method('getScheduledEntityUpdates')->willReturn([$toUpdate1]);
         $uowMock->method('getScheduledEntityDeletions')->willReturn([]);
+        $uowMock->method('getScheduledCollectionUpdates')->willReturn([]);
+        $uowMock->method('getScheduledCollectionDeletions')->willReturn([]);
         $uowMock->method('getEntityChangeSet')->willReturn(['relatedDummy' => [$relatedDummyOld, $relatedDummy]]);
 
         $this->emProphecy->getUnitOfWork()->willReturn($uowMock)->shouldBeCalled();

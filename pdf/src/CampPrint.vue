@@ -25,6 +25,9 @@ import Picasso from '@/campPrint/picasso/Picasso.vue'
 import Story from '@/campPrint/story/Story.vue'
 import Program from '@/campPrint/program/Program.vue'
 import Activity from '@/campPrint/activity/Activity.vue'
+import { wordHyphenation } from '@react-pdf/textkit'
+
+const originalHyphenationCallback = wordHyphenation()
 
 export default {
   name: 'CampPrint',
@@ -47,6 +50,13 @@ export default {
 }
 
 const registerFonts = async () => {
+  Font.registerHyphenationCallback((word) => {
+    if (word && word.length > 70) {
+      return word.split('')
+    }
+    return originalHyphenationCallback(word)
+  })
+
   Font.register({
     family: 'InterDisplay',
     fonts: [

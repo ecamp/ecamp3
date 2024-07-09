@@ -42,7 +42,7 @@
         <span class="blue-grey--text"><v-icon small right>mdi-open-in-new</v-icon></span>
       </v-btn>
     </v-toolbar-items>
-    <UserMeta />
+    <UserMeta :camp="camp" />
   </v-app-bar>
 </template>
 

@@ -6,6 +6,8 @@ App\Entity\Profile:
     surname: Baden-Powell
     nickname: Bi-Pi
     language: en
+    abbreviation: '⚜️'
+    color: '#6a209b'
     roles: [ 'ROLE_USER' ]
   profile2member:
     user: '@user2member'

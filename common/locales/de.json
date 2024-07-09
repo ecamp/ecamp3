@@ -140,6 +140,8 @@
     },
     "campCollaboration": {
       "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
         "inviteEmail": "E-Mail",
         "role": "Rolle",
         "status": "Status"
@@ -199,6 +201,19 @@
         "start": "Von"
       },
       "name": "Lagerabschnitt | Lagerabschnitte"
+    },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
+        "email": "E-Mail-Adresse",
+        "firstname": "Vorname",
+        "language": "Sprache",
+        "nickname": "Spitzname",
+        "password": "Passwort",
+        "surname": "Nachname"
+      },
+      "name": "Profil"
     },
     "scheduleEntry": {
       "fields": {

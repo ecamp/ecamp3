@@ -5,9 +5,11 @@ import user from '@testing-library/user-event'
 import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 import { extend } from 'vee-validate'
 import { regex } from 'vee-validate/dist/rules'
+import { ColorSpace, sRGB } from 'colorjs.io/fn'
 
 extend('regex', regex)
 
+ColorSpace.register(sRGB)
 describe('An ApiColorPicker', () => {
   let apiMock
 
@@ -49,12 +51,16 @@ describe('An ApiColorPicker', () => {
     const canvas = container.querySelector('canvas')
     await user.click(canvas, { clientX: 10, clientY: 10 })
     // click the save button
-    await user.click(screen.getByLabelText('Speichern'))
+    await waitFor(async () => {
+      await user.click(screen.getByLabelText('Speichern'))
+    })
 
     // then
-    const inputField = await screen.findByLabelText(FIELD_LABEL)
-    expect(inputField.value).toBe(COLOR_2)
-    expect(apiMock.getMocks().patch).toBeCalledTimes(1)
+    await waitFor(async () => {
+      const inputField = await screen.findByLabelText(FIELD_LABEL)
+      expect(inputField.value).toBe(COLOR_2)
+      expect(apiMock.getMocks().patch).toBeCalledTimes(1)
+    })
   })
 
   test('updates state if value in store is refreshed and has new value', async () => {

@@ -194,6 +194,7 @@
         "title": "Modifier {user}"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Remplacer l'avatar pour ce camp",
         "roleHint": "Chaque camp nécessite au moins une personne disposant de droits d'administrateur."
       },
       "promptCollaboratorDeactivate": {
@@ -214,6 +215,7 @@
     "form": {
       "base": {
         "eColorPicker": {
+          "closePicker": "Fermer le dialogue",
           "openPicker": "Ouvre un dialogue pour sélectionner une couleur pour {label}"
         },
         "eDatePicker": {
@@ -426,20 +428,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Anniversaire",
-        "email": "Adresse e-mail",
-        "firstname": "Prénom",
-        "language": "Langue",
-        "nickname": "Surnom",
-        "password": "Mot de passe",
-        "surname": "Nom de famille"
-      },
-      "name": "Utilisateur"
-    }
-  },
   "global": {
     "button": {
       "add": "Ajouter",
@@ -506,7 +494,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
-      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}"
+      "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} ne peut avoir que 1 emoji ou 2 lettres/chiffres"
     },
     "warning": {
       "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"

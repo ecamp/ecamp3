@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\HttpCache;
+
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\TagCollectorInterface;
 use App\HttpCache\ResponseTagger;

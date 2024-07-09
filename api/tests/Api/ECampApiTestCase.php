@@ -16,9 +16,11 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
+use App\Tests\HttpCache\CacheManagerMock;
 use App\Util\ArrayDeepSort;
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\HttpCacheBundle\CacheManager;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -358,6 +360,16 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $sortedResponseArray = ArrayDeepSort::sort($responseArray);
         $this->assertMatchesJsonSnapshot($sortedResponseArray);
+    }
+
+    /**
+     * mocks CacheManager.
+     */
+    protected function mockCacheManager(): CacheManagerMock {
+        $cacheManager = new CacheManagerMock();
+        static::getContainer()->set(CacheManager::class, $cacheManager);
+
+        return $cacheManager;
     }
 
     private static function escapeValues(mixed &$object): void {

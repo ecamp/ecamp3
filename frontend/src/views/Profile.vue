@@ -13,7 +13,7 @@
       </template>
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
-          <api-form :entity="profile" name="user">
+          <api-form :entity="profile" name="profile">
             <e-text-field
               class="e-profile--email"
               :value="profile.email"
@@ -39,6 +39,14 @@
             <api-text-field path="surname" @finished="reloadUser()" />
 
             <api-text-field path="nickname" @finished="reloadUser()" />
+
+            <api-text-field
+              path="abbreviation"
+              vee-rules="oneEmojiOrTwoCharacters"
+              @finished="reloadUser()"
+            />
+
+            <api-color-picker path="color" @finished="reloadUser()" />
 
             <api-select path="language" :items="availableLocales" />
           </api-form>
@@ -71,10 +79,12 @@ import VueI18n from '@/plugins/i18n'
 import { mapGetters } from 'vuex'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
 
 export default {
   name: 'Home',
   components: {
+    ApiColorPicker,
     ApiForm,
     ButtonEdit,
     ApiSelect,

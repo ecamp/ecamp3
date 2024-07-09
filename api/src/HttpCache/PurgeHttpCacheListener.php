@@ -31,6 +31,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -72,6 +73,7 @@ final class PurgeHttpCacheListener {
      * Collects tags from inserted, updated and deleted entities, including relations.
      */
     public function onFlush(OnFlushEventArgs $eventArgs): void {
+        /** @var EntityManagerInterface */
         $em = $eventArgs->getObjectManager();
 
         if (!$em instanceof EntityManagerInterface) {
@@ -81,21 +83,31 @@ final class PurgeHttpCacheListener {
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            $this->gatherResourceTags($entity);
+            $this->gatherResourceTags($em, $entity);
             $this->gatherRelationTags($em, $entity);
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
             $originalEntity = $this->getOriginalEntity($entity, $em);
             $this->addTagForItem($entity);
-            $this->gatherResourceTags($entity, $originalEntity);
+            $this->gatherResourceTags($em, $entity, $originalEntity);
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             $originalEntity = $this->getOriginalEntity($entity, $em);
             $this->addTagForItem($originalEntity);
-            $this->gatherResourceTags($originalEntity);
+            $this->gatherResourceTags($em, $originalEntity);
             $this->gatherRelationTags($em, $originalEntity);
+        }
+
+        // trigger cache purges for changes on many-to-many relations
+        // for some reason, changes to Many-To-Many relations are not included in the preUpdate changeSet
+        foreach ($uow->getScheduledCollectionUpdates() as $collection) {
+            $this->addTagsForManyToManyRelations($collection, $collection->getInsertDiff());
+            $this->addTagsForManyToManyRelations($collection, $collection->getDeleteDiff());
+        }
+        foreach ($uow->getScheduledCollectionDeletions() as $collection) {
+            $this->addTagsForManyToManyRelations($collection, $collection->getDeleteDiff());
         }
     }
 
@@ -104,6 +116,23 @@ final class PurgeHttpCacheListener {
      */
     public function postFlush(): void {
         $this->cacheManager->flush();
+    }
+
+    private function addTagsForManyToManyRelations($collection, $entities) {
+        $associationMapping = $collection->getMapping();
+
+        if (ClassMetadataInfo::MANY_TO_MANY !== $associationMapping['type']) {
+            return;
+        }
+
+        foreach ($entities as $entity) {
+            $relatedProperty = $associationMapping['isOwningSide'] ? $associationMapping['inversedBy'] : $associationMapping['mappedBy'];
+            if (!$relatedProperty) {
+                continue;
+            }
+
+            $this->addTagForItem($entity, $relatedProperty);
+        }
     }
 
     /**
@@ -129,23 +158,35 @@ final class PurgeHttpCacheListener {
      * If oldEntity is provided, purge is only done if the IRI of the collection has changed
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
-    private function gatherResourceTags(object $entity, ?object $oldEntity = null): void {
+    private function gatherResourceTags(EntityManagerInterface $em, object $entity, ?object $oldEntity = null): void {
         $entityClass = $this->getObjectClass($entity);
-        if ($this->resourceClassResolver->isResourceClass($entityClass)) {
-            $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
-            $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
-            $resourceIterator = $resourceMetadataCollection->getIterator();
-            while ($resourceIterator->valid()) {
-                /** @var ApiResource $metadata */
-                $metadata = $resourceIterator->current();
+        if (!$this->resourceClassResolver->isResourceClass($entityClass)) {
+            return;
+        }
 
-                foreach ($metadata->getOperations() ?? [] as $operation) {
-                    if ($operation instanceof GetCollection) {
-                        $this->invalidateCollection($operation, $entity, $oldEntity);
-                    }
+        $resourceClass = $this->resourceClassResolver->getResourceClass($entity);
+        $this->gatherResourceTagsForClass($resourceClass, $entity, $oldEntity);
+
+        // also purge parent classes (e.g. /content_nodes)
+        $classMetadata = $em->getClassMetadata(ClassUtils::getClass($entity));
+        foreach ($classMetadata->parentClasses as $parentClass) {
+            $this->gatherResourceTagsForClass($parentClass, $entity, $oldEntity);
+        }
+    }
+
+    private function gatherResourceTagsForClass(string $resourceClass, object $entity, ?object $oldEntity = null): void {
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+        $resourceIterator = $resourceMetadataCollection->getIterator();
+        while ($resourceIterator->valid()) {
+            /** @var ApiResource $metadata */
+            $metadata = $resourceIterator->current();
+
+            foreach ($metadata->getOperations() ?? [] as $operation) {
+                if ($operation instanceof GetCollection) {
+                    $this->invalidateCollection($operation, $entity, $oldEntity);
                 }
-                $resourceIterator->next();
             }
+            $resourceIterator->next();
         }
     }
 

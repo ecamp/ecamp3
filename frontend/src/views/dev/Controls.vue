@@ -77,6 +77,7 @@ import ESelect from '@/components/form/base/ESelect.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 import EColorPicker from '@/components/form/base/EColorPicker.vue'
+import EColorField from '@/components/form/base/EColorField.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
@@ -84,6 +85,7 @@ import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
 import ApiSwitch from '@/components/form/api/ApiSwitch.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import ApiColorField from '@/components/form/api/ApiColorField.vue'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker.vue'
 import ApiColorPicker from '@/components/form/api/ApiColorPicker.vue'
@@ -119,7 +121,9 @@ export default {
     ETimePicker,
     ApiTimePicker,
     EColorPicker,
+    EColorField,
     ApiColorPicker,
+    ApiColorField,
   },
   data: () => ({
     placeholder: 'Dummy placeholder',
@@ -133,7 +137,7 @@ export default {
     textareaValue: 'FFFFFFFFFF',
     richtextValue: '<p>FFFFFFFFFF</p>',
     checkboxValue: false,
-    colorValue: '#FFFFFF',
+    colorValue: null,
     selectValue: null,
     dateValue: '2020-01-01',
     timeValue: '2020-01-01T14:45:00+00:00',
@@ -197,7 +201,7 @@ export default {
           component: (type) => `${type}-select`,
           value: this.selectValue,
           props: {
-            fieldname: 'language',
+            path: 'language',
             placeholder: this.placeholder,
             items: this.availableLocales,
             uri: this.profileUri,
@@ -250,6 +254,18 @@ export default {
             placeholder: this.placeholder,
             path: 'color',
             uri: this.categoryUri,
+            veeRules: 'required',
+          },
+        },
+        {
+          id: 'color-field',
+          component: (type) => (type !== 'v' ? `${type}-color-field` : ''),
+          value: this.colorValue,
+          props: {
+            placeholder: this.placeholder,
+            path: 'color',
+            uri: this.campCollaborationUri,
+            veeRules: 'required',
           },
         },
       ]
@@ -275,6 +291,9 @@ export default {
     scheduleEntryUri() {
       return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
     },
+    campCollaborationUri() {
+      return '/camp_collaborations/3229d273decd' // Harry Potter - Snoopy
+    },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
         value: l,
@@ -285,7 +304,7 @@ export default {
       return {
         hint: this.hint,
         'persistent-hint': this.persistentHint,
-        label: this.label ? this.labelText : null,
+        label: this.label ? this.labelText : undefined,
       }
     },
   },

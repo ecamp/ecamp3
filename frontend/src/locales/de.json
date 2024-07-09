@@ -209,6 +209,7 @@
         "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Avatar für dieses Lager überschreiben",
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
       },
       "promptCollaboratorDeactivate": {
@@ -228,7 +229,11 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Bitte gültige Farbe eingeben."
+        },
         "eColorPicker": {
+          "closePicker": "Dialog schliessen",
           "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {
@@ -443,20 +448,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Geburtstag",
-        "email": "E-Mail-Adresse",
-        "firstname": "Vorname",
-        "language": "Sprache",
-        "nickname": "Spitzname",
-        "password": "Passwort",
-        "surname": "Nachname"
-      },
-      "name": "User"
-    }
-  },
   "global": {
     "button": {
       "add": "Hinzufügen",
@@ -523,7 +514,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
-      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
+      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
+      "oneEmojiOrTwoCharacters": "{_field_} darf nur 1 Emoji oder 2 Buchstaben/Zahlen haben"
     },
     "warning": {
       "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"

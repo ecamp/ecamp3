@@ -9,6 +9,8 @@ App\Entity\CampCollaboration:
     camp: '@camp1'
     status: established
     role: member
+    abbreviation: "🧑🏽‍🚀"
+    color: "#11a1e1"
   campCollaboration3guest:
     user: '@user3guest'
     camp: '@camp1'

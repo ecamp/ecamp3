@@ -147,6 +147,8 @@
     },
     "campCollaboration": {
       "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
         "inviteEmail": "Email",
         "role": "Role",
         "status": "Status"
@@ -206,6 +208,19 @@
         "start": "Start"
       },
       "name": "Period | Periods"
+    },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
+        "email": "Email address",
+        "firstname": "Firstname",
+        "language": "Language",
+        "nickname": "Nickname",
+        "password": "Password",
+        "surname": "Lastname"
+      },
+      "name": "Profile"
     },
     "scheduleEntry": {
       "fields": {

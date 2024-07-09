@@ -173,6 +173,26 @@ class Profile extends BaseEntity {
     public ?string $language = null;
 
     /**
+     * The default color of the avatar as a hex color string.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
+    #[ApiProperty(example: '#4DBB52')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'string', length: 8, nullable: true)]
+    public ?string $color = null;
+
+    /**
+     * The default abbreviation in the avatar.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Length(max: 2, countUnit: Assert\Length::COUNT_GRAPHEMES)]
+    #[ApiProperty(example: 'AB')]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $abbreviation = null;
+
+    /**
      * The technical roles that this person has in the eCamp application.
      */
     #[ApiProperty(writable: false)]

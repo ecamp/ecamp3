@@ -161,11 +161,6 @@ services:
     api_platform.http_cache.tag_collector:
         class: App\HttpCache\TagCollector
 
-    api_platform.http_cache.listener.response.configure:
-         class: ApiPlatform\HttpCache\EventListener\AddHeadersListener
-         tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: 11 }
-
     App\HttpCache\AddCollectionTagsListener:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: 12 }

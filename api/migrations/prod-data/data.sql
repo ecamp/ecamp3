@@ -95,10 +95,10 @@ INSERT INTO public.category (id, categoryprototypeid, short, name, color, number
 
 
 
-INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, role, collaborationacceptedby, createtime, updatetime, userid, campid) VALUES
-	('71c07d3be9f3', NULL, NULL, 'established', 'manager', NULL, '2022-10-08 20:13:50', '2022-10-08 20:13:50', '8adf80011c2b', '75b3572a338e'),
-	('77b7a7e51080', NULL, NULL, 'established', 'manager', NULL, '2022-10-08 20:41:53', '2022-10-08 20:41:53', '8adf80011c2b', '497f974e7d5d'),
-	('1c7985ab4c7a', NULL, NULL, 'established', 'manager', NULL, '2022-10-08 20:49:03', '2022-10-08 20:49:03', '8adf80011c2b', 'f92fe1cd1ae9');
+INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, role, createtime, updatetime, userid, campid) VALUES
+	('71c07d3be9f3', NULL, NULL, 'established', 'manager', '2022-10-08 20:13:50', '2022-10-08 20:13:50', '8adf80011c2b', '75b3572a338e'),
+	('77b7a7e51080', NULL, NULL, 'established', 'manager', '2022-10-08 20:41:53', '2022-10-08 20:41:53', '8adf80011c2b', '497f974e7d5d'),
+	('1c7985ab4c7a', NULL, NULL, 'established', 'manager', '2022-10-08 20:49:03', '2022-10-08 20:49:03', '8adf80011c2b', 'f92fe1cd1ae9');
 
 
 
