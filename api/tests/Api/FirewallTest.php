@@ -113,6 +113,7 @@ class FirewallTest extends ECampApiTestCase {
             '/auth/cevidb' => false,
             '/auth/jubladb' => false,
             '/auth/reset_password' => false,
+            '/auth/resend_activation' => false,
             '/content_types' => false,
             '/invitations' => false,
             default => true

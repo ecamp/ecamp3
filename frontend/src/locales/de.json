@@ -575,6 +575,7 @@
           "loginInProgress": "Du wirst eingeloggt"
         },
         "or": "oder mit",
+        "notActivated": "Nicht aktiviert?",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
@@ -585,6 +586,8 @@
           "midata": "MiData"
         },
         "registernow": "Jetzt registrieren",
+        "resendActivation": "Aktivierungsmail erneut senden",
+        "resetPassword": "Passwort zurücksetzen",
         "termsOfServiceLink": "Nutzungsbedingungen"
       },
       "register": {
@@ -599,6 +602,12 @@
         "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "success": "Erfolgreich registriert",
         "title": "Konto erstellen"
+      },
+      "resendActivation": {
+        "errorMessage": "Erneutes Senden der Aktivierung fehlgeschlagen.",
+        "send": "Abschicken",
+        "successMessage": "Mail mit Link für 'Aktivierung' wird versendet.",
+        "title": "Aktivierungsmail erneut senden"
       },
       "resetPassword": {
         "errorMessage": "Passwort konnte nicht geändert werden.",
