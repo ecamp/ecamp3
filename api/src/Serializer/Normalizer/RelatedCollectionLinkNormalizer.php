@@ -15,9 +15,11 @@ use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Metadata\Resource\OperationHelper;
 use App\Util\ClassInfoTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\AssociationMapping;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\InverseSideMapping;
 use Doctrine\ORM\Mapping\MappingException;
-use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\OwningSideMapping;
 use Rize\UriTemplate;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -155,8 +157,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         try {
             $classMetadata = $this->getClassMetadata($resourceClass);
 
-            if (!$classMetadata instanceof ClassMetadataInfo) {
-                throw new \RuntimeException("The class metadata for {$resourceClass} must be an instance of ClassMetadataInfo.");
+            if (!$classMetadata instanceof ClassMetadata) {
+                throw new \RuntimeException("The class metadata for {$resourceClass} must be an instance of ClassMetadata.");
             }
 
             $relationMetadata = $classMetadata->getAssociationMapping($rel);
@@ -164,10 +166,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
         }
 
-        $relatedResourceClass = $relationMetadata['targetEntity'];
-
-        $relatedFilterName = $relationMetadata['mappedBy'];
-        $relatedFilterName ??= $relationMetadata['inversedBy'];
+        $relatedResourceClass = $relationMetadata->targetEntity;
+        $relatedFilterName = $this->getRelatedProperty($relationMetadata);
 
         if (empty($relatedResourceClass) || empty($relatedFilterName)) {
             throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
@@ -250,5 +250,17 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
                 && isset($filterDescription[$propertyName]['strategy'])
                 && 'exact' === $filterDescription[$propertyName]['strategy'];
         }));
+    }
+
+    private function getRelatedProperty(AssociationMapping $mapping): ?string {
+        if ($mapping instanceof InverseSideMapping) {
+            return $mapping->mappedBy ?? null;
+        }
+
+        if ($mapping instanceof OwningSideMapping) {
+            return $mapping->inversedBy ?? null;
+        }
+
+        return null;
     }
 }

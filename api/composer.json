@@ -10,7 +10,7 @@
         "cweagans/composer-patches": "1.7.3",
         "doctrine/doctrine-bundle": "2.12.0",
         "doctrine/doctrine-migrations-bundle": "3.3.1",
-        "doctrine/orm": "2.19.6",
+        "doctrine/orm": "3.2.0",
         "exercise/htmlpurifier-bundle": "5.0",
         "friendsofsymfony/http-cache": "3.0.0",
         "friendsofsymfony/http-cache-bundle": "3.0.1",
@@ -52,7 +52,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.59.3",
-        "hautelook/alice-bundle": "2.13.0",
+        "hautelook/alice-bundle": "2.14.0",
         "justinrainbow/json-schema": "5.3.0",
         "php-coveralls/php-coveralls": "2.7.0",
         "phpspec/prophecy-phpunit": "2.2",

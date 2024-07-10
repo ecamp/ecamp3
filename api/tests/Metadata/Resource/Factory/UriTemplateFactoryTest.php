@@ -2,8 +2,8 @@
 
 namespace App\Tests\Metadata\Resource\Factory;
 
-use ApiPlatform\Api\FilterInterface;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\FilterInterface;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;

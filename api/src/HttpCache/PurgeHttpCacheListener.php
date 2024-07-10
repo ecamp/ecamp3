@@ -31,7 +31,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -51,7 +51,7 @@ final class PurgeHttpCacheListener {
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs): void {
         $changeSet = $eventArgs->getEntityChangeSet();
-        $objectManager = method_exists($eventArgs, 'getObjectManager') ? $eventArgs->getObjectManager() : $eventArgs->getEntityManager();
+        $objectManager = $eventArgs->getObjectManager();
         $associationMappings = $objectManager->getClassMetadata(ClassUtils::getClass($eventArgs->getObject()))->getAssociationMappings();
 
         foreach ($changeSet as $key => $value) {
@@ -74,7 +74,12 @@ final class PurgeHttpCacheListener {
      */
     public function onFlush(OnFlushEventArgs $eventArgs): void {
         /** @var EntityManagerInterface */
-        $em = method_exists($eventArgs, 'getObjectManager') ? $eventArgs->getObjectManager() : $eventArgs->getEntityManager();
+        $em = $eventArgs->getObjectManager();
+
+        if (!$em instanceof EntityManagerInterface) {
+            return;
+        }
+
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
@@ -116,7 +121,7 @@ final class PurgeHttpCacheListener {
     private function addTagsForManyToManyRelations($collection, $entities) {
         $associationMapping = $collection->getMapping();
 
-        if (ClassMetadataInfo::MANY_TO_MANY !== $associationMapping['type']) {
+        if (ClassMetadata::MANY_TO_MANY !== $associationMapping['type']) {
             return;
         }
 
@@ -220,15 +225,7 @@ final class PurgeHttpCacheListener {
         $associationMappings = $em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
 
         foreach ($associationMappings as $property => $associationMapping) {
-            // @phpstan-ignore-next-line
-            if (class_exists(AssociationMapping::class) && $associationMapping instanceof AssociationMapping && ($associationMapping->targetEntity ?? null) && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
-                return;
-            }
-
-            // @phpstan-ignore-next-line
-            if (\is_array($associationMapping)
-                && \array_key_exists('targetEntity', $associationMapping)
-                && !$this->resourceClassResolver->isResourceClass($associationMapping['targetEntity'])) {
+            if ($associationMapping instanceof AssociationMapping && ($associationMapping->targetEntity ?? null) && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
                 return;
             }
 
