@@ -52,12 +52,15 @@ jobs:
       # start necessary containers
       - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
 
-      - uses: cypress-io/github-action@v6.7.1
-        with:
-          working-directory: e2e
-          browser: ${{ matrix.browser }}
-          wait-on: 'http://localhost:3000, http://localhost:3000/api, http://localhost:3000/print/health'
-          wait-on-timeout: 300
+      # pull cypress while container are starting up
+      - run: docker compose pull e2e
+
+      - run: sh -x wait-for-container-startup.sh
+
+      - run: docker compose --profile e2e run --rm e2e --browser ${{ matrix.browser }}
+
+      - run: sudo chown -R $USER e2e
+        if: always()
 
       # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
       - uses: actions/upload-artifact@v4
