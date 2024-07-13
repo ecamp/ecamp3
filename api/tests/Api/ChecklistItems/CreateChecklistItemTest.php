@@ -147,7 +147,7 @@ class CreateChecklistItemTest extends ECampApiTestCase {
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'text' => str_repeat('l', 65),
+                        'text' => str_repeat('l', 257),
                     ]
                 ),
             ]
@@ -158,7 +158,7 @@ class CreateChecklistItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'text',
-                    'message' => 'This value is too long. It should have 64 characters or less.',
+                    'message' => 'This value is too long. It should have 256 characters or less.',
                 ],
             ],
         ]);
