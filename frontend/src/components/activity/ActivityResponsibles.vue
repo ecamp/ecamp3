@@ -65,21 +65,24 @@ export default {
       )
     },
     availableCampCollaborations() {
-      return this.campCollaborations.items
-        .filter((cc) => {
-          return (
-            cc.status !== 'inactive' ||
-            this.currentCampCollaborationIRIs.includes(cc._meta.self)
-          )
-        })
-        .map((value) => {
-          // following structure is defined by vuetify v-select items property
-          return {
-            value: value._meta.self,
-            campCollaboration: value,
-            text: campCollaborationDisplayName(value, this.$tc.bind(this)),
-          }
-        })
+      return sortBy(
+        this.campCollaborations.items
+          .filter((cc) => {
+            return (
+              cc.status !== 'inactive' ||
+              this.currentCampCollaborationIRIs.includes(cc._meta.self)
+            )
+          })
+          .map((value) => {
+            // following structure is defined by vuetify v-select items property
+            return {
+              value: value._meta.self,
+              campCollaboration: value,
+              text: campCollaborationDisplayName(value, this.$tc.bind(this)),
+            }
+          }),
+        (value) => value.text.toLowerCase()
+      )
     },
     currentCampCollaborationIRIs() {
       return this.activityResponsibles.items.map(
