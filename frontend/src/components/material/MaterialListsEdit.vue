@@ -2,7 +2,7 @@
   <v-list>
     <v-skeleton-loader v-if="materialLists._meta.loading" type="list-item@3" />
     <DialogMaterialListEdit
-      v-for="materialList in materialLists.allItems"
+      v-for="materialList in materialListsSorted"
       :key="materialList._meta.self"
       :material-list="materialList"
     >
@@ -22,6 +22,7 @@
 <script>
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
+import { sortBy } from 'lodash'
 
 export default {
   name: 'MaterialListsEdit',
@@ -30,6 +31,16 @@ export default {
     materialLists: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    materialListsSorted() {
+      return sortBy(
+        this.materialLists.allItems,
+        (list) =>
+          (list.campCollaboration == null ? 'NonUserList_' : 'UserList_') +
+          list.name.toLowerCase()
+      )
     },
   },
 }

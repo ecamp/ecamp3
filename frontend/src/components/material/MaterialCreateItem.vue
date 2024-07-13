@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver
-    v-if="materialLists.length > 0"
+    v-if="materialListsSorted.length > 0"
     ref="validation"
     tag="tr"
     class="newItemRow"
@@ -33,7 +33,7 @@
         dense
         vee-rules="required"
         :label="$tc('entity.materialList.name')"
-        :items="materialLists"
+        :items="materialListsSorted"
       />
     </td>
     <td class="pt-1">
@@ -60,6 +60,7 @@
 import { campRoute } from '@/router.js'
 import { ValidationObserver } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import { sortBy } from 'lodash'
 
 export default {
   name: 'MaterialCreateItem',
@@ -83,8 +84,15 @@ export default {
     }
   },
   computed: {
-    materialLists() {
-      return this.camp.materialLists().items.map((list) => ({
+    materialListsSorted() {
+      const materialListsSorted = sortBy(
+        this.camp.materialLists().items,
+        (list) =>
+          (list.campCollaboration == null ? 'NonUserList_' : 'UserList_') +
+          list.name.toLowerCase()
+      )
+
+      return materialListsSorted.map((list) => ({
         value: list._meta.self,
         text: list.name,
       }))
