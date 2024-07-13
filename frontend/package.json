@@ -79,7 +79,7 @@
     "vue-toastification": "1.7.14",
     "vuedraggable": "2.24.3",
     "vuetify": "2.7.2",
-    "vuex": "3.6.2",
+    "vuex": "4.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
