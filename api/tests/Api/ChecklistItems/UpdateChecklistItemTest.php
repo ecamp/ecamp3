@@ -161,7 +161,7 @@ class UpdateChecklistItemTest extends ECampApiTestCase {
             '/checklist_items/'.$checklistItem->getId(),
             [
                 'json' => [
-                    'text' => str_repeat('l', 65),
+                    'text' => str_repeat('l', 257),
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
             ]
@@ -172,7 +172,7 @@ class UpdateChecklistItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'text',
-                    'message' => 'This value is too long. It should have 64 characters or less.',
+                    'message' => 'This value is too long. It should have 256 characters or less.',
                 ],
             ],
         ]);

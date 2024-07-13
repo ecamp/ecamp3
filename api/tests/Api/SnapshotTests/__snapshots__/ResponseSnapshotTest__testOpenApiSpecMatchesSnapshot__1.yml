@@ -7955,7 +7955,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - checklist
@@ -7987,7 +7987,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - position
@@ -8022,7 +8022,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - checklist
@@ -8053,7 +8053,7 @@ components:
                 text:
                   description: 'The human readable text of the checklist-item.'
                   example: Pfaditechnick
-                  maxLength: 64
+                  maxLength: 256
                   type: string
               required:
                 - position
@@ -8147,7 +8147,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - checklist
@@ -8193,7 +8193,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - checklist
@@ -8267,7 +8267,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - checklist
@@ -8304,7 +8304,7 @@ components:
         text:
           description: 'The human readable text of the checklist-item.'
           example: Pfaditechnick
-          maxLength: 64
+          maxLength: 256
           type: string
       required:
         - checklist

@@ -117,7 +117,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 64)]
+    #[Assert\Length(max: 256)]
     #[ORM\Column(type: 'text')]
     public ?string $text = null;
 
