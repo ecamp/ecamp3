@@ -21,7 +21,7 @@
       <v-list>
         <v-subheader>{{ $tc('components.program.periodSwitcher.title') }}</v-subheader>
         <v-list-item
-          v-for="item in period.camp().periods().items"
+          v-for="item in allPeriods"
           :key="item._meta.self"
           :to="periodRoute(item, routeName)"
           two-line
@@ -43,6 +43,7 @@
   </v-toolbar-title>
 </template>
 <script>
+import { sortBy } from 'lodash'
 import { periodRoute } from '@/router.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
@@ -55,6 +56,11 @@ export default {
       required: true,
     },
     routeName: { type: String, default: 'camp/period/program' },
+  },
+  computed: {
+    allPeriods() {
+      return sortBy(this.period.camp().periods().items, (p) => p.start)
+    },
   },
   methods: {
     periodRoute,
