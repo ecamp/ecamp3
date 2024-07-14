@@ -38,7 +38,7 @@
 
 <script>
 import { materialListRoute } from '@/router.js'
-import { sortBy } from 'lodash'
+import materialListsSorted from '@/common/helpers/materialListsSorted.js'
 
 export default {
   name: 'MaterialLists',
@@ -50,12 +50,7 @@ export default {
       return this.camp.materialLists()
     },
     materailListsSorted() {
-      return sortBy(
-        this.materialLists.allItems,
-        (list) =>
-          (list.campCollaboration == null ? 'NonUserList_' : 'UserList_') +
-          list.name.toLowerCase()
-      )
+      return materialListsSorted(this.materialLists.allItems)
     },
   },
   mounted() {

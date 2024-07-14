@@ -60,7 +60,7 @@
 import { campRoute } from '@/router.js'
 import { ValidationObserver } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
-import { sortBy } from 'lodash'
+import materialListsSorted from '@/common/helpers/materialListsSorted.js'
 
 export default {
   name: 'MaterialCreateItem',
@@ -85,14 +85,7 @@ export default {
   },
   computed: {
     materialListsSorted() {
-      const materialListsSorted = sortBy(
-        this.camp.materialLists().items,
-        (list) =>
-          (list.campCollaboration == null ? 'NonUserList_' : 'UserList_') +
-          list.name.toLowerCase()
-      )
-
-      return materialListsSorted.map((list) => ({
+      return materialListsSorted(this.camp.materialLists().items).map((list) => ({
         value: list._meta.self,
         text: list.name,
       }))

@@ -22,7 +22,7 @@
 <script>
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
-import { sortBy } from 'lodash'
+import materialListsSorted from '@/common/helpers/materialListsSorted.js'
 
 export default {
   name: 'MaterialListsEdit',
@@ -35,12 +35,7 @@ export default {
   },
   computed: {
     materialListsSorted() {
-      return sortBy(
-        this.materialLists.allItems,
-        (list) =>
-          (list.campCollaboration == null ? 'NonUserList_' : 'UserList_') +
-          list.name.toLowerCase()
-      )
+      return materialListsSorted(this.materialLists.allItems)
     },
   },
 }
