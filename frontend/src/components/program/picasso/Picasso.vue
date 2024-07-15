@@ -312,7 +312,7 @@ export default {
       return this.period.camp()
     },
     computedIntervalHeight() {
-      return this.intervalHeight ?? this.$vuetify.breakpoint.xsOnly
+      return (this.intervalHeight ?? this.$vuetify.breakpoint.xsOnly)
         ? (1.3 * (this.$vuetify.breakpoint.height - 140)) / this.intervalCount
         : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
     },
