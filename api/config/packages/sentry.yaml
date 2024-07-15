@@ -3,21 +3,16 @@ sentry:
     register_error_listener: false # Disables the ErrorListener to avoid duplicated log in sentry
     options:
         environment: '%env(SENTRY_ENVIRONMENT)%'
-        integrations:
-            - 'Sentry\Integration\IgnoreErrorsIntegration'
-
-services:
-    Sentry\Integration\IgnoreErrorsIntegration:
-        arguments:
-            $options:
-                ignore_exceptions:
-                    - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-                    - Symfony\Component\Routing\Exception\ResourceNotFoundException
-                    - Symfony\Component\Security\Core\Exception\AccessDeniedException
-                    # The following exceptions should not be reported by the API, because they are client errors (400) and should hence be reported by the client.
-                    # For the moment we keep them in, in order to track some frontend issues in Sentry.
-                    # - Symfony\Component\Serializer\Exception\ExtraAttributesException
-                    # - Symfony\Component\Serializer\Exception\UnexpectedValueException
+        ignore_exceptions:
+            - 'Symfony\Component\Debug\Exception\FatalErrorException'
+            - 'Symfony\Component\ErrorHandler\Error\FatalError'
+            - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+            - 'Symfony\Component\Routing\Exception\ResourceNotFoundException'
+            - 'Symfony\Component\Security\Core\Exception\AccessDeniedException'
+              # The following exceptions should not be reported by the API, because they are client errors (400) and should hence be reported by the client.
+              # For the moment we keep them in, in order to track some frontend issues in Sentry.
+#            - 'Symfony\Component\Serializer\Exception\ExtraAttributesException'
+#            - 'Symfony\Component\Serializer\Exception\UnexpectedValueException'
 
 monolog:
     handlers:
