@@ -30,7 +30,7 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         ]);
     }
 
-    public function testAddChecklistItemIsDeniedForMember() {
+    public function testAddChecklistItemForMember() {
         $checklistItemId = static::getFixture('checklistItem1_1_2')->getId();
         static::createClientWithCredentials(['email' => static::getFixture('user2member')->getEmail()])
             ->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
@@ -49,7 +49,7 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         ]);
     }
 
-    public function testAddChecklistItemIsDeniedForManager() {
+    public function testAddChecklistItemForManager() {
         $checklistItemId = static::getFixture('checklistItem1_1_2')->getId();
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
             'addChecklistItemIds' => [$checklistItemId],
@@ -81,7 +81,7 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         ]);
     }
 
-    public function testRemoveChecklistItemIsDeniedForMember() {
+    public function testRemoveChecklistItemForMember() {
         $checklistItem = static::getFixture('checklistItem1_1_1');
         static::createClientWithCredentials(['email' => static::getFixture('user2member')->getEmail()])
             ->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
@@ -93,7 +93,7 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         $this->assertFalse(in_array($checklistItem, $checklistNode->getChecklistItems()));
     }
 
-    public function testRemoveChecklistItemIsDeniedForManager() {
+    public function testRemoveChecklistItemForManager() {
         $checklistItem = static::getFixture('checklistItem1_1_1');
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
             'removeChecklistItemIds' => [$checklistItem->getId()],
