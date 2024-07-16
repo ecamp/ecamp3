@@ -108,7 +108,7 @@
     "jest-serializer-vue-tjw": "3.20.0",
     "jsdom": "24.1.0",
     "lint-staged": "15.2.7",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "sass": "1.32.13",
     "unplugin-vue-components": "0.27.2",
     "vite": "5.3.3",
