@@ -67,7 +67,11 @@
             </h3>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <CategoryProperties :category="category" :disabled="!isManager" />
+            <CategoryProperties
+              :key="category"
+              :category="category"
+              :disabled="!isManager"
+            />
           </v-expansion-panel-content>
         </v-expansion-panel>
 
