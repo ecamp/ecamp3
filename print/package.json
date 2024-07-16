@@ -35,7 +35,7 @@
     "@nuxtjs/i18n": "8.3.1",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@tailwindcss/typography": "0.5.13",
-    "@typescript-eslint/eslint-plugin": "7.16.0",
+    "@typescript-eslint/eslint-plugin": "7.16.1",
     "@vitest/coverage-v8": "2.0.3",
     "@vue/compiler-dom": "3.4.31",
     "@vue/compiler-sfc": "3.4.31",
