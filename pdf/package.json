@@ -17,7 +17,7 @@
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss}"
   },
   "dependencies": {
-    "@vue/runtime-core": "3.4.31",
+    "@vue/runtime-core": "3.4.32",
     "html-entities": "2.5.2",
     "html-parse-stringify": "3.0.1"
   },
@@ -37,12 +37,12 @@
     "@vitejs/plugin-vue": "5.0.5",
     "@vitest/coverage-v8": "2.0.3",
     "@vue/babel-preset-app": "5.0.8",
-    "@vue/compiler-dom": "3.4.31",
-    "@vue/compiler-sfc": "3.4.31",
+    "@vue/compiler-dom": "3.4.32",
+    "@vue/compiler-sfc": "3.4.32",
     "@vue/eslint-config-prettier": "9.0.0",
-    "@vue/runtime-dom": "3.4.31",
-    "@vue/server-renderer": "3.4.31",
-    "@vue/shared": "3.4.31",
+    "@vue/runtime-dom": "3.4.32",
+    "@vue/server-renderer": "3.4.32",
+    "@vue/shared": "3.4.32",
     "@vue/test-utils": "2.4.6",
     "css": "3.0.0",
     "dayjs": "1.11.11",
