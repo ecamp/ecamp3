@@ -36,9 +36,6 @@ services:
       - database
       - docker-host
     ports:
-      - target: 3000
-        published: 3000
-        protocol: tcp
       - target: 2019
         published: 2019
         protocol: tcp
@@ -52,6 +49,7 @@ services:
       - ./.cache/composer:/tmp/composer/cache:delegated
     environment:
       DATA_MIGRATIONS_DIR: dev-data
+      LOG_LEVEL: debug
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
@@ -63,6 +61,7 @@ services:
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
+      SERVER_NAME: ":3001"
       ADDITIONAL_TRUSTED_HOSTS: '.*'
       PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
     healthcheck:
@@ -81,10 +80,6 @@ services:
       - api
     volumes:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
-    ports:
-      - target: 8080
-        published: 3004
-        protocol: tcp
     command: -a :8081,HTTP -p http_max_hdr=96
     environment:
       - COOKIE_PREFIX=localhost_
@@ -192,6 +187,22 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     network_mode: host
     working_dir: /e2e
+    
+  reverse-proxy:
+    image: nginx:1.26
+    container_name: 'ecamp3-reverse-proxy'
+    volumes:
+      - ./reverse-proxy-nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - api
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 3004
+        published: 3004
+        protocol: tcp
 
   translation:
     image: node:22.6.0

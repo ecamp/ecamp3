@@ -54,7 +54,7 @@ jobs:
       - run: docker compose run --rm api composer install --prefer-dist --no-progress --no-interaction
 
       # start necessary containers
-      - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
+      - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail reverse-proxy
 
       # pull cypress while container are starting up
       - run: docker compose pull e2e
