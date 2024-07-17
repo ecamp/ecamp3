@@ -11,12 +11,12 @@
     },
     "dependencies": {
         "@pulumi/pulumi": "3.124.0",
-        "@pulumi/aws": "6.44.0",
+        "@pulumi/aws": "6.45.0",
         "@pulumi/awsx": "2.13.0"
     },
     "devDependencies": {
         "@babel/eslint-parser": "7.24.8",
-        "@types/node": "20.14.11",
+        "@types/node": "20.14.10",
         "eslint": "8.57.0",
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-import": "2.29.1",
