@@ -1,7 +1,1 @@
-Cannot delete the last entry.: "Kann den letzten Eintrag nicht löschen."
-Cannot delete the last schedule entry.: "Der letzte Eintrag des Zeitplans kann nicht gelöscht werden."
-"Either this value or {{ other }} should not be null.": "Entweder dieser Wert oder {{ other }} sollte nicht null sein."
-This inviteEmail is already present in the camp.: "Dieses Einladungs-E-Mail ist bereits im Lager."
 This is a test message for i18n variants: "de_CH_scout"
-This user is already present in the camp.: "Dieser Teilnehmer oder einer mit dieser E-Mail-Adresse nimmt bereits am Lager teil."
-"value must be one of {{ to }}, was {{ value }}": "der Wert muss einer von {{ to }} sein, war {{ value }}"
