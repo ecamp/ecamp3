@@ -50,7 +50,7 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker compose up -d api frontend pdf print browserless database docker-host http-cache mail
+      - run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d api frontend pdf print browserless database docker-host http-cache mail
 
       # pull cypress while container are starting up
       - run: docker compose pull e2e
