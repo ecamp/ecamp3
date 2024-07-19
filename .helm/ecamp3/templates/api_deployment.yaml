@@ -51,6 +51,8 @@ spec:
           env:
             - name: SERVER_NAME
               value: :3001
+            - name: COOKIE_SECURE
+              value: 'true'
             - name: APP_SECRET
               valueFrom:
                 secretKeyRef:
