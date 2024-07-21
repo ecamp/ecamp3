@@ -317,7 +317,7 @@ components:
         - scheduleEntries
         - title
       type: object
-    Activity-write.patch:
+    Activity-write:
       deprecated: false
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
@@ -345,6 +345,10 @@ components:
           example: Sportolympiade
           maxLength: 32
           type: string
+      required:
+        - category
+        - location
+        - title
       type: object
     Activity-write_create:
       deprecated: false
@@ -384,7 +388,7 @@ components:
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
-            $ref: '#/components/schemas/ScheduleEntry-write_create.patch'
+            $ref: '#/components/schemas/ScheduleEntry-write_create'
           minItems: 1
           type: array
         title:
@@ -1430,7 +1434,7 @@ components:
         - position
         - title
       type: object
-    ActivityProgressLabel-write.patch:
+    ActivityProgressLabel-write:
       deprecated: false
       description: |-
         Progress labels in a camp.
@@ -1444,6 +1448,9 @@ components:
           example: Planned
           maxLength: 32
           type: string
+      required:
+        - position
+        - title
       type: object
     ActivityProgressLabel-write_create:
       deprecated: false
@@ -3121,7 +3128,7 @@ components:
               end: '2022-01-08'
               start: '2022-01-01'
           items:
-            $ref: '#/components/schemas/Period-write_create.patch'
+            $ref: '#/components/schemas/Period-write_create'
           minItems: 1
           type: array
         printYSLogoOnPicasso:
@@ -3146,7 +3153,7 @@ components:
         - printYSLogoOnPicasso
         - title
       type: object
-    Camp-write_update.patch:
+    Camp-write_update:
       deprecated: false
       description: |-
         The main entity that eCamp is designed to manage. Contains programme which may be
@@ -3243,6 +3250,10 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - name
+        - printYSLogoOnPicasso
+        - title
       type: object
     Camp.jsonapi:
       deprecated: false
@@ -5514,7 +5525,7 @@ components:
         - role
         - status
       type: object
-    CampCollaboration-resend_invitation.patch:
+    CampCollaboration-resend_invitation:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       type: object
@@ -5577,7 +5588,7 @@ components:
         - camp
         - role
       type: object
-    CampCollaboration-write_update.patch:
+    CampCollaboration-write_update:
       deprecated: false
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
@@ -5617,6 +5628,9 @@ components:
           example: inactive
           maxLength: 16
           type: string
+      required:
+        - role
+        - status
       type: object
     CampCollaboration.jsonapi:
       deprecated: false
@@ -6635,7 +6649,7 @@ components:
         - preferredContentTypes
         - short
       type: object
-    Category-write_update.patch:
+    Category-write_update:
       deprecated: false
       description: |-
         A type of programme, such as sports activities or meal times, is called a category. A category
@@ -6684,6 +6698,12 @@ components:
           example: LS
           maxLength: 16
           type: string
+      required:
+        - color
+        - name
+        - numberingStyle
+        - preferredContentTypes
+        - short
       type: object
     Category.jsonapi:
       deprecated: false
@@ -8025,7 +8045,7 @@ components:
         - parent
         - position
       type: object
-    ColumnLayout-write_update.patch:
+    ColumnLayout-write_update:
       deprecated: false
       description: ''
       properties:
@@ -8079,6 +8099,9 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - data
+        - position
       type: object
     ColumnLayout.jsonapi:
       deprecated: false
@@ -11868,7 +11891,7 @@ components:
             - 'null'
             - string
       type: object
-    Invitation-write.patch:
+    Invitation-write:
       deprecated: false
       description: |-
         An invitation for a person to collaborate in a camp. The person may or may not
@@ -12071,53 +12094,6 @@ components:
         - materialList
       type: object
     MaterialItem-write:
-      deprecated: false
-      description: 'A physical item that is needed for carrying out a programme or camp.'
-      properties:
-        article:
-          description: 'The name of the item that is required.'
-          example: Volleyball
-          maxLength: 64
-          type: string
-        materialList:
-          description: |-
-            The list to which this item belongs. Lists are used to keep track of who is
-            responsible to prepare and bring the item to the camp.
-          example: /material_lists/1a2b3c4d
-          format: iri-reference
-          type: string
-        materialNode:
-          description: 'The content node to which this item belongs, if it does not belong to a period.'
-          example: /content_node/material_nodes/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        period:
-          description: 'The period to which this item belongs, if it does not belong to a content node.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        quantity:
-          description: 'The number of items or the amount in the unit of items that are required.'
-          example: 1.5
-          type:
-            - 'null'
-            - number
-        unit:
-          description: 'An optional unit for measuring the amount of items required.'
-          example: kg
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-      required:
-        - article
-        - materialList
-      type: object
-    MaterialItem-write.patch:
       deprecated: false
       description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
@@ -12515,7 +12491,7 @@ components:
         - materialItems
         - name
       type: object
-    MaterialList-write.patch:
+    MaterialList-write:
       deprecated: false
       description: |-
         A list of material items that someone needs to bring to the camp. A material list
@@ -12528,6 +12504,8 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - name
       type: object
     MaterialList-write_create:
       deprecated: false
@@ -12956,7 +12934,7 @@ components:
         - parent
         - position
       type: object
-    MaterialNode-write_update.patch:
+    MaterialNode-write_update:
       deprecated: false
       description: ''
       properties:
@@ -13004,6 +12982,8 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - position
       type: object
     MaterialNode.jsonapi:
       deprecated: false
@@ -13622,7 +13602,7 @@ components:
         - parent
         - position
       type: object
-    MultiSelect-write_update.patch:
+    MultiSelect-write_update:
       deprecated: false
       description: ''
       properties:
@@ -13676,6 +13656,9 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - data
+        - position
       type: object
     MultiSelect.jsonapi:
       deprecated: false
@@ -14400,7 +14383,7 @@ components:
         - scheduleEntries
         - start
       type: object
-    Period-write.patch:
+    Period-write:
       deprecated: false
       description: |-
         A time period in which the programme of a camp will take place. There may be multiple
@@ -14430,6 +14413,11 @@ components:
           description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
           example: '2022-01-01'
           format: date
+      required:
+        - description
+        - end
+        - moveScheduleEntries
+        - start
       type: object
     Period-write_create:
       deprecated: false
@@ -14472,42 +14460,6 @@ components:
         - end
         - moveScheduleEntries
         - start
-      type: object
-    Period-write_create.patch:
-      deprecated: false
-      description: |-
-        A time period in which the programme of a camp will take place. There may be multiple
-        periods in a camp, but they may not overlap. A period is made up of one or more full days.
-      properties:
-        camp:
-          description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
-          example: /camps/1a2b3c4d
-          format: iri-reference
-          type: string
-        description:
-          description: 'A free text name for the period. Useful to distinguish multiple periods in the same camp.'
-          example: Hauptlager
-          maxLength: 32
-          type:
-            - 'null'
-            - string
-        end:
-          description: |-
-            The (inclusive) day at the end of which the period ends, as an ISO date string. Should
-            not be before "start".
-          example: '2022-01-08'
-          format: date
-        moveScheduleEntries:
-          default: true
-          description: |-
-            If the start date of the period is changing, moveScheduleEntries defines what happens with the schedule
-            entries in the period.
-          example: true
-          type: boolean
-        start:
-          description: 'The day on which the period starts, as an ISO date string. Should not be after "end".'
-          example: '2022-01-01'
-          format: date
       type: object
     Period.jsonapi:
       deprecated: false
@@ -15323,7 +15275,7 @@ components:
           example: 1a2b3c4d
           type: string
       type: object
-    PersonalInvitation-write.patch:
+    PersonalInvitation-write:
       deprecated: false
       description: 'An invitation for a person who already has an account to collaborate in a camp.'
       type: object
@@ -15617,7 +15569,7 @@ components:
       required:
         - email
       type: object
-    Profile-write_create.patch:
+    Profile-write_create:
       deprecated: false
       description: |-
         The profile of a person using eCamp.
@@ -15695,8 +15647,10 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - email
       type: object
-    Profile-write_update.patch:
+    Profile-write_update:
       deprecated: false
       description: |-
         The profile of a person using eCamp.
@@ -16521,7 +16475,7 @@ components:
             - string
           writeOnly: true
       type: object
-    ResetPassword-update.patch:
+    ResetPassword-update:
       deprecated: false
       description: ''
       properties:
@@ -16865,7 +16819,7 @@ components:
         - parent
         - position
       type: object
-    ResponsiveLayout-write_update.patch:
+    ResponsiveLayout-write_update:
       deprecated: false
       description: ''
       properties:
@@ -16922,6 +16876,9 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - data
+        - position
       type: object
     ResponsiveLayout.jsonapi:
       deprecated: false
@@ -17760,7 +17717,7 @@ components:
         - end
         - start
       type: object
-    ScheduleEntry-write.patch:
+    ScheduleEntry-write:
       deprecated: false
       description: |-
         A calendar event in a period of the camp, at which some activity will take place. The start time
@@ -17801,6 +17758,9 @@ components:
           type:
             - 'null'
             - number
+      required:
+        - end
+        - start
       type: object
     ScheduleEntry-write_create:
       deprecated: false
@@ -17851,57 +17811,9 @@ components:
             - 'null'
             - number
       required:
+        - activity
         - end
         - start
-      type: object
-    ScheduleEntry-write_create.patch:
-      deprecated: false
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
-      properties:
-        activity:
-          description: |-
-            The activity that will take place at the time defined by this schedule entry. Can not be changed
-            once the schedule entry is created.
-          example: /activities/1a2b3c4d
-          format: iri-reference
-          type: string
-        end:
-          description: 'End date and time of the schedule entry.'
-          example: '2022-01-02T01:30:00+00:00'
-          format: date-time
-        left:
-          description: |-
-            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-            should be from the left border of the day column, as a fractional amount of the width of the whole
-            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-            API currently does not enforce this.
-          example: 0.6
-          type:
-            - 'null'
-            - number
-        period:
-          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        start:
-          description: 'Start date and time of the schedule entry.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date-time
-        width:
-          default: 1
-          description: |-
-            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-            overlapping schedule entries such that all of them are visible. Should be a decimal number
-            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-          example: 0.4
-          type:
-            - 'null'
-            - number
       type: object
     ScheduleEntry.jsonapi:
       deprecated: false
@@ -19108,7 +19020,7 @@ components:
         - parent
         - position
       type: object
-    SingleText-write_update.patch:
+    SingleText-write_update:
       deprecated: false
       description: ''
       properties:
@@ -19159,6 +19071,9 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - data
+        - position
       type: object
     SingleText.jsonapi:
       deprecated: false
@@ -19783,7 +19698,7 @@ components:
         - parent
         - position
       type: object
-    Storyboard-write_update.patch:
+    Storyboard-write_update:
       deprecated: false
       description: ''
       properties:
@@ -19838,6 +19753,9 @@ components:
           type:
             - 'null'
             - string
+      required:
+        - data
+        - position
       type: object
     Storyboard.jsonapi:
       deprecated: false
@@ -20311,7 +20229,7 @@ components:
         - parent
         - position
       type: object
-    User-activate.patch:
+    User-activate:
       deprecated: false
       description: |-
         A person using eCamp.
@@ -20488,7 +20406,7 @@ components:
       required:
         - profile
       type: object
-    User-write.patch:
+    User-write:
       deprecated: false
       description: |-
         A person using eCamp.
@@ -20526,7 +20444,7 @@ components:
             - string
           writeOnly: true
         profile:
-          $ref: '#/components/schemas/Profile-write_create.patch'
+          $ref: '#/components/schemas/Profile-write_create'
           example:
             email: bi-pi@example.com
             firstname: Robert
@@ -21457,7 +21375,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Activity-write.patch'
+              $ref: '#/components/schemas/Activity-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Activity.jsonapi'
@@ -21706,7 +21624,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ActivityProgressLabel-write.patch'
+              $ref: '#/components/schemas/ActivityProgressLabel-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ActivityProgressLabel.jsonapi'
@@ -22209,7 +22127,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ResetPassword-update.patch'
+              $ref: '#/components/schemas/ResetPassword-update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ResetPassword.jsonapi'
@@ -22519,7 +22437,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/CampCollaboration-write_update.patch'
+              $ref: '#/components/schemas/CampCollaboration-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/CampCollaboration.jsonapi'
@@ -22576,7 +22494,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/CampCollaboration-resend_invitation.patch'
+              $ref: '#/components/schemas/CampCollaboration-resend_invitation'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/CampCollaboration.jsonapi'
@@ -22912,7 +22830,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Camp-write_update.patch'
+              $ref: '#/components/schemas/Camp-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Camp.jsonapi'
@@ -23161,7 +23079,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Category-write_update.patch'
+              $ref: '#/components/schemas/Category-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Category.jsonapi'
@@ -23448,7 +23366,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ColumnLayout-write_update.patch'
+              $ref: '#/components/schemas/ColumnLayout-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ColumnLayout.jsonapi'
@@ -23735,7 +23653,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialNode-write_update.patch'
+              $ref: '#/components/schemas/MaterialNode-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialNode.jsonapi'
@@ -24022,7 +23940,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MultiSelect-write_update.patch'
+              $ref: '#/components/schemas/MultiSelect-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MultiSelect.jsonapi'
@@ -24309,7 +24227,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ResponsiveLayout-write_update.patch'
+              $ref: '#/components/schemas/ResponsiveLayout-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ResponsiveLayout.jsonapi'
@@ -24596,7 +24514,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/SingleText-write_update.patch'
+              $ref: '#/components/schemas/SingleText-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/SingleText.jsonapi'
@@ -24883,7 +24801,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Storyboard-write_update.patch'
+              $ref: '#/components/schemas/Storyboard-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Storyboard.jsonapi'
@@ -25645,7 +25563,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Invitation-write.patch'
+              $ref: '#/components/schemas/Invitation-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Invitation.jsonapi'
@@ -25744,7 +25662,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Invitation-write.patch'
+              $ref: '#/components/schemas/Invitation-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Invitation.jsonapi'
@@ -26031,7 +25949,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialItem-write.patch'
+              $ref: '#/components/schemas/MaterialItem-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialItem.jsonapi'
@@ -26280,7 +26198,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialList-write.patch'
+              $ref: '#/components/schemas/MaterialList-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialList.jsonapi'
@@ -26529,7 +26447,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Period-write.patch'
+              $ref: '#/components/schemas/Period-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Period.jsonapi'
@@ -26999,7 +26917,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/PersonalInvitation-write.patch'
+              $ref: '#/components/schemas/PersonalInvitation-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/PersonalInvitation.jsonapi'
@@ -27056,7 +26974,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/PersonalInvitation-write.patch'
+              $ref: '#/components/schemas/PersonalInvitation-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/PersonalInvitation.jsonapi'
@@ -27229,7 +27147,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/Profile-write_update.patch'
+              $ref: '#/components/schemas/Profile-write_update'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/Profile.jsonapi'
@@ -27600,7 +27518,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry-write.patch'
+              $ref: '#/components/schemas/ScheduleEntry-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/ScheduleEntry.jsonapi'
@@ -27823,7 +27741,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/User-write.patch'
+              $ref: '#/components/schemas/User-write'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/User.jsonapi'
@@ -27880,7 +27798,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/User-activate.patch'
+              $ref: '#/components/schemas/User-activate'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/User.jsonapi'
