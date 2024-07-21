@@ -1,6 +1,6 @@
 <?php
 
-namespace State;
+namespace App\Tests\State;
 
 use ApiPlatform\Metadata\Post;
 use App\DTO\UserActivation;
