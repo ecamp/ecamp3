@@ -9,7 +9,13 @@ describe('materialListsSorted', () => {
   const list6 = { campCollaboration: null, name: 'a3-name' }
 
   it('sorts Non-User bevor User-Lists, then alphabetically', () => {
-    expect(materialListsSorted([list1, list2, list3, list4, list5, list6]))
-      .toEqual([list6, list5, list4, list3, list2, list1])
+    expect(materialListsSorted([list1, list2, list3, list4, list5, list6])).toEqual([
+      list6,
+      list5,
+      list4,
+      list3,
+      list2,
+      list1,
+    ])
   })
 })
