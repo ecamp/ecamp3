@@ -70,6 +70,10 @@ jobs:
           path: |
             e2e/data/**/*
 
+      # print running containers
+      - run: docker ps -a
+        if: always()
+
       # print docker container logs (good for debugging; can be disabled again later on)
       - run: docker compose logs --tail="all"
         if: always()
