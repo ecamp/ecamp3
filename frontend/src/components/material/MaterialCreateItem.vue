@@ -11,6 +11,7 @@
         ref="quantity"
         v-model="materialItem.quantity"
         dense
+        vee-rules="greaterThan:0"
         inputmode="decimal"
         path="quantity"
       />

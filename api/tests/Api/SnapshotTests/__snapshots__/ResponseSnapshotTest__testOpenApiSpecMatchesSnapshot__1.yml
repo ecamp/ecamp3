@@ -12079,6 +12079,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -12157,6 +12158,7 @@ components:
                 quantity:
                   description: 'The number of items or the amount in the unit of items that are required.'
                   example: 1.5
+                  exclusiveMinimum: 0
                   type: ['null', number]
                 unit:
                   description: 'An optional unit for measuring the amount of items required.'
@@ -12248,6 +12250,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -12304,6 +12307,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -12380,6 +12384,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -12427,6 +12432,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number

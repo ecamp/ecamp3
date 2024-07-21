@@ -472,6 +472,7 @@
       "short": "Errore del server"
     },
     "validation": {
+      "greaterThan": "{_field_} deve essere maggiore di {min}",
       "greaterThanOrEqual_date": "{_field_} non può essere prima che {min}",
       "greaterThan_time": "{_camp_} deve essere posteriore a {min}",
       "lessThanOrEqual_date": "{_camp_} non può essere successivo a {max}",

@@ -492,6 +492,7 @@
       "copied": "{source} copié"
     },
     "validation": {
+      "greaterThan": "{_field_} doit être superieur à {min}",
       "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}",
       "greaterThan_time": "{_field_} doit être postérieure à {min}",
       "lessThanOrEqual_date": "{_field_} ne peut pas être postérieure à {max}",

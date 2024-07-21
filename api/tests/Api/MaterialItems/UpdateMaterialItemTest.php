@@ -3,6 +3,7 @@
 namespace App\Tests\Api\MaterialItems;
 
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\TestWith;
 
 /**
  * @internal
@@ -356,6 +357,22 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'The type of the "quantity" attribute must be "float", "string" given.',
+        ]);
+    }
+
+    #[TestWith([0])]
+    #[TestWith([-0])]
+    #[TestWith([-0.1])]
+    #[TestWith([-1])]
+    public function testPatchMaterialItemRejectsNegativeQuantity(float $quantity) {
+        $materialItem = static::getFixture('materialItem1');
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'quantity' => $quantity,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'quantity: This value should be greater than 0.',
         ]);
     }
 
