@@ -40,7 +40,7 @@ export default {
       return sortBy(
         [...this.collaborators],
         (c) =>
-          ROLE_ORDER.indexOf(c.role) +
+          String(ROLE_ORDER.indexOf(c.role)).padStart(3, '0') +
           campCollaborationDisplayName(c, this.$tc.bind(this)).toLowerCase()
       )
     },
