@@ -2,6 +2,6 @@ elasticsearch:
   elasticNode:
     resources:
       requests:
-        memory: 1500Mi
+        memory: 2000Mi
       limits:
-        memory: 1500Mi
+        memory: 2000Mi
