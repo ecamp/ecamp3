@@ -10,7 +10,7 @@
     "columnLayout": {
       "entity": {
         "column": {
-          "name": "Column|Column {name}"
+          "name": "Column"
         }
       },
       "icon": "mdi-view-column",
@@ -220,7 +220,7 @@
         "password": "Password",
         "surname": "Lastname"
       },
-      "name": "Profile"
+      "name": "Profiles"
     },
     "scheduleEntry": {
       "fields": {
