@@ -18,7 +18,17 @@ class RootTest extends ECampApiTestCase {
      * @throws ClientExceptionInterface
      */
     public function testOptionsWhenNotLoggedIn() {
-        static::createBasicClient()->request('OPTIONS', '/');
+        static::createBasicClient()->request(
+            'OPTIONS',
+            '/',
+            [
+                'headers' => [
+                    'Origin' => 'http://localhost:3000',
+                    'Access-Control-Request-Method' => 'GET',
+                    'Access-Control-Request-Headers' => 'Origin, Content-Type, Accept, Authorization',
+                ],
+            ]
+        );
         $this->assertResponseStatusCodeSame(200);
     }
 }
