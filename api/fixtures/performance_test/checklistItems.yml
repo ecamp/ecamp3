@@ -6,5 +6,5 @@ App\Entity\ChecklistItem:
     checklist: '@additional_checklist2_<current()>'
     text: 'Item_<current()>'
   additional_checklistItem_camp1_{1..12}:
-    camp: '@additional_checklist_camp1_1'
+    checklist: '@additional_checklist_camp1_1'
     text: 'Item_<current()>'
