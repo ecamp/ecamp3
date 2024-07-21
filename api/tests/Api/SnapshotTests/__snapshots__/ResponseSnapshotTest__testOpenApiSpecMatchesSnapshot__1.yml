@@ -24849,7 +24849,6 @@ paths:
       summary: 'Retrieves the collection of ChecklistItem resources.'
       tags:
         - ChecklistItem
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ChecklistItem resource.'
@@ -24968,7 +24967,6 @@ paths:
       summary: 'Retrieves a ChecklistItem resource.'
       tags:
         - ChecklistItem
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ChecklistItem resource.'
@@ -25238,7 +25236,6 @@ paths:
       summary: 'Retrieves the collection of ChecklistItem resources.'
       tags:
         - ChecklistItem
-    parameters: []
   '/checklists/{id}':
     delete:
       deprecated: false
@@ -25475,7 +25472,6 @@ paths:
       summary: 'Retrieves the collection of ChecklistNode resources.'
       tags:
         - ChecklistNode
-    parameters: []
     post:
       deprecated: false
       description: 'Creates a ChecklistNode resource.'
@@ -25594,7 +25590,6 @@ paths:
       summary: 'Retrieves a ChecklistNode resource.'
       tags:
         - ChecklistNode
-    parameters: []
     patch:
       deprecated: false
       description: 'Updates the ChecklistNode resource.'
