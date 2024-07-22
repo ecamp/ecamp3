@@ -124,7 +124,7 @@
         "copyCategoryOrActivity": "Kategorie oder Aktivität kopieren",
         "copyContent": "Inhalt kopieren",
         "copyPasteCategory": "Kategorie kopieren & einfügen",
-        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen, um dessen Inhalte zu kopieren.",
+        "copySourceInfo": "Hier kannst du die URL einer Block-Kategorie oder einer Aktivität einfügen um dessen Inhalte zu kopieren.",
         "pasteCategory": "Kopierte Kategorie oder Aktivität einfügen",
         "title": "Block-Kategorie erstellen"
       },
@@ -185,11 +185,11 @@
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
       },
-      "copyCategoryInfoDialog": {
-        "allow": "Jetzt erlauben",
-        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Kategorien nicht einfügen.",
+      "copyActivityInfoDialog": {
+        "allow": "Jetzt zulassen",
+        "denied": "Sie haben den Zugriff auf Ihre Zwischenablage verweigert. Kopierte Kategorien können daher nicht eingefügt werden.",
         "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
-        "granted": "Du kannst nun kopierte Kategorien einfügen.",
+        "granted": "Sie können nun kopierte Kategorien einfügen.",
         "title": "Kategorie kopieren & einfügen"
       }
     },
@@ -209,6 +209,7 @@
         "title": "{user} bearbeiten"
       },
       "collaboratorForm": {
+        "overrideAvatar": "Avatar für dieses Lager überschreiben",
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
       },
       "promptCollaboratorDeactivate": {
@@ -228,7 +229,11 @@
     },
     "form": {
       "base": {
+        "eColorField": {
+          "parseError": "Bitte gültige Farbe eingeben."
+        },
         "eColorPicker": {
+          "closePicker": "Dialog schliessen",
           "openPicker": "Dialog öffnen, um eine Farbe für {label} zu wählen"
         },
         "eDatePicker": {
@@ -443,20 +448,6 @@
       }
     }
   },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Geburtstag",
-        "email": "E-Mail-Adresse",
-        "firstname": "Vorname",
-        "language": "Sprache",
-        "nickname": "Spitzname",
-        "password": "Passwort",
-        "surname": "Nachname"
-      },
-      "name": "User"
-    }
-  },
   "global": {
     "button": {
       "add": "Hinzufügen",
@@ -498,6 +489,12 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "info": {
+      "offline": {
+        "description": "Daten speichern/laden nicht möglich.",
+        "title": "Du bist offline:"
+      }
+    },
     "language": "Deutsch",
     "loading": "Laden …",
     "navigation": {
@@ -517,7 +514,8 @@
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
-      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen"
+      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
+      "oneEmojiOrTwoCharacters": "{_field_} darf nur 1 Emoji oder 2 Buchstaben/Zahlen haben"
     },
     "warning": {
       "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
@@ -576,6 +574,7 @@
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
         },
+        "notActivated": "Nicht aktiviert?",
         "or": "oder mit",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
@@ -587,6 +586,8 @@
           "midata": "MiData"
         },
         "registernow": "Jetzt registrieren",
+        "resendActivation": "Aktivierungsmail erneut senden",
+        "resetPassword": "Passwort zurücksetzen",
         "termsOfServiceLink": "Nutzungsbedingungen"
       },
       "register": {
@@ -601,6 +602,12 @@
         "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "success": "Erfolgreich registriert",
         "title": "Konto erstellen"
+      },
+      "resendActivation": {
+        "errorMessage": "Erneutes Senden der Aktivierung fehlgeschlagen.",
+        "send": "Abschicken",
+        "successMessage": "Mail mit Link für 'Aktivierung' wird versendet.",
+        "title": "Aktivierungsmail erneut senden"
       },
       "resetPassword": {
         "errorMessage": "Passwort konnte nicht geändert werden.",
