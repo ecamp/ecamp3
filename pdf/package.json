@@ -34,7 +34,7 @@
     "@babel/eslint-parser": "7.24.8",
     "@intlify/core": "^9.10.2",
     "@rushstack/eslint-patch": "1.10.3",
-    "@vitejs/plugin-vue": "5.0.5",
+    "@vitejs/plugin-vue": "5.1.0",
     "@vitest/coverage-v8": "2.0.3",
     "@vue/babel-preset-app": "5.0.8",
     "@vue/compiler-dom": "3.4.33",
