@@ -187,9 +187,9 @@
       },
       "copyActivityInfoDialog": {
         "allow": "Jetzt zulassen",
-        "denied": "Sie haben den Zugriff auf Ihre Zwischenablage verweigert. Kopierte Kategorien können daher nicht eingefügt werden.",
+        "denied": "Du hast den Zugriff auf die Zwischenablage verweigert. Kopierte Kategorien können daher nicht eingefügt werden.",
         "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
-        "granted": "Sie können nun kopierte Kategorien einfügen.",
+        "granted": "Du kannst nun kopierte Kategorien einfügen.",
         "title": "Kategorie kopieren & einfügen"
       }
     },
