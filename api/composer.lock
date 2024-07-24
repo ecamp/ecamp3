@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6919cbc15bdd421729b22e7ba12abe24",
+    "content-hash": "3b76cc3f7d6cf091a52de36b7cfe3ea5",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2007,16 +2007,16 @@
         },
         {
             "name": "friendsofsymfony/http-cache",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCache.git",
-                "reference": "2b2ccae740c164c55ea43c6ccf5fca3011d00537"
+                "reference": "bc3983031cd0976095e2a9b3d2c52718c2eb35be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/2b2ccae740c164c55ea43c6ccf5fca3011d00537",
-                "reference": "2b2ccae740c164c55ea43c6ccf5fca3011d00537",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/bc3983031cd0976095e2a9b3d2c52718c2eb35be",
+                "reference": "bc3983031cd0976095e2a9b3d2c52718c2eb35be",
                 "shasum": ""
             },
             "require": {
@@ -2083,9 +2083,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSHttpCache/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSHttpCache/tree/3.0.0"
+                "source": "https://github.com/FriendsOfSymfony/FOSHttpCache/tree/3.1.0"
             },
-            "time": "2024-05-04T18:09:55+00:00"
+            "time": "2024-07-24T08:48:14+00:00"
         },
         {
             "name": "friendsofsymfony/http-cache-bundle",
