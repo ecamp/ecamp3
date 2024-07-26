@@ -83,7 +83,7 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.24.8",
+    "@babel/eslint-parser": "7.25.0",
     "@sentry/vite-plugin": "2.21.1",
     "@testing-library/jest-dom": "6.4.7",
     "@testing-library/user-event": "14.5.2",
