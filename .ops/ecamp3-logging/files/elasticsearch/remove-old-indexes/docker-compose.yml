@@ -1,0 +1,10 @@
+services:
+  remove-old-indexes:
+    image: node:22.5.1
+    volumes:
+      - ./src:/src
+    command:
+      - node
+      - /src/remove-old-indexes.mjs
+    env_file: .env
+    network_mode: host
