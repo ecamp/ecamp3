@@ -31,7 +31,7 @@
     "runes": "0.4.3"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.25.0",
+    "@babel/eslint-parser": "7.25.1",
     "@intlify/core": "^9.10.2",
     "@rushstack/eslint-patch": "1.10.4",
     "@vitejs/plugin-vue": "5.1.1",
