@@ -15,7 +15,7 @@ spec:
             @type record_transformer
             enable_ruby
             <record>
-              log ${record['log'].gsub(/^.*stdout F {/, "{")}
+              log ${record['log'].gsub(/^.*std(out|err) F {/, "{")}
             </record>
           </filter>
           <filter **>
