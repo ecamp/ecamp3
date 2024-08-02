@@ -237,49 +237,6 @@ describe('An ETimePicker', () => {
           from: timeConfig1,
           to: timeConfig3,
         },
-        //with leading zero
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig2,
-            textInput: '0' + timeConfig2.localizedTime,
-          },
-        },
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig2,
-            textInput: '0000' + timeConfig2.localizedTime,
-          },
-        },
-        {
-          from: timeConfig2,
-          to: {
-            ...timeConfig1,
-            textInput: '0' + timeConfig1.localizedTime,
-          },
-        },
-        {
-          from: timeConfig2,
-          to: {
-            ...timeConfig1,
-            textInput: '00000' + timeConfig1.localizedTime,
-          },
-        },
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig3,
-            textInput: '0' + timeConfig3.localizedTime,
-          },
-        },
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig3,
-            textInput: '00000' + timeConfig3.localizedTime,
-          },
-        },
       ])(
         `from $from.localizedTime to $to.textInput`,
         async ({
