@@ -8,6 +8,7 @@ describe('parseTime', () => {
     })
 
     it.each([
+      ['00:00', '00:00'],
       ['12:00', '12:00'],
       ['23:59', '23:59'],
       ['01:01', '01:01'],
@@ -34,19 +35,6 @@ describe('parseTime', () => {
       ['1-2', '01:02'],
       ['1;2', '01:02'],
     ])(`parses %s to %s`, (input, output) => {
-      if (locale === 'en') {
-        const parts = input.split(':')
-        if (parts.length === 2) {
-          const hour = parseInt(parts[0])
-          if (hour >= 12) {
-            const newHourNumber = hour > 12 ? hour - 12 : hour
-            input = `${newHourNumber}:${parts[1]} PM`
-          } else {
-            input = `${hour}:${parts[1]} AM`
-          }
-        }
-      }
-
       const { isValid, parsedDateTime } = parseTime(input)
       expect(parsedDateTime.format('HH:mm')).toEqual(output)
       expect(isValid).toEqual(true)
