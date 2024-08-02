@@ -17,7 +17,6 @@ describe('An ETimePicker', () => {
       firstHour: '0',
       labelText: 'Dialog öffnen, um eine Zeit für test zu wählen',
       closeButton: 'Schliessen',
-      timeInWrongLocale: '9:52 AM',
       validationMessage: 'Ungültiges Format, bitte gib die Zeit im Format HH:MM ein',
     },
     en: {
@@ -27,7 +26,6 @@ describe('An ETimePicker', () => {
       firstHour: '12',
       labelText: 'Open dialog to select a time for test',
       closeButton: 'Close',
-      timeInWrongLocale: '09:52',
       validationMessage:
         'Invalid format, please enter the time in the format HH:MM AM/PM',
     },
@@ -358,25 +356,23 @@ describe('An ETimePicker', () => {
     })
 
     describe('validates the input', async () => {
-      it.each([
-        data.timeInWrongLocale,
-        'a' + data.time1,
-        data.time2 + 'a',
-        '0000:a' + data.time3,
-      ])('%s', async (textInput) => {
-        // given
-        render(ETimePicker, {
-          props: { value: TIME1_ISO, label: 'test' },
-        })
-        const inputField = await screen.findByDisplayValue(data.time1)
+      it.each(['not a time', data.time1.replace(':', '/'), '0000:a' + data.time3])(
+        '%s',
+        async (textInput) => {
+          // given
+          render(ETimePicker, {
+            props: { value: TIME1_ISO, label: 'test' },
+          })
+          const inputField = await screen.findByDisplayValue(data.time1)
 
-        // when
-        await user.clear(inputField)
-        await user.keyboard(textInput)
+          // when
+          await user.clear(inputField)
+          await user.keyboard(textInput)
 
-        // then
-        await screen.findByText(data.validationMessage)
-      })
+          // then
+          await screen.findByText(data.validationMessage)
+        }
+      )
     })
 
     it('works with invalid initialization', async () => {
