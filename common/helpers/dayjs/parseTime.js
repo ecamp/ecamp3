@@ -20,7 +20,8 @@ function matchDigitGroups(input) {
 }
 
 export default (val) => {
-  let valIgnoringLeadingZero = val.replace(/^0*?([\d]{1,2}):/, '$1:')
+  const stringVal = `${val}`
+  let valIgnoringLeadingZero = stringVal.replace(/^0*?([\d]{1,2}):/, '$1:')
   const parsedDateTime = dayjs.utc(valIgnoringLeadingZero, 'LT')
   const formatted = parsedDateTime.format('LT')
   if (!formatted.startsWith('0') && valIgnoringLeadingZero.match(/^0\d/)) {
@@ -32,14 +33,20 @@ export default (val) => {
     return { parsedDateTime, isValid }
   }
 
-  const digitGroups = matchDigitGroups(valIgnoringLeadingZero)
+  const digitGroups = matchDigitGroups(stringVal)
   if (!digitGroups || digitGroups.length < 2) {
     return { parsedDateTime, isValid }
   }
 
-  const fuzzyMatchedTime = dayjs.utc(
-    `${digitGroups[0]}:${digitGroups[1]}`,
+  const hours = digitGroups[0]
+  const minutes = digitGroups[1]
+  const fuzzyMatchedTime = dayjs.utc(`${hours}:${minutes}`, HTML5_FMT.TIME)
+  const fuzzyMatchedTimeToday = dayjs.utc(
+    fuzzyMatchedTime.format(HTML5_FMT.TIME),
     HTML5_FMT.TIME
   )
-  return { parsedDateTime: fuzzyMatchedTime, isValid: fuzzyMatchedTime.isValid() }
+  if (hours > 23 || minutes > 59) {
+    return { parsedDateTime, isValid: false }
+  }
+  return { parsedDateTime: fuzzyMatchedTimeToday, isValid: fuzzyMatchedTime.isValid() }
 }

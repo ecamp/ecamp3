@@ -356,23 +356,20 @@ describe('An ETimePicker', () => {
     })
 
     describe('validates the input', async () => {
-      it.each(['not a time', data.time1.replace(':', '/'), '0000:a' + data.time3])(
-        '%s',
-        async (textInput) => {
-          // given
-          render(ETimePicker, {
-            props: { value: TIME1_ISO, label: 'test' },
-          })
-          const inputField = await screen.findByDisplayValue(data.time1)
+      it.each(['not a time', data.time1.replace(':', '/')])('%s', async (textInput) => {
+        // given
+        render(ETimePicker, {
+          props: { value: TIME1_ISO, label: 'test' },
+        })
+        const inputField = await screen.findByDisplayValue(data.time1)
 
-          // when
-          await user.clear(inputField)
-          await user.keyboard(textInput)
+        // when
+        await user.clear(inputField)
+        await user.keyboard(textInput)
 
-          // then
-          await screen.findByText(data.validationMessage)
-        }
-      )
+        // then
+        await screen.findByText(data.validationMessage)
+      })
     })
 
     it('works with invalid initialization', async () => {
