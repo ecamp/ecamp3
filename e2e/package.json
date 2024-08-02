@@ -18,21 +18,5 @@
     "eslint-plugin-cypress": "3.4.0",
     "eslint-plugin-prettier": "5.2.1",
     "prettier": "3.3.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "mocha": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:cypress/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "prefer-const": "error",
-      "prettier/prettier": "error"
-    }
   }
 }
