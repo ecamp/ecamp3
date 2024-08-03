@@ -6,7 +6,7 @@
   ],
   "constraints": {
     "node": "22.5.1",
-    "php": "8.3.9"
+    "php": "8.3.10"
   },
   "automergeType": "branch",
   "rebaseWhen": "conflicted",
