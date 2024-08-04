@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\UserActivation;
+namespace App\Tests\Api\UserActivation;
 
 use ApiPlatform\Metadata\Post;
 use App\Entity\User;
