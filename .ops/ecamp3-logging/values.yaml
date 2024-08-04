@@ -46,6 +46,9 @@ elasticsearch:
     resources:
       requests:
         storage: 10Gi
+  removeOldIndexes:
+    maxIndexAge: 15
+    image: node:22.5.1
 
 kibana:
   name: kibana

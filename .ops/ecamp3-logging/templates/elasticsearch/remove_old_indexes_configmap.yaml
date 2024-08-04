@@ -1,0 +1,15 @@
+{{- if not (.Values.elasticsearch.removeOldIndexes.maxIndexAge | empty) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: remove-old-indexes
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: elasticsearch
+    {{- include "app.commonLabels" . | nindent 4 }}
+    {{- include "app.commonSelectorLabels" . | nindent 4 }}
+data:
+  remove-old-indexes.mjs: |
+    {{ range .Files.Lines "files/elasticsearch/remove-old-indexes/src/remove-old-indexes.mjs" }}
+    {{ . }}{{ end }}
+{{- end }}

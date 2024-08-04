@@ -55,6 +55,21 @@ spec:
                   fieldPath: metadata.name
             - name: ES_JAVA_OPTS
               value: "-Xms{{ $minHeapSpace }}m -Xmx{{ $maxHeapSpace }}m"
+        {{- if not (.Values.elasticsearch.removeOldIndexes.maxIndexAge | empty) }}
+        - name: remove-old-indexes
+          image: {{ .Values.elasticsearch.removeOldIndexes.image }}
+          command:
+            - node
+            - /src/remove-old-indexes.mjs
+          env:
+            - name: ELASTICSEARCH_URL
+              value: "http://localhost:9200"
+            - name: MAX_INDEX_AGE
+              value: {{ .Values.elasticsearch.removeOldIndexes.maxIndexAge | quote }}
+          volumeMounts:
+            - name: remove-old-indexes 
+              mountPath: /src
+        {{- end }}
       initContainers:
         - name: fix-permissions
           image: busybox
@@ -74,6 +89,12 @@ spec:
           command: [ "sh", "-c", "ulimit -n 65536" ]
           securityContext:
             privileged: true
+      {{- if not (.Values.elasticsearch.removeOldIndexes.maxIndexAge | empty) }}
+      volumes:
+        - name: remove-old-indexes
+          configMap:
+            name: remove-old-indexes
+      {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: data
