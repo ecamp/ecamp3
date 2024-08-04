@@ -36,7 +36,7 @@
     "@nuxtjs/tailwindcss": "6.12.1",
     "@tailwindcss/typography": "0.5.13",
     "@typescript-eslint/eslint-plugin": "7.16.0",
-    "@vitest/coverage-v8": "2.0.3",
+    "@vitest/coverage-v8": "2.0.5",
     "@vue/compiler-dom": "3.4.35",
     "@vue/compiler-sfc": "3.4.35",
     "@vue/runtime-dom": "3.4.35",
@@ -52,7 +52,7 @@
     "nuxt": "3.12.4",
     "prettier": "3.3.3",
     "sass": "1.69.4",
-    "vitest": "2.0.3",
+    "vitest": "2.0.5",
     "vite-svg-loader": "5.1.0",
     "vue": "3.4.35"
   },
