@@ -3,7 +3,7 @@
 # Adapted from https://github.com/api-platform/api-platform/blob/fa1c5808305d7cadbf7b8392e0fddb6e80fb2092/api/Dockerfile
 
 # Versions
-FROM dunglas/frankenphp:1.2-php8.3.9 AS frankenphp_upstream
+FROM dunglas/frankenphp:1.2-php8.3.10 AS frankenphp_upstream
 
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
