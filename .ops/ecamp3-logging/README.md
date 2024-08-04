@@ -37,5 +37,5 @@ To diff the deployment
 ```shell
 helm template \
     --namespace ecamp3-logging --no-hooks --skip-tests \
-    ecamp3-logging . | kubectl diff --namespace ecamp3-logging -f - | batcat -l diff -
+    ecamp3-logging . --values=values.yaml --values=values-prod.yaml | kubectl diff --namespace ecamp3-logging -f - | batcat -l diff -
 ```
