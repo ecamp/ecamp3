@@ -1,6 +1,6 @@
 App\Entity\ContentType:
-  contentTypeSafetyConcept:
-    name: 'SafetyConcept'
+  contentTypeSafetyConsiderations:
+    name: 'SafetyConsiderations'
     active: true
     entityClass: 'App\Entity\ContentNode\SingleText'
   contentTypeStoryContext:

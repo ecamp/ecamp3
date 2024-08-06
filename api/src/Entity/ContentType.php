@@ -33,7 +33,7 @@ class ContentType extends BaseEntity {
      * A name in UpperCamelCase of the content type. This value may be used as a technical
      * identifier of this content type, it is guaranteed to stay fixed.
      */
-    #[ApiProperty(writable: false, example: 'SafetyConcept')]
+    #[ApiProperty(writable: false, example: 'SafetyConsiderations')]
     #[Groups(['read'])]
     #[ORM\Column(type: 'string', length: 32, unique: true)]
     public ?string $name = null;
