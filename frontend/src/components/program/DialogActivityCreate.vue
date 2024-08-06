@@ -321,8 +321,8 @@ export default {
       const url = (event.clipboardData || window.clipboardData).getData('text')
       if (!this.isActivitySource(url) || this.copyActivitySourceUrlShowPopover) return
       if (this.copyActivitySource == null) {
-        const copyActivitySource = await this.getCopyActivitySource(url)
-        this.copyActivitySource = await copyActivitySource?._meta.load
+        const activitySource = await this.getCopyActivitySource(url)
+        this.copyActivitySource = await activitySource?._meta.load
       }
       if (this.copyActivitySource != null) {
         this.showDialog = true // on paste make sure this dialog opens
