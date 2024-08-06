@@ -180,7 +180,12 @@ export default {
           label: this.$tc('components.program.scheduleEntryFilters.responsibleNone'),
           _meta: { self: 'none' },
         },
-        ...keyBy(this.camp.campCollaborations().items, '_meta.self'),
+        ...keyBy(
+          sortBy(this.camp.campCollaborations().items, (u) =>
+            campCollaborationDisplayName(u, this.$tc.bind(this)).toLowerCase()
+          ),
+          '_meta.self'
+        ),
       }
     },
     categories() {

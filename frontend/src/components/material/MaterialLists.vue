@@ -10,7 +10,7 @@
     </v-list-item>
     <v-skeleton-loader v-if="materialLists._meta.loading" type="list-item@3" />
     <v-list-item
-      v-for="materialList in materialLists.allItems"
+      v-for="materialList in materailListsSorted"
       :key="materialList._meta.self"
       :to="materialListRoute(camp, materialList, { isDetail: true })"
       exact-path
@@ -38,6 +38,7 @@
 
 <script>
 import { materialListRoute } from '@/router.js'
+import materialListsSorted from '@/common/helpers/materialListsSorted.js'
 
 export default {
   name: 'MaterialLists',
@@ -47,6 +48,9 @@ export default {
   computed: {
     materialLists() {
       return this.camp.materialLists()
+    },
+    materailListsSorted() {
+      return materialListsSorted(this.materialLists.allItems)
     },
   },
   mounted() {
