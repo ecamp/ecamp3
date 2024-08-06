@@ -5,34 +5,22 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint --fix --ext .js --ignore-path .gitignore .",
-    "lint:prettier": "prettier --write --ignore-path .gitignore **/*.{js,json,md}",
+    "lint:eslint": "eslint --fix",
+    "lint:prettier": "prettier --write --ignore-path .gitignore **/*.{js,mjs,json,md}",
     "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
-    "lint:check:eslint": "eslint --ext .js --ignore-path .gitignore .",
-    "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,json,md}"
+    "lint:check:eslint": "eslint",
+    "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,mjs,json,md}"
   },
   "devDependencies": {
+    "@eslint/compat": "1.1.1",
+    "@eslint/eslintrc": "3.1.0",
+    "@eslint/js": "9.8.0",
     "cypress": "13.13.2",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-cypress": "3.4.0",
     "eslint-plugin-prettier": "5.2.1",
+    "globals": "15.9.0",
     "prettier": "3.3.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "mocha": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:cypress/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "prefer-const": "error",
-      "prettier/prettier": "error"
-    }
   }
 }
