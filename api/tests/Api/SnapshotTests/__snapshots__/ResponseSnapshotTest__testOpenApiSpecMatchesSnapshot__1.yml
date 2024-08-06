@@ -22659,7 +22659,7 @@ paths:
     get:
       deprecated: false
       description: 'Retrieves the collection of Category resources.'
-      operationId: BelongsToCamp_App\Entity\Category_get_collection
+      operationId: api_camps_campIdcategories_get_collection
       parameters:
         -
           allowEmptyValue: false
