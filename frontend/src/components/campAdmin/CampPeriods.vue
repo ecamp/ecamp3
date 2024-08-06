@@ -25,7 +25,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
     <v-skeleton-loader v-if="camp.periods()._meta.loading" type="article" />
     <v-list>
       <period-item
-        v-for="period in periods.items"
+        v-for="period in periods"
         :key="period._meta.self"
         class="px-0"
         :period="period"
@@ -36,6 +36,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 </template>
 
 <script>
+import { sortBy } from 'lodash'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import PeriodItem from './CampPeriodsListItem.vue'
 import DialogPeriodCreate from './DialogPeriodCreate.vue'
@@ -53,7 +54,7 @@ export default {
   },
   computed: {
     periods() {
-      return this.camp.periods()
+      return sortBy(this.camp.periods().items, (p) => p.start)
     },
   },
 }
