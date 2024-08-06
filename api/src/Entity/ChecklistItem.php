@@ -17,7 +17,7 @@ use App\InputFilter;
 use App\Repository\ChecklistItemRepository;
 use App\Util\EntityMap;
 use App\Validator\AssertNoLoop;
-use App\Validator\ChecklistItem\AssertBelongsToChecklist;
+use App\Validator\ChecklistItem\AssertBelongsToSameChecklist;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,9 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Delete(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            validate: true,
-            validationContext: ['groups' => ['delete']]
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
             security: 'is_authenticated()'
@@ -50,7 +48,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            name: 'BelongsToChecklist_App\Entity\ChecklistItem_get_collection',
             uriTemplate: self::CHECKLIST_SUBRESOURCE_URI_TEMPLATE,
             uriVariables: [
                 'checklistId' => new Link(
@@ -69,7 +66,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
 #[ORM\UniqueConstraint(name: 'checklistitem_checklistid_parentid_position_unique', columns: ['checklistid', 'parentid', 'position'])]
 class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface, HasParentInterface {
-    public const CHECKLIST_SUBRESOURCE_URI_TEMPLATE = '/checklists/{checklistId}/checklist_items.{_format}';
+    public const CHECKLIST_SUBRESOURCE_URI_TEMPLATE = '/checklists/{checklistId}/checklist_items{._format}';
 
     /**
      * The Checklist this Item belongs to.
@@ -86,7 +83,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
      * root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
      * as the new parent is in the same checklist as the old one.
      */
-    #[AssertBelongsToChecklist(groups: ['update'])]
+    #[AssertBelongsToSameChecklist(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/checklist_items/1a2b3c4d')]
     #[Gedmo\SortableGroup]

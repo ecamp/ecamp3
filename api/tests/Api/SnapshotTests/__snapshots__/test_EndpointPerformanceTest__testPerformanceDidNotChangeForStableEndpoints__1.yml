@@ -4,10 +4,10 @@
 /activity_progress_labels/item: 7
 /activity_responsibles: 6
 /activity_responsibles/item: 8
-/camps: 29
-/camps/item: 22
-/camp_collaborations: 25
-/camp_collaborations/item: 15
+/camps: 26
+/camps/item: 21
+/camp_collaborations: 22
+/camp_collaborations/item: 14
 /categories: 11
 /categories/item: 9
 /checklists: 6
@@ -25,7 +25,7 @@
 /material_lists: 6
 /material_lists/item: 7
 /periods: 6
-/periods/item: 18
+/periods/item: 17
 /profiles: 6
 /profiles/item: 6
 /schedule_entries: 23
@@ -34,8 +34,8 @@
 '/activities?camp=': 13
 '/activity_progress_labels?camp=': 6
 '/activity_responsibles?activity.camp=': 6
-'/camp_collaborations?camp=': 13
-'/camp_collaborations?activityResponsibles.activity=': 15
+'/camp_collaborations?camp=': 12
+'/camp_collaborations?activityResponsibles.activity=': 14
 '/categories?camp=': 9
 '/content_types?categories=': 6
 '/day_responsibles?day.period=': 6

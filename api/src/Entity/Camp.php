@@ -140,7 +140,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * List of all Checklists of this Camp.
      * Each Checklist is a List of ChecklistItems.
      */
-    #[ApiProperty(writable: false, example: '["/checklists/1a2b3c4d"]')]
+    #[ApiProperty(writable: false, uriTemplate: Checklist::CAMP_SUBRESOURCE_URI_TEMPLATE)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Checklist::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $checklists;

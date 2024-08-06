@@ -2335,13 +2335,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2538,13 +2535,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2730,13 +2724,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2929,13 +2920,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3540,13 +3528,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3752,13 +3737,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3953,13 +3935,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4161,13 +4140,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4516,13 +4492,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4742,13 +4715,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4957,13 +4927,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -5179,13 +5146,10 @@ components:
           type: string
         checklists:
           description: 'List of all Checklists of this Camp.'
-          example: '["/checklists/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -7625,13 +7589,10 @@ components:
           type: string
         checklistItems:
           description: 'All ChecklistItems that belong to this Checklist.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7766,13 +7727,10 @@ components:
           type: string
         checklistItems:
           description: 'All ChecklistItems that belong to this Checklist.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7861,13 +7819,10 @@ components:
           type: string
         checklistItems:
           description: 'All ChecklistItems that belong to this Checklist.'
-          example: '["/checklist_items/1a2b3c4d"]'
-          items:
-            example: 'https://example.com/'
-            format: iri-reference
-            type: string
+          example: 'https://example.com/'
+          format: iri-reference
           readOnly: true
-          type: array
+          type: string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -8316,7 +8271,7 @@ components:
       description: ''
       properties:
         checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
+          description: 'List of selected ChecklistItems.'
           example: '["/checklist_items/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
@@ -8564,7 +8519,7 @@ components:
             - 'null'
           writeOnly: true
         checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
+          description: 'List of selected ChecklistItems.'
           example: '["/checklist_items/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
@@ -8683,7 +8638,7 @@ components:
               type: object
           type: object
         checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
+          description: 'List of selected ChecklistItems.'
           example: '["/checklist_items/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
@@ -8890,7 +8845,7 @@ components:
           readOnly: true
           type: string
         checklistItems:
-          description: 'The content types that are most likely to be useful for planning programme of this category.'
+          description: 'List of selected ChecklistItems.'
           example: '["/checklist_items/1a2b3c4d"]'
           items:
             example: 'https://example.com/'
@@ -24319,7 +24274,7 @@ paths:
     get:
       deprecated: false
       description: 'Retrieves the collection of Checklist resources.'
-      operationId: BelongsToCamp_App\Entity\Checklist_get_collection
+      operationId: api_camps_campIdchecklists_get_collection
       parameters:
         -
           allowEmptyValue: false
@@ -25153,7 +25108,7 @@ paths:
     get:
       deprecated: false
       description: 'Retrieves the collection of ChecklistItem resources.'
-      operationId: BelongsToChecklist_App\Entity\ChecklistItem_get_collection
+      operationId: api_checklists_checklistIdchecklist_items_get_collection
       parameters:
         -
           allowEmptyValue: false

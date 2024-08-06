@@ -51,7 +51,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ChecklistNodeRepository::class)]
 class ChecklistNode extends ContentNode {
     /**
-     * The content types that are most likely to be useful for planning programme of this category.
+     * List of selected ChecklistItems.
      */
     #[ApiProperty(example: '["/checklist_items/1a2b3c4d"]')]
     #[Groups(['read'])]

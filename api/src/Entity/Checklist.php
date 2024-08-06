@@ -48,7 +48,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            name: 'BelongsToCamp_App\Entity\Checklist_get_collection',
             uriTemplate: self::CAMP_SUBRESOURCE_URI_TEMPLATE,
             uriVariables: [
                 'campId' => new Link(
@@ -66,7 +65,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ChecklistRepository::class)]
 class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
-    public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/checklists.{_format}';
+    public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/checklists{._format}';
 
     /**
      * The camp this checklist belongs to.
@@ -87,7 +86,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     /**
      * All ChecklistItems that belong to this Checklist.
      */
-    #[ApiProperty(writable: false, example: '["/checklist_items/1a2b3c4d"]')]
+    #[ApiProperty(writable: false, uriTemplate: ChecklistItem::CHECKLIST_SUBRESOURCE_URI_TEMPLATE)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ChecklistItem::class, mappedBy: 'checklist', cascade: ['persist'])]
     public Collection $checklistItems;
