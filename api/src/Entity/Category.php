@@ -58,7 +58,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            name: 'BelongsToCamp_App\Entity\Category_get_collection',
             uriTemplate: self::CAMP_SUBRESOURCE_URI_TEMPLATE,
             uriVariables: [
                 'campId' => new Link(
@@ -79,7 +78,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     use ClassInfoTrait;
     use HasRootContentNodeTrait;
 
-    public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/categories.{_format}';
+    public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/categories{._format}';
 
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
