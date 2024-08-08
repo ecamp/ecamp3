@@ -83,8 +83,8 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
      * root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
      * as the new parent is in the same checklist as the old one.
      */
-    #[AssertBelongsToSameChecklist(groups: ['update'])]
-    #[AssertNoLoop(groups: ['update'])]
+    #[AssertBelongsToSameChecklist]
+    #[AssertNoLoop]
     #[ApiProperty(example: '/checklist_items/1a2b3c4d')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]

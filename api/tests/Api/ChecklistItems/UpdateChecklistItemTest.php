@@ -110,6 +110,28 @@ class UpdateChecklistItemTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchhChecklistItemValidatesNoParentLoop() {
+        $checklistItemParent = static::getFixture('checklistItem1_1_2');
+        $checklistItemChild = static::getFixture('checklistItem1_1_2_3');
+
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/checklist_items/'.$checklistItemParent->getId(),
+            [
+                'json' => [
+                    'parent' => '/checklist_items/'.$checklistItemChild->getId(),
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+        
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'parent: Must not form a loop of parent-child relations.',
+        ]);
+    }
+
     public function testPatchChecklistItemValidatesNullText() {
         $checklistItem = static::getFixture('checklistItem1_1_1');
         static::createClientWithCredentials()->request(
