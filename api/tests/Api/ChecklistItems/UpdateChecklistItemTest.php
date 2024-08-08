@@ -124,7 +124,7 @@ class UpdateChecklistItemTest extends ECampApiTestCase {
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
             ]
         );
-        
+
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',

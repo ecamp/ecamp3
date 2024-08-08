@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class AssertBelongsToSameCampValidator extends ConstraintValidator {
     use GetCampFromContentNodeTrait;
-    
+
     public function __construct(
-        public RequestStack $requestStack, 
+        public RequestStack $requestStack,
         private EntityManagerInterface $em,
         private ChecklistItemRepository $checklistItemRepository,
     ) {}
@@ -42,13 +42,14 @@ class AssertBelongsToSameCampValidator extends ConstraintValidator {
 
         $camp = $this->getCampFromInterface($object, $this->em);
 
-        foreach($value as $checklistItemId) {
-            /** @var ChecklistItem $checklistItem */
+        foreach ($value as $checklistItemId) {
+            /** @var ?ChecklistItem $checklistItem */
             $checklistItem = $this->checklistItemRepository->find($checklistItemId);
 
             if ($camp != $checklistItem?->getCamp()) {
                 $this->context->buildViolation($constraint->message)
-                    ->addViolation();
+                    ->addViolation()
+                ;
             }
         }
     }
