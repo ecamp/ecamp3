@@ -15,6 +15,7 @@ use App\Entity\ContentNode;
 use App\Repository\ChecklistNodeRepository;
 use App\State\ContentNode\ChecklistNodePersistProcessor;
 use App\Util\EntityMap;
+use App\Validator\ChecklistItem\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -62,6 +63,7 @@ class ChecklistNode extends ContentNode {
     #[ORM\OrderBy(['position' => 'ASC'])]
     public Collection $checklistItems;
 
+    #[AssertBelongsToSameCamp(groups: ['update'])]
     #[ApiProperty(example: '["1a2b3c4d"]')]
     #[Groups(['write'])]
     public ?array $addChecklistItemIds = [];

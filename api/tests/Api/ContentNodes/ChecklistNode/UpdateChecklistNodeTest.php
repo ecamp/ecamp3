@@ -103,4 +103,18 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         $checklistNode = $this->getEntityManager()->getRepository(ChecklistNode::class)->find($this->defaultEntity->getId());
         $this->assertFalse(in_array($checklistItem, $checklistNode->getChecklistItems()));
     }
+
+    public function testAddChecklistItemOfOtherCampIsDenied() {
+        $checklistItemId = static::getFixture('checklistItem2_1_1')->getId();
+        static::createClientWithCredentials(['email' => static::getFixture('user2member')->getEmail()])
+            ->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+                'addChecklistItemIds' => [$checklistItemId],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'addChecklistItemIds: Must belong to the same camp.',
+        ]);
+    }
 }
