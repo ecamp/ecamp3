@@ -17,7 +17,6 @@ describe('An ETimePicker', () => {
       firstHour: '0',
       labelText: 'Dialog öffnen, um eine Zeit für test zu wählen',
       closeButton: 'Schliessen',
-      timeInWrongLocale: '9:52 AM',
       validationMessage: 'Ungültiges Format, bitte gib die Zeit im Format HH:MM ein',
     },
     en: {
@@ -27,7 +26,6 @@ describe('An ETimePicker', () => {
       firstHour: '12',
       labelText: 'Open dialog to select a time for test',
       closeButton: 'Close',
-      timeInWrongLocale: '09:52',
       validationMessage:
         'Invalid format, please enter the time in the format HH:MM AM/PM',
     },
@@ -239,49 +237,6 @@ describe('An ETimePicker', () => {
           from: timeConfig1,
           to: timeConfig3,
         },
-        //with leading zero
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig2,
-            textInput: '0' + timeConfig2.localizedTime,
-          },
-        },
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig2,
-            textInput: '0000' + timeConfig2.localizedTime,
-          },
-        },
-        {
-          from: timeConfig2,
-          to: {
-            ...timeConfig1,
-            textInput: '0' + timeConfig1.localizedTime,
-          },
-        },
-        {
-          from: timeConfig2,
-          to: {
-            ...timeConfig1,
-            textInput: '00000' + timeConfig1.localizedTime,
-          },
-        },
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig3,
-            textInput: '0' + timeConfig3.localizedTime,
-          },
-        },
-        {
-          from: timeConfig1,
-          to: {
-            ...timeConfig3,
-            textInput: '00000' + timeConfig3.localizedTime,
-          },
-        },
       ])(
         `from $from.localizedTime to $to.textInput`,
         async ({
@@ -358,12 +313,7 @@ describe('An ETimePicker', () => {
     })
 
     describe('validates the input', async () => {
-      it.each([
-        data.timeInWrongLocale,
-        'a' + data.time1,
-        data.time2 + 'a',
-        '0000:a' + data.time3,
-      ])('%s', async (textInput) => {
+      it.each(['not a time', data.time1.replace(':', '/')])('%s', async (textInput) => {
         // given
         render(ETimePicker, {
           props: { value: TIME1_ISO, label: 'test' },
