@@ -1,6 +1,7 @@
 import { extend, configure, setInteractionMode } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import i18n from '@/plugins/i18n'
+import greaterThan from '@/plugins/veeValidate/greaterThan'
 import greaterThan_time from './veeValidate/greaterThan_time.js'
 import greaterThanOrEqual_date from './veeValidate/greaterThanOrEqual_date.js'
 import lessThanOrEqual_date from './veeValidate/lessThanOrEqual_date.js'
@@ -29,6 +30,8 @@ class VeeValidatePlugin {
     /**
      * define custom rules
      */
+
+    extend('greaterThan', greaterThan(i18n))
 
     extend('greaterThan_time', greaterThan_time(Vue.dayjs, i18n))
 

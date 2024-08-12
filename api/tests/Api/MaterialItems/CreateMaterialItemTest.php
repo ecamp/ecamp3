@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Post;
 use App\Entity\MaterialItem;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
+use PHPUnit\Framework\Attributes\TestWith;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -343,6 +344,21 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'The type of the "quantity" attribute must be "float", "string" given.',
+        ]);
+    }
+
+    #[TestWith([0])]
+    #[TestWith([-0])]
+    #[TestWith([-0.1])]
+    #[TestWith([-1])]
+    public function testCreateMaterialItemRejectsNegativeQuantity(float $quantity) {
+        static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
+            'quantity' => $quantity,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'quantity: This value should be greater than 0.',
         ]);
     }
 

@@ -512,6 +512,7 @@
       "copied": "{source} copied"
     },
     "validation": {
+      "greaterThan": "{_field_} must be greater than {min}",
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
       "lessThanOrEqual_date": "{_field_} may not be later than {max}",

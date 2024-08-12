@@ -33,6 +33,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
+        vee-rules="greaterThan:0"
         path="quantity"
         inputmode="decimal"
       />
