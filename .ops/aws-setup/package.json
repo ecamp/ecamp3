@@ -7,7 +7,7 @@
         "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{json,md}",
         "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
         "lint:check:eslint": "eslint --no-fix --ext .ts,.js --ignore-path .gitignore .",
-        "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}"
+        "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{json,md}"
     },
     "dependencies": {
         "@pulumi/pulumi": "3.129.0",
