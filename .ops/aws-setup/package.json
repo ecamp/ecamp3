@@ -24,31 +24,5 @@
         "eslint-plugin-prettier": "5.2.1",
         "eslint-plugin-promise": "7.1.0",
         "prettier": "3.3.3"
-    },
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "eslint:recommended",
-            "plugin:prettier/recommended",
-            "prettier"
-        ],
-        "rules": {
-            "prefer-const": "error",
-            "prettier/prettier": "error",
-            "no-unused-vars": [
-                "error",
-                {
-                    "argsIgnorePattern": "^_$"
-                }
-            ]
-        },
-        "parserOptions": {
-            "ecmaVersion": 2022,
-            "sourceType": "module",
-            "parser": "@babel/eslint-parser"
-        }
     }
 }
