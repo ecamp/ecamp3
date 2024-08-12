@@ -1,0 +1,49 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:vue/vue3-recommended",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "@vue/eslint-config-prettier"
+  ],
+  "rules": {
+    "prefer-const": "error",
+    "prettier/prettier": "error",
+    "vue/component-tags-order": [
+      "error",
+      {
+        "order": ["template", "script", "style"]
+      }
+    ],
+    "vue/multi-word-component-names": "off",
+    "vue/valid-v-for": "off",
+    "vue/no-reserved-component-names": "off",
+    "vue/no-unused-vars": [
+      "error",
+      {
+        "ignorePattern": "^_"
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_$"
+      }
+    ],
+    "local-rules/matching-translation-keys": [
+      "error",
+      {
+        "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
+        "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
+      }
+    ]
+  },
+  "parserOptions": {
+    "parser": "@babel/eslint-parser"
+  },
+  "plugins": ["eslint-plugin-local-rules"]
+}
