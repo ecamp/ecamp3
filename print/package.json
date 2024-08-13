@@ -55,39 +55,5 @@
     "vitest": "2.0.5",
     "vite-svg-loader": "5.1.0",
     "vue": "3.4.38"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "ignorePatterns": [
-      "common/**/*"
-    ],
-    "extends": [
-      "plugin:vue/vue3-recommended",
-      "plugin:vue-scoped-css/vue3-recommended",
-      "@nuxt/eslint-config",
-      "eslint:recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "no-undef": "off",
-      "no-console": "off",
-      "prettier/prettier": "error",
-      "prefer-const": "error",
-      "vue/multi-word-component-names": "off",
-      "local-rules/matching-translation-keys": [
-        "error",
-        {
-          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
-          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
-        }
-      ]
-    },
-    "plugins": [
-      "eslint-plugin-local-rules"
-    ]
   }
 }
