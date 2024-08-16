@@ -2,6 +2,7 @@
   <v-container fluid>
     <content-card
       v-if="checklist"
+      :key="checklist._meta.self"
       class="ec-checklist"
       toolbar
       back

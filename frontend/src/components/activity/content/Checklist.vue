@@ -42,31 +42,49 @@
                     </template>
                   </v-list-item-subtitle>
                   <v-list-item-title>
-                    {{ item.text }}
+                    {{ parents.map(({ position }) => position + 1 + '.').join('')
+                    }}{{ item.position + 1 }}. {{ item.text }}
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </div>
           </button>
         </template>
-        <div
-          v-for="checklist in camp.checklists().items"
-          :key="checklist._meta.self"
-          class="mb-4"
-        >
-          <h3 class="mb-1">{{ checklist.name }}</h3>
-          <ol>
-            <ChecklistItem
-              v-for="item in checklist
-                .checklistItems()
-                .items.filter(({ parent }) => parent == null)"
-              :key="item._meta.self"
-              :checklist="checklist"
-              :item="item"
-              @remove-item="removeItem"
-              @add-item="addItem"
-            />
-          </ol>
+        <div class="ma-n4">
+          <v-expansion-panels multiple flat accordion>
+            <v-expansion-panel
+              v-for="{ checklist, items } in allChecklists"
+              :key="checklist._meta.self"
+            >
+              <v-expansion-panel-header>
+                <h3>
+                  {{ checklist.name }}
+                  <small class="font-weight-regular">
+                    ({{
+                      selectionContentNode.filter(
+                        (item) =>
+                          checkedItems.includes(item.id) &&
+                          item.checklist()._meta.self === checklist?._meta?.self
+                      ).length
+                    }}
+                    selected)
+                  </small>
+                </h3>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <ol>
+                  <ChecklistItem
+                    v-for="{ item } in items.filter(({ item }) => item.parent == null)"
+                    :key="item._meta.self"
+                    :checklist="checklist"
+                    :item="item"
+                    @remove-item="removeItem"
+                    @add-item="addItem"
+                  />
+                </ol>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </div>
       </DetailPane>
     </template>
@@ -104,35 +122,58 @@ export default {
     }
   },
   computed: {
+    campChecklistItems() {
+      return this.api.get().checklistItems().items
+    },
     selectionContentNode() {
-      return this.api
-        .get()
-        .checklistItems()
-        .items.filter((item) =>
-          this.contentNode
-            .checklistItems()
-            .items.some(({ _meta }) => _meta.self === item._meta.self)
-        )
+      return this.campChecklistItems.filter((item) =>
+        this.contentNode
+          .checklistItems()
+          .items.some(({ _meta }) => _meta.self === item._meta.self)
+      )
     },
     serverSelection() {
       return this.selectionContentNode.map((item) => item.id)
     },
+    allChecklists() {
+      return this.camp.checklists().items.map((checklist) => ({
+        checklist,
+        items: this.campChecklistItems
+          .filter((item) => item.checklist()._meta.self === checklist?._meta.self)
+          .map((item) => ({
+            item,
+            parents: this.itemsLoaded ? this.getParents(item) : [],
+          }))
+          .sort((a, b) => {
+            const aparents = [
+              ...a.parents.map(({ position }) => position),
+              a.item.position,
+              -1,
+            ]
+            const bparents = [
+              ...b.parents.map(({ position }) => position),
+              b.item.position,
+              -1,
+            ]
+            for (let i = 0; i < Math.min(aparents.length, bparents.length); i++) {
+              if (aparents[i] !== bparents[i]) {
+                return aparents[i] - bparents[i]
+              }
+            }
+            return 0
+          }),
+      }))
+    },
     activeChecklists() {
-      return this.camp
-        .checklists()
-        .items.filter(({ _meta }) =>
+      return this.allChecklists
+        .filter(({ checklist }) =>
           this.contentNode
             .checklistItems()
-            .items.some((item) => _meta.self === item?.checklist()._meta.self)
+            .items.some((item) => checklist._meta.self === item?.checklist()._meta.self)
         )
-        .map((checklist) => ({
+        .map(({ checklist, items }) => ({
           checklist,
-          items: this.selectionContentNode
-            .filter((item) => item.checklist()._meta.self === checklist._meta.self)
-            .map((item) => ({
-              item,
-              parents: this.itemsLoaded ? this.getParents(item) : [],
-            })),
+          items: items.filter(({ item }) => this.checkedItems.includes(item.id)),
         }))
     },
   },

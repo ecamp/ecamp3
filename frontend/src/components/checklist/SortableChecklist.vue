@@ -147,8 +147,7 @@ export default {
         // patch content node location
         await this.api
           .patch(event.item.dataset.href, {
-            position:
-              event.newDraggableIndex + (event.from === event.to || !parent ? 1 : 0),
+            position: event.newDraggableIndex,
             parent,
           })
           .catch((e) => {

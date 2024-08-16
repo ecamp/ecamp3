@@ -20,6 +20,7 @@
       type="text"
       path="text"
       vee-rules="required"
+      autofocus
     />
   </DetailPane>
 </template>
