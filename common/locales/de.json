@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Die Blöcke an diesem Tag enthalten keinen roten Faden."
+    "summary": {
+      "summaryDay": {
+        "noContent": "Die Blöcke an diesem Tag enthalten keine '{contentType}' Inhalte."
       }
     }
   },
@@ -259,8 +259,8 @@
     "program": {
       "title": "Detailprogramm"
     },
-    "story": {
-      "title": "Roter Faden"
+    "summary": {
+      "title": "Zusammenfassung"
     },
     "toc": {
       "title": "Inhaltsverzeichnis"

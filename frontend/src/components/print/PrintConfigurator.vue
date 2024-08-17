@@ -100,7 +100,7 @@ import PrintPreviewNuxt from './print-nuxt/PrintPreviewNuxt.vue'
 import Draggable from 'vuedraggable'
 import CoverConfig from './config/CoverConfig.vue'
 import PicassoConfig from './config/PicassoConfig.vue'
-import StoryConfig from './config/StoryConfig.vue'
+import SummaryConfig from './config/SummaryConfig.vue'
 import ProgramConfig from './config/ProgramConfig.vue'
 import ActivityConfig from './config/ActivityConfig.vue'
 import TocConfig from './config/TocConfig.vue'
@@ -125,7 +125,7 @@ export default {
     PrintPreviewNuxt,
     CoverConfig,
     PicassoConfig,
-    StoryConfig,
+    SummaryConfig,
     ProgramConfig,
     ActivityConfig,
     TocConfig,
@@ -141,7 +141,7 @@ export default {
       contentComponents: {
         Cover: CoverConfig,
         Picasso: PicassoConfig,
-        Story: StoryConfig,
+        Summary: SummaryConfig,
         Program: ProgramConfig,
         Activity: ActivityConfig,
         Toc: TocConfig,
@@ -205,9 +205,10 @@ export default {
 
       this.camp.periods().items.forEach((period) => {
         contents.push({
-          type: 'Story',
+          type: 'Summary',
           options: {
             periods: [period._meta.self],
+            contentType: 'Storycontext',
           },
         })
         contents.push({

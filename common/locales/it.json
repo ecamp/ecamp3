@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
+    "summary": {
+      "summaryDay": {
+        "noContent": "Nessun contenuto '{contentType}' trovato in questo giorno..."
       }
     }
   },
@@ -230,8 +230,8 @@
     "program": {
       "title": "Programma"
     },
-    "story": {
-      "title": "Trama"
+    "summary": {
+      "title": "Sommario"
     },
     "toc": {
       "title": "Indice dei contenuti"

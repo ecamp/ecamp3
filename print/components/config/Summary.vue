@@ -1,12 +1,14 @@
 <template>
   <div>
     <generic-error-message v-if="error" :error="error" />
-    <story-period
+    <summary-period
       v-for="period in periods"
       :key="period._meta.self"
       :period="period"
       :camp="camp"
       :index="index"
+      :content-type="options.contentType"
+      :filter="options.filter"
     />
   </div>
 </template>
@@ -22,7 +24,7 @@ const props = defineProps({
 const { $api } = useNuxtApp()
 
 const { data: periods, error } = await useAsyncData(
-  `config/Story-${props.index}`,
+  `config/Summary-${props.index}`,
   async () => {
     await Promise.all([
       $api.get().contentTypes().$loadItems(),

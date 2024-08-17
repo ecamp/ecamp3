@@ -1,7 +1,9 @@
 <template>
   <li>
     <div class="toc-element-level-1">
-      {{ $t('print.story.title') }}
+      {{ $t('print.summary.title') }}
+      {{ $t(`contentNode.${camelCase(options.contentType)}.name`)
+      }}<template v-if="options.filter"> "{{ options.filter }}"</template>
     </div>
     <ul>
       <generic-error-message v-if="error" :error="error" />
@@ -17,6 +19,8 @@
 </template>
 
 <script setup>
+import camelCase from 'lodash/camelCase.js'
+
 const props = defineProps({
   options: { type: Object, required: false, default: null },
   camp: { type: Object, required: true },
@@ -26,7 +30,7 @@ const props = defineProps({
 const { $api } = useNuxtApp()
 
 const { data: periods, error } = await useAsyncData(
-  `TocStory-${props.index}`,
+  `TocSummary-${props.index}`,
   async () => {
     await props.camp.periods().$loadItems()
 

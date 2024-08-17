@@ -296,7 +296,7 @@
           "dayOverview": "Aperçu des jours",
           "periods": "Période(s) du camp"
         },
-        "storyConfig": {
+        "summaryConfig": {
           "periods": "Période(s) du camp"
         }
       },
@@ -333,7 +333,7 @@
           "Cover": "Page de couverture",
           "Picasso": "Picasso",
           "Program": "Programme",
-          "Story": "Histoire",
+          "Summary": "Résumé",
           "Toc": "Table des matières"
         }
       },

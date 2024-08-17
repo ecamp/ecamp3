@@ -316,7 +316,9 @@
           "dayOverview": "print day overview",
           "periods": "Period(s)"
         },
-        "storyConfig": {
+        "summaryConfig": {
+          "contentType": "Content type",
+          "instanceNameFilter": "Instancename filter",
           "periods": "Period(s)"
         }
       },
@@ -353,7 +355,7 @@
           "Cover": "Cover page",
           "Picasso": "Picasso",
           "Program": "Program",
-          "Story": "Story summary",
+          "Summary": "Summary",
           "Toc": "Table of contents"
         }
       },

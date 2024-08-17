@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Aucun file rouge trouvé ce jour-là..."
+    "summary": {
+      "summaryDay": {
+        "noContent": "Aucun {contentType} trouvé ce jour-là..."
       }
     }
   },
@@ -246,8 +246,8 @@
     "program": {
       "title": "Programme"
     },
-    "story": {
-      "title": "Histoire"
+    "summary": {
+      "title": "Résumé"
     },
     "toc": {
       "title": "Table des matières"

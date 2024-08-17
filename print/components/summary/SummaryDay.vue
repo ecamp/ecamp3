@@ -11,10 +11,14 @@
       </h2>
     </div>
 
-    <template v-if="entriesWithStory.length">
+    <template v-if="entriesWithContentNode.length">
       <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-      <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-        <div v-for="chapter in storyChapters" :key="chapter._meta.self" class="tw-mb-3">
+      <template v-for="{ scheduleEntry, contentNodes } in entriesWithContentNode">
+        <div
+          v-for="contentNode in contentNodes"
+          :key="contentNode._meta.self"
+          class="tw-mb-3"
+        >
           <h4
             class="tw-text-lg tw-font-semibold tw-break-after-avoid tw-flex tw-align-baseline tw-gap-2"
           >
@@ -24,17 +28,21 @@
             </span>
 
             <span>{{ scheduleEntry.activity().title }}</span>
-            <template v-if="chapter.instanceName">
-              - {{ chapter.instanceName }}
+            <template v-if="contentNode.instanceName">
+              - {{ contentNode.instanceName }}
             </template>
           </h4>
 
-          <rich-text :rich-text="chapter.data.html" />
+          <rich-text :rich-text="contentNode.data.html" />
         </div>
       </template>
     </template>
     <p v-else>
-      {{ $t('components.story.storyDay.noStory') }}
+      {{
+        $t('components.summary.summaryDay.noContent', {
+          contentType: $t(`contentNode.${camelCase(contentType)}.name`),
+        })
+      }}
     </p>
   </div>
 </template>
@@ -43,6 +51,7 @@
 import CategoryLabel from '@/components/generic/CategoryLabel.vue'
 import RichText from '@/components/generic/RichText.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
+import camelCase from 'lodash/camelCase.js'
 
 function isEmptyHtml(html) {
   if (html === null) {
@@ -58,7 +67,9 @@ export default {
   props: {
     day: { type: Object, required: true },
     index: { type: Number, required: true },
-    periodStoryChapters: { type: Array, required: true },
+    allContentNodes: { type: Array, required: true },
+    contentType: { type: String, required: true },
+    filter: { type: String, default: '' },
   },
   computed: {
     // returns scheduleEntries of current day without the need for an additional API call
@@ -74,17 +85,25 @@ export default {
     entries() {
       return this.scheduleEntries.map((scheduleEntry) => ({
         scheduleEntry,
-        storyChapters: this.periodStoryChapters.filter(
+        contentNodes: this.allContentNodes.filter(
           (contentNode) =>
             contentNode.root()._meta.self ===
               scheduleEntry.activity().rootContentNode()._meta.self &&
-            !isEmptyHtml(contentNode.data.html)
+            !isEmptyHtml(contentNode.data.html) &&
+            (!this.filter ||
+              contentNode.instanceName
+                ?.toLowerCase()
+                .includes(this.filter.toLowerCase()) ||
+              this.$t(`contentNode.${camelCase(this.contentType)}.name`)
+                .toLowerCase()
+                .includes(this.filter.toLowerCase()))
         ),
       }))
     },
-    entriesWithStory() {
-      return this.entries.filter(({ storyChapters }) => storyChapters.length)
+    entriesWithContentNode() {
+      return this.entries.filter(({ contentNodes }) => contentNodes.length)
     },
   },
+  methods: { camelCase },
 }
 </script>

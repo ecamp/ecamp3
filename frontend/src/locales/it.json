@@ -288,7 +288,7 @@
           "dayOverview": "Panoramica della giornata di stampa",
           "periods": "Sezione/i portante/i"
         },
-        "storyConfig": {
+        "summaryConfig": {
           "periods": "Sezione/i portante/i"
         }
       },
@@ -325,7 +325,7 @@
           "Cover": "Pagina di copertina",
           "Picasso": "Picasso",
           "Program": "Programma",
-          "Story": "Riassunto della storia",
+          "Story": "Riassunto",
           "Toc": "Indice dei contenuti"
         }
       },

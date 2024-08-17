@@ -3,7 +3,7 @@ import PicassoConfig from '../config/PicassoConfig.vue'
 import ActivityConfig from '../config/ActivityConfig.vue'
 import CoverConfig from '../config/CoverConfig.vue'
 import ProgramConfig from '../config/ProgramConfig.vue'
-import StoryConfig from '../config/StoryConfig.vue'
+import SummaryConfig from '../config/SummaryConfig.vue'
 import TocConfig from '../config/TocConfig.vue'
 
 describe('repairConfig', () => {
@@ -25,7 +25,7 @@ describe('repairConfig', () => {
       CoverConfig,
       PicassoConfig,
       ProgramConfig,
-      StoryConfig,
+      SummaryConfig,
       TocConfig,
     ].map((component) => [component.name.replace(/Config$/, ''), component.repairConfig])
   )
@@ -817,14 +817,14 @@ describe('repairConfig', () => {
     })
   })
 
-  describe('story', () => {
+  describe('summary', () => {
     test('adds missing options', async () => {
       // given
       const config = {
         camp: '/camps/1a2b3c4d',
         contents: [
           {
-            type: 'Story',
+            type: 'Summary',
           },
         ],
         documentName: 'test camp',
@@ -839,8 +839,8 @@ describe('repairConfig', () => {
         camp: '/camps/1a2b3c4d',
         contents: [
           {
-            type: 'Story',
-            options: { periods: [] },
+            type: 'Summary',
+            options: { periods: [], contentType: 'Storycontext' },
           },
         ],
         documentName: 'test camp',
@@ -854,8 +854,8 @@ describe('repairConfig', () => {
         camp: '/camps/1a2b3c4d',
         contents: [
           {
-            type: 'Story',
-            options: { periods: [] },
+            type: 'Summary',
+            options: { periods: [], contentType: 'Storycontext' },
           },
         ],
         documentName: 'test camp',
@@ -870,8 +870,8 @@ describe('repairConfig', () => {
         camp: '/camps/1a2b3c4d',
         contents: [
           {
-            type: 'Story',
-            options: { periods: [] },
+            type: 'Summary',
+            options: { periods: [], contentType: 'Storycontext' },
           },
         ],
         documentName: 'test camp',
@@ -885,9 +885,10 @@ describe('repairConfig', () => {
         camp: '/camps/1a2b3c4d',
         contents: [
           {
-            type: 'Story',
+            type: 'Summary',
             options: {
               periods: ['/periods/11112222', '/periods/1a2b3c4d'],
+              contentType: 'Storycontext',
             },
           },
         ],
@@ -903,8 +904,48 @@ describe('repairConfig', () => {
         camp: '/camps/1a2b3c4d',
         contents: [
           {
-            type: 'Story',
-            options: { periods: ['/periods/1a2b3c4d'] },
+            type: 'Summary',
+            options: {
+              periods: ['/periods/1a2b3c4d'],
+              contentType: 'Storycontext',
+            },
+          },
+        ],
+        documentName: 'test camp',
+        language: 'en-GB',
+      })
+    })
+
+    test('uses known contentType', async () => {
+      // given
+      const config = {
+        camp: '/camps/1a2b3c4d',
+        contents: [
+          {
+            type: 'Summary',
+            options: {
+              periods: ['/periods/1a2b3c4d'],
+              contentType: 'Storyboard',
+            },
+          },
+        ],
+        documentName: 'test camp',
+        language: 'en-GB',
+      }
+
+      // when
+      const result = repairConfig(config, ...args)
+
+      // then
+      expect(result).toEqual({
+        camp: '/camps/1a2b3c4d',
+        contents: [
+          {
+            type: 'Summary',
+            options: {
+              periods: ['/periods/1a2b3c4d'],
+              contentType: 'Storycontext',
+            },
           },
         ],
         documentName: 'test camp',

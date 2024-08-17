@@ -316,7 +316,9 @@
           "dayOverview": "Tagesübersicht",
           "periods": "Lagerabschnitt(e)"
         },
-        "storyConfig": {
+        "summaryConfig": {
+          "contentType": "Blockinhalt",
+          "instanceNameFilter": "Instanznamenfilter",
           "periods": "Lagerabschnitt(e)"
         }
       },
@@ -353,7 +355,7 @@
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
           "Program": "Detailprogramm",
-          "Story": "Roter Faden",
+          "Summary": "Zusammenfassung",
           "Toc": "Inhaltsverzeichnis"
         }
       },
@@ -575,8 +577,8 @@
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
         },
-        "or": "oder mit",
         "notActivated": "Nicht aktiviert?",
+        "or": "oder mit",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
