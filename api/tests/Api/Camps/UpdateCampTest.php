@@ -125,55 +125,38 @@ class UpdateCampTest extends ECampApiTestCase {
     public function testPatchCampTrimsName() {
         $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'name' => " So-La\t ",
+            'shortTitle' => " So-La\t ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'name' => 'So-La',
+            'shortTitle' => 'So-La',
         ]);
     }
 
     public function testPatchCampCleansForbiddenCharactersFromName() {
         $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'name' => "So-\n\tLa",
+            'shortTitle' => "So-\n\tLa",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'name' => 'So-La',
-        ]);
-    }
-
-    public function testPatchCampValidatesBlankName() {
-        $camp = static::getFixture('camp1');
-        static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'name' => '',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'name',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
+            'shortTitle' => 'So-La',
         ]);
     }
 
     public function testPatchCampValidatesLongName() {
         $camp = static::getFixture('camp1');
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'name' => 'A very long camp name which is not really useful',
+            'shortTitle' => 'A very long camp name which is not really useful',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'name',
+                    'propertyPath' => 'shortTitle',
                     'message' => 'This value is too long. It should have 32 characters or less.',
                 ],
             ],

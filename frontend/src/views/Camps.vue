@@ -9,20 +9,13 @@
           <v-skeleton-loader type="list-item-two-line" height="64" />
           <v-skeleton-loader type="list-item-two-line" height="64" />
         </template>
-        <v-list-item
-          v-for="camp in upcomingCamps"
-          v-else
-          :key="camp._meta.self"
-          two-line
-          :to="campRoute(camp)"
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ camp.title }}</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ camp.name }} - {{ camp.motto }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <template v-else>
+          <CampListItem
+            v-for="camp in upcomingCamps"
+            :key="camp._meta.self"
+            :camp="camp"
+          />
+        </template>
         <v-list-item>
           <v-list-item-content />
           <v-list-item-action>
@@ -48,19 +41,11 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list class="py-0">
-              <v-list-item
+              <CampListItem
                 v-for="camp in prototypeCamps"
                 :key="camp._meta.self"
-                two-line
-                :to="campRoute(camp)"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+                :camp="camp"
+              />
             </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -72,19 +57,11 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list class="py-0">
-              <v-list-item
+              <CampListItem
                 v-for="camp in pastCamps"
                 :key="camp._meta.self"
-                two-line
-                :to="campRoute(camp)"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+                :camp="camp"
+              />
             </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -101,10 +78,12 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import { mapGetters } from 'vuex'
 import UserMeta from '@/components/navigation/UserMeta.vue'
+import CampListItem from '@/components/camp/CampListItem.vue'
 
 export default {
   name: 'Camps',
   components: {
+    CampListItem,
     UserMeta,
     ContentCard,
     ButtonAdd,

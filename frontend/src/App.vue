@@ -57,6 +57,7 @@ export default {
 }
 </script>
 <style lang="scss">
+@import 'src/scss/tailwind';
 @import 'src/scss/global';
 @import '~@mdi/font/css/materialdesignicons.css';
 

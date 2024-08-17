@@ -117,10 +117,10 @@
         "courseKind": "Type de cours (pour les cours J+S: description du cours)",
         "courseNumber": "Numéro de cours",
         "kind": "Type de camp (chalet, tente, itinérant, été, automne)",
-        "motto": "Thème",
-        "name": "Nom du camp",
+        "motto": "Motto / thème",
         "organizer": "Organisateur",
         "printYSLogoOnPicasso": "Imprimer le logo J+S sur le programme général (requis pour les cours J+S)",
+        "shortTitle": "Titre court du camp",
         "title": "Titre du camp",
         "trainingAdvisorName": "Nom du coach J+S"
       },

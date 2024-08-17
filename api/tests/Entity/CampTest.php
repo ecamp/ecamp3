@@ -25,7 +25,7 @@ class CampTest extends TestCase {
     public function setUp(): void {
         $this->campPrototype = new Camp();
         $this->campPrototype->isPrototype = true;
-        $this->campPrototype->name = 'camp-name';
+        $this->campPrototype->shortTitle = 'camp-name';
         $this->campPrototype->title = 'camp-title';
         $this->campPrototype->motto = 'camp-motto';
 

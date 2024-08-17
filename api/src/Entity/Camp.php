@@ -169,15 +169,15 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public bool $isPrototype = false;
 
     /**
-     * A short name for the camp.
+     * A short title for the camp.
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
-    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'SoLa 2022')]
     #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'string', length: 32)]
-    public string $name;
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $shortTitle;
 
     /**
      * The full title of the camp.

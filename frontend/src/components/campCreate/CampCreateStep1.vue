@@ -5,18 +5,13 @@
         <v-form ref="form" @submit.prevent="handleSubmit(() => $emit('next-step'))">
           <v-card-text>
             <e-text-field
-              v-model="localCamp.name"
-              path="name"
-              vee-rules="required"
-              required
-              autofocus
-            />
-            <e-text-field
               v-model="localCamp.title"
               path="title"
-              vee-rules="required"
+              :placeholder="$tc('components.campCreate.campCreateStep1.titlePlaceholder')"
+              vee-rules="required|max:32"
               required
             />
+            <e-text-field v-model="localCamp.organizer" path="organizer" />
             <e-text-field v-model="localCamp.motto" path="motto" />
             <CreateCampPeriods
               :add-period="addPeriod"

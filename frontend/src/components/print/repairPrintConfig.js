@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep'
+import campShortTitle from '@/common/helpers/campShortTitle.js'
 
 export default function repairConfig(
   config,
@@ -16,7 +17,7 @@ export default function repairConfig(
         ? availableLocales[0]
         : 'en'
   }
-  if (!configClone.documentName) configClone.documentName = camp.name
+  if (!configClone.documentName) configClone.documentName = campShortTitle(camp)
   if (configClone.camp !== camp._meta.self) configClone.camp = camp._meta.self
   if (typeof configClone.contents?.map !== 'function') {
     configClone.contents = defaultContents

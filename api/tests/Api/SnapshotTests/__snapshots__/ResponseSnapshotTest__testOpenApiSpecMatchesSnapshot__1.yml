@@ -2398,11 +2398,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -2444,6 +2439,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -2461,7 +2463,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -2591,11 +2592,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -2630,6 +2626,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -2647,7 +2650,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -2773,11 +2775,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -2819,6 +2816,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -2836,7 +2840,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -2962,11 +2965,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -3008,6 +3006,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -3025,7 +3030,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -3108,11 +3112,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -3135,6 +3134,13 @@ components:
           description: 'Whether the Y+S logo should be printed on the picasso of this camp.'
           example: true
           type: boolean
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -3148,7 +3154,6 @@ components:
             - 'null'
             - string
       required:
-        - name
         - periods
         - printYSLogoOnPicasso
         - title
@@ -3222,11 +3227,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -3238,6 +3238,13 @@ components:
           description: 'Whether the Y+S logo should be printed on the picasso of this camp.'
           example: true
           type: boolean
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -3251,7 +3258,6 @@ components:
             - 'null'
             - string
       required:
-        - name
         - printYSLogoOnPicasso
         - title
       type: object
@@ -3329,11 +3335,6 @@ components:
                   example: Piraten
                   maxLength: 128
                   type: ['null', string]
-                name:
-                  description: 'A short name for the camp.'
-                  example: 'SoLa 2022'
-                  maxLength: 32
-                  type: string
                 organizer:
                   description: 'The name of the organization which plans and carries out the camp.'
                   example: 'Pfadi Luftig'
@@ -3343,6 +3344,11 @@ components:
                   description: 'Whether the Y+S logo should be printed on the picasso of this camp.'
                   example: true
                   type: boolean
+                shortTitle:
+                  description: 'A short title for the camp.'
+                  example: 'SoLa 2022'
+                  maxLength: 32
+                  type: ['null', string]
                 title:
                   description: 'The full title of the camp.'
                   example: 'Abteilungs-Sommerlager 2022'
@@ -3354,7 +3360,6 @@ components:
                   maxLength: 64
                   type: ['null', string]
               required:
-                - name
                 - printYSLogoOnPicasso
                 - title
               type: object
@@ -3558,11 +3563,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -3604,6 +3604,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -3621,7 +3628,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -3760,11 +3766,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -3799,6 +3800,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -3816,7 +3824,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -3951,11 +3958,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -3997,6 +3999,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -4014,7 +4023,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -4149,11 +4157,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -4195,6 +4198,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -4212,7 +4222,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -4304,11 +4313,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -4331,6 +4335,13 @@ components:
           description: 'Whether the Y+S logo should be printed on the picasso of this camp.'
           example: true
           type: boolean
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -4344,7 +4355,6 @@ components:
             - 'null'
             - string
       required:
-        - name
         - periods
         - printYSLogoOnPicasso
         - title
@@ -4494,11 +4504,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -4540,6 +4545,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -4557,7 +4569,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -4710,11 +4721,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -4749,6 +4755,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -4766,7 +4779,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -4915,11 +4927,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -4961,6 +4968,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -4978,7 +4992,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -5127,11 +5140,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -5173,6 +5181,13 @@ components:
             type: string
           readOnly: true
           type: array
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -5190,7 +5205,6 @@ components:
         - campCollaborations
         - categories
         - materialLists
-        - name
         - periods
         - printYSLogoOnPicasso
         - progressLabels
@@ -5273,11 +5287,6 @@ components:
           type:
             - 'null'
             - string
-        name:
-          description: 'A short name for the camp.'
-          example: 'SoLa 2022'
-          maxLength: 32
-          type: string
         organizer:
           description: 'The name of the organization which plans and carries out the camp.'
           example: 'Pfadi Luftig'
@@ -5300,6 +5309,13 @@ components:
           description: 'Whether the Y+S logo should be printed on the picasso of this camp.'
           example: true
           type: boolean
+        shortTitle:
+          description: 'A short title for the camp.'
+          example: 'SoLa 2022'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
         title:
           description: 'The full title of the camp.'
           example: 'Abteilungs-Sommerlager 2022'
@@ -5313,7 +5329,6 @@ components:
             - 'null'
             - string
       required:
-        - name
         - periods
         - printYSLogoOnPicasso
         - title

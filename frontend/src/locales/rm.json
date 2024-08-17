@@ -64,8 +64,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Sche ti stizzas in champ è quai definitiv. Cuntinuescha mo sche ti es segir.",
-          "explanation": "Questa acziun na po betg vegnir revocada. Uschia vegn il champ \"{campName}\" stizzà permanentamain cun tut sias activitads, glistas da material ed urdens da responsabladad.",
-          "label": "Endatescha \"{campName}\" per confermar.",
+          "explanation": "Questa acziun na po betg vegnir revocada. Uschia vegn il champ \"{campTitle}\" stizzà permanentamain cun tut sias activitads, glistas da material ed urdens da responsabladad.",
+          "label": "Endatescha \"{campTitle}\" per confermar.",
           "title": "Stizzar il champ"
         },
         "title": "Zona da privel"

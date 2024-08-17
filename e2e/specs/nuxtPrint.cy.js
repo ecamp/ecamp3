@@ -28,7 +28,6 @@ describe('Nuxt print test', () => {
           '/?config=' +
           encodeURIComponent(JSON.stringify(printConfig))
       )
-      cy.contains(camp.name)
       cy.contains(camp.title)
       cy.contains(camp.motto)
 

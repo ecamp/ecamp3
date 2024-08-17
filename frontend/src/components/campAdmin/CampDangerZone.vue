@@ -25,7 +25,7 @@ Critical operations on camp
             <v-list-item-action>
               <dialog-entity-delete
                 :entity="camp"
-                :submit-enabled="promptText === camp.name"
+                :submit-enabled="promptText === camp.title"
                 icon="mdi-bomb"
                 @submit="$router.push({ name: 'camps' })"
               >
@@ -44,14 +44,14 @@ Critical operations on camp
                 <p class="body-1">
                   {{
                     $tc('components.campAdmin.campDangerZone.deleteCamp.explanation', 0, {
-                      campName: camp.name,
+                      campTitle: camp.title,
                     })
                   }}
                 </p>
                 <label>
                   {{
                     $tc('components.campAdmin.campDangerZone.deleteCamp.label', 0, {
-                      campName: camp.name,
+                      campTitle: camp.title,
                     })
                   }}
                   <e-text-field v-model="promptText" />

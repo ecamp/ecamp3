@@ -1,6 +1,6 @@
 App\Entity\Camp:
   additionalCamp_{1..400}:
-    name:  <word()>
+    shortTitle:  <word()>
     title: <word()>
     motto: <sentence()>
     addressName: <word()>
