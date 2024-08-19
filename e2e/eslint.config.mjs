@@ -20,6 +20,9 @@ export default [
     'plugin:cypress/recommended',
     'plugin:prettier/recommended'
   ),
+  {
+    ignores: ['data/'],
+  },
 
   includeIgnoreFile(gitignorePath),
 
@@ -28,6 +31,12 @@ export default [
       globals: {
         ...globals.node,
         ...globals.mocha,
+      },
+
+      ecmaVersion: 2022,
+
+      parserOptions: {
+        parser: '@babel/eslint-parser',
       },
     },
 
