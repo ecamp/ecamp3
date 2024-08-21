@@ -22,6 +22,9 @@ export default [
     'plugin:prettier/recommended',
     '@vue/eslint-config-prettier'
   ),
+  {
+    ignores: ['dist/*.mjs'],
+  },
 
   includeIgnoreFile(gitignorePath),
 
@@ -35,9 +38,6 @@ export default [
         ...globals.node,
         ...globals.jest,
       },
-
-      ecmaVersion: 5,
-      sourceType: 'commonjs',
 
       parserOptions: {
         parser: '@babel/eslint-parser',
