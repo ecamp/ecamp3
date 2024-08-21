@@ -9,7 +9,9 @@
           {{ $t('print.picasso.title') }}
           {{ period.description }}
         </h1>
-        <p class="tw-text-md tw-text-end">{{ camp.organizer }}</p>
+        <p class="tw-text-md tw-text-end">
+          {{ camp.organizer }}
+        </p>
       </div>
 
       <div class="tw-flex-auto fullwidth">
