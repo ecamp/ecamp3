@@ -6,7 +6,7 @@
     >
       {{ $t('print.summary.title') }}
       {{ $t(`contentNode.${camelCase(contentType)}.name`)
-      }}<template v-if="filter"> "{{ filter }}"</template>:
+      }}<template v-if="instanceNameFilter"> "{{ instanceNameFilter }}"</template>:
       {{ period.description }}
     </h1>
 
@@ -18,7 +18,7 @@
       :day="day"
       :all-content-nodes="data.contentNodes"
       :content-type="contentType"
-      :filter="filter"
+      :instance-name-filter="instanceNameFilter"
     />
   </div>
 </template>
@@ -34,7 +34,7 @@ const props = defineProps({
   },
   index: { type: Number, required: true },
   contentType: { type: String, default: 'Storycontext' },
-  filter: { type: String, default: '' },
+  instanceNameFilter: { type: String, default: '' },
 })
 
 const { $api } = useNuxtApp()

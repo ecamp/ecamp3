@@ -16,7 +16,7 @@
       @input="$emit('input')"
     />
     <e-text-field
-      v-model="options.filter"
+      v-model="options.instanceNameFilter"
       :label="$tc('components.print.config.summaryConfig.instanceNameFilter')"
       :filled="false"
       clearable

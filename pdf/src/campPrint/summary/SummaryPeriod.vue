@@ -6,14 +6,15 @@
         $tc('print.summary.title') +
         ' ' +
         translatedContentNode +
-        (filter ? ` '${filter}'` : '') +
+        (instanceNameFilter ? ` '${instanceNameFilter}'` : '') +
         ': ' +
         period.description,
       fit: true,
     }"
     class="summary-period-title"
     >{{ $tc('print.summary.title') }} {{ translatedContentNode
-    }}<template v-if="filter"> "{{ filter }}"</template>: {{ period.description }}</Text
+    }}<template v-if="instanceNameFilter"> "{{ instanceNameFilter }}"</template>:
+    {{ period.description }}</Text
   >
   <SummaryDay
     v-for="day in days"
@@ -21,7 +22,7 @@
     :period="period"
     :day="day"
     :content-type="contentType"
-    :filter="filter"
+    :instance-name-filter="instanceNameFilter"
   />
 </template>
 <script>
@@ -38,7 +39,7 @@ export default {
   props: {
     period: { type: Object, required: true },
     contentType: { type: String, required: true },
-    filter: { type: String, default: '' },
+    instanceNameFilter: { type: String, default: '' },
   },
   computed: {
     days() {

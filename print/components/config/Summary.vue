@@ -8,7 +8,7 @@
       :camp="camp"
       :index="index"
       :content-type="options.contentType"
-      :filter="options.filter"
+      :instance-name-filter="options.instanceNameFilter"
     />
   </div>
 </template>

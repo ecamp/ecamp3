@@ -36,7 +36,7 @@ export default {
     period: { type: Object, required: true },
     day: { type: Object, required: true },
     contentType: { type: String, required: true },
-    filter: { type: String, default: '' },
+    instanceNameFilter: { type: String, default: '' },
   },
   computed: {
     date() {
@@ -56,14 +56,15 @@ export default {
             (contentNode) =>
               contentNode.contentTypeName === this.contentType &&
               contentNode.root()._meta.self ===
-              scheduleEntry.activity().rootContentNode()._meta.self &&
+                scheduleEntry.activity().rootContentNode()._meta.self &&
               !isEmptyHtml(contentNode.data.html) &&
-              (!this.filter || contentNode.instanceName
+              (!this.instanceNameFilter ||
+                contentNode.instanceName
                   ?.toLowerCase()
-                  .includes(this.filter.toLowerCase()) ||
+                  .includes(this.instanceNameFilter.toLowerCase()) ||
                 this.$tc(`contentNode.${camelCase(this.contentType)}.name`)
                   .toLowerCase()
-                  .includes(this.filter.toLowerCase()))
+                  .includes(this.instanceNameFilter.toLowerCase()))
           )
           .map((chapter) => ({
             ...chapter,

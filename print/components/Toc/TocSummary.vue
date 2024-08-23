@@ -3,7 +3,9 @@
     <div class="toc-element-level-1">
       {{ $t('print.summary.title') }}
       {{ $t(`contentNode.${camelCase(options.contentType)}.name`)
-      }}<template v-if="options.filter"> "{{ options.filter }}"</template>
+      }}<template v-if="options.instanceNameFilter">
+        "{{ options.instanceNameFilter }}"</template
+      >
     </div>
     <ul>
       <generic-error-message v-if="error" :error="error" />

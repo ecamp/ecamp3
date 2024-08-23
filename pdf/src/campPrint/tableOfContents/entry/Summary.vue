@@ -3,8 +3,9 @@
     <Text
       >{{ $tc('print.summary.title') }}
       {{ $tc(`contentNode.${camelCase(entry.options.contentType)}.name`)
-      }}<template v-if="entry.options.filter"> "{{ entry.options.filter }}"</template>:
-      {{ period.description }}</Text
+      }}<template v-if="entry.options.instanceNameFilter">
+        "{{ entry.options.instanceNameFilter }}"</template
+      >: {{ period.description }}</Text
     >
   </Link>
 </template>

@@ -5,7 +5,7 @@
       :id="id"
       :period="period"
       :content-type="content.options.contentType"
-      :filter="content.options.filter ?? ''"
+      :instance-name-filter="content.options.instanceNameFilter ?? ''"
     />
   </Page>
 </template>
