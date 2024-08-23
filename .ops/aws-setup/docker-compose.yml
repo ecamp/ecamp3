@@ -1,6 +1,6 @@
 services:
   aws-setup:
-    image: pulumi/pulumi-nodejs:3.129.0
+    image: pulumi/pulumi-nodejs:3.130.0
     container_name: 'ecamp3-aws-setup'
     volumes:
       - ../../.prettierrc:/.prettierrc:delegated
