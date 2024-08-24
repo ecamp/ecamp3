@@ -20,7 +20,6 @@ final class Version20240817112552 extends AbstractMigration {
         $this->addSql('ALTER TABLE camp ALTER shortTitle DROP NOT NULL, ALTER shortTitle TYPE TEXT');
         $this->addSql('UPDATE camp SET shortTitle = null WHERE shortTitle = title');
         $this->addSql('UPDATE camp SET shortTitle = title, title = shortTitle WHERE char_length(shortTitle) > 16 AND char_length(title) < char_length(shortTitle);');
-        // $this->addSql('UPDATE camp SET shortTitle = left(shortTitle, 16) WHERE char_length(shortTitle) > 16;');
     }
 
     public function down(Schema $schema): void {
