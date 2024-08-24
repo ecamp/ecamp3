@@ -10,7 +10,7 @@ const ADDITIONAL_SHORTNERS = [
   { regex: /Abteilungslager/gi, text: 'AbLa' },
   { regex: /Klassenlager/gi, text: 'KlaLa' },
   {
-    regex: /(Bez)irks(So|Ab|Au|Auf|He|Pfi)La|(Ka)ntonslager|(Bu)ndeslager/gi,
+    regex: /(Bez)irks?(So|Ab|Au|Auf|He|Pfi)La|(Ka)ntonslager|(Bu)ndeslager/gi,
     text: '$1$2$3$4La',
   },
   {
@@ -19,10 +19,10 @@ const ADDITIONAL_SHORTNERS = [
     text: '$<start>$<camp>$<year>$<middle>$<end>',
   },
   { regex: /(Pfadi|Pio|Rover)stufe(?!n)/g, text: '$1s' },
-  { regex: /(B)ieberstufe(?!n)/g, text: '$1ieberli' },
+  { regex: /(B)ie?berstufe(?!n)/g, text: '$1iberli' },
   { regex: /(W)olfs?stufe(?!n)/g, text: '$1ölfli' },
   {
-    regex: /(Bieber|Wolfs|Pfadi|Pio|Rover)stufen(So|Ab|Au|Auf|He|Pfi)La/gi,
+    regex: /(Bie?ber|Wolfs?|Pfadi|Pio|Rover)stufen(So|Ab|Au|Auf|He|Pfi)La/gi,
     text: '$1$2La',
   },
   { regex: /\bund\b/g, text: '&' },
