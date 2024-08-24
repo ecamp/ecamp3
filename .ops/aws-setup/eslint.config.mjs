@@ -15,14 +15,10 @@ const compat = new FlatCompat({
 const gitignorePath = path.resolve(__dirname, '.gitignore')
 
 export default [
-  ...compat.extends(
-    'eslint:recommended',
-    'plugin:cypress/recommended',
-    'plugin:prettier/recommended'
-  ),
   {
-    ignores: ['data/'],
+    files: ['**/*.ts'],
   },
+  ...compat.extends('eslint:recommended', 'plugin:prettier/recommended', 'prettier'),
 
   includeIgnoreFile(gitignorePath),
 
@@ -30,10 +26,10 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.mocha,
       },
 
       ecmaVersion: 2022,
+      sourceType: 'module',
 
       parserOptions: {
         parser: '@babel/eslint-parser',
@@ -43,6 +39,13 @@ export default [
     rules: {
       'prefer-const': 'error',
       'prettier/prettier': 'error',
+
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_$',
+        },
+      ],
     },
   },
 ]

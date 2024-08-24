@@ -16,14 +16,18 @@ const compat = new FlatCompat({
 const gitignorePath = path.resolve(__dirname, '.gitignore')
 
 export default [
+  {
+    files: ['**/*.ts'],
+  },
   ...compat.extends(
     'plugin:vue/vue3-recommended',
+    'plugin:vue-scoped-css/vue3-recommended',
+    '@nuxt/eslint-config',
     'eslint:recommended',
-    'plugin:prettier/recommended',
-    '@vue/eslint-config-prettier'
+    'plugin:prettier/recommended'
   ),
   {
-    ignores: ['dist/*.mjs'],
+    ignores: ['common/**/*', '.nuxt/', '.output/', 'coverage/'],
   },
 
   includeIgnoreFile(gitignorePath),
@@ -35,43 +39,17 @@ export default [
 
     languageOptions: {
       globals: {
+        ...globals.browser,
         ...globals.node,
-        ...globals.jest,
-      },
-
-      parserOptions: {
-        parser: '@babel/eslint-parser',
       },
     },
 
     rules: {
-      'prefer-const': 'error',
+      'no-undef': 'off',
+      'no-console': 'off',
       'prettier/prettier': 'error',
-
-      'vue/component-tags-order': [
-        'error',
-        {
-          order: ['template', 'script', 'style'],
-        },
-      ],
-
+      'prefer-const': 'error',
       'vue/multi-word-component-names': 'off',
-      'vue/valid-v-for': 'off',
-      'vue/no-reserved-component-names': 'off',
-
-      'vue/no-unused-vars': [
-        'error',
-        {
-          ignorePattern: '^_',
-        },
-      ],
-
-      'no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_$',
-        },
-      ],
 
       'local-rules/matching-translation-keys': [
         'error',
