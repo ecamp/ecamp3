@@ -4,8 +4,7 @@
       <Text v-if="config.camp.organizer" class="cover-camp-organizer cover-center">
         {{ config.camp.organizer }}
       </Text>
-      <Text class="cover-camp-title cover-center">
-        {{ config.camp.title }}</Text>
+      <Text class="cover-camp-title cover-center">{{ config.camp.title }}</Text>
       <Text class="cover-camp-motto cover-center">
         {{ config.camp.motto }}
       </Text>
