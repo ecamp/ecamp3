@@ -280,6 +280,8 @@ export default {
 }
 </style>
 
+<!-- This does not work with scoped css -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style lang="scss">
 .api-wrapper--inline .v-text-field {
   border-top-right-radius: 0;

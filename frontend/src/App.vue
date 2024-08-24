@@ -56,6 +56,8 @@ export default {
   },
 }
 </script>
+<!-- these styles must be global -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style lang="scss">
 @import 'src/scss/global';
 @import '~@mdi/font/css/materialdesignicons.css';
@@ -136,6 +138,8 @@ export default {
 </style>
 
 <style scoped>
+/* <v-footer> is transformed to <footer class="v-footer"> */
+/* eslint-disable-next-line vue-scoped-css/no-unused-selector */
 .v-footer {
   border-top: 3px solid #c80d0d;
   z-index: 4;
