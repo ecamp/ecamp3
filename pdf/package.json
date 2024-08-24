@@ -10,10 +10,10 @@
     "preview": "vite preview",
     "test:unit": "vitest --coverage",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint --fix",
+    "lint:eslint": "eslint --fix .",
     "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,mjs}",
     "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
-    "lint:check:eslint": "eslint",
+    "lint:check:eslint": "eslint .",
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,mjs}"
   },
   "dependencies": {
@@ -34,7 +34,7 @@
     "@babel/eslint-parser": "7.25.1",
     "@eslint/compat": "1.1.1",
     "@eslint/eslintrc": "3.1.0",
-    "@eslint/js": "9.9.0",
+    "@eslint/js": "9.9.1",
     "@intlify/core": "^9.10.2",
     "@rushstack/eslint-patch": "1.10.4",
     "@vitejs/plugin-vue": "5.1.2",
@@ -48,7 +48,7 @@
     "@vue/shared": "3.4.38",
     "@vue/test-utils": "2.4.6",
     "css": "3.0.0",
-    "dayjs": "1.11.12",
+    "dayjs": "1.11.13",
     "eslint": "8.57.0",
     "eslint-plugin-local-rules": "3.0.2",
     "eslint-plugin-vue": "9.27.0",
@@ -56,7 +56,7 @@
     "jsdom": "24.1.1",
     "prettier": "3.3.3",
     "url-template": "3.1.1",
-    "vite": "5.4.1",
+    "vite": "5.4.2",
     "vitest": "2.0.5"
   }
 }

@@ -89,10 +89,12 @@ import camelCase from 'lodash/camelCase'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import IconWithTooltip from '@/components/generic/IconWithTooltip.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiTextField from '@/components/form/api/ApiTextField.vue'
 
 export default {
   name: 'ContentNodeCard',
   components: {
+    ApiTextField,
     ApiForm,
     IconWithTooltip,
     DialogEntityDelete,
