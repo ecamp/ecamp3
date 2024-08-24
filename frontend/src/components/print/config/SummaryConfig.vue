@@ -31,7 +31,7 @@ import camelCase from 'lodash/camelCase.js'
 const SUMMARY_CONTENTTYPES = [
   'Storycontext',
   'Notes',
-  'SafetyConcept',
+  'SafetyConsiderations',
   'LearningObjectives',
   'LearningTopics',
 ]

@@ -20,7 +20,7 @@ import Material from './content/Material.vue'
 import LAThematicArea from './content/LAThematicArea.vue'
 import LearningObjectives from './content/LearningObjectives.vue'
 import LearningTopics from './content/LearningTopics.vue'
-import SafetyConcept from './content/SafetyConcept.vue'
+import SafetyConsiderations from './content/SafetyConsiderations.vue'
 import Storyboard from './content/Storyboard.vue'
 import Storycontext from './content/Storycontext.vue'
 
@@ -32,7 +32,7 @@ const contentNodeComponents = {
   LAThematicArea,
   LearningObjectives,
   LearningTopics,
-  SafetyConcept,
+  SafetyConsiderations,
   Storyboard,
   Storycontext,
 }

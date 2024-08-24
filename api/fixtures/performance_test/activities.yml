@@ -110,13 +110,13 @@ App\Entity\ContentNode\SingleText:
     instanceName: 'singleText<current()>'
     contentType: '@contentTypeNotes'
     data: { html: <word()> }
-  additional_safetyConcept1_{1..400}:
+  additional_safetyConsiderations1_{1..400}:
     root: '@additional_columnLayout1_<current()>'
     parent: '@additional_responsiveLayout1_<current()>'
     slot: 'aside-top'
     position: 3
-    instanceName: 'safetyConcept<current()>'
-    contentType: '@contentTypeSafetyConcept'
+    instanceName: 'safetyConsiderations<current()>'
+    contentType: '@contentTypeSafetyConsiderations'
     data: { html: <sentence()> }
   additional_singleText_camp1_{1..200}:
     root: '@additional_columnLayout_camp1_<current()>'
@@ -126,11 +126,11 @@ App\Entity\ContentNode\SingleText:
     instanceName: 'singleText<current()>'
     contentType: '@contentTypeNotes'
     data: { html: <word()> }
-  additional_safetyConcept_camp1_{1..200}:
+  additional_safetyConsiderations_camp1_{1..200}:
     root: '@additional_columnLayout_camp1_<current()>'
     parent: '@additional_responsiveLayout_camp1_<current()>'
     slot: 'aside-top'
     position: 3
-    instanceName: 'safetyConcept<current()>'
-    contentType: '@contentTypeSafetyConcept'
+    instanceName: 'safetyConsiderations<current()>'
+    contentType: '@contentTypeSafetyConsiderations'
     data: { html: <sentence()> }

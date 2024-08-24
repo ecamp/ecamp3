@@ -12,7 +12,7 @@ import InstanceName from '../InstanceName.vue'
 import RichText from '../../RichText.vue'
 
 export default {
-  name: 'SafetyConcept',
+  name: 'SafetyConsiderations',
   components: { RichText, InstanceName },
   extends: PdfComponent,
   props: {
