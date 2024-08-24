@@ -7,7 +7,7 @@ App\Entity\Category:
     numberingStyle: 1
     rootContentNode: '@additionalColumnLayoutForCampNumber1_<current()>'
     preferredContentTypes:
-      - '@contentTypeSafetyConcept'
+      - '@contentTypeSafetyConsiderations'
   additionalCategoryForCampNumber2_{1..400}:
     camp: '@additionalCamp_<current()>'
     short: LP
