@@ -318,7 +318,7 @@
         },
         "summaryConfig": {
           "contentType": "Blockinhalt",
-          "instanceNameFilter": "Instanznamenfilter",
+          "instanceNameFilter": "Nach Bausteintitel filtern",
           "periods": "Lagerabschnitt(e)"
         }
       },
