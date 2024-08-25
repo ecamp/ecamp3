@@ -33,7 +33,6 @@ import camelCase from 'lodash/camelCase.js'
 
 export default {
   name: 'SummaryPeriod',
-  methods: { camelCase },
   components: { SummaryDay },
   extends: PdfComponent,
   props: {
@@ -49,6 +48,7 @@ export default {
       return this.$tc(`contentNode.${camelCase(this.contentType)}.name`)
     },
   },
+  methods: { camelCase },
 }
 </script>
 <pdf-style>

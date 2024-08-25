@@ -15,7 +15,6 @@ import camelCase from 'lodash/camelCase.js'
 
 export default {
   name: 'Summary',
-  methods: { camelCase },
   extends: PdfComponent,
   props: {
     entry: { type: Object, required: true },
@@ -25,6 +24,7 @@ export default {
       return this.entry.options.periods.map((periodUri) => this.api.get(periodUri))
     },
   },
+  methods: { camelCase },
 }
 </script>
 <pdf-style>
