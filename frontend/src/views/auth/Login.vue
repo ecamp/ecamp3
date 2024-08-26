@@ -21,6 +21,21 @@
         <i18n :path="infoTextKey">
           <template #br><br /></template>
         </i18n>
+        <div class="text-right" style="margin-top: -26px">
+          <v-btn
+            color="warning"
+            height="32px"
+            @click="
+              () => {
+                email = 'test@example.com'
+                password = 'test'
+                login()
+              }
+            "
+          >
+            Login
+          </v-btn>
+        </div>
       </div>
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
