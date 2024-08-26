@@ -57,7 +57,7 @@
     "comlink": "4.4.1",
     "dayjs": "1.11.13",
     "deepmerge": "4.3.1",
-    "emoji-regex": "10.3.0",
+    "emoji-regex": "10.4.0",
     "file-saver": "2.0.5",
     "hal-json-vuex": "2.0.0-alpha.16",
     "inter-ui": "3.19.3",
