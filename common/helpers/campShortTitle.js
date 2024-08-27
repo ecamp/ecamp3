@@ -15,17 +15,34 @@ const ADDITIONAL_SHORTNERS = [
   },
   {
     regex:
-      /(?<start>.*?\b)?(?<camp>[a-z]{2,}La(?:ger)?)(?<middle>(?:\s(?!19|20))|.*?)\s?(?:(?:19|20)(?<year>\d{2}))(?<end>.*)/gi,
+      /(?<start>.*?\b)?(?<camp>(?:[A-Za-z]{2,}La)|(?:[A-Za-z]{2,}lager))(?<middle>(?:\s(?!19|20))|.*?)\s?(?:(?:19|20)(?<year>\d{2}))(?<end>.*)/g,
     text: '$<start>$<camp>$<year>$<middle>$<end>',
   },
   { regex: /(Pfadi|Pio|Rover)stufe(?!n)/g, text: '$1s' },
-  { regex: /(B)ie?berstufe(?!n)/g, text: '$1iberli' },
-  { regex: /(W)olfs?stufe(?!n)/g, text: '$1ölfli' },
+  { regex: /(B)ie?berstufe(?!n)/gi, text: '$1iberli' },
+  { regex: /(W)olfs?stufe(?!n)/gi, text: '$1ölfli' },
+  { regex: /(E)sploratori/gi, text: '$1splos' },
   {
     regex: /(Bie?ber|Wolfs?|Pfadi|Pio|Rover)stufen(So|Ab|Au|Auf|He|Pfi)La/gi,
     text: '$1$2La',
   },
-  { regex: /\bund\b/g, text: '&' },
+  {
+    regex: /Campo? (.*? ?)(?:(?: ?d[ei] )?(Pentec[ôo]te|Pentecoste|primavera|printemps|p[âa]ques|pasqua)|(?:d')?([ée]t[eé]|automne|hiver)|(estivo|autunnale|invernale)|(?:de[l ]l[' ])?(Ascensione?))? (.*? ?)*?((?:19|20)\d{2})?/gi,
+    text: '$2$3$4$5 $1$6$7',
+  },
+  { regex: /\bPrintemps/gi, text: 'Prt', },
+  { regex: /\bPrimavera/gi, text: 'Prim', },
+  { regex: /\bP[aâ]ques/gi, text: 'Pâq', },
+  { regex: /\bPasqua/gi, text: 'Pas', },
+  { regex: /\bAutomne/gi, text: 'Aut', },
+  { regex: /\bAutunno/gi, text: 'Aut', },
+  { regex: /\bHiver/gi, text: 'Hiv', },
+  { regex: /\bInverno/gi, text: 'Inv', },
+  { regex: /\bPentec[oô]s?te/gi, text: 'Pent', },
+  { regex: /\bAscensione?/gi, text: 'Asc', },
+  { regex: /\bEstate/gi, text: 'Est', },
+
+  { regex: /\b(?:und|et?)\b/g, text: '&' },
   { regex: /\b(?:19|20)(\d{2})\b/g, text: '$1' },
   { regex: /\s/g, text: '' },
 ]

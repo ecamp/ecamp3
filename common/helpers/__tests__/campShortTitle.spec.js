@@ -21,6 +21,15 @@ describe('campShortTitle', () => {
     [{ shortTitle: null, title: 'Pio Bezirkspfila 2024' }, 'Pio BezPfiLa24'],
     [{ shortTitle: null, title: 'Piostufensola 12.12.2026' }, 'PioSoLa26 12.12.'],
 
+    [{ shortTitle: null, title: "Camp d'été à Thun 2024" }, 'été à Thun 2024'],
+    [{ shortTitle: null, title: "Campo di Pentecoste 2024" }, 'Pentecoste 2024'],
+    [{ shortTitle: null, title: "Camp d'hiver PiCos 2025" }, "hiver PiCos 2025"],
+    [{ shortTitle: null, title: "Camp d'automne Eclais 2025" }, "Aut Eclais 2025"],
+    [{ shortTitle: null, title: "Camp de pâques 2025 louveteaux" }, "Pâq25louveteaux"],
+    [{ shortTitle: null, title: "Campo di primavera 2025 esploratori" }, "Prim 2025 esplos"],
+    [{ shortTitle: null, title: "Campo autunnale 2028" }, "autunnale 2028"],
+    [{ shortTitle: null, title: "Campo dell'Ascensione 2025 Esploratori" }, "Asc 2025 Esplos"],
+
     [{ shortTitle: 'Pfila 2024', title: 'Pfingstlager 2024' }, 'Pfila 2024'],
     [{ shortTitle: 'Pfila 2024', title: null }, 'Pfila 2024'],
     [{ shortTitle: null, title: null }, ''],
