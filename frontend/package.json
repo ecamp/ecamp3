@@ -90,7 +90,7 @@
     "@sentry/vite-plugin": "2.22.2",
     "@testing-library/jest-dom": "6.5.0",
     "@testing-library/user-event": "14.5.2",
-    "@testing-library/vue": "5.9.0",
+    "@testing-library/vue": "8.1.0",
     "@vitejs/plugin-vue2": "2.3.1",
     "@vitest/coverage-v8": "2.0.5",
     "@vue/babel-preset-app": "5.0.8",
