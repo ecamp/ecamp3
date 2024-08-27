@@ -21,21 +21,23 @@
         <i18n :path="infoTextKey">
           <template #br><br /></template>
         </i18n>
-        <div class="text-right" style="margin-top: -26px">
-          <v-btn
-            color="warning"
-            height="32px"
-            @click="
-              () => {
-                email = 'test@example.com'
-                password = 'test'
-                login()
-              }
-            "
-          >
-            Login
-          </v-btn>
-        </div>
+        <v-btn
+          text
+          elevation="0"
+          color="warning darken-3"
+          height="32px"
+          class="v-btn--has-bg float-end dev-login-button"
+          @click="
+            () => {
+              email = 'test@example.com'
+              password = 'test'
+              login()
+            }
+          "
+        >
+          Login
+          <v-icon right>mdi-auto-fix</v-icon>
+        </v-btn>
       </div>
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
@@ -286,5 +288,11 @@ export default {
   :deep(.v-btn__content) {
     flex-direction: column;
   }
+}
+.dev-login-button {
+  background-color: #f7e4cc !important;
+  margin-top: 12px;
+  margin-bottom: -12px;
+  translate: 0 -12px;
 }
 </style>
