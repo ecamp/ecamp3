@@ -130,6 +130,7 @@ jobs:
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
             --set frontend.loginInfoTextKey=${{ vars.LOGIN_INFO_TEXT_KEY }} \
             --set featureToggle.developer=true
+            --set featureToggle.checklist=true
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.5.0

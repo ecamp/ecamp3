@@ -338,24 +338,29 @@ export default new Router({
         }),
       },
     },
-    {
-      name: 'admin/checklists/checklist',
-      path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
-      components: {
-        navigation: NavigationCamp,
-        default: () => import('./views/checklist/Checklist.vue'),
-        aside: () => import('./views/checklist/SideBarChecklist.vue'),
-      },
-      beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
-      props: {
-        navigation: (route) => ({ camp: campFromRoute(route) }),
-        aside: (route) => ({ camp: campFromRoute(route) }),
-        default: (route) => ({
-          camp: campFromRoute(route),
-          checklist: checklistFromRoute(route),
-        }),
-      },
-    },
+    ...(getEnv().FEATURE_CHECKLIST
+      ? [
+          // Checklist-Pages:
+          {
+            name: 'admin/checklists/checklist',
+            path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/checklist/Checklist.vue'),
+              aside: () => import('./views/checklist/SideBarChecklist.vue'),
+            },
+            beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              aside: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({
+                camp: campFromRoute(route),
+                checklist: checklistFromRoute(route),
+              }),
+            },
+          },
+        ]
+      : []),
     {
       path: '/camps/:campId/:campTitle?/admin',
       components: {
@@ -402,12 +407,17 @@ export default new Router({
           component: () => import('./views/admin/Print.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
-        {
-          path: 'checklists',
-          name: 'admin/checklists',
-          component: () => import('./views/admin/Checklists.vue'),
-          props: (route) => ({ camp: campFromRoute(route) }),
-        },
+        ...(getEnv().FEATURE_CHECKLIST
+          ? [
+              // Checklist-Pages:
+              {
+                path: 'checklists',
+                name: 'admin/checklists',
+                component: () => import('./views/admin/Checklists.vue'),
+                props: (route) => ({ camp: campFromRoute(route) }),
+              },
+            ]
+          : []),
         {
           path: 'materiallists',
           name: 'camp/material',

@@ -18,6 +18,7 @@
         icon="mdi-account-group-outline"
       />
       <SidebarListItem
+        v-if="featureChecklistEnabled"
         :to="adminRoute(camp, 'checklists')"
         title="Checklists"
         icon="mdi-clipboard-list-outline"
@@ -41,6 +42,7 @@ import SideBar from '@/components/navigation/SideBar.vue'
 import { adminRoute, campRoute } from '@/router.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'SideBarAdmin',
@@ -50,6 +52,11 @@ export default {
     camp: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    featureChecklistEnabled() {
+      return getEnv().FEATURE_CHECKLIST ?? false
     },
   },
   methods: { adminRoute, campRoute },

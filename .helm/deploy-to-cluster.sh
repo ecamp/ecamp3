@@ -64,6 +64,7 @@ for i in 1; do
   values="$values --set deploymentTime=$(date -u +%s)"
   values="$values --set deployedVersion=\"$(git rev-parse --short HEAD)\""
   values="$values --set featureToggle.developer=true"
+  values="$values --set featureToggle.checklist=true"
 
   if [ -n "$BACKUP_SCHEDULE" ]; then
     values="$values --set postgresql.backup.schedule=$BACKUP_SCHEDULE"
