@@ -4,26 +4,29 @@ import path from 'path'
 import fs from 'fs'
 import utils from 'eslint-plugin-vue/lib/utils/index.js'
 import { describe, it } from 'vitest'
+import localRules from 'eslint-plugin-local-rules'
+import globals from 'globals'
+import eslintParser from 'vue-eslint-parser'
 
 RuleTester.describe = describe
 RuleTester.it = it
 
 const ruleTester = new RuleTester({
-  parser: require.resolve('vue-eslint-parser'),
-  root: true,
-  env: {
-    node: true,
+  plugins: {
+    'local-rules': localRules,
   },
-  extends: [
-    'plugin:vue/recommended',
-    'eslint:recommended',
-    'plugin:prettier/recommended',
-    '@vue/eslint-config-prettier',
-  ],
-  parserOptions: {
-    parser: '@babel/eslint-parser',
+
+  languageOptions: {
+    parser: eslintParser,
+    globals: {
+      ...globals.node,
+      ...globals.jest,
+    },
+
+    parserOptions: {
+      parser: '@babel/eslint-parser',
+    },
   },
-  plugins: ['eslint-plugin-local-rules'],
 })
 const ruleInstance = rule(path, utils, fs)
 
