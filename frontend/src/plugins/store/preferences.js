@@ -13,7 +13,7 @@ export function loadFromLocalStorage(localStorage = window.localStorage) {
         )
         values[uri] ||= {}
         values[uri][identifier] = JSON.parse(localStorage[key])
-      } catch (error) {
+      } catch {
         // Just ignore this key and continue with the others
       }
     })

@@ -145,7 +145,7 @@ export default {
         return this.value && this.value !== '#NANNAN'
           ? contrastColor(this.value)
           : 'black'
-      } catch (error) {
+      } catch {
         return 'black'
       }
     },

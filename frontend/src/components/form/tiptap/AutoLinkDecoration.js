@@ -24,7 +24,7 @@ export const AutoLinkDecoration = Extension.create({
             let link
             try {
               link = new URL(url)
-            } catch (_) {
+            } catch {
               /* It can't be parsed as an url */
             }
             if (!link.host.includes('.') && !link.port) {
