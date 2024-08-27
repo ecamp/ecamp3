@@ -171,7 +171,7 @@ services:
     working_dir: /e2e
     
   reverse-proxy:
-    image: nginx:1.26
+    image: nginx:1.27
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./reverse-proxy-nginx.conf:/etc/nginx/nginx.conf
