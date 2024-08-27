@@ -5,6 +5,9 @@
     },
     "items": [
       {
+        "href": "/api/content_types/a4211c11211c"
+      },
+      {
         "href": "/api/content_types/c462edd869f3"
       },
       {
@@ -36,9 +39,22 @@
       }
     ]
   },
-  "totalItems": 10,
+  "totalItems": 11,
   "_embedded": {
     "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/a4211c11211c"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/checklist_nodes?contentType=%2Fapi%2Fcontent_types%2Fa4211c11211c"
+          }
+        },
+        "name": "Checklist",
+        "active": true,
+        "id": "a4211c11211c"
+      },
       {
         "_links": {
           "self": {
@@ -139,7 +155,7 @@
             "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F44dcc7493c65"
           }
         },
-        "name": "SafetyConcept",
+        "name": "SafetyConsiderations",
         "active": true,
         "id": "44dcc7493c65"
       },

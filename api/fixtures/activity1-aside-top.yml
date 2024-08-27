@@ -27,11 +27,11 @@ App\Entity\ContentNode\SingleText:
     instanceName: 'singleText1'
     contentType: '@contentTypeNotes'
     data: { html: <word()> }
-  safetyConcept1:
+  safetyConsiderations1:
     root: '@columnLayout1'
     parent: '@responsiveLayout1'
     slot: 'aside-top'
     position: 3
-    instanceName: 'safetyConcept1'
-    contentType: '@contentTypeSafetyConcept'
+    instanceName: 'safetyConsiderations1'
+    contentType: '@contentTypeSafetyConsiderations'
     data: { html: <sentence()> }

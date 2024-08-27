@@ -17,7 +17,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             'preferredContentTypes' => [
                 $this->getIriFor('contentTypeColumnLayout'),
-                $this->getIriFor('contentTypeSafetyConcept'),
+                $this->getIriFor('contentTypeSafetyConsiderations'),
             ],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);
@@ -37,7 +37,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentTypeSafetyConcept'),
+                    $this->getIriFor('contentTypeSafetyConsiderations'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -58,7 +58,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentTypeSafetyConcept'),
+                    $this->getIriFor('contentTypeSafetyConsiderations'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -79,7 +79,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentTypeSafetyConcept'),
+                    $this->getIriFor('contentTypeSafetyConsiderations'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -100,7 +100,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentTypeSafetyConcept'),
+                    $this->getIriFor('contentTypeSafetyConsiderations'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -127,7 +127,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             'preferredContentTypes' => [
                 $this->getIriFor('contentTypeColumnLayout'),
-                $this->getIriFor('contentTypeSafetyConcept'),
+                $this->getIriFor('contentTypeSafetyConsiderations'),
             ],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
@@ -153,7 +153,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             'preferredContentTypes' => [
                 $this->getIriFor('contentTypeColumnLayout'),
-                $this->getIriFor('contentTypeSafetyConcept'),
+                $this->getIriFor('contentTypeSafetyConsiderations'),
             ],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(403);
@@ -529,12 +529,12 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
         $contentTypeColumnLayout = static::getFixture('contentTypeColumnLayout');
         $contentTypeNotes = static::getFixture('contentTypeNotes');
-        $contentTypeSafetyConcept = static::getFixture('contentTypeSafetyConcept');
+        $contentTypeSafetyConsiderations = static::getFixture('contentTypeSafetyConsiderations');
         self::assertEqualsCanonicalizing([
             $category->getId(),
             $contentTypeColumnLayout->getId().'#categories',
             $contentTypeNotes->getId().'#categories',
-            $contentTypeSafetyConcept->getId().'#categories', // SafetyConcept was previously in the list, so this is purged because it was removed
+            $contentTypeSafetyConsiderations->getId().'#categories', // SafetyConsiderations was previously in the list, so this is purged because it was removed
         ], $cacheManager->getInvalidatedTags());
     }
 }

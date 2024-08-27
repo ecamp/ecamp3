@@ -2333,6 +2333,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2462,6 +2468,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -2524,6 +2531,12 @@ components:
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
+          readOnly: true
+          type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
           format: iri-reference
           readOnly: true
           type: string
@@ -2649,6 +2662,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -2710,6 +2724,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -2839,6 +2859,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -2900,6 +2921,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -3029,6 +3056,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -3373,6 +3401,8 @@ components:
                   properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
                 categories:
                   properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
+                checklists:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
                 creator:
                   properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
                 materialLists:
@@ -3385,6 +3415,7 @@ components:
                 - activities
                 - campCollaborations
                 - categories
+                - checklists
                 - materialLists
                 - periods
                 - progressLabels
@@ -3401,6 +3432,8 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
+              -
+                $ref: '#/components/schemas/CampCollaboration.jsonapi'
               -
                 $ref: '#/components/schemas/CampCollaboration.jsonapi'
               -
@@ -3495,6 +3528,12 @@ components:
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
+          readOnly: true
+          type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
           format: iri-reference
           readOnly: true
           type: string
@@ -3627,6 +3666,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -3698,6 +3738,12 @@ components:
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
+          readOnly: true
+          type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
           format: iri-reference
           readOnly: true
           type: string
@@ -3823,6 +3869,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -3893,6 +3940,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4022,6 +4075,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -4092,6 +4146,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4221,6 +4281,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -4439,6 +4500,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4568,6 +4635,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -4653,6 +4721,12 @@ components:
         categories:
           description: 'Types of programme, such as sports activities or meal times.'
           example: '"/camp/1a2b3c4d/categories"'
+          format: iri-reference
+          readOnly: true
+          type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
           format: iri-reference
           readOnly: true
           type: string
@@ -4778,6 +4852,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -4862,6 +4937,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -4991,6 +5072,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -5075,6 +5157,12 @@ components:
           format: iri-reference
           readOnly: true
           type: string
+        checklists:
+          description: 'List of all Checklists of this Camp.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
         coachName:
           description: 'The name of the Y+S coach who is in charge of the camp.'
           example: 'Albert Anderegg'
@@ -5204,6 +5292,7 @@ components:
         - activities
         - campCollaborations
         - categories
+        - checklists
         - materialLists
         - periods
         - printYSLogoOnPicasso
@@ -7502,6 +7591,1445 @@ components:
         - preferredContentTypes
         - short
       type: object
+    Checklist-read:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - camp
+        - checklistItems
+        - name
+      type: object
+    Checklist-write:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - name
+      type: object
+    Checklist-write_create:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        copyChecklistSource:
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - camp
+        - name
+      type: object
+    Checklist.jsonapi:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                _id:
+                  description: 'An internal, unique, randomly generated identifier of this entity.'
+                  example: 1a2b3c4d
+                  maxLength: 16
+                  readOnly: true
+                  type: string
+                name:
+                  description: 'The human readable name of the checklist.'
+                  example: 'PBS Ausbildungsziele'
+                  maxLength: 32
+                  type: string
+              required:
+                - name
+              type: object
+            id:
+              type: string
+            relationships:
+              properties:
+                camp:
+                  properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
+                checklistItems:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
+              required:
+                - camp
+                - checklistItems
+              type: object
+            type:
+              type: string
+          required:
+            - id
+            - type
+          type: object
+        included:
+          description: 'Related resources requested via the "include" query parameter.'
+          externalDocs:
+            url: 'https://jsonapi.org/format/#fetching-includes'
+          items:
+            anyOf:
+              -
+                $ref: '#/components/schemas/Checklist.jsonapi'
+              -
+                $ref: '#/components/schemas/Checklist.jsonapi'
+          readOnly: true
+          type: array
+      type: object
+    Checklist.jsonhal-read:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - camp
+        - checklistItems
+        - name
+      type: object
+    Checklist.jsonhal-write_create:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        copyChecklistSource:
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - camp
+        - name
+      type: object
+    Checklist.jsonld-read:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - camp
+        - checklistItems
+        - name
+      type: object
+    Checklist.jsonld-write_create:
+      deprecated: false
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type: string
+        copyChecklistSource:
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - camp
+        - name
+      type: object
+    ChecklistItem-read:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        checklist:
+          description: 'The Checklist this Item belongs to.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type: string
+        children:
+          description: 'All ChecklistItems that are direct children of this ChecklistItem.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - checklist
+        - children
+        - position
+        - text
+      type: object
+    ChecklistItem-write:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - position
+        - text
+      type: object
+    ChecklistItem-write_create:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        checklist:
+          description: 'The Checklist this Item belongs to.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type: string
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - checklist
+        - position
+        - text
+      type: object
+    ChecklistItem.jsonapi:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                _id:
+                  description: 'An internal, unique, randomly generated identifier of this entity.'
+                  example: 1a2b3c4d
+                  maxLength: 16
+                  readOnly: true
+                  type: string
+                position:
+                  default: -1
+                  description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+                  example: -1
+                  type: integer
+                text:
+                  description: 'The human readable text of the checklist-item.'
+                  example: Pfaditechnick
+                  maxLength: 256
+                  type: string
+              required:
+                - position
+                - text
+              type: object
+            id:
+              type: string
+            relationships:
+              properties:
+                checklist:
+                  properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
+                children:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
+                parent:
+                  properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
+              required:
+                - checklist
+                - children
+              type: object
+            type:
+              type: string
+          required:
+            - id
+            - type
+          type: object
+        included:
+          description: 'Related resources requested via the "include" query parameter.'
+          externalDocs:
+            url: 'https://jsonapi.org/format/#fetching-includes'
+          items:
+            anyOf:
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+          readOnly: true
+          type: array
+      type: object
+    ChecklistItem.jsonhal-read:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        checklist:
+          description: 'The Checklist this Item belongs to.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type: string
+        children:
+          description: 'All ChecklistItems that are direct children of this ChecklistItem.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - checklist
+        - children
+        - position
+        - text
+      type: object
+    ChecklistItem.jsonhal-write_create:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        checklist:
+          description: 'The Checklist this Item belongs to.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type: string
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - checklist
+        - position
+        - text
+      type: object
+    ChecklistItem.jsonld-read:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        checklist:
+          description: 'The Checklist this Item belongs to.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type: string
+        children:
+          description: 'All ChecklistItems that are direct children of this ChecklistItem.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - checklist
+        - children
+        - position
+        - text
+      type: object
+    ChecklistItem.jsonld-write_create:
+      deprecated: false
+      description: |-
+        A ChecklistItem
+        A Checklist contains a Tree-Structure of ChecklistItems.
+      properties:
+        checklist:
+          description: 'The Checklist this Item belongs to.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type: string
+        parent:
+          description: |-
+            The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
+            root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
+            as the new parent is in the same checklist as the old one.
+          example: /checklist_items/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: 'A whole number used for ordering multiple checklist items that are in the same parent.'
+          example: -1
+          type: integer
+        text:
+          description: 'The human readable text of the checklist-item.'
+          example: Pfaditechnick
+          maxLength: 256
+          type: string
+      required:
+        - checklist
+        - position
+        - text
+      type: object
+    ChecklistNode-read:
+      deprecated: false
+      description: ''
+      properties:
+        checklistItems:
+          description: 'List of selected ChecklistItems.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          type: array
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - checklistItems
+        - children
+        - contentType
+        - position
+      type: object
+    ChecklistNode-write_create:
+      deprecated: false
+      description: ''
+      properties:
+        addChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        removeChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - parent
+        - position
+      type: object
+    ChecklistNode-write_update:
+      deprecated: false
+      description: ''
+      properties:
+        addChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        removeChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - position
+      type: object
+    ChecklistNode.jsonapi:
+      deprecated: false
+      description: ''
+      properties:
+        addChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+          writeOnly: true
+        checklistItems:
+          description: 'List of selected ChecklistItems.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        removeChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+          writeOnly: true
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - checklistItems
+        - children
+        - contentType
+        - position
+      type: object
+    ChecklistNode.jsonhal-read:
+      deprecated: false
+      description: ''
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        checklistItems:
+          description: 'List of selected ChecklistItems.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          type: array
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - checklistItems
+        - children
+        - contentType
+        - position
+      type: object
+    ChecklistNode.jsonhal-write_create:
+      deprecated: false
+      description: ''
+      properties:
+        _links:
+          properties:
+            self:
+              properties:
+                href:
+                  format: iri-reference
+                  type: string
+              type: object
+          type: object
+        addChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        removeChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - parent
+        - position
+      type: object
+    ChecklistNode.jsonld-read:
+      deprecated: false
+      description: ''
+      properties:
+        '@context':
+          oneOf:
+            -
+              additionalProperties: true
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+                  type: string
+              required:
+                - '@vocab'
+                - hydra
+              type: object
+            -
+              type: string
+          readOnly: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        checklistItems:
+          description: 'List of selected ChecklistItems.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          type: array
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - checklistItems
+        - children
+        - contentType
+        - position
+      type: object
+    ChecklistNode.jsonld-write_create:
+      deprecated: false
+      description: ''
+      properties:
+        addChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: -1
+          type: integer
+        removeChecklistItemIds:
+          example: '["1a2b3c4d"]'
+          items:
+            type: string
+          type:
+            - array
+            - 'null'
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - parent
+        - position
+      type: object
     ColumnLayout-read:
       deprecated: false
       description: ''
@@ -7525,7 +9053,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -7623,7 +9151,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -7721,7 +9249,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -7819,7 +9347,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -7917,7 +9445,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8142,7 +9670,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8249,7 +9777,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8356,7 +9884,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8463,7 +9991,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8570,7 +10098,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8677,7 +10205,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8875,7 +10403,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8996,7 +10524,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9117,7 +10645,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9238,7 +10766,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9359,7 +10887,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9530,7 +11058,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9621,7 +11149,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9712,7 +11240,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9809,7 +11337,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9914,7 +11442,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10014,7 +11542,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10114,7 +11642,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10216,7 +11744,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10330,7 +11858,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10444,7 +11972,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10541,7 +12069,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -10575,7 +12103,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -10629,7 +12157,7 @@ components:
                   description: |-
                     A name in UpperCamelCase of the content type. This value may be used as a technical
                     identifier of this content type, it is guaranteed to stay fixed.
-                  example: SafetyConcept
+                  example: SafetyConsiderations
                   maxLength: 32
                   readOnly: true
                   type: string
@@ -10702,7 +12230,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -10745,7 +12273,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -10805,7 +12333,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -10862,7 +12390,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -12821,7 +14349,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -13030,7 +14558,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -13136,7 +14664,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -13325,7 +14853,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -13482,7 +15010,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -13705,7 +15233,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -13811,7 +15339,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -14007,7 +15535,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -16691,7 +18219,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -16925,7 +18453,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -17035,7 +18563,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -17239,7 +18767,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -18904,7 +20432,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -19120,7 +20648,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -19224,7 +20752,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -19416,7 +20944,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -19576,7 +21104,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -19802,7 +21330,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -19909,7 +21437,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -20107,7 +21635,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -22763,6 +24291,93 @@ paths:
       summary: 'Retrieves the collection of Category resources.'
       tags:
         - Category
+  '/camps/{campId}/checklists':
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of Checklist resources.'
+      operationId: api_camps_campIdchecklists_get_collection
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Checklist identifier'
+          explode: false
+          in: path
+          name: campId
+          required: true
+          schema:
+            type: string
+          style: simple
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/Checklist.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Checklist-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/Checklist.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Checklist.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Checklist-read'
+                type: array
+          description: 'Checklist collection'
+      summary: 'Retrieves the collection of Checklist resources.'
+      tags:
+        - Checklist
   '/camps/{id}':
     delete:
       deprecated: false
@@ -23135,6 +24750,878 @@ paths:
       summary: 'Updates the Category resource.'
       tags:
         - Category
+  /checklist_items:
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of ChecklistItem resources.'
+      operationId: api_checklist_items_get_collection
+      parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: checklist
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'checklist[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/ChecklistItem.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistItem-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/ChecklistItem.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistItem.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistItem-read'
+                type: array
+          description: 'ChecklistItem collection'
+      summary: 'Retrieves the collection of ChecklistItem resources.'
+      tags:
+        - ChecklistItem
+    post:
+      deprecated: false
+      description: 'Creates a ChecklistItem resource.'
+      operationId: api_checklist_items_post
+      parameters: []
+      requestBody:
+        content:
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem.jsonhal-write_create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem-write_create'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem.jsonld-write_create'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem.jsonapi'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem-write_create'
+        description: 'The new ChecklistItem resource'
+        required: true
+      responses:
+        201:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem-read'
+          description: 'ChecklistItem resource created'
+          links: []
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a ChecklistItem resource.'
+      tags:
+        - ChecklistItem
+  '/checklist_items/{id}':
+    delete:
+      deprecated: false
+      description: 'Removes the ChecklistItem resource.'
+      operationId: api_checklist_items_id_delete
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistItem identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        204:
+          description: 'ChecklistItem resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the ChecklistItem resource.'
+      tags:
+        - ChecklistItem
+    get:
+      deprecated: false
+      description: 'Retrieves a ChecklistItem resource.'
+      operationId: api_checklist_items_id_get
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistItem identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem-read'
+          description: 'ChecklistItem resource'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a ChecklistItem resource.'
+      tags:
+        - ChecklistItem
+    patch:
+      deprecated: false
+      description: 'Updates the ChecklistItem resource.'
+      operationId: api_checklist_items_id_patch
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistItem identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistItem.jsonapi'
+        description: 'The updated ChecklistItem resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ChecklistItem-read'
+          description: 'ChecklistItem resource updated'
+          links: []
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Updates the ChecklistItem resource.'
+      tags:
+        - ChecklistItem
+  /checklists:
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of Checklist resources.'
+      operationId: api_checklists_get_collection
+      parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/Checklist.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Checklist-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/Checklist.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Checklist.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Checklist-read'
+                type: array
+          description: 'Checklist collection'
+      summary: 'Retrieves the collection of Checklist resources.'
+      tags:
+        - Checklist
+    post:
+      deprecated: false
+      description: 'Creates a Checklist resource.'
+      operationId: api_checklists_post
+      parameters: []
+      requestBody:
+        content:
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Checklist.jsonhal-write_create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist-write_create'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Checklist.jsonld-write_create'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Checklist.jsonapi'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Checklist-write_create'
+        description: 'The new Checklist resource'
+        required: true
+      responses:
+        201:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Checklist-read'
+          description: 'Checklist resource created'
+          links: []
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a Checklist resource.'
+      tags:
+        - Checklist
+  '/checklists/{checklistId}/checklist_items':
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of ChecklistItem resources.'
+      operationId: api_checklists_checklistIdchecklist_items_get_collection
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistItem identifier'
+          explode: false
+          in: path
+          name: checklistId
+          required: true
+          schema:
+            type: string
+          style: simple
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: checklist
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'checklist[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/ChecklistItem.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistItem-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/ChecklistItem.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistItem.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistItem-read'
+                type: array
+          description: 'ChecklistItem collection'
+      summary: 'Retrieves the collection of ChecklistItem resources.'
+      tags:
+        - ChecklistItem
+  '/checklists/{id}':
+    delete:
+      deprecated: false
+      description: 'Removes the Checklist resource.'
+      operationId: api_checklists_id_delete
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Checklist identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        204:
+          description: 'Checklist resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the Checklist resource.'
+      tags:
+        - Checklist
+    get:
+      deprecated: false
+      description: 'Retrieves a Checklist resource.'
+      operationId: api_checklists_id_get
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Checklist identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Checklist-read'
+          description: 'Checklist resource'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a Checklist resource.'
+      tags:
+        - Checklist
+    patch:
+      deprecated: false
+      description: 'Updates the Checklist resource.'
+      operationId: api_checklists_id_patch
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Checklist identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Checklist-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Checklist.jsonapi'
+        description: 'The updated Checklist resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Checklist.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Checklist-read'
+          description: 'Checklist resource updated'
+          links: []
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Updates the Checklist resource.'
+      tags:
+        - Checklist
+  /content_node/checklist_nodes:
+    get:
+      deprecated: false
+      description: 'Retrieves the collection of ChecklistNode resources.'
+      operationId: api_content_nodechecklist_nodes_get_collection
+      parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: contentType
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'contentType[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'root[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                properties:
+                  _embedded: { anyOf: [{ properties: { item: { items: { $ref: '#/components/schemas/ChecklistNode.jsonhal-read' }, type: array } }, type: object }, { type: object }] }
+                  _links: { properties: { first: { properties: { href: { format: iri-reference, type: string } }, type: object }, last: { properties: { href: { format: iri-reference, type: string } }, type: object }, next: { properties: { href: { format: iri-reference, type: string } }, type: object }, previous: { properties: { href: { format: iri-reference, type: string } }, type: object }, self: { properties: { href: { format: iri-reference, type: string } }, type: object } }, type: object }
+                  itemsPerPage: { minimum: 0, type: integer }
+                  totalItems: { minimum: 0, type: integer }
+                required:
+                  - _embedded
+                  - _links
+                type: object
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistNode-read'
+                type: array
+            application/ld+json:
+              schema:
+                properties:
+                  'hydra:member': { items: { $ref: '#/components/schemas/ChecklistNode.jsonld-read' }, type: array }
+                  'hydra:search': { properties: { '@type': { type: string }, 'hydra:mapping': { items: { properties: { '@type': { type: string }, property: { type: ['null', string] }, required: { type: boolean }, variable: { type: string } }, type: object }, type: array }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string } }, type: object }
+                  'hydra:totalItems': { minimum: 0, type: integer }
+                  'hydra:view': { example: { '@id': string, 'hydra:first': string, 'hydra:last': string, 'hydra:next': string, 'hydra:previous': string, type: string }, properties: { '@id': { format: iri-reference, type: string }, '@type': { type: string }, 'hydra:first': { format: iri-reference, type: string }, 'hydra:last': { format: iri-reference, type: string }, 'hydra:next': { format: iri-reference, type: string }, 'hydra:previous': { format: iri-reference, type: string } }, type: object }
+                required:
+                  - 'hydra:member'
+                type: object
+            application/vnd.api+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistNode.jsonapi'
+                type: array
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ChecklistNode-read'
+                type: array
+          description: 'ChecklistNode collection'
+      summary: 'Retrieves the collection of ChecklistNode resources.'
+      tags:
+        - ChecklistNode
+    post:
+      deprecated: false
+      description: 'Creates a ChecklistNode resource.'
+      operationId: api_content_nodechecklist_nodes_post
+      parameters: []
+      requestBody:
+        content:
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode.jsonhal-write_create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode-write_create'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode.jsonld-write_create'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode.jsonapi'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode-write_create'
+        description: 'The new ChecklistNode resource'
+        required: true
+      responses:
+        201:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode-read'
+          description: 'ChecklistNode resource created'
+          links: []
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a ChecklistNode resource.'
+      tags:
+        - ChecklistNode
+  '/content_node/checklist_nodes/{id}':
+    delete:
+      deprecated: false
+      description: 'Removes the ChecklistNode resource.'
+      operationId: api_content_nodechecklist_nodes_id_delete
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistNode identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        204:
+          description: 'ChecklistNode resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the ChecklistNode resource.'
+      tags:
+        - ChecklistNode
+    get:
+      deprecated: false
+      description: 'Retrieves a ChecklistNode resource.'
+      operationId: api_content_nodechecklist_nodes_id_get
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistNode identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode-read'
+          description: 'ChecklistNode resource'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a ChecklistNode resource.'
+      tags:
+        - ChecklistNode
+    patch:
+      deprecated: false
+      description: 'Updates the ChecklistNode resource.'
+      operationId: api_content_nodechecklist_nodes_id_patch
+      parameters:
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistNode identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode-write_update'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ChecklistNode.jsonapi'
+        description: 'The updated ChecklistNode resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ChecklistNode-read'
+          description: 'ChecklistNode resource updated'
+          links: []
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Updates the ChecklistNode resource.'
+      tags:
+        - ChecklistNode
   /content_node/column_layouts:
     get:
       deprecated: false

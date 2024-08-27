@@ -76,10 +76,10 @@
       "printAboveMainContent": "Print above main content",
       "printBelowMainContent": "Print below main content"
     },
-    "safetyConcept": {
+    "safetyConsiderations": {
       "icon": "mdi-security",
       "info": "Some blocks require to think about the risks. Here you can record these thoughts.{br}Record what risks you have identified - and how you can address them.",
-      "name": "Safety concept"
+      "name": "Safety considerations"
     },
     "storyboard": {
       "entity": {

@@ -62,9 +62,9 @@
       "printAboveMainContent": "Imprimer au-dessus du contenu principal",
       "printBelowMainContent": "Imprimer sous le contenu principal"
     },
-    "safetyConcept": {
+    "safetyConsiderations": {
       "info": "Certains blocs nécessitent de réfléchir aux risques. Tu peux enregistrer ces réflexions ici.{br}Enregistre les risques que tu as identifiés - et comment tu peux y faire face.",
-      "name": "Concept de sécurité"
+      "name": "Considérations de sécurité"
     },
     "storyboard": {
       "entity": {

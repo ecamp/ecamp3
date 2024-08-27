@@ -402,6 +402,9 @@
         "categories": {
             "href": "escaped_value"
         },
+        "checklists": {
+            "href": "escaped_value"
+        },
         "creator": {
             "href": "escaped_value"
         },

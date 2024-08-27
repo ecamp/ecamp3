@@ -1,0 +1,20 @@
+App\Entity\ChecklistItem:
+  checklistItem1_1_1:
+    checklist: '@checklist1'
+    text: 'Camp1_List1_Item1'
+  checklistItem1_1_2:
+    checklist: '@checklist1'
+    text: 'Camp1_List1_Item2'
+  checklistItem1_1_2_3:
+    checklist: '@checklist1'
+    parent: '@checklistItem1_1_2'
+    text: 'Camp1_List1_Item2_Item3'
+  checklistItem2_1_1:
+    checklist: '@checklist1camp2'
+    text: 'Camp2_List1_Item1'
+  checklistItemUnrelated_1_1:
+    checklist: '@checklist1campUnrelated'
+    text: 'CampUnrelated_List1_Item1'
+  checklistItemPrototype_1_1:
+    checklist: '@checklist1campPrototype'
+    text: 'CampPrototype_List1_Item1'

@@ -110,7 +110,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function testCreateValidatesIncompatibleContentType() {
         // given
         /** @var ContentType $contentType */
-        $contentType = static::getFixture(ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout');
+        $contentType = static::getFixture(ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConsiderations' : 'contentTypeColumnLayout');
 
         // when
         $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor($contentType)]));
@@ -179,11 +179,10 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
             ],
             ['position']
         ));
-
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
             'slot' => '1',
-            'position' => 1,
+            'position' => 2,
         ]);
     }
 

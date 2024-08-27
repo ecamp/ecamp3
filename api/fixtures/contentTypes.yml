@@ -1,6 +1,6 @@
 App\Entity\ContentType:
-  contentTypeSafetyConcept:
-    name: 'SafetyConcept'
+  contentTypeSafetyConsiderations:
+    name: 'SafetyConsiderations'
     active: true
     entityClass: 'App\Entity\ContentNode\SingleText'
   contentTypeStoryContext:
@@ -40,3 +40,7 @@ App\Entity\ContentType:
     active: true
     entityClass: 'App\Entity\ContentNode\MultiSelect'
     jsonConfig: { items: [ 'outdoorTechnique', 'security', 'natureAndEnvironment', 'pioneeringTechnique', 'campsiteAndSurroundings', 'preventionAndIntegration' ] }
+  contentTypeChecklist:
+    name: 'Checklist'
+    active: true
+    entityClass: 'App\Entity\ContentNode\ChecklistNode'

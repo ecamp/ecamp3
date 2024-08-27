@@ -51,12 +51,13 @@
         "webonyx/graphql-php": "15.12.5"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "3.62.0",
+        "brianium/paratest": "^7.4",
+        "friendsofphp/php-cs-fixer": "3.63.1",
         "hautelook/alice-bundle": "2.13.0",
         "justinrainbow/json-schema": "6.0.0",
         "php-coveralls/php-coveralls": "2.7.0",
         "phpspec/prophecy-phpunit": "2.2",
-        "phpstan/phpstan": "1.11.11",
+        "phpstan/phpstan": "1.12.0",
         "phpunit/phpunit": "10.5.30",
         "rector/rector": "1.2.4",
         "spatie/phpunit-snapshot-assertions": "5.1.6",
@@ -113,6 +114,10 @@
         "test": [
             "Composer\\Config::disableProcessTimeout",
             "bin/phpunit -d memory_limit=-1"
+        ],
+        "paratest": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/paratest --passthru-php=\"-d memory_limit=-1\""
         ],
         "update-snapshots": [
             "Composer\\Config::disableProcessTimeout",
