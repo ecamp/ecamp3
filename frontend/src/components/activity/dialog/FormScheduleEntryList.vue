@@ -4,7 +4,7 @@
       <v-row no-gutters>
         <v-col class="header mb-3">
           <legend class="pa-2 float-left">
-            {{ $tc('components.program.formScheduleEntryList.name') }}
+            {{ $tc('components.activity.dialog.formScheduleEntryList.name') }}
           </legend>
 
           <button-add
@@ -22,7 +22,11 @@
           class="transition-list-item pa-0 mb-4"
           :schedule-entry="scheduleEntry"
           :periods="periods"
-          :is-last-item="scheduleEntriesWithoutDeleted.length === 1"
+          :deletable="
+            scheduleEntriesWithoutDeleted.length > 1 &&
+            ($route.name !== 'activity' ||
+              scheduleEntry.self !== currentScheduleEntry._meta.self)
+          "
           @delete="deleteEntry(scheduleEntry)"
         />
       </transition-group>
@@ -44,6 +48,11 @@ export default {
   props: {
     scheduleEntries: {
       type: Array,
+      required: true,
+    },
+
+    currentScheduleEntry: {
+      type: Object,
       required: true,
     },
 

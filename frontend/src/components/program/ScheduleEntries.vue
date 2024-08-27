@@ -6,9 +6,8 @@
       :reload-entries="reloadScheduleEntries"
       :on="eventHandlers"
     />
-    <dialog-activity-create
+    <DialogActivityCreate
       ref="dialogActivityCreate"
-      :period="period"
       :schedule-entry="newScheduleEntry"
       @activity-created="afterCreateActivity($event)"
     />
@@ -32,7 +31,7 @@
 </template>
 
 <script>
-import DialogActivityCreate from './DialogActivityCreate.vue'
+import DialogActivityCreate from '@/components/program/DialogActivityCreate.vue'
 
 export default {
   name: 'ScheduleEntries',

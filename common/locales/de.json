@@ -221,6 +221,7 @@
         "endDate": "Enddatum",
         "endDatetime": "Endzeit",
         "nr": "Nr.",
+        "start": "Start",
         "time": "Zeitpunkt",
         "startDate": "Startdatum",
         "startDatetime": "Startzeit"

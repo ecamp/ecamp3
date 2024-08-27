@@ -17,6 +17,14 @@
           "title": "Propi stizzar?"
         }
       },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Modifitgar l'activitad"
+        },
+        "formScheduleEntryList": {
+          "name": "Termins planisads"
+        }
+      },
       "menuCardlessContentNode": {
         "deletingDisabled": "Sto esser vid per stizzar"
       },

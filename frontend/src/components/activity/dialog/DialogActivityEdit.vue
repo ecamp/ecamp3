@@ -15,15 +15,14 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <template #moreActions>
-      <v-btn
-        v-if="!scheduleEntry.tmpEvent"
-        color="primary"
-        :to="scheduleEntryRoute(scheduleEntry)"
-      >
-        {{ $tc('global.button.open') }}
-      </v-btn>
+      <slot name="moreActions" />
     </template>
-    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period()" />
+    <DialogActivityForm
+      :activity="entityData"
+      :current-schedule-entry="scheduleEntry"
+      :period="scheduleEntry.period"
+      :hide-location="hideHeaderFields"
+    />
   </dialog-form>
 </template>
 
@@ -31,7 +30,6 @@
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
-import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'DialogActivityEdit',
@@ -39,6 +37,10 @@ export default {
   extends: DialogBase,
   props: {
     scheduleEntry: { type: Object, required: true },
+    hideHeaderFields: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -47,11 +49,11 @@ export default {
     }
   },
   computed: {
-    scheduleEntries() {
-      return this.activity.scheduleEntries()
-    },
     activity() {
       return this.scheduleEntry.activity()
+    },
+    scheduleEntries() {
+      return this.activity.scheduleEntries()
     },
   },
   watch: {
@@ -113,6 +115,9 @@ export default {
 
       // patch activity entity
       const activityPayload = { ...this.entityData }
+      if (this.hideHeaderFields) {
+        delete activityPayload.location
+      }
       delete activityPayload.scheduleEntries
       promises.push(this.api.patch(this.entityUri, activityPayload))
 
@@ -128,7 +133,6 @@ export default {
       this.close()
       this.$emit('activity-updated', data)
     },
-    scheduleEntryRoute,
   },
 }
 </script>

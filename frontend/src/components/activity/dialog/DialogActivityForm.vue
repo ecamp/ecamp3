@@ -36,11 +36,12 @@
       </template>
     </e-select>
 
-    <e-text-field v-model="localActivity.location" path="location" />
+    <e-text-field v-if="!hideLocation" v-model="localActivity.location" path="location" />
 
     <FormScheduleEntryList
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
+      :current-schedule-entry="currentScheduleEntry"
       :period="period"
       :periods="camp.periods().items"
     />
@@ -69,7 +70,15 @@ export default {
       type: Object,
       required: true,
     },
+    currentScheduleEntry: {
+      type: Object,
+      required: true,
+    },
     autoselectTitle: {
+      type: Boolean,
+      default: false,
+    },
+    hideLocation: {
       type: Boolean,
       default: false,
     },

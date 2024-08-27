@@ -106,7 +106,7 @@
 <script>
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import DialogActivityForm from './DialogActivityForm.vue'
+import DialogActivityForm from '@/components/activity/dialog/DialogActivityForm.vue'
 import CopyActivityInfoDialog from '@/components/activity/CopyActivityInfoDialog.vue'
 import PopoverPrompt from '@/components/prompt/PopoverPrompt.vue'
 import { uniqueId } from 'lodash'
@@ -125,9 +125,6 @@ export default {
   extends: DialogBase,
   props: {
     scheduleEntry: { type: Object, required: true },
-
-    // currently visible period
-    period: { type: Object, required: true },
   },
   data() {
     return {
@@ -144,6 +141,9 @@ export default {
   computed: {
     camp() {
       return this.period.camp()
+    },
+    period() {
+      return this.scheduleEntry.period
     },
     clipboardAccessDenied() {
       return (
