@@ -14,9 +14,9 @@ use App\Repository\ContentNodeRepository;
 use App\Util\ClassInfoTrait;
 use App\Util\EntityMap;
 use App\Util\JsonMergePatch;
+use App\Validator\AssertNoLoop;
 use App\Validator\ContentNode\AssertAttachedToRoot;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
-use App\Validator\ContentNode\AssertNoLoop;
 use App\Validator\ContentNode\AssertNoRootChange;
 use App\Validator\ContentNode\AssertSlotSupportedByParent;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -49,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
 #[ORM\UniqueConstraint(name: 'contentnode_parentid_slot_position_unique', columns: ['parentid', 'slot', 'position'])]
-abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
+abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface, HasParentInterface {
     use ClassInfoTrait;
 
     /**
@@ -178,6 +178,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         }
 
         return $this->root;
+    }
+
+    public function getParent(): ?HasParentInterface {
+        return $this->parent;
     }
 
     /**

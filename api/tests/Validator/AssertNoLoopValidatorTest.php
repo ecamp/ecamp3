@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Validator\ContentNode;
+namespace App\Tests\Validator;
 
 use App\Entity\ContentNode;
-use App\Validator\ContentNode\AssertNoLoop;
-use App\Validator\ContentNode\AssertNoLoopValidator;
+use App\Validator\AssertNoLoop;
+use App\Validator\AssertNoLoopValidator;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

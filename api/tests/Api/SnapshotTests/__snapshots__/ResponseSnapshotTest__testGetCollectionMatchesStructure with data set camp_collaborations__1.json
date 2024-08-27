@@ -14,6 +14,9 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
+                            "checklists": {
+                                "href": "escaped_value"
+                            },
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -81,86 +84,7 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "creator": {
-                                "href": "escaped_value"
-                            },
-                            "materialLists": {
-                                "href": "escaped_value"
-                            },
-                            "periods": {
-                                "href": "escaped_value"
-                            },
-                            "profiles": {
-                                "href": "escaped_value"
-                            },
-                            "progressLabels": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "addressCity": "escaped_value",
-                        "addressName": "escaped_value",
-                        "addressStreet": "escaped_value",
-                        "addressZipcode": "escaped_value",
-                        "coachName": "escaped_value",
-                        "courseKind": "escaped_value",
-                        "courseNumber": "escaped_value",
-                        "id": "escaped_value",
-                        "isPrototype": "escaped_value",
-                        "kind": "escaped_value",
-                        "motto": "escaped_value",
-                        "name": "escaped_value",
-                        "organizer": "escaped_value",
-                        "printYSLogoOnPicasso": "escaped_value",
-                        "title": "escaped_value",
-                        "trainingAdvisorName": "escaped_value"
-                    },
-                    "user": {
-                        "_links": {
-                            "profile": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "abbreviation": "escaped_value",
-                        "color": "escaped_value",
-                        "displayName": "escaped_value",
-                        "id": "escaped_value"
-                    }
-                },
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    },
-                    "user": {
-                        "href": "escaped_value"
-                    }
-                },
-                "abbreviation": "escaped_value",
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "inviteEmail": "escaped_value",
-                "role": "escaped_value",
-                "status": "escaped_value"
-            },
-            {
-                "_embedded": {
-                    "camp": {
-                        "_links": {
-                            "activities": {
-                                "href": "escaped_value"
-                            },
-                            "campCollaborations": {
-                                "href": "escaped_value"
-                            },
-                            "categories": {
+                            "checklists": {
                                 "href": "escaped_value"
                             },
                             "creator": {
@@ -245,86 +169,7 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "creator": {
-                                "href": "escaped_value"
-                            },
-                            "materialLists": {
-                                "href": "escaped_value"
-                            },
-                            "periods": {
-                                "href": "escaped_value"
-                            },
-                            "profiles": {
-                                "href": "escaped_value"
-                            },
-                            "progressLabels": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "addressCity": "escaped_value",
-                        "addressName": "escaped_value",
-                        "addressStreet": "escaped_value",
-                        "addressZipcode": "escaped_value",
-                        "coachName": "escaped_value",
-                        "courseKind": "escaped_value",
-                        "courseNumber": "escaped_value",
-                        "id": "escaped_value",
-                        "isPrototype": "escaped_value",
-                        "kind": "escaped_value",
-                        "motto": "escaped_value",
-                        "name": "escaped_value",
-                        "organizer": "escaped_value",
-                        "printYSLogoOnPicasso": "escaped_value",
-                        "title": "escaped_value",
-                        "trainingAdvisorName": "escaped_value"
-                    },
-                    "user": {
-                        "_links": {
-                            "profile": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "abbreviation": "escaped_value",
-                        "color": "escaped_value",
-                        "displayName": "escaped_value",
-                        "id": "escaped_value"
-                    }
-                },
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    },
-                    "user": {
-                        "href": "escaped_value"
-                    }
-                },
-                "abbreviation": "escaped_value",
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "inviteEmail": "escaped_value",
-                "role": "escaped_value",
-                "status": "escaped_value"
-            },
-            {
-                "_embedded": {
-                    "camp": {
-                        "_links": {
-                            "activities": {
-                                "href": "escaped_value"
-                            },
-                            "campCollaborations": {
-                                "href": "escaped_value"
-                            },
-                            "categories": {
+                            "checklists": {
                                 "href": "escaped_value"
                             },
                             "creator": {
@@ -409,86 +254,7 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "creator": {
-                                "href": "escaped_value"
-                            },
-                            "materialLists": {
-                                "href": "escaped_value"
-                            },
-                            "periods": {
-                                "href": "escaped_value"
-                            },
-                            "profiles": {
-                                "href": "escaped_value"
-                            },
-                            "progressLabels": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "addressCity": "escaped_value",
-                        "addressName": "escaped_value",
-                        "addressStreet": "escaped_value",
-                        "addressZipcode": "escaped_value",
-                        "coachName": "escaped_value",
-                        "courseKind": "escaped_value",
-                        "courseNumber": "escaped_value",
-                        "id": "escaped_value",
-                        "isPrototype": "escaped_value",
-                        "kind": "escaped_value",
-                        "motto": "escaped_value",
-                        "name": "escaped_value",
-                        "organizer": "escaped_value",
-                        "printYSLogoOnPicasso": "escaped_value",
-                        "title": "escaped_value",
-                        "trainingAdvisorName": "escaped_value"
-                    },
-                    "user": {
-                        "_links": {
-                            "profile": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "abbreviation": "escaped_value",
-                        "color": "escaped_value",
-                        "displayName": "escaped_value",
-                        "id": "escaped_value"
-                    }
-                },
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    },
-                    "user": {
-                        "href": "escaped_value"
-                    }
-                },
-                "abbreviation": "escaped_value",
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "inviteEmail": "escaped_value",
-                "role": "escaped_value",
-                "status": "escaped_value"
-            },
-            {
-                "_embedded": {
-                    "camp": {
-                        "_links": {
-                            "activities": {
-                                "href": "escaped_value"
-                            },
-                            "campCollaborations": {
-                                "href": "escaped_value"
-                            },
-                            "categories": {
+                            "checklists": {
                                 "href": "escaped_value"
                             },
                             "creator": {
@@ -573,86 +339,7 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "creator": {
-                                "href": "escaped_value"
-                            },
-                            "materialLists": {
-                                "href": "escaped_value"
-                            },
-                            "periods": {
-                                "href": "escaped_value"
-                            },
-                            "profiles": {
-                                "href": "escaped_value"
-                            },
-                            "progressLabels": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "addressCity": "escaped_value",
-                        "addressName": "escaped_value",
-                        "addressStreet": "escaped_value",
-                        "addressZipcode": "escaped_value",
-                        "coachName": "escaped_value",
-                        "courseKind": "escaped_value",
-                        "courseNumber": "escaped_value",
-                        "id": "escaped_value",
-                        "isPrototype": "escaped_value",
-                        "kind": "escaped_value",
-                        "motto": "escaped_value",
-                        "name": "escaped_value",
-                        "organizer": "escaped_value",
-                        "printYSLogoOnPicasso": "escaped_value",
-                        "title": "escaped_value",
-                        "trainingAdvisorName": "escaped_value"
-                    },
-                    "user": {
-                        "_links": {
-                            "profile": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "abbreviation": "escaped_value",
-                        "color": "escaped_value",
-                        "displayName": "escaped_value",
-                        "id": "escaped_value"
-                    }
-                },
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    },
-                    "user": {
-                        "href": "escaped_value"
-                    }
-                },
-                "abbreviation": "escaped_value",
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "inviteEmail": "escaped_value",
-                "role": "escaped_value",
-                "status": "escaped_value"
-            },
-            {
-                "_embedded": {
-                    "camp": {
-                        "_links": {
-                            "activities": {
-                                "href": "escaped_value"
-                            },
-                            "campCollaborations": {
-                                "href": "escaped_value"
-                            },
-                            "categories": {
+                            "checklists": {
                                 "href": "escaped_value"
                             },
                             "creator": {
@@ -737,86 +424,7 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "creator": {
-                                "href": "escaped_value"
-                            },
-                            "materialLists": {
-                                "href": "escaped_value"
-                            },
-                            "periods": {
-                                "href": "escaped_value"
-                            },
-                            "profiles": {
-                                "href": "escaped_value"
-                            },
-                            "progressLabels": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "addressCity": "escaped_value",
-                        "addressName": "escaped_value",
-                        "addressStreet": "escaped_value",
-                        "addressZipcode": "escaped_value",
-                        "coachName": "escaped_value",
-                        "courseKind": "escaped_value",
-                        "courseNumber": "escaped_value",
-                        "id": "escaped_value",
-                        "isPrototype": "escaped_value",
-                        "kind": "escaped_value",
-                        "motto": "escaped_value",
-                        "name": "escaped_value",
-                        "organizer": "escaped_value",
-                        "printYSLogoOnPicasso": "escaped_value",
-                        "title": "escaped_value",
-                        "trainingAdvisorName": "escaped_value"
-                    },
-                    "user": {
-                        "_links": {
-                            "profile": {
-                                "href": "escaped_value"
-                            },
-                            "self": {
-                                "href": "escaped_value"
-                            }
-                        },
-                        "abbreviation": "escaped_value",
-                        "color": "escaped_value",
-                        "displayName": "escaped_value",
-                        "id": "escaped_value"
-                    }
-                },
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    },
-                    "user": {
-                        "href": "escaped_value"
-                    }
-                },
-                "abbreviation": "escaped_value",
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "inviteEmail": "escaped_value",
-                "role": "escaped_value",
-                "status": "escaped_value"
-            },
-            {
-                "_embedded": {
-                    "camp": {
-                        "_links": {
-                            "activities": {
-                                "href": "escaped_value"
-                            },
-                            "campCollaborations": {
-                                "href": "escaped_value"
-                            },
-                            "categories": {
+                            "checklists": {
                                 "href": "escaped_value"
                             },
                             "creator": {
@@ -899,6 +507,434 @@
                                 "href": "escaped_value"
                             },
                             "categories": {
+                                "href": "escaped_value"
+                            },
+                            "checklists": {
+                                "href": "escaped_value"
+                            },
+                            "creator": {
+                                "href": "escaped_value"
+                            },
+                            "materialLists": {
+                                "href": "escaped_value"
+                            },
+                            "periods": {
+                                "href": "escaped_value"
+                            },
+                            "profiles": {
+                                "href": "escaped_value"
+                            },
+                            "progressLabels": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "addressCity": "escaped_value",
+                        "addressName": "escaped_value",
+                        "addressStreet": "escaped_value",
+                        "addressZipcode": "escaped_value",
+                        "coachName": "escaped_value",
+                        "courseKind": "escaped_value",
+                        "courseNumber": "escaped_value",
+                        "id": "escaped_value",
+                        "isPrototype": "escaped_value",
+                        "kind": "escaped_value",
+                        "motto": "escaped_value",
+                        "name": "escaped_value",
+                        "organizer": "escaped_value",
+                        "printYSLogoOnPicasso": "escaped_value",
+                        "title": "escaped_value",
+                        "trainingAdvisorName": "escaped_value"
+                    },
+                    "user": {
+                        "_links": {
+                            "profile": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "abbreviation": "escaped_value",
+                        "color": "escaped_value",
+                        "displayName": "escaped_value",
+                        "id": "escaped_value"
+                    }
+                },
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    },
+                    "user": {
+                        "href": "escaped_value"
+                    }
+                },
+                "abbreviation": "escaped_value",
+                "color": "escaped_value",
+                "id": "escaped_value",
+                "inviteEmail": "escaped_value",
+                "role": "escaped_value",
+                "status": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "camp": {
+                        "_links": {
+                            "activities": {
+                                "href": "escaped_value"
+                            },
+                            "campCollaborations": {
+                                "href": "escaped_value"
+                            },
+                            "categories": {
+                                "href": "escaped_value"
+                            },
+                            "checklists": {
+                                "href": "escaped_value"
+                            },
+                            "creator": {
+                                "href": "escaped_value"
+                            },
+                            "materialLists": {
+                                "href": "escaped_value"
+                            },
+                            "periods": {
+                                "href": "escaped_value"
+                            },
+                            "profiles": {
+                                "href": "escaped_value"
+                            },
+                            "progressLabels": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "addressCity": "escaped_value",
+                        "addressName": "escaped_value",
+                        "addressStreet": "escaped_value",
+                        "addressZipcode": "escaped_value",
+                        "coachName": "escaped_value",
+                        "courseKind": "escaped_value",
+                        "courseNumber": "escaped_value",
+                        "id": "escaped_value",
+                        "isPrototype": "escaped_value",
+                        "kind": "escaped_value",
+                        "motto": "escaped_value",
+                        "name": "escaped_value",
+                        "organizer": "escaped_value",
+                        "printYSLogoOnPicasso": "escaped_value",
+                        "title": "escaped_value",
+                        "trainingAdvisorName": "escaped_value"
+                    },
+                    "user": {
+                        "_links": {
+                            "profile": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "abbreviation": "escaped_value",
+                        "color": "escaped_value",
+                        "displayName": "escaped_value",
+                        "id": "escaped_value"
+                    }
+                },
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    },
+                    "user": {
+                        "href": "escaped_value"
+                    }
+                },
+                "abbreviation": "escaped_value",
+                "color": "escaped_value",
+                "id": "escaped_value",
+                "inviteEmail": "escaped_value",
+                "role": "escaped_value",
+                "status": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "camp": {
+                        "_links": {
+                            "activities": {
+                                "href": "escaped_value"
+                            },
+                            "campCollaborations": {
+                                "href": "escaped_value"
+                            },
+                            "categories": {
+                                "href": "escaped_value"
+                            },
+                            "checklists": {
+                                "href": "escaped_value"
+                            },
+                            "creator": {
+                                "href": "escaped_value"
+                            },
+                            "materialLists": {
+                                "href": "escaped_value"
+                            },
+                            "periods": {
+                                "href": "escaped_value"
+                            },
+                            "profiles": {
+                                "href": "escaped_value"
+                            },
+                            "progressLabels": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "addressCity": "escaped_value",
+                        "addressName": "escaped_value",
+                        "addressStreet": "escaped_value",
+                        "addressZipcode": "escaped_value",
+                        "coachName": "escaped_value",
+                        "courseKind": "escaped_value",
+                        "courseNumber": "escaped_value",
+                        "id": "escaped_value",
+                        "isPrototype": "escaped_value",
+                        "kind": "escaped_value",
+                        "motto": "escaped_value",
+                        "name": "escaped_value",
+                        "organizer": "escaped_value",
+                        "printYSLogoOnPicasso": "escaped_value",
+                        "title": "escaped_value",
+                        "trainingAdvisorName": "escaped_value"
+                    },
+                    "user": {
+                        "_links": {
+                            "profile": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "abbreviation": "escaped_value",
+                        "color": "escaped_value",
+                        "displayName": "escaped_value",
+                        "id": "escaped_value"
+                    }
+                },
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    },
+                    "user": {
+                        "href": "escaped_value"
+                    }
+                },
+                "abbreviation": "escaped_value",
+                "color": "escaped_value",
+                "id": "escaped_value",
+                "inviteEmail": "escaped_value",
+                "role": "escaped_value",
+                "status": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "camp": {
+                        "_links": {
+                            "activities": {
+                                "href": "escaped_value"
+                            },
+                            "campCollaborations": {
+                                "href": "escaped_value"
+                            },
+                            "categories": {
+                                "href": "escaped_value"
+                            },
+                            "checklists": {
+                                "href": "escaped_value"
+                            },
+                            "creator": {
+                                "href": "escaped_value"
+                            },
+                            "materialLists": {
+                                "href": "escaped_value"
+                            },
+                            "periods": {
+                                "href": "escaped_value"
+                            },
+                            "profiles": {
+                                "href": "escaped_value"
+                            },
+                            "progressLabels": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "addressCity": "escaped_value",
+                        "addressName": "escaped_value",
+                        "addressStreet": "escaped_value",
+                        "addressZipcode": "escaped_value",
+                        "coachName": "escaped_value",
+                        "courseKind": "escaped_value",
+                        "courseNumber": "escaped_value",
+                        "id": "escaped_value",
+                        "isPrototype": "escaped_value",
+                        "kind": "escaped_value",
+                        "motto": "escaped_value",
+                        "name": "escaped_value",
+                        "organizer": "escaped_value",
+                        "printYSLogoOnPicasso": "escaped_value",
+                        "title": "escaped_value",
+                        "trainingAdvisorName": "escaped_value"
+                    },
+                    "user": {
+                        "_links": {
+                            "profile": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "abbreviation": "escaped_value",
+                        "color": "escaped_value",
+                        "displayName": "escaped_value",
+                        "id": "escaped_value"
+                    }
+                },
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    },
+                    "user": {
+                        "href": "escaped_value"
+                    }
+                },
+                "abbreviation": "escaped_value",
+                "color": "escaped_value",
+                "id": "escaped_value",
+                "inviteEmail": "escaped_value",
+                "role": "escaped_value",
+                "status": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "camp": {
+                        "_links": {
+                            "activities": {
+                                "href": "escaped_value"
+                            },
+                            "campCollaborations": {
+                                "href": "escaped_value"
+                            },
+                            "categories": {
+                                "href": "escaped_value"
+                            },
+                            "checklists": {
+                                "href": "escaped_value"
+                            },
+                            "creator": {
+                                "href": "escaped_value"
+                            },
+                            "materialLists": {
+                                "href": "escaped_value"
+                            },
+                            "periods": {
+                                "href": "escaped_value"
+                            },
+                            "profiles": {
+                                "href": "escaped_value"
+                            },
+                            "progressLabels": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "addressCity": "escaped_value",
+                        "addressName": "escaped_value",
+                        "addressStreet": "escaped_value",
+                        "addressZipcode": "escaped_value",
+                        "coachName": "escaped_value",
+                        "courseKind": "escaped_value",
+                        "courseNumber": "escaped_value",
+                        "id": "escaped_value",
+                        "isPrototype": "escaped_value",
+                        "kind": "escaped_value",
+                        "motto": "escaped_value",
+                        "name": "escaped_value",
+                        "organizer": "escaped_value",
+                        "printYSLogoOnPicasso": "escaped_value",
+                        "title": "escaped_value",
+                        "trainingAdvisorName": "escaped_value"
+                    },
+                    "user": {
+                        "_links": {
+                            "profile": {
+                                "href": "escaped_value"
+                            },
+                            "self": {
+                                "href": "escaped_value"
+                            }
+                        },
+                        "abbreviation": "escaped_value",
+                        "color": "escaped_value",
+                        "displayName": "escaped_value",
+                        "id": "escaped_value"
+                    }
+                },
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    },
+                    "user": {
+                        "href": "escaped_value"
+                    }
+                },
+                "abbreviation": "escaped_value",
+                "color": "escaped_value",
+                "id": "escaped_value",
+                "inviteEmail": "escaped_value",
+                "role": "escaped_value",
+                "status": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "camp": {
+                        "_links": {
+                            "activities": {
+                                "href": "escaped_value"
+                            },
+                            "campCollaborations": {
+                                "href": "escaped_value"
+                            },
+                            "categories": {
+                                "href": "escaped_value"
+                            },
+                            "checklists": {
                                 "href": "escaped_value"
                             },
                             "creator": {

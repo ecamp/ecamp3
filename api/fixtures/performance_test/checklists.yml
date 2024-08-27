@@ -1,0 +1,10 @@
+App\Entity\Checklist:
+  additional_checklist1_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    name: 'J+S Ausbildungsziele'
+  additional_checklist2_{1..400}:
+    camp: '@additionalCamp_<current()>'
+    name: 'PBS Ausbildungsziele'
+  additional_checklist_camp1_{1..12}:
+    camp: '@camp1'
+    name: <name()>

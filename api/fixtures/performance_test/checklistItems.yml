@@ -1,0 +1,10 @@
+App\Entity\ChecklistItem:
+  additional_checklistItem1_{1..400}:
+    checklist: '@additional_checklist1_<current()>'
+    text: 'Item_<current()>'
+  additional_checklistItem2_{1..400}:
+    checklist: '@additional_checklist2_<current()>'
+    text: 'Item_<current()>'
+  additional_checklistItem_camp1_{1..12}:
+    checklist: '@additional_checklist_camp1_1'
+    text: 'Item_<current()>'

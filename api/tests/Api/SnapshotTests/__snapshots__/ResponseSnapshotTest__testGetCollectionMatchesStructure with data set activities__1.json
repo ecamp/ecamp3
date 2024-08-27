@@ -242,6 +242,9 @@
                             "children": [
                                 {
                                     "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
                                 }
                             ],
                             "contentType": {
@@ -381,7 +384,11 @@
                     },
                     "rootContentNode": {
                         "_links": {
-                            "children": [],
+                            "children": [
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "contentType": {
                                 "href": "escaped_value"
                             },
