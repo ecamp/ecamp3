@@ -223,7 +223,7 @@ jobs:
       - api-check-needed
     if: needs.api-check-needed.outputs.should_skip != 'true'
     env:
-      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=15&charset=utf8
+      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=15&charset=utf8
 
     services:
       postgres:
@@ -279,7 +279,35 @@ jobs:
       - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
         working-directory: api
 
-      - run: composer test
+      - run: |
+          php bin/console doctrine:database:create --no-interaction -e test
+          php bin/console doctrine:migrations:migrate --no-interaction -e test
+        env:
+          TEST_TOKEN: 1
+        working-directory: api
+
+      - run: |
+          php bin/console doctrine:database:create --no-interaction -e test
+          php bin/console doctrine:migrations:migrate --no-interaction -e test
+        env:
+          TEST_TOKEN: 2
+        working-directory: api
+
+      - run: |
+          php bin/console doctrine:database:create --no-interaction -e test
+          php bin/console doctrine:migrations:migrate --no-interaction -e test
+        env:
+          TEST_TOKEN: 3
+        working-directory: api
+
+      - run: |
+          php bin/console doctrine:database:create --no-interaction -e test
+          php bin/console doctrine:migrations:migrate --no-interaction -e test
+        env:
+          TEST_TOKEN: 4
+        working-directory: api
+
+      - run: composer paratest -- -p 4
         working-directory: api
         env:
           PERFORMANCE_TEST_DEBUG_OUTPUT: ${{ vars.PERFORMANCE_TEST_DEBUG_OUTPUT }}
@@ -330,7 +358,7 @@ jobs:
       - name: replace paths in lcov.info that they reflect repo path
         run: |
           sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
-          
+
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@v2
         with:
@@ -442,7 +470,7 @@ jobs:
           parallel-finished: true
           carryforward: "api,frontend,print,pdf"
           fail-on-error: false
-          
+
   workflow-success:
     name: workflow-success
     needs:

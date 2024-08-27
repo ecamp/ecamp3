@@ -16,7 +16,7 @@ class ReadItemFixtureMap {
             '/content_node/checklist_nodes' => $fixtures['checklistNode3'],
             '/content_node/column_layouts' => $fixtures['columnLayout2'],
             '/content_node/responsive_layouts' => $fixtures['responsiveLayout1'],
-            '/content_types' => $fixtures['contentTypeSafetyConcept'],
+            '/content_types' => $fixtures['contentTypeSafetyConsiderations'],
             '/day_responsibles' => $fixtures['dayResponsible1'],
             '/days' => $fixtures['day1period1'],
             '/material_items' => $fixtures['materialItem1'],

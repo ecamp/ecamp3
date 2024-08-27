@@ -1,4 +1,5 @@
 import { includeIgnoreFile } from '@eslint/compat'
+import localRules from 'eslint-plugin-local-rules'
 import globals from 'globals'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -15,34 +16,49 @@ const compat = new FlatCompat({
 const gitignorePath = path.resolve(__dirname, '.gitignore')
 
 export default [
+  {
+    files: ['**/*.ts'],
+  },
   ...compat.extends(
+    'plugin:vue/vue3-recommended',
+    'plugin:vue-scoped-css/vue3-recommended',
+    '@nuxt/eslint-config',
     'eslint:recommended',
-    'plugin:cypress/recommended',
     'plugin:prettier/recommended'
   ),
   {
-    ignores: ['data/'],
+    ignores: ['common/**/*', '.nuxt/', '.output/', 'coverage/'],
   },
 
   includeIgnoreFile(gitignorePath),
 
   {
+    plugins: {
+      'local-rules': localRules,
+    },
+
     languageOptions: {
       globals: {
+        ...globals.browser,
         ...globals.node,
-        ...globals.mocha,
-      },
-
-      ecmaVersion: 2022,
-
-      parserOptions: {
-        parser: '@babel/eslint-parser',
       },
     },
 
     rules: {
-      'prefer-const': 'error',
+      'no-undef': 'off',
+      'no-console': 'off',
       'prettier/prettier': 'error',
+      'prefer-const': 'error',
+      'vue/multi-word-component-names': 'off',
+
+      'local-rules/matching-translation-keys': [
+        'error',
+        {
+          ignoreKeysRegex:
+            '^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+',
+          translationKeyPropRegex: '[a-zA-Z0-9]-i18n-key$',
+        },
+      ],
     },
   },
 ]

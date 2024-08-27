@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateContentTypeTest extends ECampApiTestCase {
     public function testPatchContentTypeIsNotAllowed() {
-        $contentType = static::getFixture('contentTypeSafetyConcept');
+        $contentType = static::getFixture('contentTypeSafetyConsiderations');
         static::createClientWithCredentials()->request('PATCH', '/content_types/'.$contentType->getId(), ['json' => [
             'title' => 'Hello World',
             'location' => 'Stoos',

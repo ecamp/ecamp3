@@ -155,7 +155,7 @@
             "href": "/api/content_node/single_texts?contentType=%2Fapi%2Fcontent_types%2F44dcc7493c65"
           }
         },
-        "name": "SafetyConcept",
+        "name": "SafetyConsiderations",
         "active": true,
         "id": "44dcc7493c65"
       },

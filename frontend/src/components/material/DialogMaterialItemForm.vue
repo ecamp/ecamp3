@@ -3,6 +3,7 @@
     <e-number-field
       v-model="localMaterialItem.quantity"
       path="quantity"
+      vee-rules="greaterThan:0"
       inputmode="decimal"
       autofocus
     />

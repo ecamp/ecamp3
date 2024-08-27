@@ -10,14 +10,14 @@
     "preview": "vite preview",
     "test:unit": "vitest --coverage",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss}",
+    "lint:eslint": "eslint --fix .",
+    "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,mjs}",
     "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
-    "lint:check:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --no-fix --ignore-path .gitignore",
-    "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss}"
+    "lint:check:eslint": "eslint .",
+    "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,mjs}"
   },
   "dependencies": {
-    "@vue/runtime-core": "3.4.36",
+    "@vue/runtime-core": "3.4.38",
     "html-entities": "2.5.2",
     "html-parse-stringify": "3.0.1"
   },
@@ -32,82 +32,31 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.25.1",
+    "@eslint/compat": "1.1.1",
+    "@eslint/eslintrc": "3.1.0",
+    "@eslint/js": "9.9.1",
     "@intlify/core": "^9.10.2",
     "@rushstack/eslint-patch": "1.10.4",
     "@vitejs/plugin-vue": "5.1.2",
     "@vitest/coverage-v8": "2.0.5",
     "@vue/babel-preset-app": "5.0.8",
-    "@vue/compiler-dom": "3.4.36",
-    "@vue/compiler-sfc": "3.4.36",
+    "@vue/compiler-dom": "3.4.38",
+    "@vue/compiler-sfc": "3.4.38",
     "@vue/eslint-config-prettier": "9.0.0",
-    "@vue/runtime-dom": "3.4.36",
-    "@vue/server-renderer": "3.4.36",
-    "@vue/shared": "3.4.36",
+    "@vue/runtime-dom": "3.4.38",
+    "@vue/server-renderer": "3.4.38",
+    "@vue/shared": "3.4.38",
     "@vue/test-utils": "2.4.6",
     "css": "3.0.0",
-    "dayjs": "1.11.12",
+    "dayjs": "1.11.13",
     "eslint": "8.57.0",
     "eslint-plugin-local-rules": "3.0.2",
     "eslint-plugin-vue": "9.27.0",
-    "jsdom": "24.1.1",
+    "globals": "15.9.0",
+    "jsdom": "25.0.0",
     "prettier": "3.3.3",
     "url-template": "3.1.1",
-    "vite": "5.4.0",
+    "vite": "5.4.2",
     "vitest": "2.0.5"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "jest": true
-    },
-    "extends": [
-      "plugin:vue/vue3-recommended",
-      "eslint:recommended",
-      "plugin:prettier/recommended",
-      "@vue/eslint-config-prettier"
-    ],
-    "rules": {
-      "prefer-const": "error",
-      "prettier/prettier": "error",
-      "vue/component-tags-order": [
-        "error",
-        {
-          "order": [
-            "template",
-            "script",
-            "style"
-          ]
-        }
-      ],
-      "vue/multi-word-component-names": "off",
-      "vue/valid-v-for": "off",
-      "vue/no-reserved-component-names": "off",
-      "vue/no-unused-vars": [
-        "error",
-        {
-          "ignorePattern": "^_"
-        }
-      ],
-      "no-unused-vars": [
-        "error",
-        {
-          "argsIgnorePattern": "^_$"
-        }
-      ],
-      "local-rules/matching-translation-keys": [
-        "error",
-        {
-          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
-          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
-        }
-      ]
-    },
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "plugins": [
-      "eslint-plugin-local-rules"
-    ]
   }
 }

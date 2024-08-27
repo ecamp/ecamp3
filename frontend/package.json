@@ -6,10 +6,10 @@
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "build": "vite build",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
+    "lint:eslint": "eslint --fix .",
     "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,md}",
     "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
-    "lint:check:eslint": "eslint . --ext .vue,.js --no-fix --ignore-path .gitignore",
+    "lint:check:eslint": "eslint .",
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}",
     "start": "vite --host 0.0.0.0",
     "dev": "vite --host 0.0.0.0",
@@ -19,32 +19,32 @@
     "postinstall": "./scripts/install-twemoji.sh"
   },
   "dependencies": {
-    "@intlify/core": "9.13.1",
+    "@intlify/core": "9.14.0",
     "@mdi/font": "7.4.47",
     "@react-pdf/font": "2.5.1",
     "@react-pdf/layout": "3.12.1",
     "@react-pdf/pdfkit": "3.1.10",
     "@react-pdf/primitives": "3.1.1",
     "@react-pdf/render": "3.4.4",
-    "@sentry/browser": "8.24.0",
-    "@sentry/vue": "8.24.0",
-    "@tiptap/extension-bold": "2.5.9",
-    "@tiptap/extension-bubble-menu": "2.5.9",
-    "@tiptap/extension-bullet-list": "2.5.9",
-    "@tiptap/extension-document": "2.5.9",
-    "@tiptap/extension-hard-break": "2.5.9",
-    "@tiptap/extension-heading": "2.5.9",
-    "@tiptap/extension-history": "2.5.9",
-    "@tiptap/extension-italic": "2.5.9",
-    "@tiptap/extension-list-item": "2.5.9",
-    "@tiptap/extension-ordered-list": "2.5.9",
-    "@tiptap/extension-paragraph": "2.5.9",
-    "@tiptap/extension-placeholder": "2.5.9",
-    "@tiptap/extension-strike": "2.5.9",
-    "@tiptap/extension-text": "2.5.9",
-    "@tiptap/extension-underline": "2.5.9",
-    "@tiptap/pm": "2.5.9",
-    "@tiptap/vue-2": "2.5.9",
+    "@sentry/browser": "8.27.0",
+    "@sentry/vue": "8.27.0",
+    "@tiptap/extension-bold": "2.6.6",
+    "@tiptap/extension-bubble-menu": "2.6.6",
+    "@tiptap/extension-bullet-list": "2.6.6",
+    "@tiptap/extension-document": "2.6.6",
+    "@tiptap/extension-hard-break": "2.6.6",
+    "@tiptap/extension-heading": "2.6.6",
+    "@tiptap/extension-history": "2.6.6",
+    "@tiptap/extension-italic": "2.6.6",
+    "@tiptap/extension-list-item": "2.6.6",
+    "@tiptap/extension-ordered-list": "2.6.6",
+    "@tiptap/extension-paragraph": "2.6.6",
+    "@tiptap/extension-placeholder": "2.6.6",
+    "@tiptap/extension-strike": "2.6.6",
+    "@tiptap/extension-text": "2.6.6",
+    "@tiptap/extension-underline": "2.6.6",
+    "@tiptap/pm": "2.6.6",
+    "@tiptap/vue-2": "2.6.6",
     "@zxcvbn-ts/core": "3.0.4",
     "@zxcvbn-ts/language-common": "3.0.4",
     "@zxcvbn-ts/language-de": "3.0.2",
@@ -52,12 +52,12 @@
     "@zxcvbn-ts/language-fr": "3.0.2",
     "@zxcvbn-ts/language-it": "3.0.2",
     "assert": "2.1.0",
-    "axios": "1.7.3",
+    "axios": "1.7.5",
     "colorjs.io": "0.5.2",
     "comlink": "4.4.1",
-    "dayjs": "1.11.12",
+    "dayjs": "1.11.13",
     "deepmerge": "4.3.1",
-    "emoji-regex": "10.3.0",
+    "emoji-regex": "10.4.0",
     "file-saver": "2.0.5",
     "hal-json-vuex": "2.0.0-alpha.16",
     "inter-ui": "3.19.3",
@@ -84,8 +84,11 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.25.1",
-    "@sentry/vite-plugin": "2.21.1",
-    "@testing-library/jest-dom": "6.4.8",
+    "@eslint/compat": "1.1.1",
+    "@eslint/eslintrc": "3.1.0",
+    "@eslint/js": "9.9.1",
+    "@sentry/vite-plugin": "2.22.2",
+    "@testing-library/jest-dom": "6.5.0",
     "@testing-library/user-event": "14.5.2",
     "@testing-library/vue": "5.9.0",
     "@vitejs/plugin-vue2": "2.3.1",
@@ -97,7 +100,6 @@
     "babel-plugin-require-context-hook": "1.0.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-local-rules": "3.0.2",
     "eslint-plugin-n": "17.10.2",
     "eslint-plugin-prettier": "5.2.1",
@@ -105,85 +107,19 @@
     "eslint-plugin-vue": "9.27.0",
     "eslint-plugin-vue-scoped-css": "2.8.1",
     "flush-promises": "1.0.2",
+    "globals": "15.9.0",
     "jest-serializer-vue-tjw": "3.20.0",
-    "jsdom": "24.1.1",
-    "lint-staged": "15.2.8",
+    "jsdom": "25.0.0",
+    "lint-staged": "15.2.9",
     "prettier": "3.3.3",
     "sass": "1.32.13",
-    "unplugin-vue-components": "0.27.3",
-    "vite": "5.4.0",
+    "unplugin-vue-components": "0.27.4",
+    "vite": "5.4.2",
     "vite-plugin-comlink": "5.0.1",
     "vite-plugin-vue2-svg": "0.4.0",
     "vitest": "2.0.5",
     "vitest-canvas-mock": "0.3.3",
     "vue-template-compiler": "2.7.15"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "jest": true
-    },
-    "extends": [
-      "plugin:vue/recommended",
-      "plugin:vue/vue3-recommended",
-      "plugin:vue-scoped-css/vue3-recommended",
-      "eslint:recommended",
-      "plugin:prettier/recommended",
-      "@vue/eslint-config-prettier"
-    ],
-    "rules": {
-      "prefer-const": "error",
-      "prettier/prettier": "error",
-      "vue/component-tags-order": [
-        "error",
-        {
-          "order": [
-            "template",
-            "script",
-            "style"
-          ]
-        }
-      ],
-      "vue/multi-word-component-names": "off",
-      "vue/no-deprecated-destroyed-lifecycle": "off",
-      "vue/no-deprecated-dollar-listeners-api": "off",
-      "vue/no-deprecated-dollar-scopedslots-api": "off",
-      "vue/no-deprecated-filter": "warn",
-      "vue/no-deprecated-props-default-this": "off",
-      "vue/no-deprecated-slot-attribute": "off",
-      "vue/no-deprecated-slot-scope-attribute": "off",
-      "vue/no-deprecated-v-bind-sync": "off",
-      "vue/no-deprecated-v-on-native-modifier": "warn",
-      "vue/no-v-for-template-key-on-child": "off",
-      "vue/no-v-model-argument": "warn",
-      "vue/require-explicit-emits": "off",
-      "no-unused-vars": [
-        "error",
-        {
-          "argsIgnorePattern": "^_$"
-        }
-      ],
-      "local-rules/matching-translation-keys": [
-        "error",
-        {
-          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
-          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
-        }
-      ],
-      "vue/no-mutating-props": [
-        "error",
-        {
-          "shallowOnly": true
-        }
-      ]
-    },
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "plugins": [
-      "eslint-plugin-local-rules"
-    ]
   },
   "postcss": {
     "plugins": {

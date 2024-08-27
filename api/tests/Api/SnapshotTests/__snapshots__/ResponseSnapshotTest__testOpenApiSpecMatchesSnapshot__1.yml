@@ -8297,7 +8297,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8547,7 +8547,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8664,7 +8664,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -8871,7 +8871,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9038,7 +9038,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9136,7 +9136,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9234,7 +9234,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9332,7 +9332,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9430,7 +9430,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9655,7 +9655,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9762,7 +9762,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9869,7 +9869,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -9976,7 +9976,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10083,7 +10083,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10190,7 +10190,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10388,7 +10388,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10509,7 +10509,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10630,7 +10630,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10751,7 +10751,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -10872,7 +10872,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11043,7 +11043,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11134,7 +11134,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11225,7 +11225,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11322,7 +11322,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11427,7 +11427,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11527,7 +11527,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11627,7 +11627,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11729,7 +11729,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11843,7 +11843,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -11957,7 +11957,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -12054,7 +12054,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -12088,7 +12088,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -12142,7 +12142,7 @@ components:
                   description: |-
                     A name in UpperCamelCase of the content type. This value may be used as a technical
                     identifier of this content type, it is guaranteed to stay fixed.
-                  example: SafetyConcept
+                  example: SafetyConsiderations
                   maxLength: 32
                   readOnly: true
                   type: string
@@ -12215,7 +12215,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -12258,7 +12258,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -12318,7 +12318,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -12375,7 +12375,7 @@ components:
           description: |-
             A name in UpperCamelCase of the content type. This value may be used as a technical
             identifier of this content type, it is guaranteed to stay fixed.
-          example: SafetyConcept
+          example: SafetyConsiderations
           maxLength: 32
           readOnly: true
           type: string
@@ -13607,6 +13607,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -13685,6 +13686,7 @@ components:
                 quantity:
                   description: 'The number of items or the amount in the unit of items that are required.'
                   example: 1.5
+                  exclusiveMinimum: 0
                   type: ['null', number]
                 unit:
                   description: 'An optional unit for measuring the amount of items required.'
@@ -13776,6 +13778,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -13832,6 +13835,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -13908,6 +13912,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -13955,6 +13960,7 @@ components:
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
           type:
             - 'null'
             - number
@@ -14328,7 +14334,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -14537,7 +14543,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -14643,7 +14649,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -14832,7 +14838,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -14989,7 +14995,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -15212,7 +15218,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -15318,7 +15324,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -15514,7 +15520,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -18198,7 +18204,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -18432,7 +18438,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -18542,7 +18548,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -18746,7 +18752,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -20411,7 +20417,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -20627,7 +20633,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -20731,7 +20737,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -20923,7 +20929,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -21083,7 +21089,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -21309,7 +21315,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -21416,7 +21422,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:
@@ -21614,7 +21620,7 @@ components:
           type: string
         contentTypeName:
           description: 'The name of the content type of this content node. Read-only, for convenience.'
-          example: SafetyConcept
+          example: SafetyConsiderations
           readOnly: true
           type: string
         data:

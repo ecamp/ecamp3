@@ -561,7 +561,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
 
         $camp1 = static::getFixture('camp1');
-        $contentType = static::getFixture('contentTypeSafetyConcept');
+        $contentType = static::getFixture('contentTypeSafetyConsiderations');
         self::assertEqualsCanonicalizing([
             '/categories',
             '/camps/'.$camp1->getId().'/categories',
@@ -606,7 +606,7 @@ class CreateCategoryTest extends ECampApiTestCase {
             array_merge([
                 'copyCategorySource' => null,
                 'camp' => $this->getIriFor('camp1'),
-                'preferredContentTypes' => [$this->getIriFor('contentTypeSafetyConcept')],
+                'preferredContentTypes' => [$this->getIriFor('contentTypeSafetyConsiderations')],
             ], $attributes),
             [],
             $except

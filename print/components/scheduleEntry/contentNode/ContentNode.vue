@@ -34,7 +34,7 @@ import LearningObjectives from './LearningObjectives.vue'
 import LearningTopics from './LearningTopics.vue'
 import Material from './Material.vue'
 import Notes from './Notes.vue'
-import SafetyConcept from './SafetyConcept.vue'
+import SafetyConsiderations from './SafetyConsiderations.vue'
 import Storycontext from './Storycontext.vue'
 import Storyboard from './Storyboard.vue'
 
@@ -48,7 +48,7 @@ export default defineNuxtComponent({
     LearningTopics,
     Material,
     Notes,
-    SafetyConcept,
+    SafetyConsiderations,
     Storyboard,
     Storycontext,
   },

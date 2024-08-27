@@ -3,7 +3,7 @@
     <api-richtext
       :uri="contentNode._meta.self"
       path="data.html"
-      :placeholder="$tc('contentNode.safetyConcept.name')"
+      :placeholder="$tc('contentNode.safetyConsiderations.name')"
       rows="2"
       :disabled="layoutMode || disabled"
       class="grow-v-slot"
@@ -17,7 +17,7 @@ import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCar
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
-  name: 'SafetyConcept',
+  name: 'SafetyConsiderations',
   components: {
     ContentNodeCard,
     ApiRichtext,

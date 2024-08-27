@@ -160,7 +160,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     /**
      * The name of the content type of this content node. Read-only, for convenience.
      */
-    #[ApiProperty(example: 'SafetyConcept')]
+    #[ApiProperty(example: 'SafetyConsiderations')]
     #[Groups(['read'])]
     public function getContentTypeName(): string {
         return $this->contentType?->name;

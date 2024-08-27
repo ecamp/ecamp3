@@ -76,9 +76,9 @@
       "printAboveMainContent": "Über dem Hauptinhalt drucken",
       "printBelowMainContent": "Unter dem Hauptinhalt drucken"
     },
-    "safetyConcept": {
+    "safetyConsiderations": {
       "info": "Einige Blöcke erfordern, dass ihr euch Gedanken zu den Risiken macht. Hier könnt ihr diese Gedanken erfassen.{br}Haltet fest, welche Risiken ihr erkannt habt - und wie ihr diesen begegnen könnt.",
-      "name": "Sicherheitskonzept"
+      "name": "Sicherheitsüberlegungen"
     },
     "storyboard": {
       "entity": {

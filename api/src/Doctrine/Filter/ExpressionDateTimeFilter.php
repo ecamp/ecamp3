@@ -174,7 +174,7 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
         // Add joins for all {xyz.abc} property references in the expression
         $matches = [];
         if (preg_match_all('/\{([^\}]+\.[^\}]+)\}/', $expression, $matches)) {
-            $relations = array_unique($matches[1] ?? []);
+            $relations = array_unique($matches[1]);
 
             // Replace each instance of {xyz.abc} with its respective joined alias
             foreach ($relations as $relation) {

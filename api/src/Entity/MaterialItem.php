@@ -110,6 +110,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
      * The number of items or the amount in the unit of items that are required.
      */
     #[ApiProperty(example: 1.5)]
+    #[Assert\GreaterThan(0)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'float', nullable: true)]
     public ?float $quantity = null;

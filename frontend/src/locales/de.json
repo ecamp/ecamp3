@@ -530,6 +530,7 @@
       "copied": "{source} kopiert"
     },
     "validation": {
+      "greaterThan": "{_field_} muss grösser sein als {min}",
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
       "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",

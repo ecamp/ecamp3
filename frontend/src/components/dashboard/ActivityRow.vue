@@ -197,10 +197,6 @@ tr + tr :is(td, th) {
   font-size: 0.75em;
 }
 
-.mt-2px {
-  margin-top: 2px;
-}
-
 .my-6px {
   margin-top: 6px;
   margin-bottom: 6px;
