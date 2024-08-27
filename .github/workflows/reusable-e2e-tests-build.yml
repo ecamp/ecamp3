@@ -23,7 +23,7 @@ jobs:
           context: './api'
           push: false
           load: true
-          target: frankenphp_dev
+          target: frankenphp_prod
           builder: ${{ steps.buildx.outputs.name }}
           tags: ecamp/ecamp3-dev-api
           cache-from: type=gha,scope=api
