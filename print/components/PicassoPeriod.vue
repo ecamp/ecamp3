@@ -26,7 +26,7 @@ const props = defineProps({
 const { error } = await useAsyncData(
   `PicassoPeriod-${props.period._meta.self}`,
   async () => {
-    await Promise.all([
+    return await Promise.all([
       props.period.scheduleEntries().$loadItems(),
       props.camp
         .activities()

@@ -16,7 +16,7 @@ const props = defineProps({
 const { error } = await useAsyncData(
   `ContentNode-${props.contentNode._meta.self}`,
   async () => {
-    await Promise.all([
+    return await Promise.all([
       props.contentNode._meta.load,
       props.contentNode.children().$loadItems(),
       props.contentNode.contentType()._meta.load,

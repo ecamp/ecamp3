@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 await useAsyncData(`CategoryLabel-${props.category._meta.self}`, async () => {
-  await Promise.all([props.category._meta.load])
+  return await Promise.all([props.category._meta.load])
 })
 </script>
 
