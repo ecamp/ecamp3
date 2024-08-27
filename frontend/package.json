@@ -100,7 +100,6 @@
     "babel-plugin-require-context-hook": "1.0.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-local-rules": "3.0.2",
     "eslint-plugin-n": "17.10.2",
     "eslint-plugin-prettier": "5.2.1",
