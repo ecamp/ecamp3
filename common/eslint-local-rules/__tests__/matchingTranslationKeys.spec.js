@@ -125,7 +125,7 @@ ruleTester.run('local-rules/matching-translation-keys', ruleInstance, {
     },
     {
       name: 'allows correct key with arguments',
-      code: '$tc(\'components.hello.world\', 0, { test: "foo" })',
+      code: '$tc("components.hello.world", 0, { test: "foo" })',
       options: options,
       filename: '/src/components/hello.js',
     },
