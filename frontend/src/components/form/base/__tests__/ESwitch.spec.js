@@ -1,3 +1,4 @@
+import { describe, beforeEach, vi, test, expect } from 'vitest'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
@@ -91,7 +92,7 @@ describe('An ESwitch', () => {
     touch(wrapper.find('.v-input--selection-controls__ripple')).start(0, 0).end(20, 0)
     expect(wrapper.vm.data).toBe(true)
 
-    jest.resetAllMocks()
+    vi.resetAllMocks()
     touch(wrapper.find('.v-input--selection-controls__ripple')).start(0, 0).end(-20, 0)
     expect(wrapper.vm.data).toBe(false)
   })
@@ -106,7 +107,7 @@ describe('An ESwitch', () => {
     input.trigger('keydown.right')
     expect(wrapper.vm.data).toBe(true)
 
-    jest.resetAllMocks()
+    vi.resetAllMocks()
     input.trigger('keydown.left')
     expect(wrapper.vm.data).toBe(false)
   })

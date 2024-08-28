@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import userDisplayName from '../userDisplayName.js'
 
 describe('userDisplayName', () => {

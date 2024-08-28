@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import oneEmojiOrTwoCharacters from '../oneEmojiOrTwoCharacters.js'
 
 const mockI18n = {

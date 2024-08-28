@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, expect, it } from 'vitest'
 import { getters, loadFromLocalStorage, mutations } from '@/plugins/store/preferences'
 
 const CAMP_URI = '/camps/1a2b3c4d'

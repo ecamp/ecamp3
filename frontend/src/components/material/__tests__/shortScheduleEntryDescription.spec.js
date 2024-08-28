@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import shortScheduleEntryDescription from '../shortScheduleEntryDescription.js'
 import createI18n from '@/components/print/print-client/i18n.js'
 import { i18n } from '@/plugins/i18n'

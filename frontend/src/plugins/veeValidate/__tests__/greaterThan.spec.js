@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import greaterThan from '@/plugins/veeValidate/greaterThan'
 
 const mockI18n = {

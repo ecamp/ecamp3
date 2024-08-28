@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, vi, test, expect } from 'vitest'
 import ApiSwitch from '../ApiSwitch.vue'
 import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
@@ -26,7 +27,7 @@ describe('An ApiSwitch', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
     wrapper.destroy()
   })
 

@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, vi, expect, it } from 'vitest'
 import ApiTimePicker from '../ApiTimePicker.vue'
 import { screen, waitFor } from '@testing-library/vue'
 import { render, setTestLocale } from '@/test/renderWithVuetify.js'
@@ -19,7 +20,7 @@ describe('An ApiTimePicker', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('triggers api.patch and status update if input changes', async () => {

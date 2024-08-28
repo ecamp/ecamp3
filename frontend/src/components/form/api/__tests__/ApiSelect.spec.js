@@ -1,4 +1,5 @@
 // Libraries
+import { describe, beforeEach, afterEach, vi, test, expect } from 'vitest'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
@@ -40,7 +41,7 @@ describe('An ApiSelect', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
     wrapper.destroy()
   })
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import campCollaborationInitials from '../campCollaborationInitials.js'
 
 describe('campCollaborationInitials', () => {
