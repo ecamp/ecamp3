@@ -8,8 +8,11 @@
       <span>{{ $tc('views.camp.navigation.mobile.navBottombar.story') }}</span>
       <v-icon>mdi-book-open-variant</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp, 'dashboard')">
-      <span>{{ camp.name }}</span>
+    <v-btn
+      :to="campRoute(camp, 'dashboard')"
+      class="ec-home-button flex-shrink-0 flex-grow-1 px-0"
+    >
+      <span class="ec-home-button__inner">{{ campShortTitle(camp) }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="materialListRoute(camp, '/lists')">
@@ -26,6 +29,7 @@
 <script>
 import { campRoute, materialListRoute } from '@/router'
 import { mapGetters } from 'vuex'
+import campShortTitle from '@/common/helpers/campShortTitle.js'
 
 export default {
   name: 'NavBottombar',
@@ -45,19 +49,29 @@ export default {
   methods: {
     materialListRoute,
     campRoute,
+    campShortTitle,
   },
 }
 </script>
 
 <style lang="scss" scoped>
+// eslint-disable-next-line vue-scoped-css/no-unused-selector
 .v-bottom-navigation--fixed {
   height: auto !important;
   min-height: 56px;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-.v-application .ec-close-drawer {
-  background-color: #{map-get($blue-grey, 'lighten-5')};
-  border-top: 1px solid #{map-get($blue-grey, 'lighten-4')};
+.ec-home-button {
+  flex-basis: 20% !important;
+}
+.ec-home-button :deep(.v-btn__content) {
+  width: 100%;
+}
+.ec-home-button__inner {
+  white-space: normal;
+  width: 100%;
+  word-break: break-word;
+  text-align: center;
 }
 </style>

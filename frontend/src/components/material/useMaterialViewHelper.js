@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx'
 import { slugify } from '@/plugins/slugify.js'
 import i18n from '@/plugins/i18n/index.js'
 import dayjs from '@/common/helpers/dayjs.js'
+import { campShortTitle } from '@/common/helpers/campShortTitle.js'
 import { apiStore } from '@/plugins/store/index.js'
 import { materialListFromRoute } from '@/router.js'
 import shortScheduleEntryDescription from './shortScheduleEntryDescription.js'
@@ -12,7 +13,7 @@ function generateFilename(camp, materialList) {
   const description = materialList
     ? [i18n.tc('components.material.useMaterialViewHelper.detail'), materialList]
     : [i18n.tc('components.material.useMaterialViewHelper.overview')]
-  const filename = [camp.name, ...description].map(slugify)
+  const filename = [campShortTitle(camp), ...description].map(slugify)
   return [...filename, dayjs().format('YYMMDDHHmmss')].join('_') + '.xlsx'
 }
 

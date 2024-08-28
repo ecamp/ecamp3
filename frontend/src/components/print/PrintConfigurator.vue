@@ -112,6 +112,7 @@ import { getEnv } from '@/environment.js'
 import cloneDeep from 'lodash/cloneDeep'
 import VueI18n from '../../plugins/i18n/index.js'
 import repairConfig from './repairPrintConfig.js'
+import campShortTitle from '@/common/helpers/campShortTitle.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -157,7 +158,7 @@ export default {
       return this.repairConfig(
         this.$store.getters.getLastPrintConfig(this.camp._meta.self, {
           language: this.lang,
-          documentName: this.camp.name,
+          documentName: campShortTitle(this.camp),
           camp: this.camp._meta.self,
           contents: this.defaultContents(),
         })

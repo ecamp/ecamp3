@@ -6,7 +6,9 @@
       </v-list-item-icon>
     </slot>
     <v-list-item-content>
-      <v-list-item-title>{{ title }}</v-list-item-title>
+      <v-list-item-title :class="{ 'whitespace-normal': titleMultiline }">{{
+        title
+      }}</v-list-item-title>
       <v-list-item-subtitle v-if="subtitle">{{ subtitle }}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-icon v-if="!hideChevron">
@@ -26,6 +28,7 @@ export default {
     hideChevron: { type: Boolean, default: false },
     to: { type: [String, Object], default: null },
     href: { type: [String, Object], default: null },
+    titleMultiline: { type: Boolean, default: false },
   },
 }
 </script>

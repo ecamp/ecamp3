@@ -41,7 +41,7 @@ class MailServiceTest extends KernelTestCase {
         $this->user->profile = $profile;
 
         $this->camp = new Camp();
-        $this->camp->name = 'some camp';
+        $this->camp->shortTitle = 'some camp';
         $this->camp->title = 'some camp title';
     }
 
@@ -52,13 +52,13 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp v3] Du wurdest ins Lager "some camp" eingeladen');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp v3] Du wurdest ins Lager "some camp title" eingeladen');
 
-        self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->name);
+        self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->title);
         self::assertEmailHtmlBodyContains($mailerMessage, $this->user->getDisplayName());
         self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
 
-        self::assertEmailTextBodyContains($mailerMessage, $this->camp->name);
+        self::assertEmailTextBodyContains($mailerMessage, $this->camp->title);
         self::assertEmailTextBodyContains($mailerMessage, $this->user->getDisplayName());
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }
@@ -72,11 +72,11 @@ class MailServiceTest extends KernelTestCase {
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
 
-        self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->name);
+        self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->title);
         self::assertEmailHtmlBodyContains($mailerMessage, $this->user->getDisplayName());
         self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
 
-        self::assertEmailTextBodyContains($mailerMessage, $this->camp->name);
+        self::assertEmailTextBodyContains($mailerMessage, $this->camp->title);
         self::assertEmailTextBodyContains($mailerMessage, $this->user->getDisplayName());
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }

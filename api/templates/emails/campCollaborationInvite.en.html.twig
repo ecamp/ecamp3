@@ -1,16 +1,16 @@
-{% set preheader = 'Invitation to camp ' ~ camp_name %}
+{% set preheader = 'Invitation to camp ' ~ camp_title %}
 {% extends 'emails/baseLayout.twig' %}
 
 
 {% block content %}
-    <h1>Invitation to camp "{{ camp_name }}"</h1>
+    <h1>Invitation to camp "{{ camp_title }}"</h1>
     <p>Hi,</p>
     <p>
-        You have been invited by {{ by_user }} to collaborate in the following camp: 
-    </p> 
+        You have been invited by {{ by_user }} to collaborate in the following camp:
+    </p>
     <p>
-        <strong>Name:</strong> {{ camp_name }} <br />
-        <strong>Title:</strong> {{ camp_title }}
+        <strong>Title:</strong> {{ camp_title }} <br />
+        <strong>Organizer:</strong> {{ camp_organizer }}
     </p>
 
     {% with { title: 'Answer the invitation', url: url } %}

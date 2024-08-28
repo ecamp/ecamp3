@@ -71,8 +71,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Una volta eliminato un campo, non è più possibile tornare indietro. Siate certi.",
-          "explanation": "Questa azione non può essere annullata. Questo eliminerà definitivamente il campo \"{campName}\", le attività, gli elenchi di materiali e rimuoverà tutte le associazioni di collaboratori.",
-          "label": "Digita \"{campName}\" per confermare.",
+          "explanation": "Questa azione non può essere annullata. Questo eliminerà definitivamente il campo \"{campTitle}\", le attività, gli elenchi di materiali e rimuoverà tutte le associazioni di collaboratori.",
+          "label": "Digita \"{campTitle}\" per confermare.",
           "title": "Elimina il campo"
         },
         "title": "Zona di pericolo"

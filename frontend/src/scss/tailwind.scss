@@ -1,0 +1,25 @@
+// This will eventually be replaced by tailwind
+
+.whitespace-normal {
+  white-space: normal;
+}
+
+.gap-1 {
+  gap: 4px;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-x-2 {
+  column-gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}

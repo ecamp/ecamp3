@@ -114,8 +114,8 @@
         "addressName": "Nome",
         "addressStreet": "Via",
         "addressZipcode": "Codice postale",
-        "motto": "Motto",
-        "name": "Nome",
+        "motto": "Motto / Tema",
+        "shortTitle": "Titolo breve",
         "title": "Titolo"
       },
       "name": "Campo",

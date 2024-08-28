@@ -59,6 +59,7 @@ export default {
 <!-- these styles must be global -->
 <!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style lang="scss">
+@import 'src/scss/tailwind';
 @import 'src/scss/global';
 @import '~@mdi/font/css/materialdesignicons.css';
 

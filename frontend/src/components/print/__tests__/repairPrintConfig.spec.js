@@ -9,7 +9,7 @@ import TocConfig from '../config/TocConfig.vue'
 describe('repairConfig', () => {
   const camp = {
     _meta: { self: '/camps/1a2b3c4d' },
-    name: 'test camp',
+    shortTitle: 'test camp',
     periods: () => ({
       items: [
         {
