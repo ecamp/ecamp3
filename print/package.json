@@ -33,7 +33,7 @@
     "@eslint/compat": "1.1.1",
     "@eslint/eslintrc": "3.1.0",
     "@eslint/js": "9.9.1",
-    "@nuxt/eslint": "0.5.3",
+    "@nuxt/eslint": "0.5.4",
     "@nuxt/eslint-config": "0.5.3",
     "@nuxtjs/i18n": "8.5.1",
     "@nuxtjs/tailwindcss": "6.12.1",
