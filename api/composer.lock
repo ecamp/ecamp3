@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23850c0dce6d6caa82ed1d413194abc5",
+    "content-hash": "a1fb8818f3315adecc255e59d42e31cb",
     "packages": [
         {
             "name": "api-platform/core",
@@ -4729,16 +4729,16 @@
         },
         {
             "name": "rize/uri-template",
-            "version": "0.3.7",
+            "version": "0.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rize/UriTemplate.git",
-                "reference": "0c78eaa2e5241faf6c9f246beb53ef3fb31057fd"
+                "reference": "34a5b96d0b65a5dddb7d20f09b6527a43faede24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rize/UriTemplate/zipball/0c78eaa2e5241faf6c9f246beb53ef3fb31057fd",
-                "reference": "0c78eaa2e5241faf6c9f246beb53ef3fb31057fd",
+                "url": "https://api.github.com/repos/rize/UriTemplate/zipball/34a5b96d0b65a5dddb7d20f09b6527a43faede24",
+                "reference": "34a5b96d0b65a5dddb7d20f09b6527a43faede24",
                 "shasum": ""
             },
             "require": {
@@ -4771,7 +4771,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rize/UriTemplate/issues",
-                "source": "https://github.com/rize/UriTemplate/tree/0.3.7"
+                "source": "https://github.com/rize/UriTemplate/tree/0.3.8"
             },
             "funding": [
                 {
@@ -4787,7 +4787,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-08-29T15:43:27+00:00"
+            "time": "2024-08-30T07:09:40+00:00"
         },
         {
             "name": "sentry/sentry",
