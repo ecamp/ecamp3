@@ -43,8 +43,8 @@ export default {
     return {
       step: 1,
       camp: {
-        name: '',
         title: '',
+        organizer: '',
         motto: '',
         periods: [
           {

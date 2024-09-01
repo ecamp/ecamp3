@@ -1,0 +1,110 @@
+{
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "checklist": {
+                        "href": "escaped_value"
+                    },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "position": "escaped_value",
+                "text": "escaped_value"
+            },
+            {
+                "_links": {
+                    "checklist": {
+                        "href": "escaped_value"
+                    },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "position": "escaped_value",
+                "text": "escaped_value"
+            },
+            {
+                "_links": {
+                    "checklist": {
+                        "href": "escaped_value"
+                    },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "position": "escaped_value",
+                "text": "escaped_value"
+            },
+            {
+                "_links": {
+                    "checklist": {
+                        "href": "escaped_value"
+                    },
+                    "children": [],
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "position": "escaped_value",
+                "text": "escaped_value"
+            },
+            {
+                "_links": {
+                    "checklist": {
+                        "href": "escaped_value"
+                    },
+                    "children": [
+                        {
+                            "href": "escaped_value"
+                        }
+                    ],
+                    "parent": "escaped_value",
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "position": "escaped_value",
+                "text": "escaped_value"
+            }
+        ]
+    },
+    "_links": {
+        "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            }
+        ],
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "totalItems": "escaped_value"
+}

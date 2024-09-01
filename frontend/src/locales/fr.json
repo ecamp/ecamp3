@@ -79,8 +79,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Une fois un camp supprimé, il est impossible de revenir en arrière. Ne continue que si tu es sûr.",
-          "explanation": "Cette action ne peut pas être annulée. Cette action supprimera définitivement le camp \"{campName}\", les activités, les listes de matériel et supprimera toutes les associations de collaborateurs.",
-          "label": "Veuillez taper \"{campName}\" pour confirmer.",
+          "explanation": "Cette action ne peut pas être annulée. Cette action supprimera définitivement le camp \"{campTitle}\", les activités, les listes de matériel et supprimera toutes les associations de collaborateurs.",
+          "label": "Veuillez taper \"{campTitle}\" pour confirmer.",
           "title": "Supprimer le camp"
         },
         "title": "Zone à risque"

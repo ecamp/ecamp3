@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
   modules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
+    '@nuxt/eslint',
 
     // Doc: https://sentry.nuxtjs.org/guide/usage
     // Support for Nuxt3 not yet implemented: https://github.com/nuxt-community/sentry-module/issues/619

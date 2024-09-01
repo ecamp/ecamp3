@@ -80,8 +80,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",
-          "explanation": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Lager \"{campName}\" inklusive allen Aktivitäten, Materiallisten und Verantwortungszuweisungen dauerhaft gelöscht.",
-          "label": "Bitte gib zur Bestätigung \"{campName}\" ein.",
+          "explanation": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Lager \"{campTitle}\" inklusive allen Aktivitäten, Materiallisten und Verantwortungszuweisungen dauerhaft gelöscht.",
+          "label": "Bitte gib zur Bestätigung \"{campTitle}\" ein.",
           "title": "Lager löschen"
         },
         "title": "Gefahrenzone"
@@ -159,7 +159,8 @@
         }
       },
       "campCreateStep1": {
-        "submitTooltip": "Bitte fülle alle Pflichtfelder aus."
+        "submitTooltip": "Bitte fülle alle Pflichtfelder aus.",
+        "titlePlaceholder": "Klassenlager 2024 5. Klasse"
       },
       "campCreateStep2": {
         "category": "Block-Kategorien",

@@ -29,19 +29,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.camp--name:deep(.v-btn__content) {
-  width: 100%;
-}
-
-.v-bottom-navigation--fixed {
-  height: auto !important;
-  min-height: 56px;
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-.v-application .ec-close-drawer {
-  background-color: #{map-get($blue-grey, 'lighten-5')};
-  border-top: 1px solid #{map-get($blue-grey, 'lighten-4')};
-}
-</style>
+<style lang="scss" scoped></style>

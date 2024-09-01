@@ -8,63 +8,55 @@
           "box": {},
           "children": [
             {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "GRGR",
+                },
+              ],
               "parent": [Circular],
-              "type": "TEXT_INSTANCE",
-              "value": "Pfila 2023",
+              "props": {
+                "class": "cover-camp-title cover-center",
+              },
+              "style": {
+                "fontSize": "38pt",
+                "fontWeight": "semibold",
+                "margin": "40pt 0",
+                "textAlign": "center",
+              },
+              "type": "TEXT",
             },
-          ],
-          "parent": [Circular],
-          "props": {
-            "class": "cover-camp-name cover-center",
-          },
-          "style": {
-            "fontSize": "15pt",
-            "fontWeight": "semibold",
-            "margin": "140pt 0 40pt",
-            "textAlign": "center",
-          },
-          "type": "TEXT",
-        },
-        {
-          "box": {},
-          "children": [
             {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Grandiose RealityTV Show",
+                },
+              ],
               "parent": [Circular],
-              "type": "TEXT_INSTANCE",
-              "value": "GRGR",
+              "props": {
+                "class": "cover-camp-motto cover-center",
+              },
+              "style": {
+                "fontSize": "28pt",
+                "fontWeight": "medium",
+                "textAlign": "center",
+              },
+              "type": "TEXT",
             },
           ],
           "parent": [Circular],
           "props": {
-            "class": "cover-camp-title cover-center",
+            "class": "cover-camp-wrapper",
           },
           "style": {
-            "fontSize": "38pt",
-            "fontWeight": "bold",
-            "marginBottom": "28pt",
-            "textAlign": "center",
+            "padding": "72pt 0 0",
           },
-          "type": "TEXT",
-        },
-        {
-          "box": {},
-          "children": [
-            {
-              "parent": [Circular],
-              "type": "TEXT_INSTANCE",
-              "value": "Grandiose RealityTV Show",
-            },
-          ],
-          "parent": [Circular],
-          "props": {
-            "class": "cover-camp-motto cover-center",
-          },
-          "style": {
-            "fontSize": "20pt",
-            "marginBottom": "23pt",
-            "textAlign": "center",
-          },
-          "type": "TEXT",
+          "type": "VIEW",
         },
       ],
       "parent": [Circular],

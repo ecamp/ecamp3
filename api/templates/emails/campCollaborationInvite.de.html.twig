@@ -1,15 +1,15 @@
-{% set preheader = 'Einladung zur Mitarbeit beim Lager ' ~ camp_name %}
+{% set preheader = 'Einladung zur Mitarbeit beim Lager ' ~ camp_title %}
 {% extends 'emails/baseLayout.twig' %}
 
 {% block content %}
-    <h1>Einladung zur Mitarbeit beim Lager "{{ camp_name }}"</h1>
+    <h1>Einladung zur Mitarbeit beim Lager "{{ camp_title }}"</h1>
     <p>Hallo,</p>
     <p>
         Du wurdest von {{ by_user }} eingeladen, bei folgendem Lager mitzuwirken:
     </p>
     <p>
-        <strong>Name:</strong> {{ camp_name }} <br />
-        <strong>Titel:</strong> {{ camp_title }}
+        <strong>Lagertitel:</strong> {{ camp_title }} <br />
+        <strong>Organisator:</strong> {{ camp_organizer }}
     </p>
 
     {% with { title: 'Einladung beantworten', url: url } %}

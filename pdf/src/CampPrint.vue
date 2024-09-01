@@ -16,6 +16,7 @@ import { Font } from './renderer/index.js'
 import PdfComponent from '@/PdfComponent.js'
 import InterDisplay from '@/assets/fonts/Inter/InterDisplay-Regular.ttf'
 import InterDisplayItalic from '@/assets/fonts/Inter/InterDisplay-Italic.ttf'
+import InterDisplayMedium from '@/assets/fonts/Inter/InterDisplay-Medium.ttf'
 import InterDisplaySemiBold from '@/assets/fonts/Inter/InterDisplay-SemiBold.ttf'
 import InterDisplayBold from '@/assets/fonts/Inter/InterDisplay-Bold.ttf'
 import InterDisplayBoldItalic from '@/assets/fonts/Inter/InterDisplay-BoldItalic.ttf'
@@ -61,6 +62,7 @@ const registerFonts = async () => {
     family: 'InterDisplay',
     fonts: [
       { src: InterDisplay },
+      { src: InterDisplayMedium, fontWeight: 'medium' },
       { src: InterDisplaySemiBold, fontWeight: 'semibold' },
       { src: InterDisplayBold, fontWeight: 'bold' },
       { src: InterDisplayItalic, fontStyle: 'italic' },

@@ -4,7 +4,11 @@
             "_embedded": {
                 "rootContentNode": {
                     "_links": {
-                        "children": [],
+                        "children": [
+                            {
+                                "href": "escaped_value"
+                            }
+                        ],
                         "contentType": {
                             "href": "escaped_value"
                         },

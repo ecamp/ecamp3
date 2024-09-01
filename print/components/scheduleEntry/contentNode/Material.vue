@@ -30,7 +30,7 @@ const props = defineProps({
 const { error } = await useAsyncData(
   `ContentNodeMaterial-${props.contentNode._meta.self}`,
   async () => {
-    await props.contentNode.materialItems().$loadItems()
+    return await props.contentNode.materialItems().$loadItems()
   }
 )
 </script>

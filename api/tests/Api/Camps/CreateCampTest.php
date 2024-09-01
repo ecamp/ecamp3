@@ -215,66 +215,36 @@ class CreateCampTest extends ECampApiTestCase {
 
     public function testCreateCampTrimsName() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'name' => " So-La\t ",
+            'shortTitle' => " So-La\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
-            'name' => 'So-La',
+            'shortTitle' => 'So-La',
         ]));
     }
 
     public function testCreateCampCleansForbiddenCharactersFromName() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'name' => "So-\n\tLa",
+            'shortTitle' => "So-\n\tLa",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
-            'name' => 'So-La',
+            'shortTitle' => 'So-La',
         ]));
-    }
-
-    public function testCreateCampValidatesMissingName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['name'])]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'name',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateCampValidatesBlankName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'name' => '',
-        ])]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'name',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
-        ]);
     }
 
     public function testCreateCampValidatesLongName() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'name' => 'A very long camp name which is not really useful',
+            'shortTitle' => 'A very long camp name which is not really useful',
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'name',
+                    'propertyPath' => 'shortTitle',
                     'message' => 'This value is too long. It should have 32 characters or less.',
                 ],
             ],
@@ -762,7 +732,7 @@ class CreateCampTest extends ECampApiTestCase {
 
     public function testCreateCampValidatesTooLongNameAndIncludesTranslationInfo() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'name' => 'This camp name has 33 characters!',
+            'shortTitle' => 'This camp name has 33 characters!',
         ])]);
 
         $this->assertResponseStatusCodeSame(422);

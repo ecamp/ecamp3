@@ -48,6 +48,8 @@ RUN set -eux; \
 ###< recipes ###
 
 COPY --link docker/php/conf.d/api-platform.ini $PHP_INI_DIR/conf.d/
+ENV LOG_LEVEL=info
+COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 COPY --link --chmod=755 docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link --chmod=755 docker/php/migrate-database.sh /usr/local/bin/migrate-database
 
@@ -63,7 +65,6 @@ ENV APP_ENV=dev XDEBUG_MODE=off
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY --link docker/php/conf.d/api-platform.dev.ini $PHP_INI_DIR/conf.d/
-COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
 ARG XDEBUG_VERSION=3.3.2
@@ -84,7 +85,6 @@ ENV APP_ENV=prod
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY --link docker/php/conf.d/api-platform.prod.ini $PHP_INI_DIR/conf.d/
-COPY --link docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
 #COPY --link docker/caddy/worker.Caddyfile /etc/caddy/worker.Caddyfile
 
 # prevent the reinstallation of vendors at every changes in the source code

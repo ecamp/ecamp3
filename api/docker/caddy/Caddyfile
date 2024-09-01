@@ -1,4 +1,7 @@
 {
+	log {
+		level {$LOG_LEVEL}
+	}
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
@@ -8,7 +11,9 @@
 	# https://caddyserver.com/docs/caddyfile/directives#sorting-algorithm
 	order php_server before file_server
 
-	auto_https disable_redirects
+	http_port 3001
+	https_port 3443
+	auto_https off
 	# make it possible to connect from remote host to admin endpoint
 	# https://caddyserver.com/docs/caddyfile/options#admin
 	# note, restricting to specific origins is not possible with the wildcard interface
@@ -22,62 +27,35 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-:3000 {
-	log {
-		level DEBUG
-	}
+{$SERVER_NAME:localhost} {
+	log
 
-	handle_path /api* {
-		# rewriting the uri used for php-fcgi did not work
-		# so we make a hop more to localhost:3001 with the rewritten url where the fcgi happens
-		# this may slow down the request
+	root * /app/public
 
-		reverse_proxy localhost:3001 {
-			header_up X-Forwarded-Prefix "/api"
+	encode {
+		zstd
+		br
+		gzip
+
+		match {
+			header Content-Type text/*
+			header Content-Type application/json*
+			header Content-Type application/javascript*
+			header Content-Type application/xhtml+xml*
+			header Content-Type application/atom+xml*
+			header Content-Type application/rss+xml*
+			header Content-Type image/svg+xml*
+			# Custom formats supported
+			header Content-Type application/ld+json*
+			header Content-Type application/hal+json*
 		}
 	}
 
-	handle /print* {
-		reverse_proxy print:3003
-	}
+	# Add links to the API docs if not set explicitly (e.g. the PWA)
+	header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"`
 
-	handle /mail* {
-		reverse_proxy mail:1080
-	}
+	# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
+	header ?Permissions-Policy "browsing-topics=()"
 
-	handle {
-		reverse_proxy frontend:3000
-	}
-}
-
-:3001 {
-	route {
-		root * /app/public
-
-		encode {
-			zstd
-			br
-			gzip
-
-			match {
-				header Content-Type text/*
-				header Content-Type application/json*
-				header Content-Type application/javascript*
-				header Content-Type application/xhtml+xml*
-				header Content-Type application/atom+xml*
-				header Content-Type application/rss+xml*
-				header Content-Type image/svg+xml*
-				# Custom formats supported
-				header Content-Type application/ld+json*
-			}
-		}
-
-		# Add links to the API docs if not set explicitly (e.g. the PWA)
-		header ?Link `</docs.jsonld>; rel="www.w3.org/ns/hydra/core#apiDocumentation"`
-
-		# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
-		header ?Permissions-Policy "browsing-topics=()"
-
-		php_server
-	}
+	php_server
 }

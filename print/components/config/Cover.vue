@@ -1,15 +1,14 @@
 <template>
   <div class="tw-break-after-page tw-text-center">
-    <div class="tw-font-medium tw-mt-20 tw-text-xl">
-      {{ camp.name }}
-    </div>
+    <p class="tw-font-medium tw-mt-20 tw-text-3xl">{{ camp.organizer }}</p>
 
-    <div :id="`content_${index}_cover`" class="tw-my-12 tw-text-6xl tw-font-semibold">
+    <h1 :id="`content_${index}_cover`" class="tw-my-16 tw-text-6xl tw-font-semibold">
       {{ camp.title }}
-    </div>
-    <div class="tw-text-3xl">
+    </h1>
+
+    <p class="tw-text-5xl tw-font-medium">
       {{ camp.motto }}
-    </div>
+    </p>
   </div>
 </template>
 

@@ -80,8 +80,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Once you delete a camp, there is no going back. Please be certain.",
-          "explanation": "This action cannot be undone. This will permanently delete the \"{campName}\" camp, activities, material lists and remove all collaborator associations.",
-          "label": "Please type \"{campName}\" to confirm.",
+          "explanation": "This action cannot be undone. This will permanently delete the \"{campTitle}\" camp, activities, material lists and remove all collaborator associations.",
+          "label": "Please type \"{campTitle}\" to confirm.",
           "title": "Delete Camp"
         },
         "title": "Danger Zone"

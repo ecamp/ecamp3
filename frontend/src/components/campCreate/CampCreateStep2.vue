@@ -175,7 +175,7 @@ export default {
         .camps({ isPrototype: true })
         .items.map((ct) => ({
           value: ct._meta.self,
-          text: this.$tc(ct.name),
+          text: this.$tc(ct.title),
           object: ct,
         }))
     },

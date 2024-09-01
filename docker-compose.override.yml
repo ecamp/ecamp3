@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      target: frankenphp_dev
+    volumes:
+      - ./api:/app:rw,delegated
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
+      - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
+      - ./.cache/composer:/tmp/composer/cache:delegated
+    environment:
+      # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
+      # See https://github.com/docker/for-linux/issues/264
+      # The `remote_host` below may optionally be replaced with `remote_connect_back`
+      # XDEBUG_MODE required for step debugging
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
+      # default port for Xdebug 3 is 9003
+      # idekey=VSCODE if you are debugging with VSCode
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
+      # Then PHPStorm will use the corresponding path mappings
+      PHP_IDE_CONFIG: serverName=localhost
+      PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
+    user: ${USER_ID:-1000}
