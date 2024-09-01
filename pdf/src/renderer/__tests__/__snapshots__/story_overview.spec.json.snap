@@ -1,6 +1,282 @@
 {
   "box": {},
-  "children": [],
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "print.summary..title: Hauptlager",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "bookmark": {
+              "fit": true,
+              "title": "print.summary..title: Hauptlager",
+            },
+            "class": "summary-period-title",
+            "id": "entry-0-16b2fcffdd8e",
+          },
+          "style": {
+            "fontSize": "10pt",
+            "fontWeight": "bold",
+            "textAlign": "center",
+          },
+          "type": "TEXT",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 1",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Fr 05/10/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f67",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 2",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Sa 05/11/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f68",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 3",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Su 05/12/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f69",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 4",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Mo 05/13/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f70",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "class": "page",
+        "id": "entry-0",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "12",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
   "parent": null,
   "props": {
     "locale": "de",

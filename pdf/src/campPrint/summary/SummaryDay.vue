@@ -26,7 +26,6 @@ import { dateLong } from '../../../common/helpers/dateHelperUTCFormatted.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import RichText from '../RichText.vue'
 import { isEmptyHtml } from '../helpers.js'
-import camelCase from 'lodash/camelCase.js'
 
 export default {
   name: 'SummaryDay',
@@ -36,7 +35,6 @@ export default {
     period: { type: Object, required: true },
     day: { type: Object, required: true },
     contentType: { type: String, required: true },
-    instanceNameFilter: { type: String, default: '' },
   },
   computed: {
     date() {
@@ -57,14 +55,7 @@ export default {
               contentNode.contentTypeName === this.contentType &&
               contentNode.root()._meta.self ===
                 scheduleEntry.activity().rootContentNode()._meta.self &&
-              !isEmptyHtml(contentNode.data.html) &&
-              (!this.instanceNameFilter ||
-                contentNode.instanceName
-                  ?.toLowerCase()
-                  .includes(this.instanceNameFilter.toLowerCase()) ||
-                this.$tc(`contentNode.${camelCase(this.contentType)}.name`)
-                  .toLowerCase()
-                  .includes(this.instanceNameFilter.toLowerCase()))
+              !isEmptyHtml(contentNode.data.html)
           )
           .map((chapter) => ({
             ...chapter,

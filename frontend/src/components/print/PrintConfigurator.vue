@@ -112,6 +112,8 @@ import { getEnv } from '@/environment.js'
 import cloneDeep from 'lodash/cloneDeep'
 import VueI18n from '../../plugins/i18n/index.js'
 import repairConfig from './repairPrintConfig.js'
+import StoryConfig from '@/components/print/config/StoryConfig.vue'
+import SafetyConsiderationsConfig from '@/components/print/config/SafetyConsiderationsConfig.vue'
 import campShortTitle from '@/common/helpers/campShortTitle.js'
 
 export default {
@@ -142,7 +144,8 @@ export default {
       contentComponents: {
         Cover: CoverConfig,
         Picasso: PicassoConfig,
-        Summary: SummaryConfig,
+        Story: StoryConfig,
+        SafetyConsiderations: SafetyConsiderationsConfig,
         Program: ProgramConfig,
         Activity: ActivityConfig,
         Toc: TocConfig,
@@ -206,7 +209,7 @@ export default {
 
       this.camp.periods().items.forEach((period) => {
         contents.push({
-          type: 'Summary',
+          type: 'Story',
           options: {
             periods: [period._meta.self],
             contentType: 'Storycontext',

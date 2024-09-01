@@ -231,6 +231,9 @@
     }
   },
   "print": {
+    "config": {
+      "periods": "Période(s) du camp"
+    },
     "cover": {
       "title": "Page de couverture"
     },
@@ -247,7 +250,12 @@
       "title": "Programme"
     },
     "summary": {
-      "title": "Résumé"
+      "safetyConsiderations": {
+        "title": "Considérations de sécurité"
+      },
+      "storycontext": {
+        "title": "Histoire"
+      }
     },
     "toc": {
       "title": "Table des matières"

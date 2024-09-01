@@ -8,7 +8,6 @@
       :camp="camp"
       :index="index"
       :content-type="options.contentType"
-      :instance-name-filter="options.instanceNameFilter"
     />
   </div>
 </template>
@@ -24,7 +23,7 @@ const props = defineProps({
 const { $api } = useNuxtApp()
 
 const { data: periods, error } = await useAsyncData(
-  `config/Summary-${props.index}`,
+  `config/Story -${props.index}`,
   async () => {
     await Promise.all([
       $api.get().contentTypes().$loadItems(),

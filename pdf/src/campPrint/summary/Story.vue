@@ -5,7 +5,6 @@
       :id="id"
       :period="period"
       :content-type="content.options.contentType"
-      :instance-name-filter="content.options.instanceNameFilter ?? ''"
     />
   </Page>
 </template>
@@ -14,7 +13,7 @@ import PdfComponent from '@/PdfComponent.js'
 import SummaryPeriod from './SummaryPeriod.vue'
 
 export default {
-  name: 'Summary',
+  name: 'Story',
   components: { SummaryPeriod },
   extends: PdfComponent,
   props: {
@@ -28,5 +27,3 @@ export default {
   },
 }
 </script>
-<pdf-style>
-</pdf-style>

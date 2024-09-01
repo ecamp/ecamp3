@@ -289,15 +289,10 @@
           "activity": "Activité"
         },
         "picassoConfig": {
-          "orientation": "Mise en page",
-          "periods": "Période(s) du camp"
+          "orientation": "Mise en page"
         },
         "programConfig": {
-          "dayOverview": "Aperçu des jours",
-          "periods": "Période(s) du camp"
-        },
-        "summaryConfig": {
-          "periods": "Période(s) du camp"
+          "dayOverview": "Aperçu des jours"
         }
       },
       "documents": {
@@ -333,7 +328,8 @@
           "Cover": "Page de couverture",
           "Picasso": "Picasso",
           "Program": "Programme",
-          "Summary": "Résumé",
+          "SafetyConsiderations": "Considérations de sécurité",
+          "Story": "Histoire",
           "Toc": "Table des matières"
         }
       },

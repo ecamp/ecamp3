@@ -23,7 +23,8 @@ import Toc from './entry/Toc.vue'
 import Picasso from './entry/Picasso.vue'
 import Program from './entry/Program.vue'
 import Activity from './entry/Activity.vue'
-import Summary from './entry/Summary.vue'
+import SafetyConsiderations from './entry/SafetyConsiderations.vue'
+import Story from './entry/Story.vue'
 
 export default {
   name: 'Cover',
@@ -40,7 +41,8 @@ export default {
         Picasso,
         Program,
         Activity,
-        Summary,
+        SafetyConsiderations,
+        Story,
       }
     },
   },

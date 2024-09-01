@@ -251,6 +251,9 @@
     "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
+    "config": {
+      "periods": "Period(s)"
+    },
     "cover": {
       "title": "Cover page"
     },
@@ -267,7 +270,12 @@
       "title": "Program"
     },
     "summary": {
-      "title": "Summary"
+      "safetyConsiderations": {
+        "title": "Safety considerations"
+      },
+      "storycontext": {
+        "title": "Story"
+      }
     },
     "toc": {
       "title": "Table of contents"

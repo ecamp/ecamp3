@@ -23,7 +23,8 @@ import InterDisplayBoldItalic from '@/assets/fonts/Inter/InterDisplay-BoldItalic
 import Cover from '@/campPrint/cover/Cover.vue'
 import TableOfContents from '@/campPrint/tableOfContents/TableOfContents.vue'
 import Picasso from '@/campPrint/picasso/Picasso.vue'
-import Summary from '@/campPrint/summary/Summary.vue'
+import Story from './campPrint/summary/Story.vue'
+import SafetyConsiderations from './campPrint/summary/SafetyConsiderations.vue'
 import Program from '@/campPrint/program/Program.vue'
 import Activity from '@/campPrint/activity/Activity.vue'
 import { wordHyphenation } from '@react-pdf/textkit'
@@ -44,7 +45,8 @@ export default {
         Picasso,
         Program,
         Activity,
-        Summary,
+        Story,
+        SafetyConsiderations,
       }
     },
   },

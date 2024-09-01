@@ -69,7 +69,6 @@ export default {
     index: { type: Number, required: true },
     allContentNodes: { type: Array, required: true },
     contentType: { type: String, required: true },
-    instanceNameFilter: { type: String, default: '' },
   },
   computed: {
     // returns scheduleEntries of current day without the need for an additional API call
@@ -89,14 +88,7 @@ export default {
           (contentNode) =>
             contentNode.root()._meta.self ===
               scheduleEntry.activity().rootContentNode()._meta.self &&
-            !isEmptyHtml(contentNode.data.html) &&
-            (!this.instanceNameFilter ||
-              contentNode.instanceName
-                ?.toLowerCase()
-                .includes(this.instanceNameFilter.toLowerCase()) ||
-              this.$t(`contentNode.${camelCase(this.contentType)}.name`)
-                .toLowerCase()
-                .includes(this.instanceNameFilter.toLowerCase()))
+            !isEmptyHtml(contentNode.data.html)
         ),
       }))
     },

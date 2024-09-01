@@ -1,20 +1,9 @@
 <template>
   <Text
     :id="`${id}-${period.id}`"
-    :bookmark="{
-      title:
-        $tc('print.summary.title') +
-        ' ' +
-        translatedContentNode +
-        (instanceNameFilter ? ` '${instanceNameFilter}'` : '') +
-        ': ' +
-        period.description,
-      fit: true,
-    }"
+    :bookmark="{ title: title + ': ' + period.description, fit: true }"
     class="summary-period-title"
-    >{{ $tc('print.summary.title') }} {{ translatedContentNode
-    }}<template v-if="instanceNameFilter"> "{{ instanceNameFilter }}"</template>:
-    {{ period.description }}</Text
+    >{{ title }}: {{ period.description }}</Text
   >
   <SummaryDay
     v-for="day in days"
@@ -22,7 +11,6 @@
     :period="period"
     :day="day"
     :content-type="contentType"
-    :instance-name-filter="instanceNameFilter"
   />
 </template>
 <script>
@@ -38,14 +26,13 @@ export default {
   props: {
     period: { type: Object, required: true },
     contentType: { type: String, required: true },
-    instanceNameFilter: { type: String, default: '' },
   },
   computed: {
     days() {
       return sortBy(this.period.days().items, (day) => this.$date.utc(day.start).unix())
     },
-    translatedContentNode() {
-      return this.$tc(`contentNode.${camelCase(this.contentType)}.name`)
+    title() {
+      return this.$tc('print.summary.' + this.camelCase(this.contentType) + '.title')
     },
   },
   methods: { camelCase },

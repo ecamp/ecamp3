@@ -314,13 +314,7 @@
           "periods": "Lagerabschnitt(e)"
         },
         "programConfig": {
-          "dayOverview": "Tagesübersicht",
-          "periods": "Lagerabschnitt(e)"
-        },
-        "summaryConfig": {
-          "contentType": "Blockinhalt",
-          "instanceNameFilter": "Nach Bausteintitel filtern",
-          "periods": "Lagerabschnitt(e)"
+          "dayOverview": "Tagesübersicht"
         }
       },
       "documents": {
@@ -356,7 +350,8 @@
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
           "Program": "Detailprogramm",
-          "Summary": "Zusammenfassung",
+          "SafetyConsiderations": "Sicherheits­überlegungen",
+          "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }
       },

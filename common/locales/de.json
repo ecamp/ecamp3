@@ -244,6 +244,9 @@
     "shortScheduleEntryDescription": "Tag\u202f{dayNumber} {startTime}"
   },
   "print": {
+    "config": {
+      "periods": "Lagerabschnitt(e)"
+    },
     "cover": {
       "title": "Titelseite"
     },
@@ -260,7 +263,12 @@
       "title": "Detailprogramm"
     },
     "summary": {
-      "title": "Zusammenfassung"
+      "safetyConsiderations": {
+        "title": "Sicherheitsüberlegungen"
+      },
+      "storycontext": {
+        "title": "Roter Faden"
+      }
     },
     "toc": {
       "title": "Inhaltsverzeichnis"

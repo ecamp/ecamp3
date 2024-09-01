@@ -309,17 +309,10 @@
           "activity": "Activity"
         },
         "picassoConfig": {
-          "orientation": "Page layout",
-          "periods": "Period(s)"
+          "orientation": "Page layout"
         },
         "programConfig": {
-          "dayOverview": "print day overview",
-          "periods": "Period(s)"
-        },
-        "summaryConfig": {
-          "contentType": "Content type",
-          "instanceNameFilter": "Block title filter",
-          "periods": "Period(s)"
+          "dayOverview": "print day overview"
         }
       },
       "documents": {
@@ -355,7 +348,8 @@
           "Cover": "Cover page",
           "Picasso": "Picasso",
           "Program": "Program",
-          "Summary": "Summary",
+          "SafetyConsiderations": "Safety considerations",
+          "Story": "Story",
           "Toc": "Table of contents"
         }
       },

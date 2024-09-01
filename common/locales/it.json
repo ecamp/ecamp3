@@ -221,6 +221,9 @@
     }
   },
   "print": {
+    "config": {
+      "periods": "Sezione/i portante/i"
+    },
     "cover": {
       "title": "Pagina di copertina"
     },
@@ -231,7 +234,12 @@
       "title": "Programma"
     },
     "summary": {
-      "title": "Sommario"
+      "safetyConsiderations": {
+        "title": "Considerazioni sulla sicurezza"
+      },
+      "storycontext": {
+        "title": "Storia"
+      }
     },
     "toc": {
       "title": "Indice dei contenuti"
