@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import repairConfig from '../repairPrintConfig.js'
 import PicassoConfig from '../config/PicassoConfig.vue'
 import ActivityConfig from '../config/ActivityConfig.vue'

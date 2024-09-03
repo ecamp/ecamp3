@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import Vue from 'vue'
 import { fireEvent } from '@testing-library/vue'
 import { render } from '@/test/renderWithVuetify.js'

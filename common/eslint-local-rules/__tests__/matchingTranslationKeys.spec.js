@@ -13,7 +13,6 @@ const ruleTester = new RuleTester({
   root: true,
   env: {
     node: true,
-    jest: true,
   },
   extends: [
     'plugin:vue/recommended',

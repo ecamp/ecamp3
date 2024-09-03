@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, vi, test, expect } from 'vitest'
 import ApiColorPicker from '../ApiColorPicker.vue'
 import { screen, waitFor } from '@testing-library/vue'
 import { render } from '@/test/renderWithVuetify.js'
@@ -24,7 +25,7 @@ describe('An ApiColorPicker', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   test('triggers api.patch and status update if input changes', async () => {

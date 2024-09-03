@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, vi, test, expect } from 'vitest'
 import ApiColorField from '../ApiColorField.vue'
 import { fireEvent, screen, waitFor } from '@testing-library/vue'
 import { render } from '@/test/renderWithVuetify.js'
@@ -23,7 +24,7 @@ describe('An ApiColorField', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   test('triggers api.patch and status update if input changes', async () => {

@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, vi, test, expect } from 'vitest'
 import ApiNumberField from '../ApiNumberField.vue'
 import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
@@ -28,7 +29,7 @@ describe('An ApiNumberField', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
     wrapper.destroy()
   })
 

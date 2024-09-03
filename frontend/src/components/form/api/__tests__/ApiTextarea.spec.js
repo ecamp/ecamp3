@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, vi, test, expect } from 'vitest'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
@@ -32,7 +33,7 @@ describe('An ApiTextarea', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
     wrapper.destroy()
   })
 

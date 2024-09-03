@@ -99,7 +99,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(config.mocks.api, 'patch')
+    apiPatch = vi.spyOn(config.mocks.api, 'patch')
 
     validateCalled = new Promise((resolve) => (validateResolveFunction = resolve))
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { campCollaborationColor, idToColor, userColor } from '../colors.js'
 
 describe('idToColor', () => {
