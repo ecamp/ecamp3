@@ -58,5 +58,8 @@
     "url-template": "3.1.1",
     "vite": "5.4.4",
     "vitest": "2.1.0"
+  },
+  "overrides": {
+    "uri-js": "npm:uri-js-replace"
   }
 }
