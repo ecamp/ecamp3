@@ -35,7 +35,7 @@
     "@eslint/js": "9.9.1",
     "@nuxt/eslint": "0.5.5",
     "@nuxt/eslint-config": "0.5.5",
-    "@nuxtjs/i18n": "8.5.1",
+    "@nuxtjs/i18n": "8.5.2",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@tailwindcss/typography": "0.5.15",
     "@typescript-eslint/eslint-plugin": "8.4.0",
