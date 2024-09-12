@@ -24773,6 +24773,32 @@ paths:
           allowReserved: false
           deprecated: false
           description: ''
+          explode: false
+          in: query
+          name: checklist.camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'checklist.camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
           explode: true
           in: query
           name: 'checklist[]'
@@ -25154,6 +25180,32 @@ paths:
           required: false
           schema:
             type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: checklist.camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'checklist.camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
           style: form
         -
           allowEmptyValue: true

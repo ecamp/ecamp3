@@ -25,7 +25,7 @@
             "templated": true
         },
         "checklistItems": {
-            "href": "\/checklist_items{\/id}{?checklist,checklist[]}",
+            "href": "\/checklist_items{\/id}{?checklist,checklist[],checklist.camp,checklist.camp[]}",
             "templated": true
         },
         "checklistNodes": {
