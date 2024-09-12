@@ -60,6 +60,7 @@
 <script>
 import { camelCase } from 'lodash'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
@@ -82,7 +83,7 @@ export default {
         return []
       }
       return this.preferredContentTypes()
-        .items.filter((ct) => this.showResponsiveLayout(ct))
+        .items.filter(this.filterContentType)
         .sort(this.sortContentTypeByTranslatedName)
     },
     nonpreferredContentTypesItems() {
@@ -94,7 +95,7 @@ export default {
         .contentTypes()
         .items.filter(
           (ct) =>
-            this.showResponsiveLayout(ct) &&
+            this.filterContentType(ct) &&
             !this.preferredContentTypes()
               .items.map((ct) => ct.id)
               .includes(ct.id)
@@ -104,6 +105,9 @@ export default {
     contentTypesLoading() {
       return this.api.get().contentTypes()._meta.loading
     },
+    featureChecklistEnabled() {
+      return getEnv().FEATURE_CHECKLIST ?? false
+    },
   },
   methods: {
     contentTypeNameKey(contentType) {
@@ -112,10 +116,15 @@ export default {
     contentTypeIconKey(contentType) {
       return 'contentNode.' + camelCase(contentType.name) + '.icon'
     },
-    showResponsiveLayout(contentType) {
-      return (
-        contentType.name !== 'ResponsiveLayout' || this.parentContentNode.parent === null
-      )
+    filterContentType(contentType) {
+      switch (contentType.name) {
+        case 'ResponsiveLayout':
+          return this.parentContentNode.parent === null
+        case 'Checklist':
+          return this.featureChecklistEnabled
+        default:
+          return true
+      }
     },
     sortContentTypeByTranslatedName(ct1, ct2) {
       const ct1name = this.$i18n.tc(this.contentTypeNameKey(ct1))

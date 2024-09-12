@@ -2,6 +2,9 @@
   "components": {
     "activity": {
       "content": {
+        "checklist": {
+          "title": "Checkliste bearbeiten"
+        },
         "columnLayout": {
           "columnOperations": {
             "addColumn": "Spalte hinzufügen",
@@ -192,6 +195,21 @@
         "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "granted": "Du kannst nun kopierte Kategorien einfügen.",
         "title": "Kategorie kopieren & einfügen"
+      }
+    },
+    "checklist": {
+      "checklistCreate": {
+        "title": "Checkliste erstellen"
+      },
+      "checklistItemCreate": {
+        "add": "Checklisteneintrag erstellen",
+        "title": "Checklisteneintrag hinzufügen"
+      },
+      "checklistItemEdit": {
+        "title": "Checklisteneintrag bearbeiten"
+      },
+      "sortableChecklist": {
+        "add": "Zu \"{parent}\" hinzufügen"
       }
     },
     "collaborator": {

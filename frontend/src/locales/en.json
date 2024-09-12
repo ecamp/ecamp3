@@ -2,6 +2,9 @@
   "components": {
     "activity": {
       "content": {
+        "checklist": {
+          "title": "Edit checklist"
+        },
         "columnLayout": {
           "columnOperations": {
             "addColumn": "Add a column",
@@ -191,6 +194,21 @@
         "description": "In order to paste a copied category, you must allow eCamp to read your clipboard.",
         "granted": "You can now paste copied categories.",
         "title": "Copy & paste category"
+      }
+    },
+    "checklist": {
+      "checklistCreate": {
+        "title": "Create checklist"
+      },
+      "checklistItemCreate": {
+        "add": "Create checklist entry",
+        "title": "Add checklist entry"
+      },
+      "checklistItemEdit": {
+        "title": "Edit checklist entry"
+      },
+      "sortableChecklist": {
+        "add": "Add to \"{parent}\""
       }
     },
     "collaborator": {

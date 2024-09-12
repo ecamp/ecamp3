@@ -23,6 +23,7 @@ import LearningTopics from './content/LearningTopics.vue'
 import SafetyConsiderations from './content/SafetyConsiderations.vue'
 import Storyboard from './content/Storyboard.vue'
 import Storycontext from './content/Storycontext.vue'
+import Checklist from './content/Checklist.vue'
 
 const contentNodeComponents = {
   ColumnLayout,
@@ -35,6 +36,7 @@ const contentNodeComponents = {
   SafetyConsiderations,
   Storyboard,
   Storycontext,
+  Checklist,
 }
 
 export default {

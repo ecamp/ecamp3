@@ -339,6 +339,29 @@ export default new Router({
         }),
       },
     },
+    ...(getEnv().FEATURE_CHECKLIST
+      ? [
+          // Checklist-Pages:
+          {
+            name: 'admin/checklists/checklist',
+            path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/checklist/Checklist.vue'),
+              aside: () => import('./views/checklist/SideBarChecklist.vue'),
+            },
+            beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              aside: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({
+                camp: campFromRoute(route),
+                checklist: checklistFromRoute(route),
+              }),
+            },
+          },
+        ]
+      : []),
     {
       path: '/camps/:campId/:campShortTitle?/admin',
       components: {
@@ -385,6 +408,17 @@ export default new Router({
           component: () => import('./views/admin/Print.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
+        ...(getEnv().FEATURE_CHECKLIST
+          ? [
+              // Checklist-Pages:
+              {
+                path: 'checklists',
+                name: 'admin/checklists',
+                component: () => import('./views/admin/Checklists.vue'),
+                props: (route) => ({ camp: campFromRoute(route) }),
+              },
+            ]
+          : []),
         {
           path: 'materiallists',
           name: 'camp/material',
@@ -568,6 +602,25 @@ async function requireMaterialList(to, from, next) {
   }
 }
 
+async function requireChecklist(to, from, next) {
+  const checklist = await checklistFromRoute(to)
+  if (checklist === undefined) {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    })
+  } else {
+    await checklist._meta.load
+      .then(() => {
+        next()
+      })
+      .catch(() => {
+        next(campRoute(campFromRoute(to)))
+      })
+  }
+}
+
 export function campFromRoute(route) {
   return apiStore.get().camps({ id: route.params.campId })
 }
@@ -592,6 +645,10 @@ function categoryFromRoute(route) {
 
 export function materialListFromRoute(route) {
   return apiStore.get().materialLists({ id: route.params.materialId })
+}
+
+export function checklistFromRoute(route) {
+  return apiStore.get().checklists({ id: route.params.checklistId })
 }
 
 function getContentLayout(route) {
@@ -718,6 +775,20 @@ export function categoryRoute(camp, category, query = {}) {
       campShortTitle: slugify(campShortTitle(camp)),
       categoryId: category.id,
       categoryName: slugify(category.name),
+    },
+    query,
+  }
+}
+
+export function checklistRoute(camp, checklist, query = {}) {
+  if (camp._meta.loading || checklist._meta.loading) return {}
+  return {
+    name: 'admin/checklists/checklist',
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      checklistId: checklist.id,
+      checklistName: slugify(checklist.name),
     },
     query,
   }

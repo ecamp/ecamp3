@@ -7,6 +7,10 @@
     }
   },
   "contentNode": {
+    "checklist": {
+      "icon": "mdi-clipboard-list-outline",
+      "name": "Checkliste"
+    },
     "columnLayout": {
       "entity": {
         "column": {
@@ -168,6 +172,18 @@
         "i": "i, ii, iii - kleine römische Zahlen",
         "-": "keine Nummerierung"
       }
+    },
+    "checklist": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Checkliste | Checklisten"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Text"
+      },
+      "name": "Checklisteneintrag"
     },
     "contentType": {
       "name": "Inhalttyp | Inhalttypen"

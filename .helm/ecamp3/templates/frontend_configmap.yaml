@@ -29,6 +29,7 @@ data:
       RECAPTCHA_SITE_KEY: null,
     {{- end }}
       FEATURE_DEVELOPER: {{ .Values.featureToggle.developer | default false }},
+      FEATURE_CHECKLIST: {{ .Values.featureToggle.checklist | default false }},
       LOGIN_INFO_TEXT_KEY: '{{ .Values.frontend.loginInfoTextKey }}',
     }
   deployedVersion: {{ .Values.deployedVersion | quote }}
