@@ -23,5 +23,8 @@
     "eslint-plugin-prettier": "5.2.1",
     "globals": "15.9.0",
     "prettier": "3.3.3"
+  },
+  "overrides": {
+    "uri-js": "npm:uri-js-replace"
   }
 }

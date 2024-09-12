@@ -60,5 +60,8 @@
     "vite-svg-loader": "5.1.0",
     "vitest": "2.1.0",
     "vue": "3.5.3"
+  },
+  "overrides": {
+    "uri-js": "npm:uri-js-replace"
   }
 }
