@@ -117,7 +117,7 @@ export default {
       return 'contentNode.' + camelCase(contentType.name) + '.icon'
     },
     filterContentType(contentType) {
-      switch(contentType.name) {
+      switch (contentType.name) {
         case 'ResponsiveLayout':
           return this.parentContentNode.parent === null
         case 'Checklist':

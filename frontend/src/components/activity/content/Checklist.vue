@@ -100,11 +100,10 @@ import ChecklistItem from './checklist/ChecklistItem.vue'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import { debounce, isEqual, sortBy, uniq } from 'lodash'
 import { computed } from 'vue'
-import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 
 export default {
   name: 'Checklist',
-  components: { ButtonEdit, DetailPane, ContentNodeCard, ChecklistItem },
+  components: { DetailPane, ContentNodeCard, ChecklistItem },
   mixins: [contentNodeMixin],
   provide() {
     return {
