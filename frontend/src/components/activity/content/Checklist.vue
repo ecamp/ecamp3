@@ -8,20 +8,21 @@
       >
         <template #activator="{ on }">
           <button
-            class="text-left"
+            class="text-left mb-3 flex-grow-1 d-flex"
             :class="{ 'theme--light v-input--is-disabled': layoutMode }"
             :disabled="layoutMode"
             v-on="on"
           >
-            <v-skeleton-loader
-              v-if="activeChecklists.length === 0"
-              class="px-4 pb-4"
-              type="paragraph"
-            />
+            <v-skeleton-loader v-if="!itemsLoaded" class="px-4 pb-4" type="paragraph" />
+            <v-list-item v-else-if="activeChecklists.length === 0">
+              <v-list-item-title>
+                {{ $tc('global.button.edit') }}
+              </v-list-item-title>
+            </v-list-item>
             <div
               v-for="{ checklist, items } in activeChecklists"
               :key="checklist._meta.self"
-              class="mb-3"
+              class="w-100"
             >
               <h3 class="px-4">{{ checklist.name }}</h3>
               <v-list-item
@@ -99,10 +100,11 @@ import ChecklistItem from './checklist/ChecklistItem.vue'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import { debounce, isEqual, sortBy, uniq } from 'lodash'
 import { computed } from 'vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 
 export default {
   name: 'Checklist',
-  components: { DetailPane, ContentNodeCard, ChecklistItem },
+  components: { ButtonEdit, DetailPane, ContentNodeCard, ChecklistItem },
   mixins: [contentNodeMixin],
   provide() {
     return {
@@ -123,7 +125,12 @@ export default {
   },
   computed: {
     campChecklistItems() {
-      return this.api.get().checklistItems().items
+      if (!this.itemsLoaded) return []
+      return (
+        this.api.get().checklistItems({
+          checklist: this.camp?.checklists()?.items.map(({ _meta }) => _meta.self),
+        }).items ?? []
+      )
     },
     selectionContentNode() {
       return this.campChecklistItems.filter((item) =>
@@ -136,10 +143,10 @@ export default {
       return this.selectionContentNode.map((item) => item.id)
     },
     allChecklists() {
-      return this.camp.checklists().items.map((checklist) => ({
+      return this.camp?.checklists()?.items.map((checklist) => ({
         checklist,
         items: this.campChecklistItems
-          .filter((item) => item.checklist()._meta.self === checklist?._meta.self)
+          ?.filter((item) => item.checklist()._meta.self === checklist?._meta.self)
           .map((item) => ({
             item,
             parents: this.itemsLoaded ? this.getParents(item) : [],
@@ -195,12 +202,16 @@ export default {
   created() {
     const DEBOUNCE_WAIT = 500
     this.debounceSave = debounce(this.save, DEBOUNCE_WAIT)
-    this.api
-      .get()
-      .checklistItems()
-      ._meta.load.then(() => {
-        this.itemsLoaded = true
-      })
+    this.camp.checklists()._meta.load.then(() => {
+      this.api
+        .get()
+        .checklistItems({
+          checklist: this.camp?.checklists()?.items.map(({ _meta }) => _meta.self),
+        })
+        ._meta.load.then(() => {
+          this.itemsLoaded = true
+        })
+    })
   },
   beforeDestroy() {
     this.checkedItems = null
