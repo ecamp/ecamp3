@@ -14,3 +14,7 @@ App\Entity\Checklist:
   checklist1campPrototype:
     camp: '@campPrototype'
     name: 'J+S Ausbildungsziele'
+  checklistPrototype:
+    camp: null
+    isPrototype: true
+    name: 'J+S Ausbildungsziele'

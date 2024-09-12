@@ -34,6 +34,7 @@ use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
+use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -192,7 +193,18 @@ final class PurgeHttpCacheListener {
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
     private function invalidateCollection(GetCollection $operation, object $entity, ?object $oldEntity = null): void {
-        $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+        try {
+            $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+        } catch (\ApiPlatform\Metadata\Exception\InvalidArgumentException $ex) {
+            // Besser wäre, wenn man den Fall korrekt abfangen könnte.
+            // Idee: IdentifiersExtractor verwenden und prüfen, ob alle benötigten Identifiers vorhanden sind.
+            return;
+            // @phpstan-ignore catch.neverThrown
+        } catch (UnexpectedTypeException $ex) {
+            // Besser wäre, wenn man den Fall korrekt abfangen könnte.
+            // Idee: IdentifiersExtractor verwenden und prüfen, ob alle benötigten Identifiers vorhanden sind.
+            return;
+        }
 
         if (!$iri) {
             return;

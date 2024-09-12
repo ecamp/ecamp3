@@ -29,13 +29,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or is_granted("CAMP_IS_PROTOTYPE", object) or (null != object.getCamp() and is_granted("CAMP_COLLABORATOR", object))'
         ),
         new Patch(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("ROLE_ADMIN") or (null != object.getCamp() and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)))'
         ),
         new Delete(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("ROLE_ADMIN") or (null != object.getCamp() and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)))'
         ),
         new GetCollection(
             security: 'is_authenticated()'

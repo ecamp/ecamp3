@@ -9,6 +9,43 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class DeleteChecklistTest extends ECampApiTestCase {
+    // Prototype-Checklist
+
+    public function testDeletePrototypeChecklistIsDeniedForAnonymousUser() {
+        $checklist = static::getFixture('checklistPrototype');
+        static::createBasicClient()->request('DELETE', '/checklists/'.$checklist->getId());
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testDeletePrototypeChecklistIsDeniedForUser() {
+        $checklist = static::getFixture('checklistPrototype');
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('DELETE', '/checklists/'.$checklist->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testDeletePrototypeChecklistIsAllowedForAdmin() {
+        $checklist = static::getFixture('checklistPrototype');
+        static::createClientWithCredentials(['email' => static::$fixtures['admin']->getEmail()])
+            ->request('DELETE', '/checklists/'.$checklist->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(204);
+        $this->assertNull($this->getEntityManager()->getRepository(Checklist::class)->find($checklist->getId()));
+    }
+
+    // Camp-Checklist
+
     public function testDeleteChecklistIsDeniedForAnonymousUser() {
         $checklist = static::getFixture('checklist2WithNoItems');
         static::createBasicClient()->request('DELETE', '/checklists/'.$checklist->getId());

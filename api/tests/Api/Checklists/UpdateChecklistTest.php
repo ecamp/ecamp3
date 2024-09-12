@@ -8,6 +8,50 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateChecklistTest extends ECampApiTestCase {
+    // Prototype-Checklist
+
+    public function testPatchPrototypeChecklistIsDeniedForAnonymousUser() {
+        $checklist = static::getFixture('checklistPrototype');
+        static::createBasicClient()->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [
+            'name' => 'ChecklistName',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testPatchPrototypeChecklistIsDeniedForUser() {
+        $checklist = static::getFixture('checklistPrototype');
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [
+                'name' => 'ChecklistName',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testPatchPrototypeChecklistIsAllowedForAdmin() {
+        $checklist = static::getFixture('checklistPrototype');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['admin']->getEmail()])
+            ->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [
+                'name' => 'ChecklistName',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'name' => 'ChecklistName',
+        ]);
+    }
+
+    // Camp-Checklist
+
     public function testPatchChecklistIsDeniedForAnonymousUser() {
         $checklist = static::getFixture('checklist1');
         static::createBasicClient()->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [

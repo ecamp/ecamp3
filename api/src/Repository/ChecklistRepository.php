@@ -25,7 +25,7 @@ class ChecklistRepository extends ServiceEntityRepository implements CanFilterBy
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        
+
         $campsQry = $queryBuilder->getEntityManager()->createQueryBuilder();
         $campsQry->select('identity(uc.camp)');
         $campsQry->from(UserCamp::class, 'uc');
