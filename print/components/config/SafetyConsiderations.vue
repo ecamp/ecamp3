@@ -23,7 +23,7 @@ const props = defineProps({
 const { $api } = useNuxtApp()
 
 const { data: periods, error } = await useAsyncData(
-  `config/Story-${props.index}`,
+  `config/SafetyConsiderations-${props.index}`,
   async () => {
     await Promise.all([
       $api.get().contentTypes().$loadItems(),

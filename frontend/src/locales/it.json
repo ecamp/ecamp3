@@ -281,15 +281,10 @@
           "activity": "Attività"
         },
         "picassoConfig": {
-          "orientation": "Layout della pagina",
-          "periods": "Sezione/i portante/i"
+          "orientation": "Layout della pagina"
         },
         "programConfig": {
-          "dayOverview": "Panoramica della giornata di stampa",
-          "periods": "Sezione/i portante/i"
-        },
-        "storyConfig": {
-          "periods": "Sezione/i portante/i"
+          "dayOverview": "Panoramica della giornata di stampa"
         }
       },
       "documents": {
@@ -325,6 +320,7 @@
           "Cover": "Pagina di copertina",
           "Picasso": "Picasso",
           "Program": "Programma",
+          "SafetyConsiderations": "Considerazioni sulla sicurezza",
           "Story": "Riassunto della storia",
           "Toc": "Indice dei contenuti"
         }

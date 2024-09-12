@@ -314,11 +314,7 @@
           "periods": "Lagerabschnitt(e)"
         },
         "programConfig": {
-          "dayOverview": "Tagesübersicht",
-          "periods": "Lagerabschnitt(e)"
-        },
-        "storyConfig": {
-          "periods": "Lagerabschnitt(e)"
+          "dayOverview": "Tagesübersicht"
         }
       },
       "documents": {
@@ -354,6 +350,7 @@
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
           "Program": "Detailprogramm",
+          "SafetyConsiderations": "Sicherheits­überlegungen",
           "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }

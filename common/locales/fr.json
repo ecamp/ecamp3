@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Aucun file rouge trouvé ce jour-là..."
+    "summary": {
+      "summaryDay": {
+        "noContent": "Aucun {contentType} trouvé ce jour-là..."
       }
     }
   },
@@ -231,6 +231,9 @@
     }
   },
   "print": {
+    "config": {
+      "periods": "Période(s) du camp"
+    },
     "cover": {
       "title": "Page de couverture"
     },
@@ -246,8 +249,13 @@
     "program": {
       "title": "Programme"
     },
-    "story": {
-      "title": "Histoire"
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Considérations de sécurité"
+      },
+      "storycontext": {
+        "title": "Histoire"
+      }
     },
     "toc": {
       "title": "Table des matières"

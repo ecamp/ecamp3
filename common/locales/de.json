@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Die Blöcke an diesem Tag enthalten keinen roten Faden."
+    "summary": {
+      "summaryDay": {
+        "noContent": "Die Blöcke an diesem Tag enthalten keine '{contentType}' Inhalte."
       }
     }
   },
@@ -244,6 +244,9 @@
     "shortScheduleEntryDescription": "Tag\u202f{dayNumber} {startTime}"
   },
   "print": {
+    "config": {
+      "periods": "Lagerabschnitt(e)"
+    },
     "cover": {
       "title": "Titelseite"
     },
@@ -259,8 +262,13 @@
     "program": {
       "title": "Detailprogramm"
     },
-    "story": {
-      "title": "Roter Faden"
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Sicherheitsüberlegungen"
+      },
+      "storycontext": {
+        "title": "Roter Faden"
+      }
     },
     "toc": {
       "title": "Inhaltsverzeichnis"

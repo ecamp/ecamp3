@@ -245,15 +245,10 @@
           "activity": "Activitad"
         },
         "picassoConfig": {
-          "orientation": "Layout da la pagina",
-          "periods": "Part(s) dal champ"
+          "orientation": "Layout da la pagina"
         },
         "programConfig": {
-          "dayOverview": "Survista dal di",
-          "periods": "Part(s) dal champ"
-        },
-        "storyConfig": {
-          "periods": "Part(s) dal champ"
+          "dayOverview": "Survista dal di"
         }
       },
       "documents": {

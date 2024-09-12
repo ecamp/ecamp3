@@ -1,15 +1,20 @@
 <template>
   <Page :id="id" class="page">
-    <StoryPeriod v-for="period in periods" :id="id" :period="period" />
+    <SummaryPeriod
+      v-for="period in periods"
+      :id="id"
+      :period="period"
+      :content-type="content.options.contentType"
+    />
   </Page>
 </template>
 <script>
 import PdfComponent from '@/PdfComponent.js'
-import StoryPeriod from './StoryPeriod.vue'
+import SummaryPeriod from './SummaryPeriod.vue'
 
 export default {
   name: 'Story',
-  components: { StoryPeriod },
+  components: { SummaryPeriod },
   extends: PdfComponent,
   props: {
     content: { type: Object, required: true },
@@ -22,5 +27,3 @@ export default {
   },
 }
 </script>
-<pdf-style>
-</pdf-style>

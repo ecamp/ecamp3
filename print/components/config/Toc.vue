@@ -4,16 +4,15 @@
       {{ $t('print.toc.title') }}
     </h1>
     <ul class="toc">
-      <!-- eslint-disable-next-line vue/no-v-for-template-key -->
-      <template v-for="(content, idx) in config.contents" :key="idx">
-        <component
-          :is="'Toc' + content.type"
-          :options="content.options"
-          :camp="camp"
-          :config="config"
-          :index="idx"
-        />
-      </template>
+      <component
+        :is="'Toc' + content.type"
+        v-for="(content, idx) in config.contents"
+        :key="idx"
+        :options="content.options"
+        :camp="camp"
+        :config="config"
+        :index="idx"
+      />
     </ul>
   </div>
 </template>

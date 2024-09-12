@@ -23,6 +23,7 @@ import Toc from './entry/Toc.vue'
 import Picasso from './entry/Picasso.vue'
 import Program from './entry/Program.vue'
 import Activity from './entry/Activity.vue'
+import SafetyConsiderations from './entry/SafetyConsiderations.vue'
 import Story from './entry/Story.vue'
 
 export default {
@@ -40,6 +41,7 @@ export default {
         Picasso,
         Program,
         Activity,
+        SafetyConsiderations,
         Story,
       }
     },

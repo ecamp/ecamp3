@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "The activities on this day do not contain any story content."
+    "summary": {
+      "summaryDay": {
+        "noContent": "The activities on this day do not contain any {contentType} content."
       }
     }
   },
@@ -251,6 +251,9 @@
     "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
+    "config": {
+      "periods": "Period(s)"
+    },
     "cover": {
       "title": "Cover page"
     },
@@ -266,8 +269,13 @@
     "program": {
       "title": "Program"
     },
-    "story": {
-      "title": "Storyline"
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Safety considerations"
+      },
+      "storycontext": {
+        "title": "Story"
+      }
     },
     "toc": {
       "title": "Table of contents"

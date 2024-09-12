@@ -1,7 +1,7 @@
 <template>
   <li>
     <div class="toc-element-level-1">
-      {{ $t('print.summary.storycontext.title') }}
+      {{ $t('print.summary.safetyConsiderations.title') }}
     </div>
     <ul>
       <generic-error-message v-if="error" :error="error" />
@@ -26,7 +26,7 @@ const props = defineProps({
 const { $api } = useNuxtApp()
 
 const { data: periods, error } = await useAsyncData(
-  `TocStory-${props.index}`,
+  `TocSafetyConsiderations-${props.index}`,
   async () => {
     await props.camp.periods().$loadItems()
 
