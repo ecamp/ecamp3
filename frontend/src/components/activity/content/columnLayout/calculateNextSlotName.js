@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 
 export function calculateNextSlotName(slotNames) {
   let i = 0
-  // eslint-disable-next-line no-constant-condition
+
   while (true) {
     if (!slotNames.includes((++i).toString())) return i.toString()
   }
