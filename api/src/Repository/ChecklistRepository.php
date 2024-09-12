@@ -5,6 +5,7 @@ namespace App\Repository;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Checklist;
 use App\Entity\User;
+use App\Entity\UserCamp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,6 +25,18 @@ class ChecklistRepository extends ServiceEntityRepository implements CanFilterBy
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
+        
+        $campsQry = $queryBuilder->getEntityManager()->createQueryBuilder();
+        $campsQry->select('identity(uc.camp)');
+        $campsQry->from(UserCamp::class, 'uc');
+        $campsQry->where('uc.user = :current_user');
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->orX(
+                "{$rootAlias}.isPrototype = true",
+                $queryBuilder->expr()->in("{$rootAlias}.camp", $campsQry->getDQL())
+            )
+        );
+        $queryBuilder->setParameter('current_user', $user);
     }
 }

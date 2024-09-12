@@ -291,6 +291,7 @@ class CreateChecklistTest extends ECampApiTestCase {
             Checklist::class,
             Post::class,
             array_merge([
+                'isPrototype' => false,
                 'copyChecklistSource' => null,
                 'camp' => $this->getIriFor('camp1'),
             ], $attributes),
@@ -303,7 +304,9 @@ class CreateChecklistTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             Checklist::class,
             Get::class,
-            $attributes,
+            array_merge([
+                'isPrototype' => false,
+            ], $attributes),
             ['camp', 'preferredContentTypes'],
             $except
         );

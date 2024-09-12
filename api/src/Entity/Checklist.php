@@ -71,7 +71,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'checklists')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
+    #[ORM\JoinColumn(onDelete: 'cascade')]
     public ?Camp $camp = null;
 
     /**
@@ -100,6 +100,16 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[Assert\Length(max: 32)]
     #[ORM\Column(type: 'text')]
     public string $name;
+
+    /**
+     * Whether this checklist is a template.
+     */
+    #[Assert\Type('bool')]
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(example: true, writable: true)]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'boolean')]
+    public bool $isPrototype = false;
 
     public function __construct() {
         parent::__construct();

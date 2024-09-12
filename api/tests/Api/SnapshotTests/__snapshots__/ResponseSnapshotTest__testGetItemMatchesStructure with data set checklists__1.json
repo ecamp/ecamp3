@@ -11,5 +11,6 @@
         }
     },
     "id": "escaped_value",
+    "isPrototype": "escaped_value",
     "name": "escaped_value"
 }
