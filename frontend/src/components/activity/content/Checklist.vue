@@ -8,7 +8,7 @@
       >
         <template #activator="{ on }">
           <button
-            class="text-left mb-3 flex-grow-1 d-flex"
+            class="text-left mb-3 flex-grow-1 d-flex flex-column"
             :class="{ 'theme--light v-input--is-disabled': layoutMode }"
             :disabled="layoutMode"
             v-on="on"
@@ -127,7 +127,7 @@ export default {
       if (!this.itemsLoaded) return []
       return (
         this.api.get().checklistItems({
-          checklist: this.camp?.checklists()?.items.map(({ _meta }) => _meta.self),
+          'checklist.camp': this.camp?._meta.self,
         }).items ?? []
       )
     },
@@ -205,7 +205,7 @@ export default {
       this.api
         .get()
         .checklistItems({
-          checklist: this.camp?.checklists()?.items.map(({ _meta }) => _meta.self),
+          'checklist.camp': this.camp?._meta.self,
         })
         ._meta.load.then(() => {
           this.itemsLoaded = true

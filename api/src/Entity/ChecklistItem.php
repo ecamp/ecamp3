@@ -62,7 +62,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     order: ['checklist.id', 'id'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist', 'checklist.camp'])]
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
 #[ORM\UniqueConstraint(name: 'checklistitem_checklistid_parentid_position_unique', columns: ['checklistid', 'parentid', 'position'])]
 class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface, HasParentInterface {
