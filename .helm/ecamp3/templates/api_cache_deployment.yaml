@@ -47,6 +47,8 @@ spec:
               value: "{{ .Values.apiCache.varnishHttpPort }}"
             - name: COOKIE_PREFIX
               value: {{ include "api.cookiePrefix" . | quote }}
+            - name: SEND_XKEY_HEADERS_DOWNSTREAM
+              value: {{ .Values.apiCache.sendXKeyHeadersDownstream | quote }}
           args:
             - -a
             - {{ printf ":%d,HTTP" (.Values.apiCache.varnishPurgePort | int) }}

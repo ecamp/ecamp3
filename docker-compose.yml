@@ -65,6 +65,7 @@ services:
     command: -a :8081,HTTP -p http_max_hdr=96
     environment:
       - COOKIE_PREFIX=localhost_
+      - SEND_XKEY_HEADERS_DOWNSTREAM=${SEND_XKEY_HEADERS_DOWNSTREAM:-true}
       - VARNISH_HTTP_PORT=8080
 
   pdf:

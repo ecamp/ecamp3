@@ -225,6 +225,7 @@ apiCache:
   varnishSize: 50M
   varnishHttpPort: 8080
   varnishPurgePort: 8081
+  sendXKeyHeadersDownstream: false
   resources:
     requests:
       cpu: 10m
