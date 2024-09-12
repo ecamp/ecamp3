@@ -4,21 +4,25 @@
       :id="`content_${index}_period_${period.id}`"
       class="tw-text-center tw-font-semibold tw-mb-6"
     >
-      {{ $t('print.story.title') }}: {{ period.description }}
+      {{ $t('print.summary.' + camelCase(contentType) + '.title') }}:
+      {{ period.description }}
     </h1>
 
     <generic-error-message v-if="error" :error="error" />
-    <story-day
+    <summary-day
       v-for="day in data.days"
       :key="day._meta.self"
       :index="index"
       :day="day"
-      :period-story-chapters="data.periodStoryChapters"
+      :all-content-nodes="data.contentNodes"
+      :content-type="contentType"
     />
   </div>
 </template>
 
 <script setup>
+import camelCase from 'lodash/camelCase.js'
+
 const props = defineProps({
   camp: { type: Object, required: true },
   period: {
@@ -26,23 +30,24 @@ const props = defineProps({
     required: true,
   },
   index: { type: Number, required: true },
+  contentType: { type: String, default: 'Storycontext' },
 })
 
 const { $api } = useNuxtApp()
 
 const { data, error } = await useAsyncData(
-  `StoryPeriod-${props.period._meta.self}`,
+  `SummaryPeriod-${props.period._meta.self}`,
   async () => {
-    const contentTypeStorycontext = (
-      await $api.get().contentTypes().$loadItems()
-    ).items.find((contentType) => contentType.name === 'Storycontext')
+    const contentType = (await $api.get().contentTypes().$loadItems()).items.find(
+      (contentType) => contentType.name === props.contentType
+    )
 
-    const [periodStoryChapters] = await Promise.all([
+    const [contentNodes] = await Promise.all([
       $api
         .get()
         .contentNodes({
           period: props.period._meta.self,
-          contentType: contentTypeStorycontext._meta.self,
+          contentType: contentType._meta.self,
         })
         .$loadItems(),
       props.period.days().$loadItems(),
@@ -52,7 +57,7 @@ const { data, error } = await useAsyncData(
 
     return {
       days: props.period.days().items,
-      periodStoryChapters: periodStoryChapters.items,
+      contentNodes: contentNodes.items,
     }
   }
 )

@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
+    "summary": {
+      "summaryDay": {
+        "noContent": "Nessun contenuto '{contentType}' trovato in questo giorno..."
       }
     }
   },
@@ -114,8 +114,8 @@
         "addressName": "Nome",
         "addressStreet": "Via",
         "addressZipcode": "Codice postale",
-        "motto": "Motto",
-        "name": "Nome",
+        "motto": "Motto / Tema",
+        "shortTitle": "Titolo breve",
         "title": "Titolo"
       },
       "name": "Campo",
@@ -221,6 +221,9 @@
     }
   },
   "print": {
+    "config": {
+      "periods": "Sezione/i portante/i"
+    },
     "cover": {
       "title": "Pagina di copertina"
     },
@@ -230,8 +233,13 @@
     "program": {
       "title": "Programma"
     },
-    "story": {
-      "title": "Trama"
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Considerazioni sulla sicurezza"
+      },
+      "storycontext": {
+        "title": "Storia"
+      }
     },
     "toc": {
       "title": "Indice dei contenuti"

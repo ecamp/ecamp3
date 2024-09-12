@@ -20,11 +20,6 @@ sub vcl_recv {
   # Support xkey purge requests
   # see https://raw.githubusercontent.com/varnish/varnish-modules/master/src/vmod_xkey.vcc
   call fos_tags_xkey_recv;
-  
-  # exclude other services (frontend, print, etc.)
-  if (var.get("originalUrl") !~ "^/api") {
-    return(pass);
-  }
 
   # exclude API documentation, profiler and graphql endpoint
   if (var.get("originalUrl") ~ "^/api/docs" 
@@ -100,4 +95,3 @@ sub vcl_deliver {
     set resp.http.Cache-Control = "no-cache, private";
   }
 }
-

@@ -1,4 +1,11 @@
 {
+  "components": {
+    "campCreate": {
+      "campCreateStep1": {
+        "titlePlaceholder": "Sommerlager 2024 Pfadistufe"
+      }
+    }
+  },
   "contentNode": {
     "storycontext": {
       "name": "Roter Faden"

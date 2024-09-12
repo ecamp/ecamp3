@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import factory from '../packageDirectory.js'
 import path from 'path'
 import fs from 'fs'

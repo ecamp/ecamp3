@@ -2,7 +2,7 @@
   <div>
     <e-select
       v-model="options.periods"
-      :label="$tc('components.print.config.picassoConfig.periods')"
+      :label="$tc('print.config.periods')"
       :items="periods"
       multiple
       :filled="false"

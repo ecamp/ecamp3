@@ -10,8 +10,8 @@
         "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{json,md,mjs,ts}"
     },
     "dependencies": {
-        "@pulumi/pulumi": "3.130.0",
-        "@pulumi/aws": "6.50.1",
+        "@pulumi/pulumi": "3.132.0",
+        "@pulumi/aws": "6.51.1",
         "@pulumi/awsx": "2.14.0"
     },
     "devDependencies": {
@@ -19,7 +19,7 @@
         "@eslint/compat": "1.1.1",
         "@eslint/eslintrc": "3.1.0",
         "@eslint/js": "9.9.1",
-        "@types/node": "20.16.1",
+        "@types/node": "20.16.5",
         "eslint": "8.57.0",
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-n": "17.10.2",

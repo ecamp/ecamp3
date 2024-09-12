@@ -1,7 +1,7 @@
 <template>
   <li>
     <div class="toc-element-level-1">
-      {{ $t('print.story.title') }}
+      {{ $t('print.summary.storycontext.title') }}
     </div>
     <ul>
       <generic-error-message v-if="error" :error="error" />

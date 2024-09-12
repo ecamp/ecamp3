@@ -61,7 +61,7 @@ const props = defineProps({
 const { error } = await useAsyncData(
   `ScheduleEntry-${props.scheduleEntry._meta.self}`,
   async () => {
-    await Promise.all([
+    return await Promise.all([
       props.scheduleEntry._meta.load,
       props.scheduleEntry.activity()._meta.load,
       props.scheduleEntry.activity().rootContentNode()._meta.load,

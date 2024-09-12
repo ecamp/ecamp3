@@ -1,11 +1,11 @@
 <template>
-  <View :id="`${id}-${period.id}-${day.id}`" class="story-day-title-container">
-    <Text class="story-day-title">{{ $tc('entity.day.name') }} {{ day.number }}</Text>
-    <Text class="story-day-date">{{ date }}</Text>
+  <View :id="`${id}-${period.id}-${day.id}`" class="summary-day-title-container">
+    <Text class="summary-day-title">{{ $tc('entity.day.name') }} {{ day.number }}</Text>
+    <Text class="summary-day-date">{{ date }}</Text>
   </View>
-  <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-    <template v-for="chapter in storyChapters">
-      <View class="story-chapter-title" :min-presence-ahead="30">
+  <template v-for="{ scheduleEntry, contentNodes } in entriesWithContentNodes">
+    <template v-for="chapter in contentNodes">
+      <View class="summary-chapter-title" :min-presence-ahead="30">
         <CategoryLabel
           :category="scheduleEntry.activity().category()"
           style="font-size: 10pt"
@@ -28,12 +28,13 @@ import RichText from '../RichText.vue'
 import { isEmptyHtml } from '../helpers.js'
 
 export default {
-  name: 'StoryDay',
+  name: 'SummaryDay',
   components: { RichText, CategoryLabel },
   extends: PdfComponent,
   props: {
     period: { type: Object, required: true },
     day: { type: Object, required: true },
+    contentType: { type: String, required: true },
   },
   computed: {
     date() {
@@ -47,11 +48,11 @@ export default {
     entries() {
       return this.scheduleEntries.map((scheduleEntry) => ({
         scheduleEntry,
-        storyChapters: this.period
+        contentNodes: this.period
           .contentNodes()
           .items.filter(
             (contentNode) =>
-              contentNode.contentTypeName === 'Storycontext' &&
+              contentNode.contentTypeName === this.contentType &&
               contentNode.root()._meta.self ===
                 scheduleEntry.activity().rootContentNode()._meta.self &&
               !isEmptyHtml(contentNode.data.html)
@@ -62,8 +63,8 @@ export default {
           })),
       }))
     },
-    entriesWithStory() {
-      return this.entries.filter(({ storyChapters }) => storyChapters.length)
+    entriesWithContentNodes() {
+      return this.entries.filter(({ contentNodes }) => contentNodes.length)
     },
   },
   methods: {
@@ -77,7 +78,7 @@ export default {
 }
 </script>
 <pdf-style>
-.story-day-title-container {
+.summary-day-title-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -86,15 +87,15 @@ export default {
   padding-bottom: 2pt;
   margin-bottom: 1pt;
 }
-.story-day-title {
+.summary-day-title {
   font-size: 14;
   font-weight: semibold;
   margin: 10pt 0 3pt;
 }
-.story-day-date {
+.summary-day-date {
   font-size: 11pt;
 }
-.story-chapter-title {
+.summary-chapter-title {
   display: flex;
   flex-direction: row;
   align-items: center;

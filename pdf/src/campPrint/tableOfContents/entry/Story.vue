@@ -1,23 +1,13 @@
 <template>
   <Link v-for="period in periods" class="toc-entry" :href="`#${id}-${period.id}`">
-    <Text>{{ $tc('print.story.title') }}: {{ period.description }}</Text>
+    <Text>{{ $tc('print.summary.storycontext.title') }}: {{ period.description }}</Text>
   </Link>
 </template>
 <script>
-import PdfComponent from '@/PdfComponent.js'
+import Summary from './Summary.vue'
 
 export default {
   name: 'Story',
-  extends: PdfComponent,
-  props: {
-    entry: { type: Object, required: true },
-  },
-  computed: {
-    periods() {
-      return this.entry.options.periods.map((periodUri) => this.api.get(periodUri))
-    },
-  },
+  extends: Summary,
 }
 </script>
-<pdf-style>
-</pdf-style>

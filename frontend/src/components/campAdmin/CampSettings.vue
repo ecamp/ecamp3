@@ -10,9 +10,15 @@ Displays details on a single camp and allows to edit them.
     <v-skeleton-loader v-if="camp._meta.loading" type="article" />
     <div v-else class="mt-3">
       <api-form :entity="camp" name="camp">
-        <api-text-field path="name" vee-rules="required" :disabled="disabled" />
+        <api-text-field path="title" vee-rules="required|max:32" :disabled="disabled" />
 
-        <api-text-field path="title" vee-rules="required" :disabled="disabled" />
+        <api-text-field
+          path="shortTitle"
+          :placeholder="campShortTitle(camp)"
+          :disabled="disabled"
+          persistent-placeholder
+          vee-rules="max:16"
+        />
 
         <api-text-field path="motto" :disabled="disabled" />
       </api-form>
@@ -24,6 +30,7 @@ Displays details on a single camp and allows to edit them.
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
+import campShortTitle from '@/common/helpers/campShortTitle.js'
 
 export default {
   name: 'CampSettings',
@@ -40,6 +47,9 @@ export default {
   },
   data() {
     return {}
+  },
+  methods: {
+    campShortTitle,
   },
 }
 </script>

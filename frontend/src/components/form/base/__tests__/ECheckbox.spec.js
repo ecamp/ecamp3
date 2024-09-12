@@ -1,3 +1,4 @@
+import { describe, beforeEach, vi, test, expect } from 'vitest'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
@@ -81,7 +82,7 @@ describe('An ECheckbox', () => {
     await input.trigger('click')
     expect(wrapper.vm.data).toBe(true)
 
-    jest.resetAllMocks()
+    vi.resetAllMocks()
     await input.trigger('click')
     expect(wrapper.vm.data).toBe(false)
   })

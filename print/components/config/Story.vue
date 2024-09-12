@@ -1,12 +1,13 @@
 <template>
   <div>
     <generic-error-message v-if="error" :error="error" />
-    <story-period
+    <summary-period
       v-for="period in periods"
       :key="period._meta.self"
       :period="period"
       :camp="camp"
       :index="index"
+      :content-type="options.contentType"
     />
   </div>
 </template>

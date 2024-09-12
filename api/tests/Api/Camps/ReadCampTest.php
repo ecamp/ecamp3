@@ -49,7 +49,7 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
-            'name' => $camp->name,
+            'shortTitle' => $camp->shortTitle,
             'title' => $camp->title,
             'motto' => $camp->motto,
             'addressName' => $camp->addressName,
@@ -83,7 +83,7 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
-            'name' => $camp->name,
+            'shortTitle' => $camp->shortTitle,
             'title' => $camp->title,
             'motto' => $camp->motto,
             'addressName' => $camp->addressName,
@@ -110,7 +110,7 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
-            'name' => $camp->name,
+            'shortTitle' => $camp->shortTitle,
             'title' => $camp->title,
             'motto' => $camp->motto,
             'addressName' => $camp->addressName,
@@ -137,7 +137,7 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
-            'name' => $camp->name,
+            'shortTitle' => $camp->shortTitle,
             'title' => $camp->title,
             'motto' => $camp->motto,
             'addressName' => $camp->addressName,
@@ -163,7 +163,7 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
-            'name' => $camp->name,
+            'shortTitle' => $camp->shortTitle,
             'title' => $camp->title,
             'motto' => $camp->motto,
             'addressName' => $camp->addressName,

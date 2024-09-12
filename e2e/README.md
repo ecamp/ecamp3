@@ -90,3 +90,23 @@ npm run cypress:open
 ```shell
 docker compose run --rm --entrypoint="npm run lint" e2e
 ```
+
+## For both options: run against prod api image
+
+### Run the dev api image to generate jwt pair
+
+```shell
+docker compose up -d --wait
+```
+
+### Build the prod api image
+
+```shell
+docker compose -f ../docker-compose.yml build api
+```
+
+### Run the prod api image
+
+```shell
+docker compose -f ../docker-compose.yml up --wait -d api
+```

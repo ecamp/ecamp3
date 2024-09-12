@@ -29,14 +29,14 @@ class MailService {
         $email = (new TemplatedEmail())
             ->from(new Address($this->senderEmail, $this->senderName))
             ->to(new Address($emailToInvite))
-            ->subject($this->translator->trans('inviteToCamp.subject', ['campName' => $camp->name], self::TRANSLATE_DOMAIN, $byUser->profile->language))
+            ->subject($this->translator->trans('inviteToCamp.subject', ['campTitle' => $camp->title], self::TRANSLATE_DOMAIN, $byUser->profile->language))
             ->htmlTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.html.twig', $byUser))
             ->textTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.text.twig', $byUser))
             ->context([
                 'by_user' => $byUser->getDisplayName(),
                 'url' => "{$this->frontendBaseUrl}/camps/invitation/{$key}",
-                'camp_name' => $camp->name,
                 'camp_title' => $camp->title,
+                'camp_organizer' => $camp->organizer,
             ])
         ;
 

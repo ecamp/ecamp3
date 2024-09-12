@@ -1,8 +1,8 @@
 {
   "components": {
-    "story": {
-      "storyDay": {
-        "noStory": "The activities on this day do not contain any story content."
+    "summary": {
+      "summaryDay": {
+        "noContent": "The activities on this day do not contain any {contentType} content."
       }
     }
   },
@@ -135,11 +135,11 @@
         "courseKind": "Course kind (for Y+S courses: Y+S course term)",
         "courseNumber": "Course number",
         "kind": "Camp kind (house, tent, traveling, summer, autumn)",
-        "motto": "Motto",
-        "name": "Name",
+        "motto": "Motto / Theme",
         "organizer": "Organizer",
         "printYSLogoOnPicasso": "Print the Y+S logo on the picasso (required for Y+S courses)",
-        "title": "Title",
+        "shortTitle": "Short camp title",
+        "title": "Camp title",
         "trainingAdvisorName": "Name of training advisor"
       },
       "name": "Camp | Camps",
@@ -263,6 +263,9 @@
     "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
+    "config": {
+      "periods": "Period(s)"
+    },
     "cover": {
       "title": "Cover page"
     },
@@ -278,8 +281,13 @@
     "program": {
       "title": "Program"
     },
-    "story": {
-      "title": "Storyline"
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Safety considerations"
+      },
+      "storycontext": {
+        "title": "Story"
+      }
     },
     "toc": {
       "title": "Table of contents"

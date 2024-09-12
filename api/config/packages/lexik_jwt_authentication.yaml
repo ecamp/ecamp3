@@ -1,5 +1,6 @@
 parameters:
     env(COOKIE_PREFIX): ""
+    env(COOKIE_SECURE): "true"
 
 lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
@@ -31,6 +32,7 @@ lexik_jwt_authentication:
             split:
                 - header
                 - payload
+            secure: '%env(bool:COOKIE_SECURE)%'
         '%env(COOKIE_PREFIX)%jwt_s':
             lifetime: null
             samesite: strict
@@ -38,3 +40,4 @@ lexik_jwt_authentication:
             httpOnly: true
             split:
                 - signature
+            secure: '%env(bool:COOKIE_SECURE)%'

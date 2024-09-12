@@ -1,15 +1,14 @@
 <template>
   <Page :id="id" size="A4" :bookmark="$tc('print.cover.title')" class="page">
-    <Text class="cover-camp-name cover-center">{{ config.camp.name }}</Text>
-    <Text class="cover-camp-title cover-center">
-      {{ config.camp.title }}
-    </Text>
-    <Text class="cover-camp-motto cover-center">
-      {{ config.camp.motto }}
-    </Text>
-    <Text v-if="config.camp.organizer" class="cover-camp-organizer cover-center">
-      {{ config.camp.organizer }}
-    </Text>
+    <View class="cover-camp-wrapper">
+      <Text v-if="config.camp.organizer" class="cover-camp-organizer cover-center">
+        {{ config.camp.organizer }}
+      </Text>
+      <Text class="cover-camp-title cover-center">{{ config.camp.title }}</Text>
+      <Text class="cover-camp-motto cover-center">
+        {{ config.camp.motto }}
+      </Text>
+    </View>
   </Page>
 </template>
 <script>
@@ -28,21 +27,20 @@ export default {
 .cover-center {
   text-align: center;
 }
-.cover-camp-name {
-  font-size: 15pt;
-  font-weight: semibold;
-  margin: 140pt 0 40pt;
+.cover-camp-wrapper {
+  padding: 72pt 0 0;
+}
+.cover-camp-organizer {
+  font-size: 18pt;
+  font-weight: medium;
 }
 .cover-camp-title {
   font-size: 38pt;
-  font-weight: bold;
-  margin-bottom: 28pt;
+  font-weight: semibold;
+  margin: 40pt 0;
 }
 .cover-camp-motto {
-  font-size: 20pt;
-  margin-bottom: 23pt;
-}
-.cover-camp-organizer {
-  font-size: 13pt;
+  font-size: 28pt;
+  font-weight: medium;
 }
 </pdf-style>

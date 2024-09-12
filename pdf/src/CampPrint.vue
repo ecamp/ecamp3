@@ -16,13 +16,15 @@ import { Font } from './renderer/index.js'
 import PdfComponent from '@/PdfComponent.js'
 import InterDisplay from '@/assets/fonts/Inter/InterDisplay-Regular.ttf'
 import InterDisplayItalic from '@/assets/fonts/Inter/InterDisplay-Italic.ttf'
+import InterDisplayMedium from '@/assets/fonts/Inter/InterDisplay-Medium.ttf'
 import InterDisplaySemiBold from '@/assets/fonts/Inter/InterDisplay-SemiBold.ttf'
 import InterDisplayBold from '@/assets/fonts/Inter/InterDisplay-Bold.ttf'
 import InterDisplayBoldItalic from '@/assets/fonts/Inter/InterDisplay-BoldItalic.ttf'
 import Cover from '@/campPrint/cover/Cover.vue'
 import TableOfContents from '@/campPrint/tableOfContents/TableOfContents.vue'
 import Picasso from '@/campPrint/picasso/Picasso.vue'
-import Story from '@/campPrint/story/Story.vue'
+import Story from '@/campPrint/summary/Story.vue'
+import SafetyConsiderations from '@/campPrint/summary/SafetyConsiderations.vue'
 import Program from '@/campPrint/program/Program.vue'
 import Activity from '@/campPrint/activity/Activity.vue'
 import { wordHyphenation } from '@react-pdf/textkit'
@@ -44,6 +46,7 @@ export default {
         Program,
         Activity,
         Story,
+        SafetyConsiderations,
       }
     },
   },
@@ -61,6 +64,7 @@ const registerFonts = async () => {
     family: 'InterDisplay',
     fonts: [
       { src: InterDisplay },
+      { src: InterDisplayMedium, fontWeight: 'medium' },
       { src: InterDisplaySemiBold, fontWeight: 'semibold' },
       { src: InterDisplayBold, fontWeight: 'bold' },
       { src: InterDisplayItalic, fontStyle: 'italic' },

@@ -100,7 +100,7 @@ import PrintPreviewNuxt from './print-nuxt/PrintPreviewNuxt.vue'
 import Draggable from 'vuedraggable'
 import CoverConfig from './config/CoverConfig.vue'
 import PicassoConfig from './config/PicassoConfig.vue'
-import StoryConfig from './config/StoryConfig.vue'
+import SummaryConfig from './config/SummaryConfig.vue'
 import ProgramConfig from './config/ProgramConfig.vue'
 import ActivityConfig from './config/ActivityConfig.vue'
 import TocConfig from './config/TocConfig.vue'
@@ -112,6 +112,9 @@ import { getEnv } from '@/environment.js'
 import cloneDeep from 'lodash/cloneDeep'
 import VueI18n from '../../plugins/i18n/index.js'
 import repairConfig from './repairPrintConfig.js'
+import StoryConfig from '@/components/print/config/StoryConfig.vue'
+import SafetyConsiderationsConfig from '@/components/print/config/SafetyConsiderationsConfig.vue'
+import campShortTitle from '@/common/helpers/campShortTitle.js'
 
 export default {
   name: 'PrintConfigurator',
@@ -125,7 +128,7 @@ export default {
     PrintPreviewNuxt,
     CoverConfig,
     PicassoConfig,
-    StoryConfig,
+    SummaryConfig,
     ProgramConfig,
     ActivityConfig,
     TocConfig,
@@ -142,6 +145,7 @@ export default {
         Cover: CoverConfig,
         Picasso: PicassoConfig,
         Story: StoryConfig,
+        SafetyConsiderations: SafetyConsiderationsConfig,
         Program: ProgramConfig,
         Activity: ActivityConfig,
         Toc: TocConfig,
@@ -157,7 +161,7 @@ export default {
       return this.repairConfig(
         this.$store.getters.getLastPrintConfig(this.camp._meta.self, {
           language: this.lang,
-          documentName: this.camp.name,
+          documentName: campShortTitle(this.camp),
           camp: this.camp._meta.self,
           contents: this.defaultContents(),
         })
@@ -208,6 +212,7 @@ export default {
           type: 'Story',
           options: {
             periods: [period._meta.self],
+            contentType: 'Storycontext',
           },
         })
         contents.push({

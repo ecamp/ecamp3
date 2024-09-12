@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
+import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
 
 Vue.use(Router)
@@ -217,7 +218,7 @@ export default new Router({
       },
     },
     {
-      path: '/camps/:campId/:campTitle?',
+      path: '/camps/:campId/:campShortTitle?',
       components: {
         navigation: NavigationCamp,
         default: GenericPage,
@@ -272,7 +273,7 @@ export default new Router({
     },
     {
       name: 'material/all',
-      path: '/camps/:campId/:campTitle?/material/all',
+      path: '/camps/:campId/:campShortTitle?/material/all',
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/material/MaterialOverview.vue'),
@@ -289,7 +290,7 @@ export default new Router({
     },
     {
       name: 'material/lists', // Only used on mobile
-      path: '/camps/:campId/:campTitle?/material/lists',
+      path: '/camps/:campId/:campShortTitle?/material/lists',
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/material/MaterialLists.vue'),
@@ -304,7 +305,7 @@ export default new Router({
     },
     {
       name: 'material/detail',
-      path: '/camps/:campId/:campTitle?/material/:materialId/:materialName?',
+      path: '/camps/:campId/:campShortTitle?/material/:materialId/:materialName?',
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/material/MaterialDetail.vue'),
@@ -322,7 +323,7 @@ export default new Router({
     },
     {
       name: 'admin/activity/category',
-      path: '/camps/:campId/:campTitle?/category/:categoryId/:categoryName?',
+      path: '/camps/:campId/:campShortTitle?/category/:categoryId/:categoryName?',
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/category/Category.vue'),
@@ -362,7 +363,7 @@ export default new Router({
         ]
       : []),
     {
-      path: '/camps/:campId/:campTitle?/admin',
+      path: '/camps/:campId/:campShortTitle?/admin',
       components: {
         navigation: NavigationCamp,
         default: GenericPage,
@@ -431,7 +432,7 @@ export default new Router({
       ],
     },
     {
-      path: '/camps/:campId/:campTitle/program/activities/:scheduleEntryId/:activityName?',
+      path: '/camps/:campId/:campShortTitle/program/activities/:scheduleEntryId/:activityName?',
       name: 'activity',
       components: {
         navigation: NavigationCamp,
@@ -681,7 +682,7 @@ export function campRoute(camp, subroute = 'dashboard', query = {}) {
   if (camp._meta.loading) return {}
   return {
     name: 'camp/' + subroute,
-    params: { campId: camp.id, campTitle: slugify(camp.title) },
+    params: { campId: camp.id, campShortTitle: slugify(campShortTitle(camp)) },
     query,
   }
 }
@@ -696,7 +697,7 @@ export function materialListRoute(camp, materialListOrRoute = '/all', query = {}
   if (typeof materialListOrRoute === 'string') {
     return {
       name: `material${materialListOrRoute}`,
-      params: { campId: camp.id, campTitle: slugify(camp.title) },
+      params: { campId: camp.id, campShortTitle: slugify(campShortTitle(camp)) },
       query,
     }
   }
@@ -705,7 +706,7 @@ export function materialListRoute(camp, materialListOrRoute = '/all', query = {}
     name: 'material/detail',
     params: {
       campId: camp.id,
-      campTitle: slugify(camp.title),
+      campShortTitle: slugify(campShortTitle(camp)),
       materialId: materialListOrRoute.id,
       materialName: slugify(materialListOrRoute.name),
     },
@@ -722,7 +723,7 @@ export function adminRoute(camp, subroute = 'info', query = {}) {
   if (camp._meta.loading) return {}
   return {
     name: 'admin/' + subroute,
-    params: { campId: camp.id, campTitle: slugify(camp.title) },
+    params: { campId: camp.id, campShortTitle: slugify(campShortTitle(camp)) },
     query,
   }
 }
@@ -738,7 +739,7 @@ export function periodRoute(period, routeName = 'camp/period/program', query = {
     name: routeName,
     params: {
       campId: camp.id,
-      campTitle: slugify(camp.title),
+      campShortTitle: slugify(campShortTitle(camp)),
       periodId: period.id,
       periodTitle: slugify(period.description),
     },
@@ -757,7 +758,7 @@ export function scheduleEntryRoute(scheduleEntry, query = {}) {
     name: 'activity',
     params: {
       campId: camp.id,
-      campTitle: slugify(camp.title),
+      campShortTitle: slugify(campShortTitle(camp)),
       scheduleEntryId: scheduleEntry.id,
       activityName: slugify(scheduleEntry.activity().title),
     },
@@ -771,7 +772,7 @@ export function categoryRoute(camp, category, query = {}) {
     name: 'admin/activity/category',
     params: {
       campId: camp.id,
-      campTitle: slugify(camp.title),
+      campShortTitle: slugify(campShortTitle(camp)),
       categoryId: category.id,
       categoryName: slugify(category.name),
     },

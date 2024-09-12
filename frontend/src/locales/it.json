@@ -71,8 +71,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Una volta eliminato un campo, non è più possibile tornare indietro. Siate certi.",
-          "explanation": "Questa azione non può essere annullata. Questo eliminerà definitivamente il campo \"{campName}\", le attività, gli elenchi di materiali e rimuoverà tutte le associazioni di collaboratori.",
-          "label": "Digita \"{campName}\" per confermare.",
+          "explanation": "Questa azione non può essere annullata. Questo eliminerà definitivamente il campo \"{campTitle}\", le attività, gli elenchi di materiali e rimuoverà tutte le associazioni di collaboratori.",
+          "label": "Digita \"{campTitle}\" per confermare.",
           "title": "Elimina il campo"
         },
         "title": "Zona di pericolo"
@@ -281,15 +281,10 @@
           "activity": "Attività"
         },
         "picassoConfig": {
-          "orientation": "Layout della pagina",
-          "periods": "Sezione/i portante/i"
+          "orientation": "Layout della pagina"
         },
         "programConfig": {
-          "dayOverview": "Panoramica della giornata di stampa",
-          "periods": "Sezione/i portante/i"
-        },
-        "storyConfig": {
-          "periods": "Sezione/i portante/i"
+          "dayOverview": "Panoramica della giornata di stampa"
         }
       },
       "documents": {
@@ -325,6 +320,7 @@
           "Cover": "Pagina di copertina",
           "Picasso": "Picasso",
           "Program": "Programma",
+          "SafetyConsiderations": "Considerazioni sulla sicurezza",
           "Story": "Riassunto della storia",
           "Toc": "Indice dei contenuti"
         }
