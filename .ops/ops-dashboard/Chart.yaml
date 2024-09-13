@@ -29,7 +29,7 @@ dependencies:
     version: 7.7.19
     repository: https://oauth2-proxy.github.io/manifests
   - name: kubernetes-dashboard
-    version: 7.5.0
+    version: 7.6.1
     repository: https://kubernetes.github.io/dashboard/
   - name: oauth2-proxy
     alias: kubernetes-dashboard-proxy
