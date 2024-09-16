@@ -12,7 +12,7 @@
     "dependencies": {
         "@pulumi/pulumi": "3.132.0",
         "@pulumi/aws": "6.51.1",
-        "@pulumi/awsx": "2.14.0"
+        "@pulumi/awsx": "2.15.0"
     },
     "devDependencies": {
         "@babel/eslint-parser": "7.25.1",
