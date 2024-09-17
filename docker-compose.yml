@@ -56,7 +56,7 @@ services:
       - 'host.docker.internal:host-gateway'
 
   http-cache:
-    image: varnish:7.5.0
+    image: varnish:7.6.0
     container_name: 'ecamp3-http-cache'
     depends_on:
       - api
