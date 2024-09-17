@@ -2,7 +2,7 @@
   "name": "@ecamp3/translations",
   "private": true,
   "dependencies": {
-    "deepl-node": "1.13.1"
+    "deepl-node": "1.14.0"
   },
   "scripts": {
     "sort-common-de": "node deepl.js ../common/locales/de.json ../common/locales/de.json",
