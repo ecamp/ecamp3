@@ -49,8 +49,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: self::CAMP_SUBRESOURCE_URI_TEMPLATE,
             uriVariables: [
                 'campId' => new Link(
-                    fromClass: Camp::class,
                     toProperty: 'camp',
+                    fromClass: Camp::class,
                     security: 'is_granted("CAMP_COLLABORATOR", camp) or is_granted("CAMP_IS_PROTOTYPE", camp)'
                 ),
             ],
