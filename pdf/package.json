@@ -22,7 +22,7 @@
     "html-parse-stringify": "3.0.1"
   },
   "peerDependencies": {
-    "@react-pdf/font": "2.5.2",
+    "@react-pdf/font": "3.0.0",
     "@react-pdf/layout": "4.0.0",
     "@react-pdf/pdfkit": "4.0.0",
     "@react-pdf/render": "4.0.0",
