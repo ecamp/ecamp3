@@ -7635,10 +7635,6 @@ components:
         A Checklist
         Tree-Structure with ChecklistItems.
       properties:
-        isPrototype:
-          description: 'Whether this checklist is a template.'
-          example: true
-          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'

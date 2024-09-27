@@ -29,13 +29,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or is_granted("CAMP_IS_PROTOTYPE", object) or (null != object.getCamp() and is_granted("CAMP_COLLABORATOR", object))'
+            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or 
+                       is_granted("CAMP_IS_PROTOTYPE", object) or 
+                       (null != object.getCamp() and is_granted("CAMP_COLLABORATOR", object))
+                      '
         ),
         new Patch(
-            security: 'is_granted("ROLE_ADMIN") or (null != object.getCamp() and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)))'
+            security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                       (null != object.getCamp() and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)))
+                      '
         ),
         new Delete(
-            security: 'is_granted("ROLE_ADMIN") or (null != object.getCamp() and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)))'
+            security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                       (null != object.getCamp() and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)))
+                      '
         ),
         new GetCollection(
             security: 'is_authenticated()'
@@ -43,7 +50,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: ChecklistCreateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.camp === null'
+            securityPostDenormalize: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                                      (!is_granted("CHECKLIST_IS_PROTOTYPE", object) and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.camp === null))
+                                     '
         ),
         new GetCollection(
             uriTemplate: self::CAMP_SUBRESOURCE_URI_TEMPLATE,
@@ -70,6 +79,8 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[Assert\Expression('!(this.isPrototype == true and this.camp != null)', 'This value should be null.')]
+    #[Assert\Expression('!(this.isPrototype == false and this.camp == null)', 'This value should not be null.')]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'checklists')]
     #[ORM\JoinColumn(onDelete: 'cascade')]
     public ?Camp $camp = null;
@@ -107,7 +118,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[Assert\Type('bool')]
     #[Assert\DisableAutoMapping]
     #[ApiProperty(example: true, writable: true)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'create'])]
     #[ORM\Column(type: 'boolean')]
     public bool $isPrototype = false;
 

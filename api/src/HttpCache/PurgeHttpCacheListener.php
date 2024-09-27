@@ -197,10 +197,10 @@ final class PurgeHttpCacheListener {
         $iri = '';
         $oldIri = '';
 
-        if ($this->isValid($operation, $entity)) {
+        if ($this->canGenerateIri($operation, $entity)) {
             $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
         }
-        if ($oldEntity && $this->isValid($operation, $oldEntity)) {
+        if ($oldEntity && $this->canGenerateIri($operation, $oldEntity)) {
             $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
         }
         if ($iri !== $oldIri) {
@@ -295,7 +295,7 @@ final class PurgeHttpCacheListener {
         }
     }
 
-    private function isValid(GetCollection $operation, object $entity) {
+    private function canGenerateIri(GetCollection $operation, object $entity) {
         if (is_iterable($operation->getUriVariables())) {
             // UriVariable is Link, toProperty is set, fromClass is a entity
             foreach ($operation->getUriVariables() as $uriVariable) {
