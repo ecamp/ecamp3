@@ -38,8 +38,8 @@ sub fos_tags_xkey_recv {
 }
 
 sub fos_tags_xkey_deliver {
-    if (!resp.http.X-Cache-Debug) {
-        // Remove tag headers when delivering to non debug client
+    if (std.getenv("SEND_XKEY_HEADERS_DOWNSTREAM") != "true" || !resp.http.X-Cache-Debug) {
+        // Remove tag headers
         unset resp.http.xkey;
     }
 }
