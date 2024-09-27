@@ -43,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
         ),
         new Post(
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.day === null'
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

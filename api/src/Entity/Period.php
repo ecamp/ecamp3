@@ -52,7 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: PeriodPersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.camp === null'
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

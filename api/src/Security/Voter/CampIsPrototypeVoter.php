@@ -4,7 +4,6 @@ namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
-use App\Entity\Camp;
 use App\HttpCache\ResponseTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,10 +30,7 @@ class CampIsPrototypeVoter extends Voter {
         $camp = $this->getCampFromInterface($subject, $this->em);
 
         if (null === $camp) {
-            // Allow access when camp is null.
-            // In write operations, this should be handled by validation.
-            // Therefore, in read operations this should never happen.
-            return true;
+            return false;
         }
 
         if ($camp->isPrototype) {

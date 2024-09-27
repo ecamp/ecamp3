@@ -76,14 +76,7 @@ class CampRoleVoterTest extends TestCase {
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
-    /**
-     * When the camp associated with an entity is null, this isn't a security question,
-     * but rather should have been caught by validation rules.
-     * If the association with a camp really is optional for some entity, the security
-     * rules can easily add a check manually:
-     * is_granted("CAMP_COLLABORATOR", object) and null != object.getCamp().
-     */
-    public function testGrantsAccessWhenGetCampYieldsNull() {
+    public function testDeniesAccessWhenGetCampYieldsNull() {
         // given
         $this->token->method('getUser')->willReturn(new User());
         $subject = $this->createMock(Period::class);
@@ -93,7 +86,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenGetCampYieldsNullAndNotLoggedIn() {

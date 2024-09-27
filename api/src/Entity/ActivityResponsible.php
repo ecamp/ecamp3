@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.activity === null'
         ), ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']]
