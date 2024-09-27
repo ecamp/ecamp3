@@ -4,7 +4,6 @@ namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
-use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use App\HttpCache\ResponseTagger;
@@ -45,10 +44,7 @@ class CampRoleVoter extends Voter {
         $camp = $this->getCampFromInterface($subject, $this->em);
 
         if (null === $camp) {
-            // Allow access when camp is null.
-            // In write operations, this should be handled by validation.
-            // Therefore, in read operations this should never happen.
-            return true;
+            return false;
         }
 
         $campCollaboration = $camp->collaborations

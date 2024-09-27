@@ -47,7 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['Default', 'create']],
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
-            securityPostDenormalize: 'is_granted("CAMP_MANAGER", object)'
+            securityPostDenormalize: 'is_granted("CAMP_MANAGER", object) or object.camp === null'
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

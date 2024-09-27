@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: MultiSelectCreateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.parent === null',
             validationContext: ['groups' => ['Default', 'create']]
         ),
     ],
