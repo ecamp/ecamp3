@@ -484,6 +484,11 @@
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
     },
+    "story": {
+      "storyDay": {
+        "noStory": "Aucun file rouge trouvé ce jour-là..."
+      }
+    },
     "toast": {
       "copied": "{source} copié"
     },
