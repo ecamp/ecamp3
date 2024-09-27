@@ -147,10 +147,14 @@ class CreateChecklistTest extends ECampApiTestCase {
     public function testCreateChecklistValidatesMissingCamp() {
         static::createClientWithCredentials()->request('POST', '/checklists', ['json' => $this->getExampleWritePayload([], ['camp'])]);
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'title' => 'An error occurred',
-            'detail' => 'Access Denied.',
+            'violations' => [
+                [
+                    'propertyPath' => 'camp',
+                    'message' => 'This value should not be null.',
+                ],
+            ],
         ]);
     }
 
