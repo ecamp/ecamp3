@@ -2,16 +2,12 @@
   <content-node-content :content-node="contentNode" :icon-path="mdiPackageVariant">
     <generic-error-message v-if="error" :error="error" />
     <table v-else>
-      <tr
-        v-for="item in items"
-        :key="item.id"
-        class="item tw-tabular-nums tw-break-anywhere"
-      >
+      <tr v-for="item in items" :key="item.id" class="item tw-tabular-nums">
         <td align="right">
           {{ item.quantity }}
         </td>
         <td>{{ item.unit || (item.quantity && '×') }}</td>
-        <td width="65%">
+        <td width="65%" class="tw-break-anywhere">
           {{ item.article }}
         </td>
         <td width="30%">
