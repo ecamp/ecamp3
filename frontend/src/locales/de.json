@@ -442,6 +442,11 @@
         "title": "Wirklich löschen?"
       }
     },
+    "story": {
+      "storyDay": {
+        "noStory": "Die Blöcke an diesem Tag enthalten keinen roten Faden."
+      }
+    },
     "toast": {
       "toasts": {
         "multiLineToast": {

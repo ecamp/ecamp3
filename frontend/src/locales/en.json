@@ -440,6 +440,11 @@
         "title": "Really delete?"
       }
     },
+    "story": {
+      "storyDay": {
+        "noStory":  "The activities on this day do not contain any story content."
+      }
+    },
     "toast": {
       "toasts": {
         "multiLineToast": {
