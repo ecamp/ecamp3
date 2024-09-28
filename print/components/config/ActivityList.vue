@@ -7,7 +7,7 @@
       :period="period"
       :camp="camp"
       :index="index"
-      :content-type-names="['LearningTopics', 'LearningObjectives', 'Checklist']"
+      :content-type-names="['LearningObjectives', 'LearningTopics', 'Checklist']"
     />
   </div>
 </template>

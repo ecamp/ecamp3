@@ -264,6 +264,9 @@
     "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
+    "activityList": {
+      "title": "Activity list"
+    },
     "config": {
       "periods": "Period(s)"
     },

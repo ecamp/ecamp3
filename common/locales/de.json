@@ -261,6 +261,9 @@
     "shortScheduleEntryDescription": "Tag\u202f{dayNumber} {startTime}"
   },
   "print": {
+    "activityList": {
+      "title": "Aktivitätsübersicht"
+    },
     "config": {
       "periods": "Lagerabschnitt(e)"
     },
