@@ -1,4 +1,5 @@
-
+DO $$
+BEGIN
 
 INSERT INTO public.camp (id, campprototypeid, isprototype, shorttitle, title, motto, addressname, addressstreet, addresszipcode, addresscity, createtime, updatetime, creatorid, ownerid, organizer, kind, coachname, coursenumber, coursekind, trainingadvisorname, printyslogoonpicasso) VALUES
 	('6973c230d6b1', 'e5027d852487', false, 'Sola 2023', 'Harry Potter Lager', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2023-08-08 09:22:58', '2023-08-08 09:23:39', '9145944210a7', '9145944210a7', 'Pfadi Gryfenberg', 'Sommerlager', 'Andrea Schneider', NULL, NULL, NULL, false);
@@ -608,5 +609,4 @@ INSERT INTO public.schedule_entry (id, startoffset, endoffset, "left", width, cr
 	('f1aa62a30a42', 9180, 9345, 0, 1, '2023-08-08 10:30:47', '2023-08-08 10:30:47', 'fe47dfd2b541', '1b7646db8f73'),
 	('ce418acd15f8', 3000, 3120, 0, 1, '2023-08-08 10:31:35', '2023-08-08 10:31:35', 'fe47dfd2b541', '103f7456a1c9');
 
-
-
+END$$
