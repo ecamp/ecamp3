@@ -119,7 +119,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[Assert\DisableAutoMapping]
     #[ApiProperty(example: true, writable: true)]
     #[Groups(['read', 'create'])]
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $isPrototype = false;
 
     public function __construct() {
