@@ -1,10 +1,10 @@
 <template>
   <SideBar title="Admin" icon="mdi-menu">
     <v-list class="py-0">
-      <SidebarListItem to="debug" title="Debug" />
+      <SidebarListItem to="/admin/debug" title="Debug" />
       <SidebarListItem
         v-if="featureChecklistEnabled"
-        to="checklists"
+        to="/admin/checklists"
         title="Checklists"
       />
     </v-list>

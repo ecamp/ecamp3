@@ -1,53 +1,22 @@
 <template>
   <v-container fluid>
-    <content-card
-      v-if="checklist"
-      :key="checklist._meta.self"
-      class="ec-checklist"
-      toolbar
-      back
-      :title="checklist.name"
-    >
-      <template #title-actions>
-        <ChecklistItemCreate :checklist="checklist" />
-      </template>
-      <v-list>
-        <SortableChecklist :parent="null" :checklist="checklist" />
-      </v-list>
-    </content-card>
+    <ChecklistSingle :checklist="checklist" />
   </v-container>
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard.vue'
-import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
-import SortableChecklist from '@/components/checklist/SortableChecklist.vue'
+import ChecklistSingle from '@/components/checklist/ChecklistSingle.vue'
 
 export default {
   name: 'AdminChecklist',
   components: {
-    SortableChecklist,
-    ChecklistItemCreate,
-    ContentCard,
+    ChecklistSingle,
   },
   props: {
-    camp: {
-      type: Object,
-      default: null,
-      required: false,
-    },
     checklist: {
       type: Object,
       default: null,
       required: false,
-    },
-  },
-  data() {
-    return { dragging: false }
-  },
-  computed: {
-    items() {
-      return this.checklist.checklistItems().items.filter((item) => !item.parent)
     },
   },
 }

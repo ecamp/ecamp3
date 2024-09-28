@@ -53,6 +53,7 @@ export default {
   },
   props: {
     camp: { type: Object, required: false, default: null },
+    checklistCollection: { type: Object, required: true },
   },
   data() {
     return {
@@ -93,11 +94,7 @@ export default {
   methods: {
     createChecklist() {
       return this.create().then(() => {
-        this.api.reload(
-          this.camp
-            ? this.camp.checklists()
-            : this.api.get().checklists({ isPrototype: true })
-        )
+        this.api.reload(this.checklistCollection)
       })
     },
   },
