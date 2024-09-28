@@ -390,11 +390,9 @@ INSERT INTO public.activity (id, title, location, campid, categoryid, rootconten
 	('05c36faf1dd7', 'SpezEx Erste Hilfe', '', '6973c230d6b1', 'e7559fc16388', '1288c093ea45', '2023-08-08 10:25:47', '2023-11-12 14:32:03', 'ec11662e0149');
 
 
-
 INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, role, createtime, updatetime, userid, campid, color, abbreviation) VALUES
 	('68694999fa8d', NULL, NULL, 'established', 'manager', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '9145944210a7', '6973c230d6b1', NULL, NULL),
-	('3229d273decd', NULL, '5eO+mQd6F+AQwCITx5mV8dX9/6U=', 'invited', 'manager', '2023-08-08 09:38:27', '2023-08-08 09:43:11', '130684395770', '6973c230d6b1', NULL, NULL),
-	('7cae64a7800c', 'e.mail@test.com', '7FUv2lrEcRjMbW/Nb1mTkBaAPOs=', 'invited', 'member', '2023-08-08 09:37:38', '2023-08-08 09:43:21', NULL, '6973c230d6b1', NULL, NULL),
+	('3229d273decd', NULL, NULL, 'established', 'manager', '2023-08-08 09:38:27', '2023-08-08 09:43:11', '130684395770', '6973c230d6b1', NULL, NULL),
 	('878426563205', NULL, NULL, 'established', 'guest', '2023-08-08 09:36:41', '2023-08-08 09:43:52', '48f00685a292', '6973c230d6b1', NULL, NULL),
 	('d27ca1d0e6e4', NULL, NULL, 'established', 'member', '2023-08-08 09:36:01', '2023-08-08 09:44:19', 'bae69a1c9fcc', '6973c230d6b1', '#ff0080', '🐈‍⬛'),
 	('c463d2a19847', NULL, NULL, 'established', 'member', '2023-08-08 09:38:01', '2023-08-08 09:44:50', 'caeba9f7e728', '6973c230d6b1', NULL, 'Ca'),
@@ -505,7 +503,6 @@ INSERT INTO public.material_list (id, materiallistprototypeid, name, createtime,
 	('444d025786d4', NULL, NULL, '2023-08-08 09:36:01', '2023-08-08 09:36:01', '6973c230d6b1', 'd27ca1d0e6e4'),
 	('33886893d219', NULL, NULL, '2023-08-08 09:36:41', '2023-08-08 09:36:41', '6973c230d6b1', '878426563205'),
 	('184ba2a1677d', NULL, NULL, '2023-08-08 09:37:16', '2023-08-08 09:37:16', '6973c230d6b1', '763c0d181b63'),
-	('a72fc8ed2fe8', NULL, NULL, '2023-08-08 09:37:38', '2023-08-08 09:37:38', '6973c230d6b1', '7cae64a7800c'),
 	('c0aa06f74dc5', NULL, NULL, '2023-08-08 09:38:01', '2023-08-08 09:38:01', '6973c230d6b1', 'c463d2a19847'),
 	('a62ef1a251d5', NULL, NULL, '2023-08-08 09:38:27', '2023-08-08 09:38:27', '6973c230d6b1', '3229d273decd');
 
