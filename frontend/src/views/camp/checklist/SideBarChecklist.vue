@@ -19,7 +19,7 @@
 import SideBar from '@/components/navigation/SideBar.vue'
 import { checklistRoute } from '@/router.js'
 export default {
-  name: 'SideBarCategory',
+  name: 'SideBarChecklist',
   components: { SideBar },
   props: {
     camp: { type: Object, required: true },

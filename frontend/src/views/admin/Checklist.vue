@@ -20,18 +20,16 @@
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
 import SortableChecklist from '@/components/checklist/SortableChecklist.vue'
 
 export default {
-  name: 'Checklist',
+  name: 'AdminChecklist',
   components: {
     SortableChecklist,
     ChecklistItemCreate,
     ContentCard,
   },
-  mixins: [campRoleMixin],
   props: {
     camp: {
       type: Object,

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
-import { isLoggedIn } from '@/plugins/auth'
+import { isLoggedIn, isAdmin } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
@@ -42,12 +42,38 @@ export default new Router({
 
     // Prod-Pages:
     {
-      path: '/debug',
-      name: 'debug',
+      path: '/admin/debug',
+      name: 'admin/debug',
       components: {
-        default: () => import('./views/dev/Debug.vue'),
+        default: () => import('./views/admin/Debug.vue'),
       },
+      beforeEnter: all([requireAuth, requireAdmin]),
     },
+    ...(getEnv().FEATURE_CHECKLIST
+      ? [
+          {
+            path: '/admin/checklists',
+            name: 'admin/checklists',
+            components: {
+              default: () => import('./views/admin/Checklists.vue'),
+            },
+            beforeEnter: all([requireAuth, requireAdmin]),
+          },
+          {
+            name: 'admin/checklists/checklist',
+            path: '/admin/checklist/:checklistId/:checklistName?',
+            components: {
+              default: () => import('./views/admin/Checklist.vue'),
+            },
+            beforeEnter: all([requireAuth, requireAdmin]),
+            props: {
+              default: (route) => ({
+                checklist: checklistFromRoute(route),
+              }),
+            },
+          },
+        ]
+      : []),
     {
       path: '/register',
       name: 'register',
@@ -495,6 +521,14 @@ function requireAuth(to, from, next) {
   }
 }
 
+function requireAdmin(to, from, next) {
+  if (isAdmin()) {
+    next()
+  } else {
+    next({ name: 'home' })
+  }
+}
+
 async function requireCamp(to, from, next) {
   const camp = await campFromRoute(to)
   if (camp === undefined) {
@@ -781,12 +815,12 @@ export function categoryRoute(camp, category, query = {}) {
 }
 
 export function checklistRoute(camp, checklist, query = {}) {
-  if (camp._meta.loading || checklist._meta.loading) return {}
+  if (camp?._meta.loading || checklist._meta.loading) return {}
   return {
-    name: 'camp/admin/checklists/checklist',
+    name: camp ? 'camp/admin/checklists/checklist' : 'admin/checklists/checklist',
     params: {
-      campId: camp.id,
-      campTitle: slugify(camp.title),
+      campId: camp?.id,
+      campTitle: slugify(camp?.title ?? ''),
       checklistId: checklist.id,
       checklistName: slugify(checklist.name),
     },

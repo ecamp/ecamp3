@@ -32,20 +32,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or 
+                       is_granted("CAMP_IS_PROTOTYPE", object) or 
+                       is_granted("CAMP_COLLABORATOR", object)
+                      '
         ),
         new Patch(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                       (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object))
+                      '
         ),
         new Delete(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                       (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object))
+                      '
         ),
         new GetCollection(
             security: 'is_authenticated()'
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.checklist === null'
+            securityPostDenormalize: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                                      (!is_granted("CHECKLIST_IS_PROTOTYPE", object) and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.checklist === null))
+                                     '
         ),
         new GetCollection(
             uriTemplate: self::CHECKLIST_SUBRESOURCE_URI_TEMPLATE,
@@ -53,7 +62,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'checklistId' => new Link(
                     fromClass: Checklist::class,
                     toProperty: 'checklist',
-                    security: 'is_granted("CAMP_COLLABORATOR", checklist) or is_granted("CAMP_IS_PROTOTYPE", checklist)'
+                    security: 'is_granted("CHECKLIST_IS_PROTOTYPE", checklist) or 
+                               is_granted("CAMP_IS_PROTOTYPE", checklist) or 
+                               is_granted("CAMP_COLLABORATOR", checklist)'
                 ),
             ],
         ),
