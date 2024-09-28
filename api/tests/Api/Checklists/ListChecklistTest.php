@@ -24,7 +24,7 @@ class ListChecklistTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/checklists');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 4,
+            'totalItems' => 5,
             '_links' => [
                 'items' => [],
             ],
@@ -33,6 +33,7 @@ class ListChecklistTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('checklistPrototype')],
             ['href' => $this->getIriFor('checklist1')],
             ['href' => $this->getIriFor('checklist2WithNoItems')],
             ['href' => $this->getIriFor('checklist1camp2')],

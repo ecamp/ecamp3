@@ -27,7 +27,7 @@ class ChecklistItemRepository extends ServiceEntityRepository implements CanFilt
         $checklistQry = $this->getEntityManager()->createQueryBuilder();
         $checklistQry->select('c');
         $checklistQry->from(Checklist::class, 'c');
-        $checklistQry->join(UserCamp::class, 'uc', Join::WITH, 'c.camp = uc.camp');
+        $checklistQry->join(UserCamp::class, 'uc', Join::WITH, 'c.camp = uc.camp OR c.isPrototype = true');
         $checklistQry->where('uc.user = :current_user');
 
         $rootAlias = $queryBuilder->getRootAliases()[0];

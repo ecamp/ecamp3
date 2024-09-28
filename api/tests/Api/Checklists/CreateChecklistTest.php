@@ -19,6 +19,57 @@ use function PHPUnit\Framework\assertThat;
  * @internal
  */
 class CreateChecklistTest extends ECampApiTestCase {
+    // Prototype-Checklist
+
+    public function testCreatePrototypeChecklistIsDeniedForAnonymousUser() {
+        static::createBasicClient()->request('POST', '/checklists', ['json' => $this->getExampleWritePayload(['isPrototype' => true, 'camp' => null])]);
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testCreatePrototypeChecklistIsDeniedForUser() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('POST', '/checklists', ['json' => $this->getExampleWritePayload(['isPrototype' => true, 'camp' => null])])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreatePrototypeChecklistIsAllowedForAdmin() {
+        static::createClientWithCredentials(['email' => static::$fixtures['admin']->getEmail()])
+            ->request('POST', '/checklists', ['json' => $this->getExampleWritePayload(['isPrototype' => true, 'camp' => null])])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(['isPrototype' => true]));
+    }
+
+    public function testCreatePrototypeChecklistWithCampIsDenied() {
+        static::createClientWithCredentials(['email' => static::$fixtures['admin']->getEmail()])
+            ->request('POST', '/checklists', ['json' => $this->getExampleWritePayload(['isPrototype' => true, 'camp' => $this->getIriFor('campPrototype')])])
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'camp',
+                    'message' => 'This value should be null.',
+                ],
+            ],
+        ]);
+    }
+
+    // Camp-Checklist
+
     public function testCreateChecklistIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/checklists', ['json' => $this->getExampleWritePayload()]);
 
@@ -291,6 +342,7 @@ class CreateChecklistTest extends ECampApiTestCase {
             Checklist::class,
             Post::class,
             array_merge([
+                'isPrototype' => false,
                 'copyChecklistSource' => null,
                 'camp' => $this->getIriFor('camp1'),
             ], $attributes),
@@ -303,7 +355,9 @@ class CreateChecklistTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             Checklist::class,
             Get::class,
-            $attributes,
+            array_merge([
+                'isPrototype' => false,
+            ], $attributes),
             ['camp', 'preferredContentTypes'],
             $except
         );

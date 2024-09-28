@@ -3,9 +3,7 @@
         "items": [
             {
                 "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
+                    "camp": "escaped_value",
                     "checklistItems": {
                         "href": "escaped_value"
                     },
@@ -14,6 +12,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "isPrototype": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -29,6 +28,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "isPrototype": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -44,6 +44,7 @@
                     }
                 },
                 "id": "escaped_value",
+                "isPrototype": "escaped_value",
                 "name": "escaped_value"
             },
             {
@@ -59,12 +60,32 @@
                     }
                 },
                 "id": "escaped_value",
+                "isPrototype": "escaped_value",
+                "name": "escaped_value"
+            },
+            {
+                "_links": {
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "checklistItems": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "isPrototype": "escaped_value",
                 "name": "escaped_value"
             }
         ]
     },
     "_links": {
         "items": [
+            {
+                "href": "escaped_value"
+            },
             {
                 "href": "escaped_value"
             },

@@ -7601,7 +7601,9 @@ components:
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         checklistItems:
           description: 'All ChecklistItems that belong to this Checklist.'
           example: 'https://example.com/'
@@ -7614,13 +7616,16 @@ components:
           maxLength: 16
           readOnly: true
           type: string
+        isPrototype:
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
       required:
-        - camp
         - checklistItems
         - name
       type: object
@@ -7648,7 +7653,9 @@ components:
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         copyChecklistSource:
           description: 'Copy contents from this source checklist.'
           example: /checklists/1a2b3c4d
@@ -7656,13 +7663,16 @@ components:
           type:
             - 'null'
             - string
+        isPrototype:
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
       required:
-        - camp
         - name
       type: object
     Checklist.jsonapi:
@@ -7681,6 +7691,10 @@ components:
                   maxLength: 16
                   readOnly: true
                   type: string
+                isPrototype:
+                  description: 'Whether this checklist is a template.'
+                  example: true
+                  type: boolean
                 name:
                   description: 'The human readable name of the checklist.'
                   example: 'PBS Ausbildungsziele'
@@ -7698,7 +7712,6 @@ components:
                 checklistItems:
                   properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
               required:
-                - camp
                 - checklistItems
               type: object
             type:
@@ -7739,7 +7752,9 @@ components:
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         checklistItems:
           description: 'All ChecklistItems that belong to this Checklist.'
           example: 'https://example.com/'
@@ -7752,13 +7767,16 @@ components:
           maxLength: 16
           readOnly: true
           type: string
+        isPrototype:
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
       required:
-        - camp
         - checklistItems
         - name
       type: object
@@ -7781,7 +7799,9 @@ components:
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         copyChecklistSource:
           description: 'Copy contents from this source checklist.'
           example: /checklists/1a2b3c4d
@@ -7789,13 +7809,16 @@ components:
           type:
             - 'null'
             - string
+        isPrototype:
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
       required:
-        - camp
         - name
       type: object
     Checklist.jsonld-read:
@@ -7831,7 +7854,9 @@ components:
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         checklistItems:
           description: 'All ChecklistItems that belong to this Checklist.'
           example: 'https://example.com/'
@@ -7844,13 +7869,16 @@ components:
           maxLength: 16
           readOnly: true
           type: string
+        isPrototype:
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
       required:
-        - camp
         - checklistItems
         - name
       type: object
@@ -7864,7 +7892,9 @@ components:
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         copyChecklistSource:
           description: 'Copy contents from this source checklist.'
           example: /checklists/1a2b3c4d
@@ -7872,13 +7902,16 @@ components:
           type:
             - 'null'
             - string
+        isPrototype:
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
         name:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
       required:
-        - camp
         - name
       type: object
     ChecklistItem-read:

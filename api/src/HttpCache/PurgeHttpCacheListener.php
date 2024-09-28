@@ -21,11 +21,13 @@ use ApiPlatform\Exception\RuntimeException;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\ResourceClassResolverInterface;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\Metadata\Util\ClassInfoTrait;
 use App\Entity\BaseEntity;
+use App\Entity\HasId;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -192,22 +194,22 @@ final class PurgeHttpCacheListener {
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
     private function invalidateCollection(GetCollection $operation, object $entity, ?object $oldEntity = null): void {
-        $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+        $iri = '';
+        $oldIri = '';
 
-        if (!$iri) {
-            return;
+        if ($this->canGenerateIri($operation, $entity)) {
+            $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
         }
-
-        if (!$oldEntity) {
-            $this->cacheManager->invalidateTags([$iri]);
-
-            return;
+        if ($oldEntity && $this->canGenerateIri($operation, $oldEntity)) {
+            $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
         }
-
-        $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
-        if ($oldIri && $iri !== $oldIri) {
-            $this->cacheManager->invalidateTags([$iri]);
-            $this->cacheManager->invalidateTags([$oldIri]);
+        if ($iri !== $oldIri) {
+            if ($iri) {
+                $this->cacheManager->invalidateTags([$iri]);
+            }
+            if ($oldIri) {
+                $this->cacheManager->invalidateTags([$oldIri]);
+            }
         }
     }
 
@@ -291,5 +293,25 @@ final class PurgeHttpCacheListener {
             }
         } catch (InvalidArgumentException|RuntimeException) {
         }
+    }
+
+    private function canGenerateIri(GetCollection $operation, object $entity) {
+        if (is_iterable($operation->getUriVariables())) {
+            // UriVariable is Link, toProperty is set, fromClass is a entity
+            foreach ($operation->getUriVariables() as $uriVariable) {
+                if (is_a($uriVariable, Link::class)
+                    && is_string($uriVariable->getToProperty())
+                    && is_a($uriVariable->getFromClass(), HasId::class, true)
+                ) {
+                    // value of toProperty is NULL; Read of its ID will throw Exception
+                    // -> invalid
+                    if (null == $entity->{$uriVariable->getToProperty()}) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
