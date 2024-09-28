@@ -1,16 +1,16 @@
 <template>
   <v-container fluid>
-    <ChecklistSingle :checklist="checklist" />
+    <ChecklistDetail :checklist="checklist" />
   </v-container>
 </template>
 
 <script>
-import ChecklistSingle from '@/components/checklist/ChecklistSingle.vue'
+import ChecklistDetail from '@/components/checklist/ChecklistDetail.vue'
 
 export default {
   name: 'Checklist',
   components: {
-    ChecklistSingle,
+    ChecklistDetail,
   },
   props: {
     checklist: {

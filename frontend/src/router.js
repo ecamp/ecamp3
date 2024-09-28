@@ -545,7 +545,11 @@ function requireAdmin(to, from, next) {
   if (isAdmin()) {
     next()
   } else {
-    next({ name: 'home' })
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    })
   }
 }
 
@@ -836,11 +840,23 @@ export function categoryRoute(camp, category, query = {}) {
 
 export function checklistRoute(camp, checklist, query = {}) {
   if (camp?._meta.loading || checklist._meta.loading) return {}
+
+  if (!camp) {
+    return {
+      name: 'admin/checklists/checklist',
+      params: {
+        checklistId: checklist.id,
+        checklistName: slugify(checklist.name),
+      },
+      query,
+    }
+  }
+
   return {
-    name: camp ? 'camp/admin/checklists/checklist' : 'admin/checklists/checklist',
+    name: 'camp/admin/checklists/checklist',
     params: {
-      campId: camp?.id,
-      campTitle: slugify(camp?.title ?? ''),
+      campId: camp.id,
+      campTitle: slugify(camp.title),
       checklistId: checklist.id,
       checklistName: slugify(checklist.name),
     },

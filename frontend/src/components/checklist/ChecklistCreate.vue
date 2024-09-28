@@ -77,7 +77,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          camp: this.camp ? this.camp._meta.self : null,
+          camp: this.camp?._meta.self,
           name: '',
           copyChecklistSource: null,
           isPrototype: this.camp ? false : true,

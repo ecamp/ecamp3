@@ -5,7 +5,7 @@
       <SidebarListItem
         v-if="featureChecklistEnabled"
         to="/admin/checklists"
-        title="Checklists"
+        :title="$tc('entity.checklist.name', 2)"
       />
     </v-list>
   </SideBar>

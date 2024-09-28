@@ -20,7 +20,7 @@
       <SidebarListItem
         v-if="featureChecklistEnabled"
         :to="adminRoute(camp, 'checklists')"
-        title="Checklists"
+        :title="$tc('entity.checklist.name', 2)"
         icon="mdi-clipboard-list-outline"
       />
       <SidebarListItem
