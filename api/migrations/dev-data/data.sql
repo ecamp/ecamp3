@@ -48,7 +48,7 @@ Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', 
 	('70ca971c992f', NULL, false, 'Skilager 2030', 'Auf in die Berge', '', NULL, NULL, NULL, NULL, '2023-09-29 23:24:38', '2023-09-29 23:45:07', 'dac7116e02ed', 'dac7116e02ed', NULL, NULL, NULL, NULL, NULL, NULL, false),
 	('e5027d852487', NULL, true, NULL, 'J+S', '', '', '', '', '', '2022-01-23 16:19:10', '2022-02-04 21:45:19', '3b41dca5c568', '3b41dca5c568', NULL, NULL, NULL, NULL, NULL, NULL, false),
 	('9c2447aefe38', 'e5027d852487', false, 'Lorem ipsum', 'Lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Lorem ipsum', 'Mainstreet 123', '1234', 'Kongo', '2023-08-12 17:41:55', '2023-08-12 17:45:10', '9145944210a7', '9145944210a7', 'Testinator', 'Summer Tent', 'Max Mustermann', NULL, NULL, NULL, false),
-	('5d28f99890bc', 'e5027d852487', false, '', 'Basiskurs Wolfsstufe 2025', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2023-08-08 09:22:58', '2024-09-28 16:14:25', '9145944210a7', '9145944210a7', 'Pfadi Gryfenberg', 'Sommerlager', 'Andrea Schneider', 'JS-CH PBS CH 361-25', 'Basiskurs', 'Sandro Bodruzzi', true);
+	('5d28f99890bc', 'e5027d852487', false, 'PBS CH 361-25', 'Basiskurs Wolfsstufe 2025', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2023-08-08 09:22:58', '2024-09-28 16:14:25', '9145944210a7', '9145944210a7', 'Pfadi Gryfenberg', 'Sommerlager', 'Andrea Schneider', 'JS-CH PBS CH 361-25', 'Basiskurs', 'Sandro Bodruzzi', true);
 
 
 
@@ -79,7 +79,7 @@ INSERT INTO public.activity_progress_label (id, "position", title, createtime, u
 	('fb1ebb58f96e', 1, 'Vorschlag', '2023-09-29 23:48:59', '2023-09-29 23:49:11', '70ca971c992f'),
 	('e78a915b0771', 1, 'In Planung', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '5d28f99890bc'),
 	('016d7278966a', 2, 'Geplant', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '5d28f99890bc'),
-	('de866d6696aa', 3, 'Lagerleitung OK', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '5d28f99890bc'),
+	('de866d6696aa', 3, 'Kursleitung OK', '2023-08-08 09:22:58', '2023-08-08 09:22:58', '5d28f99890bc'),
 	('da4d05db108e', 4, 'LKB OK', '2023-08-08 09:22:58', '2024-09-28 16:15:23', '5d28f99890bc');
 
 
