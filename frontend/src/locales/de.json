@@ -710,6 +710,7 @@
           "navTopbar": {
             "admin": "Admin",
             "campIsLoading": "Lager wird geladen",
+            "checklist": "Checklist",
             "material": "Material",
             "print": "Drucken",
             "program": "Programm",

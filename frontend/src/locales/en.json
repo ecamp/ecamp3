@@ -705,6 +705,7 @@
         "desktop": {
           "navTopbar": {
             "admin": "Admin",
+            "checklist": "Checklist",
             "campIsLoading": "Camp is loading",
             "material": "Materials",
             "print": "Print",
