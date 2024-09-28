@@ -82,9 +82,16 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
      * The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
      * root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
      * as the new parent is in the same checklist as the old one.
+     *
+     * Nesting has maxiaml 3 Levels (root - child - grandchild)
+     * => CurrentNesting + SubtreeDepth < 3
      */
     #[AssertBelongsToSameChecklist]
     #[AssertNoLoop]
+    #[Assert\Expression(
+        '(this.getNestingLevel() + this.getSubtreeDepth()) < 3',
+        'Nesting can be a maximum of 3 levels deep.'
+    )]
     #[ApiProperty(example: '/checklist_items/1a2b3c4d')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
@@ -168,6 +175,37 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
         }
 
         return $this;
+    }
+
+    /**
+     * Nesting-Level of this ChecklistItem
+     * Zero-Based (Parent == null  ->  NestingLevel == 0).
+     */
+    public function getNestingLevel(): int {
+        $nesting = 0;
+        $item = $this->parent;
+
+        while (null !== $item && $nesting < 10 /* safetyguard */) {
+            ++$nesting;
+            $item = $item->parent;
+        }
+
+        return $nesting;
+    }
+
+    /**
+     * Maximal SubtreeDepth.
+     */
+    public function getSubtreeDepth(): int {
+        if (0 == $this->children->count()) {
+            return 0;
+        }
+
+        return 1 + $this->children->reduce(function (int $max, ChecklistItem $child): int {
+            $depth = $child->getSubtreeDepth();
+
+            return ($depth > $max) ? $depth : $max;
+        }, 0);
     }
 
     /**
