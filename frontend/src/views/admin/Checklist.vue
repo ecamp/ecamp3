@@ -1,7 +1,5 @@
 <template>
-  <v-container fluid>
-    <ChecklistDetail :checklist="checklist" />
-  </v-container>
+  <ChecklistDetail :checklist="checklist" />
 </template>
 
 <script>
