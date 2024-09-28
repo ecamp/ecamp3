@@ -17,7 +17,7 @@ final class Version20240912183023 extends AbstractMigration {
 
     public function up(Schema $schema): void {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE checklist ADD isPrototype BOOLEAN NOT NULL');
+        $this->addSql('ALTER TABLE checklist ADD isPrototype BOOLEAN NOT NULL DEFAULT FALSE');
         $this->addSql('ALTER TABLE checklist ALTER campid DROP NOT NULL');
     }
 
