@@ -190,7 +190,10 @@ export default {
         )
     },
     goToActivityAdmin() {
-      this.$router.replace({ name: 'admin/activity', params: { campId: this.camp.id } })
+      this.$router.replace({
+        name: 'camp/admin/activity',
+        params: { campId: this.camp.id },
+      })
     },
     async copyUrlToClipboard() {
       try {

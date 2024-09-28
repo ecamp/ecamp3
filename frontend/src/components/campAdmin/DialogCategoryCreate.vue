@@ -263,12 +263,12 @@ export default {
         url = url.substring(window.location.origin.length)
         const match = router.matcher.match(url)
 
-        if (match.name === 'activity') {
+        if (match.name === 'camp/activity') {
           const scheduleEntry = await this.api
             .get()
             .scheduleEntries({ id: match.params['scheduleEntryId'] })
           return await scheduleEntry.activity()
-        } else if (match.name === 'admin/activity/category') {
+        } else if (match.name === 'camp/admin/activity/category') {
           return await this.api.get().categories({ id: match.params['categoryId'] })
         }
       }
