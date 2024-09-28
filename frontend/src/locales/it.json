@@ -484,42 +484,6 @@
     }
   },
   "views": {
-    "activity": {
-      "printPreview": "Apri l'anteprima di stampa",
-      "sideBarProgram": {
-        "title": "Attività in questo giorno"
-      }
-    },
-    "admin": {
-      "activity": {
-        "title": "Impostazioni dell'attività"
-      },
-      "adminMaterialLists": {
-        "title": "Liste di materiali"
-      },
-      "collaborators": {
-        "email": "Indirizzo e-mail",
-        "inactiveCollaborators": "Inattivo",
-        "members": "Membri",
-        "openInvitations": "Inviti aperti",
-        "title": "Team"
-      },
-      "info": {
-        "title": "Info sul campo"
-      },
-      "print": {
-        "title": "Stampa il campo"
-      },
-      "sideBarAdmin": {
-        "itemActivity": "Attività",
-        "itemActivitySubtitle": "Categoria, modello, stati",
-        "itemCollaborators": "Team",
-        "itemInfos": "Info sul campo",
-        "itemMaterialLists": "Liste di materiali",
-        "itemPrint": "PDF / Stampa"
-      },
-      "title": "Admin"
-    },
     "auth": {
       "activate": {
         "error": "Attivazione fallita",
@@ -579,6 +543,52 @@
       }
     },
     "camp": {
+      "activity": {
+        "printPreview": "Apri l'anteprima di stampa",
+        "sideBarProgram": {
+          "title": "Attività in questo giorno"
+        }
+      },
+      "admin": {
+        "activity": {
+          "title": "Impostazioni dell'attività"
+        },
+        "adminMaterialLists": {
+          "title": "Liste di materiali"
+        },
+        "collaborators": {
+          "email": "Indirizzo e-mail",
+          "inactiveCollaborators": "Inattivo",
+          "members": "Membri",
+          "openInvitations": "Inviti aperti",
+          "title": "Team"
+        },
+        "info": {
+          "title": "Info sul campo"
+        },
+        "print": {
+          "title": "Stampa il campo"
+        },
+        "sideBarAdmin": {
+          "itemActivity": "Attività",
+          "itemActivitySubtitle": "Categoria, modello, stati",
+          "itemCollaborators": "Team",
+          "itemInfos": "Info sul campo",
+          "itemMaterialLists": "Liste di materiali",
+          "itemPrint": "PDF / Stampa"
+        },
+        "title": "Admin"
+      },
+      "category": {
+        "category": {
+          "deleteCategory": "Elimina la categoria",
+          "properties": "Proprietà",
+          "template": "Modello per le nuove attività"
+        },
+        "sideBarCategory": {
+          "title": "Categorie"
+        }
+      },
       "campProgram": {
         "reminderLockedCreate": "Trascinare per creare è possibile solo in modalità sbloccata.",
         "reminderLockedMove": "Trascinare per spostarsi è possibile solo in modalità sbloccata.",
@@ -608,6 +618,19 @@
         "title": "Invito",
         "useOtherAuth": "Esci e usa un altro account",
         "userAlreadyInCamp": "Stai già partecipando a questo campo"
+      },
+      "material": {
+        "materialLists": {
+          "title": "Liste di materiali"
+        },
+        "materialOverview": {
+          "createNewList": "Creare un elenco di materiali",
+          "download": "Scarica la panoramica",
+          "title": "Panoramica generale"
+        },
+        "sideBarMaterialLists": {
+          "title": "Liste di materiali"
+        }
       },
       "navigation": {
         "desktop": {
@@ -653,31 +676,8 @@
       "prototypeCamps": "Prototipi",
       "title": "I miei campi"
     },
-    "category": {
-      "category": {
-        "deleteCategory": "Elimina la categoria",
-        "properties": "Proprietà",
-        "template": "Modello per le nuove attività"
-      },
-      "sideBarCategory": {
-        "title": "Categorie"
-      }
-    },
     "invitations": {
       "personalInvitations": "Inviti"
-    },
-    "material": {
-      "materialLists": {
-        "title": "Liste di materiali"
-      },
-      "materialOverview": {
-        "createNewList": "Creare un elenco di materiali",
-        "download": "Scarica la panoramica",
-        "title": "Panoramica generale"
-      },
-      "sideBarMaterialLists": {
-        "title": "Liste di materiali"
-      }
     },
     "pageNotFound": {
       "backToHome": "Torna a casa",

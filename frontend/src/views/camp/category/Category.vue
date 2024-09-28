@@ -28,7 +28,7 @@
                 <v-icon>mdi-content-copy</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                {{ $tc('views.category.category.copyCategory') }}
+                {{ $tc('views.camp.category.category.copyCategory') }}
               </v-list-item-title>
             </v-list-item>
             <CopyCategoryInfoDialog ref="copyInfoDialog" />
@@ -36,7 +36,7 @@
               v-if="isManager"
               :entity="category"
               :warning-text-entity="category.name"
-              :dialog-title="$tc('views.category.category.deleteCategory')"
+              :dialog-title="$tc('views.camp.category.category.deleteCategory')"
               :success-handler="goToActivityAdmin"
             >
               <template #activator="{ on }">
@@ -45,7 +45,7 @@
                     <v-icon>mdi-delete</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>
-                    {{ $tc('views.category.category.deleteCategory') }}
+                    {{ $tc('views.camp.category.category.deleteCategory') }}
                   </v-list-item-title>
                 </v-list-item>
               </template>
@@ -63,7 +63,7 @@
         <v-expansion-panel>
           <v-expansion-panel-header>
             <h3>
-              {{ $tc('views.category.category.properties') }}
+              {{ $tc('views.camp.category.category.properties') }}
             </h3>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -78,7 +78,7 @@
         <v-expansion-panel>
           <v-expansion-panel-header>
             <h3>
-              {{ $tc('views.category.category.template') }}
+              {{ $tc('views.camp.category.category.template') }}
             </h3>
           </v-expansion-panel-header>
           <v-expansion-panel-content>

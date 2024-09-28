@@ -36,7 +36,7 @@ import { checklistRoute } from '@/router.js'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 
 export default {
-  name: 'AdminInfo',
+  name: 'CampAdminChecklists',
   components: {
     ButtonEdit,
     ChecklistCreate,

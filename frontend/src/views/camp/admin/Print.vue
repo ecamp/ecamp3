@@ -3,7 +3,7 @@ Basic layout for print preview
 -->
 
 <template>
-  <content-card :title="$tc('views.admin.print.title')" toolbar>
+  <content-card :title="$tc('views.camp.admin.print.title')" toolbar>
     <template #title-actions>
       <v-btn text class="mr-n2" @click="$refs.printConfigurator?.resetConfig()">
         <v-icon v-if="$vuetify.breakpoint.smAndUp" left>mdi-file-restore-outline</v-icon>
@@ -19,7 +19,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import PrintConfigurator from '@/components/print/PrintConfigurator.vue'
 
 export default {
-  name: 'AdminPrint',
+  name: 'CampAdminPrint',
   components: {
     ContentCard,
     PrintConfigurator,

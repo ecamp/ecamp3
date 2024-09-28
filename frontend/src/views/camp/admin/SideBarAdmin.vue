@@ -3,18 +3,18 @@
     <v-list class="py-0">
       <SidebarListItem
         :to="adminRoute(camp, 'info')"
-        :title="$tc('views.admin.sideBarAdmin.itemInfos')"
+        :title="$tc('views.camp.admin.sideBarAdmin.itemInfos')"
         icon="mdi-tent"
       />
       <SidebarListItem
         :to="adminRoute(camp, 'activity')"
-        :title="$tc('views.admin.sideBarAdmin.itemActivity')"
-        :subtitle="$tc('views.admin.sideBarAdmin.itemActivitySubtitle')"
+        :title="$tc('views.camp.admin.sideBarAdmin.itemActivity')"
+        :subtitle="$tc('views.camp.admin.sideBarAdmin.itemActivitySubtitle')"
         icon="mdi-view-dashboard-outline"
       />
       <SidebarListItem
         :to="adminRoute(camp, 'collaborators')"
-        :title="$tc('views.admin.sideBarAdmin.itemCollaborators')"
+        :title="$tc('views.camp.admin.sideBarAdmin.itemCollaborators')"
         icon="mdi-account-group-outline"
       />
       <SidebarListItem
@@ -25,12 +25,12 @@
       />
       <SidebarListItem
         :to="adminRoute(camp, 'material')"
-        :title="$tc('views.admin.sideBarAdmin.itemMaterialLists')"
+        :title="$tc('views.camp.admin.sideBarAdmin.itemMaterialLists')"
         icon="mdi-package-variant-closed"
       />
       <SidebarListItem
         :to="adminRoute(camp, 'print')"
-        :title="$tc('views.admin.sideBarAdmin.itemPrint')"
+        :title="$tc('views.camp.admin.sideBarAdmin.itemPrint')"
         icon="mdi-file-outline"
       />
     </v-list>
@@ -45,7 +45,7 @@ import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 import { getEnv } from '@/environment.js'
 
 export default {
-  name: 'SideBarAdmin',
+  name: 'CampSideBarAdmin',
   components: { SidebarListItem, SideBar },
   mixins: [campRoleMixin],
   props: {

@@ -442,7 +442,7 @@
     },
     "story": {
       "storyDay": {
-        "noStory":  "The activities on this day do not contain any story content."
+        "noStory": "The activities on this day do not contain any story content."
       }
     },
     "toast": {
@@ -542,42 +542,6 @@
     }
   },
   "views": {
-    "activity": {
-      "printPreview": "Open print preview",
-      "sideBarProgram": {
-        "title": "Activities on this day"
-      }
-    },
-    "admin": {
-      "activity": {
-        "title": "Activity settings"
-      },
-      "adminMaterialLists": {
-        "title": "Material lists"
-      },
-      "collaborators": {
-        "email": "Email address",
-        "inactiveCollaborators": "Inactive",
-        "members": "Members",
-        "openInvitations": "Open invitations",
-        "title": "Team"
-      },
-      "info": {
-        "title": "Camp infos"
-      },
-      "print": {
-        "title": "Print camp"
-      },
-      "sideBarAdmin": {
-        "itemActivity": "Activities",
-        "itemActivitySubtitle": "Category, templates & status",
-        "itemCollaborators": "Team",
-        "itemInfos": "Camp infos",
-        "itemMaterialLists": "Material lists",
-        "itemPrint": "PDF / Print"
-      },
-      "title": "Admin"
-    },
     "auth": {
       "activate": {
         "error": "Activation failed",
@@ -646,6 +610,53 @@
       }
     },
     "camp": {
+      "activity": {
+        "printPreview": "Open print preview",
+        "sideBarProgram": {
+          "title": "Activities on this day"
+        }
+      },
+      "admin": {
+        "activity": {
+          "title": "Activity settings"
+        },
+        "adminMaterialLists": {
+          "title": "Material lists"
+        },
+        "collaborators": {
+          "email": "Email address",
+          "inactiveCollaborators": "Inactive",
+          "members": "Members",
+          "openInvitations": "Open invitations",
+          "title": "Team"
+        },
+        "info": {
+          "title": "Camp infos"
+        },
+        "print": {
+          "title": "Print camp"
+        },
+        "sideBarAdmin": {
+          "itemActivity": "Activities",
+          "itemActivitySubtitle": "Category, templates & status",
+          "itemCollaborators": "Team",
+          "itemInfos": "Camp infos",
+          "itemMaterialLists": "Material lists",
+          "itemPrint": "PDF / Print"
+        },
+        "title": "Admin"
+      },
+      "category": {
+        "category": {
+          "copyCategory": "Copy category",
+          "deleteCategory": "Delete category",
+          "properties": "Properties",
+          "template": "Template for new activities"
+        },
+        "sideBarCategory": {
+          "title": "Categories"
+        }
+      },
       "campProgram": {
         "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
@@ -675,6 +686,19 @@
         "title": "Invitation",
         "useOtherAuth": "Logout & use another account",
         "userAlreadyInCamp": "You are already participating in this camp"
+      },
+      "material": {
+        "materialLists": {
+          "title": "Material lists"
+        },
+        "materialOverview": {
+          "createNewList": "Create material list",
+          "download": "Download overview",
+          "title": "General overview"
+        },
+        "sideBarMaterialLists": {
+          "title": "Material lists"
+        }
       },
       "navigation": {
         "desktop": {
@@ -720,32 +744,8 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
     },
-    "category": {
-      "category": {
-        "copyCategory": "Copy category",
-        "deleteCategory": "Delete category",
-        "properties": "Properties",
-        "template": "Template for new activities"
-      },
-      "sideBarCategory": {
-        "title": "Categories"
-      }
-    },
     "invitations": {
       "personalInvitations": "Invitations"
-    },
-    "material": {
-      "materialLists": {
-        "title": "Material lists"
-      },
-      "materialOverview": {
-        "createNewList": "Create material list",
-        "download": "Download overview",
-        "title": "General overview"
-      },
-      "sideBarMaterialLists": {
-        "title": "Material lists"
-      }
     },
     "pageNotFound": {
       "backToHome": "Back to home",

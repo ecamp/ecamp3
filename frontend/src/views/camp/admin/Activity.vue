@@ -1,5 +1,5 @@
 <template>
-  <content-card :title="$tc('views.admin.activity.title')" toolbar>
+  <content-card :title="$tc('views.camp.admin.activity.title')" toolbar>
     <v-container fluid class="px-4 pb-8">
       <v-row>
         <v-col cols="12" lg="6" class="pb-0 pr-lg-6">
@@ -20,7 +20,7 @@ import CampActivityProgressLabels from '@/components/campAdmin/CampActivityProgr
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 
 export default {
-  name: 'AdminActivity',
+  name: 'CampAdminActivity',
   components: {
     CampActivityProgressLabels,
     CampCategories,

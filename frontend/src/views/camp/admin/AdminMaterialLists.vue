@@ -3,7 +3,7 @@ Show all material lists for a camp on mobile
 -->
 
 <template>
-  <content-card :title="$tc('views.admin.adminMaterialLists.title')" toolbar>
+  <content-card :title="$tc('views.camp.admin.adminMaterialLists.title')" toolbar>
     <template v-if="!isGuest" #title-actions>
       <DialogMaterialListCreate :camp="camp">
         <template #activator="{ on }">
@@ -28,7 +28,7 @@ import MaterialLists from '@/components/material/MaterialLists.vue'
 import MaterialListsEdit from '@/components/material/MaterialListsEdit.vue'
 
 export default {
-  name: 'AdminMaterialLists',
+  name: 'CampAdminMaterialLists',
   components: {
     MaterialListsEdit,
     MaterialLists,
