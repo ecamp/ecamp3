@@ -41,17 +41,15 @@ export default defineNuxtComponent({
   computed: {
     contentNodeEntries() {
       return sortBy(
-        this.contentNodes
-          .map((contentNodeList) =>
-            contentNodeList.items.filter(
-              (contentNode) =>
-                contentNode.root()._meta.self ===
-                this.scheduleEntry.activity().rootContentNode()._meta.self
-            )
+        this.contentNodes.map((contentNodeList) =>
+          contentNodeList.items.filter(
+            (contentNode) =>
+              contentNode.root()._meta.self ===
+              this.scheduleEntry.activity().rootContentNode()._meta.self
           )
-          .flat(),
+        ),
         ['parent', 'slot', 'position']
-      )
+      ).flat()
     },
   },
 })
