@@ -121,4 +121,14 @@ class DeleteChecklistTest extends ECampApiTestCase {
             'detail' => 'Access Denied.',
         ]);
     }
+
+    public function testDeleteChecklisIsDeniedWhenUsedInChecklistNode() {
+        $Checklist = static::getFixture('checklist1');
+        static::createClientWithCredentials()->request('DELETE', '/checklists/'.$Checklist->getId());
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'checklistItems[0].checklistNodes: It\'s not possible to delete a checklist item as long as checklist nodes are referencing it.',
+        ]);
+    }
 }
