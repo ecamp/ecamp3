@@ -52,11 +52,12 @@ export default {
     }
   },
   props: {
-    camp: { type: Object, required: true },
+    camp: { type: Object, required: false, default: null },
+    checklistCollection: { type: Object, required: true },
   },
   data() {
     return {
-      entityProperties: ['camp', 'name', 'copyChecklistSource'],
+      entityProperties: ['camp', 'name', 'copyChecklistSource', 'isPrototype'],
       entityUri: '',
     }
   },
@@ -76,9 +77,10 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          camp: this.camp._meta.self,
+          camp: this.camp?._meta.self,
           name: '',
           copyChecklistSource: null,
+          isPrototype: this.camp ? false : true,
         })
       } else {
         // clear form on exit
@@ -92,7 +94,7 @@ export default {
   methods: {
     createChecklist() {
       return this.create().then(() => {
-        this.api.reload(this.camp.checklists())
+        this.api.reload(this.checklistCollection)
       })
     },
   },

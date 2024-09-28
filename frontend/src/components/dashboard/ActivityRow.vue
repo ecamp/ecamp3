@@ -136,7 +136,7 @@ export default {
     },
     routerLink() {
       return {
-        name: 'activity',
+        name: 'camp/activity',
         params: {
           campId: this.scheduleEntry.period().camp().id,
           scheduleEntryId: this.scheduleEntry.id,

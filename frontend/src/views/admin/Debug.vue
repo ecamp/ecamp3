@@ -39,7 +39,7 @@ import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import { parseTemplate } from 'url-template'
 
 export default {
-  name: 'Debug',
+  name: 'AdminDebug',
   components: {
     LanguageSwitcher,
     Coffee,

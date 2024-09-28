@@ -13,7 +13,7 @@
           >
             <router-link
               :to="{
-                name: 'activity',
+                name: 'camp/activity',
                 params: {
                   campId: camp.id,
                   scheduleEntryId: scheduleEntry.id,

@@ -544,42 +544,6 @@
     }
   },
   "views": {
-    "activity": {
-      "printPreview": "Druckvorschau öffnen",
-      "sideBarProgram": {
-        "title": "Tagesübersicht"
-      }
-    },
-    "admin": {
-      "activity": {
-        "title": "Aktivitätseinstellungen"
-      },
-      "adminMaterialLists": {
-        "title": "Materiallisten"
-      },
-      "collaborators": {
-        "email": "E-Mail-Adresse",
-        "inactiveCollaborators": "Inaktiv",
-        "members": "Mitarbeitende",
-        "openInvitations": "Offene Einladungen",
-        "title": "Team"
-      },
-      "info": {
-        "title": "Lagerinfos"
-      },
-      "print": {
-        "title": "Lager drucken"
-      },
-      "sideBarAdmin": {
-        "itemActivity": "Aktivitäten",
-        "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
-        "itemCollaborators": "Team",
-        "itemInfos": "Lagerinfos",
-        "itemMaterialLists": "Materiallisten",
-        "itemPrint": "PDF / Drucken"
-      },
-      "title": "Admin"
-    },
     "auth": {
       "activate": {
         "error": "Aktivierung fehlgeschlagen",
@@ -648,6 +612,53 @@
       }
     },
     "camp": {
+      "activity": {
+        "printPreview": "Druckvorschau öffnen",
+        "sideBarProgram": {
+          "title": "Tagesübersicht"
+        }
+      },
+      "admin": {
+        "activity": {
+          "title": "Aktivitätseinstellungen"
+        },
+        "adminMaterialLists": {
+          "title": "Materiallisten"
+        },
+        "collaborators": {
+          "email": "E-Mail-Adresse",
+          "inactiveCollaborators": "Inaktiv",
+          "members": "Mitarbeitende",
+          "openInvitations": "Offene Einladungen",
+          "title": "Team"
+        },
+        "info": {
+          "title": "Lagerinfos"
+        },
+        "print": {
+          "title": "Lager drucken"
+        },
+        "sideBarAdmin": {
+          "itemActivity": "Aktivitäten",
+          "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
+          "itemCollaborators": "Team",
+          "itemInfos": "Lagerinfos",
+          "itemMaterialLists": "Materiallisten",
+          "itemPrint": "PDF / Drucken"
+        },
+        "title": "Admin"
+      },
+      "category": {
+        "category": {
+          "copyCategory": "Kategorie kopieren",
+          "deleteCategory": "Kategorie löschen",
+          "properties": "Eigenschaften",
+          "template": "Vorlage für neue Blöcke"
+        },
+        "sideBarCategory": {
+          "title": "Kategorien"
+        }
+      },
       "campProgram": {
         "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
         "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
@@ -677,6 +688,19 @@
         "title": "Einladung",
         "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
         "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
+      },
+      "material": {
+        "materialLists": {
+          "title": "Materiallisten"
+        },
+        "materialOverview": {
+          "createNewList": "Materialliste erstellen",
+          "download": "Übersicht herunterladen",
+          "title": "Gesamtübersicht"
+        },
+        "sideBarMaterialLists": {
+          "title": "Materiallisten"
+        }
       },
       "navigation": {
         "desktop": {
@@ -722,32 +746,8 @@
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
     },
-    "category": {
-      "category": {
-        "copyCategory": "Kategorie kopieren",
-        "deleteCategory": "Kategorie löschen",
-        "properties": "Eigenschaften",
-        "template": "Vorlage für neue Blöcke"
-      },
-      "sideBarCategory": {
-        "title": "Kategorien"
-      }
-    },
     "invitations": {
       "personalInvitations": "Einladungen"
-    },
-    "material": {
-      "materialLists": {
-        "title": "Materiallisten"
-      },
-      "materialOverview": {
-        "createNewList": "Materialliste erstellen",
-        "download": "Übersicht herunterladen",
-        "title": "Gesamtübersicht"
-      },
-      "sideBarMaterialLists": {
-        "title": "Materiallisten"
-      }
     },
     "pageNotFound": {
       "backToHome": "Zurück zur Startseite",
