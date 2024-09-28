@@ -38,7 +38,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Delete(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validate: true,
+            validationContext: ['groups' => ['delete']],
         ),
         new GetCollection(
             security: 'is_authenticated()'
@@ -110,6 +112,11 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     /**
      * All ChecklistNodes that have selected this ChecklistItem.
      */
+    #[Assert\Count(
+        exactly: 0,
+        exactMessage: 'It\'s not possible to delete a checklist item as long as checklist nodes are referencing it.',
+        groups: ['delete']
+    )]
     #[ORM\ManyToMany(targetEntity: ChecklistNode::class, mappedBy: 'checklistItems')]
     public Collection $checklistNodes;
 
