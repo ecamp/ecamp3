@@ -178,7 +178,8 @@
     },
     "checklist": {
       "fields": {
-        "name": "Name"
+        "name": "Name",
+        "copyChecklistSource": "Prototype"
       },
       "name": "Checklist | Checklists"
     },

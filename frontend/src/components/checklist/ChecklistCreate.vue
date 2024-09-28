@@ -28,6 +28,12 @@
       path="name"
       vee-rules="required"
     />
+
+    <e-select
+      v-model="entityData.copyChecklistSource"
+      path="copyChecklistSource"
+      :items="prototypeChecklists"
+    />
   </DetailPane>
 </template>
 
@@ -50,16 +56,29 @@ export default {
   },
   data() {
     return {
-      entityProperties: ['camp', 'name'],
+      entityProperties: ['camp', 'name', 'copyChecklistSource'],
       entityUri: '',
+    }
+  },
+  computed: {
+    prototypeChecklists() {
+      return this.api
+        .get()
+        .checklists({ isPrototype: true })
+        .items.map((c) => ({
+          value: c._meta.self,
+          text: c.name,
+          object: c
+        }))
     }
   },
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          name: '',
           camp: this.camp._meta.self,
+          name: '',
+          copyChecklistSource: null
         })
       } else {
         // clear form on exit

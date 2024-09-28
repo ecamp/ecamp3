@@ -24359,6 +24359,18 @@ paths:
           allowReserved: false
           deprecated: false
           description: ''
+          explode: false
+          in: query
+          name: isPrototype
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
           explode: true
           in: query
           name: 'camp[]'
@@ -24366,6 +24378,20 @@ paths:
           schema:
             items:
               type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'isPrototype[]'
+          required: false
+          schema:
+            items:
+              type: boolean
             type: array
           style: form
       responses:
@@ -25081,6 +25107,18 @@ paths:
           allowReserved: false
           deprecated: false
           description: ''
+          explode: false
+          in: query
+          name: isPrototype
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
           explode: true
           in: query
           name: 'camp[]'
@@ -25088,6 +25126,20 @@ paths:
           schema:
             items:
               type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'isPrototype[]'
+          required: false
+          schema:
+            items:
+              type: boolean
             type: array
           style: form
       responses:
