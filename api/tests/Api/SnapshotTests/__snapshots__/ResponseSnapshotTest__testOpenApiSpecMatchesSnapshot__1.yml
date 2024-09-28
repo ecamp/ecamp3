@@ -7925,6 +7925,14 @@ components:
           example: /checklists/1a2b3c4d
           format: iri-reference
           type: string
+        checklistNodes:
+          description: 'All ChecklistNodes that have selected this ChecklistItem.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          type: array
         children:
           description: 'All ChecklistItems that are direct children of this ChecklistItem.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -7962,6 +7970,7 @@ components:
           type: string
       required:
         - checklist
+        - checklistNodes
         - children
         - position
         - text
@@ -8068,12 +8077,15 @@ components:
               properties:
                 checklist:
                   properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
+                checklistNodes:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
                 children:
                   properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
                 parent:
                   properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
               required:
                 - checklist
+                - checklistNodes
                 - children
               type: object
             type:
@@ -8088,6 +8100,8 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
               -
                 $ref: '#/components/schemas/ChecklistItem.jsonapi'
               -
@@ -8117,6 +8131,14 @@ components:
           example: /checklists/1a2b3c4d
           format: iri-reference
           type: string
+        checklistNodes:
+          description: 'All ChecklistNodes that have selected this ChecklistItem.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          type: array
         children:
           description: 'All ChecklistItems that are direct children of this ChecklistItem.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -8154,6 +8176,7 @@ components:
           type: string
       required:
         - checklist
+        - checklistNodes
         - children
         - position
         - text
@@ -8237,6 +8260,14 @@ components:
           example: /checklists/1a2b3c4d
           format: iri-reference
           type: string
+        checklistNodes:
+          description: 'All ChecklistNodes that have selected this ChecklistItem.'
+          example: '["/checklist_items/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          type: array
         children:
           description: 'All ChecklistItems that are direct children of this ChecklistItem.'
           example: '["/checklist_items/1a2b3c4d"]'
@@ -8274,6 +8305,7 @@ components:
           type: string
       required:
         - checklist
+        - checklistNodes
         - children
         - position
         - text

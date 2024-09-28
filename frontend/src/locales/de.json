@@ -664,6 +664,9 @@
         "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
         "title": "Grobprogramm"
       },
+      "checklist": {
+        "title": "Checklist-Übersicht"
+      },
       "dashboard": {
         "activities": "Aktivitäten",
         "columns": {

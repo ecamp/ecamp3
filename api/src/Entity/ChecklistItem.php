@@ -122,6 +122,8 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     /**
      * All ChecklistNodes that have selected this ChecklistItem.
      */
+    #[ApiProperty(example: '["/checklist_items/1a2b3c4d"]')]
+    #[Groups(['read'])]
     #[Assert\Count(
         exactly: 0,
         exactMessage: 'It\'s not possible to delete a checklist item as long as checklist nodes are referencing it.',

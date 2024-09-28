@@ -293,6 +293,11 @@ export default new Router({
           },
         },
         {
+          path: 'checklist',
+          name: 'camp/checklist',
+          component: () => import('./views/camp/Checklist.vue'),
+        },
+        {
           path: 'story/period/:periodId/:periodTitle?',
           name: 'camp/period/story',
           component: () => import('./views/camp/Story.vue'),
@@ -711,6 +716,7 @@ export function checklistFromRoute(route) {
 
 function getContentLayout(route) {
   switch (route.name) {
+    case 'camp/checklist':
     case 'camp/period/program':
     case 'camp/admin/print':
     case 'camp/admin/activity/category':
