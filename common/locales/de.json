@@ -175,7 +175,8 @@
     },
     "checklist": {
       "fields": {
-        "name": "Name"
+        "name": "Name",
+        "copyChecklistSource": "Vorlage"
       },
       "name": "Checkliste | Checklisten"
     },

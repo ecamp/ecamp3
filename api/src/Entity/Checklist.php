@@ -69,7 +69,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     order: ['camp.id', 'name'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp', 'isPrototype'])]
 #[ORM\Entity(repositoryClass: ChecklistRepository::class)]
 class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/checklists{._format}';
@@ -166,7 +166,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
         $entityMap->add($prototype, $this);
 
         // copy Checklist base properties
-        $this->name = $prototype->name;
+        $this->name ??= $prototype->name;
 
         // deep copy ChecklistItems
         foreach ($prototype->getChecklistItems() as $checklistItemPrototype) {
