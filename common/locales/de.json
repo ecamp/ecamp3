@@ -8,7 +8,7 @@
   },
   "contentNode": {
     "checklist": {
-      "icon": "mdi-clipboard-list-outline",
+      "info": "Wähle die relevanten Checklistenpunkte, welche durch diese Aktivität abgedeckt werden (Ausbildungsziele, J+S-Checklisten, etc.).",
       "name": "Checkliste"
     },
     "columnLayout": {

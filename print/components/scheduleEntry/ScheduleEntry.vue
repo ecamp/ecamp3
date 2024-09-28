@@ -69,7 +69,7 @@ import ContentNode from './contentNode/ContentNode.vue'
 import { activityResponsiblesCommaSeparated } from '@/common/helpers/activityResponsibles.js'
 
 export default defineNuxtComponent({
-  components: { CategoryLabel, ContentNode },
+  components: { ContentNode },
 
   computed: {
     // responsibles() {

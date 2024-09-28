@@ -14,7 +14,7 @@ component to render ContentNode with actual content (non-layout nodes)
         >{{ contentTypeName }}</span
       >
     </h3>
-    <div class="tw-min-h-[50px]">
+    <div class="tw-min-h-[30px]">
       <slot />
     </div>
   </div>
