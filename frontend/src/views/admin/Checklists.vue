@@ -1,5 +1,5 @@
 <template>
-  <ChecklistOverview :checklist-collection="checklistCollection" />
+  <ChecklistOverview :checklist-collection="checklistCollection" max-width="900" />
 </template>
 
 <script>

@@ -1,11 +1,12 @@
 <template>
   <SideBar title="Admin" icon="mdi-menu">
     <v-list class="py-0">
-      <SidebarListItem to="/admin/debug" title="Debug" />
+      <SidebarListItem to="/admin/debug" title="Debug" icon="mdi-bug" />
       <SidebarListItem
         v-if="featureChecklistEnabled"
         to="/admin/checklists"
         :title="$tc('entity.checklist.name', 2)"
+        icon="mdi-clipboard-list-outline"
       />
     </v-list>
   </SideBar>
