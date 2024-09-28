@@ -1,5 +1,11 @@
 <template>
-  <content-card title="Debug" toolbar class="ma-sm-auto" style="width: auto" max-width="800">
+  <content-card
+    title="Debug"
+    toolbar
+    class="ma-sm-auto"
+    style="width: auto"
+    max-width="800"
+  >
     <template #title>
       <Coffee />
       <v-toolbar-title tag="h1" class="font-weight-bold ml-2">Debug</v-toolbar-title>
