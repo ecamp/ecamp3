@@ -68,9 +68,9 @@ export default {
         .items.map((c) => ({
           value: c._meta.self,
           text: c.name,
-          object: c
+          object: c,
         }))
-    }
+    },
   },
   watch: {
     showDialog: function (showDialog) {
@@ -78,7 +78,7 @@ export default {
         this.setEntityData({
           camp: this.camp._meta.self,
           name: '',
-          copyChecklistSource: null
+          copyChecklistSource: null,
         })
       } else {
         // clear form on exit
