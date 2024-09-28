@@ -34,7 +34,7 @@ const { error } = await useAsyncData(
 <script>
 import ContentNodeComponent from '@/components/scheduleEntry/contentNode/ContentNode.vue'
 
-import { sortBy } from 'lodash'
+import sortBy from 'lodash/sortBy.js'
 
 export default defineNuxtComponent({
   components: { ContentNodeComponent },

@@ -29,7 +29,7 @@ const { error } = await useAsyncData(
 <script>
 import ContentNodeContent from './ContentNodeContent.vue'
 import { mdiClipboardListOutline } from '@mdi/js'
-import { uniqWith } from 'lodash'
+import uniqWith from 'lodash/uniqWith.js'
 
 export default {
   components: {
