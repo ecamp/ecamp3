@@ -305,6 +305,7 @@
     "navigation": {
       "userMeta": {
         "invitations": "Invitations",
+        "admin": "Admin",
         "logOut": "Log out",
         "myCamps": "My camps",
         "profile": "Profile"

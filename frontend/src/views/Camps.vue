@@ -27,13 +27,13 @@
       </v-list>
       <v-expansion-panels
         v-if="
-          !loading && ((isAdmin() && prototypeCamps.length > 0) || pastCamps.length > 0)
+          !loading && ((isAdmin && prototypeCamps.length > 0) || pastCamps.length > 0)
         "
         multiple
         flat
         accordion
       >
-        <v-expansion-panel v-if="isAdmin() && prototypeCamps.length > 0">
+        <v-expansion-panel v-if="isAdmin && prototypeCamps.length > 0">
           <v-expansion-panel-header>
             <h3>
               {{ $tc('views.camps.prototypeCamps') }}
@@ -91,6 +91,7 @@ export default {
   data: function () {
     return {
       loading: true,
+      isAdmin: false,
     }
   },
   computed: {
@@ -119,10 +120,10 @@ export default {
   },
   async mounted() {
     this.loadCamps()
+    this.isAdmin = isAdmin()
   },
   methods: {
     campRoute,
-    isAdmin,
     async loadCamps() {
       // Only reload camps if they were loaded before, to avoid console error
       if (this.camps._meta.self !== null) {

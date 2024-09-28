@@ -42,6 +42,13 @@ export default new Router({
 
     // Prod-Pages:
     {
+      path: '/debug',
+      name: 'debug',
+      components: {
+        default: () => import('./views/admin/Debug.vue'),
+      },
+    },
+    {
       path: '/admin',
       beforeEnter: all([requireAuth, requireAdmin]),
       components: {
