@@ -29,8 +29,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or 
-                       is_granted("CAMP_IS_PROTOTYPE", object) or 
+            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or
+                       is_granted("CAMP_IS_PROTOTYPE", object) or
                        is_granted("CAMP_COLLABORATOR", object)
                       '
         ),
@@ -42,7 +42,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(
             security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
                        (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object))
-                      '
+                      ',
+            validate: true,
+            validationContext: ['groups' => ['delete']],
         ),
         new GetCollection(
             security: 'is_authenticated()'
@@ -95,6 +97,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     /**
      * All ChecklistItems that belong to this Checklist.
      */
+    #[Assert\Valid(groups: ['delete'])]
     #[ApiProperty(writable: false, uriTemplate: ChecklistItem::CHECKLIST_SUBRESOURCE_URI_TEMPLATE)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ChecklistItem::class, mappedBy: 'checklist', cascade: ['persist'])]
@@ -119,7 +122,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[Assert\DisableAutoMapping]
     #[ApiProperty(example: true, writable: true)]
     #[Groups(['read', 'create'])]
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $isPrototype = false;
 
     public function __construct() {

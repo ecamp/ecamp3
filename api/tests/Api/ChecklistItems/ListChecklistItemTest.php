@@ -24,7 +24,7 @@ class ListChecklistItemTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/checklist_items');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 5,
+            'totalItems' => 6,
             '_links' => [
                 'items' => [],
             ],
@@ -36,6 +36,7 @@ class ListChecklistItemTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('checklistItem1_1_1')],
             ['href' => $this->getIriFor('checklistItem1_1_2')],
             ['href' => $this->getIriFor('checklistItem1_1_2_3')],
+            ['href' => $this->getIriFor('checklistItem1_1_2_3_4')],
             ['href' => $this->getIriFor('checklistItem2_1_1')],
             ['href' => $this->getIriFor('checklistItemPrototype_1_1')],
         ], $response->toArray()['_links']['items']);
@@ -46,7 +47,7 @@ class ListChecklistItemTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/checklist_items?checklist=%2Fchecklists%2F'.$checklist->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 3,
+            'totalItems' => 4,
             '_links' => [
                 'items' => [],
             ],
@@ -58,6 +59,7 @@ class ListChecklistItemTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('checklistItem1_1_1')],
             ['href' => $this->getIriFor('checklistItem1_1_2')],
             ['href' => $this->getIriFor('checklistItem1_1_2_3')],
+            ['href' => $this->getIriFor('checklistItem1_1_2_3_4')],
         ], $response->toArray()['_links']['items']);
     }
 
@@ -102,7 +104,7 @@ class ListChecklistItemTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/checklists/'.$checklist->getId().'/checklist_items');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 3,
+            'totalItems' => 4,
             '_links' => [
                 'items' => [],
             ],
@@ -114,6 +116,7 @@ class ListChecklistItemTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('checklistItem1_1_1')],
             ['href' => $this->getIriFor('checklistItem1_1_2')],
             ['href' => $this->getIriFor('checklistItem1_1_2_3')],
+            ['href' => $this->getIriFor('checklistItem1_1_2_3_4')],
         ], $response->toArray()['_links']['items']);
     }
 

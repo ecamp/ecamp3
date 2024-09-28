@@ -208,6 +208,28 @@ class CreateChecklistItemTest extends ECampApiTestCase {
         ));
     }
 
+    public function testCreateChecklistItemIsDeniedForTooDeepNesting() {
+        $checklistItem = static::getFixture('checklistItem1_1_2_3_4');
+
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request(
+                'POST',
+                '/checklist_items',
+                [
+                    'json' => $this->getExampleWritePayload([
+                        'parent' => '/checklist_items/'.$checklistItem->getId(),
+                    ]),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'parent: Nesting can be a maximum of 3 levels deep.',
+        ]);
+    }
+
     /**
      * @throws RedirectionExceptionInterface
      * @throws DecodingExceptionInterface
