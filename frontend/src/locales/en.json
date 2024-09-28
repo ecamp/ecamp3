@@ -368,7 +368,8 @@
           "Program": "Program",
           "SafetyConsiderations": "Safety considerations",
           "Story": "Story",
-          "Toc": "Table of contents"
+          "Toc": "Table of contents",
+          "ActivityList": "Activity list (courses)"
         }
       },
       "printNuxt": {
@@ -442,7 +443,7 @@
     },
     "story": {
       "storyDay": {
-        "noStory":  "The activities on this day do not contain any story content."
+        "noStory": "The activities on this day do not contain any story content."
       }
     },
     "toast": {
