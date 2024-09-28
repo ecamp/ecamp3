@@ -42,38 +42,51 @@ export default new Router({
 
     // Prod-Pages:
     {
-      path: '/admin/debug',
-      name: 'admin/debug',
-      components: {
-        default: () => import('./views/admin/Debug.vue'),
-      },
+      path: '/admin',
       beforeEnter: all([requireAuth, requireAdmin]),
+      components: {
+        navigation: NavigationDefault,
+        default: GenericPage,
+        aside: () => import('./views/admin/SideBarAdmin.vue'),
+      },
+      children: [
+        {
+          path: '',
+          redirect: 'debug',
+        },
+        {
+          path: 'debug',
+          name: 'admin/debug',
+          components: {
+            default: () => import('./views/admin/Debug.vue'),
+          },
+        },
+        ...(getEnv().FEATURE_CHECKLIST
+          ? [
+              {
+                path: 'checklists',
+                name: 'admin/checklists',
+                components: {
+                  default: () => import('./views/admin/Checklists.vue'),
+                },
+              },
+              {
+                path: 'checklist/:checklistId/:checklistName?',
+                name: 'admin/checklists/checklist',
+                components: {
+                  default: () => import('./views/admin/Checklist.vue'),
+                },
+                props: {
+                  default: (route) => ({
+                    checklist: checklistFromRoute(route),
+                  }),
+                },
+              },
+            ]
+          : []),
+      ],
     },
-    ...(getEnv().FEATURE_CHECKLIST
-      ? [
-          {
-            path: '/admin/checklists',
-            name: 'admin/checklists',
-            components: {
-              default: () => import('./views/admin/Checklists.vue'),
-            },
-            beforeEnter: all([requireAuth, requireAdmin]),
-          },
-          {
-            name: 'admin/checklists/checklist',
-            path: '/admin/checklist/:checklistId/:checklistName?',
-            components: {
-              default: () => import('./views/admin/Checklist.vue'),
-            },
-            beforeEnter: all([requireAuth, requireAdmin]),
-            props: {
-              default: (route) => ({
-                checklist: checklistFromRoute(route),
-              }),
-            },
-          },
-        ]
-      : []),
+
     {
       path: '/register',
       name: 'register',
