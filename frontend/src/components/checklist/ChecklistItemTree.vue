@@ -1,15 +1,15 @@
 <template>
   <table style="width: 100%; border-spacing: 0" :style="getRowStyle()">
     <tr>
-      <td style="width: 30px; padding: 2px">({{ checklistItem.position + 1 }})</td>
-      <td style="text-wrap: wrap">
+      <td colspan="2" style="text-wrap: wrap; line-height: 36px; padding-left: 6px">
+        {{ getPositionNumber(checklistItem) }})
         {{ checklistItem.text }}
       </td>
-      <td style="width: 400px">
+      <td style="max-width: 400px; text-align: right">
         <div
           v-for="activity in getActivities(checklistItem)"
           :key="activity._meta.self"
-          style="display: inline"
+          style="display: inline; text-wrap: nowrap; padding-right: 4px"
         >
           <ScheduleEntryLinks :activity-promise="activity._meta.load" />
         </div>
@@ -28,8 +28,8 @@
       v-for="subItem in sortBy(checklistItem.children().items, (c) => c.position)"
       :key="subItem._meta.self"
     >
-      <td style="width: 30px"></td>
-      <td colspan="4">
+      <td style="width: 20px"></td>
+      <td colspan="3">
         <ChecklistItemTree :checklist-item="subItem" />
       </td>
     </tr>
@@ -60,10 +60,61 @@ export default {
       )
     },
     getRowStyle() {
-      return this.checklistItem.position % 2 == 0
-        ? { backgroundColor: 'rgba(0, 0, 0, 0.1)' }
-        : { backgroundColor: 'rgba(0, 0, 0, 0.2)' }
+      const globalPos = this.getTotalNumberOfItemsAbove(this.checklistItem)
+      return globalPos % 2 == 0
+        ? { backgroundColor: '#EEE' }
+        : { backgroundColor: '#DDD' }
     },
+
+    getTotalNumberOfItemsAbove(checklistItem) {
+      let globalPos = 0
+
+      if (checklistItem.parent == null) {
+        const checklist = checklistItem.checklist()
+        globalPos = checklist
+          .checklistItems()
+          .items.filter((c) => c.parent == null)
+          .filter((c) => c.position < checklistItem.position)
+          .reduce((cnt, item) => {
+            return cnt + this.getTotalNumberOfItems(item)
+          }, 0)
+      } else {
+        const parent = checklistItem.parent()
+        globalPos =
+          1 +
+          this.getTotalNumberOfItemsAbove(parent) +
+          parent
+            .children()
+            .items.filter((c) => c.position < checklistItem.position)
+            .reduce((cnt, item) => {
+              return cnt + this.getTotalNumberOfItems(item)
+            }, 0)
+      }
+
+      return globalPos
+    },
+
+    getTotalNumberOfItems(checklistItem) {
+      return (
+        1 +
+        checklistItem.children().items.reduce((cnt, item) => {
+          return cnt + this.getTotalNumberOfItems(item)
+        }, 0)
+      )
+    },
+
+    getPositionNumber(checklistItem) {
+      if (checklistItem.parent == null) {
+        return 1 + checklistItem.position
+      }
+
+      return (
+        this.getPositionNumber(checklistItem.parent()) +
+        '.' +
+        (1 + checklistItem.position)
+      )
+    },
+
     copyToClipboard(checklistItem) {
       const activities = this.getActivities(checklistItem)
 

@@ -4,26 +4,20 @@
     toolbar
     :no-border="$vuetify.breakpoint.mdAndUp"
   >
-    <v-card-text>
-      <v-list class="mx-n2 py-0">
-        <v-list-item
-          v-for="checklist in checklists"
-          :key="checklist._meta.self"
-          class="px-2 rounded"
-        >
-          <v-list-item-content>
-            <v-list-item-title>
-              <h3>{{ checklist.name }}</h3>
-              <ChecklistItemTree
-                v-for="rootChecklistItem in getRootChecklistItems(checklist)"
-                :key="rootChecklistItem._meta.self"
-                :checklist-item="rootChecklistItem"
-              />
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
+    <v-expansion-panels v-model="expandedChecklists" accordion flat multiple>
+      <v-expansion-panel v-for="checklist in checklists" :key="checklist._meta.self">
+        <v-expansion-panel-header>
+          <h3>{{ checklist.name }}</h3>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ChecklistItemTree
+            v-for="rootChecklistItem in getRootChecklistItems(checklist)"
+            :key="rootChecklistItem._meta.self"
+            :checklist-item="rootChecklistItem"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </content-card>
 </template>
 
@@ -40,6 +34,11 @@ export default {
   },
   props: {
     camp: { type: Object, required: true },
+  },
+  data() {
+    return {
+      expandedChecklists: [0],
+    }
   },
   computed: {
     checklists() {
