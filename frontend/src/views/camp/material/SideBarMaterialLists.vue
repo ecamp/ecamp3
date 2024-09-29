@@ -1,6 +1,6 @@
 <template>
   <SideBar
-    :title="$tc('views.material.sideBarMaterialLists.title')"
+    :title="$tc('views.camp.material.sideBarMaterialLists.title')"
     icon="mdi-format-list-checkbox"
   >
     <MaterialLists :camp="camp" />

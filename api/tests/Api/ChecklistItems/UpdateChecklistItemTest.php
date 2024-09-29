@@ -110,7 +110,7 @@ class UpdateChecklistItemTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchhChecklistItemValidatesNoParentLoop() {
+    public function testPatchChecklistItemValidatesNoParentLoop() {
         $checklistItemParent = static::getFixture('checklistItem1_1_2');
         $checklistItemChild = static::getFixture('checklistItem1_1_2_3');
 
@@ -128,7 +128,30 @@ class UpdateChecklistItemTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'parent: Must not form a loop of parent-child relations.',
+            'detail' => 'parent: Must not form a loop of parent-child relations.
+parent: Nesting can be a maximum of 3 levels deep.',
+        ]);
+    }
+
+    public function testPatchChecklistItemIsDeniedForTooDeepNesting() {
+        $checklistItem = static::getFixture('checklistItem1_1_2');
+        $checklistItemNewParent = static::getFixture('checklistItem1_1_1');
+
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/checklist_items/'.$checklistItem->getId(),
+            [
+                'json' => [
+                    'parent' => '/checklist_items/'.$checklistItemNewParent->getId(),
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'parent: Nesting can be a maximum of 3 levels deep.',
         ]);
     }
 

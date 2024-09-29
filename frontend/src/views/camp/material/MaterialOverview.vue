@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card :title="$tc('views.material.materialOverview.title')" toolbar>
+    <content-card :title="$tc('views.camp.material.materialOverview.title')" toolbar>
       <template #title-actions>
         <v-menu offset-y>
           <template #activator="{ attrs, on }">
@@ -16,7 +16,7 @@
                     <v-icon>mdi-plus</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content
-                    >{{ $tc('views.material.materialOverview.createNewList') }}
+                    >{{ $tc('views.camp.material.materialOverview.createNewList') }}
                   </v-list-item-content>
                 </v-list-item>
               </template>
@@ -26,7 +26,7 @@
                 <v-icon>mdi-microsoft-excel</v-icon>
               </v-list-item-icon>
               <v-list-item-content
-                >{{ $tc('views.material.materialOverview.download') }}
+                >{{ $tc('views.camp.material.materialOverview.download') }}
               </v-list-item-content>
             </v-list-item>
           </v-list>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
-import { isLoggedIn } from '@/plugins/auth'
+import { isLoggedIn, isAdmin } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
@@ -45,9 +45,55 @@ export default new Router({
       path: '/debug',
       name: 'debug',
       components: {
-        default: () => import('./views/dev/Debug.vue'),
+        default: () => import('./views/admin/Debug.vue'),
       },
     },
+    {
+      path: '/admin',
+      beforeEnter: all([requireAuth, requireAdmin]),
+      components: {
+        navigation: NavigationDefault,
+        default: GenericPage,
+        aside: () => import('./views/admin/SideBarAdmin.vue'),
+      },
+      children: [
+        {
+          path: '',
+          redirect: 'debug',
+        },
+        {
+          path: 'debug',
+          name: 'admin/debug',
+          components: {
+            default: () => import('./views/admin/Debug.vue'),
+          },
+        },
+        ...(getEnv().FEATURE_CHECKLIST
+          ? [
+              {
+                path: 'checklists',
+                name: 'admin/checklists',
+                components: {
+                  default: () => import('./views/admin/Checklists.vue'),
+                },
+              },
+              {
+                path: 'checklist/:checklistId/:checklistName?',
+                name: 'admin/checklists/checklist',
+                components: {
+                  default: () => import('./views/admin/Checklist.vue'),
+                },
+                props: {
+                  default: (route) => ({
+                    checklist: checklistFromRoute(route),
+                  }),
+                },
+              },
+            ]
+          : []),
+      ],
+    },
+
     {
       path: '/register',
       name: 'register',
@@ -272,12 +318,12 @@ export default new Router({
       ],
     },
     {
-      name: 'material/all',
+      name: 'camp/material/all',
       path: '/camps/:campId/:campShortTitle?/material/all',
       components: {
         navigation: NavigationCamp,
-        default: () => import('./views/material/MaterialOverview.vue'),
-        aside: () => import('./views/material/SideBarMaterialLists.vue'),
+        default: () => import('./views/camp/material/MaterialOverview.vue'),
+        aside: () => import('./views/camp/material/SideBarMaterialLists.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
@@ -289,11 +335,11 @@ export default new Router({
       },
     },
     {
-      name: 'material/lists', // Only used on mobile
+      name: 'camp/material/lists', // Only used on mobile
       path: '/camps/:campId/:campShortTitle?/material/lists',
       components: {
         navigation: NavigationCamp,
-        default: () => import('./views/material/MaterialLists.vue'),
+        default: () => import('./views/camp/material/MaterialLists.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
@@ -304,12 +350,12 @@ export default new Router({
       },
     },
     {
-      name: 'material/detail',
+      name: 'camp/material/detail',
       path: '/camps/:campId/:campShortTitle?/material/:materialId/:materialName?',
       components: {
         navigation: NavigationCamp,
-        default: () => import('./views/material/MaterialDetail.vue'),
-        aside: () => import('./views/material/SideBarMaterialLists.vue'),
+        default: () => import('./views/camp/material/MaterialDetail.vue'),
+        aside: () => import('./views/camp/material/SideBarMaterialLists.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp, requireMaterialList]),
       props: {
@@ -322,12 +368,12 @@ export default new Router({
       },
     },
     {
-      name: 'admin/activity/category',
+      name: 'camp/admin/activity/category',
       path: '/camps/:campId/:campShortTitle?/category/:categoryId/:categoryName?',
       components: {
         navigation: NavigationCamp,
-        default: () => import('./views/category/Category.vue'),
-        aside: () => import('./views/category/SideBarCategory.vue'),
+        default: () => import('./views/camp/category/Category.vue'),
+        aside: () => import('./views/camp/category/SideBarCategory.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp, requireCategory]),
       props: {
@@ -343,12 +389,12 @@ export default new Router({
       ? [
           // Checklist-Pages:
           {
-            name: 'admin/checklists/checklist',
+            name: 'camp/admin/checklists/checklist',
             path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
             components: {
               navigation: NavigationCamp,
-              default: () => import('./views/checklist/Checklist.vue'),
-              aside: () => import('./views/checklist/SideBarChecklist.vue'),
+              default: () => import('./views/camp/checklist/Checklist.vue'),
+              aside: () => import('./views/camp/checklist/SideBarChecklist.vue'),
             },
             beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
             props: {
@@ -367,7 +413,7 @@ export default new Router({
       components: {
         navigation: NavigationCamp,
         default: GenericPage,
-        aside: () => import('./views/admin/SideBarAdmin.vue'),
+        aside: () => import('./views/camp/admin/SideBarAdmin.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
@@ -381,31 +427,31 @@ export default new Router({
       children: [
         {
           path: 'info',
-          name: 'admin/info',
-          component: () => import('./views/admin/Info.vue'),
+          name: 'camp/admin/info',
+          component: () => import('./views/camp/admin/Info.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
         {
           path: 'activity',
-          name: 'admin/activity',
-          component: () => import('./views/admin/Activity.vue'),
+          name: 'camp/admin/activity',
+          component: () => import('./views/camp/admin/Activity.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
         {
           path: 'collaborators',
-          name: 'admin/collaborators',
-          component: () => import('./views/admin/Collaborators.vue'),
+          name: 'camp/admin/collaborators',
+          component: () => import('./views/camp/admin/Collaborators.vue'),
           props: () => ({ layout: 'normal' }),
         },
         {
           path: 'material',
-          name: 'admin/material',
-          component: () => import('./views/admin/AdminMaterialLists.vue'),
+          name: 'camp/admin/material',
+          component: () => import('./views/camp/admin/AdminMaterialLists.vue'),
         },
         {
           path: 'print',
-          name: 'admin/print',
-          component: () => import('./views/admin/Print.vue'),
+          name: 'camp/admin/print',
+          component: () => import('./views/camp/admin/Print.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
         ...(getEnv().FEATURE_CHECKLIST
@@ -413,8 +459,8 @@ export default new Router({
               // Checklist-Pages:
               {
                 path: 'checklists',
-                name: 'admin/checklists',
-                component: () => import('./views/admin/Checklists.vue'),
+                name: 'camp/admin/checklists',
+                component: () => import('./views/camp/admin/Checklists.vue'),
                 props: (route) => ({ camp: campFromRoute(route) }),
               },
             ]
@@ -422,22 +468,22 @@ export default new Router({
         {
           path: 'materiallists',
           name: 'camp/material',
-          redirect: { name: 'admin/material' },
+          redirect: { name: 'camp/admin/material' },
         },
         {
           path: '',
           name: 'camp/admin',
-          redirect: { name: 'admin/info' },
+          redirect: { name: 'camp/admin/info' },
         },
       ],
     },
     {
       path: '/camps/:campId/:campShortTitle/program/activities/:scheduleEntryId/:activityName?',
-      name: 'activity',
+      name: 'camp/activity',
       components: {
         navigation: NavigationCamp,
-        default: () => import('./views/activity/Activity.vue'),
-        aside: () => import('./views/activity/SideBarProgram.vue'),
+        default: () => import('./views/camp/activity/Activity.vue'),
+        aside: () => import('./views/camp/activity/SideBarProgram.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp, requireScheduleEntry]),
       props: {
@@ -492,6 +538,18 @@ function requireAuth(to, from, next) {
     next()
   } else {
     next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+  }
+}
+
+function requireAdmin(to, from, next) {
+  if (isAdmin()) {
+    next()
+  } else {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    })
   }
 }
 
@@ -654,16 +712,16 @@ export function checklistFromRoute(route) {
 function getContentLayout(route) {
   switch (route.name) {
     case 'camp/period/program':
-    case 'admin/print':
-    case 'admin/activity/category':
+    case 'camp/admin/print':
+    case 'camp/admin/activity/category':
       return 'full'
     case 'camp/print':
     case 'camp/material':
-    case 'admin/info':
-    case 'admin/activity':
+    case 'camp/admin/info':
+    case 'camp/admin/activity':
       return 'wide'
-    case 'admin/collaborators':
-    case 'admin/material':
+    case 'camp/admin/collaborators':
+    case 'camp/admin/material':
     default:
       return 'normal'
   }
@@ -696,14 +754,14 @@ export function materialListRoute(camp, materialListOrRoute = '/all', query = {}
   if (camp._meta.loading) return {}
   if (typeof materialListOrRoute === 'string') {
     return {
-      name: `material${materialListOrRoute}`,
+      name: `camp/material${materialListOrRoute}`,
       params: { campId: camp.id, campShortTitle: slugify(campShortTitle(camp)) },
       query,
     }
   }
   if (!materialListOrRoute?._meta || materialListOrRoute.meta?.loading) return {}
   return {
-    name: 'material/detail',
+    name: 'camp/material/detail',
     params: {
       campId: camp.id,
       campShortTitle: slugify(campShortTitle(camp)),
@@ -722,7 +780,7 @@ export function materialListRoute(camp, materialListOrRoute = '/all', query = {}
 export function adminRoute(camp, subroute = 'info', query = {}) {
   if (camp._meta.loading) return {}
   return {
-    name: 'admin/' + subroute,
+    name: 'camp/admin/' + subroute,
     params: { campId: camp.id, campShortTitle: slugify(campShortTitle(camp)) },
     query,
   }
@@ -755,7 +813,7 @@ export function scheduleEntryRoute(scheduleEntry, query = {}) {
   // if (camp._meta.loading) return {}
 
   return {
-    name: 'activity',
+    name: 'camp/activity',
     params: {
       campId: camp.id,
       campShortTitle: slugify(campShortTitle(camp)),
@@ -769,7 +827,7 @@ export function scheduleEntryRoute(scheduleEntry, query = {}) {
 export function categoryRoute(camp, category, query = {}) {
   if (camp._meta.loading || category._meta.loading) return {}
   return {
-    name: 'admin/activity/category',
+    name: 'camp/admin/activity/category',
     params: {
       campId: camp.id,
       campShortTitle: slugify(campShortTitle(camp)),
@@ -781,9 +839,21 @@ export function categoryRoute(camp, category, query = {}) {
 }
 
 export function checklistRoute(camp, checklist, query = {}) {
-  if (camp._meta.loading || checklist._meta.loading) return {}
+  if (camp?._meta.loading || checklist._meta.loading) return {}
+
+  if (!camp) {
+    return {
+      name: 'admin/checklists/checklist',
+      params: {
+        checklistId: checklist.id,
+        checklistName: slugify(checklist.name),
+      },
+      query,
+    }
+  }
+
   return {
-    name: 'admin/checklists/checklist',
+    name: 'camp/admin/checklists/checklist',
     params: {
       campId: camp.id,
       campTitle: slugify(camp.title),
@@ -811,6 +881,6 @@ async function redirectToPeriod(to, from, next, routeName) {
     next(periodRoute(period, routeName, to.query))
   } else {
     const camp = await apiStore.get().camps({ id: to.params.campId })
-    next(campRoute(camp, 'admin', to.query))
+    next(campRoute(camp, 'camp/admin', to.query))
   }
 }

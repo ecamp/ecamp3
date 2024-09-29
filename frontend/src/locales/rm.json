@@ -438,42 +438,6 @@
     }
   },
   "views": {
-    "activity": {
-      "printPreview": "Avrir la prevista da stampa",
-      "sideBarProgram": {
-        "title": "Survista dal di"
-      }
-    },
-    "admin": {
-      "activity": {
-        "title": "Parameters dad activitad"
-      },
-      "collaborators": {
-        "email": "Adressa dad e-mail",
-        "inactiveCollaborators": "Inactiv",
-        "members": "Collavuratur*as",
-        "openInvitations": "Invits averts",
-        "title": "Team"
-      },
-      "info": {
-        "title": "Infus dal champ"
-      },
-      "materialLists": {
-        "title": "Glistas da material"
-      },
-      "print": {
-        "title": "Stampar il champ"
-      },
-      "sideBarAdmin": {
-        "itemActivity": "Activitads",
-        "itemActivitySubtitle": "Categoria, model e status",
-        "itemCollaborators": "Team",
-        "itemInfos": "Infus dal champ",
-        "itemMaterialLists": "Glistas da material",
-        "itemPrint": "PDF / stampar"
-      },
-      "title": "Admin"
-    },
     "auth": {
       "activate": {
         "error": "L'activaziun n'è betg reussida",
@@ -534,6 +498,52 @@
       }
     },
     "camp": {
+      "activity": {
+        "printPreview": "Avrir la prevista da stampa",
+        "sideBarProgram": {
+          "title": "Survista dal di"
+        }
+      },
+      "admin": {
+        "activity": {
+          "title": "Parameters dad activitad"
+        },
+        "collaborators": {
+          "email": "Adressa dad e-mail",
+          "inactiveCollaborators": "Inactiv",
+          "members": "Collavuratur*as",
+          "openInvitations": "Invits averts",
+          "title": "Team"
+        },
+        "info": {
+          "title": "Infus dal champ"
+        },
+        "materialLists": {
+          "title": "Glistas da material"
+        },
+        "print": {
+          "title": "Stampar il champ"
+        },
+        "sideBarAdmin": {
+          "itemActivity": "Activitads",
+          "itemActivitySubtitle": "Categoria, model e status",
+          "itemCollaborators": "Team",
+          "itemInfos": "Infus dal champ",
+          "itemMaterialLists": "Glistas da material",
+          "itemPrint": "PDF / stampar"
+        },
+        "title": "Admin"
+      },
+      "category": {
+        "category": {
+          "deleteCategory": "Stizzar la categoria",
+          "properties": "Proprietad",
+          "template": "Model per novas activitads"
+        },
+        "sideBarCategory": {
+          "title": "Categorias"
+        }
+      },
       "campProgram": {
         "reminderLockedCreate": "Trair per crear è mo pussaivel en il modus debloccà.",
         "reminderLockedMove": "Trair per spustar è mo pussaivel en il modus debloccà.",
@@ -563,6 +573,16 @@
         "title": "Invit",
         "useOtherAuth": "Sortir ed utilisar in auter conto",
         "userAlreadyInCamp": "Ti collavureschas gia en quest champ"
+      },
+      "material": {
+        "materialOverview": {
+          "createNewList": "Crear ina glista da material",
+          "download": "Telechargiar la survista",
+          "title": "Survista"
+        },
+        "sideBarMaterialLists": {
+          "title": "Glistas da material"
+        }
       },
       "navigation": {
         "desktop": {
@@ -614,28 +634,8 @@
       "prototypeCamps": "Models",
       "title": "Mes champs"
     },
-    "category": {
-      "category": {
-        "deleteCategory": "Stizzar la categoria",
-        "properties": "Proprietad",
-        "template": "Model per novas activitads"
-      },
-      "sideBarCategory": {
-        "title": "Categorias"
-      }
-    },
     "invitations": {
       "personalInvitations": "Invitaziuns"
-    },
-    "material": {
-      "materialOverview": {
-        "createNewList": "Crear ina glista da material",
-        "download": "Telechargiar la survista",
-        "title": "Survista"
-      },
-      "sideBarMaterialLists": {
-        "title": "Glistas da material"
-      }
     },
     "pageNotFound": {
       "backToHome": "Enavos a la pagina da partenza",

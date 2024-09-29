@@ -3,7 +3,7 @@ Show all material lists for a camp on mobile
 -->
 
 <template>
-  <content-card :title="$tc('views.material.materialLists.title')" toolbar>
+  <content-card :title="$tc('views.camp.admin.adminMaterialLists.title')" toolbar>
     <template v-if="!isGuest" #title-actions>
       <DialogMaterialListCreate :camp="camp">
         <template #activator="{ on }">
@@ -13,7 +13,8 @@ Show all material lists for a camp on mobile
         </template>
       </DialogMaterialListCreate>
     </template>
-    <MaterialLists :camp="camp" />
+    <MaterialListsEdit v-if="!isGuest" :material-lists="materialLists" />
+    <MaterialLists v-else :camp="camp" />
   </content-card>
 </template>
 
@@ -22,11 +23,14 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import DialogMaterialListCreate from '@/components/campAdmin/DialogMaterialListCreate.vue'
+import { materialListRoute } from '@/router.js'
 import MaterialLists from '@/components/material/MaterialLists.vue'
+import MaterialListsEdit from '@/components/material/MaterialListsEdit.vue'
 
 export default {
-  name: 'MaterialLists',
+  name: 'CampAdminMaterialLists',
   components: {
+    MaterialListsEdit,
     MaterialLists,
     DialogMaterialListCreate,
     ButtonAdd,
@@ -44,6 +48,7 @@ export default {
   mounted() {
     this.materialLists.$loadItems()
   },
+  methods: { materialListRoute },
 }
 </script>
 

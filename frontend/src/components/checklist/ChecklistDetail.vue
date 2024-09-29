@@ -1,43 +1,34 @@
 <template>
-  <v-container fluid>
-    <content-card
-      v-if="checklist"
-      :key="checklist._meta.self"
-      class="ec-checklist"
-      toolbar
-      back
-      :title="checklist.name"
-    >
-      <template #title-actions>
-        <ChecklistItemCreate :checklist="checklist" />
-      </template>
-      <v-list>
-        <SortableChecklist :parent="null" :checklist="checklist" />
-      </v-list>
-    </content-card>
-  </v-container>
+  <content-card
+    v-if="checklist"
+    :key="checklist._meta.self"
+    class="ec-checklist"
+    toolbar
+    back
+    :title="checklist.name"
+  >
+    <template #title-actions>
+      <ChecklistItemCreate :checklist="checklist" />
+    </template>
+    <v-list>
+      <SortableChecklist :parent="null" :checklist="checklist" />
+    </v-list>
+  </content-card>
 </template>
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
 import SortableChecklist from '@/components/checklist/SortableChecklist.vue'
 
 export default {
-  name: 'Category',
+  name: 'ChecklistDetail',
   components: {
     SortableChecklist,
     ChecklistItemCreate,
     ContentCard,
   },
-  mixins: [campRoleMixin],
   props: {
-    camp: {
-      type: Object,
-      default: null,
-      required: false,
-    },
     checklist: {
       type: Object,
       default: null,

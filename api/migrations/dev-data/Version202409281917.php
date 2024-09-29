@@ -9,7 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 require_once __DIR__.'/helpers.php';
 
-final class Version202406211251 extends AbstractMigration {
+final class Version202409281917 extends AbstractMigration {
     public function getDescription(): string {
         return 'Set color & abbreviation to some profiles';
     }

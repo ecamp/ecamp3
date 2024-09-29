@@ -1,34 +1,38 @@
 <template>
-  <v-container fluid class="d-grid h-full">
-    <content-card title="Debug" toolbar class="ma-sm-auto" style="width: auto">
-      <template #title>
-        <Coffee />
-        <v-toolbar-title tag="h1" class="font-weight-bold ml-2">Debug</v-toolbar-title>
-      </template>
-      <template #title-actions>
-        <language-switcher v-if="isDev" />
-      </template>
-      <v-card-text>
-        <h3>
-          Version
-          <a v-if="version" :href="versionLink" target="_blank">
-            {{ version }}
-          </a>
-          <span class="ml-1">{{ deploymentTime }}</span>
-        </h3>
-      </v-card-text>
-      <v-simple-table dense>
-        <tbody>
-          <tr v-for="[key, value] in envArray" :key="key">
-            <th>{{ key }}</th>
-            <td>
-              <code v-if="value !== undefined && value !== ''">{{ value }}</code>
-            </td>
-          </tr>
-        </tbody>
-      </v-simple-table>
-    </content-card>
-  </v-container>
+  <content-card
+    title="Debug"
+    toolbar
+    class="ma-sm-auto"
+    style="width: auto"
+    max-width="800"
+  >
+    <template #title>
+      <Coffee />
+      <v-toolbar-title tag="h1" class="font-weight-bold ml-2">Debug</v-toolbar-title>
+    </template>
+    <template #title-actions>
+      <language-switcher v-if="isDev" />
+    </template>
+    <v-card-text>
+      <h3>
+        Version
+        <a v-if="version" :href="versionLink" target="_blank">
+          {{ version }}
+        </a>
+        <span class="ml-1">{{ deploymentTime }}</span>
+      </h3>
+    </v-card-text>
+    <v-simple-table dense>
+      <tbody>
+        <tr v-for="[key, value] in envArray" :key="key">
+          <th>{{ key }}</th>
+          <td>
+            <code v-if="value !== undefined && value !== ''">{{ value }}</code>
+          </td>
+        </tr>
+      </tbody>
+    </v-simple-table>
+  </content-card>
 </template>
 
 <script>
@@ -39,7 +43,7 @@ import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import { parseTemplate } from 'url-template'
 
 export default {
-  name: 'Debug',
+  name: 'AdminDebug',
   components: {
     LanguageSwitcher,
     Coffee,

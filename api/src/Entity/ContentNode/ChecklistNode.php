@@ -59,7 +59,7 @@ class ChecklistNode extends ContentNode {
     #[ORM\ManyToMany(targetEntity: ChecklistItem::class, inversedBy: 'checklistNodes')]
     #[ORM\JoinTable(name: 'checklistnode_checklistitem')]
     #[ORM\JoinColumn(name: 'checklistnode_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'checklistitem_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'checklistitem_id', referencedColumnName: 'id', onDelete: 'RESTRICT')]
     #[ORM\OrderBy(['position' => 'ASC'])]
     public Collection $checklistItems;
 

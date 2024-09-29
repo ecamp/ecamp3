@@ -32,20 +32,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            security: 'is_granted("CHECKLIST_IS_PROTOTYPE", object) or 
+                       is_granted("CAMP_IS_PROTOTYPE", object) or 
+                       is_granted("CAMP_COLLABORATOR", object)
+                      '
         ),
         new Patch(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                       (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object))
+                      '
         ),
         new Delete(
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                       (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object))',
+            validate: true,
+            validationContext: ['groups' => ['delete']],
         ),
         new GetCollection(
             security: 'is_authenticated()'
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
-            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.checklist === null'
+            securityPostDenormalize: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
+                                      (!is_granted("CHECKLIST_IS_PROTOTYPE", object) and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.checklist === null))
+                                     '
         ),
         new GetCollection(
             uriTemplate: self::CHECKLIST_SUBRESOURCE_URI_TEMPLATE,
@@ -53,7 +63,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'checklistId' => new Link(
                     fromClass: Checklist::class,
                     toProperty: 'checklist',
-                    security: 'is_granted("CAMP_COLLABORATOR", checklist) or is_granted("CAMP_IS_PROTOTYPE", checklist)'
+                    security: 'is_granted("CHECKLIST_IS_PROTOTYPE", checklist) or 
+                               is_granted("CAMP_IS_PROTOTYPE", checklist) or 
+                               is_granted("CAMP_COLLABORATOR", checklist)'
                 ),
             ],
         ),
@@ -82,9 +94,16 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
      * The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
      * root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
      * as the new parent is in the same checklist as the old one.
+     *
+     * Nesting has maximum depth of 3 Levels (root - child - grandchild)
+     * => CurrentNesting + SubtreeDepth < 3
      */
     #[AssertBelongsToSameChecklist]
     #[AssertNoLoop]
+    #[Assert\Expression(
+        '(this.getNestingLevel() + this.getSubtreeDepth()) < 3',
+        'Nesting can be a maximum of 3 levels deep.'
+    )]
     #[ApiProperty(example: '/checklist_items/1a2b3c4d')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
@@ -103,6 +122,11 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     /**
      * All ChecklistNodes that have selected this ChecklistItem.
      */
+    #[Assert\Count(
+        exactly: 0,
+        exactMessage: 'It\'s not possible to delete a checklist item as long as checklist nodes are referencing it.',
+        groups: ['delete']
+    )]
     #[ORM\ManyToMany(targetEntity: ChecklistNode::class, mappedBy: 'checklistItems')]
     public Collection $checklistNodes;
 
@@ -168,6 +192,37 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
         }
 
         return $this;
+    }
+
+    /**
+     * Nesting-Level of this ChecklistItem
+     * Zero-Based (Parent == null  ->  NestingLevel == 0).
+     */
+    public function getNestingLevel(): int {
+        $nesting = 0;
+        $item = $this->parent;
+
+        while (null !== $item && $nesting < 10 /* safetyguard */) {
+            ++$nesting;
+            $item = $item->parent;
+        }
+
+        return $nesting;
+    }
+
+    /**
+     * Maximal SubtreeDepth.
+     */
+    public function getSubtreeDepth(): int {
+        if (0 == $this->children->count()) {
+            return 0;
+        }
+
+        return 1 + $this->children->reduce(function (int $max, ChecklistItem $child): int {
+            $depth = $child->getSubtreeDepth();
+
+            return ($depth > $max) ? $depth : $max;
+        }, 0);
     }
 
     /**

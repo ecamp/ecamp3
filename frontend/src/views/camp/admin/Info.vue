@@ -1,5 +1,5 @@
 <template>
-  <content-card :title="$tc('views.admin.info.title')" toolbar>
+  <content-card :title="$tc('views.camp.admin.info.title')" toolbar>
     <v-container fluid class="px-4 pb-8">
       <v-row>
         <v-col cols="12" md="6" class="pb-0">
@@ -32,7 +32,7 @@ import CampPeriods from '@/components/campAdmin/CampPeriods.vue'
 import CampDangerZone from '@/components/campAdmin/CampDangerZone.vue'
 
 export default {
-  name: 'AdminInfo',
+  name: 'CampAdminInfo',
   components: {
     CampDangerZone,
     CampPeriods,

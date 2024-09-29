@@ -1,5 +1,5 @@
 <template>
-  <SideBar title="Checklists" icon="mdi-format-list-numbered">
+  <SideBar :title="$tc('entity.checklist.name', 2)" icon="mdi-format-list-numbered">
     <v-list>
       <v-list-item
         v-for="checklist in camp.checklists().items"
@@ -19,7 +19,7 @@
 import SideBar from '@/components/navigation/SideBar.vue'
 import { checklistRoute } from '@/router.js'
 export default {
-  name: 'SideBarCategory',
+  name: 'SideBarChecklist',
   components: { SideBar },
   props: {
     camp: { type: Object, required: true },

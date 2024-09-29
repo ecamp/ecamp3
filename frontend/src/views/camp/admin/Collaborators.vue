@@ -2,9 +2,9 @@
 Displays collaborators of a single camp.
 -->
 <template>
-  <content-card :title="$tc('views.admin.collaborators.title')" toolbar>
+  <content-card :title="$tc('views.camp.admin.collaborators.title')" toolbar>
     <v-card-text>
-      <ContentGroup :title="$tc('views.admin.collaborators.members')">
+      <ContentGroup :title="$tc('views.camp.admin.collaborators.members')">
         <template #title-actions>
           <CollaboratorCreate v-if="isManager" :camp="camp" />
         </template>
@@ -13,14 +13,14 @@ Displays collaborators of a single camp.
 
       <ContentGroup
         v-if="invited.length > 0"
-        :title="$tc('views.admin.collaborators.openInvitations')"
+        :title="$tc('views.camp.admin.collaborators.openInvitations')"
       >
         <CollaboratorList :collaborators="invited" :is-manager="isManager" />
       </ContentGroup>
 
       <ContentGroup
         v-if="inactive.length > 0"
-        :title="$tc('views.admin.collaborators.inactiveCollaborators')"
+        :title="$tc('views.camp.admin.collaborators.inactiveCollaborators')"
       >
         <CollaboratorList :collaborators="inactive" :is-manager="isManager" inactive />
       </ContentGroup>
@@ -35,7 +35,7 @@ import { campRoleMixin } from '@/mixins/campRoleMixin'
 import CollaboratorList from '@/components/collaborator/CollaboratorList.vue'
 
 export default {
-  name: 'AdminCollaborators',
+  name: 'CampAdminCollaborators',
   components: {
     CollaboratorList,
     CollaboratorCreate,

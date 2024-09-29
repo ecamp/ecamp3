@@ -1,18 +1,21 @@
 <template>
-  <ChecklistOverview :checklist-collection="checklistCollection" max-width="900" />
+  <ChecklistOverview :camp="camp" :checklist-collection="checklistCollection" />
 </template>
 
 <script>
 import ChecklistOverview from '@/components/checklist/ChecklistOverview.vue'
 
 export default {
-  name: 'AdminChecklists',
+  name: 'CampAdminChecklists',
   components: {
     ChecklistOverview,
   },
+  props: {
+    camp: { type: Object, required: true },
+  },
   computed: {
     checklistCollection() {
-      return this.api.get().checklists({ isPrototype: true })
+      return this.camp.checklists()
     },
   },
 }
