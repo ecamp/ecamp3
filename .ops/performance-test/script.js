@@ -60,6 +60,8 @@ export default function() {
       if (itemUrl) {
         const itemResponse = http.get(`${host}${itemUrl}.jsonhal`)
         metricsMap.get(`${urlWithoutTemplate}/item`)?.add(itemResponse.timings.duration)
+      } else {
+        metricsMap.get(`${urlWithoutTemplate}/item`)?.add(-1E9)
       }
     }
   }
