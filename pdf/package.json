@@ -2,6 +2,7 @@
   "name": "@ecamp3/client-pdf",
   "description": "Create pdfs for eCamp, using Vue components",
   "main": "src/index.js",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",

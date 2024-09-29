@@ -21,10 +21,10 @@
   "dependencies": {
     "@intlify/core": "9.14.1",
     "@mdi/font": "7.4.47",
-    "@react-pdf/font": "2.5.2",
+    "@react-pdf/font": "3.0.0",
     "@react-pdf/layout": "4.0.0",
     "@react-pdf/pdfkit": "4.0.0",
-    "@react-pdf/primitives": "3.1.1",
+    "@react-pdf/primitives": "4.0.0",
     "@react-pdf/render": "4.0.0",
     "@sentry/browser": "8.32.0",
     "@sentry/vue": "8.32.0",
