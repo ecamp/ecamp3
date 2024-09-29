@@ -81,10 +81,6 @@
         "createMaterialList": "Crea l'elenco dei materiali",
         "title": "Elenchi di materiali"
       },
-      "campMaterialListsItem": {
-        "deleteError": "Impossibile eliminare l'elenco dei materiali. Controlla che l'elenco sia vuoto prima di eliminarlo.",
-        "deleteWarning": "Vuoi davvero cancellare questo elenco di materiali?"
-      },
       "campPeriods": {
         "createPeriod": "Creare il periodo",
         "title": "Periodo | Periodi"
@@ -116,7 +112,8 @@
         "title": "Crea l'elenco dei materiali"
       },
       "dialogMaterialListEdit": {
-        "title": "Modifica elenco materiali"
+        "title": "Modifica elenco materiali",
+        "deleteError": "Impossibile eliminare l'elenco dei materiali. Controlla che l'elenco sia vuoto prima di eliminarlo."
       },
       "dialogPeriodCreate": {
         "title": "Creare il periodo"

@@ -93,10 +93,6 @@
         "createMaterialList": "Materialliste erstellen",
         "title": "Materiallisten"
       },
-      "campMaterialListsItem": {
-        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist.",
-        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?"
-      },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
         "title": "Lagerabschnitt | Lagerabschnitte"
@@ -135,7 +131,8 @@
         "title": "Materialliste erstellen"
       },
       "dialogMaterialListEdit": {
-        "title": "Materialliste bearbeiten"
+        "title": "Materialliste bearbeiten",
+        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"

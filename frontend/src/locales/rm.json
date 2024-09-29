@@ -74,10 +74,6 @@
         "createMaterialList": "Crear ina glista da material",
         "title": "Glistas da material"
       },
-      "campMaterialListsItem": {
-        "deleteError": "Impussibel da stizzar la glista da material. Verifitgescha che la glista è vida avant che stizzar.",
-        "deleteWarning": "Vuls ti propi stizzar questa glista da material?"
-      },
       "campPeriods": {
         "createPeriod": "Crear ina part dal champ",
         "title": "Part dal champ | Parts dal champ"
@@ -109,7 +105,8 @@
         "title": "Crear ina glista da material"
       },
       "dialogMaterialListEdit": {
-        "title": "Modifitgar la glista da material"
+        "title": "Modifitgar la glista da material",
+        "deleteError": "Impussibel da stizzar la glista da material. Verifitgescha che la glista è vida avant che stizzar."
       },
       "dialogPeriodCreate": {
         "title": "Craer ina part dal champ"

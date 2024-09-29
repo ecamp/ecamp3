@@ -93,10 +93,6 @@
         "createMaterialList": "Create material list",
         "title": "Material lists"
       },
-      "campMaterialListsItem": {
-        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it.",
-        "deleteWarning": "Do you really want to delete this material list?"
-      },
       "campPeriods": {
         "createPeriod": "Create period",
         "title": "Period | Periods"
@@ -135,7 +131,8 @@
         "title": "Create material list"
       },
       "dialogMaterialListEdit": {
-        "title": "Edit material list"
+        "title": "Edit material list",
+        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
       },
       "dialogPeriodCreate": {
         "title": "Create period"
