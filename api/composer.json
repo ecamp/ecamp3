@@ -46,6 +46,7 @@
         "symfony/twig-bundle": "7.1.1",
         "symfony/validator": "7.1.4",
         "symfony/yaml": "7.1.4",
+        "runtime/frankenphp-symfony": "0.2.0",
         "twig/cssinliner-extra": "^3.4",
         "twig/extra-bundle": "3.13.0",
         "webonyx/graphql-php": "15.14.1"
