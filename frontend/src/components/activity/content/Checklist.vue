@@ -5,6 +5,8 @@
         v-model="showDialog"
         icon="mdi-clipboard-list-outline"
         :title="$tc('components.activity.content.checklist.title')"
+        :cancel-action="close"
+        :cancel-visible="false"
       >
         <template #activator="{ on }">
           <button
@@ -256,6 +258,9 @@ export default {
       this.checkedItems = [...this.serverSelection]
       this.uncheckedItems = []
       this.dirty = false
+    },
+    close() {
+      this.showDialog = false
     },
   },
 }
