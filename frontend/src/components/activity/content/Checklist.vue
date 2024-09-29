@@ -2,6 +2,7 @@
   <ContentNodeCard class="ec-checklist-node" v-bind="$props">
     <template #outer>
       <DetailPane
+        v-if="!disabled && !layoutMode"
         v-model="showDialog"
         icon="mdi-clipboard-list-outline"
         :title="$tc('components.activity.content.checklist.title')"
@@ -21,36 +22,10 @@
                 {{ $tc('global.button.edit') }}
               </v-list-item-title>
             </v-list-item>
-            <div
-              v-for="{ checklist, items } in activeChecklists"
-              :key="checklist._meta.self"
-              class="w-100"
-            >
-              <h3 class="px-4">{{ checklist.name }}</h3>
-              <v-list-item
-                v-for="{ item, parents } in items"
-                :key="item._meta.self"
-                class="min-h-0"
-                :disabled="layoutMode"
-              >
-                <v-list-item-content class="py-2">
-                  <v-list-item-subtitle v-if="parents.length > 0" class="d-flex gap-1">
-                    <template v-for="(parent, index) in parents">
-                      <span v-if="index" :key="parent._meta.self + 'divider'">/</span>
-                      <span
-                        :key="parent._meta.self"
-                        class="e-checklist-item-parent-name"
-                        >{{ parent.text }}</span
-                      >
-                    </template>
-                  </v-list-item-subtitle>
-                  <v-list-item-title class="ec-checklist--item-title">
-                    {{ parents.map(({ position }) => position + 1 + '.').join('')
-                    }}{{ item.position + 1 }}. {{ item.text }}
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </div>
+            <ChecklistItems
+              :active-checklists="activeChecklists"
+              :layout-mode="layoutMode"
+            />
           </button>
         </template>
         <div class="ma-n4">
@@ -90,6 +65,12 @@
           </v-expansion-panels>
         </div>
       </DetailPane>
+      <ChecklistItems
+        v-else
+        class="mb-1"
+        :active-checklists="activeChecklists"
+        :layout-mode="layoutMode"
+      />
     </template>
   </ContentNodeCard>
 </template>
@@ -99,13 +80,14 @@ import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCar
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import DetailPane from '@/components/generic/DetailPane.vue'
 import ChecklistItem from './checklist/ChecklistItem.vue'
+import ChecklistItems from './checklist/ChecklistItems.vue'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import { debounce, isEqual, sortBy, uniq } from 'lodash'
 import { computed } from 'vue'
 
 export default {
   name: 'Checklist',
-  components: { DetailPane, ContentNodeCard, ChecklistItem },
+  components: { ChecklistItems, DetailPane, ContentNodeCard, ChecklistItem },
   mixins: [contentNodeMixin],
   provide() {
     return {
@@ -266,14 +248,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.e-checklist-item-parent-name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.ec-checklist--item-title {
-  white-space: normal;
-  line-height: 1.33;
-}
-</style>
+<style scoped></style>
