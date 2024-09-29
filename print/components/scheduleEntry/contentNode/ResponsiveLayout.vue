@@ -1,8 +1,16 @@
 <template>
   <div class="tw-flex tw-flex-col">
-    <FlexItem :children="children['aside-top']" direction="row" />
-    <FlexItem :children="children['main']" direction="column" />
-    <FlexItem :children="children['aside-bottom']" direction="row" />
+    <FlexItem
+      v-if="children['aside-top']"
+      :children="children['aside-top']"
+      direction="row"
+    />
+    <FlexItem v-if="children['main']" :children="children['main']" direction="column" />
+    <FlexItem
+      v-if="children['aside-bottom']"
+      :children="children['aside-bottom']"
+      direction="row"
+    />
   </div>
 </template>
 
