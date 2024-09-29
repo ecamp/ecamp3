@@ -138,4 +138,12 @@ export default {
 .error-area:empty {
   display: none;
 }
+:deep(.ec-dialog-form.v-bottom-sheet.v-dialog) {
+  overflow-y: auto;
+}
+.ec-dialog-toolbar {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+}
 </style>
