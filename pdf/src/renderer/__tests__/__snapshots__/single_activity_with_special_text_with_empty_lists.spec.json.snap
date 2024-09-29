@@ -55,7 +55,7 @@
                       "props": {
                         "bookmark": "LS 2.1 Morgenturnen",
                         "class": "schedule-entry-number-and-title",
-                        "id": "entry-0-51c110ddd923",
+                        "id": "",
                       },
                       "style": {
                         "margin": "4pt 4pt",
@@ -314,23 +314,40 @@
                           "box": {},
                           "children": [
                             {
+                              "box": {},
+                              "children": [
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": "Notes",
+                                },
+                              ],
                               "parent": [Circular],
-                              "type": "TEXT_INSTANCE",
-                              "value": "Notes",
+                              "props": {
+                                "class": "content-node-instance-name",
+                              },
+                              "style": {
+                                "flexGrow": "1",
+                                "fontSize": "11pt",
+                                "fontWeight": "bold",
+                                "paddingBottom": "3pt",
+                              },
+                              "type": "TEXT",
                             },
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "content-node-instance-name",
+                            "class": "content-node-title",
                           },
                           "style": {
+                            "alignItems": "baseline",
                             "borderBottom": "1.5pt solid black",
-                            "fontSize": "11pt",
-                            "fontWeight": "bold",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
                             "marginBottom": "1pt",
-                            "paddingBottom": "3pt",
                           },
-                          "type": "TEXT",
+                          "type": "VIEW",
                         },
                         {
                           "box": {},

@@ -55,7 +55,7 @@
                       "props": {
                         "bookmark": "LS 1.1 Stadt Game 🐭",
                         "class": "schedule-entry-number-and-title",
-                        "id": "entry-0-4bc1873a73f2",
+                        "id": "",
                       },
                       "style": {
                         "margin": "4pt 4pt",
@@ -329,23 +329,40 @@
                                   "box": {},
                                   "children": [
                                     {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "parent": [Circular],
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "Storyboard",
+                                        },
+                                      ],
                                       "parent": [Circular],
-                                      "type": "TEXT_INSTANCE",
-                                      "value": "Storyboard",
+                                      "props": {
+                                        "class": "content-node-instance-name",
+                                      },
+                                      "style": {
+                                        "flexGrow": "1",
+                                        "fontSize": "11pt",
+                                        "fontWeight": "bold",
+                                        "paddingBottom": "3pt",
+                                      },
+                                      "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "content-node-instance-name",
+                                    "class": "content-node-title",
                                   },
                                   "style": {
+                                    "alignItems": "baseline",
                                     "borderBottom": "1.5pt solid black",
-                                    "fontSize": "11pt",
-                                    "fontWeight": "bold",
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "justifyContent": "space-between",
                                     "marginBottom": "1pt",
-                                    "paddingBottom": "3pt",
                                   },
-                                  "type": "TEXT",
+                                  "type": "VIEW",
                                 },
                                 {
                                   "box": {},
@@ -1051,23 +1068,40 @@
                                   "box": {},
                                   "children": [
                                     {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "parent": [Circular],
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "Material",
+                                        },
+                                      ],
                                       "parent": [Circular],
-                                      "type": "TEXT_INSTANCE",
-                                      "value": "Material",
+                                      "props": {
+                                        "class": "content-node-instance-name",
+                                      },
+                                      "style": {
+                                        "flexGrow": "1",
+                                        "fontSize": "11pt",
+                                        "fontWeight": "bold",
+                                        "paddingBottom": "3pt",
+                                      },
+                                      "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "content-node-instance-name",
+                                    "class": "content-node-title",
                                   },
                                   "style": {
+                                    "alignItems": "baseline",
                                     "borderBottom": "1.5pt solid black",
-                                    "fontSize": "11pt",
-                                    "fontWeight": "bold",
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "justifyContent": "space-between",
                                     "marginBottom": "1pt",
-                                    "paddingBottom": "3pt",
                                   },
-                                  "type": "TEXT",
+                                  "type": "VIEW",
                                 },
                               ],
                               "parent": [Circular],
@@ -1107,23 +1141,40 @@
                                   "box": {},
                                   "children": [
                                     {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "parent": [Circular],
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "Story",
+                                        },
+                                      ],
                                       "parent": [Circular],
-                                      "type": "TEXT_INSTANCE",
-                                      "value": "Story",
+                                      "props": {
+                                        "class": "content-node-instance-name",
+                                      },
+                                      "style": {
+                                        "flexGrow": "1",
+                                        "fontSize": "11pt",
+                                        "fontWeight": "bold",
+                                        "paddingBottom": "3pt",
+                                      },
+                                      "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "content-node-instance-name",
+                                    "class": "content-node-title",
                                   },
                                   "style": {
+                                    "alignItems": "baseline",
                                     "borderBottom": "1.5pt solid black",
-                                    "fontSize": "11pt",
-                                    "fontWeight": "bold",
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "justifyContent": "space-between",
                                     "marginBottom": "1pt",
-                                    "paddingBottom": "3pt",
                                   },
-                                  "type": "TEXT",
+                                  "type": "VIEW",
                                 },
                                 {
                                   "box": {},
@@ -1175,23 +1226,40 @@
                                   "box": {},
                                   "children": [
                                     {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "parent": [Circular],
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "Safety considerations",
+                                        },
+                                      ],
                                       "parent": [Circular],
-                                      "type": "TEXT_INSTANCE",
-                                      "value": "Safety considerations",
+                                      "props": {
+                                        "class": "content-node-instance-name",
+                                      },
+                                      "style": {
+                                        "flexGrow": "1",
+                                        "fontSize": "11pt",
+                                        "fontWeight": "bold",
+                                        "paddingBottom": "3pt",
+                                      },
+                                      "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "content-node-instance-name",
+                                    "class": "content-node-title",
                                   },
                                   "style": {
+                                    "alignItems": "baseline",
                                     "borderBottom": "1.5pt solid black",
-                                    "fontSize": "11pt",
-                                    "fontWeight": "bold",
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "justifyContent": "space-between",
                                     "marginBottom": "1pt",
-                                    "paddingBottom": "3pt",
                                   },
-                                  "type": "TEXT",
+                                  "type": "VIEW",
                                 },
                                 {
                                   "box": {},
@@ -1224,23 +1292,40 @@
                                   "box": {},
                                   "children": [
                                     {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "parent": [Circular],
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "Notes",
+                                        },
+                                      ],
                                       "parent": [Circular],
-                                      "type": "TEXT_INSTANCE",
-                                      "value": "Notes",
+                                      "props": {
+                                        "class": "content-node-instance-name",
+                                      },
+                                      "style": {
+                                        "flexGrow": "1",
+                                        "fontSize": "11pt",
+                                        "fontWeight": "bold",
+                                        "paddingBottom": "3pt",
+                                      },
+                                      "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "content-node-instance-name",
+                                    "class": "content-node-title",
                                   },
                                   "style": {
+                                    "alignItems": "baseline",
                                     "borderBottom": "1.5pt solid black",
-                                    "fontSize": "11pt",
-                                    "fontWeight": "bold",
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "justifyContent": "space-between",
                                     "marginBottom": "1pt",
-                                    "paddingBottom": "3pt",
                                   },
-                                  "type": "TEXT",
+                                  "type": "VIEW",
                                 },
                                 {
                                   "box": {},
