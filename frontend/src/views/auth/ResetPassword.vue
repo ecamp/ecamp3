@@ -21,7 +21,7 @@
     </v-alert>
 
     <validation-observer v-slot="{ handleSubmit }">
-      <e-form name="user">
+      <e-form name="profile">
         <v-form
           v-if="status == 'loaded' || status == 'reseting'"
           @submit.prevent="handleSubmit(resetPassword)"

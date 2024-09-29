@@ -2,7 +2,7 @@
   <auth-container>
     <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
     <validation-observer v-slot="{ handleSubmit }">
-      <e-form name="user">
+      <e-form name="profile">
         <v-form @submit.prevent="handleSubmit(register)">
           <e-text-field
             v-model="firstname"

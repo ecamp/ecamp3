@@ -18,7 +18,7 @@
     >
       <e-text-field
         v-model="email"
-        :label="$tc('entity.user.fields.email')"
+        :label="$tc('entity.profile.fields.email')"
         name="email"
         vee-rules="email"
         append-icon="mdi-at"
