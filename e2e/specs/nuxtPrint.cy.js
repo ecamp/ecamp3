@@ -8,8 +8,8 @@ describe('Nuxt print test', () => {
 
     cy.request(Cypress.env('API_ROOT_URL') + '/camps.jsonhal').then((response) => {
       const body = response.body
-      const campUri = body._links.items[1].href
-      const camp = body._embedded.items[1]
+      const camp = body._embedded.items.filter((c) => c.motto)[0]
+      const campUri = camp._links.self.href
 
       const printConfig = {
         language: 'en',
