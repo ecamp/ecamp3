@@ -180,11 +180,15 @@ export default {
   padding-bottom: 6px;
   display: grid;
 }
+.e-checklist-dragarea--inner {
+  min-width: 0;
+}
 .e-checklist-dragarea.dragging:deep(.e-checklist-dragarea) {
   background: rgba(0, 130, 236, 0.15);
   padding-bottom: 0;
 }
 .e-sortable-checklist-item__add {
+  min-width: 0;
   padding-top: 2px;
   padding-bottom: 2px;
 }

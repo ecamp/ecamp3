@@ -42,7 +42,7 @@
                       >
                     </template>
                   </v-list-item-subtitle>
-                  <v-list-item-title>
+                  <v-list-item-title class="ec-checklist--item-title">
                     {{ parents.map(({ position }) => position + 1 + '.').join('')
                     }}{{ item.position + 1 }}. {{ item.text }}
                   </v-list-item-title>
@@ -266,5 +266,9 @@ export default {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.ec-checklist--item-title {
+  white-space: normal;
+  line-height: 1.33;
 }
 </style>
