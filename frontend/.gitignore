@@ -11,6 +11,7 @@ selenium-debug.log
 
 # Auto-generated files
 public/twemoji/
+components.d.ts
 
 # Log files
 npm-debug.log*
