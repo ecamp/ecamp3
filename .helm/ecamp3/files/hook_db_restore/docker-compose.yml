@@ -10,3 +10,4 @@ services:
       - "-x"
       - /restore-backup.sh
     env_file: .env
+    network_mode: host
