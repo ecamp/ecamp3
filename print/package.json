@@ -23,7 +23,7 @@
     "dayjs": "1.11.13",
     "deepmerge": "4.3.1",
     "hal-json-vuex": "3.0.0-alpha.1",
-    "isomorphic-dompurify": "2.15.0",
+    "isomorphic-dompurify": "2.16.0",
     "lodash": "4.17.21",
     "puppeteer-core": "23.4.1",
     "runes": "0.4.3",
