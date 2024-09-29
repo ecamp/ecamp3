@@ -103,6 +103,7 @@ import PicassoConfig from './config/PicassoConfig.vue'
 import SummaryConfig from './config/SummaryConfig.vue'
 import ProgramConfig from './config/ProgramConfig.vue'
 import ActivityConfig from './config/ActivityConfig.vue'
+import ActivityListConfig from './config/ActivityListConfig.vue'
 import TocConfig from './config/TocConfig.vue'
 import PagesOverview from './configurator/PagesOverview.vue'
 import PagesConfig from './configurator/PagesConfig.vue'
@@ -132,6 +133,7 @@ export default {
     ProgramConfig,
     ActivityConfig,
     TocConfig,
+    ActivityListConfig,
   },
   props: {
     camp: {
@@ -149,6 +151,7 @@ export default {
         Program: ProgramConfig,
         Activity: ActivityConfig,
         Toc: TocConfig,
+        ActivityList: ActivityListConfig,
       },
       previewTab: null,
     }

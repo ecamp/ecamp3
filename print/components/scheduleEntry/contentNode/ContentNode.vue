@@ -37,6 +37,7 @@ import Notes from './Notes.vue'
 import SafetyConsiderations from './SafetyConsiderations.vue'
 import Storycontext from './Storycontext.vue'
 import Storyboard from './Storyboard.vue'
+import Checklist from './Checklist.vue'
 
 export default defineNuxtComponent({
   components: {
@@ -51,6 +52,7 @@ export default defineNuxtComponent({
     SafetyConsiderations,
     Storyboard,
     Storycontext,
+    Checklist,
   },
   methods: {
     componentFor(contentNode) {

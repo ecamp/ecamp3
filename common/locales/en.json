@@ -7,6 +7,11 @@
     }
   },
   "contentNode": {
+    "checklist": {
+      "icon": "mdi-clipboard-list-outline",
+      "info": "Select the relevant checklist items, which are covered by this activity (course objectives, etc.).",
+      "name": "Checklists"
+    },
     "columnLayout": {
       "entity": {
         "column": {
@@ -264,6 +269,9 @@
     "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
+    "activityList": {
+      "title": "Activity list"
+    },
     "config": {
       "periods": "Period(s)"
     },

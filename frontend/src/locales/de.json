@@ -370,7 +370,8 @@
           "Program": "Detailprogramm",
           "SafetyConsiderations": "Sicherheits­überlegungen",
           "Story": "Roter Faden",
-          "Toc": "Inhaltsverzeichnis"
+          "Toc": "Inhaltsverzeichnis",
+          "ActivityList": "Aktivitätsübersicht (Kurse)"
         }
       },
       "printNuxt": {

@@ -8,7 +8,7 @@
   },
   "contentNode": {
     "checklist": {
-      "icon": "mdi-clipboard-list-outline",
+      "info": "Wähle die relevanten Checklistenpunkte, welche durch diese Aktivität abgedeckt werden (Ausbildungsziele, J+S-Checklisten, etc.).",
       "name": "Checkliste"
     },
     "columnLayout": {
@@ -261,6 +261,9 @@
     "shortScheduleEntryDescription": "Tag\u202f{dayNumber} {startTime}"
   },
   "print": {
+    "activityList": {
+      "title": "Aktivitätsübersicht"
+    },
     "config": {
       "periods": "Lagerabschnitt(e)"
     },
