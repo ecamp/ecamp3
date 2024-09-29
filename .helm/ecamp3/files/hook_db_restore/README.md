@@ -16,3 +16,10 @@ It also contains a docker-compose.yml file to easily test the [restore-backup.sh
     ```shell
     docker compose run --rm restore-backup
     ```
+4. Maybe locally: change username and password of the support account
+   That we don't need sharp credentials in the local performance testing.
+
+    ```shell
+    docker compose run --rm restore-backup sh update-support-email.sh
+    ```
+
