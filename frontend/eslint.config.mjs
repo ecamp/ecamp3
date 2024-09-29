@@ -81,7 +81,7 @@ export default [
         'error',
         {
           ignoreKeysRegex:
-            '^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|config|summary|toc))\\..+',
+            '^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|config|summary|toc|activityList))\\..+',
           translationKeyPropRegex: '[a-zA-Z0-9]-i18n-key$',
         },
       ],

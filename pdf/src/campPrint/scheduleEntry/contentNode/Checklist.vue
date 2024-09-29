@@ -87,12 +87,15 @@ export default {
   flex-grow: 1;
 }
 .checklist-item-column-1 {
-  flex-basis: 300pt;
+  flex-basis: 17pt;
+  flex-shrink: 0;
+  flex-grow: 0;
   padding-right: 2pt;
   font-variant-numeric: tabular-nums;
 }
 .checklist-item-column-2 {
-  flex-basis: 9700pt;
+  flex-basis: 0;
+  flex-grow: 1;
   padding-left: 2pt;
 }
 </pdf-style>

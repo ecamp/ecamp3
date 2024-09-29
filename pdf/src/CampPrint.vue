@@ -27,6 +27,7 @@ import Story from '@/campPrint/summary/Story.vue'
 import SafetyConsiderations from '@/campPrint/summary/SafetyConsiderations.vue'
 import Program from '@/campPrint/program/Program.vue'
 import Activity from '@/campPrint/activity/Activity.vue'
+import ActivityList from '@/campPrint/activityList/ActivityList.vue'
 import { wordHyphenation } from '@react-pdf/textkit'
 
 const originalHyphenationCallback = wordHyphenation()
@@ -47,6 +48,7 @@ export default {
         Activity,
         Story,
         SafetyConsiderations,
+        ActivityList,
       }
     },
   },
