@@ -839,9 +839,15 @@ export function categoryRoute(camp, category, query = {}) {
 }
 
 export function checklistRoute(camp, checklist, query = {}) {
-  if (camp?._meta.loading || checklist._meta.loading) return {}
+  if (camp?._meta.loading || checklist?._meta.loading) return {}
 
   if (!camp) {
+    if (!checklist) {
+      return {
+        name: 'admin/checklists',
+        query,
+      }
+    }
     return {
       name: 'admin/checklists/checklist',
       params: {
@@ -852,6 +858,16 @@ export function checklistRoute(camp, checklist, query = {}) {
     }
   }
 
+  if (!checklist) {
+    return {
+      name: 'camp/admin/checklists',
+      params: {
+        campId: camp.id,
+        campTitle: slugify(camp.title),
+      },
+      query,
+    }
+  }
   return {
     name: 'camp/admin/checklists/checklist',
     params: {
