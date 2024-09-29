@@ -89,10 +89,6 @@
         "createMaterialList": "Créer une liste de matériel",
         "title": "Listes de matériel"
       },
-      "campMaterialListsItem": {
-        "deleteError": "Impossible de supprimer la liste de matériel. Vérifie que la liste soit vide avant de la supprimer.",
-        "deleteWarning": "Veux-tu vraiment supprimer cette liste de matériel ?"
-      },
       "campPeriods": {
         "createPeriod": "Créer une période",
         "title": "Période | Périodes"
@@ -124,7 +120,8 @@
         "title": "Créer une liste de matériel"
       },
       "dialogMaterialListEdit": {
-        "title": "Modifier la liste de matériel"
+        "title": "Modifier la liste de matériel",
+        "deleteError": "Impossible de supprimer la liste de matériel. Vérifie que la liste soit vide avant de la supprimer."
       },
       "dialogPeriodCreate": {
         "title": "Créer une période"

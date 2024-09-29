@@ -16,6 +16,7 @@
       <PromptEntityDelete
         :entity="entityUri"
         :warning-text-entity="materialList.name"
+        :error-handler="deleteErrorHandler"
         position="top"
         align="left"
       />
@@ -48,6 +49,14 @@ export default {
       if (showDialog) {
         this.loadEntityData(this.materialList._meta.self)
       }
+    },
+  },
+  methods: {
+    deleteErrorHandler(e) {
+      if (e?.response?.status === 422 /* Validation Error */) {
+        return this.$tc('components.campAdmin.dialogMaterialListEdit.deleteError')
+      }
+      return null
     },
   },
 }
