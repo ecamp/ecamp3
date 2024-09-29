@@ -30,6 +30,13 @@ const { data: scheduleEntryData, error } = await useAsyncData(
       // might not be needed for every activity, but safer to do eager loading instead of n+1 later on
       props.camp.materialLists().$loadItems(),
       props.camp.campCollaborations().$loadItems(),
+      props.camp.checklists().$loadItems(),
+      $api
+        .get()
+        .checklistItems({
+          'checklist.camp': props.camp._meta.self,
+        })
+        .$loadItems(),
     ])
 
     return markRaw(scheduleEntry)

@@ -1,15 +1,13 @@
 <template>
-  <div class="tw-break-after-page">
+  <div>
     <generic-error-message v-if="error" :error="error" />
-    <program-period
+    <activity-list-period
       v-for="period in periods"
-      v-else
       :key="period._meta.self"
       :period="period"
       :camp="camp"
-      :show-daily-summary="options.dayOverview || false"
-      :show-activities="true"
       :index="index"
+      :content-type-names="['LearningObjectives', 'LearningTopics', 'Checklist']"
     />
   </div>
 </template>
@@ -25,15 +23,13 @@ const props = defineProps({
 const { $api } = useNuxtApp()
 
 const { data: periods, error } = await useAsyncData(
-  `config/Program-${props.index}`,
+  `config/ActivityList-${props.index}`,
   async () => {
     await Promise.all([
       $api.get().contentTypes().$loadItems(),
       props.camp.periods().$loadItems(),
       props.camp.activities().$loadItems(),
       props.camp.categories().$loadItems(),
-      props.camp.materialLists().$loadItems(),
-      props.camp.campCollaborations().$loadItems(),
       props.camp.checklists().$loadItems(),
       $api
         .get()
