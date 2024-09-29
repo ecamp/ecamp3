@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '~/assets/calendar/CalendarDaily.sass',
     '~/assets/calendar/CalendarWithEvents.sass',
   ],
-  plugins: [{ src: '~/plugins/hal-json-vuex.js' }, { src: '~/plugins/dayjs.js' }],
+  plugins: [{ src: '~/plugins/hal-json-vuex.ts' }, { src: '~/plugins/dayjs.js' }],
 
   components: [
     { path: '~/components/config', prefix: 'Config', global: 'true' },
