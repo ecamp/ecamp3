@@ -133,10 +133,10 @@
         "addressZipcode": "Zipcode",
         "coachName": "Name of Y+S coach",
         "kind": "Camp kind (house, tent, traveling, summer, autumn)",
-        "motto": "Motto",
+        "motto": "Motto / Theme",
         "name": "Name",
         "organizer": "Organizer",
-        "title": "Title",
+        "title": "Camp title",
         "trainingAdvisorName": "Name of training advisor"
       },
       "name": "Camp | Camps",
