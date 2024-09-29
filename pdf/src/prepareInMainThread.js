@@ -47,7 +47,11 @@ export async function prepareInMainThread(config) {
   }
 
   const activityData = (config) => {
-    if (!config.contents.some((c) => ['Program', 'Activity'].includes(c.type))) {
+    if (
+      !config.contents.some((c) =>
+        ['Program', 'Activity', 'ActivityList'].includes(c.type)
+      )
+    ) {
       return []
     }
 
@@ -89,6 +93,13 @@ export async function prepareInMainThread(config) {
         }),
       camp.materialLists().$loadItems(),
       config.apiGet().contentTypes().$loadItems(),
+      camp.checklists().$loadItems(),
+      config
+        .apiGet()
+        .checklistItems({
+          'checklist.camp': camp._meta.self,
+        })
+        .$loadItems(),
     ]
   }
 
