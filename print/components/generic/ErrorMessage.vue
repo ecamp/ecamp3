@@ -3,7 +3,8 @@
     <h1 class="tw-text-lg tw-font-semibold">
       {{ title }}
     </h1>
-    {{ error }}
+    {{ error.message }}<br />
+    {{ error.stack }}
   </div>
 </template>
 
