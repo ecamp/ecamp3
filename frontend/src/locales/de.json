@@ -132,7 +132,7 @@
       },
       "dialogMaterialListEdit": {
         "title": "Materialliste bearbeiten",
-          "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
+        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
