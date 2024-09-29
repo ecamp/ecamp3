@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios/dist/vue-axios.common.min'
-import HalJsonVuex from 'hal-json-vuex'
+import { HalJsonVuexPlugin } from 'hal-json-vuex'
 import lang from './lang'
 import auth from './auth'
 import preferences from './preferences'
@@ -32,11 +32,10 @@ class StorePlugin {
 
     Vue.use(VueAxios, axios)
 
-    let halJsonVuex = HalJsonVuex
-    if (typeof halJsonVuex !== 'function') {
-      halJsonVuex = HalJsonVuex.default
-    }
-    apiStore = halJsonVuex(store, axios, { forceRequestedSelfLink: true })
+    /**
+     * @type apiStore {import('hal-json-vuex').HalJsonVuex<RootEndpoint>}
+     */
+    apiStore = HalJsonVuexPlugin(store, axios, { forceRequestedSelfLink: true })
     Vue.use(apiStore)
   }
 }
