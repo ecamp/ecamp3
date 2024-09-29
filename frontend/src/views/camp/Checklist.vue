@@ -46,6 +46,13 @@ export default {
       return this.camp.checklists().items
     },
   },
+  async mounted() {
+    this.checklists.map((cl) => {
+      cl.checklistItems().$reload()
+      cl.$reload()
+    })
+    await this.camp.checklists().$reload()
+  },
   methods: {
     getRootChecklistItems(checklist) {
       return sortBy(
