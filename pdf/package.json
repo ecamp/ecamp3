@@ -38,7 +38,7 @@
     "@intlify/core": "^9.10.2",
     "@rushstack/eslint-patch": "1.10.4",
     "@vitejs/plugin-vue": "5.1.4",
-    "@vitest/coverage-v8": "2.1.1",
+    "@vitest/coverage-v8": "2.1.2",
     "@vue/babel-preset-app": "5.0.8",
     "@vue/compiler-dom": "3.5.10",
     "@vue/compiler-sfc": "3.5.10",
@@ -57,7 +57,7 @@
     "prettier": "3.3.3",
     "url-template": "3.1.1",
     "vite": "5.4.8",
-    "vitest": "2.1.1"
+    "vitest": "2.1.2"
   },
   "overrides": {
     "uri-js": "npm:uri-js-replace"
