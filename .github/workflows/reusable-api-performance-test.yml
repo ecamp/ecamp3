@@ -34,7 +34,7 @@ jobs:
         with:
           php-version: '8.3.11'
           extensions: intl-73.1
-          tools: composer:2.7.0
+          tools: composer:2.8.0
           coverage: pcov
 
       - name: Get Composer Cache Directory
