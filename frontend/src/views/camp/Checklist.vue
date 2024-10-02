@@ -37,6 +37,7 @@ export default {
   },
   data() {
     return {
+      checklistContentType: null,
       expandedChecklists: [0],
     }
   },
@@ -46,11 +47,12 @@ export default {
     },
   },
   async mounted() {
-    this.checklists.map((cl) => {
-      cl.checklistItems().$reload()
-      cl.$reload()
-    })
-    await this.camp.checklists().$reload()
+    await Promise.all([
+      this.camp.categories()._meta.load,
+      this.camp.activities().$reload(),
+      this.camp.checklists().$reload(),
+      this.api.get().checklistNodes({ camp: this.camp._meta.self }),
+    ])
   },
   methods: {
     getRootChecklistItems(checklist) {

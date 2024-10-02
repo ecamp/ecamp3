@@ -25517,6 +25517,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: contentType
           required: false
           schema:
@@ -25797,6 +25809,18 @@ paths:
       description: 'Retrieves the collection of ColumnLayout resources.'
       operationId: api_content_nodecolumn_layouts_get_collection
       parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
         -
           allowEmptyValue: true
           allowReserved: false
@@ -26091,6 +26115,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: contentType
           required: false
           schema:
@@ -26371,6 +26407,18 @@ paths:
       description: 'Retrieves the collection of MultiSelect resources.'
       operationId: api_content_nodemulti_selects_get_collection
       parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
         -
           allowEmptyValue: true
           allowReserved: false
@@ -26665,6 +26713,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: contentType
           required: false
           schema:
@@ -26945,6 +27005,18 @@ paths:
       description: 'Retrieves the collection of SingleText resources.'
       operationId: api_content_nodesingle_texts_get_collection
       parameters:
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
         -
           allowEmptyValue: true
           allowReserved: false
@@ -27239,6 +27311,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: contentType
           required: false
           schema:
@@ -27526,6 +27610,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: contentType
           required: false
           schema:
@@ -27649,9 +27745,35 @@ paths:
           allowReserved: false
           deprecated: false
           description: ''
+          explode: false
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
           explode: true
           in: query
           name: 'categories[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          allowEmptyValue: true
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'name[]'
           required: false
           schema:
             items:
