@@ -58,8 +58,20 @@ export default {
       const camp = this.checklistItem.checklist().camp()
       const activities = camp.activities().items
 
-      return activities.filter((a) =>
-        this.checklistNodes.some((cn) => cn.root().id == a.rootContentNode().id)
+      // Activities ordered first ScheduleEntry start-time
+      return sortBy(
+        activities.filter((a) =>
+          this.checklistNodes.some((cn) => cn.root().id == a.rootContentNode().id)
+        ),
+        (activity) =>
+          activity
+            .scheduleEntries()
+            .items.map(
+              (s) =>
+                `${s.dayNumber}`.padStart(3, '0') +
+                `${s.scheduleEntryNumber}`.padStart(3, '0')
+            )
+            .reduce((p, v) => (p < v ? p : v))
       )
     },
   },
