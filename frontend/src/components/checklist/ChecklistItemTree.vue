@@ -15,7 +15,7 @@
         </div>
       </td>
       <td style="width: 30px">
-        <v-btn v-if="activities.length > 0" icon @click="copyToClipboard(checklistItem)">
+        <v-btn v-if="activities.length > 0" icon @click="copyToClipboard()">
           <v-icon>mdi-content-copy</v-icon>
         </v-btn>
       </td>
@@ -130,13 +130,8 @@ export default {
       )
     },
 
-    copyToClipboard(checklistItem) {
-      const activities = this.getActivities(checklistItem)
-
-      console.log(activities)
-      console.log(activities.map((a) => a.scheduleEntries().items))
-
-      const scheduleEntries = activities
+    copyToClipboard() {
+      const scheduleEntries = this.activities
         .map((a) => a.scheduleEntries().items)
         .reduce(function (items, item) {
           return items.concat(item)
