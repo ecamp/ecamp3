@@ -40,11 +40,11 @@
     "@tailwindcss/typography": "0.5.15",
     "@typescript-eslint/eslint-plugin": "8.8.0",
     "@vitest/coverage-v8": "2.1.2",
-    "@vue/compiler-dom": "3.5.10",
-    "@vue/compiler-sfc": "3.5.10",
-    "@vue/runtime-dom": "3.5.10",
-    "@vue/server-renderer": "3.5.10",
-    "@vue/shared": "3.5.10",
+    "@vue/compiler-dom": "3.5.11",
+    "@vue/compiler-sfc": "3.5.11",
+    "@vue/runtime-dom": "3.5.11",
+    "@vue/server-renderer": "3.5.11",
+    "@vue/shared": "3.5.11",
     "@vue/test-utils": "2.4.6",
     "eslint": "9.11.1",
     "eslint-config-prettier": "9.1.0",
@@ -59,7 +59,7 @@
     "vite-plugin-eslint2": "4.4.2",
     "vite-svg-loader": "5.1.0",
     "vitest": "2.1.2",
-    "vue": "3.5.10"
+    "vue": "3.5.11"
   },
   "overrides": {
     "uri-js": "npm:uri-js-replace"
