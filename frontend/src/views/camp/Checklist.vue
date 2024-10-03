@@ -14,6 +14,7 @@
             v-for="rootChecklistItem in getRootChecklistItems(checklist)"
             :key="rootChecklistItem._meta.self"
             :checklist-item="rootChecklistItem"
+            :all-checklist-nodes="allChecklistNodes"
           />
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -39,6 +40,7 @@ export default {
     return {
       checklistContentType: null,
       expandedChecklists: [0],
+      allChecklistNodes: [],
     }
   },
   computed: {
@@ -51,7 +53,13 @@ export default {
       this.camp.categories()._meta.load,
       this.camp.activities().$reload(),
       this.camp.checklists().$reload(),
-      this.api.get().checklistNodes({ camp: this.camp._meta.self }),
+      this.api
+        .get()
+        .checklistNodes({ camp: this.camp._meta.self })
+        .$reload()
+        .then((cns) => {
+          this.allChecklistNodes = cns.items
+        }),
     ])
   },
   methods: {

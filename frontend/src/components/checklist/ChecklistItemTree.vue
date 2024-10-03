@@ -7,7 +7,7 @@
       </td>
       <td style="max-width: 400px; text-align: right">
         <div
-          v-for="activity in getActivities(checklistItem)"
+          v-for="activity in activities"
           :key="activity._meta.self"
           style="display: inline; text-wrap: nowrap; padding-right: 4px"
         >
@@ -15,11 +15,7 @@
         </div>
       </td>
       <td style="width: 30px">
-        <v-btn
-          v-if="getActivities(checklistItem).length > 0"
-          icon
-          @click="copyToClipboard(checklistItem)"
-        >
+        <v-btn v-if="activities.length > 0" icon @click="copyToClipboard(checklistItem)">
           <v-icon>mdi-content-copy</v-icon>
         </v-btn>
       </td>
@@ -30,7 +26,10 @@
     >
       <td style="width: 20px"></td>
       <td colspan="3">
-        <ChecklistItemTree :checklist-item="subItem" />
+        <ChecklistItemTree
+          :checklist-item="subItem"
+          :all-checklist-nodes="allChecklistNodes"
+        />
       </td>
     </tr>
   </table>
@@ -47,18 +46,34 @@ export default {
   },
   props: {
     checklistItem: { type: Object, required: true },
+    allChecklistNodes: { type: Array, required: true },
   },
-
-  methods: {
-    getActivities(checklistItem) {
-      const camp = checklistItem.checklist().camp()
+  data() {
+    return {
+      checklistNodes: [],
+    }
+  },
+  computed: {
+    activities() {
+      const camp = this.checklistItem.checklist().camp()
       const activities = camp.activities().items
-      const checklistNodes = checklistItem.checklistNodes().items
 
       return activities.filter((a) =>
-        checklistNodes.some((cn) => cn.root().id == a.rootContentNode().id)
+        this.checklistNodes.some((cn) => cn.root().id == a.rootContentNode().id)
       )
     },
+  },
+  watch: {
+    allChecklistNodes: {
+      immediate: true,
+      handler(allChecklistNodes) {
+        this.checklistNodes = allChecklistNodes.filter((cn) =>
+          cn.checklistItems().items.some((ci) => ci.id == this.checklistItem.id)
+        )
+      },
+    },
+  },
+  methods: {
     getRowStyle() {
       const globalPos = this.getTotalNumberOfItemsAbove(this.checklistItem)
       return globalPos % 2 == 0
