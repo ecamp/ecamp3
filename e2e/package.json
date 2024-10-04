@@ -21,7 +21,7 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-cypress": "3.5.0",
     "eslint-plugin-prettier": "5.2.1",
-    "globals": "15.9.0",
+    "globals": "15.10.0",
     "prettier": "3.3.3"
   },
   "overrides": {
