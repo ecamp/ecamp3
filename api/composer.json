@@ -31,7 +31,7 @@
         "symfony/console": "7.1.5",
         "symfony/dotenv": "7.1.5",
         "symfony/expression-language": "7.1.4",
-        "symfony/flex": "2.4.6",
+        "symfony/flex": "2.4.7",
         "symfony/framework-bundle": "7.1.5",
         "symfony/http-client": "7.1.5",
         "symfony/intl": "7.1.5",
