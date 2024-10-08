@@ -48,7 +48,7 @@
         "symfony/yaml": "7.1.5",
         "twig/cssinliner-extra": "^3.4",
         "twig/extra-bundle": "3.13.0",
-        "webonyx/graphql-php": "15.14.1"
+        "webonyx/graphql-php": "15.14.2"
     },
     "require-dev": {
         "brianium/paratest": "7.4.5",
