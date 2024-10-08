@@ -64,7 +64,8 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
                 }
 
                 // do we have a matching user by email?
-                $profile = $profileRepository->findOneBy(['email' => $email]);
+                $profiles = $profileRepository->findBy(['email' => strtolower($email)]);
+                $profile = count($profiles) > 0 ? $profiles[0] : null;
                 $user = $profile?->user;
 
                 if (is_null($profile)) {

@@ -133,6 +133,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * a user account. Either this field or the user field should be null.
      */
     #[InputFilter\Trim]
+    #[InputFilter\Lowercase]
     #[Assert\Email]
     #[Assert\Length(min: 1, max: 128)]
     #[AssertEitherIsNull(other: 'user')]

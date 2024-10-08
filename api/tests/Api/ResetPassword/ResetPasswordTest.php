@@ -107,6 +107,24 @@ class ResetPasswordTest extends ECampApiTestCase {
         self::assertEmailCount(1);
     }
 
+    public function testPostResetPasswordLowercasesEmail() {
+        /** @var User $user */
+        $user = static::getFixture('user1manager');
+
+        $this->createBasicClient()->request(
+            'POST',
+            '/auth/reset_password',
+            [
+                'json' => [
+                    'email' => strtoupper("{$user->getEmail()}"),
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(204);
+        self::assertEmailCount(1);
+    }
+
     public function testPostResetPasswordReturns204ForUnknownEmailButSendsNoEmails() {
         $this->createBasicClient()->request(
             'POST',

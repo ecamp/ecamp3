@@ -208,6 +208,34 @@ class CreateUserTest extends ECampApiTestCase {
         ));
     }
 
+    public function testCreateUserLowercaseEmail(): void {
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => 'Bi-pi@example.COM',
+                        ],
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'email' => 'bi-pi@example.com',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
+    }
+
     public function testCreateUserValidatesMissingEmail() {
         // use this easy way here, because unsetting a nested attribute would be complicated
         $exampleWritePayload = $this->getExampleWritePayload();

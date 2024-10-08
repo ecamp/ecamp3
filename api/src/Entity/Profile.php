@@ -53,6 +53,7 @@ class Profile extends BaseEntity {
      * Can only be changed by setting the newEmail field, which triggers an email verification flow.
      */
     #[InputFilter\Trim]
+    #[InputFilter\Lowercase]
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: self::EXAMPLE_EMAIL)]
@@ -65,6 +66,7 @@ class Profile extends BaseEntity {
      * If set, a verification email is sent to this email address.
      */
     #[InputFilter\Trim]
+    #[InputFilter\Lowercase]
     #[Assert\Email]
     #[ApiProperty(example: self::EXAMPLE_EMAIL)]
     #[Groups(['write'])]
