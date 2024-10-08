@@ -2,9 +2,6 @@
   "components": {
     "activity": {
       "content": {
-        "checklist": {
-          "title": "Edit checklist"
-        },
         "columnLayout": {
           "columnOperations": {
             "addColumn": "Add a column",
@@ -83,8 +80,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Once you delete a camp, there is no going back. Please be certain.",
-          "explanation": "This action cannot be undone. This will permanently delete the \"{campTitle}\" camp, activities, material lists and remove all collaborator associations.",
-          "label": "Please type \"{campTitle}\" to confirm.",
+          "explanation": "This action cannot be undone. This will permanently delete the \"{campName}\" camp, activities, material lists and remove all collaborator associations.",
+          "label": "Please type \"{campName}\" to confirm.",
           "title": "Delete Camp"
         },
         "title": "Danger Zone"
@@ -92,6 +89,10 @@
       "campMaterialLists": {
         "createMaterialList": "Create material list",
         "title": "Material lists"
+      },
+      "campMaterialListsItem": {
+        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it.",
+        "deleteWarning": "Do you really want to delete this material list?"
       },
       "campPeriods": {
         "createPeriod": "Create period",
@@ -131,8 +132,7 @@
         "title": "Create material list"
       },
       "dialogMaterialListEdit": {
-        "title": "Edit material list",
-        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
+        "title": "Edit material list"
       },
       "dialogPeriodCreate": {
         "title": "Create period"
@@ -191,21 +191,6 @@
         "description": "In order to paste a copied category, you must allow eCamp to read your clipboard.",
         "granted": "You can now paste copied categories.",
         "title": "Copy & paste category"
-      }
-    },
-    "checklist": {
-      "checklistCreate": {
-        "title": "Create checklist"
-      },
-      "checklistItemCreate": {
-        "add": "Create checklist entry",
-        "title": "Add checklist entry"
-      },
-      "checklistItemEdit": {
-        "title": "Edit checklist entry"
-      },
-      "sortableChecklist": {
-        "add": "Add to \"{parent}\""
       }
     },
     "collaborator": {
@@ -302,7 +287,6 @@
     "navigation": {
       "userMeta": {
         "invitations": "Invitations",
-        "admin": "Admin",
         "logOut": "Log out",
         "myCamps": "My camps",
         "profile": "Profile"
@@ -325,10 +309,15 @@
           "activity": "Activity"
         },
         "picassoConfig": {
-          "orientation": "Page layout"
+          "orientation": "Page layout",
+          "periods": "Period(s)"
         },
         "programConfig": {
-          "dayOverview": "print day overview"
+          "dayOverview": "print day overview",
+          "periods": "Period(s)"
+        },
+        "storyConfig": {
+          "periods": "Period(s)"
         }
       },
       "documents": {
@@ -364,10 +353,8 @@
           "Cover": "Cover page",
           "Picasso": "Picasso",
           "Program": "Program",
-          "SafetyConsiderations": "Safety considerations",
-          "Story": "Story",
-          "Toc": "Table of contents",
-          "ActivityList": "Activity list (courses)"
+          "Story": "Story summary",
+          "Toc": "Table of contents"
         }
       },
       "printNuxt": {
@@ -437,11 +424,6 @@
     "prompt": {
       "promptEntityDelete": {
         "title": "Really delete?"
-      }
-    },
-    "story": {
-      "storyDay": {
-        "noStory": "The activities on this day do not contain any story content."
       }
     },
     "toast": {
@@ -530,7 +512,6 @@
       "copied": "{source} copied"
     },
     "validation": {
-      "greaterThan": "{_field_} must be greater than {min}",
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
       "lessThanOrEqual_date": "{_field_} may not be later than {max}",
@@ -541,6 +522,42 @@
     }
   },
   "views": {
+    "activity": {
+      "printPreview": "Open print preview",
+      "sideBarProgram": {
+        "title": "Activities on this day"
+      }
+    },
+    "admin": {
+      "activity": {
+        "title": "Activity settings"
+      },
+      "adminMaterialLists": {
+        "title": "Material lists"
+      },
+      "collaborators": {
+        "email": "Email address",
+        "inactiveCollaborators": "Inactive",
+        "members": "Members",
+        "openInvitations": "Open invitations",
+        "title": "Team"
+      },
+      "info": {
+        "title": "Camp infos"
+      },
+      "print": {
+        "title": "Print camp"
+      },
+      "sideBarAdmin": {
+        "itemActivity": "Activities",
+        "itemActivitySubtitle": "Category, templates & status",
+        "itemCollaborators": "Team",
+        "itemInfos": "Camp infos",
+        "itemMaterialLists": "Material lists",
+        "itemPrint": "PDF / Print"
+      },
+      "title": "Admin"
+    },
     "auth": {
       "activate": {
         "error": "Activation failed",
@@ -609,53 +626,6 @@
       }
     },
     "camp": {
-      "activity": {
-        "printPreview": "Open print preview",
-        "sideBarProgram": {
-          "title": "Activities on this day"
-        }
-      },
-      "admin": {
-        "activity": {
-          "title": "Activity settings"
-        },
-        "adminMaterialLists": {
-          "title": "Material lists"
-        },
-        "collaborators": {
-          "email": "Email address",
-          "inactiveCollaborators": "Inactive",
-          "members": "Members",
-          "openInvitations": "Open invitations",
-          "title": "Team"
-        },
-        "info": {
-          "title": "Camp infos"
-        },
-        "print": {
-          "title": "Print camp"
-        },
-        "sideBarAdmin": {
-          "itemActivity": "Activities",
-          "itemActivitySubtitle": "Category, templates & status",
-          "itemCollaborators": "Team",
-          "itemInfos": "Camp infos",
-          "itemMaterialLists": "Material lists",
-          "itemPrint": "PDF / Print"
-        },
-        "title": "Admin"
-      },
-      "category": {
-        "category": {
-          "copyCategory": "Copy category",
-          "deleteCategory": "Delete category",
-          "properties": "Properties",
-          "template": "Template for new activities"
-        },
-        "sideBarCategory": {
-          "title": "Categories"
-        }
-      },
       "campProgram": {
         "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
@@ -685,19 +655,6 @@
         "title": "Invitation",
         "useOtherAuth": "Logout & use another account",
         "userAlreadyInCamp": "You are already participating in this camp"
-      },
-      "material": {
-        "materialLists": {
-          "title": "Material lists"
-        },
-        "materialOverview": {
-          "createNewList": "Create material list",
-          "download": "Download overview",
-          "title": "General overview"
-        },
-        "sideBarMaterialLists": {
-          "title": "Material lists"
-        }
       },
       "navigation": {
         "desktop": {
@@ -743,8 +700,32 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
     },
+    "category": {
+      "category": {
+        "copyCategory": "Copy category",
+        "deleteCategory": "Delete category",
+        "properties": "Properties",
+        "template": "Template for new activities"
+      },
+      "sideBarCategory": {
+        "title": "Categories"
+      }
+    },
     "invitations": {
       "personalInvitations": "Invitations"
+    },
+    "material": {
+      "materialLists": {
+        "title": "Material lists"
+      },
+      "materialOverview": {
+        "createNewList": "Create material list",
+        "download": "Download overview",
+        "title": "General overview"
+      },
+      "sideBarMaterialLists": {
+        "title": "Material lists"
+      }
     },
     "pageNotFound": {
       "backToHome": "Back to home",
