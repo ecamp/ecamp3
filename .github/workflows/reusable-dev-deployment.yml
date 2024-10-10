@@ -47,7 +47,7 @@ jobs:
           env: ${{ inputs.name }}
 
       - name: Comment progress on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: ${{ inputs.env == 'feature-branch' }}
         with:
           pr_number: ${{ inputs.pr_number }}
@@ -152,7 +152,7 @@ jobs:
           timezone: Europe/Zurich
 
       - name: Comment success on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: ${{ success() && inputs.env == 'feature-branch' }}
         with:
           pr_number: ${{ inputs.pr_number }}
@@ -172,7 +172,7 @@ jobs:
           comment_tag: feature-branch-deployment-status
 
       - name: Comment failure on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: ${{ failure() && inputs.env == 'feature-branch' }}
         with:
           pr_number: ${{ inputs.pr_number }}
