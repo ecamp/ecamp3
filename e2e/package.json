@@ -12,7 +12,7 @@
     "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,mjs,json,md}"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.25.7",
+    "@babel/eslint-parser": "7.25.8",
     "@eslint/compat": "1.2.0",
     "@eslint/eslintrc": "3.1.0",
     "@eslint/js": "9.12.0",
