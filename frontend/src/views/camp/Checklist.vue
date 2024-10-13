@@ -10,12 +10,26 @@
           <h3>{{ checklist.name }}</h3>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <ChecklistItemTree
-            v-for="rootChecklistItem in getRootChecklistItems(checklist)"
-            :key="rootChecklistItem._meta.self"
-            :checklist-item="rootChecklistItem"
-            :all-checklist-nodes="allChecklistNodes"
-          />
+          <div class="mx-n4">
+            <table class="w-100 px-n4" style="border-collapse: collapse">
+              <thead>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td v-if="$vuetify.breakpoint.mdAndUp" style="width: 300px"></td>
+                </tr>
+              </thead>
+              <tbody>
+                <ChecklistItemParent
+                  v-for="{ value, depth } in flat"
+                  :key="value?._meta.self"
+                  :checklist-item="value"
+                  :depth="depth"
+                  :all-checklist-nodes="allChecklistNodes"
+                />
+              </tbody>
+            </table>
+          </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -23,15 +37,15 @@
 </template>
 
 <script>
-import { sortBy } from 'lodash'
+import { flattenDeep, groupBy } from 'lodash'
 import ContentCard from '@/components/layout/ContentCard.vue'
-import ChecklistItemTree from '@/components/checklist/ChecklistItemTree.vue'
+import ChecklistItemParent from '@/components/checklist/ChecklistItemParent.vue'
 
 export default {
   name: 'Checklist',
   components: {
     ContentCard,
-    ChecklistItemTree,
+    ChecklistItemParent,
   },
   props: {
     camp: { type: Object, required: true },
@@ -41,11 +55,18 @@ export default {
       checklistContentType: null,
       expandedChecklists: [0],
       allChecklistNodes: [],
+      allChecklistItems: [],
     }
   },
   computed: {
     checklists() {
       return this.camp.checklists().items
+    },
+    indexedItems() {
+      return groupBy(this.allChecklistItems, (item) => item.parent?.()._meta.self ?? 0)
+    },
+    flat() {
+      return flattenDeep(this.deepChildren(null))
     },
   },
   async mounted() {
@@ -60,14 +81,25 @@ export default {
         .then((cns) => {
           this.allChecklistNodes = cns.items
         }),
+      this.api
+        .get()
+        .checklistItems({ 'checklist.camp': this.camp._meta.self })
+        .$reload()
+        .then(({ items }) => {
+          this.allChecklistItems = items
+        }),
     ])
   },
   methods: {
-    getRootChecklistItems(checklist) {
-      return sortBy(
-        checklist.checklistItems().items.filter((c) => c.parent == null),
-        (c) => c.position
-      )
+    deepChildren(item, depth = 0) {
+      return this.indexedItems[item?._meta.self ?? 0]
+        ?.sort((a, b) => a.position - b.position)
+        .map((child) => {
+          if (child._meta.self in this.indexedItems) {
+            return [{ value: child, depth }, this.deepChildren(child, depth + 1)]
+          }
+          return [{ value: child, depth }]
+        })
     },
   },
 }

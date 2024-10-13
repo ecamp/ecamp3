@@ -8,6 +8,10 @@
   gap: 4px;
 }
 
+.gap-x-1 {
+  column-gap: 4px;
+}
+
 .gap-2 {
   gap: 8px;
 }
@@ -22,4 +26,12 @@
 
 .flex-wrap-reverse {
   flex-wrap: wrap-reverse;
+}
+
+.justify-items-start {
+  justify-items: start;
+}
+
+.justify-content-between {
+  justify-content: space-between;
 }
