@@ -10,7 +10,7 @@ on:
           ecamp3-dev/2023-07-17-12-55-33-ecamp3-dev.sql.gz.gpg
         required: true
         default: latest
-      pr_number:
+      pr-number:
         type: number
         description: |
           The pr number if it is a pr (3898), else null
@@ -37,10 +37,10 @@ jobs:
     needs: build-and-push
     uses: ./.github/workflows/reusable-dev-deployment.yml
     with:
-      name: ${{ inputs.pr_number == null && 'dev' || format('pr{0}', inputs.pr_number) }}
+      name: ${{ inputs.pr-number == null && 'dev' || format('pr{0}', inputs.pr-number) }}
       sha: ${{ github.sha }}
       env: ${{ inputs.env }}
-      pr_number: ${{ inputs.pr_number }}
-      dropDBOnUninstall: ${{ inputs.pr_number != null }}
+      pr-number: ${{ inputs.pr-number }}
+      dropDBOnUninstall: ${{ inputs.pr-number != null }}
       restoreSourceFile: ${{ inputs.restoreSourceFile }}
     secrets: inherit

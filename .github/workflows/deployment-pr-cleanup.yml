@@ -93,11 +93,11 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         if: steps.pr-number.outputs.number
         with:
-          pr_number: ${{ steps.pr-number.outputs.number }}
+          pr-number: ${{ steps.pr-number.outputs.number }}
           message: |
             ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
 
 
             If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
-          comment_tag: feature-branch-deployment-status
-          create_if_not_exists: false
+          comment-tag: feature-branch-deployment-status
+          create-if-not-exists: false
