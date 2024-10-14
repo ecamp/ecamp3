@@ -28,6 +28,6 @@ jobs:
       name: pr${{ github.event.pull_request.number }}
       sha: ${{ github.event.pull_request.head.sha }}
       env: feature-branch
-      pr_number: ${{ github.event.pull_request.number }}
+      pr-number: ${{ github.event.pull_request.number }}
       dropDBOnUninstall: true
     secrets: inherit

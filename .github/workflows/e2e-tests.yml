@@ -3,7 +3,7 @@ name: "Tests: End to End to detect flaky tests"
 on:
   workflow_dispatch:
     inputs:
-      pr_number:
+      pr-number:
         type: number
         description: |
           Number of times the tests should run
@@ -37,7 +37,7 @@ jobs:
               .fill(start)
               .map((value, index) => value + index);
             }
-            return range(0, ${{ inputs.pr_number != null && inputs.pr_number || 10 }})
+            return range(0, ${{ inputs.pr-number != null && inputs.pr-number || 10 }})
 
   e2e-tests-build:
     name: 'Tests: End-to-end build to detect flaky tests'
