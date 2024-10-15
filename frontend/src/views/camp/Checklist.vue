@@ -21,7 +21,7 @@
               </thead>
               <tbody>
                 <ChecklistItemParent
-                  v-for="{ value, depth } in flat"
+                  v-for="{ value, depth } in flat[checklist._meta.self] ?? []"
                   :key="value?._meta.self"
                   :checklist-item="value"
                   :depth="depth"
@@ -66,7 +66,10 @@ export default {
       return groupBy(this.allChecklistItems, (item) => item.parent?.()._meta.self ?? 0)
     },
     flat() {
-      return flattenDeep(this.deepChildren(null))
+      return groupBy(
+        flattenDeep(this.deepChildren(this.indexedItems, null)),
+        ({ value }) => value.checklist()._meta.self
+      )
     },
   },
   async mounted() {
@@ -91,12 +94,12 @@ export default {
     ])
   },
   methods: {
-    deepChildren(item, depth = 0) {
-      return this.indexedItems[item?._meta.self ?? 0]
+    deepChildren(items, item, depth = 0) {
+      return items[item?._meta.self ?? 0]
         ?.sort((a, b) => a.position - b.position)
         .map((child) => {
-          if (child._meta.self in this.indexedItems) {
-            return [{ value: child, depth }, this.deepChildren(child, depth + 1)]
+          if (child._meta.self in items) {
+            return [{ value: child, depth }, this.deepChildren(items, child, depth + 1)]
           }
           return [{ value: child, depth }]
         })
