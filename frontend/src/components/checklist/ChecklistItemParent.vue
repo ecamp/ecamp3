@@ -24,12 +24,11 @@
         />
         <v-btn
           v-if="activities.length > 0"
-          class="d-inline-block ml-auto"
+          class="d-inline-block ml-auto my-n1"
           icon
-          small
           @click="copyToClipboard(checklistItem)"
         >
-          <v-icon small>mdi-numeric</v-icon>
+          <v-icon>mdi-clipboard-check-multiple-outline</v-icon>
         </v-btn>
       </div>
     </td>
@@ -41,7 +40,7 @@
           small
           @click="copyToClipboard(checklistItem)"
         >
-          <v-icon small>mdi-numeric</v-icon>
+          <v-icon small>mdi-clipboard-check-multiple-outline</v-icon>
         </v-btn>
         <div class="d-grid">
           <ScheduleEntryLinks
