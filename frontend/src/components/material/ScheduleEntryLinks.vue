@@ -9,7 +9,7 @@
       $vuetify.breakpoint.smAndUp ? fullDescription(items[0]) : shortDescription(items[0])
     }}
   </router-link>
-  <span v-else class="d-inline-flex flex-sm-wrap gap-1 align-center py-sm-1">
+  <span v-else class="d-inline-flex flex-sm-wrap align-center">
     <span class="mr-sm-auto">
       <CategoryChip
         class="flex-shrink-0"
@@ -18,7 +18,7 @@
         :category="activity.category()"
       />{{ $vuetify.breakpoint.smAndUp ? `\u2009${activity.title}:` : '' }}
     </span>
-    <span class="d-inline-grid d-sm-inline-flex flex-wrap gap-1"
+    <span class="d-inline-flex gap-x-1 flex-wrap"
       ><router-link
         v-for="(scheduleEntry, index) in items"
         :key="scheduleEntry.id"
@@ -45,6 +45,7 @@ export default {
   components: { CategoryChip },
   props: {
     activityPromise: { type: Promise, required: true },
+    ellipsis: { type: Boolean, default: false },
   },
   data: () => {
     return {
