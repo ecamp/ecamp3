@@ -13,7 +13,7 @@
           $tc('views.camp.navigation.desktop.navTopbar.program')
         }}</span>
       </v-btn>
-      <v-btn v-if="hasChecklist" :to="campRoute(camp, 'checklist')" text>
+      <v-btn v-if="hasChecklist" :to="campRoute(camp, 'overview/checklists')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-clipboard-list-outline</v-icon>
         <span class="sr-only-sm-and-down">{{
           $tc('views.camp.navigation.desktop.navTopbar.checklist')

@@ -664,8 +664,10 @@
         "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
         "title": "Grobprogramm"
       },
-      "checklist": {
-        "title": "Checklist-Übersicht"
+      "checklistOverview": {
+        "checklistLists": {
+          "title": "Checklist-Übersicht"
+        }
       },
       "dashboard": {
         "activities": "Aktivitäten",
@@ -729,6 +731,7 @@
             "itemActivity": "Aktivitäten",
             "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
             "itemCamps": "Meine Lager",
+            "itemChecklists": "Checklist Übersicht",
             "itemClose": "Menü schliessen",
             "itemCollaborators": "Team",
             "itemInfos": "Lagerinfos",

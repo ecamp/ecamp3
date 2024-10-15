@@ -663,6 +663,11 @@
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"
       },
+      "checklistOverview": {
+        "checklistLists": {
+          "title": "Checklist Overview"
+        }
+      },
       "dashboard": {
         "activities": "Activities",
         "columns": {
@@ -725,6 +730,7 @@
             "itemActivity": "Activities",
             "itemActivitySubtitle": "Category, templates & status",
             "itemCamps": "My Camps",
+            "itemChecklists": "Checklist Overview",
             "itemClose": "Close menu",
             "itemCollaborators": "Team",
             "itemInfos": "Camp infos",
