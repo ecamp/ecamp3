@@ -122,8 +122,11 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.api.href(this.api.get(), 'checklistItems').then((uri) => (this.entityUri = uri))
+
+    await this.api.get().checklistNodes({ camp: this.camp._meta.self })
+    await this.api.get().checklistItems({ 'checklist.camp': this.camp._meta.self })
   },
 }
 </script>
