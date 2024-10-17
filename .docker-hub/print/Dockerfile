@@ -1,5 +1,5 @@
 # build stage
-FROM node:22.9.0 AS build-stage
+FROM node:22.10.0 AS build-stage
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
 ARG SENTRY_PRINT_PROJECT
@@ -22,7 +22,7 @@ COPY print .
 RUN npm run build
 
 # production stage
-FROM node:22.9.0 AS production-stage
+FROM node:22.10.0 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/.output ./.output
