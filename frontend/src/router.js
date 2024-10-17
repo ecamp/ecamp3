@@ -706,7 +706,9 @@ export function materialListFromRoute(route) {
 }
 
 export function checklistFromRoute(route) {
-  return apiStore.get().checklists({ id: route.params.checklistId })
+  return campFromRoute(route)
+    .checklists()
+    .allItems.find((c) => c.id === route.params.checklistId)
 }
 
 function getContentLayout(route) {

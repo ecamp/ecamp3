@@ -63,7 +63,11 @@
       </v-menu>
     </template>
     <v-list>
-      <SortableChecklist :parent="null" :checklist="checklist" />
+      <SortableChecklist
+        v-if="checklist && !checklist._meta.deleting"
+        :parent="null"
+        :checklist="checklist"
+      />
     </v-list>
   </content-card>
 </template>
