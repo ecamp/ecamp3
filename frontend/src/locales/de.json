@@ -203,6 +203,7 @@
         "title": "Checklisteneintrag hinzufügen"
       },
       "checklistItemEdit": {
+        "delete": "Möchtest du diesen Eintrag wirklich löschen?",
         "title": "Checklisteneintrag bearbeiten"
       },
       "sortableChecklist": {

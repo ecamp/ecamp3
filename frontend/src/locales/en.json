@@ -202,6 +202,7 @@
         "title": "Add checklist entry"
       },
       "checklistItemEdit": {
+        "delete": "Do you really want to remove this item?",
         "title": "Edit checklist entry"
       },
       "sortableChecklist": {
