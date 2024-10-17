@@ -4,6 +4,8 @@ namespace App\Tests\Api\Users;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Entity\Camp;
+use App\Entity\CampCollaboration;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
@@ -75,6 +77,81 @@ class CreateUserTest extends ECampApiTestCase {
             'password' => 'learning-by-doing-101',
         ]]);
         $this->assertResponseIsSuccessful();
+    }
+
+    public function testActivationClaimsOpenInvitations() {
+        // given
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        $camp = $this->getEntityManager()->find(Camp::class, static::getFixture('camp1')->getId());
+        $camp2 = $this->getEntityManager()->find(Camp::class, static::getFixture('camp2')->getId());
+
+        // create an invitation which will be claimed by the user
+        $invitation1 = new CampCollaboration();
+        $invitation1->camp = $camp;
+        $invitation1->status = CampCollaboration::STATUS_INVITED;
+        $invitation1->inviteEmail = 'bi-pi@example.com';
+        $invitation1->inviteKeyHash = '1234123412341234';
+        $invitation1->role = CampCollaboration::ROLE_MANAGER;
+        $this->getEntityManager()->persist($invitation1);
+
+        // create a rejected invitation which will not be claimed by the user
+        $invitation2 = new CampCollaboration();
+        $invitation2->camp = $camp2;
+        $invitation2->status = CampCollaboration::STATUS_INACTIVE;
+        $invitation2->inviteEmail = 'bi-pi@example.com';
+        $invitation2->inviteKeyHash = '2341234123412341';
+        $invitation2->role = CampCollaboration::ROLE_MANAGER;
+        $this->getEntityManager()->persist($invitation2);
+
+        // create an unrelated invitation which will not be claimed by the user
+        $invitation3 = new CampCollaboration();
+        $invitation3->camp = $camp;
+        $invitation3->status = CampCollaboration::STATUS_INVITED;
+        $invitation3->inviteEmail = 'someone-else@example.com';
+        $invitation3->inviteKeyHash = '3412341234123412';
+        $invitation3->role = CampCollaboration::ROLE_MANAGER;
+        $this->getEntityManager()->persist($invitation3);
+
+        $this->getEntityManager()->flush();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+        $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
+
+        // when
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseIsSuccessful();
+
+        // login
+        $client->request('POST', '/authentication_token', ['json' => [
+            'identifier' => 'bi-pi@example.com',
+            'password' => 'learning-by-doing-101',
+        ]]);
+
+        // then
+        $client->request('GET', '/personal_invitations');
+
+        // User has one personal invitation waiting for them
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [
+                    ['href' => "/personal_invitations/{$invitation1->getId()}"]
+                ],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
     }
 
     public function testActivationFailsIfAlreadyActivated() {

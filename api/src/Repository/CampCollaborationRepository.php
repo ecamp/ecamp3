@@ -38,6 +38,13 @@ class CampCollaborationRepository extends ServiceEntityRepository implements Can
     /**
      * @return CampCollaboration[]
      */
+    public function findAllByInviteEmailAndInvited(string $inviteEmail): array {
+        return $this->findBy(['inviteEmail' =>$inviteEmail, 'status' => CampCollaboration::STATUS_INVITED]);
+    }
+
+    /**
+     * @return CampCollaboration[]
+     */
     public function findAllByPersonallyInvitedUser(User $user): array {
         return $this->findBy(['user' => $user, 'status' => CampCollaboration::STATUS_INVITED]);
     }
