@@ -1,0 +1,12 @@
+services:
+  performance-test:
+    image: grafana/k6:0.53.0
+    volumes:
+      - .:/app
+    user: ${USER_ID:-1000}
+    network_mode: host
+    working_dir: /app
+#    environment:
+#      - K6_WEB_DASHBOARD=true
+    ports:
+      - '5665:5665'
