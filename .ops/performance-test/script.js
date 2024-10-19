@@ -14,15 +14,15 @@ const host = __ENV.API_ROOT_URL || 'http://localhost:3000'
 const specialEndpoints = [
   '/',
   '/api',
-  '/authentication_token',
-  '/auth/google',
-  '/auth/pbsmidata',
-  '/auth/cevidb',
-  '/auth/jubladb',
-  '/auth/reset_password',
-  '/auth/resend_activation',
-  '/invitations',
-  '/personal_invitations',
+  '/api/authentication_token',
+  '/api/auth/google',
+  '/api/auth/pbsmidata',
+  '/api/auth/cevidb',
+  '/api/auth/jubladb',
+  '/api/auth/reset_password',
+  '/api/auth/resend_activation',
+  '/api/invitations',
+  '/api/personal_invitations'
 ]
 
 const metricsMap = new Map()
@@ -56,11 +56,15 @@ export default function() {
 
       metricsMap.get(urlWithoutTemplate)?.add(collection.timings.duration)
 
-      const itemUrl = JSON.parse(collection.body)?._embedded?.items[0]?._links?.self?.href
-      if (itemUrl) {
+      try {
+        const itemUrl = JSON.parse(collection.body)._embedded?.items[0]._links.self.href
         const itemResponse = http.get(`${host}${itemUrl}.jsonhal`)
         metricsMap.get(`${urlWithoutTemplate}/item`)?.add(itemResponse.timings.duration)
-      } else {
+      }
+      // this also catches the ReferenceError on the long path to find the item url
+      catch (e) 
+      {
+        console.log(`Failed to get item for url ${url}, reason: `, e)
         metricsMap.get(`${urlWithoutTemplate}/item`)?.add(-1E9)
       }
     }
