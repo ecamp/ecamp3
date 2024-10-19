@@ -1,5 +1,11 @@
 <template>
   <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
+    <template #title-actions>
+      <v-spacer />
+      <v-btn v-if="today !== null" :icon="true" @click="scrollToToday">
+        <v-icon>mdi-calendar-today</v-icon>
+      </v-btn>
+    </template>
     <div class="d-flow-root">
       <ScheduleEntryFilters
         v-if="loading"
@@ -58,7 +64,7 @@
               :key="dayUri"
               :aria-labelledby="dayUri + 'th'"
             >
-              <tr class="day-header__row">
+              <tr :ref="days[dayUri].id" class="day-header__row">
                 <th :id="dayUri + 'th'" colspan="5" scope="colgroup" class="day-header">
                   <div class="day-header__inner">
                     {{ dateLong(days[dayUri].start) }}
@@ -127,7 +133,7 @@
 </template>
 
 <script>
-import { periodRoute } from '@/router.js'
+import { campRoute, periodRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import { keyBy, groupBy, mapValues } from 'lodash'
@@ -140,6 +146,7 @@ import {
 } from '@/helpers/querySyncHelper'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
+import dayjs from '@/common/helpers/dayjs.js'
 
 export default {
   name: 'Dashboard',
@@ -187,6 +194,13 @@ export default {
         Object.values(this.periods).flatMap((period) => period.days().items),
         '_meta.self'
       )
+    },
+    today() {
+      const now = dayjs.utc()
+      const today = Object.values(this.days).filter(
+        (d) => dayjs.utc(d.start) <= now && dayjs.utc(d.end) >= now
+      )
+      return today.length > 0 ? today[0] : null
     },
     dayResponsibleCollaborators() {
       return mapValues(this.days, (day) =>
@@ -268,11 +282,18 @@ export default {
     })
   },
   methods: {
+    campRoute,
     periodRoute,
     persistRouterState() {
       const query = transformValuesToHalId(this.filter)
       if (filterAndQueryAreEqual(query, this.$route.query)) return
       this.$router.replace({ query }).catch((err) => console.warn(err))
+    },
+    scrollToToday() {
+      const refs = this.$refs[this.today.id]
+      if (refs.length > 0) {
+        refs[0].scrollIntoView({ behavior: 'smooth' })
+      }
     },
   },
 }
