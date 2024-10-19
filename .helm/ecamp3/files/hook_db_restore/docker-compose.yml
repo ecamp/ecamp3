@@ -5,8 +5,10 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./restore-backup.sh:/restore-backup.sh
+      - ./update-support-email.sh:/update-support-email.sh
     command:
       - sh
       - "-x"
       - /restore-backup.sh
     env_file: .env
+    network_mode: host
