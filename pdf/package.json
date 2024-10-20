@@ -51,7 +51,7 @@
     "dayjs": "1.11.13",
     "eslint": "9.13.0",
     "eslint-plugin-local-rules": "3.0.2",
-    "eslint-plugin-vue": "9.29.0",
+    "eslint-plugin-vue": "9.29.1",
     "globals": "15.11.0",
     "jsdom": "25.0.1",
     "prettier": "3.3.3",
