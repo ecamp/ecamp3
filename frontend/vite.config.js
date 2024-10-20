@@ -156,6 +156,8 @@ export default defineConfig(({ mode }) => ({
     alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
     globalSetup: './tests/globalSetup.js',
     setupFiles: './tests/setup.js',
+    maxWorkers: 1,
+    minWorkers: 1,
     coverage: {
       all: true,
       exclude: [...configDefaults.coverage.exclude, '**/src/pdf/**'],

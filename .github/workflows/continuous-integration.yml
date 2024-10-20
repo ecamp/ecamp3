@@ -40,6 +40,22 @@ jobs:
               ".github/workflows/continuous-integration.yml"
             ]
           do_not_skip: '["workflow_dispatch", "schedule"]'
+          
+  frontend-check-needed:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          skip_after_successful_duplicate: 'true'
+          paths: |
+            [
+              "frontend/**",
+              ".github/workflows/continuous-integration.yml"
+            ]
+          do_not_skip: '["workflow_dispatch", "schedule"]'
   
   e2e-check-needed:
     runs-on: ubuntu-latest
@@ -100,6 +116,9 @@ jobs:
   frontend-eslint:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
+    needs:
+      - frontend-check-needed
+    if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
       - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
 
@@ -326,6 +345,9 @@ jobs:
   frontend-tests:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
+    needs:
+      - frontend-check-needed
+    if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
       - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
 
