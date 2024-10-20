@@ -22,11 +22,13 @@
     "colorjs.io": "0.5.2",
     "dayjs": "1.11.13",
     "deepmerge": "4.3.1",
-    "hal-json-vuex": "3.0.0-alpha.1",
+    "hal-json-normalizer": "4.2.0",
+    "hal-json-vuex": "3.0.0-alpha.4",
     "isomorphic-dompurify": "2.16.0",
     "lodash": "4.17.21",
     "puppeteer-core": "23.6.0",
     "runes": "0.4.3",
+    "url-template": "3.1.1",
     "vuex": "4.1.0"
   },
   "devDependencies": {
