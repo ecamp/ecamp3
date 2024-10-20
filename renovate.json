@@ -267,6 +267,16 @@
     {
       "customType": "regex",
       "fileMatch": [
+        "^docker-compose.yml$"
+      ],
+      "matchStrings": [
+        "image:\\s+'(?<depName>cypress/included):(?<currentValue>.*)@(?<currentDigest>.*)'\\s"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
         "^.github/workflows/.+\\.ya?ml$"
       ],
       "matchStrings": [
