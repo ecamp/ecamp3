@@ -42,3 +42,14 @@ api_platform:
         order:
             createTime: DESC
     keep_legacy_inflector: false
+
+    # On API-Platform Update - test, if this config is still needed.
+    # See Commit: e82eaeaaf94800f9c013cd9063897104c9fde193
+    exception_to_status:
+        # Default
+        Symfony\Component\Serializer\Exception\ExceptionInterface: 400
+        ApiPlatform\Metadata\Exception\InvalidArgumentException: 400
+        ApiPlatform\ParameterValidator\Exception\ValidationExceptionInterface: 400
+        Doctrine\ORM\OptimisticLockException: 409
+        # Legacy
+        ApiPlatform\Exception\InvalidArgumentException: 400
