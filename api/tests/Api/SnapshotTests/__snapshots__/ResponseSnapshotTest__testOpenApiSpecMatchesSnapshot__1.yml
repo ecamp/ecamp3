@@ -22782,7 +22782,7 @@ paths:
       operationId: api_activities_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -22794,7 +22794,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23031,7 +23031,7 @@ paths:
       operationId: api_activity_progress_labels_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23043,7 +23043,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23280,7 +23280,7 @@ paths:
       operationId: api_activity_responsibles_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23292,7 +23292,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23304,7 +23304,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23318,7 +23318,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23818,7 +23818,7 @@ paths:
       operationId: api_camp_collaborations_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23830,7 +23830,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23842,7 +23842,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -23856,7 +23856,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24150,7 +24150,7 @@ paths:
       operationId: api_camps_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24162,7 +24162,7 @@ paths:
             type: boolean
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24279,18 +24279,6 @@ paths:
           allowEmptyValue: false
           allowReserved: false
           deprecated: false
-          description: 'Category identifier'
-          explode: false
-          in: path
-          name: campId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
           description: ''
           explode: false
           in: query
@@ -24300,7 +24288,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24313,6 +24301,18 @@ paths:
               type: string
             type: array
           style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Category identifier'
+          explode: false
+          in: path
+          name: campId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         200:
           content:
@@ -24366,18 +24366,6 @@ paths:
           allowEmptyValue: false
           allowReserved: false
           deprecated: false
-          description: 'Checklist identifier'
-          explode: false
-          in: path
-          name: campId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
           description: ''
           explode: false
           in: query
@@ -24387,7 +24375,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24399,7 +24387,7 @@ paths:
             type: boolean
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24413,7 +24401,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24426,6 +24414,18 @@ paths:
               type: boolean
             type: array
           style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Checklist identifier'
+          explode: false
+          in: path
+          name: campId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         200:
           content:
@@ -24599,7 +24599,7 @@ paths:
       operationId: api_categories_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24611,7 +24611,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24848,7 +24848,7 @@ paths:
       operationId: api_checklist_items_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24860,7 +24860,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24872,7 +24872,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -24886,7 +24886,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25123,7 +25123,7 @@ paths:
       operationId: api_checklists_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25135,7 +25135,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25147,7 +25147,7 @@ paths:
             type: boolean
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25161,7 +25161,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25278,18 +25278,6 @@ paths:
           allowEmptyValue: false
           allowReserved: false
           deprecated: false
-          description: 'ChecklistItem identifier'
-          explode: false
-          in: path
-          name: checklistId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
           description: ''
           explode: false
           in: query
@@ -25299,7 +25287,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25311,7 +25299,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25325,7 +25313,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25338,6 +25326,18 @@ paths:
               type: string
             type: array
           style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ChecklistItem identifier'
+          explode: false
+          in: path
+          name: checklistId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         200:
           content:
@@ -25511,7 +25511,7 @@ paths:
       operationId: api_content_nodechecklist_nodes_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25523,7 +25523,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25535,7 +25535,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25547,7 +25547,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25559,7 +25559,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25573,7 +25573,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25810,7 +25810,7 @@ paths:
       operationId: api_content_nodecolumn_layouts_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25822,7 +25822,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25834,7 +25834,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25846,7 +25846,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25858,7 +25858,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -25872,7 +25872,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26109,7 +26109,7 @@ paths:
       operationId: api_content_nodematerial_nodes_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26121,7 +26121,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26133,7 +26133,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26145,7 +26145,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26157,7 +26157,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26171,7 +26171,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26408,7 +26408,7 @@ paths:
       operationId: api_content_nodemulti_selects_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26420,7 +26420,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26432,7 +26432,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26444,7 +26444,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26456,7 +26456,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26470,7 +26470,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26707,7 +26707,7 @@ paths:
       operationId: api_content_noderesponsive_layouts_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26719,7 +26719,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26731,7 +26731,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26743,7 +26743,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26755,7 +26755,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -26769,7 +26769,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27006,7 +27006,7 @@ paths:
       operationId: api_content_nodesingle_texts_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27018,7 +27018,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27030,7 +27030,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27042,7 +27042,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27054,7 +27054,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27068,7 +27068,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27305,7 +27305,7 @@ paths:
       operationId: api_content_nodestoryboards_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27317,7 +27317,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27329,7 +27329,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27341,7 +27341,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27353,7 +27353,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27367,7 +27367,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27604,7 +27604,7 @@ paths:
       operationId: api_content_nodes_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27616,7 +27616,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27628,7 +27628,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27640,7 +27640,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27652,7 +27652,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27666,7 +27666,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27729,7 +27729,7 @@ paths:
       operationId: api_content_types_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27741,7 +27741,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27753,7 +27753,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27767,7 +27767,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27872,7 +27872,7 @@ paths:
       operationId: api_day_responsibles_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27884,7 +27884,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27896,7 +27896,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -27910,7 +27910,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28091,7 +28091,7 @@ paths:
       operationId: api_days_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28103,7 +28103,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28115,7 +28115,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28129,7 +28129,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28195,18 +28195,6 @@ paths:
           allowEmptyValue: false
           allowReserved: false
           deprecated: false
-          description: 'DayResponsible identifier'
-          explode: false
-          in: path
-          name: dayId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
           description: ''
           explode: false
           in: query
@@ -28216,7 +28204,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28228,7 +28216,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28242,7 +28230,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28255,6 +28243,18 @@ paths:
               type: string
             type: array
           style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'DayResponsible identifier'
+          explode: false
+          in: path
+          name: dayId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         200:
           content:
@@ -28503,7 +28503,7 @@ paths:
       operationId: api_material_items_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28515,7 +28515,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28527,7 +28527,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28539,7 +28539,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28553,7 +28553,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28790,7 +28790,7 @@ paths:
       operationId: api_material_lists_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -28802,7 +28802,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29039,7 +29039,7 @@ paths:
       operationId: api_periods_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29051,7 +29051,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29291,18 +29291,6 @@ paths:
           allowEmptyValue: false
           allowReserved: false
           deprecated: false
-          description: 'Day identifier'
-          explode: false
-          in: path
-          name: periodId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
           description: ''
           explode: false
           in: query
@@ -29312,7 +29300,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29324,7 +29312,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29338,7 +29326,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29351,6 +29339,18 @@ paths:
               type: string
             type: array
           style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'Day identifier'
+          explode: false
+          in: path
+          name: periodId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         200:
           content:
@@ -29404,18 +29404,6 @@ paths:
           allowEmptyValue: false
           allowReserved: false
           deprecated: false
-          description: 'ScheduleEntry identifier'
-          explode: false
-          in: path
-          name: periodId
-          required: true
-          schema:
-            type: string
-          style: simple
-        -
-          allowEmptyValue: true
-          allowReserved: false
-          deprecated: false
           description: ''
           explode: false
           in: query
@@ -29425,7 +29413,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29437,7 +29425,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29449,7 +29437,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29461,7 +29449,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29473,7 +29461,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29485,7 +29473,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29497,7 +29485,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29509,7 +29497,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29521,7 +29509,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29533,7 +29521,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29547,7 +29535,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29560,6 +29548,18 @@ paths:
               type: string
             type: array
           style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: 'ScheduleEntry identifier'
+          explode: false
+          in: path
+          name: periodId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         200:
           content:
@@ -29815,7 +29815,7 @@ paths:
       operationId: api_profiles_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29827,7 +29827,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -29988,7 +29988,7 @@ paths:
       operationId: api_schedule_entries_get_collection
       parameters:
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30000,7 +30000,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30012,7 +30012,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30024,7 +30024,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30036,7 +30036,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30048,7 +30048,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30060,7 +30060,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30072,7 +30072,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30084,7 +30084,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30096,7 +30096,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30108,7 +30108,7 @@ paths:
             type: string
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
@@ -30122,7 +30122,7 @@ paths:
             type: array
           style: form
         -
-          allowEmptyValue: true
+          allowEmptyValue: false
           allowReserved: false
           deprecated: false
           description: ''
