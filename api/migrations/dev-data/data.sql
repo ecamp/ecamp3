@@ -48,7 +48,7 @@ Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', 
 	('70ca971c992f', NULL, false, 'Skilager 2030', 'Auf in die Berge', '', NULL, NULL, NULL, NULL, '2023-09-29 23:24:38', '2023-09-29 23:45:07', 'dac7116e02ed', 'dac7116e02ed', NULL, NULL, NULL, NULL, NULL, NULL, false),
 	('e5027d852487', NULL, true, NULL, 'J+S', '', '', '', '', '', '2022-01-23 16:19:10', '2022-02-04 21:45:19', '3b41dca5c568', '3b41dca5c568', NULL, NULL, NULL, NULL, NULL, NULL, false),
 	('9c2447aefe38', 'e5027d852487', false, 'Lorem ipsum', 'Lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Lorem ipsum', 'Mainstreet 123', '1234', 'Kongo', '2023-08-12 17:41:55', '2023-08-12 17:45:10', '9145944210a7', '9145944210a7', 'Testinator', 'Summer Tent', 'Max Mustermann', NULL, NULL, NULL, false),
-	('5d28f99890bc', 'e5027d852487', false, 'PBS CH 361-25', 'Basiskurs Wolfsstufe 2025', 'Harry Potter', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2023-08-08 09:22:58', '2024-09-28 16:14:25', '9145944210a7', '9145944210a7', 'Pfadi Gryfenberg', 'Sommerlager', 'Andrea Schneider', 'JS-CH PBS CH 361-25', 'Basiskurs', 'Sandro Bodruzzi', true),
+	('5d28f99890bc', 'e5027d852487', false, 'PBS CH 361-25', 'Basiskurs Wolfsstufe 2025', 'Auf den Spuren von BiPi', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2023-08-08 09:22:58', '2024-09-28 16:14:25', '9145944210a7', '9145944210a7', 'Pfadi Gryfenberg', 'Sommerlager', 'Andrea Schneider', 'JS-CH PBS CH 361-25', 'Basiskurs', 'Sandro Bodruzzi', true),
     ('25a82475e0b7', '5d28f99890bc', true, NULL, 'J+S Kurs', '', NULL, NULL, NULL, NULL, '2024-09-28 21:19:13', '2024-09-28 21:23:05', '3b41dca5c568', '3b41dca5c568', '', NULL, NULL, NULL, NULL, NULL, true);
 
 
@@ -1589,7 +1589,6 @@ INSERT INTO public.activity_responsible (id, createtime, updatetime, activityid,
 	('f3fe61e30205', '2023-08-08 13:18:04', '2023-08-08 13:18:04', 'ad4da17161d9', '146c0608237f'),
 	('a35b7eb5de52', '2023-08-08 13:20:15', '2023-08-08 13:20:15', '7ba5ae8ddf20', '83cdbbe00f85'),
 	('fbf0cbcc987f', '2023-08-08 13:24:23', '2023-08-08 13:24:23', 'd74b28de5f70', '146c0608237f'),
-	('93fadb0afd93', '2023-08-08 13:25:39', '2023-08-08 13:25:39', 'ad2ec31ae7a5', '7cae64a7800c'),
 	('f4dcab509e05', '2023-08-08 13:26:53', '2023-08-08 13:26:53', '100dc5175796', 'e64284adf2f2'),
 	('77db0aafd3f2', '2023-08-08 13:27:16', '2023-08-08 13:27:16', '8c1c703d901d', '83cdbbe00f85'),
 	('794cf800ee67', '2023-08-08 13:29:37', '2023-08-08 13:29:37', '9c2464d15868', 'af9f868f0a48'),

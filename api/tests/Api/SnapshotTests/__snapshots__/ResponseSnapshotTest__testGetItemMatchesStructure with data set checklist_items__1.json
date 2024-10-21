@@ -3,6 +3,11 @@
         "checklist": {
             "href": "escaped_value"
         },
+        "checklistNodes": [
+            {
+                "href": "escaped_value"
+            }
+        ],
         "children": [],
         "parent": "escaped_value",
         "self": {

@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
     order: ['name' => 'ASC']
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['categories'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['name', 'categories'])]
 #[ORM\Entity]
 class ContentType extends BaseEntity {
     /**

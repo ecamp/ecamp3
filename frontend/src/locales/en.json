@@ -202,6 +202,7 @@
         "title": "Add checklist entry"
       },
       "checklistItemEdit": {
+        "delete": "Do you really want to remove this item?",
         "title": "Edit checklist entry"
       },
       "sortableChecklist": {
@@ -661,6 +662,11 @@
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"
       },
+      "checklistOverview": {
+        "checklistLists": {
+          "title": "Checklist Overview"
+        }
+      },
       "dashboard": {
         "activities": "Activities",
         "columns": {
@@ -703,6 +709,7 @@
         "desktop": {
           "navTopbar": {
             "admin": "Admin",
+            "checklist": "Checklist",
             "campIsLoading": "Camp is loading",
             "material": "Materials",
             "print": "Print",
@@ -722,6 +729,7 @@
             "itemActivity": "Activities",
             "itemActivitySubtitle": "Category, templates & status",
             "itemCamps": "My Camps",
+            "itemChecklists": "Checklist Overview",
             "itemClose": "Close menu",
             "itemCollaborators": "Team",
             "itemInfos": "Camp infos",

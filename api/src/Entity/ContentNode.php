@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Doctrine\Filter\ContentNodeCampFilter;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\InputFilter;
@@ -44,6 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     order: ['root.id', 'parent.id', 'slot', 'position']
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['contentType', 'root'])]
+#[ApiFilter(filterClass: ContentNodeCampFilter::class)]
 #[ApiFilter(filterClass: ContentNodePeriodFilter::class)]
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]

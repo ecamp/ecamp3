@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <ChecklistDetail :checklist="checklist" />
+    <ChecklistDetail :camp="camp" :checklist="checklist" />
   </v-container>
 </template>
 
@@ -13,6 +13,7 @@ export default {
     ChecklistDetail,
   },
   props: {
+    camp: { type: Object, required: true },
     checklist: {
       type: Object,
       default: null,

@@ -275,7 +275,7 @@ class CreateChecklistItemTest extends ECampApiTestCase {
             ChecklistItem::class,
             Get::class,
             $attributes,
-            ['parent', 'checklist'],
+            ['parent', 'checklist', 'checklistNodes'],
             $except
         );
     }
