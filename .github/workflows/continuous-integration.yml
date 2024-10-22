@@ -84,7 +84,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -107,7 +107,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -136,7 +136,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -165,7 +165,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -197,7 +197,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -255,7 +255,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -333,7 +333,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -376,7 +376,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -415,7 +415,7 @@ jobs:
         with:
           node-version: '22.10.0'
 
-      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
+      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
