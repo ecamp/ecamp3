@@ -41,6 +41,7 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
             ['iris'],
             true,
             'uriTemplate',
+            'property',
             ['extraProperties']
         );
         $decorated->expects($this->once())
@@ -80,6 +81,8 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
         $this->assertEquals($apiProperty->isInitializable(), $result->isInitializable());
         $this->assertEquals($apiProperty->getIris(), $result->getIris());
         $this->assertEquals($apiProperty->getGenId(), $result->getGenId());
+        $this->assertEquals($apiProperty->getUriTemplate(), $result->getUriTemplate());
+        $this->assertEquals($apiProperty->getProperty(), $result->getProperty());
         $this->assertEquals($apiProperty->getExtraProperties(), $result->getExtraProperties());
     }
 }
