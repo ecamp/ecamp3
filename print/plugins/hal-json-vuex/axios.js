@@ -1,40 +1,4 @@
-import HalJsonVuex from 'hal-json-vuex'
-import axios from 'axios'
-import { createStore } from 'vuex'
-
-export default defineNuxtPlugin((nuxtApp) => {
-  // create store
-  const store = createStore({
-    state() {
-      return {}
-    },
-  })
-  nuxtApp.vueApp.use(store)
-
-  // create axios instance
-  const { internalApiRootUrl } = useRuntimeConfig()
-  const axiosInstance = axios.create({
-    withCredentials: true,
-    baseURL: internalApiRootUrl,
-    headers: { common: { Accept: 'application/hal+json' } },
-  })
-  addAuthorizationInterceptor(axiosInstance)
-  addDebugInterceptor(axiosInstance)
-  addErrorLogInterceptor(axiosInstance)
-
-  // create and inject API
-  const api = new HalJsonVuex(store, axiosInstance, {
-    forceRequestedSelfLink: true,
-  })
-
-  return {
-    provide: {
-      api,
-    },
-  }
-})
-
-function addAuthorizationInterceptor(axios) {
+export function addAuthorizationInterceptor(axios) {
   const { basicAuthToken } = useRuntimeConfig()
   const requestHeaders = useRequestHeaders(['cookie'])
 
@@ -58,7 +22,7 @@ function addAuthorizationInterceptor(axios) {
   })
 }
 
-function addDebugInterceptor(axios) {
+export function addDebugInterceptor(axios) {
   if (!import.meta.env.DEV) {
     return
   }
@@ -81,7 +45,7 @@ function addDebugInterceptor(axios) {
   })
 }
 
-function addErrorLogInterceptor(axios) {
+export function addErrorLogInterceptor(axios) {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
