@@ -61,6 +61,12 @@
         />
         <v-divider inset />
         <SidebarListItem
+          :to="campRoute(camp, 'overview/checklists')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemChecklists')"
+          icon="mdi-clipboard-list-outline"
+        />
+        <v-divider inset />
+        <SidebarListItem
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"
           :to="adminRoute(camp, 'collaborators')"

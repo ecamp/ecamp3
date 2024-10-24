@@ -12,7 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <e-form v-if="status === 'initial'" name="user">
+    <e-form v-if="status === 'initial'" name="profile">
       <e-text-field
         v-model="entityData.newEmail"
         path="email"

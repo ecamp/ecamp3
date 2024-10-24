@@ -13,7 +13,7 @@ on:
       env:
         required: true
         type: string
-      pr_number:
+      pr-number:
         required: false
         type: string
       dropDBOnUninstall:
@@ -47,10 +47,10 @@ jobs:
           env: ${{ inputs.name }}
 
       - name: Comment progress on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: ${{ inputs.env == 'feature-branch' }}
         with:
-          pr_number: ${{ inputs.pr_number }}
+          pr-number: ${{ inputs.pr-number }}
           message: |
             ### <span aria-hidden="true">🏗️</span> Feature branch deployment in progress
 
@@ -59,9 +59,9 @@ jobs:
             |---------------------------------|------------------------|
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
-          comment_tag: feature-branch-deployment-status
+          comment-tag: feature-branch-deployment-status
 
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
         with:
           ref: ${{ inputs.sha }}
 
@@ -152,10 +152,10 @@ jobs:
           timezone: Europe/Zurich
 
       - name: Comment success on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: ${{ success() && inputs.env == 'feature-branch' }}
         with:
-          pr_number: ${{ inputs.pr_number }}
+          pr-number: ${{ inputs.pr-number }}
           message: |
             ### <span aria-hidden="true">✅</span> Feature branch deployment ready!
 
@@ -169,13 +169,13 @@ jobs:
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
             |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://${{ inputs.name }}.${{ vars.DOMAIN }}/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
             ---
-          comment_tag: feature-branch-deployment-status
+          comment-tag: feature-branch-deployment-status
 
       - name: Comment failure on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: ${{ failure() && inputs.env == 'feature-branch' }}
         with:
-          pr_number: ${{ inputs.pr_number }}
+          pr-number: ${{ inputs.pr-number }}
           message: |
             ### <span aria-hidden="true">💥</span> Feature branch deployment failed
 
@@ -186,4 +186,4 @@ jobs:
             |<span aria-hidden="true">🔨</span> Latest commit | [${{ inputs.sha }}](https://github.com/${{ github.repository }}/commit/${{ inputs.sha }}) |
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
             ---
-          comment_tag: feature-branch-deployment-status
+          comment-tag: feature-branch-deployment-status

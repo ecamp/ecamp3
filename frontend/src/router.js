@@ -293,6 +293,11 @@ export default new Router({
           },
         },
         {
+          path: 'overview/checklists',
+          name: 'camp/overview/checklists',
+          component: () => import('./views/camp/checklistOverview/ChecklistLists.vue'),
+        },
+        {
           path: 'story/period/:periodId/:periodTitle?',
           name: 'camp/period/story',
           component: () => import('./views/camp/Story.vue'),
@@ -331,6 +336,25 @@ export default new Router({
         aside: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({
           camp: campFromRoute(route),
+        }),
+      },
+    },
+    {
+      name: 'camp/overview/checklists/checklist',
+      path: '/camps/:campId/:campShortTitle?/overview/checklists/:checklistId/:checklistName?',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/checklistOverview/ChecklistOverview.vue'),
+        aside: () =>
+          import('./views/camp/checklistOverview/SideBarChecklistOverview.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+          checklist: checklistFromRoute(route),
         }),
       },
     },
@@ -706,11 +730,14 @@ export function materialListFromRoute(route) {
 }
 
 export function checklistFromRoute(route) {
-  return apiStore.get().checklists({ id: route.params.checklistId })
+  return campFromRoute(route)
+    .checklists()
+    .allItems.find((c) => c.id === route.params.checklistId)
 }
 
 function getContentLayout(route) {
   switch (route.name) {
+    case 'camp/checklist':
     case 'camp/period/program':
     case 'camp/admin/print':
     case 'camp/admin/activity/category':
@@ -839,9 +866,15 @@ export function categoryRoute(camp, category, query = {}) {
 }
 
 export function checklistRoute(camp, checklist, query = {}) {
-  if (camp?._meta.loading || checklist._meta.loading) return {}
+  if (camp?._meta.loading || checklist?._meta.loading) return {}
 
   if (!camp) {
+    if (!checklist) {
+      return {
+        name: 'admin/checklists',
+        query,
+      }
+    }
     return {
       name: 'admin/checklists/checklist',
       params: {
@@ -852,8 +885,44 @@ export function checklistRoute(camp, checklist, query = {}) {
     }
   }
 
+  if (!checklist) {
+    return {
+      name: 'camp/admin/checklists',
+      params: {
+        campId: camp.id,
+        campTitle: slugify(camp.title),
+      },
+      query,
+    }
+  }
   return {
     name: 'camp/admin/checklists/checklist',
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      checklistId: checklist.id,
+      checklistName: slugify(checklist.name),
+    },
+    query,
+  }
+}
+
+export function checklistOverviewRoute(camp, checklist, query = {}) {
+  if (camp?._meta.loading || checklist._meta.loading) return {}
+
+  if (!checklist) {
+    return {
+      name: 'camp/overview/checklists',
+      params: {
+        campId: camp.id,
+        campTitle: slugify(camp.title),
+      },
+      query,
+    }
+  }
+
+  return {
+    name: 'camp/overview/checklists/checklist',
     params: {
       campId: camp.id,
       campTitle: slugify(camp.title),

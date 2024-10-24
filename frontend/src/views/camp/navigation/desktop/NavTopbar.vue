@@ -13,6 +13,12 @@
           $tc('views.camp.navigation.desktop.navTopbar.program')
         }}</span>
       </v-btn>
+      <v-btn v-if="hasChecklist" :to="campRoute(camp, 'overview/checklists')" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-clipboard-list-outline</v-icon>
+        <span class="sr-only-sm-and-down">{{
+          $tc('views.camp.navigation.desktop.navTopbar.checklist')
+        }}</span>
+      </v-btn>
       <v-btn :to="campRoute(camp, 'story')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-book-open-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
@@ -68,6 +74,9 @@ export default {
     }
   },
   computed: {
+    hasChecklist() {
+      return this.camp.checklists().items.length > 0
+    },
     helpLink() {
       return getEnv().HELP_LINK
     },

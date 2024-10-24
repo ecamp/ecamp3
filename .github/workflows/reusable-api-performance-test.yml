@@ -28,13 +28,13 @@ jobs:
           --memory 1G
 
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.11'
+          php-version: '8.3.12'
           extensions: intl-73.1
-          tools: composer:2.7.0
+          tools: composer:2.8.0
           coverage: pcov
 
       - name: Get Composer Cache Directory
@@ -42,7 +42,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}

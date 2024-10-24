@@ -12,16 +12,16 @@
     "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{js,mjs,json,md}"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.25.1",
-    "@eslint/compat": "1.1.1",
+    "@babel/eslint-parser": "7.25.9",
+    "@eslint/compat": "1.2.1",
     "@eslint/eslintrc": "3.1.0",
-    "@eslint/js": "9.11.1",
+    "@eslint/js": "9.13.0",
     "cypress": "13.13.2",
-    "eslint": "9.11.1",
+    "eslint": "9.13.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-cypress": "3.5.0",
+    "eslint-plugin-cypress": "4.0.0",
     "eslint-plugin-prettier": "5.2.1",
-    "globals": "15.9.0",
+    "globals": "15.11.0",
     "prettier": "3.3.3"
   },
   "overrides": {
