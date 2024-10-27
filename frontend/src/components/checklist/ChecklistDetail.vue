@@ -33,41 +33,9 @@
     </template>
     <template #title-actions>
       <ChecklistItemCreate :checklist="checklist" />
-      <!-- hamburger menu -->
-      <v-menu offset-y>
-        <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <!-- remove checklist -->
-          <DialogEntityDelete
-            :entity="checklist"
-            :error-handler="deleteErrorHandler"
-            :success-handler="deleteSuccessHandler"
-          >
-            <template #activator="{ on }">
-              <v-list-item v-on="on">
-                <v-list-item-icon>
-                  <v-icon>mdi-delete</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>
-                  {{ $tc('global.button.delete') }}
-                </v-list-item-title>
-              </v-list-item>
-            </template>
-            {{ $tc('components.checklist.checklistDetail.deleteWarning') }}
-          </DialogEntityDelete>
-        </v-list>
-      </v-menu>
     </template>
     <v-list>
-      <SortableChecklist
-        v-if="checklist && !checklist._meta.deleting"
-        :parent="null"
-        :checklist="checklist"
-      />
+      <SortableChecklist :parent="null" :checklist="checklist" />
     </v-list>
   </content-card>
 </template>
@@ -77,8 +45,6 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
 import SortableChecklist from '@/components/checklist/SortableChecklist.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-import { checklistRoute } from '@/router.js'
 
 export default {
   name: 'ChecklistDetail',
@@ -87,7 +53,6 @@ export default {
     ChecklistItemCreate,
     ContentCard,
     ApiForm,
-    DialogEntityDelete,
   },
   props: {
     camp: {
@@ -112,16 +77,6 @@ export default {
   methods: {
     makeChecklistNameEditable() {
       this.editChecklistName = true
-    },
-    deleteErrorHandler(e) {
-      if (e?.response?.status === 422 /* Validation Error */) {
-        return this.$tc('components.checklist.checklistDetail.deleteError')
-      }
-      return null
-    },
-    deleteSuccessHandler() {
-      // redirect to Checklist overview
-      this.$router.replace(checklistRoute(this.camp))
     },
   },
 }

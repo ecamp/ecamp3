@@ -206,8 +206,7 @@
         "delete": "Möchtest du diesen Eintrag wirklich löschen?",
         "title": "Checklisteneintrag bearbeiten"
       },
-      "checklistDetail": {
-        "deleteWarning": "Möchtest du diese Checkliste wirklich löschen? Der komplette Inhalt dieser Checkliste wird gelöscht.",
+      "checklistOverview": {
         "deleteError": "Checkliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Checkliste nicht mehr in Aktivitäten verwendet wird."
       },
       "sortableChecklist": {

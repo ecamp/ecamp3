@@ -20,6 +20,19 @@
           <v-list-item-action style="display: inline">
             <v-item-group>
               <ButtonEdit color="primary--text" text class="my-n1 v-btn--has-bg" />
+              <DialogEntityDelete
+                :entity="checklist"
+                :warning-text-entity="checklist.name"
+                :error-handler="deleteErrorHandler"
+              >
+                <template #activator="{ on }">
+                  <ButtonDelete
+                    text
+                    class="my-n1 ml-2 v-btn--has-bg"
+                    @click.prevent="on.click"
+                  />
+                </template>
+              </DialogEntityDelete>
             </v-item-group>
           </v-list-item-action>
         </v-list-item>
@@ -33,10 +46,14 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ChecklistCreate from '@/components/checklist/ChecklistCreate.vue'
 import { checklistRoute } from '@/router.js'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'ChecklistOverview',
   components: {
+    DialogEntityDelete,
+    ButtonDelete,
     ButtonEdit,
     ChecklistCreate,
     ContentCard,
@@ -50,6 +67,14 @@ export default {
       return this.checklistCollection.items
     },
   },
-  methods: { checklistRoute },
+  methods: {
+    checklistRoute,
+    deleteErrorHandler(e) {
+      if (e?.response?.status === 422 /* Validation Error */) {
+        this.$toast.error(this.$tc('components.checklist.checklistOverview.deleteError'))
+      }
+      return null
+    },
+  },
 }
 </script>
