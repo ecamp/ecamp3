@@ -3,7 +3,7 @@
     "activity": {
       "content": {
         "checklist": {
-          "title": ""
+          "title": "Checkliste bearbeiten"
         },
         "columnLayout": {
           "columnOperations": {
@@ -83,8 +83,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",
-          "explanation": "",
-          "label": "",
+          "explanation": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Lager \"{campTitle}\" inklusive allen Aktivitäten, Materiallisten und Verantwortungszuweisungen dauerhaft gelöscht.",
+          "label": "Bitte gib zur Bestätigung \"{campTitle}\" ein.",
           "title": "Lager löschen"
         },
         "title": "Gefahrenzone"
@@ -132,7 +132,7 @@
       },
       "dialogMaterialListEdit": {
         "title": "Materialliste bearbeiten",
-        "deleteError": ""
+        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
@@ -198,8 +198,8 @@
         "title": ""
       },
       "checklistItemCreate": {
-        "add": "",
-        "title": ""
+        "add": "Checklisten-Eintrag erstellen",
+        "title": "Checklisten-Eintrag hinzufügen"
       },
       "checklistItemEdit": {
         "delete": "",
