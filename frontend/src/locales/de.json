@@ -195,22 +195,22 @@
     },
     "checklist": {
       "checklistCreate": {
-        "title": ""
+        "title": "Checkliste erstellen"
       },
       "checklistItemCreate": {
         "add": "Checklisten-Eintrag erstellen",
         "title": "Checklisten-Eintrag hinzufügen"
       },
       "checklistItemEdit": {
-        "delete": "",
-        "title": ""
+        "delete": "Möchtest du diesen Eintrag wirklich löschen?",
+        "title": "Checklisten-Eintrag bearbeiten"
       },
       "checklistDetail": {
         "deleteWarning": "Möchtest du diese Checkliste wirklich löschen? Der komplette Inhalt dieser Checkliste wird gelöscht.",
         "deleteError": "Checkliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Checkliste nicht mehr in Aktivitäten verwendet wird."
       },
       "sortableChecklist": {
-        "add": ""
+        "add": "Zu \"{parent} \" hinzufügen"
       }
     },
     "collaborator": {
@@ -307,7 +307,7 @@
     "navigation": {
       "userMeta": {
         "invitations": "Einladungen",
-        "admin": "",
+        "admin": "Admin",
         "logOut": "Ausloggen",
         "myCamps": "Meine Lager",
         "profile": "Profil"
@@ -369,8 +369,8 @@
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
           "Program": "Detailprogramm",
-          "SafetyConsiderations": "",
-          "Story": "",
+          "SafetyConsiderations": "Sicherheitsüberlegungen",
+          "Story": "Geschichte",
           "Toc": "Inhaltsverzeichnis",
           "ActivityList": ""
         }
