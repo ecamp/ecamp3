@@ -617,7 +617,7 @@
       "activity": {
         "printPreview": "Druckvorschau öffnen",
         "sideBarProgram": {
-          "title": "Aktivitäten an diesem Tag"
+          "title": "Tagesübersicht"
         }
       },
       "admin": {
@@ -630,7 +630,7 @@
         "collaborators": {
           "email": "E-Mail-Adresse",
           "inactiveCollaborators": "Inaktiv",
-          "members": "Mitglieder",
+          "members": "Mitarbeitende",
           "openInvitations": "Offene Einladungen",
           "title": "Team"
         },
