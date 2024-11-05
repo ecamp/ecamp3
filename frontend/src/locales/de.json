@@ -3,7 +3,7 @@
     "activity": {
       "content": {
         "checklist": {
-          "title": "Checkliste bearbeiten"
+          "title": ""
         },
         "columnLayout": {
           "columnOperations": {
@@ -83,8 +83,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",
-          "explanation": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Lager \"{campTitle}\" inklusive allen Aktivitäten, Materiallisten und Verantwortungszuweisungen dauerhaft gelöscht.",
-          "label": "Bitte gib zur Bestätigung \"{campTitle}\" ein.",
+          "explanation": "",
+          "label": "",
           "title": "Lager löschen"
         },
         "title": "Gefahrenzone"
@@ -132,7 +132,7 @@
       },
       "dialogMaterialListEdit": {
         "title": "Materialliste bearbeiten",
-        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
+        "deleteError": ""
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
@@ -159,8 +159,7 @@
         }
       },
       "campCreateStep1": {
-        "submitTooltip": "Bitte fülle alle Pflichtfelder aus.",
-        "titlePlaceholder": "Klassenlager 2024 5. Klasse"
+        "submitTooltip": "Bitte fülle alle Pflichtfelder aus."
       },
       "campCreateStep2": {
         "category": "Block-Kategorien",
@@ -186,9 +185,9 @@
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
       },
-      "copyCategoryInfoDialog": {
+      "copyActivityInfoDialog": {
         "allow": "Jetzt erlauben",
-        "denied": "Du hast das Lesen von der Zwischenablage untersagt. Du kannst daher kopierte Kategorien nicht einfügen.",
+        "denied": "Du hast den Zugriff auf die Zwischenablage verweigert. Kopierte Kategorien können daher nicht eingefügt werden.",
         "description": "Damit du eine kopierte Kategorie einfügen kannst, musst du eCamp erlauben deine Zwischenablage zu lesen.",
         "granted": "Du kannst nun kopierte Kategorien einfügen.",
         "title": "Kategorie kopieren & einfügen"
@@ -196,22 +195,22 @@
     },
     "checklist": {
       "checklistCreate": {
-        "title": "Checkliste erstellen"
+        "title": ""
       },
       "checklistItemCreate": {
-        "add": "Checklisteneintrag erstellen",
-        "title": "Checklisteneintrag hinzufügen"
+        "add": "",
+        "title": ""
       },
       "checklistItemEdit": {
-        "delete": "Möchtest du diesen Eintrag wirklich löschen?",
-        "title": "Checklisteneintrag bearbeiten"
+        "delete": "",
+        "title": ""
       },
       "checklistDetail": {
         "deleteWarning": "Möchtest du diese Checkliste wirklich löschen? Der komplette Inhalt dieser Checkliste wird gelöscht.",
         "deleteError": "Checkliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Checkliste nicht mehr in Aktivitäten verwendet wird."
       },
       "sortableChecklist": {
-        "add": "Zu \"{parent}\" hinzufügen"
+        "add": ""
       }
     },
     "collaborator": {
@@ -308,6 +307,7 @@
     "navigation": {
       "userMeta": {
         "invitations": "Einladungen",
+        "admin": "",
         "logOut": "Ausloggen",
         "myCamps": "Meine Lager",
         "profile": "Profil"
@@ -330,8 +330,7 @@
           "activity": "Aktivität"
         },
         "picassoConfig": {
-          "orientation": "Seitenlayout",
-          "periods": "Lagerabschnitt(e)"
+          "orientation": "Seitenlayout"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht"
@@ -370,10 +369,10 @@
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
           "Program": "Detailprogramm",
-          "SafetyConsiderations": "Sicherheits­überlegungen",
-          "Story": "Roter Faden",
+          "SafetyConsiderations": "",
+          "Story": "",
           "Toc": "Inhaltsverzeichnis",
-          "ActivityList": "Aktivitätsübersicht (Kurse)"
+          "ActivityList": ""
         }
       },
       "printNuxt": {
@@ -536,7 +535,7 @@
       "copied": "{source} kopiert"
     },
     "validation": {
-      "greaterThan": "{_field_} muss grösser sein als {min}",
+      "greaterThan": "",
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
       "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
@@ -616,50 +615,50 @@
     },
     "camp": {
       "activity": {
-        "printPreview": "Druckvorschau öffnen",
+        "printPreview": "",
         "sideBarProgram": {
-          "title": "Tagesübersicht"
+          "title": ""
         }
       },
       "admin": {
         "activity": {
-          "title": "Aktivitätseinstellungen"
+          "title": ""
         },
         "adminMaterialLists": {
-          "title": "Materiallisten"
+          "title": ""
         },
         "collaborators": {
-          "email": "E-Mail-Adresse",
-          "inactiveCollaborators": "Inaktiv",
-          "members": "Mitarbeitende",
-          "openInvitations": "Offene Einladungen",
-          "title": "Team"
+          "email": "",
+          "inactiveCollaborators": "",
+          "members": "",
+          "openInvitations": "",
+          "title": ""
         },
         "info": {
-          "title": "Lagerinfos"
+          "title": ""
         },
         "print": {
-          "title": "Lager drucken"
+          "title": ""
         },
         "sideBarAdmin": {
-          "itemActivity": "Aktivitäten",
-          "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
-          "itemCollaborators": "Team",
-          "itemInfos": "Lagerinfos",
-          "itemMaterialLists": "Materiallisten",
-          "itemPrint": "PDF / Drucken"
+          "itemActivity": "",
+          "itemActivitySubtitle": "",
+          "itemCollaborators": "",
+          "itemInfos": "",
+          "itemMaterialLists": "",
+          "itemPrint": ""
         },
-        "title": "Admin"
+        "title": ""
       },
       "category": {
         "category": {
-          "copyCategory": "Kategorie kopieren",
-          "deleteCategory": "Kategorie löschen",
-          "properties": "Eigenschaften",
-          "template": "Vorlage für neue Blöcke"
+          "copyCategory": "",
+          "deleteCategory": "",
+          "properties": "",
+          "template": ""
         },
         "sideBarCategory": {
-          "title": "Kategorien"
+          "title": ""
         }
       },
       "campProgram": {
@@ -669,7 +668,7 @@
       },
       "checklistOverview": {
         "checklistLists": {
-          "title": "Checklist-Übersicht"
+          "title": ""
         }
       },
       "dashboard": {
@@ -682,7 +681,7 @@
           "title": "Titel"
         },
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
-        "today": "Heute",
+        "today": "",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
@@ -700,23 +699,23 @@
       },
       "material": {
         "materialLists": {
-          "title": "Materiallisten"
+          "title": ""
         },
         "materialOverview": {
-          "createNewList": "Materialliste erstellen",
-          "download": "Übersicht herunterladen",
-          "title": "Gesamtübersicht"
+          "createNewList": "",
+          "download": "",
+          "title": ""
         },
         "sideBarMaterialLists": {
-          "title": "Materiallisten"
+          "title": ""
         }
       },
       "navigation": {
         "desktop": {
           "navTopbar": {
             "admin": "Admin",
+            "checklist": "",
             "campIsLoading": "Lager wird geladen",
-            "checklist": "Checklist",
             "material": "Material",
             "print": "Drucken",
             "program": "Programm",
@@ -735,7 +734,7 @@
             "itemActivity": "Aktivitäten",
             "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
             "itemCamps": "Meine Lager",
-            "itemChecklists": "Checklist Übersicht",
+            "itemChecklists": "",
             "itemClose": "Menü schliessen",
             "itemCollaborators": "Team",
             "itemInfos": "Lagerinfos",
