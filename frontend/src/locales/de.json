@@ -210,7 +210,7 @@
         "deleteError": "Checkliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Checkliste nicht mehr in Aktivitäten verwendet wird."
       },
       "sortableChecklist": {
-        "add": "Zu \"{parent} \" hinzufügen"
+        "add": "Zu \"{parent}\" hinzufügen"
       }
     },
     "collaborator": {
@@ -372,7 +372,7 @@
           "SafetyConsiderations": "Sicherheitsüberlegungen",
           "Story": "Geschichte",
           "Toc": "Inhaltsverzeichnis",
-          "ActivityList": ""
+          "ActivityList": "Aktivitätenliste (Kurse)"
         }
       },
       "printNuxt": {
@@ -535,7 +535,7 @@
       "copied": "{source} kopiert"
     },
     "validation": {
-      "greaterThan": "",
+      "greaterThan": "{_field_} muss grösser sein als {min}",
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein",
       "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
@@ -615,50 +615,50 @@
     },
     "camp": {
       "activity": {
-        "printPreview": "",
+        "printPreview": "Druckvorschau öffnen",
         "sideBarProgram": {
-          "title": ""
+          "title": "Aktivitäten an diesem Tag"
         }
       },
       "admin": {
         "activity": {
-          "title": ""
+          "title": "Aktivitätseinstellungen"
         },
         "adminMaterialLists": {
-          "title": ""
+          "title": "Materiallisten"
         },
         "collaborators": {
-          "email": "",
-          "inactiveCollaborators": "",
-          "members": "",
-          "openInvitations": "",
-          "title": ""
+          "email": "E-Mail-Adresse",
+          "inactiveCollaborators": "Inaktiv",
+          "members": "Mitglieder",
+          "openInvitations": "Offene Einladungen",
+          "title": "Team"
         },
         "info": {
-          "title": ""
+          "title": "Lagerinfos"
         },
         "print": {
-          "title": ""
+          "title": "Lager drucken"
         },
         "sideBarAdmin": {
-          "itemActivity": "",
-          "itemActivitySubtitle": "",
-          "itemCollaborators": "",
-          "itemInfos": "",
-          "itemMaterialLists": "",
-          "itemPrint": ""
+          "itemActivity": "Aktivitäten",
+          "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
+          "itemCollaborators": "Team",
+          "itemInfos": "Lagerinfos",
+          "itemMaterialLists": "Materiallisten",
+          "itemPrint": "PDF / Drucken"
         },
-        "title": ""
+        "title": "Admin"
       },
       "category": {
         "category": {
-          "copyCategory": "",
-          "deleteCategory": "",
-          "properties": "",
-          "template": ""
+          "copyCategory": "Kategorie kopieren",
+          "deleteCategory": "Kategorie löschen",
+          "properties": "Eigenschaften",
+          "template": "Vorlage für neue Blöcke"
         },
         "sideBarCategory": {
-          "title": ""
+          "title": "Kategorien"
         }
       },
       "campProgram": {
@@ -668,7 +668,7 @@
       },
       "checklistOverview": {
         "checklistLists": {
-          "title": ""
+          "title": "Checklisten-Übersicht"
         }
       },
       "dashboard": {
@@ -681,7 +681,7 @@
           "title": "Titel"
         },
         "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
-        "today": "",
+        "today": "Heute",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
@@ -699,22 +699,22 @@
       },
       "material": {
         "materialLists": {
-          "title": ""
+          "title": "Materiallisten"
         },
         "materialOverview": {
-          "createNewList": "",
-          "download": "",
-          "title": ""
+          "createNewList": "Materialliste erstellen",
+          "download": "Übersicht herunterladen",
+          "title": "Gesamtübersicht"
         },
         "sideBarMaterialLists": {
-          "title": ""
+          "title": "Materiallisten"
         }
       },
       "navigation": {
         "desktop": {
           "navTopbar": {
             "admin": "Admin",
-            "checklist": "",
+            "checklist": "Checkliste",
             "campIsLoading": "Lager wird geladen",
             "material": "Material",
             "print": "Drucken",
@@ -734,7 +734,7 @@
             "itemActivity": "Aktivitäten",
             "itemActivitySubtitle": "Kategorie, Vorlagen & Status",
             "itemCamps": "Meine Lager",
-            "itemChecklists": "",
+            "itemChecklists": "Checklisten-Übersicht",
             "itemClose": "Menü schliessen",
             "itemCollaborators": "Team",
             "itemInfos": "Lagerinfos",
