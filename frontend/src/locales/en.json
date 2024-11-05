@@ -3,7 +3,7 @@
     "activity": {
       "content": {
         "checklist": {
-          "title": "Edit checklist"
+          "title": ""
         },
         "columnLayout": {
           "columnOperations": {
@@ -83,8 +83,8 @@
       "campDangerZone": {
         "deleteCamp": {
           "description": "Once you delete a camp, there is no going back. Please be certain.",
-          "explanation": "This action cannot be undone. This will permanently delete the \"{campTitle}\" camp, activities, material lists and remove all collaborator associations.",
-          "label": "Please type \"{campTitle}\" to confirm.",
+          "explanation": "",
+          "label": "",
           "title": "Delete Camp"
         },
         "title": "Danger Zone"
@@ -132,7 +132,7 @@
       },
       "dialogMaterialListEdit": {
         "title": "Edit material list",
-        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
+        "deleteError": ""
       },
       "dialogPeriodCreate": {
         "title": "Create period"
@@ -195,22 +195,22 @@
     },
     "checklist": {
       "checklistCreate": {
-        "title": "Create checklist"
+        "title": ""
       },
       "checklistItemCreate": {
-        "add": "Create checklist entry",
-        "title": "Add checklist entry"
+        "add": "",
+        "title": ""
       },
       "checklistItemEdit": {
-        "delete": "Do you really want to remove this item?",
-        "title": "Edit checklist entry"
+        "delete": "",
+        "title": ""
       },
       "checklistDetail": {
         "deleteWarning": "Do you really want to remove this checklist? All content of the checklist will be deleted.",
         "deleteError": "Checklist couldn't be deleted. Ensure checklist is not used within activities before trying to delete it."
       },
       "sortableChecklist": {
-        "add": "Add to \"{parent}\""
+        "add": ""
       }
     },
     "collaborator": {
@@ -307,7 +307,7 @@
     "navigation": {
       "userMeta": {
         "invitations": "Invitations",
-        "admin": "Admin",
+        "admin": "",
         "logOut": "Log out",
         "myCamps": "My camps",
         "profile": "Profile"
@@ -369,10 +369,10 @@
           "Cover": "Cover page",
           "Picasso": "Picasso",
           "Program": "Program",
-          "SafetyConsiderations": "Safety considerations",
-          "Story": "Story",
+          "SafetyConsiderations": "",
+          "Story": "",
           "Toc": "Table of contents",
-          "ActivityList": "Activity list (courses)"
+          "ActivityList": ""
         }
       },
       "printNuxt": {
@@ -535,7 +535,7 @@
       "copied": "{source} copied"
     },
     "validation": {
-      "greaterThan": "{_field_} must be greater than {min}",
+      "greaterThan": "",
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
       "greaterThan_time": "{_field_} must be later than {min}",
       "lessThanOrEqual_date": "{_field_} may not be later than {max}",
@@ -615,50 +615,50 @@
     },
     "camp": {
       "activity": {
-        "printPreview": "Open print preview",
+        "printPreview": "",
         "sideBarProgram": {
-          "title": "Activities on this day"
+          "title": ""
         }
       },
       "admin": {
         "activity": {
-          "title": "Activity settings"
+          "title": ""
         },
         "adminMaterialLists": {
-          "title": "Material lists"
+          "title": ""
         },
         "collaborators": {
-          "email": "Email address",
-          "inactiveCollaborators": "Inactive",
-          "members": "Members",
-          "openInvitations": "Open invitations",
-          "title": "Team"
+          "email": "",
+          "inactiveCollaborators": "",
+          "members": "",
+          "openInvitations": "",
+          "title": ""
         },
         "info": {
-          "title": "Camp infos"
+          "title": ""
         },
         "print": {
-          "title": "Print camp"
+          "title": ""
         },
         "sideBarAdmin": {
-          "itemActivity": "Activities",
-          "itemActivitySubtitle": "Category, templates & status",
-          "itemCollaborators": "Team",
-          "itemInfos": "Camp infos",
-          "itemMaterialLists": "Material lists",
-          "itemPrint": "PDF / Print"
+          "itemActivity": "",
+          "itemActivitySubtitle": "",
+          "itemCollaborators": "",
+          "itemInfos": "",
+          "itemMaterialLists": "",
+          "itemPrint": ""
         },
-        "title": "Admin"
+        "title": ""
       },
       "category": {
         "category": {
-          "copyCategory": "Copy category",
-          "deleteCategory": "Delete category",
-          "properties": "Properties",
-          "template": "Template for new activities"
+          "copyCategory": "",
+          "deleteCategory": "",
+          "properties": "",
+          "template": ""
         },
         "sideBarCategory": {
-          "title": "Categories"
+          "title": ""
         }
       },
       "campProgram": {
@@ -668,7 +668,7 @@
       },
       "checklistOverview": {
         "checklistLists": {
-          "title": "Checklist Overview"
+          "title": ""
         }
       },
       "dashboard": {
@@ -681,7 +681,7 @@
           "title": "Title"
         },
         "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
-        "today": "Today",
+        "today": "",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
       "invitation": {
@@ -699,22 +699,22 @@
       },
       "material": {
         "materialLists": {
-          "title": "Material lists"
+          "title": ""
         },
         "materialOverview": {
-          "createNewList": "Create material list",
-          "download": "Download overview",
-          "title": "General overview"
+          "createNewList": "",
+          "download": "",
+          "title": ""
         },
         "sideBarMaterialLists": {
-          "title": "Material lists"
+          "title": ""
         }
       },
       "navigation": {
         "desktop": {
           "navTopbar": {
             "admin": "Admin",
-            "checklist": "Checklist",
+            "checklist": "",
             "campIsLoading": "Camp is loading",
             "material": "Materials",
             "print": "Print",
@@ -734,7 +734,7 @@
             "itemActivity": "Activities",
             "itemActivitySubtitle": "Category, templates & status",
             "itemCamps": "My Camps",
-            "itemChecklists": "Checklist Overview",
+            "itemChecklists": "",
             "itemClose": "Close menu",
             "itemCollaborators": "Team",
             "itemInfos": "Camp infos",
