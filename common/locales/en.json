@@ -1,17 +1,12 @@
 {
   "components": {
-    "summary": {
-      "summaryDay": {
-        "noContent": "The activities on this day do not contain any {contentType} content."
+    "story": {
+      "storyDay": {
+        "noStory": "The activities on this day do not contain any story content."
       }
     }
   },
   "contentNode": {
-    "checklist": {
-      "icon": "mdi-clipboard-list-outline",
-      "info": "Select the relevant checklist items, which are covered by this activity (course objectives, etc.).",
-      "name": "Checklists"
-    },
     "columnLayout": {
       "entity": {
         "column": {
@@ -81,10 +76,10 @@
       "printAboveMainContent": "Print above main content",
       "printBelowMainContent": "Print below main content"
     },
-    "safetyConsiderations": {
+    "safetyConcept": {
       "icon": "mdi-security",
       "info": "Some blocks require to think about the risks. Here you can record these thoughts.{br}Record what risks you have identified - and how you can address them.",
-      "name": "Safety considerations"
+      "name": "Safety concept"
     },
     "storyboard": {
       "entity": {
@@ -137,14 +132,11 @@
         "addressStreet": "Street",
         "addressZipcode": "Zipcode",
         "coachName": "Name of Y+S coach",
-        "courseKind": "Course kind (for Y+S courses: Y+S course term)",
-        "courseNumber": "Course number",
         "kind": "Camp kind (house, tent, traveling, summer, autumn)",
-        "motto": "Motto / Theme",
+        "motto": "Motto",
+        "name": "Name",
         "organizer": "Organizer",
-        "printYSLogoOnPicasso": "Print the Y+S logo on the picasso (required for Y+S courses)",
-        "shortTitle": "Short camp title",
-        "title": "Camp title",
+        "title": "Title",
         "trainingAdvisorName": "Name of training advisor"
       },
       "name": "Camp | Camps",
@@ -180,19 +172,6 @@
         "i": "i, ii, iii - lowercase roman numerals",
         "-": "no numbering"
       }
-    },
-    "checklist": {
-      "fields": {
-        "name": "Name",
-        "copyChecklistSource": "Prototype"
-      },
-      "name": "Checklist | Checklists"
-    },
-    "checklistItem": {
-      "fields": {
-        "text": "Text"
-      },
-      "name": "Checklist entry"
     },
     "contentType": {
       "name": "Contenttype | Contenttypes"
@@ -269,12 +248,6 @@
     "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
   },
   "print": {
-    "activityList": {
-      "title": "Activity list"
-    },
-    "config": {
-      "periods": "Period(s)"
-    },
     "cover": {
       "title": "Cover page"
     },
@@ -290,13 +263,8 @@
     "program": {
       "title": "Program"
     },
-    "summary": {
-      "safetyConsiderations": {
-        "title": "Safety considerations"
-      },
-      "storycontext": {
-        "title": "Story"
-      }
+    "story": {
+      "title": "Storyline"
     },
     "toc": {
       "title": "Table of contents"
