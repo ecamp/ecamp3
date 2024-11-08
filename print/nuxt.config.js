@@ -80,10 +80,6 @@ export default defineNuxtConfig({
   },
 
   telemetry: false,
-
-  build: {
-    transpile: ['hal-json-vuex'],
-  },
   vite: {
     optimizeDeps: {
       include: [
