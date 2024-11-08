@@ -1,4 +1,4 @@
-import HalJsonVuex from 'hal-json-vuex'
+import { HalJsonVuexPlugin } from 'hal-json-vuex'
 import axios from 'axios'
 import { createStore } from 'vuex'
 import {
@@ -6,6 +6,7 @@ import {
   addDebugInterceptor,
   addErrorLogInterceptor,
 } from '~/plugins/hal-json-vuex/axios'
+import type { RootEndpoint } from '~/common/helpers/endpoints'
 
 export default defineNuxtPlugin((nuxtApp) => {
   // create store
@@ -28,7 +29,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   addErrorLogInterceptor(axiosInstance)
 
   // create and inject API
-  const api = HalJsonVuex(store, axiosInstance, {
+  const api = HalJsonVuexPlugin<RootEndpoint, any>(store, axiosInstance, {
     forceRequestedSelfLink: true,
   })
 
