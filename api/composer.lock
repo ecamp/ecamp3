@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b7f9d4db93fd999e267f770dea212cd",
+    "content-hash": "cb9019f99578205c49a3bc00626792ba",
     "packages": [
         {
             "name": "api-platform/core",
@@ -1597,16 +1597,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.20.0",
+            "version": "2.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "8ed6c2234aba019f9737a6bcc9516438e62da27c"
+                "reference": "e3cabade99ebccc6ba078884c1c5f250866a494e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/8ed6c2234aba019f9737a6bcc9516438e62da27c",
-                "reference": "8ed6c2234aba019f9737a6bcc9516438e62da27c",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/e3cabade99ebccc6ba078884c1c5f250866a494e",
+                "reference": "e3cabade99ebccc6ba078884c1c5f250866a494e",
                 "shasum": ""
             },
             "require": {
@@ -1636,15 +1636,14 @@
                 "doctrine/coding-standard": "^9.0.2 || ^12.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
                 "phpstan/extension-installer": "~1.1.0 || ^1.4",
-                "phpstan/phpstan": "~1.4.10 || 1.12.6",
-                "phpstan/phpstan-deprecation-rules": "^1",
+                "phpstan/phpstan": "~1.4.10 || 2.0.3",
+                "phpstan/phpstan-deprecation-rules": "^1 || ^2",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6",
                 "psr/log": "^1 || ^2 || ^3",
                 "squizlabs/php_codesniffer": "3.7.2",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.4 || ^7.0",
                 "symfony/var-exporter": "^4.4 || ^5.4 || ^6.2 || ^7.0",
-                "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0 || ^7.0",
-                "vimeo/psalm": "4.30.0 || 5.24.0"
+                "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "suggest": {
                 "ext-dom": "Provides support for XSD validation for XML mapping files",
@@ -1694,9 +1693,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.20.0"
+                "source": "https://github.com/doctrine/orm/tree/2.20.1"
             },
-            "time": "2024-10-11T11:47:24+00:00"
+            "time": "2024-12-19T06:48:36+00:00"
         },
         {
             "name": "doctrine/persistence",
