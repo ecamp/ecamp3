@@ -141,6 +141,8 @@ spec:
                   name: {{ include "api.name" . }}
                   key: oauth-jubladb-base-url
             {{- end }}
+            - name: GOMEMLIMIT
+              value: "{{ .Values.api.resources.requests.memory }}B"
           volumeMounts:
             - mountPath: /app/config/jwt/public.pem
               name: jwt-keypair
