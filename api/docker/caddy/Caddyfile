@@ -5,6 +5,7 @@
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
+		num_threads 8
 		{$FRANKENPHP_CONFIG}
 	}
 
@@ -57,5 +58,7 @@
 	# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
 	header ?Permissions-Policy "browsing-topics=()"
 
-	php_server
+	php_server {
+        php_version {$PHP_VERSION}
+	}
 }
