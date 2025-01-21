@@ -57,7 +57,7 @@
     "jsdom": "26.0.0",
     "prettier": "3.4.2",
     "url-template": "3.1.1",
-    "vite": "5.4.11",
+    "vite": "5.4.14",
     "vitest": "2.1.8"
   },
   "overrides": {
