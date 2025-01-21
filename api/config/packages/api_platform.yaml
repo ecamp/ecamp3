@@ -41,7 +41,6 @@ api_platform:
             skip_null_values: false
         order:
             createTime: DESC
-    keep_legacy_inflector: false
 
     # On API-Platform Update - test, if this config is still needed.
     # See PR 5948: https://github.com/ecamp/ecamp3/pull/5948

@@ -82,10 +82,6 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
     },
     {
-      "matchDepNames": ["dunglas/frankenphp"],
-      "versioning": "regex:^(?<build>\\d+)\\.(?<revision>\\d+)-(?<compatibility>\\w+)(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
-    },
-    {
       "matchDepNames": ["postgres"],
       "allowedVersions": "15-alpine"
     },

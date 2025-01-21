@@ -99,14 +99,14 @@ docker compose run --rm --entrypoint="npm run lint" e2e
 docker compose up -d --wait
 ```
 
-### Build the prod api image
+### Build the prod php image
 
 ```shell
-docker compose -f ../docker-compose.yml build api
+docker compose -f ../docker-compose.yml build php
 ```
 
-### Run the prod api image
+### Run the prod php image
 
 ```shell
-docker compose -f ../docker-compose.yml up --wait -d api
+docker compose -f ../docker-compose.yml up --wait -d php
 ```

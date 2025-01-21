@@ -38,7 +38,8 @@ jobs:
 
       - name: Load images
         run: |
-          docker load --input /tmp/ecamp3-dev-api.tar
+          docker load --input /tmp/ecamp3-api-php.tar
+          docker load --input /tmp/ecamp3-api-caddy.tar
           docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
@@ -61,10 +62,10 @@ jobs:
 
       - run: docker compose up --wait -d database
         
-      - run: docker compose -f docker-compose.yml run --rm api migrate-database
+      - run: docker compose -f docker-compose.yml run --rm php migrate-database
 
       # start necessary containers
-      - run: docker compose -f docker-compose.yml up -d api frontend pdf print browserless database docker-host http-cache mail pg-admin reverse-proxy
+      - run: docker compose -f docker-compose.yml up -d php caddy frontend pdf print browserless database docker-host http-cache mail pg-admin reverse-proxy
 
       # pull cypress while container are starting up
       - run: docker compose pull e2e

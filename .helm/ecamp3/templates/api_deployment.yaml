@@ -31,20 +31,49 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       enableServiceLinks: false
       containers:
-        - name: {{ .Chart.Name }}-api
-          {{/* Define the api container as a template, so it can be reused in other places */}}
-          {{- define "api.container" }}
+        - name: {{ .Chart.Name }}-caddy
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Values.imageTag }}"
-          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          image: "{{ .Values.caddy.image.repository }}:{{ .Values.caddy.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.caddy.image.pullPolicy }}
+          env:
+            - name: SERVER_NAME
+              value: :3001
           ports:
             - name: api-http
               containerPort: {{ .Values.api.service.port }}
               protocol: TCP
             - name: api-metrics
               containerPort: {{ .Values.api.metrics.port }}
-              protocol: TCP     
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: php-socket
+          lifecycle:
+            preStop:
+              exec:
+                command: ["curl", "-XPOST", "http://localhost:2019/stop"]
+          readinessProbe:
+            tcpSocket:
+              port: 3001
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 3001
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.caddy.resources | nindent 12 }}
+        - name: php
+          {{/* Define the php container as a template, so it can be reused in other places */}}
+          {{- define "php.container" }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.php.image.pullPolicy }}
           envFrom:
             - configMapRef:
                 name: {{ include "api.name" . }}-configmap
@@ -142,6 +171,8 @@ spec:
                   key: oauth-jubladb-base-url
             {{- end }}
           volumeMounts:
+            - mountPath: /var/run/php
+              name: php-socket
             - mountPath: /app/config/jwt/public.pem
               name: jwt-keypair
               subPath: public.pem
@@ -153,17 +184,19 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
           {{- end }}
-          {{- template "api.container" . }}
+          {{- template "php.container" . }}
           resources:
-            {{- toYaml .Values.api.resources | nindent 12 }}
+            {{- toYaml .Values.php.resources | nindent 12 }}
           readinessProbe:
-            tcpSocket:
-              port: 3001
+            exec:
+              command:
+                - docker-healthcheck
             periodSeconds: 10
             timeoutSeconds: 5
           livenessProbe:
-            tcpSocket:
-              port: 3001
+            exec:
+              command:
+                - docker-healthcheck
             periodSeconds: 10
             timeoutSeconds: 5
           startupProbe:

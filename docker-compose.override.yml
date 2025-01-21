@@ -1,7 +1,8 @@
 services:
-  api:
+  php:
+    image: ecamp/ecamp3-api-dev-php
     build:
-      target: frankenphp_dev
+      target: api_platform_php_dev
     volumes:
       - ./api:/app:rw,delegated
       - caddy_data:/data

@@ -19,11 +19,6 @@ featureToggle:
 
 api:
   subpath: "/api"
-  image:
-    repository: "docker.io/ecamp/ecamp3-api"
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose shared default is .Values.imageTag
-    tag:
   service:
     type: ClusterIP
     port: 3001
@@ -66,6 +61,24 @@ api:
     requests:
       cpu: 10m
       memory: 120Mi
+
+php:
+  image:
+    repository: "docker.io/ecamp/ecamp3-api-php"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+
+caddy:
+  image:
+    repository: "docker.io/ecamp/ecamp3-api-caddy"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
 
 frontend:
   image:

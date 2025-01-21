@@ -24,29 +24,24 @@ services:
     depends_on:
       - pdf
 
-  api:
-    image: ecamp/ecamp3-dev-api
+  php:
+    image: ecamp/ecamp3-api-php
     build:
       context: ./api
-      target: frankenphp_prod
+      target: api_platform_php
       cache_from:
-        - ecamp/ecamp3-dev-api
-    container_name: 'ecamp3-api'
+        - ecamp/ecamp3-api-php
+    container_name: 'ecamp3-api-php'
     depends_on:
       - database
       - docker-host
     volumes:
+      - ./.caddy/php-socket:/var/run/php
       - ./api/config/jwt:/app/config/jwt:rw,delegated
-    ports:
-      - target: 2019
-        published: 2019
-        protocol: tcp
     environment:
       DATA_MIGRATIONS_DIR: dev-data
       DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3dev?serverVersion=15&charset=utf8"
-      LOG_LEVEL: debug
       ADDITIONAL_TRUSTED_HOSTS: '.*'
-      SERVER_NAME: ":3001"
     healthcheck:
       interval: 10s
       timeout: 3s
@@ -55,11 +50,37 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
+  caddy:
+    image: ecamp/ecamp3-api-caddy
+    build:
+      context: ./api
+      target: api_platform_caddy
+      cache_from:
+        - ecamp/ecamp3-api-caddy
+    container_name: 'ecamp3-api-caddy'
+    depends_on:
+      - php
+    environment:
+      LOG_LEVEL: debug
+      SERVER_NAME: ":3001"
+    ports:
+      - target: 2019
+        published: 2019
+        protocol: tcp
+    restart: unless-stopped
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./.caddy/php-socket:/var/run/php
+      - ./.caddy/data:/data:delegated
+      - ./.caddy/config-cache:/config:delegated
+      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./api/public:/srv/api/public:ro
+
   http-cache:
     image: varnish:7.6.1
     container_name: 'ecamp3-http-cache'
     depends_on:
-      - api
+      - caddy
     volumes:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
     command: -a :8081,HTTP -p http_max_hdr=96
@@ -190,7 +211,7 @@ services:
       - ./reverse-proxy-nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - frontend
-      - api
+      - caddy
     ports:
       - target: 3000
         published: 3000

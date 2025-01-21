@@ -42,7 +42,8 @@ jobs:
             --set imageTag=${{ github.sha }} \
             --set frontend.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-frontend' \
             --set print.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-print' \
-            --set api.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api' \
+            --set php.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-php' \
+            --set caddy.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy' \
             --set apiCache.image.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-varnish' \
             --set postgresql.dbBackupRestoreImage.repository='docker.io/${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-db-backup-restore' \
             --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
@@ -102,9 +103,11 @@ jobs:
             --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \
             --set browserless.resources.requests.cpu=${{ vars.BROWSERLESS_CPU || '500m' }} \
             --set browserless.resources.requests.memory=${{ vars.BROWSERLESS_MEMORY || '800Mi' }} \
-            --set api.resources.requests.cpu=${{ vars.PHP_CPU || '1000m' }} \
-            --set api.resources.requests.memory=${{ vars.PHP_MEMORY || '500Mi' }} \
-            --set api.resources.limits.cpu=${{ vars.PHP_CPULIMIT || '1900m' }} \
+            --set caddy.resources.requests.cpu=50m \
+            --set caddy.resources.limits.cpu=500m \
+            --set php.resources.requests.cpu=${{ vars.PHP_CPU || '1000m' }} \
+            --set php.resources.requests.memory=${{ vars.PHP_MEMORY || '500Mi' }} \
+            --set php.resources.limits.cpu=${{ vars.PHP_CPULIMIT || '1900m' }} \
             --set frontend.resources.requests.cpu=50m \
             --set print.resources.requests.cpu=${{ vars.PRINT_CPU || '300m' }} \
             --set print.resources.requests.memory=${{ vars.PRINT_MEMORY || '150Mi' }} \
