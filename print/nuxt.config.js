@@ -82,6 +82,9 @@ export default defineNuxtConfig({
   telemetry: false,
 
   vite: {
+    server: {
+      allowedHosts: ['print'],
+    },
     optimizeDeps: {
       include: [
         'dayjs',
