@@ -58,12 +58,25 @@ jobs:
           push: true
           file: api/Dockerfile
           tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api:${{ inputs.sha }}
+            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api-php:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-php:${{ inputs.sha }}
           context: './api'
-          target: frankenphp_prod
+          target: api_platform_php
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
+
+      - name: Build and push caddy docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          file: api/Dockerfile
+          tags: |
+            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api-caddy:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
+            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api-caddy:${{ inputs.sha }}
+          context: './api'
+          target: api_platform_caddy
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
 
       - name: Build and push print docker image
         uses: docker/build-push-action@v6
