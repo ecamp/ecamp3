@@ -162,7 +162,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         ]
     )]
     #[Groups(['create'])]
-    #[ORM\OneToOne(targetEntity: Profile::class, inversedBy: 'user', cascade: ['persist'], fetch: 'EAGER')]
+    #[ORM\OneToOne(targetEntity: Profile::class, inversedBy: 'user', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'restrict')]
     public Profile $profile;
 

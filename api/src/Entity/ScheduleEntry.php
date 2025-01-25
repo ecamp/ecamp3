@@ -88,7 +88,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries', fetch: 'EAGER')]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 

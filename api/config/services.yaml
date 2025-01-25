@@ -53,6 +53,11 @@ services:
         tags:
             - 'app.input_filter'
 
+    api_platform.doctrine.orm.query_extension.filter_eager_loading:
+        class: ApiPlatform\Doctrine\Orm\Extension\FilterEagerLoadingExtension
+        arguments:
+            - false
+
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
         arguments:
