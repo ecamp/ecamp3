@@ -27,6 +27,14 @@ fos_http_cache:
                     overwrite: true
                     cache_control: { public: true, max_age: 0, s_maxage: 3600 }
                     vary: [Accept, Content-Type, Authorization, Origin]
+                    
+            -
+                match:
+                    path: '^/periods/[0-9a-f]*/days'
+                headers:
+                    overwrite: true
+                    cache_control: { public: true, max_age: 0, s_maxage: 3600 }
+                    vary: [Accept, Content-Type, Authorization, Origin]
 
             # match everything else to set defaults
             -
