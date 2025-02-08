@@ -1,6 +1,3 @@
-parameters:
-    app.httpCache.matchPath: '^/(content_types|camps/[0-9a-f]*/categories)'
-
 fos_http_cache:
     debug:
         enabled: true # this sets the X-Cache-Debug response header; can be removed later-on
@@ -15,11 +12,17 @@ fos_http_cache:
         defaults:
             overwrite: true
         rules:
-            # matches /content_types endpoint
-            # matches /camps/133/categories endpoint
             -
                 match:
-                    path: '%app.httpCache.matchPath%'
+                    path: '^/content_types'
+                headers:
+                    overwrite: true
+                    cache_control: { public: true, max_age: 0, s_maxage: 3600 }
+                    vary: [Accept, Content-Type, Authorization, Origin]
+
+            -                
+                match:
+                    path: '^/camps/[0-9a-f]*/categories'
                 headers:
                     overwrite: true
                     cache_control: { public: true, max_age: 0, s_maxage: 3600 }

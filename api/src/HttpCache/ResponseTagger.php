@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ResponseTagger {
     public function __construct(
-        private string $matchPath,
         private SymfonyResponseTagger $responseTagger,
         private RequestStack $requestStack
     ) {}
@@ -35,12 +34,6 @@ class ResponseTagger {
     private function isCacheable(): bool {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (!$request->isMethodCacheable()) {
-            return false;
-        }
-
-        $requestUri = $request->getRequestUri();
-
-        return (bool) preg_match('{'.$this->matchPath.'}', $requestUri);
+        return $request->isMethodCacheable();
     }
 }
