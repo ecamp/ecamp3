@@ -113,7 +113,11 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     /**
      * All the progress labels within this camp.
      */
-    #[ApiProperty(writable: false, example: '["/progress_labels/1a2b3c4d"]')]
+    #[ApiProperty(
+        writable: false,
+        uriTemplate: ActivityProgressLabel::CAMP_SUBRESOURCE_URI_TEMPLATE,
+        example: '"/camps/1a2b3c4d/activity_progress_labels"'
+    )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ActivityProgressLabel::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $progressLabels;
