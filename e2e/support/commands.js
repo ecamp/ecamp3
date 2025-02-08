@@ -39,21 +39,21 @@ Cypress.Commands.add('moveDownloads', () => {
 })
 
 Cypress.Commands.add('expectCacheHit', (uri) => {
-  cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+  cy.request(`${uri}.jsonhal`).then((response) => {
     const headers = response.headers
     expect(headers['x-cache']).to.eq('HIT')
   })
 })
 
 Cypress.Commands.add('expectCacheMiss', (uri) => {
-  cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+  cy.request(`${uri}.jsonhal`).then((response) => {
     const headers = response.headers
     expect(headers['x-cache']).to.eq('MISS')
   })
 })
 
 Cypress.Commands.add('expectCachePass', (uri) => {
-  cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+  cy.request(`${uri}.jsonhal`).then((response) => {
     const headers = response.headers
     expect(headers['x-cache']).to.eq('PASS')
   })
@@ -62,7 +62,7 @@ Cypress.Commands.add('expectCachePass', (uri) => {
 Cypress.Commands.add('apiPatch', (uri, body) => {
   cy.request({
     method: 'PATCH',
-    url: Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal',
+    url: `${uri}.jsonhal`,
     body,
     headers: {
       'Content-Type': 'application/merge-patch+json',
@@ -73,7 +73,7 @@ Cypress.Commands.add('apiPatch', (uri, body) => {
 Cypress.Commands.add('apiPost', (uri, body) => {
   cy.request({
     method: 'POST',
-    url: Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal',
+    url: `${uri}.jsonhal`,
     body,
     headers: {
       'Content-Type': 'application/hal+json',
@@ -84,6 +84,6 @@ Cypress.Commands.add('apiPost', (uri, body) => {
 Cypress.Commands.add('apiDelete', (uri) => {
   cy.request({
     method: 'DELETE',
-    url: Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal',
+    url: `${uri}.jsonhal`,
   })
 })

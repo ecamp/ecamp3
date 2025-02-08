@@ -6,7 +6,7 @@ describe('HTTP cache tests', () => {
     cy.login('test@example.com')
 
     // first request is a cache miss
-    cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+    cy.request(`${uri}.jsonhal`).then((response) => {
       const headers = response.headers
       expect(headers.xkey).to.eq(
         'a4211c11211c c462edd869f3 5e2028c55ee4 a4211c112939 f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
@@ -32,7 +32,7 @@ describe('HTTP cache tests', () => {
     cy.login('test@example.com')
 
     // first request is a cache miss
-    cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+    cy.request(`${uri}.jsonhal`).then((response) => {
       const headers = response.headers
       expect(headers.xkey).to.eq('318e064ea0c9')
       expect(headers['x-cache']).to.eq('MISS')
@@ -52,7 +52,7 @@ describe('HTTP cache tests', () => {
     cy.login('test@example.com')
 
     // first request is a cache miss
-    cy.request(Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal').then((response) => {
+    cy.request(`${uri}.jsonhal`).then((response) => {
       const headers = response.headers
       expect(headers.xkey).to.eq(
         /* campCollaboration for test@example.com */
@@ -200,7 +200,7 @@ describe('HTTP cache tests', () => {
     // ensure cache was invalidated
     cy.login('castor@example.com')
     cy.request({
-      url: Cypress.env('API_ROOT_URL_CACHED') + uri + '.jsonhal',
+      url: `${uri}.jsonhal`,
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(404)
