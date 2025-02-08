@@ -14,6 +14,14 @@ fos_http_cache:
         rules:
             -
                 match:
+                    path: '^/?(index.jsonhal)?$'
+                headers:
+                    overwrite: true
+                    cache_control: { public: true, max_age: 0, s_maxage: 3600 }
+                    vary: [Accept, Content-Type, Authorization, Origin]
+
+            -
+                match:
                     path: '^/content_types'
                 headers:
                     overwrite: true
