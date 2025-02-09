@@ -12,6 +12,8 @@ FROM dunglas/frankenphp:1.2-php8.3.13 AS frankenphp_upstream
 # Base FrankenPHP image
 FROM frankenphp_upstream AS frankenphp_base
 
+ENV NUM_THREADS=4
+
 WORKDIR /app
 
 # persistent / runtime deps

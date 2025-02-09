@@ -29,3 +29,6 @@ data:
   {{- else }}
   VARNISH_API_URL: {{ "" | quote }}
   {{- end}}
+  {{- if .Values.api.num_threads }}
+  NUM_THREADS: {{ .Values.api.num_threads | quote }}
+  {{- end }}
