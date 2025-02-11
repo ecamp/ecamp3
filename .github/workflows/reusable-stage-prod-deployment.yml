@@ -102,6 +102,7 @@ jobs:
             --set browserless.connectionTimeout=${{ vars.BROWSERLESS_CONNECTION_TIMEOUT_MS || '30000' }} \
             --set browserless.resources.requests.cpu=${{ vars.BROWSERLESS_CPU || '500m' }} \
             --set browserless.resources.requests.memory=${{ vars.BROWSERLESS_MEMORY || '800Mi' }} \
+            --set api.num_threads=${{ vars.API_NUM_THREADS != null && vars.API_NUM_THREADS || null }} \
             --set api.resources.requests.cpu=${{ vars.PHP_CPU || '1000m' }} \
             --set api.resources.requests.memory=${{ vars.PHP_MEMORY || '500Mi' }} \
             --set api.resources.limits.cpu=${{ vars.PHP_CPULIMIT || '1900m' }} \

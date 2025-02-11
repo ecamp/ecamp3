@@ -52,6 +52,9 @@ for i in 1; do
   if [ -n "$API_SENTRY_DSN" ]; then
     values="$values --set api.sentryDsn=$API_SENTRY_DSN"
   fi
+  if [ -n "$API_NUM_THREADS" ]; then
+    values="$values --set api.num_threads=$API_NUM_THREADS"
+  fi
   if [ -n "$FRONTEND_SENTRY_DSN" ]; then
     values="$values --set frontend.sentryDsn=$FRONTEND_SENTRY_DSN"
   fi
