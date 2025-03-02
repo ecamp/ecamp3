@@ -149,31 +149,31 @@ describe('HTTP cache tests', () => {
 
       Cypress.session.clearAllSavedSessions()
       cy.login('test@example.com')
+        .then(() => cy.expectCacheMiss(uri))
+        .then(() => cy.expectCacheHit(uri))
+        .then(() =>
+          cy.apiPost('/api/categories', {
+            camp: '/api/camps/3c79b99ab424',
+            short: 'new',
+            name: 'new Category',
+            color: '#000000',
+            numberingStyle: '1',
+          })
+        )
+        .then((response) => {
+          // add new category to camp
+          const newContentNodeUri = response.body._links.self.href
 
-      // warm up cache
-      cy.expectCacheMiss(uri)
-      cy.expectCacheHit(uri)
+          // ensure cache was invalidated
+          cy.expectCacheMiss(uri)
+          cy.expectCacheHit(uri)
 
-      // add new category to camp
-      cy.apiPost('/api/categories', {
-        camp: '/api/camps/3c79b99ab424',
-        short: 'new',
-        name: 'new Category',
-        color: '#000000',
-        numberingStyle: '1',
-      }).then((response) => {
-        const newContentNodeUri = response.body._links.self.href
+          // delete newly created contentNode
+          cy.apiDelete(newContentNodeUri)
 
-        // ensure cache was invalidated
-        cy.expectCacheMiss(uri)
-        cy.expectCacheHit(uri)
-
-        // delete newly created contentNode
-        cy.apiDelete(newContentNodeUri)
-
-        // ensure cache was invalidated
-        cy.expectCacheMiss(uri)
-      })
+          // ensure cache was invalidated
+          cy.expectCacheMiss(uri)
+        })
     }
   )
 
