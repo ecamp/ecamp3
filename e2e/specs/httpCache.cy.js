@@ -141,41 +141,37 @@ describe('HTTP cache tests', () => {
     })
   })
 
-  it(
-    'invalidates /camp/{campId}/categories for new category',
-    { retries: { runMode: 3 } },
-    () => {
-      const uri = '/api/camps/3c79b99ab424/categories'
+  it('invalidates /camp/{campId}/categories for new category', () => {
+    const uri = '/api/camps/3c79b99ab424/categories'
 
-      Cypress.session.clearAllSavedSessions()
-      cy.login('test@example.com')
-        .then(() => cy.expectCacheMiss(uri))
-        .then(() => cy.expectCacheHit(uri))
-        .then(() =>
-          cy.apiPost('/api/categories', {
-            camp: '/api/camps/3c79b99ab424',
-            short: 'new',
-            name: 'new Category',
-            color: '#000000',
-            numberingStyle: '1',
-          })
-        )
-        .then((response) => {
-          // add new category to camp
-          const newContentNodeUri = response.body._links.self.href
-
-          // ensure cache was invalidated
-          cy.expectCacheMiss(uri)
-          cy.expectCacheHit(uri)
-
-          // delete newly created contentNode
-          cy.apiDelete(newContentNodeUri)
-
-          // ensure cache was invalidated
-          cy.expectCacheMiss(uri)
+    Cypress.session.clearAllSavedSessions()
+    cy.login('test@example.com')
+      .then(() => cy.expectCacheMiss(uri))
+      .then(() => cy.expectCacheHit(uri))
+      .then(() =>
+        cy.apiPost('/api/categories', {
+          camp: '/api/camps/3c79b99ab424',
+          short: 'new',
+          name: 'new Category',
+          color: '#000000',
+          numberingStyle: '1',
         })
-    }
-  )
+      )
+      .then((response) => {
+        // add new category to camp
+        const newContentNodeUri = response.body._links.self.href
+
+        // ensure cache was invalidated
+        cy.expectCacheMiss(uri)
+        cy.expectCacheHit(uri)
+
+        // delete newly created contentNode
+        cy.apiDelete(newContentNodeUri)
+
+        // ensure cache was invalidated
+        cy.expectCacheMiss(uri)
+      })
+  })
 
   it('invalidates cached data when user leaves a camp', () => {
     Cypress.session.clearAllSavedSessions()
