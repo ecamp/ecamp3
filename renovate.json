@@ -51,10 +51,6 @@
       "groupName": "vue-test-utils-frontend"
     },
     {
-      "matchDepNames": ["sass"],
-      "dependencyDashboardApproval": true
-    },
-    {
       "matchDepNames": ["php", "dunglas/frankenphp"],
       "automerge": false,
       "groupName": "php"
