@@ -466,7 +466,7 @@ jobs:
 
   e2e-tests-build:
     name: 'Tests: End-to-end build'
-    uses: ./.github/workflows/reusable-e2e-tests-build.yml
+    uses: ./.github/workflows/reusable/e2e/reusable-e2e-tests-build.yml
     needs:
       - e2e-check-needed
     if: needs.e2e-check-needed.outputs.should_skip != 'true'
@@ -475,7 +475,7 @@ jobs:
     name: 'Tests: End-to-end run'
     needs:
       - e2e-tests-build
-    uses: ./.github/workflows/reusable-e2e-tests-run.yml
+    uses: ./.github/workflows/reusable/e2e/reusable-e2e-tests-run.yml
 
   coveralls-finished:
     name: 'Finish coveralls report'

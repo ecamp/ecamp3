@@ -18,7 +18,7 @@ jobs:
   build-and-push:
     name: Build and push docker images
     needs: continuous-integration
-    uses: ./.github/workflows/reusable-build-and-push.yml
+    uses: ./.github/workflows/reusable/deploy/reusable-build-and-push.yml
     with:
       tag: ${{ github.ref_name }}
     secrets:
@@ -29,5 +29,5 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
-    uses: ./.github/workflows/reusable-stage-prod-deployment.yml
+    uses: ./.github/workflows/reusable/deploy/reusable-stage-prod-deployment.yml
     secrets: inherit
