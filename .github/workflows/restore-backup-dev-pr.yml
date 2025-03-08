@@ -25,7 +25,7 @@ on:
 jobs:
   build-and-push:
     name: Build and push docker images
-    uses: ./.github/workflows/reusable-build-and-push.yml
+    uses: ./.github/workflows/reusable/deploy/build-and-push.yml
     with:
       sha: ${{ github.sha }}
     secrets:
@@ -35,7 +35,7 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
-    uses: ./.github/workflows/reusable-dev-deployment.yml
+    uses: ./.github/workflows/reusable/deploy/dev-deployment.yml
     with:
       name: ${{ inputs.pr-number == null && 'dev' || format('pr{0}', inputs.pr-number) }}
       sha: ${{ github.sha }}
