@@ -24,7 +24,8 @@ class MaterialItemRepository extends ServiceEntityRepository implements CanFilte
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
-        $materialList = QueryBuilderHelper::findOrAddInnerRootJoinAlias($queryBuilder, $queryNameGenerator, 'materialList');
-        $this->filterByCampCollaboration($queryBuilder, $user, "{$materialList}.camp");
+        $periodMaterialItems = QueryBuilderHelper::findOrAddInnerRootJoinAlias($queryBuilder, $queryNameGenerator, 'periodMaterialItems');
+        $period = QueryBuilderHelper::findOrAddInnerJoinAlias($queryBuilder, $queryNameGenerator, $periodMaterialItems, 'period');
+        $this->filterByCampCollaboration($queryBuilder, $user, "{$period}.camp");
     }
 }

@@ -349,7 +349,7 @@ export default {
           unit: item.unit,
           combinedQuantity: this.renderQuantity(item),
           article: item.article,
-          listName: item.materialList().name,
+          listName: (item.materialList ? item.materialList()?.name : ''),
           entityObject: item,
           readonly: this.disabled || (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
           rowClass: 'readonly',

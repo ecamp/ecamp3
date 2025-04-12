@@ -12783,7 +12783,9 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
@@ -12830,7 +12832,9 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
@@ -12857,6 +12861,56 @@ components:
           type:
             - 'null'
             - string
+      type: object
+    MaterialItem-write_create:
+      deprecated: false
+      description: 'A physical item that is needed for carrying out a programme or camp.'
+      properties:
+        article:
+          description: 'The name of the item that is required.'
+          example: Volleyball
+          maxLength: 64
+          type: string
+        materialList:
+          description: |-
+            The list to which this item belongs. Lists are used to keep track of who is
+            responsible to prepare and bring the item to the camp.
+          example: /material_lists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        materialNode:
+          description: 'The content node to which this item belongs, if it does not belong to a period.'
+          example: /content_node/material_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        period:
+          description: 'The period to which this item belongs, if it does not belong to a content node.'
+          example: /periods/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        quantity:
+          description: 'The number of items or the amount in the unit of items that are required.'
+          example: 1.5
+          exclusiveMinimum: 0
+          type:
+            - 'null'
+            - number
+        unit:
+          description: 'An optional unit for measuring the amount of items required.'
+          example: kg
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - article
+        - materialList
       type: object
     MaterialItem.jsonapi:
       deprecated: false
@@ -12954,7 +13008,9 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
@@ -12987,7 +13043,7 @@ components:
         - article
         - materialList
       type: object
-    MaterialItem.jsonhal-write:
+    MaterialItem.jsonhal-write_create:
       deprecated: false
       description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
@@ -13011,7 +13067,9 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
@@ -13088,7 +13146,9 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
@@ -13121,7 +13181,7 @@ components:
         - article
         - materialList
       type: object
-    MaterialItem.jsonld-write:
+    MaterialItem.jsonld-write_create:
       deprecated: false
       description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
@@ -13136,7 +13196,9 @@ components:
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
           format: iri-reference
-          type: string
+          type:
+            - 'null'
+            - string
         materialNode:
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
@@ -30686,19 +30748,19 @@ paths:
         content:
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/MaterialItem.jsonhal-write'
+              $ref: '#/components/schemas/MaterialItem.jsonhal-write_create'
           application/json:
             schema:
-              $ref: '#/components/schemas/MaterialItem-write'
+              $ref: '#/components/schemas/MaterialItem-write_create'
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/MaterialItem.jsonld-write'
+              $ref: '#/components/schemas/MaterialItem.jsonld-write_create'
           application/vnd.api+json:
             schema:
               $ref: '#/components/schemas/MaterialItem.jsonapi'
           text/html:
             schema:
-              $ref: '#/components/schemas/MaterialItem-write'
+              $ref: '#/components/schemas/MaterialItem-write_create'
         description: 'The new MaterialItem resource'
         required: true
       responses:

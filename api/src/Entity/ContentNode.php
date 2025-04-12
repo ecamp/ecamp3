@@ -53,7 +53,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
 #[ORM\UniqueConstraint(name: 'contentnode_parentid_slot_position_unique', columns: ['parentid', 'slot', 'position'])]
-abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface, HasParentInterface {
+abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface, HasParentInterface {
     use ClassInfoTrait;
 
     /**
@@ -191,6 +191,14 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     public function setParent(?ContentNode $parent) {
         $this->parent = $parent;
         $this->root ??= $parent?->root;
+    }
+
+    public function getCamp(): ?Camp {
+        if ($this->getRoot()->campRootContentNodes?->count() > 0) {
+            return $this->getRoot()->campRootContentNodes[0]->camp;
+        }
+
+        return null;
     }
 
     /**

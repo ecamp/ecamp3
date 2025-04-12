@@ -44,6 +44,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
+            denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.materialList === null'
         ),
     ],
@@ -58,11 +59,12 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
      * The list to which this item belongs. Lists are used to keep track of who is
      * responsible to prepare and bring the item to the camp.
      */
-    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
+    #[Assert\NotNull]
+    #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
     #[Groups(['read', 'write'])]
     #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
 
     /**
@@ -133,7 +135,10 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return $this->materialList?->getCamp();
+        return $this->period?->getCamp()
+            ?? $this->materialNode?->getCamp()
+            ?? $this->materailList?->getCamp()
+        ;
     }
 
     /**
@@ -145,7 +150,10 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
 
         /** @var MaterialList $materialList */
         $materialList = $entityMap->get($prototype->materialList);
-        $materialList->addMaterialItem($this);
+
+        if ($entityMap->belongsToTargetCamp($materialList)) {
+            $materialList->addMaterialItem($this);
+        }
 
         $this->article = $prototype->article;
         $this->quantity = $prototype->quantity;
