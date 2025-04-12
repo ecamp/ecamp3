@@ -4,6 +4,7 @@ import { cloneDeep } from 'lodash-es'
 import axios from 'axios'
 import { getEnv } from '@/environment.js'
 import * as Sentry from '@sentry/browser'
+import { NUM_PRINT_CONFIG_ITEMS_USED } from '@/components/print/metricConstants.js'
 
 const PRINT_URL = getEnv().PRINT_URL
 
@@ -26,6 +27,16 @@ export const generatePdfMixin = {
       }
 
       const config = cloneDeep(this.config)
+      Sentry.startSpan(
+        {
+          attributes: {
+            'print.nuxtPrintUsed': 1,
+            [`print.${NUM_PRINT_CONFIG_ITEMS_USED}`]: config?.contents?.length,
+          },
+        },
+        () => {}
+      )
+
       config.documentName = slugify(config.documentName, {
         locale: this.$store.state.lang.language.substring(0, 2),
       })
