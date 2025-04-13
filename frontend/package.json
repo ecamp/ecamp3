@@ -46,7 +46,7 @@
     "@tiptap/extension-underline": "2.11.7",
     "@tiptap/pm": "2.11.7",
     "@tiptap/vue-2": "2.11.7",
-    "@unhead/vue": "1.11.20",
+    "@unhead/vue": "2.0.5",
     "@zxcvbn-ts/core": "3.0.4",
     "@zxcvbn-ts/language-common": "3.0.4",
     "@zxcvbn-ts/language-de": "3.0.2",
