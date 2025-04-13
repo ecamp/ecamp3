@@ -10,6 +10,9 @@ on:
   push:
     branches:
       - devel
+    paths:
+      - .github/workflows/deploy-ingress.yml
+      - .ops/ingress/**
 
 jobs:
   deploy-ingress:
