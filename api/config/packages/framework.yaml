@@ -3,8 +3,6 @@ framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     annotations: false
-    http_method_override: false
-    handle_all_throwables: true
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_hosts:
         - localhost
@@ -19,8 +17,6 @@ framework:
 
     #esi: true
     #fragments: true
-    php_errors:
-        log: true
 
 when@test:
     framework:

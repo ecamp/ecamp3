@@ -69,7 +69,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $this->uowProphecy = $this->prophesize(UnitOfWork::class);
 
         $this->emProphecy = $this->prophesize(EntityManagerInterface::class);
-        $this->emProphecy->detach(Argument::any())->willReturn();
+        $this->emProphecy->detach(Argument::any());
         $this->emProphecy->getUnitOfWork()->willReturn($this->uowProphecy->reveal());
 
         $classMetadataProphecy = $this->prophesize(ClassMetadata::class);
@@ -177,7 +177,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
 
         $emProphecy = $this->prophesize(EntityManagerInterface::class);
         $emProphecy->getUnitOfWork()->willReturn($uowMock)->shouldBeCalled();
-        $emProphecy->detach(Argument::any())->willReturn();
+        $emProphecy->detach(Argument::any());
         $dummyClassMetadata = new ClassMetadata(Dummy::class);
         $dummyClassMetadata->mapManyToOne(['fieldName' => 'relatedDummy', 'targetEntity' => RelatedDummy::class, 'inversedBy' => 'dummies']);
         $dummyClassMetadata->mapOneToOne(['fieldName' => 'relatedOwningDummy', 'targetEntity' => RelatedOwningDummy::class, 'inversedBy' => 'ownedDummy']);

@@ -14,7 +14,7 @@
       text
       dense
       border="left"
-      style="hypens: auto"
+      style="hyphens: auto"
       color="warning"
     >
       <div>
@@ -28,8 +28,8 @@
           height="32px"
           class="v-btn--has-bg float-end dev-login-button"
           @click="
-            () => {
-              email = 'test@example.com'
+            (event) => {
+              email = event.shiftKey ? 'admin@example.com' : 'test@example.com'
               password = 'test'
               login()
             }
@@ -214,6 +214,11 @@ export default {
       error: null,
       authenticationInProgress: false,
       showCredits: true,
+    }
+  },
+  head() {
+    return {
+      title: this.$tc('global.button.login'),
     }
   },
   computed: {

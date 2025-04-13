@@ -10,6 +10,7 @@
 import NavTopbar from '@/views/camp/navigation/desktop/NavTopbar.vue'
 import NavBottombar from '@/views/camp/navigation/mobile/NavBottombar.vue'
 import NavSidebar from '@/views/camp/navigation/mobile/NavSidebar.vue'
+import { campShortTitle } from '@/common/helpers/campShortTitle'
 
 export default {
   name: 'NavigationCamp',
@@ -24,6 +25,13 @@ export default {
   data() {
     return {
       open: false,
+    }
+  },
+  head() {
+    return {
+      templateParams: {
+        section: () => campShortTitle(this.camp),
+      },
     }
   },
 }

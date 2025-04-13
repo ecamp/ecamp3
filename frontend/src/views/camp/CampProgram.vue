@@ -188,9 +188,6 @@ export default {
     return {
       title: () =>
         this.$tc('views.camp.campProgram.title') + ': ' + this.period.description,
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   computed: {

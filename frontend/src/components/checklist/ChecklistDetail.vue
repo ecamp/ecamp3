@@ -109,6 +109,15 @@ export default {
       return this.checklist.checklistItems().items.filter((item) => !item.parent)
     },
   },
+  async mounted() {
+    await this.api
+      .get()
+      .contentNodes({
+        isRoot: 'true',
+        camp: this.camp._meta.self,
+      })
+      .$loadItems()
+  },
   methods: {
     makeChecklistNameEditable() {
       this.editChecklistName = true

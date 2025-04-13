@@ -153,6 +153,11 @@ export default {
       { text: 'api-input.autosave', value: 'api.autosave', sortable: false },
     ],
   }),
+
+  head: {
+    title: 'Controls',
+  },
+
   computed: {
     items() {
       return [

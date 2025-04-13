@@ -67,6 +67,12 @@ export default {
     }
   },
 
+  head() {
+    return {
+      title: this.$tc('views.auth.resetPasswordRequest.title'),
+    }
+  },
+
   mounted() {
     if (getEnv().RECAPTCHA_SITE_KEY) {
       this.recaptcha = load(getEnv().RECAPTCHA_SITE_KEY, {

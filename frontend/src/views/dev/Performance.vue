@@ -41,6 +41,11 @@ export default {
       { text: 'Entity', value: 'entity', align: 'right', cellClass: 'tabular-nums' },
     ],
   }),
+
+  head: {
+    title: 'Performance',
+  },
+
   async mounted() {
     const root = await this.api.get()._meta.load
 

@@ -13,6 +13,7 @@ const environment =
 export const unhead = createHead()
 
 useHead({
+  title: null,
   templateParams: {
     site: 'eCamp v3',
     separator: '·',

@@ -45,6 +45,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
             ],
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             security: 'is_fully_authenticated()',
+            extraProperties: [
+                'filter_by_current_user' => false,
+            ]
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

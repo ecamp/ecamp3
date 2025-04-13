@@ -59,9 +59,6 @@ export default {
   head() {
     return {
       title: this.$tc('views.camp.story.title'),
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   computed: {

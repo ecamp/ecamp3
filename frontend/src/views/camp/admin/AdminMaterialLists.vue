@@ -43,9 +43,6 @@ export default {
   head() {
     return {
       title: this.$tc('views.camp.admin.adminMaterialLists.title'),
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   computed: {

@@ -150,9 +150,6 @@ export default {
   head() {
     return {
       title: () => this.category.short + ': ' + this.category.title,
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   computed: {

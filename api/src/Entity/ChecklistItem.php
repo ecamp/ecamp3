@@ -68,6 +68,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                                is_granted("CAMP_COLLABORATOR", checklist)'
                 ),
             ],
+            extraProperties: [
+                'filter_by_current_user' => false,
+            ]
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

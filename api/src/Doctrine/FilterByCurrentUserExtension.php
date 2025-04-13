@@ -22,6 +22,11 @@ final class FilterByCurrentUserExtension implements QueryCollectionExtensionInte
     }
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, ?string $resourceClass = null, ?Operation $operation = null, array $context = []): void {
+        $extraProperties = $operation->getExtraProperties();
+        if (array_key_exists('filter_by_current_user', $extraProperties) && false === $extraProperties['filter_by_current_user']) {
+            return;
+        }
+
         $this->addWhere($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 

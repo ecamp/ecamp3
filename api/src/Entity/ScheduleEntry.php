@@ -55,6 +55,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ),
             ],
             security: 'is_fully_authenticated()',
+            extraProperties: [
+                'filter_by_current_user' => false,
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

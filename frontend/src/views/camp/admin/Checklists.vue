@@ -16,9 +16,6 @@ export default {
   head() {
     return {
       title: this.$tc('entity.checklist.name', 2),
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   computed: {

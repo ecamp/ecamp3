@@ -123,8 +123,17 @@ export function useMaterialViewHelper(camp, list) {
   const downloadXlsx = downloadMaterialList(camp, collection, computedList.value?.name)
   const openPeriods = loadPeriods(camp)
 
-  onMounted(() => {
-    collection.value.map(({ materialItems }) => materialItems.$reload())
+  onMounted(async () => {
+    await Promise.all([
+      apiStore
+        .get()
+        .contentNodes({
+          isRoot: 'true',
+          camp: camp._meta.self,
+        })
+        .$loadItems(),
+      ...collection.value.map(({ materialItems }) => materialItems.$reload()),
+    ])
   })
 
   return {

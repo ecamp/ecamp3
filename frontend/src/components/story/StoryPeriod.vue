@@ -77,6 +77,13 @@ export default {
         this.period.days().$loadItems(),
         this.period.camp().activities().$loadItems(),
         this.period.camp().categories().$loadItems(),
+        this.api
+          .get()
+          .contentNodes({
+            isRoot: 'true',
+            period: this.period._meta.self,
+          })
+          .$loadItems(),
       ])
 
       this.loading = false

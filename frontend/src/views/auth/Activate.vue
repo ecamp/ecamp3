@@ -47,6 +47,13 @@ export default {
       activated: null,
     }
   },
+
+  head() {
+    return {
+      title: this.$tc('views.auth.activate.title'),
+    }
+  },
+
   mounted() {
     // TODO: Change, when templated links are available
     // this.api.href(this.api.get(), 'users', { userId: this.userId }).then(url => {

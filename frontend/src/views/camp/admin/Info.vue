@@ -51,9 +51,6 @@ export default {
   head() {
     return {
       title: this.$tc('views.camp.admin.info.title'),
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   mounted() {

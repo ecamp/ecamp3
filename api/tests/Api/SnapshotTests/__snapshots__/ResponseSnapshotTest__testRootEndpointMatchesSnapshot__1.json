@@ -29,7 +29,7 @@
             "templated": true
         },
         "checklistNodes": {
-            "href": "/content_node/checklist_nodes{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/checklist_nodes{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "checklists": {
@@ -37,11 +37,11 @@
             "templated": true
         },
         "columnLayouts": {
-            "href": "/content_node/column_layouts{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/column_layouts{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "contentNodes": {
-            "href": "/content_nodes{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_nodes{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "contentTypes": {
@@ -72,11 +72,11 @@
             "templated": true
         },
         "materialNodes": {
-            "href": "/content_node/material_nodes{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/material_nodes{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "multiSelects": {
-            "href": "/content_node/multi_selects{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/multi_selects{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "oauthCevidb": {
@@ -116,7 +116,7 @@
             "templated": true
         },
         "responsiveLayouts": {
-            "href": "/content_node/responsive_layouts{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/responsive_layouts{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "scheduleEntries": {
@@ -127,11 +127,11 @@
             "href": "/"
         },
         "singleTexts": {
-            "href": "/content_node/single_texts{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/single_texts{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "storyboards": {
-            "href": "/content_node/storyboards{/id}{?contentType,contentType[],root,root[],camp,period}",
+            "href": "/content_node/storyboards{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
         "users": {

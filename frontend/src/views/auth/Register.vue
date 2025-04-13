@@ -166,6 +166,11 @@ export default {
       recaptcha: null,
     }
   },
+  head() {
+    return {
+      title: this.$tc('views.auth.register.register'),
+    }
+  },
   computed: {
     formData() {
       return {

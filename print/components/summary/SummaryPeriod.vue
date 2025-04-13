@@ -50,6 +50,13 @@ const { data, error } = await useAsyncData(
           contentType: contentType._meta.self,
         })
         .$loadItems(),
+      $api
+        .get()
+        .contentNodes({
+          isRoot: 'true',
+          period: props.period._meta.self,
+        })
+        .$loadItems(),
       props.period.days().$loadItems(),
       props.period.scheduleEntries().$loadItems(),
       props.period.camp().categories().$loadItems(),

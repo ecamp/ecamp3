@@ -90,9 +90,6 @@ export default {
   head() {
     return {
       title: () => this.materialList.name,
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
 }

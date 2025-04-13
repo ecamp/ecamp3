@@ -23,7 +23,7 @@
     "colorjs.io": "0.5.2",
     "dayjs": "1.11.13",
     "deepmerge": "4.3.1",
-    "hal-json-vuex": "3.0.0-alpha.9",
+    "hal-json-vuex": "3.0.0-alpha.10",
     "isomorphic-dompurify": "2.23.0",
     "lodash-es": "4.17.21",
     "puppeteer-core": "24.6.1",

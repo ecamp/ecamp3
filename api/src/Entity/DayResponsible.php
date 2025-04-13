@@ -41,6 +41,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                     security: 'is_granted("CAMP_COLLABORATOR", day) or is_granted("CAMP_IS_PROTOTYPE", day)'
                 ),
             ],
+            extraProperties: [
+                'filter_by_current_user' => false,
+            ]
         ),
         new Post(
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.day === null'

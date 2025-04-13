@@ -1,0 +1,33 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/camps/5d28f99890bc/checklists.jsonhal"
+    },
+    "items": [
+      {
+        "href": "/api/checklists/ebbd0c61eb85"
+      }
+    ]
+  },
+  "totalItems": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "/api/checklists/ebbd0c61eb85"
+          },
+          "camp": {
+            "href": "/api/camps/5d28f99890bc"
+          },
+          "checklistItems": {
+            "href": "/api/checklists/ebbd0c61eb85/checklist_items"
+          }
+        },
+        "name": "Ausbildungsziele",
+        "isPrototype": false,
+        "id": "ebbd0c61eb85"
+      }
+    ]
+  }
+}

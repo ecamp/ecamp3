@@ -130,6 +130,12 @@ export default {
     }
   },
 
+  head() {
+    return {
+      title: this.$tc('views.auth.resetPassword.title'),
+    }
+  },
+
   async mounted() {
     if (getEnv().RECAPTCHA_SITE_KEY) {
       this.recaptcha = load(getEnv().RECAPTCHA_SITE_KEY, {

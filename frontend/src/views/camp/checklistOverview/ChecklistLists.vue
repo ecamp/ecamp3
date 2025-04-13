@@ -34,9 +34,6 @@ export default {
   head() {
     return {
       title: this.$tc('views.camp.checklistOverview.checklistLists.title'),
-      templateParams: {
-        section: this.camp.shortTitle,
-      },
     }
   },
   computed: {

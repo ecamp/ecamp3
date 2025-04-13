@@ -66,6 +66,9 @@ use Symfony\Component\Validator\Constraints as Assert;
                     security: 'is_granted("CAMP_COLLABORATOR", camp) or is_granted("CAMP_IS_PROTOTYPE", camp)'
                 ),
             ],
+            extraProperties: [
+                'filter_by_current_user' => false,
+            ]
         ),
     ],
     denormalizationContext: ['groups' => ['write']],

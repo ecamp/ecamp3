@@ -16,6 +16,8 @@ doctrine:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
         naming_strategy: App\Util\CamelPascalNamingStrategy
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         report_fields_where_declared: true
         validate_xml_mapping: false

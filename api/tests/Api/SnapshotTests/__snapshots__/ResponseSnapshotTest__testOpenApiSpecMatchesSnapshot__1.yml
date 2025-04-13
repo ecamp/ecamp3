@@ -26363,6 +26363,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: period
           required: false
           schema:
@@ -26783,6 +26795,18 @@ paths:
           required: false
           schema:
             type: string
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           allowEmptyValue: false
@@ -27219,6 +27243,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: period
           required: false
           schema:
@@ -27639,6 +27675,18 @@ paths:
           required: false
           schema:
             type: string
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           allowEmptyValue: false
@@ -28075,6 +28123,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: period
           required: false
           schema:
@@ -28495,6 +28555,18 @@ paths:
           required: false
           schema:
             type: string
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           allowEmptyValue: false
@@ -28931,6 +29003,18 @@ paths:
           description: ''
           explode: false
           in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
           name: period
           required: false
           schema:
@@ -29351,6 +29435,18 @@ paths:
           required: false
           schema:
             type: string
+          style: form
+        -
+          allowEmptyValue: false
+          allowReserved: false
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           allowEmptyValue: false
