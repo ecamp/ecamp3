@@ -23,8 +23,8 @@ const collectionXKeys =
   /* collection URI (for detecting addition of new categories) */
   '/api/camps/3c79b99ab424/categories'
 
-describe('cache test: /camps/categories', () => {
-  it('caches /camp/{campId}/categories separately for each login', () => {
+describe('cache test: /camps/{campId}/categories', () => {
+  it('caches /camps/{campId}/categories separately for each login', () => {
     const uri = `/api/camps/${grgrCampId}/categories`
 
     Cypress.session.clearAllSavedSessions()
@@ -46,7 +46,7 @@ describe('cache test: /camps/categories', () => {
     cy.expectCacheMiss(uri)
   })
 
-  it('invalidates /camp/{campId}/categories for all users on category patch', () => {
+  it('invalidates /camps/{campId}/categories for all users on category patch', () => {
     const uri = `/api/camps/${loremIpsumCampId}/categories`
 
     // bring data into defined state
@@ -77,7 +77,7 @@ describe('cache test: /camps/categories', () => {
     cy.expectCacheMiss(uri)
   })
 
-  it('invalidates /camp/{campId}/categories for new category', () => {
+  it('invalidates /camps/{campId}/categories for new category', () => {
     const uri = `/api/camps/${grgrCampId}/categories`
 
     Cypress.session.clearAllSavedSessions()

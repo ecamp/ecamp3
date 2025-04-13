@@ -47,8 +47,8 @@ const collectionXKeys =
   /* collection URI (for detecting addition of new activities) */
   '/api/camps/70ca971c992f/activities'
 
-describe('cache test: /camps/activities', () => {
-  it('caches /camp/{campId}/activities separately for each login', () => {
+describe('cache test: /camps/{campId}/activities', () => {
+  it('caches /camps/{campId}/activities separately for each login', () => {
     const uri = `/api/camps/${skilagerCampId}/activities`
 
     Cypress.session.clearAllSavedSessions()
@@ -70,7 +70,7 @@ describe('cache test: /camps/activities', () => {
     cy.expectCacheMiss(uri)
   })
 
-  it('invalidates /camp/{campId}/activities for all users on activity patch', () => {
+  it('invalidates /camps/{campId}/activities for all users on activity patch', () => {
     const uri = `/api/camps/${loremIpsumCampId}/activities`
     const activityId = '3d1e5c91ceb2'
 
@@ -102,7 +102,7 @@ describe('cache test: /camps/activities', () => {
     cy.expectCacheMiss(uri)
   })
 
-  it('invalidates /camp/{campId}/activities for new activity', () => {
+  it('invalidates /camps/{campId}/activities for new activity', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
     Cypress.session.clearAllSavedSessions()
@@ -139,7 +139,7 @@ describe('cache test: /camps/activities', () => {
     })
   })
 
-  it('invalidates /camp/{campId}/activities when adding a scheduleEntry', () => {
+  it('invalidates /camps/{campId}/activities when adding a scheduleEntry', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
     Cypress.session.clearAllSavedSessions()
@@ -171,7 +171,7 @@ describe('cache test: /camps/activities', () => {
     })
   })
 
-  it('invalidates /camp/{campId}/activities when patching a progress label', () => {
+  it('invalidates /camps/{campId}/activities when patching a progress label', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
     const progressLabelId = '82547049ea38'
 
@@ -196,7 +196,7 @@ describe('cache test: /camps/activities', () => {
     cy.expectCacheHit(uri)
   })
 
-  it('invalidates /camp/{campId}/activities when adding an activity responsible', () => {
+  it('invalidates /camps/{campId}/activities when adding an activity responsible', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
     Cypress.session.clearAllSavedSessions()
