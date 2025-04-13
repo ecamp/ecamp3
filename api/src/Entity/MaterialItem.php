@@ -137,8 +137,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     public function getCamp(): ?Camp {
         return $this->period?->getCamp()
             ?? $this->materialNode?->getCamp()
-            ?? $this->materailList?->getCamp()
-        ;
+            ?? $this->materialList?->getCamp();
     }
 
     /**

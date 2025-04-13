@@ -269,5 +269,7 @@ class CampRoleVoterTest extends TestCase {
 class CampRoleVoterTestDummy extends BaseEntity {}
 
 class ContentNodeTreeDummy2 implements BelongsToContentNodeTreeInterface {
-    public function getRoot(): ?ColumnLayout { return null; }
+    public function getRoot(): ?ColumnLayout {
+        return null;
+    }
 }
