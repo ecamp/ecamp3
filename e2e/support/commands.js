@@ -27,7 +27,9 @@
 import 'cypress-wait-until'
 
 Cypress.Commands.add('login', (identifier) => {
-  cy.session(identifier, () => {
+  const randomSessionId =
+    Date.now().toString(36) + Math.random().toString(36).substring(2)
+  cy.session(randomSessionId, () => {
     cy.request({
       method: 'POST',
       url: Cypress.env('API_ROOT_URL') + '/authentication_token',
