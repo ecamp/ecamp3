@@ -23,6 +23,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -133,7 +134,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
         $this->periodMaterialItems = new ArrayCollection();
     }
 
-    #[ApiProperty(readable: false)]
+    #[ApiProperty]
+    #[SerializedName('camp')]
+    #[Groups(['read'])]
     public function getCamp(): ?Camp {
         return $this->period?->getCamp()
             ?? $this->materialNode?->getCamp()

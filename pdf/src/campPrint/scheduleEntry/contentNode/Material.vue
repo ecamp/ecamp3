@@ -6,7 +6,7 @@
         <Text>{{ item.quantity }} {{ item.unit }} {{ item.article }}</Text>
       </View>
       <View class="material-item-column material-item-column-2">
-        <Text>{{ item.materialList().name }}</Text>
+        <Text>{{ item.materialList ? item.materialList()?.name : '' }}</Text>
       </View>
     </View>
   </View>
@@ -27,7 +27,7 @@ export default {
     sortedMaterialItems() {
       return sortBy(
         this.contentNode.materialItems().items,
-        (item) => item.materialList().name
+        (item) => (item.materialList ? item.materialList()?.name : '')
       )
     },
   },
