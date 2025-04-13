@@ -12771,6 +12771,13 @@ components:
           example: Volleyball
           maxLength: 64
           type: string
+        camp:
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -12948,6 +12955,8 @@ components:
               type: string
             relationships:
               properties:
+                camp:
+                  properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
                 materialList:
                   properties: { data: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object } }
                 materialNode:
@@ -12975,6 +12984,8 @@ components:
                 $ref: '#/components/schemas/MaterialList.jsonapi'
               -
                 $ref: '#/components/schemas/MaterialList.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialList.jsonapi'
           readOnly: true
           type: array
       type: object
@@ -12996,6 +13007,13 @@ components:
           example: Volleyball
           maxLength: 64
           type: string
+        camp:
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -13134,6 +13152,13 @@ components:
           example: Volleyball
           maxLength: 64
           type: string
+        camp:
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
