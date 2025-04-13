@@ -72,7 +72,7 @@
     "util": "0.12.5",
     "v-resize-observer": "2.1.0",
     "vee-validate": "3.4.15",
-    "vue": "2.7.15",
+    "vue": "3.0.0",
     "vue-axios": "3.5.2",
     "vue-i18n": "8.28.2",
     "vue-recaptcha-v3": "1.9.0",
