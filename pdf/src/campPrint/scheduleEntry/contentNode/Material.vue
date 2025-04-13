@@ -25,9 +25,8 @@ export default {
   },
   computed: {
     sortedMaterialItems() {
-      return sortBy(
-        this.contentNode.materialItems().items,
-        (item) => (item.materialList ? item.materialList()?.name : '')
+      return sortBy(this.contentNode.materialItems().items, (item) =>
+        item.materialList ? item.materialList()?.name : ''
       )
     },
   },
