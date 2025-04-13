@@ -150,11 +150,13 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 
-        /** @var MaterialList $materialList */
-        $materialList = $entityMap->get($prototype->materialList);
+        if (null != $prototype->materialList) {
+            /** @var MaterialList $materialList */
+            $materialList = $entityMap->get($prototype->materialList);
 
-        if ($entityMap->belongsToTargetCamp($materialList)) {
-            $materialList->addMaterialItem($this);
+            if ($entityMap->belongsToTargetCamp($materialList)) {
+                $materialList->addMaterialItem($this);
+            }
         }
 
         $this->article = $prototype->article;
