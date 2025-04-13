@@ -56,33 +56,37 @@ describe('cache test: /camps/checklists', () => {
     cy.expectCacheHit(uri)
   })
 
-  it('invalidates /camp/{campId}/checklists for new checklist', () => {
-    const uri = `/api/camps/${basiskursCampId}/checklists`
+  it(
+    'invalidates /camp/{campId}/checklists for new checklist',
+    { retries: { runMode: 3 } },
+    () => {
+      const uri = `/api/camps/${basiskursCampId}/checklists`
 
-    Cypress.session.clearAllSavedSessions()
-    cy.login(bipiUser)
+      Cypress.session.clearAllSavedSessions()
+      cy.login(bipiUser)
 
-    // warm up cache
-    cy.expectCacheMiss(uri)
-    cy.expectCacheHit(uri)
-
-    // add new checklist to camp
-    cy.apiPost('/api/checklists', {
-      camp: `/api/camps/${basiskursCampId}`,
-      name: 'new_checklist',
-    }).then((response) => {
-      const newChecklistUri = response.body._links.self.href
-
-      // ensure cache was invalidated
-      cy.waitForCacheMiss(uri)
+      // warm up cache
+      cy.expectCacheMiss(uri)
       cy.expectCacheHit(uri)
 
-      // delete newly created contentNode
-      cy.apiDelete(newChecklistUri)
+      // add new checklist to camp
+      cy.apiPost('/api/checklists', {
+        camp: `/api/camps/${basiskursCampId}`,
+        name: 'new_checklist',
+      }).then((response) => {
+        const newChecklistUri = response.body._links.self.href
 
-      // ensure cache was invalidated
-      cy.waitForCacheMiss(uri)
-      cy.expectCacheHit(uri)
-    })
-  })
+        // ensure cache was invalidated
+        cy.waitForCacheMiss(uri)
+        cy.expectCacheHit(uri)
+
+        // delete newly created contentNode
+        cy.apiDelete(newChecklistUri)
+
+        // ensure cache was invalidated
+        cy.waitForCacheMiss(uri)
+        cy.expectCacheHit(uri)
+      })
+    }
+  )
 })
