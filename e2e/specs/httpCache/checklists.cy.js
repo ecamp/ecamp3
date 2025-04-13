@@ -5,7 +5,7 @@ const collectionXKeys =
   /* campCollaboration for bipiUser */
   '146c0608237f ' +
   /* checklist entry */
-  'ebbd0c61eb85 ebbd0c61eb85#camp ' +
+  'ebbd0c61eb85 ' +
   /* collection URI (for detecting addition of new checklists) */
   '/api/camps/5d28f99890bc/checklists'
 
