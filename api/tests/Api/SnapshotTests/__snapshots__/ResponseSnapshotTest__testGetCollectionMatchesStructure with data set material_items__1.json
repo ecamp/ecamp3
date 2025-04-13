@@ -3,9 +3,6 @@
         "items": [
             {
                 "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
                     "materialList": {
                         "href": "escaped_value"
                     },
@@ -24,9 +21,6 @@
             },
             {
                 "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
                     "materialList": {
                         "href": "escaped_value"
                     },
@@ -45,9 +39,6 @@
             },
             {
                 "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
                     "materialList": {
                         "href": "escaped_value"
                     },
@@ -66,9 +57,6 @@
             },
             {
                 "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
                     "materialList": {
                         "href": "escaped_value"
                     },

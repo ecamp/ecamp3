@@ -37,7 +37,7 @@ class CampCreateProcessor extends AbstractPersistProcessor {
 
         // copy from prototype, if given
         if (isset($data->campPrototype)) {
-            $entityMap = new EntityMap($data);
+            $entityMap = new EntityMap();
             $data->copyFromPrototype($data->campPrototype, $entityMap);
         }
 

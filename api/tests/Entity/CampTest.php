@@ -55,7 +55,7 @@ class CampTest extends TestCase {
 
     public function testCopyFromPrototype() {
         $camp = new Camp();
-        $camp->copyFromPrototype($this->campPrototype, new EntityMap($camp));
+        $camp->copyFromPrototype($this->campPrototype, new EntityMap());
 
         $this->assertEquals($this->campPrototype->getId(), $camp->campPrototypeId);
 

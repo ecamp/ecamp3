@@ -22,7 +22,7 @@ class ChecklistCreateProcessor extends AbstractPersistProcessor {
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Checklist {
         if (isset($data->copyChecklistSource)) {
             // CopyChecklist Source is set -> copy it's content
-            $entityMap = new EntityMap($data->camp);
+            $entityMap = new EntityMap();
             $data->copyFromPrototype($data->copyChecklistSource, $entityMap);
         }
 

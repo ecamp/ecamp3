@@ -23,7 +23,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -45,7 +44,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
-            denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.materialList === null'
         ),
     ],
@@ -60,12 +58,11 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
      * The list to which this item belongs. Lists are used to keep track of who is
      * responsible to prepare and bring the item to the camp.
      */
-    #[Assert\NotNull]
-    #[AssertBelongsToSameCamp]
+    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
     #[Groups(['read', 'write'])]
     #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems')]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
 
     /**
@@ -134,13 +131,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
         $this->periodMaterialItems = new ArrayCollection();
     }
 
-    #[ApiProperty]
-    #[SerializedName('camp')]
-    #[Groups(['read'])]
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return $this->period?->getCamp()
-            ?? $this->materialNode?->getCamp()
-            ?? $this->materialList?->getCamp();
+        return $this->materialList?->getCamp();
     }
 
     /**
@@ -150,14 +143,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 
-        if (null != $prototype->materialList) {
-            /** @var MaterialList $materialList */
-            $materialList = $entityMap->get($prototype->materialList);
-
-            if ($entityMap->belongsToTargetCamp($materialList)) {
-                $materialList->addMaterialItem($this);
-            }
-        }
+        /** @var MaterialList $materialList */
+        $materialList = $entityMap->get($prototype->materialList);
+        $materialList->addMaterialItem($this);
 
         $this->article = $prototype->article;
         $this->quantity = $prototype->quantity;

@@ -1,8 +1,5 @@
 {
     "_links": {
-        "camp": {
-            "href": "escaped_value"
-        },
         "materialList": {
             "href": "escaped_value"
         },
