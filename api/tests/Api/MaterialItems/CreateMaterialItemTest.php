@@ -159,10 +159,18 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     public function testCreateMaterialItemValidatesMissingPeriodAndMaterialNode() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([], ['period', 'materialNode'])]);
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'title' => 'An error occurred',
-            'detail' => 'Access Denied.',
+            'violations' => [
+                [
+                    'propertyPath' => 'period',
+                    'message' => 'Either this value or materialNode should not be null.',
+                ],
+                [
+                    'propertyPath' => 'materialNode',
+                    'message' => 'Either this value or period should not be null.',
+                ],
+            ],
         ]);
     }
 

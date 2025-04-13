@@ -194,7 +194,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     }
 
     public function getCamp(): ?Camp {
-        if ($this->getRoot()->campRootContentNodes->count() > 0) {
+        if ($this->getRoot()->campRootContentNodes != null && $this->getRoot()->campRootContentNodes->count() > 0) {
             return $this->getRoot()->campRootContentNodes[0]->camp;
         }
 
