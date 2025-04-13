@@ -13,13 +13,13 @@ const collectionXKeys =
   /* campCollaboration for bipiUser */
   'b0bdb7202a9d ' +
   /* Category ES */
-  'ebfd46a1c181 ebfd46a1c181#camp ebfd46a1c181#preferredContentTypes ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
+  'ebfd46a1c181 ebfd46a1c181#preferredContentTypes ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
   /* Category LA */
-  '1a869b162875 1a869b162875#camp 1a869b162875#preferredContentTypes 1a869b162875#rootContentNode 1a869b162875#contentNodes ' +
+  '1a869b162875 1a869b162875#preferredContentTypes 1a869b162875#rootContentNode 1a869b162875#contentNodes ' +
   /* Category LP */
-  'dfa531302823 dfa531302823#camp dfa531302823#preferredContentTypes dfa531302823#rootContentNode dfa531302823#contentNodes ' +
+  'dfa531302823 dfa531302823#preferredContentTypes dfa531302823#rootContentNode dfa531302823#contentNodes ' +
   /* Category LS */
-  'a023e85227ac a023e85227ac#camp a023e85227ac#preferredContentTypes a023e85227ac#rootContentNode a023e85227ac#contentNodes ' +
+  'a023e85227ac a023e85227ac#preferredContentTypes a023e85227ac#rootContentNode a023e85227ac#contentNodes ' +
   /* collection URI (for detecting addition of new categories) */
   '/api/camps/3c79b99ab424/categories'
 

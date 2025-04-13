@@ -8,6 +8,9 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Serializer\TagCollectorInterface;
 use App\Entity\HasId;
+use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\AssociationMapping;
 
 /**
  * Collects cache tags during normalization.
@@ -17,7 +20,10 @@ use App\Entity\HasId;
 class TagCollector implements TagCollectorInterface {
     public const IRI_RELATION_DELIMITER = '#';
 
-    public function __construct(private ResponseTagger $responseTagger) {}
+    public function __construct(
+        private ResponseTagger $responseTagger,
+        private EntityManagerInterface $em
+    ) {}
 
     /**
      * Collect cache tags for cache invalidation.
@@ -37,7 +43,7 @@ class TagCollector implements TagCollectorInterface {
         }
 
         if (isset($context['property_metadata'])) {
-            $this->addCacheTagsForRelation($context, $iri, $context['property_metadata']);
+            $this->addCacheTagsForRelation($object, $context, $iri, $context['property_metadata']);
 
             return;
         }
@@ -59,13 +65,20 @@ class TagCollector implements TagCollectorInterface {
         $this->responseTagger->addTags([$iri]);
     }
 
-    private function addCacheTagsForRelation(array $context, string $iri, ApiProperty $propertyMetadata): void {
+    private function addCacheTagsForRelation(mixed $object, array $context, string $iri, ApiProperty $propertyMetadata): void {
         if (isset($propertyMetadata->getExtraProperties()['cacheDependencies'])) {
             foreach ($propertyMetadata->getExtraProperties()['cacheDependencies'] as $dependency) {
                 $cacheTag = $iri.PurgeHttpCacheListener::IRI_RELATION_DELIMITER.$dependency;
                 $this->responseTagger->addTags([$cacheTag]);
             }
 
+            return;
+        }
+
+        $associationMappings = $this->em->getClassMetadata(ClassUtils::getClass($object))->getAssociationMappings();
+        $associationMapping = $associationMappings[$context['api_attribute']] ?? null;
+        // we have currently no use-case where we rely on a ManyToOne for tag invalidation
+        if ($associationMapping instanceof AssociationMapping && $associationMapping->isManyToOne()) {
             return;
         }
 

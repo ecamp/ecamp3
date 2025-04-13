@@ -7,6 +7,8 @@ use ApiPlatform\Serializer\TagCollectorInterface;
 use App\HttpCache\ResponseTagger;
 use App\HttpCache\TagCollector;
 use App\Tests\HttpCache\Entity\Dummy;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -20,11 +22,17 @@ class TagCollectorTest extends TestCase {
 
     private TagCollectorInterface $tagCollector;
     private ObjectProphecy $responseTaggerProphecy;
+    private ObjectProphecy $em;
+    private ObjectProphecy $classMetadata;
 
     protected function setUp(): void {
         // given
         $this->responseTaggerProphecy = $this->prophesize(ResponseTagger::class);
-        $this->tagCollector = new TagCollector($this->responseTaggerProphecy->reveal());
+        $this->em = $this->prophesize(EntityManagerInterface::class);
+        $this->classMetadata = $this->prophesize(ClassMetadata::class);
+        $this->em->getClassMetadata(Argument::any())->willReturn($this->classMetadata);
+        $this->classMetadata->getAssociationMappings(Argument::any())->willReturn([]);
+        $this->tagCollector = new TagCollector($this->responseTaggerProphecy->reveal(), $this->em->reveal());
     }
 
     public function testNoTagForEmptyContext() {
