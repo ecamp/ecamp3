@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
+use App\HttpCache\CanGenerateTagsInterface;
 use App\Repository\ScheduleEntryRepository;
 use App\Util\DateTimeUtil;
 use App\Validator\AssertBelongsToSameCamp;
@@ -76,7 +77,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ScheduleEntryRepository::class)]
 #[ORM\Index(columns: ['startOffset'])]
 #[ORM\Index(columns: ['endOffset'])]
-class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
+class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsInterface {
     public const PERIOD_SUBRESOURCE_URI_TEMPLATE = '/periods/{periodId}/schedule_entries{._format}';
 
     public const ITEM_NORMALIZATION_CONTEXT = [
@@ -344,6 +345,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $scheduleEntryStyledNumber = $this->activity?->category?->getStyledNumber($scheduleEntryNumber) ?? $scheduleEntryNumber;
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
+    }
+
+    public function getCacheTags(): array {
+        return [$this->getPeriod()->getId()];
     }
 
     /**

@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Serializer\TagCollectorInterface;
 use App\Entity\HasId;
-use App\Entity\ScheduleEntry;
 
 /**
  * Collects cache tags during normalization.
@@ -51,9 +50,8 @@ class TagCollector implements TagCollectorInterface {
         $this->addCacheTagForResource($iri);
 
         // add resource specific tags
-        if ($object instanceof ScheduleEntry) {
-            // various content of ScheduleEntry such as Start, DayNumber, ScheduleNumber is calculated from period properties
-            $this->addCacheTagForResource($object->getPeriod()->getId());
+        if ($object instanceof CanGenerateTagsInterface) {
+            $this->responseTagger->addTags($object->getCacheTags());
         }
     }
 
