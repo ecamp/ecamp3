@@ -26,10 +26,13 @@ const collectionXKeys =
   '/api/periods/7fa4564a5d5d/schedule_entries'
 
 describe('cache test: /periods/{periodId}/scheduleEntries', () => {
+  beforeEach(() => {
+    cy.wrap(Cypress.session.clearAllSavedSessions())
+  })
+
   it('caches /periods/{periodId}/schedule_entries separately for each login', () => {
     const uri = `/api/periods/${skilagerPeriodId}/schedule_entries`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // first request is a cache miss
@@ -53,7 +56,6 @@ describe('cache test: /periods/{periodId}/scheduleEntries', () => {
     const scheduleEntryId = '12f34c89ce11'
 
     // bring data into defined state
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
     cy.apiPatch(`/api/schedule_entries/${scheduleEntryId}`, {
       start: '2025-05-10T16:00:00+00:00',
@@ -83,7 +85,6 @@ describe('cache test: /periods/{periodId}/scheduleEntries', () => {
   it('invalidates /periods/{periodId}/schedule_entries for new scheduleEntry', () => {
     const uri = `/api/periods/${grgrPeriodId}/schedule_entries`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -117,7 +118,6 @@ describe('cache test: /periods/{periodId}/scheduleEntries', () => {
     const uri2 = `/api/periods/${harrySecondPeriodId}/schedule_entries`
     const scheduleEntryId = '9a4173c9bb73'
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -156,7 +156,6 @@ describe('cache test: /periods/{periodId}/scheduleEntries', () => {
   it('invalidates /periods/{periodId}/schedule_entries when changing the period dates', () => {
     const uri = `/api/periods/${grgrPeriodId}/schedule_entries`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache

@@ -24,10 +24,13 @@ const collectionXKeys =
   '/api/camps/3c79b99ab424/categories'
 
 describe('cache test: /camps/{campId}/categories', () => {
+  beforeEach(() => {
+    cy.wrap(Cypress.session.clearAllSavedSessions())
+  })
+
   it('caches /camps/{campId}/categories separately for each login', () => {
     const uri = `/api/camps/${grgrCampId}/categories`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // first request is a cache miss
@@ -50,7 +53,6 @@ describe('cache test: /camps/{campId}/categories', () => {
     const uri = `/api/camps/${loremIpsumCampId}/categories`
 
     // bring data into defined state
-    Cypress.session.clearAllSavedSessions()
     cy.login(bruceWayneUser)
     cy.apiPatch('/api/categories/c5e1bc565094', {
       name: 'old_name',
@@ -80,7 +82,6 @@ describe('cache test: /camps/{campId}/categories', () => {
   it('invalidates /camps/{campId}/categories for new category', () => {
     const uri = `/api/camps/${grgrCampId}/categories`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -111,7 +112,6 @@ describe('cache test: /camps/{campId}/categories', () => {
   })
 
   it('invalidates cached data when user leaves a camp', () => {
-    Cypress.session.clearAllSavedSessions()
     const uri = `/api/camps/${grgrCampId}/categories`
 
     cy.intercept('PATCH', '/api/camp_collaborations/**').as('camp_collaboration')

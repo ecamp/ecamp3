@@ -6,10 +6,13 @@ const collectionXKeys =
   'a4211c11211c c462edd869f3 5e2028c55ee4 a4211c112939 f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
 
 describe('cache test: /content-types', () => {
+  beforeEach(() => {
+    cy.wrap(Cypress.session.clearAllSavedSessions())
+  })
+
   it('caches collection separately for each login', () => {
     const uri = '/api/content_types'
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // first request is a cache miss
@@ -32,7 +35,6 @@ describe('cache test: /content-types', () => {
     const contentTypeId = '318e064ea0c9'
     const uri = `/api/content_types/${contentTypeId}`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // first request is a cache miss

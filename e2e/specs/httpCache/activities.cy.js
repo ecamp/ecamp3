@@ -51,10 +51,13 @@ const collectionXKeys =
   '/api/camps/70ca971c992f/activities'
 
 describe('cache test: /camps/{campId}/activities', () => {
+  beforeEach(() => {
+    cy.wrap(Cypress.session.clearAllSavedSessions())
+  })
+
   it('caches /camps/{campId}/activities separately for each login', () => {
     const uri = `/api/camps/${skilagerCampId}/activities`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // first request is a cache miss
@@ -78,7 +81,6 @@ describe('cache test: /camps/{campId}/activities', () => {
     const activityId = '3d1e5c91ceb2'
 
     // bring data into defined state
-    Cypress.session.clearAllSavedSessions()
     cy.login(bruceWayneUser)
     cy.apiPatch(`/api/activities/${activityId}`, {
       title: 'Breakfast',
@@ -108,7 +110,6 @@ describe('cache test: /camps/{campId}/activities', () => {
   it('invalidates /camps/{campId}/activities for new activity', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -145,7 +146,6 @@ describe('cache test: /camps/{campId}/activities', () => {
   it('invalidates /camps/{campId}/activities when adding a scheduleEntry', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -179,7 +179,6 @@ describe('cache test: /camps/{campId}/activities', () => {
     const progressLabelId = '82547049ea38'
 
     // bring data into defined state
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
     cy.apiPatch(`/api/activity_progress_labels/${progressLabelId}`, {
       title: 'Planned',
@@ -202,7 +201,6 @@ describe('cache test: /camps/{campId}/activities', () => {
   it('invalidates /camps/{campId}/activities when adding an activity responsible', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -232,7 +230,6 @@ describe('cache test: /camps/{campId}/activities', () => {
   it('invalidates /camps/{campId}/activities when changing the period dates (moveScheduleEntries: true)', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
@@ -265,7 +262,6 @@ describe('cache test: /camps/{campId}/activities', () => {
   it('invalidates /camps/{campId}/activities when changing the period dates (moveScheduleEntries: false)', () => {
     const uri = `/api/camps/${grgrCampId}/activities`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
