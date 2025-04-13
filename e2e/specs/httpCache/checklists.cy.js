@@ -10,10 +10,13 @@ const collectionXKeys =
   '/api/camps/5d28f99890bc/checklists'
 
 describe('cache test: /camps/checklists', () => {
+  beforeEach(() => {
+    cy.wrap(Cypress.session.clearAllSavedSessions())
+  })
+
   it('caches /camp/{campId}/checklists separately for each login', () => {
     const uri = `/api/camps/${basiskursCampId}/checklists`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // first request is a cache miss
@@ -36,7 +39,6 @@ describe('cache test: /camps/checklists', () => {
     const uri = `/api/camps/${basiskursCampId}/checklists`
 
     // bring data into defined state
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
     cy.apiPatch('/api/checklists/ebbd0c61eb85', {
       name: 'Training targets',
@@ -59,7 +61,6 @@ describe('cache test: /camps/checklists', () => {
   it('invalidates /camp/{campId}/checklists for new checklist', () => {
     const uri = `/api/camps/${basiskursCampId}/checklists`
 
-    Cypress.session.clearAllSavedSessions()
     cy.login(bipiUser)
 
     // warm up cache
