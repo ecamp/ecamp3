@@ -5,7 +5,6 @@ namespace App\Repository;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\MaterialItem;
 use App\Entity\User;
-use App\Util\QueryBuilderHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,8 +23,7 @@ class MaterialItemRepository extends ServiceEntityRepository implements CanFilte
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
-        $periodMaterialItems = QueryBuilderHelper::findOrAddInnerRootJoinAlias($queryBuilder, $queryNameGenerator, 'periodMaterialItems');
-        $period = QueryBuilderHelper::findOrAddInnerJoinAlias($queryBuilder, $queryNameGenerator, $periodMaterialItems, 'period');
-        $this->filterByCampCollaboration($queryBuilder, $user, "{$period}.camp");
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
     }
 }

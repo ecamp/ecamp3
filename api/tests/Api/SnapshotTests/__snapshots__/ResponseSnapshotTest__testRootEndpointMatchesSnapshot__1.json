@@ -64,7 +64,7 @@
             "href": "/authentication_token"
         },
         "materialItems": {
-            "href": "/material_items{/id}{?materialList,materialList[],materialNode,materialNode[],period}",
+            "href": "/material_items{/id}{?camp,camp[],materialList,materialList[],materialNode,materialNode[],period}",
             "templated": true
         },
         "materialLists": {

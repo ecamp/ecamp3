@@ -28,4 +28,8 @@ class EntityMap {
     public function belongsToTargetCamp(BelongsToCampInterface $entity) {
         return $entity->getCamp() == $this->targetCamp;
     }
+
+    public function getTargetCamp(): Camp {
+        return $this->targetCamp;
+    }
 }

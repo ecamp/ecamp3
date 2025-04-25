@@ -145,6 +145,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $materialLists;
 
     /**
+     * List of MaterialItems that belong to this Camp.
+     */
+    #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
+    public Collection $materialItems;
+
+    /**
      * List of all Checklists of this Camp.
      * Each Checklist is a List of ChecklistItems.
      */
@@ -395,6 +401,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         $this->progressLabels = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+        $this->materialItems = new ArrayCollection();
         $this->checklists = new ArrayCollection();
         $this->campRootContentNodes = new ArrayCollection();
     }
@@ -607,6 +614,32 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         if ($this->materialLists->removeElement($materialList)) {
             if ($materialList->camp === $this) {
                 $materialList->camp = null;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return MaterialItem[]
+     */
+    public function getMaterialItems(): array {
+        return $this->materialItems->getValues();
+    }
+
+    public function addMaterialItem(MaterialItem $materialItem): self {
+        if (!$this->materialItems->contains($materialItem)) {
+            $this->materialItems[] = $materialItem;
+            $materialItem->camp = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeMaterialItem(MaterialItem $materialItem): self {
+        if ($this->materialItems->removeElement($materialItem)) {
+            if ($materialItem->camp === $this) {
+                $materialItem->camp = null;
             }
         }
 
