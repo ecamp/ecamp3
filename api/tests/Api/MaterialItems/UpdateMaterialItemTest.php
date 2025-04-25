@@ -151,9 +151,9 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'materialList' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "materialList" attribute must be "array" (nested document) or "string" (IRI), "NULL" given.',
+            'detail' => 'materialList: This value should not be null.',
         ]);
     }
 
@@ -244,7 +244,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'period',
+                    'propertyPath' => 'materialList',
                     'message' => 'Must belong to the same camp.',
                 ],
             ],
@@ -261,7 +261,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'materialNode',
+                    'propertyPath' => 'materialList',
                     'message' => 'Must belong to the same camp.',
                 ],
             ],

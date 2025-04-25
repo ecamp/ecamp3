@@ -205,7 +205,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'period',
+                    'propertyPath' => 'materialList',
                     'message' => 'Must belong to the same camp.',
                 ],
             ],
@@ -222,7 +222,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'materialNode',
+                    'propertyPath' => 'materialList',
                     'message' => 'Must belong to the same camp.',
                 ],
             ],

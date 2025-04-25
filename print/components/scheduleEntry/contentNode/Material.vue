@@ -11,7 +11,7 @@
           {{ item.article }}
         </td>
         <td width="30%">
-          {{ item.materialList().name }}
+          {{ item.materialList ? item.materialList()?.name : '' }}
         </td>
       </tr>
     </table>

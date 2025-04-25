@@ -38,7 +38,7 @@ class CategoryCreateProcessor extends AbstractPersistProcessor {
 
         if (isset($data->copyCategorySource)) {
             // CopyActivity Source is set -> copy it's content (rootContentNode)
-            $entityMap = new EntityMap();
+            $entityMap = new EntityMap($data->camp);
             $rootContentNode->copyFromPrototype($data->copyCategorySource->getRootContentNode(), $entityMap);
         }
 

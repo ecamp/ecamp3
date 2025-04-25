@@ -56,7 +56,7 @@ export default {
       return this.api.get(this.materialItemUri)
     },
     camp() {
-      return this.materialItem.materialList().camp()
+      return this.materialItem.camp()
     },
   },
   watch: {

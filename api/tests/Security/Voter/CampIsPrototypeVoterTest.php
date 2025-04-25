@@ -4,6 +4,7 @@ namespace App\Tests\Security\Voter;
 
 use App\Entity\Activity;
 use App\Entity\BaseEntity;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\Camp;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\Period;
@@ -122,8 +123,9 @@ class CampIsPrototypeVoterTest extends TestCase {
         $camp->isPrototype = true;
         $activity = $this->createMock(Activity::class);
         $activity->method('getCamp')->willReturn($camp);
-        $subject = $this->createMock(ColumnLayout::class);
-        $subject->method('getRoot')->willReturn($subject);
+        $root = $this->createMock(ColumnLayout::class);
+        $subject = $this->createMock(ContentNodeTreeDummy1::class);
+        $subject->method('getRoot')->willReturn($root);
         $repository = $this->createMock(EntityRepository::class);
         $this->em->method('getRepository')->willReturn($repository);
         $repository->method('findOneBy')->willReturn($activity);
@@ -137,3 +139,9 @@ class CampIsPrototypeVoterTest extends TestCase {
 }
 
 class CampIsPrototypeVoterTestDummy extends BaseEntity {}
+
+class ContentNodeTreeDummy1 implements BelongsToContentNodeTreeInterface {
+    public function getRoot(): ?ColumnLayout {
+        return null;
+    }
+}
