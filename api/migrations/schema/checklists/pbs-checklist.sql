@@ -173,5 +173,37 @@ INSERT INTO public.checklist_item (createtime, updatetime, id, checklistid, pare
     ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000400040005', '000400000000', '000400040000', 4, 'Betreuung und Förderung einzelner Teammitglieder'),
 ;
 
+DELETE FROM public.checklist c where c.id = '000500000000';
 
+INSERT INTO public.checklist (createtime, updatetime, id, campid, name, isprototype) VALUES
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500000000', null, 'J+S SiMo Berg', true)
+;
 
+INSERT INTO public.checklist_item (createtime, updatetime, id, checklistid, parentid, position, text) VALUES
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500010000', '000500000000', null, 0, 'Schwerpunkt Pädagogisches Konzept'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500010001', '000500000000', '000500010000', 0, 'Leitungsverantwortung als Leiter/in im Sicherheitsbereich Berg erkennen und Risiken einschätzen.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500010002', '000500000000', '000500010000', 1, 'Gruppen sicher führen und auf Unvorhergesehenes reagieren.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500010003', '000500000000', '000500010000', 2, 'Sicherheitskonzepte erstellen und in Notfallsituationen handeln.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500010004', '000500000000', '000500010000', 3, 'Voraussetzungen Jugendlicher verschiedenen Alters kennen.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500010005', '000500000000', '000500010000', 4, 'Eigenes Handeln reflektieren und Schlüsse ziehen.'),
+
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500020000', '000500000000', null, 1, 'Schwerpunkt Sportmotorisches Konzept'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500020001', '000500000000', '000500020000', 0, 'Zeltbiwak durchführen und Situationen wie Flussquerungen beurteilen.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500020002', '000500000000', '000500020000', 1, 'Wetterprognosen beurteilen und Verhalten anpassen.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500020003', '000500000000', '000500020000', 2, 'Umgang mit bergspezifischer Ausrüstung und Schutz vor Kälte/Nässe.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500020004', '000500000000', '000500020000', 3, 'Gelände beurteilen und mit Karte und Kompass orientieren.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500020005', '000500000000', '000500020000', 4, 'Draussen kochen und sinnvolle Menüs planen.'),
+
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500030000', '000500000000', null, 2, 'Schwerpunkt Methodisches Konzept'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500030001', '000500000000', '000500030000', 0, 'Natur- und umweltverträgliche Aktivitäten planen und auswerten.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500030002', '000500000000', '000500030000', 1, 'Unternehmungen planen, sicher durchführen und Ausbildung inszenieren.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500030003', '000500000000', '000500030000', 2, 'Spiel- und Sportaktivitäten im alpinen Gelände planen und auswerten.'),
+
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040000', '000500000000', null, 3, 'Weitere Themen'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040001', '000500000000', '000500040000', 0, 'Kennenlernen, Modulziele und Kursprogramm.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040002', '000500000000', '000500040000', 1, 'Über Neuerungen informiert sein.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040003', '000500000000', '000500040000', 2, 'Neuerungen der Sportart kennen.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040004', '000500000000', '000500040000', 3, 'Individuelle Rückmeldungen und Weiterbildungsmöglichkeiten.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040005', '000500000000', '000500040000', 4, 'Tätigkeiten reflektieren und von Erfahrungen profitieren.'),
+    ('2024-09-28 10:00:00', '2024-09-28 10:00:00', '000500040006', '000500000000', '000500040000', 5, 'Rückmeldungen zum Modulverlauf geben.')
+;
