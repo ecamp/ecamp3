@@ -109,6 +109,7 @@ export default {
         )
         .then(() => {
           this.invitations.$reload()
+          this.api.get().camps().$reload()
         })
         .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
