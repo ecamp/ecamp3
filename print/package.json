@@ -54,7 +54,7 @@
     "eslint-plugin-vue": "9.33.0",
     "eslint-plugin-vue-scoped-css": "2.11.0",
     "globals": "16.3.0",
-    "nuxt": "3.17.5",
+    "nuxt": "3.17.6",
     "prettier": "3.6.2",
     "sass": "1.82.0",
     "vite-plugin-eslint2": "5.0.4",
