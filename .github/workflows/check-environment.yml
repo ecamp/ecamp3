@@ -1,0 +1,56 @@
+name: zz Check Environment
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment'
+        type: environment
+        default: dev
+        required: true
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Choose environment'
+        type: string
+        default: dev
+        required: true
+
+jobs:
+  check-environment:
+    name: "Check environment"
+    environment: ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump secrets
+        if: always()
+        run: |
+          set -x
+          set +e
+          echo '${{ toJSON(secrets) }}' | jq -r 'keys[] as $k | "\($k)=\"\(.[$k])\""'
+
+      - name: Dump variables
+        if: always()
+        run: |
+          set -x
+          set +e
+          echo '${{ toJSON(vars) }}' | jq -r 'keys[] as $k | "\($k)=\"\(.[$k])\""'
+
+      - name: Check kubectl
+        if: always()
+        run: |
+          # Setup authentication
+          set +e
+          
+          echo "KUBECONFIG is: $KUBECONFIG"
+          
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          
+          cat ~/.kube/config
+          
+          kubectl version
+          
+          kubectl config view
+          
+          helm version
+          
+          helm list -A
