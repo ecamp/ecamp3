@@ -1,0 +1,16 @@
+services:
+  frontend-image:
+    image: ${REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-frontend:${VERSION:-latest}
+    build:
+      context: ../
+      dockerfile: .docker-hub/frontend/Dockerfile
+  print-image:
+    image: ${REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-print:${VERSION:-latest}
+    build:
+      context: ../
+      dockerfile: .docker-hub/print/Dockerfile
+  varnish-image:
+    image: ${REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-varnish:${VERSION:-latest}
+    build:
+      context: ../
+      dockerfile: .docker-hub/varnish/Dockerfile

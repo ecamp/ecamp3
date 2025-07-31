@@ -25,7 +25,7 @@ services:
       - pdf
 
   api:
-    image: ecamp/ecamp3-dev-api
+    image: ${REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-api:${VERSION:-latest}
     build:
       context: ./api
       target: frankenphp_prod
