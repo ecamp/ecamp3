@@ -1,6 +1,7 @@
-name: '[reusable only] Build images and push to registry'
+name: "[reusable only] Build images and push to registry"
 
 on:
+  workflow_dispatch:
   workflow_call:
     inputs:
       tag:
@@ -17,14 +18,130 @@ on:
         required: true
       SENTRY_AUTH_TOKEN:
 
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
 jobs:
-  build-and-push:
-    name: Build images and push
+  build-info:
     runs-on: ubuntu-latest
+    outputs:
+      repo-owner: ${{ steps.repo-owner.outputs.result }}
+      tags: ${{ steps.image-tags.outputs.image-tags }}
+      build-config: ${{ steps.build-info.outputs.result }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      #github forces lower case for the image name
+      - name: Get lowercase repo owner name
+        uses: actions/github-script@v7
+        id: repo-owner
         with:
-          ref: ${{ inputs.sha }}
+          result-encoding: string
+          script: |
+            return context.repo.owner.toLowerCase()
+
+      - uses: actions/checkout@v4
+
+      - name: Set nightly tag if commit was on main
+        id: add-nightly-tag
+        if: startsWith(github.ref, 'refs/heads/devel')
+        run: |
+          echo "nightly-tag=nightly" | tr -d "\n"  >> $GITHUB_OUTPUT
+
+      - name: Set latest tag if its a tag
+        id: add-latest-tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "latest-tag=latest" | tr -d "\n"  >> $GITHUB_OUTPUT
+
+      - uses: actions/github-script@v7
+        id: get-tag
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.ref.replace('refs/tags/', '')
+
+      - name: concat tags to list
+        id: image-tags
+        run: |
+          TAGS=$(cat <<-END
+              [
+              "${{ inputs.sha || github.sha }}",
+              "${{ steps.add-nightly-tag.outputs.nightly-tag }}",
+              "${{ steps.add-latest-tag.outputs.latest-tag }}",
+              "${{ steps.get-tag.outputs.result }}"
+              ]
+          END
+          )
+          TAGS=$(echo $TAGS | jq -c 'map(select(length > 0))')
+          echo "image-tags=$TAGS" | tr -d "\n"  >> $GITHUB_OUTPUT
+
+      - name: Get build info
+        id: build-info
+        run: |
+          set -x
+          sudo snap install yq
+
+          export REPO_NAME=$(basename $(pwd))
+          echo "services:" > /tmp/docker-compose.yml
+          for i in $(find . -name docker-compose.yml); do
+             docker compose -f $i config | yq '.services | select(.[].build != null and .[].image != null)' | sed 's/^/  /' >> /tmp/docker-compose.yml
+          done
+
+          cat /tmp/docker-compose.yml
+
+          yq_pipe='.services'
+          yq_pipe=$yq_pipe'| to_entries[]'
+          yq_pipe=$yq_pipe'| select(.value.build != null and .value.image != null)'
+          yq_pipe=$yq_pipe'| .value.build.image=.value.image'
+          yq_pipe=$yq_pipe'| .value.build.service=.key'
+          yq_pipe=$yq_pipe'| .value.build'
+          yq_pipe=$yq_pipe'| .dockerfile=.context + "/" + .dockerfile'
+          yq_pipe=$yq_pipe'| [.]'
+          cat /tmp/docker-compose.yml | yq "$yq_pipe"
+          BUILD_INFO=$(cat /tmp/docker-compose.yml | yq "$yq_pipe" -o=json)
+          BUILD_INFO=$(echo $BUILD_INFO | jq -c -s add | sed "s|:local||g")
+          echo $BUILD_INFO
+          echo "result=$BUILD_INFO" | tr -d "\n"  >> $GITHUB_OUTPUT
+        env:
+          REPO_OWNER: ${{ vars.DOCKER_HUB_USERNAME || steps.repo-owner.outputs.result }}
+          VERSION: local
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    name: "Build and push image ${{ matrix.build-config.service }}"
+    needs:
+      - build-info
+    strategy:
+      fail-fast: false
+      matrix:
+        build-config: ${{ fromJSON(needs.build-info.outputs.build-config) }}
+    env:
+      tags: ${{ needs.build-info.outputs.tags }}
+      repo-owner: ${{ needs.build-info.outputs.repo-owner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: |
+          echo "inputs:"
+          cat <<-HEREDOC
+          ${{ toJSON(inputs) }}
+          HEREDOC
+
+          echo "build config:"
+          cat <<-HEREDOC
+          ${{ toJSON(matrix.build-config) }}
+          HEREDOC
+
+          echo "build tags:"
+          cat <<-HEREDOC
+          ${{ env.tags }}
+          HEREDOC
+
+          echo "build repo owner:"
+          cat <<-HEREDOC
+          ${{ env.repo-owner }}
+          HEREDOC
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -32,76 +149,49 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKER_HUB_USERNAME }}
+          username: ${{ vars.DOCKER_HUB_USERNAME || env.repo-owner }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build and push frontend docker image
+      - uses: actions/github-script@v7
+        id: expand-tags
+        with:
+          script: |
+            return JSON.parse('${{ env.tags }}').map(tag => `${{ matrix.build-config.image }}:${ tag }`)
+
+      - name: populate build args from secrets/vars
+        id: populate-build-args
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const buildArgValues = {
+              "SENTRY_AUTH_TOKEN" : "${{ secrets.SENTRY_AUTH_TOKEN }}",
+              "SENTRY_FRONTEND_PROJECT" : "${{ vars.SENTRY_FRONTEND_PROJECT }}",
+              "SENTRY_ORG" : "${{ vars.SENTRY_ORG }}",
+              "SENTRY_PRINT_PROJECT" : "${{ vars.SENTRY_PRINT_PROJECT }}",
+              "SENTRY_RELEASE_NAME" : "${{ vars.SENTRY_RELEASE_NAME }}",
+            }
+            const args = JSON.parse(`${{ toJSON(matrix.build-config.args) }}`);
+            for (const arg in args) {
+              if (buildArgValues[arg]) {
+                args[arg] = buildArgValues[arg]
+              }
+            }
+            return args
+
+      - name: transform build args
+        id: transform-build-args
+        run: |
+          result=$(${{ steps.populate-build-args.outputs.result }}' | yq -p json '.args')
+          echo "result=$result" | tr -d "\n"  >> $GITHUB_OUTPUT
+
+      - name: Build and push image
         uses: docker/build-push-action@v6
         with:
           push: true
-          file: .docker-hub/frontend/Dockerfile
-          tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-frontend:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-frontend:${{ inputs.sha }}
-          context: .
+          file: ${{ matrix.build-config.dockerfile }}
+          tags: ${{ join(fromJSON(steps.expand-tags.outputs.result)) }}
+          context: ${{ matrix.build-config.context }}
           build-args: |
-            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-            SENTRY_ORG=${{ vars.SENTRY_ORG }}
-            SENTRY_FRONTEND_PROJECT=${{ vars.SENTRY_FRONTEND_PROJECT }}
-            SENTRY_RELEASE_NAME=${{ inputs.sha }}
-          cache-from: type=gha,scope=frontend
-          cache-to: type=gha,scope=frontend,mode=max
-
-      - name: Build and push api docker image
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          file: api/Dockerfile
-          tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-api:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-api:${{ inputs.sha }}
-          context: './api'
-          target: frankenphp_prod
-          cache-from: type=gha,scope=api
-          cache-to: type=gha,scope=api,mode=max
-
-      - name: Build and push print docker image
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          file: .docker-hub/print/Dockerfile
-          tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-print:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-print:${{ inputs.sha }}
-          context: .
-          build-args: |
-            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-            SENTRY_ORG=${{ vars.SENTRY_ORG }}
-            SENTRY_PRINT_PROJECT=${{ vars.SENTRY_PRINT_PROJECT }}
-            SENTRY_RELEASE_NAME=${{ inputs.sha }}
-          cache-from: type=gha,scope=print
-          cache-to: type=gha,scope=print,mode=max
-
-      - name: Build and push varnish docker image
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          file: .docker-hub/varnish/Dockerfile
-          tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-varnish:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-varnish:${{ inputs.sha }}
-          context: .
-          cache-from: type=gha,scope=varnish
-          cache-to: type=gha,scope=varnish,mode=max
-
-      - name: Build and push db-backup-restore docker image
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          file: .helm/ecamp3/files/db-backup-restore-image/Dockerfile
-          tags: |
-            ${{ ((inputs.tag != '') && format('{0}/ecamp3-db-backup-restore:{1}', vars.DOCKER_HUB_USERNAME, inputs.tag) || '') }}
-            ${{ vars.DOCKER_HUB_USERNAME }}/ecamp3-db-backup-restore:${{ inputs.sha }}
-          context: .
-          cache-from: type=gha,scope=db-backup-restore
-          cache-to: type=gha,scope=db-backup-restore,mode=max
+            ${{ steps.transform-build-args.outputs.result }}
+          cache-from: type=gha,scope=${{ matrix.build-config.image }}
+          cache-to: type=gha,scope=${{ matrix.build-config.image }},mode=max

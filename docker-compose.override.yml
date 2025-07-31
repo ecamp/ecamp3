@@ -1,5 +1,6 @@
 services:
   api:
+    image: ''
     build:
       target: frankenphp_dev
     volumes:
