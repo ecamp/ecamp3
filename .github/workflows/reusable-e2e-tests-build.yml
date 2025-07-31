@@ -25,7 +25,7 @@ jobs:
           load: true
           target: frankenphp_prod
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ecamp/ecamp3-dev-api
+          tags:  docker.io/ecamp/ecamp3-api:latest
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
           outputs: type=docker,dest=/tmp/ecamp3-dev-api.tar
