@@ -111,6 +111,9 @@
             "href": "/profiles{/id}{?user.collaborations.camp,user.collaborations.camp[],user,user[]}",
             "templated": true
         },
+        "refreshToken": {
+            "href": "/token/refresh"
+        },
         "resendActivation": {
             "href": "/auth/resend_activation",
             "templated": false

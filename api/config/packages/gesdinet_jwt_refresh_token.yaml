@@ -1,0 +1,11 @@
+gesdinet_jwt_refresh_token:
+    cookie:
+      enabled: true
+      same_site: strict
+      path: /
+      http_only: true
+      secure: '%env(bool:COOKIE_SECURE)%'
+      remove_token_from_body: true
+    refresh_token_class: App\Entity\RefreshToken
+    single_use: true
+    token_parameter_name: '%env(COOKIE_PREFIX)%refresh_token'

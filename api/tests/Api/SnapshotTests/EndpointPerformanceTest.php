@@ -244,6 +244,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
                 '/auth/resend_activation' => false,
                 '/invitations' => false,
                 '/personal_invitations' => false,
+                '/token/refresh' => false,
                 default => true
             };
         });

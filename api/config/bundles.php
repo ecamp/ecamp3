@@ -6,6 +6,7 @@ use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 use Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle;
 use Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle;
 use FOS\HttpCacheBundle\FOSHttpCacheBundle;
+use Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle;
 use Hautelook\AliceBundle\HautelookAliceBundle;
 use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle;
@@ -44,4 +45,5 @@ return [
     SentryBundle::class => ['all' => true],
     TwigExtraBundle::class => ['all' => true],
     FOSHttpCacheBundle::class => ['all' => true],
+    GesdinetJWTRefreshTokenBundle::class => ['all' => true],
 ];

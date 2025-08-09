@@ -117,6 +117,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
                 '/auth/resend_activation' => false,
                 '/invitations' => false,
                 '/personal_invitations' => false,
+                '/token/refresh' => false,
                 '/users' => false,
                 default => true
             };

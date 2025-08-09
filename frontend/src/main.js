@@ -23,6 +23,7 @@ import 'vue-toastification/dist/index.css'
 
 import { ClickOutside, Resize } from 'vuetify/lib/directives'
 import ResizeObserver from 'v-resize-observer'
+import { initRefresh } from '@/plugins/auth.js'
 
 const env = getEnv()
 if (env && env.SENTRY_FRONTEND_DSN) {
@@ -63,3 +64,6 @@ new Vue({
   unhead,
   render: (h) => h(App),
 }).$mount('#app')
+
+// noinspection JSIgnoredPromiseFromCall
+initRefresh()

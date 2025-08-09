@@ -7,9 +7,8 @@ lexik_jwt_authentication:
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
 
-    # Tokens are valid for 12 hours, should be safe because we never expose the whole token to JavaScript.
-    # Of course it would be even better to have only short-lived tokens but renew them on every request.
-    token_ttl: 43200
+    # Tokens are valid for 30 minutes.
+    token_ttl: 1800
 
     # Read the JWT token from a split cookie: The [api-domain]_jwt_hp and [api-domain]_jwt_s cookies are combined with a period (.)
     # to form the full JWT token.

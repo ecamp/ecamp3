@@ -34692,6 +34692,24 @@ paths:
       summary: 'Updates the ScheduleEntry resource.'
       tags:
         - ScheduleEntry
+  /token/refresh:
+    post:
+      operationId: postRefreshToken
+      requestBody:
+        content:
+          application/json:
+            schema: []
+          application/ld+json:
+            schema: []
+        description: Body
+        required: false
+      responses:
+        204:
+          description: 'Get a refreshed JWT token split across the two cookies example_com_jwt_hp and example_com_jwt_s. Also returns a new refresh token example_com_refresh_token.'
+      summary: 'Refresh token.'
+      tags:
+        - 'JWT Refresh'
+    ref: 'JWT Token Refresh'
   /users:
     get:
       deprecated: false

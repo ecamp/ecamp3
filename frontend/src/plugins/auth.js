@@ -11,6 +11,52 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error)
 })
 
+let scheduledRefresh = null
+
+export async function initRefresh() {
+  // Cookies.get was not reliable to detect if the cookie was present.
+  if (store.getters.hasLoggedOut) {
+    return
+  }
+  let originalTarget = `${window.location.pathname}`
+  if (window.location.search) {
+    originalTarget += `?${window.location.search}`
+  }
+  let refreshedSuccessfully = false
+  if (!isLoggedIn()) {
+    await refresh()
+    if (!isLoggedIn()) {
+      return
+    }
+    refreshedSuccessfully = true
+  }
+  rescheduleRefresh()
+  if (refreshedSuccessfully) {
+    await router.replace(originalTarget)
+  }
+}
+
+function rescheduleRefresh() {
+  if (scheduledRefresh != null) {
+    clearTimeout(scheduledRefresh)
+  }
+  const timeout = (getJWTExpirationTimestamp() - Date.now()) / 2
+  const realTimeout = Math.max(Math.min(timeout, 30 * 60 * 1000), 5 * 60 * 1000)
+  console.log(`scheduling timeout in ${realTimeout}`)
+  scheduledRefresh = setTimeout(refreshAndSchedule, realTimeout)
+}
+
+async function refreshAndSchedule() {
+  console.log('executing refresh')
+  await refresh()
+  rescheduleRefresh()
+}
+
+async function refresh() {
+  const url = await apiStore.href(apiStore.get(), 'refreshToken')
+  return apiStore.post(url)
+}
+
 function getJWTPayloadFromCookie() {
   const jwtHeaderAndPayload = Cookies.get(headerAndPayloadCookieName())
   if (!jwtHeaderAndPayload) return ''
@@ -58,6 +104,7 @@ export function isAdmin() {
 async function login(email, password) {
   const url = await apiStore.href(apiStore.get(), 'login')
   return apiStore.post(url, { identifier: email, password: password }).then(() => {
+    rescheduleRefresh()
     return isLoggedIn()
   })
 }
@@ -141,6 +188,9 @@ async function loginJublaDB() {
 }
 
 export async function logout() {
+  if (scheduledRefresh != null) {
+    clearTimeout(scheduledRefresh)
+  }
   Cookies.remove(headerAndPayloadCookieName())
   store.commit('logout')
   return router
@@ -159,6 +209,7 @@ function cookiePrefix() {
 }
 
 export const auth = {
+  initRefresh,
   isLoggedIn,
   isAdmin,
   login,
