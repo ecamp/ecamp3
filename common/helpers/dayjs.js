@@ -38,6 +38,13 @@ export const dayjsLocaleMap = {
   rm: 'de-ch',
 }
 
+export function toDayjsLocale(locale) {
+  const twoLetterLocale = locale.substring(0, 2);
+  return Object.keys(dayjsLocaleMap).includes(twoLetterLocale)
+    ? dayjsLocaleMap[twoLetterLocale]
+    : locale;
+}
+
 /**
  * @typedef {import('dayjs').Dayjs} Dayjs
  * @property {Dayjs} utc

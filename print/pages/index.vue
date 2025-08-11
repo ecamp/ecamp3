@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { dayjsLocaleMap } from '@/common/helpers/dayjs.js'
+import { toDayjsLocale } from '@/common/helpers/dayjs.js'
 
 // parse query config
 const route = useRoute()
@@ -30,12 +30,7 @@ const locale = config.language || fallbackLocale.value
 await setLocale(locale) // i18n
 
 //dayjs
-const twoLetterLocale = locale.substring(0, 2)
-$date.locale(
-  Object.keys(dayjsLocaleMap).includes(twoLetterLocale)
-    ? dayjsLocaleMap[twoLetterLocale]
-    : locale
-)
+$date.locale(toDayjsLocale(locale))
 
 // load camp
 const { $api } = useNuxtApp()
