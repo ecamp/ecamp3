@@ -1,0 +1,13 @@
+name: 'Setup helmfile'
+description: 'Sets up helmfile in /usr/local/bin/helmfile'
+runs:
+  using: "composite"
+  steps:
+    - name: install helmfile
+      run: |
+        curl -L https://github.com/helmfile/helmfile/releases/download/v1.1.3/helmfile_1.1.3_linux_amd64.tar.gz -o helmfile.tar.gz
+        tar -xvf /tmp/helmfile.tar.gz
+        mv helmfile /usr/local/bin
+        chmod +x /usr/local/bin/helmfile
+      working-directory: /tmp
+      shell: bash

@@ -1,20 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
 SCRIPT_DIR=$(realpath "$(dirname "$0")")
 REPO_DIR=$(realpath "$SCRIPT_DIR"/..)
 
-source "$SCRIPT_DIR"/.env
-
-if [ -z "$docker_hub_account" ] \
-    || [ -z "$version" ] \
-    ; then
-    echo "Please specify the needed env variables in $SCRIPT_DIR/.env"
-    echo "An example can be seen here:"
-    cat $SCRIPT_DIR/.env-example
-    exit 1
-fi
+version=$(jq -r '.IMAGE_TAG' $SCRIPT_DIR/ecamp3/env.yaml)
+docker_hub_account=$(jq -r '.DOCKER_HUB_USERNAME' $SCRIPT_DIR/ecamp3/env.yaml)
+SENTRY_AUTH_TOKEN=$(jq -r '.SENTRY_AUTH_TOKEN' $SCRIPT_DIR/ecamp3/env.yaml)
 
 sentry_build_args="--build-arg SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN --build-arg SENTRY_ORG=$SENTRY_ORG"
 sentry_build_args="$sentry_build_args --build-arg SENTRY_RELEASE_NAME=$SENTRY_RELEASE_NAME"

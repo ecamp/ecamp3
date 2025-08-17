@@ -5,7 +5,7 @@
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
-		num_threads {$NUM_THREADS}
+		num_threads {$NUM_THREADS:4}
 		{$FRANKENPHP_CONFIG}
 	}
 

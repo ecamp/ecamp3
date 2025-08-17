@@ -5,6 +5,15 @@ on:
     branches:
       - devel
   workflow_dispatch:
+    inputs:
+      action:
+        description: "Choose action"
+        type: choice
+        required: true
+        default: diff
+        options:
+          - diff
+          - deploy
 
 jobs:
   continuous-integration:
@@ -29,4 +38,5 @@ jobs:
     with:
       name: dev
       env: dev
+      action: ${{ github.event.inputs.action || 'deploy' }}
     secrets: inherit

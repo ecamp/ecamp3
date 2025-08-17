@@ -3,6 +3,16 @@ name: CD for feature branches
 on:
   pull_request_target:
     types: [opened, reopened, labeled, synchronize]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Choose action"
+        type: choice
+        required: true
+        default: diff
+        options:
+          - diff
+          - deploy
 
 concurrency:
   group: ${{ github.workflow}}-${{ github.event.pull_request.number }}
@@ -30,4 +40,5 @@ jobs:
       env: feature-branch
       pr-number: ${{ github.event.pull_request.number }}
       dropDBOnUninstall: true
+      action: ${{ github.event.inputs.action || 'deploy' }}
     secrets: inherit

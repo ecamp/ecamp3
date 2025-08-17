@@ -1,0 +1,276 @@
+{{- /* Input parameters from helmfile env.yaml */ -}}
+{{- $name := .Environment.Values | getOrNil "NAME" | required "NAME is required" -}}
+{{- $domain := .Environment.Values | getOrNil "DOMAIN" | required "DOMAIN is required" -}}
+{{- $dockerUser := .Environment.Values | getOrNil "DOCKER_HUB_USERNAME" | required "DOCKER_HUB_USERNAME is required" -}}
+{{- $imageTag := .Environment.Values | getOrNil "IMAGE_TAG" | required "IMAGE_TAG is required" -}}
+
+# Default values for ecamp3.
+# Declare configuration values to be passed into the templates.
+
+chartNameOverride: ""
+imageTag: {{ $imageTag | quote }}
+imagePullSecrets: []
+deploymentTime: {{ exec "date" (list "-u" "+%s") | trim | quote }}
+domain: {{ printf "%s.%s" $name $domain | quote }}
+deployedVersion: {{ (exec "git" (list "rev-parse" "--short" "HEAD")) | trim | quote }}
+versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
+termsOfServiceLinkTemplate: 'https://ecamp3.ch/{lang}/tos'
+newsLink: 'https://ecamp3.ch/blog'
+helpLink: 'https://ecamp3.ch/faq'
+
+# enable/disable feature across the complete deployment
+featureToggle:
+  developer: {{ .Environment.Values | getOrNil "FEATURE_DEVELOPER" | default false }}
+  checklist: {{ .Environment.Values | getOrNil "FEATURE_CHECKLIST" | default false }}
+
+api:
+  dataMigrationsDir: {{ .Environment.Values | getOrNil "API_DATA_MIGRATIONS_DIR" | default "prod-data" }}
+  subpath: "/api"
+  image:
+    repository: "docker.io/{{ $dockerUser }}/ecamp3-api"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  service:
+    type: ClusterIP
+    port: 3001
+  metrics:
+    port: 2019
+  replicaCount: 1
+  appEnv: prod
+  appDebug: "0"
+  appSecret: {{ .Environment.Values | getOrNil "API_APP_SECRET" }}
+  corsAllowOrigin: "^https://.*?\\.chart-example\\.local$"
+  trustedProxies:
+    - "::1"
+    - "127.0.0.1"
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+  caddyGlobalOptions: ""
+  sentryDsn: {{ .Environment.Values | getOrNil "API_SENTRY_DSN" | quote }}
+  jwt:
+    passphrase: {{ .Environment.Values | getOrNil "JWT_PASSPHRASE" | required "JWT_PASSPHRASE is required" }}
+    privateKey: |
+      {{- .Environment.Values | getOrNil "JWT_PRIVATE_KEY" | required "JWT_PRIVATE_KEY is required" | nindent 6 }}
+    publicKey: |
+      {{- .Environment.Values | getOrNil "JWT_PUBLIC_KEY" | required "JWT_PUBLIC_KEY is required" | nindent 6 }}
+  oauth:
+    google:
+      clientId: {{ .Environment.Values | getOrNil "OAUTH_GOOGLE_CLIENT_ID" | default "889440431087-ueuhpadf2g7h5ucdke92mvfaf4l779m4.apps.googleusercontent.com" | quote }}
+      clientSecret: {{ .Environment.Values | getOrNil "OAUTH_GOOGLE_CLIENT_SECRET" | default "HNaD1FNO-a1qliacIrIfcGqO" | quote }}
+    pbsmidata:
+      clientId: {{ .Environment.Values | getOrNil "OAUTH_PBSMIDATA_CLIENT_ID" | default "2a955efdaaac73f665b29ec182cd9a114db01675ced710a464d33d10f58be600" | quote }}
+      clientSecret: {{ .Environment.Values | getOrNil "OAUTH_PBSMIDATA_CLIENT_SECRET" | default "00a23e48bcb776d453b255428ffe810643db7155a9f3d743d7edf52eac400580" | quote }}
+      baseUrl: {{ .Environment.Values | getOrNil "OAUTH_PBSMIDATA_BASE_URL" | default "https://pbs.puzzle.ch" | quote }}
+    cevidb:
+      clientId: {{ .Environment.Values | getOrNil "OAUTH_CEVIDB_CLIENT_ID" | default "raT1QFf6TOQzpn3yVH-My6YLrmsvOrfMhYypxzjPMWk" | quote }}
+      clientSecret: {{ .Environment.Values | getOrNil "OAUTH_CEVIDB_CLIENT_SECRET" | default "fTxMrzjBn3gPGg3eB0bNMmjRqg4ccs3_su7CaTXtljE" | quote }}
+      baseUrl: {{ .Environment.Values | getOrNil "OAUTH_CEVIDB_BASE_URL" | default "https://cevi.puzzle.ch" | quote }}
+    jubladb:
+      clientId: {{ .Environment.Values | getOrNil "OAUTH_JUBLADB_CLIENT_ID" | default "WrKABq7GwmC6h1F0W73OGX_fOTHWWXnKXfrPMHOdQWY" | quote }}
+      clientSecret: {{ .Environment.Values | getOrNil "OAUTH_JUBLADB_CLIENT_SECRET" | default "oQ164RDMIAocL6PhmCoeT1Ymcg-7WcOJZdxCnIph5gM" | quote }}
+      baseUrl: {{ .Environment.Values | getOrNil "OAUTH_JUBLADB_BASE_URL" | default "https://jubla.puzzle.ch" | quote }}
+  # todo: make work without changing api
+  num_threads: {{ .Environment.Values | getOrNil "API_NUM_THREADS" | default "null" }}
+  resources:
+    requests:
+      cpu: 10m
+      memory: 120Mi
+
+frontend:
+  image:
+    repository: "docker.io/{{ $dockerUser }}/ecamp3-frontend"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  sentryDsn: {{ .Environment.Values | getOrNil "FRONTEND_SENTRY_DSN" | quote }}
+  service:
+    type: ClusterIP
+    port: 3000
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 10Mi
+  loginInfoTextKey: {{ .Environment.Values | get "LOGIN_INFO_TEXT_KEY" | default "prod" | quote }}
+
+print:
+  subpath: "/print"
+  ingress:
+    readTimeoutSeconds: {{ .Environment.Values | getOrNil "PRINT_INGRESS_READ_TIMEOUT_SECONDS" | quote }}
+  image:
+    repository: "docker.io/{{ $dockerUser }}/ecamp3-print"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  sentryDsn: {{ .Environment.Values | getOrNil "PRINT_SENTRY_DSN" | quote }}
+  browserWsEndpoint: {{ .Environment.Values | getOrNil "BROWSER_WS_ENDPOINT" | quote }}
+  service:
+    type: ClusterIP
+    port: 3003
+  replicaCount: 1
+  renderHTMLTimeoutMs: {{ .Environment.Values | getOrNil "PRINT_RENDER_HTML_TIMEOUT_MS" }}
+  renderPDFTimeoutMs: {{ .Environment.Values | getOrNil "PRINT_RENDER_PDF_TIMEOUT_MS" }}
+  resources:
+    requests:
+      cpu: 10m
+      memory: 150Mi
+
+browserless:
+  enabled: true
+  domain:
+  image:
+    repository: "docker.io/browserless/chrome"
+    pullPolicy: IfNotPresent
+    # renovate: datasource=docker depName=browserless/chrome
+    tag: "1.61.1-puppeteer-21.4.1"
+  service:
+    type: ClusterIP
+    port: 3000
+  maxConcurrentSessions: {{ .Environment.Values | getOrNil "BROWSERLESS_MAXCONCURRENTSESSIONS" | default 1 }}
+  connectionTimeout: {{ .Environment.Values | getOrNil "BROWSERLESS_CONNECTION_TIMEOUT_MS" | default "30000" | quote }}
+  maxQueueLength: {{ .Environment.Values | getOrNil "BROWSERLESS_MAXQUEUELENGTH" | default 5 }}
+  resources:
+    requests:
+      cpu: 10m
+      memory: 200Mi
+
+mail:
+  dummyEnabled: {{ not (.Environment.Values | getOrNil "MAILER_DSN") }}
+  # If using a real mail server, the connection uri to send emails to
+  dsn: {{ .Environment.Values | getOrNil "MAILER_DSN" | quote }}
+  # If the dummy mail server is enabled, the domain where the web interface is available
+  subpath: "/mail"
+  image:
+    repository: "docker.io/maildev/maildev"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 1080
+  resources:
+    requests:
+      cpu: 10m
+      memory: 10Mi
+
+postgresql:
+  url: "{{ .Environment.Values | getOrNil "POSTGRES_URL" | required "POSTGRES_URL is required" }}/ecamp3{{ $name }}?sslmode=require"
+  dropDBOnUninstall: {{ .Environment.Values | getOrNil "DROP_DB_ON_UNINSTALL" | default false }}
+  # An uri with privileges to create and drop a database for the application.
+  # Can be left empty if the required database specified in postgresql.url already exists.
+  {{ if .Environment.Values | getOrNil "POSTGRES_ADMIN_URL" | default false }}
+  adminUrl: "{{ .Environment.Values | getOrNil "POSTGRES_ADMIN_URL" }}/ecamp3{{ $name }}?sslmode=require"
+  {{ else }}
+  adminUrl:
+  {{ end }}
+  dbBackupRestoreImage:
+    repository: "docker.io/{{ $dockerUser }}/ecamp3-db-backup-restore"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  backup:
+    schedule: {{ .Environment.Values | getOrNil "BACKUP_SCHEDULE" | quote }}
+    s3:
+      endpoint: {{ .Environment.Values | getOrNil "BACKUP_S3_ENDPOINT" | quote }}
+      bucket: {{ .Environment.Values | getOrNil "BACKUP_S3_BUCKET" | quote }}
+      accessKeyId: {{ .Environment.Values | getOrNil "BACKUP_S3_ACCESS_KEY_ID" | quote }}
+      accessKey: {{ .Environment.Values | getOrNil "BACKUP_S3_ACCESS_KEY" | quote }}
+    encryptionKey: {{ .Environment.Values | getOrNil "BACKUP_ENCRYPTION_KEY" | quote }}
+  restore:
+    # null => no restore, latest => restore latest backup, s3 key => restore this backup
+    sourceFile: {{ .Environment.Values | getOrNil "RESTORE_SOURCE_FILE" | quote }}
+    sourceAppName: {{ .Environment.Values | getOrNil "RESTORE_SOURCE_APP" | quote }}
+    s3:
+      endpoint: {{ .Environment.Values | getOrNil "RESTORE_S3_ENDPOINT" | quote }}
+      bucket: {{ .Environment.Values | getOrNil "RESTORE_S3_BUCKET" | quote }}
+      accessKeyId: {{ .Environment.Values | getOrNil "RESTORE_S3_ACCESS_KEY_ID" | quote }}
+      accessKey: {{ .Environment.Values | getOrNil "RESTORE_S3_ACCESS_KEY" | quote }}
+    inviteSupportAccountToInterestingCamps: {{ .Environment.Values | get "RESTORE_INVITE_TO_INTERESTING_CAMPS" false }}
+    encryptionKey: {{ .Environment.Values | getOrNil "RESTORE_ENCRYPTION_KEY" | quote }}
+
+recaptcha:
+  siteKey: {{ .Environment.Values | getOrNil "RECAPTCHA_SITE_KEY" | quote }}
+  secret: {{ .Environment.Values | getOrNil "RECAPTCHA_SECRET" | quote }}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+        # capabilities:
+        #   drop:
+        #   - ALL
+        # readOnlyRootFilesystem: true
+        # runAsNonRoot: true
+# runAsUser: 1000
+
+ingress:
+  enabled: true
+  basicAuth:
+    enabled: {{ .Environment.Values | getOrNil "BASIC_AUTH_ENABLED" | default false }}
+    username: {{ .Environment.Values | getOrNil "BASIC_AUTH_USERNAME" | quote }}
+    password: {{ .Environment.Values | getOrNil "BASIC_AUTH_PASSWORD" | quote }}
+  annotations:
+  # kubernetes.io/tls-acme: "true"
+  className: nginx
+  tls:
+
+apiCache:
+  enabled: {{ .Environment.Values | get "API_CACHE_ENABLED" false }}
+  image:
+    repository: "docker.io/{{ $dockerUser }}/ecamp3-varnish"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  service:
+    type: ClusterIP
+    ports:
+      http: 3000
+      purge: 3001
+  varnishSize: 50M
+  varnishHttpPort: 8080
+  varnishPurgePort: 8081
+  sendXKeyHeadersDownstream: {{ .Environment.Values | get "SEND_XKEY_HEADERS_DOWNSTREAM" false }}
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+  logging:
+    enabled: true
+    customOutput: '{ "received_at": "%t", "varnish_side": "%{Varnish:side}x", "method": "%m", "host": "%h", "url": "%U", "query": "%q", "response_bytes": %b, "time_taken": %D, "status": %s, "handling": "%{Varnish:handling}x", "response_reason": "%{VSL:RespReason}x", "fetch_error": "%{VSL:FetchError}x", "httpRequest": { "requestMethod": "%m", "requestUrl": "%{Host}i%U%q", "status": "%s" } }'
+    customOutputJsonFormat: true
+    # Timeout before returning error on initial VSM connection.
+    # If set the VSM connection is retried every 0.5 seconds for this many seconds.
+    # If zero the connection is attempted only once and will fail immediately if unsuccessful.
+    # If set to "off", the connection will not fail, allowing the utility to start and wait indefinitely for the Varnish instance to appear.
+    # Defaults to "off" in this case.
+    timeout: "off"
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  prometheus:
+    enabled: true
+    path: "/metrics"
+    port: 9131
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+
+autoscaling:
+  enabled: {{ .Environment.Values | get "AUTOSCALING_ENABLED" true }}
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: {{ .Environment.Values | getOrNil "AUTOSCALING_TARGETCPU" | default 90 }}
+  # targetMemoryUtilizationPercentage: 80

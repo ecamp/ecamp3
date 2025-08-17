@@ -9,6 +9,15 @@ on:
       - staging
       - prod
   workflow_dispatch:
+    inputs:
+      action:
+        description: "Choose action"
+        type: choice
+        required: true
+        default: diff
+        options:
+          - diff
+          - deploy
 
 jobs:
   build-and-push:
@@ -25,4 +34,8 @@ jobs:
     name: Upgrade or install deployment
     needs: build-and-push
     uses: ./.github/workflows/reusable-stage-prod-deployment.yml
+    with:
+      name: ${{ github.ref_name }}
+      env: ${{ github.ref_name }}
+      action: ${{ github.event.inputs.action || 'deploy' }}
     secrets: inherit

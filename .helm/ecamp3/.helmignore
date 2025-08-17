@@ -25,3 +25,8 @@ docker-compose.yml
 README.md
 .env
 .env-example
+.env
+/deploy.sh
+/values.yaml
+/values.yaml.gotmpl
+/env.yaml

@@ -1,0 +1,10 @@
+environments:
+  default:
+    values:
+      - ./env.yaml
+---
+releases:
+  - name: ""
+    chart: .
+    values:
+      - ./values.yaml.gotmpl
