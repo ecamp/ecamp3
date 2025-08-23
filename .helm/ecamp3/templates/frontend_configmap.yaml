@@ -16,6 +16,7 @@ data:
       SENTRY_ENVIRONMENT: '{{ .Values.domain }}',
     {{- else }}
       SENTRY_FRONTEND_DSN: null,
+      SENTRY_ENVIRONMENT: '{{ .Values.domain }}',
     {{- end }}
       DEPLOYMENT_TIME: '{{ .Values.deploymentTime }}',
       VERSION: '{{ .Values.deployedVersion }}',
