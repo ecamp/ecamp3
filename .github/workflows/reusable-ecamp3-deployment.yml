@@ -100,7 +100,7 @@ jobs:
               IMAGE_TAG: "${{ inputs.sha }}",
               RESTORE_SOURCE_FILE: "${{ inputs.restoreSourceFile || '' }}",
               DROP_DB_ON_UNINSTALL: ${{ inputs.dropDBOnUninstall }}
-            }') > /tmp/additions.json
+            }' > /tmp/additions.json
           jq -s '.[0] + .[1] + .[2]' /tmp/secrets.json /tmp/vars.json /tmp/additions.json > .helm/ecamp3/env.yaml
           jq '.' .helm/ecamp3/env.yaml
 
