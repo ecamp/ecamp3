@@ -38,16 +38,18 @@ env:
 
 jobs:
   deploy-ecamp3:
+    name: Deploy to Kubernetes
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.env }}
     steps:
       - name: Get link to currently running job logs
+        if: ${{ inputs.env == 'feature-branch' }}
         uses: Tiryoh/gha-jobid-action@v1.4.0
         id: job-url
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: deploy-ecamp3
+          job_name: Upgrade or install deployment / Deploy to Kubernetes
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.5.0
