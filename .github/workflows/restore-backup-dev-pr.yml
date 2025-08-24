@@ -36,7 +36,7 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
-    uses: ./.github/workflows/reusable-dev-deployment.yml
+    uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: ${{ inputs.pr-number == null && 'dev' || format('pr{0}', inputs.pr-number) }}
       sha: ${{ github.sha }}

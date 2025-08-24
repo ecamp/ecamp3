@@ -33,7 +33,7 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
-    uses: ./.github/workflows/reusable-stage-prod-deployment.yml
+    uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: ${{ github.ref_name }}
       env: ${{ github.ref_name }}
