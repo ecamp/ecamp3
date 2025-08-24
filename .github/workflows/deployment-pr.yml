@@ -19,20 +19,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-push:
-    if: contains(github.event.pull_request.labels.*.name, 'deploy!')
-    name: Build and push docker images
-    uses: ./.github/workflows/reusable-build-and-push.yml
-    with:
-      sha: ${{ github.event.pull_request.head.sha }}
-    secrets:
-      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
-      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
-    needs: build-and-push
     uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: pr${{ github.event.pull_request.number }}
