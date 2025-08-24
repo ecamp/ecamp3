@@ -116,6 +116,7 @@ class FirewallTest extends ECampApiTestCase {
             '/auth/resend_activation' => false,
             '/content_types' => false,
             '/invitations' => false,
+            '/token/refresh' => false,
             default => true
         };
     }
