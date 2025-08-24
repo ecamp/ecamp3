@@ -24,17 +24,6 @@ final class RefreshTokenDecorator implements OpenApiFactoryInterface {
                     ],
                 ],
                 summary: 'Refresh token.',
-                requestBody: new Model\RequestBody(
-                    description: 'Body',
-                    content: new \ArrayObject([
-                        'application/ld+json' => [
-                            'schema' => [],
-                        ],
-                        'application/json' => [
-                            'schema' => [],
-                        ],
-                    ]),
-                ),
             ),
         );
         $openApi->getPaths()->addPath('/token/refresh', $pathItem);

@@ -6,3 +6,4 @@ authentication_token:
   methods: ['POST']
 api_refresh_token:
   path: /token/refresh
+  methods: ['POST']
