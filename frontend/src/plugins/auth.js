@@ -24,7 +24,11 @@ export async function initRefresh() {
   }
   let refreshedSuccessfully = false
   if (!isLoggedIn()) {
-    await refresh()
+    try {
+      await refresh()
+    } catch {
+      /* empty */
+    }
     if (!isLoggedIn()) {
       return
     }
