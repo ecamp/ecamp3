@@ -38,7 +38,6 @@ env:
 
 jobs:
   deploy-ecamp3:
-    name: Deploy to Kubernetes
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.env }}
