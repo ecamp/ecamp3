@@ -24,8 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CAMP_COLLABORATOR", object) or
-                       is_granted("CAMP_IS_PUBLIC", object)'
+            security: 'is_granted("CAMP_COLLABORATOR", object)'
         ),
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
@@ -42,9 +41,6 @@ use Symfony\Component\Validator\Constraints as Assert;
                     security: 'is_granted("CAMP_COLLABORATOR", day) or
                                is_granted("CAMP_IS_PUBLIC", day)'
                 ),
-            ],
-            extraProperties: [
-                'filter_by_current_user' => false,
             ]
         ),
         new Post(

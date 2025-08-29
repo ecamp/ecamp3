@@ -178,16 +178,26 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         }
     }
 
-    /**
-     * DayResponsible.
-     */
+    #[ApiProperty(
+        readableLink: true,
+        uriTemplate: DayResponsible::DAY_SUBRESOURCE_URI_TEMPLATE,
+        security: '!is_granted("CAMP_COLLABORATOR", object)'
+    )]
+    #[SerializedName('dayResponsibles')]
+    #[Groups(['Day:DayResponsibles'])]
+    public function getRedactedEmbeddedDayResponsibles(): array {
+        return [];
+    }
 
     /**
+     * People who have a special responsibility on this day.
+     *
      * @return DayResponsible[]
      */
     #[ApiProperty(
         readableLink: true,
         uriTemplate: DayResponsible::DAY_SUBRESOURCE_URI_TEMPLATE,
+        security: 'is_granted("CAMP_COLLABORATOR", object)'
     )]
     #[SerializedName('dayResponsibles')]
     #[Groups(['Day:DayResponsibles'])]

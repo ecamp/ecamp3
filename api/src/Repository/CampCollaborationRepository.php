@@ -51,6 +51,7 @@ class CampCollaborationRepository extends ServiceEntityRepository implements Can
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
+        $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
+        $this->filterByCampCollaboration($queryBuilder, $user);
     }
 }

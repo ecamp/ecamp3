@@ -83,11 +83,20 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $collaborations;
 
     /**
-     * UserCamp Collections
-     * Based von view_user_camps; lists all user who can see this camp.
+     * UserCamp Collection
+     * Based von view_user_camps; lists all user who can see this camp through campCollaborations.
      */
     #[ORM\OneToMany(targetEntity: UserCamp::class, mappedBy: 'camp')]
     public Collection $userCamps;
+
+    /**
+     * UserCampWithPublic Collection
+     * Based von view_user_camps_with_public; lists all user who can see this camp, through
+     * campCollaborations or because the camps are prototypes or shared.
+     */
+    #[ORM\OneToMany(targetEntity: UserCampWithPublic::class, mappedBy: 'camp')]
+    #[Assert\DisableAutoMapping]
+    public Collection $userCampsWithPublic;
 
     /**
      * The time periods of the camp, there must be at least one. Periods in a camp may not overlap.
@@ -190,7 +199,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?Camp $campPrototype = null;
 
     /**
-     * Whether the programme of this camp is publicly available to anyone (including
+     * Whether the programme of this camp is publicly available to anyone (except for
      * personal data such as camp collaborations, personal material lists,
      * responsibilities and comments).
      */
@@ -492,13 +501,20 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         return [];
     }
 
+    #[ApiProperty(writable: false, readableLink: true, security: '!is_granted("CAMP_COLLABORATOR", object)')]
+    #[SerializedName('campCollaborations')]
+    #[Groups('Camp:CampCollaborations')]
+    public function getRedactedEmbeddedCampCollaborations(): array {
+        return [];
+    }
+
     /**
      * The people working on planning and carrying out the camp. Only collaborators have access
      * to the camp's contents.
      *
      * @return CampCollaboration[]
      */
-    #[ApiProperty(writable: false, readableLink: true)]
+    #[ApiProperty(writable: false, readableLink: true, security: 'is_granted("CAMP_COLLABORATOR", object)')]
     #[SerializedName('campCollaborations')]
     #[Groups('Camp:CampCollaborations')]
     public function getEmbeddedCampCollaborations(): array {

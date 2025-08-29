@@ -3,9 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\CampRootContentNode;
-use App\Entity\ContentNode;
 use App\Entity\User;
-use App\Entity\UserCamp;
+use App\Entity\UserCampWithPublic;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
@@ -24,8 +23,8 @@ trait FiltersByContentNode {
         $rootQry = $queryBuilder->getEntityManager()->createQueryBuilder();
         $rootQry->select('identity(r.rootContentNode)');
         $rootQry->from(CampRootContentNode::class, 'r');
-        $rootQry->join(UserCamp::class, 'uc', Join::WITH, 'r.camp = uc.camp');
-        $rootQry->where('uc.user = :current_user');
+        $rootQry->join(UserCampWithPublic::class, 'ucwp', Join::WITH, 'r.camp = ucwp.camp');
+        $rootQry->where('ucwp.user = :current_user');
 
         $queryBuilder->andWhere($queryBuilder->expr()->in("{$contentNodeAlias}.root", $rootQry->getDQL()));
         $queryBuilder->setParameter('current_user', $user);
