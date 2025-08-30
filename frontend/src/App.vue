@@ -51,8 +51,9 @@ export default {
     offlineListener() {
       this.offline = true
     },
-    onlineListener() {
+    async onlineListener() {
       this.offline = false
+      await this.$auth.initRefresh()
     },
     async visibilityChangeListener() {
       if (document.visibilityState !== 'visible') {
