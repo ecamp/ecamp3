@@ -18,6 +18,7 @@ featureToggle:
   checklist: false # enables checklist feature in frontend
 
 api:
+  authenticationTokenTtl:
   subpath: "/api"
   image:
     repository: "docker.io/ecamp/ecamp3-api"
