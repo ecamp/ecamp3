@@ -8,7 +8,7 @@ lexik_jwt_authentication:
     pass_phrase: '%env(JWT_PASSPHRASE)%'
 
     # Tokens are valid for 30 minutes.
-    token_ttl: 60
+    token_ttl: 1800
 
     # Read the JWT token from a split cookie: The [api-domain]_jwt_hp and [api-domain]_jwt_s cookies are combined with a period (.)
     # to form the full JWT token.
