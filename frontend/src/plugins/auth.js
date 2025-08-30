@@ -47,7 +47,6 @@ function rescheduleRefresh() {
   }
   const timeout = (getJWTExpirationTimestamp() - Date.now()) / 2
   const realTimeout = Math.max(Math.min(timeout, 30 * 60 * 1000), 5 * 60 * 1000)
-  console.log(`scheduling timeout in ${realTimeout}`)
   scheduledRefresh = setTimeout(refreshAndSchedule, realTimeout)
 }
 
