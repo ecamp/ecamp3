@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { apiStore, store } from '@/plugins/store'
+import { hasLoggedOutFromLocalStorage } from '@/plugins/store/auth.js'
 import router from '@/router'
 import Cookies from 'js-cookie'
 import { getEnv } from '@/environment.js'
@@ -15,7 +16,7 @@ let scheduledRefresh = null
 
 export async function initRefresh() {
   // Cookies.get was not reliable to detect if the cookie was present.
-  if (store.getters.hasLoggedOut) {
+  if (hasLoggedOutFromLocalStorage()) {
     return
   }
   let originalTarget = `${window.location.pathname}`

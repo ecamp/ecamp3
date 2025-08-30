@@ -31,6 +31,7 @@ export default {
 
     window.addEventListener('offline', this.offlineListener)
     window.addEventListener('online', this.onlineListener)
+    window.addEventListener('visibilitychange', this.visibilityChangeListener)
   },
   async mounted() {
     if (this.$auth.isLoggedIn()) {
@@ -52,6 +53,12 @@ export default {
     },
     onlineListener() {
       this.offline = false
+    },
+    async visibilityChangeListener() {
+      if (document.visibilityState !== 'visible') {
+        return
+      }
+      await this.$auth.initRefresh()
     },
   },
 }

@@ -30,10 +30,10 @@ export const getters = {
   getLoggedInUser: (authState) => {
     return authState.user ? apiStore.get(authState.user._meta.self) : authState.user
   },
+}
 
-  hasLoggedOut() {
-    return window.localStorage.getItem(HAS_LOGGED_OUT) === 'true'
-  },
+export function hasLoggedOutFromLocalStorage() {
+  return window.localStorage.getItem(HAS_LOGGED_OUT) === 'true'
 }
 
 export default {
