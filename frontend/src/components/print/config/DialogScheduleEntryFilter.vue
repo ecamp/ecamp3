@@ -29,6 +29,7 @@
       :loading-endpoints="{}"
       :hide-self-filter="isOutsider"
       :hide-period-filter="hidePeriodFilter"
+      :hide-collaborator-filter="isOutsider"
       :hide-day-filter="hideDayFilter"
     />
     <template #moreActions>

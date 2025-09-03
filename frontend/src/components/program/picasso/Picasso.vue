@@ -54,7 +54,12 @@ Listing all given activity schedule entries in a calendar view.
                     )
             }}
           </div>
-          <day-responsibles :date="date" :period="period" :readonly="!editable" />
+          <day-responsibles
+            v-if="!isOutsider"
+            :date="date"
+            :period="period"
+            :readonly="!editable"
+          />
         </slot>
       </template>
 
@@ -88,6 +93,7 @@ import DayResponsibles from './DayResponsibles.vue'
 import { ONE_DAY_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import PicassoEntry from './PicassoEntry.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 
 export default {
   name: 'Picasso',
@@ -95,6 +101,7 @@ export default {
     PicassoEntry,
     DayResponsibles,
   },
+  mixins: [campRoleMixin],
   props: {
     // period for which to show picasso
     period: {

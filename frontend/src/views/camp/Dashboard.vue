@@ -15,6 +15,7 @@
         :loading-endpoints="true"
         :camp="camp"
         :hide-self-filter="isOutsider"
+        :hide-collaborator-filter="isOutsider"
         hide-day-filter
         :periods="periods"
       />
@@ -27,6 +28,7 @@
         :camp="camp"
         :periods="periods"
         :hide-self-filter="isOutsider"
+        :hide-collaborator-filter="isOutsider"
         hide-day-filter
         :filter-fn="filterFn"
       />

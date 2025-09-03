@@ -13,6 +13,7 @@
         icon="mdi-view-dashboard-outline"
       />
       <SidebarListItem
+        v-if="!isOutsider"
         :to="adminRoute(camp, 'collaborators')"
         :title="$tc('views.camp.admin.sideBarAdmin.itemCollaborators')"
         icon="mdi-account-group-outline"
@@ -24,6 +25,7 @@
         icon="mdi-clipboard-list-outline"
       />
       <SidebarListItem
+        v-if="!isOutsider"
         :to="adminRoute(camp, 'material')"
         :title="$tc('views.camp.admin.sideBarAdmin.itemMaterialLists')"
         icon="mdi-package-variant-closed"
