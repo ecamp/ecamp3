@@ -21,6 +21,7 @@
         <i18n :path="infoTextKey">
           <template #br><br /></template>
         </i18n>
+        <span>Look, the frontend changed, and the backend too: <a href="/api/index.jsonhal">index.jsonhal</a></span>
         <v-btn
           text
           elevation="0"

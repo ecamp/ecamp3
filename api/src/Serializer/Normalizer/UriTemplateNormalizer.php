@@ -46,6 +46,7 @@ class UriTemplateNormalizer implements NormalizerInterface {
             $result['_links'][$pluralRel] = $linkObject;
         }
 
+        $result['_links']['FAKE_ENDPOINT'] = ['href' => 'FAKE_ENDPOINT'];
         $result['_links']['login'] = ['href' => $this->urlGenerator->generate('authentication_token')];
         $result['_links']['oauthGoogle'] = ['href' => $this->urlGenerator->generate('connect_google_start').'{?callback}', 'templated' => true];
         $result['_links']['oauthPbsmidata'] = ['href' => $this->urlGenerator->generate('connect_pbsmidata_start').'{?callback}', 'templated' => true];
