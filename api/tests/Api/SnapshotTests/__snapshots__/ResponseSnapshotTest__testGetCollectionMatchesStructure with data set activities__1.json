@@ -384,6 +384,104 @@
                             "id": "escaped_value"
                         }
                     ],
+                    "progressLabel": "escaped_value",
+                    "scheduleEntries": [
+                        {
+                            "_links": {
+                                "activity": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "period": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "dayNumber": "escaped_value",
+                            "end": "escaped_value",
+                            "id": "escaped_value",
+                            "left": "escaped_value",
+                            "number": "escaped_value",
+                            "scheduleEntryNumber": "escaped_value",
+                            "start": "escaped_value",
+                            "width": "escaped_value"
+                        },
+                        {
+                            "_links": {
+                                "activity": {
+                                    "href": "escaped_value"
+                                },
+                                "day": {
+                                    "href": "escaped_value"
+                                },
+                                "period": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "dayNumber": "escaped_value",
+                            "end": "escaped_value",
+                            "id": "escaped_value",
+                            "left": "escaped_value",
+                            "number": "escaped_value",
+                            "scheduleEntryNumber": "escaped_value",
+                            "start": "escaped_value",
+                            "width": "escaped_value"
+                        }
+                    ]
+                },
+                "_links": {
+                    "activityResponsibles": {
+                        "href": "escaped_value"
+                    },
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "category": {
+                        "href": "escaped_value"
+                    },
+                    "contentNodes": {
+                        "href": "escaped_value"
+                    },
+                    "progressLabel": "escaped_value",
+                    "rootContentNode": {
+                        "href": "escaped_value"
+                    },
+                    "scheduleEntries": {
+                        "href": "escaped_value"
+                    },
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "id": "escaped_value",
+                "location": "escaped_value",
+                "title": "escaped_value"
+            },
+            {
+                "_embedded": {
+                    "activityResponsibles": [
+                        {
+                            "_links": {
+                                "activity": {
+                                    "href": "escaped_value"
+                                },
+                                "campCollaboration": {
+                                    "href": "escaped_value"
+                                },
+                                "self": {
+                                    "href": "escaped_value"
+                                }
+                            },
+                            "id": "escaped_value"
+                        }
+                    ],
                     "progressLabel": {
                         "_links": {
                             "camp": {

@@ -189,7 +189,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListMaterialItemsFilteredByPeriodIsDeniedForInactiveCollaborator() {
+    public function testListMaterialItemsFilteredByPeriodIsDeniedForInvitedCollaborator() {
         $period = static::getFixture('period1');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId())
