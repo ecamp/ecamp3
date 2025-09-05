@@ -338,6 +338,24 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(422);
     }
 
+    public function testRejectsPatchOwnCollaborationStatusFromInactiveToInvited() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
+        static::createClientWithCredentials(credentials: ['email' => $campCollaboration->getEmail()])
+            ->request(
+                'PATCH',
+                '/camp_collaborations/'.$campCollaboration->getId(),
+                [
+                    'json' => [
+                        'status' => CampCollaboration::STATUS_INVITED,
+                    ],
+                    'headers' => ['Content-Type' => 'application/merge-patch+json'],
+                ]
+            )
+        ;
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     public function testPatchCampCollaborationValidatesInvalidRole() {
         $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [

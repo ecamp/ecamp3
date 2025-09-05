@@ -2,6 +2,7 @@
 
 namespace App\Tests\Security\Voter;
 
+use App\Doctrine\Orm\GetOriginalEntityData;
 use App\Entity\Activity;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToContentNodeTreeInterface;
@@ -14,6 +15,7 @@ use App\HttpCache\ResponseTagger;
 use App\Security\Voter\CampRoleVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -27,13 +29,29 @@ class CampRoleVoterTest extends TestCase {
     private MockObject|TokenInterface $token;
     private EntityManagerInterface|MockObject $em;
     private MockObject|ResponseTagger $responseTagger;
+    private GetOriginalEntityData|MockObject $getOriginalEntityData;
+
+    private ?object $getOriginalEntityReturnValue;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createMock(TokenInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
         $this->responseTagger = $this->createMock(ResponseTagger::class);
-        $this->voter = new CampRoleVoter($this->em, $this->responseTagger);
+        $unitOfWork = $this->createMock(UnitOfWork::class);
+        $this->em->method('getUnitOfWork')->willReturn($unitOfWork);
+        $this->getOriginalEntityData = self::createMock(GetOriginalEntityData::class);
+        $this->getOriginalEntityReturnValue = null;
+        $this->getOriginalEntityData->method('getOriginal')
+            ->willReturnCallback(function ($entity) {
+                if (null != $this->getOriginalEntityReturnValue) {
+                    return $this->getOriginalEntityReturnValue;
+                }
+
+                return $entity;
+            })
+        ;
+        $this->voter = new CampRoleVoter($this->em, $this->responseTagger, $this->getOriginalEntityData);
     }
 
     public function testDoesntVoteWhenAttributeWrong() {
@@ -211,6 +229,31 @@ class CampRoleVoterTest extends TestCase {
         $this->assertSame(VoterInterface::ACCESS_DENIED, $result);
     }
 
+    public function testDeniesAccessWhenMatchingCampCollaborationIsMemberBeforeTransaction() {
+        // given
+        $user = $this->createMock(User::class);
+        $user->method('getId')->willReturn('idFromTest');
+        $user2 = $this->createMock(User::class);
+        $user2->method('getId')->willReturn('idFromTest');
+        $this->token->method('getUser')->willReturn($user);
+        $collaboration = new CampCollaboration();
+        $collaboration->user = $user2;
+        $collaboration->status = CampCollaboration::STATUS_INVITED;
+        $collaboration->role = CampCollaboration::ROLE_MANAGER;
+        $this->getOriginalEntityReturnValue = clone $collaboration;
+        $this->getOriginalEntityReturnValue->role = CampCollaboration::ROLE_MEMBER;
+        $camp = new Camp();
+        $camp->collaborations->add($collaboration);
+        $subject = $this->createMock(Period::class);
+        $subject->method('getCamp')->willReturn($camp);
+
+        // when
+        $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
+
+        // then
+        $this->assertSame(VoterInterface::ACCESS_DENIED, $result);
+    }
+
     public function testGrantsAccessViaBelongsToCampInterface() {
         // given
         $user = $this->createMock(User::class);
@@ -231,6 +274,33 @@ class CampRoleVoterTest extends TestCase {
 
         // when
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
+
+        // then
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $result);
+    }
+
+    public function testGrantsAccessViaBelongsToCampInterfaceWhenWasManagerBefore() {
+        // given
+        $user = $this->createMock(User::class);
+        $user->method('getId')->willReturn('idFromTest');
+        $user2 = $this->createMock(User::class);
+        $user2->method('getId')->willReturn('idFromTest');
+        $this->token->method('getUser')->willReturn($user);
+        $collaboration = new CampCollaboration();
+        $collaboration->user = $user2;
+        $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
+        $collaboration->role = CampCollaboration::ROLE_GUEST;
+        $this->getOriginalEntityReturnValue = clone $collaboration;
+        $this->getOriginalEntityReturnValue->role = CampCollaboration::ROLE_MANAGER;
+        $camp = new Camp();
+        $camp->collaborations->add($collaboration);
+        $subject = $this->createMock(Period::class);
+        $subject->method('getCamp')->willReturn($camp);
+
+        $this->responseTagger->expects($this->once())->method('addTags')->with([$collaboration->getId()]);
+
+        // when
+        $result = $this->voter->vote($this->token, $subject, ['CAMP_MANAGER']);
 
         // then
         $this->assertSame(VoterInterface::ACCESS_GRANTED, $result);

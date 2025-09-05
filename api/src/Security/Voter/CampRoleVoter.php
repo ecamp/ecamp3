@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Doctrine\Orm\GetOriginalEntityData;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\CampCollaboration;
@@ -27,7 +28,8 @@ class CampRoleVoter extends Voter {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly ResponseTagger $responseTagger
+        private readonly ResponseTagger $responseTagger,
+        private readonly GetOriginalEntityData $getOriginalEntityData,
     ) {}
 
     protected function supports($attribute, $subject): bool {
@@ -48,6 +50,7 @@ class CampRoleVoter extends Voter {
         }
 
         $campCollaboration = $camp->collaborations
+            ->map(fn ($campCollaboration) => $this->getOriginalEntityData->getOriginal($campCollaboration))
             ->filter(self::withStatus(CampCollaboration::STATUS_ESTABLISHED))
             ->filter(self::ofUser($user))
             ->filter(self::withRole($attribute))

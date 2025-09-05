@@ -26,11 +26,11 @@ class PropertyChangeListener {
         if (self::hasOneParameter($extractProperty)) {
             throw new \InvalidArgumentException('extractProperty must have exactly one parameter');
         }
-        if (self::hasAtMostTwoParameter($beforeAction)) {
-            throw new \InvalidArgumentException('afterAction must have between 1 and 2 parameters');
+        if (self::hasOneParameter($beforeAction)) {
+            throw new \InvalidArgumentException('afterAction must have exactly one parameter');
         }
-        if (self::hasAtMostTwoParameter($afterAction)) {
-            throw new \InvalidArgumentException('afterAction must have between 1 and 2 parameters');
+        if (self::hasOneParameter($afterAction)) {
+            throw new \InvalidArgumentException('afterAction must have exactly one parameter');
         }
 
         return new PropertyChangeListener($extractProperty, $beforeAction, $afterAction);
@@ -55,16 +55,5 @@ class PropertyChangeListener {
         $beforeActionReflectionFunction = new \ReflectionFunction($beforeAction);
 
         return 1 != $beforeActionReflectionFunction->getNumberOfParameters();
-    }
-
-    /**
-     * @throws \ReflectionException
-     */
-    private static function hasAtMostTwoParameter(?\Closure $beforeAction): bool {
-        $beforeActionReflectionFunction = new \ReflectionFunction($beforeAction);
-
-        $numberOfParameters = $beforeActionReflectionFunction->getNumberOfParameters();
-
-        return $numberOfParameters < 1 || $numberOfParameters > 2;
     }
 }
