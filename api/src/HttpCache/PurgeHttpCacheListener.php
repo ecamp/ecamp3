@@ -24,11 +24,11 @@ use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInter
 use ApiPlatform\Metadata\ResourceClassResolverInterface;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\Metadata\Util\ClassInfoTrait;
+use App\Doctrine\Orm\GetOriginalEntityData;
 use App\Entity\BaseEntity;
 use App\Entity\HasId;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -39,12 +39,20 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * Purges responses containing modified entities from the proxy cache.
  */
-final class PurgeHttpCacheListener {
+final readonly class PurgeHttpCacheListener {
     use ClassInfoTrait;
 
     public const IRI_RELATION_DELIMITER = '#';
 
-    public function __construct(private readonly IriConverterInterface $iriConverter, private readonly ResourceClassResolverInterface $resourceClassResolver, private readonly PropertyAccessorInterface $propertyAccessor, private readonly ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory, private readonly CacheManager $cacheManager) {}
+    public function __construct(
+        private IriConverterInterface $iriConverter,
+        private ResourceClassResolverInterface $resourceClassResolver,
+        private PropertyAccessorInterface $propertyAccessor,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+        private CacheManager $cacheManager,
+        private EntityManagerInterface $em,
+        private GetOriginalEntityData $getOriginalEntityData,
+    ) {}
 
     /**
      * Collects tags from the previous and the current version of the updated entities to purge related documents.
@@ -72,32 +80,27 @@ final class PurgeHttpCacheListener {
     /**
      * Collects tags from inserted, updated and deleted entities, including relations.
      */
-    public function onFlush(OnFlushEventArgs $eventArgs): void {
-        /** @var EntityManagerInterface */
-        $em = $eventArgs->getObjectManager();
-
-        if (!$em instanceof EntityManagerInterface) {
-            return;
-        }
-
-        $uow = $em->getUnitOfWork();
+    public function onFlush(): void {
+        $uow = $this->em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            $this->gatherResourceTags($em, $entity);
-            $this->gatherRelationTags($em, $entity);
+            $this->gatherResourceTags($entity);
+            $this->gatherRelationTags($entity);
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            $originalEntity = $this->getOriginalEntity($entity, $em);
+            /** @var BaseEntity $entity */
+            $originalEntity = $this->getOriginalEntityData->getOriginal($entity);
             $this->addTagForItem($entity);
-            $this->gatherResourceTags($em, $entity, $originalEntity);
+            $this->gatherResourceTags($entity, $originalEntity);
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            $originalEntity = $this->getOriginalEntity($entity, $em);
+            /** @var BaseEntity $entity */
+            $originalEntity = $this->getOriginalEntityData->getOriginal($entity);
             $this->addTagForItem($originalEntity);
-            $this->gatherResourceTags($em, $originalEntity);
-            $this->gatherRelationTags($em, $originalEntity);
+            $this->gatherResourceTags($originalEntity);
+            $this->gatherRelationTags($originalEntity);
         }
 
         // trigger cache purges for changes on many-to-many relations
@@ -136,29 +139,12 @@ final class PurgeHttpCacheListener {
     }
 
     /**
-     * Computes the original state of the entity based on the current entity and on the changeset.
-     */
-    private function getOriginalEntity($entity, $em) {
-        $uow = $em->getUnitOfWork();
-        $changeSet = $uow->getEntityChangeSet($entity);
-        $classMetadata = $em->getClassMetadata(ClassUtils::getClass($entity));
-
-        $originalEntity = clone $entity;
-        $em->detach($originalEntity);
-        foreach ($changeSet as $key => $value) {
-            $classMetadata->setFieldValue($originalEntity, $key, $value[0]);
-        }
-
-        return $originalEntity;
-    }
-
-    /**
      * Purges all collections (GetCollection operations), in which entity is listed on top level.
      *
      * If oldEntity is provided, purge is only done if the IRI of the collection has changed
      * (e.g. for updating period on a ScheduleEntry and the IRI changes from /periods/1/schedule_entries to /periods/2/schedule_entries)
      */
-    private function gatherResourceTags(EntityManagerInterface $em, object $entity, ?object $oldEntity = null): void {
+    private function gatherResourceTags(object $entity, ?object $oldEntity = null): void {
         $entityClass = $this->getObjectClass($entity);
         if (!$this->resourceClassResolver->isResourceClass($entityClass)) {
             return;
@@ -168,7 +154,7 @@ final class PurgeHttpCacheListener {
         $this->gatherResourceTagsForClass($resourceClass, $entity, $oldEntity);
 
         // also purge parent classes (e.g. /content_nodes)
-        $classMetadata = $em->getClassMetadata(ClassUtils::getClass($entity));
+        $classMetadata = $this->em->getClassMetadata(ClassUtils::getClass($entity));
         foreach ($classMetadata->parentClasses as $parentClass) {
             $this->gatherResourceTagsForClass($parentClass, $entity, $oldEntity);
         }
@@ -221,8 +207,8 @@ final class PurgeHttpCacheListener {
      *
      * @psalm-suppress UndefinedClass
      */
-    private function gatherRelationTags(EntityManagerInterface $em, object $entity): void {
-        $associationMappings = $em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
+    private function gatherRelationTags(object $entity): void {
+        $associationMappings = $this->em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
 
         foreach ($associationMappings as $property => $associationMapping) {
             if ($associationMapping instanceof AssociationMapping && ($associationMapping->targetEntity ?? null) && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
