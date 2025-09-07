@@ -4,6 +4,9 @@
       <template #categoryShort>
         <CategoryChip :category="category" dense />
       </template>
+      <template #applyToActivities>
+        <DialogApplyCategoryLayoutToActivities :category="category" :camp="camp" />
+      </template>
       <template #br><br /></template>
     </i18n>
 

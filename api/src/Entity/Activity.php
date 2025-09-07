@@ -16,6 +16,7 @@ use App\InputFilter;
 use App\Repository\ActivityRepository;
 use App\State\ActivityCreateProcessor;
 use App\State\ActivityRemoveProcessor;
+use App\State\ActivityResetProcessor;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertLastCollectionItemIsNotDeleted;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 
 /**
  * A piece of programme that will be carried out once or multiple times in a camp.
@@ -38,6 +40,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['Default', 'update']]
+        ),
+        new Patch(
+            processor: ActivityResetProcessor::class,
+            security: 'is_granted("CAMP_MANAGER", object)',
+            uriTemplate: 'activities/{id}/reset_contents',
+            denormalizationContext: ['groups' => ['reset_contents']],
+            openapi: new OpenApiOperation(summary: 'Delete all programme content from this activity and replace it with a copy of the content of the connected category.'),
+            validationContext: ['groups' => ['Default', 'reset_contents']]
         ),
         new Delete(
             processor: ActivityRemoveProcessor::class,

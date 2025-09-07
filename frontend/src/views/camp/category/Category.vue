@@ -71,7 +71,7 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <CategoryProperties
-              :key="category"
+              :key="category._meta.self"
               :category="category"
               :disabled="!isManager"
             />
