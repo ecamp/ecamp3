@@ -100,7 +100,7 @@ export default {
 }
 
 @media #{map.get(settings.$display-breakpoints, 'xs')} {
-  .v-main > .v-main__wrap > .container {
+  .v-main > .v-main__wrap > .v-container {
     min-height: 100%;
     display: flex;
 
@@ -119,7 +119,7 @@ export default {
 
 @media #{map-get(settings.$display-breakpoints, 'sm-and-down')} {
   // TODO: this changes look & feel of all v-containers. Do we really want this?
-  .container.container--fluid {
+  .v-container.v-container--fluid {
     padding: 0;
 
     & > .v-card {

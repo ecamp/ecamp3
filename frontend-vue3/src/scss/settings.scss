@@ -10,21 +10,102 @@
 // );
 
 @use 'vuetify/settings' with (
-    $heading-font-family: ('Inter', sans-serif, emoji),
-    $body-font-family: ('Inter', sans-serif, emoji),
-    $font-weights: (
-            'light': 200,
-            'regular': 400,
-            'bold': 600,
+  $heading-font-family: (
+    'Inter',
+    sans-serif,
+    emoji,
+  ),
+  $body-font-family: (
+    'Inter',
+    sans-serif,
+    emoji,
+  ),
+  $font-weights: (
+    'light': 200,
+    'regular': 400,
+    'bold': 600,
+  ),
+  $typography: (
+    'h1': (
+      'size': 6rem,
+      'weight': 200,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.022em,
     ),
-
-    $button-text-letter-spacing: 0.25px,
-    $chip-icon-size-multiplier: calc(8/10),
-    $button-text-transform: none,
-    $bottom-navigation-min-width: 60px,
-    $list-item-icon-margin-end: 20px,
-    $menu-content-border-radius: 0 0 4px 4px,
-    $card-actions-padding: 16px,
-    $expansion-panel-title-padding: 16px,
-    $expansion-panel-text-padding: 0 16px 16px,
+    'h2': (
+      'size': 3.75rem,
+      'weight': 200,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.022em,
+    ),
+    'h3': (
+      'size': 3rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.0215em,
+    ),
+    'h4': (
+      'size': 2.125rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.021em,
+    ),
+    'h5': (
+      'size': 1.5rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.019em,
+    ),
+    'h6': (
+      'size': 1.25rem,
+      'weight': 600,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.0125em,
+    ),
+    'subtitle-1': (
+      'size': 1.125rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.017em,
+    ),
+    'subtitle-2': (
+      'size': 0.875rem,
+      'weight': 600,
+      'line-height': 1.375rem,
+      'letter-spacing': -0.006em,
+    ),
+    'body-2': (
+      'size': 0.875rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.006em,
+    ),
+    'body-1': (
+      'size': 1rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': -0.011em,
+    ),
+    'caption': (
+      'size': 0.75rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': 0em,
+    ),
+    'overline': (
+      'size': 0.625rem,
+      'weight': 400,
+      'line-height': 1.428571429,
+      'letter-spacing': 0.01em,
+    ),
+  ),
+  $button-text-letter-spacing: 0.25px,
+  $chip-icon-size-multiplier: calc(8 / 10),
+  $button-text-transform: none,
+  $bottom-navigation-min-width: 60px,
+  $list-item-icon-margin-end: 20px,
+  $menu-content-border-radius: 0 0 4px 4px,
+  $card-actions-padding: 16px,
+  $expansion-panel-title-padding: 16px,
+  $expansion-panel-text-padding: 0 16px 16px
 );

@@ -4,13 +4,13 @@
       <v-icon size="64"> $vuetify.icons.ecamp </v-icon>
     </div>
 
-    <h1 class="display-1 text-center" :class="{ 'my-4': isProdSuffix }">
+    <h1 class="text-h4 text-center" :class="{ 'my-4': isProdSuffix }">
       {{ $t('global.button.login') }}
     </h1>
 
     <v-alert
       v-if="!isProdSuffix"
-      class="mt-2 mb-4 text-justify"
+      class="mt-2 mb-4 text-justify text-warning"
       variant="tonal"
       border="start"
       density="compact"
@@ -24,9 +24,9 @@
         <v-btn
           text
           elevation="0"
-          color="warning-darken-1"
           height="32px"
-          class="v-btn--has-bg float-end dev-login-button"
+          class="v-btn--has-bg float-end dev-login-button text-deep-orange-darken-4"
+          append-icon="mdi-auto-fix"
           @click="
             (event) => {
               email = event.shiftKey ? 'admin@example.com' : 'test@example.com'
@@ -36,7 +36,6 @@
           "
         >
           Login
-          <v-icon right>mdi-auto-fix</v-icon>
         </v-btn>
       </div>
     </v-alert>
@@ -117,7 +116,7 @@
         @click="loginPbsMiData"
       >
         <v-icon class="my-1" color="#521d3a">$pbs</v-icon>
-        <span class="text--secondary text-body-2 font-weight-medium">{{
+        <span class="text-grey-darken-2 text-body-2 font-weight-medium">{{
           $t('views.auth.login.provider.midata')
         }}</span>
       </v-btn>
@@ -129,7 +128,7 @@
         @click="loginCeviDB"
       >
         <v-icon class="my-1">$cevi</v-icon>
-        <span class="text--secondary text-body-2 font-weight-medium">{{
+        <span class="text-grey-darken-2 text-body-2 font-weight-medium">{{
           $t('views.auth.login.provider.cevidb')
         }}</span>
       </v-btn>
@@ -139,9 +138,10 @@
         :size="$vuetify.display.smAndUp && 'x-large'"
         variant="text"
         @click="loginJublaDB"
+        class="jubla-btn"
       >
-        <v-icon size="32">$jubla</v-icon>
-        <span class="text--secondary text-body-2 font-weight-medium">{{
+        <v-icon size="24">$jubla</v-icon>
+        <span class="text-grey-darken-2 text-body-2 font-weight-medium">{{
           $t('views.auth.login.provider.jubladb')
         }}</span>
       </v-btn>
@@ -153,7 +153,7 @@
         @click="loginGoogle"
       >
         <v-icon class="my-1">$google</v-icon>
-        <span class="text--secondary text-body-2 font-weight-medium">{{
+        <span class="text-grey-darken-2 text-body-2 font-weight-medium">{{
           $t('views.auth.login.provider.google')
         }}</span>
       </v-btn>
@@ -161,7 +161,7 @@
         <i18n-t
           keypath="views.auth.login.acceptTermsOfServiceOnOAuthLogin"
           tag="p"
-          class="text--secondary text-center w-100 mt-2"
+          class="text-grey-darken-2 text-center w-100 mt-2"
           style="hyphens: auto"
         >
           <template #termsOfServiceLink>
@@ -172,9 +172,9 @@
         </i18n-t>
       </small>
     </div>
-    <p class="mt-8 mb-0 text--secondary text-center">
+    <p class="mt-8 mb-0 text-grey-darken-2 text-center">
       {{ $t('views.auth.login.accountless') }}<br />
-      <router-link :to="{ name: 'register' }">
+      <router-link :to="{ name: 'register' }" class="text-primary">
         {{ $t('views.auth.login.registernow') }}
       </router-link>
     </p>
@@ -300,5 +300,10 @@ export default {
   margin-top: 12px;
   margin-bottom: -12px;
   translate: 0 -12px;
+}
+
+.jubla-btn :deep(.v-btn__content) {
+  height: 100%;
+  justify-content: space-between;
 }
 </style>

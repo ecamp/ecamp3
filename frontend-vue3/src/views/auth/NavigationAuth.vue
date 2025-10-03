@@ -34,13 +34,16 @@
     :href="helpLink"
     target="_blank"
     fab
-    x-small
-    absolute
+    icon="mdi-help"
+    size="small"
+    position="absolute"
+    location="right"
     top
     right
-    class="help-button--mobile"
+    class="help-button--mobile ma-4"
+    style="z-index: 10"
   >
-    <v-icon>mdi-help</v-icon>
+    <v-icon icon="mdi-help" />
     <span class="d-sr-only">{{ $t('global.navigation.help') }}</span>
   </v-btn>
 </template>
