@@ -223,6 +223,7 @@ services:
     depends_on:
       - frontend
       - api
+      - frontend-vue3
     ports:
       - target: 3000
         published: 3000
