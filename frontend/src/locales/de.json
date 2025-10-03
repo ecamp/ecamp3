@@ -56,8 +56,17 @@
       "campInvitations": {
         "title": "Einladen"
       },
+      "campListItem": {
+        "public": "Öffentlich"
+      },
       "campMembers": {
         "title": "Mitglieder"
+      },
+      "footerSharedCamp": {
+        "outsider": "Du arbeitest in diesem Lager nicht mit:",
+        "outsiderDescription": "Du kannst keine Daten ändern, aber das Programm anschauen und kopieren.",
+        "shared": "Lager ist öffentlich freigegeben:",
+        "sharedDescription": "Fremde Personen können sämtliche Daten im Lager einsehen und kopieren."
       }
     },
     "campAdmin": {
@@ -115,6 +124,22 @@
       },
       "campSettings": {
         "title": "Beschreibung"
+      },
+      "campSharingSettings": {
+        "activate": "Freigabe aktivieren",
+        "deactivate": "Freigabe deaktivieren",
+        "implications": "Wenn du die Freigabe aktivierst, dann können fremde Personen das Programm, das Team, die Materiallisten und Verantwortlichkeiten und alles andere in diesem Lager ansehen und kopieren. Nur Personen im Team können Daten ändern.",
+        "notShared": {
+          "description": ": Nur Personen im Team können das Programm und die Daten in diesem Lager ansehen.",
+          "title": "Freigabe ist nicht aktiviert"
+        },
+        "publicCampUrl": "Sharing-Link zum Lager",
+        "shared": {
+          "description": ": Fremde Personen können das Programm, das Team, die Materiallisten und Verantwortlichkeiten und alles andere in diesem Lager ansehen und kopieren. Nur Personen im Team können Daten ändern.",
+          "title": "Lager ist öffentlich freigegeben"
+        },
+        "sharedSince": "Am {sharedSince} von {sharedBy}",
+        "title": "Lager teilen"
       },
       "createCampPeriods": {
         "add": "Weiteren Lagerabschnitt hinzufügen"
@@ -541,6 +566,7 @@
       "close": "Schliessen",
       "content": "Inhalt",
       "continue": "Weiter",
+      "copy": "Kopieren",
       "create": "Erstellen",
       "delete": "Löschen",
       "discard": "Verwerfen",
@@ -560,6 +586,7 @@
       "save": "Speichern",
       "saving": "Speichert",
       "search": "Suchen",
+      "share": "Freigeben",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
       "unlock": "Entsperren",
@@ -786,14 +813,11 @@
       "navigation": {
         "desktop": {
           "navTopbar": {
-            "admin": "Admin",
             "campIsLoading": "Lager wird geladen",
-            "checklist": "Checkliste",
             "material": "Material",
-            "print": "Drucken",
             "program": "Programm",
             "story": "Geschichte",
-            "team": "Team"
+            "checklist": "Checkliste"
           }
         },
         "mobile": {
