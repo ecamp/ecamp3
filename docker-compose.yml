@@ -46,6 +46,28 @@ services:
     depends_on:
       - pdf
 
+  frontend-prototype:
+    image: node:24.5.0
+    stdin_open: true
+    tty: true
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./.prettierrc:/.prettierrc:delegated
+      - ./frontend-prototype:/app:delegated
+      - ./common:/common:delegated
+      - ./pdf:/pdf:delegated
+      - ./.cache/npm:/home/node/.npm/_cacache:delegated
+      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CI=${CI}
+    working_dir: /app
+    command: ./docker-setup.sh
+    depends_on:
+      - pdf
+
   api:
     image: ${REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-api:${VERSION:-latest}
     build:
@@ -224,6 +246,7 @@ services:
       - frontend
       - api
       - frontend-vue3
+      - frontend-prototype
     ports:
       - target: 3000
         published: 3000

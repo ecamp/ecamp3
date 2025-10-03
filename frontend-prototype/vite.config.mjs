@@ -14,6 +14,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/prototype',
   plugins: [
     VueRouter(),
     Layouts(),
@@ -76,5 +77,6 @@ export default defineConfig({
   },
   server: {
     port: 3333,
+    allowedHosts: ['frontend-prototype', 'localhost:3000'],
   },
 })
