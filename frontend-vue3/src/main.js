@@ -17,7 +17,8 @@ import 'vue-toastification/dist/index.css'
 import { ClickOutside, Resize } from 'vuetify/directives'
 import ResizeObserver from 'v-resize-observer'
 
-import '@/scss/main.scss'
+import '@/scss/global.scss'
+import '@/scss/tailwind.scss'
 
 const app = createApp(App)
 

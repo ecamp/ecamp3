@@ -10,8 +10,8 @@
 
     <v-alert
       v-if="!isProdSuffix"
-      class="mt-2 text-justify"
-      text
+      class="mt-2 mb-4 text-justify"
+      variant="tonal"
       border="start"
       density="compact"
       style="hypens: auto"
@@ -24,7 +24,7 @@
         <v-btn
           text
           elevation="0"
-          color="warning darken-3"
+          color="warning-darken-1"
           height="32px"
           class="v-btn--has-bg float-end dev-login-button"
           @click="
@@ -40,7 +40,7 @@
         </v-btn>
       </div>
     </v-alert>
-    <v-alert v-if="error" outlined text border="left" type="error">
+    <v-alert v-if="error" outlined variant="tonal" border="start" type="error" icon="mdi-alert">
       <span class="d-block">{{ error }}</span>
       <span class="d-block mt-1"
         >{{ $t('views.auth.login.passwordForgotten') }}
@@ -63,7 +63,7 @@
         autofocus
         :label="$t('views.auth.login.email')"
         name="email"
-        append-icon="mdi-account-outline"
+        append-inner-icon="mdi-account-outline"
         :dense="$vuetify.display.xsOnly"
         type="email"
         autocomplete="username"
@@ -75,7 +75,7 @@
         :label="$t('views.auth.login.password')"
         vee-rules="required"
         name="password"
-        append-icon="mdi-lock-outline"
+        append-inner-icon="mdi-lock-outline"
         :dense="$vuetify.display.xsOnly"
         type="password"
         autocomplete="current-password"
@@ -92,7 +92,7 @@
 
       <v-btn
         type="submit"
-        :color="email && password ? 'blue darken-2' : 'blue lighten-4'"
+        :color="email && password ? 'blue-darken-2' : 'blue-lighten-4'"
         block
         :disabled="!(email && password) || authenticationInProgress"
         :size="$vuetify.display.smAndUp && 'x-large'"

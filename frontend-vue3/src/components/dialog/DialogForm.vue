@@ -143,9 +143,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
-@media #{map-get(variables.$display-breakpoints, 'xs')} {
+@media #{map.get(settings.$display-breakpoints, 'xs')} {
   .ec-dialog-form {
     .v-form,
     .v-form > .v-sheet {

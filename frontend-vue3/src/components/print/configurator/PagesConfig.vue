@@ -96,7 +96,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 .e-pages-config__wrapper {
   display: flow-root;
@@ -218,6 +219,6 @@ export default {
 }
 
 .e-pages-config__delete:hover {
-  color: map-get(variables.$red, 'base') !important;
+  color: map.get(settings.$red, 'base') !important;
 }
 </style>

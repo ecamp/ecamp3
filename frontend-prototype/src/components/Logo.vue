@@ -1,16 +1,14 @@
 <template>
   <v-toolbar-items>
     <v-btn
-      :to="{ name: 'home' }"
       class="px-2 e-logo"
       exact
       min-width="0"
       rounded
-      variant="text"
+      text
     >
       <v-toolbar-title>
-        <v-icon icon="$ecamp" />
-        <span v-show="text" class="mx-2 e-logo-text">eCamp</span>
+        <v-icon>$vuetify.icons.ecamp</v-icon><span v-show="text" class="mx-2 e-logo-text">eCamp</span>
       </v-toolbar-title>
     </v-btn>
     <slot />
@@ -18,12 +16,12 @@
 </template>
 
 <script>
-export default {
-  name: 'Logo',
-  props: {
-    text: { type: Boolean, default: false },
-  },
-}
+  export default {
+    name: 'Logo',
+    props: {
+      text: { type: Boolean, default: false },
+    },
+  }
 </script>
 
 <style scoped>

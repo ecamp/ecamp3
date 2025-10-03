@@ -87,10 +87,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 .ec-sidebar-program__picasso :deep(.e-picasso) {
-  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
     height: calc(100vh - 202px);
   }
 }

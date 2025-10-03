@@ -5,8 +5,8 @@ import * as path from 'path'
 import Components from 'unplugin-vue-components/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { configDefaults } from 'vitest/config'
-import { svg4VuePlugin } from 'vite-plugin-svg4vue'
-import vuetify from 'vite-plugin-vuetify'
+import svgLoader from 'vite-svg-loader'
+import Vuetify from 'vite-plugin-vuetify'
 
 const plugins = [
   comlink(), // must be first
@@ -22,14 +22,12 @@ const plugins = [
   Components({
     resolvers: [],
   }),
-  svg4VuePlugin({
-    skipSvgo: true,
-  }),
-  vuetify({
+  svgLoader(),
+  Vuetify({
     autoImport: {
       labs: true,
     },
-    styles: { configFile: 'src/scss/variables.scss' },
+    styles: { configFile: 'src/scss/settings.scss' },
   }),
 ]
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN

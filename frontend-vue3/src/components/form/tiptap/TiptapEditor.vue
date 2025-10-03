@@ -295,7 +295,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 div.editor:deep(p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder);
@@ -322,7 +323,7 @@ div.editor:deep(.ec-tiptap-toolbar) {
 .ec-tiptap-toolbar--second,
 .ec-tiptap-toolbar__mobile-divider {
   display: block;
-  @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'sm-and-up')} {
     display: none;
   }
 }

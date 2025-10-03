@@ -81,9 +81,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
-@media #{map-get(variables.$display-breakpoints, 'xs')} {
+@media #{map.get(settings.$display-breakpoints, 'xs')} {
   :deep(table) {
     display: block;
   }

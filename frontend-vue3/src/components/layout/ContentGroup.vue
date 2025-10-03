@@ -35,10 +35,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '/src/scss/variables';
+@use 'vuetify/settings';
 
 .ec-content-group__title {
-  border-bottom: 1px solid map-get(variables.$blue-grey, 'lighten-4');
+  border-bottom: 1px solid map.get(settings.$blue-grey, 'lighten-4');
   display: flex;
   align-items: baseline;
   justify-content: space-between;

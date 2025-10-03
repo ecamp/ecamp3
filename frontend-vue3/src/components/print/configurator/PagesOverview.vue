@@ -23,9 +23,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
-@media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+@media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
   .e-pages-overview {
     background: #eee;
     position: relative;

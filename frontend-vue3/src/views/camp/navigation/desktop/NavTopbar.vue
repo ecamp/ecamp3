@@ -1,36 +1,13 @@
 <template>
-  <v-app-bar app clipped-left color="blue-grey darken-4" dark>
+  <v-app-bar app clipped-left color="blue-grey-darken-4" dark>
     <logo text />
 
     <v-toolbar-items>
-      <v-btn :to="campRoute(camp)" text>
-        <v-icon :left="$vuetify.display.mdAndUp">mdi-tent</v-icon>
-        <span class="sr-only-sm-and-down">{{
-          camp.title
-        }}</span>
-      </v-btn>
-      <v-btn :to="campRoute(camp, 'program')" text>
-        <v-icon :left="$vuetify.display.mdAndUp">mdi-view-dashboard</v-icon>
-        <span class="sr-only-sm-and-down">{{
-          $t('views.camp.navigation.desktop.navTopbar.program')
-        }}</span>
-      </v-btn>
-      <v-btn :to="campRoute(camp, 'story')" text>
-        <v-icon :left="$vuetify.display.mdAndUp"> mdi-book-open-variant </v-icon>
-        <span class="sr-only-sm-and-down">{{
-          $t('views.camp.navigation.desktop.navTopbar.story')
-        }}</span>
-      </v-btn>
-      <v-btn :to="materialListRoute(camp)" text>
-        <v-icon :left="$vuetify.display.mdAndUp"> mdi-package-variant </v-icon>
-        <span class="sr-only-sm-and-down">{{
-          $t('views.camp.navigation.desktop.navTopbar.material')
-        }}</span>
-      </v-btn>
-      <v-btn :to="campRoute(camp, 'admin')" text>
-        <v-icon :left="$vuetify.display.mdAndUp"> mdi-cogs </v-icon>
-        <span class="sr-only-sm-and-down">{{ $t('global.navigation.admin.title') }}</span>
-      </v-btn>
+      <TopNavigationItem :to="campRoute(camp)" icon="mdi-tent" :text="camp.title" />
+      <TopNavigationItem :to="campRoute(camp, 'program')" icon="mdi-view-dashboard" :text="$t('views.camp.navigation.desktop.navTopbar.program')" />
+      <TopNavigationItem :to="campRoute(camp, 'story')" icon="mdi-book-open-variant" :text="$t('views.camp.navigation.desktop.navTopbar.story')" />
+      <TopNavigationItem :to="materialListRoute(camp)" icon="mdi-package-variant" :text="$t('views.camp.navigation.desktop.navTopbar.material')" />
+      <TopNavigationItem :to="campRoute(camp, 'admin')" icon="mdi-cogs" :text="$t('global.navigation.admin.title')" />
     </v-toolbar-items>
     <v-spacer />
     <v-toolbar-items v-if="$vuetify.display.lgAndUp">
@@ -50,10 +27,12 @@ import { campRoute, materialListRoute } from '@/router.js'
 import { mapGetters } from 'vuex'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { getEnv } from '@/environment.js'
+import TopNavigationItem from '@/components/navigation/TopNavigationItem.vue'
 
 export default {
   name: 'NavTopbar',
   components: {
+    TopNavigationItem,
     UserMeta,
     Logo,
   },

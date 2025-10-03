@@ -109,12 +109,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 .fab--bottom_nav {
   position: fixed;
   bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
-  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
     bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
   }
 }

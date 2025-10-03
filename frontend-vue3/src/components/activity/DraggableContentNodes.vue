@@ -167,7 +167,8 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 .min-height {
   min-height: 10rem;
@@ -239,7 +240,7 @@ export default {
       right: -4px;
       opacity: 40%;
       border-radius: 8px;
-      border: 2px dotted map-get(variables.$blue, 'darken-2');
+      border: 2px dotted map.get(settings.$blue, 'darken-2');
       opacity: 40%;
       content: '';
     }

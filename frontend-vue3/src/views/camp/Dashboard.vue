@@ -279,15 +279,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 .day-header {
   z-index: 1;
   position: sticky;
   top: calc(48px - 1px - 0.75rem);
-  @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'sm-and-up')} {
     top: calc(0px - 1px - 0.75rem);
   }
-  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
     top: calc(64px - 1px - 0.75rem);
   }
   padding-bottom: 0.25rem;

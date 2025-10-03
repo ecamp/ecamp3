@@ -3,7 +3,7 @@
     v-if="$vuetify.display.mdAndUp"
     app
     clipped-left
-    color="blue-grey darken-4"
+    color="blue-grey-darken-4"
     dark
   >
     <logo text />
@@ -20,7 +20,7 @@
       fab
       x-small
       light
-      absolute
+      position="absolute"
       top
       right
       class="help-button--desktop"

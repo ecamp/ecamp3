@@ -118,8 +118,8 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 .period.period {
   border-bottom-width: 1px !important;
@@ -128,7 +128,7 @@ export default {
 }
 
 .header {
-  border-bottom: 1px solid map-get(variables.$blue-grey, 'lighten-4');
+  border-bottom: 1px solid map.get(settings.$blue-grey, 'lighten-4');
 }
 .transition-list-item {
   transition: all 0.5s;

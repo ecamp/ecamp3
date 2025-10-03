@@ -1,18 +1,18 @@
 // You still need to register Vuetify itself
 // src/plugins/vuetify.js
 
-import PbsLogo from './icons/PbsLogo.vue'
-import GoogleLogo from './icons/GoogleLogo.vue'
-import eCampLogo from './icons/eCampLogo.vue'
-import CeviLogo from './icons/CeviLogo.vue'
-import JublaLogo from './icons/JublaLogo.vue'
-import JSLogo from './icons/JSLogo.vue'
-import GSLogo from './icons/GSLogo.vue'
-import TentDay from './icons/TentDay.vue'
-import PaperSize from './icons/PaperSize.vue'
-import BigScreen from './icons/BigScreen.vue'
-import ResponsiveLayout from './icons/ResponsiveLayout.vue'
-import ColumnLayout from './icons/ColumnLayout.vue'
+import PbsLogo from '@/assets/PbsLogo.svg'
+import GoogleLogo from '@/assets/GoogleLogo.svg'
+import eCampLogo from '@/assets/eCampLogo.svg'
+import CeviLogo from '@/assets/CeviLogo.svg'
+import JublaLogo from '@/assets/JublaLogo.svg'
+import JSLogo from '@/common/assets/logos/JSLogo.svg'
+import GSLogo from '@/common/assets/logos/GSLogo.svg'
+import TentDay from '@/assets/tents/TentDay.svg'
+import PaperSize from '@/assets/icons/PaperSize.svg'
+import BigScreen from '@/assets/icons/BigScreen.svg'
+import ResponsiveLayout from '@/assets/icons/ResponsiveLayout.svg'
+import ColumnLayout from '@/assets/icons/ColumnLayout.svg'
 import i18n from '@/plugins/i18n'
 import * as colors from 'vuetify/util/colors'
 
@@ -31,30 +31,18 @@ class VuetifyLoaderPlugin {
       },
       icons: {
         aliases: {
-          pbs: 'mdi-close-circle',
-          google: 'mdi-close-circle',
-          ecamp: 'mdi-close-circle',
-          cevi: 'mdi-close-circle',
-          jubla: 'mdi-close-circle',
-          tentDay: 'mdi-close-circle',
-          paperSize: 'mdi-close-circle',
-          bigScreen: 'mdi-close-circle',
-          columnLayout: 'mdi-close-circle',
-          responsiveLayout: 'mdi-close-circle',
-        },
-        sets: {
-          pbs: { component: PbsLogo },
-          google: { component: GoogleLogo },
-          ecamp: { component: eCampLogo },
-          cevi: { component: CeviLogo },
-          jubla: { component: JublaLogo },
-          js: { component: JSLogo },
-          gs: { component: GSLogo },
-          tentDay: { component: TentDay },
-          paperSize: { component: PaperSize },
-          bigScreen: { component: BigScreen },
-          columnLayout: { component: ColumnLayout },
-          responsiveLayout: { component: ResponsiveLayout },
+          pbs: PbsLogo,
+          google: GoogleLogo,
+          ecamp: eCampLogo,
+          cevi: CeviLogo,
+          jubla: JublaLogo,
+          js: JSLogo,
+          gs: GSLogo,
+          tentDay: TentDay,
+          paperSize: PaperSize,
+          bigScreen: BigScreen,
+          columnLayout: ColumnLayout,
+          responsiveLayout: ResponsiveLayout,
         },
       },
       theme: {

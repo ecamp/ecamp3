@@ -61,10 +61,11 @@ export default {
 <style lang="scss">
 // @import 'src/scss/vuetify';
 // @import 'src/scss/global';
-@use '/src/scss/variables';
+@use "sass:map";
+@use 'vuetify/settings';
 @import '~@mdi/font/css/materialdesignicons.css';
 
-@media #{map-get(variables.$display-breakpoints, 'xs')} {
+@media #{map.get(settings.$display-breakpoints, 'xs')} {
   html,
   body,
   .v-application {
@@ -98,7 +99,7 @@ export default {
   border-top-right-radius: 0 !important;
 }
 
-@media #{map-get(variables.$display-breakpoints, 'xs')} {
+@media #{map.get(settings.$display-breakpoints, 'xs')} {
   .v-main > .v-main__wrap > .container {
     min-height: 100%;
     display: flex;
@@ -116,7 +117,7 @@ export default {
   font-feature-settings: 'tnum';
 }
 
-@media #{map-get(variables.$display-breakpoints, 'sm-and-down')} {
+@media #{map-get(settings.$display-breakpoints, 'sm-and-down')} {
   // TODO: this changes look & feel of all v-containers. Do we really want this?
   .container.container--fluid {
     padding: 0;

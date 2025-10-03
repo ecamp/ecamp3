@@ -385,13 +385,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '/src/scss/variables';
+@use 'vuetify/settings';
+@use "sass:map";
 
 .e-picasso {
   border: none;
   overflow: auto;
 
-  @media #{map-get(variables.$display-breakpoints, 'xs')} {
+  @media #{map.get(settings.$display-breakpoints, 'xs')} {
     position: fixed;
     height: inherit;
     top: 48px;
@@ -400,21 +401,21 @@ export default {
     right: 0;
   }
 
-  @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'sm-and-up')} {
     height: calc(100vh - 106px);
   }
 
-  @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+  @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
     height: calc(100vh - 136px - var(--schedule-entry-filters-height));
   }
 
   :deep {
     .v-event-timed-container {
       margin-right: 3px;
-      @media #{map-get(variables.$display-breakpoints, 'sm-and-up')} {
+      @media #{map.get(settings.$display-breakpoints, 'sm-and-up')} {
         margin-right: 5px;
       }
-      @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+      @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
         margin-right: 6px;
       }
     }
@@ -533,7 +534,7 @@ export default {
   .v-select__selections {
     gap: 4px;
     padding: 2px;
-    @media #{map-get(variables.$display-breakpoints, 'md-and-up')} {
+    @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
       padding: 4px 2px;
     }
     width: 100%;
