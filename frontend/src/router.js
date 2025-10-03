@@ -16,7 +16,7 @@ const GenericPage = () => import('./components/generic/GenericPage.vue')
 /* istanbul ignore next */
 export default new Router({
   mode: 'history',
-  base: '/',
+  base: '/old',
   routes: [
     ...(getEnv().FEATURE_DEVELOPER
       ? [

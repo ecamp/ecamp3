@@ -1,0 +1,299 @@
+<!--
+Wrapper component for form components to save data back to API
+-->
+
+<template>
+  <!--  <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>-->
+  <v-form
+    :class="[{ 'api-wrapper--inline': true }]"
+    class="e-form-container"
+    @submit.prevent="onEnter"
+  >
+    <slot
+      :auto-save="autoSave"
+      :dirty="dirty"
+      :error-messages="errorMessages"
+      :has-loading-error="hasLoadingError"
+      :has-server-error="hasServerError"
+      :has-validation-error="validationObserver.invalid"
+      :is-loading="isLoading"
+      :is-saving="isSaving"
+      :local-value="localValue"
+      :on="eventHandlers"
+      :parsed-value="parsedLocalValue"
+      :readonly="readonly || !hasFinishedLoading"
+      :status="status"
+    />
+  </v-form>
+  <!--  </ValidationObserver>-->
+</template>
+
+<script>
+import { debounce, set, get } from 'lodash-es'
+import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
+// import { ValidationObserver } from 'vee-validate'
+import { serverErrorToString } from '@/helpers/serverError.js'
+
+export default {
+  name: 'ApiWrapper',
+  // components: { ValidationObserver },
+  mixins: [apiPropsMixin],
+  props: {
+    separateButtons: {
+      type: Boolean,
+      default: true,
+    },
+    parse: {
+      type: Function,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      localValue: null,
+      parsedLocalValue: null,
+      isPreSaving: false,
+      isLoading: false,
+      isMounted: false,
+      showIconSuccess: false,
+      dirty: false,
+      savingRequestCount: 0,
+      serverErrorMessage: null,
+      loadingErrorMessage: null,
+      validationErrorMessages: [],
+      eventHandlers: {
+        save: this.save,
+        reset: this.reset,
+        reload: this.reload,
+        input: this.onInput,
+        blur: this.onBlur,
+      },
+    }
+  },
+  computed: {
+    hasFinishedLoading() {
+      return !this.isLoading && !this.hasLoadingError
+    },
+    errorMessages() {
+      const errors = []
+      if (this.hasLoadingError) errors.push(this.loadingErrorMessage)
+      if (this.hasServerError) errors.push(this.serverErrorMessage)
+      return errors
+    },
+    isSaving() {
+      return this.savingRequestCount > 0
+    },
+    hasLoadingError() {
+      return this.loadingErrorMessage != null
+    },
+    hasServerError() {
+      return this.serverErrorMessage != null
+    },
+    status: function () {
+      if (this.isSaving) {
+        return 'saving'
+      } else if (this.showIconSuccess) {
+        return 'success'
+      } else {
+        return 'init'
+      }
+    },
+    apiValue() {
+      // return value from props if set explicitly
+      if (this.value) {
+        return this.value
+
+        // while loading, value is null
+      } else if (this.isLoading) {
+        return null
+
+        // avoid infinite reloading if loading from API has failed
+      } else if (this.hasLoadingError) {
+        return null
+
+        // return value from API unless `value` is set explicitly
+      } else {
+        const resource = this.api.get(this.uri)
+        let val = get(resource, this.path)
+
+        // resource is loaded, but val is still undefined (=doesn't exist)
+        if (val === undefined) {
+          console.error(
+            'You are trying to use a path ' +
+              this.path +
+              ' in an ApiFormComponent, but ' +
+              this.path +
+              " doesn't exist on entity " +
+              this.uri
+          )
+          return null
+        }
+
+        // while loading, value is null
+        // (necessary because while loading, even normal properties are returned as functions)
+        if (resource._meta.loading || val?._meta?.loading) return null
+
+        // Check if val is an (embedded) relation
+        if (val instanceof Function) {
+          val = val()
+          if (!('items' in val)) {
+            return val._meta.self // val is an embedded relation (*ToOne) --> return IRI
+          } else {
+            return val.items.map((item) => item._meta.self) // val is an embedded collection (*ToMany) --> return array of IRIs
+          }
+        }
+
+        // standard case: value is a primitive value
+        return val
+      }
+    },
+  },
+  watch: {
+    apiValue: {
+      handler: function (newValue) {
+        // override local value if it wasn't dirty
+        if (!this.dirty || this.overrideDirty) {
+          this.localValue = newValue
+          this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
+        }
+
+        // clear dirty if outside value changes to same as local value (e.g. after save operation)
+        if (this.parsedLocalValue === newValue && !this.isSaving) {
+          this.dirty = false
+        }
+      },
+      immediate: true,
+    },
+  },
+  created() {
+    // initial data load from API
+    if (!this.value) this.reload()
+
+    this.localValue = this.apiValue
+
+    // don't move this to methods option
+    // functions within the methods options are shared across instances
+    // https://github.com/ecamp/ecamp3/issues/3839
+    this.debouncedSave = debounce(this.save, this.autoSaveDelay)
+  },
+  mounted() {
+    this.isMounted = true
+  },
+  methods: {
+    async onInput(newValue) {
+      this.localValue = newValue
+      this.parsedLocalValue = this.parse ? this.parse(newValue) : newValue
+      this.dirty = this.isSaving || this.parsedLocalValue !== this.apiValue
+      this.isPreSaving = true
+
+      if (this.autoSave) {
+        this.debouncedSave()
+      }
+    },
+    async onBlur() {
+      if (!(this.isSaving || this.isPreSaving) && this.autoSave) {
+        this.dirty = this.parsedLocalValue !== this.apiValue
+        this.localValue = this.apiValue
+        this.parsedLocalValue = this.parse ? this.parse(this.apiValue) : this.apiValue
+      }
+    },
+    // reload data from API (doesn't force loading from server if available locally)
+    reload() {
+      this.resetErrors()
+      const obj = this.api.get(this.uri)
+      this.isLoading = obj._meta.loading
+
+      // initial data load from API
+      obj._meta.load
+        .catch((error) => {
+          this.loadingErrorMessage = error.message
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
+    },
+    reset() {
+      this.localValue = this.apiValue
+      this.dirty = false
+      this.resetErrors()
+      this.$emit('reseted')
+      this.$emit('finished')
+    },
+    resetErrors() {
+      this.loadingErrorMessage = null
+      this.serverErrorMessage = null
+      if (this.isMounted) {
+        this.$refs.validationObserver.reset()
+      }
+    },
+    onEnter() {
+      if (!this.autoSave) {
+        this.save()
+      }
+    },
+    async save() {
+      // abort saving if component is in readonly or disabled state
+      // this is here for safety reasons, should not be triggered if the wrapped component behaves normally
+      if (this.readonly || this.disabled) {
+        return
+      }
+
+      // abort saving in case of validation errors
+      const isValid = await this.$refs.validationObserver.validate()
+      if (!isValid) {
+        return
+      }
+
+      // reset all dirty flags and start saving
+      this.resetErrors()
+      this.isPreSaving = false
+
+      this.savingRequestCount++
+
+      // construct payload (nested path allowed)
+      const payload = {}
+      set(payload, this.path, this.parsedLocalValue)
+
+      this.api
+        .patch(this.uri, payload)
+        .then(() => {
+          this.showIconSuccess = true
+          this.$emit('saved')
+          this.$emit('finished')
+          setTimeout(() => {
+            this.showIconSuccess = false
+          }, 2000)
+        })
+        .catch((error) => {
+          this.serverErrorMessage = serverErrorToString(error, this.path)
+        })
+        .finally(() => {
+          this.savingRequestCount--
+          if (!this.isSaving && this.parsedLocalValue === this.apiValue) {
+            this.dirty = false
+          }
+        })
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.api-wrapper--inline .v-btn--last-instance {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.api-wrapper--inline .v-btn {
+  border-top: 1px solid rgba(0, 0, 0, 0.38);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.38);
+}
+</style>
+
+<!-- This does not work with scoped css -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
+<style lang="scss">
+.api-wrapper--inline .v-text-field {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+</style>

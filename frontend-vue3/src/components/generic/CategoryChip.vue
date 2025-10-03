@@ -1,0 +1,66 @@
+<template>
+  <GenericChip
+    v-if="!loading"
+    :color="cat.color"
+    :text-color="textColor"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <slot>
+      <span class="d-sr-only">
+        {{ cat.name }}
+      </span>
+      <span aria-hidden="true">
+        {{ cat.short }}
+      </span>
+    </slot>
+    <slot name="after" />
+  </GenericChip>
+  <GenericChip v-else v-bind="$attrs" v-on="$listeners"
+    ><span class="d-sr-only">{{ $t('global.loading') }}</span
+    ><span aria-hidden="true">·&#x202f;·&#x202f;·</span></GenericChip
+  >
+</template>
+
+<script>
+import { contrastColor } from '@/common/helpers/colors.js'
+import GenericChip from '@/components/generic/GenericChip.vue'
+
+export default {
+  name: 'CategoryChip',
+  components: { GenericChip },
+  props: {
+    scheduleEntry: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    category: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    skeleton: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    loading() {
+      return this.skeleton || this.cat?._meta?.loading
+    },
+    cat() {
+      return this.category || this.scheduleEntry.activity().category()
+    },
+    textColor() {
+      return contrastColor(this.cat.color)
+    },
+  },
+}
+</script>
+
+<style scoped>
+.v-chip {
+  font-weight: 500;
+}
+</style>

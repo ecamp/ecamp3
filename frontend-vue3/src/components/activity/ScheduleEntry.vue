@@ -1,0 +1,536 @@
+<!--
+Displays a single scheduleEntry
+-->
+
+<template>
+  <content-card
+    :key="activityId"
+    class="ec-schedule-entry"
+    toolbar
+    back
+    :loaded="!scheduleEntry._meta.loading && !activity.camp()._meta.loading"
+    :max-width="isPaperDisplaySize ? '944px' : ''"
+  >
+    <template #title>
+      <v-toolbar-title class="font-weight-bold">
+        <span class="tabular-nums">
+          {{ scheduleEntry.number }}
+        </span>
+        <v-menu
+          offset-y
+          rounded="lg"
+          nudge-left="10"
+          nudge-bottom="4"
+          :disabled="layoutMode || !isContributor"
+        >
+          <template #activator="{ on, attrs }">
+            <CategoryChip
+              :schedule-entry="scheduleEntry"
+              large
+              dense
+              v-bind="attrs"
+              v-on="on"
+            >
+              <template #after>
+                <v-icon
+                  right
+                  class="ml-0 e-category-chip-save-icon"
+                  :class="{ 'mdi-spin': categoryChangeState === 'saving' }"
+                >
+                  <template v-if="categoryChangeState === 'saving'"
+                    >mdi-autorenew
+                  </template>
+                  <template v-else-if="categoryChangeState === 'error'"
+                    >mdi-alert
+                  </template>
+                  <template v-else>mdi-chevron-down</template>
+                </v-icon>
+              </template>
+            </CategoryChip>
+          </template>
+          <v-list class="py-0">
+            <v-list-item
+              v-for="cat in camp.categories().items"
+              :key="cat._meta.self"
+              class="px-3"
+              @click="changeCategory(cat)"
+            >
+              <v-list-item-title>
+                <CategoryChip :category="cat" dense />
+                {{ cat.name }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <a v-if="!editActivityTitle" style="color: inherit">
+          {{ activity.title }}
+        </a>
+      </v-toolbar-title>
+      <v-btn
+        v-if="isContributor && !editActivityTitle"
+        icon
+        class="ml-1 visible-on-hover"
+        width="24"
+        height="24"
+        @click="makeTitleEditable()"
+      >
+        <v-icon small>mdi-pencil</v-icon>
+      </v-btn>
+      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-1">
+        <api-text-field
+          path="title"
+          :disabled="layoutMode"
+          dense
+          autofocus
+          :auto-save="false"
+          @finished="editActivityTitle = false"
+        />
+      </api-form>
+    </template>
+    <template #title-actions>
+      <!-- layout/content switch (back to content) -->
+      <v-btn
+        v-if="layoutMode"
+        color="success"
+        class="ml-3"
+        outlined
+        @click="layoutMode = false"
+      >
+        <template v-if="$vuetify.display.smAndUp">
+          <v-icon left>mdi-file-document-edit-outline</v-icon>
+          {{ $t('components.activity.scheduleEntry.backToContents') }}
+        </template>
+        <template v-else>{{ $t('global.button.back') }}</template>
+      </v-btn>
+
+      <TogglePaperSize v-model="isPaperDisplaySize" />
+      <!-- hamburger menu -->
+      <v-menu v-if="!layoutMode" offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <DownloadNuxtPdf :config="printConfig" />
+          <DownloadClientPdf :config="printConfig" />
+
+          <v-divider />
+
+          <!-- layout/content switch (switch to layout mode) -->
+          <v-list-item :disabled="!isContributor" @click="layoutMode = true">
+            <v-list-item-icon>
+              <v-icon>mdi-puzzle-edit-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ $t('components.activity.scheduleEntry.changeLayout') }}
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-divider />
+
+          <v-list-item @click="copyUrlToClipboard">
+            <v-list-item-icon>
+              <v-icon>mdi-content-copy</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ $t('components.activity.scheduleEntry.copyScheduleEntry') }}
+            </v-list-item-title>
+          </v-list-item>
+          <ClipboardInfoDialog
+            ref="copyInfoDialog"
+            translation-context-i18n-key="components.activity.scheduleEntry.clipboardInfoDialog"
+          />
+
+          <v-divider />
+
+          <!-- remove activity -->
+          <DialogEntityDelete :entity="activity" @submit="onDelete">
+            <template #activator="{ on }">
+              <v-list-item :disabled="!isContributor" v-on="on">
+                <v-list-item-icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  {{ $t('global.button.delete') }}
+                </v-list-item-title>
+              </v-list-item>
+            </template>
+            {{ $t('components.activity.scheduleEntry.deleteWarning') }}
+          </DialogEntityDelete>
+        </v-list>
+      </v-menu>
+    </template>
+
+    <v-card-text class="px-0 py-0">
+      <v-skeleton-loader v-if="loading" type="article" />
+      <template v-else>
+        <!-- Header -->
+        <v-row dense class="activity-header">
+          <v-col class="col col-sm-6 col-12 px-0 pt-0 d-flex flex-wrap gap-x-4">
+            <table>
+              <thead>
+                <tr>
+                  <th
+                    v-if="category.numberingStyle !== '-'"
+                    scope="col"
+                    class="text-right pb-2 pr-4"
+                  >
+                    {{ $t('entity.scheduleEntry.fields.nr') }}
+                  </th>
+                  <th scope="col" class="text-left pb-2 pr-4">
+                    {{ $t('entity.scheduleEntry.fields.duration') }}
+                  </th>
+                  <th scope="col" class="text-left pb-2" colspan="2">
+                    {{ $t('entity.scheduleEntry.fields.time') }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="scheduleEntryItem in scheduleEntries"
+                  :key="scheduleEntryItem._meta.self"
+                >
+                  <th
+                    v-if="category.numberingStyle !== '-'"
+                    class="text-right tabular-nums pb-2 pr-4"
+                  >
+                    <RouterLink
+                      v-if="scheduleEntryItem._meta.self !== scheduleEntry._meta.self"
+                      :to="scheduleEntryRoute(scheduleEntryItem)"
+                      class="e-title-link"
+                    >
+                      {{ scheduleEntryItem.number }}
+                    </RouterLink>
+                    <template v-else>
+                      {{ scheduleEntryItem.number }}
+                    </template>
+                  </th>
+                  <td class="text-left tabular-nums pb-2 pr-4">
+                    {{
+                      timeDurationShort(scheduleEntryItem.start, scheduleEntryItem.end)
+                    }}
+                  </td>
+                  <td class="text-right tabular-nums pb-2 pr-1">
+                    {{ dateShort(scheduleEntryItem.start) }}
+                  </td>
+                  <td class="text-left tabular-nums pb-2 pr-0">
+                    <RouterLink
+                      v-if="
+                        category.numberingStyle === '-' &&
+                        scheduleEntryItem._meta.self !== scheduleEntry._meta.self
+                      "
+                      :to="scheduleEntryRoute(scheduleEntryItem)"
+                      class="e-title-link"
+                    >
+                      {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                    </RouterLink>
+                    <template v-else>
+                      {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                    </template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <DialogActivityEdit
+              v-if="scheduleEntry && isContributor"
+              :schedule-entry="scheduleEntry"
+              hide-header-fields
+              @activity-updated="activity.$reload()"
+            >
+              <template #activator="{ on }">
+                <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
+              </template>
+            </DialogActivityEdit>
+          </v-col>
+          <v-col class="col col-sm-6 col-12 px-0">
+            <api-form :entity="activity" name="activity">
+              <v-row dense>
+                <v-col class="col col-sm-8 col-12">
+                  <api-text-field
+                    path="location"
+                    :disabled="layoutMode || !isContributor"
+                    dense
+                  />
+                </v-col>
+                <v-col class="col col-sm-4 col-12">
+                  <api-select
+                    path="progressLabel"
+                    :items="progressLabels"
+                    :disabled="layoutMode || !isContributor"
+                    clearable
+                    dense
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <ActivityResponsibles
+                    :activity="activity"
+                    :disabled="layoutMode || !isContributor"
+                  />
+                </v-col>
+              </v-row>
+            </api-form>
+          </v-col>
+        </v-row>
+
+        <v-skeleton-loader v-if="loading" type="article" />
+        <root-node
+          v-else
+          :content-node="activity.rootContentNode()"
+          :layout-mode="layoutMode"
+          :disabled="isContributor === false"
+        />
+      </template>
+    </v-card-text>
+  </content-card>
+</template>
+
+<script>
+import { sortBy } from 'lodash-es'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ApiTextField from '@/components/form/api/ApiTextField.vue'
+import RootNode from '@/components/activity/RootNode.vue'
+import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
+import { campRoleMixin } from '@/mixins/campRoleMixin'
+import router, {
+  firstActivityScheduleEntry,
+  periodRoute,
+  scheduleEntryRoute,
+} from '@/router.js'
+import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
+import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.vue'
+import scheduleEntryRouteChange from '@/helpers/scheduleEntryRouteChange.js'
+import ClipboardInfoDialog from '../generic/ClipboardInfoDialog.vue'
+
+export default {
+  name: 'ScheduleEntry',
+  components: {
+    DialogActivityEdit,
+    ButtonEdit,
+    ApiForm,
+    ApiSelect,
+    TogglePaperSize,
+    DialogEntityDelete,
+    ContentCard,
+    ApiTextField,
+    RootNode,
+    ActivityResponsibles,
+    DownloadClientPdf,
+    DownloadNuxtPdf,
+    CategoryChip,
+    ClipboardInfoDialog,
+  },
+  mixins: [campRoleMixin, dateHelperUTCFormatted],
+  provide() {
+    return {
+      preferredContentTypes: () => this.preferredContentTypes,
+      allContentNodes: () => this.contentNodes,
+      camp: this.camp,
+      isPaperDisplaySize: () => this.isPaperDisplaySize,
+    }
+  },
+  async beforeRouteUpdate(to, from, next) {
+    return scheduleEntryRouteChange(this.activityId, to, from, next)
+  },
+  props: {
+    activityId: {
+      type: String,
+      required: true,
+    },
+    scheduleEntryId: {
+      type: String,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      layoutMode: false,
+      editActivityTitle: false,
+      categoryChangeState: null,
+      scheduleEntry: null,
+      loading: true,
+    }
+  },
+  head() {
+    return {
+      title: () =>
+        `${this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : ''}[${this.category.short}]: ${this.activity.title}`,
+      templateParams: {
+        section: this.camp.shortTitle,
+      },
+    }
+  },
+  computed: {
+    activity() {
+      return this.api.get().activities({ id: this.activityId })
+    },
+    camp() {
+      return this.activity.camp()
+    },
+    category() {
+      return this.activity.category()
+    },
+    scheduleEntries() {
+      return this.activity.scheduleEntries().items
+    },
+    activityName() {
+      return (
+        (this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : '') +
+        (this.category.short ? this.category.short + ': ' : '') +
+        this.activity.title
+      )
+    },
+    progressLabels() {
+      const labels = sortBy(this.camp.progressLabels().items, (l) => l.position)
+      return labels.map((label) => ({
+        value: label._meta.self,
+        text: label.title,
+      }))
+    },
+    contentNodes() {
+      return this.activity.contentNodes()
+    },
+    preferredContentTypes() {
+      return this.category.preferredContentTypes()
+    },
+    printConfig() {
+      return {
+        camp: this.camp._meta.self,
+        language: this.$store.state.lang.language,
+        documentName: this.activity.title + '.pdf',
+        contents: [
+          {
+            type: 'Activity',
+            options: {
+              activity: this.activity._meta.self,
+              scheduleEntry: this.scheduleEntry._meta.self,
+            },
+          },
+        ],
+      }
+    },
+    isPaperDisplaySize: {
+      get() {
+        return this.$store.getters.getPaperDisplaySize(this.camp._meta.self)
+      },
+      set(value) {
+        this.$store.commit('setPaperDisplaySize', {
+          campUri: this.camp._meta.self,
+          paperDisplaySize: value,
+        })
+      },
+    },
+  },
+
+  watch: {
+    scheduleEntryId: {
+      async handler(id) {
+        try {
+          this.scheduleEntry = this.api.get().scheduleEntries({ id })
+        } catch {
+          this.scheduleEntry = await firstActivityScheduleEntry(this.activityId)
+        }
+      },
+      immediate: true,
+    },
+  },
+
+  // reload data every time user navigates to Activity view
+  async mounted() {
+    this.loading = true
+    await this.scheduleEntry.activity()._meta.load // wait if activity is being loaded as part of a collection
+    this.loading = false
+
+    // no refresh of activity here because the requireActivityScheduleEntry guard already does a refresh
+  },
+
+  methods: {
+    changeCategory(category) {
+      this.categoryChangeState = 'saving'
+      this.activity
+        .$patch({
+          category: category._meta.self,
+        })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
+        .then(() => (this.categoryChangeState = null))
+        .catch((e) => {
+          this.categoryChangeState = 'error'
+          this.$toast.error(errorToMultiLineToast(e))
+        })
+    },
+    scheduleEntryRoute,
+    countContentNodes(contentType) {
+      return this.contentNodes.items.filter((cn) => {
+        return cn.contentType().id === contentType.id
+      }).length
+    },
+    makeTitleEditable() {
+      if (this.isContributor) {
+        this.editActivityTitle = true
+      }
+    },
+    async copyUrlToClipboard() {
+      try {
+        const res = await navigator.permissions.query({ name: 'clipboard-read' })
+        if (res.state === 'prompt') {
+          this.$refs.copyInfoDialog.open()
+        }
+      } catch {
+        console.warn('clipboard permission not requestable')
+      }
+
+      const scheduleEntry = scheduleEntryRoute(this.scheduleEntry)
+      const url = window.location.origin + router.resolve(scheduleEntry).href
+      await navigator.clipboard.writeText(url)
+
+      this.$toast.info(
+        this.$t('global.toast.copied', null, { source: this.activityName }),
+        {
+          timeout: 2000,
+        }
+      )
+    },
+    onDelete() {
+      // redirect to Picasso
+      this.$router.push(periodRoute(this.scheduleEntry.period()))
+    },
+  },
+}
+</script>
+
+<style scoped lang="scss">
+.activity-header {
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 1.5rem 16px;
+}
+
+:deep(.ec-content-card__toolbar:not(:hover) button.visible-on-hover:not(:focus)) {
+  opacity: 0;
+}
+
+:deep(.ec-content-card__toolbar button.visible-on-hover) {
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+
+.e-category-chip-save-icon {
+  font-size: 18px;
+}
+
+.ec-schedule-entry {
+  transition: max-width 0.7s ease;
+}
+</style>

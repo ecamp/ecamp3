@@ -1,0 +1,45 @@
+<template>
+  <ValidationProvider
+    v-slot="{ errors: veeErrors }"
+    :name="validationLabel"
+    :vid="veeId"
+    :rules="veeRules"
+  >
+    <component
+      :is="inputComponent"
+      v-bind="$attrs"
+      :filled="filled"
+      :hide-details="hideDetails"
+      :error-messages="veeErrors.concat(errorMessages)"
+      :label.prop="labelOrEntityFieldLabel"
+      :class="[inputClass]"
+      v-on="$listeners"
+    >
+      <!-- passing through all slots -->
+      <template v-for="(_, name) in $slots" #[name]>
+        <slot :name="name" />
+      </template>
+      <template v-for="(_, name) in $slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </component>
+  </ValidationProvider>
+</template>
+
+<script>
+import { ValidationProvider } from 'vee-validate'
+import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import { VTextField } from 'vuetify/components'
+
+export default {
+  name: 'BaseComponent',
+  components: { ValidationProvider, VTextField },
+  mixins: [formComponentPropsMixin],
+  props: {
+    inputComponent: {
+      type: String,
+      required: true,
+    },
+  },
+}
+</script>

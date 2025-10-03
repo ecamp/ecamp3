@@ -1,0 +1,164 @@
+<template>
+  <v-container fluid>
+    <content-card :title="$t('views.camps.title')" max-width="800" toolbar>
+      <template #title-actions>
+        <UserMeta v-if="!$vuetify.display.mdAndUp" avatar-only btn-classes="mr-n4" />
+      </template>
+      <v-list class="py-0">
+        <template v-if="loading">
+          <v-skeleton-loader type="list-item-two-line" height="64" />
+          <v-skeleton-loader type="list-item-two-line" height="64" />
+        </template>
+        <v-list-item
+          v-for="camp in upcomingCamps"
+          v-else
+          :key="camp._meta.self"
+          :to="campRoute(camp)"
+          lines="two"
+        >
+          <v-list-item-title>{{ camp.title }}</v-list-item-title>
+          <v-list-item-subtitle>
+            {{ camp.name }} - {{ camp.motto }}
+          </v-list-item-subtitle>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-action>
+            <button-add :to="{ name: 'camps/create' }" icon="mdi-plus">
+              {{ $t('views.camps.create') }}
+            </button-add>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+      <v-expansion-panels
+        v-if="
+          !loading && ((isAdmin() && prototypeCamps.length > 0) || pastCamps.length > 0)
+        "
+        multiple
+        flat
+        variant="accordion"
+      >
+        <v-expansion-panel v-if="isAdmin() && prototypeCamps.length > 0">
+          <v-expansion-panel-title>
+            <h3>
+              {{ $t('views.camps.prototypeCamps') }}
+            </h3>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-list class="py-0">
+              <v-list-item
+                v-for="camp in prototypeCamps"
+                :key="camp._meta.self"
+                :to="campRoute(camp)"
+                lines="two"
+              >
+                <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ camp.name }} - {{ camp.motto }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+        <v-expansion-panel v-if="!loading && pastCamps.length > 0">
+          <v-expansion-panel-title>
+            <h3>
+              {{ $t('views.camps.pastCamps') }}
+            </h3>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-list class="py-0">
+              <v-list-item
+                v-for="camp in pastCamps"
+                :key="camp._meta.self"
+                :to="campRoute(camp)"
+                lines="two"
+              >
+                <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ camp.name }} - {{ camp.motto }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </content-card>
+  </v-container>
+</template>
+
+<script>
+import dayjs from '@/common/helpers/dayjs.js'
+import { campRoute } from '@/router.js'
+import { isAdmin } from '@/plugins/auth'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import { mapGetters } from 'vuex'
+import UserMeta from '@/components/navigation/UserMeta.vue'
+
+export default {
+  name: 'Camps',
+  components: {
+    UserMeta,
+    ContentCard,
+    ButtonAdd,
+  },
+  data: function () {
+    return {
+      loading: true,
+    }
+  },
+  computed: {
+    camps() {
+      return this.api.get().camps()
+    },
+    prototypeCamps() {
+      return this.camps.items.filter((c) => c.isPrototype)
+    },
+    nonPrototypeCamps() {
+      return this.camps.items.filter((c) => !c.isPrototype)
+    },
+    upcomingCamps() {
+      return this.nonPrototypeCamps.filter((c) =>
+        c.periods().items.some((p) => dayjs(p.end).endOf('day').isAfter(dayjs()))
+      )
+    },
+    pastCamps() {
+      return this.nonPrototypeCamps.filter(
+        (c) => !c.periods().items.some((p) => dayjs(p.end).endOf('day').isAfter(dayjs()))
+      )
+    },
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
+  },
+  async mounted() {
+    this.loadCamps()
+  },
+  methods: {
+    campRoute,
+    isAdmin,
+    async loadCamps() {
+      // Only reload camps if they were loaded before, to avoid console error
+      if (this.camps._meta.self !== null) {
+        this.api.reload(this.camps)
+      }
+
+      await this.camps._meta.load
+
+      await Promise.all(
+        this.nonPrototypeCamps.map((camp) => {
+          camp.periods()._meta.load
+        })
+      )
+
+      this.loading = false
+    },
+  },
+}
+</script>
+
+<style scoped>
+.v-expansion-panel-content:deep(.v-expansion-panel-content__wrap) {
+  padding: 0 !important;
+}
+</style>

@@ -9,5 +9,9 @@
 /frontend/dist
 /frontend/.env.*
 /frontend/public/environment.*
+/frontend-vue3/data
+/frontend-vue3/dist
+/frontend-vue3/.env.*
+/frontend-vue3/public/environment.*
 **/vendor/
 **/node_modules/

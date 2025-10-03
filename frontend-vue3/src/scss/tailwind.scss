@@ -1,0 +1,45 @@
+// This will eventually be replaced by tailwind
+
+.whitespace-normal {
+  white-space: normal;
+}
+
+.gap-1 {
+  gap: 4px;
+}
+
+.gap-x-1 {
+  column-gap: 4px;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-x-2 {
+  column-gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.gap-x-4 {
+  column-gap: 16px;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.justify-items-start {
+  justify-items: start;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.opacity-60 {
+  opacity: 0.6;
+}

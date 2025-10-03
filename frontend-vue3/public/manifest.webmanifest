@@ -1,0 +1,30 @@
+{
+  "short_name": "eCamp",
+  "name": "eCamp v3",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/logo.svg",
+      "type": "image/svg",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/browserassets/logo@192px.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/browserassets/logo@512px.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#546e7a",
+  "display": "minimal-ui",
+  "theme_color": "#546e7a"
+}

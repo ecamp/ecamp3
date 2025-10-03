@@ -1,0 +1,298 @@
+{
+  "components": {
+    "summary": {
+      "summaryDay": {
+        "noContent": "Die Blöcke an diesem Tag enthalten keine {contentType} Inhalte."
+      }
+    }
+  },
+  "contentNode": {
+    "checklist": {
+      "info": "Wähle die relevanten Checklisten-Einträge aus, die von dieser Aktivität abgedeckt werden (Kursziele, etc.).",
+      "name": "Checklisten"
+    },
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Spalte|Spalte {name}"
+        }
+      },
+      "name": "Spaltenlayout"
+    },
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatzeinrichtungen und Sportgeräten.",
+            "name": "Lagerplatz/Umgebung"
+          },
+          "natureAndEnvironment": {
+            "description": "Tier- und Pflanzenwelt, Umweltschutz im Lager, Wetter- und Sternkunde, Übermittlungstechniken, Feuer machen.",
+            "name": "Natur und Umwelt"
+          },
+          "outdoorTechnique": {
+            "description": "Wanderplanung, Kartenlesen (z.B. NORDA), Krokieren, Hilfsmittel (z.B. Kompass, GPS, Höhenmeter usw.), orientieren im Gelände.",
+            "name": "Outdoortechniken"
+          },
+          "pioneeringTechnique": {
+            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seilbahnen, Seilbrücken, Abseilen.",
+            "name": "Pioniertechnik"
+          },
+          "preventionAndIntegration": {
+            "description": "Aktivitäten, welche der Prävention und der Integration dienen und die Kompetenzen der Teilnehmenden in diesem Bereich fördern.",
+            "name": "Prävention und Integration"
+          },
+          "security": {
+            "description": "Sicherheit bei Aktivitäten im Lager, Unfallorganisation und Alarmierung, 1. Hilfe, Sicherheitsüberlegungen.",
+            "name": "Sicherheit"
+          }
+        }
+      },
+      "info": "Eine J+S Lageraktivität muss mindestens eines der aufgeführten Themen behandeln.{br}Erfasse, welche Themen in diesem Block behandelt werden.",
+      "name": "LA Themenbereich"
+    },
+    "learningObjectives": {
+      "info": "Formuliere die Kompetenzen, über welche die Teilnehmenden nach diesem Block verfügen, in der Form von Lernzielen.",
+      "name": "Blockziele"
+    },
+    "learningTopics": {
+      "info": "Liste die Ausbildungs-Themen auf, mit welchen die Teilnehmenden sich in diesem Block auseinandersetzen werden.",
+      "name": "Blockinhalte"
+    },
+    "material": {
+      "info": "Hier kannst du den Material-Bedarf für diesen Block erfassen.{br}Die Materiallisten kannst du im Menu 'Admin' verwalten.{br}Eine Zusammenstellung für den Einkauf findest du im Menu 'Material'.",
+      "name": "Material"
+    },
+    "notes": {
+      "info": "Hier kannst du beliebige Notizen erfassen.{br}z.B. Ideen, Todo's, offene Fragen, Kontakte, ÖV-Verbindungen, usw.",
+      "name": "Notizen"
+    },
+    "responsiveLayout": {
+      "mainContent": "Hauptinhalt",
+      "name": "Standardlayout",
+      "printAboveMainContent": "Über dem Hauptinhalt drucken",
+      "printBelowMainContent": "Unter dem Hauptinhalt drucken"
+    },
+    "safetyConsiderations": {
+      "info": "Einige Blöcke erfordern, dass ihr euch Gedanken zu den Risiken macht. Hier könnt ihr diese Gedanken erfassen.{br}Haltet fest, welche Risiken ihr erkannt habt - und wie ihr diesen begegnen könnt.",
+      "name": "Sicherheitsüberlegungen"
+    },
+    "storyboard": {
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Zeit",
+            "column2Html": "Programm",
+            "column3": "Verantwortlich"
+          },
+          "name": "Programmpunkt | Programmpunkte"
+        }
+      },
+      "info": "Hier kannst du den Inhalt von diesem Block planen.{br}In der linken Spalte [Zeit] kannst du die Dauer der einzelnen Elemente erfassen.{br}In der rechten Spalte [Verantwortlich] kannst du Personen zuteilen.",
+      "name": "Programmabschnitt"
+    },
+    "storycontext": {
+      "info": "Beschreibe, wie sich dieser Block in die Geschichte vom Lager einbettet.{br}Eine Zusammenstellung aller Geschichts-Elemente findest du im Menu 'Geschichte'.{br}Ihr könnt auch erst im Menu 'Geschichte' zuerst eine durchgängige Geschichte erarbeiten - so dass man den Block-Inhalt perfekt in die Geschichte einbetten kann.",
+      "name": "Geschichte"
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "category": "Block-Kategorie",
+        "location": "Ort",
+        "progressLabel": "Status",
+        "responsible": "Verantwortlich",
+        "title": "Titel"
+      },
+      "name": "Aktivität | Aktivitäten",
+      "new": "Neue Aktivität"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Titel"
+      }
+    },
+    "camp": {
+      "collaborators": {
+        "guest": "Gast",
+        "invite": "Einladen",
+        "manager": "Administration",
+        "member": "Mitglied"
+      },
+      "fields": {
+        "addressCity": "Ort",
+        "addressName": "Name",
+        "addressStreet": "Strasse",
+        "addressZipcode": "PLZ",
+        "coachName": "Name des J+S-Coachs",
+        "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
+        "courseNumber": "Kursnummer",
+        "kind": "Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)",
+        "motto": "Motto / Thema",
+        "organizer": "Organisator",
+        "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
+        "shortTitle": "Kurzer Lagertitel",
+        "title": "Lagertitel",
+        "trainingAdvisorName": "Bürgerlicher Name der Betreuungsperson"
+      },
+      "name": "Lager",
+      "prototype": "Lagervorlage"
+    },
+    "campCollaboration": {
+      "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
+        "inviteEmail": "E-Mail",
+        "role": "Rolle",
+        "status": "Status"
+      },
+      "status": {
+        "established": "Aktiv",
+        "inactive": "Inaktiv",
+        "invited": "Eingeladen"
+      }
+    },
+    "category": {
+      "fields": {
+        "color": "Farbe",
+        "name": "Name",
+        "numberingStyle": "Nummerierung",
+        "short": "Kürzel"
+      },
+      "name": "Block-Kategorien",
+      "numberingStyles": {
+        "-": "keine Nummerierung",
+        "1": "1, 2, 3 - Zahlen",
+        "A": "A, B, C - grosse Buchstaben",
+        "I": "I, II, III - grosse römische Zahlen",
+        "a": "a, b, c - kleine Buchstaben",
+        "i": "i, ii, iii - kleine römische Zahlen"
+      }
+    },
+    "checklist": {
+      "fields": {
+        "copyChecklistSource": "Vorlage",
+        "name": "Name"
+      },
+      "name": "Checkliste | Checklisten"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Text"
+      },
+      "name": "Checklisten-Eintrag"
+    },
+    "contentType": {
+      "name": "Inhalttyp | Inhalttypen"
+    },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Tagesverantwortliche"
+      },
+      "name": "Tag | Tage"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Artikel",
+        "list": "Materialliste",
+        "quantity": "Menge",
+        "reference": "Aktivität / Lagerabschnitt",
+        "unit": "Einheit"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Materialliste"
+    },
+    "period": {
+      "defaultDescription": "Hauptlager",
+      "fields": {
+        "description": "Beschreibung",
+        "end": "Bis",
+        "start": "Von"
+      },
+      "name": "Lagerabschnitt | Lagerabschnitte"
+    },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abkürzung",
+        "color": "Farbe",
+        "email": "E-Mail-Adresse",
+        "firstname": "Vorname",
+        "language": "Sprache",
+        "nickname": "Spitzname",
+        "password": "Passwort",
+        "surname": "Nachname"
+      },
+      "name": "Profil"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "duration": "Dauer",
+        "endDate": "Enddatum",
+        "endDatetime": "Endzeit",
+        "nr": "Nr.",
+        "startDate": "Startdatum",
+        "startDatetime": "Startzeit",
+        "time": "Zeitpunkt"
+      },
+      "name": "Zeitplaneintrag"
+    }
+  },
+  "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "daysAndHours": "{days} d {hours} h",
+        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
+        "daysAndMinutes": "{days} d {minutes} min",
+        "hoursAndMinutes": "{hours} h {minutes} min",
+        "daysOnly": "{days} d",
+        "hoursOnly": "{hours} h",
+        "minutesOnly": "{minutes} min"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm"
+    },
+    "shortScheduleEntryDescription": "Tag {dayNumber} {startTime}"
+  },
+  "print": {
+    "activityList": {
+      "title": "Aktivitätsliste"
+    },
+    "config": {
+      "periods": "Lagerabschnitt(e)"
+    },
+    "cover": {
+      "title": "Titelseite"
+    },
+    "picasso": {
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Kursnummer: {courseNumber}",
+        "leaders": "Leitung: {leaders}",
+        "trainingAdvisor": "LKB: {trainingAdvisor}"
+      },
+      "title": "Grobprogramm {period}"
+    },
+    "program": {
+      "title": "Detailprogramm"
+    },
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Sicherheitsüberlegungen"
+      },
+      "storycontext": {
+        "title": "Geschichte"
+      }
+    },
+    "toc": {
+      "title": "Inhaltsverzeichnis"
+    }
+  }
+}

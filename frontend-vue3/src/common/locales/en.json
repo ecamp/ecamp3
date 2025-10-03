@@ -1,0 +1,298 @@
+{
+  "components": {
+    "summary": {
+      "summaryDay": {
+        "noContent": "The activities on this day do not contain any {contentType} content."
+      }
+    }
+  },
+  "contentNode": {
+    "checklist": {
+      "info": "Select the relevant checklist items, which are covered by this activity (course objectives, etc.).",
+      "name": "Checklists"
+    },
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Column|Column {name}"
+        }
+      },
+      "name": "Column layout"
+    },
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Construction of a camp / surroundings, dismantling / setting up of a playground and fabrication of sports equipment.",
+            "name": "Campsite and Surroundings"
+          },
+          "natureAndEnvironment": {
+            "description": "Fauna and flora, environmental protection in the camp, meteorology and astronomy, transmission techniques, preparation and making a fire.",
+            "name": "Nature and Environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planning a hike, map reading (e.g. NORDA checklist), croquis, use of instruments (e.g. compass, GPS receiver, altimeter, etc.), orientation in the terrain.",
+            "name": "Outdoor Technique"
+          },
+          "pioneeringTechnique": {
+            "description": "Setting up a bivouac, building an igloo, knowledge of materials and equipment, equipment maintenance, construction and dismantling of pioneer structures, ropes and knots, zip lines, rope bridges, abseiling.",
+            "name": "Pioneering Technique"
+          },
+          "preventionAndIntegration": {
+            "description": "Activities promoting prevention and integration or developing participants' skills in this area.",
+            "name": "Prevention and Integration"
+          },
+          "security": {
+            "description": "Safety during camp activities, measures to be taken in case of accident and alert, first aid, safety considerations.",
+            "name": "Security"
+          }
+        }
+      },
+      "info": "A Y+S camp activity must address at least one of the listed topics.{br}Select what topics are covered in this block.",
+      "name": "LA thematic area"
+    },
+    "learningObjectives": {
+      "info": "Formulate as goals the competences which the participants will have after this activity.",
+      "name": "Learning objectives"
+    },
+    "learningTopics": {
+      "info": "List the topics about which the participants will learn something in this activity.",
+      "name": "Learning topics"
+    },
+    "material": {
+      "info": "Here you can enter the material requirements for this block.{br}You can manage the material lists in the menu 'Admin'.{br}You can find a summary for the purchase in the menu 'Material'.",
+      "name": "Material"
+    },
+    "notes": {
+      "info": "Here you can enter any notes.{br}e.g. ideas, todo's, open questions, contacts, public transport connections, etc.",
+      "name": "Notes"
+    },
+    "responsiveLayout": {
+      "mainContent": "Main content",
+      "name": "Default layout",
+      "printAboveMainContent": "Print above main content",
+      "printBelowMainContent": "Print below main content"
+    },
+    "safetyConsiderations": {
+      "info": "Some blocks require to think about the risks. Here you can record these thoughts.{br}Record what risks you have identified - and how you can address them.",
+      "name": "Safety considerations"
+    },
+    "storyboard": {
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Time",
+            "column2Html": "Program",
+            "column3": "Responsible"
+          },
+          "name": "Storyboard | Storyboards"
+        }
+      },
+      "info": "Here you can plan the content of this block.{br}In the left column [Time] you can record the duration of the individual elements.{br}In the right column [Responsible] you can assign persons.",
+      "name": "Storyboard"
+    },
+    "storycontext": {
+      "info": "Describe how this block fits into the story of the camp.{br}You can find a summary of all story elements in the menu 'Story'.{br}You can also first work out a continuous story in the 'Story' menu - so that you can perfectly embed the block content into the story.",
+      "name": "Story"
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "category": "Category",
+        "location": "Location",
+        "progressLabel": "State",
+        "responsible": "Responsible",
+        "title": "Title"
+      },
+      "name": "Activity | Activities",
+      "new": "New activity"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Title"
+      }
+    },
+    "camp": {
+      "collaborators": {
+        "guest": "Guest",
+        "invite": "Invite",
+        "manager": "Administration",
+        "member": "Member"
+      },
+      "fields": {
+        "addressCity": "City",
+        "addressName": "Name",
+        "addressStreet": "Street",
+        "addressZipcode": "Zipcode",
+        "coachName": "Name of Y+S coach",
+        "courseKind": "Course kind (for Y+S courses: Y+S course term)",
+        "courseNumber": "Course number",
+        "kind": "Camp kind (house, tent, traveling, summer, autumn)",
+        "motto": "Motto / Theme",
+        "organizer": "Organizer",
+        "printYSLogoOnPicasso": "Print the Y+S logo on the picasso (required for Y+S courses)",
+        "shortTitle": "Short camp title",
+        "title": "Camp title",
+        "trainingAdvisorName": "Name of training advisor"
+      },
+      "name": "Camp | Camps",
+      "prototype": "Camp prototype"
+    },
+    "campCollaboration": {
+      "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
+        "inviteEmail": "Email",
+        "role": "Role",
+        "status": "Status"
+      },
+      "status": {
+        "established": "Active",
+        "inactive": "Inactive",
+        "invited": "Invited"
+      }
+    },
+    "category": {
+      "fields": {
+        "color": "Color",
+        "name": "Name",
+        "numberingStyle": "Numbering style",
+        "short": "Abbreviation"
+      },
+      "name": "Activity categories",
+      "numberingStyles": {
+        "-": "no numbering",
+        "1": "1, 2, 3 - numbers",
+        "A": "A, B, C - uppercase letters",
+        "I": "I, II, III - uppercase roman numerals",
+        "a": "a, b, c - lowercase letters",
+        "i": "i, ii, iii - lowercase roman numerals"
+      }
+    },
+    "checklist": {
+      "fields": {
+        "copyChecklistSource": "Prototype",
+        "name": "Name"
+      },
+      "name": "Checklist | Checklists"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Text"
+      },
+      "name": "Checklist entry"
+    },
+    "contentType": {
+      "name": "Contenttype | Contenttypes"
+    },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Responsible of the day"
+      },
+      "name": "Day | Days"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "list": "Material list",
+        "quantity": "Quantity",
+        "reference": "Activity / Period",
+        "unit": "Unit"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Material list"
+    },
+    "period": {
+      "defaultDescription": "Main",
+      "fields": {
+        "description": "Description",
+        "end": "End",
+        "start": "Start"
+      },
+      "name": "Period | Periods"
+    },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abbreviation",
+        "color": "Color",
+        "email": "Email address",
+        "firstname": "Firstname",
+        "language": "Language",
+        "nickname": "Nickname",
+        "password": "Password",
+        "surname": "Lastname"
+      },
+      "name": "Profile"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "duration": "Duration",
+        "endDate": "Enddate",
+        "endDatetime": "Endtime",
+        "nr": "No.",
+        "startDate": "Startdate",
+        "startDatetime": "Starttime",
+        "time": "Time"
+      },
+      "name": "Activity scheduled"
+    }
+  },
+  "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd M/D",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "daysAndHours": "{days} d {hours} h",
+        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
+        "daysAndMinutes": "{days} d {minutes} min",
+        "hoursAndMinutes": "{hours} h {minutes} m",
+        "daysOnly": "{days} s",
+        "hoursOnly": "{hours} h",
+        "minutesOnly": "{minutes} m"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm"
+    },
+    "shortScheduleEntryDescription": "day {dayNumber} {startTime}"
+  },
+  "print": {
+    "activityList": {
+      "title": "Activity list"
+    },
+    "config": {
+      "periods": "Period(s)"
+    },
+    "cover": {
+      "title": "Cover page"
+    },
+    "picasso": {
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Course number: {courseNumber}",
+        "leaders": "Lead: {leaders}",
+        "trainingAdvisor": "Training advisor: {trainingAdvisor}"
+      },
+      "title": "Program overview {period}"
+    },
+    "program": {
+      "title": "Program"
+    },
+    "summary": {
+      "safetyConsiderations": {
+        "title": "Safety considerations"
+      },
+      "storycontext": {
+        "title": "Story"
+      }
+    },
+    "toc": {
+      "title": "Table of contents"
+    }
+  }
+}

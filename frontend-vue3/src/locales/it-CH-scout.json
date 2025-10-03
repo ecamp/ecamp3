@@ -1,0 +1,24 @@
+{
+  "contentNode": {
+    "storycontext": {
+      "name": "Filo rosso"
+    }
+  },
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Nome del Scout"
+      }
+    }
+  },
+  "global": {
+    "language": "Italiano (Scout)"
+  },
+  "views": {
+    "camp": {
+      "story": {
+        "title": "Filo rosso"
+      }
+    }
+  }
+}

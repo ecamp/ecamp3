@@ -1,0 +1,33 @@
+{
+  "components": {
+    "print": {
+      "printConfigurator": {
+        "config": {
+          "Story": "Fil rouge"
+        }
+      }
+    }
+  },
+  "contentNode": {
+    "storycontext": {
+      "name": "Fil rouge"
+    }
+  },
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Totem"
+      }
+    }
+  },
+  "global": {
+    "language": "Français (Scout)"
+  },
+  "views": {
+    "camp": {
+      "story": {
+        "title": "Fil rouge"
+      }
+    }
+  }
+}

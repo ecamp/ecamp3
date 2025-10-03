@@ -1,0 +1,64 @@
+<template>
+  <v-bottom-navigation grow app background-color="blue-grey darken-4" dark>
+    <v-btn :to="campRoute(camp, 'program')">
+      <span>{{ $t('views.camp.navigation.mobile.navBottombar.program') }}</span>
+      <v-icon>mdi-view-dashboard</v-icon>
+    </v-btn>
+    <v-btn :to="campRoute(camp, 'story')">
+      <span>{{ $t('views.camp.navigation.mobile.navBottombar.story') }}</span>
+      <v-icon>mdi-book-open-variant</v-icon>
+    </v-btn>
+    <v-btn :to="campRoute(camp, 'dashboard')">
+      <span>{{ camp.name }}</span>
+      <v-icon large>mdi-tent</v-icon>
+    </v-btn>
+    <v-btn :to="materialListRoute(camp, '/lists')">
+      <span>{{ $t('views.camp.navigation.mobile.navBottombar.material') }}</span>
+      <v-icon>mdi-package-variant</v-icon>
+    </v-btn>
+    <v-btn @click="$emit('input', true)">
+      <span>{{ $t('views.camp.navigation.mobile.navBottombar.more') }}</span>
+      <v-icon>mdi-menu</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
+</template>
+
+<script>
+import { campRoute, materialListRoute } from '@/router'
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'NavBottombar',
+  props: {
+    camp: { type: Object, required: true },
+  },
+  data() {
+    return {
+      value: false,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'getLoggedInUser',
+    }),
+  },
+  methods: {
+    materialListRoute,
+    campRoute,
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+@use '/src/scss/variables';
+.v-bottom-navigation--fixed {
+  height: auto !important;
+  min-height: 56px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.v-application .ec-close-drawer {
+  background-color: #{map-get(variables.$blue-grey, 'lighten-5')};
+  border-top: 1px solid #{map-get(variables.$blue-grey, 'lighten-4')};
+}
+</style>

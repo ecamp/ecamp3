@@ -1,0 +1,823 @@
+{
+  "components": {
+    "activity": {
+      "content": {
+        "checklist": {
+          "title": "Edit checklist"
+        },
+        "columnLayout": {
+          "columnOperations": {
+            "addColumn": "Add a column",
+            "removeColumn": "Remove empty column"
+          }
+        },
+        "lAThematicArea": {
+          "placeholder": "Choose thematic area"
+        },
+        "storyboard": {
+          "controls": "Controls",
+          "reorder": "Reorder",
+          "storyboardDialogRemoveSection": {
+            "deleteWarning": "Do you really want to remove this section?",
+            "title": "Really delete?"
+          }
+        }
+      },
+      "dialog": {
+        "dialogActivityEdit": {
+          "title": "Edit activity"
+        },
+        "formScheduleEntryList": {
+          "name": "Scheduled"
+        }
+      },
+      "menuCardlessContentNode": {
+        "deletingDisabled": "Must be empty to delete"
+      },
+      "scheduleEntry": {
+        "backToContents": "Back to editing content",
+        "changeLayout": "Change layout",
+        "clipboardInfoDialog": {
+          "allow": "Allow now",
+          "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied activities.",
+          "description": "In order to paste a copied activity, you must allow eCamp v3 to read your clipboard.",
+          "granted": "You can now paste copied activities.",
+          "title": "Copy & paste activity"
+        },
+        "copyScheduleEntry": "Copy activity",
+        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
+      },
+      "togglePaperSize": {
+        "switchToFullSize": "Switch to full size",
+        "switchToPaperSize": "Switch to paper size"
+      }
+    },
+    "camp": {
+      "campInvitations": {
+        "title": "Invite"
+      },
+      "campMembers": {
+        "title": "Members"
+      }
+    },
+    "campAdmin": {
+      "campActivityProgressLabels": {
+        "create": "Create a state",
+        "deleteError": "State can't be deleted. It is still used.",
+        "deleteWarning": "Do you really want to delete this state?",
+        "exit": "Exit reordering",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
+        "reorder": "Reorder",
+        "title": "Activity state"
+      },
+      "campAddress": {
+        "title": "Address"
+      },
+      "campCategories": {
+        "create": "Create activity category",
+        "pasteCategory": "Paste category",
+        "title": "Activity categories"
+      },
+      "campConditionalFields": {
+        "course": {
+          "title": "Courses"
+        },
+        "title": "Settings for Y+S",
+        "ysCamp": {
+          "title": "Camps"
+        }
+      },
+      "campDangerZone": {
+        "deleteCamp": {
+          "description": "Once you delete a camp, there is no going back. Please be certain.",
+          "explanation": "This action cannot be undone. This will permanently delete the \"{campTitle}\" camp, activities, material lists and remove all collaborator associations.",
+          "label": "Please type \"{campTitle}\" to confirm.",
+          "title": "Delete Camp"
+        },
+        "title": "Danger Zone"
+      },
+      "campMaterialLists": {
+        "createMaterialList": "Create material list",
+        "title": "Material lists"
+      },
+      "campPeriods": {
+        "createPeriod": "Create period",
+        "title": "Period | Periods"
+      },
+      "campPeriodsListItem": {
+        "changePeriodDescription": "Change description",
+        "deleteWarning": "Do you really want to delete this period?",
+        "lastPeriodNotDeletable": "Last period is not deletable.",
+        "movePeriod": "Move period",
+        "periodChangeEnd": "Add/remove days at end",
+        "periodChangeStart": "Add/remove days at start"
+      },
+      "campSettings": {
+        "title": "Settings"
+      },
+      "createCampPeriods": {
+        "add": "Add a period"
+      },
+      "dialogActivityProgressLabelCreate": {
+        "title": "Create activity state"
+      },
+      "dialogActivityProgressLabelEdit": {
+        "title": "Edit activity state"
+      },
+      "dialogCategoryCreate": {
+        "clearClipboard": "Clear clipboard",
+        "clipboard": "Clipboard",
+        "clipboardInfoDialog": {
+          "allow": "Allow now",
+          "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied categories.",
+          "description": "In order to paste a copied category, you must allow eCamp v3 to read your clipboard.",
+          "granted": "You can now paste copied categories.",
+          "title": "Copy & paste category"
+        },
+        "copyCategoryOrActivity": "Copy category or activity",
+        "copyContent": "Copy content",
+        "copyPasteCategory": "Copy & paste category",
+        "copySourceInfo": "Here you can paste the URL of a category or an activity to copy its contents.",
+        "pasteCategory": "paste category or activity",
+        "title": "Create activity category"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Create material list"
+      },
+      "dialogMaterialListEdit": {
+        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it.",
+        "title": "Edit material list"
+      },
+      "dialogPeriodCreate": {
+        "title": "Create period"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Move period",
+        "periodChangeEnd": "Add / remove days at end of this period",
+        "periodChangeStart": "Add / remove days at start of this period",
+        "periodDuration": "Number of days"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
+      },
+      "errorExistingActivitiesList": {
+        "description": "Cannot be deleted. Still used by the following activities:"
+      }
+    },
+    "campCreate": {
+      "campCreate": {
+        "steps": {
+          "configurate": "Configure",
+          "infos": "Info",
+          "template": "Template"
+        }
+      },
+      "campCreateStep1": {
+        "submitTooltip": "Please fill out all required fields.",
+        "titlePlaceholder": "Summer camp 2024"
+      },
+      "campCreateStep2": {
+        "category": "Activity categories",
+        "checklistItemCount": "No entries | One entry | {count} entries",
+        "checklists": "Checklists",
+        "clearClipboard": "Clear clipboard",
+        "clipboard": "Clipboard",
+        "clipboardInfoDialog": {
+          "allow": "Allow now",
+          "denied": "You have denied access to your clipboard. Therefore, you have to enter the link to the template camp manually.",
+          "description": "In order to paste the settings of a copied camp, you must allow eCamp v3 to read your clipboard.",
+          "granted": "You can now paste copied camp settings.",
+          "title": "Copy & paste camp settings"
+        },
+        "create": "Create the Camp",
+        "materialLists": "Materiallisten",
+        "noContent": "No Content",
+        "noPrototype": "No template",
+        "noPrototypeAlert": {
+          "description": "You must make all settings manually. There are no activity templates & layouts available. This is only suitable for experienced users.",
+          "title": "Attention: You chose \"No template\"."
+        },
+        "otherPrototype": "Copy the settings from another camp…",
+        "pasteCamp": "Paste copied camp settings",
+        "preview": "Preview of camp template",
+        "progressLabels": "Activity states",
+        "prototypeCampUrl": "Link of desired template camp",
+        "prototypeHint": "Copy categories, activity templates, states, material lists and checklists from a template.",
+        "prototypeHintEmpty": "Don't copy any categories, activity templates, states, material lists or checklists.",
+        "prototypeHintOther": "Copy categories, activity templates, states, unpersonal material lists and checklists from this other camp. No activities are copied.",
+        "prototypeHintSelected": "Copy categories, activity templates, states and material lists from this template.",
+        "submitTooltipPrototype": "You need to choose if and which template you want."
+      }
+    },
+    "category": {
+      "categoryTemplate": {
+        "contents": "Contents",
+        "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be adjusted.",
+        "layout": "Layout",
+        "noTemplate": "No template"
+      }
+    },
+    "checklist": {
+      "checklistCreate": {
+        "title": "Create checklist"
+      },
+      "checklistDetail": {
+        "deleteError": "Checklist couldn't be deleted. Ensure checklist is not used within activities before trying to delete it.",
+        "deleteWarning": "Do you really want to remove this checklist? All content of the checklist will be deleted."
+      },
+      "checklistItemCreate": {
+        "add": "Create checklist entry",
+        "title": "Add checklist entry"
+      },
+      "checklistItemEdit": {
+        "delete": "Do you really want to remove this item?",
+        "title": "Edit checklist entry"
+      },
+      "sortableChecklist": {
+        "add": "Add to \"{parent}\""
+      }
+    },
+    "collaborator": {
+      "collaboratorCreate": {
+        "invite": "Send invitation",
+        "inviteCta": "Invite to team",
+        "title": "Invite people"
+      },
+      "collaboratorEdit": {
+        "cannotRemoveLastManager": "You cannot remove the last person with administrative rights.",
+        "deactivate": "Deactivate",
+        "delete": "Do you really want to remove collaborator '{name}'?",
+        "inviteAgain": "Invite again",
+        "resendEmail": "Resend invite",
+        "resentEmail": "Invitation sent",
+        "title": "Edit {user}"
+      },
+      "collaboratorForm": {
+        "overrideAvatar": "Overwrite avatar for this camp",
+        "roleHint": "Each camp needs at least one person with administrative rights."
+      },
+      "promptCollaboratorDeactivate": {
+        "deactivate": "Deactivate",
+        "warningText": "Do you want to deactivate '{name}'?"
+      }
+    },
+    "dashboard": {
+      "selectFilter": {
+        "clear": "Clear"
+      }
+    },
+    "dialog": {
+      "dialogEntityDelete": {
+        "title": "Really delete?"
+      }
+    },
+    "form": {
+      "base": {
+        "eColorField": {
+          "parseError": "Please enter a valid color."
+        },
+        "eColorPicker": {
+          "closePicker": "Close dialog",
+          "openPicker": "Open dialog to select a color for {label}"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Invalid format, please enter the date in the format MM/DD/YYYY",
+          "openPicker": "Open dialog to select a date for {label}"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Invalid format, please enter the time in the format HH:MM AM/PM",
+          "openPicker": "Open dialog to select a time for {label}"
+        }
+      }
+    },
+    "generic": {
+      "lockButton": {
+        "clickToLock": "Click to lock",
+        "clickToUnlock": "Click to unlock",
+        "guestsCannotEdit": "Guests have no permission to edit"
+      }
+    },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Photo by Markus Rohner / Lotos"
+      }
+    },
+    "material": {
+      "dialogMaterialItemCreate": {
+        "title": "Create material item"
+      },
+      "dialogMaterialItemEdit": {
+        "title": "Edit material item"
+      },
+      "materialCreateItem": {
+        "campSettingsButton": "Settings",
+        "noMaterialListAvailable": "There are no material lists for this camp yet. You can create them in 'Admin'."
+      },
+      "materialLists": {
+        "materialsCount": "No entries | 1 entry | {count} entries",
+        "overview": "General overview"
+      },
+      "materialTable": {
+        "addNewItem": "Add new item",
+        "noItems": "No material items found",
+        "periodOnly": "Filter: Period",
+        "reference": "Activity / Period"
+      },
+      "useMaterialViewHelper": {
+        "detail": "Material list",
+        "overview": "General overview"
+      }
+    },
+    "navigation": {
+      "userMeta": {
+        "admin": "Admin",
+        "invitations": "Invitations",
+        "logOut": "Log out",
+        "myCamps": "My camps",
+        "profile": "Profile"
+      }
+    },
+    "personalInvitations": {
+      "dialogPersonalInvitationReject": {
+        "rejectInvitation": "Reject invitation",
+        "warningText": "Are you sure you want to reject the initation to the camp \"{campTitle}\"?"
+      },
+      "personalInvitations": {
+        "accept": "Accept",
+        "noOpenInvitations": "No open invitations. Was the invitation sent to an address other than \"{email}\"?",
+        "reject": "Reject"
+      }
+    },
+    "print": {
+      "config": {
+        "activityConfig": {
+          "activity": "Activity"
+        },
+        "dialogScheduleEntryFilter": {
+          "filterActive": "Filter: {filtered} of {total} activities",
+          "filterActivities": "Filter {total} activities",
+          "resultCount": "Result: {filtered} of {total} activities",
+          "title": "Filter activities"
+        },
+        "picassoConfig": {
+          "orientation": "Page layout",
+          "periods": "Period(s)"
+        },
+        "programConfig": {
+          "dayOverview": "print day overview"
+        }
+      },
+      "documents": {
+        "campPrint": {
+          "filename": {
+            "activitiesOnly": "Activities {camp}",
+            "picassoOnly": "Picasso {camp}"
+          }
+        }
+      },
+      "localPdfDownloadButton": {
+        "error": "Something didn't work. Try again, or reload the page."
+      },
+      "printClient": {
+        "downloadClientPdfButton": {
+          "label": "Download PDF (layout #2)"
+        },
+        "downloadClientPdfListItem": {
+          "label": "Download PDF (layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Something did not work. Please try again, or try reloading the page."
+        },
+        "printPreviewClient": {
+          "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
+          "previewIframeTitle": "Print preview"
+        }
+      },
+      "printConfigurator": {
+        "add": "Add content",
+        "config": {
+          "Activity": "Single activity",
+          "ActivityList": "Activity list (courses)",
+          "Cover": "Cover page",
+          "Picasso": "Picasso",
+          "Program": "Program",
+          "SafetyConsiderations": "Safety considerations",
+          "Story": "Story",
+          "Toc": "Table of contents"
+        }
+      },
+      "printNuxt": {
+        "downloadNuxtPdfButton": {
+          "label": "Download PDF (layout #1)"
+        },
+        "downloadNuxtPdfListItem": {
+          "label": "Download PDF (layout #1)"
+        },
+        "generatePdfMixin": {
+          "error": "Something did not work. Please try again, or try reloading the page.",
+          "queueFull": "All our PDF printers are busy at the moment. Please try again later."
+        },
+        "printPreviewNuxt": {
+          "openPreview": "Open preview in new window",
+          "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
+          "previewIframeTitle": "Print preview"
+        }
+      }
+    },
+    "program": {
+      "dialogActivityCreate": {
+        "clearClipboard": "Clear clipboard",
+        "clipboard": "Clipboard",
+        "clipboardInfoDialog": {
+          "allow": "Allow now",
+          "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied activities.",
+          "description": "In order to paste a copied activity, you must allow eCamp v3 to read your clipboard.",
+          "granted": "You can now paste copied activities.",
+          "title": "Copy & paste activity"
+        },
+        "copyActivity": "Copy activity",
+        "copyActivityContent": "Copy content from activity",
+        "copyPasteActivity": "Copy & paste activity",
+        "copySourceInfo": "Here you can paste the URL of an activity to copy its contents.",
+        "pasteActivity": "paste activity"
+      },
+      "formScheduleEntryItem": {
+        "end": "End",
+        "start": "Start"
+      },
+      "formScheduleEntryList": {
+        "name": "Scheduled"
+      },
+      "periodSwitcher": {
+        "title": "Choose period"
+      },
+      "picasso": {
+        "picasso": {
+          "datetime": {
+            "fullDate": "ddd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | ddd, D. MMM YY"
+          }
+        },
+        "picassoEntry": {
+          "clipboardInfoDialog": {
+            "allow": "Allow now",
+            "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied activities.",
+            "description": "In order to paste a copied activity, you must allow eCamp v3 to read your clipboard.",
+            "granted": "You can now paste copied activities.",
+            "title": "Copy & paste activity"
+          },
+          "location": "Location:",
+          "responsible": "Responsible: "
+        }
+      },
+      "scheduleEntryFilters": {
+        "category": "Category",
+        "clearFilters": "Clear filters",
+        "day": "Date",
+        "dayLabel": "Day {dayNumber} ({date})",
+        "onlyMyActivities": "Only my activities",
+        "period": "Period",
+        "progressLabel": "State",
+        "progressLabelNone": "No state",
+        "responsible": "Responsible",
+        "responsibleNone": "No responsibles"
+      }
+    },
+    "prompt": {
+      "promptEntityDelete": {
+        "title": "Really delete?"
+      }
+    },
+    "story": {
+      "storyDay": {
+        "noStory": "The activities on this day do not contain any story content."
+      }
+    },
+    "toast": {
+      "toasts": {
+        "multiLineToast": {
+          "generalError": "An error has occurred."
+        }
+      }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "error": "An error has occurred.",
+        "message": "You will receive an email for verification.",
+        "success": "Before you can use your new email address, you have to verify it. Check your mailbox now.",
+        "title": "Change email address"
+      },
+      "dialogChangeMailRunning": {
+        "error": "An error has occurred.",
+        "message": "Changing email address ...",
+        "success": "Email address successfully changed.",
+        "title": "Changing email address"
+      }
+    }
+  },
+  "global": {
+    "button": {
+      "add": "Add",
+      "back": "Back",
+      "cancel": "Cancel",
+      "close": "Close",
+      "content": "Content",
+      "continue": "Continue",
+      "create": "Create",
+      "delete": "Delete",
+      "discard": "Discard",
+      "download": "Download",
+      "edit": "Edit",
+      "editable": "Editable",
+      "filter": "Filter",
+      "lock": "Lock",
+      "login": "Log in",
+      "logout": "Logout",
+      "move": "Move",
+      "ok": "OK",
+      "open": "Open",
+      "remove": "Remove",
+      "rename": "Rename",
+      "reset": "Reset",
+      "save": "Save",
+      "saving": "Saving",
+      "search": "Search",
+      "submit": "Submit",
+      "tryagain": "Try again",
+      "unlock": "Unlock",
+      "update": "Update"
+    },
+    "changeLanguage": "Change language",
+    "collaborationAbilities": {
+      "guest": "Read-only",
+      "manager": "Read, write & camp management",
+      "member": "Read & write"
+    },
+    "datetime": {
+      "vuetifyTimePickerFormat": "ampm"
+    },
+    "info": {
+      "offline": {
+        "description": "Data saving/loading not possible.",
+        "title": "Your are offline:"
+      }
+    },
+    "language": "English",
+    "loading": "Loading …",
+    "navigation": {
+      "admin": {
+        "title": "Admin"
+      },
+      "help": "Help",
+      "news": "News"
+    },
+    "serverError": {
+      "409": "Uuuups... This action caused an server-side error.",
+      "short": "Server error"
+    },
+    "toast": {
+      "copied": "{source} copied"
+    },
+    "validation": {
+      "greaterThan": "{_field_} must be greater than {min}",
+      "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
+      "greaterThan_time": "{_field_} must be later than {min}",
+      "lessThanOrEqual_date": "{_field_} may not be later than {max}",
+      "oneEmojiOrTwoCharacters": "{_field_} may only have 1 emoji or 2 letters/numbers"
+    },
+    "warning": {
+      "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
+    }
+  },
+  "views": {
+    "auth": {
+      "activate": {
+        "error": "Activation failed",
+        "success": "Account successfully activated",
+        "title": "Your account will be activated"
+      },
+      "login": {
+        "acceptTermsOfServiceOnOAuthLogin": "By logging in via one of these services, you accept the {termsOfServiceLink}.",
+        "accountless": "Don't have an account yet?",
+        "email": "Email",
+        "infoText": {
+          "dev": "This is the development version of eCamp v3.{br}IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!{br}Login: test@example.com / test"
+        },
+        "loginCallback": {
+          "loginInProgress": "You will be logged in"
+        },
+        "notActivated": "Not activated?",
+        "or": "or with",
+        "password": "Password",
+        "passwordForgotten": "Forgotten your password?",
+        "provider": {
+          "cevidb": "CeviDB",
+          "ecamp": "Login with eCamp",
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
+        },
+        "registernow": "Register now",
+        "resendActivation": "Send activation email again",
+        "resetPassword": "Reset password",
+        "termsOfServiceLink": "terms of service"
+      },
+      "register": {
+        "acceptTermsOfService": "Accept the terms of service",
+        "alreadyHaveAnAccount": "Already have an account?",
+        "passwordConfirmation": "Enter password again",
+        "register": "Register",
+        "requiredField": "required field",
+        "title": "Create an account"
+      },
+      "registerDone": {
+        "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email",
+        "success": "Successfully registered",
+        "title": "Create account"
+      },
+      "resendActivation": {
+        "errorMessage": "Sending the activation email again failed.",
+        "send": "Send",
+        "successMessage": "Mail with link to activate your account will be delivered.",
+        "title": "Send activation email again"
+      },
+      "resetPassword": {
+        "errorMessage": "Reset password failed.",
+        "invalidRequest": "Invalid link",
+        "password": "New password",
+        "passwordConfirmation": "New password again",
+        "send": "Set password",
+        "successMessage": "Successfully set new password.",
+        "title": "Reset password"
+      },
+      "resetPasswordRequest": {
+        "errorMessage": "Reset password failed.",
+        "send": "Send",
+        "successMessage": "Mail with Link to reset your password will be delivered.",
+        "title": "Reset password"
+      }
+    },
+    "camp": {
+      "activity": {
+        "printPreview": "Open print preview",
+        "sideBarProgram": {
+          "title": "Activities on this day"
+        }
+      },
+      "admin": {
+        "activity": {
+          "title": "Activity settings"
+        },
+        "adminMaterialLists": {
+          "title": "Material lists"
+        },
+        "collaborators": {
+          "email": "Email address",
+          "inactiveCollaborators": "Inactive",
+          "members": "Members",
+          "openInvitations": "Open invitations",
+          "title": "Team"
+        },
+        "info": {
+          "title": "Camp infos"
+        },
+        "print": {
+          "title": "Print camp"
+        },
+        "sideBarAdmin": {
+          "itemActivity": "Activities",
+          "itemActivitySubtitle": "Category, templates & status",
+          "itemCollaborators": "Team",
+          "itemInfos": "Camp infos",
+          "itemMaterialLists": "Material lists",
+          "itemPrint": "PDF / Print"
+        },
+        "title": "Admin"
+      },
+      "campProgram": {
+        "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
+        "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
+        "title": "Picasso"
+      },
+      "category": {
+        "category": {
+          "clipboardInfoDialog": {
+            "allow": "Allow now",
+            "denied": "You have denied access to your clipboard. Therefore, you cannot paste copied categories.",
+            "description": "In order to paste a copied category, you must allow eCamp v3 to read your clipboard.",
+            "granted": "You can now paste copied categories.",
+            "title": "Copy & paste category"
+          },
+          "copyCategory": "Copy category",
+          "deleteCategory": "Delete category",
+          "properties": "Properties",
+          "template": "Template for new activities"
+        },
+        "sideBarCategory": {
+          "title": "Categories"
+        }
+      },
+      "checklistOverview": {
+        "checklistLists": {
+          "title": "Checklist Overview"
+        }
+      },
+      "dashboard": {
+        "activities": "Activities",
+        "columns": {
+          "category": "Category",
+          "number": "Number",
+          "responsible": "Responsible",
+          "time": "Time",
+          "title": "Title"
+        },
+        "noEntries": "No activities found. Try clearing the selection filters and/or reloading the page.",
+        "today": "Today",
+        "welcome": "Welcome to your new camp. There aren't any activities defined yet."
+      },
+      "invitation": {
+        "acceptCurrentAuth": "Accept invitation with current account",
+        "backToHome": "Back to home",
+        "error": "An unexpected error occurred",
+        "notFound": "This invitation was already accepted or deleted",
+        "openCamp": "Open camp",
+        "register": "Register",
+        "reject": "Deny invitation",
+        "successfullyRejected": "The invitation was successfully rejected",
+        "title": "Invitation",
+        "useOtherAuth": "Logout & use another account",
+        "userAlreadyInCamp": "You are already participating in this camp"
+      },
+      "material": {
+        "materialLists": {
+          "title": "Material lists"
+        },
+        "materialOverview": {
+          "createNewList": "Create material list",
+          "download": "Download overview",
+          "title": "General overview"
+        },
+        "sideBarMaterialLists": {
+          "title": "Material lists"
+        }
+      },
+      "navigation": {
+        "desktop": {
+          "navTopbar": {
+            "admin": "Admin",
+            "campIsLoading": "Camp is loading",
+            "checklist": "Checklist",
+            "material": "Materials",
+            "print": "Print",
+            "program": "Program",
+            "story": "Story",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navBottombar": {
+            "material": "Materials",
+            "more": "More",
+            "program": "Program",
+            "story": "Story"
+          },
+          "navSidebar": {
+            "itemActivity": "Activities",
+            "itemActivitySubtitle": "Category, templates & status",
+            "itemCamps": "My Camps",
+            "itemChecklists": "Checklist Overview",
+            "itemClose": "Close menu",
+            "itemCollaborators": "Team",
+            "itemInfos": "Camp infos",
+            "itemMaterialLists": "Material lists",
+            "itemPrinting": "PDF / Print"
+          }
+        }
+      },
+      "story": {
+        "title": "Story"
+      }
+    },
+    "campCreate": {
+      "title": "Create a Camp"
+    },
+    "camps": {
+      "create": "Create a camp",
+      "pastCamps": "Past camps",
+      "prototypeCamps": "Prototypes",
+      "title": "My Camps"
+    },
+    "invitations": {
+      "personalInvitations": "Invitations"
+    },
+    "pageNotFound": {
+      "backToHome": "Back to home",
+      "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
+    },
+    "profile": {
+      "changeEmail": "Change",
+      "profile": "Profile"
+    }
+  }
+}

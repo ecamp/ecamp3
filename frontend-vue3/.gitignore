@@ -1,0 +1,35 @@
+.DS_Store
+node_modules
+/components.d.ts
+/data
+/dist
+
+selenium-debug.log
+
+# local env files
+.env.local
+.env.*.local
+
+# Auto-generated files
+public/twemoji/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# yalc
+.yalc
+yalc.lock
+
+# Sentry Auth Token
+.env.sentry-build-plugin

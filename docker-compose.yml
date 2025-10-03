@@ -2,6 +2,28 @@ services:
   frontend:
     image: node:24.8.0
     container_name: 'ecamp3-frontend'
+    stdin_open: true
+    tty: true
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./.prettierrc:/.prettierrc:delegated
+      - ./frontend:/app:delegated
+      - ./common:/common:delegated
+      - ./pdf:/pdf:delegated
+      - ./.cache/npm:/home/node/.npm/_cacache:delegated
+      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CI=${CI}
+    working_dir: /app
+    command: ./docker-setup.sh
+    depends_on:
+      - pdf
+
+  frontend-vue3:
+    image: node:24.5.0
     ports:
       - '9229:9229' # jest debug
     stdin_open: true
@@ -9,7 +31,7 @@ services:
     user: ${USER_ID:-1000}
     volumes:
       - ./.prettierrc:/.prettierrc:delegated
-      - ./frontend:/app:delegated
+      - ./frontend-vue3:/app:delegated
       - ./common:/common:delegated
       - ./pdf:/pdf:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
