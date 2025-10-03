@@ -1,5 +1,5 @@
 <template>
-  <v-menu :close-on-content-click="!multiple">
+  <v-menu :close-on-content-click="!multiple" :multiple="null">
     <template #activator="{ props }">
       <v-chip
         :color="active ? 'primary' : null"
@@ -55,6 +55,7 @@ import CountBadge from '@/components/dashboard/CountBadge.vue'
 export default {
   name: 'SelectFilter',
   components: { CountBadge },
+  inheritAttrs: false,
   props: {
     label: { type: String, required: true },
     multiple: { type: Boolean, default: false },
@@ -63,6 +64,11 @@ export default {
     displayField: { type: [String, Function], required: true },
     valueField: { type: String, default: '_meta.self' },
     andFilter: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      open: false
+    }
   },
   computed: {
     active() {

@@ -10,9 +10,8 @@
             ? $t('components.activity.togglePaperSize.switchToFullSize')
             : $t('components.activity.togglePaperSize.switchToPaperSize')
         "
-        v-bind="buttonProps"
         @click="$emit('input', !value)"
-        v-bind="props"
+        v-bind="{ ...buttonProps, ...props }"
       >
         <v-icon v-if="value" class="resize-icon" icon="$bigScreen" />
         <v-icon v-else class="resize-icon" icon="$paperSize" />
