@@ -56,8 +56,17 @@
       "campInvitations": {
         "title": "Invite"
       },
+      "campListItem": {
+        "public": "public"
+      },
       "campMembers": {
         "title": "Members"
+      },
+      "footerSharedCamp": {
+        "outsider": "Not participating in this camp:",
+        "outsiderDescription": "You cannot change any data, but you may look at and copy the programme.",
+        "shared": "Camp is shared publicly:",
+        "sharedDescription": "External persons can see and copy all data in this camp."
       }
     },
     "campAdmin": {
@@ -115,6 +124,22 @@
       },
       "campSettings": {
         "title": "Settings"
+      },
+      "campSharingSettings": {
+        "activate": "Activate sharing",
+        "deactivate": "Deactivate sharing",
+        "implications": "If you activate sharing, external persons can view and copy the programme, team, equipment lists, responsibilities and everything else related to this camp. Only persons in the team can change data.",
+        "notShared": {
+          "description": ": If you enable sharing, external persons can view and copy the programme, the team, the material lists and responsibilities, and everything else in this camp. Only persons in the team can change data.",
+          "title": "Sharing is not active"
+        },
+        "publicCampUrl": "Public camp link",
+        "shared": {
+          "description": ": External persons can see and copy the programme, team, material lists, responsibilities and all other data in this camp. Only people in the team can change data.",
+          "title": "Camp is shared publicly"
+        },
+        "sharedSince": "Since {sharedSince} by {sharedBy}",
+        "title": "Sharing settings"
       },
       "createCampPeriods": {
         "add": "Add a period"
@@ -541,6 +566,7 @@
       "close": "Close",
       "content": "Content",
       "continue": "Continue",
+      "copy": "Copy",
       "create": "Create",
       "delete": "Delete",
       "discard": "Discard",
@@ -560,6 +586,7 @@
       "save": "Save",
       "saving": "Saving",
       "search": "Search",
+      "share": "Share",
       "submit": "Submit",
       "tryagain": "Try again",
       "unlock": "Unlock",
@@ -786,14 +813,11 @@
       "navigation": {
         "desktop": {
           "navTopbar": {
-            "admin": "Admin",
             "campIsLoading": "Camp is loading",
-            "checklist": "Checklist",
             "material": "Materials",
-            "print": "Print",
             "program": "Program",
             "story": "Story",
-            "team": "Team"
+            "checklist": "Checklist"
           }
         },
         "mobile": {
