@@ -1,15 +1,14 @@
 <template>
   <v-toolbar-items v-if="period.camp().periods().items.length > 1">
     <v-menu offset-y>
-      <template #activator="{ on, attrs, value }">
+      <template #activator="{ props }">
         <v-btn
           text
           large
           class="justify-start px-4 my-1 rounded-pill ec-period-switcher__button"
           height="auto"
           block
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         >
           <h1 class="text-subtitle-1">
             {{ period.description }}

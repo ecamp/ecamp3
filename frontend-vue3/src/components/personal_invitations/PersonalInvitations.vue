@@ -20,8 +20,8 @@
             :camp-title="invitation.campTitle"
             @submit="rejectInvitation(invitation)"
           >
-            <template #activator="{ on }">
-              <v-btn class="px-4" text v-on="on">
+            <template #activator="props">
+              <v-btn class="px-4" text v-bind="props">
                 {{ $t('components.personalInvitations.personalInvitations.reject') }}
               </v-btn>
             </template>
@@ -48,8 +48,8 @@
               :camp-title="invitation.campTitle"
               @submit="rejectInvitation(invitation)"
             >
-              <template #activator="{ on }">
-                <v-btn class="px-4" text v-on="on">
+              <template #activator="{ props }">
+                <v-btn class="px-4" text v-bind="props">
                   {{ $t('components.personalInvitations.personalInvitations.reject') }}
                 </v-btn>
               </template>

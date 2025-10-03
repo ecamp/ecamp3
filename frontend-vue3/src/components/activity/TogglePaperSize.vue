@@ -1,6 +1,6 @@
 <template>
   <v-tooltip bottom>
-    <template #activator="{ on }">
+    <template #activator="{ props }">
       <v-btn
         text
         icon
@@ -12,10 +12,10 @@
         "
         v-bind="buttonProps"
         @click="$emit('input', !value)"
-        v-on="on"
+        v-bind="props"
       >
-        <v-icon v-if="value" class="resize-icon">$vuetify.icons.bigScreen </v-icon>
-        <v-icon v-else class="resize-icon">$vuetify.icons.paperSize</v-icon>
+        <v-icon v-if="value" class="resize-icon" icon="$bigScreen" />
+        <v-icon v-else class="resize-icon" icon="$paperSize" />
       </v-btn>
     </template>
     {{

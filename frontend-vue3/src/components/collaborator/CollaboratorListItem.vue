@@ -9,8 +9,8 @@
       </v-list-item-title>
       <v-list-item-subtitle>
         <v-tooltip right>
-          <template #activator="{ on }">
-            <button v-on="on">
+          <template #activator="{ props }">
+            <button v-bind="props">
               {{ $t(roles[collaborator.role].roleTranslation)
               }}<span>
                 &middot;

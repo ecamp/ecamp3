@@ -36,12 +36,12 @@
       @activity-updated="$emit('finish-edit')"
       @error="$emit('finish-edit')"
     >
-      <template #activator="{ on }">
+      <template #activator="{ props }">
         <v-btn
           x-small
           text
           class="e-picasso-entry__quickedit rounded-sm pr-0"
-          @click.prevent="on.click"
+          @click.prevent="props.onClick"
           @mousedown.stop=""
           @mouseup.stop=""
         >

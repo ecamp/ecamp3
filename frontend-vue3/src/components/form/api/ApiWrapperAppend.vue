@@ -10,7 +10,7 @@
     <!-- Retry/Cancel button if saving failed -->
     <template v-if="wrapper.hasServerError">
       <v-tooltip class="ml-auto" location="bottom">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             fab
             dark
@@ -20,7 +20,7 @@
             type="submit"
             class="mr-1"
             :aria-label="$t('global.button.tryagain')"
-            v-on="on"
+            v-bind="props"
             @click="wrapper.on.save"
           >
             <v-icon>mdi-refresh</v-icon>
@@ -29,7 +29,7 @@
         <span>{{ $t('global.button.tryagain') }}</span>
       </v-tooltip>
       <v-tooltip class="ml-auto" location="bottom">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             fab
             dark
@@ -37,7 +37,7 @@
             variant="flat"
             color="grey"
             :aria-label="$t('global.button.cancel')"
-            v-on="on"
+            v-bind="props"
             @click="wrapper.on.reset"
           >
             <v-icon>mdi-close</v-icon>
@@ -49,7 +49,7 @@
 
     <template v-else-if="!wrapper.autoSave">
       <v-tooltip v-if="wrapper.dirty" class="ml-auto" location="bottom">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             fab
             dark
@@ -59,7 +59,7 @@
             type="submit"
             class="mr-1"
             :aria-label="$t('global.button.save')"
-            v-on="on"
+            v-bind="props"
           >
             <v-icon>mdi-check</v-icon>
           </v-btn>
@@ -67,7 +67,7 @@
         <span>{{ $t('global.button.save') }}</span>
       </v-tooltip>
       <v-tooltip class="ml-auto" location="bottom">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             fab
             dark
@@ -75,7 +75,7 @@
             variant="flat"
             color="grey"
             :aria-label="$t('global.button.cancel')"
-            v-on="on"
+            v-bind="props"
             @click="wrapper.on.reset"
           >
             <v-icon>mdi-close</v-icon>

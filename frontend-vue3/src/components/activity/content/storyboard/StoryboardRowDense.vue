@@ -46,7 +46,7 @@
             class="e-storyboard-row__delete"
             color="error"
             :disabled="isLastSection"
-            v-on="on"
+            v-bin="props"
           >
             <v-icon>mdi-delete-outline</v-icon>
           </v-btn>

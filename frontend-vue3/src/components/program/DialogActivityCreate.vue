@@ -21,8 +21,8 @@
         translation-context-i18n-key="components.program.dialogActivityCreate.clipboardInfoDialog"
         @closed="attemptLoadingEntityFromClipboard"
       >
-        <template #activator="{ on }">
-          <v-btn v-show="showClipboardPrompt" v-on="on">
+        <template #activator="{ props }">
+          <v-btn v-show="showClipboardPrompt" v-bind="props">
             <v-icon left>mdi-information-outline</v-icon>
             {{ $t('components.program.dialogActivityCreate.copyPasteActivity') }}
           </v-btn>

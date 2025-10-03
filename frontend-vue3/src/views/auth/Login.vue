@@ -1,7 +1,7 @@
 <template>
   <auth-container>
     <div v-if="isProdSuffix && $vuetify.display.smAndDown" class="text-center">
-      <v-icon size="64"> $vuetify.icons.ecamp </v-icon>
+      <v-icon size="64" icon="$ecamp"/>
     </div>
 
     <h1 class="text-h4 text-center" :class="{ 'my-4': isProdSuffix }">

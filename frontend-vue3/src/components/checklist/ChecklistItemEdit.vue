@@ -35,8 +35,8 @@
       </PromptEntityDelete>
     </template>
 
-    <template #activator="{ on }">
-      <slot name="activator" v-bind="{ on }" />
+    <template #activator="{ props }">
+      <slot name="activator" v-bind="{ props }" />
     </template>
 
     <e-text-field

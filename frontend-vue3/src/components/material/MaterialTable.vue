@@ -107,8 +107,8 @@
           }"
         />
         <DialogMaterialItemEdit v-else :material-item-uri="item.uri">
-          <template #activator="{ on }">
-            <ButtonEdit class="v-btn--has-bg" small text v-on="on" />
+          <template #activator="{ props }">
+            <ButtonEdit class="v-btn--has-bg" small text v-bind="props" />
           </template>
         </DialogMaterialItemEdit>
       </template>
@@ -124,8 +124,8 @@
 
         <div v-if="item.serverError" class="d-flex gap-2 align-center">
           <v-tooltip top color="red darken-2">
-            <template #activator="{ on, attrs }">
-              <span v-bind="attrs" class="red--text text--darken-2" v-on="on">{{
+            <template #activator="{ props }">
+              <span v-bind="props" class="red--text text--darken-2">{{
                 $t('global.serverError.short')
               }}</span>
             </template>
@@ -190,8 +190,8 @@
         :material-list="materialList"
         @item-adding="add"
       >
-        <template #activator="{ on }">
-          <ButtonAdd class="mt-5" v-on="on">
+        <template #activator="{ props }">
+          <ButtonAdd class="mt-5" v-bind="props">
             {{ $t('components.material.materialTable.addNewItem') }}
           </ButtonAdd>
         </template>

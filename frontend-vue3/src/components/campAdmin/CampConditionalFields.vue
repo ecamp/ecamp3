@@ -7,7 +7,7 @@ Displays fields which don't apply to all camps, but are required for some
     <v-expansion-panel-header>
       <h2 class="subtitle-1 font-weight-bold d-flex align-center">
         <v-icon left size="20">{{
-          $i18n.locale.includes('it') ? '$vuetify.icons.gs' : '$vuetify.icons.js'
+          $i18n.locale.includes('it') ? '$gs' : '$js'
         }}</v-icon>
         {{ $t('components.campAdmin.campConditionalFields.title') }}
       </h2>

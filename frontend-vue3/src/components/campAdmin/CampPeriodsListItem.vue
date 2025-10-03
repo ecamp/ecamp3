@@ -12,15 +12,15 @@ Displays a single period as a list item including controls to edit and delete it
     </v-list-item-content>
 
     <v-menu v-if="!disabled" v-model="showMenuEdit" offset-y>
-      <template #activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
+      <template #activator="{ props }">
+        <v-btn icon v-bind="props">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
       <v-list>
         <dialog-period-description-edit :period="period" @closed="showMenuEdit = false">
-          <template #activator="{ on, attrs }">
-            <v-list-item v-bind="attrs" v-on="on">
+          <template #activator="{ props }">
+            <v-list-item v-bind="props">
               <v-list-item-icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-list-item-icon>
@@ -36,8 +36,8 @@ Displays a single period as a list item including controls to edit and delete it
           mode="move"
           @closed="showMenuEdit = false"
         >
-          <template #activator="{ on, attrs }">
-            <v-list-item v-bind="attrs" v-on="on">
+          <template #activator="{ props }">
+            <v-list-item v-bind="props">
               <v-list-item-icon>
                 <v-icon>mdi-arrow-left-right</v-icon>
               </v-list-item-icon>
@@ -53,8 +53,8 @@ Displays a single period as a list item including controls to edit and delete it
           mode="changeStart"
           @closed="showMenuEdit = false"
         >
-          <template #activator="{ on, attrs }">
-            <v-list-item v-bind="attrs" v-on="on">
+          <template #activator="{ props }">
+            <v-list-item v-bind="props">
               <v-list-item-icon>
                 <v-icon>mdi-arrow-collapse-left</v-icon>
               </v-list-item-icon>
@@ -72,8 +72,8 @@ Displays a single period as a list item including controls to edit and delete it
           mode="changeEnd"
           @closed="showMenuEdit = false"
         >
-          <template #activator="{ on, attrs }">
-            <v-list-item v-bind="attrs" v-on="on">
+          <template #activator="{ props }">
+            <v-list-item v-bind="props">
               <v-list-item-icon>
                 <v-icon>mdi-arrow-collapse-right</v-icon>
               </v-list-item-icon>
@@ -93,8 +93,8 @@ Displays a single period as a list item including controls to edit and delete it
           :submit-enabled="!isLastPeriod"
           @closed="showMenuEdit = false"
         >
-          <template #activator="{ on }">
-            <v-list-item v-on="on">
+          <template #activator="{ props }">
+            <v-list-item v-bind="props">
               <v-list-item-icon>
                 <v-icon>mdi-delete</v-icon>
               </v-list-item-icon>

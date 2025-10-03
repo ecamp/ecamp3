@@ -6,8 +6,8 @@ Show all material lists for a camp on mobile
   <content-card :title="$t('views.camp.admin.adminMaterialLists.title')" toolbar>
     <template v-if="!isGuest" #title-actions>
       <DialogMaterialListCreate :camp="camp">
-        <template #activator="{ on }">
-          <ButtonAdd class="mr-n2" height="32" v-on="on"
+        <template #activator="{ props }">
+          <ButtonAdd class="mr-n2" height="32" v-bind="props"
             >{{ $t('global.button.create') }}
           </ButtonAdd>
         </template>

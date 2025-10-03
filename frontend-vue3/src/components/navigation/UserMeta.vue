@@ -13,14 +13,13 @@
     :close-on-content-click="false"
     z-index="5"
   >
-    <template #activator="{ on, value, attrs }">
+    <template #activator="{ props }">
       <v-toolbar-items v-if="!avatarOnly">
         <v-btn
           right
           text
-          v-bind="attrs"
+          v-bind="props"
           :class="[btnClasses, { 'v-btn--open': value }]"
-          v-on="on"
         >
           <template v-if="authUser">
             <v-badge v-if="invitationCount > 0" color="#f00" dot overlap bordered>

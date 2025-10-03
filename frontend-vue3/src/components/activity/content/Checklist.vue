@@ -9,12 +9,12 @@
         :cancel-action="close"
         :cancel-visible="false"
       >
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <button
             class="text-left mb-3 flex-grow-1 d-flex flex-column"
             :class="{ 'theme--light v-input--is-disabled': layoutMode }"
             :disabled="layoutMode"
-            v-on="on"
+            v-bind="props"
           >
             <v-skeleton-loader v-if="!itemsLoaded" class="px-4 pb-4" type="paragraph" />
             <v-list-item v-else-if="activeChecklists.length === 0">

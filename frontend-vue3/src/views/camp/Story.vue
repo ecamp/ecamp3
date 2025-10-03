@@ -9,8 +9,8 @@
         @click="editMode = !editMode"
       />
       <v-menu offset-y>
-        <template #activator="{ on, attrs }">
-          <v-btn class="ml-auto" icon v-bind="attrs" variant="text" v-on="on">
+        <template #activator="{ props }">
+          <v-btn class="ml-auto" icon v-bind="props" variant="text">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>

@@ -6,8 +6,8 @@
       :key="materialList._meta.self"
       :material-list="materialList"
     >
-      <template #activator="{ on }">
-        <v-list-item exact-path v-on="on">
+      <template #activator="{ props }">
+        <v-list-item exact-path v-bind="props">
           <v-list-item-title>{{ materialList.name }}</v-list-item-title>
 
           <v-list-item-action class="e-collaborator-item__actions ml-2">

@@ -29,14 +29,14 @@ Critical operations on camp
                 icon="mdi-bomb"
                 @submit="$router.push({ name: 'camps' })"
               >
-                <template #activator="{ on }">
+                <template #activator="{ props }">
                   <button-delete
                     icon="mdi-bomb"
                     :text="false"
                     dark
                     outlined
                     color="blue-grey"
-                    @click.prevent="on.click"
+                    @click.prevent="props.onClick"
                   >
                     {{ $t('global.button.delete') }}
                   </button-delete>

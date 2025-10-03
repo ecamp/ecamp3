@@ -1,13 +1,13 @@
 <template>
   <v-tooltip :disabled="tooltip == ''" location="bottom">
-    <template #activator="{ on }">
+    <template #activator="{ props }">
       <button
         :aria-label="tooltip"
         :aria-disabled="disabledForGuest"
         class="v-btn v-btn--icon v-btn--round v-size--small"
         :class="{ 'e-shake-lock': shake }"
         @click="onClick"
-        v-on="on"
+        v-bind="props"
       >
         <v-icon v-if="value" size="small">mdi-lock-open-variant</v-icon>
         <v-icon v-else size="small">mdi-lock</v-icon>

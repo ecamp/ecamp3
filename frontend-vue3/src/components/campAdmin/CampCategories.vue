@@ -5,13 +5,13 @@
   >
     <template #title-actions>
       <DialogCategoryCreate v-if="!disabled" :camp="camp">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <ButtonAdd
             color="secondary"
             text
             :hide-label="$vuetify.display.xsOnly"
             class="my-n2"
-            v-on="on"
+            v-bind="props"
           >
             {{ $t('components.campAdmin.campCategories.create') }}
           </ButtonAdd>

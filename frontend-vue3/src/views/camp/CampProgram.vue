@@ -43,8 +43,8 @@ Show all activity schedule entries of a single period.
         @click="editMode = !editMode"
       />
       <v-menu offset-y>
-        <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+        <template #activator="{ props }">
+          <v-btn icon v-bind="props">
             <v-badge
               v-if="!$vuetify.display.smAndUp && filteredPropertiesCount > 0"
               overlap

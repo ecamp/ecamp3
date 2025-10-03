@@ -9,13 +9,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
   >
     <template #title-actions>
       <dialog-period-create v-if="!disabled" :camp="camp">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <button-add
             color="secondary"
             text
             class="my-n2"
             :hide-label="$vuetify.display.xsOnly"
-            v-on="on"
+            v-bind="props"
           >
             {{ $t('components.campAdmin.campPeriods.createPeriod') }}
           </button-add>

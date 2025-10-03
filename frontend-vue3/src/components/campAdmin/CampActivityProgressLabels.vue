@@ -5,13 +5,13 @@
   >
     <template #title-actions>
       <DialogActivityProgressLabelCreate v-if="!disabled" :camp="camp">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <ButtonAdd
             color="secondary"
             text
             :hide-label="$vuetify.display.xsOnly"
             class="my-n2"
-            v-on="on"
+            v-bind="props"
           >
             {{ $t('components.campAdmin.campActivityProgressLabels.create') }}
           </ButtonAdd>
@@ -46,8 +46,8 @@
           :key="progressLabel._meta.self"
           :progress-label="progressLabel"
         >
-          <template #activator="{ on }">
-            <v-list-item class="px-2 rounded" v-on="on">
+          <template #activator="{ props }">
+            <v-list-item class="px-2 rounded" v-bind="props">
               <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
                 parseInt(idx) + 1
               }}</v-avatar>

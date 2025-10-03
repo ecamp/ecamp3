@@ -23,13 +23,12 @@ Displays a single scheduleEntry
           nudge-bottom="4"
           :disabled="layoutMode || !isContributor"
         >
-          <template #activator="{ on, attrs }">
+          <template #activator="{ props }">
             <CategoryChip
               :schedule-entry="scheduleEntry"
               large
               dense
-              v-bind="attrs"
-              v-on="on"
+              v-bind="props"
             >
               <template #after>
                 <v-icon
@@ -106,8 +105,8 @@ Displays a single scheduleEntry
       <TogglePaperSize v-model="isPaperDisplaySize" />
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
-        <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+        <template #activator="{ props }">
+          <v-btn icon v-bind="props">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
@@ -147,8 +146,8 @@ Displays a single scheduleEntry
 
           <!-- remove activity -->
           <DialogEntityDelete :entity="activity" @submit="onDelete">
-            <template #activator="{ on }">
-              <v-list-item :disabled="!isContributor" v-on="on">
+            <template #activator="{ props }">
+              <v-list-item :disabled="!isContributor" v-bind="props">
                 <v-list-item-icon>
                   <v-icon>mdi-delete</v-icon>
                 </v-list-item-icon>
@@ -239,8 +238,8 @@ Displays a single scheduleEntry
               hide-header-fields
               @activity-updated="activity.$reload()"
             >
-              <template #activator="{ on }">
-                <ButtonEdit text small class="v-btn--has-bg" v-on="on" />
+              <template #activator="{ props }">
+                <ButtonEdit text small class="v-btn--has-bg" v-bind="props" />
               </template>
             </DialogActivityEdit>
           </v-col>

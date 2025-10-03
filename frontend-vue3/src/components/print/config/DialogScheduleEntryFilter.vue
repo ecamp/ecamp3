@@ -8,15 +8,14 @@
     :cancel-visible="false"
     @input="emit"
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <v-chip
         :input-value="dialogOpen"
         label
         outlined
         :color="anyFilter ? 'primary' : null"
         class="align-self-stretch mt-4 mb-4"
-        v-bind="attrs"
-        v-on="on"
+        v-bind="props"
       >
         <v-icon left size="20">mdi-filter</v-icon>
         <span class="flex-grow-1 text-center">{{ activatorLabel }}</span>

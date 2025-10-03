@@ -3,15 +3,15 @@
     <content-card :title="materialList.name" toolbar>
       <template #title-actions>
         <v-menu offset-y>
-          <template #activator="{ attrs, on }">
-            <v-btn icon v-bind="attrs" v-on="on">
+          <template #activator="{ props }">
+            <v-btn icon v-bind="props">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list class="py-0">
             <DialogMaterialListEdit v-if="!isGuest" :material-list="materialList">
-              <template #activator="{ attrs, on }">
-                <v-list-item v-bind="attrs" v-on="on">
+              <template #activator="{ props }">
+                <v-list-item v-bind="props">
                   <v-list-item-icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-list-item-icon>

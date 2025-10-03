@@ -14,7 +14,7 @@ Displays a field as a picker (can be used with v-model)
       min-width="290px"
       max-width="290px"
     >
-      <template #activator="{ on }">
+      <template #activator="{ props }">
         <e-text-field
           :id="id"
           ref="textField"
@@ -29,7 +29,7 @@ Displays a field as a picker (can be used with v-model)
           :validation-label-override="validationLabelOverride"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
-          @click="(...args) => (openOnTextFieldClick ? onMenuOpen(on, ...args) : null)"
+          @click="(...args) => (openOnTextFieldClick ? onMenuOpen(props, ...args) : null)"
           @input="debouncedParseValue"
         >
           <template #prepend>
@@ -41,14 +41,14 @@ Displays a field as a picker (can be used with v-model)
                   label: labelOrEntityFieldLabel,
                 }),
               }"
-              :on="{ click: (...args) => onMenuOpen(on, ...args) }"
+              :on="{ click: (...args) => onMenuOpen(props, ...args) }"
             >
               <v-icon
                 :color="iconColor"
                 :aria-label="
                   $t(buttonAriaLabelI18nKey, 0, { label: labelOrEntityFieldLabel })
                 "
-                @click="(...args) => onMenuOpen(on, ...args)"
+                @click="(...args) => onMenuOpen(props, ...args)"
               >
                 {{ icon }}
               </v-icon>

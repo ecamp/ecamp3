@@ -57,7 +57,7 @@
           :entity="contentNode"
           :warning-text-entity="instanceOrContentTypeName"
         >
-          <template #activator="{ on }">
+          <template #activator="{ props }">
             <v-btn
               icon
               size="small"
@@ -65,7 +65,7 @@
               class="float-right"
               width="36"
               height="36"
-              v-on="on"
+              v-bind="props"
             >
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>

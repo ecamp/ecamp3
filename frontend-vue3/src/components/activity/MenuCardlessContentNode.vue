@@ -1,7 +1,7 @@
 <template>
   <v-menu location="bottom left" offset-y>
-    <template #activator="{ on, attrs }">
-      <v-btn class="mr-n1" icon size="small" v-bind="attrs" v-on="on">
+    <template #activator="{ props }">
+      <v-btn class="mr-n1" icon size="small" v-bind="props">
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </template>
@@ -13,8 +13,8 @@
         :warning-text-entity="contentNodeName"
         @error="deletingFailed"
       >
-        <template #activator="{ on }">
-          <v-list-item :disabled="deletingDisabled" v-on="on">
+        <template #activator="{ props }">
+          <v-list-item :disabled="deletingDisabled" v-bind="props">
             <v-list-item-icon>
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-list-item-icon>

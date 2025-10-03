@@ -10,14 +10,13 @@
     }"
   >
     <v-menu location="bottom left" offset-y>
-      <template #activator="{ on, attrs }">
+      <template #activator="{ props }">
         <v-btn
           class="ec-button-contentnode-add"
           color="primary--text"
           block
           :loading="isAdding"
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         >
           <v-icon left>mdi-plus-circle-outline</v-icon>
           {{ $t('global.button.add') }}

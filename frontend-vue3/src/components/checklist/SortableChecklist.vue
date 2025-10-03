@@ -30,10 +30,10 @@
       :checklist="checklist"
       :parent="parent?._meta.self"
     >
-      <template #activator="{ on }">
+      <template #activator="{ props }">
         <v-list-item
           class="e-sortable-checklist-item__add ml-10 mr-2 my-n1 px-0 rounded-pill min-h-0"
-          v-on="on"
+          v-bind="props"
         >
           <v-avatar class="mr-2" size="32"
             ><v-icon color="currentColor">mdi-plus</v-icon></v-avatar

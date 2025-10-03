@@ -35,13 +35,13 @@
                 translation-context-i18n-key="components.campCreate.campCreateStep2.clipboardInfoDialog"
                 @closed="attemptLoadingEntityFromClipboard"
               >
-                <template #activator="{ on }">
+                <template #activator="{ props }">
                   <v-btn
                     :title="$t('components.campCreate.campCreateStep2.pasteCamp')"
                     text
                     class="v-btn--has-bg"
                     height="56"
-                    v-on="on"
+                    v-bind="props"
                   >
                     <v-progress-circular v-if="clipboardEntityLoading" indeterminate />
                     <v-icon v-else>mdi-content-paste</v-icon>
@@ -187,13 +187,12 @@
                 {{ $t('components.campCreate.campCreateStep2.create') }}
               </ButtonAdd>
               <v-tooltip v-else top>
-                <template #activator="{ attrs, on }">
+                <template #activator="{ props }">
                   <ButtonAdd
                     color="secondary"
                     elevation="0"
-                    v-bind="attrs"
+                    v-bind="props"
                     @click="validate()"
-                    v-on="on"
                   >
                     {{ $t('components.campCreate.campCreateStep2.create') }}
                   </ButtonAdd>

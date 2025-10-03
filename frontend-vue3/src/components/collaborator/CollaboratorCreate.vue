@@ -11,8 +11,8 @@
     submit-color="success"
     :cancel-action="close"
   >
-    <template #activator="{ on }">
-      <ButtonAdd color="secondary" text class="my-n2" icon="mdi-account-plus" v-on="on">
+    <template #activator="{ props }">
+      <ButtonAdd color="secondary" text class="my-n2" icon="mdi-account-plus" v-bind="props">
         {{ $t('components.collaborator.collaboratorCreate.inviteCta') }}
       </ButtonAdd>
     </template>

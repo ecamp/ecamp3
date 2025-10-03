@@ -39,14 +39,14 @@
     </td>
     <td v-if="!layoutMode && !disabled" class="e-storyboard-row__controls">
       <dialog-remove-section @submit="$emit('delete', itemKey)">
-        <template #activator="{ on }">
+        <template #activator="{ props }">
           <v-btn
             icon
             size="small"
             class="e-storyboard-row__delete"
             color="error"
             :disabled="isLastSection"
-            v-on="on"
+            v-bind="props"
           >
             <v-icon>mdi-delete-outline</v-icon>
           </v-btn>

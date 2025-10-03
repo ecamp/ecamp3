@@ -39,13 +39,12 @@
               @click="$emit('next-step')"
             />
             <v-tooltip v-else top>
-              <template #activator="{ attrs, on }">
+              <template #activator="{ props }">
                 <v-btn
                   elevation="0"
                   color="secondary"
-                  v-bind="attrs"
+                  v-bind="props"
                   @click="validate()"
-                  v-on="on"
                 >
                   {{ $t('global.button.continue') }}
                 </v-btn>

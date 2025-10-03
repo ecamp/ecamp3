@@ -1,12 +1,11 @@
 <template>
-  <v-menu offset-y :close-on-content-click="!multiple">
-    <template #activator="{ on, attrs }">
+  <v-menu :close-on-content-click="!multiple">
+    <template #activator="{ props }">
       <v-chip
         :color="active ? 'primary' : null"
         label
-        v-bind="attrs"
         variant="outlined"
-        v-on="on"
+        v-bind="props"
       >
         <span class="d-none d-sm-inline">{{
           labelValue ? `${label}: ${labelValue}` : label

@@ -9,8 +9,8 @@
     v-bind="{ ...$attrs, ...positions }"
     @update:model-value="onInput"
   >
-    <template #activator="{ attrs, on }">
-      <slot name="activator" v-bind="{ attrs, on }" />
+    <template #activator="{ props }">
+      <slot name="activator" v-bind="{ props }" />
     </template>
     <div class="ec-activator v-card__actions pa-0" @click="open = false">
       <slot name="activator" />

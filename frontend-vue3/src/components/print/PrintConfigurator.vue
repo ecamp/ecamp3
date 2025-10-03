@@ -22,14 +22,13 @@
       </PagesConfig>
 
       <v-menu offset-y rounded="lg" offset-overflow>
-        <template #activator="{ on, attrs }">
+        <template #activator="{ props }">
           <PagesConfig
             id="page-config"
             :title="$t('components.print.printConfigurator.add')"
             multiple
             template
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
           />
         </template>
         <v-list>

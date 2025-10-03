@@ -1,13 +1,12 @@
 <template>
   <v-menu ref="menu" v-bind="menuProps" @input="toggle">
-    <template #activator="{ on }">
+    <template #activator="{ props }">
       <e-time-field
         :value="value"
-        v-bind="$attrs"
+        v-bind="{ ...props, ...$attrs }"
         class="e-time-dropdown--input"
         :class="inputClass"
         @input="onInput"
-        v-on="on"
       />
     </template>
 

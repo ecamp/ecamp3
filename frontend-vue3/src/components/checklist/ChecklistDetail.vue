@@ -35,8 +35,8 @@
       <ChecklistItemCreate :checklist="checklist" />
       <!-- hamburger menu -->
       <v-menu offset-y>
-        <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+        <template #activator="{ props }">
+          <v-btn icon v-bind="props">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
@@ -47,8 +47,8 @@
             :error-handler="deleteErrorHandler"
             :success-handler="deleteSuccessHandler"
           >
-            <template #activator="{ on }">
-              <v-list-item v-on="on">
+            <template #activator="{ props }">
+              <v-list-item v-bind="props">
                 <v-list-item-icon>
                   <v-icon>mdi-delete</v-icon>
                 </v-list-item-icon>

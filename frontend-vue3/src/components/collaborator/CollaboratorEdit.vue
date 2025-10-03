@@ -51,8 +51,8 @@
       </IconButton>
     </template>
 
-    <template #activator="{ on }">
-      <slot name="activator" v-bind="{ on }">
+    <template #activator="{ props }">
+      <slot name="activator" v-bind="{ props }">
         <CollaboratorListItem
           :collaborator="collaborator"
           :disabled="!isManager"
@@ -75,8 +75,8 @@
           location="top"
           eager
         >
-          <template #activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
+          <template #activator="{ props }">
+            <div v-bind="props">
               <PromptCollaboratorDeactivate :entity="collaborator">
                 <template #activator="{ on: onDialog, attrs: attrsDialog }">
                   <IconButton

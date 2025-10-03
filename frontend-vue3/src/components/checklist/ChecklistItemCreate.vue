@@ -11,8 +11,8 @@
     submit-color="success"
     :cancel-action="close"
   >
-    <template #activator="{ on }">
-      <slot name="activator" v-bind="{ on }">
+    <template #activator="{ props }">
+      <slot name="activator" v-bind="{ props }">
         <ButtonAdd color="secondary" text class="my-n2" icon="mdi-playlist-plus" v-on="on"
           >{{ $t('components.checklist.checklistItemCreate.title') }}
         </ButtonAdd>

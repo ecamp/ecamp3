@@ -19,8 +19,8 @@
         translation-context-i18n-key="components.campAdmin.dialogCategoryCreate.clipboardInfoDialog"
         @closed="attemptLoadingEntityFromClipboard"
       >
-        <template #activator="{ on }">
-          <v-btn v-show="showClipboardPrompt" v-on="on">
+        <template #activator="{ props }">
+          <v-btn v-show="showClipboardPrompt" v-bind="props">
             <v-icon left>mdi-information-outline</v-icon>
             {{ $t('components.campAdmin.dialogCategoryCreate.copyPasteCategory') }}
           </v-btn>
@@ -75,13 +75,13 @@
           icon="mdi-content-paste"
           :title="$t('components.campAdmin.dialogCategoryCreate.pasteCategory')"
         >
-          <template #activator="{ on }">
+          <template #activator="{ props }">
             <v-btn
               :title="$t('components.campAdmin.dialogCategoryCreate.pasteCategory')"
               text
               class="v-btn--has-bg"
               height="56"
-              v-on="on"
+              v-bind="props"
             >
               <v-progress-circular v-if="clipboardEntityLoading" indeterminate />
               <v-icon v-else>mdi-content-paste</v-icon>
