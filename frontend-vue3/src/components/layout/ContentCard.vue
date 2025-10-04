@@ -14,7 +14,8 @@ Displays the content wrapped inside a card.
       class="ec-content-card__toolbar"
       :class="{ 'ec-content-card__toolbar--border': !noBorder }"
       elevation="0"
-      dense
+      color="surface"
+      density="compact"
     >
       <v-toolbar-items>
         <button-back
