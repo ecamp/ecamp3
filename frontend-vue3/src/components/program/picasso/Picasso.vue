@@ -6,12 +6,6 @@ Listing all given activity schedule entries in a calendar view.
   <div>
     <v-calendar
       ref="calendar"
-      v-model="calendarValue"
-      :events="events"
-      view-mode="week"
-    ></v-calendar>
-    <v-calendar
-      ref="calendar"
       v-model="value"
       v-resize="resize"
       :class="['e-picasso', editable && 'e-picasso--editable']"
