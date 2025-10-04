@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode\ChecklistNode;
 use App\InputFilter;
 use App\Repository\ChecklistItemRepository;
+use App\State\ChecklistItemCollectionProvider;
 use App\Util\EntityMap;
 use App\Validator\AssertNoLoop;
 use App\Validator\ChecklistItem\AssertBelongsToSameChecklist;
@@ -49,7 +50,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['delete']],
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            provider: ChecklistItemCollectionProvider::class
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

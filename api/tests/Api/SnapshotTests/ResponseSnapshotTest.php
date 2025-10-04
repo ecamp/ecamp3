@@ -115,6 +115,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
                 '/auth/jubladb' => false,
                 '/auth/reset_password' => false,
                 '/auth/resend_activation' => false,
+                '/checklist_items' => false,
                 '/invitations' => false,
                 '/personal_invitations' => false,
                 '/token/refresh' => false,

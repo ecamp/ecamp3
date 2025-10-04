@@ -17,30 +17,12 @@ class ListChecklistItemsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListChecklistItemsIsAllowedForLoggedInUserButFiltered() {
+    public function testListChecklistItemsWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a checklist-item that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['checklistItemUnrelated_1_1']);
 
         $response = static::createClientWithCredentials()->request('GET', '/checklist_items');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 7,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('checklistItem1_1_1')],
-            ['href' => $this->getIriFor('checklistItem1_1_2')],
-            ['href' => $this->getIriFor('checklistItem1_1_2_3')],
-            ['href' => $this->getIriFor('checklistItem1_1_2_3_4')],
-            ['href' => $this->getIriFor('checklistItem2_1_1')],
-            ['href' => $this->getIriFor('checklistItemCampPrototype_1_1')],
-            ['href' => $this->getIriFor('checklistItemCampShared_1_1')],
-        ], $response->toArray()['_links']['items']);
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListChecklistItemsFilteredByChecklistIsAllowedForCollaborator() {
