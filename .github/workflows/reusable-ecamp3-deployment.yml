@@ -31,17 +31,16 @@ on:
         required: true
         default: diff
 
-env:
-  NAME: ${{ inputs.name }}
-  IMAGE_TAG: ${{ inputs.sha }}
-  HELM_TIMEOUT: ${{ vars.HELM_TIMEOUT }}
-
 jobs:
   deploy-ecamp3:
     name: Deploy to Kubernetes
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.env }}
+    env:
+      NAME: ${{ vars.NAME || inputs.name }}
+      IMAGE_TAG: ${{ inputs.sha }}
+      HELM_TIMEOUT: ${{ vars.HELM_TIMEOUT }}
     steps:
       - name: Get link to currently running job logs
         if: ${{ inputs.env == 'feature-branch' }}
@@ -132,7 +131,7 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ (inputs.env == 'staging' || inputs.env == 'prod') && format('https://{0}.{1}', vars.SUBDOMAIN, vars.DOMAIN) || format('https://{0}.{1}', inputs.name, vars.DOMAIN) }}
+          env_url: ${{ format('https://{0}.{1}', (vars.NAME || inputs.name), vars.DOMAIN) }}
           env: ${{ steps.deployment.outputs.env }}
 
       - name: Get current time
