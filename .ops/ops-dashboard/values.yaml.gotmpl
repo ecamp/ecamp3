@@ -14,6 +14,11 @@ grafana-proxy:
     clientID: {{ .Environment.Values | getOrNil "GRAFANA_PROXY_OAUTH_CLIENT_ID" | required "GRAFANA_PROXY_OAUTH_CLIENT_ID is required" | quote }}
     # OAuth client secret
     clientSecret: {{ .Environment.Values | getOrNil "GRAFANA_PROXY_OAUTH_CLIENT_SECRET" | required "GRAFANA_PROXY_OAUTH_CLIENT_SECRET is required" | quote }}
+    configFile: |-
+        email_domains = [ "*" ]
+        upstreams = [ "file:///dev/null" ]
+        skip_provider_button = true
+
     # Create a new secret with the following command
     # openssl rand -base64 32 | head -c 32 | base64
     cookieSecret: {{ .Environment.Values | getOrNil "COOKIE_SECRET" | required "COOKIE_SECRET is required" | quote }}
