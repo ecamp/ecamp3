@@ -32,42 +32,23 @@
       </div>
       <v-divider />
       <div class="relative">
-        <div
-          v-show="layoutMode"
-          :key="true"
-          class="ec-category-layoutmode-tab__layout"
-          :class="{ 'ec-category-layoutmode-tab--hidden': !layoutMode }"
-        >
-          <v-skeleton-loader v-if="loading" type="article" />
-          <root-node
-            :class="{
-              'ec-category-layoutmode-tab--hidden': loading,
-            }"
-            :content-node="category.rootContentNode()"
-            :layout-mode="true"
-            :disabled="disabled"
-          />
-        </div>
-        <div
-          v-show="!layoutMode"
-          :key="false"
-          :class="{ 'ec-category-layoutmode-tab--hidden': layoutMode }"
-          :style="{ opacity: layoutMode ? 0 : 1 }"
-        >
+        <div class="ec-category-layoutmode-tab__layout">
           <v-skeleton-loader v-if="loading" type="article" />
           <div
-            v-else-if="category.rootContentNode().children().items.length === 0"
+            v-else-if="
+              !layoutMode && category.rootContentNode().children().items.length === 0
+            "
             class="pa-2 text-center"
           >
             {{ $t('components.category.categoryTemplate.noTemplate') }}
           </div>
           <root-node
-            v-if="category.rootContentNode().children().items.length !== 0"
+            v-else
             :class="{
               'ec-category-layoutmode-tab--hidden': loading,
             }"
             :content-node="category.rootContentNode()"
-            :layout-mode="false"
+            :layout-mode="layoutMode"
             :disabled="disabled"
           />
         </div>
