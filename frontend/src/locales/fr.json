@@ -740,6 +740,26 @@
         "title": "Admin"
       },
       "campProgram": {
+        "jsCheck": {
+          "categoryPrefixesDescription": "Prefixes pour identifier les activites LS et LA. Separez plusieurs valeurs par des points-virgules. Chaque identifiant peut comporter au maximum 8 caracteres.",
+          "daytimes": {
+            "afternoon": "Après-midi",
+            "evening": "Soir",
+            "morning": "Matin"
+          },
+          "daytimesDescription": "Périodes de la journée pour la règle de répartition :",
+          "description": "Affiche dans le programme général les couleurs journalières pour un premier contrôle de conformité J+S. Vert = règle respectée, Orange = temps J+S atteint mais mal réparti, Rouge = règle non respectée.",
+          "end": "Fin",
+          "experimental": "Fonction expérimentale",
+          "lsPrefix": "Activites LS",
+          "lsPrefixPlaceholder": "LS;S",
+          "laPrefix": "LA",
+          "laPrefixPlaceholder": "LA;A;LSA",
+          "rules": "Règles : au moins 4 h J+S par jour provenant de LS ou LA, max. 2 h de LA comptent pour ce temps, au moins 2 activités, chacune d'au moins 30 minutes, réparties sur au moins 2 périodes de la journée (matin, après-midi, soir).",
+          "start": "Début",
+          "title": "Conformité J+S",
+          "toggle": "Afficher la conformité J+S"
+        },
         "reminderLockedCreate": "Glisser pour créer n'est possible qu'en mode déverrouillé.",
         "reminderLockedMove": "Glisser pour déplacer n'est possible qu'en mode déverrouillé.",
         "title": "Programme général"

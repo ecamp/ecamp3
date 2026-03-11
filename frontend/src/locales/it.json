@@ -613,6 +613,26 @@
         "title": "Admin"
       },
       "campProgram": {
+        "jsCheck": {
+          "categoryPrefixesDescription": "Prefissi per identificare le attivita LS e LA. Separa piu valori con punto e virgola. Ogni identificatore puo avere al massimo 8 caratteri.",
+          "daytimes": {
+            "afternoon": "Pomeriggio",
+            "evening": "Sera",
+            "morning": "Mattina"
+          },
+          "daytimesDescription": "Fasce orarie per la regola di distribuzione:",
+          "description": "Mostra nel programma generale i colori giornalieri per un primo controllo di conformità G+S. Verde = regola rispettata, Giallo = tempo G+S raggiunto ma non correttamente distribuito, Rosso = regola non rispettata.",
+          "end": "Fine",
+          "experimental": "Funzione sperimentale",
+          "lsPrefix": "Attivita LS",
+          "lsPrefixPlaceholder": "LS;S",
+          "laPrefix": "LA",
+          "laPrefixPlaceholder": "LA;A;LSA",
+          "rules": "Regole: almeno 4 ore G+S al giorno da LS o LA, massimo 2 ore di LA contano per questo tempo, almeno 2 attività, ciascuna di almeno 30 minuti, distribuite su almeno 2 fasce orarie (mattina, pomeriggio, sera).",
+          "start": "Inizio",
+          "title": "Conformità G+S",
+          "toggle": "Mostra conformità G+S"
+        },
         "reminderLockedCreate": "Trascinare per creare è possibile solo in modalità sbloccata.",
         "reminderLockedMove": "Trascinare per spostarsi è possibile solo in modalità sbloccata.",
         "title": "Picasso"

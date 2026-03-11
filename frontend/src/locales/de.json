@@ -745,6 +745,26 @@
         "title": "Admin"
       },
       "campProgram": {
+        "jsCheck": {
+          "categoryPrefixesDescription": "Präfixe zur Erkennung von LS- und LA-Aktivitäten. Mehrere Werte mit Semikolon trennen. Jeder Bezeichner darf höchstens 8 Zeichen lang sein. LS bedeutet Lagersport, LA bedeutet Lageraktivität.",
+          "daytimes": {
+            "afternoon": "Nachmittag",
+            "evening": "Abend",
+            "morning": "Morgen"
+          },
+          "daytimesDescription": "Tageszeiten für die Verteilregel:",
+          "description": "Zeigt im Grobprogramm Ampelfarben für einen ersten J+S-Check an. Grün = Regel erfüllt, Gelb = J+S Zeit erreicht aber nicht korrekt verteilt, Rot = Regel nicht erfüllt.",
+          "end": "Ende",
+          "experimental": "Experimentelle Funktion",
+          "lsPrefix": "LS",
+          "lsPrefixPlaceholder": "LS;S",
+          "laPrefix": "LA",
+          "laPrefixPlaceholder": "LA;A;LSA",
+          "rules": "Regeln: mindestens 4h J+S pro Tag LS oder LA, maximal 2h LA können angerechnet werden, mindestens 2 Aktivitäten, jede mindestens 30 Minuten, verteilt auf mindestens 2 Tageszeiten (Morgen, Nachmittag, Abend).",
+          "start": "Start",
+          "title": "J+S-Check",
+          "toggle": "J+S-Check anzeigen"
+        },
         "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
         "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
         "title": "Grobprogramm"

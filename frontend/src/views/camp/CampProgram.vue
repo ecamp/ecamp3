@@ -12,21 +12,120 @@ Show all activity schedule entries of a single period.
       <period-switcher :period="period" />
       <v-spacer />
       <template v-if="$vuetify.breakpoint.smAndUp">
-        <v-toolbar-items v-if="isFilterSet">
-          <v-chip
-            label
-            outlined
-            :input-value="openFilter"
-            color="primary"
-            class="align-self-center mr-2"
-            @click="openFilter = !openFilter"
-          >
-            <v-icon left size="20">mdi-filter</v-icon>
-            {{ filteredPropertiesCount }}
-          </v-chip>
-        </v-toolbar-items>
+        <template v-if="isFilterSet">
+          <v-toolbar-items>
+            <v-chip
+              label
+              outlined
+              :input-value="openFilter"
+              color="primary"
+              class="align-self-center mr-2"
+              @click="openFilter = !openFilter"
+            >
+              <v-icon left size="20">mdi-filter</v-icon>
+              {{ filteredPropertiesCount }}
+            </v-chip>
+          </v-toolbar-items>
+        </template>
+        <v-menu offset-y :close-on-content-click="false">
+          <template #activator="{ on, attrs }">
+            <v-chip
+              outlined
+              label
+              class="mr-1"
+              :input-value="showJsCheck"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon size="20" :color="showJsCheck ? 'primary' : 'rgba(0, 0, 0, 0.54)'">
+                mdi-flask-outline
+              </v-icon>
+            </v-chip>
+          </template>
+          <v-sheet width="360" class="pa-4">
+            <div class="text-subtitle-2 mb-2">
+              {{ $tc('views.camp.campProgram.jsCheck.title') }}
+            </div>
+            <v-alert
+              dense
+              outlined
+              type="info"
+              class="mb-3"
+            >
+              {{ $tc('views.camp.campProgram.jsCheck.experimental') }}
+            </v-alert>
+            <div class="text-body-2 mb-3">
+              {{ $tc('views.camp.campProgram.jsCheck.description') }}
+            </div>
+            <div class="text-body-2 mb-3">
+              {{ $tc('views.camp.campProgram.jsCheck.rules') }}
+            </div>
+            <div class="text-caption text--secondary mb-2">
+              {{ $tc('views.camp.campProgram.jsCheck.daytimesDescription') }}
+            </div>
+            <div
+              v-for="daytime in daytimeFields"
+              :key="daytime.key"
+              class="d-flex align-center mb-2"
+            >
+              <div class="e-camp-program__daytime-label text-body-2 mr-3">
+                {{ $tc(daytime.label) }}
+              </div>
+              <v-text-field
+                v-model="jsCheckDaytimes[daytime.key].start"
+                type="time"
+                dense
+                outlined
+                hide-details
+                class="mr-2"
+                :label="$tc('views.camp.campProgram.jsCheck.start')"
+              />
+              <v-text-field
+                v-model="jsCheckDaytimes[daytime.key].end"
+                type="time"
+                dense
+                outlined
+                hide-details
+                :label="$tc('views.camp.campProgram.jsCheck.end')"
+              />
+            </div>
+            <div class="text-caption text--secondary mb-2">
+              {{ $tc('views.camp.campProgram.jsCheck.categoryPrefixesDescription') }}
+            </div>
+            <div class="d-flex align-center mb-2">
+              <div class="e-camp-program__daytime-label text-body-2 mr-3" style="min-width: 60px">
+                {{ $tc('views.camp.campProgram.jsCheck.lsPrefix') }}
+              </div>
+              <v-text-field
+                v-model="jsCheckCategoryPrefixes.ls"
+                dense
+                outlined
+                hide-details
+                :placeholder="$tc('views.camp.campProgram.jsCheck.lsPrefixPlaceholder')"
+              />
+            </div>
+            <div class="d-flex align-center mb-3">
+              <div class="e-camp-program__daytime-label text-body-2 mr-3" style="min-width: 60px">
+                {{ $tc('views.camp.campProgram.jsCheck.laPrefix') }}
+              </div>
+              <v-text-field
+                v-model="jsCheckCategoryPrefixes.la"
+                dense
+                outlined
+                hide-details
+                :placeholder="$tc('views.camp.campProgram.jsCheck.laPrefixPlaceholder')"
+              />
+            </div>
+            <v-switch
+              v-model="showJsCheck"
+              inset
+              hide-details
+              :label="$tc('views.camp.campProgram.jsCheck.toggle')"
+            />
+          </v-sheet>
+        </v-menu>
         <v-chip
-          v-else
+          v-if="!isFilterSet"
           outlined
           label
           class="mr-1"
@@ -79,6 +178,29 @@ Show all activity schedule entries of a single period.
               <v-badge inline color="primary" :content="filteredPropertiesCount" />
             </v-list-item-action>
           </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon :color="showJsCheck ? 'primary' : null">
+                mdi-flask-outline
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ $tc('views.camp.campProgram.jsCheck.title') }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{ $tc('views.camp.campProgram.jsCheck.experimental') }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-switch
+                v-model="showJsCheck"
+                inset
+                hide-details
+                @click.stop
+              />
+            </v-list-item-action>
+          </v-list-item>
           <v-divider />
           <DownloadNuxtPdf :config="printConfig" />
           <DownloadClientPdf :config="printConfig" />
@@ -116,6 +238,9 @@ Show all activity schedule entries of a single period.
           :end="period.end"
           :editable="editMode"
           :is-filter-set="isFilterSet"
+          :show-js-compliance="showJsCheck"
+          :js-compliance-daytimes="jsCheckDaytimes"
+          :js-compliance-category-prefixes="jsCheckCategoryPrefixes"
           @new-entry="slotProps.on.newEntry"
           @unlock-reminder="showUnlockReminder"
         />
@@ -158,6 +283,7 @@ import {
 } from '@/helpers/querySyncHelper.js'
 import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
 import campShortTitle from '@/common/helpers/campShortTitle.js'
+import { DEFAULT_JS_COMPLIANCE_DAYTIMES, DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES } from '@/components/program/picasso/jsCoachCheck.js'
 
 export default {
   name: 'CampProgram',
@@ -189,6 +315,13 @@ export default {
         campCollaborations: true,
         progressLabels: true,
       },
+      showJsCheck: false,
+      jsCheckDaytimes: JSON.parse(
+        JSON.stringify(DEFAULT_JS_COMPLIANCE_DAYTIMES)
+      ),
+      jsCheckCategoryPrefixes: JSON.parse(
+        JSON.stringify(DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES)
+      ),
       filter: {
         category: [],
         responsible: [],
@@ -241,6 +374,22 @@ export default {
     },
     isFilterSet() {
       return this.filteredPropertiesCount > 0
+    },
+    daytimeFields() {
+      return [
+        {
+          key: 'morning',
+          label: 'views.camp.campProgram.jsCheck.daytimes.morning',
+        },
+        {
+          key: 'afternoon',
+          label: 'views.camp.campProgram.jsCheck.daytimes.afternoon',
+        },
+        {
+          key: 'evening',
+          label: 'views.camp.campProgram.jsCheck.daytimes.evening',
+        },
+      ]
     },
     filterMatchScheduleEntry() {
       return (scheduleEntry) => filterMatchScheduleEntry(scheduleEntry, this.filter)
@@ -309,5 +458,9 @@ export default {
 <style>
 :root {
   --schedule-entry-filters-height: 0px;
+}
+
+.e-camp-program__daytime-label {
+  min-width: 5.5rem;
 }
 </style>

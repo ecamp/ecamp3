@@ -64,7 +64,7 @@
         "course": {
           "title": "Curs"
         },
-        "title": "Parameters per G+S",
+        "title": "Parametras per J+S",
         "ysCamp": {
           "title": "Champs"
         }
@@ -536,6 +536,26 @@
         "title": "Admin"
       },
       "campProgram": {
+        "jsCheck": {
+          "categoryPrefixesDescription": "Prefixs per identifitgar activitads LS e LA. Separar plirs vals cun punct e comma. Mintga identificatur po avair maximalmain 8 segns.",
+          "daytimes": {
+            "afternoon": "Suentermezdi",
+            "evening": "Saira",
+            "morning": "Damaun"
+          },
+          "daytimesDescription": "Temps dal di per la regla da repartiziun:",
+          "description": "Mussa en il program general colurs dal di per in emprim control da conformitad J+S. Verd = regla respetgada, Giall = temp J+S ragiunte ma betg distribuit correctamain, Russ = regla betg respetgada.",
+          "end": "Fin",
+          "experimental": "Funcziun experimentala",
+          "lsPrefix": "Activitads LS",
+          "lsPrefixPlaceholder": "LS;S",
+          "laPrefix": "LA",
+          "laPrefixPlaceholder": "LA;A;LSA",
+          "rules": "Reglas: almain 4 uras J+S per di ord LS u LA, maximalmain 2 uras LA quintan per quest temp, almain 2 activitads, mintgina almain 30 minutas, repartidas sin almain 2 temps dal di (damaun, suentermezdi, saira).",
+          "start": "Cumenzament",
+          "title": "Conformitad J+S",
+          "toggle": "Mussar conformitad J+S"
+        },
         "reminderLockedCreate": "Trair per crear è mo pussaivel en il modus debloccà.",
         "reminderLockedMove": "Trair per spustar è mo pussaivel en il modus debloccà.",
         "title": "Program general"

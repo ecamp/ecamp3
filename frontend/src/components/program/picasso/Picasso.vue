@@ -38,23 +38,30 @@ Listing all given activity schedule entries in a calendar view.
       <!-- day header -->
       <template #day-label-header="{ date }">
         <slot name="day-label-header" :date="date">
-          <div class="e-picasso-daily_head-day-label">
-            {{
-              entryWidth > 140
-                ? $date
-                    .utc(date)
-                    .format($tc('components.program.picasso.picasso.datetime.fullDate'))
-                : $date
-                    .utc(date)
-                    .format(
-                      $tc(
-                        'components.program.picasso.picasso.datetime.smallDate',
-                        widthPluralization
+          <div
+            class="e-picasso-day-header"
+            :class="
+              showJsCompliance && `e-picasso-day-header--${getJsCoachDayStatus(date)}`
+            "
+          >
+            <div class="e-picasso-daily_head-day-label">
+              {{
+                entryWidth > 140
+                  ? $date
+                      .utc(date)
+                      .format($tc('components.program.picasso.picasso.datetime.fullDate'))
+                  : $date
+                      .utc(date)
+                      .format(
+                        $tc(
+                          'components.program.picasso.picasso.datetime.smallDate',
+                          widthPluralization
+                        )
                       )
-                    )
-            }}
+              }}
+            </div>
+            <day-responsibles :date="date" :period="period" :readonly="!editable" />
           </div>
-          <day-responsibles :date="date" :period="period" :readonly="!editable" />
         </slot>
       </template>
 
@@ -88,6 +95,7 @@ import DayResponsibles from './DayResponsibles.vue'
 import { ONE_DAY_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import PicassoEntry from './PicassoEntry.vue'
+import { getJsCoachDayStatus as getJsCoachDayStatusForDate } from './jsCoachCheck.js'
 
 export default {
   name: 'Picasso',
@@ -144,6 +152,21 @@ export default {
     isFilterSet: {
       type: Boolean,
       default: false,
+    },
+
+    showJsCompliance: {
+      type: Boolean,
+      default: false,
+    },
+
+    jsComplianceDaytimes: {
+      type: Object,
+      default: () => ({}),
+    },
+
+    jsComplianceCategoryPrefixes: {
+      type: Object,
+      default: () => ({}),
     },
 
     reload: {
@@ -336,6 +359,14 @@ export default {
     scroller.scrollTo({ top: 250 })
   },
   methods: {
+    getJsCoachDayStatus(date) {
+      return getJsCoachDayStatusForDate(
+        date,
+        this.scheduleEntries,
+        this.jsComplianceDaytimes,
+        this.jsComplianceCategoryPrefixes
+      )
+    },
     resize() {
       const widthIntervals = 46
       this.entryWidth = Math.max(
@@ -475,6 +506,23 @@ export default {
   font-size: 11px;
   font-feature-settings: 'tnum';
   letter-spacing: -0.1px;
+}
+
+:deep(.e-picasso-day-header) {
+  height: 100%;
+  padding: 2px;
+}
+
+:deep(.e-picasso-day-header--green) {
+  background: rgba(76, 175, 80, 0.18);
+}
+
+:deep(.e-picasso-day-header--yellow) {
+  background: rgba(255, 193, 7, 0.22);
+}
+
+:deep(.e-picasso-day-header--red) {
+  background: rgba(244, 67, 54, 0.2);
 }
 
 :deep(.v-calendar-daily_head-day-label) {

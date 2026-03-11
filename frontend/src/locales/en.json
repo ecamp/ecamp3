@@ -745,6 +745,26 @@
         "title": "Admin"
       },
       "campProgram": {
+        "jsCheck": {
+          "categoryPrefixesDescription": "Prefixes used to identify LS and LA activities. Separate multiple values with semicolons. Each identifier may be at most 8 characters long.",
+          "daytimes": {
+            "afternoon": "Afternoon",
+            "evening": "Evening",
+            "morning": "Morning"
+          },
+          "daytimesDescription": "Daytime windows used for the distribution rule:",
+          "description": "Shows daily colors for an initial Y+S compliance check in the program overview. Green = rule met, Yellow = Y+S time reached but not correctly distributed, Red = rule not met.",
+          "end": "End",
+          "experimental": "Experimental feature",
+          "lsPrefix": "LS activities",
+          "lsPrefixPlaceholder": "LS;S",
+          "laPrefix": "LA",
+          "laPrefixPlaceholder": "LA;A;LSA",
+          "rules": "Rules: at least 4h Y+S per day from LS or LA, max. 2h LA count toward that time, at least 2 activities, each at least 30 minutes, distributed across at least 2 daytimes (morning, afternoon, evening).",
+          "start": "Start",
+          "title": "Y+S compliance",
+          "toggle": "Display Y+S compliance"
+        },
         "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
         "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"
