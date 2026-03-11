@@ -235,4 +235,69 @@ describe('getJsCoachDayStatus', () => {
       })
     ).toBe(JS_COACH_DAY_STATUS.GREEN)
   })
+
+  it('does not double-count overlapping LS and LA activities', () => {
+    // LS activity: 07:00-09:00 (120 minutes)
+    // LA activity: 08:00-10:00 (120 minutes, overlaps with LS from 08:00-09:00)
+    // Without fix: 120 + 120 = 240 minutes (incorrectly counts overlap twice)
+    // With fix: 120 (LS) + 60 (non-overlapping LA) = 180 minutes (correctly counts overlap once)
+    const scheduleEntries = [
+      entry({
+        start: '2025-07-10T07:00:00Z',
+        end: '2025-07-10T09:00:00Z',
+        categoryShort: 'LS',
+      }),
+      entry({
+        start: '2025-07-10T08:00:00Z',
+        end: '2025-07-10T10:00:00Z',
+        categoryShort: 'LA',
+      }),
+      entry({
+        start: '2025-07-10T13:00:00Z',
+        end: '2025-07-10T15:00:00Z',
+        categoryShort: 'LS',
+      }),
+    ]
+
+    // With the fix, overlapping LA should only contribute non-overlapping minutes
+    // Total: 120 (LS morning) + 60 (LA non-overlapping) + 120 (LS afternoon) = 300 minutes
+    // Covers 3 daytimes: morning, afternoon, evening → GREEN
+    expect(getJsCoachDayStatus('2025-07-10', scheduleEntries)).toBe(
+      JS_COACH_DAY_STATUS.GREEN
+    )
+  })
+
+  it('handles multiple overlapping LS and LA activities', () => {
+    // LS: 07:00-08:30 (90 min)
+    // LA: 08:00-09:30 (90 min, overlaps 08:00-08:30, 30 min overlap)
+    // LS: 13:00-15:00 (120 min)
+    // LA: 14:00-15:30 (90 min, overlaps 14:00-15:00, 60 min overlap)
+    // Expected total: 90 + 60 (non-overlapping LA) + 120 + 30 (non-overlapping LA) = 300 min
+    const scheduleEntries = [
+      entry({
+        start: '2025-07-10T07:00:00Z',
+        end: '2025-07-10T08:30:00Z',
+        categoryShort: 'LS',
+      }),
+      entry({
+        start: '2025-07-10T08:00:00Z',
+        end: '2025-07-10T09:30:00Z',
+        categoryShort: 'LA',
+      }),
+      entry({
+        start: '2025-07-10T13:00:00Z',
+        end: '2025-07-10T15:00:00Z',
+        categoryShort: 'LS',
+      }),
+      entry({
+        start: '2025-07-10T14:00:00Z',
+        end: '2025-07-10T15:30:00Z',
+        categoryShort: 'LA',
+      }),
+    ]
+
+    expect(getJsCoachDayStatus('2025-07-10', scheduleEntries)).toBe(
+      JS_COACH_DAY_STATUS.GREEN
+    )
+  })
 })

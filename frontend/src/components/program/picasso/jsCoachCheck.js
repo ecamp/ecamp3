@@ -135,6 +135,7 @@ export function getJsCoachDayStatus(
   let laQualifiedMinutes = 0
   let qualifiedActivities = 0
   const daytimes = new Set()
+  const lsTimePeriods = [] // Track LS activity time periods
 
   scheduleEntries.forEach((entry) => {
     if (!isJsCategory(entry, categoryPrefixes)) return
@@ -146,9 +147,21 @@ export function getJsCoachDayStatus(
     if (overlapWithDay < MIN_ACTIVITY_MINUTES) return
 
     qualifiedActivities += 1
-    totalQualifiedMinutes += overlapWithDay
+    
     if (isLaCategory(entry, categoryPrefixes)) {
-      laQualifiedMinutes += overlapWithDay
+      // For LA activities, subtract any overlap with LS activities to avoid double-counting
+      let laMinutesToAdd = overlapWithDay
+      lsTimePeriods.forEach(({ start, end }) => {
+        const overlapWithLs = overlapMinutes(entryStart, entryEnd, start, end)
+        laMinutesToAdd -= overlapWithLs
+      })
+      laMinutesToAdd = Math.max(laMinutesToAdd, 0)
+      totalQualifiedMinutes += laMinutesToAdd
+      laQualifiedMinutes += laMinutesToAdd
+    } else {
+      // LS activities
+      totalQualifiedMinutes += overlapWithDay
+      lsTimePeriods.push({ start: entryStart, end: entryEnd })
     }
 
     daytimeWindows.forEach(({ name, startMinutes, endMinutes }) => {
