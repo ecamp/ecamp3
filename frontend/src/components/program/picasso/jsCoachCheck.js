@@ -147,7 +147,7 @@ export function getJsCoachDayStatus(
     if (overlapWithDay < MIN_ACTIVITY_MINUTES) return
 
     qualifiedActivities += 1
-    
+
     if (isLaCategory(entry, categoryPrefixes)) {
       // For LA activities, subtract any overlap with LS activities to avoid double-counting
       let laMinutesToAdd = overlapWithDay

@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
   DEFAULT_JS_COMPLIANCE_DAYTIMES,
-  DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES,
   getJsCoachDayStatus,
   JS_COACH_DAY_STATUS,
 } from '../jsCoachCheck.js'
