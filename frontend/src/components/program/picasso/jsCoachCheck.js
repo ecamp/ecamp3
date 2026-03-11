@@ -59,15 +59,19 @@ function resolveDaytimeWindows(daytimeConfig) {
   return DAYTIME_NAMES.map((name) => {
     const fallback = DEFAULT_JS_COMPLIANCE_DAYTIMES[name]
     const configured = daytimeConfig?.[name] ?? {}
-    const startMinutes = parseTimeToMinutes(configured.start) ?? parseTimeToMinutes(fallback.start)
-    const endMinutes = parseTimeToMinutes(configured.end) ?? parseTimeToMinutes(fallback.end)
+    const startMinutes =
+      parseTimeToMinutes(configured.start) ?? parseTimeToMinutes(fallback.start)
+    const endMinutes =
+      parseTimeToMinutes(configured.end) ?? parseTimeToMinutes(fallback.end)
 
     return {
       name,
       startMinutes,
       endMinutes,
     }
-  }).filter(({ startMinutes, endMinutes }) => startMinutes !== null && endMinutes !== null)
+  }).filter(
+    ({ startMinutes, endMinutes }) => startMinutes !== null && endMinutes !== null
+  )
 }
 
 function parseCategoryPrefixes(prefixString) {
@@ -90,25 +94,33 @@ function categoryMatchesPrefixes(categoryShort, prefixes) {
   return prefixes.includes(categoryShort)
 }
 
-function isJsCategory(scheduleEntry, categoryPrefixes = DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES) {
+function isJsCategory(
+  scheduleEntry,
+  categoryPrefixes = DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES
+) {
   return (
     isLsCategory(scheduleEntry, categoryPrefixes) ||
     isLaCategory(scheduleEntry, categoryPrefixes)
   )
 }
 
-function isLsCategory(scheduleEntry, categoryPrefixes = DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES) {
+function isLsCategory(
+  scheduleEntry,
+  categoryPrefixes = DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES
+) {
   const short = categoryShort(scheduleEntry)
   const lsPrefixes = resolveCategoryPrefixes(categoryPrefixes, 'ls')
   return categoryMatchesPrefixes(short, lsPrefixes)
 }
 
-function isLaCategory(scheduleEntry, categoryPrefixes = DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES) {
+function isLaCategory(
+  scheduleEntry,
+  categoryPrefixes = DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES
+) {
   const short = categoryShort(scheduleEntry)
   const laPrefixes = resolveCategoryPrefixes(categoryPrefixes, 'la')
   return categoryMatchesPrefixes(short, laPrefixes)
 }
-
 
 export function getJsCoachDayStatus(
   date,

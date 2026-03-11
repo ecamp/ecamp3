@@ -46,12 +46,7 @@ Show all activity schedule entries of a single period.
             <div class="text-subtitle-2 mb-2">
               {{ $tc('views.camp.campProgram.jsCheck.title') }}
             </div>
-            <v-alert
-              dense
-              outlined
-              type="info"
-              class="mb-3"
-            >
+            <v-alert dense outlined type="info" class="mb-3">
               {{ $tc('views.camp.campProgram.jsCheck.experimental') }}
             </v-alert>
             <div class="text-body-2 mb-3">
@@ -93,7 +88,10 @@ Show all activity schedule entries of a single period.
               {{ $tc('views.camp.campProgram.jsCheck.categoryPrefixesDescription') }}
             </div>
             <div class="d-flex align-center mb-2">
-              <div class="e-camp-program__daytime-label text-body-2 mr-3" style="min-width: 60px">
+              <div
+                class="e-camp-program__daytime-label text-body-2 mr-3"
+                style="min-width: 60px"
+              >
                 {{ $tc('views.camp.campProgram.jsCheck.lsPrefix') }}
               </div>
               <v-text-field
@@ -105,7 +103,10 @@ Show all activity schedule entries of a single period.
               />
             </div>
             <div class="d-flex align-center mb-3">
-              <div class="e-camp-program__daytime-label text-body-2 mr-3" style="min-width: 60px">
+              <div
+                class="e-camp-program__daytime-label text-body-2 mr-3"
+                style="min-width: 60px"
+              >
                 {{ $tc('views.camp.campProgram.jsCheck.laPrefix') }}
               </div>
               <v-text-field
@@ -180,9 +181,7 @@ Show all activity schedule entries of a single period.
           </v-list-item>
           <v-list-item>
             <v-list-item-icon>
-              <v-icon :color="showJsCheck ? 'primary' : null">
-                mdi-flask-outline
-              </v-icon>
+              <v-icon :color="showJsCheck ? 'primary' : null"> mdi-flask-outline </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>
@@ -193,12 +192,7 @@ Show all activity schedule entries of a single period.
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-switch
-                v-model="showJsCheck"
-                inset
-                hide-details
-                @click.stop
-              />
+              <v-switch v-model="showJsCheck" inset hide-details @click.stop />
             </v-list-item-action>
           </v-list-item>
           <v-divider />
@@ -283,7 +277,10 @@ import {
 } from '@/helpers/querySyncHelper.js'
 import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
 import campShortTitle from '@/common/helpers/campShortTitle.js'
-import { DEFAULT_JS_COMPLIANCE_DAYTIMES, DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES } from '@/components/program/picasso/jsCoachCheck.js'
+import {
+  DEFAULT_JS_COMPLIANCE_DAYTIMES,
+  DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES,
+} from '@/components/program/picasso/jsCoachCheck.js'
 
 export default {
   name: 'CampProgram',
@@ -316,9 +313,7 @@ export default {
         progressLabels: true,
       },
       showJsCheck: false,
-      jsCheckDaytimes: JSON.parse(
-        JSON.stringify(DEFAULT_JS_COMPLIANCE_DAYTIMES)
-      ),
+      jsCheckDaytimes: JSON.parse(JSON.stringify(DEFAULT_JS_COMPLIANCE_DAYTIMES)),
       jsCheckCategoryPrefixes: JSON.parse(
         JSON.stringify(DEFAULT_JS_COMPLIANCE_CATEGORY_PREFIXES)
       ),
