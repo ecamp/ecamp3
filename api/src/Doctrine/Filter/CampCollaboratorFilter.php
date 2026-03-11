@@ -13,8 +13,8 @@ use App\Util\QueryBuilderHelper;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
+use Symfony\Component\TypeInfo\Type;
 
 final class CampCollaboratorFilter extends AbstractFilter {
     public const string QUERY_PARAM_NAME = 'campCollaborator';
@@ -33,7 +33,7 @@ final class CampCollaboratorFilter extends AbstractFilter {
     public function getDescription(string $resourceClass): array {
         return [self::QUERY_PARAM_NAME => [
             'property' => self::QUERY_PARAM_NAME,
-            'type' => Type::BUILTIN_TYPE_STRING,
+            'type' => Type::string()->__toString(),
             'required' => false,
         ]];
     }

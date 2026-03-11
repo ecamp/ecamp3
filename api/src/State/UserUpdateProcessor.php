@@ -26,7 +26,7 @@ class UserUpdateProcessor extends AbstractPersistProcessor {
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): User {
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
-            $data->eraseCredentials();
+            $data->prepareForSerialization();
         }
 
         return $data;

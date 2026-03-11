@@ -626,7 +626,7 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertCount(1, $connectedChecklistItems);
         $connectedChecklistItem = reset($connectedChecklistItems);
 
-        $this->assertEquals($this->getIriFor('checklistItem1_1_1'), $this->getIriFor($connectedChecklistItem));
+        $this->assertSame($this->getIriFor('checklistItem1_1_1'), $this->getIriFor($connectedChecklistItem));
     }
 
     public function testCreateActivityFromCopySourceAcrossCamp() {

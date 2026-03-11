@@ -12,16 +12,18 @@ class QueryBuilderHelper {
         return QueryBuilderHelper::findOrAddInnerJoinAlias($queryBuilder, $queryNameGenerator, $rootAlias, $association);
     }
 
+    /**
+     * @psalm-suppress NoValue
+     */
     public static function findOrAddInnerJoinAlias(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $alias, string $association) {
         $allJoins = $queryBuilder->getDQLPart('join');
 
-        /** @var array $joins */
         $joins = array_filter(
             $allJoins[$alias] ?? [],
             fn ($j) => 'INNER' == $j->getJoinType() && $j->getJoin() == "{$alias}.{$association}"
         );
 
-        if (empty($joins)) {
+        if ([] === $joins) {
             $innerAlias = $queryNameGenerator->generateJoinAlias($association);
             $queryBuilder->join("{$alias}.{$association}", $innerAlias);
         } else {

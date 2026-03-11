@@ -38,7 +38,7 @@ class UserCreateProcessor extends AbstractPersistProcessor {
         $data->state = User::STATE_REGISTERED;
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
-            $data->eraseCredentials();
+            $data->prepareForSerialization();
         }
         $data->activationKey = IdGenerator::generateRandomHexString(64);
         $data->activationKeyHash = md5($data->activationKey);

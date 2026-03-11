@@ -52,7 +52,10 @@ class UriTemplateFactoryTest extends TestCase {
         ]));
 
         $this->resourceNameCollectionFactory->method('create')->willReturnCallback(fn (): ResourceNameCollection => $this->resourceNameCollection);
-        $this->resourceMetadataCollectionFactory->method('create')->with('Dummy')->willReturnCallback(fn () => $this->resourceMetadataCollection);
+        $this->resourceMetadataCollectionFactory->method('create')->willReturnCallback(fn ($class) => match ($class) {
+            'Dummy' => $this->resourceMetadataCollection
+        });
+
         $this->iriConverter->method('getIriFromResource')->willReturnCallback(function (object|string $resourceClass): string {
             return '/'.lcfirst($resourceClass).'s';
         });
@@ -122,7 +125,11 @@ class UriTemplateFactoryTest extends TestCase {
         ])));
         $filter = $this->createStub(FilterInterface::class);
         $filter->method('getDescription')->willReturn(['some_filter' => 'something']);
-        $this->filterLocator->method('get')->with('some_filter_identifier')->willReturn($filter);
+        $this->filterLocator->method('get')
+            ->willReturnCallback(fn ($filterName) => match ($filterName) {
+                'some_filter_identifier' => $filter
+            })
+        ;
         $this->createFactory();
 
         // when

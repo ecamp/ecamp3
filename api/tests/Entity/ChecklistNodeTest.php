@@ -18,9 +18,7 @@ class ChecklistNodeTest extends TestCase {
     private Camp $camp;
     private Checklist $checklist;
     private ChecklistItem $itemPrototype1;
-    private ChecklistItem $itemPrototype2;
     private ChecklistItem $itemPrototype3;
-    private ColumnLayout $rootNode;
     private ChecklistNode $checklistNodePrototype;
     private ChecklistNode $checklistNode;
 
@@ -30,25 +28,25 @@ class ChecklistNodeTest extends TestCase {
         $this->checklist->name = 'checklist1';
         $this->camp->addChecklist($this->checklist);
 
-        $this->rootNode = new ColumnLayout();
+        $rootNode = new ColumnLayout();
         $campRootContentNode = new CampRootContentNode();
         $campRootContentNode->camp = $this->camp;
-        $campRootContentNode->rootContentNode = $this->rootNode;
-        $this->rootNode->campRootContentNodes->add($campRootContentNode);
+        $campRootContentNode->rootContentNode = $rootNode;
+        $rootNode->campRootContentNodes->add($campRootContentNode);
 
         $this->itemPrototype1 = new ChecklistItem();
         $this->itemPrototype1->text = 'item1';
         $this->checklist->addChecklistItem($this->itemPrototype1);
-        $this->itemPrototype2 = new ChecklistItem();
-        $this->itemPrototype2->text = 'item2';
-        $this->checklist->addChecklistItem($this->itemPrototype2);
+        $itemPrototype2 = new ChecklistItem();
+        $itemPrototype2->text = 'item2';
+        $this->checklist->addChecklistItem($itemPrototype2);
         $this->itemPrototype3 = new ChecklistItem();
         $this->itemPrototype3->text = 'item3';
-        $this->itemPrototype2->addChild($this->itemPrototype3);
+        $itemPrototype2->addChild($this->itemPrototype3);
         $this->checklist->addChecklistItem($this->itemPrototype3);
 
         $this->checklistNodePrototype = new ChecklistNode();
-        $this->checklistNodePrototype->root = $this->rootNode;
+        $this->checklistNodePrototype->root = $rootNode;
 
         $this->checklistNode = new ChecklistNode();
     }

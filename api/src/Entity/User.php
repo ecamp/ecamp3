@@ -182,6 +182,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->comments = new ArrayCollection();
     }
 
+    public function __serialize(): array {
+        $this->prepareForSerialization();
+
+        return (array) $this;
+    }
+
     /**
      * A displayable name of the user.
      */
@@ -239,8 +245,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[\Deprecated]
     public function eraseCredentials(): void {
-        // If you store any temporary, sensitive data on the user, clear it here
-        $this->plainPassword = null;
+        $this->prepareForSerialization();
     }
 
     public function getEmail(): ?string {
@@ -321,5 +326,10 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         }
 
         return $this;
+    }
+
+    public function prepareForSerialization(): void {
+        // If you store any temporary, sensitive data on the user, clear it here
+        $this->plainPassword = null;
     }
 }

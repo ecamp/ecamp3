@@ -44,7 +44,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())
             ->method('encode')
-            ->with($this->callback(function ($value) {
+            ->with($this->callback(function (array $value) {
                 return is_array($value)
                     && 'bar' === $value['foo']
                     && is_string($value['state'])
@@ -259,7 +259,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createMock(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createMock(Request::class);
+        $requestMock = $this->createStub(Request::class);
         $requestStackMock = $this->createMock(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
         $cookieBag = new InputBag();
@@ -279,7 +279,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             ->willThrowException(new NoResultException())
         ;
 
-        $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+        $entityManagerMock = $this->createStub(EntityManagerInterface::class);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -305,7 +305,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createMock(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createMock(Request::class);
+        $requestMock = $this->createStub(Request::class);
         $requestStackMock = $this->createMock(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
         $cookieBag = new InputBag();
@@ -325,7 +325,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             ->willThrowException(new NonUniqueResultException())
         ;
 
-        $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+        $entityManagerMock = $this->createStub(EntityManagerInterface::class);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -351,7 +351,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createMock(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createMock(Request::class);
+        $requestMock = $this->createStub(Request::class);
         $requestStackMock = $this->createMock(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
         $cookieBag = new InputBag();

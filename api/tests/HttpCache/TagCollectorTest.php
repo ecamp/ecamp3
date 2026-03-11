@@ -99,7 +99,7 @@ class TagCollectorTest extends TestCase {
         $this->responseTagger
             ->expects(exactly(2))
             ->method('addTags')
-            ->willReturnCallback(function ($tags) use (&$seen) {
+            ->willReturnCallback(function (array $tags) use (&$seen) {
                 $valid = $tags === ['123#PROPERTY_NAME'] || $tags === ['123#OTHER_DEPENDENCY'];
                 if ($valid) {
                     $seen[] = $tags[0];
