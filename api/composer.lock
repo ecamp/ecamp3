@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c36c8d1a62d911cdedb13f52bf09575f",
+    "content-hash": "4f3c3c9c212bd4af360c8c38f1b48694",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -2992,16 +2992,16 @@
         },
         {
             "name": "friendsofsymfony/http-cache-bundle",
-            "version": "3.3.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle.git",
-                "reference": "9a7b7ceb37d7801b2e300dbc1d1d8352c9db774a"
+                "reference": "84dff2979cb5b4e07ae3803904bbcd5888a91950"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/9a7b7ceb37d7801b2e300dbc1d1d8352c9db774a",
-                "reference": "9a7b7ceb37d7801b2e300dbc1d1d8352c9db774a",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/84dff2979cb5b4e07ae3803904bbcd5888a91950",
+                "reference": "84dff2979cb5b4e07ae3803904bbcd5888a91950",
                 "shasum": ""
             },
             "require": {
@@ -3087,9 +3087,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/tree/3.3.0"
+                "source": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/tree/3.4.0"
             },
-            "time": "2026-01-13T07:44:35+00:00"
+            "time": "2026-03-05T08:33:04+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -7656,16 +7656,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v7.4.6",
+            "version": "v7.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "2bde8afd5ab2fe0b05a9c2d4c3c0e28ceb98a154"
+                "reference": "1010624285470eb60e88ed10035102c75b4ea6af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/2bde8afd5ab2fe0b05a9c2d4c3c0e28ceb98a154",
-                "reference": "2bde8afd5ab2fe0b05a9c2d4c3c0e28ceb98a154",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/1010624285470eb60e88ed10035102c75b4ea6af",
+                "reference": "1010624285470eb60e88ed10035102c75b4ea6af",
                 "shasum": ""
             },
             "require": {
@@ -7733,7 +7733,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v7.4.6"
+                "source": "https://github.com/symfony/http-client/tree/v7.4.7"
             },
             "funding": [
                 {
@@ -7753,7 +7753,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-18T09:46:18+00:00"
+            "time": "2026-03-05T11:16:58+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
