@@ -57,7 +57,7 @@
     "prettier": "3.8.1",
     "sass": "1.82.0",
     "vite-plugin-eslint2": "5.0.5",
-    "vite-svg-loader": "5.1.0",
+    "vite-svg-loader": "5.1.1",
     "vitest": "4.0.18",
     "vue": "3.5.29"
   },
