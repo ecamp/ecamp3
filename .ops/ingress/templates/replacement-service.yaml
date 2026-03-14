@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    {{ include "app.commonLabels" . | nindent 4 }}
+    {{ include "app.commonSelectorLabels" . | nindent 4 }}
+  name: {{ include "app.name" . }}-replacement-service
+spec:
+  type: LoadBalancer
+  allocateLoadBalancerNodePorts: true
+  ports:
+    - appProtocol: http
+      name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - appProtocol: https
+      name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    deployment: f5-nginx-ingress
+  sessionAffinity: None

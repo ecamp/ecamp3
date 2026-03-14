@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    # hardcoded to steal the existing load balancer
+    kubernetes.digitalocean.com/load-balancer-id: 912873cb-ddf7-4800-a70c-61efc6f2ab59
+    meta.helm.sh/release-name: ecamp3-ingress
+    meta.helm.sh/release-namespace: ingress-nginx
+    service.beta.kubernetes.io/do-loadbalancer-type: REGIONAL
+  labels:
+    app.kubernetes.io/component: controller
+  # hardcoded to steal the existing load balancer
+  name: ingress-nginx-controller
+spec:
+  type: LoadBalancer
+  allocateLoadBalancerNodePorts: true
+  ports:
+    - appProtocol: http
+      name: http
+      nodePort: 32638
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - appProtocol: https
+      name: https
+      nodePort: 32189
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ecamp3-ingress
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None

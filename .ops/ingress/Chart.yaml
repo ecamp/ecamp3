@@ -27,3 +27,7 @@ dependencies:
   - name: ingress-nginx
     version: 4.14.3
     repository: https://kubernetes.github.io/ingress-nginx
+  - name: nginx-ingress
+    version: 2.4.4
+    repository: oci://ghcr.io/nginx/charts
+    alias: f5-nginx-ingress

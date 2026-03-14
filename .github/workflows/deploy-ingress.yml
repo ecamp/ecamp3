@@ -42,6 +42,10 @@ jobs:
           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
           helm repo update
 
+      - name: Login to ghcr.io ocr registry
+        run: |
+          helm registry login -u ${{ github.actor }} ghcr.io --password  ${{ secrets.GITHUB_TOKEN }}
+
       - name: Diff deployment
         run: |
           ./deploy.sh diff || true
