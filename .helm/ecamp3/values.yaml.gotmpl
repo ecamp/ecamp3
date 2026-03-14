@@ -224,7 +224,7 @@ securityContext: {}
 # runAsUser: 1000
 
 ingress:
-  enabled: true
+  enabled: {{ .Environment.Values | get "INGRESS_ENABLED" true }}
   basicAuth:
     enabled: {{ .Environment.Values | getOrNil "BASIC_AUTH_ENABLED" | default false }}
     username: {{ .Environment.Values | getOrNil "BASIC_AUTH_USERNAME" | quote }}
@@ -233,6 +233,11 @@ ingress:
   # kubernetes.io/tls-acme: "true"
   className: nginx
   tls:
+
+gateway:
+  enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+  className: {{ .Environment.Values | get "GATEWAY_CLASS_NAME" "traefik" }}
+  annotations: {}
 
 apiCache:
   enabled: {{ .Environment.Values | get "API_CACHE_ENABLED" false }}

@@ -1,0 +1,29 @@
+{{- if and .Values.mail.dummyEnabled .Values.mail.subpath (not .Values.mail.dsn) }}
+{{- if .Values.gateway.enabled -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "mail.name" . }}
+  labels:
+    {{- include "mail.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.ingress.basicAuth.enabled }}
+    traefik.ingress.kubernetes.io/router.middlewares: {{ printf "%s-%s-basic-auth@kubernetescrd" .Release.Namespace (include "app.name" .) | quote }}
+    {{- end }}
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: api-gateway
+  hostnames:
+    - {{ .Values.domain | quote }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ .Values.mail.subpath }}
+      backendRefs:
+        - name: {{ include "mail.name" . }}
+          port: {{ .Values.mail.service.port }}
+{{- end }}
+{{- end }}
