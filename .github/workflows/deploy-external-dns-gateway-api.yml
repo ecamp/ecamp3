@@ -1,0 +1,67 @@
+name: Deploy external-dns-gateway-api
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Choose environment"
+        type: environment
+        required: true
+        default: dev
+      action:
+        description: "Choose action"
+        type: choice
+        required: true
+        default: diff
+        options:
+          - diff
+          - deploy
+
+jobs:
+  deploy-external-dns-gateway-api:
+    name: "Deploy external-dns-gateway-api"
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Dump secrets to /tmp/secrets.yaml
+        run: |
+          cat << 'EOF' | tee -a /tmp/secrets.yaml
+          ${{ toJSON(secrets) }}
+          EOF
+          jq '.' /tmp/secrets.yaml
+
+      - name: Dump variables to /tmp/env.yaml
+        run: |
+          cat << 'EOF' | tee -a /tmp/env.yaml
+          ${{ toJSON(vars) }}
+          EOF
+          jq '.' /tmp/env.yaml
+
+      - name: Merge secrets and variables
+        run: |
+          jq -s '.[0] + .[1]' /tmp/secrets.yaml /tmp/env.yaml > env.yaml
+          jq '.' env.yaml
+        working-directory: .ops/external-dns-gateway-api
+
+      - name: Setup helm
+        run: |
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+
+      - uses: ./.github/actions/setup-helmfile
+
+      - name: Diff deployment
+        run: |
+          ./deploy.sh diff || true
+        working-directory: .ops/external-dns-gateway-api
+
+      - name: Show values.yaml
+        run: cat values.yaml
+        working-directory: .ops/external-dns-gateway-api
+
+      - name: Deploy
+        if: ${{ github.event.inputs.action == 'deploy' }}
+        run: |
+          ./deploy.sh deploy
+        working-directory: .ops/external-dns-gateway-api

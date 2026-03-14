@@ -1,0 +1,10 @@
+external-dns:
+  provider:
+    name: {{ .Environment.Values | get "EXTERNAL_DNS_PROVIDER" "cloudflare" }}
+  sources:
+    - gateway-httproute
+  cloudflare:
+    apiToken: {{ .Environment.Values | get "CLOUDFLARE_API_TOKEN" "invalid" }}
+  extraArgs:
+    - --cloudflare-proxied
+  # Additional configuration can be mapped here as needed from .ops/ingress/values.yaml patterns
