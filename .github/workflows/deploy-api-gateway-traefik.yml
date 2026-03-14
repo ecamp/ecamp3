@@ -1,0 +1,42 @@
+name: Deploy Traefik API Gateway
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment'
+        type: environment
+        default: dev
+  push:
+    branches:
+      - devel
+    paths:
+      - .github/workflows/deploy-api-gateway-traefik.yml
+      - .ops/api-gateway-traefik/**
+
+jobs:
+  deploy-api-gateway-traefik:
+    name: 'Deploy Traefik API Gateway'
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Setup helm
+        run: |
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+
+      - name: Add helm repositories
+        run: |
+          helm repo add traefik https://traefik.github.io/charts
+          helm repo update
+
+      - name: Diff deployment
+        run: |
+          ./deploy.sh diff || true
+        working-directory: .ops/api-gateway-traefik
+
+      - name: Deploy
+        run: |
+          ./deploy.sh deploy
+        working-directory: .ops/api-gateway-traefik
