@@ -12,35 +12,20 @@ ingress-nginx:
         {"timestamp":"$time_iso8601","requestID":"$req_id","proxyUpstreamName":"$proxy_upstream_name","proxyAlternativeUpstreamName":"$proxy_alternative_upstream_name","upstreamStatus":$upstream_status,"upstreamAddr":"$upstream_addr","httpRequest":{"requestMethod":"$request_method","requestUrl":"$host$request_uri","status":$status,"requestSize":"$request_length","responseSize":"$upstream_response_length","userAgent":"$http_user_agent","remoteIp":"$remote_addr","referer":"$http_referer","request_time_seconds":$upstream_response_time,"protocol":"$server_protocol"}}
 
 traefik:
-  fullnameOverride: traefik
   providers:
     kubernetesGateway:
       enabled: true
   gateway:
     enabled: true
+  ingressClass:
+    enabled: false
   logs:
     access:
       enabled: true
       format: json
       fields:
-        # Names for Traefik log template variables from: https://doc.traefik.io/traefik/observability/access-logs/#fields
-        names:
-          StartLocal: timestamp
-          RequestID: requestID
-          RouterName: proxyUpstreamName
-          ServiceAddr: upstreamAddr
-          # Note: proxyAlternativeUpstreamName and upstreamStatus might not have direct equivalents in Traefik standard JSON logs
-          # without custom middleware or mapping.
-          RequestMethod: httpRequest.requestMethod
-          RequestPath: httpRequest.requestUrl
-          Status: httpRequest.status
-          RequestContentSize: httpRequest.requestSize
-          Overhead: httpRequest.responseSize
-          "ClientUserAgent": "httpRequest.userAgent"
-          ClientAddr: httpRequest.remoteIp
-          "RequestReferer": "httpRequest.referer"
-          Duration: httpRequest.request_time_seconds
-          RequestProtocol: httpRequest.protocol
+        headers:
+          defaultmode: keep
 
 external-dns:
   enabled: false

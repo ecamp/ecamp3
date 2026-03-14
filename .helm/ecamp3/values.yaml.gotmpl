@@ -231,6 +231,11 @@ ingress:
   className: nginx
   tls:
 
+gateway:
+  enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+  className: {{ .Environment.Values | get "GATEWAY_CLASS_NAME" "traefik" }}
+  annotations: {}
+
 apiCache:
   enabled: {{ .Environment.Values | get "API_CACHE_ENABLED" false }}
   image:
