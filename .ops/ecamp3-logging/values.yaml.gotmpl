@@ -62,7 +62,7 @@ elasticsearch:
     maxIndexAge: {{ .Environment.Values | get "ELASTIC_NODE_MAX_INDEX_AGE" "15" }}
     image: node
     # renovate: datasource=docker depName=node
-    tag: "24.13.0"
+    tag: "24.14.0"
 
 kibana:
   name: kibana

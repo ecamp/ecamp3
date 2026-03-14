@@ -12,14 +12,14 @@
     "dependencies": {
         "@pulumi/pulumi": "3.225.1",
         "@pulumi/aws": "7.21.0",
-        "@pulumi/awsx": "3.2.0"
+        "@pulumi/awsx": "3.3.0"
     },
     "devDependencies": {
         "@babel/eslint-parser": "7.28.6",
-        "@eslint/compat": "2.0.2",
-        "@eslint/js": "9.39.3",
-        "@types/node": "24.10.13",
-        "eslint": "9.39.3",
+        "@eslint/compat": "2.0.3",
+        "@eslint/js": "9.39.4",
+        "@types/node": "24.12.0",
+        "eslint": "9.39.4",
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-n": "17.24.0",
         "eslint-plugin-prettier": "5.5.5",

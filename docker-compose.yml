@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.13.0
+    image: node:24.14.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -81,7 +81,7 @@ services:
     command: varnishncsa
 
   pdf:
-    image: node:24.13.0
+    image: node:24.14.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -101,7 +101,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:24.13.0
+    image: node:24.14.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -212,7 +212,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.13.0
+    image: node:24.14.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
