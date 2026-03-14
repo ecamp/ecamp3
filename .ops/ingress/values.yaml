@@ -41,3 +41,12 @@ traefik:
           "RequestReferer": "httpRequest.referer"
           Duration: httpRequest.request_time_seconds
           RequestProtocol: httpRequest.protocol
+
+external-dns:
+  enabled: false
+  provider:
+    name: cloudflare
+  sources:
+    - gateway-httproute
+  # Cloudflare configuration (API token, email, etc.) should be provided via extraArgs or secrets during actual deployment.
+  # See https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md for details.

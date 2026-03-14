@@ -30,3 +30,6 @@ dependencies:
   - name: traefik
     version: 39.0.5
     repository: https://traefik.github.io/charts
+  - name: external-dns
+    version: 1.15.0
+    repository: https://kubernetes-sigs.github.io/external-dns/
