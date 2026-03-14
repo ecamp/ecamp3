@@ -25,7 +25,7 @@ spec:
       http:
         paths:
           - path: {{ .Values.mail.subpath }}
-            pathType: ImplementationSpecific
+            pathType: {{ include "ingress.pathType" . }}
             backend:
               service:
                 name: {{ include "mail.name" . }}

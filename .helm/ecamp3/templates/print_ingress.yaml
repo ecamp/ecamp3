@@ -1,4 +1,8 @@
 {{- if .Values.ingress.enabled -}}
+{{- $printPath := .Values.print.subpath }}
+{{- if eq .Values.ingress.className "nginx" }}
+{{- $printPath = printf "%s(/|$)(.*)" $printPath }}
+{{- end }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,9 +15,13 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- include "ingress.basicAuth.annotations" . | nindent 4 }}
-    {{- if not (.Values.print.ingress.readTimeoutSeconds | empty) }}
+    {{- if eq .Values.ingress.className "f5-nginx-ingress" }}
+    nginx.org/rewrites: "serviceName={{ include "print.name" . }} rewrite=/"
+    {{- else if eq .Values.ingress.className "nginx" }}
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.print.ingress.readTimeoutSeconds | quote }}
+    {{- end }}
+    {{- if not (.Values.print.ingress.readTimeoutSeconds | empty) }}
+    {{ include "ingress.annotation.path" . }}proxy-read-timeout: {{ .Values.print.ingress.readTimeoutSeconds | quote }}
     {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
@@ -27,8 +35,8 @@ spec:
     - host: {{ .Values.domain | quote }}
       http:
         paths:
-          - path: {{ .Values.print.subpath }}(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: {{ $printPath }}
+            pathType: {{ include "ingress.pathType" . }}
             backend:
               service:
                 name: {{ include "print.name" . }}

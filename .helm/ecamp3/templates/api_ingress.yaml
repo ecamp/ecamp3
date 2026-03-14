@@ -1,4 +1,8 @@
 {{- if .Values.ingress.enabled -}}
+{{- $apiPath := .Values.api.subpath }}
+{{- if eq .Values.ingress.className "nginx" }}
+{{- $apiPath = printf "%s(/|$)(.*)" $apiPath }}
+{{- end }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,8 +15,12 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     {{- include "ingress.basicAuth.annotations" . | nindent 4 }}
+    {{- if eq .Values.ingress.className "f5-nginx-ingress" }}
+    nginx.org/rewrites: "serviceName={{ if .Values.apiCache.enabled }}{{ include "apiCache.name" . }}{{ else }}{{ include "api.name" . }}{{ end }} rewrite=/"
+    {{- else if eq .Values.ingress.className "nginx" }}
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/x-forwarded-prefix: {{ .Values.api.subpath }}
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- if .Values.ingress.tls }}
@@ -25,8 +33,8 @@ spec:
     - host: {{ .Values.domain | quote }}
       http:
         paths:
-          - path: {{ .Values.api.subpath }}(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: {{ $apiPath }}
+            pathType: {{ include "ingress.pathType" . }}
             backend:
               service:
                 {{- if .Values.apiCache.enabled }}

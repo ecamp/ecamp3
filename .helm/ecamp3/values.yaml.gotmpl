@@ -228,7 +228,7 @@ ingress:
     password: {{ .Environment.Values | getOrNil "BASIC_AUTH_PASSWORD" | quote }}
   annotations:
   # kubernetes.io/tls-acme: "true"
-  className: nginx
+  className: {{ .Environment.Values | getOrNil "INGRESS_CLASS_NAME" | default "nginx" }}
   tls:
 
 apiCache:

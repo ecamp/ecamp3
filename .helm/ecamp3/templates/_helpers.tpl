@@ -183,14 +183,34 @@ Ingress basic auth secret name
 {{- printf "%s-basic-auth" (include "app.name" .) }}
 {{- end }}
 
+{{- define "ingress.pathType" -}}
+{{- if eq .Values.ingress.className "f5-nginx-ingress" }}
+{{- "Prefix" }}
+{{- else if eq .Values.ingress.className "nginx" }}
+{{- "ImplementationSpecific" }}
+{{- else }}
+{{- fail (printf "Unkown ingress className %s" .Values.ingress.className) }}
+{{- end }}
+{{- end }}
+
+{{- define "ingress.annotation.path" -}}
+{{- if eq .Values.ingress.className "f5-nginx-ingress" }}
+{{- "nginx.org/" }}
+{{- else if eq .Values.ingress.className "nginx" }}
+{{- "nginx.ingress.kubernetes.io/" }}
+{{- else }}
+{{- fail (printf "Unkown ingress className %s" .Values.ingress.className) }}
+{{- end }}
+{{- end }}
+
 {{/*
 Ingress annotations for basic auth
 */}}
 {{- define "ingress.basicAuth.annotations" -}}
 {{- if .Values.ingress.basicAuth.enabled }}
-nginx.ingress.kubernetes.io/auth-type: "basic"
-nginx.ingress.kubernetes.io/auth-secret: {{ include "ingress.basicAuth.secret.name" . | quote }}
-nginx.ingress.kubernetes.io/auth-realm: {{ printf "Authentication Required - %s is protected and needs authentication" .Values.domain | quote }}
+{{ include "ingress.annotation.path" }}auth-type: "basic"
+{{ include "ingress.annotation.path" }}auth-secret: {{ include "ingress.basicAuth.secret.name" . | quote }}
+{{ include "ingress.annotation.path" }}auth-realm: {{ printf "Authentication Required - %s is protected and needs authentication" .Values.domain | quote }}
 {{- end }}
 {{- end }}
 
