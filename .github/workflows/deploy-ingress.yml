@@ -7,12 +7,23 @@ on:
         description: 'Choose environment'
         type: environment
         default: dev
+      action:
+        description: "Choose action"
+        type: choice
+        required: true
+        default: diff
+        options:
+          - diff
+          - deploy
   push:
     branches:
       - devel
     paths:
       - .github/workflows/deploy-ingress.yml
       - .ops/ingress/**
+
+env:
+  action: ${{ github.event.inputs.action || 'deploy' }}
 
 jobs:
   deploy-ingress:
@@ -37,6 +48,7 @@ jobs:
         working-directory: .ops/ingress
 
       - name: Deploy
+        if: env.action == 'deploy'
         run: |
           ./deploy.sh deploy
         working-directory: .ops/ingress
