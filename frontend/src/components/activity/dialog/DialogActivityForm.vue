@@ -7,6 +7,7 @@
         vee-rules="required"
         class="flex-grow-1"
         autofocus
+        maxlength="32"
         @focus="autoselectTitle ? $event.target.select() : null"
       />
       <slot name="textFieldTitleAppend" />
@@ -36,7 +37,12 @@
       </template>
     </e-select>
 
-    <e-text-field v-if="!hideLocation" v-model="localActivity.location" path="location" />
+    <e-text-field
+      v-if="!hideLocation"
+      v-model="localActivity.location"
+      path="location"
+      maxlength="64"
+    />
 
     <FormScheduleEntryList
       v-if="activity.scheduleEntries"

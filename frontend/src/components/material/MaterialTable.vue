@@ -60,7 +60,7 @@
           dense
           :uri="item.uri"
           path="article"
-          maxlength="64"
+          maxlength="32"
         />
         <span v-if="item.readonly">{{ item.article }}</span>
       </template>

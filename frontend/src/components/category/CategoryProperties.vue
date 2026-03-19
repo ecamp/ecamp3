@@ -1,8 +1,18 @@
 <template>
   <api-form :entity="category" name="category">
-    <api-text-field path="short" :disabled="disabled" vee-rules="required" />
+    <api-text-field
+      path="short"
+      :disabled="disabled"
+      vee-rules="required"
+      maxlength="16"
+    />
 
-    <api-text-field path="name" :disabled="disabled" vee-rules="required" />
+    <api-text-field
+      path="name"
+      :disabled="disabled"
+      vee-rules="required"
+      maxlength="32"
+    />
 
     <api-color-picker path="color" :disabled="disabled" vee-rules="required" />
 

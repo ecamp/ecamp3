@@ -5,6 +5,7 @@
       path="name"
       autofocus
       vee-rules="required"
+      maxlength="32"
     />
   </e-form>
 </template>

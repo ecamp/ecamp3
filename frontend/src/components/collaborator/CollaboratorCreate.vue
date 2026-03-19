@@ -23,6 +23,7 @@
       path="inviteEmail"
       vee-rules="required|email"
       class="mb-2"
+      maxlength="128"
     />
 
     <CollaboratorForm :collaboration="entityData" />

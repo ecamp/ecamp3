@@ -18,6 +18,7 @@
         path="description"
         autofocus
         vee-rules="required"
+        maxlength="32"
       />
     </e-form>
   </dialog-form>

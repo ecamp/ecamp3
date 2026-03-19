@@ -4,6 +4,7 @@
       v-model="localPeriod.description"
       path="description"
       vee-rules="required"
+      maxlength="32"
     />
 
     <e-date-picker

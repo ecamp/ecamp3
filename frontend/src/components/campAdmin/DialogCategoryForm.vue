@@ -6,11 +6,17 @@
         path="short"
         vee-rules="required"
         class="flex-grow-1"
+        maxlength="16"
       />
       <slot name="textFieldTitleAppend" />
     </div>
 
-    <e-text-field v-model="localCategory.name" path="name" vee-rules="required" />
+    <e-text-field
+      v-model="localCategory.name"
+      path="name"
+      vee-rules="required"
+      maxlength="32"
+    />
 
     <e-color-picker v-model="localCategory.color" path="color" vee-rules="required" />
 

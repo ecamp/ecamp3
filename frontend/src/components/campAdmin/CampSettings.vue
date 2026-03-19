@@ -15,6 +15,7 @@ Displays details on a single camp and allows to edit them.
           vee-rules="required|max:32"
           :disabled="disabled"
           data-testid="title"
+          maxlength="32"
         />
 
         <api-text-field
@@ -23,9 +24,10 @@ Displays details on a single camp and allows to edit them.
           :disabled="disabled"
           persistent-placeholder
           vee-rules="max:16"
+          maxlength="16"
         />
 
-        <api-text-field path="motto" :disabled="disabled" />
+        <api-text-field path="motto" :disabled="disabled" maxlength="128" />
       </api-form>
     </div>
   </content-group>

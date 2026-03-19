@@ -83,6 +83,7 @@ Displays a single scheduleEntry
           :disabled="layoutMode"
           dense
           autofocus
+          maxlength="32"
           :auto-save="false"
           @finished="editActivityTitle = false"
         />
@@ -257,6 +258,7 @@ Displays a single scheduleEntry
                     path="location"
                     :disabled="layoutMode || !isContributor"
                     dense
+                    maxlength="64"
                   />
                 </v-col>
                 <v-col class="col col-sm-4 col-12">

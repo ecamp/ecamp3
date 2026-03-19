@@ -12,6 +12,7 @@
             dense
             type="text"
             autocomplete="given-name"
+            maxlength="64"
           />
 
           <e-text-field
@@ -22,6 +23,7 @@
             dense
             type="text"
             autocomplete="family-name"
+            maxlength="64"
           />
 
           <e-text-field
@@ -31,6 +33,7 @@
             dense
             type="text"
             autocomplete="nickname"
+            maxlength="32"
           />
 
           <e-text-field

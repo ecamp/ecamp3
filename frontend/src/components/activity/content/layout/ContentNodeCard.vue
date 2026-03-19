@@ -21,6 +21,7 @@
             autofocus
             :auto-save="false"
             path="instanceName"
+            maxlength="32"
             @finished="editInstanceName = false"
           />
         </api-form>

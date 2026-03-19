@@ -38,6 +38,7 @@
               :my="false"
               input-class="mb-2 pt-0"
               required
+              maxlength="32"
             />
           </v-col>
         </v-row>

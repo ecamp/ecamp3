@@ -25,7 +25,7 @@
         dense
         vee-rules="required"
         path="article"
-        maxlength="64"
+        maxlength="32"
       />
     </td>
     <td class="pt-1" :colspan="columns - 4">

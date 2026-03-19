@@ -34,11 +34,11 @@
               </template>
             </e-text-field>
 
-            <api-text-field path="firstname" @finished="reloadUser()" />
+            <api-text-field path="firstname" maxlength="64" @finished="reloadUser()" />
 
-            <api-text-field path="surname" @finished="reloadUser()" />
+            <api-text-field path="surname" maxlength="64" @finished="reloadUser()" />
 
-            <api-text-field path="nickname" @finished="reloadUser()" />
+            <api-text-field path="nickname" maxlength="32" @finished="reloadUser()" />
 
             <api-text-field
               path="abbreviation"

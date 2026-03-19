@@ -11,6 +11,7 @@
               vee-rules="required|max:32"
               data-testid="create-camp-title-input"
               required
+              maxlength="32"
             />
             <e-text-field
               v-model="localCamp.organizer"
@@ -21,6 +22,7 @@
               v-model="localCamp.motto"
               path="motto"
               data-testid="create-camp-motto"
+              maxlength="128"
             />
             <CreateCampPeriods
               :add-period="addPeriod"

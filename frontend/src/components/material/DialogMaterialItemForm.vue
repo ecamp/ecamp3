@@ -12,7 +12,7 @@
       v-model="localMaterialItem.article"
       path="article"
       vee-rules="required"
-      maxlength="64"
+      maxlength="32"
     />
     <e-select
       v-model="localMaterialItem.materialList"
