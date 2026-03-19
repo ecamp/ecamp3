@@ -269,7 +269,7 @@ Displays a single scheduleEntry
                   />
                 </v-col>
               </v-row>
-              <v-row dense>
+              <v-row v-if="!isOutsider" dense>
                 <v-col>
                   <ActivityResponsibles
                     :activity="activity"

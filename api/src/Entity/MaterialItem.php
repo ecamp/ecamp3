@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -72,14 +73,6 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
-    /**
-     * The list to which this item belongs. Lists are used to keep track of who is
-     * responsible to prepare and bring the item to the camp.
-     */
-    #[Assert\NotNull]
-    #[AssertBelongsToSameCamp]
-    #[ApiProperty(example: '/material_lists/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
     #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
@@ -156,6 +149,36 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     public function __construct() {
         parent::__construct();
         $this->periodMaterialItems = new ArrayCollection();
+    }
+
+    /**
+     * The list to which this item belongs. Lists are used to keep track of who is
+     * responsible to prepare and bring the item to the camp.
+     */
+    #[Assert\NotNull]
+    #[AssertBelongsToSameCamp]
+    #[ApiProperty(example: '/material_lists/1a2b3c4d', security: 'is_granted("CAMP_COLLABORATOR", object)')]
+    #[Groups(['read', 'write'])]
+    public function getMaterialList(): ?MaterialList {
+        return $this->materialList;
+    }
+
+    /**
+     * The list to which this item belongs. Lists are used to keep track of who is
+     * responsible to prepare and bring the item to the camp.
+     */
+    #[Assert\NotNull]
+    #[AssertBelongsToSameCamp]
+    #[ApiProperty(example: '/material_lists/1a2b3c4d', security: '!is_granted("CAMP_COLLABORATOR", object)')]
+    #[Groups(['read', 'write'])]
+    #[SerializedName('materialList')]
+    public function getPublicMaterialList(): ?MaterialList {
+        // When accessing a shared or prototype camp, hide personal material lists
+        if (null !== $this->materialList->campCollaboration) {
+            return null;
+        }
+
+        return $this->materialList;
     }
 
     public function getCamp(): ?Camp {

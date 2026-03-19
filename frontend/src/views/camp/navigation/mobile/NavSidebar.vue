@@ -65,14 +65,16 @@
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemChecklists')"
           icon="mdi-clipboard-list-outline"
         />
-        <v-divider inset />
+        <v-divider v-if="!isOutsider" inset />
         <SidebarListItem
+          v-if="!isOutsider"
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"
           :to="adminRoute(camp, 'collaborators')"
         />
-        <v-divider inset />
+        <v-divider v-if="!isOutsider" inset />
         <SidebarListItem
+          v-if="!isOutsider"
           :to="adminRoute(camp, 'material')"
           :title="$tc('views.camp.navigation.mobile.navSidebar.itemMaterialLists')"
           icon="mdi-package-variant"
@@ -127,6 +129,7 @@ import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 import { mapGetters } from 'vuex'
 import { getEnv } from '@/environment.js'
+import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 
 export default {
   name: 'NavSidebar',
@@ -134,6 +137,7 @@ export default {
     SidebarListItem,
     UserAvatar,
   },
+  mixins: [campRoleMixin],
   props: {
     value: { type: Boolean, required: true },
     camp: { type: Object, required: true },

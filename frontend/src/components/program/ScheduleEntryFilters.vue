@@ -39,35 +39,40 @@
         width="150"
       />
     </template>
-    <SelectFilter
-      v-if="loadingEndpoints !== true && loadingEndpoints.campCollaborations !== true"
-      v-model="value.responsible"
-      multiple
-      and-filter
-      :items="campCollaborations"
-      :display-field="campCollaborationDisplayName"
-      :label="$tc('components.program.scheduleEntryFilters.responsible')"
-      @input="(val) => updateFilter({ responsible: val })"
-    >
-      <template #item="{ item }">
-        <template v-if="item.exclusiveNone">
-          {{ item.text }}
+    <template v-if="!hideCollaboratorFilter">
+      <SelectFilter
+        v-if="loadingEndpoints !== true && loadingEndpoints.campCollaborations !== true"
+        v-model="value.responsible"
+        multiple
+        and-filter
+        :items="campCollaborations"
+        :display-field="campCollaborationDisplayName"
+        :label="$tc('components.program.scheduleEntryFilters.responsible')"
+        @input="(val) => updateFilter({ responsible: val })"
+      >
+        <template #item="{ item }">
+          <template v-if="item.exclusiveNone">
+            {{ item.text }}
+          </template>
+          <template v-else>
+            <TextAlignBaseline class="mr-1">
+              <UserAvatar
+                :camp-collaboration="campCollaborations[item.value]"
+                size="20"
+              />
+            </TextAlignBaseline>
+            {{ item.text }}
+          </template>
         </template>
-        <template v-else>
-          <TextAlignBaseline class="mr-1">
-            <UserAvatar :camp-collaboration="campCollaborations[item.value]" size="20" />
-          </TextAlignBaseline>
-          {{ item.text }}
-        </template>
-      </template>
-    </SelectFilter>
-    <v-skeleton-loader
-      v-else
-      type="button"
-      class="v-skeleton-loader--inherit-size"
-      height="32"
-      width="130"
-    />
+      </SelectFilter>
+      <v-skeleton-loader
+        v-else
+        type="button"
+        class="v-skeleton-loader--inherit-size"
+        height="32"
+        width="130"
+      />
+    </template>
     <SelectFilter
       v-if="loadingEndpoints !== true && loadingEndpoints.categories !== true"
       v-model="value.category"
@@ -191,6 +196,10 @@ export default {
       default: false,
     },
     hidePeriodFilter: {
+      type: Boolean,
+      default: false,
+    },
+    hideCollaboratorFilter: {
       type: Boolean,
       default: false,
     },

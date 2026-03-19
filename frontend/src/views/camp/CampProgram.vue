@@ -94,6 +94,7 @@ Show all activity schedule entries of a single period.
       :camp="camp"
       :filter-fn="filterFn"
       :hide-self-filter="isOutsider"
+      :hide-collaborator-filter="isOutsider"
       hide-period-filter
       hide-day-filter
       @height-changed="scheduleEntryFiltersHeightChanged"

@@ -89,11 +89,19 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public Collection $collaborations;
 
     /**
-     * UserCamp Collections
-     * Based von view_user_camps; lists all camps a user can see.
+     * UserCamp Collection
+     * Based von view_user_camps; lists all camps a user can see through their campCollaborations.
      */
     #[ORM\OneToMany(targetEntity: UserCamp::class, mappedBy: 'user')]
     public Collection $userCamps;
+
+    /**
+     * UserCampWithPublic Collection
+     * Based von view_user_camps_with_public; lists all camps a user can see, through their
+     * campCollaborations or because the camp is a prototype or shared.
+     */
+    #[ORM\OneToMany(targetEntity: UserCampWithPublic::class, mappedBy: 'user')]
+    public Collection $userCampsWithPublic;
 
     /**
      * The state of this user.

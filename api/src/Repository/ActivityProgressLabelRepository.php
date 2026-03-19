@@ -30,6 +30,6 @@ class ActivityProgressLabelRepository extends SortableServiceEntityRepository im
 
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");
+        $this->filterByCampCollaborationOrPublic($queryBuilder, $user, "{$rootAlias}.camp");
     }
 }

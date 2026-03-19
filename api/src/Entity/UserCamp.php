@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * view_user_camps
- * List all visible camps for each user.
+ * List all visible camps for each user through their camp collaborations.
  */
 #[ORM\Entity(readOnly: true)]
 #[ORM\Table(name: 'view_user_camps')]
