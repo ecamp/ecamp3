@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a10646504bc800ad63428e3cb9203495",
+    "content-hash": "e46991bccadfc5c80e6f9c9180ce2d02",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -736,16 +736,16 @@
         },
         {
             "name": "api-platform/metadata",
-            "version": "v4.2.20",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
-                "reference": "af91b0d349b2aa8afffe100cce544b4d72add3eb"
+                "reference": "10016ebdff602c3460a49bcf7002ad0d68231e8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/metadata/zipball/af91b0d349b2aa8afffe100cce544b4d72add3eb",
-                "reference": "af91b0d349b2aa8afffe100cce544b4d72add3eb",
+                "url": "https://api.github.com/repos/api-platform/metadata/zipball/10016ebdff602c3460a49bcf7002ad0d68231e8b",
+                "reference": "10016ebdff602c3460a49bcf7002ad0d68231e8b",
                 "shasum": ""
             },
             "require": {
@@ -758,9 +758,9 @@
                 "symfony/type-info": "^7.3 || ^8.0"
             },
             "require-dev": {
-                "api-platform/json-schema": "^4.2",
-                "api-platform/openapi": "^4.2",
-                "api-platform/state": "^4.2.4",
+                "api-platform/json-schema": "^4.3",
+                "api-platform/openapi": "^4.3",
+                "api-platform/state": "^4.3",
                 "phpspec/prophecy-phpunit": "^2.2",
                 "phpstan/phpdoc-parser": "^1.29 || ^2.0",
                 "phpunit/phpunit": "^12.2",
@@ -788,7 +788,7 @@
                     "dev-3.4": "3.4.x-dev",
                     "dev-4.1": "4.1.x-dev",
                     "dev-4.2": "4.2.x-dev",
-                    "dev-main": "4.3.x-dev"
+                    "dev-main": "4.4.x-dev"
                 }
             },
             "autoload": {
@@ -828,9 +828,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v4.2.20"
+                "source": "https://github.com/api-platform/metadata/tree/v4.3.1"
             },
-            "time": "2026-02-25T15:52:40+00:00"
+            "time": "2026-03-13T14:49:56+00:00"
         },
         {
             "name": "api-platform/openapi",
