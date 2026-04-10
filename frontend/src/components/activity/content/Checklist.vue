@@ -116,11 +116,13 @@ export default {
       )
     },
     selectionContentNode() {
-      return this.api.get().checklistItems({
-        'checklist.camp': this.camp?._meta.self,
-        'checklistNodes': this.contentNode._meta.self
-      }).items ?? []
-      
+      return (
+        this.api.get().checklistItems({
+          'checklist.camp': this.camp?._meta.self,
+          checklistNodes: this.contentNode._meta.self,
+        }).items ?? []
+      )
+
       // return this.campChecklistItems.filter((item) => {
       //   // item.$hrefs('checklistNodes').includes(this.contentNode._meta.self)
       //   return this.api.get(item._storeData.checklistNodes.href)._storeData.items.some((cn) => cn.href == this.contentNode._meta.self)
@@ -159,7 +161,9 @@ export default {
       }))
     },
     activeChecklists() {
-      const checklistUris = this.selectionContentNode.map(ci => ci.checklist()._meta.self)
+      const checklistUris = this.selectionContentNode.map(
+        (ci) => ci.checklist()._meta.self
+      )
       return this.allChecklists
         .filter(({ checklist }) => checklistUris.includes(checklist._meta.self))
         .map(({ checklist, items }) => ({
