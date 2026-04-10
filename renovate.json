@@ -103,7 +103,7 @@
     },
     {
       "matchDepNames": ["postgres"],
-      "allowedVersions": "15-alpine"
+      "allowedVersions": "18-alpine"
     },
     {
       "matchDepNames": ["cypress", "cypress/included"],

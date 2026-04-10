@@ -242,11 +242,11 @@ jobs:
       - api-check-needed
     if: needs.api-check-needed.outputs.should_skip != 'true'
     env:
-      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=15&charset=utf8
+      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=18&charset=utf8
 
     services:
       postgres:
-        image: 'postgres:15-alpine'
+        image: 'postgres:18-alpine'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'

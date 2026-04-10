@@ -124,14 +124,14 @@ services:
     stop_signal: SIGKILL
 
   database:
-    image: postgres:15-alpine
+    image: postgres:18-alpine
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
       - POSTGRES_USER=ecamp3
     volumes:
-      - db-data-postgres:/var/lib/postgresql/data:rw
+      - db-data-postgres:/var/lib/postgresql:rw
       - ./create-ecamp3-test-database.sh:/docker-entrypoint-initdb.d/create-ecamp3-test-database.sh
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data:rw

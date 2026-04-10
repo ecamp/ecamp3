@@ -7,12 +7,13 @@ services:
       - ./api:/app:rw,delegated
       - caddy_data:/data
       - caddy_config:/config
-      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
+      - ./api/docker/caddy/Caddyfile:/etc/frankenphp/Caddyfile:ro
+      - ./api/docker/php/conf.d/20-api-platform.dev.ini:/usr/local/etc/php/app.conf.d/20-api-platform.dev.ini:delegated
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
       - ./.cache/composer:/tmp/composer/cache:delegated
     environment:
-      DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3?serverVersion=15&charset=utf8"
+      DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3?serverVersion=18\
+        &charset=utf8"
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
