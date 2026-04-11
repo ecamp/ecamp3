@@ -2,19 +2,31 @@ import { prepareInMainThread } from '@/pdf/prepareInMainThread.js'
 import cloneDeep from 'lodash-es/cloneDeep.js'
 import { proxy } from 'comlink'
 import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactiveValue.js'
+import axios from 'axios'
+import { getEnv } from '@/environment.js'
+
+const PRINT_URL = getEnv().PRINT_URL
 
 export const generatePdf = async (data, onProgress) => {
   await prepareInMainThread(data.config)
 
   const serializableData = prepareDataForSerialization(data)
+  try {
+    return dispatchRenderPdf(data, serializableData, onProgress)
+  } finally {
+    // noinspection ES6MissingAwait
+    notifyPdfUsage(data.config)
+  }
+}
 
+async function dispatchRenderPdf(data, serializableData, onProgress) {
   if (data.renderInWorker) {
     // ComlinkWorker is provided by vite-plugin-comlink
     // eslint-disable-next-line no-undef
     const instance = new ComlinkWorker(new URL('./renderPdf.worker.js', import.meta.url))
-    return await instance.renderPdfInWorker(serializableData, proxy(onProgress))
+    return instance.renderPdfInWorker(serializableData, proxy(onProgress))
   } else {
-    return await (await import('./renderPdf.js')).renderPdf(serializableData, onProgress)
+    return (await import('./renderPdf.js')).renderPdf(serializableData, onProgress)
   }
 }
 
@@ -44,4 +56,24 @@ function relativeUriFor(entity) {
     return entity
   }
   return entity()?._meta?.self
+}
+
+async function notifyPdfUsage(config) {
+  try {
+    await axios({
+      baseURL: null,
+      method: 'get',
+      url: `${PRINT_URL}/api/logPdfUsage?config=${jsonStringifyReactiveValue(config)}`,
+      withCredentials: false,
+      headers: {
+        common: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      },
+    })
+  } catch {
+    /* empty */
+  }
 }
