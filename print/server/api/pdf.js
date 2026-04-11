@@ -56,6 +56,7 @@ export default defineEventHandler(async (event) => {
   }
   const logOutput = {
     timestamp: new Date(),
+    type: 'nuxt',
   }
 
   try {
