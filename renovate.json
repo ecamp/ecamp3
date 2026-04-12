@@ -8,7 +8,7 @@
     "group:apiPlatform"
   ],
   "constraints": {
-    "node": "24.14.1",
+    "node": "25.9.0",
     "php": "8.5.4"
   },
   "automergeType": "branch",
