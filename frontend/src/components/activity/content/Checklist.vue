@@ -16,16 +16,23 @@
             :disabled="layoutMode"
             v-bind="props"
           >
-            <v-skeleton-loader v-if="!itemsLoaded" class="px-4 pb-4" type="paragraph" />
-            <v-list-item v-else-if="checkedItems.length === 0">
-              <v-list-item-title>
-                {{ $t('global.button.edit') }}
-              </v-list-item-title>
-            </v-list-item>
-            <ChecklistDisplaySelectedItems
-              :checklists="checklists"
-              :layout-mode="layoutMode"
+           <v-skeleton-loader
+            v-if="!itemsLoaded"
+            class="px-4 pb-4"
+            type="paragraph"
             />
+
+          <v-list-item v-else-if="checkedItems.length === 0">
+            <v-list-item-title>
+              {{ $t('global.button.edit') }}
+            </v-list-item-title>
+          </v-list-item>
+
+          <ChecklistDisplaySelectedItems
+            v-else
+            :checklists="checklists"
+            :layout-mode="layoutMode"
+          />
           </button>
         </template>
         <div class="ma-n4">
