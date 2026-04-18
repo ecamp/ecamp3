@@ -1,0 +1,18 @@
+name: ecamp3 CodeQL config
+
+queries:
+  - uses: security-and-quality
+
+paths-ignore:
+  - '**/node_modules/**'
+  - '**/dist/**'
+  - '**/coverage/**'
+  - '**/*.min.js'
+  - '.ops/**'
+  - 'e2e/**'
+  - 'frontend-old/**'
+  - 'translation/**'
+  - 'api/tests/**'
+  - 'api/fixtures/**'
+  - 'pdf/tests/**'
+  - 'print/test/**'
