@@ -88,7 +88,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.28.6",
-    "@eslint/compat": "1.4.0",
+    "@eslint/compat": "1.4.1",
     "@eslint/js": "9.36.0",
     "@sentry/vite-plugin": "4.0.2",
     "@testing-library/jest-dom": "6.8.0",
