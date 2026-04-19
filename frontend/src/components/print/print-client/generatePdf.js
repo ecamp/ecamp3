@@ -62,8 +62,9 @@ async function notifyPdfUsage(config) {
   try {
     await axios({
       baseURL: null,
-      method: 'get',
-      url: `${PRINT_URL}/api/logPdfUsage?config=${jsonStringifyReactiveValue(config)}`,
+      method: 'post',
+      url: `/log`,
+      body: jsonStringifyReactiveValue(config),
       withCredentials: false,
       headers: {
         common: {
