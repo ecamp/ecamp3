@@ -40,6 +40,8 @@ FROM openresty/openresty:1.15.8.3-2-alpine as production-stage
 RUN mkdir /app
 WORKDIR /app
 COPY --from=frontend-build-stage /app/dist /app
-COPY .docker-hub/frontend/nginx.conf /etc/nginx/nginx.conf
-COPY .docker-hub/frontend/docker-entrypoint.d/* /docker-entrypoint.d/
-RUN chmod -R +x /docker-entrypoint.d/
+COPY .docker-hub/frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY .docker-hub/frontend/entrypoint.sh /entrypoint
+RUN chmod -R +x /entrypoint
+ENTRYPOINT ["/entrypoint"]
+CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
