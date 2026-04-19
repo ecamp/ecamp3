@@ -36,7 +36,7 @@ ENV SENTRY_RELEASE_NAME=$SENTRY_RELEASE_NAME
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine as production-stage
+FROM openresty/openresty:1.15.8.3-2-alpine as production-stage
 RUN mkdir /app
 WORKDIR /app
 COPY --from=frontend-build-stage /app/dist /app
