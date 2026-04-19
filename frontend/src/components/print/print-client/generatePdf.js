@@ -3,19 +3,27 @@ import cloneDeep from 'lodash-es/cloneDeep.js'
 import { proxy } from 'comlink'
 import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactiveValue.js'
 import axios from 'axios'
-import { getEnv } from '@/environment.js'
-
-const PRINT_URL = getEnv().PRINT_URL
 
 export const generatePdf = async (data, onProgress) => {
   await prepareInMainThread(data.config)
 
   const serializableData = prepareDataForSerialization(data)
+  const start = new Date()
+  let status = 500
   try {
-    return dispatchRenderPdf(data, serializableData, onProgress)
+    const result = await dispatchRenderPdf(data, serializableData, onProgress)
+    status = 200;
+    const timeTaken = (new Date() - start) / 1000
+    serializableData.measurements = {
+      total: timeTaken,
+    }
+    return result
   } finally {
     // noinspection ES6MissingAwait
-    notifyPdfUsage(data.config)
+    notifyPdfUsage(data.config, {
+      status,
+      timeTaken: (new Date() - start) / 1000,
+    })
   }
 }
 
@@ -58,13 +66,16 @@ function relativeUriFor(entity) {
   return entity()?._meta?.self
 }
 
-async function notifyPdfUsage(config) {
+async function notifyPdfUsage(config, usageData) {
   try {
     await axios({
       baseURL: null,
       method: 'post',
       url: `/log`,
-      body: jsonStringifyReactiveValue(config),
+      body: {
+        ...usageData,
+        config: jsonStringifyReactiveValue(config),
+      },
       withCredentials: false,
       headers: {
         common: {
