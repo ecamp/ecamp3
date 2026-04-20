@@ -82,7 +82,7 @@
     "vue-router": "4.6.4",
     "vue-toastification": "2.0.0-rc.5",
     "vuedraggable": "4.1.0",
-    "vuetify": "3.12.5",
+    "vuetify": "4.0.5",
     "vuex": "4.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
