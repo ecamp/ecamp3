@@ -4,7 +4,7 @@ exports[`An ETextField > looks like a textfield > empty 1`] = `
 <div data-app>
      <div class="e-form-container"
           name="test">
-          <div class="v-input v-input--horizontal v-input--center-affix v-input--density-default v-theme--light v-locale--is-ltr v-text-field">
+          <div class="v-input v-input--horizontal v-input--center-affix v-input--indent-details v-input--density-default v-theme--light v-locale--is-ltr v-text-field">
                <!---->
                <div class="v-input__control">
                     <div class="v-field v-field--center-affix v-field--variant-filled v-theme--light v-locale--is-ltr">
@@ -77,7 +77,7 @@ exports[`An ETextField > looks like a textfield > with text 1`] = `
      <div class="e-form-container"
           name="test"
           value="MyText">
-          <div class="v-input v-input--horizontal v-input--center-affix v-input--density-default v-theme--light v-locale--is-ltr v-input--dirty v-text-field">
+          <div class="v-input v-input--horizontal v-input--center-affix v-input--indent-details v-input--density-default v-theme--light v-locale--is-ltr v-input--dirty v-text-field">
                <!---->
                <div class="v-input__control">
                     <div class="v-field v-field--active v-field--center-affix v-field--dirty v-field--variant-filled v-theme--light v-locale--is-ltr">

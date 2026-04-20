@@ -5,7 +5,7 @@ exports[`An ENumberField > looks like a numberfield > empty 1`] = `
      <div class="e-form-container"
           name="test"
           required="false">
-          <div class="v-input v-input--horizontal v-input--center-affix v-input--density-default v-theme--light v-locale--is-ltr v-text-field">
+          <div class="v-input v-input--horizontal v-input--center-affix v-input--indent-details v-input--density-default v-theme--light v-locale--is-ltr v-text-field">
                <!---->
                <div class="v-input__control">
                     <div class="v-field v-field--center-affix v-field--variant-filled v-theme--light v-locale--is-ltr">
@@ -77,7 +77,7 @@ exports[`An ENumberField > looks like a numberfield > with text 1`] = `
           name="test"
           required="false"
           value="3.14">
-          <div class="v-input v-input--horizontal v-input--center-affix v-input--density-default v-theme--light v-locale--is-ltr v-input--dirty v-text-field">
+          <div class="v-input v-input--horizontal v-input--center-affix v-input--indent-details v-input--density-default v-theme--light v-locale--is-ltr v-input--dirty v-text-field">
                <!---->
                <div class="v-input__control">
                     <div class="v-field v-field--active v-field--center-affix v-field--dirty v-field--variant-filled v-theme--light v-locale--is-ltr">
