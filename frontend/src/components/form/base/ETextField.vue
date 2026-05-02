@@ -16,6 +16,7 @@
       :type="type"
       v-bind="$attrs"
       :required="required"
+      :autofocus
       :hide-details="hideDetails"
       @blur="onBlur($event, handleReset, handleBlur)"
       @update:model-value="onInput($event, handleChange)"
@@ -39,6 +40,7 @@ export default {
   mixins: [formComponentPropsMixin, formComponentValidation],
   props: {
     modelValue: { type: String, required: false, default: null },
+    autofocus: { type: Boolean, required: false, default: false },
     type: {
       type: String,
       default: 'text',

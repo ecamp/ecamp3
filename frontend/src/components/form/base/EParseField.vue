@@ -19,6 +19,7 @@ Displays a field as a textfield (can be used with v-model)
       :hide-details="hideDetails"
       :label="labelOrEntityFieldLabel"
       :required="required"
+      :autofocus
       :model-value="stringValue"
       type="text"
       @blur="onBlur($event, handleChange)"
@@ -67,6 +68,7 @@ export default {
   props: {
     modelValue: { validator: () => true, required: true },
     readonly: { type: Boolean, required: false, default: false },
+    autofocus: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
     errorMessages: { type: Array, required: false, default: () => [] },
 
