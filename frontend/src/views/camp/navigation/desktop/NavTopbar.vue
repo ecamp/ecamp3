@@ -14,7 +14,7 @@
         :text="$t('views.camp.navigation.desktop.navTopbar.program')"
       />
       <TopNavigationItem
-        v-if="camp.isCourse"
+        v-if="camp.hasChecklists"
         :to="campRoute(camp, 'overview/checklists')"
         icon="mdi-clipboard-list-outline"
         :text="$t('views.camp.navigation.desktop.navTopbar.checklist')"

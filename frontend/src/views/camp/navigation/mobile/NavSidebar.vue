@@ -64,12 +64,12 @@
         />
         <v-divider inset />
         <SidebarListItem
-          v-if="camp.isCourse"
+          v-if="camp.hasChecklists"
           :to="campRoute(camp, 'overview/checklists')"
           :title="$t('views.camp.navigation.mobile.navSidebar.itemChecklists')"
           icon="mdi-clipboard-list-outline"
         />
-        <v-divider v-if="camp.isCourse" inset />
+        <v-divider v-if="camp.hasChecklists" inset />
         <SidebarListItem
           :title="$t('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"

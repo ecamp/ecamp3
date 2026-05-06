@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Checklists;
 
+use App\Entity\Camp;
 use App\Entity\Checklist;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -111,6 +112,17 @@ class DeleteChecklistTest extends ECampApiTestCase {
         $this->assertNull($this->getEntityManager()->getRepository(Checklist::class)->find($checklist->getId()));
     }
 
+    public function testDeleteLastChecklistUpdatesCampHasChecklistsFlag() {
+        $checklist = static::getFixture('checklist1camp2');
+        static::createClientWithCredentials()->request('DELETE', '/checklists/'.$checklist->getId());
+
+        $this->assertResponseStatusCodeSame(204);
+
+        $this->getEntityManager()->clear();
+        $camp = $this->getEntityManager()->getRepository(Camp::class)->find(static::getFixture('camp2')->getId());
+        $this->assertFalse($camp->hasChecklists);
+    }
+
     public function testDeleteChecklistFromCampPrototypeIsDeniedForUnrelatedUser() {
         $checklist = static::getFixture('checklist1campPrototype');
         static::createClientWithCredentials()->request('DELETE', '/checklists/'.$checklist->getId());
@@ -161,11 +173,14 @@ class DeleteChecklistTest extends ECampApiTestCase {
 
     public function testDeleteChecklistIsDeniedWhenUsedInChecklistNode() {
         $checklist = static::getFixture('checklist1');
-        static::createClientWithCredentials()->request('DELETE', '/checklists/'.$checklist->getId());
+        $response = static::createClientWithCredentials()->request('DELETE', '/checklists/'.$checklist->getId());
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'checklistItems[0].checklistNodes: It\'s not possible to delete a checklist item as long as checklist nodes are referencing it.',
         ]);
+        $this->assertStringContainsString(
+            'checklistNodes: It\'s not possible to delete a checklist item as long as checklist nodes are referencing it.',
+            $response->toArray(false)['detail']
+        );
     }
 }

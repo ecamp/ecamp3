@@ -42,6 +42,7 @@
             "courseKind": "escaped_value",
             "courseNumber": "escaped_value",
             "id": "escaped_value",
+            "hasChecklists": "escaped_value",
             "isPrototype": "escaped_value",
             "isShared": "escaped_value",
             "kind": "escaped_value",

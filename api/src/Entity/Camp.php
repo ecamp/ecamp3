@@ -244,6 +244,16 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public bool $isPublic = false;
 
     /**
+     * Whether this camp uses checklists.
+     */
+    #[Assert\Type('bool')]
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(writable: false, example: true)]
+    #[Groups(['read'])]
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $hasChecklists = false;
+
+    /**
      * An optional short title for the camp. Can be used in the UI where space is tight. If
      * not present, frontends may auto-shorten the title if the shortTitle is not set.
      */
@@ -468,13 +478,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         $this->checklists = new ArrayCollection();
         $this->campRootContentNodes = new ArrayCollection();
         $this->comments = new ArrayCollection();
-    }
-
-    #[ApiProperty(readable: true, writable: false)]
-    #[Groups(['read'])]
-    #[SerializedName('isCourse')]
-    public function getIsCourse(): bool {
-        return $this->checklists->count() > 0;
     }
 
     /**
@@ -728,6 +731,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         if (!$this->checklists->contains($checklist)) {
             $this->checklists[] = $checklist;
             $checklist->camp = $this;
+            $this->hasChecklists = true;
         }
 
         return $this;
