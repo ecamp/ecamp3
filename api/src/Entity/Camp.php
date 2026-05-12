@@ -742,6 +742,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
             if ($checklist->camp === $this) {
                 $checklist->camp = null;
             }
+
+            $this->hasChecklists = !$this->checklists->isEmpty();
         }
 
         return $this;
