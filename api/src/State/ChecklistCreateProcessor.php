@@ -16,7 +16,7 @@ class ChecklistCreateProcessor extends AbstractPersistProcessor {
      */
     #[\Override]
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Checklist {
-        if (null !== $data->camp && !$data->isPrototype) {
+        if (null !== $data->camp) {
             $data->camp->hasChecklists = true;
         }
 

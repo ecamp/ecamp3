@@ -37,6 +37,7 @@ class DeleteChecklistTest extends ECampApiTestCase {
 
     public function testDeletePrototypeChecklistIsAllowedForAdmin() {
         $checklist = static::getFixture('checklistPrototype');
+
         static::createClientWithCredentials(['email' => static::$fixtures['admin']->getEmail()])
             ->request('DELETE', '/checklists/'.$checklist->getId())
         ;
@@ -121,6 +122,19 @@ class DeleteChecklistTest extends ECampApiTestCase {
         $this->getEntityManager()->clear();
         $camp = $this->getEntityManager()->getRepository(Camp::class)->find(static::getFixture('camp2')->getId());
         $this->assertFalse($camp->hasChecklists);
+    }
+
+    public function testDeleteChecklistKeepsCampHasChecklistsFlagIfOtherChecklistsRemain() {
+        $checklist = static::getFixture('checklist2WithNoItems');
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('DELETE', '/checklists/'.$checklist->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(204);
+
+        $this->getEntityManager()->clear();
+        $camp = $this->getEntityManager()->getRepository(Camp::class)->find(static::getFixture('camp1')->getId());
+        $this->assertTrue($camp->hasChecklists);
     }
 
     public function testDeleteChecklistFromCampPrototypeIsDeniedForUnrelatedUser() {

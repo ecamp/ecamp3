@@ -22,7 +22,6 @@ final class Version20260506181000 extends AbstractMigration {
                 SELECT 1
                 FROM checklist
                 WHERE checklist.campId = camp.id
-                  AND checklist.isPrototype = false
             )
         SQL);
     }

@@ -25,13 +25,12 @@ class ChecklistRemoveProcessor extends AbstractRemoveProcessor {
     #[\Override]
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $camp = $data->camp;
-        if (null === $camp || $data->isPrototype) {
+        if (null === $camp) {
             return;
         }
 
         $camp->hasChecklists = 1 < $this->em->getRepository(Checklist::class)->count([
             'camp' => $camp,
-            'isPrototype' => false,
         ]);
     }
 }
