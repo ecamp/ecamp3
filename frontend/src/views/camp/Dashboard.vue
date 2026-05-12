@@ -30,7 +30,7 @@
         hide-day-filter
         :filter-fn="filterFn"
       />
-      <template v-if="!loading">
+      <template v-if="!loading && !scheduleEntriesLoading">
         <table
           v-for="(periodDays, uri) in groupedScheduleEntries"
           :key="uri"
@@ -100,12 +100,16 @@
           </template>
         </table>
         <p
-          v-if="scheduleEntries.length > 0 && filteredScheduleEntries.length === 0"
+          v-if="
+            !scheduleEntriesLoading &&
+            scheduleEntries.length > 0 &&
+            filteredScheduleEntries.length === 0
+          "
           class="ma-4"
         >
           {{ $t('views.camp.dashboard.noEntries') }}
         </p>
-        <p v-if="scheduleEntries.length === 0" class="ma-4">
+        <p v-if="!scheduleEntriesLoading && scheduleEntries.length === 0" class="ma-4">
           {{ $t('views.camp.dashboard.welcome') }}
         </p>
       </template>
@@ -203,6 +207,11 @@ export default {
         (period) => period.scheduleEntries().items
       )
     },
+    scheduleEntriesLoading() {
+      return this.camp
+        .periods()
+        .items.some((period) => period.scheduleEntries()._meta.loading)
+    },
     days() {
       return keyBy(
         Object.values(this.periods).flatMap((period) => period.days().items),
@@ -251,31 +260,46 @@ export default {
     'filter.progressLabel': 'persistRouterState',
   },
   async mounted() {
-    await Promise.all([
-      this.camp._meta.load,
-      this.api.get().days({ 'period.camp': this.camp._meta.self }),
-      ...this.camp.periods().items.map((period) => period.scheduleEntries()._meta.load),
-      this.camp.activities()._meta.load,
-      this.camp.categories()._meta.load,
-      this.camp.progressLabels()._meta.load,
-    ])
-
-    this.loading = false
-
     const queryFilters = processRouteQuery(this.$route.query)
     Object.entries(queryFilters).forEach(([key, value]) => {
       this.filter[key] = value
     })
 
-    this.camp.periods()._meta.load.then(({ allItems }) => {
-      const collection = allItems.map((entry) => entry._meta.self)
-      if (!collection.includes(this.filter.period)) {
-        this.filter.period = null
-      }
-      this.loadingEndpoints.periods = false
-    })
+    await Promise.all([
+      this.camp._meta.load,
+      this.api.get().days({ 'period.camp': this.camp._meta.self }),
+      ...this.camp.periods().items.map((period) => period.scheduleEntries()._meta.load),
+      this.camp.activities()._meta.load,
+    ])
+
+    this.loading = false
+
+    this.loadEndpointData('categories', 'category')
+    this.loadEndpointData('campCollaborations', 'responsible', true)
+    this.loadEndpointData('progressLabels', 'progressLabel', true)
+    this.loadPeriodsEndpointData()
   },
   methods: {
+    loadEndpointData(endpoint, filterKey, hasNone = false) {
+      this.camp[endpoint]()._meta.load.then(({ allItems }) => {
+        const collection = allItems.map((entry) => entry._meta.self)
+        if (hasNone) {
+          collection.push('none')
+        }
+        this.filter[filterKey] =
+          this.filter[filterKey].filter((value) => collection.includes(value)) ?? null
+        this.loadingEndpoints[endpoint] = false
+      })
+    },
+    loadPeriodsEndpointData() {
+      this.camp.periods()._meta.load.then(({ allItems }) => {
+        const collection = allItems.map((entry) => entry._meta.self)
+        if (!collection.includes(this.filter.period)) {
+          this.filter.period = null
+        }
+        this.loadingEndpoints.periods = false
+      })
+    },
     periodRoute,
     persistRouterState() {
       const query = transformValuesToHalId(this.filter)

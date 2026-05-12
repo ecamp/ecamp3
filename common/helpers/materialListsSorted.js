@@ -1,4 +1,4 @@
-import sortBy from 'lodash-es/sortBy.js'
+import { sortBy } from 'lodash-es'
 
 export default function (materialLists) {
   return sortBy(

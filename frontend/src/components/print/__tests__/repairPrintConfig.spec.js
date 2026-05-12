@@ -9,15 +9,17 @@ import SafetyConsiderationsConfig from '../config/SafetyConsiderationsConfig.vue
 import TocConfig from '../config/TocConfig.vue'
 import ActivityListConfig from '../config/ActivityListConfig.vue'
 
-describe.skip('repairConfig', () => {
+describe('repairConfig', () => {
   const camp = {
     _meta: { self: '/camps/1a2b3c4d' },
     shortTitle: 'test camp',
     periods: () => ({
+      _meta: { loading: false },
       items: [
         {
           _meta: { self: '/periods/1a2b3c4d' },
           days: () => ({
+            _meta: { loading: false },
             items: [
               {
                 _meta: { self: '/days/1a2b3c4d' },
@@ -28,6 +30,7 @@ describe.skip('repairConfig', () => {
       ],
     }),
     categories: () => ({
+      _meta: { loading: false },
       items: [
         {
           _meta: { self: '/categories/1a2b3c4d' },
@@ -35,6 +38,7 @@ describe.skip('repairConfig', () => {
       ],
     }),
     campCollaborations: () => ({
+      _meta: { loading: false },
       items: [
         {
           _meta: { self: '/camp_collaborations/1a2b3c4d' },
@@ -42,6 +46,7 @@ describe.skip('repairConfig', () => {
       ],
     }),
     progressLabels: () => ({
+      _meta: { loading: false },
       items: [
         {
           _meta: { self: '/progress_labels/1a2b3c4d' },
@@ -52,10 +57,12 @@ describe.skip('repairConfig', () => {
   const multiPeriodCamp = {
     ...camp,
     periods: () => ({
+      _meta: { loading: false },
       items: [
         {
           _meta: { self: '/periods/1a2b3c4d' },
           days: () => ({
+            _meta: { loading: false },
             items: [
               {
                 _meta: { self: '/days/1a2b3c4d' },
@@ -66,6 +73,7 @@ describe.skip('repairConfig', () => {
         {
           _meta: { self: '/periods/11223344' },
           days: () => ({
+            _meta: { loading: false },
             items: [
               {
                 _meta: { self: '/days/bbbbbbbb' },

@@ -30829,6 +30829,13 @@ components:
       type: object
     Day:
       properties:
+        cacheTags:
+          items:
+            type:
+              - 'null'
+              - string
+          readOnly: true
+          type: array
         dayOffset:
           default: 0
           description: "The 0-based offset in days from the period's start date when this day starts."
@@ -33452,8 +33459,8 @@ components:
           examples:
             - 404
           type:
+            - integer
             - 'null'
-            - number
         title:
           description: 'A short, human-readable summary of the problem.'
           readOnly: true
@@ -33493,8 +33500,8 @@ components:
               examples:
                 - 404
               type:
+                - integer
                 - 'null'
-                - number
             title:
               description: 'A short, human-readable summary of the problem.'
               readOnly: true

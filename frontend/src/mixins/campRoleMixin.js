@@ -1,4 +1,13 @@
 export const campRoleMixin = {
+  provide() {
+    return {
+      isContributor: this.isContributor,
+      isGuest: this.isGuest,
+      isManager: this.isManager,
+      isMember: this.isMember,
+      isOutsider: this.isOutsider,
+    }
+  },
   computed: {
     isContributor() {
       return this.isMember || this.isManager

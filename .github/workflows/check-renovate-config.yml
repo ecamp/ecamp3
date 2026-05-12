@@ -19,4 +19,4 @@ jobs:
       - run: docker run --rm -e LOG_LEVEL=debug -v "$PWD:/workspace" -w /workspace renovate/renovate:$RENOVATE_VERSION --platform=local
         env:
           # renovate: datasource=docker depName=renovate/renovate
-          RENOVATE_VERSION: 43.141.6
+          RENOVATE_VERSION: 43.164.0

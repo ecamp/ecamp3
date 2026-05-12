@@ -38,6 +38,7 @@ export default {
       periods:
         camp.periods().items.length === 1 ? [camp.periods().items[0]._meta.self] : [],
       contentType: 'SafetyConsiderations',
+      filter: repairFilterConfig(null, camp),
     }
   },
   design: {

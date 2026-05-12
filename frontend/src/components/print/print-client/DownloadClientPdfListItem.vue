@@ -2,23 +2,21 @@
   <v-list-item
     :readonly="loading"
     :lines="loading ? 'two' : 'one'"
+    :title="$t('components.print.printClient.downloadClientPdfListItem.label')"
+    :subtitle="loading ? state : undefined"
     @click.stop="generatePdf"
   >
-    <v-list-item-title>
-      <v-progress-circular
-        v-if="loading"
-        :model-value="progress"
-        :rotate="0"
-        size="24"
-        color="primary"
-        class="mr-2"
-      />
-      <v-icon v-else start icon="mdi-printer" />
-      {{ $t('components.print.printClient.downloadClientPdfListItem.label') }}
-    </v-list-item-title>
-    <v-list-item-subtitle v-if="loading">
-      {{ state }}
-    </v-list-item-subtitle>
+    <template #prepend>
+      <v-icon v-if="loading">
+        <v-progress-circular
+          :model-value="progress"
+          :rotate="0"
+          size="24"
+          color="primary"
+        />
+      </v-icon>
+      <v-icon v-else icon="mdi-printer" />
+    </template>
   </v-list-item>
 </template>
 

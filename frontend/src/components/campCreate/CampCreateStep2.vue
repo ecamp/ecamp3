@@ -191,7 +191,7 @@
   </Form>
 </template>
 <script>
-import camelCase from 'lodash-es/camelCase.js'
+import { camelCase } from 'lodash-es'
 import { Form } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'

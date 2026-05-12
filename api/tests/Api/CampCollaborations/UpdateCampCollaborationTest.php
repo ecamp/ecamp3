@@ -267,6 +267,65 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCampCollaborationRoleWithoutUserIsAllowed() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration4invited');
+
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), [
+            'json' => [
+                'role' => CampCollaboration::ROLE_GUEST,
+            ],
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'role' => CampCollaboration::ROLE_GUEST,
+        ]);
+    }
+
+    public function testPatchCampCollaborationRoleFromGuestToManagerWithoutUserIsAllowed() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration4invited');
+
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), [
+            'json' => [
+                'role' => CampCollaboration::ROLE_MANAGER,
+            ],
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
+
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), [
+            'json' => [
+                'role' => CampCollaboration::ROLE_MANAGER,
+            ],
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
+
+        // This should succeed without errors
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'role' => 'manager',
+        ]);
+    }
+
+    public function testPatchCampCollaborationDisallowsSettingUserToNull() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::getFixture('campCollaboration4invited');
+
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), [
+            'json' => [
+                'user' => null,
+            ],
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("user" is unknown).',
+        ]);
+    }
+
     public function testPatchCampCollaborationDisallowsChangingInviteEmail() {
         $campCollaboration = static::getFixture('campCollaboration1manager');
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [

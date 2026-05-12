@@ -25,8 +25,7 @@
 <script>
 import { campRoute } from '@/router.js'
 import { componentI18n } from '@/plugins/i18n/index.js'
-import groupBy from 'lodash-es/groupBy.js'
-import uniq from 'lodash-es/uniq.js'
+import { groupBy, uniq } from 'lodash-es'
 
 const YEAR_JOINER = '-'
 

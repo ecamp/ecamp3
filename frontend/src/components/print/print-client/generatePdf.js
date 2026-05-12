@@ -1,5 +1,5 @@
 import { prepareInMainThread } from '@/pdf/prepareInMainThread.js'
-import cloneDeep from 'lodash-es/cloneDeep.js'
+import { cloneDeep } from 'lodash-es'
 import { proxy } from 'comlink'
 import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactiveValue.js'
 

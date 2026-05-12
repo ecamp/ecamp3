@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import camelCase from 'lodash-es/camelCase'
+import { camelCase } from 'lodash-es'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import IconWithTooltip from '@/components/generic/IconWithTooltip.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'

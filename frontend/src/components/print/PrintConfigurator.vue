@@ -1,5 +1,5 @@
 <template>
-  <v-skeleton-loader v-if="loading" type="article" />
+  <v-skeleton-loader v-if="loading" type="article" class="pa-4" />
   <div v-else>
     <PagesOverview v-model="cnf.contents" @update:model-value="onChange">
       <template #item="{ element: content, index: idx }">
@@ -90,23 +90,23 @@
     </v-card-text>
 
     <template v-if="isDev">
-      <v-tabs v-model="previewTab" class="px-4">
-        <v-tab>Nuxt preview</v-tab>
-        <v-tab>Client print preview</v-tab>
+      <v-tabs v-model="previewTab" :mandatory="false" class="px-4">
+        <v-tab value="nuxt">Nuxt preview</v-tab>
+        <v-tab value="client">Client print preview</v-tab>
       </v-tabs>
-      <v-tabs-window v-model="previewTab">
-        <v-tabs-window-item>
+      <v-tabs-window v-if="previewTab" v-model="previewTab">
+        <v-tabs-window-item value="nuxt">
           <print-preview-nuxt
-            v-if="previewTab === 0"
+            v-if="previewTab === 'nuxt'"
             :config="cnf"
             width="100%"
             height="600"
             class="my-4"
           />
         </v-tabs-window-item>
-        <v-tabs-window-item>
+        <v-tabs-window-item value="client">
           <print-preview-client
-            v-if="previewTab === 1"
+            v-if="previewTab === 'client'"
             :config="cnf"
             width="100%"
             height="600"
@@ -133,7 +133,7 @@ import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
 import DownloadClientPdfButton from '@/components/print/print-client/DownloadClientPdfButton.vue'
 import { getEnv } from '@/environment.js'
-import cloneDeep from 'lodash-es/cloneDeep'
+import { cloneDeep } from 'lodash-es'
 import { componentI18n } from '../../plugins/i18n/index.js'
 import repairConfig from './repairPrintConfig.js'
 import StoryConfig from '@/components/print/config/StoryConfig.vue'
@@ -158,6 +158,11 @@ export default {
     TocConfig,
     ActivityListConfig,
   },
+  provide() {
+    return {
+      loadingEndpoints: this.loadingEndpoints,
+    }
+  },
   props: {
     camp: {
       type: Object,
@@ -167,6 +172,17 @@ export default {
   data() {
     return {
       loading: true,
+      cnf: null,
+      loadingEndpoints: {
+        activities: true,
+        categories: true,
+        periods: true,
+        days: true,
+        campCollaborations: true,
+        progressLabels: true,
+        scheduleEntries: true,
+      },
+      prettyConfig: '',
       previewTab: null,
     }
   },
@@ -186,16 +202,20 @@ export default {
     lang() {
       return this.$store.state.lang.language
     },
-    cnf() {
-      return this.repairConfig(
-        this.$store.getters.getLastPrintConfig(this.camp._meta.self, {
-          language: this.lang,
-          documentName: campShortTitle(this.camp),
-          options: { pageNumbers: false, pageSize: 'A4' },
-          camp: this.camp._meta.self,
-          contents: this.defaultContents(),
-        })
-      )
+    lastPrintConfig() {
+      return this.$store.getters.getLastPrintConfig(this.camp._meta.self, null)
+    },
+    currentConfig() {
+      return this.lastPrintConfig ?? this.defaultConfig
+    },
+    defaultConfig() {
+      return {
+        language: this.lang,
+        documentName: campShortTitle(this.camp),
+        options: { pageNumbers: false, pageSize: 'A4' },
+        camp: this.camp._meta.self,
+        contents: this.defaultContents(),
+      }
     },
     pageSizes() {
       return ['A5', 'A4'].map((size) => ({
@@ -206,38 +226,67 @@ export default {
     isDev() {
       return getEnv().FEATURE_DEVELOPER ?? false
     },
-    prettyConfig() {
-      return jsonStringifyReactiveValue(this.cnf, 2)
-    },
   },
   watch: {
     lang: {
       handler(language) {
+        if (!this.cnf) return
         this.cnf.language = language
+        this.onChange()
       },
       immediate: true,
     },
   },
   async mounted() {
-    await this.camp.periods().$reload()
-    await Promise.all([
-      ...this.camp
-        .periods()
-        .items.flatMap((period) => [
-          period.days().$reload(),
-          period.contentNodes().$reload(),
-        ]),
-      this.camp.activities().$reload(),
-      this.camp.categories().$reload(),
-    ])
+    await this.loadEndpointData('periods')
+    this.setRepairedConfig(this.currentConfig)
     this.loading = false
+    await this.loadRemainingPrintData()
   },
   methods: {
+    async loadRemainingPrintData() {
+      const periods = this.camp.periods().items
+      await Promise.all([
+        this.loadEndpointData(
+          'scheduleEntries',
+          Promise.all(periods.map((period) => period.scheduleEntries()._meta.load))
+        ),
+        this.loadEndpointData('activities'),
+      ])
+
+      await Promise.all([
+        this.loadEndpointData(
+          'days',
+          Promise.all(periods.map((period) => period.days()._meta.load))
+        ),
+        Promise.all(periods.map((period) => period.contentNodes()._meta.load)),
+        this.loadEndpointData('categories'),
+        this.loadEndpointData('campCollaborations'),
+        this.loadEndpointData('progressLabels'),
+      ])
+
+      this.setRepairedConfig(this.cnf)
+    },
+    setRepairedConfig(config) {
+      const repaired = this.repairConfig(config)
+      this.cnf = repaired
+      if (jsonStringifyReactiveValue(config) !== jsonStringifyReactiveValue(repaired)) {
+        this.onChange()
+      }
+    },
+    async loadEndpointData(endpoint, load = this.camp[endpoint]()._meta.load) {
+      await load
+      this.loadingEndpoints[endpoint] = false
+    },
+    createConfig() {
+      return this.repairConfig(this.defaultConfig)
+    },
     resetConfig() {
       this.$store.commit('setLastPrintConfig', {
         campUri: this.camp._meta.self,
         printConfig: undefined,
       })
+      this.cnf = this.createConfig()
     },
     defaultContents() {
       const contents = [
@@ -292,6 +341,9 @@ export default {
           printConfig: cloneDeep(JSON.parse(jsonStringifyReactiveValue(this.cnf))),
         })
       })
+      if (this.isDev) {
+        this.prettyConfig = jsonStringifyReactiveValue(this.cnf, 2)
+      }
     },
     onChangeContentConfig(index, value) {
       this.cnf.contents[index].options = value

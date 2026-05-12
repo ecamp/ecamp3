@@ -348,30 +348,9 @@ export default {
       }).length
     },
   },
-  mounted() {
-    if (this.loadingEndpoints !== true) {
-      this.loadEndpointData('categories', 'category')
-      this.loadEndpointData('campCollaborations', 'responsible', true)
-      this.loadEndpointData('progressLabels', 'progressLabel', true)
-    }
-  },
   methods: {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$t.bind(this))
-    },
-    loadEndpointData(endpoint, filterKey, hasNone = false) {
-      this.camp[endpoint]()._meta.load.then(({ allItems }) => {
-        const collection = allItems.map((entry) => entry._meta.self)
-        if (hasNone) {
-          collection.push('none')
-        }
-        this.updateFilter({
-          [filterKey]:
-            this.modelValue[filterKey].filter((value) => collection.includes(value)) ??
-            null,
-        })
-        this.loadingEndpoints[endpoint] = false
-      })
     },
     resetFilter() {
       this.updateFilter({

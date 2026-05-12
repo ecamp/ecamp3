@@ -199,7 +199,7 @@ export default {
   font-feature-settings: 'tnum';
 }
 
-@media #{map-get(settings.$display-breakpoints, 'sm-and-down')} {
+@media #{map.get(settings.$display-breakpoints, 'sm-and-down')} {
   // TODO: this changes look & feel of all v-containers. Do we really want this?
   .v-container.v-container--fluid {
     padding: 0;

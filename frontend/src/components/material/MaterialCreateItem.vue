@@ -4,7 +4,7 @@
     v-slot="{ handleSubmit, resetForm }"
     as="tr"
   >
-    <td class="pt-1">
+    <td colspan="2" class="pt-1">
       <e-number-field
         ref="quantity"
         v-model="materialItem.quantity"
@@ -12,6 +12,7 @@
         inputmode="decimal"
         path="quantity"
         vee-rules="greaterThan:0"
+        reverse
       />
     </td>
     <td class="pt-1">
@@ -31,7 +32,7 @@
         vee-rules="required"
       />
     </td>
-    <td :colspan="columns - 4" class="pt-1">
+    <td :colspan="columns - 5" class="pt-1">
       <e-select
         v-model="materialItem.materialList"
         :items="materialListsSorted"

@@ -85,7 +85,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import CampListItem from '@/components/camp/CampListItem.vue'
-import groupBy from 'lodash-es/groupBy.js'
+import { groupBy } from 'lodash-es'
 
 export default {
   name: 'Camps',

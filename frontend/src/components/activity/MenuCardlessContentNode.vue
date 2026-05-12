@@ -30,7 +30,7 @@
 <script>
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import camelCase from 'lodash-es/camelCase.js'
+import { camelCase } from 'lodash-es'
 import { useToast } from 'vue-toastification'
 
 export default {

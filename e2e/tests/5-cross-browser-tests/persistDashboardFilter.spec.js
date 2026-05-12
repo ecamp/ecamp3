@@ -5,8 +5,8 @@ test.describe('The filters in the dashboard', () => {
   test.beforeEach(async ({ page, request }) => {
     await loginAndSetCookie(page, request, 'test@example.com')
     await page.goto('/camps')
-    await page.locator('a:has-text("GRGR")').click()
-    await expect(page.locator('body')).toContainText('Hauptlager')
+    await page.getByRole('link', { name: 'GRGR' }).click()
+    await expect(page.getByRole('link', { name: 'Hauptlager' })).toBeVisible()
   })
 
   test.afterEach(async ({ page }) => {

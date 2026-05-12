@@ -23,21 +23,28 @@ class ChecklistNodePersistProcessor extends ContentNodePersistProcessor {
         /** @var ChecklistNode $data */
         $data = parent::onBefore($data, $operation, $uriVariables, $context);
 
+        $allIds = array_unique(array_merge($data->addChecklistItemIds ?? [], $data->removeChecklistItemIds ?? []));
+        $checklistItems = [];
+        if (!empty($allIds)) {
+            $fetchedItems = $this->checklistItemRepository->findBy(['id' => $allIds]);
+            foreach ($fetchedItems as $item) {
+                $checklistItems[$item->getId()] = $item;
+            }
+        }
+
         if (null !== $data->addChecklistItemIds) {
             foreach ($data->addChecklistItemIds as $checklistItemId) {
-                $checklistItem = $this->checklistItemRepository->find($checklistItemId);
-                if (null != $checklistItem) {
+                if (isset($checklistItems[$checklistItemId])) {
                     // if a checklistItem does not exists, do not add it
-                    $data->addChecklistItem($checklistItem);
+                    $data->addChecklistItem($checklistItems[$checklistItemId]);
                 }
             }
         }
         if (null !== $data->removeChecklistItemIds) {
             foreach ($data->removeChecklistItemIds as $checklistItemId) {
-                $checklistItem = $this->checklistItemRepository->find($checklistItemId);
-                if (null != $checklistItem) {
+                if (isset($checklistItems[$checklistItemId])) {
                     // if a checklistItem no longer exists, it does not have to be removed
-                    $data->removeChecklistItem($checklistItem);
+                    $data->removeChecklistItem($checklistItems[$checklistItemId]);
                 }
             }
         }

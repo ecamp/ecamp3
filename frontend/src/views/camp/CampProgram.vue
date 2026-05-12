@@ -17,7 +17,7 @@ Show all activity schedule entries of a single period.
             label
             variant="outlined"
             color="primary"
-            class="align-self-center mr-2"
+            class="align-self-center mr-1"
             @click="openFilter = !openFilter"
           >
             <v-icon start size="20">mdi-filter</v-icon>
@@ -26,7 +26,9 @@ Show all activity schedule entries of a single period.
         </v-toolbar-items>
         <v-chip
           v-else
-          variant="outlined"
+          border="sm"
+          color="surface"
+          variant="flat"
           label
           class="mr-1"
           @click="openFilter = !openFilter"
@@ -39,20 +41,13 @@ Show all activity schedule entries of a single period.
         v-model="editMode"
         :shake="showReminder"
         :disabled-for-guest="!isContributor"
+        class="mr-n1"
         @click="editMode = !editMode"
       />
       <v-menu offset-y>
         <template #activator="{ props }">
-          <v-btn icon v-bind="props" data-testid="campprogram-menu">
-            <v-badge
-              v-if="!$vuetify.display.smAndUp && filteredPropertiesCount > 0"
-              overlap
-              offset-x="2"
-              dot
-            >
-              <v-icon>mdi-dots-horizontal</v-icon>
-            </v-badge>
-            <v-icon v-else>mdi-dots-horizontal</v-icon>
+          <v-btn icon size="small" v-bind="props" data-testid="campprogram-menu">
+            <v-icon size="large">mdi-dots-horizontal</v-icon>
           </v-btn>
         </template>
         <v-list class="py-0">
@@ -63,19 +58,15 @@ Show all activity schedule entries of a single period.
             @click="editMode = !editMode"
           />
           <v-list-item
-            :input-value="isFilterSet"
+            title="Filter"
+            prepend-icon="mdi-filter"
+            :active="isFilterSet"
             :color="isFilterSet ? 'primary' : null"
             @click="openFilter = !openFilter"
           >
-            <template #prepend>
-              <v-icon>mdi-filter</v-icon>
-            </template>
-
-            <v-list-item-title>Filter</v-list-item-title>
-
-            <v-list-item-action v-if="isFilterSet">
+            <template v-if="isFilterSet" #append>
               <v-badge inline color="primary" :content="filteredPropertiesCount" />
-            </v-list-item-action>
+            </template>
           </v-list-item>
           <v-divider />
           <DownloadNuxtPdf :config="printConfig" />
@@ -119,7 +110,7 @@ Show all activity schedule entries of a single period.
         />
       </template>
     </ScheduleEntries>
-    <v-snackbar v-model="showReminder" light class="mb-12">
+    <v-snackbar v-model="showReminder" :timeout="REMINDER_TIMEOUT" light class="mb-12">
       <v-icon>mdi-lock</v-icon>
       {{ reminderText }}
     </v-snackbar>
@@ -157,6 +148,8 @@ import {
 import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
 import campShortTitle from '@/common/helpers/campShortTitle.js'
 
+const REMINDER_TIMEOUT = 5000
+
 export default {
   name: 'CampProgram',
   components: {
@@ -177,6 +170,8 @@ export default {
   data() {
     return {
       showReminder: false,
+      REMINDER_TIMEOUT,
+      reminderInst: null,
       reminderText: null,
       openFilter: false,
       loading: true,
@@ -262,29 +257,48 @@ export default {
     'filter.progressLabel': 'persistRouterState',
   },
   async mounted() {
+    const queryFilters = processRouteQuery(this.$route.query)
+    Object.entries(queryFilters).forEach(([key, value]) => {
+      this.filter[key] = value
+    })
+
     await Promise.all([
       this.camp._meta.load,
       this.period.scheduleEntries()._meta.load,
       this.camp.activities()._meta.load,
-      this.camp.categories()._meta.load,
+      this.loadEndpointData('categories', 'category'),
       this.period.days()._meta.load,
       this.period.dayResponsibles()._meta.load,
     ])
 
     this.loading = false
 
-    const queryFilters = processRouteQuery(this.$route.query)
-    Object.entries(queryFilters).forEach(([key, value]) => {
-      this.filter[key] = value
-    })
+    this.loadEndpointData('campCollaborations', 'responsible', true)
+    this.loadEndpointData('progressLabels', 'progressLabel', true)
   },
   methods: {
+    async loadEndpointData(endpoint, filterKey, hasNone = false) {
+      await this.camp[endpoint]()._meta.load.then(({ allItems }) => {
+        const collection = allItems.map((entry) => entry._meta.self)
+        if (hasNone) {
+          collection.push('none')
+        }
+        this.filter[filterKey] =
+          this.filter[filterKey].filter((value) => collection.includes(value)) ?? null
+        this.loadingEndpoints[endpoint] = false
+      })
+    },
     showUnlockReminder(move) {
+      clearTimeout(this.reminderInst)
       if (this.isOutsider) return
       this.reminderText = move
         ? this.$t('views.camp.campProgram.reminderLockedMove')
         : this.$t('views.camp.campProgram.reminderLockedCreate')
       this.showReminder = true
+      this.reminderInst = setTimeout(
+        () => (this.showReminder = false),
+        this.REMINDER_TIMEOUT
+      )
     },
     persistRouterState() {
       const query = transformValuesToHalId(this.filter)

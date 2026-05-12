@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
+use App\HttpCache\CanGenerateTagsInterface;
 use App\Repository\DayRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,7 +61,7 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
 #[ORM\Entity(repositoryClass: DayRepository::class)]
 #[ORM\UniqueConstraint(name: 'offset_period_idx', columns: ['periodId', 'dayOffset'])]
-class Day extends BaseEntity implements BelongsToCampInterface {
+class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsInterface {
     public const PERIOD_SUBRESOURCE_URI_TEMPLATE = '/periods/{periodId}/days{._format}';
 
     public const ITEM_NORMALIZATION_CONTEXT = [
@@ -189,6 +190,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(
         readableLink: true,
         uriTemplate: DayResponsible::DAY_SUBRESOURCE_URI_TEMPLATE,
+        extraProperties: ['cacheDependencies' => ['dayResponsibles']]
     )]
     #[SerializedName('dayResponsibles')]
     #[Groups(['Day:DayResponsibles'])]
@@ -220,5 +222,9 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    public function getCacheTags(): array {
+        return [$this->period->getId()];
     }
 }

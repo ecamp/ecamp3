@@ -121,6 +121,9 @@ jobs:
       - name: Deploy
         if: ${{ inputs.action == 'deploy' }}
         run: |
+          if [ -z "${{ vars.HELM_TIMEOUT }}" ]; then
+            export HELM_TIMEOUT="${{ vars.HELM_TIMEOUT }}" 
+          fi
           ./.helm/ecamp3/deploy.sh deploy
 
       - name: Finish the GitHub deployment

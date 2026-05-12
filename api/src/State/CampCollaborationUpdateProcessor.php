@@ -55,6 +55,10 @@ class CampCollaborationUpdateProcessor extends AbstractPersistProcessor {
     }
 
     public function onBeforeRoleChange(CampCollaboration $data, CampCollaboration $previous): CampCollaboration {
+        if (null === $data->user) {
+            return $data;
+        }
+
         /** @var User $user */
         $user = $this->security->getUser();
         // If the update does not affect the own collaboration, the voter works.

@@ -1,5 +1,5 @@
 parameters:
-    app.httpCache.matchPath: '^/?($|index.jsonhal$|content_types|camps/[0-9a-f]*/categories|periods/[0-9a-f]*/schedule_entries|camps/[0-9a-f]*/activities|camps/[0-9a-f]*/checklists|activities/[0-9a-f]*)'
+    app.httpCache.matchPath: '^/?($|index.jsonhal$|content_types|camps/[0-9a-f]*/categories|periods/[0-9a-f]*/schedule_entries|camps/[0-9a-f]*/activities|camps/[0-9a-f]*/checklists|activities/[0-9a-f]*|periods/[0-9a-f]*/days)'
 
 fos_http_cache:
     debug:
@@ -15,13 +15,11 @@ fos_http_cache:
         defaults:
             overwrite: true
         rules:
-            # matches /content_types endpoint
-            # matches /camps/133/categories endpoint
             - match:
                   path: '%app.httpCache.matchPath%'
               headers:
                   overwrite: true
-                  cache_control: { public: true, max_age: 0, s_maxage: 3600 }
+                  cache_control: { public: true, max_age: 0, s_maxage: 43200 }
                   vary: [Accept, Content-Type, Authorization, Origin]
 
             # match everything else to set defaults

@@ -1,7 +1,4 @@
-import minBy from 'lodash-es/minBy.js'
-import maxBy from 'lodash-es/maxBy.js'
-import sortBy from 'lodash-es/sortBy.js'
-import keyBy from 'lodash-es/keyBy.js'
+import { minBy, maxBy, sortBy, keyBy } from 'lodash-es'
 import dayjs from './dayjs.js'
 import { arrange } from './scheduleEntryLayout.js'
 

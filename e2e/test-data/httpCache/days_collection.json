@@ -1,0 +1,182 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/periods/76be24bce434/days.jsonhal"
+    },
+    "items": [
+      {
+        "href": "/api/days/4b90ff5b42c0"
+      },
+      {
+        "href": "/api/days/ac92acd57c49"
+      },
+      {
+        "href": "/api/days/1447f15f1e12"
+      },
+      {
+        "href": "/api/days/963c3c0639dd"
+      }
+    ]
+  },
+  "totalItems": 4,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "/api/days/4b90ff5b42c0"
+          },
+          "dayResponsibles": {
+            "href": "/api/days/4b90ff5b42c0/day_responsibles"
+          },
+          "period": {
+            "href": "/api/periods/76be24bce434"
+          },
+          "scheduleEntries": {
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-11T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-10T00%3A00%3A00%2B00%3A00"
+          }
+        },
+        "_embedded": {
+          "dayResponsibles": [
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/day_responsibles/cf442e7381e9"
+                },
+                "day": {
+                  "href": "/api/days/4b90ff5b42c0"
+                },
+                "campCollaboration": {
+                  "href": "/api/camp_collaborations/b0bdb7202a9d"
+                }
+              },
+              "id": "cf442e7381e9"
+            }
+          ]
+        },
+        "dayOffset": 0,
+        "id": "4b90ff5b42c0",
+        "number": 1,
+        "start": "2026-05-10T00:00:00+00:00",
+        "end": "2026-05-11T00:00:00+00:00"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/days/ac92acd57c49"
+          },
+          "dayResponsibles": {
+            "href": "/api/days/ac92acd57c49/day_responsibles"
+          },
+          "period": {
+            "href": "/api/periods/76be24bce434"
+          },
+          "scheduleEntries": {
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-12T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-11T00%3A00%3A00%2B00%3A00"
+          }
+        },
+        "_embedded": {
+          "dayResponsibles": [
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/day_responsibles/c58a08b98726"
+                },
+                "day": {
+                  "href": "/api/days/ac92acd57c49"
+                },
+                "campCollaboration": {
+                  "href": "/api/camp_collaborations/5111b2972441"
+                }
+              },
+              "id": "c58a08b98726"
+            }
+          ]
+        },
+        "dayOffset": 1,
+        "id": "ac92acd57c49",
+        "number": 2,
+        "start": "2026-05-11T00:00:00+00:00",
+        "end": "2026-05-12T00:00:00+00:00"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/days/1447f15f1e12"
+          },
+          "dayResponsibles": {
+            "href": "/api/days/1447f15f1e12/day_responsibles"
+          },
+          "period": {
+            "href": "/api/periods/76be24bce434"
+          },
+          "scheduleEntries": {
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-13T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-12T00%3A00%3A00%2B00%3A00"
+          }
+        },
+        "_embedded": {
+          "dayResponsibles": [
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/day_responsibles/db401ffc07e6"
+                },
+                "day": {
+                  "href": "/api/days/1447f15f1e12"
+                },
+                "campCollaboration": {
+                  "href": "/api/camp_collaborations/dba39edd9910"
+                }
+              },
+              "id": "db401ffc07e6"
+            }
+          ]
+        },
+        "dayOffset": 2,
+        "id": "1447f15f1e12",
+        "number": 3,
+        "start": "2026-05-12T00:00:00+00:00",
+        "end": "2026-05-13T00:00:00+00:00"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/days/963c3c0639dd"
+          },
+          "dayResponsibles": {
+            "href": "/api/days/963c3c0639dd/day_responsibles"
+          },
+          "period": {
+            "href": "/api/periods/76be24bce434"
+          },
+          "scheduleEntries": {
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-14T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-13T00%3A00%3A00%2B00%3A00"
+          }
+        },
+        "_embedded": {
+          "dayResponsibles": [
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/day_responsibles/981300f9ef5c"
+                },
+                "day": {
+                  "href": "/api/days/963c3c0639dd"
+                },
+                "campCollaboration": {
+                  "href": "/api/camp_collaborations/c88fd78c90ea"
+                }
+              },
+              "id": "981300f9ef5c"
+            }
+          ]
+        },
+        "dayOffset": 3,
+        "id": "963c3c0639dd",
+        "number": 4,
+        "start": "2026-05-13T00:00:00+00:00",
+        "end": "2026-05-14T00:00:00+00:00"
+      }
+    ]
+  }
+}
