@@ -19,10 +19,10 @@ class ChecklistItemCollectionProvider implements ProviderInterface {
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|object|null {
         $request = $this->requestStack->getCurrentRequest();
-        $hasFilter = $request?->query->has('checklist') || $request?->query->has('checklist_camp') || $request?->query->has('checklistNodes');
+        $hasFilter = $request?->query->has('checklist') || $request?->query->has('checklist_camp');
 
         if (!$hasFilter) {
-            throw new BadRequestHttpException('Filter on checklist, checklist.camp or checklistNodes is required');
+            throw new BadRequestHttpException('Filter on checklist or checklist.camp is required');
         }
 
         return $this->decorated->provide($operation, $uriVariables, $context);
