@@ -28,6 +28,8 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ 
     php bin/console -V
 
     if grep -q ^DATABASE_URL= .env; then
+      php bin/console dbal:run-sql 'CREATE EXTENSION IF NOT EXISTS pgcrypto'
+      php bin/console dbal:run-sql 'CREATE EXTENSION IF NOT EXISTS pgcrypto' -e test
       migrate-database || exit 1
       migrate-database -e test || exit 1
     fi
