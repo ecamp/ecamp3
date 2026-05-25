@@ -321,6 +321,7 @@ jobs:
         working-directory: api
 
       - run: |
+          php bin/console dbal:run-sql 'CREATE EXTENSION IF NOT EXISTS pgcrypto' -e test
           php bin/console doctrine:database:create --no-interaction -e test
           php bin/console doctrine:migrations:migrate --no-interaction -e test
         env:

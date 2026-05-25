@@ -62,6 +62,8 @@ jobs:
 
       - run: docker compose up --wait -d database
 
+      - run: docker compose -f docker-compose.yml run --rm api php bin/console dbal:run-sql 'CREATE EXTENSION IF NOT EXISTS pgcrypto'
+  
       - run: docker compose -f docker-compose.yml run --rm api migrate-database
 
       # start necessary containers
