@@ -17,11 +17,9 @@ final class Version20230731081633 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
-        $this->addSql('CREATE EXTENSION IF NOT EXISTS pgcrypto');
     }
 
     #[\Override]
     public function down(Schema $schema): void {
-        $this->addSql('DROP EXTENSION IF EXISTS pgcrypto');
     }
 }

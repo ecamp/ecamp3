@@ -80,7 +80,6 @@ psql $DATABASE_URL -v ON_ERROR_STOP=1 < $sql_file_for_restore
 
 if [ "$INVITE_SUPPORT_ACCOUNT_TO_INTERESTING_CAMPS" = "true" ]; then
   cat << 'EOF' | psql $DATABASE_URL
-  CREATE EXTENSION IF NOT EXISTS pgcrypto;
   
   INSERT INTO camp_collaboration (id, status, role, createtime,
                                   updatetime, userid, campid)
