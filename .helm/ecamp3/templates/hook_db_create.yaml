@@ -27,8 +27,9 @@ spec:
           command:
             - sh
             - "-c"
-            - "php bin/console doctrine:database:create --if-not-exists"
-            - "php bin/console dbal:run-sql 'CREATE EXTENSION IF NOT EXISTS pgcrypto'"
+            - |
+              php bin/console doctrine:database:create --if-not-exists
+              php bin/console dbal:run-sql 'CREATE EXTENSION IF NOT EXISTS pgcrypto'"
           env:
             - name: DATABASE_URL
               valueFrom:
