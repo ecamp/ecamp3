@@ -14,7 +14,6 @@ final class Version20230409164830 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
-
         // Test:
         // J+S
         $this->addSql('INSERT INTO activity_progress_label (id, campId, position, title, createTime, updateTime) 

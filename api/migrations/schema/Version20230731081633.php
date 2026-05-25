@@ -16,10 +16,8 @@ final class Version20230731081633 extends AbstractMigration {
         return 'Add extension pgcrypto';
     }
 
-    public function up(Schema $schema): void {
-    }
+    public function up(Schema $schema): void {}
 
     #[\Override]
-    public function down(Schema $schema): void {
-    }
+    public function down(Schema $schema): void {}
 }
