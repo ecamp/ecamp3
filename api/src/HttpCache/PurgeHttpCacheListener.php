@@ -203,7 +203,7 @@ final readonly class PurgeHttpCacheListener {
         if ($this->canGenerateIri($operation, $entity)) {
             try {
                 $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
-            } catch (NoSuchPropertyException $e) {
+            } catch (NoSuchPropertyException $e) { // @phpstan-ignore catch.neverThrown
                 // NoSuchPropertyException is thrown for cases where uri parameters cannot determined automatically
                 // (for example for the folowing route '/content_node/checklist_nodes/{checklistNodeId}/checklist_items{._format}')
                 // if such routes should be cached, custom logic is needed to purge the correct IRIs
@@ -212,7 +212,7 @@ final readonly class PurgeHttpCacheListener {
         if ($oldEntity && $this->canGenerateIri($operation, $oldEntity)) {
             try {
                 $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
-            } catch (NoSuchPropertyException $e) {
+            } catch (NoSuchPropertyException $e) { // @phpstan-ignore catch.neverThrown
                 // NoSuchPropertyException is thrown for cases where uri parameters cannot determined automatically
                 // (for example for the folowing route '/content_node/checklist_nodes/{checklistNodeId}/checklist_items{._format}')
                 // if such routes should be cached, custom logic is needed to purge the correct IRIs
