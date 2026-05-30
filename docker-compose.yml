@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -26,7 +26,7 @@ services:
       - pdf
 
   frontend-old:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -83,7 +83,7 @@ services:
       - 'host.docker.internal:host-gateway'
 
   http-cache:
-    image: varnish:9.0.1
+    image: varnish:9.0.3
     container_name: 'ecamp3-http-cache'
     depends_on:
       - api
@@ -97,7 +97,7 @@ services:
       - VARNISH_HTTP_PORT=8080
 
   http-cache-logs:
-    image: varnish:9.0.1
+    image: varnish:9.0.3
     container_name: 'ecamp3-http-cache-logs'
     depends_on:
       - http-cache
@@ -106,7 +106,7 @@ services:
     command: varnishncsa
 
   pdf:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -126,7 +126,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -221,7 +221,7 @@ services:
     working_dir: /e2e
 
   reverse-proxy:
-    image: nginx:1.30
+    image: nginx:1.31
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./reverse-proxy-nginx.conf:/etc/nginx/nginx.conf
@@ -239,7 +239,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.15.0
+    image: node:24.16.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -251,7 +251,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.15.0
+    image: node:24.16.0
     profiles: ['prettier']
     stdin_open: true
     tty: true

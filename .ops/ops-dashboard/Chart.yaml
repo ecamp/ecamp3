@@ -26,9 +26,9 @@ appVersion: 0.1.0
 dependencies:
     - name: oauth2-proxy
       alias: grafana-proxy
-      version: 10.4.3
+      version: 10.6.0
       repository: https://oauth2-proxy.github.io/manifests
     - name: oauth2-proxy
       alias: logging-proxy
-      version: 10.4.3
+      version: 10.6.0
       repository: https://oauth2-proxy.github.io/manifests

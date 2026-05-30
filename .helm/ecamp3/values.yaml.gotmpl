@@ -168,10 +168,12 @@ postgresql:
   # An uri with privileges to create and drop a database for the application.
   # Can be left empty if the required database specified in postgresql.url already exists.
   {{ if .Environment.Values | getOrNil "POSTGRES_ADMIN_URL" | default false }}
-  adminUrl: "{{ .Environment.Values | getOrNil "POSTGRES_ADMIN_URL" }}/ecamp3{{ $name }}?sslmode=require"
+  adminUrl: "{{ .Environment.Values | getOrNil "POSTGRES_ADMIN_URL" }}/postgres?sslmode=require"
   {{ else }}
   adminUrl:
   {{ end }}
+  user: "{{ .Environment.Values | getOrNil "POSTGRES_DEPLOYMENT_USER" | default "ecamp3dev" }}"
+  dbName: "ecamp3{{ $dbNameSuffix }}"
   dbBackupRestoreImage:
     repository: "docker.io/{{ $dockerUser }}/ecamp3-db-backup-restore"
     pullPolicy: IfNotPresent
