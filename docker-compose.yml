@@ -207,7 +207,7 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.59.1-noble
+    image: mcr.microsoft.com/playwright:v1.60.0-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
