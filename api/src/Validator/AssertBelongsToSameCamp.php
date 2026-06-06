@@ -6,11 +6,11 @@ use Symfony\Component\Validator\Constraint;
 
 #[\Attribute]
 class AssertBelongsToSameCamp extends Constraint {
-    public string $message = 'Must belong to the same camp.';
-
-    public function __construct(?array $options = null, ?string $message = null, ?array $groups = null, mixed $payload = null) {
-        parent::__construct($options ?? [], $groups, $payload);
-
-        $this->message = $message ?? $this->message;
+    public function __construct(
+        public readonly string $message = 'Must belong to the same camp.',
+        ?array $groups = null,
+        $payload = null
+    ) {
+        parent::__construct(null, $groups, $payload);
     }
 }
