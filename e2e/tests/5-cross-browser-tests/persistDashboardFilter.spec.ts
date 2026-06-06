@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
 
-test.describe('The filters in the dashboard', () => {
+test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
   test.beforeEach(async ({ page, request }) => {
     await loginAndSetCookie(page, request, 'test@example.com')
     await mockDateNow(page)

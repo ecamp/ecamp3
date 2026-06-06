@@ -44,7 +44,7 @@ const collectionXKeys =
   'a13fadc97610#embeddedActivityResponsibles ' +
   'a13fadc97610#emptyContentNodesForIriGeneration'
 
-test.describe('cache test: /camps/{campId}/activities', () => {
+test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
   test('caches /activities/{activitiyId} separately for each login', async () => {
