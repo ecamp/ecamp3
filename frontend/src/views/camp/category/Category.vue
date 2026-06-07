@@ -41,6 +41,7 @@
               :warning-text-entity="category.name"
               :dialog-title="$t('views.camp.category.category.deleteCategory')"
               :success-handler="goToActivityAdmin"
+              :submit-enabled="!activitiesLoading"
             >
               <template #activator="{ props }">
                 <v-list-item v-bind="props">
@@ -52,6 +53,7 @@
                   </v-list-item-title>
                 </v-list-item>
               </template>
+              <v-skeleton-loader v-if="activitiesLoading" type="article" />
               <template v-if="findActivities(category).length > 0" #error>
                 <ErrorExistingActivitiesList
                   :camp="camp"
@@ -161,6 +163,9 @@ export default {
     }
   },
   computed: {
+    activitiesLoading() {
+      return this.camp.activities()._meta.loading
+    },
     contentNodes() {
       return this.category.contentNodes()
     },
