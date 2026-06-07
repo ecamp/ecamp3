@@ -6,6 +6,7 @@ Before you do anything, start the dev environment:
 
 ```bash
 docker compose up -d
+docker compose --profile=playwright-cli up -d
 ```
 
 ### Key Directories
@@ -109,6 +110,27 @@ docker compose exec print npm run build
 
 Playwright end-to-end tests. The service uses the `e2e` Docker profile, so start it when needed.
 See [README.md](e2e/README.md)
+
+## Playwright CLI service
+
+The `playwright-cli` Docker service provides Playwright browser automation.
+It uses `network_mode: host` so URLs like `http://localhost:3000` work the same as on the host.
+The container stays running so the playwright-cli session daemon persists across commands.
+
+```bash
+docker compose exec playwright-cli playwright-cli open http://localhost:3000
+docker compose exec playwright-cli playwright-cli snapshot
+docker compose exec playwright-cli playwright-cli close
+```
+
+For one-shot scripts, use `exec` against the running container:
+
+```bash
+docker compose exec playwright-cli node /workspace/.playwright-cli/my-script.js
+```
+
+Screenshots and snapshots are saved to `.playwright-cli/`.
+Find the skill here: [skills](.agents/skills).
 
 ## Infrastructure and operations
 
