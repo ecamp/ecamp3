@@ -9,6 +9,7 @@
       :camp="camp"
       :index="index"
       :content-type="options.contentType"
+      :type="'SafetyConsiderations'"
       :page-size="pageSize"
     />
   </div>
