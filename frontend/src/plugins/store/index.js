@@ -6,6 +6,7 @@ import auth from './auth'
 import preferences from './preferences'
 import snackbarMessagesStore from './snackbarMessagesStore'
 import { getEnv } from '@/environment.js'
+import { setupAxiosAuthInterceptor } from '@/plugins/auth.js'
 
 export default {
   install: (app, _) => {
@@ -21,7 +22,7 @@ export default {
 
     app.use(store)
 
-    const axiosInstance = axios.create({
+    axiosInstance = axios.create({
       withCredentials: true,
       baseURL: getEnv().API_ROOT_URL,
       headers: { common: { Accept: 'application/hal+json' } },
@@ -32,6 +33,7 @@ export default {
       }
       return config
     })
+    setupAxiosAuthInterceptor(axiosInstance)
 
     // create and inject API
     apiStore = new HalJsonVuex(store, axiosInstance, {
@@ -44,3 +46,4 @@ export default {
 
 export let apiStore
 export let store
+export let axiosInstance

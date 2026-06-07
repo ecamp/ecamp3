@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { apiStore, store } from '@/plugins/store'
 import { hasLoggedOutFromLocalStorage } from '@/plugins/store/auth.js'
 import router from '@/router'
@@ -6,14 +5,57 @@ import Cookies from 'js-cookie'
 import { getEnv } from '@/environment.js'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 
-axios.interceptors.response.use(null, (error) => {
-  if (error.status === 401) {
-    logout().then(() => {})
-  }
-  return Promise.reject(error)
-})
+const REFRESH_PATH = '/token/refresh'
 
 let scheduledRefresh = null
+let refreshTokenPromise = null
+
+function isRefreshRequest(config) {
+  return !!config?.url && config.url.includes(REFRESH_PATH)
+}
+
+export function setupAxiosAuthInterceptor(axiosInstance) {
+  axiosInstance.interceptors.response.use(null, async (error) => {
+    const request = error.config
+    const status = error.response?.status ?? error.status
+
+    if (
+      status !== 401 ||
+      !request ||
+      request._authRetried ||
+      isRefreshRequest(request) ||
+      hasLoggedOutFromLocalStorage()
+    ) {
+      return Promise.reject(error)
+    }
+
+    request._authRetried = true
+
+    try {
+      await refreshAuthTokenSingleton()
+    } catch {
+      await logout()
+      return Promise.reject(error)
+    }
+
+    rescheduleRefresh()
+    return axiosInstance(request)
+  })
+}
+
+function refreshAuthTokenSingleton() {
+  async function refresh() {
+    const url = await apiStore.href(apiStore.get(), 'refreshToken')
+    return apiStore.post(url)
+  }
+
+  if (!refreshTokenPromise) {
+    refreshTokenPromise = refresh().finally(() => {
+      refreshTokenPromise = null
+    })
+  }
+  return refreshTokenPromise
+}
 
 export async function initRefresh() {
   // Cookies.get was not reliable to detect if the cookie was present.
@@ -27,7 +69,7 @@ export async function initRefresh() {
   let refreshedSuccessfully = false
   if (!isLoggedIn()) {
     try {
-      await refresh()
+      await refreshAuthTokenSingleton()
     } catch {
       /* empty */
     }
@@ -57,13 +99,8 @@ function rescheduleRefresh() {
 }
 
 async function refreshAndSchedule() {
-  await refresh()
+  await refreshAuthTokenSingleton()
   rescheduleRefresh()
-}
-
-async function refresh() {
-  const url = await apiStore.href(apiStore.get(), 'refreshToken')
-  return apiStore.post(url)
 }
 
 function getJWTPayloadFromCookie() {
