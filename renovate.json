@@ -7,7 +7,7 @@
   ],
   "ignorePresets": ["group:apiPlatform"],
   "constraints": {
-    "node": "24.22.0",
+    "node": "26.12.1",
     "php": "8.5.12"
   },
   "automergeType": "branch",
