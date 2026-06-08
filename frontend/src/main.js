@@ -1,3 +1,4 @@
+import browserUpdate from 'browser-update'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router.js'
@@ -22,6 +23,17 @@ import '@/scss/global.scss'
 import '@/scss/tailwind.scss'
 import { initRefresh } from '@/plugins/auth.js'
 import { getEnv } from '@/environment.js'
+
+browserUpdate({
+  required: {
+    c: 90,
+    f: 90,
+    e: 90,
+    s: 14,
+    o: 80,
+  },
+  insecure: true,
+})
 
 const app = createApp(App)
 
