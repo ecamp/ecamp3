@@ -7,6 +7,7 @@ Displays collaborators of a single camp.
       <ContentGroup :title="$t('views.camp.admin.collaborators.members')">
         <template #title-actions>
           <CollaboratorCreate v-if="isManager" :camp="camp" />
+          <CollaboratorBulkCreate v-if="isManager" :camp="camp" />
         </template>
         <CollaboratorList :collaborators="established" :is-manager="isManager" />
       </ContentGroup>
@@ -28,6 +29,7 @@ Displays collaborators of a single camp.
   </content-card>
 </template>
 <script>
+import CollaboratorBulkCreate from '@/components/collaborator/CollaboratorBulkCreate.vue'
 import CollaboratorCreate from '@/components/collaborator/CollaboratorCreate.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
@@ -39,6 +41,7 @@ export default {
   components: {
     CollaboratorList,
     CollaboratorCreate,
+    CollaboratorBulkCreate,
     ContentGroup,
     ContentCard,
   },

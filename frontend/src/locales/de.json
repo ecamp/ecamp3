@@ -262,6 +262,16 @@
       }
     },
     "collaborator": {
+      "collaboratorBulkCreate": {
+        "validationFailed": "Bereits im Team oder ungültige E-Mail-Adresse:",
+        "emailsHint": "Eine E-Mail-Adresse pro Zeile oder durch Kommas getrennt eingeben",
+        "emailsLabel": "E-Mail-Adressen",
+        "failedEmails": "Einladung fehlgeschlagen: {emails}",
+        "invite": "Einladungen verschicken",
+        "inviteCta": "Mehrere Personen einladen",
+        "successCount": "{count} Einladung(en) verschickt",
+        "title": "Mehrere Personen einladen"
+      },
       "collaboratorCreate": {
         "emailLabel": "E-Mail-Adresse",
         "invite": "Einladung verschicken",

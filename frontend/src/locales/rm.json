@@ -141,6 +141,16 @@
       }
     },
     "collaborator": {
+      "collaboratorBulkCreate": {
+        "validationFailed": "Gia en il camp u email invalida:",
+        "emailsHint": "Endatescha in'adressa e-mail per lingia u separadas cun virglas",
+        "emailsLabel": "Adressas e-mail",
+        "failedEmails": "Invitaziun fallida: {emails}",
+        "invite": "Trametter las invitaziuns",
+        "inviteCta": "Envidar pliras persunas",
+        "successCount": "{count} invitaziun(s) tramessa(s)",
+        "title": "Envidar pliras persunas"
+      },
       "collaboratorCreate": {
         "invite": "Trametter l'invitaziun",
         "inviteCta": "Envidar en il team",

@@ -262,6 +262,16 @@
       }
     },
     "collaborator": {
+      "collaboratorBulkCreate": {
+        "validationFailed": "Déjà dans le camp ou e-mail invalide:",
+        "emailsHint": "Entrer une adresse e-mail par ligne ou séparées par des virgules",
+        "emailsLabel": "Adresses e-mail",
+        "failedEmails": "Échec de l'invitation: {emails}",
+        "invite": "Envoyer les invitations",
+        "inviteCta": "Inviter plusieurs personnes",
+        "successCount": "{count} invitation(s) envoyée(s)",
+        "title": "Inviter plusieurs personnes"
+      },
       "collaboratorCreate": {
         "invite": "Envoyer l'invitation",
         "inviteCta": "Inviter",

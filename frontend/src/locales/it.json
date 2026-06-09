@@ -203,6 +203,16 @@
       }
     },
     "collaborator": {
+      "collaboratorBulkCreate": {
+        "validationFailed": "Già nel campo o email non valida:",
+        "emailsHint": "Inserisci un indirizzo e-mail per riga o separati da virgole",
+        "emailsLabel": "Indirizzi e-mail",
+        "failedEmails": "Invito fallito: {emails}",
+        "invite": "Inviare gli inviti",
+        "inviteCta": "Invitare più persone",
+        "successCount": "{count} invito/i inviato/i",
+        "title": "Invitare più persone"
+      },
       "collaboratorCreate": {
         "invite": "Inviare l'invito",
         "inviteCta": "Invitare",
