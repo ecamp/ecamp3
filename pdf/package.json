@@ -38,7 +38,7 @@
     "@intlify/core": "11.4.4",
     "@rushstack/eslint-patch": "1.16.1",
     "@vitejs/plugin-vue": "6.0.7",
-    "@vitest/coverage-v8": "4.1.7",
+    "@vitest/coverage-v8": "4.1.8",
     "@vue/babel-preset-app": "5.0.9",
     "@vue/compiler-dom": "3.5.35",
     "@vue/compiler-sfc": "3.5.35",
@@ -57,7 +57,7 @@
     "prettier": "3.8.3",
     "url-template": "3.1.1",
     "vite": "8.0.16",
-    "vitest": "4.1.7"
+    "vitest": "4.1.8"
   },
   "overrides": {
     "lodash": "lodash-es",
