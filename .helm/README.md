@@ -6,7 +6,7 @@ Here you also have some scripts to deploy ecamp3 from your local machine.
 
 First you need to have the following dependencies:
 
-- jq
+- yq
 - kubectl (with a kubeconfig for the cluster you want to deploy to)
 - helm
 - helmfile
