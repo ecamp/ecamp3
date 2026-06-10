@@ -7,7 +7,7 @@ import { expectCacheHit, expectCacheMiss, apiGet, getAuthContext } from '@/utils
 const collectionXKeys =
   'a4211c11211c f17470519474 1a0f84e322c8 c462edd869f3 5e2028c55ee4 3ef17bd1df72 4f0c657fecef a4211c112939 44dcc7493c65 cfccaecd4bad 318e064ea0c9 /api/content_types'
 
-test.describe('cache test: /content-types', () => {
+test.describe('cache test: /content-types', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
   test('caches collection separately for each login', async () => {

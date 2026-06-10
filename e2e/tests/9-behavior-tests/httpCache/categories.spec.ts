@@ -36,7 +36,7 @@ const collectionXKeys =
   /* collection URI (for detecting addition of new categories) */
   '/api/camps/3c79b99ab424/categories'
 
-test.describe('cache test: /camps/{campId}/categories', () => {
+test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
   test('caches /camps/{campId}/categories separately for each login', async () => {

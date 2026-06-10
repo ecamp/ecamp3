@@ -24,7 +24,7 @@ const collectionXKeys =
   /* collection URI (for detecting addition of new days) */
   '/api/periods/76be24bce434/days'
 
-test.describe('cache test: /periods/{periodId}/days', () => {
+test.describe('cache test: /periods/{periodId}/days', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
   test('caches /periods/{periodId}/days separately for each login', async () => {

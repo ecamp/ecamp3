@@ -498,6 +498,8 @@ jobs:
     needs:
       - e2e-tests-build
     uses: ./.github/workflows/reusable-e2e-tests-run.yml
+    with:
+      grep-filter: '@mature'
 
   coveralls-finished:
     name: 'Finish coveralls report'
