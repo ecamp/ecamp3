@@ -103,6 +103,7 @@ export default {
   border-collapse: collapse;
   margin: 1rem 0 2rem;
   width: 100%;
+  text-align: left;
 }
 
 .schedule-entries-table tr {
