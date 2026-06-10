@@ -517,6 +517,11 @@
     },
     "warning": {
       "delete": "Volete davvero cancellarlo? | Volete davvero cancellarlo \"{entity}\"?"
+    },
+    "reLoginDialog": {
+      "title": "Sessione scaduta",
+      "description": "La tua sessione è scaduta. Effettua di nuovo il login per continuare.",
+      "loginAgain": "Accedi di nuovo"
     }
   },
   "views": {
@@ -719,6 +724,9 @@
     "pageNotFound": {
       "backToHome": "Torna a casa",
       "detail": "Ops. Hai perso la strada…{br}Purtroppo questo link non funziona."
+    },
+    "pageLoading": {
+      "loading": "Caricamento…"
     },
     "profile": {
       "changeEmail": "Cambiamento",

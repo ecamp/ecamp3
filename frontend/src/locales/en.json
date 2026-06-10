@@ -641,6 +641,11 @@
     },
     "warning": {
       "delete": "Do you really want to delete this? | Do you really want to delete \"{entity}\"?"
+    },
+    "reLoginDialog": {
+      "title": "Session expired",
+      "description": "Your session has expired. Please log in again to continue.",
+      "loginAgain": "Log in again"
     }
   },
   "views": {
@@ -868,6 +873,9 @@
     "pageNotFound": {
       "backToHome": "Back to home",
       "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
+    },
+    "pageLoading": {
+      "loading": "Loading…"
     },
     "profile": {
       "changeEmail": "Change",

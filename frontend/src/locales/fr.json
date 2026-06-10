@@ -635,6 +635,11 @@
     },
     "warning": {
       "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
+    },
+    "reLoginDialog": {
+      "title": "Session expirée",
+      "description": "Ta session a expiré. Merci de te reconnecter pour continuer.",
+      "loginAgain": "Se reconnecter"
     }
   },
   "views": {
@@ -862,6 +867,9 @@
     "pageNotFound": {
       "backToHome": "Retour à l'accueil",
       "detail": "Hop là ! Tu t'es égaré...{br}Ce lien ne fonctionne malheureusement pas."
+    },
+    "pageLoading": {
+      "loading": "Chargement…"
     },
     "profile": {
       "changeEmail": "Changement",

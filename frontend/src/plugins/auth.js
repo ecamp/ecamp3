@@ -1,5 +1,8 @@
 import { apiStore, store } from '@/plugins/store'
-import { hasLoggedOutFromLocalStorage } from '@/plugins/store/auth.js'
+import {
+  hasLoggedOutFromLocalStorage,
+  getRefreshTokenExpiresAt,
+} from '@/plugins/store/auth.js'
 import router from '@/router'
 import Cookies from 'js-cookie'
 import { getEnv } from '@/environment.js'
@@ -9,6 +12,41 @@ const REFRESH_PATH = '/token/refresh'
 
 let scheduledRefresh = null
 let refreshTokenPromise = null
+let reAuthPromise = null
+let reAuthResolve = null
+let reAuthReject = null
+
+function waitForReAuth() {
+  if (!reAuthPromise) {
+    reAuthPromise = new Promise((resolve, reject) => {
+      reAuthResolve = resolve
+      reAuthReject = reject
+    })
+  }
+  return reAuthPromise
+}
+
+export function resolveReAuth() {
+  reAuthResolve?.()
+  reAuthPromise = null
+  reAuthResolve = null
+  reAuthReject = null
+  store.commit('setAuthRequired', false)
+}
+
+export function rejectReAuth() {
+  reAuthReject?.(new Error('Re-authentication cancelled'))
+  reAuthPromise = null
+  reAuthResolve = null
+  reAuthReject = null
+  store.commit('setAuthRequired', false)
+}
+
+export function isRefreshLikelyPossible() {
+  const refreshTokenExpiry = getRefreshTokenExpiresAt()
+  if (refreshTokenExpiry === 0) return false
+  return Date.now() < refreshTokenExpiry
+}
 
 function isRefreshRequest(config) {
   return !!config?.url && config.url.includes(REFRESH_PATH)
@@ -34,8 +72,13 @@ export function setupAxiosAuthInterceptor(axiosInstance) {
     try {
       await refreshAuthTokenSingleton()
     } catch {
-      await logout()
-      return Promise.reject(error)
+      store.commit('setAuthRequired', true)
+      try {
+        await waitForReAuth()
+      } catch {
+        return Promise.reject(error)
+      }
+      return axiosInstance(request)
     }
 
     rescheduleRefresh()
@@ -58,34 +101,41 @@ function refreshAuthTokenSingleton() {
 }
 
 export async function initRefresh() {
-  // Cookies.get was not reliable to detect if the cookie was present.
-  if (hasLoggedOutFromLocalStorage()) {
-    return
-  }
-  let originalTarget = `${window.location.pathname}`
-  if (window.location.search) {
-    originalTarget += `?${window.location.search}`
-  }
-  let refreshedSuccessfully = false
-  if (!isLoggedIn()) {
-    try {
-      await refreshAuthTokenSingleton()
-    } catch {
-      /* empty */
-    }
-    if (!isLoggedIn()) {
+  try {
+    // Cookies.get was not reliable to detect if the cookie was present.
+    if (hasLoggedOutFromLocalStorage()) {
       return
     }
-    refreshedSuccessfully = true
-  }
-  rescheduleRefresh()
-  if (refreshedSuccessfully) {
-    await router.replace(originalTarget).catch((e) => {
-      // Silently ignore if we are already at that target
-      if (!isNavigationFailure(e, NavigationFailureType.duplicated)) {
-        return Promise.reject(e)
+    let originalTarget = `${window.location.pathname}`
+    if (window.location.search) {
+      originalTarget += `?${window.location.search}`
+    }
+    let refreshedSuccessfully = false
+    if (!isLoggedIn()) {
+      if (getRefreshTokenExpiresAt() === 0) {
+        return
       }
-    })
+      try {
+        await refreshAuthTokenSingleton()
+      } catch {
+        /* empty */
+      }
+      if (!isLoggedIn()) {
+        return
+      }
+      refreshedSuccessfully = true
+    }
+    rescheduleRefresh()
+    if (refreshedSuccessfully) {
+      await router.replace(originalTarget).catch((e) => {
+        // Silently ignore if we are already at that target
+        if (!isNavigationFailure(e, NavigationFailureType.duplicated)) {
+          return Promise.reject(e)
+        }
+      })
+    }
+  } finally {
+    store.commit('setAuthInitializing', false)
   }
 }
 
@@ -93,6 +143,7 @@ function rescheduleRefresh() {
   if (scheduledRefresh != null) {
     clearTimeout(scheduledRefresh)
   }
+  store.commit('setRefreshTokenExpiresAt', Date.now() + getEnv().REFRESH_TOKEN_TTL * 1000)
   const timeout = (getJWTExpirationTimestamp() - Date.now()) / 2
   const realTimeout = Math.max(Math.min(timeout, 30 * 60 * 1000), 2 * 60 * 1000)
   scheduledRefresh = setTimeout(refreshAndSchedule, realTimeout)
@@ -125,7 +176,7 @@ function parseJWTPayload(payload) {
   return JSON.parse(jsonPayload)
 }
 
-function getJWTExpirationTimestamp() {
+export function getJWTExpirationTimestamp() {
   return (parseJWTPayload(getJWTPayloadFromCookie()).exp ?? 0) * 1000
 }
 
