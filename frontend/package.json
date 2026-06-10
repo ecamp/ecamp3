@@ -117,7 +117,7 @@
     "eslint-plugin-n": "18.0.1",
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-promise": "7.3.0",
-    "eslint-plugin-vue": "10.9.1",
+    "eslint-plugin-vue": "10.9.2",
     "eslint-plugin-vue-scoped-css": "3.1.1",
     "flush-promises": "1.0.2",
     "globals": "17.6.0",

@@ -11,7 +11,7 @@
     :vee-id="veeId"
     :vee-rules="veeRules"
     reset-on-blur
-    @update:model-value="$emit('update:model-value', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <!-- passing through all slots -->
     <template v-for="(_, slot) of filteredSlots" #[slot]="slotData">
@@ -43,7 +43,7 @@ export default {
   props: {
     modelValue: { type: String, required: false, default: null },
   },
-  emits: ['update:model-value'],
+  emits: ['update:modelValue'],
   computed: {
     filteredSlots() {
       return Object.fromEntries(
