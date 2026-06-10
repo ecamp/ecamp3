@@ -1,4 +1,5 @@
 **/__snapshots__/**
+/.playwright-cli
 /.cache
 /.helm/ecamp3/env.example.yaml
 /.helm/ecamp3/templates

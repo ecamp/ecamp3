@@ -3,9 +3,11 @@
 .idea/
 .vscode/
 .cache/
+/.agents/worktrees
 /.caddy/
 /.env
 /.helm/ecamp3/charts
+/.playwright-cli
 
 !/**/.gitkeep
 node_modules/

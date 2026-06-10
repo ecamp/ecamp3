@@ -97,15 +97,16 @@ export function toWorkbook(sheets) {
 /**
  * @param {object} camp
  * @param {{value: {period: object, materialItems: {items: array}}[]}} collection
- * @param {string} materialList materialList name if set
+ * @param {{value: {name: string}|null}|null} materialList computed ref to material list, or null for overview
  */
 function downloadMaterialList(camp, collection, materialList) {
   return async () => {
     await camp.activities().$loadItems()
 
-    const sheets = await getSheets(camp, collection.value, materialList)
+    const materialListName = materialList?.value?.name ?? null
+    const sheets = await getSheets(camp, collection.value, materialListName)
     const workbook = toWorkbook(sheets)
-    XLSX.writeFile(workbook, generateFilename(camp, materialList))
+    XLSX.writeFile(workbook, generateFilename(camp, materialListName))
   }
 }
 
@@ -141,7 +142,7 @@ export function useMaterialViewHelper(camp, list) {
     }))
   })
 
-  const downloadXlsx = downloadMaterialList(camp, collection, computedList.value?.name)
+  const downloadXlsx = downloadMaterialList(camp, collection, computedList)
   const openPeriods = loadPeriods(camp)
 
   onMounted(async () => {
