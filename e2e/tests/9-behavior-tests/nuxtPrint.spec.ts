@@ -95,7 +95,7 @@ test.describe('Nuxt print test', () => {
       const pdfProps = await getPdfProperties(buffer)
 
       expect(download.suggestedFilename()).toBe('Pfila-2023.pdf')
-      expect(pdfProps.numPages).toBe(25)
+      expect(pdfProps.numPages).toBe(26)
     })
 
     // eslint-disable-next-line playwright/no-skipped-test
