@@ -98,7 +98,6 @@ export default {
     createChecklist() {
       return this.create().then(() => {
         this.api.reload(this.checklistCollection)
-        this.api.reload(this.camp)
       })
     },
   },

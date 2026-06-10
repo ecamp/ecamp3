@@ -11,7 +11,6 @@ App\Entity\Camp:
     creator: '@user2member'
     isPrototype: false
     isShared: false
-    hasChecklists: true
     sharedBy: null
     sharedSince: null
     campPrototypeId: null
@@ -27,7 +26,6 @@ App\Entity\Camp:
     creator: '@user4unrelated'
     isPrototype: false
     isShared: false
-    hasChecklists: true
     sharedBy: null
     sharedSince: null
     campPrototypeId: null
@@ -43,7 +41,6 @@ App\Entity\Camp:
     creator: '@admin'
     isPrototype: false
     isShared: false
-    hasChecklists: true
     sharedBy: null
     sharedSince: null
     campPrototypeId: null
@@ -60,7 +57,6 @@ App\Entity\Camp:
     isPublic: true
     isPrototype: true
     isShared: false
-    hasChecklists: true
     sharedBy: null
     sharedSince: null
     campPrototypeId: null
@@ -77,7 +73,6 @@ App\Entity\Camp:
     isPublic: true
     isPrototype: false
     isShared: true
-    hasChecklists: true
     sharedBy: '@admin'
     sharedSince: '<(new DateTime("2025-09-03 12:00:00"))>'
     campPrototypeId: null

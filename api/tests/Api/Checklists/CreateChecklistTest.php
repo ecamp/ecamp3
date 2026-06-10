@@ -4,7 +4,6 @@ namespace App\Tests\Api\Checklists;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use App\Entity\Camp;
 use App\Entity\Checklist;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
@@ -131,25 +130,6 @@ class CreateChecklistTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
-    }
-
-    public function testCreateChecklistUpdatesCampHasChecklistsFlag() {
-        $camp = static::getFixture('camp2');
-        $camp->hasChecklists = false;
-        $this->getEntityManager()->flush();
-
-        static::createClientWithCredentials()
-            ->request('POST', '/checklists', ['json' => $this->getExampleWritePayload([
-                'camp' => $this->getIriFor($camp),
-                'name' => 'New course checklist',
-            ])])
-        ;
-
-        $this->assertResponseStatusCodeSame(201);
-
-        $this->getEntityManager()->clear();
-        $camp = $this->getEntityManager()->getRepository(Camp::class)->find($camp->getId());
-        $this->assertTrue($camp->hasChecklists);
     }
 
     public function testCreateChecklistInCampPrototypeIsDeniedForUnrelatedUser() {

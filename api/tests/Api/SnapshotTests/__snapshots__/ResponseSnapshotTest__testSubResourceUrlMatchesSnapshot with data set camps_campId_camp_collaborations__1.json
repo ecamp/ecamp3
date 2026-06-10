@@ -14,9 +14,14 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "checklists": {
-                                "href": "escaped_value"
-                            },
+                            "checklists": [
+                                {
+                                    "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -45,7 +50,6 @@
                         "courseKind": "escaped_value",
                         "courseNumber": "escaped_value",
                         "id": "escaped_value",
-                        "hasChecklists": "escaped_value",
                         "isPrototype": "escaped_value",
                         "isShared": "escaped_value",
                         "kind": "escaped_value",
@@ -88,9 +92,14 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "checklists": {
-                                "href": "escaped_value"
-                            },
+                            "checklists": [
+                                {
+                                    "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -119,7 +128,6 @@
                         "courseKind": "escaped_value",
                         "courseNumber": "escaped_value",
                         "id": "escaped_value",
-                        "hasChecklists": "escaped_value",
                         "isPrototype": "escaped_value",
                         "isShared": "escaped_value",
                         "kind": "escaped_value",
@@ -177,9 +185,14 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "checklists": {
-                                "href": "escaped_value"
-                            },
+                            "checklists": [
+                                {
+                                    "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -208,7 +221,6 @@
                         "courseKind": "escaped_value",
                         "courseNumber": "escaped_value",
                         "id": "escaped_value",
-                        "hasChecklists": "escaped_value",
                         "isPrototype": "escaped_value",
                         "isShared": "escaped_value",
                         "kind": "escaped_value",
@@ -266,9 +278,14 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "checklists": {
-                                "href": "escaped_value"
-                            },
+                            "checklists": [
+                                {
+                                    "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -297,7 +314,6 @@
                         "courseKind": "escaped_value",
                         "courseNumber": "escaped_value",
                         "id": "escaped_value",
-                        "hasChecklists": "escaped_value",
                         "isPrototype": "escaped_value",
                         "isShared": "escaped_value",
                         "kind": "escaped_value",
@@ -355,9 +371,14 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "checklists": {
-                                "href": "escaped_value"
-                            },
+                            "checklists": [
+                                {
+                                    "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -386,7 +407,6 @@
                         "courseKind": "escaped_value",
                         "courseNumber": "escaped_value",
                         "id": "escaped_value",
-                        "hasChecklists": "escaped_value",
                         "isPrototype": "escaped_value",
                         "isShared": "escaped_value",
                         "kind": "escaped_value",
@@ -444,9 +464,14 @@
                             "categories": {
                                 "href": "escaped_value"
                             },
-                            "checklists": {
-                                "href": "escaped_value"
-                            },
+                            "checklists": [
+                                {
+                                    "href": "escaped_value"
+                                },
+                                {
+                                    "href": "escaped_value"
+                                }
+                            ],
                             "creator": {
                                 "href": "escaped_value"
                             },
@@ -475,7 +500,6 @@
                         "courseKind": "escaped_value",
                         "courseNumber": "escaped_value",
                         "id": "escaped_value",
-                        "hasChecklists": "escaped_value",
                         "isPrototype": "escaped_value",
                         "isShared": "escaped_value",
                         "kind": "escaped_value",

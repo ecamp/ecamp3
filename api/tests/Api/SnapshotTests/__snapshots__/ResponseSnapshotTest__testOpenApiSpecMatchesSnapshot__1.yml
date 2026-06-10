@@ -3917,12 +3917,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -4247,12 +4241,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -4437,12 +4425,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -4627,12 +4609,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -4821,12 +4797,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5012,12 +4982,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_CampCollaboration.Camp_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5202,12 +5166,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5392,12 +5350,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Category.PreferredContentTypes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5582,12 +5534,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Category.PreferredContentTypes_Category.ContentNodes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5772,12 +5718,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Day.DayResponsibles'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -5962,12 +5902,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_Period.Camp_Period.Days'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -6152,12 +6086,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User-read_ScheduleEntry.Activity'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -6701,12 +6629,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -6891,12 +6813,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7081,12 +6997,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7275,12 +7185,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7466,12 +7370,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_CampCollaboration.Camp_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7656,12 +7554,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -7846,12 +7738,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Category.PreferredContentTypes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -8036,12 +7922,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Category.PreferredContentTypes_Category.ContentNodes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -8226,12 +8106,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Day.DayResponsibles'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -8416,12 +8290,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_Period.Camp_Period.Days'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -8606,12 +8474,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.html-read_ScheduleEntry.Activity'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -8921,12 +8783,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -9118,12 +8974,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -9315,12 +9165,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -9508,12 +9352,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -9706,12 +9544,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -9903,12 +9735,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.User'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10099,12 +9925,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Category.PreferredContentTypes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10295,12 +10115,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10492,12 +10306,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Day.DayResponsibles'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10693,12 +10501,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_Period.Camp_Period.Days'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -10890,12 +10692,6 @@ components:
             - string
         creator:
           $ref: '#/components/schemas/User.jsonld-read_ScheduleEntry.Activity'
-        hasChecklists:
-          default: false
-          description: 'Whether this camp uses checklists.'
-          example: true
-          readOnly: true
-          type: boolean
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -54332,32 +54128,10 @@ paths:
           description: ''
           explode: false
           in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
           name: isPrototype
           required: false
           schema:
             type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
           style: form
         -
           deprecated: false
@@ -55369,32 +55143,10 @@ paths:
           description: ''
           explode: false
           in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
           name: isPrototype
           required: false
           schema:
             type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
           style: form
         -
           deprecated: false

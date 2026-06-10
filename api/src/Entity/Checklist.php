@@ -15,7 +15,6 @@ use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\ChecklistRepository;
 use App\State\ChecklistCreateProcessor;
-use App\State\ChecklistRemoveProcessor;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -46,7 +45,6 @@ use Symfony\Component\Validator\Constraints as Assert;
                       ',
             validationContext: ['groups' => ['delete']],
             validate: true,
-            processor: ChecklistRemoveProcessor::class,
         ),
         new GetCollection(
             security: 'is_authenticated()'
@@ -77,7 +75,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['camp.id', 'name'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp', 'isPrototype'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: ChecklistRepository::class)]
 class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/checklists{._format}';

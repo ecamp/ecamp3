@@ -4,9 +4,9 @@
 /activity_progress_labels/item: 6
 /activity_responsibles: 5
 /activity_responsibles/item: 7
-/camps: 17
-/camps/item: 18
-/camp_collaborations: 18
+/camps: 21
+/camps/item: 19
+/camp_collaborations: 22
 /camp_collaborations/item: 6
 /categories: 5
 /categories/item: 10
@@ -23,7 +23,7 @@
 /material_lists: 7
 /material_lists/item: 6
 /periods: 5
-/periods/item: 11
+/periods/item: 12
 /profiles: 5
 /profiles/item: 5
 /schedule_entries: 27
@@ -32,8 +32,8 @@
 '/activities?camp=': 10
 '/activity_progress_labels?camp=': 5
 '/activity_responsibles?activity.camp=': 5
-'/camp_collaborations?camp=': 9
-'/camp_collaborations?activityResponsibles.activity=': 8
+'/camp_collaborations?camp=': 10
+'/camp_collaborations?activityResponsibles.activity=': 9
 '/categories?camp=': 5
 '/content_types?categories=': 5
 '/day_responsibles?day.period=': 5
@@ -45,7 +45,7 @@
 '/schedule_entries?period=': 12
 '/camps/{id}/activities': 12
 '/camps/{id}/activity_progress_labels': 7
-'/camps/{id}/camp_collaborations': 10
+'/camps/{id}/camp_collaborations': 11
 '/camps/{id}/categories': 7
 '/camps/{id}/checklists': 7
 '/checklists/{id}/checklist_items': 7

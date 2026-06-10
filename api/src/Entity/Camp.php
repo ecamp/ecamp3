@@ -169,7 +169,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * List of all Checklists of this Camp.
      * Each Checklist is a List of ChecklistItems.
      */
-    #[ApiProperty(writable: false, uriTemplate: Checklist::CAMP_SUBRESOURCE_URI_TEMPLATE)]
+    #[ApiProperty(writable: false, example: '["/checklists/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Checklist::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
     #[ORM\OrderBy(['name' => 'ASC', 'createTime' => 'ASC'])]
@@ -251,16 +251,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $randomlyGenerated = false;
-
-    /**
-     * Whether this camp uses checklists.
-     */
-    #[Assert\Type('bool')]
-    #[Assert\DisableAutoMapping]
-    #[ApiProperty(writable: false, example: true)]
-    #[Groups(['read'])]
-    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hasChecklists = false;
 
     /**
      * An optional short title for the camp. Can be used in the UI where space is tight. If
@@ -740,7 +730,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         if (!$this->checklists->contains($checklist)) {
             $this->checklists[] = $checklist;
             $checklist->camp = $this;
-            $this->hasChecklists = true;
         }
 
         return $this;
@@ -751,8 +740,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
             if ($checklist->camp === $this) {
                 $checklist->camp = null;
             }
-
-            $this->hasChecklists = !$this->checklists->isEmpty();
         }
 
         return $this;

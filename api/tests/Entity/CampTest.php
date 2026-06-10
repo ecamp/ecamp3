@@ -4,7 +4,6 @@ namespace App\Tests\Entity;
 
 use App\Entity\Camp;
 use App\Entity\Category;
-use App\Entity\Checklist;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
@@ -99,27 +98,5 @@ class CampTest extends TestCase {
         $this->assertEquals($this->materialItemPrototype->article, $materialItem->article);
         $this->assertEquals($this->materialItemPrototype->quantity, $materialItem->quantity);
         $this->assertEquals($this->materialItemPrototype->unit, $materialItem->unit);
-    }
-
-    public function testRemoveLastChecklistUpdatesHasChecklistsFlag() {
-        $camp = new Camp();
-        $checklist = new Checklist();
-        $camp->addChecklist($checklist);
-
-        $camp->removeChecklist($checklist);
-
-        $this->assertFalse($camp->hasChecklists);
-    }
-
-    public function testRemoveChecklistKeepsHasChecklistsFlagIfOtherChecklistsRemain() {
-        $camp = new Camp();
-        $checklist = new Checklist();
-        $otherChecklist = new Checklist();
-        $camp->addChecklist($checklist);
-        $camp->addChecklist($otherChecklist);
-
-        $camp->removeChecklist($checklist);
-
-        $this->assertTrue($camp->hasChecklists);
     }
 }
