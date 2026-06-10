@@ -15,7 +15,7 @@
 
 <script>
 import { filterMatchScheduleEntry } from '../common/helpers/filterMatchScheduleEntry.js'
-import DaySummary from "~/components/DaySummary.vue";
+import DaySummary from '~/components/DaySummary.vue'
 
 export default {
   components: { DaySummary },
