@@ -111,6 +111,7 @@ export default defineConfig(({ mode }) => ({
       // 'vuetify/es5/components/VCalendar/modes/column.js',
       // 'vuetify/es5/components/VCalendar/util/events.js',
     ],
+    exclude: ['vue-i18n'],
   },
   build: {
     sourcemap: true,
