@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90ecd35fdbba51618e2475690408dbc9",
+    "content-hash": "323781946873aca0c9f267eae34b0713",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -836,16 +836,16 @@
         },
         {
             "name": "api-platform/openapi",
-            "version": "v4.3.7",
+            "version": "v4.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/openapi.git",
-                "reference": "1562617e7500a50c2b6e6f43a0fb29a6a47e83a2"
+                "reference": "21e22f4d74fafc4b01ee5790be7a264387445dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/openapi/zipball/1562617e7500a50c2b6e6f43a0fb29a6a47e83a2",
-                "reference": "1562617e7500a50c2b6e6f43a0fb29a6a47e83a2",
+                "url": "https://api.github.com/repos/api-platform/openapi/zipball/21e22f4d74fafc4b01ee5790be7a264387445dcf",
+                "reference": "21e22f4d74fafc4b01ee5790be7a264387445dcf",
                 "shasum": ""
             },
             "require": {
@@ -921,9 +921,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/openapi/tree/v4.3.7"
+                "source": "https://github.com/api-platform/openapi/tree/v4.3.10"
             },
-            "time": "2026-04-30T12:21:24+00:00"
+            "time": "2026-06-03T14:37:29+00:00"
         },
         {
             "name": "api-platform/serializer",
