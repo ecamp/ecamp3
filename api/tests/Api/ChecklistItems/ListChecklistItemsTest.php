@@ -111,4 +111,31 @@ class ListChecklistItemsTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testListChecklistItemsAsChecklistNodeSubresourceIsAllowedForCollaborator() {
+        $checklistNode = static::getFixture('checklistNode1');
+        $response = static::createClientWithCredentials()->request('GET', '/content_node/checklist_nodes/'.$checklistNode->getId().'/checklist_items');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('checklistItem1_1_1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListChecklistItemsAsChecklistNodeSubresourceIsDeniedForUnrelatedUser() {
+        $checklistNode = static::getFixture('checklistNode1');
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/content_node/checklist_nodes/'.$checklistNode->getId().'/checklist_items')
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }
