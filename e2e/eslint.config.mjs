@@ -5,18 +5,20 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
+import tseslint from 'typescript-eslint'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const gitignorePath = path.resolve(__dirname, '.gitignore')
 
-export default [
+export default tseslint.config(
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   playwrightEslint.configs['flat/recommended'],
   prettierRecommended,
   {
-    ignores: ['data/', 'playwright-report/', 'test-results/'],
+    ignores: ['data/', 'playwright-report/', 'test-results/', 'dist/'],
   },
 
   includeIgnoreFile(gitignorePath),
@@ -25,12 +27,6 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-      },
-
-      ecmaVersion: 2022,
-
-      parserOptions: {
-        parser: '@babel/eslint-parser',
       },
     },
 
@@ -49,6 +45,10 @@ export default [
           ],
         },
       ],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
-  },
-]
+  }
+)

@@ -5,14 +5,14 @@ It also contains a docker-compose.yml file to easily test the [create-backup.sh]
 
 1. Copy the [.env-example](.env-example) file to [.env](.env)
 
-    ```shell
-    cp .env-example .env
-    ```
+   ```shell
+   cp .env-example .env
+   ```
 
 2. Fill in the variables of [.env](.env)
 
 3. Run the image with the script
 
-    ```shell
-    docker compose run --rm create-backup
-    ```
+   ```shell
+   docker compose run --rm create-backup
+   ```

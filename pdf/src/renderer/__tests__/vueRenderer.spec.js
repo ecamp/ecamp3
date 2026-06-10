@@ -43,7 +43,7 @@ it('renders a simple Vue component', async () => {
   )
 })
 
-describe.each(['A4', 'A5'])('in %p format', (pageSize) => {
+describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
   describe('rendering a full camp', () => {
     it('renders the cover page', async () => {
       // given

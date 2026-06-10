@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "Choose action"
+        description: 'Choose action'
         type: choice
         required: true
         default: diff

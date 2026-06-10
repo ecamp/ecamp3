@@ -7,6 +7,6 @@ services:
       - ./create-backup.sh:/create-backup.sh
     command:
       - sh
-      - "-x"
+      - '-x'
       - /create-backup.sh
     env_file: .env

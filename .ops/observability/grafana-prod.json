@@ -123,10 +123,7 @@
             },
             "lineInterpolation": "smooth",
             "lineStyle": {
-              "dash": [
-                4,
-                4
-              ],
+              "dash": [4, 4],
               "fill": "dash"
             },
             "lineWidth": 1,
@@ -348,9 +345,7 @@
           "options": {
             "fields": {
               "count": {
-                "aggregations": [
-                  "count"
-                ],
+                "aggregations": ["count"],
                 "operation": "aggregate"
               },
               "prototype": {
@@ -459,9 +454,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -484,9 +477,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -559,9 +550,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -584,9 +573,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -660,9 +647,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -685,9 +670,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -761,9 +744,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -786,9 +767,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -918,9 +897,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -1070,12 +1047,7 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": [
-                  "count",
-                  "No Prototype",
-                  "J+S DE",
-                  "J+S Kurs DE"
-                ],
+                "names": ["count", "No Prototype", "J+S DE", "J+S Kurs DE"],
                 "prefix": "All except:",
                 "readOnly": true
               }
@@ -1161,22 +1133,16 @@
       },
       "id": 40,
       "options": {
-        "displayLabels": [
-          "percent"
-        ],
+        "displayLabels": ["percent"],
         "legend": {
           "displayMode": "list",
           "placement": "right",
           "showLegend": true,
-          "values": [
-            "value"
-          ]
+          "values": ["value"]
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
@@ -1236,15 +1202,9 @@
                   "properties": {
                     "field": "isprototype",
                     "operator": "equal",
-                    "value": [
-                      false
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "boolean"
-                    ]
+                    "value": [false],
+                    "valueSrc": ["value"],
+                    "valueType": ["boolean"]
                   },
                   "type": "rule"
                 }
@@ -1298,9 +1258,7 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -1377,15 +1335,9 @@
                   "properties": {
                     "field": "isprototype",
                     "operator": "equal",
-                    "value": [
-                      false
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "boolean"
-                    ]
+                    "value": [false],
+                    "valueSrc": ["value"],
+                    "valueType": ["boolean"]
                   },
                   "type": "rule"
                 }
@@ -1612,9 +1564,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -1656,9 +1606,7 @@
           "options": {
             "fields": {
               "count": {
-                "aggregations": [
-                  "count"
-                ],
+                "aggregations": ["count"],
                 "operation": "aggregate"
               },
               "date": {
@@ -1848,10 +1796,7 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": [
-                  "count",
-                  "eCamp"
-                ],
+                "names": ["count", "eCamp"],
                 "prefix": "All except:",
                 "readOnly": true
               }
@@ -1877,16 +1822,12 @@
       },
       "id": 37,
       "options": {
-        "displayLabels": [
-          "name"
-        ],
+        "displayLabels": ["name"],
         "legend": {
           "displayMode": "table",
           "placement": "right",
           "showLegend": true,
-          "values": [
-            "value"
-          ]
+          "values": ["value"]
         },
         "pieType": "pie",
         "reduceOptions": {
@@ -1972,9 +1913,7 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
@@ -1997,9 +1936,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -2187,9 +2124,7 @@
           "placement": "bottom",
           "showLegend": false
         },
-        "timezone": [
-          "utc"
-        ],
+        "timezone": ["utc"],
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -2234,39 +2169,27 @@
           "options": {
             "fields": {
               "Cevi": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "Google": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "Jubla": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "PBS": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "cevi": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "count": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "createtime": {
@@ -2282,36 +2205,26 @@
                 "operation": "groupby"
               },
               "eCamp": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "ecamp": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "google": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "jubla": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "name": {
                 "aggregations": []
               },
               "pbs": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               }
             }
@@ -2486,9 +2399,7 @@
       },
       "id": 60,
       "options": {
-        "displayLabels": [
-          "percent"
-        ],
+        "displayLabels": ["percent"],
         "legend": {
           "displayMode": "list",
           "placement": "right",
@@ -2497,9 +2408,7 @@
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "/^profiles$/",
           "values": true
         },
@@ -2535,9 +2444,7 @@
             "limit": 50,
             "orderBy": {
               "property": {
-                "name": [
-                  "language"
-                ],
+                "name": ["language"],
                 "type": "string"
               },
               "type": "property"
@@ -2592,9 +2499,7 @@
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
@@ -2617,9 +2522,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -3908,10 +3811,7 @@
           "options": {
             "fields": {
               "duration": {
-                "aggregations": [
-                  "mean",
-                  "max"
-                ],
+                "aggregations": ["mean", "max"],
                 "operation": "aggregate"
               },
               "id": {
@@ -4123,9 +4023,7 @@
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "frameIndex": 0,
@@ -4179,10 +4077,7 @@
               "field": "json.httpRequest.request_time_seconds",
               "id": "7",
               "settings": {
-                "percents": [
-                  "90",
-                  "99"
-                ]
+                "percents": ["90", "99"]
               },
               "type": "percentiles"
             }
@@ -4408,15 +4303,8 @@
         "footer": {
           "countRows": false,
           "enablePagination": false,
-          "fields": [
-            "hit",
-            "hitmiss",
-            "miss",
-            "pass"
-          ],
-          "reducer": [
-            "sum"
-          ],
+          "fields": ["hit", "hitmiss", "miss", "pass"],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -4486,10 +4374,7 @@
           "options": {
             "mode": "reduceRow",
             "reduce": {
-              "include": [
-                "miss",
-                "hit"
-              ],
+              "include": ["miss", "hit"],
               "reducer": "sum"
             }
           }
@@ -4782,11 +4667,7 @@
           "options": {
             "mode": "reduceRow",
             "reduce": {
-              "include": [
-                "miss",
-                "hitmiss",
-                "hit"
-              ],
+              "include": ["miss", "hitmiss", "hit"],
               "reducer": "sum"
             }
           }

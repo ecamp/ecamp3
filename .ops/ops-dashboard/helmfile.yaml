@@ -1,14 +1,14 @@
 environments:
-  default:
-    values:
-      - ./env.yaml
+    default:
+        values:
+            - ./env.yaml
 ---
 repositories:
-  - name: oauth2-proxy
-    url: https://oauth2-proxy.github.io/manifests
+    - name: oauth2-proxy
+      url: https://oauth2-proxy.github.io/manifests
 
 releases:
-  - name: ""
-    chart: .
-    values:
-      - ./values.yaml.gotmpl
+    - name: ''
+      chart: .
+      values:
+          - ./values.yaml.gotmpl

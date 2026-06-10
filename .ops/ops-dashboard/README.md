@@ -31,7 +31,7 @@ you may diff the current deployment with the one you want to do now
 
 ```shell
 ./deploy.sh diff
-````
+```
 
 Deploy
 

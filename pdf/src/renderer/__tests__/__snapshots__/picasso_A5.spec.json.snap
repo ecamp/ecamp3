@@ -1656,11 +1656,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -1829,11 +1835,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -2002,11 +2014,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -2175,11 +2193,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -2348,11 +2372,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "3.47222222222225pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "3.47222222222225pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -2521,11 +2551,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "6.712962962962976pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "6.712962962962976pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -3099,11 +3135,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "3.472222222222223pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "3.472222222222223pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -3272,11 +3314,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -3445,11 +3493,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -3618,11 +3672,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -3791,11 +3851,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -3964,11 +4030,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -4137,11 +4209,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -4310,11 +4388,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -4483,11 +4567,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -5060,11 +5150,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "6.944444444444451pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "6.944444444444451pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -5233,11 +5329,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -5406,11 +5508,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -5579,11 +5687,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -5752,11 +5866,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -5925,11 +6045,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -6098,11 +6224,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -6271,11 +6403,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -6444,11 +6582,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -7021,11 +7165,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "6.944444444444433pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "6.944444444444433pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -7194,11 +7344,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -7367,11 +7523,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -7540,11 +7702,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",
@@ -7713,11 +7881,17 @@
                           "parent": [Circular],
                           "props": {
                             "class": "picasso-schedule-entry-responsibles-container",
+                            "style": {
+                              "color": "#000",
+                              "fontSize": "8pt",
+                            },
                           },
                           "style": {
                             "alignItems": "flex-end",
                             "bottom": "0",
+                            "color": "#000",
                             "flexDirection": "column",
+                            "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
                             "padding": "0 4pt",

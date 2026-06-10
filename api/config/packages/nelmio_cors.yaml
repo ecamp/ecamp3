@@ -2,7 +2,7 @@ nelmio_cors:
     defaults:
         origin_regex: true
         allow_credentials: true
-        allow_origin: 
+        allow_origin:
             - http://localhost:3000
             - https://localhost:3000
             - http://127.0.0.1:3000

@@ -50,11 +50,15 @@ For vscode:\
 `XDEBUG_CONFIG="client_host=docker-host idekey=VSCODE log_level=0"`
 
 After you changed the .env file, you need to recreate the container that the change has an effect.
+
 ```shell
 docker compose down && docker compose up
 ```
+
 or
+
 ```shell
 docker compose stop api; docker compose rm api; docker compose up
-```  
+```
+
 if you don't want to restart the frontend.

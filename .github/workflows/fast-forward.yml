@@ -2,7 +2,7 @@ name: Fast Forward Merge
 
 on:
   issue_comment:
-    types: [ created ]
+    types: [created]
 
 jobs:
   fast_forward_job:

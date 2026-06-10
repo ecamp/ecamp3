@@ -22,14 +22,13 @@ on:
         required: true
         default: dev
       action:
-        description: "Choose action"
+        description: 'Choose action'
         type: choice
         required: true
         default: diff
         options:
           - diff
           - deploy
-
 
 jobs:
   build-and-push:

@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -26,7 +26,7 @@ services:
       - pdf
 
   frontend-old:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -83,7 +83,7 @@ services:
       - 'host.docker.internal:host-gateway'
 
   http-cache:
-    image: varnish:9.0.1
+    image: varnish:9.0.3
     container_name: 'ecamp3-http-cache'
     depends_on:
       - api
@@ -97,7 +97,7 @@ services:
       - VARNISH_HTTP_PORT=8080
 
   http-cache-logs:
-    image: varnish:9.0.1
+    image: varnish:9.0.3
     container_name: 'ecamp3-http-cache-logs'
     depends_on:
       - http-cache
@@ -106,7 +106,7 @@ services:
     command: varnishncsa
 
   pdf:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -126,7 +126,7 @@ services:
       - CI=${CI}
 
   print:
-    image: node:24.15.0
+    image: node:24.16.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -149,14 +149,14 @@ services:
     stop_signal: SIGKILL
 
   database:
-    image: postgres:15-alpine
+    image: postgres:18-alpine
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
       - POSTGRES_USER=ecamp3
     volumes:
-      - db-data-postgres:/var/lib/postgresql/data:rw
+      - db-data-postgres:/var/lib/postgresql:rw
       - ./create-ecamp3-test-database.sh:/docker-entrypoint-initdb.d/create-ecamp3-test-database.sh
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data:rw
@@ -207,7 +207,7 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.59.1-noble
+    image: mcr.microsoft.com/playwright:v1.60.0-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
@@ -221,7 +221,7 @@ services:
     working_dir: /e2e
 
   reverse-proxy:
-    image: nginx:1.30
+    image: nginx:1.31
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./reverse-proxy-nginx.conf:/etc/nginx/nginx.conf
@@ -239,7 +239,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.15.0
+    image: node:24.16.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -249,6 +249,23 @@ services:
       - ./print:/print:delegated
     working_dir: /translation
     command: tail -F anything
+
+  prettier:
+    image: node:24.16.0
+    profiles: ['prettier']
+    stdin_open: true
+    tty: true
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./:/app:delegated
+      - ./.cache/npm:/home/node/.npm
+    working_dir: /app
+    entrypoint: ./docker-setup.sh
+    command: 'npm run lint'
+    environment:
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CI=${CI}
 
 volumes:
   db-data-postgres: null

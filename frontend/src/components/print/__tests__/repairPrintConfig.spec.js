@@ -634,7 +634,7 @@ describe('repairConfig', () => {
     })
   })
 
-  test.each(['A5', 'A4'])('allows pageSize %p', async (pageSize) => {
+  test.each(['A5', 'A4', 'A3'])('allows pageSize %p', async (pageSize) => {
     // given
     const config = {
       camp: '/camps/1a2b3c4d',

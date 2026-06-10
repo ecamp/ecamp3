@@ -1,167 +1,172 @@
 {
-    "type": "project",
-    "license": "MIT",
-    "require": {
-        "php": ">=8.5.5",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "api-platform/doctrine-orm": "4.3.4",
-        "api-platform/doctrine-common": "4.3.5",
-        "api-platform/documentation": "4.3.5",
-        "api-platform/hal": "4.3.4",
-        "api-platform/http-cache": "4.3.5",
-        "api-platform/json-api": "4.3.5",
-        "api-platform/metadata": "4.3.4",
-        "api-platform/openapi": "4.3.5",
-        "api-platform/serializer": "4.3.5",
-        "api-platform/state": "4.3.4",
-        "api-platform/symfony": "4.3.4",
-        "api-platform/validator": "4.3.4",
-        "composer/package-versions-deprecated": "1.11.99",
-        "doctrine/common": "3.5.0",
-        "doctrine/doctrine-bundle": "3.2.2",
-        "doctrine/doctrine-migrations-bundle": "4.0.0",
-        "doctrine/orm": "3.6.4",
-        "exercise/htmlpurifier-bundle": "5.2",
-        "friendsofsymfony/http-cache": "3.2.0",
-        "friendsofsymfony/http-cache-bundle": "3.4.0",
-        "gesdinet/jwt-refresh-token-bundle": "2.0.0",
-        "google/recaptcha": "1.5",
-        "guzzlehttp/guzzle": "7.10.0",
-        "knpuniversity/oauth2-client-bundle": "2.20.2",
-        "league/oauth2-google": "5.0.0",
-        "lexik/jwt-authentication-bundle": "3.2.0",
-        "nelmio/cors-bundle": "2.6.1",
-        "phpdocumentor/reflection-docblock": "6.0.3",
-        "phpmyadmin/sql-parser": "6.0.0",
-        "ramsey/uuid": "4.9.2",
-        "rize/uri-template": "0.4.1",
-        "sentry/sentry-symfony": "5.10.0",
-        "stof/doctrine-extensions-bundle": "1.15.3",
-        "swaggest/json-schema": "0.12.43",
-        "symfony/asset": "8.0.8",
-        "symfony/console": "8.0.9",
-        "symfony/dotenv": "8.0.9",
-        "symfony/expression-language": "8.0.8",
-        "symfony/flex": "2.10.0",
-        "symfony/framework-bundle": "8.0.10",
-        "symfony/http-client": "8.0.9",
-        "symfony/http-foundation": "8.0.8",
-        "symfony/intl": "8.0.8",
-        "symfony/mailer": "8.0.8",
-        "symfony/monolog-bundle": "4.0.2",
-        "symfony/property-access": "8.0.8",
-        "symfony/property-info": "8.0.8",
-        "symfony/routing": "8.0.9",
-        "symfony/runtime": "8.0.8",
-        "symfony/security-bundle": "8.0.8",
-        "symfony/security-core": "8.0.8",
-        "symfony/serializer": "8.0.10",
-        "symfony/translation": "8.0.8",
-        "symfony/twig-bundle": "8.0.8",
-        "symfony/validator": "8.0.10",
-        "symfony/yaml": "8.0.10",
-        "twig/cssinliner-extra": "^3.4",
-        "twig/extra-bundle": "3.24.0",
-        "webonyx/graphql-php": "15.32.3"
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.5.5",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "api-platform/doctrine-orm": "4.3.7",
+    "api-platform/doctrine-common": "4.3.7",
+    "api-platform/documentation": "4.3.7",
+    "api-platform/hal": "4.3.7",
+    "api-platform/http-cache": "4.3.7",
+    "api-platform/json-api": "4.3.6",
+    "api-platform/metadata": "4.3.9",
+    "api-platform/openapi": "4.3.7",
+    "api-platform/serializer": "4.3.7",
+    "api-platform/state": "4.3.7",
+    "api-platform/symfony": "4.3.6",
+    "api-platform/validator": "4.3.7",
+    "composer/package-versions-deprecated": "1.11.99",
+    "doctrine/common": "3.5.0",
+    "doctrine/doctrine-bundle": "3.2.3",
+    "doctrine/doctrine-migrations-bundle": "4.0.0",
+    "doctrine/orm": "3.6.7",
+    "exercise/htmlpurifier-bundle": "5.2",
+    "fakerphp/faker": "1.24.1",
+    "friendsofsymfony/http-cache": "3.2.0",
+    "friendsofsymfony/http-cache-bundle": "3.4.0",
+    "gesdinet/jwt-refresh-token-bundle": "2.0.0",
+    "google/recaptcha": "1.5",
+    "guzzlehttp/guzzle": "7.11.0",
+    "knpuniversity/oauth2-client-bundle": "2.20.2",
+    "league/oauth2-google": "5.0.0",
+    "lexik/jwt-authentication-bundle": "3.2.0",
+    "nelmio/cors-bundle": "2.6.1",
+    "phpdocumentor/reflection-docblock": "6.0.3",
+    "phpmyadmin/sql-parser": "6.0.0",
+    "ramsey/uuid": "4.9.2",
+    "rize/uri-template": "0.4.2",
+    "sentry/sentry-symfony": "5.10.0",
+    "stof/doctrine-extensions-bundle": "1.15.3",
+    "swaggest/json-schema": "0.12.43",
+    "symfony/asset": "8.1.0",
+    "symfony/console": "8.1.0",
+    "symfony/dotenv": "8.1.0",
+    "symfony/expression-language": "8.1.0",
+    "symfony/flex": "2.11.0",
+    "symfony/framework-bundle": "8.1.0",
+    "symfony/http-client": "8.1.0",
+    "symfony/http-foundation": "8.1.0",
+    "symfony/intl": "8.1.0",
+    "symfony/mailer": "8.1.0",
+    "symfony/monolog-bundle": "4.0.2",
+    "symfony/property-access": "8.1.0",
+    "symfony/property-info": "8.1.0",
+    "symfony/routing": "8.1.0",
+    "symfony/runtime": "8.1.0",
+    "symfony/security-bundle": "8.1.0",
+    "symfony/security-core": "8.1.0",
+    "symfony/serializer": "8.1.0",
+    "symfony/translation": "8.1.0",
+    "symfony/twig-bundle": "8.1.0",
+    "symfony/validator": "8.1.0",
+    "symfony/yaml": "8.1.0",
+    "twig/cssinliner-extra": "^3.4",
+    "twig/extra-bundle": "3.24.0",
+    "webonyx/graphql-php": "15.32.3"
+  },
+  "require-dev": {
+    "ext-intl": "*",
+    "api-platform/graphql": "4.3.6",
+    "api-platform/hydra": "4.3.8",
+    "api-platform/json-schema": "4.3.7",
+    "brianium/paratest": "7.22.4",
+    "friendsofphp/php-cs-fixer": "3.95.3",
+    "hautelook/alice-bundle": "2.17.3",
+    "justinrainbow/json-schema": "6.8.2",
+    "php-coveralls/php-coveralls": "2.9.1",
+    "phpstan/phpstan": "2.2.1",
+    "phpunit/phpunit": "13.1.13",
+    "rector/rector": "2.4.5",
+    "psalm/phar": "6.16.1",
+    "spatie/phpunit-snapshot-assertions": "5.4.0",
+    "symfony/browser-kit": "8.1.0",
+    "symfony/css-selector": "8.1.0",
+    "symfony/debug-bundle": "8.1.0",
+    "symfony/maker-bundle": "1.67.0",
+    "symfony/stopwatch": "8.1.0",
+    "symfony/var-dumper": "8.1.0",
+    "symfony/web-profiler-bundle": "8.1.0"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "*": "dist"
     },
-    "require-dev": {
-        "ext-intl": "*",
-        "api-platform/graphql": "4.3.5",
-        "api-platform/hydra": "4.3.4",
-        "api-platform/json-schema": "4.3.5",
-        "brianium/paratest": "7.22.3",
-        "friendsofphp/php-cs-fixer": "3.95.1",
-        "hautelook/alice-bundle": "2.17.3",
-        "justinrainbow/json-schema": "6.8.2",
-        "php-coveralls/php-coveralls": "2.9.1",
-        "phpstan/phpstan": "2.1.54",
-        "phpunit/phpunit": "13.1.8",
-        "rector/rector": "2.4.2",
-        "psalm/phar": "6.16.1",
-        "spatie/phpunit-snapshot-assertions": "5.4.0",
-        "symfony/browser-kit": "8.0.8",
-        "symfony/css-selector": "8.0.9",
-        "symfony/debug-bundle": "8.0.8",
-        "symfony/maker-bundle": "1.67.0",
-        "symfony/stopwatch": "8.0.8",
-        "symfony/var-dumper": "8.0.8",
-        "symfony/web-profiler-bundle": "8.0.9"
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true,
-        "allow-plugins": {
-            "php-http/discovery": false,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/"
-        }
-    },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-intl-grapheme": "*",
-        "symfony/polyfill-intl-normalizer": "*",
-        "symfony/polyfill-mbstring": "*",
-        "symfony/polyfill-php83": "*",
-        "symfony/polyfill-php82": "*",
-        "symfony/polyfill-php81": "*",
-        "symfony/polyfill-php80": "*",
-        "symfony/polyfill-php74": "*",
-        "symfony/polyfill-php73": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php71": "*"
-    },
-    "scripts": {
-        "cs-check": "php-cs-fixer fix --dry-run",
-        "cs-fix": "php-cs-fixer fix",
-        "test": [
-            "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/phpunit -d memory_limit=-1 -c phpunit.xml.dist"
-        ],
-        "paratest": [
-            "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/paratest --passthru-php=\"-d memory_limit=-1\""
-        ],
-        "update-snapshots": [
-            "Composer\\Config::disableProcessTimeout",
-            "UPDATE_SNAPSHOTS=true vendor/bin/phpunit -d memory_limit=-1 tests/Api/SnapshotTests",
-            "UPDATE_SNAPSHOTS=true vendor/bin/phpunit -d memory_limit=-1 tests/Util/ArrayDeepSortTest.php"
-        ],
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ],
-        "phpstan": [
-            "php -d memory_limit=-1 ./vendor/bin/phpstan analyse"
-        ],
-        "psalm": [
-            "psalm.phar"
-        ],
-        "rector": "vendor/bin/rector"
-    },
-    "conflict": {
-        "symfony/dependency-injection": "5.3.7",
-        "symfony/symfony": "*"
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": false,
+      "symfony/flex": true,
+      "symfony/runtime": true
     }
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "paragonie/random_compat": "2.*",
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-intl-grapheme": "*",
+    "symfony/polyfill-intl-normalizer": "*",
+    "symfony/polyfill-mbstring": "*",
+    "symfony/polyfill-php83": "*",
+    "symfony/polyfill-php82": "*",
+    "symfony/polyfill-php81": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php74": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php71": "*"
+  },
+  "scripts": {
+    "cs-check": "php-cs-fixer fix --dry-run",
+    "cs-fix": "php-cs-fixer fix",
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "vendor/bin/phpunit -d memory_limit=-1 -c phpunit.xml.dist"
+    ],
+    "paratest": [
+      "Composer\\Config::disableProcessTimeout",
+      "vendor/bin/paratest --passthru-php=\"-d memory_limit=-1\""
+    ],
+    "update-snapshots": [
+      "Composer\\Config::disableProcessTimeout",
+      "UPDATE_SNAPSHOTS=true vendor/bin/phpunit -d memory_limit=-1 tests/Api/SnapshotTests",
+      "UPDATE_SNAPSHOTS=true vendor/bin/phpunit -d memory_limit=-1 tests/Util/ArrayDeepSortTest.php"
+    ],
+    "generate-data": [
+      "Composer\\Config::disableProcessTimeout",
+      "API_CACHE_ENABLED=false php -d memory_limit=-1 bin/console app:generate-data"
+    ],
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ],
+    "phpstan": [
+      "php -d memory_limit=-1 ./vendor/bin/phpstan analyse"
+    ],
+    "psalm": [
+      "psalm.phar"
+    ],
+    "rector": "vendor/bin/rector"
+  },
+  "conflict": {
+    "symfony/dependency-injection": "5.3.7",
+    "symfony/symfony": "*"
+  }
 }

@@ -1,0 +1,116 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [],
+          "parent": [Circular],
+          "props": {
+            "render": [Function],
+          },
+          "style": {},
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "Table of contents",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "bookmark": "Table of contents",
+            "class": "toc-title",
+            "id": "entry-0",
+          },
+          "style": {
+            "borderBottom": "2pt solid #aaaaaa",
+            "fontSize": "14pt",
+            "fontWeight": "semibold",
+            "marginBottom": "8pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "TEXT",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "Table of contents",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {},
+                  "style": {},
+                  "type": "TEXT",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "toc-entry",
+                "entry": {
+                  "options": {},
+                  "type": "Toc",
+                },
+                "href": "#entry-0",
+              },
+              "style": {
+                "color": "black",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginBottom": "6pt",
+                "textDecoration": "none",
+                "width": "100%",
+              },
+              "type": "LINK",
+            },
+          ],
+          "parent": [Circular],
+          "props": {},
+          "style": {},
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "class": "page",
+        "size": "A3",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "12",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {
+    "locale": "de",
+    "pdfVersion": "1.7",
+    "store": {
+      "get": [Function],
+      "href": [Function],
+    },
+    "tc": [Function],
+  },
+  "style": {},
+  "type": "DOCUMENT",
+}

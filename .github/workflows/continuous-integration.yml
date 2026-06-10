@@ -87,12 +87,12 @@ jobs:
       - api-check-needed
     if: needs.api-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5.6'
-          tools: composer:2.9.0
+          tools: composer:2.10.0
           coverage: none
 
       - name: Get Composer Cache Directory
@@ -113,6 +113,28 @@ jobs:
       - run: php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff
         working-directory: api
 
+  format-check:
+    name: 'Check format from top level'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.16.0'
+
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci --no-audit
+
+      - run: |
+          npm run lint:check:prettier
+
   frontend-eslint:
     name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
@@ -120,11 +142,11 @@ jobs:
       - frontend-check-needed
     if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
@@ -149,11 +171,11 @@ jobs:
     name: 'Lint: ClientPrint (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
@@ -178,11 +200,11 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
@@ -210,11 +232,11 @@ jobs:
       - e2e-check-needed
     if: needs.e2e-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
@@ -242,11 +264,11 @@ jobs:
       - api-check-needed
     if: needs.api-check-needed.outputs.should_skip != 'true'
     env:
-      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=15&charset=utf8
+      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=18&charset=utf8
 
     services:
       postgres:
-        image: 'postgres:15-alpine'
+        image: 'postgres:18-alpine'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -260,13 +282,13 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5.6'
           extensions: intl-73.1
-          tools: composer:2.9.0
+          tools: composer:2.10.0
           coverage: pcov
 
       - name: Get Composer Cache Directory
@@ -349,11 +371,11 @@ jobs:
       - frontend-check-needed
     if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
@@ -392,11 +414,11 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
@@ -431,11 +453,11 @@ jobs:
     name: 'Tests: PDF'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.16.0'
 
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:

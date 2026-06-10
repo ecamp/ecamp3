@@ -69,6 +69,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['isPrototype'])]
 #[ORM\Index(columns: ['isShared'])]
 #[ORM\Index(columns: ['isPublic'])]
+#[ORM\Index(columns: ['randomlyGenerated'])]
 #[ORM\Index(columns: ['updateTime'])] // TODO unclear why this is necessary, but doctrine forgot about this index from BaseEntity...
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
@@ -242,6 +243,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isPublic = false;
+
+    /**
+     * Whether this camp was created by the data generator command. Internal flag,
+     * not published through the API. Used to easily identify and clean generated camps.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $randomlyGenerated = false;
 
     /**
      * Whether this camp uses checklists.

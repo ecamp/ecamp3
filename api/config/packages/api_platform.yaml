@@ -7,32 +7,32 @@ api_platform:
             - '%kernel.project_dir%/src/Entity'
             - '%kernel.project_dir%/src/DTO'
     formats:
-        jsonhal: [ 'application/hal+json' ]
-        jsonld: [ 'application/ld+json' ]
-        jsonapi: [ 'application/vnd.api+json' ]
-        json: [ 'application/json' ]
-        html: [ 'text/html' ]
+        jsonhal: ['application/hal+json']
+        jsonld: ['application/ld+json']
+        jsonapi: ['application/vnd.api+json']
+        json: ['application/json']
+        html: ['text/html']
     docs_formats:
-        jsonhal: [ 'application/hal+json' ]
-        jsonld: [ 'application/ld+json' ]
-        jsonapi: [ 'application/vnd.api+json' ]
+        jsonhal: ['application/hal+json']
+        jsonld: ['application/ld+json']
+        jsonapi: ['application/vnd.api+json']
         jsonopenapi: ['application/vnd.openapi+json']
-        html: [ 'text/html' ]
+        html: ['text/html']
     patch_formats:
-        json: [ 'application/merge-patch+json' ]
+        json: ['application/merge-patch+json']
     error_formats:
-        jsonproblem: [ 'application/problem+json' ]
-        jsonld: [ 'application/ld+json' ]
+        jsonproblem: ['application/problem+json']
+        jsonld: ['application/ld+json']
     swagger:
         versions: [3]
     defaults:
         stateless: true
         pagination_enabled: false
-        itemOperations: [ 'get', 'patch', 'delete' ]
+        itemOperations: ['get', 'patch', 'delete']
         collection_operations:
             get: ~
             post:
-                input_formats: [ 'jsonld', 'jsonapi', 'json' ]
+                input_formats: ['jsonld', 'jsonapi', 'json']
 
     # On API-Platform Update - test, if this config is still needed.
     # See PR 5948: https://github.com/ecamp/ecamp3/pull/5948

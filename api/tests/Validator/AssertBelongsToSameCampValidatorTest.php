@@ -13,7 +13,6 @@ use App\Validator\AssertBelongsToSameCampValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
@@ -126,8 +125,8 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $parent = new ParentTestClass($camp2, $child);
         $this->setObject($parent);
 
-        $request = $this->createStub(Request::class);
-        $request->attributes = new ParameterBag(['previous_data' => new ParentTestClass($camp, $child)]);
+        $request = Request::create('/');
+        $request->attributes->set('previous_data', new ParentTestClass($camp, $child));
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         // when
@@ -146,8 +145,8 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $parent = new ParentTestClass($camp, $child);
         $this->setObject($parent);
 
-        $request = $this->createStub(Request::class);
-        $request->attributes = new ParameterBag(['previous_data' => new ParentTestClass($camp2, $child)]);
+        $request = Request::create('/');
+        $request->attributes->set('previous_data', new ParentTestClass($camp2, $child));
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         // when

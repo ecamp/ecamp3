@@ -20,6 +20,7 @@ If you don't have JWT Passphrase, public and private key yet, you have to run:
 ```shell
 ./generate-jwt-values.sh
 ```
+
 This copies [env.example.yaml](ecamp3/env.example.yaml) to [env.yaml](ecamp3/env.yaml)
 if not exists and sets the jwt values.
 

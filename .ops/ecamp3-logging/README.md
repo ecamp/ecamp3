@@ -29,6 +29,7 @@ sh files/kibana/restore-kibana-objects.sh
 ```
 
 To diff the deployment
+
 ```shell
 ./deploy.sh diff
 ```

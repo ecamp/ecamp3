@@ -1,0 +1,1039 @@
+{
+  "box": {},
+  "children": [
+    {
+      "box": {},
+      "children": [
+        {
+          "box": {},
+          "children": [],
+          "parent": [Circular],
+          "props": {
+            "render": [Function],
+          },
+          "style": {},
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "parent": [Circular],
+              "type": "TEXT_INSTANCE",
+              "value": "Safety considerations: Hauptlager",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "bookmark": {
+              "fit": true,
+              "title": "Safety considerations: Hauptlager",
+            },
+            "class": "summary-period-title",
+            "id": "entry-0-16b2fcffdd8e",
+          },
+          "style": {
+            "fontSize": "10pt",
+            "fontWeight": "bold",
+            "textAlign": "center",
+          },
+          "type": "TEXT",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 1",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Fr 05/10/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f67",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LP",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#90B7E4",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#90B7E4",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "1.4 Takeoff",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-b12d0af13de0",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Apotheke in Aufenthaltszelt oder Matzelt (Nach SIKO)",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 2",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Sa 05/11/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f68",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LS",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#4DBB52",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#4DBB52",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "2.6 Angriff der Aborigines",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-9c5b963da5e1",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Apotheke mitnehmen, Gelände vorher absuchen wegen Gefahren",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LP",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#90B7E4",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#90B7E4",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "2.7 Pfadiversprechen",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-f2923b997126",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Apotheke im Aufenthalts / Matzelt (Nach SIKO)",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LP",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#90B7E4",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#90B7E4",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "2.9 Essen zurückerobern",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-3da4545af722",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Gelende vorher Rekken (wespenneste etc)",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Apotheke und handy dabei",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 3",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Su 05/12/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f69",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LA",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#FF9800",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#FF9800",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "3.A Pfadiversprechen",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-6ee7b9aa5f9b",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Apotheke und Handy vor Ort",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LS",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#4DBB52",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#4DBB52",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "3.5 Abschluss geländegame",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-501abe71a6ab",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Apotheke mitnehmen, Gelände vorher absuchen wegen Gefahren. Drei mal Pfeifen = besammeln beim neutralen Posten.",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Day 4",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-title",
+              },
+              "style": {
+                "fontSize": "14",
+                "fontWeight": "semibold",
+                "margin": "10pt 0 3pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Mo 05/13/2024",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "summary-day-date",
+              },
+              "style": {
+                "fontSize": "11pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-day-title-container",
+            "id": "entry-0-16b2fcffdd8e-f036e9302f70",
+          },
+          "style": {
+            "alignItems": "baseline",
+            "borderBottom": "2pt solid #aaaaaa",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginBottom": "1pt",
+            "paddingBottom": "2pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "LS",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "category-label",
+                "style": {
+                  "backgroundColor": "#4DBB52",
+                  "color": "#000",
+                  "font-size": "10pt",
+                },
+              },
+              "style": {
+                "alignSelf": "center",
+                "backgroundColor": "#4DBB52",
+                "borderRadius": "18pt",
+                "color": "#000",
+                "fontSize": "10pt",
+                "padding": "2pt 8pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "4.1 Morgenturnen",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "id": "entry-0-16b2fcffdd8e-c76ea4bae834",
+                "style": {
+                  "margin": "0 3pt",
+                },
+              },
+              "style": {
+                "margin": "0 3pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "class": "summary-chapter-title",
+            "minPresenceAhead": 30,
+          },
+          "style": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "fontWeight": "bold",
+            "margin": "10pt 0 4.5pt",
+          },
+          "type": "VIEW",
+        },
+        {
+          "box": {},
+          "children": [
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Handy bei leiter",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+            {
+              "box": {},
+              "children": [
+                {
+                  "parent": [Circular],
+                  "type": "TEXT_INSTANCE",
+                  "value": "Aputheke ist auf lagergelende vorhanden",
+                },
+              ],
+              "parent": [Circular],
+              "props": {
+                "class": "p",
+              },
+              "style": {
+                "marginBottom": "2pt",
+              },
+              "type": "TEXT",
+            },
+          ],
+          "parent": [Circular],
+          "props": {
+            "style": {
+              "line-height": "1",
+            },
+          },
+          "style": {
+            "lineHeight": "1",
+          },
+          "type": "VIEW",
+        },
+      ],
+      "parent": [Circular],
+      "props": {
+        "class": "page",
+        "id": "entry-0",
+        "size": "A3",
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "fontFamily": "InterDisplay",
+        "fontSize": "12",
+        "padding": "30",
+      },
+      "type": "PAGE",
+    },
+  ],
+  "parent": null,
+  "props": {
+    "locale": "de",
+    "pdfVersion": "1.7",
+    "store": {
+      "get": [Function],
+      "href": [Function],
+    },
+    "tc": [Function],
+  },
+  "style": {},
+  "type": "DOCUMENT",
+}

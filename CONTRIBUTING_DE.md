@@ -1,4 +1,5 @@
 # Mitarbeit :tada:
+
 Danke dass du mithelfen möchtest! :heart:
 
 Thank you for wanting to help out!
@@ -9,17 +10,22 @@ The English version of this document is available [here](./CONTRIBUTING.md).
 ## [Verhaltenskodex](https://www.ecamp3.ch/de/verhaltenskodex) :page_with_curl:
 
 ## Arbeitsablauf :gear:
+
 Dies ist ein grundlegender Überblick über den Arbeitsablauf, d.h., wie wir mit dem Code von eCamp v3 arbeiten.
 Weitere Informationen zur Einrichtung einer Entwicklungsumgebung auf deinem Computer findest du im [Wiki](https://github.com/ecamp/ecamp3/wiki/installation).
 Wenn etwas bei der Einrichtung unklar ist oder du auf einen Fehler gestossen bist, gibt es einen setup-help-Kanal auf [Discord](https://discord.gg/tdwtRytV6P), dort kannst du deine Fragen zum Setup stellen :computer:
+
 ### Labels :label:
+
 Tickets werden mit Labels gekennzeichnet und einige davon sind nicht selbsterklärend und werden hier erklärt:
+
 - **Good first issue**: :green_heart: Anfängerfreundliche Tickets.
 - **Type-Labels**: Zeigen an, welcher Teil der Architektur betroffen ist. Es gibt `type: Frontend`, `type: Print`, `type: Deployment` & `type: API`. Die Architektur dafür ist teilweise im [Wiki](https://github.com/ecamp/ecamp3/wiki/architecture-frontend) dokumentiert.
 - **Needs prototype**: :bulb: Wenn du eine Idee hast, wie dieses Problem gelöst werden kann, würden wir sie gerne sehen. Dieses Problem benötigt einen Prototypen, bevor die eigentliche Implementierung beginnt, da die Spezifikationen etwas vage sind. Ein Prototyp kann vieles sein, z.B. eine Skizze, ein Mock-up oder eine Teil-Implementierung.
 - **Feature request**: :rocket: Eine Idee/Anfrage für eine Funktionalität, die noch nicht zur Implementierung, aber zur Diskussion bereitsteht.
 
 ### :point_right: Mit einem Ticket starten
+
 Auf GitHub heissen die Arbeitspakete, welche du vielleicht als Tickets kennst, `Issues`. Um zu starten, suche dir ein Issue aus, das dich interessiert. Wenn du neu bist, empfehlen wir, ein [Good first issue](https://github.com/ecamp/ecamp3/labels/Good%20first%20issue) auszuwählen.
 Falls dir diese zu einfach sind, empfehlen wir ein Issue mit dem Label [Ready for Implementation](https://github.com/ecamp/ecamp3/issues?q=is%3Aopen+is%3Aissue+label%3A%22Ready+for+implementation%22), diese sind klar spezifiziert.
 Wenn du an einem Problem arbeitest, hinterlasse bitte einen Kommentar, damit wir es dir zuweisen können, um sicherzustellen, dass die Spezifikationen noch aktuell sind, und um zu verhindern, dass zwei Personen am selben Problem arbeiten.
@@ -35,13 +41,14 @@ In der Praxis sieht die Einrichtung dieses Arbeitsablaufs wie folgt aus:
 
 1. Erstelle einen persönlichen Fork des zentralen Repositories auf GitHub. Um die Befehle zu verwenden, sollte der konfigurierte Git-Benutzername genau deinem GitHub-Benutzernamen entsprechen.
    Wenn du den folgenden Code ausführst und er dein GitHub-Benutzernamen ausgibt, bist du startklar.
-    ```shell
-    echo $(git config user.name)
-    ```
+
+   ```shell
+   echo $(git config user.name)
+   ```
+
    Wenn nicht, solltest du den `$(git config user.name)` durch deinen Benutzernamen ersetzen oder den Befehl `git config --global user.name "DeinNutzername"` mit deinem GitHub-Benutzernamen anstelle von `DeinNutzername` ausführen.
 
-
-3. Klone das originale Repository auf deinen lokalen Computer:
+2. Klone das originale Repository auf deinen lokalen Computer:
 
    ```shell
    git clone https://github.com/ecamp/ecamp3.git
@@ -73,7 +80,6 @@ git checkout origin/devel
 git checkout -b my-new-feature-branch
 ```
 
-
 ### Bevor du Pull Requests einreichst :incoming_envelope:
 
 #### Codeformatierung :art:
@@ -86,30 +92,34 @@ Alternativ kannst du
 - <details>
     <summary>php-cs-fixer und ESLint / Prettier manuell vor jedem Commit ausführen: (Klick mich an, ich bin aufklappbar) </summary>
 
-    ```shell
-    # Frontend Dateien in einem bereits laufenden Container formatieren
-    docker compose exec frontend npm run lint
-    
-    # API/PHP Dateien in einem bereits laufenden Container formatieren
-    docker compose exec php composer cs-fix
-    
-    # Print Dateien in einem bereits laufenden Container formatieren
-    docker compose exec print npm run lint
-    
-    # PDF Dateien in einem bereits laufenden Container formatieren
-    docker compose exec pdf npm run lint
-    
-    # E2E Dateien in einem bereits laufenden Container formatieren
-    docker compose run --rm --entrypoint="npm run lint" e2e
-    ```
+  ```shell
+  # Frontend Dateien in einem bereits laufenden Container formatieren
+  docker compose exec frontend npm run lint
+
+  # API/PHP Dateien in einem bereits laufenden Container formatieren
+  docker compose exec php composer cs-fix
+
+  # Print Dateien in einem bereits laufenden Container formatieren
+  docker compose exec print npm run lint
+
+  # PDF Dateien in einem bereits laufenden Container formatieren
+  docker compose exec pdf npm run lint
+
+  # E2E Dateien in einem bereits laufenden Container formatieren
+  docker compose run --rm --entrypoint="npm run lint" e2e
+  ```
+
   Wenn du keinen Container dieses Typs am laufen hast, verwende `run` anstelle von `execute`. Beachte, dass dies einen neuen Docker-Container startet (was auf einem Gerät mit begrenzten Rechenressourcen eventuell nicht erwünscht ist).
-    ```shell
-    docker compose run --rm frontend npm run lint
-    docker compose run --rm php composer cs-fix
-    docker compose run --rm print npm run lint
-    docker compose run --rm pdf npm run lint
-    ```
+
+  ```shell
+  docker compose run --rm frontend npm run lint
+  docker compose run --rm php composer cs-fix
+  docker compose run --rm print npm run lint
+  docker compose run --rm pdf npm run lint
+  ```
+
   </details>
+
 - einen pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) aufsetzen, um php-cs-fixer und ESLint automatisch vor jedem Commit ausführen zu lassen. Ein Beispiel dafür ist in der [pre-commit.sh](./pre-commit.sh) datei zu finden.
 <details>
   <summary>Um dieses Beispiel zu verwenden führe die folgenden Befehle aus (Klick mich an, ich bin aufklappbar)</summary>
@@ -123,6 +133,7 @@ chmod +x .git/hooks/pre-commit
 # Sieh dir an wie lange die Ausführung dauert und stelle sicher, dass alles funktioniert
 time .git/hooks/pre-commit
 ```
+
 </details>
 
 #### Prüfliste :pencil:
@@ -132,7 +143,6 @@ Um die Zusammenarbeit für alle reibungsloser und angenehmer zu gestalten,
 haben wir diese Prüfliste zusammengestellt :scroll:.
 Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz deiner Beiträge :sparkles: und beschleunigst den Überprüfungsprozess :rocket:.
 
-
 - [x] **Synchronisation mit dem zentralen Repository:** :arrows_counterclockwise: Stelle sicher, dass dein Fork auf dem neuesten Stand des zentralen Repositories ist, um eine reibungslose Integration deiner Änderungen zu ermöglichen. [GitHub-Dokumentation](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
 - [x] **Lint:** :wrench: Stelle sicher, dass Linters auf alle neuen oder geänderten Dateien angewendet wurden.
 - [x] **Bedeutsame Änderungen:** :mag_right: Bestätige, dass jede geänderte Datei einen sinnvollen Inhalt beiträgt und vermeide unbedeutende Änderungen wie reine Anpassungen von Leerzeichen.
@@ -140,33 +150,40 @@ Durch das Prüfen dieser Punkte verbesserst du die Qualität und Konsistenz dein
 - [x] **Sprache & Rechtschreibung:** :book: Verwende Englisch für alle Variablennamen, Klassennamen, Funktionen, Kommentare usw., und stelle sicher, dass aller hinzugefügter Inhalt Rechtschreibprüfungen durchlaufen hat.
 - [x] **Sensible Informationen:** :no_entry: Überprüfe vor dem Einreichen noch einmal, um sicherzustellen, dass keine Passwörter, Zugangsdaten oder lokale Konfigurationen in deinen Änderungen vorhanden sind.
 - [x] **Kontinuierliche Integration:** :green_circle: Stelle sicher, dass der GitHub Actions CI-Build erfolgreich abgeschlossen werden kann, ohne Testfehler.
+- [x] **ARM und x86 support** Wir verwenden momentan ARM und x86 Prozessor- Architekturen im Core Team. Stelle sicher, dass deine Änderungen sowohl mit ARM als auch mit x86 funktionieren. Docker images müssen beide Architekturen zur Verfügung stellen.
 
 ## Datenbank :floppy_disk:
 
 ### Verwende Dev-Data für die Lokale Entwicklung :construction_worker:
+
 Um die Entwicklung zu vereinfachen und Konsistenz in lokalen Umgebungen zu gewährleisten,
 bieten wir einen vordefinierten Datensatz an, der als 'Dev-Daten' bekannt ist.
 Dieser Datensatz ist darauf ausgerichtet, dass wir beim Entwickeln immer eine breite Palette an realistischen Daten sowie einige bekannte Randfälle zur Verfügung haben.
 
 ### Empfohlener Testbenutzer :bust_in_silhouette:
+
 Um dich in Entwicklungsumgebungen wie [localhost:3000](http://localhost:3000) einzuloggen, verwende die Benutzerdaten `test@example.com / test`.
 Dieser Benutzer wurde mit einer umfassenden Sammlung von Lagern ausgestattet, die für das Testen der meisten Funktionen und Szenarien ausreichen sollten.
 
 ### Rückmeldungen zu den Testdaten :loudspeaker:
+
 Wir bemühen uns ständig, unsere 'Dev-Daten' zu verbessern.
 Wenn du Lücken erkennst oder glaubst, dass es ein zusätzliches Szenario abdecken sollte,
 öffne bitte ein Issue, um uns darüber zu informieren.
 
-### Dokumentation  :mag:
+### Dokumentation :mag:
+
 Für ein tieferes Verständnis der 'Dev-Daten' haben wir dieses [README](./api/migrations/dev-data/README.md) (nur auf Englisch verfügbar) erstellt.
 
 ### Konsistentes Testen in verschiedenen Umgebungen :globe_with_meridians:
+
 Die 'Dev-Daten' werden in allen Entwicklungsumgebungen repliziert.
 Wir empfehlen deren Verwendung für konsistente Tests.
 Wenn du ein Problem oder einen Fehler meldest: Referenziere doch ein spezifisches Beispiel aus den 'Dev-Daten'.
 Da die Daten, einschliesslich der IDs, konstant bleiben, kann jeder das von dir hervorgehobene Verhalten leicht nachvollziehen und reproduzieren.
 
 ## Discord :speech_balloon:
+
 Wir verstehen, dass das Einrichten einer Entwicklungsumgebung manchmal knifflig sein kann,
 besonders bei unterschiedlichen Systemen und Konfigurationen.
 Wenn du auf Probleme stösst oder Hindernissen während der Einrichtung begegnest,

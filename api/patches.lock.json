@@ -1,17 +1,17 @@
 {
-    "_hash": "ac1ebeba1efb813491414d3328035f09282911203764babc32b54d10ae147e7b",
-    "patches": {
-        "api-platform/json-hal": [
-            {
-                "package": "api-platform/json-hal",
-                "description": "Allow NULL-Links",
-                "url": "patch/api-plattform-allow-null-links.patch",
-                "sha256": "0c41e09f2b9d9298c51c2594b210de9b82321e2aa56967b128afad8465d5511a",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
-            }
-        ]
-    }
+  "_hash": "ac1ebeba1efb813491414d3328035f09282911203764babc32b54d10ae147e7b",
+  "patches": {
+    "api-platform/json-hal": [
+      {
+        "package": "api-platform/json-hal",
+        "description": "Allow NULL-Links",
+        "url": "patch/api-plattform-allow-null-links.patch",
+        "sha256": "0c41e09f2b9d9298c51c2594b210de9b82321e2aa56967b128afad8465d5511a",
+        "depth": 1,
+        "extra": {
+          "provenance": "root"
+        }
+      }
+    ]
+  }
 }

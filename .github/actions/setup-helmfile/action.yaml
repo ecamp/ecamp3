@@ -1,16 +1,16 @@
 name: 'Setup helmfile'
 description: 'Sets up helmfile in /usr/local/bin/helmfile'
 runs:
-  using: "composite"
-  steps:
-    - name: install helmfile
-      run: |
-        curl -L https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz -o helmfile.tar.gz
-        tar -xvf /tmp/helmfile.tar.gz
-        mv helmfile /usr/local/bin
-        chmod +x /usr/local/bin/helmfile
-      env:
-        # renovate: datasource=github-releases depName=helmfile/helmfile
-        HELMFILE_VERSION: 1.5.0
-      working-directory: /tmp
-      shell: bash
+    using: 'composite'
+    steps:
+        - name: install helmfile
+          run: |
+              curl -L https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz -o helmfile.tar.gz
+              tar -xvf /tmp/helmfile.tar.gz
+              mv helmfile /usr/local/bin
+              chmod +x /usr/local/bin/helmfile
+          env:
+              # renovate: datasource=github-releases depName=helmfile/helmfile
+              HELMFILE_VERSION: 1.5.2
+          working-directory: /tmp
+          shell: bash

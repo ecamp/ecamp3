@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "prettier": "3.8.3"
+  },
+  "scripts": {
+    "lint": "npm run lint:prettier",
+    "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{md,yml,yaml,json}",
+    "lint:check": "npm run lint:check:prettier",
+    "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{md,yml,yaml,json}"
+  }
+}

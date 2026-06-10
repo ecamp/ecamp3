@@ -18,4 +18,4 @@ jobs:
         with:
           mode: exactly
           count: 0
-          labels: "Meeting Discuss"
+          labels: 'Meeting Discuss'

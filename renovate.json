@@ -4,11 +4,9 @@
     "config:recommended",
     ":prConcurrentLimitNone"
   ],
-  "ignorePresets": [
-    "group:apiPlatform"
-  ],
+  "ignorePresets": ["group:apiPlatform"],
   "constraints": {
-    "node": "24.15.0",
+    "node": "24.16.0",
     "php": "8.5.6"
   },
   "automergeType": "branch",
@@ -30,9 +28,7 @@
     {
       "groupName": "api-platform packages",
       "groupSlug": "api-platform",
-      "matchDatasources": [
-        "packagist"
-      ],
+      "matchDatasources": ["packagist"],
       "matchPackageNames": [
         "api-platform/*",
         "!api-platform/admin-meta",
@@ -86,12 +82,20 @@
     },
     {
       "matchDepNames": ["postgres"],
-      "allowedVersions": "15-alpine"
+      "allowedVersions": "18-alpine"
     },
     {
       "matchDepNames": ["cypress", "cypress/included"],
       "automerge": false,
       "groupName": "cypress"
+    },
+    {
+      "groupName": "playwright",
+      "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"]
+    },
+    {
+      "matchPackageNames": ["mcr.microsoft.com/playwright"],
+      "minimumReleaseAge": "0 days"
     }
   ],
   "customManagers": [
@@ -114,19 +118,14 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^.helm/ecamp3/values.ya?ml/",
-        "/^.ops/.*/values.ya?ml/"
-      ],
+      "managerFilePatterns": ["/^.helm/ecamp3/values.ya?ml/", "/^.ops/.*/values.ya?ml/"],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)?\\s.*tag: \"(?<currentValue>.*)\"\\s"
       ]
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^\\.github/.+\\.ya?ml$/"
-      ],
+      "managerFilePatterns": ["/^\\.github/.+\\.ya?ml$/"],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)?\\s.*_VERSION: \"?(?<currentValue>.*)\"?\\s"
       ]
@@ -158,7 +157,7 @@
       "depNameTemplate": "composer",
       "packageNameTemplate": "composer/composer",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+).*?$"
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<prerelease>\\w+))?$"
     },
     {
       "customType": "regex",

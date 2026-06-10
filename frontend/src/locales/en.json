@@ -453,6 +453,7 @@
         "pageNumbers": "Seitenzahlen",
         "fontSize": "Font size",
         "fontSizes": {
+          "A3": "Smaller (for printing on A4 or A3)",
           "A4": "Normal (for printing on A4 or A5)",
           "A5": "Bigger (for printing on A6)"
         }

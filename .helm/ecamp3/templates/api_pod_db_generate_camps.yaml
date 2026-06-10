@@ -1,0 +1,45 @@
+{{- if eq .Values.api.generateRandomCamps "true" }}
+#
+# Generates camps to mimic the data volume of a production database
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "app.name" . }}-db-generate-camps"
+  labels:
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  restartPolicy: Never
+  containers:
+    - name: db-generate-data-job
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 12 }}
+      image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Values.imageTag }}"
+      imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+      env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "api.name" . }}
+              key: database-url
+      command:
+        - sh
+        - -c
+        - |
+          # sleep until the migrations are hopefully through.
+          sleep 60
+          export API_CACHE_ENABLED=false
+          php -d memory_limit=-1 -d max_execution_time=0 bin/console app:generate-data 1000 --replace=true
+  volumes:
+  - name: php-socket
+    emptyDir: {}
+  - name: jwt-keypair
+    secret:
+      secretName: {{ include "api.name" . }}
+      items:
+        - key: jwt-public-key
+          path: public.pem
+        - key: jwt-private-key
+          path: private.pem
+{{- end }}
