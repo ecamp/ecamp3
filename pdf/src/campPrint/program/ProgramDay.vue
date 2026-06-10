@@ -114,6 +114,7 @@ export default {
 }
 .program-day-table {
   margin-top: 8pt;
+  font-size: 10pt;
   break-inside: avoid;
 }
 .program-day-table-row {
