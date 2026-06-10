@@ -103,7 +103,7 @@ export default {
 
     maxWidth: { type: String, default: '600px', required: false },
   },
-  emits: ['update:model-value', 'update:saving-override'],
+  emits: ['update:modelValue', 'update:savingOverride'],
   computed: {
     currentlySaving() {
       return this.isSaving || this.savingOverride
@@ -112,14 +112,14 @@ export default {
   methods: {
     async doSubmit() {
       this.isSaving = true
-      this.$emit('update:saving-override', true)
+      this.$emit('update:savingOverride', true)
       await this.submitAction()
       this.isSaving = false
-      this.$emit('update:saving-override', false)
+      this.$emit('update:savingOverride', false)
     },
     doCancel() {
       this.isSaving = false
-      this.$emit('update:saving-override', false)
+      this.$emit('update:savingOverride', false)
       if (this.cancelAction != null) {
         this.cancelAction()
       }
@@ -129,7 +129,7 @@ export default {
       if (event === false) {
         this.doCancel()
       }
-      this.$emit('update:model-value', event)
+      this.$emit('update:modelValue', event)
     },
   },
 }
