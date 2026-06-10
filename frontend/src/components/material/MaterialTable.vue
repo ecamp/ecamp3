@@ -18,10 +18,10 @@
     <!-- skeleton loader (slot #body overrides all others) -->
     <template
       v-if="materialItemCollection._meta.loading || camp.materialLists()._meta.loading"
-      #body="{ headers }"
+      #body
     >
       <tr v-for="row in 3" :key="row">
-        <td v-for="col in headers.length" :key="col">
+        <td v-for="col in tableHeaders.length" :key="col">
           <v-skeleton-loader height="25" class="pr-5 mt-1" type="text" />
         </td>
       </tr>
@@ -196,13 +196,13 @@
       </button>
     </template>
 
-    <template #[`body.append`]="{ headers }">
+    <template #[`body.append`]>
       <!-- add new item (desktop view) -->
       <MaterialCreateItem
         v-if="!layoutMode && isDefaultVariant && !disabled && isContributor"
         key="addItemRow"
         :camp="camp"
-        :columns="headers.length"
+        :columns="tableHeaders.length"
         :material-list="materialList"
         @item-adding="add"
       />
