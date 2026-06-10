@@ -12,7 +12,7 @@
     "api-platform/http-cache": "4.3.7",
     "api-platform/json-api": "4.3.6",
     "api-platform/metadata": "4.3.9",
-    "api-platform/openapi": "4.3.7",
+    "api-platform/openapi": "4.3.10",
     "api-platform/serializer": "4.3.7",
     "api-platform/state": "4.3.7",
     "api-platform/symfony": "4.3.6",
