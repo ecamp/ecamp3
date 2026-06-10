@@ -6,6 +6,7 @@
       :id="id"
       :period="period"
       :filter="content.options.filter"
+      :show-daily-summary="content.options.dayOverview || false"
     />
   </Page>
 </template>
