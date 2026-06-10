@@ -40,6 +40,50 @@ const { data: days, error } = await useAsyncData(
       props.period.contentNodes().$loadItems(),
     ])
 
+    if (props.showDailySummary) {
+      const activities = [
+        ...new Map(
+          props.period
+            .scheduleEntries()
+            .items.map((scheduleEntry) => [
+              scheduleEntry.activity()._meta.self,
+              scheduleEntry.activity(),
+            ])
+        ).values(),
+      ]
+
+      await Promise.all([
+        ...activities.map((activity) =>
+          activity
+            .activityResponsibles()
+            .$loadItems()
+            .then((activityResponsibles) => {
+              return Promise.all(
+                activityResponsibles.items.map((activityResponsible) => {
+                  if (activityResponsible.campCollaboration().user === null) {
+                    return Promise.resolve(null)
+                  }
+                  return activityResponsible.campCollaboration().user()._meta.load
+                })
+              )
+            })
+        ),
+        props.period
+          .dayResponsibles()
+          .$loadItems()
+          .then((dayResponsibles) => {
+            return Promise.all(
+              dayResponsibles.items.map((dayResponsible) => {
+                if (dayResponsible.campCollaboration().user === null) {
+                  return Promise.resolve(null)
+                }
+                return dayResponsible.campCollaboration().user()._meta.load
+              })
+            )
+          }),
+      ])
+    }
+
     return props.period.days().items.filter((day) => {
       return (
         props.period
