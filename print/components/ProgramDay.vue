@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="showDailySummary && 'program-day-section'">
     <day-summary v-if="showDailySummary" :day="day" :schedule-entries="scheduleEntries" />
 
     <div v-if="showActivities">
@@ -42,3 +42,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.program-day-section + .program-day-section {
+  break-before: page;
+}
+</style>
