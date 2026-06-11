@@ -1,12 +1,25 @@
 <template>
-  <Page :id="id" class="page program-page" :size="config.options.pageSize || 'A4'">
-    <slot></slot>
+  <template v-if="showDailySummary">
+    <ProgramPeriod
+      v-for="(period, periodIndex) in periods"
+      :id="id"
+      :period="period"
+      :filter="content.options.filter"
+      :config="config"
+      :is-first-period="periodIndex === 0"
+      show-daily-summary
+    >
+      <slot />
+    </ProgramPeriod>
+  </template>
+  <Page v-else :id="id" class="page program-page" :size="config.options.pageSize || 'A4'">
+    <slot />
     <ProgramPeriod
       v-for="period in periods"
       :id="id"
       :period="period"
       :filter="content.options.filter"
-      :show-daily-summary="content.options.dayOverview || false"
+      :config="config"
     />
   </Page>
 </template>
@@ -24,6 +37,9 @@ export default {
     config: { type: Object, required: true },
   },
   computed: {
+    showDailySummary() {
+      return this.content.options.dayOverview || false
+    },
     periods() {
       return this.content.options.periods
         .map((periodUri) => this.api.get(periodUri))

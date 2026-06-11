@@ -14,7 +14,11 @@
           {{ scheduleEntry.number }} {{ activity.title }}
         </Text>
       </View>
-      <Text class="schedule-entry-date">{{ startAt }} - {{ endAt }}</Text>
+      <View class="schedule-entry-date">
+        <Text>{{ startAt }}&nbsp;</Text>
+        <Text>-</Text>
+        <Text>&nbsp;{{ endAt }}</Text>
+      </View>
     </View>
     <View v-if="showHeaderData" class="schedule-entry-header">
       <View class="schedule-entry-header-metadata">
@@ -94,11 +98,12 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   padding-bottom: 2pt;
   border-bottom: 2pt solid #aaaaaa;
 }
 .schedule-entry-title {
+  flex-basis: 0;
   flex-grow: 1;
   display: flex;
   flex-direction: row;
@@ -108,13 +113,21 @@ export default {
 .schedule-entry-category-label {
   margin: 4pt 0;
   font-size: 12pt;
+  flex-shrink: 0;
 }
 .schedule-entry-number-and-title {
   margin: 4pt 4pt;
-  max-width: 345pt;
+  flex-shrink: 1;
 }
 .schedule-entry-date {
   font-size: 11pt;
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  max-width: 33vw;
 }
 .schedule-entry-header {
   display: flex;

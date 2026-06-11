@@ -28,10 +28,13 @@
           </td>
           <td class="tw-tabular-nums">{{ scheduleEntry.number }}</td>
           <td>
-            <span class="tw-inline-flex tw-items-center tw-gap-2">
+            <a
+              :href="`#scheduleEntry_${scheduleEntry.id}`"
+              class="tw-inline-flex tw-items-center tw-gap-2"
+            >
               <category-label :category="scheduleEntry.activity().category()" />
               <span>{{ scheduleEntry.activity().title }}</span>
-            </span>
+            </a>
           </td>
           <td>{{ activityResponsibles(scheduleEntry.activity()) }}</td>
         </tr>
