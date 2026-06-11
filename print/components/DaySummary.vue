@@ -1,13 +1,13 @@
 <template>
   <div>
     <h1
-      class="tw-text-center tw-text-3xl tw-mb-6 tw-bg-black tw-text-white tw-p-2 tw-flex tw-justify-between"
+      class="tw-text-center tw-text-3xl tw-mb-2 tw-bg-black tw-text-white tw-p-2 tw-flex tw-justify-between"
     >
       <span>{{ $t('entity.day.name') }} {{ day.number }}</span>
       <span>{{ dateLong(day.start) }}</span>
     </h1>
     <p v-if="dayResponsibles" class="tw-text-lg">
-      <strong class="tw-font-medium"
+      <strong class="tw-font-semibold"
         >{{ $t('entity.day.fields.dayResponsibles') }}:</strong
       >
       {{ dayResponsibles }}
@@ -24,13 +24,13 @@
       <tbody>
         <tr v-for="scheduleEntry in scheduleEntries" :key="scheduleEntry.id">
           <td class="tw-tabular-nums">
-            {{ rangeTime(scheduleEntry.start, scheduleEntry.end) }}
+            <time>{{ rangeTime(scheduleEntry.start, scheduleEntry.end) }}</time>
           </td>
           <td class="tw-tabular-nums">{{ scheduleEntry.number }}</td>
           <td>
             <a
               :href="`#scheduleEntry_${scheduleEntry.id}`"
-              class="tw-inline-flex tw-items-center tw-gap-2"
+              class="tw-inline-flex tw-items-baseline tw-gap-2"
             >
               <category-label :category="scheduleEntry.activity().category()" />
               <span>{{ scheduleEntry.activity().title }}</span>
@@ -66,9 +66,23 @@ export default {
       return activityResponsiblesCommaSeparated(activity, this.$t.bind(this))
     },
     rangeTime(start, end) {
-      return `${this.$date.utc(start).format('HH:mm')} - ${this.$date
-        .utc(end)
-        .format('HH:mm')}`
+      const startDate = this.$date.utc(start)
+      const endDate = this.$date.utc(end)
+
+      if (startDate.isSame(endDate, 'day')) {
+        return `${startDate.format('HH:mm')} - ${endDate.format('HH:mm')}`
+      }
+
+      const dayLabel = this.$t('entity.day.name')
+      return `${dayLabel}\u00a0${this.dayNumber(startDate)}:\u00a0${startDate.format(
+        'HH:mm'
+      )} - ${dayLabel}\u00a0${this.dayNumber(endDate)}:\u00a0${endDate.format('HH:mm')}`
+    },
+    dayNumber(date) {
+      const dayOffset = date
+        .startOf('day')
+        .diff(this.$date.utc(this.day.start).startOf('day'), 'day')
+      return Number(this.day.number) + dayOffset
     },
   },
 }
@@ -77,19 +91,22 @@ export default {
 <style lang="scss" scoped>
 .schedule-entries-table {
   border-collapse: collapse;
-  margin: 1rem 0 2rem;
+  margin: 0.5rem 0 2rem;
   width: 100%;
   text-align: left;
+  border-bottom: 4px solid black;
 }
 
 .schedule-entries-table tr {
   break-inside: avoid;
+  vertical-align: baseline;
 }
 
 .schedule-entries-table th,
 .schedule-entries-table td {
   border-bottom: 1px solid #d1d5db;
   padding: 0.35rem 0.5rem;
+  vertical-align: baseline;
 }
 
 .schedule-entries-table th {
@@ -99,14 +116,22 @@ export default {
 
 .schedule-entries-table th:first-child,
 .schedule-entries-table td:first-child {
-  white-space: nowrap;
-  width: 1%;
   padding-left: 0;
+
+  time {
+    width: min(20vw, 100px);
+    display: block;
+  }
 }
 
 .schedule-entries-table th:nth-child(2),
 .schedule-entries-table td:nth-child(2) {
   white-space: nowrap;
   width: 1%;
+}
+
+.schedule-entries-table th:nth-child(4),
+.schedule-entries-table td:nth-child(4) {
+  width: 30%;
 }
 </style>
