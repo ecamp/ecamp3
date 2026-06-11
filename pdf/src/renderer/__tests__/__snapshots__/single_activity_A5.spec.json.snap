@@ -55,6 +55,7 @@
                         "backgroundColor": "#4DBB52",
                         "borderRadius": "18pt",
                         "color": "#000",
+                        "flexShrink": "0",
                         "fontSize": "12pt",
                         "margin": "4pt 0",
                         "padding": "2pt 8pt",
@@ -77,8 +78,8 @@
                         "id": "entry-0-4bc1873a73f2",
                       },
                       "style": {
+                        "flexShrink": "1",
                         "margin": "4pt 4pt",
-                        "maxWidth": "345pt",
                       },
                       "type": "TEXT",
                     },
@@ -90,6 +91,7 @@
                   },
                   "style": {
                     "display": "flex",
+                    "flexBasis": "0",
                     "flexDirection": "row",
                     "flexGrow": "1",
                     "fontSize": "14",
@@ -101,9 +103,46 @@
                   "box": {},
                   "children": [
                     {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": "Fri 5/10/2024 5:00 PM ",
+                        },
+                      ],
                       "parent": [Circular],
-                      "type": "TEXT_INSTANCE",
-                      "value": "Fri 5/10/2024 5:00 PM - 6:00 PM",
+                      "props": {},
+                      "style": {},
+                      "type": "TEXT",
+                    },
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": "-",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {},
+                      "style": {},
+                      "type": "TEXT",
+                    },
+                    {
+                      "box": {},
+                      "children": [
+                        {
+                          "parent": [Circular],
+                          "type": "TEXT_INSTANCE",
+                          "value": " 6:00 PM",
+                        },
+                      ],
+                      "parent": [Circular],
+                      "props": {},
+                      "style": {},
+                      "type": "TEXT",
                     },
                   ],
                   "parent": [Circular],
@@ -111,9 +150,16 @@
                     "class": "schedule-entry-date",
                   },
                   "style": {
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flexGrow": "0",
+                    "flexShrink": "1",
+                    "flexWrap": "wrap",
                     "fontSize": "11pt",
+                    "justifyContent": "flex-end",
+                    "maxWidth": "33vw",
                   },
-                  "type": "TEXT",
+                  "type": "VIEW",
                 },
               ],
               "parent": [Circular],
@@ -124,7 +170,7 @@
                 },
               },
               "style": {
-                "alignItems": "baseline",
+                "alignItems": "center",
                 "borderBottom": "2pt solid #aaaaaa",
                 "borderBottomColor": "#4DBB52",
                 "display": "flex",
