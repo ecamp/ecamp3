@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3953f9765ead4b92747a1d100593dc22",
+    "content-hash": "10e6cd26f740c5bde450c31f26ffc546",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -408,16 +408,16 @@
         },
         {
             "name": "api-platform/hydra",
-            "version": "v4.3.8",
+            "version": "v4.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/hydra.git",
-                "reference": "9b0fe4d44235ada24e60cf83f24feaeb566397f0"
+                "reference": "a0314c8dda95f69f15054d7309ddbc1ca32f2149"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/hydra/zipball/9b0fe4d44235ada24e60cf83f24feaeb566397f0",
-                "reference": "9b0fe4d44235ada24e60cf83f24feaeb566397f0",
+                "url": "https://api.github.com/repos/api-platform/hydra/zipball/a0314c8dda95f69f15054d7309ddbc1ca32f2149",
+                "reference": "a0314c8dda95f69f15054d7309ddbc1ca32f2149",
                 "shasum": ""
             },
             "require": {
@@ -489,9 +489,9 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/api-platform/hydra/tree/v4.3.8"
+                "source": "https://github.com/api-platform/hydra/tree/v4.3.10"
             },
-            "time": "2026-05-29T13:58:43+00:00"
+            "time": "2026-06-04T13:52:24+00:00"
         },
         {
             "name": "api-platform/json-api",
