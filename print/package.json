@@ -46,7 +46,7 @@
     "@vue/runtime-dom": "3.5.35",
     "@vue/server-renderer": "3.5.35",
     "@vue/shared": "3.5.35",
-    "@vue/test-utils": "2.4.10",
+    "@vue/test-utils": "2.4.11",
     "eslint": "9.39.4",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-local-rules": "3.0.2",

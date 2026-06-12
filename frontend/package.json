@@ -107,7 +107,7 @@
     "@vue/runtime-dom": "3.5.35",
     "@vue/server-renderer": "3.5.35",
     "@vue/shared": "3.5.35",
-    "@vue/test-utils": "2.4.10",
+    "@vue/test-utils": "2.4.11",
     "autoprefixer": "10.5.0",
     "babel-plugin-require-context-hook": "1.0.0",
     "esbuild": "0.28.0",
