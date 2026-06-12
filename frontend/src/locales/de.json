@@ -527,6 +527,7 @@
         "clearFilters": "Filter entfernen",
         "day": "Datum",
         "dayLabel": "Tag {dayNumber} ({date})",
+        "allMyActivities": "Alle meine Aktivitäten",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
         "progressLabel": "Status",
