@@ -103,7 +103,7 @@ export default {
     icon: { type: String, default: '', required: false },
     title: { type: String, default: '', required: false },
   },
-  emits: ['update:saving-override', 'update:model-value'],
+  emits: ['update:savingOverride', 'update:modelValue'],
   computed: {
     currentlySaving() {
       return this.isSaving || this.savingOverride
@@ -112,14 +112,14 @@ export default {
   methods: {
     async doSubmit() {
       this.isSaving = true
-      this.$emit('update:saving-override', true)
+      this.$emit('update:savingOverride', true)
       await this.submitAction()
       this.isSaving = false
-      this.$emit('update:saving-override', false)
+      this.$emit('update:savingOverride', false)
     },
     doCancel() {
       this.isSaving = false
-      this.$emit('update:saving-override', false)
+      this.$emit('update:savingOverride', false)
       if (this.cancelAction != null) {
         this.cancelAction()
       }
@@ -129,7 +129,7 @@ export default {
       if (event === false) {
         this.doCancel()
       }
-      this.$emit('update:model-value', event)
+      this.$emit('update:modelValue', event)
     },
   },
 }

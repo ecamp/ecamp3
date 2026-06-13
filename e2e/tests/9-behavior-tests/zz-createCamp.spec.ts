@@ -10,7 +10,7 @@ in2Days.setDate(in2Days.getDate() + 2)
 
 const campTitle = 'title'
 
-test.describe('create new camp', () => {
+test.describe('create new camp', { tag: '@mature' }, () => {
   test.beforeEach(async ({ page }) => {
     await mockDateNow(page)
   })

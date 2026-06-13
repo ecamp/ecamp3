@@ -144,6 +144,67 @@ export async function apiDelete(request: APIRequestContext, uri: string) {
   return await request.delete(`${API_ROOT_URL_CACHED}${uri}.jsonhal`)
 }
 
+export async function createCampViaUI(page: Page, campTitle: string): Promise<string> {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const in2Days = new Date()
+  in2Days.setDate(in2Days.getDate() + 2)
+
+  await page.goto('/camps')
+  await page.getByTestId('create-camp-button').click()
+
+  await page.locator('[data-testid="create-camp-title-input"] input').fill(campTitle)
+  await page
+    .locator('[data-testid="start-date-picker"] input')
+    .fill(tomorrow.toLocaleDateString('de-CH'))
+  await page
+    .locator('[data-testid="end-date-picker"] input')
+    .fill(in2Days.toLocaleDateString('de-CH'))
+
+  await page.getByTestId('create-camp-next-step').click()
+
+  await page.locator('div.v-input[data-testid="prototype-select"]').click()
+  await expect(page.locator('.v-overlay--active')).toBeVisible({ timeout: 10000 })
+  await page.locator('.v-overlay--active').getByText('Keine Vorlage').click()
+  await expect(
+    page.getByText('Achtung: Du hast "Keine Vorlage" ausgewählt.')
+  ).toBeVisible()
+  await expect(page.locator('.v-overlay')).not.toBeVisible({ timeout: 10000 })
+
+  await page.getByTestId('create-camp-button').click()
+  await page.waitForURL('**/admin/info', { timeout: 30000 })
+
+  return page.url().replace(/\/info$/, '')
+}
+
+export async function deleteCampViaUI(
+  page: Page,
+  campAdminBaseUrl: string,
+  campTitle: string
+): Promise<void> {
+  await page.goto(`${campAdminBaseUrl}/info`)
+
+  await page
+    .locator('.v-expansion-panel')
+    .filter({ hasText: 'Gefahrenzone' })
+    .locator('.v-expansion-panel-title')
+    .click()
+
+  await page
+    .locator('.v-expansion-panel-text')
+    .getByRole('button', { name: /Löschen/i })
+    .click()
+
+  await page.locator('[name="promptText"] input').fill(campTitle)
+
+  await page
+    .locator('.v-overlay--active')
+    .getByRole('button', { name: /Löschen/i })
+    .click()
+
+  await page.waitForURL(/\/camps$/, { timeout: 15000 })
+}
+
 export async function mockDateNow(page: Page, date: string = 'April 30 2026 13:00:00') {
   const fakeNow = new Date(date).valueOf()
 

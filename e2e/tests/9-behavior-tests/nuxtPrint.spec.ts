@@ -6,7 +6,7 @@ import { getPdfProperties } from '@/utils/getPdfProperties'
 import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
 import { CampItem, PeriodItem } from '@/shared-types/ecamp'
 
-test.describe('Nuxt print test', () => {
+test.describe('Nuxt print test', { tag: '@mature' }, () => {
   test.beforeEach(async ({ page, request }) => {
     await loginAndSetCookie(page, request, 'test@example.com')
     await mockDateNow(page)

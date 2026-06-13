@@ -7298,7 +7298,7 @@
     "id": "988c216bd9bd",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F988c216bd9bd"
+      "href": "/content_node/checklist_nodes/988c216bd9bd/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/09dc148c88c3"
@@ -9807,7 +9807,7 @@
     "id": "be6972476965",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2Fbe6972476965"
+      "href": "/content_node/checklist_nodes/be6972476965/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/2df77b3f0723"
@@ -10295,7 +10295,7 @@
     "id": "3157182811bb",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F3157182811bb"
+      "href": "/content_node/checklist_nodes/3157182811bb/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/2ebe68599e3f"
@@ -10745,7 +10745,7 @@
     "id": "1a2905b61cff",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F1a2905b61cff"
+      "href": "/content_node/checklist_nodes/1a2905b61cff/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/40dd3e9457d6"
@@ -11658,7 +11658,7 @@
     "id": "9e95b10e3cb0",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F9e95b10e3cb0"
+      "href": "/content_node/checklist_nodes/9e95b10e3cb0/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/4bd0b0f3f3a6"
@@ -16458,7 +16458,7 @@
     "id": "d8e5da1e3d52",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2Fd8e5da1e3d52"
+      "href": "/content_node/checklist_nodes/d8e5da1e3d52/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/894fb1deeae4"
@@ -16905,7 +16905,7 @@
     "id": "42a32ff460d3",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F42a32ff460d3"
+      "href": "/content_node/checklist_nodes/42a32ff460d3/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/9e6da5607ba0"
@@ -18185,7 +18185,7 @@
     "id": "81f4e528f1fc",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F81f4e528f1fc"
+      "href": "/content_node/checklist_nodes/81f4e528f1fc/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/b2140367dd1c"
@@ -18745,7 +18745,7 @@
     "id": "3f48816bccae",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F3f48816bccae"
+      "href": "/content_node/checklist_nodes/3f48816bccae/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/b87ef76bcb88"
@@ -19336,7 +19336,7 @@
     "id": "946afc306e3b",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F946afc306e3b"
+      "href": "/content_node/checklist_nodes/946afc306e3b/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/c0a6d4cf0ebc"
@@ -19678,7 +19678,7 @@
     "id": "bf4fc1e44a0b",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2Fbf4fc1e44a0b"
+      "href": "/content_node/checklist_nodes/bf4fc1e44a0b/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/c7a7558a5120"
@@ -21457,7 +21457,7 @@
     "id": "503cf893fa56",
     "contentTypeName": "Checklist",
     "checklistItems": {
-      "href": "/checklist_items?checklistNodes=%2Fapi%2Fcontent_node%2Fchecklist_nodes%2F503cf893fa56"
+      "href": "/content_node/checklist_nodes/503cf893fa56/checklist_items"
     },
     "root": {
       "href": "/content_node/column_layouts/e5c1d6082dfb"

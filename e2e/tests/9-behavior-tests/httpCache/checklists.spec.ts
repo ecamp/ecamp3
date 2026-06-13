@@ -20,7 +20,7 @@ const collectionXKeys =
   /* collection URI (for detecting addition of new checklists) */
   '/api/camps/5d28f99890bc/checklists'
 
-test.describe('cache test: /camps/checklists', () => {
+test.describe('cache test: /camps/checklists', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
   test('caches /camp/{campId}/checklists separately for each login', async () => {

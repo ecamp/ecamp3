@@ -4,7 +4,7 @@ import { test } from '@playwright/test'
 const user1 = 'test@example.com'
 const user2 = 'castor@example.com'
 
-test('caches the root endpoint', async ({ browser }) => {
+test('caches the root endpoint', { tag: '@mature' }, async ({ browser }) => {
   const uri = '/api/index'
 
   // Create context for user 1
