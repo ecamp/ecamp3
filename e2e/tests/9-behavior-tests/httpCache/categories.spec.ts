@@ -120,8 +120,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
     await expectCacheHit(bipiApi, uri)
   })
 
-  // eslint-disable-next-line playwright/no-skipped-test
-  test.skip('invalidates cached data when user leaves a camp', async ({ browser }) => {
+  test('invalidates cached data when user leaves a camp', async ({ browser }) => {
     const castorContext = await browser.newContext()
     const bipiContext = await browser.newContext()
     const castorPage = await castorContext.newPage()
@@ -139,7 +138,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
 
     // deactivate Castor
     await bipiPage.goto(`/camps/${grgrCampId}/GRGR/admin/collaborators`)
-    await bipiPage.locator('.v-list-item__title', { hasText: 'Castor' }).click()
+    await bipiPage.locator('.v-list-item-title', { hasText: 'Castor' }).click()
     await bipiPage.getByRole('button', { name: 'Deaktivieren' }).first().click()
     await Promise.all([
       bipiPage.waitForResponse(
@@ -161,7 +160,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
     await apiDelete(bipiApi, '/mail/email/all')
 
     // invite Castor
-    await bipiPage.locator('.v-list-item__title', { hasText: 'Castor' }).click()
+    await bipiPage.locator('.v-list-item-title', { hasText: 'Castor' }).click()
     await Promise.all([
       bipiPage.waitForResponse(
         (res) =>
