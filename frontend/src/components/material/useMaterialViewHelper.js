@@ -142,7 +142,16 @@ export function useMaterialViewHelper(camp, list) {
     }))
   })
 
-  const downloadXlsx = downloadMaterialList(camp, collection, computedList)
+  const isDownloadingXlsx = ref(false)
+  const _download = downloadMaterialList(camp, collection, computedList)
+  const downloadXlsx = async () => {
+    isDownloadingXlsx.value = true
+    try {
+      await _download()
+    } finally {
+      isDownloadingXlsx.value = false
+    }
+  }
   const openPeriods = loadPeriods(camp)
 
   onMounted(async () => {
@@ -162,6 +171,7 @@ export function useMaterialViewHelper(camp, list) {
   return {
     collection,
     downloadXlsx,
+    isDownloadingXlsx,
     downloadMaterialList,
     openPeriods,
   }
