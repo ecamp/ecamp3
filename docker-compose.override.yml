@@ -21,7 +21,7 @@ services:
       XDEBUG_MODE: ${XDEBUG_MODE:-off}
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
-      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG:-}
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost

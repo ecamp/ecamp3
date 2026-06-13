@@ -18,7 +18,7 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
@@ -42,7 +42,7 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
@@ -123,7 +123,7 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
 
   print:
     image: node:24.16.0
@@ -141,7 +141,7 @@ services:
       - NITRO_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
     env_file:
       - ./print/print.env
     working_dir: /app
@@ -265,7 +265,7 @@ services:
     environment:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
 
 volumes:
   db-data-postgres: null
