@@ -253,6 +253,21 @@ export default {
       return this.create(payloadData)
     },
     onSuccess(activity) {
+      const scheduleEntries = activity.scheduleEntries().items
+      if (scheduleEntries.length > 0) {
+        const firstPeriodIri = scheduleEntries[0].period()._meta.self
+        this.api.reload(this.api.get(firstPeriodIri).scheduleEntries())
+        const reloadedPeriods = new Set([firstPeriodIri])
+        scheduleEntries
+          .filter((entry) => typeof entry.period === 'function')
+          .forEach((entry) => {
+            const targetPeriodUri = entry.period()._meta.self
+            if (!reloadedPeriods.has(targetPeriodUri)) {
+              reloadedPeriods.add(targetPeriodUri)
+              this.api.reload(this.api.get(targetPeriodUri).scheduleEntries())
+            }
+          })
+      }
       this.close()
       this.$emit('activityCreated', activity)
     },
