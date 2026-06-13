@@ -28,7 +28,7 @@ class ResendActivationTest extends ECampApiTestCase {
         $userId = $result->toArray()['id'];
         $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
 
-        $client->enableProfiler();
+        $this->resetMailerEvents();
         $client->request(
             'POST',
             '/auth/resend_activation',
@@ -83,7 +83,7 @@ class ResendActivationTest extends ECampApiTestCase {
         $userId = $result->toArray()['id'];
         $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
 
-        $client->enableProfiler();
+        $this->resetMailerEvents();
         $client->request(
             'POST',
             '/auth/resend_activation',
@@ -121,7 +121,7 @@ class ResendActivationTest extends ECampApiTestCase {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
 
-        $client->enableProfiler();
+        $this->resetMailerEvents();
         $client->request(
             'POST',
             '/auth/resend_activation',
@@ -144,7 +144,6 @@ class ResendActivationTest extends ECampApiTestCase {
 
     public function testPostResendActivationReturns204ForUnknownEmailButSendsNoEmails() {
         $client = $this->createBasicClient();
-        $client->enableProfiler();
         $client->request(
             'POST',
             '/auth/resend_activation',
