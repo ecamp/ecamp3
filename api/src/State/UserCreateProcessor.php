@@ -49,6 +49,7 @@ class UserCreateProcessor extends AbstractPersistProcessor {
     /**
      * @param User $data
      */
+    #[\Override]
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->mailService->sendUserActivationMail($data, $data->activationKey);
     }

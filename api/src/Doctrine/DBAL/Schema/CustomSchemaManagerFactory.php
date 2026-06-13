@@ -13,6 +13,7 @@ final readonly class CustomSchemaManagerFactory implements SchemaManagerFactory 
         private DefaultSchemaManagerFactory $defaultFactory = new DefaultSchemaManagerFactory(),
     ) {}
 
+    #[\Override]
     public function createSchemaManager(Connection $connection): AbstractSchemaManager {
         $platform = $connection->getDatabasePlatform();
 

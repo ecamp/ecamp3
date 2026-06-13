@@ -32,6 +32,7 @@ class PersonalInvitationRejectProcessor implements ProcessorInterface {
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): PersonalInvitation {
         $user = $this->getUser();
 

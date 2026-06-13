@@ -15,6 +15,7 @@ abstract class AbstractRemoveProcessor implements ProcessorInterface {
         private readonly ProcessorInterface $decorated,
     ) {}
 
+    #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->onBefore($data, $operation, $uriVariables, $context);
         $this->decorated->process($data, $operation, $uriVariables, $context);

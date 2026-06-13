@@ -36,6 +36,7 @@ class UserActivateProcessor extends AbstractPersistProcessor {
         return $data;
     }
 
+    #[\Override]
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         /** @var User $user */
         $user = $data;

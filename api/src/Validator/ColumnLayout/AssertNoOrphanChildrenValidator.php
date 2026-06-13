@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class AssertNoOrphanChildrenValidator extends ConstraintValidator {
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertNoOrphanChildren) {
             throw new UnexpectedTypeException($constraint, AssertNoOrphanChildren::class);

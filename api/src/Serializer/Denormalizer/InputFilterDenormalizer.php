@@ -31,6 +31,7 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function denormalize($data, $type, $format = null, array $context = []): mixed {
         $data = $this->filterInputs($data, $type);
 
@@ -42,6 +43,7 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool {
         // Make sure we don't run this denormalizer twice.
         if (isset($context[self::ALREADY_CALLED])) {

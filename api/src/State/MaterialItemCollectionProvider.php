@@ -17,6 +17,7 @@ class MaterialItemCollectionProvider implements ProviderInterface {
         private readonly RequestStack $requestStack
     ) {}
 
+    #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|object|null {
         $request = $this->requestStack->getCurrentRequest();
         $hasFilter = $request?->query->has('camp') || $request?->query->has('period') || $request?->query->has('materialList') || $request?->query->has('materialNode');

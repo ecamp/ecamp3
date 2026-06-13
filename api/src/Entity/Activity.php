@@ -208,6 +208,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->comments = new ArrayCollection();
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp ?? $this->category?->camp;
     }

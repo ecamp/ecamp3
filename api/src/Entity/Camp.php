@@ -489,6 +489,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         return $this->periods->getValues();
     }
 
+    #[\Override]
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this;
@@ -749,6 +750,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * @param Camp      $prototype
      * @param EntityMap $entityMap
      */
+    #[\Override]
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 

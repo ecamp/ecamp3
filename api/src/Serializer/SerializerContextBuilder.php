@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 final readonly class SerializerContextBuilder implements SerializerContextBuilderInterface {
     public function __construct(private SerializerContextBuilderInterface $decorated) {}
 
+    #[\Override]
     public function createFromRequest(Request $request, bool $normalization, ?array $extractedAttributes = null): array {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
 

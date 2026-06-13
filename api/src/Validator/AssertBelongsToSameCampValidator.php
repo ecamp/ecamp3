@@ -20,6 +20,7 @@ class AssertBelongsToSameCampValidator extends ConstraintValidator {
         private EntityManagerInterface $em
     ) {}
 
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertBelongsToSameCamp) {
             throw new UnexpectedTypeException($constraint, AssertBelongsToSameCamp::class);

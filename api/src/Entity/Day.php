@@ -114,6 +114,7 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
         $this->dayResponsibles = new ArrayCollection();
     }
 
+    #[\Override]
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->period?->camp;
@@ -224,6 +225,7 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
         return $this;
     }
 
+    #[\Override]
     public function getCacheTags(): array {
         return [$this->period->getId()];
     }

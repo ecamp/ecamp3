@@ -27,6 +27,7 @@ final class ContentNodeIsRootFilter extends AbstractFilter {
     }
 
     // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
+    #[\Override]
     public function getDescription(string $resourceClass): array {
         return ['isRoot' => [
             'property' => self::IS_ROOT_QUERY_NAME,
@@ -35,6 +36,7 @@ final class ContentNodeIsRootFilter extends AbstractFilter {
         ]];
     }
 
+    #[\Override]
     protected function filterProperty(
         string $property,
         $value,

@@ -155,6 +155,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
     private ?\DateTimeInterface $_start = null;
     private ?\DateTimeInterface $_end = null;
 
+    #[\Override]
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->activity?->getCamp();
@@ -356,6 +357,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
     }
 
+    #[\Override]
     public function getCacheTags(): array {
         return [$this->getPeriod()->getId()];
     }

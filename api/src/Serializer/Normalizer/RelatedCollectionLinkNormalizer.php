@@ -102,10 +102,12 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private PropertyAccessorInterface $propertyAccessor,
     ) {}
 
+    #[\Override]
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
+    #[\Override]
     public function normalize($data, $format = null, array $context = []): array|\ArrayObject|bool|float|int|string|null {
         $normalized_data = $this->decorated->normalize($data, $format, $context);
 
@@ -135,10 +137,12 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $normalized_data;
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array {
         return $this->decorated->getSupportedTypes($format);
     }
 
+    #[\Override]
     public function setSerializer(SerializerInterface $serializer): void {
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
@@ -255,6 +259,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $param;
     }
 
+    #[\Override]
     protected function getClassMetadata(string $resourceClass): ClassMetadata {
         return $this->entityManager->getClassMetadata($resourceClass);
     }

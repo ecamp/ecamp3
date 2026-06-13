@@ -11,14 +11,17 @@ class UrlGeneratorDecorator implements UrlGeneratorInterface {
         private readonly string $env
     ) {}
 
+    #[\Override]
     public function setContext(RequestContext $context): void {
         $this->decorated->setContext($context);
     }
 
+    #[\Override]
     public function getContext(): RequestContext {
         return $this->decorated->getContext();
     }
 
+    #[\Override]
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string {
         $url = $this->decorated->generate($name, $parameters, $referenceType);
         if ('prod' === $this->env) {

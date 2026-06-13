@@ -30,6 +30,7 @@ final class CampCollaboratorFilter extends AbstractFilter {
     }
 
     // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
+    #[\Override]
     public function getDescription(string $resourceClass): array {
         return [self::QUERY_PARAM_NAME => [
             'property' => self::QUERY_PARAM_NAME,
@@ -38,6 +39,7 @@ final class CampCollaboratorFilter extends AbstractFilter {
         ]];
     }
 
+    #[\Override]
     protected function filterProperty(
         string $property,
         $value,

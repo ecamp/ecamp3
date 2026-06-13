@@ -30,6 +30,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
      *
      * @return T
      */
+    #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []) {
         $data = $this->onBefore($data, $operation, $uriVariables, $context);
 

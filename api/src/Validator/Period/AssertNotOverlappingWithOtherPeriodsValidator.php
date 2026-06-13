@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class AssertNotOverlappingWithOtherPeriodsValidator extends ConstraintValidator {
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void {
         if (!$constraint instanceof AssertNotOverlappingWithOtherPeriods) {
             throw new UnexpectedTypeException($constraint, AssertNotOverlappingWithOtherPeriods::class);

@@ -209,6 +209,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp;
     }

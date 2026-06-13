@@ -10,6 +10,7 @@ class CleanHTMLFilter extends InputFilter {
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function applyTo(array $data, string $propertyName): array {
         if (!array_key_exists($propertyName, $data)) {
             return $data;

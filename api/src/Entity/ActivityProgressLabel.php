@@ -125,10 +125,12 @@ class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface
         $this->activities = new ArrayCollection();
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp;
     }
 
+    #[\Override]
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 

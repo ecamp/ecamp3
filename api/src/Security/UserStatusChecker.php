@@ -11,8 +11,10 @@ use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserStatusChecker implements UserCheckerInterface {
+    #[\Override]
     public function checkPreAuth(UserInterface $user): void {}
 
+    #[\Override]
     public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void {
         if (!$user instanceof User) {
             return;

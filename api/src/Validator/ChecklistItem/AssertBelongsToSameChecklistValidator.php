@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class AssertBelongsToSameChecklistValidator extends ConstraintValidator {
     public function __construct(public RequestStack $requestStack) {}
 
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertBelongsToSameChecklist) {
             throw new UnexpectedTypeException($constraint, AssertBelongsToSameChecklist::class);

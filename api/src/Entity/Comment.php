@@ -117,6 +117,7 @@ class Comment extends BaseEntity implements BelongsToCampInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $orphanDescription = null;
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp;
     }

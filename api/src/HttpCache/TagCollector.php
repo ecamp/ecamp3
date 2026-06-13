@@ -24,6 +24,7 @@ class TagCollector implements TagCollectorInterface {
      *
      * @param array<string, mixed>&array{iri?: string, data?: mixed, object?: mixed, property_metadata?: ApiProperty, api_attribute?: string, resources?: array<string, string>, request_uri?: string, root_operation?: Operation} $context
      */
+    #[\Override]
     public function collect(array $context = []): void {
         $iri = $context['iri'] ?? null;
         $object = $context['object'] ?? null;

@@ -42,6 +42,7 @@ class CampCollaborationResendInvitationProcessor extends AbstractPersistProcesso
     /**
      * @param CampCollaboration $data
      */
+    #[\Override]
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->sendInviteEmail($data);
     }

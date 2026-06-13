@@ -183,11 +183,13 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
         $this->checklistNodes = new ArrayCollection();
     }
 
+    #[\Override]
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->checklist?->getCamp();
     }
 
+    #[\Override]
     public function getParent(): ?HasParentInterface {
         return $this->parent;
     }
@@ -254,6 +256,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
      * @param ChecklistItem $prototype
      * @param EntityMap     $entityMap
      */
+    #[\Override]
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 

@@ -24,6 +24,7 @@ class CampRepository extends ServiceEntityRepository implements CanFilterByUserI
         parent::__construct($registry, Camp::class);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         /** @var string $rootAlias */
         $rootAlias = $queryBuilder->getRootAliases()[0];

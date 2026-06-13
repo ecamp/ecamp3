@@ -17,6 +17,7 @@ class ChecklistItemCollectionProvider implements ProviderInterface {
         private readonly RequestStack $requestStack
     ) {}
 
+    #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|object|null {
         $request = $this->requestStack->getCurrentRequest();
         $hasFilter = $request?->query->has('checklist') || $request?->query->has('checklist_camp');

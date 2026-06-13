@@ -28,6 +28,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
+    #[\Override]
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
@@ -42,6 +43,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
+    #[\Override]
     public function loadUserByIdentifier(string $identifier): ?User {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder->select('user');

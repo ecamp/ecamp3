@@ -57,6 +57,7 @@ final readonly class PreventAutomaticEmbeddingPropertyMetadataFactory implements
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function create(string $resourceClass, string $property, array $options = []): ApiProperty {
         $apiProperty = $this->decorated->create($resourceClass, $property, $options);
 

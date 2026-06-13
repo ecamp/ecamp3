@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class AssertAttachedToRootValidator extends ConstraintValidator {
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertAttachedToRoot) {
             throw new UnexpectedTypeException($constraint, AssertAttachedToRoot::class);

@@ -16,6 +16,7 @@ class AssertLastCollectionItemIsNotDeletedValidator extends ConstraintValidator 
         private readonly EntityManagerInterface $em
     ) {}
 
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void {
         if (!$constraint instanceof AssertLastCollectionItemIsNotDeleted) {
             throw new UnexpectedTypeException($constraint, AssertLastCollectionItemIsNotDeleted::class);

@@ -10,6 +10,7 @@ class IdGenerator extends AbstractIdGenerator {
         return bin2hex(random_bytes($length / 2));
     }
 
+    #[\Override]
     public function generateId(EntityManagerInterface $em, ?object $entity): mixed {
         return IdGenerator::generateRandomHexString(12);
     }

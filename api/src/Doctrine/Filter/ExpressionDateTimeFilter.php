@@ -20,6 +20,7 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDescription(string $resourceClass): array {
         $description = [];
 
@@ -45,6 +46,7 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function filterProperty(
         string $property,
         $value,

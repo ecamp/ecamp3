@@ -24,6 +24,7 @@ class ProfileRepository extends ServiceEntityRepository implements CanFilterByUs
         parent::__construct($registry, Profile::class);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $expr = new Expr();
 

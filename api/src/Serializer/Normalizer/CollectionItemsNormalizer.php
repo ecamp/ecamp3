@@ -12,10 +12,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class CollectionItemsNormalizer implements NormalizerInterface, NormalizerAwareInterface {
     public function __construct(private readonly NormalizerInterface $decorated) {}
 
+    #[\Override]
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
+    #[\Override]
     public function normalize($data, $format = null, array $context = []): array|\ArrayObject|bool|float|int|string|null {
         $normalized_data = $this->decorated->normalize($data, $format, $context);
 
@@ -32,10 +34,12 @@ class CollectionItemsNormalizer implements NormalizerInterface, NormalizerAwareI
         return $normalized_data;
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array {
         return $this->decorated->getSupportedTypes($format);
     }
 
+    #[\Override]
     public function setNormalizer(NormalizerInterface $normalizer): void {
         if ($this->decorated instanceof NormalizerAwareInterface) {
             $this->decorated->setNormalizer($normalizer);

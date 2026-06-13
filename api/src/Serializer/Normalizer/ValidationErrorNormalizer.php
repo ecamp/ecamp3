@@ -13,6 +13,7 @@ class ValidationErrorNormalizer implements NormalizerInterface {
         self::TITLE => 'An error occurred',
     ];
 
+    #[\Override]
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|\ArrayObject|bool|float|int|string|null {
         return [
             'type' => $context[self::TYPE] ?? $this->defaultContext[self::TYPE],
@@ -22,10 +23,12 @@ class ValidationErrorNormalizer implements NormalizerInterface {
         ];
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool {
         return $data instanceof ValidationError;
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array {
         return [ValidationError::class => true];
     }

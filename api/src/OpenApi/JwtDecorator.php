@@ -15,6 +15,7 @@ use ApiPlatform\OpenApi\OpenApi;
 final readonly class JwtDecorator implements OpenApiFactoryInterface {
     public function __construct(private OpenApiFactoryInterface $decorated, private string $cookiePrefix) {}
 
+    #[\Override]
     public function __invoke(array $context = []): OpenApi {
         $openApi = ($this->decorated)($context);
         $schemas = $openApi->getComponents()->getSchemas();

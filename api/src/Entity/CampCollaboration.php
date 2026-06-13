@@ -247,6 +247,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         $this->activityResponsibles = new ArrayCollection();
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp;
     }

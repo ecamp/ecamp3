@@ -39,6 +39,7 @@ class ScheduleEntryRepository extends ServiceEntityRepository implements CanFilt
         return $qb;
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $activity = QueryBuilderHelper::findOrAddInnerRootJoinAlias($queryBuilder, $queryNameGenerator, 'activity');
         $this->filterByCampCollaboration($queryBuilder, $user, "{$activity}.camp");

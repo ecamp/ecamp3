@@ -27,6 +27,7 @@ class ChecklistItemRepository extends ServiceEntityRepository implements CanFilt
         parent::__construct($registry, ChecklistItem::class);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $checklistQry = $this->getEntityManager()->createQueryBuilder();
         $checklistQry->select('c');

@@ -12,18 +12,22 @@ class Hitobito extends AbstractProvider {
     use BearerAuthorizationTrait;
     protected string $baseUrl;
 
+    #[\Override]
     public function getBaseAuthorizationUrl(): string {
         return $this->baseUrl.'/oauth/authorize';
     }
 
+    #[\Override]
     public function getBaseAccessTokenUrl(array $params): string {
         return $this->baseUrl.'/oauth/token';
     }
 
+    #[\Override]
     public function getResourceOwnerDetailsUrl(AccessToken $token): string {
         return $this->baseUrl.'/oauth/profile';
     }
 
+    #[\Override]
     protected function getDefaultScopes(): array {
         return [
             'name',
@@ -57,6 +61,7 @@ class Hitobito extends AbstractProvider {
         return $response;
     }
 
+    #[\Override]
     protected function checkResponse(ResponseInterface $response, $data): void {
         if ($response->getStatusCode() >= 400) {
             throw new IdentityProviderException($response->getReasonPhrase(), $response->getStatusCode(), $response->getBody());
@@ -70,6 +75,7 @@ class Hitobito extends AbstractProvider {
         ];
     }
 
+    #[\Override]
     protected function createResourceOwner(array $response, AccessToken $token): HitobitoUser {
         return new HitobitoUser($response);
     }

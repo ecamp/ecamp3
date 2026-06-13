@@ -25,6 +25,7 @@ class InvitationAcceptProcessor implements ProcessorInterface {
     /**
      * @param Invitation $data
      */
+    #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Invitation {
         $inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
 

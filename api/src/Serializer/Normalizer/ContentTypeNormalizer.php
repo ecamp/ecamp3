@@ -21,10 +21,12 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         private readonly IriConverterInterface $iriConverter,
     ) {}
 
+    #[\Override]
     public function supportsNormalization($data, $format = null, array $context = []): bool {
         return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
+    #[\Override]
     public function normalize($data, $format = null, array $context = []): array|\ArrayObject|bool|float|int|string|null {
         $normalized_data = $this->decorated->normalize($data, $format, $context);
 
@@ -43,10 +45,12 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         return $normalized_data;
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array {
         return $this->decorated->getSupportedTypes($format);
     }
 
+    #[\Override]
     public function setSerializer(SerializerInterface $serializer): void {
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);

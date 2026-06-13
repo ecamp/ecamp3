@@ -28,6 +28,7 @@ class GenerateDataCommand extends Command {
         $this->dataGeneratorService = $dataGeneratorService;
     }
 
+    #[\Override]
     protected function configure(): void {
         $this
             ->setDescription('Generate realistic test data for development')
@@ -41,6 +42,7 @@ class GenerateDataCommand extends Command {
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int {
         $io = new SymfonyStyle($input, $output);
 

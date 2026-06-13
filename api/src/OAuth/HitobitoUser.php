@@ -14,6 +14,7 @@ class HitobitoUser implements ResourceOwnerInterface {
         $this->response = $response;
     }
 
+    #[\Override]
     public function getId(): mixed {
         return $this->response['id'];
     }
@@ -49,6 +50,7 @@ class HitobitoUser implements ResourceOwnerInterface {
     /**
      * Get user data as an array.
      */
+    #[\Override]
     public function toArray(): array {
         return $this->response;
     }

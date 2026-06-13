@@ -16,6 +16,7 @@ class AssertAllowTransitionsValidator extends ConstraintValidator {
 
     public function __construct(public RequestStack $requestStack) {}
 
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertAllowTransitions) {
             throw new UnexpectedTypeException($constraint, AssertAllowTransitions::class);

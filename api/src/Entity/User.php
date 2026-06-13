@@ -255,6 +255,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->profile->email;
     }
 
+    #[\Override]
     public function getUserIdentifier(): string {
         return $this->profile->email;
     }
@@ -262,6 +263,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * @see UserInterface
      */
+    #[\Override]
     public function getRoles(): array {
         $roles = $this->profile->roles;
         // guarantee every user at least has ROLE_USER
@@ -270,6 +272,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return array_unique($roles);
     }
 
+    #[\Override]
     public function getPassword(): ?string {
         return $this->password;
     }

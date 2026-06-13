@@ -180,6 +180,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * The entity that owns the content node tree that this content node resides in.
      * (implements BelongsToContentNodeTreeInterface for security voting).
      */
+    #[\Override]
     public function getRoot(): ?ColumnLayout {
         // Newly created ContentNodes don't have root populated yet (happens later in data processor),
         // so we're using the parent's root here
@@ -190,6 +191,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
         return $this->root;
     }
 
+    #[\Override]
     public function getParent(): ?HasParentInterface {
         return $this->parent;
     }
@@ -199,6 +201,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
         $this->root ??= $parent?->root;
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         if (null == $this->getRoot()) {
             return null;
@@ -262,6 +265,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * @param ContentNode $prototype
      * @param EntityMap   $entityMap
      */
+    #[\Override]
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 

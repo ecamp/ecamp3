@@ -25,6 +25,7 @@ class DayResponsibleRepository extends ServiceEntityRepository implements CanFil
         parent::__construct($registry, DayResponsible::class);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $day = QueryBuilderHelper::findOrAddInnerRootJoinAlias($queryBuilder, $queryNameGenerator, 'day');
         $period = QueryBuilderHelper::findOrAddInnerJoinAlias($queryBuilder, $queryNameGenerator, $day, 'period');

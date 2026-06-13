@@ -25,6 +25,7 @@ final readonly class RequestTransactionListener implements EventSubscriberInterf
     }
 
     /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
+    #[\Override]
     public static function getSubscribedEvents(): array {
         return [
             // Symfony Event-Call-Order is:

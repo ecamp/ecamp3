@@ -50,6 +50,7 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         return $data;
     }
 
+    #[\Override]
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         /** @var Camp $data */
         /** @var User $user */

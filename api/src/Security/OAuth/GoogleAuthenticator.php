@@ -34,11 +34,13 @@ class GoogleAuthenticator extends OAuth2Authenticator {
         private readonly ClaimInvitationService $claimInvitationService,
     ) {}
 
+    #[\Override]
     public function supports(Request $request): ?bool {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return 'connect_google_check' === $request->attributes->get('_route');
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport {
         $client = $this->clientRegistry->getClient('google');
         $accessToken = $this->fetchAccessToken($client);
@@ -94,6 +96,7 @@ class GoogleAuthenticator extends OAuth2Authenticator {
         );
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response {
         $user = $this->security->getUser();
         $authSuccess = $this->authenticationSuccessHandler->handleAuthenticationSuccess($user);
@@ -108,6 +111,7 @@ class GoogleAuthenticator extends OAuth2Authenticator {
         return $response;
     }
 
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 

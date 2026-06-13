@@ -22,6 +22,7 @@ class CategoryRemoveProcessor extends AbstractRemoveProcessor {
     /**
      * @param Category $data
      */
+    #[\Override]
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         // Deleting rootContentNode would normally be done automatically with orphanRemoval:true
         // However, this currently runs into an error due to https://github.com/doctrine-extensions/DoctrineExtensions/issues/2510

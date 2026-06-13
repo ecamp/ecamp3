@@ -27,6 +27,7 @@ class ChecklistRepository extends ServiceEntityRepository implements CanFilterBy
         parent::__construct($registry, Checklist::class);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
 

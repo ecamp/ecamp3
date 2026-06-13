@@ -51,6 +51,7 @@ class CampCollaborationRepository extends ServiceEntityRepository implements Can
         return $this->findBy(['user' => $user, 'status' => CampCollaboration::STATUS_INVITED]);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $this->filterByCampCollaboration($queryBuilder, $user, "{$rootAlias}.camp");

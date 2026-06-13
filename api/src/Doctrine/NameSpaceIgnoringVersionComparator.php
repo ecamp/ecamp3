@@ -8,6 +8,7 @@ use Doctrine\Migrations\Version\Comparator;
 use Doctrine\Migrations\Version\Version;
 
 class NameSpaceIgnoringVersionComparator implements Comparator {
+    #[\Override]
     public function compare(Version $a, Version $b): int {
         return strcmp(self::versionWithoutNamespace($a), self::versionWithoutNamespace($b));
     }

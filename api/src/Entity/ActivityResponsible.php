@@ -65,6 +65,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
     #[ORM\JoinColumn(nullable: false)]
     public ?CampCollaboration $campCollaboration = null;
 
+    #[\Override]
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->activity?->camp;

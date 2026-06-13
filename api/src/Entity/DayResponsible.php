@@ -84,6 +84,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?CampCollaboration $campCollaboration = null;
 
+    #[\Override]
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->day?->getCamp();

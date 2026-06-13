@@ -212,6 +212,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
         return $this->getContentNodes();
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp;
     }
@@ -271,6 +272,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * @param Category  $prototype
      * @param EntityMap $entityMap
      */
+    #[\Override]
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 

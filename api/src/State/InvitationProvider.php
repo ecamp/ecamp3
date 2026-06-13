@@ -28,6 +28,7 @@ class InvitationProvider implements ProviderInterface {
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
+    #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Invitation {
         $id = $uriVariables['inviteKey'];
         if (null == $id) {

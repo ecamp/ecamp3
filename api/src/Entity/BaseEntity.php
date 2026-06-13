@@ -35,6 +35,7 @@ abstract class BaseEntity implements HasId {
         $this->id = IdGenerator::generateRandomHexString(12);
     }
 
+    #[\Override]
     public function getId(): string {
         return $this->id;
     }

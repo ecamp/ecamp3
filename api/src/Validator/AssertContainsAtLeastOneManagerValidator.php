@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class AssertContainsAtLeastOneManagerValidator extends ConstraintValidator {
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertContainsAtLeastOneManager) {
             throw new UnexpectedTypeException($constraint, AssertContainsAtLeastOneManager::class);

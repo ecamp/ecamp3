@@ -24,11 +24,13 @@ class CampIsPublicVoter extends Voter {
         private readonly ResponseTagger $responseTagger
     ) {}
 
+    #[\Override]
     protected function supports($attribute, $subject): bool {
         return 'CAMP_IS_PUBLIC' === $attribute
         && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeTreeInterface);
     }
 
+    #[\Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool {
         $camp = $this->getCampFromInterface($subject, $this->em);
 

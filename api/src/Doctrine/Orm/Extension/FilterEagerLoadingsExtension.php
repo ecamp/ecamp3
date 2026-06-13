@@ -19,6 +19,7 @@ use Doctrine\ORM\QueryBuilder;
 final readonly class FilterEagerLoadingsExtension implements QueryCollectionExtensionInterface {
     public function __construct(private QueryCollectionExtensionInterface $decorated) {}
 
+    #[\Override]
     public function applyToCollection(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,

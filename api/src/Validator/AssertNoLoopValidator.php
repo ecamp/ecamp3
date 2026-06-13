@@ -8,6 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class AssertNoLoopValidator extends ConstraintValidator {
+    #[\Override]
     public function validate($value, Constraint $constraint): void {
         if (!$constraint instanceof AssertNoLoop) {
             throw new UnexpectedTypeException($constraint, AssertNoLoop::class);

@@ -18,6 +18,7 @@ class ResetPasswordProvider implements ProviderInterface {
         private readonly PasswordHasherFactoryInterface $pwHasherFactory,
     ) {}
 
+    #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?ResetPassword {
         $id = $uriVariables['id'];
 

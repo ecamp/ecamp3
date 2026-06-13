@@ -111,6 +111,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
         $this->materialItems = new ArrayCollection();
     }
 
+    #[\Override]
     public function getCamp(): ?Camp {
         return $this->camp;
     }
@@ -163,6 +164,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      * @param MaterialList $prototype
      * @param EntityMap    $entityMap
      */
+    #[\Override]
     public function copyFromPrototype($prototype, $entityMap): void {
         $entityMap->add($prototype, $this);
 

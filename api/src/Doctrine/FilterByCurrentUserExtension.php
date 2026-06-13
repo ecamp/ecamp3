@@ -15,6 +15,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class FilterByCurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface {
     public function __construct(private Security $security, private EntityManagerInterface $entityManager) {}
 
+    #[\Override]
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, ?string $resourceClass = null, ?Operation $operation = null, array $context = []): void {
         $extraProperties = $operation->getExtraProperties();
         if (array_key_exists('filter_by_current_user', $extraProperties) && false === $extraProperties['filter_by_current_user']) {
@@ -24,6 +25,7 @@ final readonly class FilterByCurrentUserExtension implements QueryCollectionExte
         $this->addWhere($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 
+    #[\Override]
     public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, ?Operation $operation = null, array $context = []): void {
         $this->addWhere($queryBuilder, $queryNameGenerator, $resourceClass);
     }

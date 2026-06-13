@@ -28,6 +28,7 @@ class ContentNodeRepository extends SortableServiceEntityRepository implements C
         parent::__construct($em, $entityClass);
     }
 
+    #[\Override]
     public function filterByUser(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, User $user): void {
         $this->filterByContentNode($queryBuilder, $user, $queryBuilder->getRootAliases()[0]);
     }

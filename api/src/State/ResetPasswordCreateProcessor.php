@@ -29,6 +29,7 @@ class ResetPasswordCreateProcessor implements ProcessorInterface {
     /**
      * @param ResetPassword $data
      */
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): null {
         $resp = $this->reCaptcha->verify($data->recaptchaToken);
         if (!$resp->isSuccess()) {
