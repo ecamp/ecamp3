@@ -8,7 +8,7 @@
       <BooleanFilter
         v-if="loadingEndpoints !== true && loadingEndpoints.campCollaborations !== true"
         v-model="showOnlyMyActivities"
-        :label="$t('components.program.scheduleEntryFilters.onlyMyActivities')"
+        :label="myActivitiesLabel"
         :result-count="myActivitiesCount"
       />
       <v-skeleton-loader
@@ -338,6 +338,11 @@ export default {
           progressLabel: [],
         })
       },
+    },
+    myActivitiesLabel() {
+      return this.filterSet && !this.showOnlyMyActivities
+        ? this.$t('components.program.scheduleEntryFilters.allMyActivities')
+        : this.$t('components.program.scheduleEntryFilters.onlyMyActivities')
     },
     myActivitiesCount() {
       return this.filterFn({

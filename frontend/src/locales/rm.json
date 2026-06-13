@@ -340,6 +340,7 @@
       "scheduleEntryFilters": {
         "category": "Categoria",
         "clearFilters": "Allontanar il filter",
+        "allMyActivities": "Tut mias activitads",
         "onlyMyActivities": "Mo mias activitads",
         "period": "Part dal champ",
         "progressLabel": "Status",

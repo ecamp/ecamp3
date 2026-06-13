@@ -407,6 +407,7 @@
       "scheduleEntryFilters": {
         "category": "Categoria",
         "clearFilters": "Cancella i filtri",
+        "allMyActivities": "Tutte le mie attività",
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
         "progressLabel": "Stati",
