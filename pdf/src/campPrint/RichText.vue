@@ -21,6 +21,19 @@ function visitChildren(children, parent) {
     : [visit({ type: 'text', content: '&nbsp;' }, parent)]
 }
 
+function prependTextContent(node, prefix) {
+  if (node.type === 'text') {
+    node.content = prefix + (node.content || '')
+    return true
+  }
+  if (node.children?.length) {
+    for (const child of node.children) {
+      if (prependTextContent(child, prefix)) return true
+    }
+  }
+  return false
+}
+
 const rules = [
   {
     shouldProcessNode: (node) => node.type === 'text',
@@ -78,16 +91,19 @@ const rules = [
       if (!node.children.length) {
         node.children.push({ ...emptyChild })
       }
-      if (!node.children[0].children.length) {
-        node.children[0].children.push({ ...emptyChild, content: '' })
-      }
+
+      let prefix = ''
       if (parent.name === 'ul') {
-        node.children[0].children[0].content = '• ' + node.children[0].children[0].content
+        prefix = '• '
       } else if (parent.name === 'ol') {
         const number = calculateListNumber(node, parent)
-        node.children[0].children[0].content =
-          `${number}. ` + node.children[0].children[0].content
+        prefix = `${number}. `
       }
+
+      if (prefix) {
+        prependTextContent(node, prefix)
+      }
+
       return h(
         'View',
         { style: { marginLeft: '4pt' } },
