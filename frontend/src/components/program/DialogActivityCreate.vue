@@ -252,6 +252,7 @@ export default {
 
       return this.create(payloadData)
     },
+    // noinspection JSUnusedGlobalSymbols
     onSuccess(activity) {
       const scheduleEntries = activity.scheduleEntries().items
       if (scheduleEntries.length > 0) {
