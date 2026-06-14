@@ -154,9 +154,12 @@ export default {
   methods: {
     async loadCamps() {
       await this.$auth.loadUser()
-      // Only reload camps if they were loaded before, to avoid console error
+      // Only reload if they were loaded before, to avoid console error
       if (this.camps._meta.self !== null) {
         this.api.reload(this.camps)
+      }
+      if (this.periods._meta.self !== null) {
+        this.api.reload(this.periods)
       }
 
       await Promise.all([this.camps._meta.load, this.periods._meta.load])
