@@ -19,7 +19,7 @@
                 </v-list-item>
               </template>
             </DialogMaterialListEdit>
-            <v-list-item :disabled="isDownloadingXlsx" @click="downloadXlsx">
+            <v-list-item :disabled="isDownloadingXlsx" @click.stop="downloadXlsx">
               <template #prepend>
                 <v-progress-circular
                   v-if="isDownloadingXlsx"
