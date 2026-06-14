@@ -11,7 +11,6 @@
       :items="numberingStyles"
       :disabled="disabled"
       vee-rules="required"
-      @saved="reloadScheduleEntries"
     />
   </api-form>
 </template>
@@ -35,16 +34,6 @@ export default {
         value: i,
         text: this.$t('entity.category.numberingStyles.' + i),
       }))
-    },
-  },
-  methods: {
-    reloadScheduleEntries() {
-      this.category
-        .camp()
-        .periods()
-        .items.forEach((period) => {
-          this.api.reload(period.scheduleEntries())
-        })
     },
   },
 }
