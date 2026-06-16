@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4957b611ae3733f4e0e5933a1b628c0",
+    "content-hash": "809ff7ba914c8aff7be7bf92ca4c9a10",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -329,16 +329,16 @@
         },
         {
             "name": "api-platform/http-cache",
-            "version": "v4.3.10",
+            "version": "v4.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/http-cache.git",
-                "reference": "98e5ba9344abe9db7d6789429745ee4eb0a2fd8f"
+                "reference": "8e71916de766f503dd60f1a1e886b4d704f881a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/http-cache/zipball/98e5ba9344abe9db7d6789429745ee4eb0a2fd8f",
-                "reference": "98e5ba9344abe9db7d6789429745ee4eb0a2fd8f",
+                "url": "https://api.github.com/repos/api-platform/http-cache/zipball/8e71916de766f503dd60f1a1e886b4d704f881a8",
+                "reference": "8e71916de766f503dd60f1a1e886b4d704f881a8",
                 "shasum": ""
             },
             "require": {
@@ -403,9 +403,9 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/api-platform/http-cache/tree/v4.3.10"
+                "source": "https://github.com/api-platform/http-cache/tree/v4.3.13"
             },
-            "time": "2026-05-29T13:58:43+00:00"
+            "time": "2026-06-09T14:20:49+00:00"
         },
         {
             "name": "api-platform/hydra",
