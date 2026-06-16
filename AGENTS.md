@@ -135,3 +135,28 @@ Find the skill here: [skills](.agents/skills).
 - Ensure tests are green
 - Ensure code is formatted
 - Ensure code is linted
+
+/completion-check-command
+
+```bash
+set -e
+docker compose run --rm prettier
+
+docker compose run --rm frontend npm run test
+docker compose run --rm frontend npm run lint
+
+docker compose run --rm print npm run test
+docker compose run --rm print npm run lint
+
+docker compose run --rm api composer bin/console cache:clear
+docker compose run --rm api composer bin/console cache:clear -e test
+docker compose run --rm api composer test
+docker compose run --rm api composer cs-fix
+docker compose run --rm api composer psalm
+docker compose run --rm api composer phpstan
+
+docker compose run --rm e2e npm run lint
+if [ "$RUN_E2E_FOR_COMPLETION_CHECK" = "true" ]; then
+  docker compose --profile e2e run --rm e2e npx playwright test
+fi
+```
