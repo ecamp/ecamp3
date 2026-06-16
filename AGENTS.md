@@ -1,5 +1,7 @@
 # AGENTS.md
 
+The default branch of this project is `devel` branch of the `ecamp/ecamp3` repository. Base new work on it.
+
 ## Dev environment tips
 
 Before you do anything, start the dev environment:
