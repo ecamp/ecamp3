@@ -72,7 +72,7 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY --link docker/php/conf.d/20-api-platform.dev.ini $PHP_INI_DIR/app.conf.d/
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.5.1
+ARG XDEBUG_VERSION=3.5.3
 RUN set -eux; \
 	install-php-extensions \
 	xdebug-$XDEBUG_VERSION \
