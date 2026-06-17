@@ -57,7 +57,7 @@
     "happy-dom": "20.10.2",
     "nuxt": "4.4.8",
     "postcss-scss": "4.0.9",
-    "prettier": "3.8.3",
+    "prettier": "3.8.4",
     "sass": "1.100.0",
     "vite-plugin-eslint2": "5.1.0",
     "vite-svg-loader": "5.1.1",
