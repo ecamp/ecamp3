@@ -19,7 +19,7 @@
     "api-platform/validator": "4.3.13",
     "composer/package-versions-deprecated": "1.11.99",
     "doctrine/common": "3.5.0",
-    "doctrine/doctrine-bundle": "3.2.3",
+    "doctrine/doctrine-bundle": "3.2.4",
     "doctrine/doctrine-migrations-bundle": "4.0.0",
     "doctrine/orm": "3.6.7",
     "exercise/htmlpurifier-bundle": "5.2",
