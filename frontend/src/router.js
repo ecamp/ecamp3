@@ -4,6 +4,10 @@ import { isAdmin, isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
+import {
+  clearChunkReloadGuard,
+  reloadOnChunkLoadError,
+} from '@/helpers/chunkLoadError.js'
 
 const NavigationAuth = () => import('./views/auth/NavigationAuth.vue')
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
@@ -549,6 +553,13 @@ const router = createRouter({
       },
     },
   ],
+})
+router.onError((error, to) => {
+  reloadOnChunkLoadError(error, to)
+})
+
+router.afterEach(() => {
+  clearChunkReloadGuard()
 })
 
 export default router
