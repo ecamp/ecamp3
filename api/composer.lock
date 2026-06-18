@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "809ff7ba914c8aff7be7bf92ca4c9a10",
+    "content-hash": "fbf2f38e4b13dc6fbc7d99036f6708fa",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -1119,16 +1119,16 @@
         },
         {
             "name": "api-platform/symfony",
-            "version": "v4.3.10",
+            "version": "v4.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/symfony.git",
-                "reference": "70a1a4468d77c9761ac1a6cba681277fa986c39b"
+                "reference": "cce56452fd86bccb744259784c0b9c2c83a7b714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/symfony/zipball/70a1a4468d77c9761ac1a6cba681277fa986c39b",
-                "reference": "70a1a4468d77c9761ac1a6cba681277fa986c39b",
+                "url": "https://api.github.com/repos/api-platform/symfony/zipball/cce56452fd86bccb744259784c0b9c2c83a7b714",
+                "reference": "cce56452fd86bccb744259784c0b9c2c83a7b714",
                 "shasum": ""
             },
             "require": {
@@ -1242,9 +1242,9 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/api-platform/symfony/tree/v4.3.10"
+                "source": "https://github.com/api-platform/symfony/tree/v4.3.11"
             },
-            "time": "2026-06-05T15:17:34+00:00"
+            "time": "2026-06-10T17:58:38+00:00"
         },
         {
             "name": "api-platform/validator",

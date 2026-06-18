@@ -15,7 +15,7 @@
     "api-platform/openapi": "4.3.11",
     "api-platform/serializer": "4.3.11",
     "api-platform/state": "4.3.11",
-    "api-platform/symfony": "4.3.10",
+    "api-platform/symfony": "4.3.11",
     "api-platform/validator": "4.3.13",
     "composer/package-versions-deprecated": "1.11.99",
     "doctrine/common": "3.5.0",
