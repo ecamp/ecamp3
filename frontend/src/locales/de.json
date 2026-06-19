@@ -626,6 +626,12 @@
       "help": "Hilfe",
       "news": "News"
     },
+    "newVersion": {
+      "title": "Eine neue Version ist verfügbar",
+      "description": "Diese Funktion ist nicht verfügbar, bis du auf die neueste Version aktualisierst.",
+      "update": "Jetzt aktualisieren",
+      "updateLater": "Später aktualisieren"
+    },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
