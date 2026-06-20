@@ -1,4 +1,4 @@
-import { zxcvbnAsync, zxcvbnOptions } from '@zxcvbn-ts/core'
+import { ZxcvbnFactory } from '@zxcvbn-ts/core'
 import { adjacencyGraphs, dictionary } from '@zxcvbn-ts/language-common'
 import * as en from '@zxcvbn-ts/language-en'
 import * as de from '@zxcvbn-ts/language-de'
@@ -20,6 +20,6 @@ const options = function (lang) {
 }
 
 export const passwordStrength = async function (password, lang) {
-  zxcvbnOptions.setOptions(options(lang))
-  return await zxcvbnAsync(password)
+  const zxcvbn = new ZxcvbnFactory(options(lang))
+  return await zxcvbn.checkAsync(password)
 }
