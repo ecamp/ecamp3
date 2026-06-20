@@ -98,13 +98,15 @@ test.describe('Nuxt print test', { tag: '@mature' }, () => {
       expect(pdfProps.numPages).toBe(25)
     })
 
-    // eslint-disable-next-line playwright/no-skipped-test
-    test.skip('for picasso', async ({ page }) => {
+    test('for picasso', async ({ page }) => {
       await page.locator('a:has-text("Programm")').click()
       await page.locator('[data-testid="campprogram-menu"]').click()
 
       const downloadPromise = page.waitForEvent('download')
-      await page.locator('listitem:has-text("PDF herunterladen (Layout #1)")').click()
+      await page
+        .locator('.v-list-item')
+        .filter({ hasText: 'PDF herunterladen (Layout #1)' })
+        .click()
       const download = await downloadPromise
 
       const path = await download.path()
