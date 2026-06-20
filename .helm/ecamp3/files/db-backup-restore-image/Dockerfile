@@ -1,4 +1,4 @@
-FROM debian:13.3-slim
+FROM debian:13.5-slim
 
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update && \
