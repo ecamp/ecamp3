@@ -32416,16 +32416,16 @@ components:
                   type: string
                 first:
                   format: iri-reference
-                  type: string
+                  type: ['null', string]
                 last:
                   format: iri-reference
-                  type: string
+                  type: ['null', string]
                 next:
                   format: iri-reference
-                  type: string
+                  type: ['null', string]
                 previous:
                   format: iri-reference
-                  type: string
+                  type: ['null', string]
               type: object
           type: object
     HydraCollectionBaseSchemaNoPagination:
