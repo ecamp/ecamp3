@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import * as Sentry from '@sentry/browser'
 
 const newVersionAvailable = ref(false)
 
@@ -7,6 +8,7 @@ export function useNewVersionAvailable() {
 }
 
 export function notifyNewVersionAvailable() {
+  Sentry.captureMessage('In route chunk loading failed after deployment.')
   newVersionAvailable.value = true
 }
 
