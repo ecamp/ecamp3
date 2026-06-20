@@ -13,8 +13,6 @@ use App\Validator\AssertBelongsToSameCampValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -25,7 +23,6 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  * @internal
  */
 class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
-    private MockObject|RequestStack $requestStack;
     private EntityManagerInterface|MockObject $em;
 
     public function testExpectsMatchingAnnotation() {
@@ -116,51 +113,10 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $this->buildViolation('Must belong to the same camp.')->assertRaised();
     }
 
-    public function testCompareToPreviousValid() {
-        // given
-        $camp = $this->createStub(Camp::class);
-        $camp2 = $this->createStub(Camp::class);
-        $camp->method('getId')->willReturn('idfromtest');
-        $child = new ChildTestClass($camp);
-        $parent = new ParentTestClass($camp2, $child);
-        $this->setObject($parent);
-
-        $request = Request::create('/');
-        $request->attributes->set('previous_data', new ParentTestClass($camp, $child));
-        $this->requestStack->method('getCurrentRequest')->willReturn($request);
-
-        // when
-        $this->validator->validate($child, new AssertBelongsToSameCamp(null, true));
-
-        // then
-        $this->assertNoViolation();
-    }
-
-    public function testCompareToPreviousInvalid() {
-        // given
-        $camp = $this->createStub(Camp::class);
-        $camp2 = $this->createStub(Camp::class);
-        $camp->method('getId')->willReturn('idfromtest');
-        $child = new ChildTestClass($camp);
-        $parent = new ParentTestClass($camp, $child);
-        $this->setObject($parent);
-
-        $request = Request::create('/');
-        $request->attributes->set('previous_data', new ParentTestClass($camp2, $child));
-        $this->requestStack->method('getCurrentRequest')->willReturn($request);
-
-        // when
-        $this->validator->validate($child, new AssertBelongsToSameCamp(null, true));
-
-        // then
-        $this->buildViolation('Must belong to the same camp.')->assertRaised();
-    }
-
     protected function createValidator(): ConstraintValidatorInterface {
-        $this->requestStack = $this->createStub(RequestStack::class);
         $this->em = $this->createStub(EntityManagerInterface::class);
 
-        return new AssertBelongsToSameCampValidator($this->requestStack, $this->em);
+        return new AssertBelongsToSameCampValidator($this->em);
     }
 }
 
