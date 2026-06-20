@@ -34,10 +34,6 @@ export default [
         ...globals.jest,
         self: 'writable',
       },
-
-      parserOptions: {
-        parser: '@babel/eslint-parser',
-      },
     },
 
     rules: {
