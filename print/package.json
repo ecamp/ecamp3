@@ -19,7 +19,7 @@
     "@jamescoyle/vue-icon": "0.1.2",
     "@mdi/js": "7.4.47",
     "@sentry/node": "10.57.0",
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "colorjs.io": "0.6.1",
     "dayjs": "1.11.21",
     "deepmerge": "4.3.1",
