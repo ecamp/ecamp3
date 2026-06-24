@@ -11,6 +11,6 @@ runs:
               chmod +x /usr/local/bin/helmfile
           env:
               # renovate: datasource=github-releases depName=helmfile/helmfile
-              HELMFILE_VERSION: 1.5.4
+              HELMFILE_VERSION: 1.5.5
           working-directory: /tmp
           shell: bash
