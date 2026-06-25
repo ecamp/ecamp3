@@ -34,7 +34,7 @@
   "devDependencies": {
     "@eslint/compat": "2.1.0",
     "@eslint/js": "10.0.1",
-    "@intlify/core": "11.4.5",
+    "@intlify/core": "11.4.6",
     "@rushstack/eslint-patch": "1.16.1",
     "@vitejs/plugin-vue": "6.0.7",
     "@vitest/coverage-v8": "4.1.9",
