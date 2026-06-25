@@ -80,7 +80,7 @@
     "vee-validate": "4.15.1",
     "vue": "3.5.38",
     "vue-axios": "3.5.2",
-    "vue-i18n": "11.4.5",
+    "vue-i18n": "11.4.6",
     "vue-recaptcha-v3": "2.0.1",
     "vue-router": "5.1.0",
     "vue-toastification": "2.0.0-rc.5",
