@@ -94,7 +94,7 @@ COPY --link docker/php/conf.d/20-api-platform.prod.ini $PHP_INI_DIR/app.conf.d/
 # prevent the reinstallation of vendors at every changes in the source code
 COPY --link composer.* symfony.* ./
 RUN set -eux; \
-	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+	composer install --no-cache --no-interaction --no-progress --no-dev --no-autoloader --no-scripts --prefer-dist
 
 # copy only specifically what we need
 COPY --link .env ./

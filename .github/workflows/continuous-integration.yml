@@ -107,7 +107,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+      - run: composer install --no-interaction --no-progress --no-plugins --no-scripts --prefer-dist
         working-directory: api
 
       - run: php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff
@@ -303,7 +303,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --prefer-dist --no-progress --no-interaction
+      - run: composer install --no-interaction --no-progress --no-plugins --no-scripts --prefer-dist
         working-directory: api
 
       - run: |

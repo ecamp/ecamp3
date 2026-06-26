@@ -52,7 +52,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+      - run: composer install --no-interaction --no-progress --no-plugins --no-scripts --prefer-dist
         working-directory: api
 
       - run: composer psalm
@@ -82,7 +82,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+      - run: composer install --no-interaction --no-progress --no-plugins --no-scripts --prefer-dist
         working-directory: api
 
       - run: composer phpstan
@@ -130,7 +130,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --prefer-dist --no-progress --no-interaction
+      - run: composer install --no-interaction --no-progress --no-plugins --no-scripts --prefer-dist
         working-directory: api
 
       - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
