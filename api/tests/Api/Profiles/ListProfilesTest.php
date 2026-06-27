@@ -113,11 +113,6 @@ class ListProfilesTest extends ECampApiTestCase {
         $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
-    /**
-     * The default test user (test@example.com) is profile1manager with the well-known values
-     * firstname: Robert, surname: Baden-Powell, nickname: Bi-Pi.
-     * profile1manager is always part of its own search scope, so we can search for these values.
-     */
     #[DataProvider('provideSearchTermsMatchingProfile1Manager')]
     public function testSearchProfilesMatchesFirstnameSurnameNicknameAndEmail(string $searchTerm) {
         $response = static::createClientWithCredentials()
@@ -147,8 +142,6 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testSearchProfilesIsRestrictedToTheMatchingProfiles() {
-        // Baden-Powell is the unique surname of profile1manager and is not produced by the
-        // faker-generated fixtures, so the search must return exactly that one profile.
         $response = static::createClientWithCredentials()
             ->request('GET', '/profiles?search=Baden-Powell')
         ;
@@ -160,8 +153,6 @@ class ListProfilesTest extends ECampApiTestCase {
     }
 
     public function testSearchProfilesStaysScopedToRelatedProfilesForUnrelatedUser() {
-        // user4unrelated does not share a camp with profile1manager, so even though
-        // Baden-Powell matches a profile, it must not be visible to them.
         $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/profiles?search=Baden-Powell')
         ;
@@ -196,13 +187,6 @@ class ListProfilesTest extends ECampApiTestCase {
         ], $response->toArray()['_links']['items']);
     }
 
-    /**
-     * A search term that is not valid UTF-8 (e.g. a lone %C2 continuation byte) cannot be sent
-     * to PostgreSQL ("invalid byte sequence for encoding UTF8"). Instead of letting that bubble
-     * up as a 500 server error, the filter rejects it with a 400 Bad Request.
-     *
-     * @dataProvider provideInvalidUtf8SearchTerms
-     */
     #[DataProvider('provideInvalidUtf8SearchTerms')]
     public function testSearchProfilesWithInvalidUtf8ReturnsBadRequest(string $invalidSearch) {
         static::createClientWithCredentials()
@@ -219,12 +203,6 @@ class ListProfilesTest extends ECampApiTestCase {
         ];
     }
 
-    /**
-     * Whatever weird input is thrown at the search parameter, the endpoint must never answer with
-     * a 5xx server error: it either performs the search (2xx) or rejects the input (400).
-     *
-     * @dataProvider provideWeirdSearchTerms
-     */
     #[DataProvider('provideWeirdSearchTerms')]
     public function testSearchProfilesNeverCausesServerError(string $weirdSearch) {
         $response = static::createClientWithCredentials()

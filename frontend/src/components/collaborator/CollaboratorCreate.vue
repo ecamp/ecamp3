@@ -111,10 +111,7 @@ export default {
   computed: {
     profileItems() {
       return this.profiles.map((profile) => ({
-        // The email is the value which is ultimately sent to the API and, after selection,
-        // shown in the input (item-title="value").
         value: profile.email,
-        // Richer label shown in the dropdown list (see the #item slot).
         displayName: this.profileDisplayName(profile),
       }))
     },
@@ -162,7 +159,6 @@ export default {
       try {
         const collection = await this.api.get().profiles({ search: searchTerm })._meta
           .load
-        // Guard against out-of-order responses overwriting a newer search.
         if (this.search.trim() === searchTerm) {
           this.profiles = collection.items.map((item) => ({
             email: item.email,
@@ -178,8 +174,6 @@ export default {
       }
     },
     onSelect() {
-      // Once a value is chosen (selected profile or typed email), the result list is no
-      // longer relevant and would otherwise keep showing stale suggestions.
       this.profiles = []
     },
     createCollaboration() {
