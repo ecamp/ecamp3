@@ -263,8 +263,11 @@
     },
     "collaborator": {
       "collaboratorCreate": {
+        "emailLabel": "E-Mail-Adresse",
         "invite": "Einladung verschicken",
         "inviteCta": "Ins Team einladen",
+        "noResults": "Keine passenden Personen gefunden. Du kannst jede Person über ihre E-Mail-Adresse einladen.",
+        "searchHint": "Suche Personen aus gemeinsamen Lagern nach Name, Pfadiname oder E-Mail, oder gib eine neue E-Mail-Adresse ein.",
         "title": "Person einladen"
       },
       "collaboratorEdit": {
