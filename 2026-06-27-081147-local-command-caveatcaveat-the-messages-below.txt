@@ -1,0 +1,1894 @@
+ ▐▛███▜▌   Claude Code v2.1.186
+▝▜█████▛▘  Opus 4.8 · Claude Pro
+  ▘▘ ▝▝    /workspaces/ecamp3-agent
+
+
+❯ /clear                                                                        
+
+❯ Implement https://github.com/BacLuc/ecamp3/issues/340 on a new branch of off  
+  ecamp3-https and commit your changes. also add e2e tests for this behavior    
+  and api tests that test the new endpoint. make sure there are indizes on the  
+  columns and that they are used.                                               
+    there is a command to load more data into the database. use that to fill up 
+  the db a little and test that the indices are used. on prod we currently      
+  have 20000 users.                                                             
+
+● I'll start by understanding the issue and getting the dev environment running.
+
+  Ran 5 shell commands (ctrl+o to expand)
+
+● Let me read the issue. It's a public repo so I'll fetch it directly.
+
+● Fetch(https://github.com/BacLuc/ecamp3/issues/340)
+  ⎿  Received 231.8KB (200 OK)
+
+● The issue is "Allow to search users for campCollaboration dialog" — a search
+  endpoint to find profiles that were in a camp with me (by firstName, lastName,
+  nickname, email), plus autocomplete frontend.
+
+  There's a problem: no branch or remote named ecamp3-https exists. The relevant
+  remotes are origin-https (github.com/BacLuc/ecamp3, where issue #340 lives)
+  and ecamp-https (github.com/ecamp/ecamp3). Let me start the dev environment
+  and explore the codebase while I clarify the base branch.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Dev environment is up. Let me explore the relevant backend structure while I
+  have the base-branch question pending.
+
+  Read 1 file, ran 2 shell commands (ctrl+o to expand)
+
+● Profile already has a GetCollection with a SearchFilter. Let me see how the
+  collection is scoped (security: only profiles related to me) and look at the
+  repository and existing tests.
+
+  Read 1 file, listed 1 directory (ctrl+o to expand)
+
+● The existing Profile GetCollection is already scoped to "profiles in a camp
+  with me" via filterByUser. The issue needs search on
+  firstname/surname/nickname/email (OR, partial — for autocomplete) plus
+  indices. Let me examine the custom filter pattern, the data-loading command,
+  and how indices/migrations work.
+
+  Read 1 file, listed 2 directories, ran 2 shell commands (ctrl+o to expand)
+
+● I have a clear picture of the architecture now. Before I start, I need to
+  resolve one blocker: there is no branch or remote named ecamp3-https. The
+  candidates are the two HTTPS remotes I found. This determines what I branch
+  from and commit onto, so I need your call.
+
+● User answered Claude's questions:
+  ⎿  · There's no ref named `ecamp3-https`. Which base should I create the new 
+     branch from? → ecamp-https/devel
+
+● Base confirmed: ecamp-https/devel. Let me create the branch and set up task
+  tracking.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● On the branch now (off ecamp-https/devel @ 5d2c9779c). Let me set up task
+  tracking and examine the migrations/index setup.
+
+  Searched for 3 patterns, ran 5 shell commands (ctrl+o to expand)
+● pg_trgm 1.6 is available on PG18. Now let me check whether the project
+  enforces entity↔schema sync (which affects how I declare the GIN indexes), and
+  look at the composer scripts.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● CI runs doctrine:schema:validate after migrations, so the GIN indexes must be
+  declared in the entity mapping (otherwise the DB will appear out-of-sync). Let
+  me check the DBAL version to know how GIN/opclass indexes are supported.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● DBAL 4.4.3. The index declaration vs schema:validate is the tricky part — I'll
+  handle it empirically (migrate + validate, iterate). Notably,
+  app:generate-data adds sit@example.com to all generated camps by default, so
+  that user will be related to all 20000 users — making the trigram index
+  genuinely necessary and used for their search. Let me set up tasks and start
+  building.
+
+● Let me look at how CampCollaboratorFilter is registered on an entity and how
+  the frontend invite dialog currently works, to mirror conventions.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● CampCollaboratorFilter is registered with no properties. Let me read the
+  invite dialog frontend and write the backend filter. Starting with the filter:
+
+  Read 1 file (ctrl+o to expand)
+
+● Now I understand the full picture. Let me write the backend filter first — the
+  core "new endpoint" capability.
+
+● Write(api/src/Doctrine/Filter/ProfileSearchFilter.php)
+  ⎿  Wrote 83 lines to api/src/Doctrine/Filter/ProfileSearchFilter.php
+       1 <?php
+       2 
+       3 namespace App\Doctrine\Filter;
+       4 
+       5 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+       6 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+       7 use ApiPlatform\Metadata\Operation;
+       8 use App\Entity\Profile;
+       9 use Doctrine\ORM\QueryBuilder;
+      10 use Symfony\Component\TypeInfo\Type;
+     … +92 lines (ctrl+o to expand)
+
+● I need to reconsider: DQL doesn't support ILIKE. The robust approach is
+  LOWER(col) LIKE LOWER(:param) (valid DQL) backed by functional GIN trigram
+  indexes on LOWER(col). Functional indexes are also invisible to Doctrine's
+  schema introspection, which keeps schema:validate green without entity mapping
+  changes. Let me verify both assumptions empirically, but first fix the
+  filter.
+
+● Update(api/src/Doctrine/Filter/ProfileSearchFilter.php)
+  ⎿  Added 5 lines, removed 3 lines
+      64          $expr = $queryBuilder->expr();
+      65          $orConditions = [];
+      66          foreach (self::SEARCHED_PROPERTIES as $searchedProperty
+          ) {
+      67 -            // ILIKE keeps the comparison case-insensitive and,
+         - thanks to the pg_trgm GIN                                     
+      68 -            // indexes, can be served by a bitmap index scan in
+         -stead of a sequential scan.                                    
+      69 -            $orConditions[] = "{$rootAlias}.{$searchedProperty}
+         - ILIKE :{$parameterName}";                                     
+      67 +            // LOWER(...) LIKE LOWER(...) keeps the comparison 
+         +case-insensitive while staying                                 
+      68 +            // valid DQL (ILIKE is not). Thanks to the function
+         +al pg_trgm GIN indexes on                                      
+      69 +            // LOWER(<column>), this can be served by a bitmap 
+         +index scan instead of a                                        
+      70 +            // sequential scan over all profiles.              
+      71 +            $orConditions[] = "LOWER({$rootAlias}.{$searchedPro
+         +perty}) LIKE LOWER(:{$parameterName})";                        
+      72          }
+      73  
+      74          $queryBuilder->andWhere($expr->orX(...$orConditions));
+
+● Now register the filter on the Profile entity:
+
+● Update(api/src/Entity/Profile.php)
+  ⎿  Added 1 line
+       9  use ApiPlatform\Metadata\Get;
+      10  use ApiPlatform\Metadata\GetCollection;
+      11  use ApiPlatform\Metadata\Patch;
+      12 +use App\Doctrine\Filter\ProfileSearchFilter;                   
+      13  use App\InputFilter;
+      14  use App\Repository\ProfileRepository;
+      15  use App\State\ProfileUpdateProcessor;
+
+● Update(api/src/Entity/Profile.php)
+  ⎿  Added 1 line
+      40      denormalizationContext: ['groups' => ['write']],
+      41  )]
+      42  #[ApiFilter(filterClass: SearchFilter::class, properties: ['use
+          r.collaborations.camp', 'user'])]
+      43 +#[ApiFilter(filterClass: ProfileSearchFilter::class)]          
+      44  #[ORM\Entity(repositoryClass: ProfileRepository::class)]
+      45  #[ORM\Table(name: '`profile`')]
+      46  class Profile extends BaseEntity {
+
+● Now the migration. Let me check the migration version table/convention and
+  create it.
+  Read 1 file (ctrl+o to expand)
+
+● There's precedent for raw-SQL "unmanaged" indexes. Let me check if there's a
+  schema_filter that ignores them, which informs my naming.
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● There's a CustomPostgreSQLSchemaManager that hides any index named unmanaged_*
+  from introspection — the established pattern for raw-SQL indexes. So I'll
+  name my functional GIN indexes unmanaged_*, requiring no entity mapping
+  changes. Let me write the migration.
+
+● Write(api/migrations/schema/Version20260627120000.php)
+  ⎿  Wrote 43 lines to api/migrations/schema/Version20260627120000.php
+       1 <?php
+       2 
+       3 declare(strict_types=1);
+       4 
+       5 namespace DoctrineMigrations;
+       6 
+       7 use Doctrine\DBAL\Schema\Schema;
+       8 use Doctrine\Migrations\AbstractMigration;
+       9 
+      10 /**
+     … +49 lines (ctrl+o to expand)
+  ⎿  Invalid tool parameters
+
+● Now let me run the migration on the test DB and verify both that the search
+  works and that schema:validate stays green. First, apply migration to dev DB
+  and check it builds:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Migration applied. Now verify schema:validate stays green (the critical check
+  for the unmanaged-index approach):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Let me see exactly what's out of sync — it may be pre-existing or my indexes:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Only pending change is day_responsible.responsibilitytype — a pre-existing
+  dev-DB artifact (leftover from other branches' migrations), not from my
+  change. My trigram indexes don't appear, confirming the unmanaged_ filter
+  hides them. CI validates against a fresh test DB built from committed
+  migrations, so let me reproduce that exactly: migrate the test DB and validate
+  it.
+
+  Ran 3 shell commands (ctrl+o to expand)
+
+● Both DBs carry the same leftover day_responsible.responsibilitytype from other
+  branches' experiments (the DBs persist across checkouts). To prove my branch
+  is clean — exactly what CI does — let me rebuild the test schema from scratch
+  using only committed migrations:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Confirmed — responsibilitytype exists in no file on my branch; it's stale DB
+  state from the poc/10129-day-responsibility-types branch. CI builds a fresh
+  DB. Let me reproduce that to prove cleanliness:
+
+  Ran 3 shell commands (ctrl+o to expand)
+
+● Fresh DB validates clean — the unmanaged_ GIN indexes are invisible to
+  Doctrine and CI's schema:validate will pass. Backend filter + indices are in
+  place. Let me mark progress and write the API tests. First I need to see the
+  profile fixtures to write precise assertions.
+  Read 1 file, ran 2 shell commands (ctrl+o to expand)
+
+● Profiles mostly use faker except profile1manager (Robert / Baden-Powell /
+  Bi-Pi / test@example.com) and profileAdmin. To write a clean "find another
+  collaborator" test (the real issue scenario), I'd like one related profile to
+  have deterministic values. Let me check whether making profile2member
+  deterministic would break snapshot tests.
+
+  Searched for 1 pattern, read 1 file (ctrl+o to expand)
+
+● Default test user is profile1manager (Robert / Baden-Powell / Bi-Pi /
+  test@example.com), always present in their own scoped results. I'll write
+  search tests around these deterministic values plus scoping/negative cases —
+  avoiding risky fixture/snapshot changes. Let me append to ListProfilesTest:
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Added 84 lines
+      111          $this->assertJsonContains(['totalItems' => 0]);
+      112          $this->assertArrayNotHasKey('items', $response->toArra
+           y()['_links']);
+      113      }
+      114 +                                                              
+      115 +    /**                                                       
+      116 +     * The default test user (test@example.com) is profile1man
+          +ager with the well-known values                               
+      117 +     * firstname: Robert, surname: Baden-Powell, nickname: Bi-
+          +Pi.                                                           
+      118 +     * profile1manager is always part of its own search scope,
+          + so we can search for these values.                           
+      119 +     *                                                        
+      120 +     * @dataProvider provideSearchTermsMatchingProfile1Manager
+      121 +     */                                                       
+      122 +    public function testSearchProfilesMatchesFirstnameSurnameN
+          +icknameAndEmail(string $searchTerm) {                         
+      123 +        $response = static::createClientWithCredentials()     
+      124 +            ->request('GET', '/profiles?search='.urlencode($se
+          +archTerm))                                                    
+      125 +        ;                                                     
+      126 +        $this->assertResponseStatusCodeSame(200);             
+      127 +        $this->assertContains(                                
+      128 +            ['href' => $this->getIriFor('profile1manager')],  
+      129 +            $response->toArray()['_links']['items'],          
+      130 +            "Searching for '{$searchTerm}' should return profi
+          +le1manager."                                                  
+      131 +        );                                                    
+      132 +    }                                                         
+      133 +                                                              
+      134 +    public static function provideSearchTermsMatchingProfile1M
+          +anager(): array {                                             
+      135 +        return [                                              
+      136 +            'full firstname' => ['Robert'],                   
+      137 +            'partial firstname' => ['ober'],                  
+      138 +            'firstname different case' => ['robert'],         
+      139 +            'full surname' => ['Baden-Powell'],               
+      140 +            'partial surname' => ['aden-Pow'],                
+      141 +            'surname uppercase' => ['BADEN-POWELL'],          
+      142 +            'full nickname' => ['Bi-Pi'],                     
+      143 +            'partial nickname' => ['i-P'],                    
+      144 +            'full email' => ['test@example.com'],             
+      145 +            'partial email' => ['test@exa'],                  
+      146 +        ];                                                    
+      147 +    }                                                         
+      148 +                                                              
+      149 +    public function testSearchProfilesIsRestrictedToTheMatchin
+          +gProfiles() {                                                 
+      150 +        // Baden-Powell is the unique surname of profile1manag
+          +er and is not produced by the                                 
+      151 +        // faker-generated fixtures, so the search must return
+          + exactly that one profile.                                    
+      152 +        $response = static::createClientWithCredentials()     
+      153 +            ->request('GET', '/profiles?search=Baden-Powell') 
+      154 +        ;                                                     
+      155 +        $this->assertResponseStatusCodeSame(200);             
+      156 +        $this->assertJsonContains(['totalItems' => 1]);       
+      157 +        $this->assertEqualsCanonicalizing([                   
+      158 +            ['href' => $this->getIriFor('profile1manager')],  
+      159 +        ], $response->toArray()['_links']['items']);          
+      160 +    }                                                         
+      161 +                                                              
+      162 +    public function testSearchProfilesStaysScopedToRelatedProf
+          +ilesForUnrelatedUser() {                                      
+      163 +        // user4unrelated does not share a camp with profile1m
+          +anager, so even though                                        
+      164 +        // Baden-Powell matches a profile, it must not be visi
+          +ble to them.                                                  
+      165 +        $response = static::createClientWithCredentials(['emai
+          +l' => static::$fixtures['user4unrelated']->getEmail()])       
+      166 +            ->request('GET', '/profiles?search=Baden-Powell') 
+      167 +        ;                                                     
+      168 +        $this->assertResponseStatusCodeSame(200);             
+      169 +        $this->assertJsonContains(['totalItems' => 0]);       
+      170 +        $this->assertArrayNotHasKey('items', $response->toArra
+          +y()['_links']);                                               
+      171 +    }                                                         
+      172 +                                                              
+      173 +    public function testSearchProfilesWithoutMatchReturnsEmpty
+          +Result() {                                                    
+      174 +        $response = static::createClientWithCredentials()     
+      175 +            ->request('GET', '/profiles?search=thisdoesnotmatc
+          +hanyprofile')                                                 
+      176 +        ;                                                     
+      177 +        $this->assertResponseStatusCodeSame(200);             
+      178 +        $this->assertJsonContains(['totalItems' => 0]);       
+      179 +        $this->assertArrayNotHasKey('items', $response->toArra
+          +y()['_links']);                                               
+      180 +    }                                                         
+      181 +                                                              
+      182 +    public function testSearchProfilesIsDeniedForAnonymousUser
+          +() {                                                          
+      183 +        static::createBasicClient()->request('GET', '/profiles
+          +?search=Robert');                                             
+      184 +        $this->assertResponseStatusCodeSame(401);             
+      185 +    }                                                         
+      186 +                                                              
+      187 +    public function testSearchProfilesCanBeCombinedWithCampFil
+          +ter() {                                                       
+      188 +        $camp = static::getFixture('camp1');                  
+      189 +        $response = static::createClientWithCredentials()     
+      190 +            ->request('GET', '/profiles?user.collaborations.ca
+          +mp=%2Fcamps%2F'.$camp->getId().'&search=Baden-Powell')        
+      191 +        ;                                                     
+      192 +        $this->assertResponseStatusCodeSame(200);             
+      193 +        $this->assertJsonContains(['totalItems' => 1]);       
+      194 +        $this->assertEqualsCanonicalizing([                   
+      195 +            ['href' => $this->getIriFor('profile1manager')],  
+      196 +        ], $response->toArray()['_links']['items']);          
+      197 +    }                                                         
+      198  }
+
+● Now run cs-fix and the test:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● 12/13 passed (search logic works!). The data provider needs PHPUnit 13's
+  attribute style. Let me check the repo convention:
+
+  Searched for 1 pattern, ran 1 shell command (ctrl+o to expand)
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Added 1 line
+      3  namespace App\Tests\Api\Profiles;
+      4  
+      5  use App\Tests\Api\ECampApiTestCase;
+      6 +use PHPUnit\Framework\Attributes\DataProvider;                  
+      7  
+      8  /**
+      9   * @internal
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Added 1 line, removed 2 lines
+      117       * The default test user (test@example.com) is profile1man
+           ager with the well-known values
+      118       * firstname: Robert, surname: Baden-Powell, nickname: Bi-
+           Pi.
+      119       * profile1manager is always part of its own search scope,
+            so we can search for these values.
+      120 -     *                                                        
+      121 -     * @dataProvider provideSearchTermsMatchingProfile1Manager
+      120       */
+      121 +    #[DataProvider('provideSearchTermsMatchingProfile1Manager'
+          +)]                                                            
+      122      public function testSearchProfilesMatchesFirstnameSurnameN
+           icknameAndEmail(string $searchTerm) {
+      123          $response = static::createClientWithCredentials()
+      124              ->request('GET', '/profiles?search='.urlencode($se
+           archTerm))
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All 22 tests pass. Let me run static analysis on the new code:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Backend is solid: filter + indices + 22 passing tests + clean psalm/phpstan.
+  Now task #4 — load production-volume data and prove the indices are used. Let
+  me check how generate-data creates profiles so I size it right.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Each camp adds 1 owner + 2-8 collaborators, and sit@example.com is added to
+  every camp (so sit becomes related to all generated users — the realistic
+  20000-scale search scenario). Let me check createUser for the name generation,
+  then load data.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Names use Swiss-German faker. Let me load production-volume data. I'll run it
+  in the background and monitor progress.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Baseline: 26 profiles. Let me first time a small batch to estimate throughput
+  (using minimal activities since I only need users), then scale to ~20000.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● ~5.8 profiles/camp. To approach 20000 users I'll generate ~3400 more camps.
+  Let me run this in the background and monitor.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● API tests are complete (task 3 done). While data generates, let me build the
+  frontend. Let me find existing autocomplete patterns — especially the
+  "activity responsibles" tag UI the issue references.
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● This is the multi-chip pattern. Let me look at the reusable EAutocomplete
+  component and the DialogBase.create flow to decide the cleanest
+  implementation.
+
+  Read 1 file (ctrl+o to expand)
+
+● EAutocomplete does client-side fuzzy filtering — unusable for 20000
+  server-side rows. I need server-driven search. Let me check how components
+  query API collections with parameters.
+
+  Searched for 1 pattern, ran 1 shell command (ctrl+o to expand)
+
+● The API store supports apiStore.get().profiles({ search: term }) →
+  /profiles?search=. I'll build a server-driven search field. Using v-combobox
+  lets users both pick a searched profile (→ email) and type a brand-new email
+  (existing flow). Let me rewrite CollaboratorCreate.vue:
+
+● Write(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 107 lines, removed 7 lines
+      24        </ButtonAdd>
+      25      </template>
+      26  
+      27 -    <e-text-field                                              
+      28 -      v-model="entityData.inviteEmail"                         
+      29 -      type="email"                                             
+      30 -      path="inviteEmail"                                       
+      27 +    <ValidationField                                           
+      28 +      v-slot="{ errors: veeErrors }"                           
+      29 +      :label="$tc('entity.campCollaboration.fields.inviteEmail'
+         +)"                                                             
+      30 +      name="inviteEmail"                                       
+      31        vee-rules="required|email"
+      32 -      class="mb-2"                                             
+      33 -    />                                                         
+      32 +    >                                                          
+      33 +      <v-combobox                                              
+      34 +        v-model="entityData.inviteEmail"                       
+      35 +        v-model:search="search"                                
+      36 +        data-testid="collaborator-invite-search"               
+      37 +        :items="profileItems"                                  
+      38 +        :loading="searchLoading"                               
+      39 +        :no-filter="true"                                      
+      40 +        :return-object="false"                                 
+      41 +        :hide-no-data="!search || searchLoading"               
+      42 +        item-title="text"                                      
+      43 +        item-value="value"                                     
+      44 +        type="email"                                           
+      45 +        class="mb-2"                                           
+      46 +        autocomplete="off"                                     
+      47 +        :menu-icon="null"                                      
+      48 +        :error-messages="veeErrors"                            
+      49 +        :label="$tc('entity.campCollaboration.fields.inviteEmai
+         +l')"                                                           
+      50 +        :hint="$t('components.collaborator.collaboratorCreate.s
+         +earchHint')"                                                   
+      51 +        persistent-hint                                        
+      52 +        @update:model-value="onSelect"                         
+      53 +      >                                                        
+      54 +        <template #item="{ item, props: itemProps }">          
+      55 +          <v-list-item                                         
+      56 +            v-bind="itemProps"                                 
+      57 +            :title="item.raw.displayName"                      
+      58 +            :subtitle="item.raw.value"                         
+      59 +            data-testid="collaborator-invite-result"           
+      60 +          >                                                    
+      61 +            <template #prepend>                                
+      62 +              <v-icon icon="mdi-account-circle" class="mr-2" />
+      63 +            </template>                                        
+      64 +          </v-list-item>                                       
+      65 +        </template>                                            
+      66  
+      67 +        <template #no-data>                                    
+      68 +          <v-list-item                                         
+      69 +            :title="$t('components.collaborator.collaboratorCre
+         +ate.noResults')"                                               
+      70 +          />                                                   
+      71 +        </template>                                            
+      72 +      </v-combobox>                                            
+      73 +    </ValidationField>                                         
+      74 +                                                               
+      75      <CollaboratorForm :collaboration="entityData" />
+      76    </DetailPane>
+      77  </template>
+      78  
+      79  <script>
+      80 +import { debounce } from 'lodash-es'                           
+      81  import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+      82  import DetailPane from '@/components/generic/DetailPane.vue'
+      83  import DialogBase from '@/components/dialog/DialogBase.vue'
+      84  import CollaboratorForm from '@/components/collaborator/Collabo
+          ratorForm.vue'
+      85 +import ValidationField from '@/components/form/base/ValidationF
+         +ield.vue'                                                      
+      86  
+      87  const DEFAULT_INVITE_ROLE = 'member'
+      88  
+      89  export default {
+      90    name: 'CollaboratorCreate',
+      49 -  components: { ButtonAdd, DetailPane, CollaboratorForm },     
+      91 +  components: { ButtonAdd, DetailPane, CollaboratorForm, Valida
+         +tionField },                                                   
+      92    extends: DialogBase,
+      93    provide() {
+      94      return {
+     ...
+      102      return {
+      103        entityProperties: ['camp', 'inviteEmail', 'role'],
+      104        entityUri: '',
+      105 +      search: '',                                             
+      106 +      profiles: [],                                           
+      107 +      searchLoading: false,                                   
+      108      }
+      109    },
+      110 +  computed: {                                                 
+      111 +    profileItems() {                                          
+      112 +      return this.profiles.map((profile) => ({                
+      113 +        // The email is the value which is ultimately sent to 
+          +the API.                                                      
+      114 +        value: profile.email,                                 
+      115 +        displayName: this.profileDisplayName(profile),        
+      116 +        // Searchable/visible text combines the name and the e
+          +mail.                                                         
+      117 +        text: `${this.profileDisplayName(profile)} (${profile.
+          +email})`,                                                     
+      118 +      }))                                                     
+      119 +    },                                                        
+      120 +  },                                                          
+      121    watch: {
+      122      showDialog: function (showDialog) {
+      123        if (showDialog) {
+     ...
+      129        } else {
+      130          // clear form on exit
+      131          this.clearEntityData()
+      132 +        this.search = ''                                      
+      133 +        this.profiles = []                                    
+      134        }
+      135      },
+      136 +    search(value) {                                           
+      137 +      this.debouncedSearchProfiles(value)                     
+      138 +    },                                                        
+      139    },
+      140    mounted() {
+      141      this.api
+      142        .href(this.api.get(), 'campCollaborations')
+      143        .then((uri) => (this.entityUri = uri))
+      144 +    this.debouncedSearchProfiles = debounce(this.searchProfile
+          +s, 300)                                                       
+      145    },
+      146    methods: {
+      147 +    profileDisplayName(profile) {                             
+      148 +      const name = [profile.firstname, profile.surname].filter
+          +(Boolean).join(' ')                                           
+      149 +      if (profile.nickname && name) {                         
+      150 +        return `${profile.nickname} (${name})`                
+      151 +      }                                                       
+      152 +      return profile.nickname || name || profile.email        
+      153 +    },                                                        
+      154 +    async searchProfiles(value) {                             
+      155 +      const searchTerm = (value || '').trim()                 
+      156 +      // The current invite email is part of the combobox sear
+          +ch model; don't query for it.                                 
+      157 +      if (searchTerm.length < 1 || searchTerm === this.entityD
+          +ata.inviteEmail) {                                            
+      158 +        this.profiles = []                                    
+      159 +        return                                                
+      160 +      }                                                       
+      161 +      this.searchLoading = true                               
+      162 +      try {                                                   
+      163 +        const collection = await this.api.get().profiles({ sea
+          +rch: searchTerm })._meta                                      
+      164 +          .load                                               
+      165 +        // Guard against out-of-order responses overwriting a 
+          +newer search.                                                 
+      166 +        if (this.search.trim() === searchTerm) {              
+      167 +          this.profiles = collection.items.map((item) => ({   
+      168 +            email: item.email,                                
+      169 +            firstname: item.firstname,                        
+      170 +            surname: item.surname,                            
+      171 +            nickname: item.nickname,                          
+      172 +          }))                                                 
+      173 +        }                                                     
+      174 +      } catch (e) {                                           
+      175 +        this.profiles = []                                    
+      176 +      } finally {                                             
+      177 +        this.searchLoading = false                            
+      178 +      }                                                       
+      179 +    },                                                        
+      180 +    onSelect() {                                              
+      181 +      // Once a value is chosen (selected profile or typed ema
+          +il), the result list is no                                    
+      182 +      // longer relevant and would otherwise keep showing stal
+          +e suggestions.                                                
+      183 +      this.profiles = []                                      
+      184 +    },                                                        
+      185      createCollaboration() {
+      186        return this.create().then(() => {
+      187          this.api.reload(this.camp.campCollaborations())
+
+● Now add the translation keys and verify the inviteEmail label key. Let me
+  locate the locale file:
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● Update(frontend/src/locales/en.json)
+  ⎿  Added 2 lines
+      265        "collaboratorCreate": {
+      266          "invite": "Send invitation",
+      267          "inviteCta": "Invite to team",
+      268 +        "noResults": "No matching people found. You can invite
+          + anyone by typing their email address.",                      
+      269 +        "searchHint": "Search people you share a camp with by 
+          +name, nickname or email, or type a new email address.",       
+      270          "title": "Invite people"
+      271        },
+      272        "collaboratorEdit": {
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● The entity.campCollaboration.fields.inviteEmail key doesn't exist. Let me add
+  a dedicated label key and use it instead:
+
+● Update(frontend/src/locales/en.json)
+  ⎿  Added 1 line
+      263      },
+      264      "collaborator": {
+      265        "collaboratorCreate": {
+      266 +        "emailLabel": "Email address",                        
+      267          "invite": "Send invitation",
+      268          "inviteCta": "Invite to team",
+      269          "noResults": "No matching people found. You can invite
+            anyone by typing their email address.",
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 1 line, removed 1 line
+      26  
+      27      <ValidationField
+      28        v-slot="{ errors: veeErrors }"
+      29 -      :label="$tc('entity.campCollaboration.fields.inviteEmail'
+         -)"                                                             
+      29 +      :label="$t('components.collaborator.collaboratorCreate.em
+         +ailLabel')"                                                    
+      30        name="inviteEmail"
+      31        vee-rules="required|email"
+      32      >
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 1 line, removed 1 line
+      46          autocomplete="off"
+      47          :menu-icon="null"
+      48          :error-messages="veeErrors"
+      49 -        :label="$tc('entity.campCollaboration.fields.inviteEmai
+         -l')"                                                           
+      49 +        :label="$t('components.collaborator.collaboratorCreate.
+         +emailLabel')"                                                  
+      50          :hint="$t('components.collaborator.collaboratorCreate.s
+          earchHint')"
+      51          persistent-hint
+      52          @update:model-value="onSelect"
+
+● Now let me lint the frontend changes and check progress on data generation.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Lint caught an unused e. Data gen is progressing (10592 profiles). Let me fix
+  the lint issue:
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 1 line, removed 1 line
+      171              nickname: item.nickname,
+      172            }))
+      173          }
+      174 -      } catch (e) {                                           
+      174 +      } catch {                                               
+      175          this.profiles = []
+      176        } finally {
+      177          this.searchLoading = false
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Lint is clean. Data gen continues in the background. Let me look at the e2e
+  test structure for collaborator invites while data finishes loading.
+
+  Searched for 1 pattern, listed 1 directory, ran 1 shell command (ctrl+o to expand)
+● Now I understand the e2e patterns. Let me check the e2e user constants and how
+  the e2e DB is seeded (which camps/collaborators exist to search for).
+
+  Searched for 1 pattern, listed 1 directory, ran 1 shell command (ctrl+o to expand)
+
+● The e2e DB uses api/migrations/dev-data/data.sql (same dev fixtures). Let me
+  query the dev DB to find a distinctive profile related to bipi
+  (test@example.com) that I can search for in the e2e test:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● My dev-DB query had an OR-precedence bug (irrelevant — e2e uses a fresh
+  data.sql seed). The e2e runs in German, so I need German translations too, and
+  a reliable selector. Let me check the German keys and the collaborators
+  route.
+
+  Read 1 file, ran 2 shell commands (ctrl+o to expand)
+
+● Route is /camps/{campId}/admin/collaborators. Let me check whether locale
+  files must stay in key-parity (to know if I add to all 5 locales) and add a
+  testid to the invite button.
+
+  Listed 1 directory (ctrl+o to expand)
+
+● No parity enforcement. Let me add the German translations (e2e locale) and a
+  testid on the invite button:
+
+● Update(frontend/src/locales/de.json)
+  ⎿  File must be read first
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(frontend/src/locales/de.json)
+  ⎿  Added 3 lines
+      263      },
+      264      "collaborator": {
+      265        "collaboratorCreate": {
+      266 +        "emailLabel": "E-Mail-Adresse",                       
+      267          "invite": "Einladung verschicken",
+      268          "inviteCta": "Ins Team einladen",
+      269 +        "noResults": "Keine passenden Personen gefunden. Du ka
+          +nnst jede Person über ihre E-Mail-Adresse einladen.",         
+      270 +        "searchHint": "Suche Personen aus gemeinsamen Lagern n
+          +ach Name, Pfadiname oder E-Mail, oder gib eine neue E-Mail-Adr
+          +esse ein.",                                                   
+      271          "title": "Person einladen"
+      272        },
+      273        "collaboratorEdit": {
+
+● Now add a testid to the invite button for reliable e2e selection:
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 1 line
+      17          variant="text"
+      18          class="my-n2"
+      19          icon="mdi-account-plus"
+      20 +        data-testid="collaborator-invite-cta"                  
+      21          v-bind="props"
+      22          @click="showDialog = true"
+      23        >
+
+● Let me check data-gen progress before writing the e2e test:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Data gen is at 19266 profiles, nearly target. One refinement first: per the
+  issue, "the email becomes the value." With v-combobox, the input shows
+  item-title after selection — so I'll make item-title the email (rich name
+  shown only in the dropdown). Let me adjust the component:
+
+  Read 1 file (ctrl+o to expand)
+
+● Background command "Generate 3400 camps in background" completed (exit code 0)
+
+● Data gen completed. Let me make item-title the email so the input shows the
+  email after selection:
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 1 line, removed 1 line
+      40          :no-filter="true"
+      41          :return-object="false"
+      42          :hide-no-data="!search || searchLoading"
+      43 -        item-title="text"                                      
+      43 +        item-title="value"                                     
+      44          item-value="value"
+      45          type="email"
+      46          class="mb-2"
+
+● Let me clean up the now-unused text field in profileItems:
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 3 lines, removed 3 lines
+      111    computed: {
+      112      profileItems() {
+      113        return this.profiles.map((profile) => ({
+      114 -        // The email is the value which is ultimately sent to 
+          -the API.                                                      
+      114 +        // The email is the value which is ultimately sent to 
+          +the API and, after selection,                                 
+      115 +        // shown in the input (item-title="value").           
+      116          value: profile.email,
+      117 +        // Richer label shown in the dropdown list (see the #i
+          +tem slot).                                                    
+      118          displayName: this.profileDisplayName(profile),
+      117 -        // Searchable/visible text combines the name and the e
+          -mail.                                                         
+      118 -        text: `${this.profileDisplayName(profile)} (${profile.
+          -email})`,                                                     
+      119        }))
+      120      },
+      121    },
+
+● Now let me verify the index usage (task #4) — the explicit requirement. First
+  the final counts, then EXPLAIN ANALYZE on the actual filter query and the
+  isolated search:
+
+  Ran 1 shell command (ctrl+o to expand)
+● 20446 profiles with all four GIN indexes built. Now the key test — EXPLAIN
+  ANALYZE on the isolated search predicate (what the filter generates):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All four GIN trigram indexes are used via a BitmapOr — 2ms over 20446
+  profiles. Now let me confirm the full endpoint query (with the user-scoping
+  subquery, as sit@example.com who shares a camp with all generated users) also
+  uses them. Let me reconstruct the filter's SQL with sit's user id:
+
+  Ran 4 shell commands (ctrl+o to expand)
+
+● Confirmed: even in the full endpoint query (as sit, related to all 20k users),
+  the search predicate is served by a BitmapOr across all four
+  unmanaged_idx_profile_*_trgm GIN indexes (32ms over 20446 profiles). Task #4
+  verified. Let me record this and write the e2e test.
+
+  Searched for 1 pattern, read 1 file (ctrl+o to expand)
+
+● Let me check who shares the GRGR camp with bipi (deterministic dev-data) so
+  the e2e can search for a real other collaborator:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● GRGR (deterministic dev-data) has bipi plus Hans Muster (Castor) and Fritz 
+  Müller (Salamander) — both related to bipi. Perfect for a realistic "search a
+  known person" e2e. Let me confirm the collaborators view renders the invite
+  CTA, then write the test.
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+● Now let me write the e2e test:
+
+● Write(e2e/tests/9-behavior-tests/inviteCollaboratorSearch.spec.ts)
+  ⎿  Wrote 59 lines to
+     e2e/tests/9-behavior-tests/inviteCollaboratorSearch.spec.ts
+       1 import { test, expect } from '@playwright/test'
+       3 import { loginAndSetCookie } from '@/utils/helpers'
+       4 
+       5 /**
+         a manager search the
+       7  * profiles they share a camp with (by firstname, surname, nickn
+       8  * which fills in the invite email address. Free email addresses
+          can still be typed.
+       9  *
+         th Fritz Müller (nickname
+     … +64 lines (ctrl+o to expand)
+
+● Let me lint/typecheck the e2e test and find how to run a single spec:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Let me start the e2e service and lint/typecheck the new test:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The e2e container is one-shot. Let me use run --rm instead:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Both pass. Now let me run the actual e2e spec against the running dev app. Let
+  me check the Playwright project names first:
+
+  Searched for 1 pattern, read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● The failure is purely an environment mismatch — the e2e container image
+  (Playwright v1.61.1) doesn't have browsers for the @playwright/test version
+  installed in node_modules (the known dev node_modules vs branch mismatch). My
+  test is lint/typecheck-clean and follows existing patterns, so it'll run in
+  CI. Let me verify the actual feature works against the running dev app using
+  the configured playwright-cli service instead.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Let me verify the feature against the real dev app using the playwright-cli
+  skill.
+
+● Skill(playwright-cli)  ⎿  Successfully loaded skill · 3 tools allowed
+
+  Read 1 file, listed 1 directory, ran 3 shell commands (ctrl+o to expand)
+
+● Logged in as bipi. Now navigate to GRGR collaborators admin and open the
+  invite dialog:
+
+  Ran 3 shell commands (ctrl+o to expand)
+
+● The combobox has "Salamander" but no ?search= API call fired. Let me check
+  console errors and all profile requests:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The combobox value is set but no ?search= call fired — likely my searchTerm 
+  === inviteEmail guard or the input event not triggering reactivity via fill.
+  Let me first confirm the API endpoint works from the authenticated browser,
+  then debug the component with real typing:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Backend confirmed working through the real app
+  (/api/profiles?search=Salamander → salamander@example.com). The frontend isn't
+  triggering it. Let me debug with real keystrokes:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● A ?search=Salamander request did eventually fire (req 474) — the mechanism
+  works but sync with the combobox search seems delayed. Let me verify typing
+  "Muster" triggers it and inspect the menu:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Found it: v-combobox sets inviteEmail to the typed text on each keystroke, so
+  my searchTerm === inviteEmail guard always short-circuits the search. Let me
+  remove that guard:
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Added 1 line, removed 2 lines
+      154      },
+      155      async searchProfiles(value) {
+      156        const searchTerm = (value || '').trim()
+      157 -      // The current invite email is part of the combobox sear
+          -ch model; don't query for it.                                 
+      158 -      if (searchTerm.length < 1 || searchTerm === this.entityD
+          -ata.inviteEmail) {                                            
+      157 +      if (searchTerm.length < 1) {                            
+      158          this.profiles = []
+      159          return
+      160        }
+
+● Vite HMR should pick it up. Let me reload and re-test the full flow:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● ?search=Muster now fires. Let me check the dropdown results:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The dropdown shows "Castor (Hans Muster) — castor@example.com". Let me select
+  it and verify the email fills the input:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The full flow works end-to-end: type → search → dropdown → select → input
+  shows castor@example.com. Since my e2e uses fill(), let me confirm fill (not
+  just type) triggers the search after the fix:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Page likely not fully loaded. Let me wait longer and retry:
+
+  Ran 2 shell commands (ctrl+o to expand)
+● The URL got corrupted to /**. Let me re-navigate cleanly and wait for the CTA
+  to render:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● fill() works after the fix — the dropdown shows "Salamander (Fritz Müller)
+  salamander@example.com". The feature is fully verified in the real app. Let me
+  close the browser and run final checks on all changed files.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Frontend lint clean. The new search filter adds a query param to the API docs
+  — there may be OpenAPI/Hydra snapshot tests that need regenerating. Let me
+  check and run the relevant API tests:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● There's an OpenAPI spec snapshot — my new search param will change it. Let me
+  check:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Expected — 2 doc snapshots (OpenAPI + Hydra) now include the legitimate new
+  search param. Let me regenerate them:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● All 61 snapshot tests pass. Let me verify the snapshot diffs are only the
+  expected search param additions:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Root endpoint correctly gains search. Let me check the performance snapshot
+  test doesn't cover profiles (the filter is inert without the param):
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Performance tests unchanged. Let me run the final formatting/lint checks
+  across all changed areas before committing:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● e2e checks pass. The cs-check flags config/reference.php — a file I never
+  touched. Let me confirm it's pre-existing and check my actual changed files
+  are clean:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● My changed files are exactly as expected; config/reference.php is pre-existing
+  drift on the base branch (not in my diff). Let me confirm my PHP files
+  specifically are cs-clean:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● cs-check's only complaint is the pre-existing config/reference.php (untouched
+  by me); the earlier run confirmed my files are clean. Let me run the frontend
+  lint:check (includes prettier) to be safe before committing:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All checks green. Let me verify one assumption the e2e depends on: that bipi
+  is a manager of GRGR (the invite CTA only renders for managers):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● bipi is a GRGR manager — the e2e is valid. Let me do one final de-risking
+  check: verify a full invite submission works with the new combobox (the create
+  flow binding), using a throwaway email:
+  Ran 5 shell commands (ctrl+o to expand)
+
+● The full create flow works: free-text email → POST /api/camp_collaborations →
+  201, appears under "Offene Einladungen". Everything is verified. Let me close
+  the browser, mark tasks done, and commit.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Now let me commit the changes:
+
+  Committed 51c2b9fa8, ran 1 shell command (ctrl+o to expand)
+
+● Committed as 51c2b9fa8. Let me record the e2e environment gotcha I hit (it
+  cost real debugging time and will recur) by updating the existing dev-env
+  memory.
+
+  Recalled 1 memory (ctrl+o to expand)
+
+● I'll record the current-session environment facts that differ from the
+  (older-base) dev-env memory — they cost debugging time and will recur.
+
+  Recalled 1 memory, wrote 2 memories (ctrl+o to expand)
+
+● Done. Here's a summary of what I implemented for issue #340 on branch
+  feat/340-search-profiles-campcollaboration (based off ecamp-https/devel,
+  committed as 51c2b9fa8).
+
+  Backend — the new search endpoint
+
+  - ProfileSearchFilter adds a single search query parameter to GET /profiles.
+  It matches the term case-insensitively and partially against firstname, 
+  surname, nickname and email at once (OR), layered on the existing user-scoping
+  (you only ever see profiles of people you share a camp with). LIKE wildcards
+  are escaped.
+  - Migration Version20260627120000 enables pg_trgm and creates functional GIN 
+  trigram indexes on LOWER(firstname/surname/nickname/email). They're named
+  unmanaged_* so CustomPostgreSQLSchemaManager hides them from the schema diff —
+  doctrine:schema:validate stays green (verified on a freshly-rebuilt test DB).
+
+  Indices are actually used (your explicit ask)
+
+  - Loaded 20,446 profiles with app:generate-data (3400 camps; sit@example.com
+  is added to every camp, so it's related to all of them — your 20k-user prod
+  scenario).
+  - EXPLAIN ANALYZE confirms the planner uses a BitmapOr across all four 
+  unmanaged_idx_profile_*_trgm GIN indexes — both for the isolated predicate (~2
+  ms) and for the full scoped endpoint query as sit (~32 ms), instead of a
+  sequential scan.
+
+  Frontend
+
+  - The invite dialog now uses a server-driven combobox: debounced input →
+  /profiles?search= → shows matching people (name + email); selecting one uses 
+  the email as the value. Typing a brand-new email still works.
+  - Verified live via playwright-cli: searching "Salamander"/"Muster" returns
+  the right people, selecting fills castor@example.com, and a full free-text
+  invite POSTs 201 and shows under "Offene Einladungen".
+
+  Tests
+
+  - API (ListProfilesTest, 22 passing): per-field search, partial +
+  case-insensitive, result restriction, combination with the camp filter,
+  scoping for unrelated users, anonymous rejection. Updated OpenAPI +
+  root-endpoint snapshots for the new param. psalm/phpstan/performance-snapshots
+  clean.
+  - e2e (inviteCollaboratorSearch.spec.ts): find-by-nickname,
+  find-by-partial-surname, and typing a new email. eslint + typecheck pass.
+
+  Two things to flag
+
+  1. Multi-tag UX deliberately scoped out. The issue's "enhanced UX" mentions
+  activity-responsibles-style multi-invite tags. I implemented the core
+  search→select→email (single invite), which is the part you asked to test and
+  keeps the change minimal. The dialog's create flow would need reworking for
+  true multi-invite — say the word and I'll extend it.
+  2. The e2e suite can't run locally here (the e2e Docker image's Playwright
+  browsers mismatch the installed @playwright/test version — an environment
+  issue, not the test). It'll run in CI; I verified the behavior manually with
+  playwright-cli instead.
+
+  Changes are committed but not pushed.
+
+✻ Sautéed for 35m 17s
+
+❯ fix the playwright issue, e.g. pull the playwright image.                     
+
+● Let me investigate the exact version mismatch before fixing it.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Clear diagnosis: my branch's lockfile pins @playwright/test 1.61.0, but the
+  bind-mounted e2e/node_modules is stale at 1.60.0 (from a prior working-main
+  install), while the image ships browsers for 1.61.1. The fix is to reinstall
+  e2e deps to match the lockfile, then ensure the matching browser is present.
+  Let me reinstall:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Now node_modules is 1.61.0 and the image has chromium-1228. Let me run my e2e
+  spec to see if the browser build matches:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All 3 e2e tests pass now. The root cause was simply stale e2e/node_modules
+  (1.60.0) not matching the branch's lockfile (1.61.0) — npm ci aligned it, and
+  the image's chromium-1228 build is compatible with 1.61.0. The fix persists
+  since node_modules is bind-mounted from the host.
+
+  Let me correct the memory I just wrote, since "local e2e is broken" is now
+  resolved:
+
+  Wrote 3 memories (ctrl+o to expand)
+
+● Fixed. The Playwright issue wasn't actually the image — it was stale 
+  e2e/node_modules (1.60.0) that didn't match my branch's lockfile (1.61.0). One
+  docker compose run --rm e2e npm ci reinstalled the right version, and the
+  image's chromium-1228 build is compatible with it.
+
+  Result — all 3 e2e tests now pass locally:
+  ✓ finds a related profile by nickname and uses its email (3.5s)
+  ✓ finds a related profile by part of the surname (3.3s)
+  ✓ allows typing a brand-new email address that is not a known profile (2.9s)
+  3 passed (10.1s)
+
+  The fix persists (node_modules is bind-mounted from the host), no version pins
+  or the committed image tag needed changing, and no code changes were
+  required. The full feature is now verified end-to-end: API tests, the
+  EXPLAIN-confirmed indices on 20k profiles, manual playwright-cli verification,
+  and the passing Playwright e2e suite.
+
+✻ Cooked for 1m 59s
+
+❯ test it now after you generated data and make sure the search endpoint is     
+  still performant when there are some users in the db.                         
+
+● I already generated ~20k profiles. Let me now measure the real HTTP endpoint 
+  latency under that data — both for sit@example.com (the worst case: related to
+  all 20k users) and bipi (light case). First, confirm the data and that I can
+  authenticate.
+
+  Ran 1 shell command (ctrl+o to expand)
+● 20,446 profiles, both users authenticate. Let me time the search endpoint with
+  authenticated requests — multiple distinct terms (to avoid cache hits), for
+  both the heavy user (sit, related to all 20k) and the light user (bipi):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Solid latency (0.14–0.9s round-trip), and the slower ones are dominated by
+  serializing 400KB+ of results, not the query. Two things to investigate:
+  whether /profiles paginates (a broad term returned 785 items), and the one 500
+  (my test sent malformed %C2). Let me check both:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Two findings. The umlaut case is fine (müll → 200, 97 items, 0.21s) — the 500
+  was only my malformed %C2 byte (a browser always sends valid UTF-8). But the
+  important one: /profiles returns all 785 matches in one page (no pagination) —
+  so a broad term over 20k users could return thousands. That's the real
+  scalability risk for an autocomplete. Let me check the pagination config:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Pagination is globally disabled by project design (pagination_enabled: false)
+  and no entity overrides it — so the 785 case is specific to sit being
+  artificially in all 20k camps. A real user only sees "profiles I share a camp
+  with," which is bounded by their actual network. Let me confirm with a normal
+  user (bipi), and quantify the index benefit with an A/B EXPLAIN (index vs
+  forced seq scan):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Normal user (bipi): consistent ~0.1s, tiny responses. Now let me quantify the
+  index benefit — the same search predicate over 20,446 rows, with the GIN
+  indexes vs. forcing a sequential scan:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Confirmed performant under 20,446 profiles. Here are the measurements.
+
+  Results
+
+  Normal user (bipi) — the realistic case (you only see profiles of people you
+  share a camp with):
+  - Every search ~0.1s, tiny responses (0–1 matches).
+
+  Worst case (sit, synthetically a collaborator in all 20k generated camps):
+  - 0.14–0.9s round-trip. The slower ones return 400–785 matches and the time is
+  dominated by serializing the large HAL payload (~400KB), not the query.
+
+  DB query, index vs. no index (same 4-field search over 20,446 rows):
+
+  ┌────────────────────────────────────────────────┬────────────────┐
+  │                                                │ Execution time │
+  ├────────────────────────────────────────────────┼────────────────┤
+  │ With trigram GIN indexes (BitmapOr over all 4) │ 2.7 ms         │
+  ├────────────────────────────────────────────────┼────────────────┤
+  │ Forced sequential scan                         │ 16.2 ms        │
+  └────────────────────────────────────────────────┴────────────────┘
+
+  ~6× faster at 20k rows, and the gap widens as the table grows (seq scan is
+  linear in table size; the index scan scales with the match count). So the
+  search stays fast as the user base grows — which is the point of the indices.
+
+  Two observations (no code change made)
+
+  1. /profiles returns all matches in one page — pagination is disabled
+  project-wide (pagination_enabled: false), not something this feature
+  introduced. It only produced a big response for sit because that account is
+  artificially in all 20k camps; a real user's "people I share a camp with" set
+  is small (bipi's searches returned 0–1). I left it as-is to stay consistent
+  with the codebase's conventions rather than special-casing pagination for one
+  entity.
+  2. One request returned 500 — but only because my test string contained a
+  malformed UTF-8 byte (%C2). A real umlaut works fine (müll → 200, 97 results,
+  0.21s); browsers always send valid UTF-8, so this isn't a real-world path.
+
+  Bottom line: the endpoint is performant with 20k users — the query is
+  index-served (~3 ms) and realistic per-user responses are ~0.1s. The 20k
+  generated profiles remain in the dev DB (the generated camps carry
+  randomlyGenerated=true if you want to prune them later).
+
+✻ Sautéed for 2m 52s
+
+❯ validate that the string doesn't contain strings that lead to 500er errors.   
+  test this in the api integration tests. (so first make a test that returns    
+  500, then fix it and it either performs the search or returns 400 bad         
+  request)                                                                      
+
+● Good catch — let me make this robust. First I'll write an integration test
+  that reproduces the 500 on malformed input, confirm it fails, then fix the
+  filter to validate and return 400.
+
+  Let me add the failing test:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Added 23 lines
+      195              ['href' => $this->getIriFor('profile1manager')],
+      196          ], $response->toArray()['_links']['items']);
+      197      }
+      198 +                                                              
+      199 +    /**                                                       
+      200 +     * A search term which is not valid UTF-8 (e.g. a lone %C2
+          + continuation byte) or contains a                             
+      201 +     * null byte cannot be sent to PostgreSQL and must not res
+          +ult in a 500 server error.                                    
+      202 +     *                                                        
+      203 +     * @dataProvider provideInvalidSearchTerms                
+      204 +     */                                                       
+      205 +    #[DataProvider('provideInvalidSearchTerms')]              
+      206 +    public function testSearchProfilesWithInvalidByteSequenceR
+          +eturnsBadRequest(string $invalidSearch) {                     
+      207 +        static::createClientWithCredentials()                 
+      208 +            ->request('GET', '/profiles?search='.$invalidSearc
+          +h)                                                            
+      209 +        ;                                                     
+      210 +        $this->assertResponseStatusCodeSame(400);             
+      211 +    }                                                         
+      212 +                                                              
+      213 +    public static function provideInvalidSearchTerms(): array 
+          +{                                                             
+      214 +        return [                                              
+      215 +            'lone UTF-8 continuation byte' => ['%C2'],        
+      216 +            'truncated multibyte sequence' => ['Rob%C3'],     
+      217 +            'invalid byte 0xFF' => ['%FF'],                   
+      218 +            'null byte' => ['Rob%00ert'],                     
+      219 +        ];                                                    
+      220 +    }                                                         
+      221  }
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Useful — the failures show different behaviors per input. Let me see all 4
+  outcomes to design the fix precisely:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Confirmed: %C2, Rob%C3, %FF → 500 (Postgres "invalid byte sequence for
+  encoding UTF8"); the null byte case already returns 200. So the real culprit
+  is invalid UTF-8. Let me refine the tests to encode the precise contract
+  ("never 500: either search or 400"), then fix the filter:
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Added 37 lines, removed 6 lines
+      197      }
+      198  
+      199      /**
+      200 -     * A search term which is not valid UTF-8 (e.g. a lone %C2
+          - continuation byte) or contains a                             
+      201 -     * null byte cannot be sent to PostgreSQL and must not res
+          -ult in a 500 server error.                                    
+      200 +     * A search term that is not valid UTF-8 (e.g. a lone %C2 
+          +continuation byte) cannot be sent                             
+      201 +     * to PostgreSQL ("invalid byte sequence for encoding UTF8
+          +"). Instead of letting that bubble                            
+      202 +     * up as a 500 server error, the filter rejects it with a 
+          +400 Bad Request.                                              
+      203       *
+      203 -     * @dataProvider provideInvalidSearchTerms                
+      204 +     * @dataProvider provideInvalidUtf8SearchTerms            
+      205       */
+      205 -    #[DataProvider('provideInvalidSearchTerms')]              
+      206 -    public function testSearchProfilesWithInvalidByteSequenceR
+          -eturnsBadRequest(string $invalidSearch) {                     
+      206 +    #[DataProvider('provideInvalidUtf8SearchTerms')]          
+      207 +    public function testSearchProfilesWithInvalidUtf8ReturnsBa
+          +dRequest(string $invalidSearch) {                             
+      208          static::createClientWithCredentials()
+      209              ->request('GET', '/profiles?search='.$invalidSearc
+           h)
+      210          ;
+      211          $this->assertResponseStatusCodeSame(400);
+      212      }
+      213  
+      213 -    public static function provideInvalidSearchTerms(): array 
+          -{                                                             
+      214 +    public static function provideInvalidUtf8SearchTerms(): ar
+          +ray {                                                         
+      215          return [
+      216              'lone UTF-8 continuation byte' => ['%C2'],
+      217              'truncated multibyte sequence' => ['Rob%C3'],
+      218              'invalid byte 0xFF' => ['%FF'],
+      219 +        ];                                                    
+      220 +    }                                                         
+      221 +                                                              
+      222 +    /**                                                       
+      223 +     * Whatever weird input is thrown at the search parameter,
+          + the endpoint must never answer with                          
+      224 +     * a 5xx server error: it either performs the search (2xx)
+          + or rejects the input (400).                                  
+      225 +     *                                                        
+      226 +     * @dataProvider provideWeirdSearchTerms                  
+      227 +     */                                                       
+      228 +    #[DataProvider('provideWeirdSearchTerms')]                
+      229 +    public function testSearchProfilesNeverCausesServerError(s
+          +tring $weirdSearch) {                                         
+      230 +        $response = static::createClientWithCredentials()     
+      231 +            ->request('GET', '/profiles?search='.$weirdSearch)
+      232 +        ;                                                     
+      233 +        $this->assertContains(                                
+      234 +            $response->getStatusCode(),                       
+      235 +            [200, 400],                                       
+      236 +            "Search term '{$weirdSearch}' must not cause a ser
+          +ver error."                                                   
+      237 +        );                                                    
+      238 +    }                                                         
+      239 +                                                              
+      240 +    public static function provideWeirdSearchTerms(): array { 
+      241 +        return [                                              
+      242 +            'lone UTF-8 continuation byte' => ['%C2'],        
+      243 +            'truncated multibyte sequence' => ['Rob%C3'],     
+      244 +            'invalid byte 0xFF' => ['%FF'],                   
+      245              'null byte' => ['Rob%00ert'],
+      246 +            'only LIKE wildcards' => ['%25%25%25'],           
+      247 +            'backslash' => ['%5C'],                           
+      248 +            'valid umlaut' => ['M%C3%BCller'],                
+      249 +            'emoji' => ['%F0%9F%98%80'],                      
+      250          ];
+      251      }
+      252  }
+
+● Now the fix — validate UTF-8 in the filter and reject with 400:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(api/src/Doctrine/Filter/ProfileSearchFilter.php)
+  ⎿  Added 1 line
+       8  use App\Entity\Profile;
+       9  use App\Repository\ProfileRepository;
+      10  use Doctrine\ORM\QueryBuilder;
+      11 +use Symfony\Component\HttpKernel\Exception\BadRequestHttpExcept
+         +ion;                                                           
+      12  use Symfony\Component\TypeInfo\Type;
+      13  
+      14  /**
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(api/src/Doctrine/Filter/ProfileSearchFilter.php)
+  ⎿  Added 7 lines
+      60              return;
+      61          }
+      62  
+      63 +        // A search term that is not valid UTF-8 cannot be sent
+         + to PostgreSQL (it rejects the                                 
+      64 +        // bind parameter with "invalid byte sequence for encod
+         +ing UTF8"). Reject such input with                             
+      65 +        // a 400 Bad Request instead of letting it surface as a
+         + 500 server error.                                             
+      66 +        if (!mb_check_encoding($value, 'UTF-8')) {             
+      67 +            throw new BadRequestHttpException(sprintf('The "%s"
+         + query parameter must be a valid UTF-8 string.', self::QUERY_PA
+         +RAM_NAME));                                                    
+      68 +        }                                                      
+      69 +                                                               
+      70          $rootAlias = $queryBuilder->getRootAliases()[0];
+      71          $parameterName = $queryNameGenerator->generateParameter
+          Name('search');
+      72  
+● Now let me run the new tests to confirm the fix yields 400 (not 500):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All 11 pass — invalid UTF-8 now returns 400, and no input yields 500. Let me
+  run the full ListProfilesTest plus static analysis and formatting:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All 33 tests pass. Let me run psalm/phpstan on the changed filter:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Static analysis clean. Let me confirm the fix on the live endpoint (where the
+  user originally saw the 500):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Live endpoint confirms the fix: malformed UTF-8 → 400, valid umlaut → 200. Let
+  me commit this hardening:
+
+  Committed 1ad1f1b07 (ctrl+o to expand)
+
+● Done. Here's what I did, following your test-first request.
+
+  1. Reproduced the 500 in an API integration test
+
+  Added testSearchProfilesWithInvalidUtf8ReturnsBadRequest (data-driven) to
+  ListProfilesTest. Before the fix, malformed UTF-8 search terms returned 500
+  with:
+  SQLSTATE[22021]: Character not in repertoire: invalid byte sequence for
+  encoding "UTF8": 0xc2 ...
+  Postgres rejects the bind parameter when it isn't valid UTF-8.
+
+  2. Fixed the filter
+
+  ProfileSearchFilter now validates the term with mb_check_encoding($value, 
+  'UTF-8') and throws BadRequestHttpException → 400 for invalid UTF-8, before
+  the value ever reaches Postgres. Valid input (including umlauts/emoji) still
+  performs the search.
+
+  3. Tests now assert the contract
+
+  - testSearchProfilesWithInvalidUtf8ReturnsBadRequest — %C2, Rob%C3, %FF → 400
+  (were 500).
+  - testSearchProfilesNeverCausesServerError — a spread of odd inputs (invalid
+  bytes, null byte, only-wildcards, backslash, Müller, emoji) must always be 200
+  or 400, never 5xx. This directly encodes your requirement: "either performs
+  the search or returns 400."
+
+  Verification
+
+  - Full ListProfilesTest: 33 tests pass.
+  - psalm + phpstan: clean.
+  - Live endpoint (where you first saw the 500): %C2/Rob%C3/%FF → 400,
+  M%C3%BCller → 200.
+
+  Committed as 1ad1f1b07 on top of the feature commit (not pushed). Note: the
+  %00 null-byte case never produced a 500 (Symfony strips it; it returns
+  200/empty), so it's covered by the "never 5xx" test rather than forced to 400.
+
+✻ Worked for 4m 35s
+
+❯ remove all the comments in these changes                                      
+
+● I'll remove the comments from the files I changed. Let me read the current
+  state of each and strip them.
+
+  Read 1 file (ctrl+o to expand)
+
+● Write(api/src/Doctrine/Filter/ProfileSearchFilter.php)
+  ⎿  Removed 26 lines
+       6  use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+       7  use ApiPlatform\Metadata\Operation;
+       8  use App\Entity\Profile;
+       9 -use App\Repository\ProfileRepository;                          
+       9  use Doctrine\ORM\QueryBuilder;
+      10  use Symfony\Component\HttpKernel\Exception\BadRequestHttpExcept
+          ion;
+      11  use Symfony\Component\TypeInfo\Type;
+      12  
+      14 -/**                                                            
+      15 - * Allows to search profiles by a single search term which is m
+         -atched (case-insensitively                                     
+      16 - * and partially) against the firstname, surname, nickname and 
+         -email at the same time.                                        
+      17 - *                                                             
+      18 - * This is meant to power the autocomplete when inviting collab
+         -orators to a camp: a user can                                  
+      19 - * type any part of a name or email and the matching profiles (
+         -which are already scoped to                                    
+      20 - * people they share a camp with by {@see ProfileRepository::fi
+         -lterByUser})                                                   
+      21 - * are returned.                                               
+      22 - */                                                            
+      13  final class ProfileSearchFilter extends AbstractFilter {
+      14      public const string QUERY_PARAM_NAME = 'search';
+      15  
+      26 -    /**                                                        
+      27 -     * The profile properties which are searched. They are back
+         -ed by pg_trgm GIN indexes                                      
+      28 -     * (see migration Version20260627* / {@see Profile}) so the
+         - ILIKE comparisons can use an index.                           
+      29 -     */                                                        
+      16      private const array SEARCHED_PROPERTIES = ['firstname', 'su
+          rname', 'nickname', 'email'];
+      17  
+      32 -    // This function is only used to hook in documentation gene
+         -rators (supported by Swagger and Hydra)                        
+      18      public function getDescription(string $resourceClass): arra
+          y {
+      19          return [self::QUERY_PARAM_NAME => [
+      20              'property' => self::QUERY_PARAM_NAME,
+     ...
+      45              return;
+      46          }
+      47  
+      63 -        // A search term that is not valid UTF-8 cannot be sent
+         - to PostgreSQL (it rejects the                                 
+      64 -        // bind parameter with "invalid byte sequence for encod
+         -ing UTF8"). Reject such input with                             
+      65 -        // a 400 Bad Request instead of letting it surface as a
+         - 500 server error.                                             
+      48          if (!mb_check_encoding($value, 'UTF-8')) {
+      49              throw new BadRequestHttpException(sprintf('The "%s"
+           query parameter must be a valid UTF-8 string.', self::QUERY_PA
+          RAM_NAME));
+      50          }
+     ...
+      55          $expr = $queryBuilder->expr();
+      56          $orConditions = [];
+      57          foreach (self::SEARCHED_PROPERTIES as $searchedProperty
+          ) {
+      76 -            // LOWER(...) LIKE LOWER(...) keeps the comparison 
+         -case-insensitive while staying                                 
+      77 -            // valid DQL (ILIKE is not). Thanks to the function
+         -al pg_trgm GIN indexes on                                      
+      78 -            // LOWER(<column>), this can be served by a bitmap 
+         -index scan instead of a                                        
+      79 -            // sequential scan over all profiles.              
+      58              $orConditions[] = "LOWER({$rootAlias}.{$searchedPro
+          perty}) LIKE LOWER(:{$parameterName})";
+      59          }
+      60  
+     ...
+      62          $queryBuilder->setParameter($parameterName, '%'.$this->
+          escapeLike($value).'%');
+      63      }
+      64  
+      87 -    /**                                                        
+      88 -     * Escapes the characters which have a special meaning in a
+         - LIKE/ILIKE pattern so that a                                  
+      89 -     * user searching e.g. for "50%" does not accidentally turn
+         - it into a wildcard.                                           
+      90 -     */                                                        
+      65      private function escapeLike(string $value): string {
+      66          return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_
+          '], trim($value));
+      67      }
+
+● Now the migration:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(api/migrations/schema/Version20260627120000.php)
+  ⎿  Removed 11 lines
+       7  use Doctrine\DBAL\Schema\Schema;
+       8  use Doctrine\Migrations\AbstractMigration;
+       9  
+      10 -/**                                                            
+      11 - * Adds pg_trgm functional GIN indexes on the searchable profil
+         -e columns so that the                                          
+      12 - * case-insensitive, partial profile search (used by the collab
+         -orator invite autocomplete,                                    
+      13 - * see App\Doctrine\Filter\ProfileSearchFilter) can be served b
+         -y an index instead of a                                        
+      14 - * sequential scan over all profiles.                          
+      15 - *                                                             
+      16 - * The indexes are created on LOWER(<column>) because the searc
+         -h uses LOWER(col) LIKE LOWER(:term)                            
+      17 - * (DQL has no ILIKE). They are prefixed with "unmanaged_" so A
+         -pp\Doctrine\DBAL\Schema\                                       
+      18 - * CustomPostgreSQLSchemaManager hides them from Doctrine's sch
+         -ema diff and doctrine:schema:validate                          
+      19 - * stays green (functional/opclass indexes cannot be expressed 
+         -in ORM mapping metadata).                                      
+      20 - */                                                            
+      10  final class Version20260627120000 extends AbstractMigration {
+      11      #[\Override]
+      12      public function getDescription(): string {
+
+● Now the test file — let me read my additions and strip comments:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Removed 5 lines
+      113          $this->assertArrayNotHasKey('items', $response->toArra
+           y()['_links']);
+      114      }
+      115  
+      116 -    /**                                                       
+      117 -     * The default test user (test@example.com) is profile1man
+          -ager with the well-known values                               
+      118 -     * firstname: Robert, surname: Baden-Powell, nickname: Bi-
+          -Pi.                                                           
+      119 -     * profile1manager is always part of its own search scope,
+          - so we can search for these values.                           
+      120 -     */                                                       
+      116      #[DataProvider('provideSearchTermsMatchingProfile1Manager'
+           )]
+      117      public function testSearchProfilesMatchesFirstnameSurnameN
+           icknameAndEmail(string $searchTerm) {
+      118          $response = static::createClientWithCredentials()
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Removed 2 lines
+      142      }
+      143  
+      144      public function testSearchProfilesIsRestrictedToTheMatchin
+           gProfiles() {
+      145 -        // Baden-Powell is the unique surname of profile1manag
+          -er and is not produced by the                                 
+      146 -        // faker-generated fixtures, so the search must return
+          - exactly that one profile.                                    
+      145          $response = static::createClientWithCredentials()
+      146              ->request('GET', '/profiles?search=Baden-Powell')
+      147          ;
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Removed 2 lines
+      153      }
+      154  
+      155      public function testSearchProfilesStaysScopedToRelatedProf
+           ilesForUnrelatedUser() {
+      156 -        // user4unrelated does not share a camp with profile1m
+          -anager, so even though                                        
+      157 -        // Baden-Powell matches a profile, it must not be visi
+          -ble to them.                                                  
+      156          $response = static::createClientWithCredentials(['emai
+           l' => static::$fixtures['user4unrelated']->getEmail()])
+      157              ->request('GET', '/profiles?search=Baden-Powell')
+      158          ;
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)
+  ⎿  Removed 7 lines
+      187          ], $response->toArray()['_links']['items']);
+      188      }
+      189  
+      190 -    /**                                                       
+      191 -     * A search term that is not valid UTF-8 (e.g. a lone %C2 
+          -continuation byte) cannot be sent                             
+      192 -     * to PostgreSQL ("invalid byte sequence for encoding UTF8
+          -"). Instead of letting that bubble                            
+      193 -     * up as a 500 server error, the filter rejects it with a 
+          -400 Bad Request.                                              
+      194 -     *                                                        
+      195 -     * @dataProvider provideInvalidUtf8SearchTerms            
+      196 -     */                                                       
+      190      #[DataProvider('provideInvalidUtf8SearchTerms')]
+      191      public function testSearchProfilesWithInvalidUtf8ReturnsBa
+           dRequest(string $invalidSearch) {
+      192          static::createClientWithCredentials()
+
+● Update(api/tests/Api/Profiles/ListProfilesTest.php)  ⎿  Removed 6 lines
+      203          ];
+      204      }
+      205  
+      206 -    /**                                                       
+      207 -     * Whatever weird input is thrown at the search parameter,
+          - the endpoint must never answer with                          
+      208 -     * a 5xx server error: it either performs the search (2xx)
+          - or rejects the input (400).                                  
+      209 -     *                                                        
+      210 -     * @dataProvider provideWeirdSearchTerms                  
+      211 -     */                                                       
+      206      #[DataProvider('provideWeirdSearchTerms')]
+      207      public function testSearchProfilesNeverCausesServerError(s
+           tring $weirdSearch) {
+      208          $response = static::createClientWithCredentials()
+
+● Now the Vue component:
+
+  Read 1 file (ctrl+o to expand)
+
+● Let me also check the template for comments:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Removed 3 lines
+      111    computed: {
+      112      profileItems() {
+      113        return this.profiles.map((profile) => ({
+      114 -        // The email is the value which is ultimately sent to 
+          -the API and, after selection,                                 
+      115 -        // shown in the input (item-title="value").           
+      114          value: profile.email,
+      117 -        // Richer label shown in the dropdown list (see the #i
+          -tem slot).                                                    
+      115          displayName: this.profileDisplayName(profile),
+      116        }))
+      117      },
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Removed 1 line
+      159        try {
+      160          const collection = await this.api.get().profiles({ sea
+           rch: searchTerm })._meta
+      161            .load
+      162 -        // Guard against out-of-order responses overwriting a 
+          -newer search.                                                 
+      162          if (this.search.trim() === searchTerm) {
+      163            this.profiles = collection.items.map((item) => ({
+      164              email: item.email,
+
+● Update(frontend/src/components/collaborator/CollaboratorCreate.vue)
+  ⎿  Removed 2 lines
+      174        }
+      175      },
+      176      onSelect() {
+      177 -      // Once a value is chosen (selected profile or typed ema
+          -il), the result list is no                                    
+      178 -      // longer relevant and would otherwise keep showing stal
+          -e suggestions.                                                
+      177        this.profiles = []
+      178      },
+      179      createCollaboration() {
+
+● Now the e2e test:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(e2e/tests/9-behavior-tests/inviteCollaboratorSearch.spec.ts)
+  ⎿  Removed 8 lines
+       2  import { bipiUser, grgrCampId } from '@/utils/constants'
+       3  import { loginAndSetCookie } from '@/utils/helpers'
+       4  
+       5 -/**                                                            
+       6 - * Covers ecamp/ecamp3#340: the collaborator invite dialog lets
+         - a manager search the                                          
+       7 - * profiles they share a camp with (by firstname, surname, nick
+         -name or email) and pick one,                                   
+       8 - * which fills in the invite email address. Free email addresse
+         -s can still be typed.                                          
+       9 - *                                                             
+      10 - * In the GRGR camp, Bi-Pi (test@example.com) shares the camp w
+         -ith Fritz Müller (nickname                                     
+      11 - * "Salamander", salamander@example.com), so searching for that
+         - person must find them.                                        
+      12 - */                                                            
+       5  test.describe('invite collaborator by searching profiles', { ta
+          g: '@mature' }, () => {
+       6    test.beforeEach(async ({ page, request }) => {
+       7      await loginAndSetCookie(page, request, bipiUser)
+
+● Update(e2e/tests/9-behavior-tests/inviteCollaboratorSearch.spec.ts)
+  ⎿  Removed 1 line
+      21  
+      22      await result.click()
+      23  
+      24 -    // After selection, the email address is the value used for
+         - the invitation.                                               
+      24      await expect(searchInput).toHaveValue('salamander@example.c
+          om')
+      25    })
+      26  
+
+● Update(e2e/tests/9-behavior-tests/inviteCollaboratorSearch.spec.ts)
+  ⎿  Removed 1 line
+      40      const searchInput = page.locator('[data-testid="collaborato
+          r-invite-search"] input')
+      41      await searchInput.fill('someone-new@example.com')
+      42  
+      43 -    // No known profile matches, so the typed email can simply 
+         -be kept as the value.                                          
+      43      await expect(
+      44        page.getByTestId('collaborator-invite-result').filter({ h
+          asText: '@' })
+      45      ).toHaveCount(0)
+
+● Let me verify everything still passes after removing comments — API static
+  analysis, tests, and frontend/e2e lint:
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● All green — 33 API tests pass, frontend lint clean, e2e lint+typecheck clean.
+  Let me review the diff to confirm only comments were removed (and that cs-fix
+  didn't introduce anything unexpected):
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The diff is purely deletions (75 lines, 0 insertions) — only comments (and the
+  now-unused ProfileRepository import). Let me commit:
+
+  Committed d35770a28 (ctrl+o to expand)
+
+● Done. Removed all the comments I'd added across the #340 changes:
+
+  - ProfileSearchFilter.php — class/const/method docblocks and inline comments
+  (and the now-unused ProfileRepository import).
+  - Version20260627120000.php — class docblock.
+  - ListProfilesTest.php — test docblocks and inline comments (the
+  #[DataProvider] attributes drive the data providers, so removing the
+  @dataProvider docblocks is safe).
+  - CollaboratorCreate.vue — the comments I added in profileItems,
+  searchProfiles, and onSelect (left the pre-existing // clear form on exit
+  untouched since it wasn't mine).
+  - inviteCollaboratorSearch.spec.ts — file header and inline comments.
+
+  The diff is purely deletions (75 lines, no insertions). Re-verified everything
+  still passes: API ListProfilesTest (33 tests), psalm/phpstan clean, frontend
+  lint clean, e2e eslint+prettier+typecheck clean. Committed as d35770a28.
+
+✻ Crunched for 3m 52s
+
+❯ store to memory that i don't like comments                                    
+
+  Wrote 2 memories (ctrl+o to expand)
+
+● Saved. I've recorded that you don't like comments as a feedback memory, so
+  going forward I'll write code without docblocks or inline comments by default
+  (keeping only functional annotations like attributes and user-facing strings),
+  and put rationale in commit messages or chat instead.
+
+✻ Baked for 25s
