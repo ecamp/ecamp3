@@ -195,4 +195,58 @@ class ListProfilesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('profile1manager')],
         ], $response->toArray()['_links']['items']);
     }
+
+    /**
+     * A search term that is not valid UTF-8 (e.g. a lone %C2 continuation byte) cannot be sent
+     * to PostgreSQL ("invalid byte sequence for encoding UTF8"). Instead of letting that bubble
+     * up as a 500 server error, the filter rejects it with a 400 Bad Request.
+     *
+     * @dataProvider provideInvalidUtf8SearchTerms
+     */
+    #[DataProvider('provideInvalidUtf8SearchTerms')]
+    public function testSearchProfilesWithInvalidUtf8ReturnsBadRequest(string $invalidSearch) {
+        static::createClientWithCredentials()
+            ->request('GET', '/profiles?search='.$invalidSearch)
+        ;
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public static function provideInvalidUtf8SearchTerms(): array {
+        return [
+            'lone UTF-8 continuation byte' => ['%C2'],
+            'truncated multibyte sequence' => ['Rob%C3'],
+            'invalid byte 0xFF' => ['%FF'],
+        ];
+    }
+
+    /**
+     * Whatever weird input is thrown at the search parameter, the endpoint must never answer with
+     * a 5xx server error: it either performs the search (2xx) or rejects the input (400).
+     *
+     * @dataProvider provideWeirdSearchTerms
+     */
+    #[DataProvider('provideWeirdSearchTerms')]
+    public function testSearchProfilesNeverCausesServerError(string $weirdSearch) {
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/profiles?search='.$weirdSearch)
+        ;
+        $this->assertContains(
+            $response->getStatusCode(),
+            [200, 400],
+            "Search term '{$weirdSearch}' must not cause a server error."
+        );
+    }
+
+    public static function provideWeirdSearchTerms(): array {
+        return [
+            'lone UTF-8 continuation byte' => ['%C2'],
+            'truncated multibyte sequence' => ['Rob%C3'],
+            'invalid byte 0xFF' => ['%FF'],
+            'null byte' => ['Rob%00ert'],
+            'only LIKE wildcards' => ['%25%25%25'],
+            'backslash' => ['%5C'],
+            'valid umlaut' => ['M%C3%BCller'],
+            'emoji' => ['%F0%9F%98%80'],
+        ];
+    }
 }
