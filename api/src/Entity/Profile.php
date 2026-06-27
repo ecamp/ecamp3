@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
-use App\Doctrine\Filter\ProfileSearchFilter;
 use App\InputFilter;
 use App\Repository\ProfileRepository;
 use App\State\ProfileUpdateProcessor;
@@ -40,7 +39,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['user.collaborations.camp', 'user'])]
-#[ApiFilter(filterClass: ProfileSearchFilter::class)]
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ORM\Table(name: '`profile`')]
 class Profile extends BaseEntity {

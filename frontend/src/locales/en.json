@@ -263,11 +263,8 @@
     },
     "collaborator": {
       "collaboratorCreate": {
-        "emailLabel": "Email address",
         "invite": "Send invitation",
         "inviteCta": "Invite to team",
-        "noResults": "No matching people found. You can invite anyone by typing their email address.",
-        "searchHint": "Search people you share a camp with by name, nickname or email, or type a new email address.",
         "title": "Invite people"
       },
       "collaboratorEdit": {

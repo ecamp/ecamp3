@@ -61661,16 +61661,6 @@ paths:
               type: string
             type: array
           style: form
-        -
-          deprecated: false
-          description: 'Search profiles by a part of their firstname, surname, nickname or email.'
-          explode: false
-          in: query
-          name: search
-          required: false
-          schema:
-            type: string
-          style: form
       responses:
         200:
           content:

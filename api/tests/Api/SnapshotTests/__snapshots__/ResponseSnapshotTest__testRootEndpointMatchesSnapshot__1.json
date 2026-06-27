@@ -108,7 +108,7 @@
             "templated": true
         },
         "profiles": {
-            "href": "/profiles{/id}{?user.collaborations.camp,user.collaborations.camp[],user,user[],search}",
+            "href": "/profiles{/id}{?user.collaborations.camp,user.collaborations.camp[],user,user[]}",
             "templated": true
         },
         "refreshToken": {
