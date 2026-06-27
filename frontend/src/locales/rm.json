@@ -383,6 +383,14 @@
         "message": "L'adressa dad e-mail vegn midada...",
         "success": "Midà cun success l'adressa dad e-mail.",
         "title": "Midar l'adressa dad e-mail"
+      },
+      "dialogChangePassword": {
+        "title": "Midar il pled-clav",
+        "currentPassword": "Pled-clav actual",
+        "newPassword": "Nov pled-clav",
+        "newPasswordConfirmation": "Confirmar il nov pled-clav",
+        "success": "Tes pled-clav è vegnì midà cun success.",
+        "error": "D'ina errur èsi dà."
       }
     }
   },
@@ -657,7 +665,9 @@
     },
     "profile": {
       "changeEmail": "Midar",
-      "profile": "Profil"
+      "profile": "Profil",
+      "changePassword": "Midar",
+      "password": "Pled-clav"
     }
   }
 }
