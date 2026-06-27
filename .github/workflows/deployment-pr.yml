@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   build-and-push:
-    if: contains(github.event.pull_request.labels.*.name, 'deploy!')
+    if: contains(github.event.pull_request.labels.*.name, 'deploy!') && github.event.pull_request.state == 'open'
     name: Build and push docker images
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
