@@ -124,7 +124,9 @@ export default {
       return this.scheduleEntry.activity().title
     },
     progressLabel() {
-      return this.scheduleEntry.activity().progressLabel?.().title
+      const activity = this.scheduleEntry.activity()
+      if (activity._meta?.loading) return undefined
+      return activity.progressLabel?.().title
     },
     location() {
       return this.scheduleEntry.activity().location
