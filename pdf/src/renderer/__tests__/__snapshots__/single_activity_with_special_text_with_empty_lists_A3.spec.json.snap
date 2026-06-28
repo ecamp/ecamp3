@@ -421,7 +421,21 @@
                                 },
                                 {
                                   "box": {},
-                                  "children": [],
+                                  "children": [
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "type": "TEXT_INSTANCE",
+                                          "value": "• ",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {},
+                                      "style": {},
+                                      "type": "TEXT",
+                                    },
+                                  ],
                                   "parent": [Circular],
                                   "props": {
                                     "style": {
