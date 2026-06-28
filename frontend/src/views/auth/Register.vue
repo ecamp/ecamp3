@@ -26,6 +26,15 @@
           />
 
           <e-text-field
+            v-model="nickname"
+            append-inner-icon="mdi-account-outline"
+            autocomplete="nickname"
+            :density="$vuetify.display.xs ? 'comfortable' : undefined"
+            path="nickname"
+            type="text"
+          />
+
+          <e-text-field
             v-model="email"
             append-inner-icon="mdi-at"
             autocomplete="username"
