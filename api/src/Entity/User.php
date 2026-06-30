@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
+use App\Security\PwnedPasswords\NotContextSpecificPassword;
 use App\State\UserActivateProcessor;
 use App\State\UserCreateProcessor;
 use App\State\UserUpdateProcessor;
@@ -66,6 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[CurrentPasswordRequired]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
     public const ACTIVATE = 'activate';
 
@@ -142,9 +144,16 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[SerializedName('password')]
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 12, max: 128)]
+    #[NotPwnedPassword]
+    #[NotContextSpecificPassword]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     #[Groups(['write'])]
     public ?string $plainPassword = null;
+
+    #[SerializedName('currentPassword')]
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['write'])]
+    public ?string $currentPassword = null;
 
     /**
      * The hashed password-reset-key. Of course not exposed through the API.

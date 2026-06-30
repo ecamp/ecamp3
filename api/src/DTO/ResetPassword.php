@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use App\InputFilter;
+use App\Security\PwnedPasswords\NotContextSpecificPassword;
 use App\State\ResetPasswordCreateProcessor;
 use App\State\ResetPasswordProvider;
 use App\State\ResetPasswordUpdateProcessor;
@@ -64,5 +65,6 @@ class ResetPassword {
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]
     #[Assert\Length(min: 12, max: 128)]
+    #[NotContextSpecificPassword]
     public ?string $password = null;
 }
