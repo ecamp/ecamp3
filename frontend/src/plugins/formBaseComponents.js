@@ -7,6 +7,7 @@ import EColorField from '@/components/form/base/EColorField.vue'
 import EDatePicker from '@/components/form/base/EDatePicker.vue'
 import EForm from '@/components/form/base/EForm.vue'
 import ENumberField from '@/components/form/base/ENumberField.vue'
+import EPasswordField from '@/components/form/base/EPasswordField.vue'
 import EParseField from '@/components/form/base/EParseField.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import ESwitch from '@/components/form/base/ESwitch.vue'
@@ -21,6 +22,7 @@ class FormBaseComponentsPlugin {
     Vue.component('EDatePicker', EDatePicker)
     Vue.component('EForm', EForm)
     Vue.component('ENumberField', ENumberField)
+    Vue.component('EPasswordField', EPasswordField)
     Vue.component('EParseField', EParseField)
     Vue.component(
       'ERichtext',
