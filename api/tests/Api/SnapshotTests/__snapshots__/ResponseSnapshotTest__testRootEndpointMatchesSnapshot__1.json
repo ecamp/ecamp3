@@ -60,6 +60,10 @@
             "href": "/days{/id}{?period,period[],period.camp,period.camp[]}",
             "templated": true
         },
+        "formTestData": {
+            "href": "/form_test_data{/id}",
+            "templated": true
+        },
         "invitations": {
             "href": "/invitations{/id}{/action}",
             "templated": true

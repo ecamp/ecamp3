@@ -34023,6 +34023,518 @@ components:
               type: string
           type: object
       description: 'A representation of common errors.'
+    FormTestDatum:
+      description: |-
+        A single shared row used to exercise the API-backed form components from
+        tests (e.g. Playwright). There is exactly one instance and every
+        authenticated user reads and writes that same row, which makes it possible to
+        change a value in one browser tab and observe the change after reloading in
+        another tab. No create/delete operations are exposed.
+      properties:
+        color:
+          description: 'Hex color string, for ApiColorField / ApiColorPicker.'
+          example: '#1976d2'
+          maxLength: 9
+          type:
+            - 'null'
+            - string
+        date:
+          description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.'
+          example: '2024-01-15'
+          maxLength: 10
+          type:
+            - 'null'
+            - string
+        flag:
+          default: false
+          description: 'Boolean, for ApiCheckbox / ApiSwitch.'
+          example: true
+          type: boolean
+        html:
+          description: 'HTML, for ApiRichtext.'
+          example: '<p>Rich <strong>text</strong></p>'
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        language:
+          description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.'
+          example: en
+          maxLength: 16
+          type:
+            - 'null'
+            - string
+        languageMultiselect:
+          description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.'
+          example:
+            - de
+            - en
+          items:
+            type: string
+          type: array
+        multilineText:
+          description: 'Multi-line text, for ApiTextarea.'
+          example: |-
+            Line one
+            Line two
+          type:
+            - 'null'
+            - string
+        number:
+          description: 'Whole number, for ApiNumberField.'
+          example: 42
+          type:
+            - integer
+            - 'null'
+        text:
+          description: 'Single-line text, for ApiTextField / ApiSelect.'
+          example: Hello
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        time:
+          description: 'Time of day, for ApiTimePicker.'
+          example: '2024-01-15T09:30:00+00:00'
+          format: date-time
+          type:
+            - 'null'
+            - string
+      required:
+        - flag
+        - languageMultiselect
+      type: object
+    FormTestDatum-read:
+      description: |-
+        A single shared row used to exercise the API-backed form components from
+        tests (e.g. Playwright). There is exactly one instance and every
+        authenticated user reads and writes that same row, which makes it possible to
+        change a value in one browser tab and observe the change after reloading in
+        another tab. No create/delete operations are exposed.
+      properties:
+        color:
+          description: 'Hex color string, for ApiColorField / ApiColorPicker.'
+          example: '#1976d2'
+          maxLength: 9
+          type:
+            - 'null'
+            - string
+        date:
+          description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.'
+          example: '2024-01-15'
+          maxLength: 10
+          type:
+            - 'null'
+            - string
+        flag:
+          default: false
+          description: 'Boolean, for ApiCheckbox / ApiSwitch.'
+          example: true
+          type: boolean
+        html:
+          description: 'HTML, for ApiRichtext.'
+          example: '<p>Rich <strong>text</strong></p>'
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        language:
+          description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.'
+          example: en
+          maxLength: 16
+          type:
+            - 'null'
+            - string
+        languageMultiselect:
+          description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.'
+          example:
+            - de
+            - en
+          items:
+            type: string
+          type: array
+        multilineText:
+          description: 'Multi-line text, for ApiTextarea.'
+          example: |-
+            Line one
+            Line two
+          type:
+            - 'null'
+            - string
+        number:
+          description: 'Whole number, for ApiNumberField.'
+          example: 42
+          type:
+            - integer
+            - 'null'
+        text:
+          description: 'Single-line text, for ApiTextField / ApiSelect.'
+          example: Hello
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        time:
+          description: 'Time of day, for ApiTimePicker.'
+          example: '2024-01-15T09:30:00+00:00'
+          format: date-time
+          type:
+            - 'null'
+            - string
+      required:
+        - flag
+        - languageMultiselect
+      type: object
+    FormTestDatum-write.jsonMergePatch:
+      description: |-
+        A single shared row used to exercise the API-backed form components from
+        tests (e.g. Playwright). There is exactly one instance and every
+        authenticated user reads and writes that same row, which makes it possible to
+        change a value in one browser tab and observe the change after reloading in
+        another tab. No create/delete operations are exposed.
+      properties:
+        color:
+          description: 'Hex color string, for ApiColorField / ApiColorPicker.'
+          example: '#1976d2'
+          maxLength: 9
+          type:
+            - 'null'
+            - string
+        date:
+          description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.'
+          example: '2024-01-15'
+          maxLength: 10
+          type:
+            - 'null'
+            - string
+        flag:
+          default: false
+          description: 'Boolean, for ApiCheckbox / ApiSwitch.'
+          example: true
+          type: boolean
+        html:
+          description: 'HTML, for ApiRichtext.'
+          example: '<p>Rich <strong>text</strong></p>'
+          type:
+            - 'null'
+            - string
+        language:
+          description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.'
+          example: en
+          maxLength: 16
+          type:
+            - 'null'
+            - string
+        languageMultiselect:
+          description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.'
+          example:
+            - de
+            - en
+          items:
+            type: string
+          type: array
+        multilineText:
+          description: 'Multi-line text, for ApiTextarea.'
+          example: |-
+            Line one
+            Line two
+          type:
+            - 'null'
+            - string
+        number:
+          description: 'Whole number, for ApiNumberField.'
+          example: 42
+          type:
+            - integer
+            - 'null'
+        text:
+          description: 'Single-line text, for ApiTextField / ApiSelect.'
+          example: Hello
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        time:
+          description: 'Time of day, for ApiTimePicker.'
+          example: '2024-01-15T09:30:00+00:00'
+          format: date-time
+          type:
+            - 'null'
+            - string
+      type: object
+    FormTestDatum.html-read:
+      description: |-
+        A single shared row used to exercise the API-backed form components from
+        tests (e.g. Playwright). There is exactly one instance and every
+        authenticated user reads and writes that same row, which makes it possible to
+        change a value in one browser tab and observe the change after reloading in
+        another tab. No create/delete operations are exposed.
+      properties:
+        color:
+          description: 'Hex color string, for ApiColorField / ApiColorPicker.'
+          example: '#1976d2'
+          maxLength: 9
+          type:
+            - 'null'
+            - string
+        date:
+          description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.'
+          example: '2024-01-15'
+          maxLength: 10
+          type:
+            - 'null'
+            - string
+        flag:
+          default: false
+          description: 'Boolean, for ApiCheckbox / ApiSwitch.'
+          example: true
+          type: boolean
+        html:
+          description: 'HTML, for ApiRichtext.'
+          example: '<p>Rich <strong>text</strong></p>'
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        language:
+          description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.'
+          example: en
+          maxLength: 16
+          type:
+            - 'null'
+            - string
+        languageMultiselect:
+          description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.'
+          example:
+            - de
+            - en
+          items:
+            type: string
+          type: array
+        multilineText:
+          description: 'Multi-line text, for ApiTextarea.'
+          example: |-
+            Line one
+            Line two
+          type:
+            - 'null'
+            - string
+        number:
+          description: 'Whole number, for ApiNumberField.'
+          example: 42
+          type:
+            - integer
+            - 'null'
+        text:
+          description: 'Single-line text, for ApiTextField / ApiSelect.'
+          example: Hello
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        time:
+          description: 'Time of day, for ApiTimePicker.'
+          example: '2024-01-15T09:30:00+00:00'
+          format: date-time
+          type:
+            - 'null'
+            - string
+      required:
+        - flag
+        - languageMultiselect
+      type: object
+    FormTestDatum.jsonapi:
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                _id:
+                  description: 'An internal, unique, randomly generated identifier of this entity.'
+                  example: 1a2b3c4d
+                  maxLength: 16
+                  readOnly: true
+                  type: string
+                color:
+                  description: 'Hex color string, for ApiColorField / ApiColorPicker.'
+                  example: '#1976d2'
+                  maxLength: 9
+                  type: ['null', string]
+                date:
+                  description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.'
+                  example: '2024-01-15'
+                  maxLength: 10
+                  type: ['null', string]
+                flag:
+                  default: false
+                  description: 'Boolean, for ApiCheckbox / ApiSwitch.'
+                  example: true
+                  type: boolean
+                html:
+                  description: 'HTML, for ApiRichtext.'
+                  example: '<p>Rich <strong>text</strong></p>'
+                  type: ['null', string]
+                language:
+                  description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.'
+                  example: en
+                  maxLength: 16
+                  type: ['null', string]
+                languageMultiselect:
+                  description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.'
+                  example: [de, en]
+                  items: { type: string }
+                  type: array
+                multilineText:
+                  description: 'Multi-line text, for ApiTextarea.'
+                  example: |-
+                    Line one
+                    Line two
+                  type: ['null', string]
+                number:
+                  description: 'Whole number, for ApiNumberField.'
+                  example: 42
+                  type: [integer, 'null']
+                text:
+                  description: 'Single-line text, for ApiTextField / ApiSelect.'
+                  example: Hello
+                  maxLength: 255
+                  type: ['null', string]
+                time:
+                  description: 'Time of day, for ApiTimePicker.'
+                  example: '2024-01-15T09:30:00+00:00'
+                  format: date-time
+                  type: ['null', string]
+              type: object
+            id:
+              type: string
+            type:
+              type: string
+          required:
+            - id
+            - type
+          type: object
+    FormTestDatum.jsonhal-read:
+      allOf:
+        - $ref: '#/components/schemas/FormTestDatum-read'
+        -
+          properties:
+            _links:
+              properties:
+                self:
+                  properties: { href: { format: iri-reference, type: string } }
+                  type: object
+              type: object
+          type: object
+      description: |-
+        A single shared row used to exercise the API-backed form components from
+        tests (e.g. Playwright). There is exactly one instance and every
+        authenticated user reads and writes that same row, which makes it possible to
+        change a value in one browser tab and observe the change after reloading in
+        another tab. No create/delete operations are exposed.
+    FormTestDatum.jsonld-read:
+      allOf:
+        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          properties:
+            color:
+              description: 'Hex color string, for ApiColorField / ApiColorPicker.'
+              example: '#1976d2'
+              maxLength: 9
+              type:
+                - 'null'
+                - string
+            date:
+              description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.'
+              example: '2024-01-15'
+              maxLength: 10
+              type:
+                - 'null'
+                - string
+            flag:
+              default: false
+              description: 'Boolean, for ApiCheckbox / ApiSwitch.'
+              example: true
+              type: boolean
+            html:
+              description: 'HTML, for ApiRichtext.'
+              example: '<p>Rich <strong>text</strong></p>'
+              type:
+                - 'null'
+                - string
+            id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            language:
+              description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.'
+              example: en
+              maxLength: 16
+              type:
+                - 'null'
+                - string
+            languageMultiselect:
+              description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.'
+              example:
+                - de
+                - en
+              items:
+                type: string
+              type: array
+            multilineText:
+              description: 'Multi-line text, for ApiTextarea.'
+              example: |-
+                Line one
+                Line two
+              type:
+                - 'null'
+                - string
+            number:
+              description: 'Whole number, for ApiNumberField.'
+              example: 42
+              type:
+                - integer
+                - 'null'
+            text:
+              description: 'Single-line text, for ApiTextField / ApiSelect.'
+              example: Hello
+              maxLength: 255
+              type:
+                - 'null'
+                - string
+            time:
+              description: 'Time of day, for ApiTimePicker.'
+              example: '2024-01-15T09:30:00+00:00'
+              format: date-time
+              type:
+                - 'null'
+                - string
+          required:
+            - flag
+            - languageMultiselect
+          type: object
+      description: |-
+        A single shared row used to exercise the API-backed form components from
+        tests (e.g. Playwright). There is exactly one instance and every
+        authenticated user reads and writes that same row, which makes it possible to
+        change a value in one browser tab and observe the change after reloading in
+        another tab. No create/delete operations are exposed.
     HalCollectionBaseSchema:
       allOf:
         - $ref: '#/components/schemas/HalCollectionBaseSchemaNoPagination'
@@ -62015,6 +62527,222 @@ paths:
       summary: 'Retrieves a Day resource.'
       tags:
         - Day
+  /form_test_data:
+    get:
+      description: 'Retrieves the collection of FormTestDatum resources.'
+      operationId: api_form_test_data_get_collection
+      parameters: []
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/HalCollectionBaseSchemaNoPagination' }
+                  - { properties: { _embedded: { additionalProperties: { items: { $ref: '#/components/schemas/FormTestDatum.jsonhal-read' }, type: array } } }, type: object }
+                description: 'FormTestDatum.jsonhal-read collection.'
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FormTestDatum-read'
+                type: array
+            application/ld+json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/HydraCollectionBaseSchemaNoPagination' }
+                  - { properties: { member: { items: { $ref: '#/components/schemas/FormTestDatum.jsonld-read' }, type: array } }, required: [member], type: object }
+                description: 'FormTestDatum.jsonld-read collection.'
+                type: object
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, color: { description: 'Hex color string, for ApiColorField / ApiColorPicker.', example: '#1976d2', maxLength: 9, type: ['null', string] }, date: { description: 'ISO date string (YYYY-MM-DD), for ApiDatePicker.', example: '2024-01-15', maxLength: 10, type: ['null', string] }, flag: { default: false, description: 'Boolean, for ApiCheckbox / ApiSwitch.', example: true, type: boolean }, html: { description: 'HTML, for ApiRichtext.', example: '<p>Rich <strong>text</strong></p>', type: ['null', string] }, language: { description: 'Single locale string (e.g. "en"), for a single-value ApiSelect.', example: en, maxLength: 16, type: ['null', string] }, languageMultiselect: { description: 'List of locale strings (e.g. ["en", "de"]), for a multiple ApiSelect.', example: [de, en], items: { type: string }, type: array }, multilineText: { description: 'Multi-line text, for ApiTextarea.', example: "Line one\nLine two", type: ['null', string] }, number: { description: 'Whole number, for ApiNumberField.', example: 42, type: [integer, 'null'] }, text: { description: 'Single-line text, for ApiTextField / ApiSelect.', example: Hello, maxLength: 255, type: ['null', string] }, time: { description: 'Time of day, for ApiTimePicker.', example: '2024-01-15T09:30:00+00:00', format: date-time, type: ['null', string] } }, type: object }, id: { type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } }, type: object }
+                description: 'FormTestDatum.jsonapi collection.'
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FormTestDatum.html-read'
+                type: array
+          description: 'FormTestDatum collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+      summary: 'Retrieves the collection of FormTestDatum resources.'
+      tags:
+        - FormTestDatum
+  '/form_test_data/{id}':
+    get:
+      description: 'Retrieves a FormTestDatum resource.'
+      operationId: api_form_test_data_id_get
+      parameters:
+        -
+          deprecated: false
+          description: 'FormTestDatum identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.html-read'
+          description: 'FormTestDatum resource'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+      summary: 'Retrieves a FormTestDatum resource.'
+      tags:
+        - FormTestDatum
+    patch:
+      description: 'Updates the FormTestDatum resource.'
+      operationId: api_form_test_data_id_patch
+      parameters:
+        -
+          deprecated: false
+          description: 'FormTestDatum identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/FormTestDatum-write.jsonMergePatch'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/FormTestDatum-write.jsonMergePatch'
+        description: 'The updated FormTestDatum resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/FormTestDatum.html-read'
+          description: 'FormTestDatum resource updated'
+          links: []
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          description: 'An error occurred'
+          links: []
+      summary: 'Updates the FormTestDatum resource.'
+      tags:
+        - FormTestDatum
   '/invitations/{inviteKey}/accept':
     patch:
       description: 'Use myInviteKey2 to accept an invitation in dev environment.'
@@ -65193,6 +65921,13 @@ tags:
     name: ContentNode
   - description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     name: Activity
+  - description: |-
+      A single shared row used to exercise the API-backed form components from
+      tests (e.g. Playwright). There is exactly one instance and every
+      authenticated user reads and writes that same row, which makes it possible to
+      change a value in one browser tab and observe the change after reloading in
+      another tab. No create/delete operations are exposed.
+    name: FormTestDatum
   - description: |-
       A time period in which the programme of a camp will take place. There may be multiple
       periods in a camp, but they may not overlap. A period is made up of one or more full days.
