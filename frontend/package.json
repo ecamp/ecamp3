@@ -107,7 +107,7 @@
     "@vue/server-renderer": "3.5.38",
     "@vue/shared": "3.5.38",
     "@vue/test-utils": "2.4.11",
-    "autoprefixer": "10.5.1",
+    "autoprefixer": "10.5.2",
     "babel-plugin-require-context-hook": "1.0.0",
     "esbuild": "0.28.1",
     "eslint": "10.5.0",
