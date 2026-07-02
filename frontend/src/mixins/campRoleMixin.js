@@ -28,11 +28,15 @@ export const campRoleMixin = {
     },
     _campRole() {
       const currentUserLink = this.$store.getters.getLoggedInUser?._meta.self
-      const result = this._campCollaborations
+      const campCollaborations = this._campCollaborations
+      const result = campCollaborations
+        .filter((coll) => !coll._meta.loading)
         .filter((coll) => typeof coll.user === 'function')
         .find((coll) => coll.user()._meta.self === currentUserLink)
 
-      if (result?._meta.loading) return null
+      if (!result && campCollaborations.some((coll) => coll._meta.loading)) {
+        return null
+      }
       return result?.role
     },
     _campCollaborations() {
