@@ -151,7 +151,9 @@ export async function createCampViaUI(page: Page, campTitle: string): Promise<st
   in2Days.setDate(in2Days.getDate() + 2)
 
   await page.goto('/camps')
-  await page.getByTestId('create-camp-button').click()
+  const createCampButton = page.getByTestId('create-camp-button')
+  await expect(createCampButton).toBeVisible({ timeout: 10_000 })
+  await createCampButton.click()
 
   await page.locator('[data-testid="create-camp-title-input"] input').fill(campTitle)
   await page
@@ -163,7 +165,9 @@ export async function createCampViaUI(page: Page, campTitle: string): Promise<st
 
   await page.getByTestId('create-camp-next-step').click()
 
-  await page.locator('div.v-input[data-testid="prototype-select"]').click()
+  const prototypeSelect = page.locator('div.v-input[data-testid="prototype-select"]')
+  await expect(prototypeSelect).toBeVisible({ timeout: 10_000 })
+  await prototypeSelect.click()
   await expect(page.locator('.v-overlay--active')).toBeVisible({ timeout: 10000 })
   await page.locator('.v-overlay--active').getByText('Keine Vorlage').click()
   await expect(
