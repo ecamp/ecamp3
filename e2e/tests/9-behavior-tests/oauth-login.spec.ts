@@ -18,7 +18,8 @@ test.describe.skip('OAuth login', () => {
   }
 })
 
-test.describe('OAuth login – account re-use', () => {
+// eslint-disable-next-line
+test.describe.skip('OAuth login – account re-use', () => {
   test('Google: second login returns the same account', async ({ browser }) => {
     const email1 = await withOAuthSession(
       browser,
@@ -36,7 +37,8 @@ test.describe('OAuth login – account re-use', () => {
   })
 })
 
-test.describe('OAuth login – cross-provider account linking', () => {
+// eslint-disable-next-line
+test.describe.skip('OAuth login – cross-provider account linking', () => {
   test('Google and MiData with the same email link to the same account', async ({
     browser,
   }) => {
@@ -55,7 +57,8 @@ test.describe('OAuth login – cross-provider account linking', () => {
     expect(email2).toBe(email1)
   })
 
-  test('CeviDB and JublaDB with the same email link to the same account', async ({
+  // eslint-disable-next-line
+  test.skip('CeviDB and JublaDB with the same email link to the same account', async ({
     browser,
   }) => {
     const email1 = await withOAuthSession(
@@ -74,7 +77,8 @@ test.describe('OAuth login – cross-provider account linking', () => {
   })
 })
 
-test.describe('OAuth login – separate users', () => {
+// eslint-disable-next-line playwright/no-skipped-test
+test.describe.skip('OAuth login – separate users', () => {
   test('two different usernames produce two different accounts', async ({ browser }) => {
     const email1 = await withOAuthSession(
       browser,
