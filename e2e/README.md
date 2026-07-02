@@ -98,6 +98,13 @@ open playwright-report/index.html
 docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file>
 ```
 
+### Update browser after branch switch
+
+If a branch switch leads to a different playwright version, the local playwright version might be outdated.
+To update the local playwright version, run npm ci:
+
+See [Install dependencies](#install-dependencies)
+
 ## Option B: Run end-to-end tests locally
 
 ### Install dependencies
