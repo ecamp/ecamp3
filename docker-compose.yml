@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.16.0
+    image: node:24.18.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -18,7 +18,7 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
@@ -26,7 +26,7 @@ services:
       - pdf
 
   frontend-old:
-    image: node:24.16.0
+    image: node:24.18.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -42,7 +42,7 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
@@ -106,7 +106,7 @@ services:
     command: varnishncsa
 
   pdf:
-    image: node:24.16.0
+    image: node:24.18.0
     container_name: 'ecamp3-pdf'
     stdin_open: true
     tty: true
@@ -123,10 +123,10 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
 
   print:
-    image: node:24.16.0
+    image: node:24.18.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -141,7 +141,7 @@ services:
       - NITRO_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
     env_file:
       - ./print/print.env
     working_dir: /app
@@ -207,7 +207,7 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.60.0-noble
+    image: mcr.microsoft.com/playwright:v1.61.1-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
@@ -239,7 +239,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.16.0
+    image: node:24.18.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -251,7 +251,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.16.0
+    image: node:24.18.0
     profiles: ['prettier']
     stdin_open: true
     tty: true
@@ -265,7 +265,7 @@ services:
     environment:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI}
+      - CI=${CI:-}
 
 volumes:
   db-data-postgres: null

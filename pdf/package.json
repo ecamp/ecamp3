@@ -18,7 +18,7 @@
     "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,mjs}"
   },
   "dependencies": {
-    "@vue/runtime-core": "3.5.35",
+    "@vue/runtime-core": "3.5.39",
     "html-entities": "2.6.0",
     "html-parse-stringify": "3.0.1"
   },
@@ -32,32 +32,31 @@
     "runes": "0.4.3"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.29.7",
     "@eslint/compat": "2.1.0",
-    "@eslint/js": "9.39.4",
-    "@intlify/core": "11.4.5",
+    "@eslint/js": "10.0.1",
+    "@intlify/core": "11.4.6",
     "@rushstack/eslint-patch": "1.16.1",
     "@vitejs/plugin-vue": "6.0.7",
-    "@vitest/coverage-v8": "4.1.8",
+    "@vitest/coverage-v8": "4.1.9",
     "@vue/babel-preset-app": "5.0.9",
-    "@vue/compiler-dom": "3.5.35",
-    "@vue/compiler-sfc": "3.5.35",
+    "@vue/compiler-dom": "3.5.39",
+    "@vue/compiler-sfc": "3.5.39",
     "@vue/eslint-config-prettier": "10.2.0",
-    "@vue/runtime-dom": "3.5.35",
-    "@vue/server-renderer": "3.5.35",
-    "@vue/shared": "3.5.35",
+    "@vue/runtime-dom": "3.5.39",
+    "@vue/server-renderer": "3.5.39",
+    "@vue/shared": "3.5.39",
     "@vue/test-utils": "2.4.11",
     "css": "3.0.0",
     "dayjs": "1.11.21",
-    "eslint": "9.39.4",
+    "eslint": "10.5.0",
     "eslint-plugin-local-rules": "3.0.2",
     "eslint-plugin-vue": "10.9.2",
     "globals": "17.6.0",
     "jsdom": "29.1.1",
-    "prettier": "3.8.3",
+    "prettier": "3.8.4",
     "url-template": "3.1.1",
     "vite": "8.0.16",
-    "vitest": "4.1.8"
+    "vitest": "4.1.9"
   },
   "overrides": {
     "lodash": "lodash-es",

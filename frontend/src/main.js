@@ -47,6 +47,7 @@ if (env && env.SENTRY_FRONTEND_DSN) {
     enableTracing: false,
     autoSessionTracking: false,
     logErrors: process.env.NODE_ENV !== 'production',
+    ignoreErrors: [/Can't find variable: __firefox__/, /window\.__firefox__/],
   })
 }
 

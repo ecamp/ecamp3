@@ -26,6 +26,15 @@
           />
 
           <e-text-field
+            v-model="nickname"
+            append-inner-icon="mdi-account-outline"
+            autocomplete="nickname"
+            :density="$vuetify.display.xs ? 'comfortable' : undefined"
+            path="nickname"
+            type="text"
+          />
+
+          <e-text-field
             v-model="email"
             append-inner-icon="mdi-at"
             autocomplete="username"
@@ -35,9 +44,8 @@
             vee-rules="email|required"
           />
 
-          <e-text-field
+          <e-password-field
             v-model="pw1"
-            append-inner-icon="mdi-lock-outline"
             autocomplete="new-password"
             :density="$vuetify.display.xs ? 'comfortable' : undefined"
             loading
@@ -45,7 +53,6 @@
             minlength="12"
             passwordrules="minlength: 12; maxlength: 128;"
             path="password"
-            type="password"
             validate-on-blur
             vee-rules="required|min:12|max:128"
             @input="(event) => debouncedPasswordStrengthCheck(event.target.value)"
@@ -57,19 +64,17 @@
                 height="5"
               />
             </template>
-          </e-text-field>
+          </e-password-field>
 
-          <e-text-field
+          <e-password-field
             v-model="pw2"
             :label="$t('views.auth.register.passwordConfirmation')"
-            append-inner-icon="mdi-lock-outline"
             autocomplete="new-password"
             :density="$vuetify.display.xs ? 'comfortable' : undefined"
             maxlength="128"
             minlength="12"
             passwordrules="minlength: 12; maxlength: 128;"
             path="passwordConfirmation"
-            type="password"
             validate-on-blur
             vee-rules="required|confirmed:@password"
           />

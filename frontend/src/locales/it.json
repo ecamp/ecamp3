@@ -407,6 +407,7 @@
       "scheduleEntryFilters": {
         "category": "Categoria",
         "clearFilters": "Cancella i filtri",
+        "allMyActivities": "Tutte le mie attività",
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
         "progressLabel": "Stati",
@@ -462,6 +463,7 @@
       "edit": "Modificare",
       "editable": "Modificabile",
       "filter": "Filtro",
+      "hidePassword": "Nascondi la password",
       "lock": "Blocco",
       "login": "Accedi",
       "logout": "Disconnessione",
@@ -475,6 +477,7 @@
       "saving": "Salvataggio",
       "search": "Ricerca",
       "share": "Condividi",
+      "showPassword": "Mostra la password",
       "submit": "Inviare",
       "tryagain": "Riprovare",
       "unlock": "Sblocca",

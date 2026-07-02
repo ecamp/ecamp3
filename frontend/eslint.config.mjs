@@ -37,7 +37,6 @@ export default [
 
       parserOptions: {
         ecmaVersion: 2022,
-        parser: '@babel/eslint-parser',
       },
     },
 

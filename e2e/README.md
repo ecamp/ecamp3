@@ -69,7 +69,7 @@ docker compose --profile e2e run --rm e2e npx playwright test
 ### Run a specific e2e test
 
 ```shell
-docker compose --profile e2e run --rm e2e npx playwright test tests/login.spec.js
+docker compose --profile e2e run --rm e2e npx playwright test tests/5-cross-browser-tests/login.spec.ts
 ```
 
 ### Run tests using a specific browser
@@ -97,6 +97,13 @@ open playwright-report/index.html
 ```shell
 docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file>
 ```
+
+### Update browser after branch switch
+
+If a branch switch leads to a different playwright version, the local playwright version might be outdated.
+To update the local playwright version, run npm ci:
+
+See [Install dependencies](#install-dependencies)
 
 ## Option B: Run end-to-end tests locally
 

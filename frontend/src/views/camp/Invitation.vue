@@ -185,6 +185,7 @@ export default {
         .then((postUrl) => this.api.patch(postUrl, {}))
         .then(
           (_) => {
+            this.api.get().personalInvitations().$reload()
             this.$router.push(this.campLink).catch(ignoreNavigationFailure)
           },
           () => {
@@ -204,6 +205,7 @@ export default {
         .then((postUrl) => this.api.patch(postUrl, {}))
         .then(
           (_) => {
+            this.api.get().personalInvitations().$reload()
             this.$router
               .push({ name: 'invitationRejected' })
               .catch(ignoreNavigationFailure)

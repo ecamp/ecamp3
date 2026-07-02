@@ -50,6 +50,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     port: 3000,
     allowedHosts: ['frontend', 'localhost:3000'],
+    watch: {
+      ignored: ['**/data/**', '**/dist/**'],
+    },
   },
   plugins,
   worker: {

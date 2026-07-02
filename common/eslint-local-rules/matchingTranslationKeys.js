@@ -136,7 +136,7 @@ export default function createMatchingTranslationKeys(utils) {
       ],
     },
     create(context) {
-      const filename = context.getFilename()
+      const filename = context.filename
       if (!shouldProcessFile(filename)) {
         // Return no visitor logic if the file is not of interest to us
         return {}
@@ -144,8 +144,7 @@ export default function createMatchingTranslationKeys(utils) {
 
       const extension = path.extname(filename)
       const filesystemPrefix = packageDirectory(filename)
-      const filepath = context
-        .getFilename()
+      const filepath = filename
         .replace(new RegExp(`^${escapeForRegExp(filesystemPrefix)}/`), '')
         // Optionally, remove src/ from the file path. We have this in frontend, but not in print
         .replace(/^src\//, '')

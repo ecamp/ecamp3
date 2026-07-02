@@ -26,10 +26,6 @@ export default [
 
       ecmaVersion: 2022,
       sourceType: 'module',
-
-      parserOptions: {
-        parser: '@babel/eslint-parser',
-      },
     },
 
     rules: {
