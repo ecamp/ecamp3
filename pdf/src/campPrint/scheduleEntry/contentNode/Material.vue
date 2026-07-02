@@ -32,7 +32,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .material {
   display: flex;
   flex-direction: column;
@@ -53,4 +53,4 @@ export default {
   flex-basis: 3000pt;
   padding-left: 2pt;
 }
-</pdf-style>
+</style>

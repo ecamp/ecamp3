@@ -26,7 +26,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .content-node-title {
   border-bottom: 1.5pt solid black;
   margin-bottom: 1pt;
@@ -46,4 +46,4 @@ export default {
   font-weight:normal;
   color:grey;
 }
-</pdf-style>
+</style>

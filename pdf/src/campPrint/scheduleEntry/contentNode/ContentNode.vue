@@ -48,8 +48,8 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .content-node {
   margin-bottom: 6pt;
 }
-</pdf-style>
+</style>

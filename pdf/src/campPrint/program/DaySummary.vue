@@ -98,7 +98,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .program-day-summary {
   margin-bottom: 12pt;
   border-bottom: 4pt solid black;
@@ -110,7 +110,7 @@ export default {
   background-color: black;
   color: white;
   font-size: 15pt;
-  font-weight: semibold;
+  font-weight: 600;
   margin-top: 4pt;
   padding: 5pt;
 }
@@ -121,7 +121,7 @@ export default {
   flex-direction: row;
 }
 .program-day-responsibles-title {
-  font-weight: semibold;
+  font-weight: 600;
 }
 .program-day-table {
   margin-top: 8pt;
@@ -131,13 +131,13 @@ export default {
 .program-day-table-row {
   display: flex;
   flex-direction: row;
-  align-items: top;
+  align-items: flex-start;
   border-bottom: 0.5pt solid #d1d5db;
   padding: 3pt 0;
 }
 .program-day-table-header {
   border-bottom: 0.5pt solid black;
-  font-weight: semibold;
+  font-weight: 600;
 }
 .program-day-table-time {
   width: 80pt;
@@ -174,4 +174,4 @@ export default {
   flex-grow: 1;
   max-width: 20vw;
 }
-</pdf-style>
+</style>

@@ -64,7 +64,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .storyboard-container {
   display: flex;
   flex-direction: column;
@@ -80,7 +80,7 @@ export default {
 }
 .storyboard-header-cell {
   line-height: 0.8;
-  font-weight: semibold;
+  font-weight: 600;
 }
 .storyboard-cell {
   line-height: 0.8;
@@ -108,4 +108,4 @@ export default {
   padding-left: 2pt;
   overflow: hidden;
 }
-</pdf-style>
+</style>

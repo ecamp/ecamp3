@@ -91,7 +91,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-footer {
   width: 100%;
   font-size: 9pt;
@@ -113,4 +113,4 @@ export default {
 .picasso-footer-field {
   margin-bottom: 6pt;
 }
-</pdf-style>
+</style>

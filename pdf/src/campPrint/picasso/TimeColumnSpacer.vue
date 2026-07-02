@@ -22,7 +22,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-time-column-spacer {
   margin-top: 0;
   margin-bottom: 0;
@@ -30,4 +30,4 @@ export default {
 .picasso-time-column-spacer-text {
   opacity: 0;
 }
-</pdf-style>
+</style>

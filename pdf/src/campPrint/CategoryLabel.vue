@@ -23,10 +23,10 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .category-label {
   padding: 2pt 8pt;
   border-radius: 18pt;
   align-self: center;
 }
-</pdf-style>
+</style>

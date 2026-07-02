@@ -63,9 +63,9 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .column-layout-container {
   display: flex;
   flex-direction: row;
 }
-</pdf-style>
+</style>

@@ -140,7 +140,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .p {
   margin-bottom: 2pt;
 }
@@ -156,4 +156,4 @@ export default {
 .strikethrough {
   text-decoration: line-through;
 }
-</pdf-style>
+</style>

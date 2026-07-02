@@ -93,7 +93,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .schedule-entry-header-title {
   display: flex;
   flex-direction: row;
@@ -107,8 +107,8 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  font-size: 14;
-  font-weight: semibold;
+  font-size: 14pt;
+  font-weight: 600;
 }
 .schedule-entry-category-label {
   margin: 4pt 0;
@@ -152,8 +152,8 @@ export default {
   column-gap: 6pt;
 }
 .schedule-entry-header-metadata-label {
-  font-weight: semibold;
+  font-weight: 600;
   flex-shrink: 0;
   flex-grow: 0;
 }
-</pdf-style>
+</style>

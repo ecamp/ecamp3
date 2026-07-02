@@ -24,10 +24,10 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .ys-logo-path {
   fill: #e92d35;
   fill-rule: evenodd;
   stroke: none;
 }
-</pdf-style>
+</style>

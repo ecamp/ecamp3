@@ -61,7 +61,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .responsibles-avatars {
   display: flex;
   flex-direction: row;
@@ -83,4 +83,4 @@ export default {
   text-align: center;
   line-height: 1.2;
 }
-</pdf-style>
+</style>

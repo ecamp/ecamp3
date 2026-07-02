@@ -38,7 +38,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-day-header-text {
   font-size: 8pt;
   font-weight: bold;
@@ -52,4 +52,4 @@ export default {
 .picasso-day-responsibles-text {
   padding-bottom: 5pt;
 }
-</pdf-style>
+</style>

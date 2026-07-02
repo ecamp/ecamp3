@@ -113,36 +113,36 @@ export const prepare = async (config) => {
   return await registerFonts(config)
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .page {
   font-family: InterDisplay;
-  padding: 30;
-  font-size: 12;
+  padding: 30pt;
+  font-size: 12pt;
   display: flex;
   flex-direction: column;
 }
 .h1 {
-  font-size: 16;
-  font-weight: semibold;
+  font-size: 16pt;
+  font-weight: 600;
   margin: 12pt 0 3pt;
 }
 .h2 {
-  font-size: 14;
-  font-weight: semibold;
+  font-size: 14pt;
+  font-weight: 600;
   margin: 10pt 0 3pt;
 }
 .h3 {
-  font-size: 12;
-  font-weight: semibold;
+  font-size: 12pt;
+  font-weight: 600;
   margin: 8pt 0 3pt;
 }
 .page-number {
   position: absolute;
-  bottom: 15;
+  bottom: 15pt;
   left: 0;
   right: 0;
   width: 100%;
   text-align: center;
-  font-size: 10;
+  font-size: 10pt;
 }
-</pdf-style>
+</style>

@@ -13,7 +13,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .toc-dotted-line {
   border-bottom: 1px dotted black;
   flex-grow: 1;
@@ -23,4 +23,4 @@ export default {
   width: 24pt;
   text-align: right;
 }
-</pdf-style>
+</style>

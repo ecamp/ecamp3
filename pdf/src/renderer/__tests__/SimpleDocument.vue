@@ -12,5 +12,4 @@ export default {
   name: 'SimpleComponent',
 }
 </script>
-<pdf-style>
-</pdf-style>
+<style lang="react-pdf"></style>

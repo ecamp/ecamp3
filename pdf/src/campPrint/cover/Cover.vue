@@ -31,7 +31,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .cover-center {
   text-align: center;
 }
@@ -40,15 +40,15 @@ export default {
 }
 .cover-camp-organizer {
   font-size: 18pt;
-  font-weight: medium;
+  font-weight: 600;
 }
 .cover-camp-title {
   font-size: 38pt;
-  font-weight: semibold;
+  font-weight: 600;
   margin: 40pt 0;
 }
 .cover-camp-motto {
   font-size: 28pt;
-  font-weight: medium;
+  font-weight: 500;
 }
-</pdf-style>
+</style>

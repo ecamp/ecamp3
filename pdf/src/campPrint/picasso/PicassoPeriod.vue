@@ -66,5 +66,4 @@ export default {
   },
 }
 </script>
-<pdf-style>
-</pdf-style>
+<style lang="react-pdf"></style>

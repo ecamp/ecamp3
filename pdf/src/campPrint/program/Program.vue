@@ -54,8 +54,8 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .program-page {
   font-size: 8pt;
 }
-</pdf-style>
+</style>

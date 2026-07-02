@@ -82,7 +82,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .summary-day-title-container {
   display: flex;
   flex-direction: row;
@@ -93,8 +93,8 @@ export default {
   margin-bottom: 1pt;
 }
 .summary-day-title {
-  font-size: 14;
-  font-weight: semibold;
+  font-size: 14pt;
+  font-weight: 600;
   margin: 10pt 0 3pt;
 }
 .summary-day-date {
@@ -107,4 +107,4 @@ export default {
   font-weight: bold;
   margin: 10pt 0 4.5pt;
 }
-</pdf-style>
+</style>
