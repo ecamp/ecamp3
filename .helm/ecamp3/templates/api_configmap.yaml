@@ -10,6 +10,9 @@ data:
   {{- if and (.Values.api.authenticationTokenTtl) (ne (.Values.api.authenticationTokenTtl | toString) "<no value>") }}
   AUTHENTICATION_TOKEN_TTL: {{ .Values.api.authenticationTokenTtl | quote }}
   {{- end }}
+  {{- if and (.Values.auth.refreshTokenTtl) (ne (.Values.auth.refreshTokenTtl | toString) "<no value>") }}
+  REFRESH_TOKEN_TTL: {{ .Values.auth.refreshTokenTtl | quote }}
+  {{- end }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
   APP_ENV: {{ .Values.api.appEnv | quote }}
   APP_DEBUG: {{ .Values.api.appDebug | quote }}

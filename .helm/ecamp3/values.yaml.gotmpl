@@ -24,6 +24,10 @@ featureToggle:
   developer: {{ .Environment.Values | getOrNil "FEATURE_DEVELOPER" | default false }}
   checklist: {{ .Environment.Values | getOrNil "FEATURE_CHECKLIST" | default false }}
 
+# Authentication token lifetimes (in seconds), shared by api and frontend
+auth:
+  refreshTokenTtl: {{ .Environment.Values | getOrNil "AUTH_REFRESH_TOKEN_TTL" | default 2592000 }}
+
 api:
   authenticationTokenTtl: {{ .Environment.Values | getOrNil "API_AUTHENTICATION_TOKEN_TTL" }}
   dataMigrationsDir: {{ .Environment.Values | getOrNil "API_DATA_MIGRATIONS_DIR" | default "prod-data" }}

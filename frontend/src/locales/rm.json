@@ -443,6 +443,11 @@
     },
     "warning": {
       "delete": "Vuls ti propi stizzar quai? | Vuls ti propi stizzar \"{entity}\"?"
+    },
+    "reLoginDialog": {
+      "title": "Sessiun scadida",
+      "description": "Tia sessiun è scadida. Torna t'annunzia per cuntinuar.",
+      "loginAgain": "S'annunziar puspè"
     }
   },
   "views": {
@@ -638,6 +643,9 @@
     "pageNotFound": {
       "backToHome": "Enavos a la pagina da partenza",
       "detail": "Hopla. Ti has pers la via…{br}Questa colliaziun na funcziuna deplorablamain betg."
+    },
+    "pageLoading": {
+      "loading": "Chargiar…"
     },
     "profile": {
       "changeEmail": "Midar",

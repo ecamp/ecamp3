@@ -18,6 +18,7 @@
       </p>
     </v-footer>
     <v-snackbar-queue v-model="snackbarMessages"></v-snackbar-queue>
+    <ReLoginDialog />
   </v-app>
 </template>
 
@@ -26,9 +27,11 @@ import VueI18n from '@/plugins/i18n'
 import { headEnvironment } from '@/plugins/index.js'
 import { mapGetters } from 'vuex'
 import { useHead } from '@unhead/vue'
+import ReLoginDialog from '@/components/auth/ReLoginDialog.vue'
 
 export default {
   name: 'App',
+  components: { ReLoginDialog },
   setup() {
     useHead({
       title: null,

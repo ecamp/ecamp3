@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
-import { isAdmin, isLoggedIn } from '@/plugins/auth'
+import { isAdmin, isLoggedIn, isRefreshLikelyPossible } from '@/plugins/auth'
+import { hasLoggedOutFromLocalStorage } from '@/plugins/store/auth.js'
 import { apiStore } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
@@ -541,6 +542,13 @@ const router = createRouter({
       redirect: { name: 'camps' },
     },
     {
+      path: '/loading',
+      name: 'loading',
+      components: {
+        default: () => import('./views/PageLoading.vue'),
+      },
+    },
+    {
       path: '/**',
       name: 'PageNotFound',
       components: {
@@ -578,9 +586,13 @@ function all(guards) {
 function requireAuth(to, from, next) {
   if (isLoggedIn()) {
     next()
-  } else {
-    next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+    return
   }
+  if (!hasLoggedOutFromLocalStorage() && isRefreshLikelyPossible()) {
+    next({ name: 'loading', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+    return
+  }
+  next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
 }
 
 function requireAdmin(to, from, next) {

@@ -644,6 +644,11 @@
     },
     "warning": {
       "delete": "Möchtest du das wirklich löschen? | Möchtest du \"{entity}\" wirklich löschen?"
+    },
+    "reLoginDialog": {
+      "title": "Sitzung abgelaufen",
+      "description": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an, um fortzufahren.",
+      "loginAgain": "Erneut anmelden"
     }
   },
   "views": {
@@ -871,6 +876,9 @@
     "pageNotFound": {
       "backToHome": "Zurück zur Startseite",
       "detail": "Hoppla. Du bist vom Weg abgekommen…{br}Dieser Link funktioniert leider nicht."
+    },
+    "pageLoading": {
+      "loading": "Einen Moment bitte…"
     },
     "profile": {
       "changeEmail": "Ändern",

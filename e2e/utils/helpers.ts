@@ -47,6 +47,24 @@ export async function getAuthContext(user: string): Promise<APIRequestContext> {
 
 export { getPdfProperties } from './getPdfProperties'
 
+export function makeExpiredJwt(): string {
+  const b64url = (obj: object) =>
+    Buffer.from(JSON.stringify(obj))
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '')
+  const header = b64url({ typ: 'JWT', alg: 'RS256' })
+  const payload = b64url({
+    iat: 0,
+    exp: 0,
+    roles: ['ROLE_USER'],
+    username: 'x',
+    user: '/users/x',
+  })
+  return `${header}.${payload}`
+}
+
 export async function expectCacheHeader(
   request: APIRequestContext,
   uri: string,

@@ -1,4 +1,5 @@
 gesdinet_jwt_refresh_token:
+    ttl: '%env(int:REFRESH_TOKEN_TTL)%'
     cookie:
         enabled: true
         same_site: strict
