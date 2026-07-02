@@ -1,6 +1,10 @@
 <template>
   <div :class="showDailySummary && 'program-day-section'">
-    <day-summary v-if="showDailySummary" :day="day" :schedule-entries="scheduleEntries" />
+    <day-summary
+      v-if="showDailySummary"
+      :day="day"
+      :schedule-entries="summaryScheduleEntries"
+    />
 
     <div v-if="showActivities">
       <schedule-entry
@@ -14,7 +18,6 @@
 </template>
 
 <script>
-import { filterMatchScheduleEntry } from '../common/helpers/filterMatchScheduleEntry.js'
 import DaySummary from '~/components/DaySummary.vue'
 
 export default {
@@ -25,20 +28,8 @@ export default {
     showDailySummary: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
     index: { type: Number, required: true },
-  },
-  computed: {
-    // returns scheduleEntries of current day without the need for an additional API call
-    scheduleEntries() {
-      return this.day
-        .period()
-        .scheduleEntries()
-        .items.filter((scheduleEntry) => {
-          return (
-            scheduleEntry.day()._meta.self === this.day._meta.self &&
-            filterMatchScheduleEntry(scheduleEntry, this.filter)
-          )
-        })
-    },
+    scheduleEntries: { type: Array, required: true },
+    summaryScheduleEntries: { type: Array, default: () => [] },
   },
 }
 </script>

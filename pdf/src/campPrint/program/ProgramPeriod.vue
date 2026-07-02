@@ -2,7 +2,12 @@
   <template v-if="showDailySummary">
     <Page
       v-for="(
-        { day, scheduleEntries: dayScheduleEntries, summaryScheduleEntries }, dayIndex
+        {
+          day,
+          scheduleEntries: dayScheduleEntries,
+          summaryScheduleEntries: daySummaryScheduleEntries,
+        },
+        dayIndex
       ) in days"
       :id="isFirstPeriod && dayIndex === 0 ? id : undefined"
       class="page program-page"
@@ -23,7 +28,7 @@
         :period="period"
         :day="day"
         :schedule-entries="dayScheduleEntries"
-        :summary-schedule-entries="summaryScheduleEntries"
+        :summary-schedule-entries="daySummaryScheduleEntries"
       />
     </Page>
   </template>
@@ -69,26 +74,73 @@ export default {
   },
   computed: {
     scheduleEntries() {
+      const scheduleEntries = this.period
+        .scheduleEntries()
+        .items.filter((scheduleEntry) => {
+          return filterMatchScheduleEntry(scheduleEntry, { ...this.filter, day: [] })
+        })
+
+      if (!this.hasDayFilter) return scheduleEntries
+
+      return scheduleEntries.filter((scheduleEntry) =>
+        this.filteredDays.some(
+          (day) => filterScheduleEntriesByDay([scheduleEntry], day, FULL_DAY_TIMES).length
+        )
+      )
+    },
+    overviewScheduleEntries() {
       return this.period.scheduleEntries().items.filter((scheduleEntry) => {
-        return filterMatchScheduleEntry(scheduleEntry, this.filter)
+        return filterMatchScheduleEntry(scheduleEntry, { ...this.filter, day: [] })
       })
     },
-    days() {
+    filteredDays() {
       return sortBy(this.period.days().items, (day) =>
         this.$date.utc(day.start).valueOf()
+      ).filter((day) => this.dayMatchesFilter(day))
+    },
+    hasDayFilter() {
+      return (
+        this.filter.day !== null &&
+        this.filter.day !== undefined &&
+        this.filter.day.length > 0
       )
+    },
+    days() {
+      return this.filteredDays
         .map((day) => ({
           day,
-          scheduleEntries: this.scheduleEntries.filter(
-            (scheduleEntry) => scheduleEntry.day()._meta.self === day._meta.self
-          ),
+          scheduleEntries: this.scheduleEntriesForDay(day),
           summaryScheduleEntries: filterScheduleEntriesByDay(
-            this.scheduleEntries,
+            this.overviewScheduleEntries,
             day,
             FULL_DAY_TIMES
           ),
         }))
         .filter(({ summaryScheduleEntries }) => summaryScheduleEntries.length)
+    },
+  },
+  methods: {
+    dayMatchesFilter(day) {
+      return (
+        this.filter.day === null ||
+        this.filter.day === undefined ||
+        this.filter.day.length === 0 ||
+        this.filter.day.includes(day._meta.self)
+      )
+    },
+    scheduleEntriesForDay(day) {
+      const previousDays = this.filteredDays.filter((otherDay) =>
+        this.$date.utc(otherDay.start).isBefore(this.$date.utc(day.start))
+      )
+
+      return filterScheduleEntriesByDay(this.scheduleEntries, day, FULL_DAY_TIMES).filter(
+        (scheduleEntry) =>
+          !previousDays.some(
+            (previousDay) =>
+              filterScheduleEntriesByDay([scheduleEntry], previousDay, FULL_DAY_TIMES)
+                .length
+          )
+      )
     },
   },
 }
