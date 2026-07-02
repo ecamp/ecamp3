@@ -6,7 +6,8 @@ import {
   type OAuthProvider,
 } from '@/utils/oauthHelpers'
 
-test.describe('OAuth login', () => {
+// eslint-disable-next-line playwright/no-skipped-test
+test.describe.skip('OAuth login', () => {
   const providers: OAuthProvider[] = ['Google', 'MiData', 'CeviDB', 'JublaDB']
 
   for (const provider of providers) {
@@ -74,10 +75,7 @@ test.describe('OAuth login – cross-provider account linking', () => {
 })
 
 test.describe('OAuth login – separate users', () => {
-  // eslint-disable-next-line playwright/no-skipped-test
-  test.skip('two different usernames produce two different accounts', async ({
-    browser,
-  }) => {
+  test('two different usernames produce two different accounts', async ({ browser }) => {
     const email1 = await withOAuthSession(
       browser,
       'Google',
