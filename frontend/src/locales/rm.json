@@ -433,6 +433,12 @@
       "help": "Agid",
       "news": "Noviteds"
     },
+    "newVersion": {
+      "title": "Ina nova versiun è disponibla",
+      "description": "Questa funcziun na è betg disponibla fin che ti actualiseschas a l’ultima versiun.",
+      "update": "Actualisar ussa",
+      "updateLater": "Actualisar plus tard"
+    },
     "serverError": {
       "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server."
     },

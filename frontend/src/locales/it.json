@@ -507,6 +507,12 @@
       "help": "Aiuto",
       "news": "Notizie"
     },
+    "newVersion": {
+      "title": "È disponibile una nuova versione",
+      "description": "Questa funzione non è disponibile finché non si esegue l’aggiornamento all’ultima versione.",
+      "update": "Aggiorna ora",
+      "updateLater": "Aggiorna più tardi"
+    },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
       "short": "Errore del server"

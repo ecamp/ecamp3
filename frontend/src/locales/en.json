@@ -628,6 +628,12 @@
       "help": "Help",
       "news": "News"
     },
+    "newVersion": {
+      "title": "A new version is available",
+      "description": "This feature is not available until you update to the latest version.",
+      "update": "Update now",
+      "updateLater": "Update later"
+    },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"

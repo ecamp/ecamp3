@@ -622,6 +622,12 @@
       "help": "Aide",
       "news": "Actualités"
     },
+    "newVersion": {
+      "title": "Une nouvelle version est disponible",
+      "description": "Cette fonctionnalité n’est pas disponible tant que vous n’avez pas installé la dernière version.",
+      "update": "Mettre à jour maintenant",
+      "updateLater": "Mettre à jour plus tard"
+    },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
