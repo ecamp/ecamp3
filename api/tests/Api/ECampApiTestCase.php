@@ -55,6 +55,12 @@ abstract class ECampApiTestCase extends ApiTestCase {
         self::bootKernel();
         parent::setUp();
 
+        // After populateDatabase() runs on the first test, the EntityManager's identity map
+        // may contain entities with stale inverse-side collection state (e.g. Camp::collaborations
+        // not reflecting all loaded CampCollaborations). Clearing the EM ensures subsequent
+        // requests load entities fresh from the database instead of using the stale cache.
+        static::getContainer()->get('doctrine')->getManager()->clear();
+
         // backup current timezone, in case it's change in one of the tests
         $this->currentTimezone = date_default_timezone_get();
     }
@@ -353,6 +359,15 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $sortedResponseArray = ArrayDeepSort::sort($responseArray);
         $this->assertMatchesJsonSnapshot($sortedResponseArray);
+    }
+
+    /**
+     * Resets the mailer message log. Use this before a request when multiple requests
+     * are made in one test (with disableReboot()) and only emails from the last request
+     * should be counted.
+     */
+    protected function resetMailerEvents(): void {
+        static::getContainer()->get('mailer.message_logger_listener')->reset();
     }
 
     /**
