@@ -1,0 +1,4 @@
+{
+  "interactiveLogin": true,
+  "loginPagePath": "/app/login.html"
+}

@@ -60,6 +60,7 @@ services:
     depends_on:
       - database
       - docker-host
+      - mock-oauth2
     volumes:
       - ./api/config/jwt:/app/config/jwt:rw,delegated
     ports:
@@ -220,6 +221,15 @@ services:
     network_mode: host
     working_dir: /e2e
 
+  mock-oauth2:
+    image: ghcr.io/navikt/mock-oauth2-server:4.0.0
+    volumes:
+      - ./dev-setup/mock-oauth/mock-oauth2-config.json:/app/config.json:ro
+      - ./dev-setup/mock-oauth/mock-oauth2-login.html:/app/login.html:ro
+    environment:
+      JSON_CONFIG_PATH: /app/config.json
+      SERVER_PORT: 8080
+
   reverse-proxy:
     image: nginx:1.31
     container_name: 'ecamp3-reverse-proxy'
@@ -229,6 +239,7 @@ services:
       - frontend
       - api
       - frontend-old
+      - mock-oauth2
     ports:
       - target: 3000
         published: 3000
