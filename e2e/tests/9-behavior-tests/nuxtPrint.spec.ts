@@ -95,7 +95,7 @@ test.describe('Nuxt print test', { tag: '@mature' }, () => {
       const pdfProps = await getPdfProperties(buffer)
 
       expect(download.suggestedFilename()).toBe('Pfila-2023.pdf')
-      expect(pdfProps.numPages).toBe(25)
+      expect(pdfProps.numPages).toBe(26)
     })
 
     test('for picasso', async ({ page }) => {

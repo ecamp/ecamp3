@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <div v-if="showDailySummary" class="tw-text-2xl tw-mb-6">
-      <h1>{{ $t('entity.day.name') }} {{ day.number }} ({{ dateLong(day.start) }})</h1>
-    </div>
+  <div :class="showDailySummary && 'program-day-section'">
+    <day-summary
+      v-if="showDailySummary"
+      :day="day"
+      :schedule-entries="summaryScheduleEntries"
+    />
 
     <div v-if="showActivities">
       <schedule-entry
@@ -16,31 +18,24 @@
 </template>
 
 <script>
-import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
-import { filterMatchScheduleEntry } from '../common/helpers/filterMatchScheduleEntry.js'
+import DaySummary from '~/components/DaySummary.vue'
 
 export default {
-  mixins: [dateHelperUTCFormatted],
+  components: { DaySummary },
   props: {
     day: { type: Object, required: true },
     filter: { type: Object, default: () => ({}) },
     showDailySummary: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
     index: { type: Number, required: true },
-  },
-  computed: {
-    // returns scheduleEntries of current day without the need for an additional API call
-    scheduleEntries() {
-      return this.day
-        .period()
-        .scheduleEntries()
-        .items.filter((scheduleEntry) => {
-          return (
-            scheduleEntry.day()._meta.self === this.day._meta.self &&
-            filterMatchScheduleEntry(scheduleEntry, this.filter)
-          )
-        })
-    },
+    scheduleEntries: { type: Array, required: true },
+    summaryScheduleEntries: { type: Array, default: () => [] },
   },
 }
 </script>
+
+<style scoped>
+.program-day-section + .program-day-section {
+  break-before: page;
+}
+</style>
