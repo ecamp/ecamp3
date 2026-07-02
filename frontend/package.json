@@ -49,7 +49,7 @@
     "@tiptap/extension-underline": "3.27.1",
     "@tiptap/pm": "3.27.1",
     "@tiptap/vue-3": "3.27.1",
-    "@unhead/vue": "3.1.5",
+    "@unhead/vue": "3.1.6",
     "@vee-validate/i18n": "4.15.1",
     "@vee-validate/rules": "4.15.1",
     "@zxcvbn-ts/core": "4.1.2",
