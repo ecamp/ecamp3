@@ -69,7 +69,7 @@ docker compose --profile e2e run --rm e2e npx playwright test
 ### Run a specific e2e test
 
 ```shell
-docker compose --profile e2e run --rm e2e npx playwright test tests/login.spec.js
+docker compose --profile e2e run --rm e2e npx playwright test tests/5-cross-browser-tests/login.spec.ts
 ```
 
 ### Run tests using a specific browser
