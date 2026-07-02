@@ -1,5 +1,6 @@
 <template>
   <DetailPane
+    data-testid="collaborator-create-dialog"
     :model-value="showDialog"
     :loading="loading"
     :error="error"
@@ -17,6 +18,7 @@
         variant="text"
         class="my-n2"
         icon="mdi-account-plus"
+        data-testid="collaborator-invite-cta"
         v-bind="props"
         @click="showDialog = true"
       >
@@ -24,29 +26,71 @@
       </ButtonAdd>
     </template>
 
-    <e-text-field
-      v-model="entityData.inviteEmail"
-      type="email"
-      path="inviteEmail"
+    <ValidationField
+      v-slot="{ errors: veeErrors, resetField }"
+      :label="$t('components.collaborator.collaboratorCreate.emailLabel')"
+      name="inviteEmail"
       vee-rules="required|email"
-      class="mb-2"
-    />
+    >
+      <v-combobox
+        v-model="entityData.inviteEmail"
+        v-model:search="search"
+        data-testid="collaborator-invite-search"
+        :items="profileItems"
+        :loading="searchLoading"
+        :no-filter="true"
+        :return-object="false"
+        :hide-no-data="!search || searchLoading"
+        item-title="value"
+        item-value="value"
+        type="email"
+        class="mb-2"
+        autocomplete="off"
+        :menu-icon="null"
+        :error-messages="veeErrors"
+        :label="$t('components.collaborator.collaboratorCreate.emailLabel')"
+        :hint="$t('components.collaborator.collaboratorCreate.searchHint')"
+        persistent-hint
+        @update:model-value="(val) => onSelect(val, resetField)"
+      >
+        <template #item="{ item, props: itemProps }">
+          <v-list-item
+            v-bind="itemProps"
+            :title="item.raw.displayName"
+            :subtitle="item.raw.value"
+            data-testid="collaborator-invite-result"
+          >
+            <template #prepend>
+              <v-icon icon="mdi-account-circle" class="mr-2" />
+            </template>
+          </v-list-item>
+        </template>
+
+        <template #no-data>
+          <v-list-item
+            :title="$t('components.collaborator.collaboratorCreate.noResults')"
+          />
+        </template>
+      </v-combobox>
+    </ValidationField>
 
     <CollaboratorForm :collaboration="entityData" />
   </DetailPane>
 </template>
 
 <script>
+import { debounce } from 'lodash-es'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import DetailPane from '@/components/generic/DetailPane.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import CollaboratorForm from '@/components/collaborator/CollaboratorForm.vue'
+import ValidationField from '@/components/form/base/ValidationField.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
 export default {
   name: 'CollaboratorCreate',
-  components: { ButtonAdd, DetailPane, CollaboratorForm },
+  components: { ButtonAdd, DetailPane, CollaboratorForm, ValidationField },
   extends: DialogBase,
   provide() {
     return {
@@ -60,7 +104,18 @@ export default {
     return {
       entityProperties: ['camp', 'inviteEmail', 'role'],
       entityUri: '',
+      search: '',
+      profiles: [],
+      searchLoading: false,
     }
+  },
+  computed: {
+    profileItems() {
+      return this.profiles.map((profile) => ({
+        value: profile.email,
+        displayName: this.profileDisplayName(profile),
+      }))
+    },
   },
   watch: {
     showDialog: function (showDialog) {
@@ -73,15 +128,56 @@ export default {
       } else {
         // clear form on exit
         this.clearEntityData()
+        this.search = ''
+        this.profiles = []
       }
+    },
+    search(value) {
+      this.debouncedSearchProfiles(value)
     },
   },
   mounted() {
     this.api
       .href(this.api.get(), 'campCollaborations')
       .then((uri) => (this.entityUri = uri))
+    this.debouncedSearchProfiles = debounce(this.searchProfiles, 300)
   },
   methods: {
+    profileDisplayName(profile) {
+      const name = [profile.firstname, profile.surname].filter(Boolean).join(' ')
+      if (profile.nickname && name) {
+        return `${profile.nickname} (${name})`
+      }
+      return profile.nickname || name || profile.email
+    },
+    async searchProfiles(value) {
+      const searchTerm = (value || '').trim()
+      if (searchTerm.length < 1) {
+        this.profiles = []
+        return
+      }
+      this.searchLoading = true
+      try {
+        const collection = await this.api.get().profiles({ search: searchTerm })._meta
+          .load
+        if (this.search.trim() === searchTerm) {
+          this.profiles = collection.items.map((item) => ({
+            email: item.email,
+            firstname: item.firstname,
+            surname: item.surname,
+            nickname: item.nickname,
+          }))
+        }
+      } catch {
+        this.profiles = []
+      } finally {
+        this.searchLoading = false
+      }
+    },
+    onSelect(val, resetField) {
+      resetField({ value: val })
+      this.profiles = []
+    },
     createCollaboration() {
       return this.create().then(() => {
         this.api.reload(this.camp.campCollaborations())
