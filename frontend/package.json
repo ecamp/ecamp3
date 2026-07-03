@@ -125,7 +125,7 @@
     "lint-staged": "17.0.8",
     "patch-package": "8.0.1",
     "postcss-scss": "4.0.9",
-    "prettier": "3.8.4",
+    "prettier": "3.8.5",
     "sass-embedded": "1.100.0",
     "unplugin-vue-components": "32.1.0",
     "vite": "8.1.0",
