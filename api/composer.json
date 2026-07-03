@@ -11,7 +11,7 @@
     "api-platform/hal": "4.3.11",
     "api-platform/http-cache": "4.3.13",
     "api-platform/json-api": "4.3.11",
-    "api-platform/metadata": "4.3.14",
+    "api-platform/metadata": "4.3.15",
     "api-platform/openapi": "4.3.14",
     "api-platform/serializer": "4.3.11",
     "api-platform/state": "4.3.11",
