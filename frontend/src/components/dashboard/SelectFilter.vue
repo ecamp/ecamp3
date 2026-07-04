@@ -1,5 +1,5 @@
 <template>
-  <v-menu :close-on-content-click="!multiple" :multiple="null">
+  <v-menu :close-on-content-click="!multiple">
     <template #activator="{ props }">
       <v-chip
         :color="active ? 'primary' : 'surface'"
