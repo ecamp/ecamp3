@@ -21,8 +21,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 per_page: 100,
-              },
-              (response) => response.data.actions_caches
+              }
             );
             
             console.log(caches)
