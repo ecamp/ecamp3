@@ -42,6 +42,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           ref: ${{ inputs.sha }}
+          allow-unsafe-pr-checkout: true
 
       - name: Set nightly tag if commit was on main
         id: add-nightly-tag
@@ -126,6 +127,7 @@ jobs:
         with:
           ref: ${{ inputs.sha }}
           fetch-depth: 100
+          allow-unsafe-pr-checkout: true
 
       - run: |
           echo "inputs:"
