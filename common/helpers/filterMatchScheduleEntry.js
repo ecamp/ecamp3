@@ -41,9 +41,10 @@ const filterMatchScheduleEntry = (scheduleEntry, filter) => {
     (filter.progressLabel === null ||
       filter.progressLabel === undefined ||
       filter.progressLabel.length === 0 ||
-      filter.progressLabel.includes(
-        scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
-      ))
+      (!scheduleEntry.activity()._meta?.loading &&
+        filter.progressLabel.includes(
+          scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
+        )))
   )
 }
 
