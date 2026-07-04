@@ -30,6 +30,7 @@ jobs:
             let deletedCount = 0;
 
             for (const cache of caches) {
+              console.log(`Processing cache:`, cache);
               const createdAt = new Date(cache.created_at);
 
               if (createdAt < sevenDaysAgo) {
