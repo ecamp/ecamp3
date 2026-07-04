@@ -9,6 +9,7 @@
       :camp="camp"
       :index="index"
       :content-type="options.contentType"
+      :type="'Story'"
       :page-size="pageSize"
     />
   </div>
