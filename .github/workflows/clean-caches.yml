@@ -24,6 +24,8 @@ jobs:
               },
               (response) => response.data.actions_caches
             );
+            
+            console.log(caches)
 
             console.log(`Found ${caches.length} cache entries across all pages`);
 
