@@ -34,7 +34,7 @@ jobs:
               console.log(`Processing cache:`, cache);
               const createdAt = new Date(cache.created_at);
 
-              if (createdAt < sevenDaysAgo) {
+              if (createdAt < sevenDaysAgo || true) {
                 await github.rest.actions.deleteActionsCacheById({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
