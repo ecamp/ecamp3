@@ -21,6 +21,7 @@ jobs:
             sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
             for (const cache of caches.actions_caches) {
+              console.log(`Cache data:`, cache);
               const createdAt = new Date(cache.created_at);
               if (createdAt < sevenDaysAgo) {
                 await github.rest.actions.deleteActionsCacheById({
