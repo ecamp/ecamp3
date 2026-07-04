@@ -124,6 +124,7 @@ Alternatively you can
   </details>
 
 - set up a pre-commit [Git-Hook](https://www.atlassian.com/git/tutorials/git-hooks) to run php-cs-fixer and ESLint automatically before each commit, you can find an example in the [pre-commit.sh](./pre-commit.sh) file.
+
 <details>
   <summary>To use this example as a Git-Hook run the following commands (Click me, I am expandable)</summary>
     <strong>Consider examining the file before running random code from a public Git repo.</strong>
