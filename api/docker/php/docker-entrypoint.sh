@@ -3,12 +3,12 @@ set -e
 
 if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1" = 'composer' ] || [ "$1" = 'bin/phpunit' ]; then  
 
-  if [ "$APP_ENV" = 'prod' ]; then
+  if [ "$APP_ENV" = 'prod' ] || [ "$APP_ENV" = 'e2e' ]; then
     setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
     setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
   fi
 
-  if [ "$APP_ENV" != 'prod' ]; then
+  if [ "$APP_ENV" != 'prod' ] && [ "$APP_ENV" != 'e2e' ]; then
     if [ ! -f config/jwt/private.pem ]; then
       jwt_passphrase=${JWT_PASSPHRASE:-$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')}
       if ! echo "$jwt_passphrase" | openssl pkey -in config/jwt/private.pem -passin stdin -noout > /dev/null 2>&1; then

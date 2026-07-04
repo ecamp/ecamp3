@@ -32,7 +32,7 @@ export async function withOAuthSession<T>(
 
 export async function getProfileEmail(page: Page): Promise<string> {
   await page.goto('/profile')
-  return page.getByRole('textbox', { name: /email/i }).inputValue()
+  return page.locator('.e-profile--email input').inputValue()
 }
 
 function escapeRegExp(s: string): string {

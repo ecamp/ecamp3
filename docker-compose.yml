@@ -68,6 +68,7 @@ services:
         published: 2019
         protocol: tcp
     environment:
+      APP_ENV: ${APP_ENV:-prod}
       DATA_MIGRATIONS_DIR: ${DATA_MIGRATIONS_DIR:-dev-data}
       DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3dev?serverVersion\
         =15&charset=utf8"
