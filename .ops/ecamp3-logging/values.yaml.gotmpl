@@ -22,6 +22,8 @@ fluent-operator:
         # enable to debug fluentbit
         enable: false
   fluentd:
+    forward:
+      retainMetadataInForwardMode: false
     image:
       # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluentd
       tag: "v1.17.1"
