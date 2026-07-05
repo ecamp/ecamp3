@@ -257,7 +257,7 @@ jobs:
           build-args: |
             ${{ steps.transform-build-args.outputs.result }}
           cache-from: type=gha,scope=${{ matrix.build-config.image }}
-          cache-to: type=gha,scope=${{ matrix.build-config.image }},mode=max
+          cache-to: type=gha,scope=${{ matrix.build-config.image }},mode=max,ignore-error=true
 
       - name: Retag and push images
         if: steps.check-image.outputs.result == 'true'
