@@ -1,0 +1,11 @@
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterFilter
+metadata:
+  name: zz-exclude-fluentd-logs
+  labels:
+    fluentbit.fluent.io/enabled: "true"
+spec:
+  matchRegex: .*
+  filters:
+    - grep:
+        exclude: "$kubernetes['container_name'] fluentd"
