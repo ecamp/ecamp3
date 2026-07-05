@@ -25,8 +25,8 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .activity-page {
   font-size: 8pt;
 }
-</pdf-style>
+</style>

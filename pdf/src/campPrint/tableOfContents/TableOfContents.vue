@@ -55,9 +55,9 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .toc-title {
-  font-weight: semibold;
+  font-weight: 600;
   font-size: 14pt;
   border-bottom: 2pt solid #aaaaaa;
   padding-bottom: 2pt;
@@ -76,4 +76,4 @@ export default {
   padding-left: 10pt;
   margin-bottom: 4pt;
 }
-</pdf-style>
+</style>

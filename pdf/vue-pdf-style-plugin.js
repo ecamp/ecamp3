@@ -1,7 +1,17 @@
 import { parse } from 'css'
 import camelCase from 'lodash-es/camelCase.js'
 
-const vuePdfStylePlugin = {
+export const vueStyleReactPdfPlugin = {
+  name: 'vue-pdf-style-plugin',
+  enforce: 'pre',
+  transform(code, id) {
+    if (id.endsWith('.vue')) {
+      return transformReactPdfStyleBlocks(code)
+    }
+  },
+}
+
+export const vuePdfStylePlugin = {
   name: 'vue-pdf-style-plugin',
   transform(code, id) {
     if (!/vue&type=pdf-style/.test(id)) {
@@ -23,6 +33,24 @@ const vuePdfStylePlugin = {
       //map: null,
     }
   },
+}
+
+function transformReactPdfStyleBlocks(code) {
+  const reactPdfStyleBlock =
+    /<style\b(?=[^>]*\blang=(["'])react-pdf\1)[^>]*>[\s\S]*?<\/style>/g
+
+  const transformedCode = code.replace(reactPdfStyleBlock, (block) =>
+    block.replace(/<style\b[^>]*>/, '<pdf-style>').replace(/<\/style>$/, '</pdf-style>')
+  )
+
+  if (transformedCode === code) {
+    return
+  }
+
+  return {
+    code: transformedCode,
+    map: null,
+  }
 }
 
 function transformCssRules(rules) {

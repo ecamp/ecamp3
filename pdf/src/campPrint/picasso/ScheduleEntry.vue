@@ -70,7 +70,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-schedule-entry-link {
   text-decoration: none;
   color: black;
@@ -102,4 +102,4 @@ export default {
   justify-content: flex-end;
   padding: 0 4pt;
 }
-</pdf-style>
+</style>

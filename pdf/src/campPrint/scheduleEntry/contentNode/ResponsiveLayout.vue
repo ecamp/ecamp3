@@ -63,7 +63,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .responsive-layout__container {
   display: flex;
   flex-direction: column;
@@ -85,4 +85,4 @@ export default {
   padding-left: 9pt;
   padding-right: 10pt;
 }
-</pdf-style>
+</style>

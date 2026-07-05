@@ -23,8 +23,8 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .checkmark {
   margin-top: 1.5pt;
 }
-</pdf-style>
+</style>

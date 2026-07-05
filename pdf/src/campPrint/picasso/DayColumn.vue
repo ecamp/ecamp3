@@ -79,7 +79,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-day-column {
   flex-basis: 0;
   flex-grow: 1;
@@ -111,4 +111,4 @@ export default {
   left: 0;
   right: 0;
 }
-</pdf-style>
+</style>

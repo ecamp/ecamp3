@@ -2,6 +2,7 @@ import { styleStore } from './renderer/styleStore.js'
 import camelCase from 'lodash-es/camelCase.js'
 
 export default {
+  name: 'PdfComponent',
   props: {
     id: { type: String, default: '' },
     index: { type: Number, default: -1 },

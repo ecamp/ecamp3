@@ -145,10 +145,10 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .program-period-title {
   font-size: 10pt;
   font-weight: bold;
   text-align: center;
 }
-</pdf-style>
+</style>

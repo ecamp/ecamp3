@@ -103,7 +103,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-title-container {
   display: flex;
   flex-direction: row;
@@ -123,7 +123,7 @@ export default {
 .picasso-ys-logo {
   align-self: flex-end;
   margin-top: 3pt;
-  size: 20;
+  size: 20pt;
 }
 .picasso-calendar-header-container {
   border-left: 1pt solid white;
@@ -163,4 +163,4 @@ export default {
 .picasso-day-column-left-border {
   border-left: 1pt solid grey;
 }
-</pdf-style>
+</style>

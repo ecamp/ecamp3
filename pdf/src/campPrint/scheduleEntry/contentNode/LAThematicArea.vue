@@ -28,10 +28,10 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .la-thematic-area-entry {
   display: flex;
   flex-direction: row;
   align-items: top;
 }
-</pdf-style>
+</style>

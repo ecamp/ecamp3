@@ -32,7 +32,7 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-categories {
   font-size: 9pt;
   display: flex;
@@ -47,4 +47,4 @@ export default {
   margin-right: 6pt;
   margin-bottom: 3pt;
 }
-</pdf-style>
+</style>

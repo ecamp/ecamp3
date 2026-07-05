@@ -46,15 +46,15 @@ export default {
   },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .picasso-time-column-container {
   /*
    Wrapping the time column in this absolutely positioned View is necessary, because otherwise the text
    in the time column breaks layouting of the texts inside the schedule entries.
    */
   position: absolute;
-  top: -6;
-  bottom: 6;
+  top: -6pt;
+  bottom: 6pt;
   left: 0;
   right: 0;
 }
@@ -63,4 +63,4 @@ export default {
   /* this should match the height of the borders on the day grid rows. 0 means no borders */
   flex-basis: 0;
 }
-</pdf-style>
+</style>

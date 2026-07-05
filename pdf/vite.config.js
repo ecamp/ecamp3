@@ -1,12 +1,13 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vuePdfStylePlugin from './vue-pdf-style-plugin.js'
+import { vuePdfStylePlugin, vueStyleReactPdfPlugin } from './vue-pdf-style-plugin.js'
 import { htmlToPdfElementMap } from './src/renderer/nodeOps.js'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    vueStyleReactPdfPlugin,
     vue({
       template: {
         compilerOptions: {

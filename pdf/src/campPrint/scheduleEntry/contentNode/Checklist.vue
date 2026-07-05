@@ -77,7 +77,7 @@ export default {
   extends: PdfComponent,
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .checklist {
   display: flex;
   flex-direction: column;
@@ -108,4 +108,4 @@ export default {
   flex-grow: 1;
   padding-left: 2pt;
 }
-</pdf-style>
+</style>

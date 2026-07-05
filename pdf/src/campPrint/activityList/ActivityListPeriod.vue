@@ -59,10 +59,10 @@ export default {
   methods: { camelCase },
 }
 </script>
-<pdf-style>
+<style lang="react-pdf">
 .activity-list-period-title {
   font-size: 10pt;
   font-weight: bold;
   text-align: center;
 }
-</pdf-style>
+</style>
