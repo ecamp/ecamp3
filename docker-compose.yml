@@ -185,7 +185,7 @@ services:
       - ./pgadmin-servers.json:/pgadmin4/servers.json
 
   mail:
-    image: maildev/maildev
+    image: maildev/maildev:2.2.1
     container_name: 'ecamp3-mail'
     environment:
       - MAILDEV_BASE_PATHNAME=/mail

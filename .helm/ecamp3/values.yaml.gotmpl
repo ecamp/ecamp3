@@ -152,8 +152,8 @@ mail:
   image:
     repository: "docker.io/maildev/maildev"
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose shared default is .Values.imageTag
-    tag: "latest"
+    # renovate: datasource=docker depName=docker.io/maildev/maildev
+    tag: "2.2.1"
   service:
     type: ClusterIP
     port: 1080
