@@ -7,9 +7,12 @@ import { loginAndSetCookie } from '@/utils/helpers'
 import { readFileSync } from 'fs'
 
 test.describe('Client print test', { tag: '@mature' }, () => {
-  test('downloads PDF', async ({ page, request }) => {
-    await page.goto('/')
+  test.beforeEach(async ({ page, request }) => {
     await loginAndSetCookie(page, request, 'test@example.com')
+  })
+
+  test('downloads PDF', async ({ page }) => {
+    await page.goto('/')
     await page.waitForURL('/camps')
 
     await page.locator('a:has-text("GRGR")').click()
