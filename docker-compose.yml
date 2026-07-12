@@ -189,6 +189,14 @@ services:
     container_name: 'ecamp3-mail'
     environment:
       - MAILDEV_BASE_PATHNAME=/mail
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://localhost:1080/mail').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))",
+        ]
 
   docker-host:
     image: qoomon/docker-host
