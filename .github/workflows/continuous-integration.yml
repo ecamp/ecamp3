@@ -100,7 +100,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -123,7 +123,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -148,7 +148,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -177,7 +177,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -206,7 +206,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -238,7 +238,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -296,7 +296,7 @@ jobs:
         run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
         working-directory: api
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -377,7 +377,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -420,7 +420,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -459,7 +459,7 @@ jobs:
         with:
           node-version: '24.18.0'
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
