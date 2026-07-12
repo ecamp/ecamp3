@@ -11,7 +11,14 @@ test.describe('Client print test', { tag: '@mature' }, () => {
     await loginAndSetCookie(page, request, 'test@example.com')
   })
 
-  test('downloads PDF', async ({ page }) => {
+  test('downloads PDF', async ({ page, browserName }) => {
+    // Client-side PDF rendering runs in a Web Worker (generatePdfMixin.js).
+    // Playwright's Firefox driver throws "Assertion error" on the worker's
+    // messages (https://github.com/microsoft/playwright/issues/14974), which
+    // kills the test before the download regardless of how we capture it.
+    // eslint-disable-next-line playwright/no-skipped-test
+    test.skip(browserName === 'firefox', 'Playwright FF Web Worker bug')
+
     await page.goto('/')
     await page.waitForURL('/camps')
 
