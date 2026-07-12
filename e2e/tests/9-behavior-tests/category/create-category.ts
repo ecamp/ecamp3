@@ -1,11 +1,6 @@
 import { expect } from '@playwright/test'
 import { bipiUser } from '@/utils/constants'
-import {
-  loginAndSetCookie,
-  mockDateNow,
-  createCampViaUI,
-  deleteCampViaUI,
-} from '@/utils/helpers'
+import { loginAndSetCookie, createCampViaUI, deleteCampViaUI } from '@/utils/helpers'
 import { test } from '@/utils/etest'
 
 const campTitle = 'CatTestCamp'
@@ -18,7 +13,6 @@ test.describe('category on new camp', () => {
   test.beforeAll(async ({ browser }) => {
     const context = await browser.newContext()
     const page = await context.newPage()
-    await mockDateNow(page)
     await loginAndSetCookie(page, null, bipiUser)
     campAdminBaseUrl = await createCampViaUI(page, campTitle)
     await context.close()
@@ -35,7 +29,6 @@ test.describe('category on new camp', () => {
 
   test('creates a new category on the camp', async ({ page, request, runId }) => {
     const categoryName = `Test Category ${runId}`
-    await mockDateNow(page)
     await loginAndSetCookie(page, request, bipiUser)
 
     await page.goto(`${campAdminBaseUrl}/activity`)

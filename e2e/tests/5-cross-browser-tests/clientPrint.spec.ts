@@ -2,15 +2,11 @@
 
 import { test, expect } from '@playwright/test'
 import { getPdfProperties } from '@/utils/getPdfProperties'
-import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
+import { loginAndSetCookie } from '@/utils/helpers'
 
 import { readFileSync } from 'fs'
 
-test.describe('Client print test', () => {
-  test.beforeEach(async ({ page }) => {
-    await mockDateNow(page)
-  })
-
+test.describe('Client print test', { tag: '@mature' }, () => {
   test('downloads PDF', async ({ page, request }) => {
     await page.goto('/')
     await loginAndSetCookie(page, request, 'test@example.com')

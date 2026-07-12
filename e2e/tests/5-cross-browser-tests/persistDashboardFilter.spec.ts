@@ -1,10 +1,9 @@
 import { test, expect, type Page } from '@playwright/test'
-import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
+import { loginAndSetCookie } from '@/utils/helpers'
 
 test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
   test.beforeEach(async ({ page, request }) => {
     await loginAndSetCookie(page, request, 'test@example.com')
-    await mockDateNow(page)
     await page.goto('/camps')
     await page.getByRole('link', { name: 'GRGR' }).click()
     await expect(page.getByRole('link', { name: 'Hauptlager' })).toBeVisible()
