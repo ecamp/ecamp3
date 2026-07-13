@@ -33,7 +33,7 @@
             "href": "/api/periods/76be24bce434"
           },
           "scheduleEntries": {
-            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-11T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-10T00%3A00%3A00%2B00%3A00"
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2036-05-11T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2036-05-10T00%3A00%3A00%2B00%3A00"
           }
         },
         "_embedded": {
@@ -57,8 +57,8 @@
         "dayOffset": 0,
         "id": "4b90ff5b42c0",
         "number": 1,
-        "start": "2026-05-10T00:00:00+00:00",
-        "end": "2026-05-11T00:00:00+00:00"
+        "start": "2036-05-10T00:00:00+00:00",
+        "end": "2036-05-11T00:00:00+00:00"
       },
       {
         "_links": {
@@ -72,7 +72,7 @@
             "href": "/api/periods/76be24bce434"
           },
           "scheduleEntries": {
-            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-12T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-11T00%3A00%3A00%2B00%3A00"
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2036-05-12T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2036-05-11T00%3A00%3A00%2B00%3A00"
           }
         },
         "_embedded": {
@@ -96,8 +96,8 @@
         "dayOffset": 1,
         "id": "ac92acd57c49",
         "number": 2,
-        "start": "2026-05-11T00:00:00+00:00",
-        "end": "2026-05-12T00:00:00+00:00"
+        "start": "2036-05-11T00:00:00+00:00",
+        "end": "2036-05-12T00:00:00+00:00"
       },
       {
         "_links": {
@@ -111,7 +111,7 @@
             "href": "/api/periods/76be24bce434"
           },
           "scheduleEntries": {
-            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-13T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-12T00%3A00%3A00%2B00%3A00"
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2036-05-13T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2036-05-12T00%3A00%3A00%2B00%3A00"
           }
         },
         "_embedded": {
@@ -135,8 +135,8 @@
         "dayOffset": 2,
         "id": "1447f15f1e12",
         "number": 3,
-        "start": "2026-05-12T00:00:00+00:00",
-        "end": "2026-05-13T00:00:00+00:00"
+        "start": "2036-05-12T00:00:00+00:00",
+        "end": "2036-05-13T00:00:00+00:00"
       },
       {
         "_links": {
@@ -150,7 +150,7 @@
             "href": "/api/periods/76be24bce434"
           },
           "scheduleEntries": {
-            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2026-05-14T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2026-05-13T00%3A00%3A00%2B00%3A00"
+            "href": "/api/schedule_entries?period=%2Fapi%2Fperiods%2F76be24bce434&start%5Bstrictly_before%5D=2036-05-14T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2036-05-13T00%3A00%3A00%2B00%3A00"
           }
         },
         "_embedded": {
@@ -174,8 +174,8 @@
         "dayOffset": 3,
         "id": "963c3c0639dd",
         "number": 4,
-        "start": "2026-05-13T00:00:00+00:00",
-        "end": "2026-05-14T00:00:00+00:00"
+        "start": "2036-05-13T00:00:00+00:00",
+        "end": "2036-05-14T00:00:00+00:00"
       }
     ]
   }

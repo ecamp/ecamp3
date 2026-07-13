@@ -68,7 +68,7 @@ test.describe(
       // bring data into defined state
       const bipiApi = await getAuthContext(bipiUser)
       await apiPatch(bipiApi, `/api/schedule_entries/${scheduleEntryId}`, {
-        start: '2026-05-10T16:00:00+00:00',
+        start: '2036-05-10T16:00:00+00:00',
       })
 
       // warm up cache
@@ -81,7 +81,7 @@ test.describe(
 
       // touch scheduleEntry
       await apiPatch(castorApi, `/api/schedule_entries/${scheduleEntryId}`, {
-        start: '2026-05-10T17:00:00+00:00',
+        start: '2036-05-10T17:00:00+00:00',
       })
 
       // ensure cache was invalidated
@@ -102,8 +102,8 @@ test.describe(
 
       // add new scheduleEntry to period
       const postRes = await apiPost(bipiApi, '/api/schedule_entries', {
-        start: '2026-05-10T10:00:00+00:00',
-        end: '2026-05-10T11:00:00+00:00',
+        start: '2036-05-10T10:00:00+00:00',
+        end: '2036-05-10T11:00:00+00:00',
         period: `/api/periods/${grgrPeriodId}`,
         activity: `/api/activities/ffd08c52288c`,
       })
@@ -137,8 +137,8 @@ test.describe(
 
       // move scheduleEntry to 2nd period
       await apiPatch(bipiApi, `/api/schedule_entries/${scheduleEntryId}`, {
-        start: '2026-08-09T15:00:00+00:00',
-        end: '2026-08-09T17:00:00+00:00',
+        start: '2036-08-09T15:00:00+00:00',
+        end: '2036-08-09T17:00:00+00:00',
         period: `/periods/${harrySecondPeriodId}`,
       })
 
@@ -150,8 +150,8 @@ test.describe(
 
       // move scheduleEntry back
       await apiPatch(bipiApi, `/api/schedule_entries/${scheduleEntryId}`, {
-        start: '2026-07-20T15:00:00+00:00',
-        end: '2026-07-20T17:00:00+00:00',
+        start: '2036-07-20T15:00:00+00:00',
+        end: '2036-07-20T17:00:00+00:00',
         period: `/periods/${harryMainPeriodId}`,
       })
 
@@ -173,8 +173,8 @@ test.describe(
 
       // move period start date
       await apiPatch(bipiApi, `/api/periods/${grgrPeriodId}`, {
-        start: '2026-05-09',
-        end: '2026-05-12',
+        start: '2036-05-09',
+        end: '2036-05-12',
         moveScheduleEntries: true,
       })
 
@@ -184,8 +184,8 @@ test.describe(
 
       // move period start date
       await apiPatch(bipiApi, `/api/periods/${grgrPeriodId}`, {
-        start: '2026-05-10',
-        end: '2026-05-13',
+        start: '2036-05-10',
+        end: '2036-05-13',
         moveScheduleEntries: true,
       })
 

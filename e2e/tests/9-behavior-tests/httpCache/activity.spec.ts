@@ -112,9 +112,9 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // add new scheduleEntry
     const postRes = await apiPost(bipiApi, '/api/schedule_entries', {
       activity: `/activities/${activityId}`,
-      end: '2026-05-11T06:00:00+00:00',
+      end: '2036-05-11T06:00:00+00:00',
       period: '/periods/76be24bce434',
-      start: '2026-05-11T05:00:00+00:00',
+      start: '2036-05-11T05:00:00+00:00',
     })
     const body = await postRes.json()
     const newScheduleEntryUri = body._links.self.href
@@ -198,8 +198,8 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
     // move period start date
     await apiPatch(bipiApi, `/api/periods/${grgrPeriodId}`, {
-      start: '2026-05-09',
-      end: '2026-05-12',
+      start: '2036-05-09',
+      end: '2036-05-12',
       moveScheduleEntries: true,
     })
 
@@ -209,8 +209,8 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
     // move period start date again
     await apiPatch(bipiApi, `/api/periods/${grgrPeriodId}`, {
-      start: '2026-05-10',
-      end: '2026-05-13',
+      start: '2036-05-10',
+      end: '2036-05-13',
       moveScheduleEntries: true,
     })
 
@@ -231,7 +231,7 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
     // move period start date
     await apiPatch(bipiApi, `/api/periods/${grgrPeriodId}`, {
-      start: '2026-05-09',
+      start: '2036-05-09',
       moveScheduleEntries: false,
     })
 
@@ -241,7 +241,7 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
     // move period start date again
     await apiPatch(bipiApi, `/api/periods/${grgrPeriodId}`, {
-      start: '2026-05-10',
+      start: '2036-05-10',
       moveScheduleEntries: false,
     })
 

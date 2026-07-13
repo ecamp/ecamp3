@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { bipiUser } from '@/utils/constants'
-import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
+import { loginAndSetCookie } from '@/utils/helpers'
 
 const tomorrow = new Date()
 tomorrow.setDate(tomorrow.getDate() + 1)
@@ -11,10 +11,6 @@ in2Days.setDate(in2Days.getDate() + 2)
 const campTitle = 'title'
 
 test.describe('create new camp', { tag: '@mature' }, () => {
-  test.beforeEach(async ({ page }) => {
-    await mockDateNow(page)
-  })
-
   test('without prototype', async ({ page, request }) => {
     await loginAndSetCookie(page, request, bipiUser)
     await expect(page.locator('body')).toContainText('GRGR')

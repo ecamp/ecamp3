@@ -208,23 +208,3 @@ export async function deleteCampViaUI(
 
   await page.waitForURL(/\/camps$/, { timeout: 15000 })
 }
-
-export async function mockDateNow(page: Page, date: string = 'April 30 2026 13:00:00') {
-  const fakeNow = new Date(date).valueOf()
-
-  await page.addInitScript(`{
-    Date = class extends Date {
-      constructor(...args) {
-        if (args.length === 0) {
-          super(${fakeNow});
-        } else {
-          super(...args);
-        }
-      }
-    }
-
-    const __DateNowOffset = ${fakeNow} - Date.now();
-    const __DateNow = Date.now;
-    Date.now = () => __DateNow() + __DateNowOffset;
-  }`)
-}
