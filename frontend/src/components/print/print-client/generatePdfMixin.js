@@ -106,7 +106,6 @@ export const generatePdfMixin = {
       this.progress = progress
       this.state = this.$t(
         'components.print.printClient.generatePdfMixin.progress.' + state,
-        1,
         params
       )
     },
