@@ -11,7 +11,6 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - ./pdf:/pdf:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
       - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
     environment:
@@ -22,8 +21,6 @@ services:
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
-    depends_on:
-      - pdf
 
   frontend-old:
     image: node:24.18.0
@@ -35,7 +32,7 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend-old:/app:delegated
       - ./common:/common:delegated
-      - ./pdf:/pdf:delegated
+      #- ./pdf:/pdf:delegated
       - ./.cache/npm:/home/node/.npm/_cacache:delegated
       - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
     environment:
@@ -46,16 +43,15 @@ services:
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
-    depends_on:
-      - pdf
+    # The pdf module has been integrated back into the frontend, it's not built separately anymore
+    #depends_on:
+    #- pdf
 
   api:
     image: ${REGISTRY:-docker.io}/${REPO_OWNER:-ecamp}/ecamp3-api:${VERSION:-latest}
     build:
       context: ./api
       target: frankenphp_prod
-      cache_from:
-        - ecamp/ecamp3-dev-api
     container_name: 'ecamp3-api'
     depends_on:
       - database
@@ -106,26 +102,6 @@ services:
     volumes:
       - varnish_data:/var/lib/varnish:ro
     command: varnishncsa
-
-  pdf:
-    image: node:24.18.0
-    container_name: 'ecamp3-pdf'
-    stdin_open: true
-    tty: true
-    user: ${USER_ID:-1000}
-    volumes:
-      - ./.prettierrc:/.prettierrc
-      - ./pdf:/app:delegated
-      - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm
-    working_dir: /app
-    command: ./docker-setup.sh
-    stop_signal: SIGKILL
-    environment:
-      - NODE_ENV=development
-      - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
-      - CI=${CI:-}
 
   print:
     image: node:24.18.0

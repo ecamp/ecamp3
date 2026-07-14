@@ -17,8 +17,8 @@ docker compose --profile=playwright-cli up -d
 - `/frontend/` Main Vue 3 frontend served by Vite.
 - `/frontend-old/` Legacy Vue 2 frontend; NEVER CHANGE THIS.
 - `/common/` Shared JavaScript utilities, ESLint rules, and locale files used by the Node-based apps.
-- `/pdf/` Client-side PDF rendering package used by the frontends.
-- `/print/` Nuxt-based print backend.
+- `/frontend/src/pdf/` Client-side PDF rendering code used by the frontend.
+- `/print/` Separate, Nuxt-based print backend.
 - `/e2e/` Playwright end-to-end tests.
 - `/.helm/` Helm chart and Kubernetes deployment configuration.
 - `/.ops/` Operational tooling such as performance tests.
@@ -83,19 +83,8 @@ NEVER CHANGE THIS
 ## /common directory
 
 Shared code and locale files are mounted into the Node-based services.
-When changing shared code, run checks for every affected consumer, commonly `frontend`, `pdf` or `print`.
+When changing shared code, run checks for every affected consumer, commonly `frontend`, or `print`.
 When changing shared locale files, also consider the `/translation` instructions.
-
-## /pdf directory
-
-Client-side PDF rendering package. The Docker service name is `pdf`.
-
-```bash
-docker compose exec pdf npm run lint:check
-docker compose exec pdf npm run lint
-docker compose exec pdf npm run test:unit
-docker compose exec pdf npm run build
-```
 
 ## /print directory
 
