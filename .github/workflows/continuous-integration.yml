@@ -73,7 +73,6 @@ jobs:
               "common/**",
               "e2e/**",
               "frontend/**",
-              "pdf/**",
               "print/**",
               "docker-compose.yml",
               ".env.ci"
@@ -166,35 +165,6 @@ jobs:
              exit 1
           fi
         working-directory: frontend
-
-  client-print-eslint:
-    name: 'Lint: ClientPrint (ESLint)'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '24.18.0'
-
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - run: npm ci --no-audit
-        working-directory: pdf
-
-      - run: |
-          npm run lint:check:eslint
-          result=$(npm run lint:check:prettier)
-          echo $result
-          if echo $result | grep -E "Code style issues found"; then
-             exit 1
-          fi
-        working-directory: pdf
 
   print-eslint:
     name: 'Lint: Print (ESLint)'
@@ -385,12 +355,6 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: npm ci --no-audit
-        working-directory: pdf
-
-      - run: npm run build
-        working-directory: pdf
-
-      - run: npm ci --no-audit
         working-directory: frontend
 
       - run: npm run build
@@ -449,43 +413,6 @@ jobs:
           parallel: true
           fail-on-error: false
 
-  pdf-tests:
-    name: 'Tests: PDF'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '24.18.0'
-
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - run: npm ci --no-audit
-        working-directory: pdf
-
-      - run: npm run build
-        working-directory: pdf
-
-      - run: npm run test:unit
-        working-directory: pdf
-
-      - name: replace paths in lcov.info that they reflect repo path
-        run: |
-          sed -i "s|src/|pdf/src/|g" pdf/data/coverage/lcov.info
-
-      - name: Coveralls Parallel
-        uses: coverallsapp/github-action@v2
-        with:
-          flag-name: pdf
-          parallel: true
-          fail-on-error: false
-
   e2e-tests-build:
     name: 'Tests: End-to-end build'
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
@@ -507,14 +434,13 @@ jobs:
       - api-tests
       - frontend-tests
       - print-tests
-      - pdf-tests
     runs-on: ubuntu-latest
     steps:
       - uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
-          carryforward: 'api,frontend,print,pdf'
+          carryforward: 'api,frontend,print'
           fail-on-error: false
 
   workflow-success:
@@ -524,11 +450,9 @@ jobs:
       - frontend-eslint
       - print-eslint
       - e2e-lint
-      - client-print-eslint
       - api-tests
       - frontend-tests
       - print-tests
-      - pdf-tests
       - e2e-tests-build
       - e2e-tests-run
     runs-on: ubuntu-latest

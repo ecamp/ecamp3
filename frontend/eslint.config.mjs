@@ -58,6 +58,7 @@ export default [
       'vue/custom-event-name-casing': ['error', 'camelCase'],
       'vue/v-on-event-hyphenation': ['error'],
 
+      'vue/no-unused-vars': ['error', { ignorePattern: '^_' }],
       'no-unused-vars': [
         'error',
         {
@@ -80,6 +81,15 @@ export default [
           shallowOnly: true,
         },
       ],
+    },
+  },
+
+  {
+    files: ['src/pdf/**/*.vue'],
+    rules: {
+      'vue/valid-v-for': 'off', // no mutations in the pdf tree -> no v-for key needed
+      'vue/no-reserved-component-names': 'off', // name clashes of react-pdf components
+      'vue-scoped-css/enforce-style-type': 'off', // pdf styles are global by design
     },
   },
 ]

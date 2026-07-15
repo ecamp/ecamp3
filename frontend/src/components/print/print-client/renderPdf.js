@@ -1,6 +1,6 @@
 import wrap from './minimalHalJsonVuex.js'
 import createI18n from './i18n.js'
-import { render, prepare } from '@/pdf/pdf.js'
+import { render, prepare } from '@/pdf/index.js'
 
 export const renderPdf = async ({ config, storeData, translationData }, onProgress) => {
   const result = {
