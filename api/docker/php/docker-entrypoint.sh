@@ -8,6 +8,10 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ 
     setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
   fi
 
+  if [ "$APP_ENV" = 'e2e' ]; then
+    php bin/console cache:warmup
+  fi
+
   if [ "$APP_ENV" != 'prod' ] && [ "$APP_ENV" != 'e2e' ]; then
     if [ ! -f config/jwt/private.pem ]; then
       jwt_passphrase=${JWT_PASSPHRASE:-$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')}
