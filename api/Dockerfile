@@ -51,6 +51,8 @@ RUN set -eux; \
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
+RUN mkdir -p /app/var/cache/e2e/htmlpurifier
+
 COPY --link docker/php/conf.d/10-api-platform.ini $PHP_INI_DIR/app.conf.d/
 ENV LOG_LEVEL=info
 COPY --link docker/caddy/Caddyfile /etc/frankenphp/Caddyfile
