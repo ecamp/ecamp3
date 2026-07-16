@@ -24,6 +24,6 @@
         "eslint-plugin-prettier": "5.5.6",
         "eslint-plugin-promise": "7.3.0",
         "globals": "17.7.0",
-        "prettier": "3.9.4"
+        "prettier": "3.9.5"
     }
 }
