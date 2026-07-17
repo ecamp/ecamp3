@@ -25,6 +25,10 @@ test('reloads the page when a route chunk is missing after a deploy', async ({
 
   let chunkRequestCount = 0
   await page.route(CAMP_CREATE_CHUNK, async (route) => {
+    if (!route.request().url().endsWith('.js')) {
+      await route.continue()
+      return
+    }
     chunkRequestCount += 1
     if (chunkRequestCount === 1) {
       await route.abort('failed')
