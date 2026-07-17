@@ -95,7 +95,7 @@
   "devDependencies": {
     "@eslint/compat": "2.1.0",
     "@eslint/js": "10.0.1",
-    "@sentry/vite-plugin": "5.3.0",
+    "@sentry/vite-plugin": "5.4.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/user-event": "14.6.1",
     "@testing-library/vue": "8.1.0",
