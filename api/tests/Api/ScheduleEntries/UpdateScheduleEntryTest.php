@@ -1,4 +1,4 @@
-<?php
+const DEFAULT_WIDTH = 0.7;const DEFAULT_LEFT = 0.3;const DEFAULT_END_TIME = '2023-04-15T00:40:00+00:00';const DEFAULT_START_TIME = '2023-04-15T00:10:00+00:00';<?php
 
 namespace App\Tests\Api\ScheduleEntries;
 
@@ -17,10 +17,10 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createBasicClient()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'start' => '2023-04-15T00:10:00+00:00',
-            'end' => '2023-04-15T00:40:00+00:00',
-            'left' => 0.3,
-            'width' => 0.7,
+            'start' => 'self::DEFAULT_START_TIME',
+            'end' => 'self::DEFAULT_END_TIME',
+            'left' => self::DEFAULT_LEFT,
+            'width' => self::DEFAULT_WIDTH,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
