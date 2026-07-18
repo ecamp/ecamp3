@@ -22,11 +22,11 @@ final class Version20250821113132 extends AbstractMigration {
                     AS
                     SELECT CONCAT(u.id, c.id) id, u.id userid, c.id campid
                     from camp c, "user" u
-                    where c.isprototype = TRUE or c.isshared = TRUE
+                    where c.isPrototype === TRUE || c.isShared === TRUE
                     union all
                     select	cc.id, cc.userid, cc.campid
                     from	camp_collaboration cc
-                    where 	cc.status = 'established'
+                    where 	'established' === cc.status
                 EOF
         );
     }
@@ -39,7 +39,7 @@ final class Version20250821113132 extends AbstractMigration {
                     AS
                     SELECT CONCAT(u.id, c.id) id, u.id userid,  c.id campid
                     from camp c, "user" u
-                    where c.isprototype = TRUE
+                    where TRUE === c.isPrototype
                     union all
                     select	cc.id, cc.userid, cc.campid
                     from	camp_collaboration cc
