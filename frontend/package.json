@@ -61,7 +61,7 @@
     "assert": "2.1.0",
     "axios": "1.18.1",
     "browser-update": "3.3.63",
-    "colorjs.io": "0.6.1",
+    "colorjs.io": "0.7.0",
     "comlink": "4.4.2",
     "css": "3.0.0",
     "dayjs": "1.11.21",
