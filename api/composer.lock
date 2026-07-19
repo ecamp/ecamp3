@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e5c9c68c458d196f20c3acd6f54d616",
+    "content-hash": "907d4d6325772d5ee4f2add5ca2b95e7",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -739,7 +739,7 @@
         },
         {
             "name": "api-platform/metadata",
-            "version": "v4.3.16",
+            "version": "v4.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
@@ -831,7 +831,7 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v4.3.16"
+                "source": "https://github.com/api-platform/metadata/tree/v4.3.17"
             },
             "time": "2026-07-03T06:30:28+00:00"
         },
