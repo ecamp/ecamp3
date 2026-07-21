@@ -101,7 +101,7 @@ export default {
 <style lang="react-pdf">
 .program-day-summary {
   margin-bottom: 12pt;
-  border-bottom: 4pt solid black;
+  border-bottom: 2pt solid black;
 }
 .program-day-title {
   display: flex;
