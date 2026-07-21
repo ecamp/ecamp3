@@ -8,7 +8,12 @@
   >
     <template #prepend>
       <v-icon v-if="loading">
-        <v-progress-circular :model-value="progress" size="24" color="primary" />
+        <v-progress-circular
+          :model-value="progress"
+          :rotate="0"
+          size="24"
+          color="primary"
+        />
       </v-icon>
       <v-icon v-else icon="mdi-printer" />
     </template>
