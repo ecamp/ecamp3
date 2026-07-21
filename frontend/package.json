@@ -100,7 +100,7 @@
     "@testing-library/user-event": "14.6.1",
     "@testing-library/vue": "8.1.0",
     "@types/lodash-es": "4.17.12",
-    "@vitejs/plugin-vue": "6.0.7",
+    "@vitejs/plugin-vue": "6.0.8",
     "@vitest/coverage-v8": "4.1.10",
     "@vue/babel-preset-app": "5.0.9",
     "@vue/compiler-dom": "3.5.39",
