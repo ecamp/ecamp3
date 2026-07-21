@@ -2,6 +2,6 @@
   "name": "@ecamp3/playwright-cli",
   "private": true,
   "dependencies": {
-    "@playwright/cli": "0.1.17"
+    "@playwright/cli": "0.1.15"
   }
 }
