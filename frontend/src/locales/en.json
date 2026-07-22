@@ -262,6 +262,16 @@
       }
     },
     "collaborator": {
+      "collaboratorBulkCreate": {
+        "validationFailed": "Already in camp or invalid email:",
+        "emailsHint": "Enter one email address per line, or separate with commas",
+        "emailsLabel": "Email addresses",
+        "failedEmails": "Failed to invite: {emails}",
+        "invite": "Send invitations",
+        "inviteCta": "Invite multiple people",
+        "successCount": "{count} invitation(s) sent",
+        "title": "Invite multiple people"
+      },
       "collaboratorCreate": {
         "emailLabel": "Email address",
         "invite": "Send invitation",
