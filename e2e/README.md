@@ -60,6 +60,14 @@ or
 docker compose --profile e2e run --rm e2e "npm update <dependency>"
 ```
 
+### Optional preparation to simulate conditions closer to CI
+
+This switches off HMR and starts the frontend using a production build.
+
+```shell
+PREVIEW=true docker compose up -d --force-recreate frontend
+```
+
 ### Run all e2e tests
 
 ```shell
@@ -96,6 +104,12 @@ open playwright-report/index.html
 
 ```shell
 docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file>
+```
+
+### Cleanup in case you did the optional preparation above
+
+```shell
+docker compose up -d --force-recreate frontend
 ```
 
 ### Update browser after branch switch
