@@ -85,11 +85,6 @@
       "allowedVersions": "18-alpine"
     },
     {
-      "matchDepNames": ["cypress", "cypress/included"],
-      "automerge": false,
-      "groupName": "cypress"
-    },
-    {
       "groupName": "playwright",
       "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"]
     },
