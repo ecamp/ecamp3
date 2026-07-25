@@ -1,0 +1,22 @@
+diff --git a/node_modules/png-js/lib/png-js.browser.js b/node_modules/png-js/lib/png-js.browser.js
+index 4c04414..922c940 100644
+--- a/node_modules/png-js/lib/png-js.browser.js
++++ b/node_modules/png-js/lib/png-js.browser.js
+@@ -1,6 +1,14 @@
+-import { unzlib } from 'fflate';
+-
+-const inflate = unzlib ;
++import { unzlibSync } from 'fflate';
++
++// Decode synchronously instead of via fflate's async API. The async API spawns a
++// Web Worker (Blob URL) per call; when PDF rendering already runs inside a Web
++// Worker, that creates nested workers, which Firefox delivers unreliably under
++// CPU load - the decode callback is sometimes never fired, so the image is never
++// embedded and the PDF stream never finishes. We are already off the main thread,
++// so a synchronous inflate is appropriate here.
++const inflate = (data, cb) => {
++  cb(null, unzlibSync(data));
++};
+ 
+ class PNG {
+   static decode(path, fn) {
