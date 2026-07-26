@@ -7,10 +7,10 @@ vi.mock('@/router.js', () => ({
   campRoute: vi.fn((camp) => `/camps/${camp.id}`),
 }))
 
-vi.mock('@/plugins/i18n/index.js', () => ({
-  componentI18n: {
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
     locale: 'en-US',
-  },
+  }),
 }))
 
 describe('CampListItem.vue - Date Display', () => {

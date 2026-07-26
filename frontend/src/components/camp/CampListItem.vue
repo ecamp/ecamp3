@@ -24,7 +24,7 @@
 
 <script>
 import { campRoute } from '@/router.js'
-import { componentI18n } from '@/plugins/i18n/index.js'
+import { useI18n } from 'vue-i18n'
 import { groupBy, uniq } from 'lodash-es'
 
 const YEAR_JOINER = '-'
@@ -35,15 +35,19 @@ export default {
     camp: { type: Object, required: true },
     periods: { type: Array, default: () => [] },
   },
+  setup() {
+    const { locale } = useI18n()
+    return { locale }
+  },
   computed: {
     formatMY() {
-      return new Intl.DateTimeFormat(componentI18n.locale, {
+      return new Intl.DateTimeFormat(this.locale, {
         year: 'numeric',
         month: 'short',
       })
     },
     formatM() {
-      return new Intl.DateTimeFormat(componentI18n.locale, { month: 'short' })
+      return new Intl.DateTimeFormat(this.locale, { month: 'short' })
     },
     date() {
       return Object.entries(this.groupedPeriods).map(([key, periods]) => {
