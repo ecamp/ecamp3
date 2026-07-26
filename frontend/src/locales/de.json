@@ -586,6 +586,7 @@
       "add": "Hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
+      "change": "Ändern",
       "close": "Schliessen",
       "content": "Inhalt",
       "continue": "Weiter",
@@ -892,7 +893,6 @@
       "detail": "Hoppla. Du bist vom Weg abgekommen…{br}Dieser Link funktioniert leider nicht."
     },
     "profile": {
-      "changeEmail": "Ändern",
       "profile": "Profil"
     }
   }

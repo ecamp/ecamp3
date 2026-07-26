@@ -463,6 +463,7 @@
       "add": "Aggiungere",
       "back": "Indietro",
       "cancel": "Annullare",
+      "change": "Modifica",
       "close": "Chiudi",
       "content": "Contenuto",
       "continue": "Continuare",
@@ -740,7 +741,6 @@
       "detail": "Ops. Hai perso la strada…{br}Purtroppo questo link non funziona."
     },
     "profile": {
-      "changeEmail": "Cambiamento",
       "profile": "Profilo"
     }
   }

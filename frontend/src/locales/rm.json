@@ -391,6 +391,7 @@
       "add": "Agiuntar",
       "back": "Enavos",
       "cancel": "Interrumper",
+      "change": "Midar",
       "close": "Serrar",
       "content": "Cuntegn",
       "create": "Crear",
@@ -656,7 +657,6 @@
       "detail": "Hopla. Ti has pers la via…{br}Questa colliaziun na funcziuna deplorablamain betg."
     },
     "profile": {
-      "changeEmail": "Midar",
       "profile": "Profil"
     }
   }
