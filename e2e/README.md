@@ -75,9 +75,6 @@ docker compose --profile e2e run --rm e2e npx playwright test --ui-host=localhos
 
 Then open <http://localhost:8080> in your browser.
 
-Note: `--ui-host=localhost` exposes the UI, including traces, passwords and secrets, to other
-machines on your local network.
-
 ### Show test report
 
 ```shell
