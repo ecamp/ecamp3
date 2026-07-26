@@ -7,6 +7,7 @@ function createRandomId(length = 5) {
   return Array.from(bytes, (byte) => chars[byte % chars.length]).join('')
 }
 
+// noinspection JSUnusedGlobalSymbols
 export const runIdFixture = {
   createRandomId: async ({}, use: (a: () => string) => Promise<void>) => {
     await use(createRandomId)
@@ -15,4 +16,9 @@ export const runIdFixture = {
     const runId = createRandomId()
     await use(runId)
   },
+}
+
+export type RunIdFixtureType = {
+  createRandomId: () => string
+  runId: string
 }

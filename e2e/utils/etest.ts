@@ -1,10 +1,13 @@
-import { Fixtures, test as base } from '@playwright/test'
-import { runIdFixture } from '@/utils/fixtures/runId'
+import { test as base } from '@playwright/test'
+import { runIdFixture, RunIdFixtureType } from '@/utils/fixtures/runId'
+import {
+  loginPageFixture,
+  LoginPageFixtureType,
+} from '@/utils/fixtures/pageObjects/loginPage'
 
 const fixtureObject = {
   ...runIdFixture,
+  ...loginPageFixture,
 }
 
-const fixtures: Fixtures<{ fixtureObject: never }> = fixtureObject
-
-export const test = base.extend<typeof fixtureObject>(fixtures)
+export const test = base.extend<LoginPageFixtureType & RunIdFixtureType>(fixtureObject)
