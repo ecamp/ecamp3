@@ -30,7 +30,9 @@
           @click="addContentNode(contentType)"
         >
           <template #prepend>
-            <v-icon>{{ $t(contentTypeIconKey(contentType)) }}</v-icon>
+            <v-icon>{{
+              $t(contentTypeIconKey(contentType), null, { missingWarn: false })
+            }}</v-icon>
           </template>
           <v-list-item-title>
             {{ $t(contentTypeNameKey(contentType)) }}
@@ -46,7 +48,9 @@
           @click="addContentNode(contentType)"
         >
           <template #prepend>
-            <v-icon>{{ $t(contentTypeIconKey(contentType)) }}</v-icon>
+            <v-icon>{{
+              $t(contentTypeIconKey(contentType), null, { missingWarn: false })
+            }}</v-icon>
           </template>
           <v-list-item-title>
             {{ $t(contentTypeNameKey(contentType)) }}
