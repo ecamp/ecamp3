@@ -3,7 +3,6 @@ import {
   clearToasts,
   dismissToast,
   MAX_VISIBLE_TOASTS,
-  toasts,
   useToast,
   visibleToasts,
 } from '@/components/toast/useToast.js'
@@ -19,18 +18,18 @@ describe('useToast', () => {
     const infoId = toast.info('Copied', { timeout: 2000 })
     const errorId = toast.error('Saving failed')
 
-    expect(toasts).toEqual([
-      {
-        id: infoId,
-        type: 'info',
-        content: 'Copied',
-        timeout: 2000,
-      },
+    expect(visibleToasts.value).toEqual([
       {
         id: errorId,
         type: 'error',
         content: 'Saving failed',
         timeout: 30000,
+      },
+      {
+        id: infoId,
+        type: 'info',
+        content: 'Copied',
+        timeout: 2000,
       },
     ])
   })
