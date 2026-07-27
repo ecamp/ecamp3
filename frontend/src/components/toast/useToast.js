@@ -1,6 +1,6 @@
 import { computed, shallowReactive } from 'vue'
 
-const DEFAULT_TIMEOUT = 5000
+const DEFAULT_TIMEOUT = 30000
 const MAX_VISIBLE_TOASTS = 2
 
 const toasts = shallowReactive([])

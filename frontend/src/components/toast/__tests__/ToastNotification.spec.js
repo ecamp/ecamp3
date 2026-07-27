@@ -10,7 +10,7 @@ function createToast(overrides = {}) {
     id: 1,
     type: 'info',
     content: 'Saved',
-    timeout: 5000,
+    timeout: 30000,
     ...overrides,
   }
 }
@@ -26,13 +26,16 @@ describe('ToastNotification', () => {
       props: { toast: createToast() },
     })
 
-    await vi.advanceTimersByTimeAsync(2000)
+    await vi.advanceTimersByTimeAsync(12000)
+    expect(wrapper.getComponent({ name: 'VProgressLinear' }).props('modelValue')).toBe(60)
+
     await wrapper.trigger('mouseenter')
     await vi.advanceTimersByTimeAsync(10000)
     expect(wrapper.emitted('dismiss')).toBeUndefined()
+    expect(wrapper.getComponent({ name: 'VProgressLinear' }).props('modelValue')).toBe(60)
 
     await wrapper.trigger('mouseleave')
-    await vi.advanceTimersByTimeAsync(2999)
+    await vi.advanceTimersByTimeAsync(17999)
     expect(wrapper.emitted('dismiss')).toBeUndefined()
 
     await vi.advanceTimersByTimeAsync(1)
