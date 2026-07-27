@@ -4,7 +4,7 @@
     :type="toast.type"
     variant="elevated"
     closable
-    role="alert"
+    :role="toast.type === 'error' ? 'alert' : 'status'"
     data-testid="toast-notification"
     @click:close="dismiss"
     @mouseenter="pauseTimeout"
@@ -20,6 +20,7 @@
       :model-value="timeoutProgress"
       height="3"
       absolute
+      aria-hidden="true"
       location="bottom"
     />
   </v-alert>
