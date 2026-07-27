@@ -4,6 +4,7 @@
       <ToastNotification
         v-for="toast in visibleToasts"
         :key="toast.id"
+        class="toast-notification"
         :toast="toast"
         @dismiss="dismissToast"
       />
@@ -35,5 +36,8 @@ export default {
   gap: 12px;
   width: min(400px, calc(100vw - 32px));
   pointer-events: none;
+}
+.toast-notification {
+  pointer-events: auto;
 }
 </style>
