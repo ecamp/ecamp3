@@ -17,7 +17,6 @@
         {{ $t('global.info.offline.description') }}
       </p>
     </v-footer>
-    <v-snackbar-queue v-model="snackbarMessages"></v-snackbar-queue>
 
     <NewVersionAvailableDialog />
   </v-app>
@@ -26,7 +25,6 @@
 <script>
 import VueI18n from '@/plugins/i18n'
 import { headEnvironment } from '@/plugins/index.js'
-import { mapGetters } from 'vuex'
 import { useHead } from '@unhead/vue'
 import NewVersionAvailableDialog from '@/components/NewVersionAvailableDialog.vue'
 
@@ -50,9 +48,6 @@ export default {
     footerHeight: '0px',
     mutationObserver: null,
   }),
-  computed: {
-    ...mapGetters(['snackbarMessages']),
-  },
   watch: {
     offline() {
       // Use a small delay to ensure DOM has been updated

@@ -85,7 +85,6 @@ export default {
         })
         .catch((e) => {
           this.$toast.error(errorToMultiLineToast(e))
-          this.$store.commit('addSnackbarMessage', errorToMultiLineToast(e))
         })
         .finally(async () => {
           await this.endpoint.$reload()
