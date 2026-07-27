@@ -119,7 +119,7 @@
     "eslint-plugin-n": "18.2.2",
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-promise": "7.3.0",
-    "eslint-plugin-vue": "10.9.2",
+    "eslint-plugin-vue": "10.10.0",
     "eslint-plugin-vue-scoped-css": "3.1.1",
     "flush-promises": "1.0.2",
     "globals": "17.7.0",
