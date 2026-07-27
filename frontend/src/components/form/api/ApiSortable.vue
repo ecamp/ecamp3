@@ -24,7 +24,7 @@
 import draggable from 'vuedraggable'
 import { every, sortBy } from 'lodash-es'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'ApiSortable',
@@ -84,7 +84,7 @@ export default {
           position: event.newDraggableIndex + 1,
         })
         .catch((e) => {
-          this.$toast.error(errorToMultiLineToast(e))
+          this.toast.error(errorToMultiLineToast(e))
         })
         .finally(async () => {
           await this.endpoint.$reload()

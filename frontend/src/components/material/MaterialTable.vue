@@ -247,7 +247,7 @@ import * as Sentry from '@sentry/browser'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 // Non-breaking space
 const nbsp = '\u00A0'

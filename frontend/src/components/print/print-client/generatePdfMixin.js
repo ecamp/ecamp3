@@ -2,7 +2,7 @@ import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 import * as Sentry from '@sentry/browser'
 import { generatePdf } from './generatePdf.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 import { componentI18n } from '@/plugins/index.js'
 
 const RENDER_IN_WORKER = true

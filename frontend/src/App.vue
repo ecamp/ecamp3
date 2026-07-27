@@ -17,6 +17,7 @@
         {{ $t('global.info.offline.description') }}
       </p>
     </v-footer>
+    <ToastHost />
 
     <NewVersionAvailableDialog />
   </v-app>
@@ -27,10 +28,11 @@ import VueI18n from '@/plugins/i18n'
 import { headEnvironment } from '@/plugins/index.js'
 import { useHead } from '@unhead/vue'
 import NewVersionAvailableDialog from '@/components/NewVersionAvailableDialog.vue'
+import ToastHost from '@/components/toast/ToastHost.vue'
 
 export default {
   name: 'App',
-  components: { NewVersionAvailableDialog },
+  components: { NewVersionAvailableDialog, ToastHost },
   setup() {
     useHead({
       title: null,

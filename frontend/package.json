@@ -86,7 +86,6 @@
     "vue-i18n": "11.4.6",
     "vue-recaptcha-v3": "2.0.1",
     "vue-router": "5.2.0",
-    "vue-toastification": "2.0.0-rc.5",
     "vuedraggable": "4.1.0",
     "vuetify": "3.12.10",
     "vuex": "4.1.0",

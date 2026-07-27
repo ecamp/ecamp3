@@ -61,7 +61,7 @@ import { camelCase } from 'lodash-es'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import { getEnv } from '@/environment.js'
 import contentTypeIcons from './content/contentTypeIcons.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 import { componentI18n } from '@/plugins/i18n/index.js'
 
 export default {
