@@ -7,10 +7,6 @@ metadata:
   labels:
     {{- include "mail.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
-  annotations:
-    {{- if .Values.ingress.basicAuth.enabled }}
-    traefik.ingress.kubernetes.io/router.middlewares: {{ printf "%s-%s-basic-auth@kubernetescrd" .Release.Namespace (include "app.name" .) | quote }}
-    {{- end }}
 spec:
   parentRefs:
     - name: traefik-gateway
@@ -22,6 +18,14 @@ spec:
         - path:
             type: PathPrefix
             value: {{ .Values.mail.subpath }}
+      filters:
+        {{- if .Values.ingress.basicAuth.enabled }}
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: {{ printf "%s-basic-auth" (include "app.name" .) | quote }}
+        {{- end }}
       backendRefs:
         - name: {{ include "mail.name" . }}
           port: {{ .Values.mail.service.port }}

@@ -10,9 +10,6 @@ metadata:
     {{- with .Values.gateway.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- if .Values.ingress.basicAuth.enabled }}
-    traefik.ingress.kubernetes.io/router.middlewares: {{ printf "%s-%s-basic-auth@kubernetescrd" .Release.Namespace (include "app.name" .) | quote }}
-    {{- end }}
 spec:
   parentRefs:
     - name: traefik-gateway
@@ -35,6 +32,13 @@ spec:
             add:
               - name: X-Forwarded-Prefix
                 value: {{ .Values.api.subpath }}
+        {{- if .Values.ingress.basicAuth.enabled }}        
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: {{ printf "%s-basic-auth" (include "app.name" .) | quote }}
+        {{- end }}
       backendRefs:
         {{- if .Values.apiCache.enabled }}
         - name: {{ include "apiCache.name" . }}
