@@ -21,12 +21,6 @@ spec:
         - path:
             type: PathPrefix
             value: {{ .Values.print.subpath }}
-      filters:
-        - type: URLRewrite
-          urlRewrite:
-            path:
-              type: ReplacePrefixMatch
-              replacePrefixMatch: /
       backendRefs:
         - name: {{ include "print.name" . }}
           port: {{ .Values.print.service.port }}
