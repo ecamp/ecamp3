@@ -224,7 +224,7 @@ securityContext: {}
 # runAsUser: 1000
 
 ingress:
-  enabled: {{ .Environment.Values | get "INGRESS_ENABLED" true }}
+  enabled: {{ .Environment.Values | get "INGRESS_ENABLED" false }}
   basicAuth:
     enabled: {{ .Environment.Values | getOrNil "BASIC_AUTH_ENABLED" | default false }}
     username: {{ .Environment.Values | getOrNil "BASIC_AUTH_USERNAME" | quote }}
@@ -235,7 +235,7 @@ ingress:
   tls:
 
 gateway:
-  enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+  enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" true }}
   className: {{ .Environment.Values | get "GATEWAY_CLASS_NAME" "traefik" }}
   annotations: {}
 
