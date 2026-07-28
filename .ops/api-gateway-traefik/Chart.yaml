@@ -1,0 +1,11 @@
+apiVersion: v2
+name: api-gateway-traefik
+description: Helm chart for deploying Traefik API Gateway
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+
+dependencies:
+    - name: traefik
+      version: 39.0.5
+      repository: https://traefik.github.io/charts
