@@ -1,5 +1,6 @@
 apiToken: {{ .Environment.Values | getOrNil "API_TOKEN" | required "API_TOKEN is required" }}
 external-dns:
+  policy: sync
   provider:
     name: {{ .Environment.Values | get "EXTERNAL_DNS_PROVIDER" "cloudflare" }}
   env:
