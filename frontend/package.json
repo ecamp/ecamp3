@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@date-io/dayjs": "^3.2.0",
-    "@intlify/core": "11.4.6",
+    "@intlify/core": "11.4.7",
     "@leeoniya/ufuzzy": "1.0.19",
     "@mdi/font": "7.4.47",
     "@react-pdf/font": "4.0.8",
