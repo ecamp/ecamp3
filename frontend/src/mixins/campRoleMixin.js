@@ -22,9 +22,7 @@ export const campRoleMixin = {
       return this._campRole === 'member'
     },
     isOutsider() {
-      return (
-        this.camp && typeof this._campCollaborations === 'function' && !this._campRole
-      )
+      return this._campCollaborations.length > 0 && this._campRole === undefined
     },
     _campRole() {
       const currentUserLink = this.$store.getters.getLoggedInUser?._meta.self
