@@ -2,6 +2,7 @@
 
 
 
+
 INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash, jubladbid, color, abbreviation) VALUES
 	('711ad2e96f9f', 'admin@example.com', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('5e387cad273d', 'test@example.com', 'Robert', 'Baden-Powell', 'Bi-Pi', 'de-CH-scout', '["ROLE_USER"]', '2022-01-23 16:19:10', '2023-08-08 09:11:11', NULL, NULL, NULL, NULL, NULL, NULL, '#6a209b', '⚜️'),
@@ -4080,6 +4081,22 @@ INSERT INTO public.checklistnode_checklistitem (checklistnode_id, checklistitem_
 
 
 
+INSERT INTO public.comment (id, createtime, updatetime, texthtml, orphandescription, campid, activityid, authorid) VALUES
+	('d6fddfe3c07a', '2026-07-28 19:42:11', '2026-07-28 19:42:11', '<p>Schöne Aktivität! Die <strong>Sicherheitsüberlegungen</strong> fehlen aber noch, siehe https://www.jugendundsport.ch — das ist für die Kantonsbeiträge <em>zwingend</em>. 🏔️</p>', NULL, '70ca971c992f', 'b29d387cc403', '9145944210a7'),
+	('897358359032', '2026-07-28 20:11:05', '2026-07-28 20:11:05', '<p>Diese Aktivität überschneidet sich mit dem Skifahren am Samstag. 🤔</p>', NULL, '70ca971c992f', 'a13fadc97610', '9145944210a7'),
+	('6bef4d6808a7', '2026-07-29 08:17:36', '2026-07-29 08:17:36', '<p>Danke fürs Feedback, wir ergänzen die <strong>Sicherheitsüberlegungen</strong> bis Ende Monat.</p>', NULL, '70ca971c992f', 'b29d387cc403', 'a2f4f3879c85'),
+	('05755bd3ae41', '2026-07-29 08:24:02', '2026-07-29 08:24:02', '<p>Generell fehlt mir im ganzen Lager eine Aussage dazu, wie ihr mit dem Wetter umgeht. Bitte ergänzen, bevor ich das Lager bewilligen kann.</p>', NULL, '70ca971c992f', NULL, 'a2f4f3879c85'),
+	('9c6267185b70', '2026-07-29 11:04:13', '2026-07-29 11:04:13', '<p>Diese Postenarbeit war doppelt geplant, siehe Freitagnachmittag.</p>', 'Verschobene Postenarbeit', '3c79b99ab424', NULL, '9145944210a7'),
+	('5d64013d7c65', '2026-07-28 20:03:29', '2026-07-28 20:03:29', '<p>Bitte noch klären:</p><ul><li><p>Wer hat den Lawinenkurs?</p></li><li><p>Notfallkonzept bei dichtem Nebel</p></li><li><p><s>Schlitteln</s> haben wir gestrichen</p></li></ul>', NULL, '70ca971c992f', 'b29d387cc403', '9145944210a7'),
+	('27a64b0fc2c0', '2026-07-28 19:55:47', '2026-07-28 19:55:47', '<p>Zur Sicherheit auf dem Berg fehlt uns noch fast alles: Bitte beschreibt, wer die Gruppe führt, welche Ausbildung diese Person hat, wie ihr den Lawinenlagebericht einholt und wann, ab welchem Gefahrengrad ihr auf das Ausweichprogramm wechselt und wer diesen Entscheid fällt, wo die Sammelpunkte liegen, wie und wie oft ihr die Teilnehmenden zählt, welches Notfallmaterial mitkommt und wer es trägt, wer die Rettungskette auslöst, welche Telefonnummern die Leitenden zusätzlich auf Papier dabeihaben, wie ihr die Eltern im Ereignisfall informiert, wie ihr mit Teilnehmenden umgeht, die nicht mehr weiterlaufen können, und woran ihr merkt, dass die Gruppe umkehren muss. Das ist der Punkt, den die Kantone bei uns am häufigsten beanstanden, und ohne diese Angaben können wir die Aktivität nicht abschliessend beurteilen und das Lager auch nicht bewilligen.</p>', NULL, '70ca971c992f', 'b29d387cc403', '9145944210a7'),
+	('a8e187730dd0', '2026-07-29 10:12:44', '2026-07-29 10:12:44', '<p>Der Absturz ist ein <strong>starker Einstieg</strong>, aber die Jüngsten erschrecken sich sicher. Bitte plant eine Person ein, die sich um sie kümmert. 🛬</p>', NULL, '3c79b99ab424', '136454f62f6c', '9145944210a7'),
+	('d22ca1c69fc2', '2026-07-29 10:26:18', '2026-07-29 10:26:18', '<p>Offene Punkte für die Inselerkundung:</p><ul><li><p>Wer rekognosziert die Route vorher?</p></li><li><p>Was passiert bei Regen?</p></li><li><p><s>Baden</s> nur mit Aufsicht am Ufer</p></li></ul>', NULL, '3c79b99ab424', 'fdbb59fec14e', '9145944210a7'),
+	('14176b055bcc', '2026-07-29 10:31:55', '2026-07-29 10:31:55', '<p>Das Lagerprogramm sieht rund aus. Für die Bewilligung fehlt mir noch der Notfallplan mit den Telefonnummern der Leitenden und des Lagerplatzes.</p>', NULL, '3c79b99ab424', NULL, '9145944210a7'),
+	('58de248b77f8', '2026-07-30 18:47:21', '2026-07-30 18:47:21', '<p>Guter Punkt, ich übernehme das. Wir machen vorher eine kurze <em>Ansage</em>, damit alle wissen, dass es gespielt ist.</p>', NULL, '3c79b99ab424', '136454f62f6c', 'caeba9f7e728'),
+	('ea000c14be6a', '2026-07-30 14:22:09', '2026-07-30 14:22:09', '<p>Beim Block Zaubertränke bitte die <strong>Sicherheitsregeln</strong> für den Umgang mit dem Feuer ergänzen, siehe https://www.jugendundsport.ch. 🔥</p>', NULL, '5d28f99890bc', '7ba5ae8ddf20', 'caeba9f7e728'),
+	('22b67e760c0b', '2026-07-31 09:15:52', '2026-07-31 09:15:52', '<p>Achtung, die SpezEx läuft an zwei Blöcken. Bitte beim zweiten Block das Material nachfüllen. 🩹</p>', NULL, '5d28f99890bc', '8f90766d94d1', '9145944210a7'),
+	('bbdc8e71cd46', '2026-07-31 09:38:14', '2026-07-31 09:38:14', '<p>Zum Hajk fehlt uns noch einiges: Bitte beschreibt, wer die Gruppen begleitet, welche Ausbildung diese Personen haben, wie ihr die Routen rekognosziert, ab welcher Wetterlage ihr auf das Schlechtwetterprogramm wechselt und wer diesen Entscheid fällt, wo die Sammelpunkte liegen, wie oft ihr die Teilnehmenden zählt, welches Notfallmaterial mitkommt, wer die Rettungskette auslöst und welche Telefonnummern die Leitenden zusätzlich auf Papier dabeihaben. Ohne diese Angaben können wir den Kurs nicht abschliessend beurteilen.</p>', NULL, '5d28f99890bc', 'e781c2558f5f', '9145944210a7'),
+	('7d3c4236081e', '2026-07-31 09:44:37', '2026-07-31 09:44:37', '<p>Bitte tragt überall die Verantwortlichen ein, im Moment sind viele Blöcke noch niemandem zugeteilt.</p>', NULL, '5d28f99890bc', NULL, '9145944210a7');
 
 
 
@@ -4346,6 +4363,9 @@ INSERT INTO public.material_item (id, article, quantity, unit, createtime, updat
 	('84d41dc61c69', 'Knoblauch', 4, NULL, '2023-08-08 13:33:09', '2023-08-08 13:33:09', '6e3d8bf92360', NULL, '943f3caf8ed8', '5d28f99890bc', false),
 	('7655793a3287', 'Zucker', 800, 'g', '2023-08-08 13:33:22', '2023-08-08 13:33:22', '6e3d8bf92360', NULL, '943f3caf8ed8', '5d28f99890bc', false),
 	('076f418a0608', 'Zauberhüte', NULL, NULL, '2024-04-01 18:08:01', '2024-04-01 18:08:01', 'f4268fba5b4b', NULL, 'c66f2f897116', '5d28f99890bc', false);
+
+
+
 
 
 
@@ -4627,8 +4647,6 @@ INSERT INTO public.schedule_entry (id, startoffset, endoffset, "left", width, cr
 	('53d41fb96483', 8145, 8270, 0, 1, '2023-08-08 10:25:47', '2023-08-08 10:29:42', '88f1f55a69d7', '8f90766d94d1'),
 	('3c6a421b9598', 9180, 9345, 0, 1, '2023-08-08 10:30:47', '2023-08-08 10:30:47', '88f1f55a69d7', '5b592f4f4da8'),
 	('7d7d7c1ec146', 3000, 3120, 0, 1, '2023-08-08 10:31:35', '2023-08-08 10:31:35', '88f1f55a69d7', '8c1c703d901d');
-
-
 
 
 
