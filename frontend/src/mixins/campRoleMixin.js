@@ -1,6 +1,7 @@
 export const campRoleMixin = {
   provide() {
     return {
+      isCollaborator: this.isCollaborator,
       isContributor: this.isContributor,
       isGuest: this.isGuest,
       isManager: this.isManager,
@@ -9,6 +10,9 @@ export const campRoleMixin = {
     }
   },
   computed: {
+    isCollaborator() {
+      return this.isGuest || this.isContributor
+    },
     isContributor() {
       return this.isMember || this.isManager
     },
