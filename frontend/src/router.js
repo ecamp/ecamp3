@@ -768,6 +768,13 @@ export function periodFromRoute(route) {
   return apiStore.get().periods({ id: route.params.periodId })
 }
 
+export function activityFromRoute(route) {
+  if (!route.params.activityId) {
+    return undefined
+  }
+  return apiStore.get().activities({ id: route.params.activityId })
+}
+
 function categoryFromRoute(route) {
   if (!route.params.categoryId) {
     return undefined
