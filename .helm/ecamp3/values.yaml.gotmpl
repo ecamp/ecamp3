@@ -23,6 +23,7 @@ helpLink: 'https://ecamp3.ch/faq'
 featureToggle:
   developer: {{ .Environment.Values | getOrNil "FEATURE_DEVELOPER" | default false }}
   checklist: {{ .Environment.Values | getOrNil "FEATURE_CHECKLIST" | default false }}
+  comments: {{ .Environment.Values | getOrNil "FEATURE_COMMENTS" | default false }}
 
 api:
   authenticationTokenTtl: {{ .Environment.Values | getOrNil "API_AUTHENTICATION_TOKEN_TTL" }}
