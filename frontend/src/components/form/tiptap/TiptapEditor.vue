@@ -7,7 +7,7 @@
     }"
   >
     <bubble-menu
-      v-if="withExtensions"
+      v-if="withExtensions && editable"
       ref="bubbleMenu"
       :editor="editor"
       :should-show="shouldShow"
@@ -296,6 +296,7 @@ export default {
     document.removeEventListener('keydown', this.specialKeyListeners)
     document.removeEventListener('keyup', this.specialKeyListeners)
     document.removeEventListener('contextmenu', this.specialMenuListeners)
+    this.editor.destroy()
   },
   methods: {
     focus() {
