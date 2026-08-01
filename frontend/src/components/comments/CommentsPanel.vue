@@ -11,6 +11,7 @@ A global sidebar panel (bottom on mobile) showing comments for the current conte
     :mobile="false"
     :order="2"
     :class="atBottom ? 'ec-comments-panel__mobile' : ''"
+    data-testid="comments-panel"
   >
     <div class="d-flex flex-column h-100">
       <v-toolbar density="compact" color="transparent">

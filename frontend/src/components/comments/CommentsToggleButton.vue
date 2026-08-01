@@ -8,6 +8,7 @@ Button to open the camp-global comments panel.
       <v-btn
         variant="text"
         icon="mdi-comment-outline"
+        data-testid="comments-toggle"
         :active="commentsState.open"
         :aria-label="label"
         v-bind="props"

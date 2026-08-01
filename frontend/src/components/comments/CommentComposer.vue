@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 py-2">
+  <div class="px-3 py-2" data-testid="comment-composer">
     <ERichtext
       v-model="textHtml"
       vee-id="textHtml"
@@ -16,6 +16,7 @@
       variant="flat"
       size="small"
       :disabled="!textHtml"
+      data-testid="comment-submit"
       :loading="saving"
       @click="submit"
     >

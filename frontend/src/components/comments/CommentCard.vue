@@ -1,5 +1,10 @@
 <template>
-  <v-sheet border rounded="lg" class="ec-comment-card px-3 py-2">
+  <v-sheet
+    border
+    rounded="lg"
+    class="ec-comment-card px-3 py-2"
+    data-testid="comment-card"
+  >
     <div
       v-if="showActivity && (activity || comment.orphanDescription)"
       class="ec-comment-card__activity text-body-3 font-weight-medium truncate mb-1"
