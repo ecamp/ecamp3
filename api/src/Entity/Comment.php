@@ -26,9 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            security: 'is_granted("CAMP_COLLABORATOR", object) or
-                       is_granted("CAMP_IS_PUBLIC", object) or
-                       object.author === user',
+            security: 'is_granted("CAMP_COLLABORATOR", object)',
         ),
         new Delete(
             security: 'object.author === user',
@@ -47,8 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'activityId' => new Link(
                     toProperty: 'activity',
                     fromClass: Activity::class,
-                    security: 'is_granted("CAMP_COLLABORATOR", activity) or
-                               is_granted("CAMP_IS_PUBLIC", activity)',
+                    security: 'is_granted("CAMP_COLLABORATOR", activity)',
                 ),
             ],
             security: 'is_fully_authenticated()',
