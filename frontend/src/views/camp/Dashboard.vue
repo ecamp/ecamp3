@@ -2,6 +2,7 @@
   <content-card :title="$t('views.camp.dashboard.activities')" toolbar>
     <template #title-actions>
       <v-spacer />
+      <CommentsToggleButton />
       <v-btn v-if="today !== null" variant="text" @click="scrollToToday">
         <v-icon start>mdi-calendar-today</v-icon>
         {{ $t('views.camp.dashboard.today') }}
@@ -159,10 +160,12 @@ import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
 import dayjs from '@/common/helpers/dayjs.js'
 import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
 import { campRoleMixin } from '../../mixins/campRoleMixin.js'
+import CommentsToggleButton from '../../components/comments/CommentsToggleButton.vue'
 
 export default {
   name: 'Dashboard',
   components: {
+    CommentsToggleButton,
     ScheduleEntryFilters,
     AvatarRow,
     ActivityRow,

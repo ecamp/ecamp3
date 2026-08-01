@@ -104,6 +104,7 @@ Displays a single scheduleEntry
       </v-btn>
 
       <TogglePaperSize v-model="isPaperDisplaySize" />
+      <CommentsToggleButton v-if="!layoutMode" />
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ props }">
@@ -305,6 +306,7 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
+import CommentsToggleButton from '@/components/comments/CommentsToggleButton.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
@@ -321,6 +323,7 @@ export default {
     ApiForm,
     ApiSelect,
     TogglePaperSize,
+    CommentsToggleButton,
     DialogEntityDelete,
     ContentCard,
     ApiTextField,

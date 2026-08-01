@@ -4,6 +4,8 @@
 
     <router-view name="aside" />
 
+    <CommentsPanel v-if="featureComments" />
+
     <!-- main content -->
     <v-main>
       <router-view />
@@ -29,10 +31,12 @@ import { headEnvironment } from '@/plugins/index.js'
 import { mapGetters } from 'vuex'
 import { useHead } from '@unhead/vue'
 import NewVersionAvailableDialog from '@/components/NewVersionAvailableDialog.vue'
+import CommentsPanel from '@/components/comments/CommentsPanel.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
-  components: { NewVersionAvailableDialog },
+  components: { CommentsPanel, NewVersionAvailableDialog },
   setup() {
     useHead({
       title: null,
@@ -52,6 +56,9 @@ export default {
   }),
   computed: {
     ...mapGetters(['snackbarMessages']),
+    featureComments() {
+      return getEnv().FEATURE_COMMENTS ?? false
+    },
   },
   watch: {
     offline() {

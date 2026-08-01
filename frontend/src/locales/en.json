@@ -301,6 +301,25 @@
         "warningTextLeaveCamp": "Do you want to leave the camp '{camp}'?"
       }
     },
+    "comments": {
+      "commentCard": {
+        "deleteWarning": "Do you really want to delete your comment?",
+        "deletedActivity": "Deleted activity: {activity}"
+      },
+      "commentComposer": {
+        "placeholder": "Write a comment"
+      },
+      "commentsList": {
+        "empty": "No comments yet."
+      },
+      "commentsPanel": {
+        "title": "Comments"
+      },
+      "commentsToggleButton": {
+        "hide": "Hide comments",
+        "show": "Show comments"
+      }
+    },
     "dashboard": {
       "selectFilter": {
         "clear": "Clear"
