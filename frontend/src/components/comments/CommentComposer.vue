@@ -1,5 +1,10 @@
 <template>
-  <div class="px-3 py-2" data-testid="comment-composer">
+  <div
+    class="px-3 py-2"
+    data-testid="comment-composer"
+    @keydown.capture.ctrl.enter.prevent.stop="submit"
+    @keydown.capture.meta.enter.prevent.stop="submit"
+  >
     <ERichtext
       v-model="textHtml"
       vee-id="textHtml"
@@ -8,20 +13,22 @@
       :disabled="saving"
       variant="outlined"
       density="compact"
-    />
-    <v-btn
-      class="mt-1"
-      block
-      color="primary"
-      variant="flat"
-      size="small"
-      :disabled="!textHtml"
-      data-testid="comment-submit"
-      :loading="saving"
-      @click="submit"
     >
-      {{ $t('global.button.submit') }}
-    </v-btn>
+      <template #append-inner>
+        <v-btn
+          icon="mdi-send"
+          variant="text"
+          density="comfortable"
+          color="primary"
+          class="align-self-end"
+          :disabled="!textHtml"
+          :loading="saving"
+          :aria-label="$t('global.button.submit')"
+          data-testid="comment-submit"
+          @click="submit"
+        />
+      </template>
+    </ERichtext>
   </div>
 </template>
 
@@ -46,6 +53,7 @@ export default {
   },
   methods: {
     async submit() {
+      if (!this.textHtml || this.saving) return
       this.saving = true
       this.errorMessages = []
       try {

@@ -34,4 +34,34 @@ test.describe('comments on an activity', () => {
 
     await expect(comment).toHaveCount(0)
   })
+
+  test('submits with ctrl+enter without inserting a line break', async ({
+    page,
+    request,
+    runId,
+  }) => {
+    const text = `Tastatur ${runId}`
+
+    await loginAndSetCookie(page, request, bipiUser)
+    await page.goto(`/camps/${skilagerCampId}/Skilager/program`)
+    await page.locator('a[href*="/program/activity/"]').first().click()
+    await page.getByTestId('comments-toggle').click()
+
+    const composer = page.getByTestId('comments-panel').getByTestId('comment-composer')
+    await composer.locator('.ProseMirror').click()
+    await composer.locator('.ProseMirror').pressSequentially(text, { delay: 30 })
+    await page.keyboard.press('ControlOrMeta+Enter')
+
+    const comment = page.getByTestId('comment-card').filter({ hasText: text })
+    await expect(comment).toBeVisible()
+
+    await expect(comment.locator('.ProseMirror')).toHaveText(text)
+    expect(await comment.locator('.ProseMirror').innerHTML()).not.toContain('<br')
+
+    await comment.hover()
+    await comment.locator('button.ec-comment-card__delete').click()
+    await page.locator('.v-overlay--active button.bg-error').click()
+
+    await expect(comment).toHaveCount(0)
+  })
 })

@@ -1,5 +1,5 @@
 <template>
-  <v-list class="overflow-y-auto flex-grow-1">
+  <v-list class="overflow-y-auto flex-grow-1 ec-comments-list">
     <template v-if="comments._meta.loading">
       <v-list-item>
         <v-skeleton-loader type="list-item-two-line" />
@@ -47,3 +47,20 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.ec-comments-list {
+  --fade: 24px;
+  --fade-padding: 17px;
+
+  padding-top: var(--fade-padding);
+  padding-bottom: var(--fade-padding);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--fade),
+    #000 calc(100% - var(--fade)),
+    transparent 100%
+  );
+}
+</style>

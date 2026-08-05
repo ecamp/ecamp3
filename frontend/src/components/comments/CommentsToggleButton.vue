@@ -3,7 +3,7 @@
     <template #activator="{ props }">
       <v-btn
         variant="text"
-        icon="mdi-comment-outline"
+        :icon="commentsState.open ? 'mdi-comment' : 'mdi-comment-outline'"
         data-testid="comments-toggle"
         :active="commentsState.open"
         :aria-label="label"
