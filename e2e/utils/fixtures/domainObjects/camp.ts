@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import { expect, Page } from '@playwright/test'
 import { boxedStep } from '@/utils/decorators/boxedStep'
 import { LoginPage } from '@/utils/fixtures/pageObjects/loginPage'
 import { bipiUser } from '@/utils/constants'
@@ -75,5 +75,18 @@ export class Camp {
 
   get campActivitySettings() {
     return new CampActivitySettings(this._page, this._campId)
+  }
+
+  @boxedStep
+  async delete() {
+    const campInfo = this._campInfo
+    await campInfo.goto()
+    const dialog = await campInfo.openDeleteDialog()
+    await dialog.fillPrompt(this._campTitle)
+    await dialog.submit()
+
+    await this._page.goto('/camps')
+    await this._page.waitForURL('/camps', { timeout: 15000 })
+    await expect(this._page.getByText(this._campTitle)).toBeHidden()
   }
 }
