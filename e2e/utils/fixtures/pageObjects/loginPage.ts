@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test'
 import { boxedStep } from '@/utils/decorators/boxedStep'
+import { CampListPage } from '@/utils/fixtures/pageObjects/campListPage'
 
 export const loginPageFixture = {
   loginPage: async (
@@ -15,20 +16,17 @@ export type LoginPageFixtureType = {
 }
 
 export class LoginPage {
-  private readonly _page: Page
-  private readonly _quickLoginButton: Locator
-  private readonly _emailField: Locator
-  private readonly _passwordField: Locator
-  private readonly _loginButton: Locator
-  constructor(page: Page) {
-    this._page = page
-    this._quickLoginButton = page.locator('[role="alert"] button:has-text("Login")')
-
-    const formLocator = page.locator('form')
-    this._emailField = formLocator.locator('input[name="email"]')
-    this._passwordField = formLocator.locator('input[name="password"]')
-    this._loginButton = formLocator.locator('button[type="submit"]')
-  }
+  constructor(
+    private readonly _page: Page,
+    private readonly _quickLoginButton = _page.locator(
+      '[role="alert"] button:has-text("Login")'
+    ),
+    private readonly _emailField = _page.locator('form').locator('input[name="email"]'),
+    private readonly _passwordField = _page
+      .locator('form')
+      .locator('input[name="password"]'),
+    private readonly _loginButton = _page.locator('form').locator('button[type="submit"]')
+  ) {}
 
   @boxedStep
   async open() {
@@ -42,8 +40,18 @@ export class LoginPage {
     await expect(this._emailField).toBeVisible()
     await expect(this._passwordField).toBeVisible()
     await expect(this._loginButton).toBeVisible()
-
     return this
+  }
+
+  @boxedStep
+  async loginToCampList(user: string, password: string = 'test') {
+    await this.loaded()
+    await this._emailField.fill(user)
+    await this._passwordField.fill(password)
+    await this._loginButton.click()
+    const campListPage = new CampListPage(this._page)
+    await campListPage.loaded()
+    return campListPage
   }
 
   get locator(): Locator {
