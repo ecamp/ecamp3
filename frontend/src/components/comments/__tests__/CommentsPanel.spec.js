@@ -61,6 +61,7 @@ function mountPanel(
 describe('CommentsPanel', () => {
   beforeEach(() => {
     commentsState.open = false
+    commentsState.focusedActivity = null
     campFromRoute.mockReturnValue(camp([collaboration('guest', '/users/me')]))
     activityFromRoute.mockReturnValue(activity)
   })
@@ -139,5 +140,15 @@ describe('CommentsPanel', () => {
 
     route.params.campId = '2'
     await vi.waitFor(() => expect(commentsState.open).toBe(false))
+  })
+
+  it('drops the focused activity when it is closed', async () => {
+    mountPanel()
+    commentsState.open = true
+    commentsState.focusedActivity = activity._meta.self
+    await nextTick()
+
+    commentsState.open = false
+    await vi.waitFor(() => expect(commentsState.focusedActivity).toBe(null))
   })
 })

@@ -12,6 +12,7 @@
       v-else
       :key="group.key"
       class="ec-comments-list__group d-flex flex-column ga-2"
+      :class="{ 'ec-comments-list__group--focused': group.focused }"
     >
       <h3
         v-if="group.activity || group.titleKey"
@@ -37,6 +38,7 @@
 import CommentCard from '@/components/comments/CommentCard.vue'
 import ScheduleEntryLinks from '@/components/material/ScheduleEntryLinks.vue'
 import { firstAppearanceByActivity } from '@/helpers/firstAppearanceByActivity.js'
+import { commentsState } from '@/components/comments/commentsState.js'
 import { sortBy } from 'lodash-es'
 
 export default {
@@ -46,6 +48,9 @@ export default {
     camp: { type: Object, required: true },
     activity: { type: Object, default: null },
     comments: { type: Object, required: true },
+  },
+  data() {
+    return { commentsState }
   },
   computed: {
     periods() {
@@ -92,6 +97,7 @@ export default {
             position,
             activity,
             comments: [],
+            focused: activity._meta.self === this.commentsState.focusedActivity,
           })
         }
         activityGroups.get(activity._meta.self).comments.push(comment)
@@ -110,6 +116,18 @@ export default {
     },
     groups() {
       return this.activity ? this.activityScopedGroups : this.campScopedGroups
+    },
+  },
+  watch: {
+    'commentsState.focusedActivity': {
+      immediate: true,
+      handler() {
+        this.$nextTick(() => {
+          this.$el
+            .querySelector('.ec-comments-list__group--focused')
+            ?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+        })
+      },
     },
   },
 }
@@ -134,5 +152,27 @@ function bucket(key, titleKey, comments, showActivityTitle = false) {
     #000 calc(100% - var(--fade)),
     transparent 100%
   );
+}
+
+.ec-comments-list__group {
+  scroll-margin-top: var(--fade-padding);
+}
+
+.ec-comments-list__group--focused {
+  border-radius: 4px;
+  outline: 2px solid transparent;
+  outline-offset: 5px;
+  animation: ec-comments-list-flash 0.5s ease-out 3;
+}
+
+@keyframes ec-comments-list-flash {
+  from {
+    background-color: rgba(var(--v-theme-primary), 0.16);
+    outline-color: rgba(var(--v-theme-primary), 0.7);
+  }
+  to {
+    background-color: transparent;
+    outline-color: transparent;
+  }
 }
 </style>

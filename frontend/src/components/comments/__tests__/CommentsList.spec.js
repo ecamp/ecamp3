@@ -1,9 +1,18 @@
-import { describe, expect, it } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import CommentsList from '@/components/comments/CommentsList.vue'
+import {
+  commentsState,
+  focusActivityComments,
+} from '@/components/comments/commentsState.js'
 
 setupVuetify()
+enableAutoUnmount(afterEach)
+
+afterEach(() => {
+  commentsState.focusedActivity = null
+})
 
 const currentUser = { _meta: { self: '/users/me' } }
 function activityFixture(uri) {
@@ -78,6 +87,14 @@ function renderedComments(wrapper) {
   return wrapper
     .findAllComponents({ name: 'CommentCard' })
     .map((c) => c.props().comment._meta.self)
+}
+
+function focusedGroupActivity(wrapper) {
+  const focused = wrapper.find('.ec-comments-list__group--focused')
+  return wrapper
+    .findAllComponents({ name: 'ScheduleEntryLinks' })
+    .find((link) => focused.element.contains(link.element))
+    ?.props().activityPromise.uri
 }
 
 function groupedActivities(wrapper) {
@@ -240,6 +257,80 @@ describe('CommentsList', () => {
     const wrapper = mountList({ items: [comment(1)] })
 
     expect(wrapper.find('.ec-comment-card__activity').exists()).toBe(false)
+  })
+
+  describe('focusing an activity', () => {
+    function nextFrame() {
+      return new Promise((resolve) => requestAnimationFrame(() => resolve()))
+    }
+
+    // focusActivityComments drops the focus and reassigns it two frames later, so that
+    // the browser renders the group without the class and restarts its animation
+    async function focus(activityUri) {
+      Element.prototype.scrollIntoView = vi.fn()
+      focusActivityComments(activityUri)
+      await nextFrame()
+      await nextFrame()
+    }
+
+    it('scrolls to and marks the group of the focused activity', async () => {
+      const wrapper = mountList({
+        scope: null,
+        items: [comment(1), comment(2, { on: otherActivity })],
+      })
+
+      await focus(otherActivity._meta.self)
+
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledOnce()
+      expect(focusedGroupActivity(wrapper)).toBe(otherActivity._meta.self)
+    })
+
+    it('scrolls again when the same activity is focused twice', async () => {
+      const wrapper = mountList({
+        scope: null,
+        items: [comment(1), comment(2, { on: otherActivity })],
+      })
+
+      await focus(otherActivity._meta.self)
+      await focus(otherActivity._meta.self)
+
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledOnce()
+      expect(focusedGroupActivity(wrapper)).toBe(otherActivity._meta.self)
+    })
+
+    it('keeps the group marked until another activity is focused', async () => {
+      const wrapper = mountList({
+        scope: null,
+        items: [comment(1), comment(2, { on: otherActivity })],
+      })
+
+      await focus(activity._meta.self)
+      expect(focusedGroupActivity(wrapper)).toBe(activity._meta.self)
+
+      await focus(otherActivity._meta.self)
+      expect(focusedGroupActivity(wrapper)).toBe(otherActivity._meta.self)
+    })
+
+    it('marks no group for an activity that has none', async () => {
+      const wrapper = mountList({
+        scope: null,
+        scheduleEntries: [scheduleEntry(activity)],
+        items: [comment(1)],
+      })
+
+      await focus(otherActivity._meta.self)
+
+      expect(wrapper.find('.ec-comments-list__group--focused').exists()).toBe(false)
+      expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled()
+    })
+
+    it('does not scroll while the comments are still loading', async () => {
+      mountList({ scope: null, items: [comment(1)], loading: true })
+
+      await focus(activity._meta.self)
+
+      expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled()
+    })
   })
 
   it('offers a delete button on own comments only', () => {

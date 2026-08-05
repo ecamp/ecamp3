@@ -43,7 +43,11 @@
 <script>
 import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentsList from '@/components/comments/CommentsList.vue'
-import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
+import {
+  clearCommentsFocus,
+  commentsState,
+  resetCommentsState,
+} from '@/components/comments/commentsState.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { activityFromRoute, campFromRoute } from '@/router.js'
 
@@ -79,8 +83,14 @@ export default {
     },
   },
   watch: {
+    'commentsState.open'(open) {
+      if (!open) clearCommentsFocus()
+    },
     '$route.params.campId'() {
       resetCommentsState()
+    },
+    '$route.path'() {
+      clearCommentsFocus()
     },
   },
 }

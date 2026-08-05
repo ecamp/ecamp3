@@ -323,6 +323,9 @@
       }
     },
     "dashboard": {
+      "activityRow": {
+        "comments": "Keine Kommentare | Einen Kommentar anzeigen | {count} Kommentare anzeigen"
+      },
       "selectFilter": {
         "clear": "Zurücksetzen"
       }
