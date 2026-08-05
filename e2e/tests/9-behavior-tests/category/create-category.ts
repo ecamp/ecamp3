@@ -1,10 +1,20 @@
 import { expect } from '@playwright/test'
 import { test } from '@/utils/etest'
+import { Camp } from '@/utils/fixtures/domainObjects/camp'
 
 test.describe('category on new camp', () => {
-  test('creates a new category on the camp', async ({ createCamp, runId, page }) => {
+  let camp: Camp
+
+  test.beforeEach(async ({ createCamp }) => {
+    camp = await createCamp('Keine Vorlage')
+  })
+
+  test.afterEach(async () => {
+    await camp?.delete()
+  })
+
+  test('creates a new category on the camp', async ({ runId, page }) => {
     const categoryName = `Test Category ${runId}`
-    const camp = await createCamp('Keine Vorlage')
 
     const campActivitySettings = camp.campActivitySettings
     const campCategories = await campActivitySettings.goTo()
