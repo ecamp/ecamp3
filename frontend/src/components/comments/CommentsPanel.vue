@@ -23,12 +23,25 @@
         />
       </v-toolbar>
       <v-divider />
-      <CommentsList v-if="commentsState.open" :camp="camp" :activity="activity" />
+      <CommentsList
+        v-if="commentsState.open"
+        :camp="camp"
+        :activity="activity"
+        :comments="comments"
+      />
+      <v-divider />
+      <CommentComposer
+        v-if="commentsState.open"
+        :camp="camp"
+        :activity="activity"
+        @created="comments.$reload()"
+      />
     </div>
   </v-navigation-drawer>
 </template>
 
 <script>
+import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentsList from '@/components/comments/CommentsList.vue'
 import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
@@ -36,7 +49,7 @@ import { activityFromRoute, campFromRoute } from '@/router.js'
 
 export default {
   name: 'CommentsPanel',
-  components: { CommentsList },
+  components: { CommentComposer, CommentsList },
   mixins: [campRoleMixin],
   data() {
     return { commentsState }
@@ -47,6 +60,9 @@ export default {
     },
     activity() {
       return activityFromRoute(this.$route)
+    },
+    comments() {
+      return this.api.get().comments({ camp: this.camp._meta.self })
     },
     atBottom() {
       return this.$vuetify.display.smAndDown

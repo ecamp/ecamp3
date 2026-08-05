@@ -6,7 +6,7 @@
     data-testid="comment-card"
   >
     <div
-      v-if="showActivity && (activity || comment.orphanDescription)"
+      v-if="showActivityTitle && (activity || comment.orphanDescription)"
       class="ec-comment-card__activity text-body-2 font-weight-medium text-truncate mb-1"
     >
       <ScheduleEntryLinks v-if="activity" :activity-promise="activity._meta.load" />
@@ -59,7 +59,7 @@ export default {
   components: { PromptEntityDelete, ScheduleEntryLinks, TiptapEditor, UserAvatar },
   props: {
     comment: { type: Object, required: true },
-    showActivity: { type: Boolean, default: false },
+    showActivityTitle: { type: Boolean, default: false },
   },
   computed: {
     ...mapGetters({ authUser: 'getLoggedInUser' }),

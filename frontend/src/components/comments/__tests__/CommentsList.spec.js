@@ -6,9 +6,28 @@ import CommentsList from '@/components/comments/CommentsList.vue'
 setupVuetify()
 
 const currentUser = { _meta: { self: '/users/me' } }
-const camp = { _meta: { self: '/camps/1' } }
-const activity = { _meta: { self: '/activities/1', load: Promise.resolve() } }
-const otherActivity = { _meta: { self: '/activities/2', load: Promise.resolve() } }
+function activityFixture(uri) {
+  return { _meta: { self: uri, load: Object.assign(Promise.resolve(), { uri }) } }
+}
+
+const activity = activityFixture('/activities/1')
+const otherActivity = activityFixture('/activities/2')
+
+function scheduleEntry(on) {
+  return { activity: () => on }
+}
+
+function camp(scheduleEntries, loading = false) {
+  return {
+    _meta: { self: '/camps/1' },
+    periods: () => ({
+      _meta: { loading },
+      items: [
+        { scheduleEntries: () => ({ _meta: { loading }, items: scheduleEntries }) },
+      ],
+    }),
+  }
+}
 
 function comment(
   id,
@@ -24,18 +43,26 @@ function comment(
   }
 }
 
-function mountList({ loading = false, items = [], scope = activity } = {}) {
+function mountList({
+  loading = false,
+  items = [],
+  scope = activity,
+  scheduleEntries = [scheduleEntry(activity), scheduleEntry(otherActivity)],
+  programLoading = false,
+} = {}) {
   return mount(CommentsList, {
-    props: { camp, activity: scope },
+    props: {
+      camp: camp(scheduleEntries, programLoading),
+      activity: scope,
+      comments: { _meta: { loading }, items },
+    },
     global: {
       mocks: {
         $t: (key, named) => [key, ...Object.values(named ?? {})].join(' '),
         $date: (value) => ({ format: () => value }),
         $store: { getters: { getLoggedInUser: currentUser } },
-        api: { get: () => ({ comments: () => ({ _meta: { loading }, items }) }) },
       },
       stubs: {
-        CommentComposer: true,
         TiptapEditor: { template: '<div class="text"><slot /></div>' },
         ScheduleEntryLinks: {
           name: 'ScheduleEntryLinks',
@@ -47,12 +74,37 @@ function mountList({ loading = false, items = [], scope = activity } = {}) {
   })
 }
 
+function renderedComments(wrapper) {
+  return wrapper
+    .findAllComponents({ name: 'CommentCard' })
+    .map((c) => c.props().comment._meta.self)
+}
+
+function groupedActivities(wrapper) {
+  return wrapper
+    .findAllComponents({ name: 'ScheduleEntryLinks' })
+    .map((link) => link.props().activityPromise.uri)
+}
+
 describe('CommentsList', () => {
   it('shows skeletons while the collection is loading', () => {
     const wrapper = mountList({ loading: true })
 
     expect(wrapper.findAll('.v-skeleton-loader')).toHaveLength(2)
     expect(wrapper.findAllComponents({ name: 'CommentCard' })).toHaveLength(0)
+  })
+
+  it('shows skeletons while the programme is still loading in camp scope', () => {
+    const wrapper = mountList({ scope: null, items: [comment(1)], programLoading: true })
+
+    expect(wrapper.findAll('.v-skeleton-loader')).toHaveLength(2)
+    expect(wrapper.findAllComponents({ name: 'CommentCard' })).toHaveLength(0)
+  })
+
+  it('does not wait for the programme in activity scope', () => {
+    const wrapper = mountList({ items: [comment(1)], programLoading: true })
+
+    expect(renderedComments(wrapper)).toEqual(['/comments/1'])
   })
 
   it('shows an empty state when the scope has no comments', () => {
@@ -65,11 +117,11 @@ describe('CommentsList', () => {
   it('keeps the order the API returned', () => {
     const wrapper = mountList({ items: [comment(1), comment(2), comment(3)] })
 
-    expect(
-      wrapper
-        .findAllComponents({ name: 'CommentCard' })
-        .map((c) => c.props().comment._meta.self)
-    ).toEqual(['/comments/1', '/comments/2', '/comments/3'])
+    expect(renderedComments(wrapper)).toEqual([
+      '/comments/1',
+      '/comments/2',
+      '/comments/3',
+    ])
   })
 
   it('shows only the comments of the scoped activity', () => {
@@ -77,32 +129,87 @@ describe('CommentsList', () => {
       items: [comment(1), comment(2, { on: otherActivity }), comment(3, { on: null })],
     })
 
-    expect(
-      wrapper
-        .findAllComponents({ name: 'CommentCard' })
-        .map((c) => c.props().comment._meta.self)
-    ).toEqual(['/comments/1'])
+    expect(renderedComments(wrapper)).toEqual(['/comments/1'])
   })
 
-  it('shows every camp comment when there is no activity scope', () => {
+  it('renders a flat list in activity scope', () => {
+    const wrapper = mountList({ items: [comment(1), comment(2)] })
+
+    expect(wrapper.findAll('.ec-comments-list__group')).toHaveLength(1)
+    expect(groupedActivities(wrapper)).toEqual([])
+  })
+
+  it('groups every camp comment by activity in programme order', () => {
     const wrapper = mountList({
       scope: null,
-      items: [comment(1), comment(2, { on: otherActivity }), comment(3, { on: null })],
+      scheduleEntries: [scheduleEntry(otherActivity), scheduleEntry(activity)],
+      items: [comment(1), comment(2, { on: otherActivity }), comment(3)],
     })
 
-    expect(wrapper.findAllComponents({ name: 'CommentCard' })).toHaveLength(3)
+    expect(groupedActivities(wrapper)).toEqual(['/activities/2', '/activities/1'])
+    expect(renderedComments(wrapper)).toEqual([
+      '/comments/2',
+      '/comments/1',
+      '/comments/3',
+    ])
   })
 
-  it('links to the activity of each comment when there is no activity scope', () => {
+  it('positions an activity by its first remaining schedule entry', () => {
+    const wrapper = mountList({
+      scope: null,
+      scheduleEntries: [scheduleEntry(otherActivity), scheduleEntry(activity)],
+      items: [comment(1), comment(2, { on: otherActivity })],
+    })
+
+    expect(groupedActivities(wrapper)).toEqual(['/activities/2', '/activities/1'])
+  })
+
+  it('names the activity of each group', () => {
     const wrapper = mountList({
       scope: null,
       items: [comment(1), comment(2, { on: otherActivity })],
     })
 
-    const links = wrapper.findAllComponents({ name: 'ScheduleEntryLinks' })
-    expect(links.map((link) => link.props().activityPromise)).toEqual([
-      activity._meta.load,
-      otherActivity._meta.load,
+    expect(groupedActivities(wrapper)).toEqual(['/activities/1', '/activities/2'])
+  })
+
+  it('collects camp comments and orphans in their own buckets', () => {
+    const wrapper = mountList({
+      scope: null,
+      scheduleEntries: [],
+      items: [
+        comment(1, { on: null }),
+        comment(2, { on: null, orphanDescription: 'Postenarbeit' }),
+        comment(3, { on: null }),
+      ],
+    })
+
+    const groups = wrapper.findAll('.ec-comments-list__group')
+    expect(groups.map((group) => group.find('h3').text())).toEqual([
+      'components.comments.commentsList.campComments',
+      'components.comments.commentsList.orphanedComments',
+    ])
+    expect(renderedComments(wrapper)).toEqual([
+      '/comments/1',
+      '/comments/3',
+      '/comments/2',
+    ])
+  })
+
+  it('shows camp comments first and orphans last', () => {
+    const wrapper = mountList({
+      scope: null,
+      items: [
+        comment(1),
+        comment(2, { on: null, orphanDescription: 'Postenarbeit' }),
+        comment(3, { on: null }),
+      ],
+    })
+
+    expect(renderedComments(wrapper)).toEqual([
+      '/comments/3',
+      '/comments/1',
+      '/comments/2',
     ])
   })
 
@@ -115,6 +222,12 @@ describe('CommentsList', () => {
     expect(wrapper.find('.ec-comment-card__activity').text()).toBe(
       'components.comments.commentCard.deletedActivity Postenarbeit'
     )
+  })
+
+  it('names no activity on the cards of an activity group', () => {
+    const wrapper = mountList({ scope: null, items: [comment(1)] })
+
+    expect(wrapper.find('.ec-comment-card__activity').exists()).toBe(false)
   })
 
   it('names no activity for a camp comment', () => {

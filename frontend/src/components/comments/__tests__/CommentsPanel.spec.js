@@ -33,17 +33,26 @@ function camp(collaborations) {
 
 const activity = { _meta: { self: '/activities/1' } }
 
-function mountPanel(route = reactive({ params: { campId: '1' } })) {
+function commentsApi(comments) {
+  return { get: () => ({ comments: () => comments }) }
+}
+
+function mountPanel(
+  route = reactive({ params: { campId: '1' } }),
+  api = commentsApi({ _meta: { loading: false }, items: [], $reload: () => {} })
+) {
   return mount(CommentsPanel, {
     global: {
       mocks: {
         $t: (key) => key,
         $route: route,
         $store: { getters: { getLoggedInUser: currentUser } },
+        api,
       },
       stubs: {
         VNavigationDrawer: { template: '<div class="drawer"><slot /></div>' },
         CommentsList: true,
+        CommentComposer: true,
       },
     },
   })
@@ -88,6 +97,39 @@ describe('CommentsPanel', () => {
     await nextTick()
 
     expect(wrapper.find('comments-list-stub').exists()).toBe(true)
+  })
+
+  it('mounts the composer alongside the list', async () => {
+    const wrapper = mountPanel()
+    expect(wrapper.find('comment-composer-stub').exists()).toBe(false)
+
+    commentsState.open = true
+    await nextTick()
+
+    expect(wrapper.find('comment-composer-stub').exists()).toBe(true)
+  })
+
+  it('reloads the comments once one was created', async () => {
+    const reload = vi.fn()
+    const wrapper = mountPanel(undefined, commentsApi({ $reload: reload }))
+    commentsState.open = true
+    await nextTick()
+
+    wrapper.findComponent({ name: 'CommentComposer' }).vm.$emit('created')
+
+    expect(reload).toHaveBeenCalledOnce()
+  })
+
+  it('hands the camp comments to the list', async () => {
+    const comments = { _meta: { loading: false }, items: [] }
+    const wrapper = mountPanel(undefined, commentsApi(comments))
+
+    commentsState.open = true
+    await nextTick()
+
+    expect(wrapper.findComponent({ name: 'CommentsList' }).props().comments).toBe(
+      comments
+    )
   })
 
   it('closes when the route changes to another camp', async () => {

@@ -304,13 +304,15 @@
     "comments": {
       "commentCard": {
         "deleteWarning": "Do you really want to delete your comment?",
-        "deletedActivity": "Deleted activity: {activity}"
+        "deletedActivity": "{activity} (deleted)"
       },
       "commentComposer": {
         "placeholder": "Write a comment"
       },
       "commentsList": {
-        "empty": "No comments yet."
+        "campComments": "Whole camp",
+        "empty": "No comments yet.",
+        "orphanedComments": "Deleted activities"
       },
       "commentsPanel": {
         "title": "Comments"

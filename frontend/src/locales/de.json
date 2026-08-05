@@ -304,13 +304,15 @@
     "comments": {
       "commentCard": {
         "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
-        "deletedActivity": "Gelöschte Aktivität: {activity}"
+        "deletedActivity": "{activity} (gelöscht)"
       },
       "commentComposer": {
         "placeholder": "Kommentar schreiben"
       },
       "commentsList": {
-        "empty": "Noch keine Kommentare."
+        "campComments": "Ganzes Lager",
+        "empty": "Noch keine Kommentare.",
+        "orphanedComments": "Gelöschte Aktivitäten"
       },
       "commentsPanel": {
         "title": "Kommentare"
