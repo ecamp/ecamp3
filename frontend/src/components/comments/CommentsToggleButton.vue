@@ -1,7 +1,3 @@
-<!--
-Button to open the camp-global comments panel.
--->
-
 <template>
   <v-tooltip v-if="featureComments && isCollaborator" location="bottom">
     <template #activator="{ props }">

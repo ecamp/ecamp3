@@ -1,7 +1,3 @@
-<!--
-A global sidebar panel (bottom on mobile) showing comments for the current context, depending on the route.
--->
-
 <template>
   <v-navigation-drawer
     v-if="isCollaborator"
@@ -27,12 +23,7 @@ A global sidebar panel (bottom on mobile) showing comments for the current conte
         />
       </v-toolbar>
       <v-divider />
-      <CommentsList
-        v-if="commentsState.open"
-        class="flex-grow-1"
-        :camp="camp"
-        :activity="activity"
-      />
+      <CommentsList v-if="commentsState.open" :camp="camp" :activity="activity" />
     </div>
   </v-navigation-drawer>
 </template>

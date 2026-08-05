@@ -1,27 +1,22 @@
-<!--
-Fetches a camp's comments and shows the ones belonging to the panel's current scope.
--->
-
 <template>
-  <div class="d-flex flex-column ec-comments-list">
-    <div class="flex-grow-1 overflow-y-auto d-flex flex-column gap-2 px-3 py-3">
-      <template v-if="comments._meta.loading">
+  <v-list class="overflow-y-auto flex-grow-1">
+    <template v-if="comments._meta.loading">
+      <v-list-item>
         <v-skeleton-loader type="list-item-two-line" />
         <v-skeleton-loader type="list-item-two-line" />
-      </template>
-      <p v-else-if="!scopedComments.length" class="text-body-2 opacity-60 mb-0">
+      </v-list-item>
+    </template>
+    <v-list-item v-else-if="!scopedComments.length">
+      <p class="text-body-2 opacity-60 mb-0">
         {{ $t('components.comments.commentsList.empty') }}
       </p>
-      <CommentCard
-        v-for="comment in scopedComments"
-        :key="comment._meta.self"
-        :comment="comment"
-        :show-activity="!activity"
-      />
-    </div>
-    <v-divider />
-    <CommentComposer :camp="camp" :activity="activity" @created="comments.$reload()" />
-  </div>
+    </v-list-item>
+    <v-list-item v-for="comment in scopedComments" :key="comment._meta.self">
+      <CommentCard :comment="comment" :show-activity="!activity" />
+    </v-list-item>
+  </v-list>
+  <v-divider />
+  <CommentComposer :camp="camp" :activity="activity" @created="comments.$reload()" />
 </template>
 
 <script>
@@ -52,9 +47,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.ec-comments-list {
-  min-height: 0;
-}
-</style>

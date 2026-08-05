@@ -7,7 +7,7 @@
   >
     <div
       v-if="showActivity && (activity || comment.orphanDescription)"
-      class="ec-comment-card__activity text-body-3 font-weight-medium truncate mb-1"
+      class="ec-comment-card__activity text-body-2 font-weight-medium text-truncate mb-1"
     >
       <ScheduleEntryLinks v-if="activity" :activity-promise="activity._meta.load" />
       <template v-else>
@@ -18,11 +18,11 @@
         }}
       </template>
     </div>
-    <div class="ec-comment-card__meta d-flex items-center">
-      <UserAvatar :user="author" size="24" class="flex-none mr-2" />
-      <span class="text-body-2 truncate">{{ author.displayName }}</span>
+    <div class="ec-comment-card__meta d-flex align-center">
+      <UserAvatar :user="author" size="24" class="flex-0-0 mr-2" />
+      <span class="text-body-2 text-truncate">{{ author.displayName }}</span>
       <v-spacer />
-      <span class="text-caption opacity-60 flex-none ml-2">
+      <span class="text-caption text-medium-emphasis flex-0-0 ml-2">
         {{ $date(comment.createTime).format($t('global.datetime.dateTimeLong')) }}
       </span>
       <PromptEntityDelete v-if="isOwnComment" :entity="comment._meta.self">
@@ -31,7 +31,7 @@
             icon="mdi-delete"
             variant="text"
             size="x-small"
-            class="ec-comment-card__delete visible-on-hover flex-none"
+            class="ec-comment-card__delete visible-on-hover flex-0-0"
             :aria-label="$t('global.button.delete')"
             v-bind="props"
           />
