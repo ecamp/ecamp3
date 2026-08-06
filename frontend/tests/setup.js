@@ -20,6 +20,20 @@ if (!global.ResizeObserver) {
   }
 }
 
+// jsdom does not implement matchMedia, which components query for prefers-reduced-motion
+if (!window.matchMedia) {
+  window.matchMedia = (media) => ({
+    media,
+    matches: false,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent: () => false,
+  })
+}
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup()

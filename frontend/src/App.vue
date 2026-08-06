@@ -4,12 +4,12 @@
 
     <router-view name="aside" />
 
-    <CommentsPanel v-if="featureComments" />
-
     <!-- main content -->
     <v-main>
       <router-view />
     </v-main>
+
+    <CommentsPanel v-if="featureComments" />
 
     <FooterSharedCamp ref="footerSharedCamp" />
 

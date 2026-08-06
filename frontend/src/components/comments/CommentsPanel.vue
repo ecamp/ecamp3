@@ -7,11 +7,13 @@
     :mobile="false"
     :order="2"
     :class="atBottom ? 'ec-comments-panel__mobile' : ''"
+    tag="aside"
+    :aria-label="$t('components.comments.commentsPanel.title')"
     data-testid="comments-panel"
   >
     <div class="d-flex flex-column h-100">
       <v-toolbar density="compact" color="transparent">
-        <v-toolbar-title class="text-subtitle-1 font-weight-bold">
+        <v-toolbar-title tag="h2" class="text-subtitle-1 font-weight-bold">
           {{ $t('components.comments.commentsPanel.title') }}
         </v-toolbar-title>
         <v-btn

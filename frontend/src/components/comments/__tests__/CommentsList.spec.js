@@ -58,8 +58,10 @@ function mountList({
   scope = activity,
   scheduleEntries = [scheduleEntry(activity), scheduleEntry(otherActivity)],
   programLoading = false,
+  attachTo = undefined,
 } = {}) {
   return mount(CommentsList, {
+    attachTo,
     props: {
       camp: camp(scheduleEntries, programLoading),
       activity: scope,
@@ -296,6 +298,19 @@ describe('CommentsList', () => {
 
       expect(Element.prototype.scrollIntoView).toHaveBeenCalledOnce()
       expect(focusedGroupActivity(wrapper)).toBe(otherActivity._meta.self)
+    })
+
+    it('moves keyboard focus to the focused group', async () => {
+      const wrapper = mountList({
+        scope: null,
+        items: [comment(1), comment(2, { on: otherActivity })],
+        attachTo: document.body,
+      })
+
+      await focus(otherActivity._meta.self)
+
+      const focused = wrapper.find('.ec-comments-list__group--focused')
+      expect(focused.find('h3').element).toBe(document.activeElement)
     })
 
     it('keeps the group marked until another activity is focused', async () => {

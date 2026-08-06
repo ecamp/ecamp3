@@ -16,7 +16,8 @@
     >
       <h3
         v-if="group.activity || group.titleKey"
-        class="text-body-1 font-weight-medium text-truncate"
+        tabindex="-1"
+        class="text-body-1 font-weight-medium"
       >
         <ScheduleEntryLinks
           v-if="group.activity"
@@ -120,9 +121,14 @@ export default {
       immediate: true,
       handler() {
         this.$nextTick(() => {
-          this.$el
-            .querySelector('.ec-comments-list__group--focused')
-            ?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+          const group = this.$el.querySelector('.ec-comments-list__group--focused')
+          if (!group) return
+          const reduceMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+          ).matches
+          const scrollBehavior = reduceMotion ? 'auto' : 'smooth'
+          group.scrollIntoView({ block: 'start', behavior: scrollBehavior })
+          group.querySelector('h3')?.focus({ preventScroll: true })
         })
       },
     },
@@ -152,7 +158,7 @@ function bucket(key, titleKey, comments, showActivityTitle = false) {
 }
 
 .ec-comments-list__group {
-  scroll-margin-top: var(--fade-padding);
+  scroll-margin-top: var(--fade);
 }
 
 .ec-comments-list__group--focused {
@@ -160,6 +166,12 @@ function bucket(key, titleKey, comments, showActivityTitle = false) {
   outline: 2px solid transparent;
   outline-offset: 5px;
   animation: ec-comments-list-flash 0.5s ease-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ec-comments-list__group--focused {
+    animation: none;
+  }
 }
 
 @keyframes ec-comments-list-flash {
