@@ -198,12 +198,9 @@ services:
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
-    environment:
-      - DISPLAY
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./e2e:/e2e:delegated
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     network_mode: host
     working_dir: /e2e
 
