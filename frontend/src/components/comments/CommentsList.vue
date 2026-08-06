@@ -39,6 +39,7 @@ import CommentCard from '@/components/comments/CommentCard.vue'
 import ScheduleEntryLinks from '@/components/material/ScheduleEntryLinks.vue'
 import { firstAppearanceByActivity } from '@/helpers/firstAppearanceByActivity.js'
 import { commentsState } from '@/components/comments/commentsState.js'
+import { scopedComments } from '@/components/comments/scopedComments.js'
 import { sortBy } from 'lodash-es'
 
 export default {
@@ -69,11 +70,7 @@ export default {
       return this.comments._meta.loading || (!this.activity && this.programLoading)
     },
     activityScopedGroups() {
-      const comments = this.comments.items.filter(
-        (comment) =>
-          typeof comment.activity === 'function' &&
-          comment.activity()._meta.self === this.activity._meta.self
-      )
+      const comments = scopedComments(this.comments, this.activity)
       return comments.length ? [{ key: this.activity._meta.self, comments }] : []
     },
     campScopedGroups() {

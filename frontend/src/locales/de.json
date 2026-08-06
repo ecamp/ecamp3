@@ -319,7 +319,7 @@
       },
       "commentsToggleButton": {
         "hide": "Kommentare ausblenden",
-        "show": "Kommentare anzeigen"
+        "show": "Kommentare anzeigen | Einen Kommentar anzeigen | {count} Kommentare anzeigen"
       }
     },
     "dashboard": {

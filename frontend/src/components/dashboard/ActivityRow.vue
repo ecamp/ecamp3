@@ -60,8 +60,7 @@
         data-testid="activity-comment-count"
         @click="showComments"
       >
-        <v-icon size="x-small" icon="mdi-comment-outline" />
-        <CountBadge :count="commentCount" />
+        <CommentCountIcon :count="commentCount" />
       </button>
 
       <template v-if="location">
@@ -87,8 +86,7 @@
           data-testid="activity-comment-count"
           @click="showComments"
         >
-          <v-icon size="x-small" icon="mdi-comment-outline" />
-          <CountBadge :count="commentCount" />
+          <CommentCountIcon :count="commentCount" />
         </button>
       </template>
     </td>
@@ -121,7 +119,7 @@
 <script>
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
-import CountBadge from '@/components/dashboard/CountBadge.vue'
+import CommentCountIcon from '@/components/comments/CommentCountIcon.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 import { focusActivityComments } from '@/components/comments/commentsState.js'
@@ -129,7 +127,7 @@ import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'ActivityRow',
-  components: { CategoryChip, AvatarRow, CountBadge, TextAlignBaseline },
+  components: { CategoryChip, AvatarRow, CommentCountIcon, TextAlignBaseline },
   mixins: [dateHelperUTCFormatted],
   props: {
     scheduleEntry: { type: Object, default: () => ({ _meta: { loading: true } }) },
