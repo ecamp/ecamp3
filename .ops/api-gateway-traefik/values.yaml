@@ -1,0 +1,28 @@
+traefik:
+    providers:
+        kubernetesGateway:
+            enabled: true
+    gatewayClass:
+        enabled: true
+    gateway:
+        enabled: true
+        listeners:
+            web:
+                namespacePolicy:
+                    from: All
+            websecure:
+                port: 8443
+                protocol: HTTPS
+                namespacePolicy:
+                    from: All
+                certificateRefs:
+                    - name: traefik-certs
+    ingressClass:
+        enabled: false
+    logs:
+        access:
+            enabled: true
+            format: json
+            fields:
+                headers:
+                    defaultmode: keep
