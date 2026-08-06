@@ -19,13 +19,12 @@ traefik:
                     - name: traefik-certs
     ingressClass:
         enabled: false
-    logs:
-        access:
-            enabled: true
-            format: json
-            fields:
-                headers:
-                    defaultmode: keep
-                    names:
-                        Cookie: redact
-                        Set-Cookie: redact
+    accessLog:
+        enabled: true
+        format: json
+        fields:
+            headers:
+                defaultMode: keep
+                names:
+                    Cookie: redact
+                    Set-Cookie: redact
