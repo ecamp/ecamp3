@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee50412278ba4c929e02fd0f40ff07df",
+    "content-hash": "e0aacfa98fdcddce1a17adafa0adca44",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -409,16 +409,16 @@
         },
         {
             "name": "api-platform/hydra",
-            "version": "v4.3.11",
+            "version": "v4.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/hydra.git",
-                "reference": "ad2cc6465f3cd0218319e792b31582f33e212aba"
+                "reference": "2570883edf78970ad845f6eb7d69ae7894e6c480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/hydra/zipball/ad2cc6465f3cd0218319e792b31582f33e212aba",
-                "reference": "ad2cc6465f3cd0218319e792b31582f33e212aba",
+                "url": "https://api.github.com/repos/api-platform/hydra/zipball/2570883edf78970ad845f6eb7d69ae7894e6c480",
+                "reference": "2570883edf78970ad845f6eb7d69ae7894e6c480",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +426,7 @@
                 "api-platform/json-schema": "^4.3",
                 "api-platform/jsonld": "^4.3",
                 "api-platform/metadata": "^4.3",
-                "api-platform/serializer": "^4.3",
+                "api-platform/serializer": "^4.3.12",
                 "api-platform/state": "^4.3",
                 "php": ">=8.2",
                 "symfony/type-info": "^7.3 || ^8.0",
@@ -490,9 +490,9 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/api-platform/hydra/tree/v4.3.11"
+                "source": "https://github.com/api-platform/hydra/tree/v4.3.17"
             },
-            "time": "2026-06-10T12:42:15+00:00"
+            "time": "2026-06-22T16:14:53+00:00"
         },
         {
             "name": "api-platform/json-api",
@@ -928,16 +928,16 @@
         },
         {
             "name": "api-platform/serializer",
-            "version": "v4.3.11",
+            "version": "v4.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/serializer.git",
-                "reference": "04d56abff2910390111613716cd75796f23e34d5"
+                "reference": "946998cb8203e7dee5ddd716d4c0e20098d2bf69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/serializer/zipball/04d56abff2910390111613716cd75796f23e34d5",
-                "reference": "04d56abff2910390111613716cd75796f23e34d5",
+                "url": "https://api.github.com/repos/api-platform/serializer/zipball/946998cb8203e7dee5ddd716d4c0e20098d2bf69",
+                "reference": "946998cb8203e7dee5ddd716d4c0e20098d2bf69",
                 "shasum": ""
             },
             "require": {
@@ -1016,9 +1016,9 @@
                 "serializer"
             ],
             "support": {
-                "source": "https://github.com/api-platform/serializer/tree/v4.3.11"
+                "source": "https://github.com/api-platform/serializer/tree/v4.3.17"
             },
-            "time": "2026-06-05T12:07:51+00:00"
+            "time": "2026-07-11T23:00:58+00:00"
         },
         {
             "name": "api-platform/state",
