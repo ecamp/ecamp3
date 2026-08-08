@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.18.0
+    image: node:24.18.1
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -23,7 +23,7 @@ services:
     stop_signal: SIGKILL
 
   frontend-old:
-    image: node:24.18.0
+    image: node:24.18.1
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -105,7 +105,7 @@ services:
     command: varnishncsa
 
   print:
-    image: node:24.18.0
+    image: node:24.18.1
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -233,7 +233,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.18.0
+    image: node:24.18.1
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -245,7 +245,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.18.0
+    image: node:24.18.1
     profiles: ['prettier']
     stdin_open: true
     tty: true
