@@ -62,34 +62,38 @@ test.describe('bulk invite collaborators', () => {
     await expect(overlay.getByRole('alert').filter({ hasText: 'x@z.com' })).toBeVisible()
   })
 
-  test('shows failed email in the result when invite fails', async ({ page }) => {
-    const email1 = `run${runId}-d@example.com`
-    const email2 = `run2${runId}-d@example.com`
+  test(
+    'shows failed email in the result when invite fails',
+    { tag: '@mature' },
+    async ({ page }) => {
+      const email1 = `run${runId}-d@example.com`
+      const email2 = `run2${runId}-d@example.com`
 
-    await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
-    const overlay = page.locator('.v-overlay--active')
-    await expect(overlay).toBeVisible()
+      await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
+      const overlay = page.locator('.v-overlay--active')
+      await expect(overlay).toBeVisible()
 
-    await overlay.getByRole('textbox').fill(`${email1};${email2}`)
+      await overlay.getByRole('textbox').fill(`${email1};${email2}`)
 
-    await page.route('**/camp_collaborations', async (route) => {
-      if (route.request().method() === 'POST') {
-        await route.fulfill({ status: 500, body: 'Internal Server Error' })
-      } else {
-        await route.continue()
-      }
-    })
+      await page.route('**/camp_collaborations', async (route) => {
+        if (route.request().method() === 'POST') {
+          await route.fulfill({ status: 500, body: 'Internal Server Error' })
+        } else {
+          await route.continue()
+        }
+      })
 
-    await overlay.getByRole('button', { name: 'Einladungen verschicken' }).click()
+      await overlay.getByRole('button', { name: 'Einladungen verschicken' }).click()
 
-    const failedAlert = overlay.getByRole('alert').filter({ hasText: email1 })
-    await expect(failedAlert).toContainText(email1)
-    await expect(failedAlert).toContainText(email2)
+      const failedAlert = overlay.getByRole('alert').filter({ hasText: email1 })
+      await expect(failedAlert).toContainText(email1)
+      await expect(failedAlert).toContainText(email2)
 
-    await expect(overlay.getByRole('textbox', { name: 'E-Mail-Adressen' })).toHaveValue(
-      `${email1};${email2}`
-    )
-  })
+      await expect(overlay.getByRole('textbox', { name: 'E-Mail-Adressen' })).toHaveValue(
+        `${email1};${email2}`
+      )
+    }
+  )
 
   test('closes dialog and resets form on cancel', async ({ page }) => {
     await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
