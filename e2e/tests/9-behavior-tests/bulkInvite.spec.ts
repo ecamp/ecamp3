@@ -28,25 +28,29 @@ test.describe('bulk invite collaborators', () => {
     await expect(submitButton).toBeDisabled()
   })
 
-  test('invites new people and shows success count', async ({ page }) => {
-    const email1 = `run${runId}-a@example.com`
-    const email2 = `run${runId}-b@example.com`
+  test(
+    'invites new people and shows success count',
+    { tag: '@mature' },
+    async ({ page }) => {
+      const email1 = `run${runId}-a@example.com`
+      const email2 = `run${runId}-b@example.com`
 
-    await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
-    const overlay = page.locator('.v-overlay--active')
-    await expect(overlay).toBeVisible()
+      await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
+      const overlay = page.locator('.v-overlay--active')
+      await expect(overlay).toBeVisible()
 
-    await overlay.getByRole('textbox').fill(`${email1}\n${email2}`)
-    await overlay.getByRole('button', { name: 'Einladungen verschicken' }).click()
+      await overlay.getByRole('textbox').fill(`${email1}\n${email2}`)
+      await overlay.getByRole('button', { name: 'Einladungen verschicken' }).click()
 
-    await expect(overlay.locator('.v-alert')).toContainText('2')
+      await expect(overlay.locator('.v-alert')).toContainText('2')
 
-    await page.keyboard.press('Escape')
-    await expect(overlay).toBeHidden()
+      await page.keyboard.press('Escape')
+      await expect(overlay).toBeHidden()
 
-    await expect(page.getByText(email1, { exact: true })).toBeVisible()
-    await expect(page.getByText(email2, { exact: true })).toBeVisible()
-  })
+      await expect(page.getByText(email1, { exact: true })).toBeVisible()
+      await expect(page.getByText(email2, { exact: true })).toBeVisible()
+    }
+  )
 
   test(
     'reports already-invited email in the result',
