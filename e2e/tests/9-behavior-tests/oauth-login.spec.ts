@@ -18,21 +18,25 @@ test.describe('OAuth login', () => {
 })
 
 test.describe('OAuth login – account re-use', () => {
-  test('Google: second login returns the same account', async ({ browser }) => {
-    const email1 = await withOAuthSession(
-      browser,
-      'Google',
-      'admin@example.com',
-      getProfileEmail
-    )
-    const email2 = await withOAuthSession(
-      browser,
-      'Google',
-      'admin@example.com',
-      getProfileEmail
-    )
-    expect(email2).toBe(email1)
-  })
+  test(
+    'Google: second login returns the same account',
+    { tag: '@mature' },
+    async ({ browser }) => {
+      const email1 = await withOAuthSession(
+        browser,
+        'Google',
+        'admin@example.com',
+        getProfileEmail
+      )
+      const email2 = await withOAuthSession(
+        browser,
+        'Google',
+        'admin@example.com',
+        getProfileEmail
+      )
+      expect(email2).toBe(email1)
+    }
+  )
 })
 
 test.describe('OAuth login – cross-provider account linking', () => {
