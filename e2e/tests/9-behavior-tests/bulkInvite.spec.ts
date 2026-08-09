@@ -16,7 +16,7 @@ test.describe('bulk invite collaborators', () => {
     ).toBeVisible({ timeout: 20000 })
   })
 
-  test('opens dialog and shows form fields', async ({ page }) => {
+  test('opens dialog and shows form fields', { tag: '@mature' }, async ({ page }) => {
     await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
     const overlay = page.locator('.v-overlay--active')
     await expect(overlay).toBeVisible()
