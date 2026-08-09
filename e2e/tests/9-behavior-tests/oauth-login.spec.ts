@@ -36,23 +36,25 @@ test.describe('OAuth login – account re-use', () => {
 })
 
 test.describe('OAuth login – cross-provider account linking', () => {
-  test('Google and MiData with the same email link to the same account', async ({
-    browser,
-  }) => {
-    const email1 = await withOAuthSession(
-      browser,
-      'Google',
-      'test2@example.com',
-      getProfileEmail
-    )
-    const email2 = await withOAuthSession(
-      browser,
-      'MiData',
-      'test2@example.com',
-      getProfileEmail
-    )
-    expect(email2).toBe(email1)
-  })
+  test(
+    'Google and MiData with the same email link to the same account',
+    { tag: '@mature' },
+    async ({ browser }) => {
+      const email1 = await withOAuthSession(
+        browser,
+        'Google',
+        'test2@example.com',
+        getProfileEmail
+      )
+      const email2 = await withOAuthSession(
+        browser,
+        'MiData',
+        'test2@example.com',
+        getProfileEmail
+      )
+      expect(email2).toBe(email1)
+    }
+  )
 
   test('CeviDB and JublaDB with the same email link to the same account', async ({
     browser,
