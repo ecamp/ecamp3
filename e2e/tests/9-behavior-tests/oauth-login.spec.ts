@@ -10,10 +10,14 @@ test.describe('OAuth login', () => {
   const providers: OAuthProvider[] = ['Google', 'MiData', 'CeviDB', 'JublaDB']
 
   for (const provider of providers) {
-    test(`${provider}: shows camp list after login`, async ({ page }) => {
-      await loginWithOAuth(page, provider, 'test@example.com')
-      await expect(page).toHaveURL('/camps')
-    })
+    test(
+      `${provider}: shows camp list after login`,
+      { tag: '@mature' },
+      async ({ page }) => {
+        await loginWithOAuth(page, provider, 'test@example.com')
+        await expect(page).toHaveURL('/camps')
+      }
+    )
   }
 })
 
