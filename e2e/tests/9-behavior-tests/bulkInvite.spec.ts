@@ -48,19 +48,25 @@ test.describe('bulk invite collaborators', () => {
     await expect(page.getByText(email2, { exact: true })).toBeVisible()
   })
 
-  test('reports already-invited email in the result', async ({ page }) => {
-    const newEmail = `run${runId}-c@example.com`
+  test(
+    'reports already-invited email in the result',
+    { tag: '@mature' },
+    async ({ page }) => {
+      const newEmail = `run${runId}-c@example.com`
 
-    await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
-    const overlay = page.locator('.v-overlay--active')
-    await expect(overlay).toBeVisible()
+      await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
+      const overlay = page.locator('.v-overlay--active')
+      await expect(overlay).toBeVisible()
 
-    await overlay.getByRole('textbox').fill(`x@z.com\n${newEmail}`)
+      await overlay.getByRole('textbox').fill(`x@z.com\n${newEmail}`)
 
-    await overlay.getByRole('button', { name: 'Einladungen verschicken' }).click()
+      await overlay.getByRole('button', { name: 'Einladungen verschicken' }).click()
 
-    await expect(overlay.getByRole('alert').filter({ hasText: 'x@z.com' })).toBeVisible()
-  })
+      await expect(
+        overlay.getByRole('alert').filter({ hasText: 'x@z.com' })
+      ).toBeVisible()
+    }
+  )
 
   test('shows failed email in the result when invite fails', async ({ page }) => {
     const email1 = `run${runId}-d@example.com`
