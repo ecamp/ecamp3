@@ -101,17 +101,23 @@ test.describe('bulk invite collaborators', () => {
     }
   )
 
-  test('closes dialog and resets form on cancel', async ({ page }) => {
-    await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
-    const overlay = page.locator('.v-overlay--active')
-    await expect(overlay).toBeVisible()
+  test(
+    'closes dialog and resets form on cancel',
+    { tag: '@mature' },
+    async ({ page }) => {
+      await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
+      const overlay = page.locator('.v-overlay--active')
+      await expect(overlay).toBeVisible()
 
-    await overlay.getByRole('textbox').fill('test@example.com')
+      await overlay.getByRole('textbox').fill('test@example.com')
 
-    await page.keyboard.press('Escape')
-    await expect(overlay).toBeHidden()
+      await page.keyboard.press('Escape')
+      await expect(overlay).toBeHidden()
 
-    await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
-    await expect(page.locator('.v-overlay--active').getByRole('textbox')).toHaveValue('')
-  })
+      await page.getByRole('button', { name: 'Mehrere Personen einladen' }).click()
+      await expect(page.locator('.v-overlay--active').getByRole('textbox')).toHaveValue(
+        ''
+      )
+    }
+  )
 })
