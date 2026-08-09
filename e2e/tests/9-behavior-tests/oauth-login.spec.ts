@@ -74,19 +74,23 @@ test.describe('OAuth login – cross-provider account linking', () => {
 })
 
 test.describe('OAuth login – separate users', () => {
-  test('two different usernames produce two different accounts', async ({ browser }) => {
-    const email1 = await withOAuthSession(
-      browser,
-      'Google',
-      'test@example.com',
-      getProfileEmail
-    )
-    const email2 = await withOAuthSession(
-      browser,
-      'Google',
-      'test2@example.com',
-      getProfileEmail
-    )
-    expect(email1).not.toBe(email2)
-  })
+  test(
+    'two different usernames produce two different accounts',
+    { tag: '@mature' },
+    async ({ browser }) => {
+      const email1 = await withOAuthSession(
+        browser,
+        'Google',
+        'test@example.com',
+        getProfileEmail
+      )
+      const email2 = await withOAuthSession(
+        browser,
+        'Google',
+        'test2@example.com',
+        getProfileEmail
+      )
+      expect(email1).not.toBe(email2)
+    }
+  )
 })
