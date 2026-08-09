@@ -54,23 +54,25 @@ test.describe('OAuth login – cross-provider account linking', () => {
     expect(email2).toBe(email1)
   })
 
-  test('CeviDB and JublaDB with the same email link to the same account', async ({
-    browser,
-  }) => {
-    const email1 = await withOAuthSession(
-      browser,
-      'CeviDB',
-      'test2@example.com',
-      getProfileEmail
-    )
-    const email2 = await withOAuthSession(
-      browser,
-      'JublaDB',
-      'test2@example.com',
-      getProfileEmail
-    )
-    expect(email2).toBe(email1)
-  })
+  test(
+    'CeviDB and JublaDB with the same email link to the same account',
+    { tag: '@mature' },
+    async ({ browser }) => {
+      const email1 = await withOAuthSession(
+        browser,
+        'CeviDB',
+        'test2@example.com',
+        getProfileEmail
+      )
+      const email2 = await withOAuthSession(
+        browser,
+        'JublaDB',
+        'test2@example.com',
+        getProfileEmail
+      )
+      expect(email2).toBe(email1)
+    }
+  )
 })
 
 test.describe('OAuth login – separate users', () => {
