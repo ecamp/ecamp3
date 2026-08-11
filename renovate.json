@@ -91,6 +91,11 @@
     {
       "matchPackageNames": ["mcr.microsoft.com/playwright"],
       "minimumReleaseAge": "0 days"
+    },
+    {
+      "matchPackageNames": ["@react-pdf/pdfkit"],
+      "allowedVersions": "<5",
+      "description": "pdfkit 5 decodes PNGs via fflate's async unzlib -> nested web workers, which Firefox drops under CPU load (client-side PDF hang). Unblock once fflate/png-js no longer spawn a worker inside a worker."
     }
   ],
   "customManagers": [
