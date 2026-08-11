@@ -4,15 +4,24 @@ upstreams = [ "file:///dev/null" ]
 skip_provider_button = true
 `
 }}
+{{ $grafanaProxyHost := .Environment.Values | getOrNil "GRAFANA_PROXY_HOST" | required "GRAFANA_PROXY_HOST is required" }}
+{{ $loggingProxyHost := .Environment.Values | getOrNil "LOGGING_PROXY_HOST" | required "LOGGING_PROXY_HOST is required" }}
 
 grafana-proxy:
+  gatewayApi: 
+    enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+    gatewayRef:
+      name: traefik-gateway
+      namespace: api-gateway
+    hostnames:
+      - {{ $grafanaProxyHost | quote }}
   ingress:
-    enabled: true
+    enabled: {{ .Environment.Values | get "INGRESS_ENABLED" true }}
     className: nginx
     hosts:
-      - {{ .Environment.Values | getOrNil "GRAFANA_PROXY_HOST" | required "GRAFANA_PROXY_HOST is required" | quote }}
+      - {{ $grafanaProxyHost | quote }}
   extraArgs:
-    whitelist-domain: {{ .Environment.Values | getOrNil "GRAFANA_PROXY_HOST" | required "GRAFANA_PROXY_HOST is required" | quote }}
+    whitelist-domain: {{ $grafanaProxyHost | quote }}
     provider: github
     github-org: ecamp
     upstream: http://kube-prometheus-stack-grafana.kube-prometheus-stack.svc.cluster.local:80
@@ -27,13 +36,20 @@ grafana-proxy:
     # openssl rand -base64 32 | head -c 32 | base64
     cookieSecret: {{ .Environment.Values | getOrNil "COOKIE_SECRET" | required "COOKIE_SECRET is required" | quote }}
 logging-proxy:
+  gatewayApi: 
+    enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+    gatewayRef:
+      name: traefik-gateway
+      namespace: api-gateway
+    hostnames:
+      - {{ $loggingProxyHost | quote }}
   ingress:
-    enabled: true
+    enabled: {{ .Environment.Values | get "INGRESS_ENABLED" true }}
     className: nginx
     hosts:
-      - {{ .Environment.Values | getOrNil "LOGGING_PROXY_HOST" | required "LOGGING_PROXY_HOST is required" | quote }}
+      - {{ $loggingProxyHost | quote }}
   extraArgs:
-    whitelist-domain: {{ .Environment.Values | getOrNil "LOGGING_PROXY_HOST" | required "LOGGING_PROXY_HOST is required" | quote }}
+    whitelist-domain: {{ $loggingProxyHost | quote }}
     provider: github
     github-org: ecamp
     upstream: http://kibana.ecamp3-logging.svc.cluster.local:5601
