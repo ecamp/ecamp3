@@ -112,7 +112,7 @@
     "@vue/test-utils": "2.4.11",
     "autoprefixer": "10.5.4",
     "babel-plugin-require-context-hook": "1.0.0",
-    "esbuild": "0.28.1",
+    "esbuild": "0.28.2",
     "eslint": "10.8.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-local-rules": "3.0.2",
