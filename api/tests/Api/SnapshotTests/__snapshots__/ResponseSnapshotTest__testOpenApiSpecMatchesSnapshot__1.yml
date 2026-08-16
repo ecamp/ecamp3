@@ -51073,6 +51073,11 @@ components:
           type:
             - 'null'
             - string
+        currentPassword:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
         displayName:
           description: 'A displayable name of the user.'
           example: 'Robert Baden-Powell'
@@ -51151,6 +51156,11 @@ components:
         A person using eCamp.
         The properties available for all other eCamp users are here.
       properties:
+        currentPassword:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
         password:
           description: |-
             A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:
@@ -51566,6 +51576,11 @@ components:
         A person using eCamp.
         The properties available for all other eCamp users are here.
       properties:
+        currentPassword:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
         password:
           description: |-
             A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:
@@ -51584,6 +51599,11 @@ components:
         A person using eCamp.
         The properties available for all other eCamp users are here.
       properties:
+        currentPassword:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
         password:
           description: |-
             A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:
@@ -51613,6 +51633,11 @@ components:
         A person using eCamp.
         The properties available for all other eCamp users are here.
       properties:
+        currentPassword:
+          type:
+            - 'null'
+            - string
+          writeOnly: true
         password:
           description: |-
             A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:
@@ -52049,6 +52074,9 @@ components:
                   example: '#ff0000'
                   readOnly: true
                   type: ['null', string]
+                currentPassword:
+                  type: ['null', string]
+                  writeOnly: true
                 displayName:
                   description: 'A displayable name of the user.'
                   example: 'Robert Baden-Powell'
@@ -63433,7 +63461,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, abbreviation: { description: 'A displayable name of the user.', example: AB, readOnly: true, type: ['null', string] }, activationKey: { description: 'User-Input for activation.', type: ['null', string], writeOnly: true }, color: { description: 'A displayable name of the user.', example: '#ff0000', readOnly: true, type: ['null', string] }, displayName: { description: 'A displayable name of the user.', example: 'Robert Baden-Powell', readOnly: true, type: ['null', string] }, email: { readOnly: true, type: ['null', string] }, password: { description: "A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:\nhttps://github.com/OWASP/ASVS/blob/master/4.0/en/0x11-V2-Authentication.md#v21-password-security\n2.1.1: Verify that user set passwords are at least 12 characters in length (after multiple spaces are combined).", example: learning-by-doing-101, maxLength: 128, minLength: 12, type: ['null', string], writeOnly: true }, passwordResetKeyHash: { description: 'The hashed password-reset-key. Of course not exposed through the API.', maxLength: 255, type: ['null', string] }, recaptchaToken: { description: 'ReCaptchaToken used on Register-View.', type: ['null', string], writeOnly: true }, roles: { items: { type: ['null', string] }, readOnly: true, type: array }, userCamps: { items: { $ref: '#/components/schemas/UserCamp' }, type: array }, userIdentifier: { readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { profile: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Profile.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, abbreviation: { description: 'A displayable name of the user.', example: AB, readOnly: true, type: ['null', string] }, activationKey: { description: 'User-Input for activation.', type: ['null', string], writeOnly: true }, color: { description: 'A displayable name of the user.', example: '#ff0000', readOnly: true, type: ['null', string] }, currentPassword: { type: ['null', string], writeOnly: true }, displayName: { description: 'A displayable name of the user.', example: 'Robert Baden-Powell', readOnly: true, type: ['null', string] }, email: { readOnly: true, type: ['null', string] }, password: { description: "A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:\nhttps://github.com/OWASP/ASVS/blob/master/4.0/en/0x11-V2-Authentication.md#v21-password-security\n2.1.1: Verify that user set passwords are at least 12 characters in length (after multiple spaces are combined).", example: learning-by-doing-101, maxLength: 128, minLength: 12, type: ['null', string], writeOnly: true }, passwordResetKeyHash: { description: 'The hashed password-reset-key. Of course not exposed through the API.', maxLength: 255, type: ['null', string] }, recaptchaToken: { description: 'ReCaptchaToken used on Register-View.', type: ['null', string], writeOnly: true }, roles: { items: { type: ['null', string] }, readOnly: true, type: array }, userCamps: { items: { $ref: '#/components/schemas/UserCamp' }, type: array }, userIdentifier: { readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { profile: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Profile.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'User.jsonapi collection.'
             text/html:
               schema:
