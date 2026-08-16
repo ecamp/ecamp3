@@ -27,7 +27,7 @@
     "friendsofsymfony/http-cache-bundle": "3.4.1",
     "gesdinet/jwt-refresh-token-bundle": "2.2.2",
     "google/recaptcha": "1.5",
-    "guzzlehttp/guzzle": "7.15.2",
+    "guzzlehttp/guzzle": "7.15.3",
     "knpuniversity/oauth2-client-bundle": "2.20.2",
     "league/oauth2-google": "5.0.0",
     "lexik/jwt-authentication-bundle": "3.2.0",
