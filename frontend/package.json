@@ -96,7 +96,7 @@
     "@eslint/compat": "2.1.0",
     "@eslint/js": "10.0.1",
     "@sentry/vite-plugin": "5.4.0",
-    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/jest-dom": "7.0.1",
     "@testing-library/user-event": "14.6.3",
     "@testing-library/vue": "8.1.0",
     "@types/lodash-es": "4.17.12",
