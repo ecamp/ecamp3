@@ -25,7 +25,7 @@
     "@leeoniya/ufuzzy": "1.0.19",
     "@mdi/font": "7.4.47",
     "@react-pdf/font": "4.0.10",
-    "@react-pdf/layout": "4.7.0",
+    "@react-pdf/layout": "4.7.1",
     "@react-pdf/pdfkit": "4.1.0",
     "@react-pdf/primitives": "4.3.0",
     "@react-pdf/render": "4.6.0",
