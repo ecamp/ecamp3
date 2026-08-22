@@ -26,6 +26,10 @@
       "automerge": true
     },
     {
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "rebaseWhen": "behind-base"
+    },
+    {
       "groupName": "api-platform packages",
       "groupSlug": "api-platform",
       "matchDatasources": ["packagist"],
