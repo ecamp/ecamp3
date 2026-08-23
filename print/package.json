@@ -21,7 +21,7 @@
     "@sentry/node": "10.70.0",
     "axios": "1.19.0",
     "colorjs.io": "0.7.1",
-    "dayjs": "1.11.21",
+    "dayjs": "1.11.22",
     "deepmerge": "4.3.1",
     "hal-json-vuex": "3.0.0-alpha.10",
     "isomorphic-dompurify": "3.22.0",
