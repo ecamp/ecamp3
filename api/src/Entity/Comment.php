@@ -102,14 +102,14 @@ class Comment extends BaseEntity implements BelongsToCampInterface {
     public ?string $textHtml = null;
 
     /**
-     * Persisted description of the context where the comment was originally writen.
-     * Only non-null when activity pointer is null, i.e. activity was deleted.
-     * Currently defined as the title of the activity when it was deleted.
+     * Persisted description of the context where the comment was originally written. Only
+     * non-null when activity pointer is null, i.e. activity was deleted. Currently defined
+     * as the category shortname plus title of the activity when it was deleted.
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
     #[Assert\Length(max: 32)]
-    #[ApiProperty(writable: false, example: 'Sportolympiade')]
+    #[ApiProperty(writable: false, example: 'LS Sportolympiade')]
     #[Groups(['read', 'create'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $orphanDescription = null;

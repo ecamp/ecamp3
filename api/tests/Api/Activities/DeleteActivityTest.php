@@ -157,7 +157,7 @@ class DeleteActivityTest extends ECampApiTestCase {
                 '_links' => [
                     'activity' => null,
                 ],
-                'orphanDescription' => $activity->title,
+                'orphanDescription' => $activity->cateogory->short.' '.$activity->title,
             ]);
         }
     }
