@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-3 py-2"
+    class="ec-comment-composer px-3 py-2"
     data-testid="comment-composer"
     @keydown.capture.ctrl.enter.prevent.stop="submit"
     @keydown.capture.meta.enter.prevent.stop="submit"
@@ -73,3 +73,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.ec-comment-composer :deep(.v-field__append-inner) {
+  padding-top: 0;
+}
+</style>
