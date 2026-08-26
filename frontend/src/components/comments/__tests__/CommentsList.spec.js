@@ -113,9 +113,9 @@ describe('CommentsList', () => {
       comments: [comment(1, { on: null, orphanDescription: 'LS Sportolympiade' })],
     })
 
-    expect(wrapper.text()).toContain(
-      'components.comments.commentCard.deletedActivity LS Sportolympiade'
-    )
+    const context = wrapper.find('.ec-comment-card__activity').text()
+    expect(context).toContain('LS Sportolympiade')
+    expect(context).toContain('components.comments.commentCard.deleted')
   })
 
   it('offers a delete button on own comments only', () => {

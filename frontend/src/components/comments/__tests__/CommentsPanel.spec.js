@@ -98,7 +98,7 @@ function mountPanel({
         CommentsList: {
           name: 'CommentsList',
           props: ['comments', 'loading', 'showContext'],
-          template: '<div class="list" />',
+          template: '<div class="list"><slot name="after" /></div>',
           methods: { scrollToBottom: () => scrollToBottom() },
         },
         CommentComposer: true,
