@@ -122,7 +122,10 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import CommentCountIcon from '@/components/comments/CommentCountIcon.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
-import { focusActivityComments } from '@/components/comments/commentsState.js'
+import {
+  commentsState,
+  openCommentsForActivity,
+} from '@/components/comments/commentsState.js'
 import { scheduleEntryRoute } from '@/router.js'
 
 export default {
@@ -181,8 +184,13 @@ export default {
     },
   },
   methods: {
-    showComments() {
-      focusActivityComments(this.scheduleEntry.activity()._meta.self)
+    async showComments() {
+      if (this.$vuetify.display.smAndDown) {
+        openCommentsForActivity(this.scheduleEntry.activity())
+        return
+      }
+      await this.$router.push(this.routerLink)
+      commentsState.open = true
     },
   },
 }

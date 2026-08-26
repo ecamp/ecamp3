@@ -10,6 +10,13 @@ vi.mock('@/router.js', () => ({ scheduleEntryRoute: () => '/somewhere' }))
 
 const activity = { _meta: { self: '/activities/1' } }
 
+let push
+
+function resize(width) {
+  window.innerWidth = width
+  window.dispatchEvent(new Event('resize'))
+}
+
 const scheduleEntry = {
   _meta: { self: '/schedule_entries/1', loading: false },
   number: '1.1',
@@ -25,7 +32,9 @@ const scheduleEntry = {
   }),
 }
 
-function mountRow(commentCount = 0) {
+function mountRow(commentCount = 0, { mobile = false } = {}) {
+  push = vi.fn()
+  resize(mobile ? 375 : 1280)
   return mount(ActivityRow, {
     props: {
       scheduleEntry,
@@ -41,6 +50,7 @@ function mountRow(commentCount = 0) {
       mocks: {
         $t: (key, named, count) => [key, count].filter((v) => v !== undefined).join(' '),
         $tc: (key) => key,
+        $router: { push: (...args) => push(...args) },
       },
       stubs: { CategoryChip: true, AvatarRow: true, RouterLink: true },
     },
@@ -50,7 +60,8 @@ function mountRow(commentCount = 0) {
 describe('ActivityRow', () => {
   beforeEach(() => {
     commentsState.open = false
-    commentsState.focusedActivity = null
+    commentsState.activityFilter = null
+    resize(1280)
   })
 
   it('shows no comment badge for an activity without comments', () => {
@@ -69,10 +80,21 @@ describe('ActivityRow', () => {
     )
   })
 
-  it('opens the comments panel on the activity when clicked', async () => {
+  it('navigates to the activity and opens the panel on desktop', async () => {
     await mountRow(1).find('[data-testid="activity-comment-count"]').trigger('click')
 
+    expect(push).toHaveBeenCalledWith('/somewhere')
+    await vi.waitFor(() => expect(commentsState.open).toBe(true))
+    expect(commentsState.activityFilter).toBe(null)
+  })
+
+  it('opens the panel filtered to the activity, without navigating, on mobile', async () => {
+    const wrapper = mountRow(1, { mobile: true })
+
+    await wrapper.find('[data-testid="activity-comment-count"]').trigger('click')
+
     expect(commentsState.open).toBe(true)
-    await vi.waitFor(() => expect(commentsState.focusedActivity).toBe('/activities/1'))
+    expect(commentsState.activityFilter._meta.self).toBe('/activities/1')
+    expect(push).not.toHaveBeenCalled()
   })
 })

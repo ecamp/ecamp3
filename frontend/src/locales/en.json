@@ -303,6 +303,7 @@
     },
     "comments": {
       "commentCard": {
+        "campComment": "Whole camp",
         "deleteWarning": "Do you really want to delete your comment?",
         "deletedActivity": "{activity} (deleted)"
       },
@@ -310,11 +311,11 @@
         "placeholder": "Write a comment"
       },
       "commentsList": {
-        "campComments": "Whole camp",
-        "empty": "No comments yet.",
-        "orphanedComments": "Deleted activities"
+        "empty": "No comments yet."
       },
       "commentsPanel": {
+        "activityCommentsElsewhere": "One more comment is on an individual activity. | {count} more comments are on individual activities.",
+        "commentsOnThisActivity": "Comments on this activity",
         "title": "Comments"
       },
       "commentsToggleButton": {

@@ -303,6 +303,7 @@
     },
     "comments": {
       "commentCard": {
+        "campComment": "Ganzes Lager",
         "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
         "deletedActivity": "{activity} (gelöscht)"
       },
@@ -310,11 +311,11 @@
         "placeholder": "Kommentar schreiben"
       },
       "commentsList": {
-        "campComments": "Ganzes Lager",
-        "empty": "Noch keine Kommentare.",
-        "orphanedComments": "Gelöschte Aktivitäten"
+        "empty": "Noch keine Kommentare."
       },
       "commentsPanel": {
+        "activityCommentsElsewhere": "Ein weiterer Kommentar befindet sich bei einer einzelnen Aktivität. | {count} weitere Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "commentsOnThisActivity": "Kommentare zu dieser Aktivität",
         "title": "Kommentare"
       },
       "commentsToggleButton": {

@@ -6,17 +6,21 @@
     data-testid="comment-card"
   >
     <div
-      v-if="showActivityTitle && (activity || comment.orphanDescription)"
+      v-if="comment.orphanDescription"
+      class="ec-comment-card__activity text-body-2 font-weight-medium text-truncate mb-1"
+    >
+      {{
+        $t('components.comments.commentCard.deletedActivity', {
+          activity: comment.orphanDescription,
+        })
+      }}
+    </div>
+    <div
+      v-else-if="showContext"
       class="ec-comment-card__activity text-body-2 font-weight-medium text-truncate mb-1"
     >
       <ScheduleEntryLinks v-if="activity" :activity-promise="activity._meta.load" />
-      <template v-else>
-        {{
-          $t('components.comments.commentCard.deletedActivity', {
-            activity: comment.orphanDescription,
-          })
-        }}
-      </template>
+      <template v-else>{{ $t('components.comments.commentCard.campComment') }}</template>
     </div>
     <div class="ec-comment-card__meta d-flex align-center">
       <UserAvatar :user="author" size="24" class="flex-0-0 mr-2" />
@@ -59,7 +63,7 @@ export default {
   components: { PromptEntityDelete, ScheduleEntryLinks, TiptapEditor, UserAvatar },
   props: {
     comment: { type: Object, required: true },
-    showActivityTitle: { type: Boolean, default: false },
+    showContext: { type: Boolean, default: false },
   },
   computed: {
     ...mapGetters({ authUser: 'getLoggedInUser' }),
