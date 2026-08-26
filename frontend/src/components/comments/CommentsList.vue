@@ -14,6 +14,7 @@
       :comment="comment"
       :show-context="showContext"
     />
+    <slot name="after" />
   </div>
 </template>
 

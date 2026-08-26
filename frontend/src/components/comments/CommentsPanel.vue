@@ -30,26 +30,30 @@
         />
       </v-toolbar>
       <v-divider />
-      <p
-        v-if="!activity && !mobile && hiddenCommentCount"
-        class="text-caption text-medium-emphasis px-3 pt-3 mb-0"
-        data-testid="comments-elsewhere-notice"
-      >
-        {{
-          $t(
-            'components.comments.commentsPanel.activityCommentsElsewhere',
-            { count: hiddenCommentCount },
-            hiddenCommentCount
-          )
-        }}
-      </p>
       <CommentsList
         v-if="commentsState.open"
         ref="list"
         :comments="visibleComments"
         :loading="comments._meta.loading"
         :show-context="showContext"
-      />
+      >
+        <template #after>
+          <p
+            v-if="!activity && !mobile && hiddenCommentCount"
+            class="text-body-2 text-medium-emphasis pl-6"
+            data-testid="comments-elsewhere-notice"
+          >
+            <v-icon icon="mdi-alert-circle-outline" size="20" class="ml-n6" />
+            {{
+              $t(
+                'components.comments.commentsPanel.activityCommentsElsewhere',
+                { count: hiddenCommentCount },
+                hiddenCommentCount
+              )
+            }}
+          </p>
+        </template>
+      </CommentsList>
       <v-divider />
       <CommentComposer
         v-if="commentsState.open"

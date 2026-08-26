@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ec-comment-composer px-3 py-2"
+    class="ec-comment-composer pa-3"
     data-testid="comment-composer"
     @keydown.capture.ctrl.enter.prevent.stop="submit"
     @keydown.capture.meta.enter.prevent.stop="submit"
