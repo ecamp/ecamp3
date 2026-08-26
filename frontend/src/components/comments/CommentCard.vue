@@ -2,6 +2,7 @@
   <v-sheet
     border
     rounded="lg"
+    :color="bgColor"
     class="ec-comment-card px-3 py-2"
     data-testid="comment-card"
   >
@@ -57,6 +58,7 @@ import ScheduleEntryLinks from '@/components/material/ScheduleEntryLinks.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import { mapGetters } from 'vuex'
+import { userColor, lighten } from '@/common/helpers/colors'
 
 export default {
   name: 'CommentCard',
@@ -69,6 +71,9 @@ export default {
     ...mapGetters({ authUser: 'getLoggedInUser' }),
     author() {
       return this.comment.author()
+    },
+    bgColor() {
+      return lighten(userColor(this.author))
     },
     activity() {
       return typeof this.comment.activity === 'function' ? this.comment.activity() : null
