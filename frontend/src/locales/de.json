@@ -603,6 +603,14 @@
         "message": "E-Mail-Adresse wird geändert...",
         "success": "E-Mail-Adresse erfolgreich geändert.",
         "title": "E-Mail-Adresse wird geändert"
+      },
+      "dialogChangePassword": {
+        "title": "Passwort ändern",
+        "currentPassword": "Aktuelles Passwort",
+        "newPassword": "Neues Passwort",
+        "newPasswordConfirmation": "Neues Passwort bestätigen",
+        "success": "Dein Passwort wurde erfolgreich geändert.",
+        "error": "Es ist ein Fehler aufgetreten."
       }
     }
   },
@@ -918,7 +926,9 @@
     },
     "profile": {
       "changeEmail": "Ändern",
-      "profile": "Profil"
+      "profile": "Profil",
+      "changePassword": "Ändern",
+      "password": "Passwort"
     }
   }
 }
