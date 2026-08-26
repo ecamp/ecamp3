@@ -31,6 +31,7 @@ data:
     {{- end }}
       FEATURE_DEVELOPER: {{ .Values.featureToggle.developer | default false }},
       FEATURE_CHECKLIST: {{ .Values.featureToggle.checklist | default false }},
+      FEATURE_COMMENTS: {{ .Values.featureToggle.comments | default false }},
       LOGIN_INFO_TEXT_KEY: '{{ .Values.frontend.loginInfoTextKey }}',
     }
   deployedVersion: {{ .Values.deployedVersion | quote }}

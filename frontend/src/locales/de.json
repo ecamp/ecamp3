@@ -301,7 +301,32 @@
         "warningTextLeaveCamp": "Möchtest du das Lager '{camp}' wirklich verlassen?"
       }
     },
+    "comments": {
+      "commentCard": {
+        "campComment": "Ganzes Lager",
+        "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
+        "deleted": "(gelöscht)"
+      },
+      "commentComposer": {
+        "placeholder": "Kommentar schreiben"
+      },
+      "commentsList": {
+        "empty": "Noch keine Kommentare."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "Ein weiterer Kommentar befindet sich bei einer einzelnen Aktivität. | {count} weitere Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "commentsOnThisActivity": "Kommentare zu dieser Aktivität",
+        "title": "Kommentare"
+      },
+      "commentsToggleButton": {
+        "hide": "Kommentare ausblenden",
+        "show": "Kommentare anzeigen | Einen Kommentar anzeigen | {count} Kommentare anzeigen"
+      }
+    },
     "dashboard": {
+      "activityRow": {
+        "comments": "Keine Kommentare | Einen Kommentar anzeigen | {count} Kommentare anzeigen"
+      },
       "selectFilter": {
         "clear": "Zurücksetzen"
       }

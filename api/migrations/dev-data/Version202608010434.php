@@ -9,14 +9,22 @@ use Doctrine\Migrations\AbstractMigration;
 
 require_once __DIR__.'/helpers.php';
 
-final class Version202607130046 extends AbstractMigration {
+final class Version202608010434 extends AbstractMigration {
     #[\Override]
     public function getDescription(): string {
-        return 'Move dev data camps ten years forward';
+        return 'Add comments to the dev data';
     }
 
     public function up(Schema $schema): void {
         // START PHP CODE
+        $this->addSql(createTruncateDatabaseCommand());
+
+        $statements = getStatementsForMigrationFile();
+        foreach ($statements as $statement) {
+            if (trim($statement)) {
+                $this->addSql($statement);
+            }
+        }
         // END PHP CODE
     }
 
