@@ -8,17 +8,12 @@ skip_provider_button = true
 {{ $loggingProxyHost := .Environment.Values | getOrNil "LOGGING_PROXY_HOST" | required "LOGGING_PROXY_HOST is required" }}
 
 grafana-proxy:
-  gatewayApi: 
-    enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+  gatewayApi:
+    enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" true }}
     gatewayRef:
       name: traefik-gateway
       namespace: api-gateway
     hostnames:
-      - {{ $grafanaProxyHost | quote }}
-  ingress:
-    enabled: {{ .Environment.Values | get "INGRESS_ENABLED" true }}
-    className: nginx
-    hosts:
       - {{ $grafanaProxyHost | quote }}
   extraArgs:
     whitelist-domain: {{ $grafanaProxyHost | quote }}
@@ -36,17 +31,12 @@ grafana-proxy:
     # openssl rand -base64 32 | head -c 32 | base64
     cookieSecret: {{ .Environment.Values | getOrNil "COOKIE_SECRET" | required "COOKIE_SECRET is required" | quote }}
 logging-proxy:
-  gatewayApi: 
-    enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" false }}
+  gatewayApi:
+    enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" true }}
     gatewayRef:
       name: traefik-gateway
       namespace: api-gateway
     hostnames:
-      - {{ $loggingProxyHost | quote }}
-  ingress:
-    enabled: {{ .Environment.Values | get "INGRESS_ENABLED" true }}
-    className: nginx
-    hosts:
       - {{ $loggingProxyHost | quote }}
   extraArgs:
     whitelist-domain: {{ $loggingProxyHost | quote }}
