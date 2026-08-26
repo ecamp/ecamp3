@@ -305,7 +305,7 @@
       "commentCard": {
         "campComment": "Ganzes Lager",
         "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
-        "deletedActivity": "{activity} (gelöscht)"
+        "deleted": "(gelöscht)"
       },
       "commentComposer": {
         "placeholder": "Kommentar schreiben"

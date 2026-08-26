@@ -1,54 +1,62 @@
 <template>
-  <v-sheet
-    border
-    rounded="lg"
-    :color="bgColor"
-    class="ec-comment-card px-3 py-2"
-    data-testid="comment-card"
-  >
+  <v-sheet tag="article" rounded="lg" color="surface-light">
     <div
-      v-if="comment.orphanDescription"
-      class="ec-comment-card__activity text-body-2 font-weight-medium text-truncate mb-1"
+      v-if="comment.orphanDescription || showContext"
+      class="ec-comment-card__activity text-body-2 mx-2 my-1"
+      :class="{ 'font-weight-medium': showContext }"
     >
-      {{
-        $t('components.comments.commentCard.deletedActivity', {
-          activity: comment.orphanDescription,
-        })
-      }}
+      <template v-if="comment.orphanDescription">
+        <v-icon icon="mdi-ghost" size="16" class="opacity-30" />
+        <strong class="font-weight-medium mx-1 flex-shrink-1">{{
+          comment.orphanDescription
+        }}</strong>
+        <i class="text-medium-emphasis">{{
+          $t('components.comments.commentCard.deleted')
+        }}</i>
+      </template>
+      <template v-else-if="showContext">
+        <ScheduleEntryLinks v-if="activity" :activity-promise="activity._meta.load" />
+        <template v-else>{{
+          $t('components.comments.commentCard.campComment')
+        }}</template>
+      </template>
     </div>
-    <div
-      v-else-if="showContext"
-      class="ec-comment-card__activity text-body-2 font-weight-medium text-truncate mb-1"
+    <v-sheet
+      border
+      rounded="lg"
+      :color="bgColor"
+      class="ec-comment-card px-3 py-2"
+      data-testid="comment-card"
     >
-      <ScheduleEntryLinks v-if="activity" :activity-promise="activity._meta.load" />
-      <template v-else>{{ $t('components.comments.commentCard.campComment') }}</template>
-    </div>
-    <div class="ec-comment-card__meta d-flex align-center">
-      <UserAvatar :user="author" size="24" class="flex-0-0 mr-2" />
-      <span class="text-body-2 text-truncate">{{ author.displayName }}</span>
-      <v-spacer />
-      <span class="text-caption text-medium-emphasis flex-0-0 ml-2">
-        {{ $date(comment.createTime).format($t('global.datetime.dateTimeLong')) }}
-      </span>
-      <PromptEntityDelete v-if="isOwnComment" :entity="comment._meta.self">
-        <template #activator="{ props }">
-          <v-btn
-            icon="mdi-delete"
-            variant="text"
-            size="x-small"
-            class="ec-comment-card__delete visible-on-hover flex-0-0"
-            :aria-label="$t('global.button.delete')"
-            v-bind="props"
-          />
-        </template>
-        {{ $t('components.comments.commentCard.deleteWarning') }}
-      </PromptEntityDelete>
-    </div>
-    <TiptapEditor
-      :model-value="comment.textHtml"
-      :with-extensions="true"
-      :editable="false"
-    />
+      <header class="ec-comment-card__meta d-flex align-center">
+        <UserAvatar :user="author" size="24" class="flex-0-0 mr-2" />
+        <strong class="text-body-2 font-weight-medium text-truncate">{{
+          author.displayName
+        }}</strong>
+        <v-spacer />
+        <span class="text-caption text-medium-emphasis flex-0-0 mx-2">
+          {{ $date(comment.createTime).format($t('global.datetime.dateTimeLong')) }}
+        </span>
+        <PromptEntityDelete v-if="isOwnComment" :entity="comment._meta.self">
+          <template #activator="{ props }">
+            <v-btn
+              icon="mdi-delete"
+              variant="text"
+              size="x-small"
+              class="ec-comment-card__delete visible-on-hover flex-0-0"
+              :aria-label="$t('global.button.delete')"
+              v-bind="props"
+            />
+          </template>
+          {{ $t('components.comments.commentCard.deleteWarning') }}
+        </PromptEntityDelete>
+      </header>
+      <TiptapEditor
+        :model-value="comment.textHtml"
+        :with-extensions="true"
+        :editable="false"
+      />
+    </v-sheet>
   </v-sheet>
 </template>
 

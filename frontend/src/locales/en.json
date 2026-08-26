@@ -305,7 +305,7 @@
       "commentCard": {
         "campComment": "Whole camp",
         "deleteWarning": "Do you really want to delete your comment?",
-        "deletedActivity": "{activity} (deleted)"
+        "deleted": "(deleted)"
       },
       "commentComposer": {
         "placeholder": "Write a comment"
