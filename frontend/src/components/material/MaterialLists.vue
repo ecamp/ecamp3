@@ -1,10 +1,6 @@
 <template>
   <v-list>
-    <v-list-item
-      :to="materialListRoute(camp, '/all', { isDetail: true })"
-      lines="two"
-      exact-path
-    >
+    <v-list-item :to="materialListRoute(camp, '/all')" lines="two" exact-path>
       <v-list-item-title>
         {{ $t('components.material.materialLists.overview') }}
       </v-list-item-title>
@@ -14,7 +10,7 @@
     </v-list-item>
     <v-list-item
       v-if="unassignedCount > 0"
-      :to="materialListRoute(camp, '/unassigned', { isDetail: true })"
+      :to="materialListRoute(camp, '/unassigned')"
       lines="two"
       exact-path
     >
@@ -41,7 +37,7 @@
       v-for="materialList in materailListsSorted"
       :key="materialList._meta.self"
       lines="two"
-      :to="materialListRoute(camp, materialList, { isDetail: true })"
+      :to="materialListRoute(camp, materialList)"
       exact-path
     >
       <v-list-item-title>{{ materialList.name }}</v-list-item-title>

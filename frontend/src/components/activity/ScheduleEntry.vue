@@ -7,7 +7,7 @@ Displays a single scheduleEntry
     :key="activityId"
     class="ec-schedule-entry"
     toolbar
-    back
+    :back="backRoute"
     :loaded="!scheduleEntry._meta.loading && !activity.camp()._meta.loading"
     :max-width="isPaperDisplaySize ? '944px' : ''"
   >
@@ -296,6 +296,7 @@ import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import router, {
+  campRoute,
   firstActivityScheduleEntry,
   periodRoute,
   scheduleEntryRoute,
@@ -379,6 +380,14 @@ export default {
     }
   },
   computed: {
+    backRoute() {
+      return (
+        window.history.state?.activityBack ||
+        (this.scheduleEntry?.period
+          ? periodRoute(this.scheduleEntry.period())
+          : campRoute(this.camp, 'program'))
+      )
+    },
     activity() {
       return this.api.get().activities({ id: this.activityId })
     },

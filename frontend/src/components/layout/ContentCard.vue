@@ -13,9 +13,7 @@ Displays the content wrapped inside a card.
       density="compact"
     >
       <v-toolbar-items>
-        <button-back
-          v-if="back || (!$vuetify.display.mdAndUp && !!$route.query.isDetail)"
-        />
+        <button-back v-if="showBackButton" :to="backTarget" />
       </v-toolbar-items>
 
       <slot name="title">
@@ -52,8 +50,21 @@ export default {
     title: { type: String, required: false, default: '' },
     toolbar: { type: Boolean, required: false, default: false },
     noBorder: { type: Boolean, required: false, default: false },
-    back: { type: Boolean, required: false, default: false },
+    back: { type: [Boolean, String, Object], default: false },
     maxWidth: { type: String, default: '' },
+  },
+  computed: {
+    backTarget() {
+      const target = this.back || this.$route?.meta?.back
+      return typeof target === 'object' || typeof target === 'string' ? target : null
+    },
+    showBackButton() {
+      return (
+        !!this.back ||
+        !!this.$route?.meta?.back ||
+        (!!this.$route?.meta?.backMobile && !this.$vuetify.display.mdAndUp)
+      )
+    },
   },
 }
 </script>

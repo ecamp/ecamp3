@@ -4,7 +4,7 @@
     :key="checklist._meta.self"
     class="ec-checklist"
     toolbar
-    back
+    :back="checklistRoute(camp)"
   >
     <template #title>
       <v-toolbar-title v-if="!editChecklistName" tag="h1" class="font-weight-bold">
@@ -129,6 +129,7 @@ export default {
     this.debouncedDisabled = this.isOutsider
   },
   methods: {
+    checklistRoute,
     makeChecklistNameEditable() {
       this.editChecklistName = true
     },
