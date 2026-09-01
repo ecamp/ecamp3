@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex" style="margin-top: -5px">
+  <div class="d-flex">
     <!-- Success icon after saving -->
     <div class="checkIconContainer">
       <v-icon color="green" class="checkIcon" :class="checkIconAddon">
@@ -12,9 +12,10 @@
       <v-tooltip class="ml-auto" location="bottom">
         <template #activator="{ props }">
           <v-btn
-            fab
             dark
-            size="x-small"
+            size="small"
+            width="28"
+            min-width="28"
             variant="flat"
             color="error"
             type="submit"
@@ -31,9 +32,11 @@
       <v-tooltip class="ml-auto" location="bottom">
         <template #activator="{ props }">
           <v-btn
-            fab
             dark
-            size="x-small"
+            size="small"
+            width="28"
+            min-width="28"
+            class="mr-n1"
             variant="flat"
             color="grey"
             :aria-label="$t('global.button.cancel')"
@@ -51,13 +54,14 @@
       <v-tooltip v-if="wrapper.dirty" class="ml-auto" location="bottom">
         <template #activator="{ props }">
           <v-btn
-            fab
             dark
-            size="x-small"
+            size="small"
+            width="28"
+            min-width="28"
             variant="flat"
             color="success"
             type="submit"
-            class="mr-1"
+            class="mr-1 min-w-0"
             :aria-label="$t('global.button.save')"
             v-bind="props"
             @click="wrapper.on.save"
@@ -70,9 +74,11 @@
       <v-tooltip class="ml-auto" location="bottom">
         <template #activator="{ props }">
           <v-btn
-            fab
             dark
-            size="x-small"
+            width="28"
+            min-width="28"
+            class="mr-n1"
+            size="small"
             variant="flat"
             color="grey"
             :aria-label="$t('global.button.cancel')"
@@ -123,8 +129,8 @@ export default {
 }
 .v-icon.checkIcon {
   position: relative;
-  top: -11px;
-  right: 13px;
+  top: -14px;
+  right: 16px;
   transition: opacity 0.2s ease-out;
   opacity: 0;
 }
