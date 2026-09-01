@@ -566,19 +566,7 @@ router.onError((error, to) => {
   reloadOnChunkLoadError(error, to)
 })
 
-router.afterEach((to, from, failure) => {
-  if (!failure && to.name === 'camp/activity') {
-    const currentState = window.history.state || {}
-    let back = currentState.activityBack
-
-    if (from.matched.length && from.name !== 'camp/activity') {
-      back = from.params.campId === to.params.campId ? from.fullPath : null
-    }
-
-    if (back !== currentState.activityBack) {
-      window.history.replaceState({ ...currentState, activityBack: back }, '')
-    }
-  }
+router.afterEach(() => {
   clearChunkReloadGuard()
 })
 
@@ -929,6 +917,21 @@ export function scheduleEntryRoute(scheduleEntry, query = {}) {
       activityName: slugify(activity.title),
     },
     query,
+    state: activityBackState(camp.id),
+  }
+}
+
+function activityBackState(campId) {
+  const from = router.currentRoute.value
+  if (!from.matched.length) return {}
+
+  return {
+    activityBack:
+      from.name === 'camp/activity'
+        ? window.history.state?.activityBack
+        : from.params.campId === campId
+          ? from.fullPath
+          : null,
   }
 }
 
@@ -950,6 +953,7 @@ export async function firstActivityScheduleEntryRoute(activity, query = {}) {
       activityName: slugify(activity.title),
     },
     query,
+    state: activityBackState(camp.id),
   }
 }
 
