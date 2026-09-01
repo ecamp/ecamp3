@@ -31,7 +31,6 @@ fluent-operator:
       - api-gateway
       - external-dns-gateway-api
       - default
-      - ingress-nginx
     envVars: 
       - name: TRIGGER_FLUENTD_RECREATE
         value: {{ exec "uuidgen" (list) }}
