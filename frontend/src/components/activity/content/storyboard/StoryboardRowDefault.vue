@@ -102,9 +102,5 @@ export default {
     width: 15%;
     padding-bottom: 0.5rem;
   }
-
-  .e-storyboard-row__controls {
-    align-content: space-between;
-  }
 }
 </style>
