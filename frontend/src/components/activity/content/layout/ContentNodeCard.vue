@@ -21,6 +21,7 @@
           :auto-save="false"
           path="instanceName"
           @finished="editInstanceName = false"
+          @keydown.esc="editInstanceName = false"
         />
       </api-form>
 

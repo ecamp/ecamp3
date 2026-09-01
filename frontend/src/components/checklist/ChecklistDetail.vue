@@ -27,6 +27,7 @@
           autofocus
           :auto-save="false"
           @finished="editChecklistName = false"
+          @keydown.esc="editChecklistName = false"
         />
       </api-form>
     </template>

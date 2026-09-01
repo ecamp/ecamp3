@@ -84,6 +84,7 @@ Displays a single scheduleEntry
           autofocus
           :auto-save="false"
           @finished="editActivityTitle = false"
+          @keydown.esc="editActivityTitle = false"
         />
       </api-form>
     </template>
