@@ -7,20 +7,20 @@
     :back="checklistRoute(camp)"
   >
     <template #title>
-      <v-toolbar-title v-if="!editChecklistName" tag="h1" class="font-weight-bold">
+      <v-toolbar-title v-if="!editChecklistName" tag="h1" class="font-weight-bold ml-0">
         {{ checklist.name }}
+        <v-btn
+          v-if="!editChecklistName && !isOutsider"
+          icon
+          class="ml-1 visible-on-hover"
+          width="24"
+          height="24"
+          @click="makeChecklistNameEditable()"
+        >
+          <v-icon size="x-small">mdi-pencil</v-icon>
+        </v-btn>
       </v-toolbar-title>
-      <v-btn
-        v-if="!editChecklistName && !isOutsider"
-        icon
-        class="ml-1 visible-on-hover"
-        width="24"
-        height="24"
-        @click="makeChecklistNameEditable()"
-      >
-        <v-icon size="small">mdi-pencil</v-icon>
-      </v-btn>
-      <api-form v-if="editChecklistName" :entity="checklist" class="mx-2 flex-grow-1">
+      <api-form v-if="editChecklistName" :entity="checklist" class="flex-grow-1">
         <api-text-field
           path="name"
           density="compact"

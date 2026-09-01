@@ -1,16 +1,16 @@
 <template>
-  <v-toolbar-items v-if="period.camp().periods().items.length > 1">
+  <v-toolbar-items v-if="hasMultiplePeriods" class="overflow-hidden">
     <v-menu offset-y>
       <template #activator="{ props, isActive }">
         <v-btn
           variant="text"
           size="large"
-          class="justify-start px-4 my-1 rounded-pill ec-period-switcher__button"
+          class="justify-start px-4 my-1 rounded-pill ec-period-switcher__button d-block"
           height="auto"
           block
           v-bind="props"
         >
-          <h1 class="text-subtitle-1">
+          <h1 class="text-subtitle-1 text-truncate">
             {{ period.description }}
           </h1>
           <v-icon v-if="isActive" end>mdi-menu-up</v-icon>
@@ -35,8 +35,8 @@
       </v-list>
     </v-menu>
   </v-toolbar-items>
-  <v-toolbar-title v-else>
-    <h1 class="text-subtitle-1 text-center">
+  <v-toolbar-title v-else class="basis-auto ml-2">
+    <h1 class="text-subtitle-1 text-center text-truncate">
       {{ period.description }}
     </h1>
   </v-toolbar-title>
@@ -59,6 +59,9 @@ export default {
   computed: {
     allPeriods() {
       return sortBy(this.period.camp().periods().items, (p) => p.start)
+    },
+    hasMultiplePeriods() {
+      return this.period.camp().periods().items.length > 1
     },
   },
   methods: {

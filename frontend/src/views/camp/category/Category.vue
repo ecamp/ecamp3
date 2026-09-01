@@ -8,7 +8,7 @@
       :max-width="isPaperDisplaySize ? '944px' : ''"
     >
       <template #title>
-        <v-toolbar-title class="font-weight-bold">
+        <v-toolbar-title class="font-weight-bold ml-0">
           <CategoryChip :category="category" dense large />
           {{ category.name }}
         </v-toolbar-title>

@@ -17,7 +17,11 @@ Displays the content wrapped inside a card.
       </v-toolbar-items>
 
       <slot name="title">
-        <v-toolbar-title tag="h1" class="font-weight-bold flex-none">
+        <v-toolbar-title
+          tag="h1"
+          class="font-weight-bold flex-none"
+          :class="{ 'ml-0': showBackButton }"
+        >
           {{ title }}
         </v-toolbar-title>
       </slot>
@@ -79,6 +83,15 @@ export default {
     top: 0;
     z-index: 5;
   }
+}
+
+:deep(.ec-content-card__toolbar:not(:hover) button.visible-on-hover:not(:focus)) {
+  opacity: 0;
+}
+
+:deep(.ec-content-card__toolbar button.visible-on-hover) {
+  opacity: 1;
+  transition: opacity 0.2s linear;
 }
 
 .ec-content-card__toolbar--border {

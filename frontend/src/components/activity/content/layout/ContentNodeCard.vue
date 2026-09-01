@@ -11,7 +11,7 @@
       <api-form
         v-if="editInstanceName"
         :entity="contentNode"
-        style="flex: 1"
+        class="flex-grow-1 ml-2"
         @click.stop
         @keyup.prevent
       >
@@ -27,32 +27,33 @@
 
       <v-toolbar-title
         v-if="!editInstanceName"
-        style="flex-basis: auto"
+        class="basis-auto"
         tag="h2"
         :class="{ 'user-select-none': layoutMode }"
       >
         {{ instanceOrContentTypeName }}
+
+        <v-btn
+          v-if="!editInstanceName && !disabled"
+          icon
+          class="ml-1"
+          :class="{ 'visible-on-hover': !layoutMode }"
+          width="24"
+          height="24"
+          @click="toggleEditInstanceName"
+        >
+          <v-icon size="x-small">mdi-pencil</v-icon>
+        </v-btn>
       </v-toolbar-title>
 
-      <v-btn
-        v-if="!editInstanceName && !disabled"
-        icon
-        class="ml-1"
-        :class="{ 'visible-on-hover': !layoutMode }"
-        width="24"
-        height="24"
-        @click="toggleEditInstanceName"
-      >
-        <v-icon size="small">mdi-pencil</v-icon>
-      </v-btn>
-
-      <v-spacer v-if="!editInstanceName" />
-      <IconWithTooltip
-        v-if="!editInstanceName && !layoutMode"
-        :tooltip-i18n-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
-        width="36"
-        height="36"
-      />
+      <template #append>
+        <IconWithTooltip
+          v-if="!editInstanceName && !layoutMode"
+          :tooltip-i18n-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
+          width="36"
+          height="36"
+        />
+      </template>
 
       <DialogEntityDelete
         v-if="layoutMode && !disabled"

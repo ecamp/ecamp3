@@ -13,7 +13,7 @@ Displays a single scheduleEntry
   >
     <template #title>
       <h1 class="font-weight-bold text-h6 d-flex gap-1 sm:gap-2 items-center truncate">
-        <span class="tabular-nums">
+        <span v-if="scheduleEntry.number !== ''" class="tabular-nums">
           {{ scheduleEntry.number }}
         </span>
         <v-menu
@@ -69,14 +69,14 @@ Displays a single scheduleEntry
       <v-btn
         v-if="isContributor && !editActivityTitle"
         icon
-        class="ml-1 visible-on-hover"
+        class="d-none d-sm-block ml-1 visible-on-hover"
         width="24"
         height="24"
         @click="makeTitleEditable()"
       >
         <v-icon size="x-small">mdi-pencil</v-icon>
       </v-btn>
-      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-1">
+      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-10">
         <api-text-field
           path="title"
           :disabled="layoutMode"
@@ -168,7 +168,11 @@ Displays a single scheduleEntry
       <template v-else>
         <!-- Header -->
         <v-row dense class="activity-header">
-          <v-col cols="12" sm="6" class="px-0 pt-0 d-flex flex-wrap gap-x-4">
+          <v-col
+            cols="12"
+            sm="6"
+            class="px-0 pt-0 d-flex flex-wrap gap-x-4 align-content-start gap-y-1"
+          >
             <table>
               <thead>
                 <tr>
@@ -556,15 +560,6 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
-}
-
-:deep(.ec-content-card__toolbar:not(:hover) button.visible-on-hover:not(:focus)) {
-  opacity: 0;
-}
-
-:deep(.ec-content-card__toolbar button.visible-on-hover) {
-  opacity: 1;
-  transition: opacity 0.2s linear;
 }
 
 .e-category-chip-save-icon {
