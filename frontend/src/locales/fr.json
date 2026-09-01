@@ -585,6 +585,7 @@
       "add": "Ajouter",
       "back": "Retour",
       "cancel": "Annuler",
+      "change": "Modifier",
       "close": "Fermer",
       "content": "Contenu",
       "continue": "Continuer",
@@ -891,7 +892,6 @@
       "detail": "Hop là ! Tu t'es égaré...{br}Ce lien ne fonctionne malheureusement pas."
     },
     "profile": {
-      "changeEmail": "Changement",
       "profile": "Profil",
       "changePassword": "Changer",
       "password": "Mot de passe"
