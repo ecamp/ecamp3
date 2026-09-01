@@ -24,7 +24,6 @@
 
 <script>
 import { campRoute } from '@/router.js'
-import { useI18n } from 'vue-i18n'
 import { groupBy, uniq } from 'lodash-es'
 
 const YEAR_JOINER = '-'
@@ -35,11 +34,10 @@ export default {
     camp: { type: Object, required: true },
     periods: { type: Array, default: () => [] },
   },
-  setup() {
-    const { locale } = useI18n()
-    return { locale }
-  },
   computed: {
+    locale() {
+      return this.$store.state.lang.language
+    },
     formatMY() {
       return new Intl.DateTimeFormat(this.locale, {
         year: 'numeric',
