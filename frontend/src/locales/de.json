@@ -301,7 +301,32 @@
         "warningTextLeaveCamp": "Möchtest du das Lager '{camp}' wirklich verlassen?"
       }
     },
+    "comments": {
+      "commentCard": {
+        "campComment": "Ganzes Lager",
+        "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
+        "deleted": "(gelöscht)"
+      },
+      "commentComposer": {
+        "placeholder": "Kommentar schreiben"
+      },
+      "commentsList": {
+        "empty": "Noch keine Kommentare."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "Ein weiterer Kommentar befindet sich bei einer einzelnen Aktivität. | {count} weitere Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "commentsOnThisActivity": "Kommentare zu dieser Aktivität",
+        "title": "Kommentare"
+      },
+      "commentsToggleButton": {
+        "hide": "Kommentare ausblenden",
+        "show": "Kommentare anzeigen | Einen Kommentar anzeigen | {count} Kommentare anzeigen"
+      }
+    },
     "dashboard": {
+      "activityRow": {
+        "comments": "Keine Kommentare | Einen Kommentar anzeigen | {count} Kommentare anzeigen"
+      },
       "selectFilter": {
         "clear": "Zurücksetzen"
       }
@@ -578,6 +603,14 @@
         "message": "E-Mail-Adresse wird geändert...",
         "success": "E-Mail-Adresse erfolgreich geändert.",
         "title": "E-Mail-Adresse wird geändert"
+      },
+      "dialogChangePassword": {
+        "title": "Passwort ändern",
+        "currentPassword": "Aktuelles Passwort",
+        "newPassword": "Neues Passwort",
+        "newPasswordConfirmation": "Neues Passwort bestätigen",
+        "success": "Dein Passwort wurde erfolgreich geändert.",
+        "error": "Es ist ein Fehler aufgetreten."
       }
     }
   },
@@ -893,7 +926,9 @@
       "detail": "Hoppla. Du bist vom Weg abgekommen…{br}Dieser Link funktioniert leider nicht."
     },
     "profile": {
-      "profile": "Profil"
+      "profile": "Profil",
+      "changePassword": "Ändern",
+      "password": "Passwort"
     }
   }
 }

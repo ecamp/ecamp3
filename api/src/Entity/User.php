@@ -19,9 +19,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\When;
 
 /**
  * A person using eCamp.
@@ -145,6 +147,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     #[Groups(['write'])]
     public ?string $plainPassword = null;
+
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['write'])]
+    #[When(
+        expression: 'this.plainPassword !== null and this.password !== null',
+        constraints: [new UserPassword(message: 'The current password you entered is incorrect.')],
+    )]
+    public ?string $currentPassword = null;
 
     /**
      * The hashed password-reset-key. Of course not exposed through the API.

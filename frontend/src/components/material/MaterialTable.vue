@@ -30,7 +30,7 @@
     <template #[`item.done`]="{ item }">
       <api-checkbox
         v-if="layoutMode || isContributor"
-        :disabled="disabled"
+        :disabled="disabled || !item.materialList"
         class="ec-material-table__done"
         density="compact"
         hide-details
@@ -392,6 +392,7 @@ export default {
           quantity: item.quantity,
           unit: item.unit,
           done: item.done,
+          materialList: item.materialList,
           combinedQuantity: this.renderQuantity(item),
           article: item.article,
           listName: item.materialList ? item.materialList()?.name : '',

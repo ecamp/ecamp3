@@ -28,6 +28,8 @@ fluent-operator:
       # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluentd
       tag: "v1.17.1"
     watchedNamespaces:
+      - api-gateway
+      - external-dns-gateway-api
       - default
       - ingress-nginx
     envVars: 
@@ -64,7 +66,7 @@ elasticsearch:
     maxIndexAge: {{ .Environment.Values | get "ELASTIC_NODE_MAX_INDEX_AGE" "15" }}
     image: node
     # renovate: datasource=docker depName=node
-    tag: "24.18.0"
+    tag: "24.19.0"
 
 kibana:
   name: kibana

@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.18.0
+    image: node:24.19.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -23,7 +23,7 @@ services:
     stop_signal: SIGKILL
 
   frontend-old:
-    image: node:24.18.0
+    image: node:24.19.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -65,6 +65,7 @@ services:
         protocol: tcp
     environment:
       APP_ENV: ${APP_ENV:-prod}
+      APP_DEBUG: ${APP_DEBUG:-0}
       DATA_MIGRATIONS_DIR: ${DATA_MIGRATIONS_DIR:-dev-data}
       DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3dev?serverVersion\
         =15&charset=utf8"
@@ -84,7 +85,9 @@ services:
     image: varnish:9.0.3
     container_name: 'ecamp3-http-cache'
     depends_on:
-      - api
+      api:
+        condition: service_started
+        restart: true
     volumes:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
       - varnish_data:/var/lib/varnish
@@ -104,7 +107,7 @@ services:
     command: varnishncsa
 
   print:
-    image: node:24.18.0
+    image: node:24.19.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -193,16 +196,13 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.61.1-noble
+    image: mcr.microsoft.com/playwright:v1.62.1-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
-    environment:
-      - DISPLAY
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./e2e:/e2e:delegated
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     network_mode: host
     working_dir: /e2e
 
@@ -216,15 +216,19 @@ services:
       SERVER_PORT: 8080
 
   reverse-proxy:
-    image: nginx:1.31
+    image: traefik:v3.7.11
     container_name: 'ecamp3-reverse-proxy'
     volumes:
-      - ./reverse-proxy-nginx.conf:/etc/nginx/nginx.conf
+      - ./dev-setup/traefik/.:/etc/traefik/.:ro
     depends_on:
       - frontend
       - api
       - frontend-old
       - mock-oauth2
+      - http-cache
+      - print
+      - mail
+      - pg-admin
     ports:
       - target: 3000
         published: 3000
@@ -235,7 +239,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.18.0
+    image: node:24.19.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -247,7 +251,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.18.0
+    image: node:24.19.0
     profiles: ['prettier']
     stdin_open: true
     tty: true

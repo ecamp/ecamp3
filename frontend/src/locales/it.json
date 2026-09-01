@@ -455,6 +455,14 @@
         "message": "Modifica dell'indirizzo e-mail ...",
         "success": "L'indirizzo e-mail è stato modificato con successo.",
         "title": "Modifica dell'indirizzo e-mail"
+      },
+      "dialogChangePassword": {
+        "title": "Cambiare password",
+        "currentPassword": "Password attuale",
+        "newPassword": "Nuova password",
+        "newPasswordConfirmation": "Conferma nuova password",
+        "success": "La tua password è stata modificata con successo.",
+        "error": "Si è verificato un errore."
       }
     }
   },
@@ -741,7 +749,9 @@
       "detail": "Ops. Hai perso la strada…{br}Purtroppo questo link non funziona."
     },
     "profile": {
-      "profile": "Profilo"
+      "profile": "Profilo",
+      "changePassword": "Cambiare",
+      "password": "Password"
     }
   }
 }

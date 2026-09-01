@@ -569,6 +569,14 @@
         "message": "Changement d'adresse e-mail ...",
         "success": "L'adresse e-mail a été modifiée avec succès.",
         "title": "Changement d'adresse e-mail"
+      },
+      "dialogChangePassword": {
+        "title": "Changer le mot de passe",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "newPasswordConfirmation": "Confirmer le nouveau mot de passe",
+        "success": "Votre mot de passe a été modifié avec succès.",
+        "error": "Une erreur est survenue."
       }
     }
   },
@@ -884,7 +892,9 @@
       "detail": "Hop là ! Tu t'es égaré...{br}Ce lien ne fonctionne malheureusement pas."
     },
     "profile": {
-      "profile": "Profil"
+      "profile": "Profil",
+      "changePassword": "Changer",
+      "password": "Mot de passe"
     }
   }
 }

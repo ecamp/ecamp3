@@ -29,19 +29,6 @@ they might influence the state of other tests.
 
 ## Option A: Run end-to-end tests in Docker container (headless)
 
-### Preparation
-
-```shell
-# Only necessary on Mac OS: install xhost. Restart your Mac after this.
-brew cask install xquartz
-```
-
-```shell
-# Only necessary on Mac OS and Linux, and only once per computer restart:
-# Allow the Cypress Docker container to open a window on the host
-xhost local:root
-```
-
 ### Install dependencies
 
 ```shell
@@ -89,11 +76,13 @@ Supported browsers: `chromium`, `firefox`, `webkit`
 docker compose --profile e2e run --rm e2e npx playwright test --project firefox
 ```
 
-### Open cypress test ui in container
+### Open Playwright UI mode in container
 
 ```shell
-docker compose --profile e2e run --rm e2e npm run test:ui
+docker compose --profile e2e run --rm e2e npx playwright test --ui-host=localhost --ui-port=8080
 ```
+
+Then open <http://localhost:8080> in your browser.
 
 ### Show test report
 
@@ -104,8 +93,10 @@ open playwright-report/index.html
 ### Show trace
 
 ```shell
-docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file>
+docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file> --host=localhost --port=8080
 ```
+
+Then open <http://localhost:8080> in your browser.
 
 ### Cleanup the frontend to run with HMR again
 

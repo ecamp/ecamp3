@@ -51,8 +51,8 @@ class Profile extends BaseEntity {
     public const EXAMPLE_LANGUAGE = 'en';
 
     /**
-     * Unique email of the user.
-     * Can only be changed by setting the newEmail field, which triggers an email verification flow.
+     * Unique email of the user. Can only be changed by setting the newEmail field, which
+     * triggers an email verification flow.
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
@@ -63,8 +63,7 @@ class Profile extends BaseEntity {
     public ?string $email = null;
 
     /**
-     * New email.
-     * If set, a verification email is sent to this email address.
+     * New email. If set, a verification email is sent to this email address.
      */
     #[InputFilter\Trim]
     #[Assert\Email]

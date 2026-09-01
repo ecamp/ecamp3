@@ -168,8 +168,9 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public ?string $inviteKeyHash = null;
 
     /**
-     * The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.
-     * Either this field or the inviteEmail field should be null.
+     * The person that is collaborating in the camp. Cannot be changed once the
+     * campCollaboration is established. Either this field or the inviteEmail field should
+     * be null.
      */
     #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
@@ -189,11 +190,10 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public ?Camp $camp = null;
 
     /**
-     * Indicates whether the collaborator is still invited, has left the camp, or is participating normally.
-     * Cannot be set when creating a campCollaboration, but can be updated depending on the current status
-     * and the updater's access rights.
-     *
-     * The status ESTABLISHED can only be reached via the /invitations endpoint.
+     * Indicates whether the collaborator is still invited, has left the camp, or is
+     * participating normally. Cannot be set when creating a campCollaboration, but can be
+     * updated depending on the current status and the updater's access rights. The status
+     * ESTABLISHED can only be reached via the /invitations endpoint.
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
     #[Assert\EqualTo(value: self::STATUS_INVITED, groups: ['resend_invitation'])]

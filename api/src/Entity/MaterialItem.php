@@ -62,6 +62,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * The Camp to which this item belongs.
+     *
      * Either Period or MaterialNode is always set. This reference is
      * therefore redundant - but ensures significantly better performance.
      */
