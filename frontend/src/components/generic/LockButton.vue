@@ -2,14 +2,16 @@
   <v-tooltip :disabled="tooltip == ''" location="bottom">
     <template #activator="{ props }">
       <v-btn
-        :icon="modelValue ? 'mdi-lock-open-variant' : 'mdi-lock'"
+        icon
         :aria-label="tooltip"
         :aria-disabled="disabledForGuest"
         size="small"
         :class="{ 'e-shake-lock': shake }"
         v-bind="props"
         @click="onClick"
-      />
+      >
+        <v-icon :icon="modelValue ? 'mdi-lock-open-variant' : 'mdi-lock'" size="small" />
+      </v-btn>
     </template>
     <span>{{ tooltip }}</span>
   </v-tooltip>

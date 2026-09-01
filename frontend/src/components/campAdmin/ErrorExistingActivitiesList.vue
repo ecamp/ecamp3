@@ -11,17 +11,7 @@
             v-for="scheduleEntry in activity.scheduleEntries().items"
             :key="scheduleEntry._meta.self"
           >
-            <router-link
-              :to="{
-                name: 'camp/activity',
-                params: {
-                  campId: camp.id,
-                  activityId: activity.id,
-                  scheduleEntryId: scheduleEntry.id,
-                },
-              }"
-              class="e-title-link"
-            >
+            <router-link :to="scheduleEntryRoute(scheduleEntry)" class="e-title-link">
               <strong>{{ scheduleEntry.number }}</strong>
               {{ rangeShort(scheduleEntry.start, scheduleEntry.end, translate) }}
             </router-link>
@@ -34,6 +24,7 @@
 
 <script>
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { scheduleEntryRoute } from '@/router.js'
 export default {
   name: 'ErrorExistingActivitiesList',
   props: {
@@ -42,6 +33,7 @@ export default {
   },
   methods: {
     rangeShort,
+    scheduleEntryRoute,
     translate(...args) {
       return this.$t(...args)
     },

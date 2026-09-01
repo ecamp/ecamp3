@@ -7,7 +7,7 @@ Show all material lists for a camp on mobile
     <template v-if="!isGuest" #title-actions>
       <DialogMaterialListCreate :camp="camp">
         <template #activator="{ props }">
-          <ButtonAdd class="mr-n2" height="32" v-bind="props"
+          <ButtonAdd class="mr-2" height="32" v-bind="props"
             >{{ $t('global.button.create') }}
           </ButtonAdd>
         </template>

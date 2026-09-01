@@ -43,7 +43,7 @@
           v-bind="props"
         >
           <template #prepend>
-            <v-avatar class="mr-2" size="32">
+            <v-avatar size="32" color="transparent">
               <v-icon color="currentColor">mdi-plus</v-icon>
             </v-avatar>
           </template>

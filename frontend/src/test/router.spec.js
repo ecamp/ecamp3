@@ -1,11 +1,33 @@
 import { describe, it, expect, vi } from 'vitest'
-import { activityFromRoute, campFromRoute, materialListRoute } from '../router'
+import router, {
+  activityFromRoute,
+  campFromRoute,
+  materialListRoute,
+  scheduleEntryRoute,
+} from '../router'
+
+vi.mock('@/plugins/auth', () => ({
+  isAdmin: () => false,
+  isLoggedIn: () => true,
+}))
 
 vi.mock('@/plugins/store', () => ({
   apiStore: {
     get: () => ({
-      activities: ({ id }) => `activity ${id}`,
-      camps: ({ id }) => `camp ${id}`,
+      activities: ({ id }) => {
+        if (!id.startsWith('activity-')) return `activity ${id}`
+
+        const activity = {
+          scheduleEntries: () => ({
+            items: [{ id: id.replace('activity-', 'entry-') }],
+          }),
+        }
+        activity.$reload = () => Promise.resolve(activity)
+        return activity
+      },
+      camps: ({ id }) =>
+        id === 'camp-1' ? { _meta: { load: Promise.resolve() } } : `camp ${id}`,
+      periods: ({ id }) => ({ id, _meta: { load: Promise.resolve() } }),
     }),
   },
 }))
@@ -122,4 +144,46 @@ describe('activityFromRoute', () => {
   it('leaves it to the API to reject a malformed activity id', () => {
     expect(() => activityFromRoute({ params: { activityId: 'nope' } })).not.toThrow()
   })
+})
+
+describe('activity back route', () => {
+  it('keeps the original program route when switching activities', async () => {
+    const activityRoute = (number) => {
+      const activity = {
+        id: `activity-${number}`,
+        title: `Activity ${number}`,
+        _meta: { loading: false },
+        camp: () => ({ id: 'camp-1', shortTitle: 'camp' }),
+      }
+      return scheduleEntryRoute({
+        id: `entry-${number}`,
+        _meta: { loading: false },
+        activity: () => activity,
+      })
+    }
+
+    await router.replace({
+      name: 'camp/period/program',
+      params: { campId: 'camp-1', campShortTitle: 'camp', periodId: 'period-1' },
+    })
+    const origin = router.currentRoute.value.fullPath
+
+    await router.push(activityRoute(1))
+    const firstActivity = router.currentRoute.value.fullPath
+    await router.push(activityRoute(2))
+
+    expect(window.history.state.activityBack).toBe(origin)
+
+    const navigatedBack = new Promise((resolve) => {
+      const removeHook = router.afterEach(() => {
+        removeHook()
+        resolve()
+      })
+    })
+    window.history.back()
+    await navigatedBack
+
+    expect(router.currentRoute.value.fullPath).toBe(firstActivity)
+    expect(window.history.state.activityBack).toBe(origin)
+  }, 15_000)
 })

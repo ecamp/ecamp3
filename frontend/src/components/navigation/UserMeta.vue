@@ -63,12 +63,7 @@
       </v-btn>
     </template>
     <v-list class="user-nav py-0" tag="ul" light>
-      <v-list-item
-        tag="li"
-        block
-        :to="{ name: 'profile', query: { isDetail: true } }"
-        @click="open = false"
-      >
+      <v-list-item tag="li" block :to="{ name: 'profile' }" @click="open = false">
         <v-icon start icon="mdi-account" />
         <span>{{ $t('components.navigation.userMeta.profile') }}</span>
       </v-list-item>

@@ -1,5 +1,5 @@
 <template>
-  <v-skeleton-loader v-if="loading" class="mt-2 mt-sm-3" type="list-item-three-line" />
+  <v-skeleton-loader v-if="loading" class="ma-4" type="list-item-three-line" />
   <v-expansion-panels v-else v-model="expandedDays" flat multiple variant="accordion">
     <story-day
       v-for="day in sortedDays"

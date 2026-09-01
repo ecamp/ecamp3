@@ -16,7 +16,7 @@
             }}<span>
               &middot;
               <template v-for="icon in roles[collaborator.role].icons" :key="icon"
-                ><v-icon class="vertical-baseline" size="x-small">{{ icon }}</v-icon
+                ><v-icon class="vertical-baseline" :size="null">{{ icon }}</v-icon
                 >&thinsp;</template
               ></span
             >

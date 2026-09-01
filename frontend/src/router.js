@@ -181,6 +181,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/Profile.vue'),
@@ -222,6 +223,7 @@ const router = createRouter({
     {
       path: '/camps/create',
       name: 'camps/create',
+      meta: { back: { name: 'camps' } },
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/CampCreate.vue'),
@@ -330,6 +332,7 @@ const router = createRouter({
     {
       name: 'camp/material/all',
       path: '/camps/:campId/:campShortTitle?/material/all',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/material/MaterialOverview.vue'),
@@ -347,6 +350,7 @@ const router = createRouter({
     {
       name: 'camp/material/unassigned',
       path: '/camps/:campId/:campShortTitle?/material/unassigned',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/material/MaterialUnassigned.vue'),
@@ -364,6 +368,7 @@ const router = createRouter({
     {
       name: 'camp/overview/checklists/checklist',
       path: '/camps/:campId/:campShortTitle?/overview/checklists/:checklistId/:checklistName?',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/checklistOverview/ChecklistOverview.vue'),
@@ -398,6 +403,7 @@ const router = createRouter({
     {
       name: 'camp/material/detail',
       path: '/camps/:campId/:campShortTitle?/material/:materialId/:materialName?',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/material/MaterialDetail.vue'),
@@ -921,6 +927,21 @@ export function scheduleEntryRoute(scheduleEntry, query = {}) {
       activityName: slugify(activity.title),
     },
     query,
+    state: activityBackState(camp.id),
+  }
+}
+
+function activityBackState(campId) {
+  const from = router.currentRoute.value
+  if (!from.matched.length) return {}
+
+  return {
+    activityBack:
+      from.name === 'camp/activity'
+        ? window.history.state?.activityBack
+        : from.params.campId === campId
+          ? from.fullPath
+          : null,
   }
 }
 
@@ -942,6 +963,7 @@ export async function firstActivityScheduleEntryRoute(activity, query = {}) {
       activityName: slugify(activity.title),
     },
     query,
+    state: activityBackState(camp.id),
   }
 }
 

@@ -7,13 +7,13 @@ Displays a single scheduleEntry
     :key="activityId"
     class="ec-schedule-entry"
     toolbar
-    back
+    :back="backRoute"
     :loaded="!scheduleEntry._meta.loading && !activity.camp()._meta.loading"
     :max-width="isPaperDisplaySize ? '944px' : ''"
   >
     <template #title>
       <h1 class="font-weight-bold text-h6 d-flex gap-1 sm:gap-2 items-center truncate">
-        <span class="tabular-nums">
+        <span v-if="scheduleEntry.number !== ''" class="tabular-nums">
           {{ scheduleEntry.number }}
         </span>
         <v-menu
@@ -69,14 +69,14 @@ Displays a single scheduleEntry
       <v-btn
         v-if="isContributor && !editActivityTitle"
         icon
-        class="ml-1 visible-on-hover"
+        class="d-none d-sm-block ml-1 visible-on-hover"
         width="24"
         height="24"
         @click="makeTitleEditable()"
       >
         <v-icon size="x-small">mdi-pencil</v-icon>
       </v-btn>
-      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-1">
+      <api-form v-if="editActivityTitle" :entity="activity" class="mx-2 flex-grow-10">
         <api-text-field
           path="title"
           :disabled="layoutMode"
@@ -84,6 +84,7 @@ Displays a single scheduleEntry
           autofocus
           :auto-save="false"
           @finished="editActivityTitle = false"
+          @keydown.esc="editActivityTitle = false"
         />
       </api-form>
     </template>
@@ -108,9 +109,7 @@ Displays a single scheduleEntry
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ props }">
-          <v-btn icon v-bind="props">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
+          <v-btn icon="mdi-dots-vertical" v-bind="props" />
         </template>
 
         <v-list>
@@ -119,26 +118,29 @@ Displays a single scheduleEntry
 
           <v-divider v-if="!isOutsider" />
 
+          <v-list-item
+            v-if="isContributor"
+            :title="$t('global.button.rename')"
+            prepend-icon="mdi-pencil"
+            @click="makeTitleEditable()"
+          />
+
           <!-- layout/content switch (switch to layout mode) -->
           <v-list-item
             v-if="!isOutsider"
+            :title="$t('components.activity.scheduleEntry.changeLayout')"
+            prepend-icon="mdi-puzzle-edit-outline"
             :disabled="!isContributor"
             @click="layoutMode = true"
-          >
-            <v-list-item-title>
-              <v-icon start>mdi-puzzle-edit-outline</v-icon>
-              {{ $t('components.activity.scheduleEntry.changeLayout') }}
-            </v-list-item-title>
-          </v-list-item>
+          />
 
           <v-divider />
 
-          <v-list-item @click="copyUrlToClipboard">
-            <v-list-item-title>
-              <v-icon start>mdi-content-copy</v-icon>
-              {{ $t('components.activity.scheduleEntry.copyScheduleEntry') }}
-            </v-list-item-title>
-          </v-list-item>
+          <v-list-item
+            :title="$t('components.activity.scheduleEntry.copyScheduleEntry')"
+            prepend-icon="mdi-content-copy"
+            @click="copyUrlToClipboard"
+          />
           <ClipboardInfoDialog
             ref="copyInfoDialog"
             translation-context-i18n-key="components.activity.scheduleEntry.clipboardInfoDialog"
@@ -149,12 +151,12 @@ Displays a single scheduleEntry
           <!-- remove activity -->
           <DialogEntityDelete v-if="!isOutsider" :entity="activity" @submit="onDelete">
             <template #activator="{ props }">
-              <v-list-item :disabled="!isContributor" v-bind="props">
-                <v-list-item-title>
-                  <v-icon start>mdi-delete</v-icon>
-                  {{ $t('global.button.delete') }}
-                </v-list-item-title>
-              </v-list-item>
+              <v-list-item
+                :title="$t('global.button.delete')"
+                prepend-icon="mdi-delete"
+                :disabled="!isContributor"
+                v-bind="props"
+              />
             </template>
             {{ $t('components.activity.scheduleEntry.deleteWarning') }}
           </DialogEntityDelete>
@@ -167,7 +169,11 @@ Displays a single scheduleEntry
       <template v-else>
         <!-- Header -->
         <v-row dense class="activity-header">
-          <v-col cols="12" sm="6" class="px-0 pt-0 d-flex flex-wrap gap-x-4">
+          <v-col
+            cols="12"
+            sm="6"
+            class="px-0 pt-0 d-flex flex-wrap gap-x-4 align-content-start gap-y-1"
+          >
             <table>
               <thead>
                 <tr>
@@ -296,6 +302,7 @@ import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import router, {
+  campRoute,
   firstActivityScheduleEntry,
   periodRoute,
   scheduleEntryRoute,
@@ -379,6 +386,14 @@ export default {
     }
   },
   computed: {
+    backRoute() {
+      return (
+        window.history.state?.activityBack ||
+        (this.scheduleEntry?.period
+          ? periodRoute(this.scheduleEntry.period())
+          : campRoute(this.camp, 'program'))
+      )
+    },
     activity() {
       return this.api.get().activities({ id: this.activityId })
     },
@@ -546,15 +561,6 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
-}
-
-:deep(.ec-content-card__toolbar:not(:hover) button.visible-on-hover:not(:focus)) {
-  opacity: 0;
-}
-
-:deep(.ec-content-card__toolbar button.visible-on-hover) {
-  opacity: 1;
-  transition: opacity 0.2s linear;
 }
 
 .e-category-chip-save-icon {

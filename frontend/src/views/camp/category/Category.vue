@@ -4,11 +4,11 @@
       v-if="category"
       class="ec-category"
       toolbar
-      back
+      :back="adminRoute(camp, 'activity')"
       :max-width="isPaperDisplaySize ? '944px' : ''"
     >
       <template #title>
-        <v-toolbar-title class="font-weight-bold">
+        <v-toolbar-title class="font-weight-bold ml-0">
           <CategoryChip :category="category" dense large />
           {{ category.name }}
         </v-toolbar-title>
@@ -109,7 +109,7 @@ import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingAct
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
-import router, { categoryRoute } from '@/router.js'
+import router, { adminRoute, categoryRoute } from '@/router.js'
 import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
 import { useToast } from '@/components/toast/useToast.js'
 
@@ -200,6 +200,7 @@ export default {
     this.loading = false
   },
   methods: {
+    adminRoute,
     findActivities(category) {
       return this.camp
         .activities()
