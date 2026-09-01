@@ -31,7 +31,7 @@ class ActivityRemoveProcessor extends AbstractRemoveProcessor {
         /** @var Comment[] $comments */
         $comments = $data->comments;
         foreach ($comments as $comment) {
-            $comment->orphanDescription = $comment->activity->title;
+            $comment->orphanDescription = $comment->activity->category->short.' '.$comment->activity->title;
             $comment->activity->removeComment($comment);
         }
     }

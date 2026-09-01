@@ -9,6 +9,8 @@
       <router-view />
     </v-main>
 
+    <CommentsPanel v-if="featureComments" />
+
     <FooterSharedCamp ref="footerSharedCamp" />
 
     <v-footer v-if="offline" app class="ec-footer offline">
@@ -28,11 +30,13 @@ import VueI18n from '@/plugins/i18n'
 import { headEnvironment } from '@/plugins/index.js'
 import { useHead } from '@unhead/vue'
 import NewVersionAvailableDialog from '@/components/NewVersionAvailableDialog.vue'
+import CommentsPanel from '@/components/comments/CommentsPanel.vue'
 import ToastHost from '@/components/toast/ToastHost.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
-  components: { NewVersionAvailableDialog, ToastHost },
+  components: { CommentsPanel, NewVersionAvailableDialog, ToastHost },
   setup() {
     useHead({
       title: null,
@@ -50,6 +54,11 @@ export default {
     footerHeight: '0px',
     mutationObserver: null,
   }),
+  computed: {
+    featureComments() {
+      return getEnv().FEATURE_COMMENTS ?? false
+    },
+  },
   watch: {
     offline() {
       // Use a small delay to ensure DOM has been updated

@@ -10,6 +10,30 @@ if (!document.elementFromPoint) {
   document.elementFromPoint = () => null
 }
 
+// jsdom does not implement ResizeObserver, which vuetify components such as
+// VProgressCircular construct during setup
+if (!global.ResizeObserver) {
+  global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+}
+
+// jsdom does not implement matchMedia, which components query for prefers-reduced-motion
+if (!window.matchMedia) {
+  window.matchMedia = (media) => ({
+    media,
+    matches: false,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent: () => false,
+  })
+}
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup()

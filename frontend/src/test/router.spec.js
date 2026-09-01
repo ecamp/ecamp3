@@ -1,5 +1,14 @@
-import { describe, it, expect } from 'vitest'
-import { materialListRoute } from '../router'
+import { describe, it, expect, vi } from 'vitest'
+import { activityFromRoute, campFromRoute, materialListRoute } from '../router'
+
+vi.mock('@/plugins/store', () => ({
+  apiStore: {
+    get: () => ({
+      activities: ({ id }) => `activity ${id}`,
+      camps: ({ id }) => `camp ${id}`,
+    }),
+  },
+}))
 
 describe('materialListRoute', () => {
   const camp = {
@@ -88,5 +97,29 @@ describe('materialListRoute', () => {
     }
     const resultWithObject = materialListRoute(camp, materialList, query)
     expect(resultWithObject.query).toEqual(query)
+  })
+})
+
+describe('campFromRoute', () => {
+  it('returns the camp entity for the route parameter', () => {
+    expect(campFromRoute({ params: { campId: '42' } })).toBe('camp 42')
+  })
+
+  it('returns undefined when the route has no camp', () => {
+    expect(campFromRoute({ params: {} })).toBeUndefined()
+  })
+})
+
+describe('activityFromRoute', () => {
+  it('returns the activity entity for the route parameter', () => {
+    expect(activityFromRoute({ params: { activityId: '42' } })).toBe('activity 42')
+  })
+
+  it('returns undefined when the route has no activity', () => {
+    expect(activityFromRoute({ params: { campId: '42' } })).toBeUndefined()
+  })
+
+  it('leaves it to the API to reject a malformed activity id', () => {
+    expect(() => activityFromRoute({ params: { activityId: 'nope' } })).not.toThrow()
   })
 })

@@ -53,16 +53,18 @@ test.describe('invite collaborator by searching profiles', () => {
     await result.click()
   })
 
-  test('allows typing a brand-new email address that is not a known profile', async ({
-    page,
-  }) => {
-    const searchInput = page.locator('[data-testid="collaborator-invite-search"] input')
-    await searchInput.fill('someone-new@example.com')
+  test(
+    'allows typing a brand-new email address that is not a known profile',
+    { tag: '@mature' },
+    async ({ page }) => {
+      const searchInput = page.locator('[data-testid="collaborator-invite-search"] input')
+      await searchInput.fill('someone-new@example.com')
 
-    await expect(
-      page.getByTestId('collaborator-invite-result').filter({ hasText: '@' })
-    ).toHaveCount(0)
-    await searchInput.blur()
-    await expect(searchInput).toHaveValue('someone-new@example.com')
-  })
+      await expect(
+        page.getByTestId('collaborator-invite-result').filter({ hasText: '@' })
+      ).toHaveCount(0)
+      await searchInput.blur()
+      await expect(searchInput).toHaveValue('someone-new@example.com')
+    }
+  )
 })

@@ -23,6 +23,7 @@ helpLink: 'https://ecamp3.ch/faq'
 featureToggle:
   developer: {{ .Environment.Values | getOrNil "FEATURE_DEVELOPER" | default false }}
   checklist: {{ .Environment.Values | getOrNil "FEATURE_CHECKLIST" | default false }}
+  comments: {{ .Environment.Values | getOrNil "FEATURE_COMMENTS" | default false }}
 
 api:
   authenticationTokenTtl: {{ .Environment.Values | getOrNil "API_AUTHENTICATION_TOKEN_TTL" }}
@@ -224,7 +225,7 @@ securityContext: {}
 # runAsUser: 1000
 
 ingress:
-  enabled: true
+  enabled: {{ .Environment.Values | get "INGRESS_ENABLED" false }}
   basicAuth:
     enabled: {{ .Environment.Values | getOrNil "BASIC_AUTH_ENABLED" | default false }}
     username: {{ .Environment.Values | getOrNil "BASIC_AUTH_USERNAME" | quote }}
@@ -233,6 +234,11 @@ ingress:
   # kubernetes.io/tls-acme: "true"
   className: nginx
   tls:
+
+gateway:
+  enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" true }}
+  className: {{ .Environment.Values | get "GATEWAY_CLASS_NAME" "traefik" }}
+  annotations: {}
 
 apiCache:
   enabled: {{ .Environment.Values | get "API_CACHE_ENABLED" false }}

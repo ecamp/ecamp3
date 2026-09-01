@@ -37,28 +37,57 @@
     <td v-if="!scheduleEntry._meta.loading" class="w-100 contentrow">
       <router-link
         :to="routerLink"
-        class="text-decoration-none text-decoration-hover-underline text-inherit font-weight-medium mr-1"
+        class="text-decoration-none text-decoration-hover-underline text-inherit font-weight-medium mr-2"
       >
         {{ title }}
       </router-link>
 
       <span
-        v-if="!loadingEndpoints?.progressLabels && $vuetify.display.mdAndUp"
-        class="e-subtitle e-subtitle--smaller"
+        v-if="
+          !loadingEndpoints?.progressLabels && $vuetify.display.mdAndUp && progressLabel
+        "
+        class="e-subtitle e-subtitle--smaller mr-2"
       >
         {{ progressLabel }}
       </span>
+
+      <button
+        v-if="$vuetify.display.mdAndUp && commentCount"
+        type="button"
+        class="comment-count"
+        :aria-label="commentCountLabel"
+        :title="commentCountLabel"
+        data-testid="activity-comment-count"
+        @click="showComments"
+      >
+        <CommentCountIcon :count="commentCount" />
+      </button>
 
       <template v-if="location">
         <br />
         <span class="e-subtitle">{{ location }}</span>
       </template>
 
-      <template v-if="!loadingEndpoints?.progressLabels && !$vuetify.display.mdAndUp">
+      <template v-if="!$vuetify.display.mdAndUp">
         <br />
-        <span class="e-subtitle e-subtitle--smaller">
+        <span
+          v-if="!loadingEndpoints?.progressLabels && progressLabel"
+          class="e-subtitle e-subtitle--smaller mr-2"
+        >
           {{ progressLabel }}
         </span>
+
+        <button
+          v-if="commentCount"
+          type="button"
+          class="comment-count"
+          :aria-label="commentCountLabel"
+          :title="commentCountLabel"
+          data-testid="activity-comment-count"
+          @click="showComments"
+        >
+          <CommentCountIcon :count="commentCount" />
+        </button>
       </template>
     </td>
     <td v-else class="w-100 contentrow">
@@ -90,13 +119,18 @@
 <script>
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
+import CommentCountIcon from '@/components/comments/CommentCountIcon.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
+import {
+  commentsState,
+  openCommentsForActivity,
+} from '@/components/comments/commentsState.js'
 import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'ActivityRow',
-  components: { CategoryChip, AvatarRow, TextAlignBaseline },
+  components: { CategoryChip, AvatarRow, CommentCountIcon, TextAlignBaseline },
   mixins: [dateHelperUTCFormatted],
   props: {
     scheduleEntry: { type: Object, default: () => ({ _meta: { loading: true } }) },
@@ -109,8 +143,16 @@ export default {
         progressLabels: true,
       }),
     },
+    commentCount: { type: Number, default: 0 },
   },
   computed: {
+    commentCountLabel() {
+      return this.$t(
+        'components.dashboard.activityRow.comments',
+        { count: this.commentCount },
+        this.commentCount
+      )
+    },
     collaborators() {
       return this.scheduleEntry
         .activity()
@@ -139,6 +181,16 @@ export default {
     },
     routerLink() {
       return scheduleEntryRoute(this.scheduleEntry)
+    },
+  },
+  methods: {
+    async showComments() {
+      if (this.$vuetify.display.smAndDown) {
+        openCommentsForActivity(this.scheduleEntry.activity())
+        return
+      }
+      await this.$router.push(this.routerLink)
+      commentsState.open = true
     },
   },
 }
@@ -171,6 +223,11 @@ tr + tr :is(td, th) {
   max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.comment-count {
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  white-space: nowrap;
 }
 
 .avatarrow {

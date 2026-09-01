@@ -168,8 +168,8 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     public ?string $text = null;
 
     /**
-     * A whole number used for ordering multiple checklist items that are in the same parent.
-     * The API does not guarantee the uniqueness of parent+position.
+     * A whole number used for ordering multiple checklist items that are in the same
+     * parent. The API does not guarantee the uniqueness of parent+position.
      */
     #[ApiProperty(example: '0')]
     #[Gedmo\SortablePosition]

@@ -50,6 +50,7 @@ Preferred — push navigation into a fixture so scenario tests reuse it:
 ```ts
 // tests/fixtures.ts
 import { test as baseTest } from '@playwright/test'
+
 export { expect } from '@playwright/test'
 
 export const test = baseTest.extend({
@@ -84,11 +85,11 @@ playwright-cli attach tw-XXXX
 Resume so the seed runs, then probe the app:
 
 ```bash
-playwright-cli resume                   # resume so that seed test runs fully
-playwright-cli snapshot                 # inventory of interactive elements
-playwright-cli click e5                 # follow a flow
-playwright-cli eval "location.href"     # read URL / state
-playwright-cli show --annotate          # ask the user to point at something
+playwright-cli resume               # resume so that seed test runs fully
+playwright-cli snapshot             # inventory of interactive elements
+playwright-cli click e5             # follow a flow
+playwright-cli eval "location.href" # read URL / state
+playwright-cli show --annotate      # ask the user to point at something
 ```
 
 Map out:
@@ -167,7 +168,7 @@ Goal: take a spec file and produce Playwright test files. Optionally update the 
 For each target scenario, in sequence (never in parallel — scenarios share the seed session):
 
 ```bash
-PLAYWRIGHT_HTML_OPEN=never npx playwright test <seed-file> --debug=cli   # background
+PLAYWRIGHT_HTML_OPEN=never npx playwright test < seed-file > --debug=cli # background
 playwright-cli attach tw-XXXX
 # resume
 ```
@@ -179,8 +180,8 @@ Walk the scenario's `Steps:` one by one with `playwright-cli`, treating the spec
 Every action prints the equivalent Playwright TypeScript (see [test-generation.md](test-generation.md)):
 
 ```bash
-playwright-cli snapshot                         # find refs
-playwright-cli fill e3 "John Doe"               # -> page.getByRole('textbox', {...}).fill(...)
+playwright-cli snapshot           # find refs
+playwright-cli fill e3 "John Doe" # -> page.getByRole('textbox', {...}).fill(...)
 playwright-cli press Enter
 playwright-cli click e7
 ```
@@ -192,7 +193,9 @@ Collect the generated code and write the test file at the path given in the spec
 ```ts
 // spec: specs/basic-operations.plan.md
 // seed: tests/seed.spec.ts
-import { test, expect } from './fixtures' // or '@playwright/test' if no fixtures file
+import { test, expect } from './fixtures'
+
+// or '@playwright/test' if no fixtures file
 
 test.describe('Singing in and out', () => {
   test('should sign in', async ({ page }) => {
@@ -230,7 +233,7 @@ Loop 2.2 over the targeted scenarios one at a time, restarting the seed between 
 After generation, run the new tests once:
 
 ```bash
-PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<group>/<scenario>.spec.ts
+PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/ < group > / < scenario > .spec.ts
 ```
 
 Any failure goes to Section 3.
@@ -254,7 +257,7 @@ Record the list of failing `<file>:<line>` entries and process them one at a tim
 Run the single failing test in debug mode in the background, then attach:
 
 ```bash
-PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<group>/<scenario>.spec.ts:<line> --debug=cli
+PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/ < group > / < scenario > .spec.ts: < line > --debug=cli
 # wait for "Debugging Instructions" and the tw-XXXX session name
 playwright-cli attach tw-XXXX
 ```
@@ -262,10 +265,10 @@ playwright-cli attach tw-XXXX
 The test is paused at the start. Step forward or run to until just before the failing action or assertion, then diagnose:
 
 ```bash
-playwright-cli snapshot                # did the element change / move / rename?
-playwright-cli console                 # app-side errors?
-playwright-cli network                 # failed request? wrong payload?
-playwright-cli show --annotate         # ask the user to point somewhere
+playwright-cli snapshot        # did the element change / move / rename?
+playwright-cli console         # app-side errors?
+playwright-cli network         # failed request? wrong payload?
+playwright-cli show --annotate # ask the user to point somewhere
 ```
 
 Common causes: selector drift, new wrapper element, label/ARIA rename, timing (transition, async load), assertion text updated in the app, test data leaking between runs.

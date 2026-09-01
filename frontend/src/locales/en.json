@@ -301,7 +301,32 @@
         "warningTextLeaveCamp": "Do you want to leave the camp '{camp}'?"
       }
     },
+    "comments": {
+      "commentCard": {
+        "campComment": "Whole camp",
+        "deleteWarning": "Do you really want to delete your comment?",
+        "deleted": "(deleted)"
+      },
+      "commentComposer": {
+        "placeholder": "Write a comment"
+      },
+      "commentsList": {
+        "empty": "No comments yet."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "One more comment is on an individual activity. | {count} more comments are on individual activities.",
+        "commentsOnThisActivity": "Comments on this activity",
+        "title": "Comments"
+      },
+      "commentsToggleButton": {
+        "hide": "Hide comments",
+        "show": "Show comments | Show one comment | Show {count} comments"
+      }
+    },
     "dashboard": {
+      "activityRow": {
+        "comments": "No comments | Show one comment | Show {count} comments"
+      },
       "selectFilter": {
         "clear": "Clear"
       }
@@ -578,6 +603,14 @@
         "message": "Changing email address ...",
         "success": "Email address successfully changed.",
         "title": "Changing email address"
+      },
+      "dialogChangePassword": {
+        "title": "Change password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "newPasswordConfirmation": "Confirm new password",
+        "success": "Your password has been changed successfully.",
+        "error": "An error has occurred."
       }
     }
   },
@@ -893,7 +926,9 @@
     },
     "profile": {
       "changeEmail": "Change",
-      "profile": "Profile"
+      "profile": "Profile",
+      "changePassword": "Change",
+      "password": "Password"
     }
   }
 }
