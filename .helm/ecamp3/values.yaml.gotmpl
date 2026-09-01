@@ -105,8 +105,8 @@ frontend:
 
 print:
   subpath: "/print"
-  ingress:
-    readTimeoutSeconds: {{ .Environment.Values | getOrNil "PRINT_INGRESS_READ_TIMEOUT_SECONDS" | quote }}
+  gateway:
+    readTimeoutSeconds: {{ .Environment.Values | getOrNil "PRINT_GATEWAY_READ_TIMEOUT_SECONDS" | quote }}
   image:
     repository: "docker.io/{{ $dockerUser }}/ecamp3-print"
     pullPolicy: IfNotPresent
@@ -224,21 +224,14 @@ securityContext: {}
         # runAsNonRoot: true
 # runAsUser: 1000
 
-ingress:
-  enabled: {{ .Environment.Values | get "INGRESS_ENABLED" false }}
-  basicAuth:
-    enabled: {{ .Environment.Values | getOrNil "BASIC_AUTH_ENABLED" | default false }}
-    username: {{ .Environment.Values | getOrNil "BASIC_AUTH_USERNAME" | quote }}
-    password: {{ .Environment.Values | getOrNil "BASIC_AUTH_PASSWORD" | quote }}
-  annotations:
-  # kubernetes.io/tls-acme: "true"
-  className: nginx
-  tls:
-
 gateway:
   enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" true }}
   className: {{ .Environment.Values | get "GATEWAY_CLASS_NAME" "traefik" }}
   annotations: {}
+  basicAuth:
+    enabled: {{ .Environment.Values | getOrNil "BASIC_AUTH_ENABLED" | default false }}
+    username: {{ .Environment.Values | getOrNil "BASIC_AUTH_USERNAME" | quote }}
+    password: {{ .Environment.Values | getOrNil "BASIC_AUTH_PASSWORD" | quote }}
 
 apiCache:
   enabled: {{ .Environment.Values | get "API_CACHE_ENABLED" false }}

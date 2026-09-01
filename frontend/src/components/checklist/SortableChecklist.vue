@@ -65,7 +65,7 @@ import { sortBy, filter } from 'lodash-es'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import SortableChecklistItem from '@/components/checklist/SortableChecklistItem.vue'
 import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'SortableChecklist',

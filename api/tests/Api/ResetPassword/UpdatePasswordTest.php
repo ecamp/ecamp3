@@ -88,6 +88,25 @@ class UpdatePasswordTest extends ECampApiTestCase {
     }
 
     #[AllowMockObjectsWithoutExpectations]
+    public function testPatchResetPasswordRejectsPasswordFromLocalCompromisedPasswordList() {
+        $this->mockRecaptcha();
+        $password = file(__DIR__.'/../../../src/Validator/PwnedPasswords/password-list.txt', FILE_IGNORE_NEW_LINES)[0];
+        $this->client->request('PATCH', '/auth/reset_password/'.$this->passwordResetKey, ['json' => [
+            'password' => $password,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This password has appeared in a data breach and cannot be used. Please choose a different password.',
+                ],
+            ],
+        ]);
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
     public function testPatchResetPasswordValidatesUnreasonablyLongPassword() {
         $this->mockRecaptcha();
         $this->client->request('PATCH', '/auth/reset_password/'.$this->passwordResetKey, ['json' => [
@@ -136,7 +155,7 @@ class UpdatePasswordTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(401);
 
-        $newPassword = 'new_password';
+        $newPassword = 'definitely-not-in-password-list-2026';
         $this->client->request(
             'PATCH',
             '/auth/reset_password/'.$this->passwordResetKey,

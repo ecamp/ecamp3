@@ -32,6 +32,16 @@ const router = createRouter({
             },
             beforeEnter: requireAuth,
           },
+          // Render a single form component selected via the URL, so form
+          // components can be driven and asserted on with Playwright.
+          // No auth required: the base components work without API/store.
+          {
+            path: '/form-test/:component?',
+            name: 'formTest',
+            components: {
+              default: () => import('./views/dev/FormComponentTest.vue'),
+            },
+          },
         ]
       : []),
 

@@ -14,6 +14,7 @@ use App\InputFilter;
 use App\State\ResetPasswordCreateProcessor;
 use App\State\ResetPasswordProvider;
 use App\State\ResetPasswordUpdateProcessor;
+use App\Validator\PwnedPasswords\NotPwnedPassword;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,5 +65,6 @@ class ResetPassword {
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]
     #[Assert\Length(min: 12, max: 128)]
+    #[NotPwnedPassword]
     public ?string $password = null;
 }

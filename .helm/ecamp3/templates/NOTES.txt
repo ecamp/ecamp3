@@ -1,11 +1,11 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.gateway.enabled }}
 Access the application at one of these URLs:
   Frontend: {{ include "frontend.url" . }}
   API docs: {{ include "api.url" . }}
   {{- if and .Values.mail.dummyEnabled .Values.mail.subpath (not .Values.mail.dsn) }}
   View all mails sent out by eCamp: {{ include "mail.url" . }}
   {{- end }}
-  {{- if .Values.ingress.basicAuth.enabled }}
+  {{- if .Values.gateway.basicAuth.enabled }}
   The application is protected by basic auth.
   {{- end}}
 {{- else if contains "NodePort" .Values.api.service.type }}

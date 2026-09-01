@@ -111,7 +111,7 @@ import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
 import router, { categoryRoute } from '@/router.js'
 import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'Category',
