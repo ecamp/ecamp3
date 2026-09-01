@@ -40,13 +40,15 @@
         <PromptEntityDelete v-if="isOwnComment" :entity="comment._meta.self">
           <template #activator="{ props }">
             <v-btn
-              icon="mdi-delete"
+              icon
               variant="text"
               size="x-small"
               class="ec-comment-card__delete visible-on-hover flex-0-0"
               :aria-label="$t('global.button.delete')"
               v-bind="props"
-            />
+            >
+              <v-icon size="small">mdi-delete</v-icon>
+            </v-btn>
           </template>
           {{ $t('components.comments.commentCard.deleteWarning') }}
         </PromptEntityDelete>

@@ -109,9 +109,7 @@ Displays a single scheduleEntry
       <!-- hamburger menu -->
       <v-menu v-if="!layoutMode" offset-y>
         <template #activator="{ props }">
-          <v-btn icon v-bind="props">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
+          <v-btn icon="mdi-dots-vertical" v-bind="props" />
         </template>
 
         <v-list>
@@ -120,26 +118,29 @@ Displays a single scheduleEntry
 
           <v-divider v-if="!isOutsider" />
 
+          <v-list-item
+            v-if="isContributor"
+            :title="$t('global.button.rename')"
+            prepend-icon="mdi-pencil"
+            @click="makeTitleEditable()"
+          />
+
           <!-- layout/content switch (switch to layout mode) -->
           <v-list-item
             v-if="!isOutsider"
+            :title="$t('components.activity.scheduleEntry.changeLayout')"
+            prepend-icon="mdi-puzzle-edit-outline"
             :disabled="!isContributor"
             @click="layoutMode = true"
-          >
-            <v-list-item-title>
-              <v-icon start>mdi-puzzle-edit-outline</v-icon>
-              {{ $t('components.activity.scheduleEntry.changeLayout') }}
-            </v-list-item-title>
-          </v-list-item>
+          />
 
           <v-divider />
 
-          <v-list-item @click="copyUrlToClipboard">
-            <v-list-item-title>
-              <v-icon start>mdi-content-copy</v-icon>
-              {{ $t('components.activity.scheduleEntry.copyScheduleEntry') }}
-            </v-list-item-title>
-          </v-list-item>
+          <v-list-item
+            :title="$t('components.activity.scheduleEntry.copyScheduleEntry')"
+            prepend-icon="mdi-content-copy"
+            @click="copyUrlToClipboard"
+          />
           <ClipboardInfoDialog
             ref="copyInfoDialog"
             translation-context-i18n-key="components.activity.scheduleEntry.clipboardInfoDialog"
@@ -150,12 +151,12 @@ Displays a single scheduleEntry
           <!-- remove activity -->
           <DialogEntityDelete v-if="!isOutsider" :entity="activity" @submit="onDelete">
             <template #activator="{ props }">
-              <v-list-item :disabled="!isContributor" v-bind="props">
-                <v-list-item-title>
-                  <v-icon start>mdi-delete</v-icon>
-                  {{ $t('global.button.delete') }}
-                </v-list-item-title>
-              </v-list-item>
+              <v-list-item
+                :title="$t('global.button.delete')"
+                prepend-icon="mdi-delete"
+                :disabled="!isContributor"
+                v-bind="props"
+              />
             </template>
             {{ $t('components.activity.scheduleEntry.deleteWarning') }}
           </DialogEntityDelete>

@@ -52,7 +52,7 @@
             :disabled="isLastSection"
             v-bind="props"
           >
-            <v-icon icon="mdi-delete-outline" size="24" />
+            <v-icon icon="mdi-delete-outline" />
           </v-btn>
         </template>
       </dialog-remove-section>
