@@ -25,7 +25,7 @@ import {
   adjustColumnWidths,
 } from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'ColumnOperations',

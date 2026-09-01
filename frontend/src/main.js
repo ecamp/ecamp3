@@ -13,9 +13,6 @@ import {
   veeValidate,
   vuetifyLoader,
 } from './plugins'
-import Toast from 'vue-toastification'
-import 'vue-toastification/dist/index.css'
-
 import { ClickOutside, Resize } from 'vuetify/directives'
 import ResizeObserver from 'v-resize-observer'
 import * as Sentry from '@sentry/vue'
@@ -82,9 +79,6 @@ app.use(vuetifyLoader)
 app.use(dayjs)
 app.use(color)
 app.use(veeValidate)
-app.use(Toast, {
-  maxToasts: 2,
-})
 app.use(router)
 app.use(i18n)
 

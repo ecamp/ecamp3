@@ -313,7 +313,7 @@ import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.vue'
 import scheduleEntryRouteChange from '@/helpers/scheduleEntryRouteChange.js'
 import ClipboardInfoDialog from '../generic/ClipboardInfoDialog.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'ScheduleEntry',

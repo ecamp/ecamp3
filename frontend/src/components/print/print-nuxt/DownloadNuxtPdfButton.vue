@@ -11,7 +11,7 @@
 
 <script>
 import { generatePdfMixin } from './generatePdfMixin.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'DownloadNuxtPdfButton',
