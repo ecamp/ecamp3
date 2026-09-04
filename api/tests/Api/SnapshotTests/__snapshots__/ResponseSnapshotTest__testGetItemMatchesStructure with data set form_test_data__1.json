@@ -1,0 +1,21 @@
+{
+    "_links": {
+        "self": {
+            "href": "escaped_value"
+        }
+    },
+    "color": "escaped_value",
+    "date": "escaped_value",
+    "flag": "escaped_value",
+    "html": "escaped_value",
+    "id": "escaped_value",
+    "language": "escaped_value",
+    "languageMultiselect": [
+        "escaped_value",
+        "escaped_value"
+    ],
+    "multilineText": "escaped_value",
+    "number": "escaped_value",
+    "text": "escaped_value",
+    "time": "escaped_value"
+}

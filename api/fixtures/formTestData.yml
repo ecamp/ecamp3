@@ -1,0 +1,13 @@
+App\Entity\FormTestDatum:
+  formTestDatum:
+    text: 'Hello'
+    multilineText: "Line one\nLine two"
+    # angle brackets are escaped because nelmio/alice parses <...> as expressions
+    html: '\<p\>Rich \<strong\>text\</strong\>\</p\>'
+    number: 42
+    flag: true
+    color: '#1976d2'
+    date: '2024-01-15'
+    time: '<(new DateTime("2024-01-15T09:30:00+00:00"))>'
+    language: 'en'
+    languageMultiselect: ['en', 'de']
