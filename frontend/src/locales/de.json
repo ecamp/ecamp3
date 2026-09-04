@@ -236,9 +236,20 @@
     "category": {
       "categoryTemplate": {
         "contents": "Inhalte",
-        "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht angepasst.",
+        "createLayoutHelp": "Hier kannst du die Vorlage für neue {categoryShort}-Blöcke definieren.{br}Blockinhalt & Layout bereits erstellter {categoryShort}-Blöcke, werden nicht automatisch angepasst. {applyToActivities}",
         "layout": "Layout",
         "noTemplate": "Keine Vorlage"
+      },
+      "dialogApplyCategoryLayoutToActivities": {
+        "applyToActivities": "Layout und Inhalte der folgenden Aktivitäten überschreiben",
+        "confirmApply": "Aktivitäten überschreiben | 1 Aktivität überschreiben | {count} Aktivitäten überschreiben",
+        "description": "Du kannst das Layout und die Inhalte von {categoryShort} auf Aktivitäten übertragen.",
+        "lastChanged": "Zuletzt geändert",
+        "noContent": "Kein Inhalt",
+        "replaceActivityContents": "Aktivitäten überschreiben",
+        "risk": "Jegliche bereits erfasste Inhalte in der Aktivität gehen dabei unwiderruflich verloren. Fahre nur fort wenn du dir sicher bist.",
+        "templateForNewActivities": "Vorlage für neue {categoryShort}-Blöcke",
+        "title": "Auf Aktivitäten übertragen"
       }
     },
     "checklist": {
