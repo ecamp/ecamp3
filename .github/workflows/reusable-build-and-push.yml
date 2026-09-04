@@ -39,7 +39,7 @@ jobs:
           script: |
             return context.repo.owner.toLowerCase()
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ inputs.sha }}
           allow-unsafe-pr-checkout: true
@@ -123,7 +123,7 @@ jobs:
       tags: ${{ needs.build-info.outputs.tags }}
       repo-owner: ${{ needs.build-info.outputs.repo-owner }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ inputs.sha }}
           fetch-depth: 100
