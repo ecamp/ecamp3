@@ -36,92 +36,103 @@ const collectionXKeys =
   /* collection URI (for detecting addition of new categories) */
   '/api/camps/3c79b99ab424/categories'
 
-test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () => {
+test.describe('cache test: /camps/{campId}/categories', () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches /camps/{campId}/categories separately for each login', async () => {
-    const uri = `/api/camps/${grgrCampId}/categories`
+  test(
+    'caches /camps/{campId}/categories separately for each login',
+    { tag: '@mature' },
+    async () => {
+      const uri = `/api/camps/${grgrCampId}/categories`
 
-    const bipiApi = await getAuthContext(bipiUser)
+      const bipiApi = await getAuthContext(bipiUser)
 
-    // first request is a cache miss
-    const res1 = await apiGet(bipiApi, uri)
-    const headers = res1.headers()
-    expect(headers['xkey']).toBe(collectionXKeys)
-    expect(headers['x-cache']).toBe('MISS')
-    expect(await res1.json()).toEqual(collectionResponse)
+      // first request is a cache miss
+      const res1 = await apiGet(bipiApi, uri)
+      const headers = res1.headers()
+      expect(headers['xkey']).toBe(collectionXKeys)
+      expect(headers['x-cache']).toBe('MISS')
+      expect(await res1.json()).toEqual(collectionResponse)
 
-    // second request is a cache hit
-    await expectCacheHit(bipiApi, uri)
+      // second request is a cache hit
+      await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
-    const castorApi = await getAuthContext(castorUser)
-    await expectCacheMiss(castorApi, uri)
-  })
+      // request with a new user is a cache miss
+      const castorApi = await getAuthContext(castorUser)
+      await expectCacheMiss(castorApi, uri)
+    }
+  )
 
-  test('invalidates /camps/{campId}/categories for all users on category patch', async () => {
-    const uri = `/api/camps/${loremIpsumCampId}/categories`
+  test(
+    'invalidates /camps/{campId}/categories for all users on category patch',
+    { tag: '@mature' },
+    async () => {
+      const uri = `/api/camps/${loremIpsumCampId}/categories`
 
-    // bring data into defined state
-    const bruceApi = await getAuthContext(bruceWayneUser)
-    const felicityApi = await getAuthContext(felicitySmoakUser)
-    await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
-      name: 'old_name',
-    })
+      // bring data into defined state
+      const bruceApi = await getAuthContext(bruceWayneUser)
+      const felicityApi = await getAuthContext(felicitySmoakUser)
+      await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
+        name: 'old_name',
+      })
 
-    // warm up cache (bruce)
-    await apiGet(bruceApi, uri)
-    await expectCacheHit(bruceApi, uri)
+      // warm up cache (bruce)
+      await apiGet(bruceApi, uri)
+      await expectCacheHit(bruceApi, uri)
 
-    // warm up cache (felicity)
-    await apiGet(felicityApi, uri)
-    await expectCacheHit(felicityApi, uri)
+      // warm up cache (felicity)
+      await apiGet(felicityApi, uri)
+      await expectCacheHit(felicityApi, uri)
 
-    // touch category (bruce)
-    await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
-      name: 'new_name',
-    })
+      // touch category (bruce)
+      await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
+        name: 'new_name',
+      })
 
-    // ensure cache was invalidated
-    await waitForCacheMiss(felicityApi, uri)
-    await expectCacheHit(felicityApi, uri)
+      // ensure cache was invalidated
+      await waitForCacheMiss(felicityApi, uri)
+      await expectCacheHit(felicityApi, uri)
 
-    await expectCacheMiss(bruceApi, uri)
-  })
+      await expectCacheMiss(bruceApi, uri)
+    }
+  )
 
-  test('invalidates /camps/{campId}/categories for new category', async () => {
-    const uri = `/api/camps/${grgrCampId}/categories`
-    const bipiApi = await getAuthContext(bipiUser)
+  test(
+    'invalidates /camps/{campId}/categories for new category',
+    { tag: '@mature' },
+    async () => {
+      const uri = `/api/camps/${grgrCampId}/categories`
+      const bipiApi = await getAuthContext(bipiUser)
 
-    // warm up cache
-    await apiGet(bipiApi, uri)
-    await expectCacheHit(bipiApi, uri)
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
 
-    // add new category to camp
-    const postRes = await apiPost(bipiApi, '/api/categories', {
-      camp: `/api/camps/${grgrCampId}`,
-      short: 'new',
-      name: 'new Category',
-      color: '#000000',
-      numberingStyle: '1',
-    })
-    const body = await postRes.json()
-    const newContentNodeUri = body._links.self.href
+      // add new category to camp
+      const postRes = await apiPost(bipiApi, '/api/categories', {
+        camp: `/api/camps/${grgrCampId}`,
+        short: 'new',
+        name: 'new Category',
+        color: '#000000',
+        numberingStyle: '1',
+      })
+      const body = await postRes.json()
+      const newContentNodeUri = body._links.self.href
 
-    // ensure cache was invalidated
-    await waitForCacheMiss(bipiApi, uri)
-    await expectCacheHit(bipiApi, uri)
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
 
-    // delete newly created contentNode
-    await apiDelete(bipiApi, newContentNodeUri)
+      // delete newly created contentNode
+      await apiDelete(bipiApi, newContentNodeUri)
 
-    // ensure cache was invalidated
-    await waitForCacheMiss(bipiApi, uri)
-    await expectCacheHit(bipiApi, uri)
-  })
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+    }
+  )
 
-  // eslint-disable-next-line playwright/no-skipped-test
-  test.skip('invalidates cached data when user leaves a camp', async ({ browser }) => {
+  test('invalidates cached data when user leaves a camp', async ({ browser }) => {
     const castorContext = await browser.newContext()
     const bipiContext = await browser.newContext()
     const castorPage = await castorContext.newPage()
@@ -139,7 +150,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
 
     // deactivate Castor
     await bipiPage.goto(`/camps/${grgrCampId}/GRGR/admin/collaborators`)
-    await bipiPage.locator('.v-list-item__title', { hasText: 'Castor' }).click()
+    await bipiPage.locator('.v-list-item-title', { hasText: 'Castor' }).click()
     await bipiPage.getByRole('button', { name: 'Deaktivieren' }).first().click()
     await Promise.all([
       bipiPage.waitForResponse(
@@ -161,7 +172,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
     await apiDelete(bipiApi, '/mail/email/all')
 
     // invite Castor
-    await bipiPage.locator('.v-list-item__title', { hasText: 'Castor' }).click()
+    await bipiPage.locator('.v-list-item-title', { hasText: 'Castor' }).click()
     await Promise.all([
       bipiPage.waitForResponse(
         (res) =>
@@ -190,10 +201,11 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
         .click(),
     ])
     await newPage.goto('/camps')
+    await newPage.getByText('Alte Lager').click()
     await expect(newPage.locator('body')).toContainText('GRGR')
   })
 
-  test.describe('invalidates /camps/{campId}/categories', () => {
+  test.describe('invalidates /camps/{campId}/categories', { tag: '@mature' }, () => {
     // @ts-expect-error we can type this later
     let categoryBefore
     let bipiApi: APIRequestContext
@@ -227,7 +239,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
       expect(res.status()).toBe(200)
     })
 
-    test('when preferredContentTypes are removed', async () => {
+    test('when preferredContentTypes are removed', { tag: '@mature' }, async () => {
       const uri = `/api/camps/${grgrCampId}/categories`
 
       // warm up cache
@@ -244,7 +256,7 @@ test.describe('cache test: /camps/{campId}/categories', { tag: '@mature' }, () =
       await expectCacheHit(bipiApi, uri)
     })
 
-    test('when preferredContentType is added', async () => {
+    test('when preferredContentType is added', { tag: '@mature' }, async () => {
       const uri = `/api/camps/${grgrCampId}/categories`
 
       // warm up cache
