@@ -86,7 +86,7 @@ jobs:
       - api-check-needed
     if: needs.api-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -116,7 +116,7 @@ jobs:
     name: 'Check format from top level'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
@@ -141,7 +141,7 @@ jobs:
       - frontend-check-needed
     if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
@@ -170,7 +170,7 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
@@ -202,7 +202,7 @@ jobs:
       - e2e-check-needed
     if: needs.e2e-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
@@ -252,7 +252,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -341,7 +341,7 @@ jobs:
       - frontend-check-needed
     if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
@@ -378,7 +378,7 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
