@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1c8378bdd13a596b9d011badf9a4643",
+    "content-hash": "e43d901d0e7b9b8511069fbb386d96e3",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -578,16 +578,16 @@
         },
         {
             "name": "api-platform/json-schema",
-            "version": "v4.3.10",
+            "version": "v4.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/json-schema.git",
-                "reference": "6a0a2ddc4914bb1fdb1b71777c49aef388f6ea31"
+                "reference": "d44aa7acae9e748b3ec55af19f2de4a9a7e79133"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/json-schema/zipball/6a0a2ddc4914bb1fdb1b71777c49aef388f6ea31",
-                "reference": "6a0a2ddc4914bb1fdb1b71777c49aef388f6ea31",
+                "url": "https://api.github.com/repos/api-platform/json-schema/zipball/d44aa7acae9e748b3ec55af19f2de4a9a7e79133",
+                "reference": "d44aa7acae9e748b3ec55af19f2de4a9a7e79133",
                 "shasum": ""
             },
             "require": {
@@ -653,9 +653,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/json-schema/tree/v4.3.10"
+                "source": "https://github.com/api-platform/json-schema/tree/v4.3.17"
             },
-            "time": "2026-06-03T14:46:27+00:00"
+            "time": "2026-06-29T14:45:14+00:00"
         },
         {
             "name": "api-platform/jsonld",
