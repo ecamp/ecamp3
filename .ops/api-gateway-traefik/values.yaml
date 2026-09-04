@@ -19,10 +19,9 @@ traefik:
                     - name: traefik-certs
     ingressClass:
         enabled: false
-    logs:
-        access:
-            enabled: true
-            format: json
-            fields:
-                headers:
-                    defaultmode: keep
+    accessLog:
+        enabled: true
+        format: json
+        fields:
+            headers:
+                defaultMode: keep
