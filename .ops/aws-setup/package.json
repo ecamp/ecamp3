@@ -12,7 +12,7 @@
     "dependencies": {
         "@pulumi/pulumi": "3.259.0",
         "@pulumi/aws": "7.43.0",
-        "@pulumi/awsx": "3.8.0"
+        "@pulumi/awsx": "3.9.0"
     },
     "devDependencies": {
         "@eslint/compat": "2.1.0",
