@@ -64,11 +64,12 @@
         />
         <v-divider inset />
         <SidebarListItem
+          v-if="hasChecklists"
           :to="campRoute(camp, 'overview/checklists')"
           :title="$t('views.camp.navigation.mobile.navSidebar.itemChecklists')"
           icon="mdi-clipboard-list-outline"
         />
-        <v-divider inset />
+        <v-divider v-if="hasChecklists" inset />
         <SidebarListItem
           :title="$t('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"
@@ -143,6 +144,9 @@ export default {
   },
   emits: ['update:modelValue'],
   computed: {
+    hasChecklists() {
+      return this.camp.checklists().items.length > 0
+    },
     newsLink() {
       return getEnv().NEWS_LINK
     },
