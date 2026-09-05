@@ -216,7 +216,7 @@ services:
       SERVER_PORT: 8080
 
   reverse-proxy:
-    image: traefik:v3.7.11
+    image: traefik:v3.7.12
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./dev-setup/traefik/.:/etc/traefik/.:ro
