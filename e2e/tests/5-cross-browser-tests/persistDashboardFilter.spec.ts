@@ -95,8 +95,16 @@ test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
 })
 
 async function clickOnItemWithLabel(page: Page, label: string) {
-  await page
+  const item = page
     .getByRole('listitem')
     .filter({ has: page.getByText(label, { exact: true }) })
-    .click()
+
+  const overlay = item.locator(
+    'xpath=ancestor::*[contains(@class, "v-overlay__content")]'
+  )
+  await expect(overlay).toHaveCSS('pointer-events', 'auto')
+
+  await item.scrollIntoViewIfNeeded()
+
+  await item.click()
 }
