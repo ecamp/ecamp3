@@ -87,7 +87,7 @@
     "vue-recaptcha-v3": "2.0.1",
     "vue-router": "5.3.0",
     "vuedraggable": "4.1.0",
-    "vuetify": "3.13.2",
+    "vuetify": "3.13.3",
     "vuex": "4.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
