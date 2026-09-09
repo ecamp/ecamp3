@@ -85,7 +85,7 @@
     "vue-axios": "3.6.0",
     "vue-i18n": "11.4.10",
     "vue-recaptcha-v3": "2.0.1",
-    "vue-router": "5.3.0",
+    "vue-router": "5.3.1",
     "vuedraggable": "4.1.0",
     "vuetify": "3.13.3",
     "vuex": "4.1.0",
