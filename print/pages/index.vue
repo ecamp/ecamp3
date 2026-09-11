@@ -19,6 +19,7 @@
 <script setup>
 import { toDayjsLocale } from '@/common/helpers/dayjs.js'
 import toLower from 'lodash-es/toLower.js'
+import { FALLBACK_LOCALE } from '@/locales/fallbackLocale.js'
 
 // parse query config
 const route = useRoute()
@@ -26,9 +27,9 @@ const query = route.query
 const config = JSON.parse(query.config || '{}')
 
 // set locale
-const { setLocale, fallbackLocale } = useI18n()
+const { setLocale } = useI18n()
 const { $date } = useNuxtApp()
-const locale = config.language || fallbackLocale.value
+const locale = config.language || FALLBACK_LOCALE
 await setLocale(locale) // i18n
 
 // page size
