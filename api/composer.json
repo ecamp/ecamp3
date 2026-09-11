@@ -25,7 +25,7 @@
     "fakerphp/faker": "1.24.1",
     "friendsofsymfony/http-cache": "3.2.0",
     "friendsofsymfony/http-cache-bundle": "3.4.1",
-    "gesdinet/jwt-refresh-token-bundle": "2.2.2",
+    "gesdinet/jwt-refresh-token-bundle": "3.0.0",
     "google/recaptcha": "1.5",
     "guzzlehttp/guzzle": "7.15.5",
     "knpuniversity/oauth2-client-bundle": "2.20.2",
