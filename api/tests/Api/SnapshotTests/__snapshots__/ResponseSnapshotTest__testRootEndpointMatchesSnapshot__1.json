@@ -33,7 +33,7 @@
             "templated": true
         },
         "checklists": {
-            "href": "/checklists{/id}{?camp,camp[],isPrototype,isPrototype[]}",
+            "href": "/checklists{/id}{?isPrototype,isPrototype[]}",
             "templated": true
         },
         "columnLayouts": {

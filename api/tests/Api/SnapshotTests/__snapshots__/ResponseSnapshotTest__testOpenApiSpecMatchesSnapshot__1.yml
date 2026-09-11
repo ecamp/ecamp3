@@ -56487,32 +56487,10 @@ paths:
           description: ''
           explode: false
           in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
           name: isPrototype
           required: false
           schema:
             type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
           style: form
         -
           deprecated: false
@@ -57524,32 +57502,10 @@ paths:
           description: ''
           explode: false
           in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
           name: isPrototype
           required: false
           schema:
             type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
           style: form
         -
           deprecated: false

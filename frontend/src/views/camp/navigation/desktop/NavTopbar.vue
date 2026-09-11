@@ -14,7 +14,7 @@
         :text="$t('views.camp.navigation.desktop.navTopbar.program')"
       />
       <TopNavigationItem
-        v-if="hasChecklist"
+        v-if="hasChecklists"
         :to="campRoute(camp, 'overview/checklists')"
         icon="mdi-clipboard-list-outline"
         :text="$t('views.camp.navigation.desktop.navTopbar.checklist')"
@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    hasChecklist() {
+    hasChecklists() {
       return this.camp.checklists().items.length > 0
     },
     helpLink() {
