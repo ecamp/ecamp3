@@ -652,11 +652,11 @@ async function requireActivityScheduleEntry(to) {
           .get()
           .scheduleEntries({ id: to.params.scheduleEntryId })
           ._meta.load.then(
-            async (scheduleEntry) => {
+            (scheduleEntry) => {
               to.params.activityId = scheduleEntry.activity().id
               return to
             },
-            async () => ({
+            () => ({
               // scheduleEntry and activity are not found, fallback to camp program
               ...to,
               name: 'camp/program',
