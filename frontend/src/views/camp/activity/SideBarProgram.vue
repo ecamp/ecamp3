@@ -43,8 +43,8 @@ import scheduleEntryRouteChange from '@/helpers/scheduleEntryRouteChange.js'
 export default {
   name: 'SideBarProgram',
   components: { DaySwitcher, SideBar, Picasso, ScheduleEntries },
-  async beforeRouteUpdate(to, from, next) {
-    return scheduleEntryRouteChange(this.activityId, to, from, next)
+  async beforeRouteUpdate(to, from) {
+    return scheduleEntryRouteChange(this.activityId, to, from)
   },
   props: {
     camp: { type: Object, required: true },

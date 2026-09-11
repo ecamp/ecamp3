@@ -350,8 +350,8 @@ export default {
       isPaperDisplaySize: () => this.isPaperDisplaySize,
     }
   },
-  async beforeRouteUpdate(to, from, next) {
-    return scheduleEntryRouteChange(this.activityId, to, from, next)
+  async beforeRouteUpdate(to, from) {
+    return scheduleEntryRouteChange(this.activityId, to, from)
   },
   props: {
     activityId: {
