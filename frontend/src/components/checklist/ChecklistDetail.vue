@@ -10,7 +10,7 @@
       <v-toolbar-title v-if="!editChecklistName" tag="h1" class="font-weight-bold ml-0">
         {{ checklist.name }}
         <v-btn
-          v-if="!editChecklistName && !isOutsider"
+          v-if="!editChecklistName && !isReadOnly"
           icon
           class="ml-1 visible-on-hover"
           width="24"
@@ -116,6 +116,9 @@ export default {
     items() {
       return this.checklist.checklistItems().items.filter((item) => !item.parent)
     },
+    isReadOnly() {
+      return this.isGuest || this.isOutsider
+    },
   },
   async mounted() {
     await this.api
@@ -127,7 +130,7 @@ export default {
       .$loadItems()
 
     await nextTick()
-    this.debouncedDisabled = this.isOutsider
+    this.debouncedDisabled = this.isReadOnly
   },
   methods: {
     checklistRoute,
