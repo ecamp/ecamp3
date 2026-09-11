@@ -295,9 +295,7 @@ const router = createRouter({
         {
           path: 'program',
           name: 'camp/program',
-          async beforeEnter(to, from, next) {
-            return redirectToPeriod(to, from, next, 'camp/period/program')
-          },
+          beforeEnter: (to) => redirectToPeriod(to, 'camp/period/program'),
         },
         {
           path: 'overview/checklists',
@@ -313,9 +311,7 @@ const router = createRouter({
         {
           path: 'story',
           name: 'camp/story',
-          async beforeEnter(to, from, next) {
-            return redirectToPeriod(to, from, next, 'camp/period/story')
-          },
+          beforeEnter: (to) => redirectToPeriod(to, 'camp/period/story'),
         },
         {
           path: 'dashboard',
@@ -582,73 +578,54 @@ router.afterEach(() => {
 
 export default router
 
-function evaluateGuards(guards, to, from, next) {
-  const guardsLeft = guards.slice(0)
-  const nextGuard = guardsLeft.shift()
-
-  if (nextGuard === undefined) {
-    next()
-    return
-  }
-
-  nextGuard(to, from, (nextArg) => {
-    if (nextArg === undefined) {
-      evaluateGuards(guardsLeft, to, from, next)
-      return
-    }
-    next(nextArg)
-  })
-}
-
 function all(guards) {
-  return (to, from, next) => evaluateGuards(guards, to, from, next)
-}
-
-function requireAuth(to, from, next) {
-  if (isLoggedIn()) {
-    next()
-  } else {
-    next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+  return async (to, from) => {
+    for (const guard of guards) {
+      const result = await guard(to, from)
+      if (result !== undefined) {
+        return result
+      }
+    }
   }
 }
 
-function requireAdmin(to, from, next) {
-  if (isAdmin()) {
-    next()
-  } else {
-    next({
+function requireAuth(to) {
+  if (!isLoggedIn()) {
+    return { name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } }
+  }
+}
+
+function requireAdmin(to) {
+  if (!isAdmin()) {
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
+    }
   }
 }
 
-async function requireCamp(to, from, next) {
+async function requireCamp(to) {
   const camp = await campFromRoute(to)
   if (camp === undefined) {
-    next({
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+  return camp._meta.load.then(
+    () => undefined,
+    () => ({
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
     })
-  } else {
-    await camp._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next({
-          name: 'PageNotFound',
-          params: [to.fullPath, ''],
-          replace: true,
-        })
-      })
-  }
+  )
 }
 
-async function requireActivityScheduleEntry(to, from, next) {
-  await apiStore
+async function requireActivityScheduleEntry(to) {
+  return apiStore
     .get()
     .activities({ id: to.params.activityId })
     .$reload()
@@ -662,112 +639,95 @@ async function requireActivityScheduleEntry(to, from, next) {
 
       if (scheduleEntry) {
         // activity and scheduleEntry exist
-        next()
-      } else {
-        // scheduleEntry is not found, use first activity scheduleEntry
-        to.params.scheduleEntryId = (await firstActivityScheduleEntry(activity)).id
-        next(to)
+        return undefined
       }
+      // scheduleEntry is not found, use first activity scheduleEntry
+      to.params.scheduleEntryId = (await firstActivityScheduleEntry(activity)).id
+      return to
     })
-    .catch(() => {
+    .catch(async () => {
       // activityId does not exist, check if scheduleEntryId exists
       if (to.params.scheduleEntryId) {
-        apiStore
+        return apiStore
           .get()
           .scheduleEntries({ id: to.params.scheduleEntryId })
-          ._meta.load.then(async (scheduleEntry) => {
-            to.params.activityId = scheduleEntry.activity().id
-            next(to)
-          })
-          .catch(async () => {
-            // scheduleEntry and activity are not found, fallback to camp program
-            next({
+          ._meta.load.then(
+            (scheduleEntry) => {
+              to.params.activityId = scheduleEntry.activity().id
+              return to
+            },
+            () => ({
+              // scheduleEntry and activity are not found, fallback to camp program
               ...to,
               name: 'camp/program',
             })
-          })
+          )
       }
     })
 }
 
-async function requirePeriod(to, from, next) {
+async function requirePeriod(to) {
   const period = await periodFromRoute(to)
   if (period === undefined) {
-    next({
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
-  } else {
-    await period._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next(campRoute(campFromRoute(to)))
-      })
+    }
   }
+  return period._meta.load.then(
+    () => undefined,
+    () => campRoute(campFromRoute(to))
+  )
 }
 
-async function requireCategory(to, from, next) {
+async function requireCategory(to) {
   const category = await categoryFromRoute(to)
   if (category === undefined) {
-    next({
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+  return category._meta.load.then(
+    () => undefined,
+    () => ({
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
     })
-  } else {
-    await category._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next({
-          name: 'PageNotFound',
-          params: [to.fullPath, ''],
-          replace: true,
-        })
-      })
-  }
+  )
 }
 
-async function requireMaterialList(to, from, next) {
+async function requireMaterialList(to) {
   const materialList = await materialListFromRoute(to)
   if (materialList === undefined) {
-    next({
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
-  } else {
-    await materialList._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next(campRoute(campFromRoute(to)))
-      })
+    }
   }
+  return materialList._meta.load.then(
+    () => undefined,
+    () => campRoute(campFromRoute(to))
+  )
 }
 
-async function requireChecklist(to, from, next) {
+async function requireChecklist(to) {
   const checklist = await checklistFromRoute(to)
   if (checklist === undefined) {
-    next({
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
-  } else {
-    await checklist._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next(campRoute(campFromRoute(to)))
-      })
+    }
   }
+  return checklist._meta.load.then(
+    () => undefined,
+    () => campRoute(campFromRoute(to))
+  )
 }
 
 export function campFromRoute(route) {
@@ -1078,13 +1038,12 @@ export async function firstActivityScheduleEntry(activity) {
     )
 }
 
-async function redirectToPeriod(to, from, next, routeName) {
+async function redirectToPeriod(to, routeName) {
   const period = await firstFuturePeriod(to)
   if (period) {
     await period.camp()._meta.load
-    next(periodRoute(period, routeName, to.query))
-  } else {
-    const camp = await apiStore.get().camps({ id: to.params.campId })
-    next(campRoute(camp, 'camp/admin', to.query))
+    return periodRoute(period, routeName, to.query)
   }
+  const camp = await apiStore.get().camps({ id: to.params.campId })
+  return campRoute(camp, 'camp/admin', to.query)
 }
