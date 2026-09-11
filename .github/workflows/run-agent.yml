@@ -1,0 +1,165 @@
+name: Run agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: Task for Agent
+        required: true
+        type: string
+      model:
+        description: 'Exact model override (provider/model, for example opencode-go-openai/glm-5.2). Wins over the dropdown; leave empty for the default model.'
+        required: false
+        type: string
+      model_choice:
+        description: Preferred model from the dropdown. Ignored when 'model' is filled in.
+        required: false
+        type: choice
+        default: auto
+        options:
+          - auto
+          - opencode/big-pickle
+          - opencode/mimo-v2.5-free
+          - opencode/nemotron-3-ultra-free
+          - opencode/nemotron-3.5-lightning-free
+          - opencode/muse-spark-1.3-contributor-free
+          - opencode/ling-3.0-flash-fin-free
+          - opencode-go-openai/qwen3.8-max
+          - opencode-go-openai/qwen3.8-flash
+          - opencode-go-openai/glm-5.3
+          - opencode-go-openai/kimi-k3
+          - opencode-go-openai/hy4-preview
+          - opencode-go-openai/gpt-5.6-luna
+          - opencode-go-openai/minimax-m2.5
+      timeout_minutes:
+        description: Job timeout in minutes
+        required: false
+        type: number
+        default: 120
+
+permissions:
+  actions: read
+  artifact-metadata: read
+  checks: read
+  packages: read
+  contents: write
+  issues: read
+  pull-requests: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 130
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OPENCODE_GO_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+      OPENCODE_GO_2_API_KEY: ${{ secrets.OPENCODE_GO_2_API_KEY }}
+
+    steps:
+      - name: Print inputs
+        run: |
+          printf "prompt: %s\n" "$PROMPT"
+          requested="${MODEL_TEXT:-}"
+          if [[ -z "$requested" && "${MODEL_CHOICE:-auto}" != auto ]]; then requested="$MODEL_CHOICE"; fi
+          printf "requested_model: %s\n" "$requested"
+          printf "timeout_minutes: %s\n" "$TIMEOUT_MINUTES"
+        env:
+          PROMPT: ${{ inputs.prompt }}
+          MODEL_TEXT: ${{ inputs.model }}
+          MODEL_CHOICE: ${{ inputs.model_choice }}
+          TIMEOUT_MINUTES: ${{ inputs.timeout_minutes }}
+
+      - name: Check out target repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up OpenCode
+        uses: ./.github/actions/setup-agent
+
+      - name: Select model
+        id: select-model
+        shell: bash
+        env:
+          MODEL_TEXT: ${{ inputs.model }}
+          MODEL_CHOICE: ${{ inputs.model_choice }}
+        run: |
+          set -Eeuo pipefail
+
+          requested="${MODEL_TEXT:-}"
+          if [[ -z "$requested" && "${MODEL_CHOICE:-auto}" != auto ]]; then requested="$MODEL_CHOICE"; fi
+
+          model="${requested:-opencode/big-pickle}"
+          printf '\n\n\n\n\n\n'
+          printf 'Chosen model is %s\n' "$model"
+          printf 'Now dispatching agent\n'
+          printf '\n\n\n\n\n\n'
+
+          echo "model=${model}" >> "$GITHUB_OUTPUT"
+
+      - name: Run coordinator
+        id: coordinator
+        shell: bash
+        env:
+          PROMPT: ${{ inputs.prompt }}
+          MODEL: ${{ steps.select-model.outputs.model }}
+          COORDINATOR_TIMEOUT: ${{ inputs.timeout_minutes || 120 }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENCODE_FATAL_STAGE: coordinator
+        run: |
+          set -Eeuo pipefail
+          rm -f "$RUNNER_TEMP/opencode-fatal.json"
+
+          coordinator_session_title='coordinator-run'
+          PROMPT=$(printf 'model: %s \n %s' "$MODEL" "$PROMPT")
+          printf 'Final coordinator command: opencode run --agent coordinator --model %q --title %q\n' "$MODEL" "$coordinator_session_title"
+          stop_token="$(openssl rand -hex 8)"
+          printf '::stop-commands::%s\n' "$stop_token"
+          printf 'Coordinator prompt:\n%s\n' "$PROMPT"
+          printf '::%s::\n' "$stop_token"
+          set +e
+          timeout "${COORDINATOR_TIMEOUT}m" opencode run --agent coordinator --model "$MODEL" --title "$coordinator_session_title" "$PROMPT" 2>&1 | tee "$RUNNER_TEMP/coordinator.out"
+          coordinator_statuses=("${PIPESTATUS[@]}")
+          coordinator_status=${coordinator_statuses[0]}
+          coordinator_tee_status=${coordinator_statuses[1]}
+          set -e
+          printf 'Coordinator statuses: opencode=%s tee=%s\n' "$coordinator_status" "$coordinator_tee_status"
+          echo "coordinator_status=${coordinator_status}" >> "$GITHUB_OUTPUT"
+          echo "coordinator_tee_status=${coordinator_tee_status}" >> "$GITHUB_OUTPUT"
+          if ((coordinator_status != 0)); then
+            exit "$coordinator_status"
+          fi
+          exit "$coordinator_tee_status"
+
+      - name: Fatal guard
+        id: fatal-guard
+        if: always() && steps.select-model.outcome == 'success'
+        shell: bash
+        run: |
+          if [[ -f "$RUNNER_TEMP/opencode-fatal.json" ]]; then
+            reason=$(jq -r '.reason' "$RUNNER_TEMP/opencode-fatal.json")
+            fatal_model=$(jq -r '.model' "$RUNNER_TEMP/opencode-fatal.json")
+            printf '::error::fatal provider error (%s) from model %s\n' "$reason" "$fatal_model"
+            {
+              echo "fatal-model=${fatal_model}"
+              echo "fatal-reason=${reason}"
+              echo "fatal-provider=${fatal_model%/*}"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Dump debug output
+        if: always()
+        shell: bash
+        env:
+          COORDINATOR_SESSION_TITLE: coordinator-run
+        run: |
+          python3 scripts/dump_subagent_transcripts.py || true
+
+      - name: Dump debug output
+        if: always()
+        shell: bash
+        env:
+          COORDINATOR_SESSION_TITLE: model-discovery
+        run: |
+          python3 scripts/dump_subagent_transcripts.py || true
