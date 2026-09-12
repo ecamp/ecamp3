@@ -1,0 +1,12 @@
+diff --git a/node_modules/@react-pdf/layout/lib/index.js b/node_modules/@react-pdf/layout/lib/index.js
+index 18c2618..17b47df 100644
+--- a/node_modules/@react-pdf/layout/lib/index.js
++++ b/node_modules/@react-pdf/layout/lib/index.js
+@@ -3235,6 +3235,7 @@ const resolveDynamicPage = (props, page, fontStore, yoga) => {
+     return page;
+ };
+ const splitPage$1 = (page, pageNumber, fontStore, yoga) => {
++    dispatchEvent(new Event('layoutPage'));
+     const wrapArea = getWrapArea(page);
+     const contentArea = getContentArea(page);
+     const dynamicPage = resolveDynamicPage({ pageNumber }, page, fontStore, yoga);
