@@ -11,6 +11,7 @@ WORKDIR /app
 COPY frontend/package*.json ./
 COPY frontend/public ./public
 COPY frontend/scripts ./scripts
+COPY frontend/patches ./patches
 # install and uninstall the native dependencies in one single docker RUN instruction,
 # so they do not increase the image layer size
 RUN apk --no-cache add --virtual native-deps g++ make python3 git && npm ci && apk del native-deps
