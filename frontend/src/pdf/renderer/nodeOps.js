@@ -23,6 +23,11 @@ function patchProp(el, key, prevVal, nextVal) {
       Object.entries(nextVal || {}).map(([key, value]) => [camelCase(key), value])
     )
     el.style = Object.assign(el.style, transformed)
+  } else if (key === 'render') {
+    el.props.render = (renderProps) => {
+      const result = nextVal(renderProps)
+      return result == null ? null : createText(String(result))
+    }
   } else if (key === 'class') {
     const styles = nextVal.split(' ').map((styleClass) => styleStore[styleClass] || {})
     el.style = Object.assign(el.style, ...styles)
