@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex" @mousedown.stop>
     <!-- Success icon after saving -->
     <div class="checkIconContainer">
       <v-icon color="green" class="checkIcon" :class="checkIconAddon">
@@ -22,7 +22,7 @@
             class="mr-1"
             :aria-label="$t('global.button.tryagain')"
             v-bind="props"
-            @click="wrapper.on.save"
+            @click.stop="wrapper.on.save"
           >
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
@@ -41,7 +41,7 @@
             color="grey"
             :aria-label="$t('global.button.cancel')"
             v-bind="props"
-            @click="wrapper.on.reset"
+            @click.stop="wrapper.on.reset"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -64,7 +64,7 @@
             class="mr-1 min-w-0"
             :aria-label="$t('global.button.save')"
             v-bind="props"
-            @click="wrapper.on.save"
+            @click.stop="wrapper.on.save"
           >
             <v-icon>mdi-check</v-icon>
           </v-btn>
@@ -83,7 +83,7 @@
             color="grey"
             :aria-label="$t('global.button.cancel')"
             v-bind="props"
-            @click="wrapper.on.reset"
+            @click.stop="wrapper.on.reset"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -93,7 +93,7 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry v-if="wrapper.hasLoadingError" text @click="wrapper.on.reload" />
+    <button-retry v-if="wrapper.hasLoadingError" text @click.stop="wrapper.on.reload" />
   </div>
 </template>
 
