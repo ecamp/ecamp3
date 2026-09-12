@@ -42,6 +42,17 @@ const router = createRouter({
               default: () => import('./views/dev/FormComponentTest.vue'),
             },
           },
+          // Same idea for the API-backed form components, bound to the shared
+          // FormTestDatum singleton. Requires auth, since it reads/writes the
+          // (authenticated) API.
+          {
+            path: '/api-form-test/:component?',
+            name: 'apiFormTest',
+            components: {
+              default: () => import('./views/dev/ApiFormComponentTest.vue'),
+            },
+            beforeEnter: requireAuth,
+          },
         ]
       : []),
 
