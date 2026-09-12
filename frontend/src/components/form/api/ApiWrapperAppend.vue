@@ -22,7 +22,7 @@
             class="mr-1"
             :aria-label="$t('global.button.tryagain')"
             v-bind="props"
-            @click.stop="wrapper.on.save"
+            @click="wrapper.on.save"
           >
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
@@ -41,7 +41,7 @@
             color="grey"
             :aria-label="$t('global.button.cancel')"
             v-bind="props"
-            @click.stop="wrapper.on.reset"
+            @click="wrapper.on.reset"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -64,7 +64,7 @@
             class="mr-1 min-w-0"
             :aria-label="$t('global.button.save')"
             v-bind="props"
-            @click.stop="wrapper.on.save"
+            @click="wrapper.on.save"
           >
             <v-icon>mdi-check</v-icon>
           </v-btn>
@@ -83,7 +83,7 @@
             color="grey"
             :aria-label="$t('global.button.cancel')"
             v-bind="props"
-            @click.stop="wrapper.on.reset"
+            @click="wrapper.on.reset"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -93,7 +93,7 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry v-if="wrapper.hasLoadingError" text @click.stop="wrapper.on.reload" />
+    <button-retry v-if="wrapper.hasLoadingError" text @click="wrapper.on.reload" />
   </div>
 </template>
 

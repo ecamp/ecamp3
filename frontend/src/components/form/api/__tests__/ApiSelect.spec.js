@@ -30,6 +30,8 @@ describe('An ApiSelect', () => {
 
   beforeEach(() => {
     apiMock = ApiMock.create()
+    // default GET stub; tests can override it before calling mount()
+    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forPath(path))
   })
 
   afterEach(() => {
@@ -37,7 +39,7 @@ describe('An ApiSelect', () => {
     wrapper?.unmount()
   })
 
-  const mount = (options) => {
+  const mount = (options, autoSave = false) => {
     const app = {
       components: { ApiSelect },
       props: {
@@ -47,7 +49,7 @@ describe('An ApiSelect', () => {
       template: `
         <div data-app>
           <api-select
-            :auto-save="false"
+            :auto-save="${autoSave}"
             :path="path"
             uri="test-field/123"
             label="Test field"
@@ -57,7 +59,6 @@ describe('An ApiSelect', () => {
         </div>
       `,
     }
-    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forPath(path))
     const defaultOptions = {
       global: {
         mocks: {
@@ -102,5 +103,76 @@ describe('An ApiSelect', () => {
     expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(SECOND_OPTION.value)
     expect(wrapper.html()).toContain(SECOND_OPTION.text)
     expect(wrapper.html()).not.toContain(FIRST_OPTION.text)
+  })
+
+  const click = async (element) => {
+    await element.trigger('mousedown')
+    await element.trigger('mouseup')
+    await element.trigger('click')
+  }
+
+  const dropdownIsOpen = () =>
+    wrapper.get('.v-select').classes().includes('v-select--active-menu')
+
+  test('clicking the reload button after a failed load does not open the dropdown', async () => {
+    apiMock.get().thenReturn(ApiMock.networkError().forPath(path))
+    wrapper = mount()
+    await flushPromises()
+
+    expect(wrapper.findComponent(ApiWrapper).vm.hasLoadingError).toBe(true)
+    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forPath(path))
+
+    await click(wrapper.get('button'))
+
+    expect(dropdownIsOpen()).toBe(false)
+    expect(wrapper.findComponent(ApiWrapper).vm.hasLoadingError).toBe(false)
+  })
+
+  test('clicking the retry button after a failed save does not open the dropdown', async () => {
+    wrapper = mount(undefined, true)
+    await flushPromises()
+
+    const apiWrapper = wrapper.findComponent(ApiWrapper)
+    apiMock
+      .getMocks()
+      .patch.mockImplementation(() =>
+        Promise.reject({ message: 'A network error occurred.' })
+      )
+    apiWrapper.vm.onInput(SECOND_OPTION.value)
+
+    await waitForDebounce()
+    await flushPromises()
+
+    expect(apiWrapper.vm.hasServerError).toBe(true)
+    apiMock
+      .getMocks()
+      .patch.mockImplementation(() => Promise.resolve(SECOND_OPTION.value))
+
+    await click(wrapper.get('[aria-label="global.button.tryagain"]'))
+
+    expect(dropdownIsOpen()).toBe(false)
+  })
+
+  test('clicking the cancel button after a failed save does not open the dropdown', async () => {
+    wrapper = mount(undefined, true)
+    await flushPromises()
+
+    const apiWrapper = wrapper.findComponent(ApiWrapper)
+    apiMock
+      .getMocks()
+      .patch.mockImplementation(() =>
+        Promise.reject({ message: 'A network error occurred.' })
+      )
+    apiWrapper.vm.onInput(SECOND_OPTION.value)
+
+    await waitForDebounce()
+    await flushPromises()
+
+    expect(apiWrapper.vm.hasServerError).toBe(true)
+
+    await click(wrapper.get('[aria-label="global.button.cancel"]'))
+
+    expect(dropdownIsOpen()).toBe(false)
+    expect(apiWrapper.vm.hasServerError).toBe(false)
   })
 })
