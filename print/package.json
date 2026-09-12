@@ -66,6 +66,7 @@
     "vue": "3.5.42"
   },
   "overrides": {
+    "@intlify/vue-i18n-extensions": "9.0.0",
     "uri-js": "npm:uri-js-replace"
   }
 }
