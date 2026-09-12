@@ -135,7 +135,7 @@
     "category": {
       "categoryTemplate": {
         "contents": "Cuntegns",
-        "createLayoutHelp": "Qua pudais vus definir il project per novas activitads da {categoryShort}.{br}Il cuntegn ed il layout ch'èn gia vegnidas fatgas da {categoryShort} na vegnan betg adattads.",
+        "createLayoutHelp": "Qua pudais vus definir il project per novas activitads da {categoryShort}.{br}Il cuntegn ed il layout ch'èn gia vegnidas fatgas da {categoryShort} na vegnan betg adattads. {applyToActivities}",
         "layout": "Layout",
         "noTemplate": "Nagin model"
       }

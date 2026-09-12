@@ -236,7 +236,7 @@
     "category": {
       "categoryTemplate": {
         "contents": "Contents",
-        "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be adjusted.",
+        "createLayoutHelp": "Here you can define the template for new {categoryShort} activities.{br}The content & layout of already created {categoryShort} activities will not be automatically adjusted. {applyToActivities}",
         "layout": "Layout",
         "noTemplate": "No template"
       }
