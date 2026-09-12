@@ -9,6 +9,8 @@ helm dep build
 
 action=${1:-diff}
 if [ "$action" = "deploy" ]; then
+  kubectl apply --server-side --force-conflicts \
+    --filename=https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
   # to debug: --dry-run --debug
   helm upgrade --install api-gateway-traefik --namespace=api-gateway --create-namespace $SCRIPT_DIR
   exit 0
