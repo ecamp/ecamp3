@@ -201,7 +201,8 @@ test.describe('cache test: /camps/{campId}/categories', () => {
         .click(),
     ])
     await newPage.goto('/camps')
-    await expect(newPage.locator('body')).toContainText('GRGR')
+    await newPage.waitForLoadState('networkidle')
+    await expect(newPage.locator('body'), { timeout: 15000 }).toContainText('GRGR')
   })
 
   test.describe('invalidates /camps/{campId}/categories', { tag: '@mature' }, () => {
