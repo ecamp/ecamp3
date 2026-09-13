@@ -33,7 +33,10 @@ test('can change the password from the profile page', async ({ page, request }) 
 
   await page.getByRole('button', { name: /Castor/ }).click()
   await page.getByRole('listitem').filter({ hasText: 'Ausloggen' }).click()
-  await page.waitForURL('**/login', { timeout: 30000 })
+
+  await expect(page).toHaveURL((url) => url.pathname.endsWith('/login'), {
+    timeout: 30000,
+  })
 
   await page.locator('[type="email"]').fill(castorUser)
   await page.locator('[type="password"]').fill(newPassword)

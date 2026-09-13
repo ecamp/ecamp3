@@ -37,7 +37,8 @@ test.describe('create new camp', { tag: '@mature' }, () => {
     await expect(page.locator('.v-overlay')).not.toBeVisible({ timeout: 10000 })
     await page.getByTestId('create-camp-button').click()
 
-    await page.waitForURL('**/info')
+    await page.waitForURL('**')
+    await expect(page).toHaveURL((url) => url.pathname.endsWith('/info'))
 
     await expect(page.locator('main >> text=Lagerinfos')).toBeVisible()
     await expect(page.locator('[data-testid="title"] input')).toHaveValue(campTitle)
