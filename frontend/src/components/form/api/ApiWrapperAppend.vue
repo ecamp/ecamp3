@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex" @mousedown.stop>
+  <div class="d-flex" @mousedown.stop @keydown.stop>
     <!-- Success icon after saving -->
     <div class="checkIconContainer">
       <v-icon color="green" class="checkIcon" :class="checkIconAddon">
