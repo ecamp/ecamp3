@@ -1,5 +1,9 @@
 name: '[reusable only] e2e tests run'
 
+permissions:
+  contents: read
+  actions: write
+
 on:
   workflow_call:
     inputs:

@@ -1,5 +1,8 @@
 name: 'Tests: All End-to-End (including non-mature)'
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   schedule:
