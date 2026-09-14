@@ -2,7 +2,8 @@
   "extends": [
     "mergeConfidence:all-badges",
     "config:recommended",
-    ":prConcurrentLimitNone"
+    ":prConcurrentLimitNone",
+    ":prHourlyLimitNone"
   ],
   "ignorePresets": ["group:apiPlatform"],
   "constraints": {
