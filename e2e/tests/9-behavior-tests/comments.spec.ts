@@ -29,6 +29,7 @@ test.describe('comments on an activity', () => {
     await expect(comment).toBeVisible()
 
     await comment.hover()
+    await expect(comment.locator('button.ec-comment-card__delete')).toBeVisible()
     await comment.locator('button.ec-comment-card__delete').click()
     await page.locator('.v-overlay--active button.bg-error').click()
 
@@ -59,6 +60,7 @@ test.describe('comments on an activity', () => {
     expect(await comment.locator('.ProseMirror').innerHTML()).not.toContain('<br')
 
     await comment.hover()
+    await expect(comment.locator('button.ec-comment-card__delete')).toBeVisible()
     await comment.locator('button.ec-comment-card__delete').click()
     await page.locator('.v-overlay--active button.bg-error').click()
 
