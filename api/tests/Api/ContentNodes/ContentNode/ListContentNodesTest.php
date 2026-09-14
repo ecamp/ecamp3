@@ -234,4 +234,60 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('responsiveLayout1')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testListContentNodesFilteredByRootIsAllowedForCollaborator() {
+        $root = static::getFixture('columnLayout1');
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/content_nodes?root=%2Fcontent_nodes%2F'.$root->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 12]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('columnLayout1')],
+            ['href' => $this->getIriFor('checklistNode1')],
+            ['href' => $this->getIriFor('columnLayoutChild1')],
+            ['href' => $this->getIriFor('responsiveLayout1')],
+            ['href' => $this->getIriFor('storyboard1')],
+            ['href' => $this->getIriFor('storyboard2')],
+            ['href' => $this->getIriFor('singleText1')],
+            ['href' => $this->getIriFor('singleText2')],
+            ['href' => $this->getIriFor('multiSelect1')],
+            ['href' => $this->getIriFor('multiSelect2')],
+            ['href' => $this->getIriFor('materialNode1')],
+            ['href' => $this->getIriFor('safetyConsiderations1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListContentNodesFilteredByRootIsDeniedForUnrelatedUser() {
+        $root = static::getFixture('columnLayout1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/content_nodes?root=%2Fcontent_nodes%2F'.$root->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+    }
+
+    public function testListContentNodesFilteredByCampIsAllowedForCollaborator() {
+        $camp = static::getFixture('camp1');
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/content_nodes?camp=%2Fcamps%2F'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 14]);
+    }
+
+    public function testListContentNodesFilteredByCampIsDeniedForUnrelatedUser() {
+        $camp = static::getFixture('camp1');
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/content_nodes?camp=%2Fcamps%2F'.$camp->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('camp1').'".',
+        ]);
+    }
 }

@@ -80,17 +80,11 @@ services:
             - '@service.translation_to_all_locales'
             - '@serializer.name_converter.metadata_aware'
 
-    App\State\ContentNodeCollectionProvider:
+    App\State\RequireCollectionFilterProvider:
+        decorates: 'api_platform.doctrine.orm.state.collection_provider'
         arguments:
-            - '@api_platform.doctrine.orm.state.collection_provider'
-
-    App\State\ChecklistItemCollectionProvider:
-        arguments:
-            - '@api_platform.doctrine.orm.state.collection_provider'
-
-    App\State\MaterialItemCollectionProvider:
-        arguments:
-            - '@api_platform.doctrine.orm.state.collection_provider'
+            - '@.inner'
+            - '@request_stack'
 
     App\Serializer\SerializerContextBuilder:
         decorates: 'api_platform.serializer.context_builder'

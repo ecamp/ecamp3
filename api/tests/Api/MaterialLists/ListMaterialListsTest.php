@@ -17,31 +17,12 @@ class ListMaterialListsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListMaterialListsIsAllowedForLoggedInUserButFiltered() {
+    public function testListMaterialListsWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a material list that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['materialList1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/material_lists');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 8,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('materialList1')],
-            ['href' => $this->getIriFor('materialList2WithNoItems')],
-            ['href' => $this->getIriFor('materialList3Manager')],
-            ['href' => $this->getIriFor('materialList4Member')],
-            ['href' => $this->getIriFor('materialList1camp2')],
-            ['href' => $this->getIriFor('materialList1campPrototype')],
-            ['href' => $this->getIriFor('materialList1campShared')],
-            ['href' => $this->getIriFor('materialList2campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/material_lists');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListMaterialListsFilteredByCampIsAllowedForCollaborator() {

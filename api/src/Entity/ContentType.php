@@ -23,7 +23,11 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     operations: [
         new Get(),
-        new GetCollection(),
+        new GetCollection(
+            extraProperties: [
+                'scoping_filters' => false,
+            ]
+        ),
     ],
     normalizationContext: ['groups' => ['read']],
     order: ['name' => 'ASC']

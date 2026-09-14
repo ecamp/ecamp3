@@ -19,34 +19,12 @@ class ListActivityProgressLabelsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListActivityProgressLabelsIsAllowedForLoggedInUserButFiltered() {
+    public function testListActivityProgressLabelsWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is an activity progress label that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['activityProgressLabel1campUnrelated']);
 
-        $response = static::createClientWithCredentials()
-            ->request('GET', '/activity_progress_labels')
-        ;
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 9,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('activityProgressLabel1')],
-            ['href' => $this->getIriFor('activityProgressLabel2')],
-            ['href' => $this->getIriFor('activityProgressLabel1Camp2')],
-            ['href' => $this->getIriFor('activityProgressLabel2Camp2')],
-            ['href' => $this->getIriFor('activityProgressLabel1campPrototype')],
-            ['href' => $this->getIriFor('activityProgressLabel2campPrototype')],
-            ['href' => $this->getIriFor('activityProgressLabel3campPrototype')],
-            ['href' => $this->getIriFor('activityProgressLabel1campShared')],
-            ['href' => $this->getIriFor('activityProgressLabel2campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/activity_progress_labels');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListActivityProgressLabelsFilteredByCampIsAllowedForCollaborator() {

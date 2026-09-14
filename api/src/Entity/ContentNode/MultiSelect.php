@@ -13,7 +13,6 @@ use App\Entity\ContentNode;
 use App\Repository\MultiSelectRepository;
 use App\State\ContentNode\ContentNodePersistProcessor;
 use App\State\ContentNode\MultiSelectCreateProcessor;
-use App\State\ContentNodeCollectionProvider;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -36,7 +35,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

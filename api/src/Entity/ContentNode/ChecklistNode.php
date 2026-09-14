@@ -14,7 +14,6 @@ use App\Entity\ChecklistItem;
 use App\Entity\ContentNode;
 use App\Repository\ChecklistNodeRepository;
 use App\State\ContentNode\ChecklistNodePersistProcessor;
-use App\State\ContentNodeCollectionProvider;
 use App\Util\EntityMap;
 use App\Validator\ChecklistItem\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,7 +38,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

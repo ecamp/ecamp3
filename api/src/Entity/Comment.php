@@ -32,7 +32,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'object.author === user',
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['camp', 'activity'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['create', 'write']],

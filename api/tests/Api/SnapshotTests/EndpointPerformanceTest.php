@@ -38,7 +38,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         $collectionEndpoints = self::getCollectionEndpoints();
         foreach ($collectionEndpoints as $collectionEndpoint) {
             if ('/users' !== $collectionEndpoint && !str_contains($collectionEndpoint, '/content_node')) {
-                [$statusCode, $queryCount, $executionTimeSeconds] = $this->measurePerformanceFor($collectionEndpoint);
+                [$statusCode, $queryCount, $executionTimeSeconds] = $this->measurePerformanceFor($collectionEndpoint.self::scopingFilterFor($collectionEndpoint));
                 $responseCodes[$collectionEndpoint] = $statusCode;
                 $numberOfQueries[$collectionEndpoint] = $queryCount;
                 $queryExecutionTime[$collectionEndpoint] = $executionTimeSeconds;
@@ -269,7 +269,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/material_items?materialNode=' => urlencode($this->getIriFor('materialNode1')),
             '/material_items?period=' => urlencode($this->getIriFor('period1')),
             '/material_lists?camp=' => urlencode($this->getIriFor('camp1')),
-            '/profiles?user.collaboration.camp=' => urlencode($this->getIriFor('camp1')),
+            '/profiles?user.collaborations.camp=' => urlencode($this->getIriFor('camp1')),
             '/schedule_entries?period=' => urlencode($this->getIriFor('period1')),
         ];
     }
@@ -292,6 +292,10 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/periods/{id}/schedule_entries' => $periodId,
             '/activities/{id}/comments' => $this->getFixture('activity1')->getId(),
         ];
+    }
+
+    private static function scopingFilterFor(string $collectionEndpoint): string {
+        return CollectionScopingFilterMap::get($collectionEndpoint, FixtureStore::getFixtures());
     }
 
     private static function getFixtureFor(string $collectionEndpoint) {
