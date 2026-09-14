@@ -28,7 +28,14 @@ const config = JSON.parse(query.config || '{}')
 // set locale
 const { setLocale, fallbackLocale } = useI18n()
 const { $date } = useNuxtApp()
-const locale = config.language || fallbackLocale.value
+const rawFallback = fallbackLocale.value
+const fallback =
+  typeof rawFallback === 'string'
+    ? rawFallback
+    : Array.isArray(rawFallback)
+      ? rawFallback[0] || 'en'
+      : rawFallback?.default?.[0] || (rawFallback && Object.values(rawFallback)[0]?.[0]) || 'en'
+const locale = config.language || fallback
 await setLocale(locale) // i18n
 
 // page size
