@@ -532,6 +532,10 @@
       "update": "Aggiorna ora",
       "updateLater": "Aggiorna più tardi"
     },
+    "selfXssWarning": {
+      "title": "Stop!",
+      "message": "Questa console del browser è pensata per gli sviluppatori. Se qualcuno vi ha chiesto di copiare e incollare qualcosa qui, quasi certamente si tratta di una truffa: ciò che incollate viene eseguito a vostro nome e può leggere e modificare tutti i campi a cui avete accesso. Non incollate mai qui del codice che non comprendete completamente."
+    },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
       "short": "Errore del server"
