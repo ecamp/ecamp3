@@ -13,7 +13,6 @@ use App\Entity\ContentNode;
 use App\Entity\MaterialItem;
 use App\Repository\MaterialNodeRepository;
 use App\State\ContentNode\ContentNodePersistProcessor;
-use App\State\ContentNodeCollectionProvider;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -38,7 +37,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

@@ -17,35 +17,12 @@ class ListDaysTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListDaysIsAllowedForLoggedInUserButFiltered() {
+    public function testListDaysWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a day that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['day1period1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/days');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 12,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('day1period1')],
-            ['href' => $this->getIriFor('day2period1')],
-            ['href' => $this->getIriFor('day3period1')],
-            ['href' => $this->getIriFor('day1period2')],
-            ['href' => $this->getIriFor('day2period2')],
-            ['href' => $this->getIriFor('day3period2')],
-            ['href' => $this->getIriFor('day1period1camp2')],
-            ['href' => $this->getIriFor('day2period1camp2')],
-            ['href' => $this->getIriFor('day1period1campPrototype')],
-            ['href' => $this->getIriFor('day1period1campShared')],
-            ['href' => $this->getIriFor('day2period1campShared')],
-            ['href' => $this->getIriFor('day3period1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/days');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListDaysFilteredByPeriodIsAllowedForCollaborator() {
@@ -93,21 +70,16 @@ class ListDaysTest extends ECampApiTestCase {
     }
 
     public function testListDaysOrdersByDate() {
+        $camp = static::getFixture('camp1');
         $client = static::createClientWithCredentials();
-        $response = $client->request('GET', '/days');
+        $response = $client->request('GET', '/days?period.camp=%2Fcamps%2F'.$camp->getId());
         $this->assertEquals([
-            ['href' => $this->getIriFor('day1period1campPrototype')],
-            ['href' => $this->getIriFor('day1period1camp2')],
-            ['href' => $this->getIriFor('day2period1camp2')],
             ['href' => $this->getIriFor('day1period2')],
             ['href' => $this->getIriFor('day2period2')],
             ['href' => $this->getIriFor('day3period2')],
             ['href' => $this->getIriFor('day1period1')],
             ['href' => $this->getIriFor('day2period1')],
             ['href' => $this->getIriFor('day3period1')],
-            ['href' => $this->getIriFor('day1period1campShared')],
-            ['href' => $this->getIriFor('day2period1campShared')],
-            ['href' => $this->getIriFor('day3period1campShared')],
         ], $response->toArray()['_links']['items']);
     }
 

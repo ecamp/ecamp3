@@ -49,7 +49,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             validate: true
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['camp', 'campCollaborator'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

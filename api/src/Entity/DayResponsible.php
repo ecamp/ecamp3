@@ -31,7 +31,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['day', 'day.period'],
+            ]
         ),
         new GetCollection(
             uriTemplate: self::DAY_SUBRESOURCE_URI_TEMPLATE,

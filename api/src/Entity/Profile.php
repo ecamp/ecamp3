@@ -33,7 +33,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: ProfileUpdateProcessor::class
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['user', 'user.collaborations.camp', 'search'],
+            ]
         ),
     ],
     normalizationContext: ['groups' => ['read']],

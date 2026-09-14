@@ -49,7 +49,10 @@ use Symfony\Component\Validator\Constraints\When;
             security: 'false'
         ),
         new GetCollection(
-            security: 'false'
+            security: 'false',
+            extraProperties: [
+                'scoping_filters' => false,
+            ]
         ),
         new Post(
             normalizationContext: ['groups' => ['read', 'User:create']],

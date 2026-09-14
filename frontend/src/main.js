@@ -22,6 +22,7 @@ import { initRefresh } from '@/plugins/auth.js'
 import { getEnv } from '@/environment.js'
 import { isChunkLoadError } from '@/helpers/chunkLoadError.js'
 import { notifyNewVersionAvailable } from '@/helpers/newVersionAvailable.js'
+import { warnAboutSelfXss } from '@/helpers/selfXssWarning.js'
 
 browserUpdate({
   required: {
@@ -88,6 +89,10 @@ app.directive('resize', Resize)
 app.directive('resizeobserver', ResizeObserver.directive)
 
 app.mount('#app')
+
+if (process.env.NODE_ENV === 'production') {
+  warnAboutSelfXss()
+}
 
 // noinspection JSIgnoredPromiseFromCall
 initRefresh()

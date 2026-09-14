@@ -49,7 +49,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: CampRemoveProcessor::class,
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['campCollaborator', 'isPrototype'],
+            ]
         ),
         new Post(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
