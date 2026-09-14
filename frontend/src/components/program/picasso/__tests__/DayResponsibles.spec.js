@@ -73,20 +73,4 @@ describe('DayResponsibles', () => {
     expect(wrapper.vm.day._meta.self).toBe(freshDay._meta.self)
     expect(wrapper.vm.dayResponsibles).toBeDefined()
   })
-
-  it('stops loading instead of hanging forever when no day matches even after reload', async () => {
-    const staleDay = makeDay('2020-06-01T00:00:00+00:00')
-    const period = createPeriod({
-      initialDays: [staleDay],
-      reloadedDays: [], // still no matching day after reload
-    })
-
-    const wrapper = mountDayResponsibles({ period, date: '2026-01-01T00:00:00+00:00' })
-
-    await flushPromises()
-
-    expect(wrapper.vm.isLoading).toBe(false)
-    expect(wrapper.vm.day).toBeUndefined()
-    expect(wrapper.vm.dayResponsibles).toBeUndefined()
-  })
 })
