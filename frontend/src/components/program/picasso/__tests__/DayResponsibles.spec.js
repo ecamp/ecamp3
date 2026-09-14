@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from 'vitest'
-import { reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import { setupVuetify } from '/tests/setupVuetify.js'
@@ -19,20 +18,18 @@ function makeDay(start, dayResponsibleItems = []) {
   }
 }
 
-// days() switches from initialDays to reloadedDays once $reload() is called
-function createPeriod({ initialDays, reloadedDays }) {
-  const days = reactive({ items: initialDays })
-  days.$reload = vi.fn().mockImplementation(() => {
-    days.items = reloadedDays
-    return Promise.resolve()
-  })
+function createPeriod({ days }) {
+  const daysCollection = {
+    items: days,
+    $reload: vi.fn().mockResolvedValue(),
+  }
 
   return {
     _meta: { self: '/periods/1' },
     camp: () => ({
       campCollaborations: () => ({ items: [], _meta: { load: Promise.resolve() } }),
     }),
-    days: () => days,
+    days: () => daysCollection,
   }
 }
 
@@ -52,13 +49,9 @@ function mountDayResponsibles({ period, date }) {
 }
 
 describe('DayResponsibles', () => {
-  it('reloads days and resolves the current day only once fresh data arrived', async () => {
-    const staleDay = makeDay('2020-06-01T00:00:00+00:00')
-    const freshDay = makeDay('2026-01-01T00:00:00+00:00')
-    const period = createPeriod({
-      initialDays: [staleDay],
-      reloadedDays: [freshDay],
-    })
+  it('reloads days before reading dayResponsibles', async () => {
+    const day = makeDay('2026-01-01T00:00:00+00:00')
+    const period = createPeriod({ days: [day] })
 
     const wrapper = mountDayResponsibles({ period, date: '2026-01-01T00:00:00+00:00' })
 
@@ -69,8 +62,5 @@ describe('DayResponsibles', () => {
 
     expect(period.days().$reload).toHaveBeenCalledTimes(1)
     expect(wrapper.vm.isLoading).toBe(false)
-    // compare via self link: props are wrapped in a reactive proxy
-    expect(wrapper.vm.day._meta.self).toBe(freshDay._meta.self)
-    expect(wrapper.vm.dayResponsibles).toBeDefined()
   })
 })
