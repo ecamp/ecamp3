@@ -33,7 +33,6 @@ Displays a single period as a list item including controls to edit and delete it
           <dialog-period-date-edit
             :period="period"
             mode="move"
-            :success-handler="reloadPeriodDateDependents"
             @closed="showMenuEdit = false"
           >
             <template #activator="{ props }">
@@ -51,7 +50,6 @@ Displays a single period as a list item including controls to edit and delete it
           <dialog-period-date-edit
             :period="period"
             mode="changeStart"
-            :success-handler="reloadPeriodDateDependents"
             @closed="showMenuEdit = false"
           >
             <template #activator="{ props }">
@@ -71,7 +69,6 @@ Displays a single period as a list item including controls to edit and delete it
           <dialog-period-date-edit
             :period="period"
             mode="changeEnd"
-            :success-handler="reloadPeriodDateDependents"
             @closed="showMenuEdit = false"
           >
             <template #activator="{ props }">
@@ -145,14 +142,6 @@ export default {
   computed: {
     isLastPeriod() {
       return this.period.camp().periods().items.length === 1
-    },
-  },
-  methods: {
-    // refetch date-derived collections after a period date change (#9756)
-    reloadPeriodDateDependents() {
-      this.period.days().$reload()
-      this.period.dayResponsibles().$reload()
-      this.period.scheduleEntries().$reload()
     },
   },
 }
