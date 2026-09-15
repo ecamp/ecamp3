@@ -1,6 +1,37 @@
 <template>
   <v-container fluid>
-    <content-card :title="materialList.name" toolbar>
+    <content-card :title="materialList.name" toolbar back>
+      <template #title>
+        <v-toolbar-title
+          v-if="!editMaterialListName"
+          tag="h1"
+          class="font-weight-bold ml-0"
+        >
+          {{ materialList.name }}
+
+          <v-btn
+            v-if="!editMaterialListName && !isOutsider"
+            icon
+            class="ml-1 visible-on-hover"
+            width="24"
+            height="24"
+            @click="makeMaterialListNameEditable()"
+          >
+            <v-icon size="x-small">mdi-pencil</v-icon>
+          </v-btn>
+        </v-toolbar-title>
+        <api-form v-if="editMaterialListName" :entity="materialList" class="flex-grow-1">
+          <api-text-field
+            path="name"
+            density="compact"
+            autofocus
+            :auto-save="false"
+            @finished="editMaterialListName = false"
+            @keydown.esc="editMaterialListName = false"
+          />
+        </api-form>
+      </template>
+
       <template #title-actions>
         <v-menu offset-y>
           <template #activator="{ props }">
@@ -9,16 +40,6 @@
             </v-btn>
           </template>
           <v-list class="py-0">
-            <DialogMaterialListEdit v-if="isContributor" :material-list="materialList">
-              <template #activator="{ props }">
-                <v-list-item v-bind="props">
-                  <template #prepend>
-                    <v-icon>mdi-pencil</v-icon>
-                  </template>
-                  {{ $t('global.button.edit') }}
-                </v-list-item>
-              </template>
-            </DialogMaterialListEdit>
             <v-list-item :disabled="isDownloadingXlsx" @click.stop="downloadXlsx">
               <template #prepend>
                 <v-progress-circular
@@ -32,6 +53,28 @@
               </template>
               {{ $t('global.button.download') }}
             </v-list-item>
+            <DialogEntityDelete
+              :entity="materialList"
+              :warning-text-entity="materialList.name"
+              :error-handler="deleteErrorHandler"
+              :success-handler="
+                () =>
+                  $router.push({
+                    path: `/camps/${camp.id}/${camp.shortTitle}/material/all`,
+                  })
+              "
+            >
+              <template #activator="{ props }">
+                <v-list-item v-bind="props">
+                  <template #prepend>
+                    <v-icon>mdi-delete</v-icon>
+                  </template>
+                  <v-list-item-title>
+                    {{ $t('global.button.delete') }}
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
+            </DialogEntityDelete>
           </v-list>
         </v-menu>
       </template>
@@ -70,7 +113,7 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
 import MaterialTable from '@/components/material/MaterialTable.vue'
-import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { useMaterialViewHelper } from '@/components/material/useMaterialViewHelper.js'
 
@@ -78,7 +121,7 @@ export default {
   name: 'MaterialDetail',
   components: {
     ContentCard,
-    DialogMaterialListEdit,
+    DialogEntityDelete,
     MaterialTable,
     PeriodMaterialLists,
   },
@@ -90,10 +133,28 @@ export default {
   setup(props) {
     return useMaterialViewHelper(props.camp, true)
   },
+  data() {
+    return {
+      dragging: false,
+      editMaterialListName: false,
+      debouncedDisabled: true,
+    }
+  },
   head() {
     return {
       title: () => this.materialList.name,
     }
+  },
+  methods: {
+    makeMaterialListNameEditable() {
+      this.editMaterialListName = true
+    },
+    deleteErrorHandler(e) {
+      if (e?.response?.status === 422 /* Validation Error */) {
+        return this.$t('components.campAdmin.dialogMaterialListEdit.deleteError')
+      }
+      return null
+    },
   },
 }
 </script>
