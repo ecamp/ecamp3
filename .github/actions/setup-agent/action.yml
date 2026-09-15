@@ -1,0 +1,50 @@
+name: Set up Agent
+description: >-
+  Installs an agent cli and prepares the configuration
+  from the bacluc/provision-machines repository. Relies on the job-level
+  GITHUB_TOKEN set by the caller.
+runs:
+  using: composite
+  steps:
+    - name: Install OpenCode
+      shell: bash
+      run: npm install --global "opencode-ai@${OPENCODE_VERSION}"
+      env:
+        # renovate: datasource=npm depName=opencode-ai
+        OPENCODE_VERSION: 1.18.23
+
+    - name: Fetch and prepare OpenCode configuration
+      id: config
+      shell: bash
+      env:
+        SOURCE_REPOSITORY: https://github.com/bacluc/provision-machines.git
+        CONFIG_PATH: deploys/development_tools/ai_agent_devcontainer/files/opencode
+        SKILLS_PATH: deploys/development_tools/ai_agent_devcontainer/files/claude/skills
+        # renovate: datasource=github-tags depName=bacluc/provision-machines
+        BACLUC_PROVISION_MACHINES_VERSION: 1.20
+      run: |
+        set -Eeuo pipefail
+
+        source_dir="$RUNNER_TEMP/provision-machines"
+        config_dir="$RUNNER_TEMP/opencode-config"
+
+        git clone --quiet "$SOURCE_REPOSITORY" "$source_dir"
+
+        git -C "$source_dir" checkout --quiet --detach "refs/tags/$BACLUC_PROVISION_MACHINES_VERSION"
+        if [[ ! -d "$source_dir/$CONFIG_PATH" ]]; then
+          printf 'Missing OpenCode configuration directory: %s\n' "$CONFIG_PATH" >&2
+          exit 1
+        fi
+        rm -rf "$config_dir"
+        cp -a "$source_dir/$CONFIG_PATH" "$config_dir"
+
+        if [[ ! -d "$source_dir/$SKILLS_PATH" ]]; then
+          printf 'Missing skills directory: %s\n' "$SKILLS_PATH" >&2
+        else
+          cp -a "$source_dir/$SKILLS_PATH" "$config_dir/skills"
+          printf 'Copied skills: %s\n' "$(ls "$config_dir/skills" | tr '\n' ' ')"
+        fi
+
+        mkdir -p "$HOME/.config"
+        rm -rf "$HOME/.config/opencode"
+        cp -a "$config_dir" "$HOME/.config/opencode"
