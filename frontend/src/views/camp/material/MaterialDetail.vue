@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card :title="materialList.name" toolbar back>
+    <content-card toolbar back>
       <template #title>
         <v-toolbar-title
           v-if="!editMaterialListName"
