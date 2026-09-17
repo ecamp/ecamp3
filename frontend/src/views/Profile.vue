@@ -26,7 +26,7 @@
                 <dialog-change-mail>
                   <template #activator="{ props }">
                     <ButtonEdit text class="v-btn--has-bg" variant="tonal" v-bind="props">
-                      {{ $t('views.profile.changeEmail') }}
+                      {{ $t('global.button.change') }}
                     </ButtonEdit>
                   </template>
                 </dialog-change-mail>

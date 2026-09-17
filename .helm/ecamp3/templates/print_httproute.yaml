@@ -18,7 +18,7 @@ spec:
             type: PathPrefix
             value: {{ .Values.print.subpath }}
       filters:
-        {{- if .Values.ingress.basicAuth.enabled }}
+        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
         - type: ExtensionRef
           extensionRef:
             group: traefik.io
@@ -29,7 +29,7 @@ spec:
         - name: {{ include "print.name" . }}
           port: {{ .Values.print.service.port }}
       timeouts:
-        {{- if .Values.print.ingress.readTimeoutSeconds }}
-        backendRequest: "{{ .Values.print.ingress.readTimeoutSeconds }}s"
+        {{- if .Values.print.gateway.readTimeoutSeconds }}
+        backendRequest: "{{ .Values.print.gateway.readTimeoutSeconds }}s"
         {{- end }}
 {{- end }}

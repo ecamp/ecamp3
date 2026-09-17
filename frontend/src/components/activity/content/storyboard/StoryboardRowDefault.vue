@@ -52,7 +52,7 @@
             :disabled="isLastSection"
             v-bind="props"
           >
-            <v-icon icon="mdi-delete-outline" size="24" />
+            <v-icon icon="mdi-delete-outline" />
           </v-btn>
         </template>
       </dialog-remove-section>
@@ -101,10 +101,6 @@ export default {
   .e-storyboard-row__responsible {
     width: 15%;
     padding-bottom: 0.5rem;
-  }
-
-  .e-storyboard-row__controls {
-    align-content: space-between;
   }
 }
 </style>

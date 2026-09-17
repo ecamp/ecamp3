@@ -8,6 +8,7 @@ use App\Entity\CampCollaboration;
 use App\Entity\Category;
 use App\Entity\Checklist;
 use App\Entity\ChecklistItem;
+use App\Entity\Comment;
 use App\Entity\ContentNode\ChecklistNode;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MaterialNode;
@@ -46,6 +47,8 @@ class DataGeneratorService {
         'campCollaborations' => 0,
         'checklists' => 0,
         'checklistItems' => 0,
+        'comments' => 0,
+        'commentedActivities' => 0,
     ];
 
     // J+S specific data
@@ -249,6 +252,7 @@ class DataGeneratorService {
 
         $this->createCampCollaborations($camp, $owner);
         ++$this->stats['campCollaborations'];
+        $this->createComments($camp, $activities, $owner);
 
         return $camp;
     }
@@ -547,6 +551,30 @@ class DataGeneratorService {
             $collaboration->status = 'established';
             $collaboration->inviteEmail = $collaborator->profile->email;
             $this->entityManager->persist($collaboration);
+        }
+    }
+
+    private function createComments(Camp $camp, array $activities, User $owner): void {
+        $commentedActivities = $this->faker->randomElements($activities, (int) round(count($activities) * 0.2));
+
+        foreach ($commentedActivities as $activity) {
+            $commentCount = $this->faker->numberBetween(4, 10);
+            for ($i = 0; $i < $commentCount; ++$i) {
+                $comment = new Comment();
+                $comment->camp = $camp;
+                $comment->activity = $activity;
+                $comment->author = 0 === $i % 2 ? $owner : $this->addUserToCamp;
+                $comment->textHtml = $this->faker->randomElement([
+                    "Die {$activity->title} wirkt gut vorbereitet. Bitte ergänzt noch einen klaren Zeitrahmen für die einzelnen Schritte.",
+                    "Gute Idee für den Lageralltag! Prüft vor Beginn am {$activity->location} nochmals die Sicherheit und das benötigte Material.",
+                    'Das Programm ist verständlich beschrieben. Eine kurze Reserve für Übergänge und Rückfragen wäre noch hilfreich.',
+                    'Der Ablauf gefällt mir. Könnt ihr zusätzlich festhalten, wer die Verantwortung für die Durchführung übernimmt?',
+                ]);
+
+                $this->entityManager->persist($comment);
+                ++$this->stats['comments'];
+            }
+            ++$this->stats['commentedActivities'];
         }
     }
 

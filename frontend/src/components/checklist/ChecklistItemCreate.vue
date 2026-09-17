@@ -16,6 +16,7 @@
         <ButtonAdd
           color="secondary"
           text
+          variant="text"
           class="my-n2"
           icon="mdi-playlist-plus"
           v-bind="props"

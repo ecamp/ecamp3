@@ -80,3 +80,69 @@ describe('campRoleMixin._campRole', () => {
     ).toBeUndefined()
   })
 })
+
+function evaluate(name, campCollaborations) {
+  const context = mockThis(campCollaborations)
+  context._campRole = campRoleMixin.computed._campRole.call(context)
+  for (const computed of ['isGuest', 'isMember', 'isManager', 'isContributor']) {
+    context[computed] = campRoleMixin.computed[computed].call(context)
+  }
+  return campRoleMixin.computed[name].call(context)
+}
+
+describe('campRoleMixin.isCollaborator', () => {
+  it.each(['guest', 'member', 'manager'])('is true for a %s', (role) => {
+    expect(evaluate('isCollaborator', [loadedCollaboration(role, currentUserLink)])).toBe(
+      true
+    )
+  })
+
+  it('is false for a user without collaboration in a loaded camp', () => {
+    expect(
+      evaluate('isCollaborator', [loadedCollaboration('member', '/users/other')])
+    ).toBe(false)
+  })
+
+  it('is false while collaborations are still loading', () => {
+    expect(
+      evaluate('isCollaborator', [
+        loadingCollaboration(),
+        loadedCollaboration('member', '/users/other'),
+      ])
+    ).toBe(false)
+  })
+})
+
+describe('campRoleMixin.isOutsider', () => {
+  function isOutsider(campCollaborations) {
+    return evaluate('isOutsider', campCollaborations)
+  }
+
+  it('is true for a user without collaboration in a loaded camp', () => {
+    expect(
+      isOutsider([
+        invitedCollaboration('member'),
+        loadedCollaboration('member', '/users/other'),
+      ])
+    ).toBe(true)
+  })
+
+  it.each(['guest', 'member', 'manager'])('is false for a %s', (role) => {
+    expect(
+      isOutsider([
+        loadedCollaboration('member', '/users/other'),
+        loadedCollaboration(role, currentUserLink),
+      ])
+    ).toBe(false)
+  })
+
+  it('is false while collaborations are still loading', () => {
+    expect(
+      isOutsider([loadingCollaboration(), loadedCollaboration('member', '/users/other')])
+    ).toBe(false)
+  })
+
+  it('is false while the camp itself has not loaded its collaborations', () => {
+    expect(isOutsider([])).toBe(false)
+  })
+})

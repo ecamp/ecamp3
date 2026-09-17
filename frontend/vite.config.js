@@ -126,7 +126,6 @@ export default defineConfig(({ mode }) => ({
       'vite-plugin-comlink/symbol',
       'vue',
       'vuedraggable',
-      'vue-toastification',
       // 'vuetify/es5/components/VCalendar/modes/column.js',
       // 'vuetify/es5/components/VCalendar/util/events.js',
     ],

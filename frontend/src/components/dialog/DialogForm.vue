@@ -64,7 +64,7 @@
             :color="cancelColor"
             :disabled="!cancelEnabled"
             variant="text"
-            :text="cancelLabel"
+            :text="cancelLabelOrDefault"
             @click="doCancel"
           />
           <v-btn
@@ -75,7 +75,7 @@
             :loading="currentlySaving"
             type="submit"
             :prepend-icon="submitIcon"
-            :text="submitLabel"
+            :text="submitLabelOrDefault"
           />
           <slot name="actions" />
         </v-card-actions>

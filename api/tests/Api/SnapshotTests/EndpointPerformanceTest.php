@@ -262,6 +262,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/camp_collaborations?camp=' => urlencode($this->getIriFor('camp1')),
             '/camp_collaborations?activityResponsibles.activity=' => urlencode($this->getIriFor('activity1')),
             '/categories?camp=' => urlencode($this->getIriFor('camp1')),
+            '/comments?camp=' => urlencode($this->getIriFor('camp1')),
             '/content_types?categories=' => urlencode($this->getIriFor('category1')),
             '/day_responsibles?day.period=' => urlencode($this->getIriFor('period1')),
             '/material_items?materialList=' => urlencode($this->getIriFor('materialList1')),
@@ -289,6 +290,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/days/{id}/day_responsibles' => $dayId,
             '/periods/{id}/days' => $periodId,
             '/periods/{id}/schedule_entries' => $periodId,
+            '/activities/{id}/comments' => $this->getFixture('activity1')->getId(),
         ];
     }
 

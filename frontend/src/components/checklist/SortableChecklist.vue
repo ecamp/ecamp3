@@ -43,7 +43,7 @@
           v-bind="props"
         >
           <template #prepend>
-            <v-avatar class="mr-2" size="32">
+            <v-avatar size="32" color="transparent">
               <v-icon color="currentColor">mdi-plus</v-icon>
             </v-avatar>
           </template>
@@ -65,7 +65,7 @@ import { sortBy, filter } from 'lodash-es'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 import SortableChecklistItem from '@/components/checklist/SortableChecklistItem.vue'
 import ChecklistItemCreate from '@/components/checklist/ChecklistItemCreate.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'SortableChecklist',

@@ -19,6 +19,8 @@ test('reloads the page when a route chunk is missing after a deploy', async ({
   await loginAndSetCookie(page, request, bipiUser)
   await expect(page.getByTestId('create-camp-button')).toBeVisible()
 
+  await expect(page.locator('.v-skeleton-loader')).toHaveCount(0)
+
   await page.evaluate(() => {
     ;(window as unknown as { __noReload: boolean }).__noReload = true
   })
