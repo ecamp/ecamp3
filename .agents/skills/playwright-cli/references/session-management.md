@@ -36,8 +36,8 @@ Each browser session has independent:
 playwright-cli list
 
 # Stop a browser session (close the browser)
-playwright-cli close                # stop the default browser
-playwright-cli -s=mysession close   # stop a named browser
+playwright-cli close              # stop the default browser
+playwright-cli -s=mysession close # stop a named browser
 
 # Stop all browser sessions
 playwright-cli close-all
@@ -46,8 +46,8 @@ playwright-cli close-all
 playwright-cli kill-all
 
 # Delete browser session user data (profile directory)
-playwright-cli delete-data                # delete default browser data
-playwright-cli -s=mysession delete-data   # delete named browser data
+playwright-cli delete-data              # delete default browser data
+playwright-cli -s=mysession delete-data # delete named browser data
 ```
 
 ## Environment Variable
@@ -56,7 +56,7 @@ Set a default browser session name via environment variable:
 
 ```bash
 export PLAYWRIGHT_CLI_SESSION="mysession"
-playwright-cli open example.com  # Uses "mysession" automatically
+playwright-cli open example.com # Uses "mysession" automatically
 ```
 
 ## Common Patterns
@@ -170,7 +170,7 @@ When `-s` is omitted, commands use the default browser session:
 # These use the same default browser session
 playwright-cli open https://example.com
 playwright-cli snapshot
-playwright-cli close  # Stops default browser
+playwright-cli close # Stops default browser
 ```
 
 ## Browser Session Configuration

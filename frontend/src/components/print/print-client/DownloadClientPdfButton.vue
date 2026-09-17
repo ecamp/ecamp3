@@ -11,7 +11,6 @@
         v-if="loading"
         :model-value="progress"
         size="24"
-        rotate="270"
       ></v-progress-circular>
       <span v-if="loading">{{ state }}</span>
     </div>

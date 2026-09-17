@@ -36,7 +36,7 @@ playwright-cli type "search query"
 playwright-cli click e3
 playwright-cli dblclick e7
 # --submit presses Enter after filling the element
-playwright-cli fill e5 "user@example.com"  --submit
+playwright-cli fill e5 "user@example.com" --submit
 playwright-cli drag e2 e8
 # drop files or data onto an element (from outside the page)
 playwright-cli drop e4 --path=./image.png
@@ -47,6 +47,11 @@ playwright-cli upload ./document.pdf
 playwright-cli check e12
 playwright-cli uncheck e12
 playwright-cli snapshot
+# search the snapshot for text or a regexp, returns matching nodes with surrounding context
+playwright-cli find "Sign in"
+playwright-cli find --regex "Sign (in|up)"
+# wrap the regexp in slashes to add flags, e.g. /i for case-insensitive
+playwright-cli find --regex "/sign (in|up)/i"
 playwright-cli eval "document.title"
 playwright-cli eval "el => el.textContent" e5
 # get element id, class, or any attribute not visible in the snapshot
@@ -93,6 +98,7 @@ playwright-cli mousewheel 0 100
 playwright-cli screenshot
 playwright-cli screenshot e5
 playwright-cli screenshot --filename=page.png
+playwright-cli screenshot --hires
 playwright-cli pdf --filename=page.pdf
 ```
 
@@ -163,6 +169,10 @@ playwright-cli video-start video.webm
 playwright-cli video-chapter "Chapter Title" --description="Details" --duration=2000
 playwright-cli video-stop
 
+# annotate each subsequent action (click, type, ...) with a callout naming the action and highlighting the target
+playwright-cli video-show-actions --duration=600 --position=top-right
+playwright-cli video-hide-actions
+
 # launch the dashboard for UI review / design feedback — user annotates the page, you receive the annotated screenshot, snapshot, and notes
 playwright-cli show --annotate
 
@@ -207,6 +217,12 @@ playwright-cli open --browser=firefox
 playwright-cli open --browser=webkit
 playwright-cli open --browser=msedge
 
+# Emulate a generic mobile device (Pixel 10 for Chromium, iPhone 17 for WebKit).
+# Prefer this when a mobile layout is acceptable: mobile pages are usually
+# lighter, so snapshots are smaller and cheaper.
+playwright-cli open --mobile
+playwright-cli open --device="iPhone 15"
+
 # Use persistent profile (by default profile is in-memory)
 playwright-cli open --persistent
 # Use persistent profile with custom directory
@@ -231,6 +247,18 @@ playwright-cli close
 playwright-cli -s=msedge detach
 # Delete user data for the default session
 playwright-cli delete-data
+```
+
+## URLs with `&` on Windows
+
+On Windows, `cmd.exe` and PowerShell treat `&` as a command separator, so URLs with multiple query parameters get truncated before `playwright-cli` runs. Escape `&` with `^&` in `cmd.exe`, or use `--%` in PowerShell:
+
+```batch
+playwright-cli goto "https://example.com/?a=1^&b=2"
+```
+
+```powershell
+playwright-cli --% goto "https://example.com/?a=1&b=2"
 ```
 
 ## Snapshots
@@ -264,6 +292,11 @@ playwright-cli snapshot e34
 
 # include each element's bounding box as [box=x,y,width,height]
 playwright-cli snapshot --boxes
+
+# search a large snapshot instead of capturing it all — returns matching nodes
+# with 3 lines of context around each match (like grep -C)
+playwright-cli find "Add to cart"
+playwright-cli find --regex "\\$((0 - 9))+\\.[0-9]{2}"
 ```
 
 ## Targeting elements
@@ -299,14 +332,28 @@ playwright-cli -s=mysession open example.com --persistent
 # same with manually specified profile directory (use when requested explicitly)
 playwright-cli -s=mysession open example.com --profile=/path/to/profile
 playwright-cli -s=mysession click e6
-playwright-cli -s=mysession close  # stop a named browser
-playwright-cli -s=mysession delete-data  # delete user data for persistent session
+playwright-cli -s=mysession close       # stop a named browser
+playwright-cli -s=mysession delete-data # delete user data for persistent session
 
 playwright-cli list
 # Close all browsers
 playwright-cli close-all
 # Forcefully kill all browser processes
 playwright-cli kill-all
+```
+
+## Installation
+
+If global `playwright-cli` command is not available, try a local version via `npx playwright cli`:
+
+```bash
+npx --no-install playwright --version
+```
+
+When local version is available, use `npx playwright cli` in all commands. Otherwise, install `playwright-cli` as a global command:
+
+```bash
+npm install -g @playwright/cli@latest
 ```
 
 ## Example: Form submission
@@ -368,9 +415,8 @@ playwright-cli show --annotate
 - **Request mocking** [references/request-mocking.md](references/request-mocking.md)
 - **Running Playwright code** [references/running-code.md](references/running-code.md)
 - **Browser session management** [references/session-management.md](references/session-management.md)
-- **Spec-driven testing (plan / generate / heal)** [references/spec-driven-testing.md](references/spec-driven-testing.md)
 - **Storage state (cookies, localStorage)** [references/storage-state.md](references/storage-state.md)
-- **Test generation** [references/test-generation.md](references/test-generation.md)
+- **Test generation (plan / generate / heal)** [references/test-generation.md](references/test-generation.md)
 - **Tracing** [references/tracing.md](references/tracing.md)
 - **Video recording** [references/video-recording.md](references/video-recording.md)
 - **Inspecting element attributes** [references/element-attributes.md](references/element-attributes.md)

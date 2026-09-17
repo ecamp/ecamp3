@@ -1,0 +1,14 @@
+environments:
+    default:
+        values:
+            - ./env.yaml
+---
+repositories:
+    - name: external-dns
+      url: https://kubernetes-sigs.github.io/external-dns/
+
+releases:
+    - name: 'external-dns-gateway-api'
+      chart: .
+      values:
+          - ./values.yaml.gotmpl
