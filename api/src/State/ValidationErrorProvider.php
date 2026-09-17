@@ -53,7 +53,14 @@ class ValidationErrorProvider implements ProviderInterface {
                 )
             );
 
-            $propertyPath = $this->nameConverter->normalize($violation->getPropertyPath(), $violation->getRoot()::class, 'jsonproblem');
+            $root = $violation->getRoot();
+            $propertyPath = $this->nameConverter->normalize(
+                $violation->getPropertyPath(),
+                // Violations for denormalization failures (such as an invalid backed enum value) carry
+                // no root object, so the property path cannot be converted in the context of a class.
+                is_object($root) ? $root::class : null,
+                'jsonproblem'
+            );
 
             $violationInfos[] = [
                 'code' => $violation->getCode(),

@@ -19,7 +19,35 @@
         </template>
         <v-list-item lines="two">
           <template #append>
-            <v-list-item-action>
+            <v-list-item-action class="gap-2">
+              <v-menu location="bottom end">
+                <template #activator="{ props }">
+                  <button-add
+                    v-bind="props"
+                    color="secondary"
+                    data-testid="import-camp-button"
+                    icon="mdi-download"
+                  >
+                    {{ $t('views.camps.import') }}
+                  </button-add>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="provider in hitobitoProviders"
+                    :key="provider"
+                    :data-testid="`import-camp-provider-${provider}`"
+                    :to="{ name: 'camps/import', params: { provider } }"
+                  >
+                    <v-list-item-title class="d-flex align-center gap-2">
+                      <v-icon
+                        :color="providerIconColor(provider)"
+                        :icon="providerIcon(provider)"
+                      />
+                      {{ $t(providerNameKey(provider)) }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
               <button-add
                 data-testid="create-camp-button"
                 icon="mdi-plus"
@@ -85,6 +113,12 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import CampListItem from '@/components/camp/CampListItem.vue'
+import {
+  HITOBITO_PROVIDERS,
+  providerIcon,
+  providerIconColor,
+  providerNameKey,
+} from '@/plugins/hitobito'
 import { groupBy } from 'lodash-es'
 
 export default {
@@ -108,6 +142,9 @@ export default {
     }
   },
   computed: {
+    hitobitoProviders() {
+      return HITOBITO_PROVIDERS
+    },
     currentUserLink() {
       return this.$store.getters.getLoggedInUser?._meta.self
     },
@@ -152,6 +189,9 @@ export default {
     this.isAdmin = isAdmin()
   },
   methods: {
+    providerIcon,
+    providerIconColor,
+    providerNameKey,
     async loadCamps() {
       await this.$auth.loadUser()
       // Only reload if they were loaded before, to avoid console error

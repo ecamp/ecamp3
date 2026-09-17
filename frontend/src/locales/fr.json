@@ -106,6 +106,11 @@
         },
         "title": "Zone à risque"
       },
+      "campHitobitoSync": {
+        "linked": "Ce camp est lié à {provider}.",
+        "sync": "Synchroniser",
+        "title": "Synchroniser les infos du camp"
+      },
       "campMaterialLists": {
         "createMaterialList": "Créer une liste de matériel",
         "title": "Listes de matériel"
@@ -233,6 +238,46 @@
         "submitTooltipPrototype": "Tu dois encore choisir si tu veux utiliser un modèle de champ et lequel."
       }
     },
+    "campHitobitoSync": {
+      "hitobitoSyncDiffTable": {
+        "current": "Actuel (eCamp)",
+        "field": "Champ",
+        "updated": "Nouveau ({provider})"
+      }
+    },
+    "campImport": {
+      "campImport": {
+        "steps": {
+          "event": "Camp",
+          "template": "Modèle"
+        }
+      },
+      "campImportStep1": {
+        "alreadyImported": "Déjà importé",
+        "event": "Camp",
+        "noEvents": "Aucun camp trouvé",
+        "search": "Rechercher un camp",
+        "submitTooltip": "Sélectionne un camp."
+      },
+      "errors": {
+        "alreadyExists": "Un camp eCamp existe déjà pour ce camp {provider}.",
+        "generic": "Les camps n'ont pas pu être chargés. Réessaie plus tard.",
+        "noAccess": "Tu n'as pas accès à ce camp.",
+        "notFound": "Ce camp n'a pas été trouvé."
+      },
+      "hitobitoEventSummary": {
+        "field": "Champ",
+        "fields": {
+          "address": "Adresse",
+          "end": "Fin",
+          "motto": "Thème",
+          "start": "Début",
+          "title": "Titre"
+        },
+        "period": "Période {number}",
+        "value": "Valeur"
+      }
+    },
     "category": {
       "categoryTemplate": {
         "contents": "Contenus",
@@ -290,6 +335,9 @@
       "collaboratorForm": {
         "overrideAvatar": "Remplacer l'avatar pour ce camp",
         "roleHint": "Chaque camp nécessite au moins une personne disposant de droits d'administrateur."
+      },
+      "collaboratorHitobitoInvite": {
+        "inviteCta": "Inviter depuis {provider}"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Désactiver",
@@ -626,6 +674,11 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "hitobito": {
+      "providers": {
+        "pbsmidata": "MiData"
+      }
+    },
     "info": {
       "offline": {
         "description": "Impossible d'enregistrer / de charger des données.",
@@ -811,6 +864,35 @@
         "today": "Aujourd'hui",
         "welcome": "Bienvenue dans ton nouveau camp. Il n'y a pas encore d'activités définies."
       },
+      "hitobitoInvite": {
+        "allInvited": "Toutes les personnes co-responsables de {provider} ont déjà été invitées.",
+        "errors": {
+          "invite": "Les invitations n’ont pas pu être envoyées : {emails}",
+          "loading": "Les personnes co-responsables n’ont pas pu être chargées. Réessaie plus tard.",
+          "noAccess": "Tu n’as pas accès à cet événement {provider}.",
+          "notFound": "Cet événement {provider} n’a pas été trouvé."
+        },
+        "existingParticipants": "Font déjà partie du camp",
+        "existingParticipantsDescription": "Ces personnes font déjà partie du camp.",
+        "intro": "Les personnes suivantes sont co-responsables de l’événement {provider} :",
+        "invite": "Envoyer les invitations",
+        "newParticipants": "Invitations au camp",
+        "newParticipantsDescription": "Ces personnes ne font pas encore partie du camp et seront invitées par e-mail.",
+        "title": "Inviter depuis {provider}"
+      },
+      "hitobitoSync": {
+        "errors": {
+          "forbidden": "Tu n’as pas les autorisations nécessaires pour modifier ce camp.",
+          "loading": "Les données de {provider} n’ont pas pu être chargées. Réessaie plus tard.",
+          "noAccess": "Tu n’as pas accès à cet événement {provider}.",
+          "notFound": "Cet événement {provider} n’a pas été trouvé.",
+          "sync": "Les données n’ont pas pu être synchronisées. Réessaie plus tard."
+        },
+        "intro": "Les champs suivants ont été modifiés dans {provider} et seront écrasés lors de la synchronisation :",
+        "noChanges": "Aucune donnée n’a changé depuis la dernière synchronisation.",
+        "sync": "Synchroniser",
+        "title": "Synchroniser le camp avec {provider}"
+      },
       "invitation": {
         "acceptCurrentAuth": "Accepter l'invitation avec le compte courant",
         "backToHome": "Retour à l'accueil",
@@ -878,8 +960,20 @@
     "campCreate": {
       "title": "Créer un camp"
     },
+    "campHitobitoDeepLink": {
+      "errors": {
+        "campForbidden": "Cet entrepôt a déjà été importé, mais tu n'y as pas accès. Veuillez contacter l'administrateur de l'entrepôt.",
+        "eventForbidden": "Tu n'as pas les droits nécessaires pour importer ce stock.",
+        "generic": "Le camp n'a pas pu être ouvert. Réessaie plus tard."
+      },
+      "title": "Ouvrir le camp"
+    },
+    "campImport": {
+      "title": "Importer un camp depuis {provider}"
+    },
     "camps": {
       "create": "Créer un camp",
+      "import": "Importer un camp",
       "pastCamps": "Anciens camps",
       "prototypeCamps": "Prototypes",
       "title": "Mes camps"

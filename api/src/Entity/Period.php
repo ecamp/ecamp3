@@ -172,6 +172,21 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public ?\DateTimeInterface $end = null;
 
     /**
+     * The id of the corresponding event date in Hitobito, if this period was created from one.
+     * May only be set when creating a period, and only if the camp is linked to a Hitobito event.
+     */
+    #[Assert\Expression(
+        'value == null or (this.camp != null and this.camp.hitobitoEventId != null)',
+        message: 'hitobitoId may only be set on periods of a camp that is linked to a Hitobito event.'
+    )]
+    #[InputFilter\Trim]
+    #[Assert\Length(max: 255)]
+    #[ApiProperty(example: '5678')]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $hitobitoId = null;
+
+    /**
      * If the start date of the period is changing, moveScheduleEntries defines what happens
      * with the schedule entries in the period. true: The schedule entries will be moved
      * together with the period (startOffset stays the same). false: The start date of each

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isAdmin, isLoggedIn } from '@/plugins/auth'
+import { isValidProvider } from '@/plugins/hitobito'
 import { apiStore } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
@@ -229,6 +230,36 @@ const router = createRouter({
         default: () => import('./views/CampCreate.vue'),
       },
       beforeEnter: requireAuth,
+    },
+    {
+      path: '/camps/hitobito/:provider/import',
+      name: 'camps/import',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/CampImport.vue'),
+      },
+      props: {
+        default: (route) => ({
+          provider: route.params.provider,
+          eventId: route.query.eventId ?? null,
+        }),
+      },
+      beforeEnter: all([requireAuth, requireHitobitoProvider]),
+    },
+    {
+      path: '/camps/hitobito/:provider/:eventId',
+      name: 'camps/hitobitoDeepLink',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/CampHitobitoDeepLink.vue'),
+      },
+      props: {
+        default: (route) => ({
+          provider: route.params.provider,
+          eventId: route.params.eventId,
+        }),
+      },
+      beforeEnter: all([requireAuth, requireHitobitoProvider]),
     },
     {
       path: '/camps/invitation/rejected',
@@ -526,6 +557,32 @@ const router = createRouter({
       ],
     },
     {
+      path: '/camps/:campId/:campShortTitle?/hitobito/invite',
+      name: 'camp/hitobitoInvite',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/CampHitobitoInvite.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp, requireHitobitoCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({ camp: campFromRoute(route) }),
+      },
+    },
+    {
+      path: '/camps/:campId/:campShortTitle?/hitobito/sync',
+      name: 'camp/hitobitoSync',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/CampHitobitoSync.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp, requireHitobitoCamp]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({ camp: campFromRoute(route) }),
+      },
+    },
+    {
       path: '/camps/:campId/:campShortTitle/program/activity/:activityId/:scheduleEntryId?/:activityName?',
       name: 'camp/activity',
       components: {
@@ -602,6 +659,35 @@ function requireAdmin(to) {
       params: [to.fullPath, ''],
       replace: true,
     }
+  }
+}
+
+function requireHitobitoProvider(to, from, next) {
+  if (isValidProvider(to.params.provider)) {
+    next()
+  } else {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    })
+  }
+}
+
+/**
+ * Only allow entering the route when the camp is linked to a Hitobito event.
+ * Must run after requireCamp, which ensures the camp is loaded.
+ */
+function requireHitobitoCamp(to, from, next) {
+  const camp = campFromRoute(to)
+  if (camp && isValidProvider(camp.hitobitoProvider) && camp.hitobitoEventId) {
+    next()
+  } else {
+    next({
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    })
   }
 }
 
@@ -797,7 +883,7 @@ function getContentLayout(route) {
 
 /**
  * @param camp
- * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'print' }
+ * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'print' | 'hitobitoInvite' | 'hitobitoSync' }
  * @param query
  */
 export function campRoute(camp, subroute = 'dashboard', query = {}) {

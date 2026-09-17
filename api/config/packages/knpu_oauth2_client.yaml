@@ -41,6 +41,23 @@ knpu_oauth2_client:
             redirect_route: connect_pbsmidata_check
             redirect_params: {}
 
+        # Used for the separate "Hitobito API access" OAuth flow (see HitobitoAPIOAuthController),
+        # which requests broader scopes than the login flow above. Reuses the same OAuth
+        # application (client id/secret) and base URL as "pbsmidata", just with a different
+        # redirect URI, since Hitobito needs to distinguish which flow a callback belongs to.
+        pbsmidata_hitobito_api:
+            type: generic
+            provider_class: App\OAuth\Hitobito
+            client_class: App\OAuth\JWTStateOAuth2Client
+
+            provider_options:
+                baseUrl: '%env(OAUTH_PBSMIDATA_BASE_URL)%'
+
+            client_id: '%env(OAUTH_PBSMIDATA_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_PBSMIDATA_CLIENT_SECRET)%'
+            redirect_route: hitobito_oauth_callback
+            redirect_params: { provider: pbsmidata }
+
         cevidb:
             type: generic
             provider_class: App\OAuth\Hitobito

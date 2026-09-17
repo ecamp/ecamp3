@@ -15,6 +15,7 @@ use App\Doctrine\Filter\CampCollaboratorFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\Service\Hitobito\HitobitoProvider;
 use App\State\CampCreateProcessor;
 use App\State\CampRemoveProcessor;
 use App\State\CampUpdateProcessor;
@@ -66,6 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
 #[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
+#[ORM\UniqueConstraint(name: 'hitobitoprovider_hitobitoeventid_unique', columns: ['hitobitoProvider', 'hitobitoEventId'])]
 #[ORM\Index(columns: ['isPrototype'])]
 #[ORM\Index(columns: ['isShared'])]
 #[ORM\Index(columns: ['isPublic'])]
@@ -421,6 +423,36 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $printYSLogoOnPicasso = false;
+
+    /**
+     * The Hitobito provider (such as MiData) this camp was created from, if any.
+     * May only be set when creating a camp, and only together with hitobitoEventId.
+     */
+    #[Assert\Expression(
+        '(this.hitobitoProvider == null) == (this.hitobitoEventId == null)',
+        message: 'hitobitoProvider and hitobitoEventId must be set together.',
+        groups: ['create']
+    )]
+    #[Assert\Expression(
+        'value == null or value.isSupported()',
+        message: 'This Hitobito provider is not supported.',
+        groups: ['create']
+    )]
+    #[ApiProperty(example: HitobitoProvider::PBSMIDATA->value)]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 16, nullable: true, enumType: HitobitoProvider::class)]
+    public ?HitobitoProvider $hitobitoProvider = null;
+
+    /**
+     * The id of the corresponding event in Hitobito, if this camp was created from one.
+     * May only be set when creating a camp, and only together with hitobitoProvider.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Length(max: 255)]
+    #[ApiProperty(example: '1234')]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $hitobitoEventId = null;
 
     /**
      * The person that created the camp. This value never changes, even when the person
