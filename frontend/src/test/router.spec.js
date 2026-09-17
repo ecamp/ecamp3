@@ -293,4 +293,3 @@ describe('camp hitobito sync route', () => {
     })
   })
 })
-
