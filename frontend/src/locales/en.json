@@ -578,6 +578,14 @@
         "message": "Changing email address ...",
         "success": "Email address successfully changed.",
         "title": "Changing email address"
+      },
+      "dialogChangePassword": {
+        "title": "Change password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "newPasswordConfirmation": "Confirm new password",
+        "success": "Your password has been changed successfully.",
+        "error": "An error has occurred."
       }
     }
   },
@@ -893,7 +901,9 @@
     },
     "profile": {
       "changeEmail": "Change",
-      "profile": "Profile"
+      "profile": "Profile",
+      "changePassword": "Change",
+      "password": "Password"
     }
   }
 }

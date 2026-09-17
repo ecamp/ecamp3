@@ -1,8 +1,8 @@
 diff --git a/node_modules/@react-pdf/layout/lib/index.js b/node_modules/@react-pdf/layout/lib/index.js
-index b318728..5e9efed 100644
+index b7ea5e3..2838345 100644
 --- a/node_modules/@react-pdf/layout/lib/index.js
 +++ b/node_modules/@react-pdf/layout/lib/index.js
-@@ -2717,10 +2717,12 @@ const paginate = (page, pageNumber, fontStore, yoga) => {
+@@ -3039,10 +3039,12 @@ const paginate = (page, pageNumber, fontStore, yoga) => {
          return [];
      if (page.props?.wrap === false)
          return [page];

@@ -1,0 +1,12 @@
+apiVersion: v2
+name: external-dns-gateway-api
+description: Helm chart for deploying external-dns-gateway-api on Kubernetes
+home: https://github.com/ecamp/ecamp3
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+
+dependencies:
+    - name: external-dns
+      version: 1.21.1
+      repository: https://kubernetes-sigs.github.io/external-dns/

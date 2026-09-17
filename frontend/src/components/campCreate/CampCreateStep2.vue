@@ -26,12 +26,13 @@
           :vee-rules="{ required: true }"
           class="flex-grow-1"
           path="campPrototypeUrl"
-          @input="setClipboardEntityUrl"
+          @update:model-value="setClipboardEntityUrl"
         />
         <ClipboardInfoDialog
           v-if="showClipboardPrompt"
           ref="clipboardInfoDialog"
           translation-context-i18n-key="components.campCreate.campCreateStep2.clipboardInfoDialog"
+          @clipboard-text="setClipboardEntityUrl"
           @closed="attemptLoadingEntityFromClipboard"
         >
           <template #activator="{ props }">
