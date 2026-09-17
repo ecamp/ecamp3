@@ -152,7 +152,7 @@ import { parseTemplate } from 'url-template'
 import { getEnv } from '@/environment.js'
 import EForm from '@/components/form/base/EForm.vue'
 import { Form as VeeForm } from 'vee-validate'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'Register',

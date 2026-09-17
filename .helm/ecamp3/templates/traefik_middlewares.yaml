@@ -1,5 +1,5 @@
 {{- if and .Values.gateway.enabled (.Values.gateway.className | contains "traefik") -}}
-{{- if .Values.ingress.basicAuth.enabled }}
+{{- if .Values.gateway.basicAuth.enabled }}
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -9,6 +9,6 @@ metadata:
     {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   basicAuth:
-    secret: {{ include "ingress.basicAuth.secret.name" . | quote }}
+    secret: {{ include "gateway.basicAuth.secret.name" . | quote }}
 {{- end }}
 {{- end }}

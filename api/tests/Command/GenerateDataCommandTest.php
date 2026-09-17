@@ -27,7 +27,8 @@ class GenerateDataCommandTest extends ECampApiTestCase {
         /** @var Profile $profile7Manager */
         $profile7Manager = static::getFixture('profile7manager');
         $this->commandTester->execute([
-            'num-camps' => '10',
+            'num-camps' => '1',
+            '--activities-per-camp' => '10',
             '--add-user-to-camp' => $profile7Manager->email,
         ]);
 
@@ -38,7 +39,8 @@ class GenerateDataCommandTest extends ECampApiTestCase {
         /** @var Profile $profile7Manager */
         $profile7Manager = static::getFixture('profile7manager');
         $this->commandTester->execute([
-            'num-camps' => '10',
+            'num-camps' => '1',
+            '--activities-per-camp' => '10',
             '--add-user-to-camp' => $profile7Manager->email,
             '--replace' => 'true',
         ]);
@@ -46,7 +48,8 @@ class GenerateDataCommandTest extends ECampApiTestCase {
         $this->commandTester->assertCommandIsSuccessful();
 
         $this->commandTester->execute([
-            'num-camps' => '10',
+            'num-camps' => '1',
+            '--activities-per-camp' => '10',
             '--add-user-to-camp' => $profile7Manager->email,
             '--replace' => 'true',
         ]);

@@ -187,10 +187,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public ?string $hitobitoId = null;
 
     /**
-     * If the start date of the period is changing, moveScheduleEntries defines what happens with the schedule
-     * entries in the period.
-     * true: The schedule entries will be moved together with the period (startOffset stays the same).
-     * false: The start date of each schedule entry remains the same (startOffset changes).
+     * If the start date of the period is changing, moveScheduleEntries defines what happens
+     * with the schedule entries in the period. true: The schedule entries will be moved
+     * together with the period (startOffset stays the same). false: The start date of each
+     * schedule entry remains the same (startOffset changes).
      */
     #[ApiProperty(example: true)]
     #[Groups(['write'])]

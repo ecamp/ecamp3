@@ -5,6 +5,7 @@ const scheduleEntry = {
   period: () => ({ _meta: { self: '/periods/1a2b3c4d' } }),
   day: () => ({ _meta: { self: '/days/1a2b3c4d' } }),
   activity: () => ({
+    _meta: { self: '/activities/1a2b3c4d' },
     category: () => ({ _meta: { self: '/categories/1a2b3c4d' } }),
     activityResponsibles: () => ({
       items: [
@@ -136,7 +137,24 @@ describe('filterMatchScheduleEntry', () => {
       responsible: ['/camp_collaborations/1a2b3c4d'],
       progressLabel: ['/progress_labels/00000000'],
     }, false],
+    [{ hasComments: undefined }, true],
+    [{ hasComments: false }, true],
+    [{ hasComments: true }, false],
   ])('maps %o to %s', (filter, expected) => {
     expect(filterMatchScheduleEntry(scheduleEntry, filter)).toEqual(expected)
+  })
+
+  describe('hasComments', () => {
+    it.each([
+      [{}, {}, true],
+      [{}, { activitiesWithComments: new Set() }, true],
+      [{ hasComments: false }, { activitiesWithComments: new Map() }, true],
+      [{ hasComments: true }, {}, false],
+      [{ hasComments: true }, { activitiesWithComments: new Map() }, false],
+      [{ hasComments: true }, { activitiesWithComments: new Map([['/activities/00000000', 1]]) }, false],
+      [{ hasComments: true }, { activitiesWithComments: new Map([['/activities/1a2b3c4d', 2]]) }, true],
+    ])('maps %o with context %o to %s', (filter, context, expected) => {
+      expect(filterMatchScheduleEntry(scheduleEntry, filter, context)).toEqual(expected)
+    })
   })
 })

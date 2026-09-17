@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\State\UserActivateProcessor;
 use App\State\UserCreateProcessor;
 use App\State\UserUpdateProcessor;
+use App\Validator\PwnedPasswords\NotPwnedPassword;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -144,6 +145,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[SerializedName('password')]
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 12, max: 128)]
+    #[NotPwnedPassword]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     #[Groups(['write'])]
     public ?string $plainPassword = null;

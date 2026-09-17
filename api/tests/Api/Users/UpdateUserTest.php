@@ -36,7 +36,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserIsAllowedForSelf() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
             'currentPassword' => 'test',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
@@ -111,7 +111,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserChangingPasswordRequiresCurrentPassword() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -127,7 +127,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserChangingPasswordRejectsBlankCurrentPassword() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
             'currentPassword' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
@@ -144,7 +144,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserChangingPasswordRejectsWrongCurrentPassword() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
             'currentPassword' => 'wrong-current-password',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
@@ -161,7 +161,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserChangingPasswordAcceptsCorrectCurrentPassword() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
             'currentPassword' => 'test',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
@@ -173,7 +173,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserCanLoginWithNewPasswordAfterChangingPassword() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
             'currentPassword' => 'test',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
@@ -181,7 +181,7 @@ class UpdateUserTest extends ECampApiTestCase {
         // the new password works
         static::createBasicClient()->request('POST', '/authentication_token', ['json' => [
             'identifier' => $user->getEmail(),
-            'password' => 'passwordpassword',
+            'password' => 'definitely-not-in-password-list-2026',
         ]]);
         $this->assertResponseStatusCodeSame(204);
         $this->assertResponseHasHeader('Set-Cookie');

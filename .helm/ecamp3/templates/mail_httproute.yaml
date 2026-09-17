@@ -19,7 +19,7 @@ spec:
             type: PathPrefix
             value: {{ .Values.mail.subpath }}
       filters:
-        {{- if .Values.ingress.basicAuth.enabled }}
+        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
         - type: ExtensionRef
           extensionRef:
             group: traefik.io

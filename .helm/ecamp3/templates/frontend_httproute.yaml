@@ -18,7 +18,7 @@ spec:
             type: PathPrefix
             value: /
       filters:
-        {{- if .Values.ingress.basicAuth.enabled }}
+        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
         - type: ExtensionRef
           extensionRef:
             group: traefik.io

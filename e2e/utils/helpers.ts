@@ -176,7 +176,9 @@ export async function createCampViaUI(page: Page, campTitle: string): Promise<st
   await expect(page.locator('.v-overlay')).not.toBeVisible({ timeout: 10000 })
 
   await page.getByTestId('create-camp-button').click()
-  await page.waitForURL('**/admin/info', { timeout: 30000 })
+  await expect(page).toHaveURL((url) => url.pathname.endsWith('/admin/info'), {
+    timeout: 30000,
+  })
 
   return page.url().replace(/\/info$/, '')
 }
@@ -206,5 +208,5 @@ export async function deleteCampViaUI(
     .getByRole('button', { name: /Löschen/i })
     .click()
 
-  await page.waitForURL(/\/camps$/, { timeout: 15000 })
+  await expect(page).toHaveURL((url) => url.pathname === '/camps', { timeout: 15000 })
 }

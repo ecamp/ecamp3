@@ -8,7 +8,6 @@
     :content-class="['py-4 rounded-lg', !$vuetify.display.xs ? 'mt-2' : ''].join(' ')"
     transition="slide-y-transition"
     :close-on-content-click="false"
-    z-index="5"
   >
     <template #activator="{ props, isActive }">
       <v-toolbar-items v-if="!avatarOnly">
@@ -64,12 +63,7 @@
       </v-btn>
     </template>
     <v-list class="user-nav py-0" tag="ul" light>
-      <v-list-item
-        tag="li"
-        block
-        :to="{ name: 'profile', query: { isDetail: true } }"
-        @click="open = false"
-      >
+      <v-list-item tag="li" block :to="{ name: 'profile' }" @click="open = false">
         <v-icon start icon="mdi-account" />
         <span>{{ $t('components.navigation.userMeta.profile') }}</span>
       </v-list-item>

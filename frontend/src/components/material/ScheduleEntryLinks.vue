@@ -10,7 +10,7 @@
     }}
   </router-link>
   <span v-else class="d-inline-flex flex-sm-wrap align-center">
-    <span class="mr-sm-auto">
+    <span class="mr-1">
       <CategoryChip
         class="flex-shrink-0"
         :to="scheduleEntryRoute(items[0])"

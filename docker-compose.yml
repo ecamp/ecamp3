@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.18.1
+    image: node:24.20.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -23,7 +23,7 @@ services:
     stop_signal: SIGKILL
 
   frontend-old:
-    image: node:24.18.1
+    image: node:24.20.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -107,7 +107,7 @@ services:
     command: varnishncsa
 
   print:
-    image: node:24.18.1
+    image: node:24.20.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -196,7 +196,7 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.62.1-noble
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
@@ -216,7 +216,7 @@ services:
       SERVER_PORT: 8080
 
   reverse-proxy:
-    image: traefik:v3.6.15
+    image: traefik:v3.7.13
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./dev-setup/traefik/.:/etc/traefik/.:ro
@@ -239,7 +239,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.18.1
+    image: node:24.20.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -251,7 +251,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.18.1
+    image: node:24.20.0
     profiles: ['prettier']
     stdin_open: true
     tty: true

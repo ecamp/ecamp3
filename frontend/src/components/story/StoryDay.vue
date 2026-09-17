@@ -22,17 +22,7 @@
                   dense
                 />
               </span>
-              <router-link
-                :to="{
-                  name: 'camp/activity',
-                  params: {
-                    campId: day.period().camp().id,
-                    activityId: scheduleEntry.activity().id,
-                    scheduleEntryId: scheduleEntry.id,
-                  },
-                }"
-                class="e-title-link"
-              >
+              <router-link :to="scheduleEntryRoute(scheduleEntry)" class="e-title-link">
                 <span>{{ scheduleEntry.activity().title }}</span>
                 <template v-if="chapter.instanceName">
                   - {{ chapter.instanceName }}
@@ -65,6 +55,7 @@
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
+import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'StoryDay',
@@ -107,6 +98,9 @@ export default {
       // See StoryPeriod.vue: v-expansion-panels.v-model
       return this.day.start.substr(0, 10)
     },
+  },
+  methods: {
+    scheduleEntryRoute,
   },
 }
 </script>

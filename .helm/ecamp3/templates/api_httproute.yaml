@@ -32,7 +32,7 @@ spec:
             add:
               - name: X-Forwarded-Prefix
                 value: {{ .Values.api.subpath }}
-        {{- if .Values.ingress.basicAuth.enabled }}        
+        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
         - type: ExtensionRef
           extensionRef:
             group: traefik.io

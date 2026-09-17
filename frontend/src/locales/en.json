@@ -301,7 +301,32 @@
         "warningTextLeaveCamp": "Do you want to leave the camp '{camp}'?"
       }
     },
+    "comments": {
+      "commentCard": {
+        "campComment": "Whole camp",
+        "deleteWarning": "Do you really want to delete your comment?",
+        "deleted": "(deleted)"
+      },
+      "commentComposer": {
+        "placeholder": "Write a comment"
+      },
+      "commentsList": {
+        "empty": "No comments yet."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "One more comment is on an individual activity. | {count} more comments are on individual activities.",
+        "commentsOnThisActivity": "Comments on this activity",
+        "title": "Comments"
+      },
+      "commentsToggleButton": {
+        "hide": "Hide comments",
+        "show": "Show comments | Show one comment | Show {count} comments"
+      }
+    },
     "dashboard": {
+      "activityRow": {
+        "comments": "No comments | Show one comment | Show {count} comments"
+      },
       "selectFilter": {
         "clear": "Clear"
       }
@@ -594,6 +619,7 @@
       "add": "Add",
       "back": "Back",
       "cancel": "Cancel",
+      "change": "Change",
       "close": "Close",
       "content": "Content",
       "continue": "Continue",
@@ -900,7 +926,6 @@
       "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
     },
     "profile": {
-      "changeEmail": "Change",
       "profile": "Profile",
       "changePassword": "Change",
       "password": "Password"

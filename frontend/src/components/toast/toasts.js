@@ -1,16 +1,12 @@
-import MultiLineToast from '@/components/toast/MultiLineToast.vue'
 import { componentI18n } from '@/plugins/i18n'
 import { violationsToFlatArray } from '@/helpers/serverError'
 
 function multiLineToast(lines) {
   return {
-    component: MultiLineToast,
-    props: {
-      lines,
-      generalErrorText: componentI18n.t(
-        'components.toast.toasts.multiLineToast.generalError'
-      ),
-    },
+    lines,
+    generalErrorText: componentI18n.t(
+      'components.toast.toasts.multiLineToast.generalError'
+    ),
   }
 }
 

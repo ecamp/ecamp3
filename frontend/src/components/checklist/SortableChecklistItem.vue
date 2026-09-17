@@ -2,9 +2,7 @@
   <div class="e-sortable-checklist-item" @dragstart="startDragging">
     <v-list-item v-if="disabled" class="px-2 rounded min-h-0 py-1">
       <template #prepend>
-        <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
-          itemPosition + 1
-        }}</v-avatar>
+        <v-avatar color="rgba(0,0,0,0.12)" size="32">{{ itemPosition + 1 }}</v-avatar>
       </template>
       <v-list-item-title :class="{ 'font-weight-bold': item?.parent == null }">{{
         item.text
@@ -17,12 +15,10 @@
           v-bind="props"
         >
           <template #prepend>
-            <v-btn variant="plain" icon class="my-n1 ml-n1 pointer-events-none">
-              <v-icon>mdi-drag</v-icon>
+            <v-btn variant="plain" icon size="32" class="my-n1 pointer-events-none">
+              <v-icon size="24">mdi-drag</v-icon>
             </v-btn>
-            <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
-              itemPosition + 1
-            }}</v-avatar>
+            <v-avatar color="rgba(0,0,0,0.12)" size="32">{{ itemPosition + 1 }}</v-avatar>
           </template>
           <v-list-item-title :class="{ 'font-weight-bold': item?.parent == null }">{{
             item.text
@@ -86,6 +82,10 @@ export default {
 .e-sortable-checklist-item--drag-preview {
   background: white;
   border-radius: 4px;
+}
+
+.drag-and-drop-handle {
+  --v-list-prepend-gap: 8px;
 }
 .e-sortable-checklist-item--drag-preview:deep(.e-sortable-checklist-item__add) {
   display: none;
