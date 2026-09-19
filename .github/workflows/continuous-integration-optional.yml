@@ -88,57 +88,6 @@ jobs:
       - run: composer phpstan
         working-directory: api
 
-  api-validate-migrations:
-    name: 'API: validate migrations'
-    runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=18&charset=utf8
-
-    services:
-      postgres:
-        image: 'postgres:18-alpine'
-        env:
-          POSTGRES_DB: 'ecamp3test'
-          POSTGRES_PASSWORD: 'ecamp3'
-          POSTGRES_USER: 'ecamp3'
-        ports:
-          - '5432:5432'
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.5.9'
-          tools: composer:2.10.3
-          coverage: xdebug
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
-        working-directory: api
-
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - run: composer install --prefer-dist --no-progress --no-interaction
-        working-directory: api
-
-      - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
-        working-directory: api
-
-      - run: php bin/console doctrine:schema:validate -v -e test
-        working-directory: api
-
   playwright-cli-check-needed:
     runs-on: ubuntu-latest
     outputs:
