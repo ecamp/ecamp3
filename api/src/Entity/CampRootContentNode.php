@@ -15,6 +15,7 @@ class CampRootContentNode {
     #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'campRootContentNodes')]
     public ContentNode $rootContentNode;
 
+    #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'campRootContentNodes')]
     public Camp $camp;
 }
