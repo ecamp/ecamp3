@@ -18,7 +18,7 @@
     "api-platform/symfony": "4.3.19",
     "api-platform/validator": "4.3.19",
     "doctrine/common": "3.5.0",
-    "doctrine/doctrine-bundle": "3.3.1",
+    "doctrine/doctrine-bundle": "3.3.2",
     "doctrine/doctrine-migrations-bundle": "4.0.1",
     "doctrine/orm": "3.7.0",
     "exercise/htmlpurifier-bundle": "5.2",
