@@ -1,6 +1,11 @@
 name: 'Tests: All End-to-End (including non-mature)'
 
 on:
+  workflow_call:
+    inputs:
+      force:
+        type: boolean
+        default: false
   workflow_dispatch:
   schedule:
     - cron: '0 2 * * *'
@@ -25,6 +30,10 @@ jobs:
     steps:
       - id: check
         run: |
+          if [ "${{ inputs.force }}" = "true" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             if [ "$BASE_REF" = "staging" ] || [ "$BASE_REF" = "prod" ]; then
               echo "should_run=true" >> $GITHUB_OUTPUT
