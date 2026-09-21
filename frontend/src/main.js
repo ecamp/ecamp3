@@ -90,9 +90,7 @@ app.directive('resizeobserver', ResizeObserver.directive)
 
 app.mount('#app')
 
-if (process.env.NODE_ENV === 'production') {
-  warnAboutSelfXss()
-}
+warnAboutSelfXss()
 
 // noinspection JSIgnoredPromiseFromCall
 initRefresh()
