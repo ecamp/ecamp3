@@ -1,6 +1,6 @@
 import FontStore from '@react-pdf/font'
 import layoutDocument from '@react-pdf/layout'
-import PDFDocument from '@react-pdf/pdfkit'
+import PDFDocument from 'pdfkit'
 import renderPDF from '@react-pdf/render'
 
 const fontStore = new FontStore()
