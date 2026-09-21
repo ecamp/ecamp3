@@ -65,8 +65,7 @@
     {
       "description": "@react-pdf/font depends on an exact pdfkit version",
       "groupName": "react-pdf",
-      "matchPackageNames": ["@react-pdf/**", "pdfkit"],
-      "automerge": false
+      "matchPackageNames": ["@react-pdf/**", "pdfkit"]
     },
     {
       "matchDepNames": [
