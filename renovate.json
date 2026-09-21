@@ -63,6 +63,12 @@
       "matchPackageNames": ["/^@tiptap//"]
     },
     {
+      "description": "@react-pdf/font depends on an exact pdfkit version",
+      "groupName": "react-pdf",
+      "matchPackageNames": ["@react-pdf/**", "pdfkit"],
+      "automerge": false
+    },
+    {
       "matchDepNames": [
         "browserless/chromium",
         "caddy",
