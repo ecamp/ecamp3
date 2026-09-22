@@ -25,6 +25,11 @@ class ListActivitiesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
     }
 
+    public function testListActivitiesWithIgnoredFilterValueIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/activities?camp[foo]=bar');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
     public function testListActivitiesFilteredByCampIsAllowedForCollaborator() {
         $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()->request('GET', '/activities?camp=%2Fcamps%2F'.$camp->getId());

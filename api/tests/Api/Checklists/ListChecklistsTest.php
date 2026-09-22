@@ -25,6 +25,11 @@ class ListChecklistsTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
     }
 
+    public function testListChecklistsFilteredByIsPrototypeFalseIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/checklists?isPrototype=false');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
     public function testListChecklistsFilteredByCampIsAllowedForCollaborator() {
         $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()->request('GET', '/checklists?camp=%2Fcamps%2F'.$camp->getId());

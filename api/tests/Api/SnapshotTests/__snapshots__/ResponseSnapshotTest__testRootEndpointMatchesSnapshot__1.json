@@ -17,7 +17,7 @@
             "templated": true
         },
         "camps": {
-            "href": "/camps{/id}{?isPrototype,isPrototype[],campCollaborator}",
+            "href": "/camps{/id}{?isPrototype,campCollaborator}",
             "templated": true
         },
         "categories": {
@@ -33,7 +33,7 @@
             "templated": true
         },
         "checklists": {
-            "href": "/checklists{/id}{?camp,camp[],isPrototype,isPrototype[]}",
+            "href": "/checklists{/id}{?camp,camp[],isPrototype}",
             "templated": true
         },
         "columnLayouts": {

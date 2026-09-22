@@ -12,7 +12,15 @@ test.describe('Nuxt print test', { tag: '@mature' }, () => {
   })
 
   test('shows print preview', async ({ page }) => {
-    const campsResponse = await page.request.get('/api/camps.jsonhal?isPrototype=false')
+    const jwtHeaderAndPayload = (await page.context().cookies()).find((cookie) =>
+      cookie.name.endsWith('jwt_hp')
+    )!.value
+    const userUri = JSON.parse(
+      Buffer.from(jwtHeaderAndPayload.split('.')[1], 'base64url').toString()
+    ).user
+    const campsResponse = await page.request.get(
+      `/api/camps.jsonhal?campCollaborator=${encodeURIComponent(userUri)}`
+    )
     const body = (await campsResponse.json()) as {
       _embedded: { items: CampItem[] }
     }
