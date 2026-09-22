@@ -22,6 +22,16 @@ class ListCampsTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
     }
 
+    public function testListCampsFilteredByIsPrototypeFalseIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/camps?isPrototype=false');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testListCampsWithIgnoredFilterValueIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/camps?campCollaborator[foo]=bar');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
     public function testListPrototypeCampsOnly() {
         $response = static::createClientWithCredentials()->request('GET', '/camps?isPrototype=true');
         $this->assertResponseStatusCodeSame(200);

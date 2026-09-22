@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Doctrine\Filter\IsTrueFilter;
 use App\InputFilter;
 use App\Repository\ChecklistRepository;
 use App\State\ChecklistCreateProcessor;
@@ -78,7 +79,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['camp.id', 'name'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp', 'isPrototype'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
+#[ApiFilter(filterClass: IsTrueFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: ChecklistRepository::class)]
 class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/checklists{._format}';

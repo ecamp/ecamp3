@@ -63,7 +63,7 @@ final readonly class RequireCollectionFilterProvider implements ProviderInterfac
         $queryParameters = $this->getQueryParameters($request);
 
         foreach ($scopingFilters as $scopingFilter) {
-            if (\array_key_exists($scopingFilter, $queryParameters)) {
+            if (self::isScopingValue($queryParameters[$scopingFilter] ?? null)) {
                 return;
             }
         }
@@ -73,6 +73,20 @@ final readonly class RequireCollectionFilterProvider implements ProviderInterfac
                 ? 'This collection cannot be listed unfiltered.'
                 : 'Filter on '.implode(' or ', $scopingFilters).' is required.'
         );
+    }
+
+    /**
+     * Filters silently ignore values they cannot handle, e.g. camp[foo]=bar, which would then
+     * not scope the collection at all. So only accept a non-empty string or a list of those.
+     */
+    private static function isScopingValue(mixed $value): bool {
+        $isNonEmptyString = static fn (mixed $v): bool => \is_string($v) && '' !== $v;
+
+        if (\is_array($value)) {
+            return [] !== $value && array_is_list($value) && array_all($value, $isNonEmptyString);
+        }
+
+        return $isNonEmptyString($value);
     }
 
     /**
