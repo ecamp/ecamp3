@@ -2,7 +2,6 @@ name: '[reusable only] e2e tests build'
 
 permissions:
   contents: read
-  actions: write
 
 on:
   workflow_call:

@@ -2,7 +2,6 @@ name: '[reusable only] e2e tests run'
 
 permissions:
   contents: read
-  actions: write
 
 on:
   workflow_call:
@@ -117,6 +116,9 @@ jobs:
 
   e2e-tests-merge-reports:
     name: 'Tests: Merge e2e reports'
+    permissions:
+      contents: read
+      actions: write
     if: ${{ !cancelled() }}
     needs: [e2e-tests-run]
     runs-on: ubuntu-latest

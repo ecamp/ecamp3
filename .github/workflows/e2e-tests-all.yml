@@ -48,6 +48,8 @@ jobs:
     name: 'Tests: All e2e build'
     needs: check-trigger
     if: needs.check-trigger.outputs.should_run == 'true'
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
 
   e2e-tests-run:
@@ -56,4 +58,7 @@ jobs:
       - check-trigger
       - e2e-tests-build
     if: needs.check-trigger.outputs.should_run == 'true'
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/reusable-e2e-tests-run.yml
