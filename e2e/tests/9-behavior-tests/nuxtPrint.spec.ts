@@ -12,7 +12,7 @@ test.describe('Nuxt print test', { tag: '@mature' }, () => {
   })
 
   test('shows print preview', async ({ page }) => {
-    const campsResponse = await page.request.get('/api/camps.jsonhal')
+    const campsResponse = await page.request.get('/api/camps.jsonhal?isPrototype=false')
     const body = (await campsResponse.json()) as {
       _embedded: { items: CampItem[] }
     }

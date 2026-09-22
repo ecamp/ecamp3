@@ -14,7 +14,7 @@ class ListProfilesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(401);
     }
 
-    public function testListProfilesIsAllowedForLoggedInUserButFiltered() {
+    public function testListProfilesWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There are multiple profiles that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['profile4unrelated']);
         $this->assertNotEmpty(static::$fixtures['profile5inactive']);
@@ -22,30 +22,14 @@ class ListProfilesTest extends ECampApiTestCase {
         $this->assertNotEmpty(static::$fixtures['profileWithoutCampCollaborations']);
         $this->assertNotEmpty(static::$fixtures['profileWithStateDeleted']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/profiles');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 5,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('profile1manager')],
-            ['href' => $this->getIriFor('profile2member')],
-            ['href' => $this->getIriFor('profile3guest')],
-            ['href' => $this->getIriFor('profile7manager')],
-            ['href' => $this->getIriFor('profile8memberOnlyInCamp2')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/profiles');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListProfilesForLoggedInUserWithoutCampCollaborationShowsOnlyThemself() {
         $profile = static::getFixture('profileWithoutCampCollaborations');
         $response = static::createClientWithCredentials(['email' => $profile->email])
-            ->request('GET', '/profiles')
+            ->request('GET', '/profiles?user=%2Fusers%2F'.$profile->user->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

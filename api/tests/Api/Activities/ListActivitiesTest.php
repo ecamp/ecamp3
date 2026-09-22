@@ -17,28 +17,12 @@ class ListActivitiesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListActivitiesIsAllowedForLoggedInUserButFiltered() {
+    public function testListActivitiesWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is an activity that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['activity1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/activities');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 5,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('activity1')],
-            ['href' => $this->getIriFor('activity2')],
-            ['href' => $this->getIriFor('activity1camp2')],
-            ['href' => $this->getIriFor('activity1campPrototype')],
-            ['href' => $this->getIriFor('activity1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/activities');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListActivitiesFilteredByCampIsAllowedForCollaborator() {
