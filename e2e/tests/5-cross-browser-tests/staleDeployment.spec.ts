@@ -27,12 +27,19 @@ test('reloads the page when a route chunk is missing after a deploy', async ({
 
   let chunkRequestCount = 0
   await page.route(CAMP_CREATE_CHUNK, async (route) => {
-    if (!route.request().url().endsWith('.js')) {
+    const request = route.request()
+    if (!request.url().endsWith('.js')) {
       await route.continue()
       return
     }
     chunkRequestCount += 1
-    if (chunkRequestCount === 1) {
+    // Vite preloads the chunk via <link rel="modulepreload"> (referer = page)
+    // before the actual dynamic import (referer = router chunk). Aborting the
+    // preload alone only breaks the import in chromium (module map caches the
+    // failure); firefox re-fetches the import successfully. Abort the preload
+    // AND the import re-fetch so the chunk load fails in every browser.
+    const isImport = request.headers()['referer']?.endsWith('.js') ?? false
+    if (isImport || chunkRequestCount === 1) {
       await route.abort('failed')
     } else {
       await route.continue()
