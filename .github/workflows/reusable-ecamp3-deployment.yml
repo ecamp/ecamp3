@@ -35,6 +35,8 @@ jobs:
   deploy-ecamp3:
     name: Deploy to Kubernetes
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     environment:
       name: ${{ inputs.env }}
     env:
@@ -126,6 +128,63 @@ jobs:
             export HELM_TIMEOUT="${{ vars.HELM_TIMEOUT }}" 
           fi
           ./.helm/ecamp3/deploy.sh deploy
+
+      - name: Create prod deployment tag
+        if: ${{ inputs.action == 'deploy' && inputs.env == 'prod' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BASE="PROD-$(date -u +%Y-%m-%d)"
+          # Configure git remote with token for ls-remote
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" || true
+          # Fetch tags from origin
+          git fetch --tags origin || true
+          EXISTING=$(git ls-remote --tags origin "refs/tags/${BASE}*" 2>/dev/null || true)
+          TAG="$BASE"
+          if [ -n "$EXISTING" ]; then
+            # Check if base tag exists
+            BASE_EXISTS=$(echo "$EXISTING" | grep -c "refs/tags/${BASE}$" || true)
+            if [ "$BASE_EXISTS" -gt 0 ]; then
+              # Find highest Roman numeral suffix
+              MAX_NUM=1
+              for line in $EXISTING; do
+                TAG_NAME=$(echo "$line" | sed 's|.*refs/tags/||')
+                if echo "$TAG_NAME" | grep -qE "^${BASE}-([IVXLCDM]+)$"; then
+                  ROMAN=$(echo "$TAG_NAME" | sed "s/^${BASE}-//")
+                  # Convert Roman to number using bash
+                  NUM=1
+                  case "$ROMAN" in
+                    I) NUM=1 ;; II) NUM=2 ;; III) NUM=3 ;; IV) NUM=4 ;; V) NUM=5 ;;
+                    VI) NUM=6 ;; VII) NUM=7 ;; VIII) NUM=8 ;; IX) NUM=9 ;; X) NUM=10 ;;
+                    XI) NUM=11 ;; XII) NUM=12 ;; XIII) NUM=13 ;; XIV) NUM=14 ;; XV) NUM=15 ;;
+                    *) NUM=1 ;;
+                  esac
+                  if [ "$NUM" -ge "$MAX_NUM" ]; then
+                    MAX_NUM=$NUM
+                  fi
+                fi
+              done
+              NEXT_NUM=$((MAX_NUM + 1))
+              # Convert number to Roman using bash
+              ROMAN_NUM=""
+              VAL=$NEXT_NUM
+              # Simple Roman numeral conversion for values up to 39
+              declare -A ROMAN_MAP=( [10]="X" [9]="IX" [5]="V" [4]="IV" [1]="I" )
+              declare -a ROMAN_KEYS=(10 9 5 4 1)
+              for k in "${ROMAN_KEYS[@]}"; do
+                while [ "$VAL" -ge "$k" ]; do
+                  ROMAN_NUM="${ROMAN_NUM}${ROMAN_MAP[$k]}"
+                  VAL=$((VAL - k))
+                done
+              done
+              TAG="${BASE}-${ROMAN_NUM}"
+            fi
+          fi
+          echo "Creating tag: $TAG on ${{ inputs.sha }}"
+          git tag "$TAG" ${{ inputs.sha }}
+          git push origin "$TAG"
+          echo "Pushed tag: $TAG"
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.5.0
