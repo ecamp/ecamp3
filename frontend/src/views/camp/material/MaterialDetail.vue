@@ -57,12 +57,7 @@
               :entity="materialList"
               :warning-text-entity="materialList.name"
               :error-handler="deleteErrorHandler"
-              :success-handler="
-                () =>
-                  $router.push({
-                    path: `/camps/${camp.id}/${camp.shortTitle}/material/all`,
-                  })
-              "
+              :success-handler="rerouteAfterDelete"
             >
               <template #activator="{ props }">
                 <v-list-item v-bind="props">
@@ -114,6 +109,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
 import MaterialTable from '@/components/material/MaterialTable.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import materialListRoute from '@/routes/materialListRoute.js'  
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { useMaterialViewHelper } from '@/components/material/useMaterialViewHelper.js'
 
@@ -135,9 +131,7 @@ export default {
   },
   data() {
     return {
-      dragging: false,
       editMaterialListName: false,
-      debouncedDisabled: true,
     }
   },
   head() {
@@ -155,6 +149,15 @@ export default {
       }
       return null
     },
+    rerouteAfterDelete() {
+      if ($vuetify.display.mdAndUp == true) {
+      
+        this.$router.push({ name: materialListRoute.name, params: { campId: this.camp._meta.id } })
+      }else{
+        
+        this.$router.push({ name: materialListRoute.name, params: { campId: this.camp._meta.id } })
+      }
+    }
   },
 }
 </script>
