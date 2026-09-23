@@ -148,11 +148,10 @@ jobs:
         working-directory: e2e
         run: npx playwright merge-reports --reporter html ./all-blob-reports
 
-      - name:
+      - name: Delete blob report artifacts
         uses: geekyeggo/delete-artifact@v6
         with:
           name: blob-report${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}-*
-          failOnError: false
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v7

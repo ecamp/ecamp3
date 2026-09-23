@@ -22,6 +22,7 @@ concurrency:
 jobs:
   check-trigger:
     name: 'Check if workflow should run'
+    permissions: {}
     runs-on: ubuntu-latest
     outputs:
       should_run: ${{ steps.check.outputs.should_run }}
