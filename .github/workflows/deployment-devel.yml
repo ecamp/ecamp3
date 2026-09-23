@@ -1,5 +1,8 @@
 name: CI + CD for devel
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -18,11 +21,17 @@ on:
 jobs:
   continuous-integration:
     name: 'Continuous integration'
+    permissions:
+      contents: write
+      actions: write
+      statuses: write
     uses: ./.github/workflows/continuous-integration.yml
 
   build-and-push:
     name: Build and push docker images
     needs: continuous-integration
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
       tag: latest
@@ -34,6 +43,10 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
     uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: dev
