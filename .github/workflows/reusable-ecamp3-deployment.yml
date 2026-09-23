@@ -38,6 +38,7 @@ jobs:
     permissions:
       contents: write
       actions: read
+      pull-requests: write
     environment:
       name: ${{ inputs.env }}
     env:
