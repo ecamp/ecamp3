@@ -1,4 +1,8 @@
 name: Cleanup Old Caches
+
+permissions:
+  actions: write
+
 on:
   schedule:
     - cron: '34 3 * * *'
