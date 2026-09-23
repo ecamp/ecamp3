@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: read
     environment:
       name: ${{ inputs.env }}
     env:
@@ -130,7 +131,8 @@ jobs:
           ./.helm/ecamp3/deploy.sh deploy
 
       - name: Create prod deployment tag
-        if: ${{ inputs.action == 'deploy' && inputs.env == 'prod' }}
+        continue-on-error: true
+        if: ${{ success() && inputs.action == 'deploy' && inputs.env == 'prod' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
