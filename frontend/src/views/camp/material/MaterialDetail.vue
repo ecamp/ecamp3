@@ -108,7 +108,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
 import MaterialTable from '@/components/material/MaterialTable.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-import materialListRoute from '@/routes/materialListRoute.js'  
+import { materialListRoute } from '@/router.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { useMaterialViewHelper } from '@/components/material/useMaterialViewHelper.js'
 
@@ -149,14 +149,12 @@ export default {
       return null
     },
     rerouteAfterDelete() {
-      if ($vuetify.display.mdAndUp) {
-      
-        this.$router.push({ name: materialListRoute.name, params: { campId: this.camp._meta.id } })
-      }else{
-        
-        this.$router.push({ name: materialListRoute.name, params: { campId: this.camp._meta.id } })
-      }
-    }
+      if (this.$vuetify.display.mdAndUp) {
+        this.$router.push(materialListRoute(this.camp, '/all'))
+      } else {
+        this.$router.push(materialListRoute(this.camp, '/lists'))
+      }
+    },
   },
 }
 </script>
