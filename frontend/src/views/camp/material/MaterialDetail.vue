@@ -8,7 +8,6 @@
           class="font-weight-bold ml-0"
         >
           {{ materialList.name }}
-
           <v-btn
             v-if="!editMaterialListName && !isOutsider"
             icon
@@ -150,7 +149,7 @@ export default {
       return null
     },
     rerouteAfterDelete() {
-      if ($vuetify.display.mdAndUp == true) {
+      if ($vuetify.display.mdAndUp) {
       
         this.$router.push({ name: materialListRoute.name, params: { campId: this.camp._meta.id } })
       }else{
