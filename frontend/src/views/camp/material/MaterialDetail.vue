@@ -39,6 +39,12 @@
             </v-btn>
           </template>
           <v-list class="py-0">
+            <v-list-item
+              :title="$t('global.button.rename')"
+              :disabled="isOutsider"
+              prepend-icon="mdi-pencil"
+              @click="makeMaterialListNameEditable"
+            />
             <v-list-item :disabled="isDownloadingXlsx" @click.stop="downloadXlsx">
               <template #prepend>
                 <v-progress-circular
