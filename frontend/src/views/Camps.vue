@@ -25,6 +25,7 @@
                   <button-add
                     v-bind="props"
                     color="secondary"
+                    variant="text"
                     data-testid="import-camp-button"
                     icon="mdi-download"
                   >
