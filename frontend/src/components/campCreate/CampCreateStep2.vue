@@ -1,7 +1,7 @@
 <template>
   <Form ref="form" v-slot="{ meta, validate }" @submit="() => $emit('createCamp')">
     <v-card-text>
-      <server-error :server-error="serverError" />
+      <server-error :server-error="serverError" class="mb-4" />
 
       <e-select
         v-model="selectedPrototypeValue"

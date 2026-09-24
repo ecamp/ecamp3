@@ -12,6 +12,11 @@ knpu_oauth2_client:
                 externalBaseUrl: '%env(MOCK_OAUTH_EXTERNAL_BASE_URL)%/pbsmidata'
                 # todo: check if really needed
                 realBaseUrl: '%env(OAUTH_PBSMIDATA_BASE_URL)%'
+        pbsmidata_hitobito_api:
+            provider_class: App\OAuth\MockHitobito
+            provider_options:
+                baseUrl: '%env(MOCK_HITOBITO_INTERNAL_BASE_URL)%/pbsmidata'
+                externalBaseUrl: '%env(MOCK_OAUTH_EXTERNAL_BASE_URL)%/pbsmidata'
         cevidb:
             provider_class: App\OAuth\MockHitobito
             provider_options:

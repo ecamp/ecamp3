@@ -7,12 +7,15 @@
         </v-col>
         <v-col cols="12" md="6" class="pb-0">
           <CampPeriods :camp="camp" :disabled="!isManager" />
-          <CampSharingSettings :camp="camp" :disabled="!isManager" />
+          <CampHitobitoSync v-if="showHitobitoSync" :camp="camp" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="6" class="pb-0">
           <CampAddress :camp="camp" :disabled="!isManager" />
+        </v-col>
+        <v-col cols="12" md="6" class="pb-0">
+          <CampSharingSettings :camp="camp" :disabled="!isManager" />
         </v-col>
       </v-row>
     </v-container>
@@ -31,6 +34,8 @@ import CampConditionalFields from '@/components/campAdmin/CampConditionalFields.
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import CampPeriods from '@/components/campAdmin/CampPeriods.vue'
 import CampDangerZone from '@/components/campAdmin/CampDangerZone.vue'
+import CampHitobitoSync from '@/components/campAdmin/CampHitobitoSync.vue'
+import { isValidProvider } from '@/plugins/hitobito.js'
 import CampSharingSettings from '../../../components/campAdmin/CampSharingSettings.vue'
 
 export default {
@@ -38,6 +43,7 @@ export default {
   components: {
     CampSharingSettings,
     CampDangerZone,
+    CampHitobitoSync,
     CampPeriods,
     CampConditionalFields,
     CampSettings,
@@ -57,6 +63,13 @@ export default {
     }
   },
   computed: {
+    showHitobitoSync() {
+      return (
+        this.isManager &&
+        isValidProvider(this.camp.hitobitoProvider) &&
+        !!this.camp.hitobitoEventId
+      )
+    },
     dangerOpen() {
       return this.openPanels.includes(1)
     },

@@ -27,6 +27,7 @@
                 },
                 "description": "escaped_value",
                 "end": "escaped_value",
+                "hitobitoId": "escaped_value",
                 "id": "escaped_value",
                 "start": "escaped_value"
             },
@@ -56,6 +57,7 @@
                 },
                 "description": "escaped_value",
                 "end": "escaped_value",
+                "hitobitoId": "escaped_value",
                 "id": "escaped_value",
                 "start": "escaped_value"
             }

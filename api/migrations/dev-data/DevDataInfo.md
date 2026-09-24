@@ -47,3 +47,9 @@ Overview of Camps, their Structure and what makes them useful for developing and
 - Without Preset
 - Long Story
 - Emojis
+
+### MiData Testlager
+
+- Bi-Pi Role: Admin
+- J&S Camp
+- Linked to MiData

@@ -106,6 +106,11 @@
         },
         "title": "Gefahrenzone"
       },
+      "campHitobitoSync": {
+        "linked": "Dieses Lager ist mit {provider} verknüpft.",
+        "sync": "Synchronisieren",
+        "title": "Lagerinfos synchronisieren"
+      },
       "campMaterialLists": {
         "createMaterialList": "Materialliste erstellen",
         "title": "Materiallisten"
@@ -233,6 +238,46 @@
         "submitTooltipPrototype": "Du musst noch auswählen, ob und welche Lagervorlage du verwenden möchtest."
       }
     },
+    "campHitobitoSync": {
+      "hitobitoSyncDiffTable": {
+        "current": "Aktuell (eCamp)",
+        "field": "Feld",
+        "updated": "Neu ({provider})"
+      }
+    },
+    "campImport": {
+      "campImport": {
+        "steps": {
+          "event": "Lager",
+          "template": "Vorlage"
+        }
+      },
+      "campImportStep1": {
+        "alreadyImported": "Bereits importiert",
+        "event": "Lager",
+        "noEvents": "Kein Lager gefunden",
+        "search": "Lager suchen",
+        "submitTooltip": "Bitte wähle ein Lager aus."
+      },
+      "errors": {
+        "alreadyExists": "Für dieses {provider}-Lager existiert bereits ein Lager im eCamp.",
+        "generic": "Die Lager konnten nicht geladen werden. Bitte versuche es später erneut.",
+        "noAccess": "Du hast keinen Zugriff auf dieses Lager.",
+        "notFound": "Dieses Lager wurde nicht gefunden."
+      },
+      "hitobitoEventSummary": {
+        "field": "Feld",
+        "fields": {
+          "address": "Adresse",
+          "end": "Ende",
+          "motto": "Motto",
+          "start": "Start",
+          "title": "Titel"
+        },
+        "period": "Lagerabschnitt {number}",
+        "value": "Wert"
+      }
+    },
     "category": {
       "categoryTemplate": {
         "contents": "Inhalte",
@@ -293,6 +338,9 @@
       "collaboratorForm": {
         "overrideAvatar": "Avatar für dieses Lager überschreiben",
         "roleHint": "Jedes Lager benötigt mindestens eine Person mit Administrationsrechten."
+      },
+      "collaboratorHitobitoInvite": {
+        "inviteCta": "Aus {provider} einladen"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Deaktivieren",
@@ -660,6 +708,11 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "hitobito": {
+      "providers": {
+        "pbsmidata": "MiData"
+      }
+    },
     "info": {
       "offline": {
         "description": "Daten speichern/laden nicht möglich.",
@@ -849,6 +902,35 @@
         "today": "Heute",
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
+      "hitobitoInvite": {
+        "allInvited": "Es wurden bereits alle Mitleitenden aus {provider} eingeladen.",
+        "errors": {
+          "invite": "Die Einladungen konnten nicht verschickt werden: {emails}",
+          "loading": "Die Mitleitenden konnten nicht geladen werden. Bitte versuche es später erneut.",
+          "noAccess": "Du hast keinen Zugriff auf dieses {provider}-Event.",
+          "notFound": "Dieses {provider}-Event wurde nicht gefunden."
+        },
+        "existingParticipants": "Bereits Teil des Lagers",
+        "existingParticipantsDescription": "Diese Personen sind bereits Teil des Lagers.",
+        "intro": "Die folgenden Personen sind Mitleitende im {provider}-Event:",
+        "invite": "Einladungen verschicken",
+        "newParticipants": "Einladungen ins Lager",
+        "newParticipantsDescription": "Diese Personen sind noch nicht Teil vom Lager und werden per E-Mail eingeladen.",
+        "title": "Aus {provider} einladen"
+      },
+      "hitobitoSync": {
+        "errors": {
+          "forbidden": "Du hast nicht die nötigen Berechtigungen, um dieses Lager zu ändern.",
+          "loading": "Die Daten aus {provider} konnten nicht geladen werden. Bitte versuche es später erneut.",
+          "noAccess": "Du hast keinen Zugriff auf dieses {provider}-Lager.",
+          "notFound": "Dieses {provider}-Lager wurde nicht gefunden.",
+          "sync": "Die Daten konnten nicht synchronisiert werden. Bitte versuche es später erneut."
+        },
+        "intro": "Die folgenden Felder wurden in {provider} geändert und werden beim Synchronisieren überschrieben:",
+        "noChanges": "Es haben sich seit der letzten Synchronisierung keine Daten geändert.",
+        "sync": "Synchronisieren",
+        "title": "Lager mit {provider} synchronisieren"
+      },
       "invitation": {
         "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
         "backToHome": "Zurück zur Startseite",
@@ -916,8 +998,20 @@
     "campCreate": {
       "title": "Lager erstellen"
     },
+    "campHitobitoDeepLink": {
+      "errors": {
+        "campForbidden": "Dieses Lager wurde bereits importiert, du hast jedoch keinen Zugriff. Bitte wende dich an deinen Lager-Administrator.",
+        "eventForbidden": "Du hast keine Berechtigung dieses Lager zu importieren.",
+        "generic": "Das Lager konnte nicht geöffnet werden. Bitte versuche es später erneut."
+      },
+      "title": "Lager öffnen"
+    },
+    "campImport": {
+      "title": "Lager von {provider} importieren"
+    },
     "camps": {
       "create": "Lager erstellen",
+      "import": "Lager importieren",
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Meine Lager"
