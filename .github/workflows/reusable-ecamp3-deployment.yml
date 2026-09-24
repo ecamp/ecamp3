@@ -149,44 +149,19 @@ jobs:
             # Check if base tag exists (exact match)
             BASE_EXISTS=$(echo "$EXISTING" | awk '{print $2}' | grep -c "^refs/tags/${BASE}$" || true)
             if [ "$BASE_EXISTS" -gt 0 ]; then
-              # Find highest Roman numeral suffix
+              # Find highest Arabic numeral suffix
               MAX_NUM=1
-              # Use a for loop to avoid subshell issues
               for ref in $(echo "$EXISTING" | awk '{print $2}'); do
                 TAG_NAME=$(echo "$ref" | sed 's|.*refs/tags/||')
-                if echo "$TAG_NAME" | grep -qE "^${BASE}-([IVXLCDM]+)$"; then
-                  ROMAN=$(echo "$TAG_NAME" | sed "s/^${BASE}-//")
-                  # Convert Roman to number using bash
-                  NUM=1
-                  case "$ROMAN" in
-                    I) NUM=1 ;; II) NUM=2 ;; III) NUM=3 ;; IV) NUM=4 ;; V) NUM=5 ;;
-                    VI) NUM=6 ;; VII) NUM=7 ;; VIII) NUM=8 ;; IX) NUM=9 ;; X) NUM=10 ;;
-                    XI) NUM=11 ;; XII) NUM=12 ;; XIII) NUM=13 ;; XIV) NUM=14 ;; XV) NUM=15 ;;
-                    XVI) NUM=16 ;; XVII) NUM=17 ;; XVIII) NUM=18 ;; XIX) NUM=19 ;; XX) NUM=20 ;;
-                    XXI) NUM=21 ;; XXII) NUM=22 ;; XXIII) NUM=23 ;; XXIV) NUM=24 ;; XXV) NUM=25 ;;
-                    XXVI) NUM=26 ;; XXVII) NUM=27 ;; XXVIII) NUM=28 ;; XXIX) NUM=29 ;; XXX) NUM=30 ;;
-                    XXXI) NUM=31 ;; XXXII) NUM=32 ;; XXXIII) NUM=33 ;; XXXIV) NUM=34 ;; XXXV) NUM=35 ;;
-                    XXXVI) NUM=36 ;; XXXVII) NUM=37 ;; XXXVIII) NUM=38 ;; XXXIX) NUM=39 ;;
-                    *) NUM=1 ;;
-                  esac
-                  if [ "$NUM" -ge "$MAX_NUM" ]; then
+                if echo "$TAG_NAME" | grep -qE "^${BASE}-([0-9]+)$"; then
+                  NUM=$(echo "$TAG_NAME" | sed "s/^${BASE}-//")
+                  if [ -n "$NUM" ] && [ "$NUM" -ge "$MAX_NUM" ] 2>/dev/null; then
                     MAX_NUM=$NUM
                   fi
                 fi
               done
               NEXT_NUM=$((MAX_NUM + 1))
-              # Convert number to Roman using bash
-              ROMAN_NUM=""
-              VAL=$NEXT_NUM
-              declare -A ROMAN_MAP=( [10]="X" [9]="IX" [5]="V" [4]="IV" [1]="I" )
-              declare -a ROMAN_KEYS=(10 9 5 4 1)
-              for k in "${ROMAN_KEYS[@]}"; do
-                while [ "$VAL" -ge "$k" ]; do
-                  ROMAN_NUM="${ROMAN_NUM}${ROMAN_MAP[$k]}"
-                  VAL=$((VAL - k))
-                done
-              done
-              TAG="${BASE}-${ROMAN_NUM}"
+              TAG="${BASE}-${NEXT_NUM}"
             fi
           fi
           echo "Creating tag: $TAG on ${{ inputs.sha }}"
