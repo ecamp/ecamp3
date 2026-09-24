@@ -700,6 +700,10 @@
       "update": "Mettre à jour maintenant",
       "updateLater": "Mettre à jour plus tard"
     },
+    "selfXssWarning": {
+      "title": "Stop !",
+      "message": "Cette console du navigateur est destinée aux développeuses et développeurs. Si quelqu'un te demande d'y copier-coller quelque chose, il s'agit presque certainement d'une arnaque : ce que tu colles ici s'exécute en ton nom et peut lire et modifier tous les camps auxquels tu as accès. Ne colle jamais ici du code que tu ne comprends pas entièrement toi-même."
+    },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"

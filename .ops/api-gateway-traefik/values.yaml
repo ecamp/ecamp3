@@ -26,3 +26,6 @@ traefik:
             fields:
                 headers:
                     defaultmode: keep
+                    names:
+                        Cookie: redact
+                        Set-Cookie: redact

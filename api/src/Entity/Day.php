@@ -34,7 +34,10 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
         ),
         new GetCollection(
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['period', 'period.camp'],
+            ]
         ),
         new GetCollection(
             uriTemplate: self::PERIOD_SUBRESOURCE_URI_TEMPLATE,

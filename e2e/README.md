@@ -98,6 +98,14 @@ docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-
 
 Then open <http://localhost:8080> in your browser.
 
+### Update snapshots
+
+Here the example of tests/0-snapshot-tests/loginPage.spec.ts
+
+```shell
+docker compose --profile e2e run --rm e2e npx playwright test --update-snapshots changed tests/0-snapshot-tests/loginPage.spec.ts
+```
+
 ### Cleanup the frontend to run with HMR again
 
 You can skip this in case you didn't do the optional `CI=true` setup step above.

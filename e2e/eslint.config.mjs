@@ -42,6 +42,7 @@ export default tseslint.config(
             'expectCacheMiss',
             'expectCachePass',
             'waitForCacheMiss',
+            'expectCategoryVisible',
           ],
         },
       ],

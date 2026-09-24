@@ -86,7 +86,7 @@ jobs:
       - api-check-needed
     if: needs.api-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -116,11 +116,11 @@ jobs:
     name: 'Check format from top level'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.20.0'
+          node-version: '24.21.0'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -141,11 +141,11 @@ jobs:
       - frontend-check-needed
     if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.20.0'
+          node-version: '24.21.0'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -170,11 +170,11 @@ jobs:
     name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.20.0'
+          node-version: '24.21.0'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -202,11 +202,11 @@ jobs:
       - e2e-check-needed
     if: needs.e2e-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.20.0'
+          node-version: '24.21.0'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -252,7 +252,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -334,6 +334,60 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: api
 
+  api-validate-migrations:
+    name: 'API: validate migrations'
+    runs-on: ubuntu-latest
+    needs:
+      - api-check-needed
+    if: needs.api-check-needed.outputs.should_skip != 'true'
+    env:
+      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3?serverVersion=18&charset=utf8
+
+    services:
+      postgres:
+        image: 'postgres:18-alpine'
+        env:
+          POSTGRES_DB: 'ecamp3test'
+          POSTGRES_PASSWORD: 'ecamp3'
+          POSTGRES_USER: 'ecamp3'
+        ports:
+          - '5432:5432'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5.9'
+          tools: composer:2.10.3
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "dir=$(composer config cache-files-dir)" | tr -d "\n" >> $GITHUB_OUTPUT'
+        working-directory: api
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: api
+
+      - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
+        working-directory: api
+
+      - run: php bin/console doctrine:schema:validate -v -e test
+        working-directory: api
+
   frontend-tests:
     name: 'Tests: Frontend'
     runs-on: ubuntu-latest
@@ -341,11 +395,11 @@ jobs:
       - frontend-check-needed
     if: needs.frontend-check-needed.outputs.should_skip != 'true'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.20.0'
+          node-version: '24.21.0'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -378,11 +432,11 @@ jobs:
     name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.20.0'
+          node-version: '24.21.0'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -451,6 +505,7 @@ jobs:
       - print-eslint
       - e2e-lint
       - api-tests
+      - api-validate-migrations
       - frontend-tests
       - print-tests
       - e2e-tests-build

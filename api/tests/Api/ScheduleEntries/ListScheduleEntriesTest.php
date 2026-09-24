@@ -18,31 +18,12 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListScheduleEntriesIsAllowedForLoggedInUserButFiltered() {
+    public function testListScheduleEntriesWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a schedule entry that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['scheduleEntry1period1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 8,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/schedule_entries');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListScheduleEntriesFilteredByPeriodIsAllowedForCollaborator() {
@@ -295,17 +276,9 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByStartBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&start[before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 2,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 2]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
             ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
@@ -315,17 +288,9 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByStartStrictlyBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&start[strictly_before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 1,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 1]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
@@ -333,89 +298,43 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByStartAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&start[after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 6,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 2]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
+            ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
+            ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListScheduleEntriesFilteredByStartStrictlyAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&start[strictly_after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 5,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 1]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
+            ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListScheduleEntriesFilteredByInvalidStartDoesntFilter() {
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[after]=when-I-was-young');
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&start[after]=when-I-was-young');
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 8,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 2]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp2')],
             ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
             ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListScheduleEntriesFilteredByEndBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&end[before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 2,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 2]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
             ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
@@ -425,17 +344,9 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByEndStrictlyBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::getFixture('scheduleEntry2period1campPrototype');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&end[strictly_before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 1,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 1]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
@@ -443,72 +354,34 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByEndAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&end[after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 6,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 2]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
+            ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
+            ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListScheduleEntriesFilteredByEndStrictlyAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
-        $scheduleEntry = static::getFixture('scheduleEntry1period1camp2');
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
+        $scheduleEntry = static::getFixture('scheduleEntry1period1campPrototype');
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&end[strictly_after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 5,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 1]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
+            ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListScheduleEntriesFilteredByInvalidEndDoesntFilter() {
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[before]=when-I-was-young');
+        $response = static::createClientWithCredentials()->request('GET', $this->scheduleEntriesInPeriod1CampPrototype().'&end[after]=when-I-was-young');
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 8,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
+        $this->assertJsonContains(['totalItems' => 2]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('scheduleEntry1')],
-            ['href' => $this->getIriFor('scheduleEntry2')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp1')],
-            ['href' => $this->getIriFor('scheduleEntry1period1camp2')],
             ['href' => $this->getIriFor('scheduleEntry1period1campPrototype')],
             ['href' => $this->getIriFor('scheduleEntry2period1campPrototype')],
-            ['href' => $this->getIriFor('scheduleEntry1period1campShared')],
-            ['href' => $this->getIriFor('scheduleEntry2period1campShared')],
         ], $response->toArray()['_links']['items']);
     }
 
@@ -539,5 +412,9 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    private function scheduleEntriesInPeriod1CampPrototype(): string {
+        return '/schedule_entries?period='.urlencode($this->getIriFor('period1campPrototype'));
     }
 }

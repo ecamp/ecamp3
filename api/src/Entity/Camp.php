@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\CampCollaboratorFilter;
+use App\Doctrine\Filter\IsTrueFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
@@ -50,7 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: CampRemoveProcessor::class,
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['campCollaborator', 'isPrototype'],
+            ]
         ),
         new Post(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
@@ -64,7 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     forceEager: false,
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
+#[ApiFilter(filterClass: IsTrueFilter::class, properties: ['isPrototype'])]
 #[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
 #[ORM\UniqueConstraint(name: 'hitobitoprovider_hitobitoeventid_unique', columns: ['hitobitoProvider', 'hitobitoEventId'])]

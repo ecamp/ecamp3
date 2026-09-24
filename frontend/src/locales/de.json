@@ -734,6 +734,10 @@
       "update": "Jetzt aktualisieren",
       "updateLater": "Später aktualisieren"
     },
+    "selfXssWarning": {
+      "title": "Stopp!",
+      "message": "Diese Browser-Konsole ist für Entwickler*innen gedacht. Wenn dich jemand auffordert, hier etwas hineinzukopieren, will diese Person dich mit grosser Wahrscheinlichkeit betrügen: Was du hier einfügst, läuft in deinem Namen und kann alle Lager lesen und verändern, auf die du Zugriff hast. Füge hier niemals Code ein, den du nicht selbst vollständig verstehst."
+    },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
