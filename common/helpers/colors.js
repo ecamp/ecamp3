@@ -16,6 +16,16 @@ function contrastColor(color) {
 }
 
 /**
+ * @param color base color
+ * @param bg background color to be mixed in
+ */
+function lighten(color, bg = '#fff') {
+  const input = new Color(color)
+  const white = new Color(bg)
+  return input.mix(white, 0.9).toString({ format: 'hex' })
+}
+
+/**
  * @param id {string} generated id
  * @param inactive {boolean} status
  * @returns {string} hsl color
@@ -73,4 +83,4 @@ function campCollaborationColor(campCollaboration) {
   }
 }
 
-export { contrastColor, defaultColor, userColor, campCollaborationColor, idToColor }
+export { contrastColor, lighten, defaultColor, userColor, campCollaborationColor, idToColor }

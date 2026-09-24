@@ -5,7 +5,7 @@
       <v-list-item
         v-for="checklist in checklists.items"
         :key="checklist._meta.self"
-        :to="checklistOverviewRoute(camp, checklist, { isDetail: true })"
+        :to="checklistOverviewRoute(camp, checklist)"
         exact-path
       >
         <v-list-item-title>{{ checklist.name }}</v-list-item-title>

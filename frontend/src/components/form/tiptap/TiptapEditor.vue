@@ -7,7 +7,7 @@
     }"
   >
     <bubble-menu
-      v-if="withExtensions"
+      v-if="withExtensions && everEditable"
       ref="bubbleMenu"
       :editor="editor"
       :should-show="shouldShow"
@@ -202,6 +202,7 @@ export default {
 
     return {
       hoverCursor: false,
+      everEditable: this.editable,
       editor: new Editor({
         extensions: extensions,
         content: this.modelValue,
@@ -282,6 +283,7 @@ export default {
       }
     },
     editable() {
+      this.everEditable = this.everEditable || this.editable
       this.editor.setOptions({
         editable: this.editable,
       })
@@ -296,6 +298,7 @@ export default {
     document.removeEventListener('keydown', this.specialKeyListeners)
     document.removeEventListener('keyup', this.specialKeyListeners)
     document.removeEventListener('contextmenu', this.specialMenuListeners)
+    this.editor.destroy()
   },
   methods: {
     focus() {

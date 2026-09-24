@@ -46,9 +46,12 @@ Show all activity schedule entries of a single period.
       />
       <v-menu offset-y>
         <template #activator="{ props }">
-          <v-btn icon size="small" v-bind="props" data-testid="campprogram-menu">
-            <v-icon size="large">mdi-dots-horizontal</v-icon>
-          </v-btn>
+          <v-btn
+            icon="mdi-dots-vertical"
+            size="small"
+            v-bind="props"
+            data-testid="campprogram-menu"
+          />
         </template>
         <v-list class="py-0">
           <LockUnlockListItem

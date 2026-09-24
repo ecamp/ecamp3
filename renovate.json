@@ -2,12 +2,13 @@
   "extends": [
     "mergeConfidence:all-badges",
     "config:recommended",
-    ":prConcurrentLimitNone"
+    ":prConcurrentLimitNone",
+    ":prHourlyLimitNone"
   ],
   "ignorePresets": ["group:apiPlatform"],
   "constraints": {
-    "node": "24.18.0",
-    "php": "8.5.6"
+    "node": "24.20.0",
+    "php": "8.5.9"
   },
   "automergeType": "branch",
   "rebaseWhen": "conflicted",
@@ -24,6 +25,10 @@
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "lockFileMaintenance"],
       "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "rebaseWhen": "behind-base"
     },
     {
       "groupName": "api-platform packages",
@@ -83,11 +88,6 @@
     {
       "matchDepNames": ["postgres"],
       "allowedVersions": "18-alpine"
-    },
-    {
-      "matchDepNames": ["cypress", "cypress/included"],
-      "automerge": false,
-      "groupName": "cypress"
     },
     {
       "groupName": "playwright",

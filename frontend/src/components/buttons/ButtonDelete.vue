@@ -30,7 +30,7 @@ export default {
   props: {
     icon: { type: String, default: 'mdi-delete' },
     text: { type: Boolean, default: true },
-    color: { type: String, default: 'blue-grey' },
+    color: { type: String, default: null },
     iconOnly: { type: Boolean, default: false },
     btnIcon: { type: Boolean, default: true },
   },

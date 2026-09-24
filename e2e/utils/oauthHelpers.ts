@@ -1,4 +1,4 @@
-import { type Page, type Browser } from '@playwright/test'
+import { type Page, type Browser, expect } from '@playwright/test'
 
 export type OAuthProvider = 'Google' | 'MiData' | 'CeviDB' | 'JublaDB'
 
@@ -9,9 +9,13 @@ export async function loginWithOAuth(
 ): Promise<void> {
   await page.goto('/login')
   await page.getByRole('button', { name: provider }).click()
-  await page.waitForURL(/\/mock-auth\//, { timeout: 10_000 })
+  await expect(page).toHaveURL((url) => url.pathname.includes('/mock-auth'), {
+    timeout: 10_000,
+  })
   await page.getByRole('button', { name: new RegExp(escapeRegExp(username)) }).click()
-  await page.waitForURL('/camps', { timeout: 30_000 })
+  await expect(page).toHaveURL((url) => url.pathname === '/camps', {
+    timeout: 30_000,
+  })
 }
 
 export async function withOAuthSession<T>(

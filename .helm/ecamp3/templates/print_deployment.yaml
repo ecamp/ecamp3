@@ -79,7 +79,7 @@ spec:
                   key: BROWSERLESS_TOKEN
             - name: NITRO_PORT
               value: "3003"
-            {{- if and .Values.ingress.enabled .Values.ingress.basicAuth.enabled }}
+            {{- if .Values.gateway.basicAuth.enabled }}
             - name: NUXT_BASIC_AUTH_TOKEN
               valueFrom:
                 secretKeyRef:

@@ -67,7 +67,7 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
 import LayoutNodeCard from '@/components/activity/content/layout/LayoutNodeCard.vue'
 import { camelCase } from 'lodash-es'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)

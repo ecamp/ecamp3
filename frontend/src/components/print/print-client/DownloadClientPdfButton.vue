@@ -11,7 +11,6 @@
         v-if="loading"
         :model-value="progress"
         size="24"
-        rotate="270"
       ></v-progress-circular>
       <span v-if="loading">{{ state }}</span>
     </div>
@@ -20,7 +19,7 @@
 
 <script>
 import { generatePdfMixin } from './generatePdfMixin.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'DownloadClientPdfButton',

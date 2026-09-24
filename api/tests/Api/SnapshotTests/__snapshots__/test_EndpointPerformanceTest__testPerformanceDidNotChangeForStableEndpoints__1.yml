@@ -35,6 +35,7 @@
 '/camp_collaborations?camp=': 9
 '/camp_collaborations?activityResponsibles.activity=': 8
 '/categories?camp=': 5
+'/comments?camp=': 6
 '/content_types?categories=': 5
 '/day_responsibles?day.period=': 5
 '/material_items?materialList=': 6
@@ -52,3 +53,4 @@
 '/days/{id}/day_responsibles': 8
 '/periods/{id}/days': 13
 '/periods/{id}/schedule_entries': 13
+'/activities/{id}/comments': 9

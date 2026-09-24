@@ -41,6 +41,8 @@
             "coachName": "escaped_value",
             "courseKind": "escaped_value",
             "courseNumber": "escaped_value",
+            "hitobitoEventId": "escaped_value",
+            "hitobitoProvider": "escaped_value",
             "id": "escaped_value",
             "isPrototype": "escaped_value",
             "isShared": "escaped_value",
@@ -144,6 +146,7 @@
     },
     "description": "escaped_value",
     "end": "escaped_value",
+    "hitobitoId": "escaped_value",
     "id": "escaped_value",
     "start": "escaped_value"
 }

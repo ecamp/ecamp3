@@ -4,7 +4,6 @@ import HalJsonVuex from 'hal-json-vuex'
 import lang from './lang'
 import auth from './auth'
 import preferences from './preferences'
-import snackbarMessagesStore from './snackbarMessagesStore'
 import { getEnv } from '@/environment.js'
 
 export default {
@@ -14,7 +13,6 @@ export default {
         lang,
         auth,
         preferences,
-        snackbarMessagesStore,
       },
       strict: false,
     })

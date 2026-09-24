@@ -106,6 +106,11 @@
         },
         "title": "Danger Zone"
       },
+      "campHitobitoSync": {
+        "linked": "This camp is linked with {provider}.",
+        "sync": "Synchronize",
+        "title": "Synchronize camp info"
+      },
       "campMaterialLists": {
         "createMaterialList": "Create material list",
         "title": "Material lists"
@@ -233,6 +238,46 @@
         "submitTooltipPrototype": "You need to choose if and which template you want."
       }
     },
+    "campHitobitoSync": {
+      "hitobitoSyncDiffTable": {
+        "current": "Current (eCamp)",
+        "field": "Field",
+        "updated": "New ({provider})"
+      }
+    },
+    "campImport": {
+      "campImport": {
+        "steps": {
+          "event": "Camp",
+          "template": "Template"
+        }
+      },
+      "campImportStep1": {
+        "alreadyImported": "Already imported",
+        "event": "Camp",
+        "noEvents": "No camp found",
+        "search": "Search camp",
+        "submitTooltip": "Please select a camp."
+      },
+      "errors": {
+        "alreadyExists": "An eCamp camp already exists for this {provider} camp.",
+        "generic": "The camps could not be loaded. Please try again later.",
+        "noAccess": "You do not have access to this camp.",
+        "notFound": "This camp could not be found."
+      },
+      "hitobitoEventSummary": {
+        "field": "Field",
+        "fields": {
+          "address": "Address",
+          "end": "End",
+          "motto": "Motto",
+          "start": "Start",
+          "title": "Title"
+        },
+        "period": "Period {number}",
+        "value": "Value"
+      }
+    },
     "category": {
       "categoryTemplate": {
         "contents": "Contents",
@@ -294,6 +339,9 @@
         "overrideAvatar": "Overwrite avatar for this camp",
         "roleHint": "Each camp needs at least one person with administrative rights."
       },
+      "collaboratorHitobitoInvite": {
+        "inviteCta": "Invite from {provider}"
+      },
       "promptCollaboratorDeactivate": {
         "deactivate": "Deactivate",
         "leaveCamp": "Leave camp",
@@ -301,7 +349,32 @@
         "warningTextLeaveCamp": "Do you want to leave the camp '{camp}'?"
       }
     },
+    "comments": {
+      "commentCard": {
+        "campComment": "Whole camp",
+        "deleteWarning": "Do you really want to delete your comment?",
+        "deleted": "(deleted)"
+      },
+      "commentComposer": {
+        "placeholder": "Write a comment"
+      },
+      "commentsList": {
+        "empty": "No comments yet."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "One more comment is on an individual activity. | {count} more comments are on individual activities.",
+        "commentsOnThisActivity": "Comments on this activity",
+        "title": "Comments"
+      },
+      "commentsToggleButton": {
+        "hide": "Hide comments",
+        "show": "Show comments | Show one comment | Show {count} comments"
+      }
+    },
     "dashboard": {
+      "activityRow": {
+        "comments": "No comments | Show one comment | Show {count} comments"
+      },
       "selectFilter": {
         "clear": "Clear"
       }
@@ -578,6 +651,14 @@
         "message": "Changing email address ...",
         "success": "Email address successfully changed.",
         "title": "Changing email address"
+      },
+      "dialogChangePassword": {
+        "title": "Change password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "newPasswordConfirmation": "Confirm new password",
+        "success": "Your password has been changed successfully.",
+        "error": "An error has occurred."
       }
     }
   },
@@ -586,6 +667,7 @@
       "add": "Add",
       "back": "Back",
       "cancel": "Cancel",
+      "change": "Change",
       "close": "Close",
       "content": "Content",
       "continue": "Continue",
@@ -625,6 +707,11 @@
     },
     "datetime": {
       "vuetifyTimePickerFormat": "ampm"
+    },
+    "hitobito": {
+      "providers": {
+        "pbsmidata": "MiData"
+      }
     },
     "info": {
       "offline": {
@@ -811,6 +898,35 @@
         "today": "Today",
         "welcome": "Welcome to your new camp. There aren't any activities defined yet."
       },
+      "hitobitoInvite": {
+        "allInvited": "All co-leaders from {provider} have already been invited.",
+        "errors": {
+          "invite": "The invitations could not be sent: {emails}",
+          "loading": "The co-leaders could not be loaded. Please try again later.",
+          "noAccess": "You do not have access to this {provider} event.",
+          "notFound": "This {provider} event could not be found."
+        },
+        "existingParticipants": "Already part of the camp",
+        "existingParticipantsDescription": "These people are already part of the camp.",
+        "intro": "The following people are co-leaders of the {provider} event:",
+        "invite": "Send invitations",
+        "newParticipants": "Invitations to the camp",
+        "newParticipantsDescription": "These people are not part of the camp yet and will be invited by email.",
+        "title": "Invite from {provider}"
+      },
+      "hitobitoSync": {
+        "errors": {
+          "forbidden": "You do not have the permissions required to change this camp.",
+          "loading": "The data from {provider} could not be loaded. Please try again later.",
+          "noAccess": "You do not have access to this {provider} event.",
+          "notFound": "This {provider} event could not be found.",
+          "sync": "The data could not be synchronized. Please try again later."
+        },
+        "intro": "The following fields were changed in {provider} and will be overwritten when synchronizing:",
+        "noChanges": "No data has changed since the last synchronization.",
+        "sync": "Synchronize",
+        "title": "Synchronize camp with {provider}"
+      },
       "invitation": {
         "acceptCurrentAuth": "Accept invitation with current account",
         "backToHome": "Back to home",
@@ -878,8 +994,20 @@
     "campCreate": {
       "title": "Create a Camp"
     },
+    "campHitobitoDeepLink": {
+      "errors": {
+        "campForbidden": "This camp was already imported, but you don't have access to it. Please contact your camp administrator.",
+        "eventForbidden": "You don't have permission to import this camp.",
+        "generic": "The camp could not be opened. Please try again later."
+      },
+      "title": "Open camp"
+    },
+    "campImport": {
+      "title": "Import camp from {provider}"
+    },
     "camps": {
       "create": "Create a camp",
+      "import": "Import camp",
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camps"
@@ -892,8 +1020,9 @@
       "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
     },
     "profile": {
-      "changeEmail": "Change",
-      "profile": "Profile"
+      "profile": "Profile",
+      "changePassword": "Change",
+      "password": "Password"
     }
   }
 }

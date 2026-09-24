@@ -787,7 +787,7 @@ class CreateCampTest extends ECampApiTestCase {
                         'translations' => [
                             'en' => 'This value is too long. It should have 32 characters or less.',
                             'de' => 'Diese Zeichenkette ist zu lang. Sie sollte höchstens 32 Zeichen haben.',
-                            'fr' => 'Cette chaîne est trop longue. Elle doit avoir au maximum 32 caractères.',
+                            'fr' => 'Cette chaîne est trop longue. Elle doit contenir au maximum 32 caractères.',
                             'it' => 'Questo valore è troppo lungo. Dovrebbe essere al massimo di 32 caratteri.',
                         ],
                     ],
@@ -825,7 +825,7 @@ class CreateCampTest extends ECampApiTestCase {
 
     #[\Override]
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype'], $except);
+        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype', 'hitobitoProvider', 'hitobitoEventId'], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
@@ -833,7 +833,7 @@ class CreateCampTest extends ECampApiTestCase {
             Camp::class,
             Get::class,
             $attributes,
-            ['periods', 'sharedBy', 'sharedSince'],
+            ['periods', 'sharedBy', 'sharedSince', 'hitobitoProvider', 'hitobitoEventId'],
             $except
         );
     }

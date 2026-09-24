@@ -1,0 +1,155 @@
+http:
+  routers:
+    web-mock-authorize:
+      entryPoints: [web]
+      rule: 'PathRegexp(`^/mock-auth/[^/]+/oauth/authorize`)'
+      priority: 100
+      middlewares: [mock-authorize-rewrite]
+      service: mock-oauth
+    web-mock:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/mock-auth/`)'
+      priority: 90
+      middlewares: [mock-prefix]
+      service: mock-oauth
+    web-api:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/api/`)'
+      priority: 80
+      middlewares: [api-prefix]
+      service: api
+    web-pgadmin:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/pgadmin/`)'
+      priority: 70
+      middlewares: [pgadmin-prefix]
+      service: pgadmin
+    web-old:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/old`)'
+      priority: 60
+      service: frontend-old
+    web-print:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/print`)'
+      priority: 50
+      service: print
+    web-mail:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/mail`)'
+      priority: 50
+      service: mail
+    web-frontend:
+      entryPoints: [web]
+      rule: 'PathPrefix(`/`)'
+      service: frontend
+
+    internal-token:
+      entryPoints: [internal]
+      rule: 'PathRegexp(`^/[^/]+/oauth/token`)'
+      priority: 20
+      middlewares: [token-rewrite]
+      service: mock-oauth
+    internal-profile:
+      entryPoints: [internal]
+      rule: 'PathRegexp(`^/[^/]+/oauth/profile`)'
+      priority: 20
+      middlewares: [profile-rewrite]
+      service: mock-oauth
+
+    cached-api:
+      entryPoints: [cached]
+      rule: 'PathPrefix(`/api/`)'
+      priority: 80
+      middlewares: [api-prefix]
+      service: http-cache
+    cached-old:
+      entryPoints: [cached]
+      rule: 'PathPrefix(`/old/`)'
+      priority: 60
+      service: frontend-old
+    cached-print:
+      entryPoints: [cached]
+      rule: 'PathPrefix(`/print`)'
+      priority: 50
+      service: print
+    cached-mail:
+      entryPoints: [cached]
+      rule: 'PathPrefix(`/mail`)'
+      priority: 50
+      service: mail
+    cached-frontend:
+      entryPoints: [cached]
+      rule: 'PathPrefix(`/`)'
+      service: frontend
+
+  middlewares:
+    api-prefix:
+      chain:
+        middlewares: [api-strip, api-headers]
+    pgadmin-prefix:
+      chain:
+        middlewares: [pgadmin-strip, pgadmin-headers]
+    api-strip:
+      stripPrefix:
+        prefixes: [/api]
+    api-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Prefix: /api
+    pgadmin-strip:
+      stripPrefix:
+        prefixes: [/pgadmin]
+    pgadmin-headers:
+      headers:
+        customRequestHeaders:
+          X-Script-Name: /pgadmin
+    mock-prefix:
+      stripPrefix:
+        prefixes: [/mock-auth]
+    mock-authorize-rewrite:
+      replacePathRegex:
+        regex: '^/mock-auth/([^/]+)/oauth/authorize(.*)$'
+        replacement: '/$1/authorize$2'
+    token-rewrite:
+      replacePathRegex:
+        regex: '^/([^/]+)/oauth/token(.*)$'
+        replacement: '/$1/token$2'
+    profile-rewrite:
+      replacePathRegex:
+        regex: '^/([^/]+)/oauth/profile(.*)$'
+        replacement: '/$1/userinfo$2'
+
+  services:
+    frontend:
+      loadBalancer:
+        servers:
+          - url: http://frontend:3000
+    frontend-old:
+      loadBalancer:
+        servers:
+          - url: http://frontend-old:3000
+    api:
+      loadBalancer:
+        servers:
+          - url: http://api:3001
+    http-cache:
+      loadBalancer:
+        servers:
+          - url: http://http-cache:8080
+    print:
+      loadBalancer:
+        servers:
+          - url: http://print:3003
+    mail:
+      loadBalancer:
+        servers:
+          - url: http://mail:1080
+    mock-oauth:
+      loadBalancer:
+        servers:
+          - url: http://mock-oauth2:8080
+    pgadmin:
+      loadBalancer:
+        servers:
+          - url: http://pg-admin:80

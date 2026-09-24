@@ -139,6 +139,8 @@ class GenerateDataCommand extends Command {
                 ['Camp Collaborations', $stats['campCollaborations']],
                 ['Checklists', $stats['checklists']],
                 ['Checklist Items', $stats['checklistItems']],
+                ['Commented Activities', $stats['commentedActivities']],
+                ['Comments', $stats['comments']],
             ]);
 
             return Command::SUCCESS;

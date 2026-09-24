@@ -36,6 +36,10 @@ services:
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
 
+    App\EventListener\DebugExceptionHeadersSubscriber:
+        arguments:
+            $env: '%kernel.environment%'
+
     # Since the input filter classes are resolved at runtime instead
     # of with constructor dependency injection, we create a service
     # locator that will serve all the required classes
@@ -141,6 +145,22 @@ services:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
             - '%env(COOKIE_PREFIX)%'
+
+    App\Service\Hitobito\AccessTokenProvider:
+        arguments:
+            - '%env(COOKIE_PREFIX)%'
+            - '%env(HITOBITO_TOKEN_ENCRYPTION_KEY)%'
+            - '%env(bool:COOKIE_SECURE)%'
+
+    App\Controller\HitobitoAPIOAuthController:
+        arguments:
+            - '%env(COOKIE_PREFIX)%'
+            - '%env(FRONTEND_BASE_URL)%'
+            - '%env(csv:HITOBITO_API_OAUTH_SCOPES)%'
+
+    App\Service\Hitobito\ClientProvider:
+        arguments:
+            $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
 
     App\Security\ReCaptcha\ReCaptchaWrapper:
         public: true # necessary to be able to mock ReCaptcha in the container in Api tests
@@ -275,3 +295,27 @@ services:
     api_platform.cache.metadata.identifier:
         parent: cache.adapter.array
         tags: [cache.pool]
+
+# when running the dev environment (locally) or testing, mock Hitobito client
+
+when@dev:
+    services:
+        _defaults:
+            autowire: true # Automatically injects dependencies in your services.
+            autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        App\Service\Hitobito\ClientProvider:
+            arguments:
+                $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
+                $useMockClient: true
+
+when@test:
+    services:
+        _defaults:
+            autowire: true # Automatically injects dependencies in your services.
+            autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        App\Service\Hitobito\ClientProvider:
+            arguments:
+                $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
+                $useMockClient: true

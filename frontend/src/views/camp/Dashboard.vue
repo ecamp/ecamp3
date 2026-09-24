@@ -2,6 +2,7 @@
   <content-card :title="$t('views.camp.dashboard.activities')" toolbar>
     <template #title-actions>
       <v-spacer />
+      <CommentsToggleButton />
       <v-btn v-if="today !== null" variant="text" @click="scrollToToday">
         <v-icon start>mdi-calendar-today</v-icon>
         {{ $t('views.camp.dashboard.today') }}
@@ -95,6 +96,9 @@
                 :key="scheduleEntry._meta.self"
                 :schedule-entry="scheduleEntry"
                 :loading-endpoints="loadingEndpoints"
+                :comment-count="
+                  commentCounts.get(scheduleEntry.activity()._meta.self) ?? 0
+                "
               />
             </tbody>
           </template>
@@ -159,10 +163,14 @@ import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
 import dayjs from '@/common/helpers/dayjs.js'
 import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
 import { campRoleMixin } from '../../mixins/campRoleMixin.js'
+import CommentsToggleButton from '../../components/comments/CommentsToggleButton.vue'
+import { commentCountsByActivity } from '@/components/comments/commentCounts.js'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'Dashboard',
   components: {
+    CommentsToggleButton,
     ScheduleEntryFilters,
     AvatarRow,
     ActivityRow,
@@ -251,6 +259,12 @@ export default {
         this.scheduleEntries.filter((scheduleEntry) =>
           filterMatchScheduleEntry(scheduleEntry, filter)
         )
+    },
+    commentCounts() {
+      if (!getEnv().FEATURE_COMMENTS || this.isOutsider) return new Map()
+      return commentCountsByActivity(
+        this.api.get().comments({ camp: this.camp._meta.self }).items
+      )
     },
   },
   watch: {

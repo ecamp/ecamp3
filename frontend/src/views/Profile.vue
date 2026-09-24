@@ -26,10 +26,30 @@
                 <dialog-change-mail>
                   <template #activator="{ props }">
                     <ButtonEdit text class="v-btn--has-bg" variant="tonal" v-bind="props">
-                      {{ $t('views.profile.changeEmail') }}
+                      {{ $t('global.button.change') }}
                     </ButtonEdit>
                   </template>
                 </dialog-change-mail>
+              </template>
+            </e-text-field>
+
+            <e-text-field
+              class="e-profile--password"
+              :label="$t('views.profile.password')"
+              model-value="••••••••"
+              path="password"
+              variant="outlined"
+              readonly
+              type="password"
+            >
+              <template #append>
+                <dialog-change-password>
+                  <template #activator="{ props }">
+                    <ButtonEdit text class="v-btn--has-bg" variant="tonal" v-bind="props">
+                      {{ $t('views.profile.changePassword') }}
+                    </ButtonEdit>
+                  </template>
+                </dialog-change-password>
               </template>
             </e-text-field>
 
@@ -74,6 +94,7 @@ import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import DialogChangeMail from '@/components/user/DialogChangeMail.vue'
 import DialogChangeMailRunning from '@/components/user/DialogChangeMailRunning.vue'
+import DialogChangePassword from '@/components/user/DialogChangePassword.vue'
 import VueI18n from '@/plugins/i18n'
 import { mapGetters } from 'vuex'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
@@ -91,6 +112,7 @@ export default {
     ContentCard,
     DialogChangeMail,
     DialogChangeMailRunning,
+    DialogChangePassword,
   },
   props: {
     emailVerificationKey: { type: String, required: false, default: null },
@@ -130,7 +152,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.e-profile--email :deep(.v-input__append-inner) {
+.e-profile--email :deep(.v-input__append-inner),
+.e-profile--password :deep(.v-input__append-inner) {
   margin-top: 0 !important;
   align-self: center;
 }
