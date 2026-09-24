@@ -11,11 +11,10 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+      - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
+      - NPM_CONFIG_CACHE=/tmp/.npm
       - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
@@ -32,12 +31,11 @@ services:
       - ./frontend-old:/app:delegated
       - ./common:/common:delegated
       #- ./pdf:/pdf:delegated
-      - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+      - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
+      - NPM_CONFIG_CACHE=/tmp/.npm
       - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
@@ -113,14 +111,13 @@ services:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+      - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NITRO_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
+      - NPM_CONFIG_CACHE=/tmp/.npm
       - CI=${CI:-}
     env_file:
       - ./print/print.env
