@@ -139,20 +139,21 @@ jobs:
         run: |
           set -euo pipefail
           BASE="PROD-$(date -u +%Y-%m-%d)"
-          # Configure git remote with token for ls-remote
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" || true
-          # Fetch tags from origin
-          git fetch --tags origin || true
-          EXISTING=$(git ls-remote --tags origin "refs/tags/${BASE}*" 2>/dev/null || true)
+          REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          
+          # Fetch existing tags matching the base pattern from remote
+          EXISTING=$(git ls-remote --tags "$REPO_URL" "refs/tags/${BASE}*" 2>/dev/null || true)
+          
           TAG="$BASE"
           if [ -n "$EXISTING" ]; then
-            # Check if base tag exists
-            BASE_EXISTS=$(echo "$EXISTING" | grep -c "refs/tags/${BASE}$" || true)
+            # Check if base tag exists (exact match)
+            BASE_EXISTS=$(echo "$EXISTING" | awk '{print $2}' | grep -c "^refs/tags/${BASE}$" || true)
             if [ "$BASE_EXISTS" -gt 0 ]; then
               # Find highest Roman numeral suffix
               MAX_NUM=1
-              for line in $EXISTING; do
-                TAG_NAME=$(echo "$line" | sed 's|.*refs/tags/||')
+              # Use a for loop to avoid subshell issues
+              for ref in $(echo "$EXISTING" | awk '{print $2}'); do
+                TAG_NAME=$(echo "$ref" | sed 's|.*refs/tags/||')
                 if echo "$TAG_NAME" | grep -qE "^${BASE}-([IVXLCDM]+)$"; then
                   ROMAN=$(echo "$TAG_NAME" | sed "s/^${BASE}-//")
                   # Convert Roman to number using bash
@@ -161,6 +162,11 @@ jobs:
                     I) NUM=1 ;; II) NUM=2 ;; III) NUM=3 ;; IV) NUM=4 ;; V) NUM=5 ;;
                     VI) NUM=6 ;; VII) NUM=7 ;; VIII) NUM=8 ;; IX) NUM=9 ;; X) NUM=10 ;;
                     XI) NUM=11 ;; XII) NUM=12 ;; XIII) NUM=13 ;; XIV) NUM=14 ;; XV) NUM=15 ;;
+                    XVI) NUM=16 ;; XVII) NUM=17 ;; XVIII) NUM=18 ;; XIX) NUM=19 ;; XX) NUM=20 ;;
+                    XXI) NUM=21 ;; XXII) NUM=22 ;; XXIII) NUM=23 ;; XXIV) NUM=24 ;; XXV) NUM=25 ;;
+                    XXVI) NUM=26 ;; XXVII) NUM=27 ;; XXVIII) NUM=28 ;; XXIX) NUM=29 ;; XXX) NUM=30 ;;
+                    XXXI) NUM=31 ;; XXXII) NUM=32 ;; XXXIII) NUM=33 ;; XXXIV) NUM=34 ;; XXXV) NUM=35 ;;
+                    XXXVI) NUM=36 ;; XXXVII) NUM=37 ;; XXXVIII) NUM=38 ;; XXXIX) NUM=39 ;;
                     *) NUM=1 ;;
                   esac
                   if [ "$NUM" -ge "$MAX_NUM" ]; then
@@ -172,7 +178,6 @@ jobs:
               # Convert number to Roman using bash
               ROMAN_NUM=""
               VAL=$NEXT_NUM
-              # Simple Roman numeral conversion for values up to 39
               declare -A ROMAN_MAP=( [10]="X" [9]="IX" [5]="V" [4]="IV" [1]="I" )
               declare -a ROMAN_KEYS=(10 9 5 4 1)
               for k in "${ROMAN_KEYS[@]}"; do
@@ -186,7 +191,7 @@ jobs:
           fi
           echo "Creating tag: $TAG on ${{ inputs.sha }}"
           git tag "$TAG" ${{ inputs.sha }}
-          git push origin "$TAG"
+          git push "$REPO_URL" "$TAG"
           echo "Pushed tag: $TAG"
 
       - name: Finish the GitHub deployment
