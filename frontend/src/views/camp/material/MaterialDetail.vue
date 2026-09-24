@@ -60,7 +60,7 @@
             </v-list-item>
             <DialogEntityDelete
               :entity="materialList"
-              :warning-text-entity="materialList.name"
+              :warning-text-entity="materialListName"
               :error-handler="deleteErrorHandler"
               :success-handler="rerouteAfterDelete"
             >
@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import { toRef } from 'vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
 import MaterialTable from '@/components/material/MaterialTable.vue'
@@ -132,7 +133,7 @@ export default {
     materialList: { type: Object, required: true },
   },
   setup(props) {
-    return useMaterialViewHelper(props.camp, true)
+    return useMaterialViewHelper(props.camp, toRef(props, 'materialList'))
   },
   data() {
     return {
