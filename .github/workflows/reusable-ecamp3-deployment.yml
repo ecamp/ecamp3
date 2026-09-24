@@ -140,10 +140,10 @@ jobs:
           set -euo pipefail
           BASE="PROD-$(date -u +%Y-%m-%d)"
           REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
-          
+
           # Fetch existing tags matching the base pattern from remote
           EXISTING=$(git ls-remote --tags "$REPO_URL" "refs/tags/${BASE}*" 2>/dev/null || true)
-          
+
           TAG="$BASE"
           if [ -n "$EXISTING" ]; then
             # Check if base tag exists (exact match)
