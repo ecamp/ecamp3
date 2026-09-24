@@ -662,15 +662,13 @@ function requireAdmin(to) {
   }
 }
 
-function requireHitobitoProvider(to, from, next) {
-  if (isValidProvider(to.params.provider)) {
-    next()
-  } else {
-    next({
+function requireHitobitoProvider(to) {
+  if (!isValidProvider(to.params.provider)) {
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
+    }
   }
 }
 
@@ -678,16 +676,14 @@ function requireHitobitoProvider(to, from, next) {
  * Only allow entering the route when the camp is linked to a Hitobito event.
  * Must run after requireCamp, which ensures the camp is loaded.
  */
-function requireHitobitoCamp(to, from, next) {
+function requireHitobitoCamp(to) {
   const camp = campFromRoute(to)
-  if (camp && isValidProvider(camp.hitobitoProvider) && camp.hitobitoEventId) {
-    next()
-  } else {
-    next({
+  if (!(camp && isValidProvider(camp.hitobitoProvider) && camp.hitobitoEventId)) {
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
+    }
   }
 }
 
