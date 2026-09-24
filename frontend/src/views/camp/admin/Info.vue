@@ -8,12 +8,14 @@
         <v-col cols="12" md="6" class="pb-0">
           <CampPeriods :camp="camp" :disabled="!isManager" />
           <CampHitobitoSync v-if="showHitobitoSync" :camp="camp" />
-          <CampSharingSettings :camp="camp" :disabled="!isManager" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="6" class="pb-0">
           <CampAddress :camp="camp" :disabled="!isManager" />
+        </v-col>
+        <v-col cols="12" md="6" class="pb-0">
+          <CampSharingSettings :camp="camp" :disabled="!isManager" />
         </v-col>
       </v-row>
     </v-container>
