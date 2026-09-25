@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "prettier": "3.9.7"
+    "prettier": "3.9.8"
   },
   "scripts": {
     "lint": "npm run lint:prettier",
