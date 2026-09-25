@@ -250,31 +250,25 @@ panel=$(saved dashboard "$DASHBOARD" | jq -c --arg p "$CACHE_PANEL" '
   | .embeddableConfig.attributes.state')
 cols=$(jq -c '.datasourceStates.formBased.layers | to_entries[].value.columns' <<<"$panel")
 echo "     layer filter: $(jq -r '.datasourceStates.formBased.layers | to_entries[].value.filter.query' <<<"$panel")"
-echo "     formula:      $(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.label + " = " + .value.formula' <<<"$cols")"
-check 'HIT % is a formula column' 'formula' \
-  "$(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.operationType' <<<"$cols")"
-check 'HIT % percent format' '{"id":"percent","params":{"decimalPlaces":2}}' \
-  "$(jq -c 'to_entries[] | select(.value.isFormula == true) | .value.format' <<<"$cols")"
-# The issue prescribes this formula verbatim, so assert the installed text. The 66.67
-# below is this script's own arithmetic over the buckets, so without this a formula
-# that makes the panel report, say, 50% would still pass.
-check 'HIT % formula' "(count(kql='cacheStatus : \"HIT\"') + count(kql='cacheStatus : \"HITMISS\"')) / (count(kql='cacheStatus : \"HIT\"') + count(kql='cacheStatus : \"HITMISS\"') + count(kql='cacheStatus : \"MISS\"'))" \
-  "$(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.formula' <<<"$cols")"
-# Every count(kql=...) operand the TinyMath AST carries must be one the formula text
-# mentions, and there must be as many of them as the text mentions. The traversal has
-# to start at $ast: `..` on jq's null input yields [] and makes the whole test true.
-check 'the formula AST is consistent with the formula text' 'true' \
-  "$(jq -nr --argjson ast \
-        "$(jq -c 'to_entries[] | select(.value.isFormula == true) | .value.formulaAST' <<<"$cols")" \
-      --arg formula \
-        "$(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.formula' <<<"$cols")" '
-      ([$ast | .. | objects | select(.type? == "function" and .name? == "count")
-        | .arguments[0].value]) as $ops
-      | (($formula | [splits("count[(]kql=")] | length) - 1) as $mentioned
-      | if ($ops | length) == $mentioned and ($ops | all(. as $o | $formula | contains($o)))
-        then "true"
-        else "AST carries \($ops | length) count(kql) nodes but the text mentions \($mentioned): \($ops)"
-        end')"
+echo "     columns:      $(jq -r 'keys | join(" ")' <<<"$cols")"
+# The issue prescribes a HIT % formula column. Kibana 8.13 cannot render it: the
+# panel crashed with "Cannot read properties of undefined (reading 'columns')"
+# in getVisualizationInfo and issued no query at all, and no formula shape
+# (references, math companion, column-variable operands) avoided either that
+# crash, a "does not accept any field" error, or a silently all-null column.
+# The column is therefore gone and both references point at the HIT count; the
+# loss is the open question in the PR description. What is left to assert is
+# that nothing formula-shaped survives, because that is what used to crash it.
+check 'no formula column remains' '0' \
+  "$(jq -r '[to_entries[] | select(.value.isFormula == true)] | length' <<<"$cols")"
+check 'the table sorts by the HIT count' 'cache_hit_col' \
+  "$(jq -r '.visualization.sorting.columnId' <<<"$panel")"
+check 'the terms column orders by the HIT count' 'cache_hit_col' \
+  "$(jq -r '.datasourceStates.formBased.layers | to_entries[].value.columns["6a02ef93-f314-42f2-bca1-65af849ad659"].params.orderBy.columnId' <<<"$panel")"
+check 'every remaining column resolves in the layer' 'true' \
+  "$(jq -r '(.datasourceStates.formBased.layers | to_entries[].value) as $l
+      | [$l.columnOrder[], (.visualization.columns[].columnId)]
+      | (unique | all(. as $c | $l.columns | has($c))) | tostring' <<<"$panel")"
 # The table's own filter and its four count columns, each executed with the KQL the
 # dashboard stores, so a cache table that counts something else than the four
 # uppercase outcomes fails instead of being re-derived here.
@@ -294,6 +288,9 @@ echo "     $cache"
 check 'the cache aggregation runs' 'true' "$(jq -r 'type == "object"' <<<"$cache")"
 check 'cacheStatus values' '{"HIT":1,"HITMISS":1,"MISS":1,"PASS":1}' \
   "$(jq -c '.c.buckets | map({key, value: .doc_count}) | from_entries' <<<"$cache")"
+# The share the removed formula column rendered. Kept as the arithmetic the
+# buckets have to keep producing, so a fixture change that silently moves the
+# hit ratio still fails.
 check 'HIT %' '66.67' \
   "$(jq -nr --argjson c "$cache" '($c.c.buckets | map({key, value: .doc_count}) | from_entries) as $b
       | ((($b.HIT + $b.HITMISS) / ($b.HIT + $b.HITMISS + $b.MISS) * 10000) | round) / 100')"
