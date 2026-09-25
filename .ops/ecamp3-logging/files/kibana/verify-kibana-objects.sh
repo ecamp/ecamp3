@@ -55,9 +55,12 @@ hits() { es 'logstash-*/_search' POST "$1" |
 # field_caps lookup for one field
 caps() { es 'logstash-*/_field_caps' POST "$(jq -nc --arg f "$1" '{fields: [$f]}')" | jq -r --arg f "$1" '.fields | has($f) | tostring'; }
 # Hit count for a KQL string exactly as the saved object stores it. Used only for
-# the dashboard-wide and saved-search queries, which the issue prescribes as
-# literal strings; the numeric assertions above use explicit aggregation DSL.
-kql_hits() { hits "$(jq -nc --arg q "$1" '{"size": 0, "query": {"query_string": {"query": $q}}}')"; }
+# the dashboard-wide, saved-search and cache-column queries, which the issue
+# prescribes as literal strings; the numeric assertions above use explicit
+# aggregation DSL. The runtime mappings travel with every query, otherwise a
+# KQL that names a runtime field resolves to nothing.
+kql_hits() { hits "$(jq -nc --arg q "$1" --argjson rm "$runtime" \
+  '{"size": 0, "runtime_mappings": $rm, "query": {"query_string": {"query": $q}}}')"; }
 saved() { curl -sS "$KIBANA_HOST/api/saved_objects/$1/$2" -H 'kbn-xsrf: true'; }
 search_query() { saved search "$1" | jq -r '.attributes.kibanaSavedObjectMeta.searchSourceJSON | fromjson | .query.query'; }
 
@@ -207,6 +210,16 @@ check '400 responses' '1' "$(jq -r '.c.buckets["400"].doc_count // 0' <<<"$cls")
 check '500 responses' '1' "$(jq -r '.c.buckets["500"].doc_count // 0' <<<"$cls")"
 check 'GET requests' '3' "$(jq -r '.m.buckets.get.doc_count // 0' <<<"$met")"
 check 'mutating requests' '1' "$(jq -r '.m.buckets.mutating.doc_count // 0' <<<"$met")"
+# The ranges above are this script's own DSL; assert too that the response-class panel
+# stores exactly the three filters the issue prescribes, each of which is what a viewer
+# of the dashboard actually runs.
+check 'the response-class filters' '["status >= 200 and status < 300","status >= 400 AND status < 500","status >= 500"]' \
+  "$(saved dashboard "$DASHBOARD" | jq -c '
+      [.attributes.panelsJSON | fromjson | .[]
+       | (.embeddableConfig.attributes.state.datasourceStates.formBased.layers // {})
+       | to_entries[].value.columns | to_entries[].value
+       | select(.filter != null) | .filter.query
+       | select(startswith("status"))] | sort')"
 
 note 'step 6, fourth confirmation: one of each cache outcome and 66.67% HIT'
 # Read the cache table's columns and its formula back out of the installed
@@ -222,11 +235,37 @@ check 'HIT % is a formula column' 'formula' \
   "$(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.operationType' <<<"$cols")"
 check 'HIT % percent format' '{"id":"percent","params":{"decimalPlaces":2}}' \
   "$(jq -c 'to_entries[] | select(.value.isFormula == true) | .value.format' <<<"$cols")"
-check 'every count(kql=) operand appears in the formula text' 'true' \
-  "$(jq -nr --argjson c "$cols" '
-      ($c | to_entries | map(select(.value.isFormula == true) | .value))[0] as $col
-      | [ .. | objects | select(.type? == "function" and .name? == "count") | .arguments[0].value ] as $ops
-      | [$ops[] as $op | $col.formula | contains($op)] | (length == ($ops | length)) | tostring')"
+# The issue prescribes this formula verbatim, so assert the installed text. The 66.67
+# below is this script's own arithmetic over the buckets, so without this a formula
+# that makes the panel report, say, 50% would still pass.
+check 'HIT % formula' "(count(kql='cacheStatus : \"HIT\"') + count(kql='cacheStatus : \"HITMISS\"')) / (count(kql='cacheStatus : \"HIT\"') + count(kql='cacheStatus : \"HITMISS\"') + count(kql='cacheStatus : \"MISS\"'))" \
+  "$(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.formula' <<<"$cols")"
+# Every count(kql=...) operand the TinyMath AST carries must be one the formula text
+# mentions, and there must be as many of them as the text mentions. The traversal has
+# to start at $ast: `..` on jq's null input yields [] and makes the whole test true.
+check 'the formula AST is consistent with the formula text' 'true' \
+  "$(jq -nr --argjson ast \
+        "$(jq -c 'to_entries[] | select(.value.isFormula == true) | .value.formulaAST' <<<"$cols")" \
+      --arg formula \
+        "$(jq -r 'to_entries[] | select(.value.isFormula == true) | .value.formula' <<<"$cols")" '
+      ([$ast | .. | objects | select(.type? == "function" and .name? == "count")
+        | .arguments[0].value]) as $ops
+      | (($formula | [splits("count[(]kql=")] | length) - 1) as $mentioned
+      | if ($ops | length) == $mentioned and ($ops | all(. as $o | $formula | contains($o)))
+        then "true"
+        else "AST carries \($ops | length) count(kql) nodes but the text mentions \($mentioned): \($ops)"
+        end')"
+# The table's own filter and its four count columns, each executed with the KQL the
+# dashboard stores, so a cache table that counts something else than the four
+# uppercase outcomes fails instead of being re-derived here.
+check 'the cache table filter' 'cacheStatus : * AND NOT escapedUrlWithoutQuery : "^/auth/"' \
+  "$(jq -r '.datasourceStates.formBased.layers | to_entries[].value.filter.query' <<<"$panel")"
+for pair in HIT:cache_hit_col HITMISS:cache_hitmiss_col MISS:cache_miss_col PASS:cache_pass_col; do
+  outcome=${pair%%:*}
+  column=${pair##*:}
+  check "the $outcome column of the cache table matches one fixture" '1' \
+    "$(kql_hits "$(jq -r --arg c "$column" '.[$c].filter.query' <<<"$cols")")"
+done
 cache=$(aggs "$(with_runtime '{"size": 0, "query": {"bool": {"filter": [
   {"exists": {"field": "cacheStatus"}},
   {"bool": {"must_not": {"match_phrase": {"escapedUrlWithoutQuery": "^/auth/"}}}}]}},
@@ -240,10 +279,18 @@ check 'HIT %' '66.67' \
       | ((($b.HIT + $b.HITMISS) / ($b.HIT + $b.HITMISS + $b.MISS) * 10000) | round) / 100')"
 
 note 'step 6, fifth confirmation: both saved searches return their matching records'
+# The issue prescribes which columns each search keeps, so assert the installed set
+# rather than only that every column it happens to have resolves.
+check "search $SEARCH columns" \
+  '["durationSeconds","escapedUrl","escapedUrlWithoutQuery","kubernetes.labels.app.kubernetes.io/instance","kubernetes.pod_name","log","path"]' \
+  "$(saved search "$SEARCH" | jq -c '.attributes.columns | sort')"
 check "search $SEARCH has no query" '' "$(search_query "$SEARCH")"
 check "search $SEARCH matches every fixture" '4' "$(hits '{"size": 0, "query": {"match_all": {}}}')"
 check "search $REFERER exists" '200' \
   "$(curl -sS -o /dev/null -w '%{http_code}' "$KIBANA_HOST/api/saved_objects/search/$REFERER" -H 'kbn-xsrf: true')"
+check "search $REFERER columns" \
+  '["escapedUrl","escapedUrlWithoutQuery","kubernetes.labels.app.kubernetes.io/instance","kubernetes.pod_name","log","path","status"]' \
+  "$(saved search "$REFERER" | jq -c '.attributes.columns | sort')"
 referer_query=$(search_query "$REFERER")
 echo "     query: $referer_query"
 check "search $REFERER matches every fixture" '4' "$(kql_hits "$referer_query")"
