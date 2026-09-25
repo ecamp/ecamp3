@@ -10,6 +10,11 @@
 set -uo pipefail
 
 MODE=${MODE:-post}
+case "$MODE" in
+  post | pre) ;;
+  *) echo "MODE must be 'post' or 'pre', got '$MODE'" >&2; exit 2 ;;
+esac
+
 KIBANA_HOST=${KIBANA_HOST:-http://localhost:5601}
 ES_HOST=${ES_HOST:-http://localhost:9200}
 SCRIPT_DIR=$(realpath "$(dirname "$0")")
@@ -24,10 +29,13 @@ CACHE_PANEL=4bdb9d4e-d353-413e-9013-064e76c0116d
 
 fail=0
 check() { # <what> <expected> <actual>
+  case "$3" in
+    ERROR:*) echo "ERROR $1: $3" >&2; exit 1 ;;
+  esac
   if [ "$2" = "$3" ]; then
-    printf 'ok    %-50s %s\n' "$1" "$3"
+    printf 'ok    %-62s %s\n' "$1" "$3"
   else
-    printf 'FAIL  %-50s expected %s, got %s\n' "$1" "$2" "$3"
+    printf 'FAIL  %-62s expected %s, got %s\n' "$1" "$2" "$3"
     fail=$((fail + 1))
   fi
 }
@@ -52,8 +60,12 @@ aggs() { aggs_on 'logstash-*' "$1"; }
 hits() { es 'logstash-*/_search' POST "$1" |
   jq -r 'if .error then "ERROR: " + (.error.failed_shards[0].reason.caused_by.reason // .error.reason)
          else (.hits.total.value | tostring) end'; }
-# field_caps lookup for one field
-caps() { es 'logstash-*/_field_caps' POST "$(jq -nc --arg f "$1" '{fields: [$f]}')" | jq -r --arg f "$1" '.fields | has($f) | tostring'; }
+# field_caps lookup for one field. An ES error has no .fields, so report it the
+# way aggs/hits do; check() then aborts, instead of pre mode reading a broken
+# lookup as "the field is absent" and proving a bug Elasticsearch never reported.
+caps() { es 'logstash-*/_field_caps' POST "$(jq -nc --arg f "$1" '{fields: [$f]}')" |
+  jq -r --arg f "$1" 'if .fields then (.fields | has($f) | tostring)
+                        else "ERROR: " + ((.error.reason // "no .fields in response") | tostring) end'; }
 # Hit count for a KQL string exactly as the saved object stores it. Used only for
 # the dashboard-wide, saved-search and cache-column queries, which the issue
 # prescribes as literal strings; the numeric assertions above use explicit
@@ -63,6 +75,11 @@ kql_hits() { hits "$(jq -nc --arg q "$1" --argjson rm "$runtime" \
   '{"size": 0, "runtime_mappings": $rm, "query": {"query_string": {"query": $q}}}')"; }
 saved() { curl -sS "$KIBANA_HOST/api/saved_objects/$1/$2" -H 'kbn-xsrf: true'; }
 search_query() { saved search "$1" | jq -r '.attributes.kibanaSavedObjectMeta.searchSourceJSON | fromjson | .query.query'; }
+# search_query's "" is also what a missing or unreadable object yields, so report
+# the query inside a marker that only a real search can produce.
+marked_query() { saved search "$1" | jq -r 'if .attributes
+  then "query=<" + (.attributes.kibanaSavedObjectMeta.searchSourceJSON | fromjson | .query.query) + ">"
+  else "ERROR: no search saved object" end'; }
 
 note "install $NDJSON"
 # Same import call as restore-kibana-objects.sh, but that script reads the ndjson
@@ -176,6 +193,9 @@ for f in $(jq -r '.[]' <<<"$panels_fields"); do
     *) check "$f exists in the index" 'true' "$(caps "$f")" ;;
   esac
 done
+# The one expected value not taken from issue steps 2-4: it pins that the fix
+# edited panels in place instead of dropping any, and 7 is not the issue's full
+# intent. See the missing static five-second reference line in the PR description.
 check 'dashboard panel count' '7' "$(saved dashboard "$DASHBOARD" | jq -r '.attributes.panelsJSON | fromjson | length')"
 
 note 'step 6, second confirmation: durationSeconds reports 1, 2, 3 and 4'
@@ -284,7 +304,7 @@ note 'step 6, fifth confirmation: both saved searches return their matching reco
 check "search $SEARCH columns" \
   '["durationSeconds","escapedUrl","escapedUrlWithoutQuery","kubernetes.labels.app.kubernetes.io/instance","kubernetes.pod_name","log","path"]' \
   "$(saved search "$SEARCH" | jq -c '.attributes.columns | sort')"
-check "search $SEARCH has no query" '' "$(search_query "$SEARCH")"
+check "search $SEARCH has no query" 'query=<>' "$(marked_query "$SEARCH")"
 check "search $SEARCH matches every fixture" '4' "$(hits '{"size": 0, "query": {"match_all": {}}}')"
 check "search $REFERER exists" '200' \
   "$(curl -sS -o /dev/null -w '%{http_code}' "$KIBANA_HOST/api/saved_objects/search/$REFERER" -H 'kbn-xsrf: true')"

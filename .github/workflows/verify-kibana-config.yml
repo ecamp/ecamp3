@@ -18,12 +18,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # Keep this in step with elastic.version in .ops/ecamp3-logging/values.yaml.gotmpl.
   # renovate: datasource=docker depName=docker.elastic.co/elasticsearch/elasticsearch
   ELASTIC_VERSION: 8.13.2
   # renovate: datasource=docker depName=docker.elastic.co/kibana/kibana
   KIBANA_VERSION: 8.13.2
-  # Keep this in step with elastic.version in .ops/ecamp3-logging/values.yaml.gotmpl.
-  #
+
   # Pinned commit, not a branch: this is the last ecamp3/ecamp3 commit before the
   # fix. It is fetched from raw.githubusercontent.com so that it resolves the same
   # way for pull_request and push events. Do not replace it with a moving ref --
@@ -58,6 +58,11 @@ jobs:
             curl -sSf localhost:9200/_cluster/health >/dev/null && break
             sleep 2
           done
+          if ! curl -sSf localhost:9200/_cluster/health >/dev/null; then
+            echo 'Elasticsearch did not become healthy'
+            docker logs elasticsearch || true
+            exit 1
+          fi
           docker run -d --name kibana --network kibana-ci --network-alias kibana \
             -p 5601:5601 \
             -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 -e XPACK_SECURITY_ENABLED=false \
@@ -79,7 +84,9 @@ jobs:
 
       - name: 'Container logs'
         if: failure()
-        run: docker logs kibana || true
+        run: |
+          docker logs elasticsearch || true
+          docker logs kibana || true
 
   post-fix:
     name: 'kibana config: matches the issue step 6 expectations'
@@ -100,6 +107,11 @@ jobs:
             curl -sSf localhost:9200/_cluster/health >/dev/null && break
             sleep 2
           done
+          if ! curl -sSf localhost:9200/_cluster/health >/dev/null; then
+            echo 'Elasticsearch did not become healthy'
+            docker logs elasticsearch || true
+            exit 1
+          fi
           docker run -d --name kibana --network kibana-ci --network-alias kibana \
             -p 5601:5601 \
             -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 -e XPACK_SECURITY_ENABLED=false \
@@ -119,4 +131,6 @@ jobs:
 
       - name: 'Container logs'
         if: failure()
-        run: docker logs kibana || true
+        run: |
+          docker logs elasticsearch || true
+          docker logs kibana || true
