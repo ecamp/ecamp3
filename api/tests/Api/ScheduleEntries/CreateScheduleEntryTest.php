@@ -204,6 +204,23 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateScheduleEntryValidatesNonStringStart() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
+            'start' => 12345,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'start: This value should be of type string.',
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => 'This value should be of type string.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateScheduleEntryUsesDefaultForMissingEnd() {
         static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['end'])]);
 
