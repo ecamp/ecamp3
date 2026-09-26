@@ -236,7 +236,7 @@
     "category": {
       "categoryTemplate": {
         "contents": "Contenus",
-        "createLayoutHelp": "Ici, vous pouvez définir le modèle pour de nouvelles activités {categoryShort}.{br}Le contenu et la mise en page des activités {categoryShort} déjà créées ne seront pas ajustés.",
+        "createLayoutHelp": "Ici, vous pouvez définir le modèle pour de nouvelles activités {categoryShort}.{br}Le contenu et la mise en page des activités {categoryShort} déjà créées ne seront pas ajustés. {applyToActivities}",
         "layout": "Layout",
         "noTemplate": "Pas de modèle"
       }
