@@ -249,41 +249,57 @@ panel=$(saved dashboard "$DASHBOARD" | jq -c --arg p "$CACHE_PANEL" '
   .attributes.panelsJSON | fromjson | .[] | select(.panelIndex == $p)
   | .embeddableConfig.attributes.state')
 cols=$(jq -c '.datasourceStates.formBased.layers | to_entries[].value.columns' <<<"$panel")
-echo "     layer filter: $(jq -r '.datasourceStates.formBased.layers | to_entries[].value.filter.query' <<<"$panel")"
+echo "     panel query:  $(jq -r '.query.query' <<<"$panel")"
 echo "     columns:      $(jq -r 'keys | join(" ")' <<<"$cols")"
-# The issue prescribes a HIT % formula column. Kibana 8.13 cannot render it: the
-# panel crashed with "Cannot read properties of undefined (reading 'columns')"
-# in getVisualizationInfo and issued no query at all, and no formula shape
-# (references, math companion, column-variable operands) avoided either that
-# crash, a "does not accept any field" error, or a silently all-null column.
-# The column is therefore gone and both references point at the HIT count; the
-# loss is the open question in the PR description. What is left to assert is
-# that nothing formula-shaped survives, because that is what used to crash it.
-check 'no formula column remains' '0' \
-  "$(jq -r '[to_entries[] | select(.value.isFormula == true)] | length' <<<"$cols")"
+# The issue prescribes a HIT % formula column, and this is the shape Kibana 8.13.2
+# evaluates: three count(kql) columns with emptyAsNull:false, one math column whose
+# top-level references repeat every column id in the TinyMath AST, and one formula
+# column that references only the math column. A Lens math column has no sourceField,
+# and the table is never sorted by the formula column. See the commit message.
+check 'the cache table has a formula column' 'true' \
+  "$(jq -r '.cache_hit_pct_col.operationType == "formula"' <<<"$cols")"
+check 'the formula column is not broken' 'false' \
+  "$(jq -r '.cache_hit_pct_col.params.isFormulaBroken' <<<"$cols")"
+check 'the formula column has exactly one reference' '1' \
+  "$(jq -r '.cache_hit_pct_col.references | length' <<<"$cols")"
+check 'the formula column is percent formatted with two decimals' 'percent 2' \
+  "$(jq -r '.cache_hit_pct_col.params.format.id
+      + " " + (.cache_hit_pct_col.params.format.params.decimals | tostring)' <<<"$cols")"
+check 'the formula column references a math column' 'math' \
+  "$(jq -r '.cache_hit_pct_col.references[0] as $r | .[$r].operationType' <<<"$cols")"
+check 'the math column has no sourceField' 'false' \
+  "$(jq -r '.cache_hit_pct_col.references[0] as $r | .[$r] | has("sourceField")' <<<"$cols")"
+# The anti-silence check: a column id that is in the AST but missing from the math
+# column's references renders null in every row with no error and no exception.
+check 'every math AST column is referenced' 'true' \
+  "$(jq -r '. as $c | [$c.cache_hit_pct_colX3.params.tinymathAst
+      | .. | objects | select(.type == "function") | .args[] | strings]
+      | unique as $ids
+      | (($ids - $c.cache_hit_pct_colX3.references) | length == 0) | tostring' <<<"$cols")"
+for c in cache_hit_pct_colX0 cache_hit_pct_colX1 cache_hit_pct_colX2; do
+  check "$c does not turn a zero count into null" 'false' \
+    "$(jq -r --arg c "$c" '.[$c].params.emptyAsNull | tostring' <<<"$cols")"
+done
 check 'the table sorts by the HIT count' 'cache_hit_col' \
   "$(jq -r '.visualization.sorting.columnId' <<<"$panel")"
-check 'the terms column orders by the HIT count' 'cache_hit_col' \
-  "$(jq -r '.datasourceStates.formBased.layers | to_entries[].value.columns["6a02ef93-f314-42f2-bca1-65af849ad659"].params.orderBy.columnId' <<<"$panel")"
 check 'every remaining column resolves in the layer' 'true' \
   "$(jq -r '(.datasourceStates.formBased.layers | to_entries[].value) as $l
       | [$l.columnOrder[], (.visualization.columns[].columnId)]
       | (unique | all(. as $c | $l.columns | has($c))) | tostring' <<<"$panel")"
-# The table's own filter and its four count columns, each executed with the KQL the
+# The table's own query and its four count columns, each executed with the KQL the
 # dashboard stores, so a cache table that counts something else than the four
 # uppercase outcomes fails instead of being re-derived here.
-check 'the cache table filter' 'cacheStatus : * AND NOT escapedUrlWithoutQuery : "^/auth/"' \
-  "$(jq -r '.datasourceStates.formBased.layers | to_entries[].value.filter.query' <<<"$panel")"
+cache_query=$(jq -r '.query.query' <<<"$panel")
+check 'the cache table query' 'cacheStatus : * AND NOT escapedUrlWithoutQuery.keyword : /auth/*' \
+  "$cache_query"
 for pair in HIT:cache_hit_col HITMISS:cache_hitmiss_col MISS:cache_miss_col PASS:cache_pass_col; do
   outcome=${pair%%:*}
   column=${pair##*:}
   check "the $outcome column of the cache table matches one fixture" '1' \
     "$(kql_hits "$(jq -r --arg c "$column" '.[$c].filter.query' <<<"$cols")")"
 done
-cache=$(aggs "$(with_runtime '{"size": 0, "query": {"bool": {"filter": [
-  {"exists": {"field": "cacheStatus"}},
-  {"bool": {"must_not": {"match_phrase": {"escapedUrlWithoutQuery": "^/auth/"}}}}]}},
-  "aggs": {"c": {"terms": {"field": "cacheStatus"}}}}')")
+cache=$(aggs "$(with_runtime "$(jq -nc --arg q "$cache_query" \
+  '{"size": 0, "query": {"query_string": {"query": $q}}, "aggs": {"c": {"terms": {"field": "cacheStatus"}}}}')")")
 echo "     $cache"
 check 'the cache aggregation runs' 'true' "$(jq -r 'type == "object"' <<<"$cache")"
 check 'cacheStatus values' '{"HIT":1,"HITMISS":1,"MISS":1,"PASS":1}' \
@@ -317,29 +333,64 @@ dash_query=$(saved dashboard "$DASHBOARD" | jq -r '.attributes.kibanaSavedObject
 echo "     query: $dash_query"
 check 'dashboard-wide query matches every fixture' '4' "$(kql_hits "$dash_query")"
 
-note 'KNOWN LIMITATION: the two runtime-field scripts are not null-safe'
-# doc.containsKey() is segment scoped, so a single document in the segment without
-# the field makes the aggregation throw. Shown on a throwaway index that is
-# created after every counted assertion above, and named so that it cannot match
-# the logstash-* data view even if this run dies before the cleanup below, so the
-# fixtures keep their counts. This is the evidence for the open question in the PR
-# description; it is informational and never fails the run.
-DEMO=kibana-verify-null-safety-demo
-es "$DEMO" DELETE >/dev/null
-es "$DEMO" PUT '{"mappings":{"subobjects":false}}' >/dev/null
-# One bulk request, so both documents land in the same segment.
-es "$DEMO/_bulk" POST '{"index":{"_id":"with-duration"}}
+note 'the cache table query keeps four of five fixtures'
+# The one thing step 6 cannot show with its four fixtures: that the restriction
+# actually removes something. One more record on the excluded /auth/ prefix,
+# added after every counted assertion above so none of the counts above move.
+es "$INDEX/_bulk" POST '{"index":{"_id":"auth"}}
+{"@timestamp":"2026-01-15T10:00:00.000Z","method":"POST","status":200,"duration":5000000000,
+ "path":"/auth/login","escapedUrl":"/auth/login","escapedUrlWithoutQuery":"/auth/login",
+ "log":"POST /auth/login 200","json":{"RequestHost":"app.ecamp3.ch","downstream_X-Cache":"MISS"}}
+' >/dev/null
+es "$INDEX/_refresh" POST >/dev/null
+# The issue's 4-of-5 claim, on the four step-6 fixtures plus one /auth/ record.
+# The /api/auth/ prefix guard is NOT asserted here: kql_hits sends the KQL to
+# Elasticsearch's query_string, which parses Lucene syntax, not KQL, so it reads
+# "/auth/*" as a regexp and also drops /api/auth/login. That check belongs to the
+# rendered-panel test, which asserts the wildcard clause Kibana really sent.
+check 'the cache table query keeps four of five fixtures' '4' "$(kql_hits "$cache_query")"
+
+note 'the runtime-field scripts survive documents that do not have their field'
+# Two throwaway indices, created after every counted assertion above and named so
+# that they cannot match the logstash-* data view, so the fixtures keep their
+# counts even if this run dies before the cleanup below. with_runtime() sends the
+# scripts as the installed data view declares them, so this tests the shipped
+# scripts and not a copy written here. The two indices pin the two halves of the
+# guard, so neither half can be dropped unnoticed.
+# -segment: one document with both fields and one with neither, in one bulk request
+#   so they share a segment. doc.containsKey() alone is segment scoped and throws.
+# -unmapped: no document ever carries the fields, so the mapping never learns them.
+#   doc['field'].size() alone throws on a field the mapping has never seen.
+# $3 is the expected "durationSeconds stats count / cacheStatus terms doc_counts".
+nullsafe_demo() { # <index> <bulk ndjson> <expected>
+  es "$1" DELETE >/dev/null
+  es "$1" PUT '{"mappings":{"subobjects":false}}' >/dev/null
+  # One bulk request, so the documents land in the same segment.
+  es "$1/_bulk" POST "$2" >/dev/null
+  es "$1/_refresh" POST >/dev/null
+  # An Elasticsearch error carries no aggregations, so it becomes ERROR: ... and
+  # check() aborts on it.
+  out=$(es "$1/_search" POST "$(with_runtime '{"size": 0, "aggs": {
+    "durationSeconds": {"stats": {"field": "durationSeconds"}},
+    "cacheStatus": {"terms": {"field": "cacheStatus"}}}}')" |
+    jq -r 'if .error then "ERROR: " + (.error.failed_shards[0].reason.caused_by.reason // .error.reason)
+           else (.aggregations.durationSeconds.count | tostring) + "/"
+             + ((([.aggregations.cacheStatus.buckets[].doc_count] | add) // 0) | tostring)
+           end')
+  echo "     $1: $out"
+  es "$1" DELETE >/dev/null
+  check "the runtime-field scripts run on $1" "$3" "$out"
+}
+nullsafe_demo kibana-verify-null-safety-segment '{"index":{"_id":"with-duration"}}
 {"@timestamp":"2026-01-15T10:00:00.000Z","duration":1000000000,"json":{"downstream_X-Cache":"HIT"}}
 {"index":{"_id":"without-duration"}}
 {"@timestamp":"2026-01-15T10:00:01.000Z","json":{"RequestHost":"app.ecamp3.ch"}}
-' >/dev/null
-es "$DEMO/_refresh" POST >/dev/null
-demo=$(es "$DEMO/_search" POST "$(with_runtime '{"size": 0, "aggs": {
-  "durationSeconds": {"stats": {"field": "durationSeconds"}},
-  "cacheStatus": {"terms": {"field": "cacheStatus"}}}}')")
-printf '     %s\n' "$(jq -c 'if .error then (.error.failed_shards[0].reason | {type, reason, script})
-   else .aggregations end' <<<"$demo")"
-es "$DEMO" DELETE >/dev/null
+' '1/1'
+nullsafe_demo kibana-verify-null-safety-unmapped '{"index":{"_id":"no-duration"}}
+{"@timestamp":"2026-01-15T10:00:00.000Z","path":"/a","json":{"RequestHost":"app.ecamp3.ch"}}
+{"index":{"_id":"no-cache"}}
+{"@timestamp":"2026-01-15T10:00:01.000Z","path":"/b","json":{"RequestHost":"app.ecamp3.ch"}}
+' '0/0'
 
 printf '\n----------------------------------------\n'
 if [ "$fail" -eq 0 ]; then
