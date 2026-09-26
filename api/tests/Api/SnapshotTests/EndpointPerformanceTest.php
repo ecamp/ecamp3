@@ -245,6 +245,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
                 '/auth/resend_activation' => false,
                 '/content_nodes' => false,
                 '/checklist_items' => false,
+                '/form_test_data' => false,
                 '/invitations' => false,
                 '/material_items' => false,
                 '/personal_invitations' => false,

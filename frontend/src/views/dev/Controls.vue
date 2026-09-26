@@ -193,8 +193,8 @@ export default {
           component: (type) => `${type}-text-field`,
           props: {
             placeholder: this.placeholder,
-            path: 'nickname',
-            uri: this.profileUri,
+            path: 'text',
+            uri: this.formTestData,
             veeRules: 'required',
           },
         },
@@ -204,8 +204,8 @@ export default {
           props: {
             placeholder: this.placeholder,
             inputmode: 'decimal',
-            path: 'quantity',
-            uri: this.materialUri,
+            path: 'number',
+            uri: this.formTestData,
           },
         },
         {
@@ -214,8 +214,8 @@ export default {
           props: {
             placeholder: this.placeholder,
             rows: 3,
-            path: 'data.html',
-            uri: this.singleTextUri,
+            path: 'html',
+            uri: this.formTestData,
           },
         },
         {
@@ -224,8 +224,8 @@ export default {
           props: {
             placeholder: this.placeholder,
             rows: 3,
-            path: 'data.html',
-            uri: this.singleTextUri,
+            path: 'multilineText',
+            uri: this.formTestData,
           },
         },
         {
@@ -235,7 +235,7 @@ export default {
             path: 'language',
             placeholder: this.placeholder,
             items: this.availableLocales,
-            uri: this.profileUri,
+            uri: this.formTestData,
             itemTitle: 'text',
             itemValue: 'value',
             veeRules: 'required',
@@ -245,16 +245,16 @@ export default {
           id: 'checkbox',
           component: (type) => `${type}-checkbox`,
           props: {
-            path: 'printYSLogoOnPicasso',
-            uri: this.campUri,
+            path: 'flag',
+            uri: this.formTestData,
           },
         },
         {
           id: 'switch',
           component: (type) => `${type}-switch`,
           props: {
-            path: 'printYSLogoOnPicasso',
-            uri: this.campUri,
+            path: 'flag',
+            uri: this.formTestData,
           },
         },
         {
@@ -262,8 +262,8 @@ export default {
           component: (type) => (type === 'v' ? '' : `${type}-date-picker`),
           props: {
             placeholder: this.placeholder,
-            path: 'start',
-            uri: this.periodUri,
+            path: 'date',
+            uri: this.formTestData,
           },
         },
         {
@@ -272,8 +272,8 @@ export default {
           props: {
             placeholder: this.placeholder,
             'value-format': 'YYYY-MM-DDTHH:mm:ssZ',
-            path: 'start',
-            uri: this.scheduleEntryUri,
+            path: 'time',
+            uri: this.formTestData,
           },
         },
         {
@@ -281,8 +281,8 @@ export default {
           component: (type) => (type === 'e' ? `${type}-time-field` : ''),
           props: {
             placeholder: this.placeholder,
-            path: 'start',
-            uri: this.scheduleEntryUri,
+            path: 'time',
+            uri: this.formTestData,
           },
         },
         {
@@ -291,7 +291,7 @@ export default {
           props: {
             placeholder: this.placeholder,
             path: 'color',
-            uri: this.categoryUri,
+            uri: this.formTestData,
             veeRules: 'required',
           },
         },
@@ -301,35 +301,14 @@ export default {
           props: {
             placeholder: this.placeholder,
             path: 'color',
-            uri: this.campCollaborationUri,
+            uri: this.formTestData,
             veeRules: 'required',
           },
         },
       ]
     },
-    profileUri() {
-      return this.$store.state.auth.user?.profile()._meta.self ?? null
-    },
-    campUri() {
-      return '/api/camps/6973c230d6b1' // Harry Potter - Lager
-    },
-    periodUri() {
-      return '/api/periods/fe47dfd2b541' // Harry Potter - Hauptlager
-    },
-    categoryUri() {
-      return '/api/categories/e7559fc16388' // Harry Potter - Lageraktivität
-    },
-    materialUri() {
-      return '/api/material_items/04be1b6159dc' // Harry Potter- LA Lagerbau - Schatztruhe
-    },
-    singleTextUri() {
-      return '/api/content_node/single_texts/d5c2ece2bedf' // Harry Potter - LA Lagerbau - Roter Faden
-    },
-    scheduleEntryUri() {
-      return '/api/schedule_entries/b6668dffbb2b' // Harry Potter - LA Lagerbau
-    },
-    campCollaborationUri() {
-      return '/camp_collaborations/3229d273decd' // Harry Potter - Snoopy
+    formTestData() {
+      return this.api.get().formTestData({ id: '0123456789ab' })
     },
     availableLocales() {
       return VueI18n.global.availableLocales.map((l) => ({

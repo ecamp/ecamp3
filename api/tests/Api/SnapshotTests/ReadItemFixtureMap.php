@@ -22,6 +22,7 @@ class ReadItemFixtureMap {
             '/comments' => $fixtures['comment1'],
             '/day_responsibles' => $fixtures['dayResponsible1'],
             '/days' => $fixtures['day1period1'],
+            '/form_test_data' => $fixtures['formTestDatum'],
             '/material_items' => $fixtures['materialItem1'],
             '/material_lists' => $fixtures['materialList1'],
             '/content_node/material_nodes' => $fixtures['materialNode2'],
