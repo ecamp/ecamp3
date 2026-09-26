@@ -68,7 +68,7 @@
   "require-dev": {
     "ext-intl": "*",
     "api-platform/graphql": "4.4.0",
-    "api-platform/hydra": "4.4.0",
+    "api-platform/hydra": "5.0.0",
     "api-platform/json-schema": "4.4.0",
     "brianium/paratest": "7.23.1",
     "friendsofphp/php-cs-fixer": "3.95.25",
