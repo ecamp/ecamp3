@@ -30,7 +30,7 @@ class DeleteChecklistTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Access Denied. The user doesn\'t have ROLE_ADMIN.',
+            'detail' => 'Access Denied.',
         ]);
     }
 
