@@ -62,7 +62,7 @@
     "symfony/validator": "8.1.4",
     "symfony/yaml": "8.1.2",
     "twig/cssinliner-extra": "^3.4",
-    "twig/extra-bundle": "3.24.0",
+    "twig/extra-bundle": "3.29.0",
     "webonyx/graphql-php": "15.37.2"
   },
   "require-dev": {
