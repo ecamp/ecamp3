@@ -17,24 +17,19 @@ class ListCampsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCampsIsAllowedForLoggedInUserButFiltered() {
-        $response = static::createClientWithCredentials()->request('GET', '/camps');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 4,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('camp1')],
-            ['href' => $this->getIriFor('camp2')],
-            ['href' => $this->getIriFor('campPrototype')],
-            ['href' => $this->getIriFor('campShared')],
-        ], $response->toArray()['_links']['items']);
+    public function testListCampsWithoutFilterIsNotAllowedForLoggedInUser() {
+        static::createClientWithCredentials()->request('GET', '/camps');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testListCampsFilteredByIsPrototypeFalseIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/camps?isPrototype=false');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testListCampsWithIgnoredFilterValueIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/camps?campCollaborator[foo]=bar');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListPrototypeCampsOnly() {
@@ -107,22 +102,17 @@ class ListCampsTest extends ECampApiTestCase {
     }
 
     public function testListCampsDoesNotShowCampToInactiveCollaborator() {
-        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
-            ->request('GET', '/camps')
+        $user = static::$fixtures['user5inactive'];
+        $response = static::createClientWithCredentials(['email' => $user->getEmail()])
+            ->request('GET', '/camps?campCollaborator=/users/'.$user->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 2,
-            '_links' => [
-                'items' => [],
-            ],
+            'totalItems' => 0,
             '_embedded' => [
                 'items' => [],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('campPrototype')],
-            ['href' => $this->getIriFor('campShared')],
-        ], $response->toArray()['_links']['items']);
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 }

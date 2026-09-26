@@ -20,22 +20,9 @@ class ListCommentsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCommentsIsAllowedForLoggedInUser() {
-        /** @noRector */
-        $response = static::createClientWithCredentials()->request('GET', '/comments');
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 3,
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('comment1')],
-            ['href' => $this->getIriFor('comment2')],
-            ['href' => $this->getIriFor('comment3')],
-        ], $response->toArray()['_links']['items']);
+    public function testListCommentsWithoutFilterIsNotAllowedForLoggedInUser() {
+        static::createClientWithCredentials()->request('GET', '/comments');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListCommentsSortyByCreateTime() {
@@ -56,7 +43,7 @@ class ListCommentsTest extends ECampApiTestCase {
             []
         )])->toArray();
 
-        $response = $client->request('GET', '/comments');
+        $response = $client->request('GET', '/comments?camp='.$this->getIriFor('camp1'));
         $items = $response->toArray()['_embedded']['items'];
 
         $this->assertCount(4, $items);

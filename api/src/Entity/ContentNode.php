@@ -13,7 +13,6 @@ use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\InputFilter;
 use App\Repository\ContentNodeRepository;
-use App\State\ContentNodeCollectionProvider;
 use App\Util\ClassInfoTrait;
 use App\Util\EntityMap;
 use App\Util\JsonMergePatch;
@@ -40,7 +39,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
     ],
     normalizationContext: ['groups' => ['read']],

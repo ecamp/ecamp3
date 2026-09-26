@@ -276,4 +276,27 @@ class ListMaterialItemsTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('materialItem1period1campShared')],
         ], $response->toArray()['_links']['items']);
     }
+
+    public function testListMaterialItemsFilteredByCampIsAllowedForCollaborator() {
+        $camp = static::getFixture('camp1');
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/material_items?camp=%2Fcamps%2F'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 2]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('materialItem1')],
+            ['href' => $this->getIriFor('materialItem1period1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListMaterialItemsFilteredByCampIsDeniedForUnrelatedUser() {
+        $camp = static::getFixture('camp1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/material_items?camp=%2Fcamps%2F'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+    }
 }

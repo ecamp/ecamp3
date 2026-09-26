@@ -17,29 +17,17 @@ class ListChecklistsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListChecklistsIsAllowedForLoggedInUserButFiltered() {
+    public function testListChecklistsWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a checklist that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['checklist1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/checklists');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 6,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('checklistPrototype')],
-            ['href' => $this->getIriFor('checklist1')],
-            ['href' => $this->getIriFor('checklist2WithNoItems')],
-            ['href' => $this->getIriFor('checklist1camp2')],
-            ['href' => $this->getIriFor('checklist1campPrototype')],
-            ['href' => $this->getIriFor('checklist1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/checklists');
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testListChecklistsFilteredByIsPrototypeFalseIsNotAllowed() {
+        static::createClientWithCredentials()->request('GET', '/checklists?isPrototype=false');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListChecklistsFilteredByCampIsAllowedForCollaborator() {
@@ -163,5 +151,14 @@ class ListChecklistsTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testListPrototypeChecklistsOnly() {
+        $response = static::createClientWithCredentials()->request('GET', '/checklists?isPrototype=true');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 1]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('checklistPrototype')],
+        ], $response->toArray()['_links']['items']);
     }
 }

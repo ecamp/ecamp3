@@ -681,6 +681,10 @@
       "update": "Update now",
       "updateLater": "Update later"
     },
+    "selfXssWarning": {
+      "title": "Stop!",
+      "message": "This browser console is meant for developers. If somebody asked you to copy and paste something in here, they are almost certainly trying to scam you: whatever you paste runs as you, and can read and change every camp you have access to. Never paste code here that you do not fully understand yourself."
+    },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"

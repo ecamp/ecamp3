@@ -82,7 +82,7 @@ services:
       - 'host.docker.internal:host-gateway'
 
   http-cache:
-    image: varnish:9.0.3
+    image: varnish:9.0.4
     container_name: 'ecamp3-http-cache'
     depends_on:
       api:
@@ -98,7 +98,7 @@ services:
       - VARNISH_HTTP_PORT=8080
 
   http-cache-logs:
-    image: varnish:9.0.3
+    image: varnish:9.0.4
     container_name: 'ecamp3-http-cache-logs'
     depends_on:
       - http-cache
@@ -196,7 +196,7 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.62.1-noble
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
@@ -216,7 +216,7 @@ services:
       SERVER_PORT: 8080
 
   reverse-proxy:
-    image: traefik:v3.7.12
+    image: traefik:v3.7.13
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./dev-setup/traefik/.:/etc/traefik/.:ro

@@ -55970,25 +55970,15 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Only accepts the value true.'
           explode: false
           in: query
           name: isPrototype
           required: false
           schema:
+            enum:
+              - true
             type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'isPrototype[]'
-          required: false
-          schema:
-            items:
-              type: boolean
-            type: array
           style: form
       responses:
         200:
@@ -56495,16 +56485,6 @@ paths:
         -
           deprecated: false
           description: ''
-          explode: false
-          in: query
-          name: isPrototype
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
           explode: true
           in: query
           name: 'camp[]'
@@ -56512,18 +56492,6 @@ paths:
           schema:
             items:
               type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'isPrototype[]'
-          required: false
-          schema:
-            items:
-              type: boolean
             type: array
           style: form
         -
@@ -56536,6 +56504,18 @@ paths:
           schema:
             type: string
           style: simple
+        -
+          deprecated: false
+          description: 'Only accepts the value true.'
+          explode: false
+          in: query
+          name: isPrototype
+          required: false
+          schema:
+            enum:
+              - true
+            type: boolean
+          style: form
       responses:
         200:
           content:
@@ -57532,16 +57512,6 @@ paths:
         -
           deprecated: false
           description: ''
-          explode: false
-          in: query
-          name: isPrototype
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
           explode: true
           in: query
           name: 'camp[]'
@@ -57553,15 +57523,15 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: true
+          description: 'Only accepts the value true.'
+          explode: false
           in: query
-          name: 'isPrototype[]'
+          name: isPrototype
           required: false
           schema:
-            items:
-              type: boolean
-            type: array
+            enum:
+              - true
+            type: boolean
           style: form
       responses:
         200:

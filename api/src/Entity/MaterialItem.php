@@ -15,7 +15,6 @@ use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\InputFilter;
 use App\Repository\MaterialItemRepository;
-use App\State\MaterialItemCollectionProvider;
 use App\State\MaterialItemCreateProcessor;
 use App\Util\EntityMap;
 use App\Validator\AssertBelongsToSameCamp;
@@ -45,7 +44,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: MaterialItemCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['camp', 'period', 'materialList', 'materialNode'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
