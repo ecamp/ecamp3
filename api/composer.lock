@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e6c9568ad40ee9f88e1247dc9c1c70e",
+    "content-hash": "60efec1fdb896fc9b2b6eaac845358f7",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -739,16 +739,16 @@
         },
         {
             "name": "api-platform/metadata",
-            "version": "v4.3.19",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
-                "reference": "4cbdad3301afbade9f9dc46f75246fad25fe4aeb"
+                "reference": "17399e0cb2cedf61a52b210e85c219d6a66333e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/metadata/zipball/4cbdad3301afbade9f9dc46f75246fad25fe4aeb",
-                "reference": "4cbdad3301afbade9f9dc46f75246fad25fe4aeb",
+                "url": "https://api.github.com/repos/api-platform/metadata/zipball/17399e0cb2cedf61a52b210e85c219d6a66333e2",
+                "reference": "17399e0cb2cedf61a52b210e85c219d6a66333e2",
                 "shasum": ""
             },
             "require": {
@@ -756,22 +756,22 @@
                 "php": ">=8.2",
                 "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
-                "symfony/property-info": "^6.4 || ^7.1 || ^8.0",
-                "symfony/string": "^6.4 || ^7.0 || ^8.0",
-                "symfony/type-info": "^7.3 || ^8.0"
+                "symfony/property-info": "^7.4 || ^8.0",
+                "symfony/string": "^7.4 || ^8.0",
+                "symfony/type-info": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "api-platform/json-schema": "^4.3",
-                "api-platform/openapi": "^4.3",
-                "api-platform/state": "^4.3",
+                "api-platform/json-schema": "^4.4",
+                "api-platform/openapi": "^4.4",
+                "api-platform/state": "^4.4",
                 "phpspec/prophecy-phpunit": "^2.2",
                 "phpstan/phpdoc-parser": "^1.29 || ^2.0",
                 "phpunit/phpunit": "^11.5 || ^12.2",
-                "symfony/config": "^6.4 || ^7.0 || ^8.0",
-                "symfony/routing": "^6.4 || ^7.0 || ^8.0",
-                "symfony/var-dumper": "^6.4 || ^7.0 || ^8.0",
-                "symfony/web-link": "^6.4 || ^7.1 || ^8.0",
-                "symfony/yaml": "^6.4 || ^7.0 || ^8.0"
+                "symfony/config": "^7.4 || ^8.0",
+                "symfony/routing": "^7.4 || ^8.0",
+                "symfony/var-dumper": "^7.4 || ^8.0",
+                "symfony/web-link": "^7.4 || ^8.0",
+                "symfony/yaml": "^7.4 || ^8.0"
             },
             "suggest": {
                 "phpstan/phpdoc-parser": "For PHP documentation support.",
@@ -785,7 +785,7 @@
                     "name": "api-platform/api-platform"
                 },
                 "symfony": {
-                    "require": "^6.4 || ^7.0 || ^8.0"
+                    "require": "^7.4 || ^8.0"
                 },
                 "branch-alias": {
                     "dev-3.4": "3.4.x-dev",
@@ -831,9 +831,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v4.3.19"
+                "source": "https://github.com/api-platform/metadata/tree/v4.4.0"
             },
-            "time": "2026-09-11T12:56:16+00:00"
+            "time": "2026-09-16T09:03:39+00:00"
         },
         {
             "name": "api-platform/openapi",
