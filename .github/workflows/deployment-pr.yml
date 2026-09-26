@@ -19,7 +19,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check-write-access:
+    name: Check write access permission
+    if: (github.event_name == 'workflow_dispatch') || (contains(github.event.pull_request.labels.*.name, 'deploy!') && github.event.pull_request.state == 'open')
+    uses: ./.github/workflows/reusable-check-write-access.yml
+    secrets:
+      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+
   build-and-push:
+    needs: check-write-access
     if: (github.event_name == 'workflow_dispatch') || (contains(github.event.pull_request.labels.*.name, 'deploy!') && github.event.pull_request.state == 'open')
     name: Build and push docker images
     uses: ./.github/workflows/reusable-build-and-push.yml
