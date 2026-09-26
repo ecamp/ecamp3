@@ -1,0 +1,136 @@
+name: verify-kibana-config
+
+on:
+  pull_request:
+    paths:
+      - .ops/ecamp3-logging/**
+      - .github/workflows/verify-kibana-config.yml
+  push:
+    branches:
+      - devel
+    paths:
+      - .ops/ecamp3-logging/**
+      - .github/workflows/verify-kibana-config.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  # Keep this in step with elastic.version in .ops/ecamp3-logging/values.yaml.gotmpl.
+  # renovate: datasource=docker depName=docker.elastic.co/elasticsearch/elasticsearch
+  ELASTIC_VERSION: 8.13.2
+  # renovate: datasource=docker depName=docker.elastic.co/kibana/kibana
+  KIBANA_VERSION: 8.13.2
+
+  # Pinned commit, not a branch: this is the last ecamp3/ecamp3 commit before the
+  # fix. It is fetched from raw.githubusercontent.com so that it resolves the same
+  # way for pull_request and push events. Do not replace it with a moving ref --
+  # once devel contains the fix, a moving baseline would turn this job into a
+  # copy of the post-fix job and stop proving anything.
+  PRE_FIX_COMMIT: 5203f90b4efa60f2127c03eb24655d6694cb7a7c
+
+jobs:
+  pre-fix:
+    name: 'kibana config: the pinned pre-fix config is still broken'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: 'Fetch the pinned pre-fix kibana-objects.ndjson'
+        run: |
+          curl -sSfL -o pre-fix-kibana-objects.ndjson \
+            "https://raw.githubusercontent.com/ecamp/ecamp3/$PRE_FIX_COMMIT/.ops/ecamp3-logging/files/kibana/kibana-objects.ndjson"
+          # the pre-fix config has three objects, there is no Follow referer search
+          test "$(jq -s length pre-fix-kibana-objects.ndjson)" = 3
+
+      - name: 'Start Elasticsearch and Kibana'
+        run: |
+          docker network create kibana-ci
+          docker run -d --name elasticsearch --network kibana-ci --network-alias elasticsearch \
+            -p 9200:9200 \
+            -e discovery.type=single-node -e xpack.security.enabled=false \
+            -e ES_JAVA_OPTS='-Xms1g -Xmx1g' \
+            "docker.elastic.co/elasticsearch/elasticsearch:$ELASTIC_VERSION"
+          for _ in $(seq 1 90); do
+            curl -sSf localhost:9200/_cluster/health >/dev/null && break
+            sleep 2
+          done
+          if ! curl -sSf localhost:9200/_cluster/health >/dev/null; then
+            echo 'Elasticsearch did not become healthy'
+            docker logs elasticsearch || true
+            exit 1
+          fi
+          docker run -d --name kibana --network kibana-ci --network-alias kibana \
+            -p 5601:5601 \
+            -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 -e XPACK_SECURITY_ENABLED=false \
+            "docker.elastic.co/kibana/kibana:$KIBANA_VERSION"
+          # /api/status answers 200 while Kibana is still starting, so poll the level
+          for _ in $(seq 1 90); do
+            [ "$(curl -sSf localhost:5601/api/status 2>/dev/null | jq -r '.status.overall.level')" = available ] && break
+            sleep 2
+          done
+          if [ "$(curl -sSf localhost:5601/api/status | jq -r '.status.overall.level')" != available ]; then
+            docker logs kibana
+            exit 1
+          fi
+
+      - name: 'Show the pre-fix breakage'
+        run: |
+          MODE=pre NDJSON=pre-fix-kibana-objects.ndjson \
+            .ops/ecamp3-logging/files/kibana/verify-kibana-objects.sh
+
+      - name: 'Container logs'
+        if: failure()
+        run: |
+          docker logs elasticsearch || true
+          docker logs kibana || true
+
+  post-fix:
+    name: 'kibana config: matches the issue step 6 expectations'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: 'Start Elasticsearch and Kibana'
+        run: |
+          docker network create kibana-ci
+          docker run -d --name elasticsearch --network kibana-ci --network-alias elasticsearch \
+            -p 9200:9200 \
+            -e discovery.type=single-node -e xpack.security.enabled=false \
+            -e ES_JAVA_OPTS='-Xms1g -Xmx1g' \
+            "docker.elastic.co/elasticsearch/elasticsearch:$ELASTIC_VERSION"
+          for _ in $(seq 1 90); do
+            curl -sSf localhost:9200/_cluster/health >/dev/null && break
+            sleep 2
+          done
+          if ! curl -sSf localhost:9200/_cluster/health >/dev/null; then
+            echo 'Elasticsearch did not become healthy'
+            docker logs elasticsearch || true
+            exit 1
+          fi
+          docker run -d --name kibana --network kibana-ci --network-alias kibana \
+            -p 5601:5601 \
+            -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 -e XPACK_SECURITY_ENABLED=false \
+            "docker.elastic.co/kibana/kibana:$KIBANA_VERSION"
+          # /api/status answers 200 while Kibana is still starting, so poll the level
+          for _ in $(seq 1 90); do
+            [ "$(curl -sSf localhost:5601/api/status 2>/dev/null | jq -r '.status.overall.level')" = available ] && break
+            sleep 2
+          done
+          if [ "$(curl -sSf localhost:5601/api/status | jq -r '.status.overall.level')" != available ]; then
+            docker logs kibana
+            exit 1
+          fi
+
+      - name: 'Verify the checked-in kibana-objects.ndjson'
+        run: .ops/ecamp3-logging/files/kibana/verify-kibana-objects.sh
+
+      - name: 'Container logs'
+        if: failure()
+        run: |
+          docker logs elasticsearch || true
+          docker logs kibana || true
