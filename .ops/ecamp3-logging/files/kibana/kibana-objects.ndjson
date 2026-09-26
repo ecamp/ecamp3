@@ -5,7 +5,7 @@
     "fieldFormatMap": "{}",
     "fields": "[]",
     "name": "log-index-pattern",
-    "runtimeFieldMap": "{\"cacheStatus\":{\"script\":\"if (doc.containsKey('json.downstream_X-Cache.keyword')) { def value = doc['json.downstream_X-Cache.keyword'].value; if (value != null) { emit(value); } }\",\"type\":\"keyword\"},\"durationSeconds\":{\"script\":\"if (doc.containsKey('duration')) { def value = doc['duration'].value; if (value != null) { emit(value / 1000000000.0); } }\",\"type\":\"double\"}}",
+    "runtimeFieldMap": "{\"cacheStatus\":{\"script\":\"if (doc.containsKey('json.downstream_X-Cache.keyword') && doc['json.downstream_X-Cache.keyword'].size() != 0) { def value = doc['json.downstream_X-Cache.keyword'].value; if (value != null) { emit(value); } }\",\"type\":\"keyword\"},\"durationSeconds\":{\"script\":\"if (doc.containsKey('duration') && doc['duration'].size() != 0) { def value = doc['duration'].value; if (value != null) { emit(value / 1000000000.0); } }\",\"type\":\"double\"}}",
     "sourceFilters": "[]",
     "timeFieldName": "@timestamp",
     "title": "logstash-*",
