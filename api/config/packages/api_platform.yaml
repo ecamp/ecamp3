@@ -26,6 +26,8 @@ api_platform:
     swagger:
         versions: [3]
     defaults:
+        securityMessage: 'Access Denied.'
+        securityPostDenormalizeMessage: 'Access Denied.'
         stateless: true
         pagination_enabled: false
         itemOperations: ['get', 'patch', 'delete']
