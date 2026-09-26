@@ -19,65 +19,17 @@ jobs:
         id: deployment-candidates
         # create a list of JSON objects like:
         # [
-        #  {"name": "pr1234", "sha": "... commit sha ...", "number": "1234", "author": "username"}
+        #  {"name": "pr1234", "sha": "... commit sha ...", "number": "1234"}
         # ]
         run: |
           PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:${{ github.repository }}\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid author { login } } } } }\"}")
+            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:${{ github.repository }}\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
           LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
-            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring),author:.node.author.login})' )
+            | jq 'map({"name":("pr"+(.node.number|tostring)),sha:.node.headRefOid,number:(.node.number|tostring)})' )
           echo "Deployment candidates: $LIST"
           echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
-
-      - name: Check write access for each PR author
-        id: check-access
-        run: |
-          CANDIDATES='${{ steps.deployment-candidates.outputs.list }}'
-          echo "Checking write access for candidates: $CANDIDATES"
-          
-          # For each candidate, check if author has write access
-          FILTERED=$(echo "$CANDIDATES" | jq -c '
-            map(. as $c |
-              # Check each author via GraphQL
-              {
-                name: $c.name,
-                sha: $c.sha,
-                number: $c.number,
-                author: $c.author,
-                hasAccess: (
-                  # This will be filled in by the shell loop below
-                  false
-                )
-              }
-            )
-          ')
-          
-          # We'll check each author individually
-          AUTHORS=$(echo "$CANDIDATES" | jq -r '.[].author' | sort -u)
-          for AUTHOR in $AUTHORS; do
-            echo "Checking write access for author: $AUTHOR"
-            RESULT=$(curl -s -X POST "https://api.github.com/graphql" \
-              -H "Accept: application/vnd.github.v3+json" \
-              -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-              -d "{\"query\": \"query { organization(login: \\\"ecamp\\\") { membersWithRole(first: 100, query: \\\"$AUTHOR\\\") { edges { node { login } role } } } }\"}")
-            
-            HAS_ACCESS=$(echo "$RESULT" | jq -r --arg user "$AUTHOR" '.data.organization.membersWithRole.edges[] | select(.node.login == $user) | .role' | grep -E '^(WRITE|ADMIN)$' | head -1)
-            
-            if [ -n "$HAS_ACCESS" ]; then
-              echo "Author $AUTHOR has write access (role: $HAS_ACCESS)"
-              FILTERED=$(echo "$FILTERED" | jq --arg author "$AUTHOR" 'map(if .author == $author then .hasAccess = true else . end)')
-            else
-              echo "Author $AUTHOR does NOT have write access"
-              FILTERED=$(echo "$FILTERED" | jq --arg author "$AUTHOR" 'map(if .author == $author then .hasAccess = false else . end)')
-            fi
-          done
-          
-          # Filter to only those with access
-          WITH_ACCESS=$(echo "$FILTERED" | jq 'map(select(.hasAccess == true)) | map({name, sha, number})')
-          echo "Candidates with write access: $WITH_ACCESS"
-          echo "list=$WITH_ACCESS" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: Read the list of all currently active deployments
         id: current-deployments
@@ -90,11 +42,11 @@ jobs:
           echo "Currently active deployments: $LIST"
           echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
 
-      - name: List deployments without PR (only for PRs with write access)
+      - name: List deployments without PR
         id: to-uninstall
         env:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
-          prs: ${{ toJSON(fromJSON(steps.check-access.outputs.list).*.name) }}
+          prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
           never_uninstall: '["dev", "devel", "stage", "staging", "prod"]'
         run: |
           TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
@@ -144,6 +96,7 @@ jobs:
           pr-number: ${{ steps.pr-number.outputs.number }}
           message: |
             ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
+
 
             If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
           comment-tag: feature-branch-deployment-status

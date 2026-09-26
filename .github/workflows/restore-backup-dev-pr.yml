@@ -34,39 +34,36 @@ jobs:
   check-write-access:
     name: Check write access permission
     runs-on: ubuntu-latest
-    outputs:
-      has-access: ${{ steps.check.outputs.has-access }}
     steps:
       - name: Check if caller has write access to ecamp/ecamp3
-        id: check
         run: |
+          set -eo pipefail
+
           # For workflow_dispatch, check the actor who triggered the workflow
           USER="${{ github.actor }}"
-          
+
           echo "Checking write access for user: $USER"
-          
-          # Query GitHub GraphQL API to check if user is an org member with write access
+
+          # Query collaborators of ecamp/ecamp3; permission is on the edge
           RESULT=$(curl -s -X POST "https://api.github.com/graphql" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-            -d "{\"query\": \"query { organization(login: \\\"ecamp\\\") { membersWithRole(first: 100, query: \\\"$USER\\\") { edges { node { login } role } } } }\"}")
-          
+            -d "{\"query\": \"query { repository(owner: \\\"ecamp\\\", name: \\\"ecamp3\\\") { collaborators(first: 100) { edges { node { login } permission } } } }\"}" || true)
+
           echo "GraphQL result: $RESULT"
-          
-          # Check if user is found with WRITE or ADMIN role
-          HAS_ACCESS=$(echo "$RESULT" | jq -r --arg user "$USER" '.data.organization.membersWithRole.edges[] | select(.node.login == $user) | .role' | grep -E '^(WRITE|ADMIN)$' | head -1)
-          
+
+          # Allow only WRITE, MAINTAIN or ADMIN permission
+          HAS_ACCESS=$(echo "$RESULT" | jq -r --arg user "$USER" '.data.repository.collaborators.edges[]? | select(.node.login == $user) | .permission' | grep -E '^(WRITE|MAINTAIN|ADMIN)$' | head -1 || true)
+
           if [ -n "$HAS_ACCESS" ]; then
             echo "User $USER has write access (role: $HAS_ACCESS)"
-            echo "has-access=true" >> $GITHUB_OUTPUT
           else
-            echo "User $USER does NOT have write access to ecamp/ecamp3"
-            echo "has-access=false" >> $GITHUB_OUTPUT
+            echo "::error::User $USER does not have write access to ecamp/ecamp3. Required role: WRITE, MAINTAIN or ADMIN."
+            exit 1
           fi
 
   build-and-push:
     needs: check-write-access
-    if: needs.check-write-access.outputs.has-access == 'true'
     name: Build and push docker images
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:

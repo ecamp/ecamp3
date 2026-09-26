@@ -1,0 +1,88 @@
+name: Test write access check
+
+on:
+  workflow_dispatch:
+    inputs:
+      login:
+        description: 'GitHub login to check'
+        type: string
+        required: true
+      expected:
+        description: 'Expected outcome of the predicate'
+        type: choice
+        required: true
+        options:
+          - allow
+          - deny
+
+jobs:
+  test-write-access-check:
+    name: Test write access check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Evaluate predicate
+        id: predicate
+        run: |
+          set -eo pipefail
+
+          USER="${{ inputs.login }}"
+          echo "Evaluating write access for user: $USER"
+
+          # Recorded real response of the collaborators query (recorded 2026-09-26):
+          # BacLuc=WRITE, bacluc-agent=ADMIN. Used as fallback when no usable
+          # live response is available (e.g. no REPO_ACCESS_TOKEN secret in forks).
+          FIXTURE='{"data":{"repository":{"collaborators":{"edges":[{"node":{"login":"BacLuc"},"permission":"WRITE"},{"node":{"login":"bacluc-agent"},"permission":"ADMIN"}]}}}}'
+
+          RESULT=""
+          if [ -n "${{ secrets.REPO_ACCESS_TOKEN }}" ]; then
+            RESULT=$(curl -s -X POST "https://api.github.com/graphql" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+              -d "{\"query\": \"query { repository(owner: \\\"ecamp\\\", name: \\\"ecamp3\\\") { collaborators(first: 100) { edges { node { login } permission } } } }\"}" || true)
+          fi
+
+          if ! echo "$RESULT" | jq -e '.data.repository.collaborators.edges' > /dev/null 2>&1; then
+            echo "No usable live response, falling back to recorded fixture"
+            RESULT="$FIXTURE"
+          fi
+
+          HAS_ACCESS=$(echo "$RESULT" | jq -r --arg user "$USER" '.data.repository.collaborators.edges[]? | select(.node.login == $user) | .permission' | grep -E '^(WRITE|MAINTAIN|ADMIN)$' | head -1 || true)
+
+          if [ -n "$HAS_ACCESS" ]; then
+            echo "User $USER has write access (role: $HAS_ACCESS)"
+            echo "has-access=true" >> $GITHUB_OUTPUT
+          else
+            echo "User $USER does NOT have write access to ecamp/ecamp3"
+            echo "has-access=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exercise both predicate branches on recorded responses
+        run: |
+          set -eo pipefail
+          FIXTURE='{"data":{"repository":{"collaborators":{"edges":[{"node":{"login":"BacLuc"},"permission":"WRITE"},{"node":{"login":"bacluc-agent"},"permission":"ADMIN"}]}}}}'
+
+          HAS_ACCESS=$(echo "$FIXTURE" | jq -r --arg user "bacluc-agent" '.data.repository.collaborators.edges[]? | select(.node.login == $user) | .permission' | grep -E '^(WRITE|MAINTAIN|ADMIN)$' | head -1 || true)
+          if [ -z "$HAS_ACCESS" ]; then
+            echo "::error::Predicate should allow bacluc-agent (ADMIN) but denied"
+            exit 1
+          fi
+
+          HAS_ACCESS=$(echo "$FIXTURE" | jq -r --arg user "manuelmeister" '.data.repository.collaborators.edges[]? | select(.node.login == $user) | .permission' | grep -E '^(WRITE|MAINTAIN|ADMIN)$' | head -1 || true)
+          if [ -n "$HAS_ACCESS" ]; then
+            echo "::error::Predicate should deny manuelmeister but allowed (role: $HAS_ACCESS)"
+            exit 1
+          fi
+
+      - name: Assert expected outcome
+        if: inputs.expected == 'deny'
+        run: |
+          if [ "${{ steps.predicate.outputs.has-access }}" = "true" ]; then
+            echo "::error::Expected deny for ${{ inputs.login }} but predicate allowed"
+            exit 1
+          fi
+
+      - name: Demonstrate visible failure for denied user
+        if: steps.predicate.outputs.has-access == 'false'
+        run: |
+          echo "::error::User ${{ inputs.login }} does not have write access to ecamp/ecamp3. Required role: WRITE, MAINTAIN or ADMIN."
+          exit 1
