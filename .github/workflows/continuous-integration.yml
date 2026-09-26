@@ -1,5 +1,8 @@
 name: CI (mandatory checks)
 
+permissions:
+  contents: read
+
 on:
   push:
     branches-ignore:
@@ -29,6 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    permissions:
+      actions: read
+      contents: read
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
@@ -45,6 +51,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    permissions:
+      actions: read
+      contents: read
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
@@ -61,6 +70,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    permissions:
+      actions: read
+      contents: read
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
@@ -229,6 +241,9 @@ jobs:
 
   api-tests:
     name: 'Tests: API'
+    permissions:
+      contents: read
+      statuses: write
     runs-on: ubuntu-latest
     needs:
       - api-check-needed
@@ -390,6 +405,9 @@ jobs:
 
   frontend-tests:
     name: 'Tests: Frontend'
+    permissions:
+      contents: read
+      statuses: write
     runs-on: ubuntu-latest
     needs:
       - frontend-check-needed
@@ -430,6 +448,9 @@ jobs:
 
   print-tests:
     name: 'Tests: Print'
+    permissions:
+      contents: read
+      statuses: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -469,6 +490,8 @@ jobs:
 
   e2e-tests-build:
     name: 'Tests: End-to-end build'
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
     needs:
       - e2e-check-needed
@@ -478,6 +501,9 @@ jobs:
     name: 'Tests: End-to-end run'
     needs:
       - e2e-tests-build
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/reusable-e2e-tests-run.yml
     with:
       grep-filter: '@mature'
@@ -488,6 +514,9 @@ jobs:
       - api-tests
       - frontend-tests
       - print-tests
+    permissions:
+      contents: read
+      statuses: write
     runs-on: ubuntu-latest
     steps:
       - uses: coverallsapp/github-action@v2
@@ -531,6 +560,8 @@ jobs:
     if: github.event_name == 'push' && (github.event.pull_request && github.event.pull_request.number)
     needs:
       - workflow-success
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4
