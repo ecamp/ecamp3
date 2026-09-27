@@ -1,0 +1,60 @@
+name: Validate write access gate
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Exercise reusable gate and both callers
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict')
+          const fs = require('node:fs')
+          const reusable = fs.readFileSync('.github/workflows/reusable-check-write-access.yml', 'utf8')
+          const deployment = fs.readFileSync('.github/workflows/deployment-pr.yml', 'utf8')
+          const restore = fs.readFileSync('.github/workflows/restore-backup-dev-pr.yml', 'utf8')
+
+          assert.match(reusable, /workflow_call:/)
+          assert.match(reusable, /REPO_ACCESS_TOKEN:\n\s+required: true/)
+          for (const caller of [deployment, restore]) {
+            assert.match(caller, /uses: \.\/\.github\/workflows\/reusable-check-write-access\.yml/)
+            assert.match(caller, /REPO_ACCESS_TOKEN: \$\{\{ secrets\.REPO_ACCESS_TOKEN \}\}/)
+            assert.match(caller, /build-and-push:\n\s+needs: check-write-access/)
+          }
+
+          const match = reusable.match(/\n          script: \|\n([\s\S]*?)\n        env:/)
+          assert.ok(match, 'github-script body is present')
+          const script = match[1].split('\n').map((line) => line.slice(12)).join('\n')
+          const run = async ({ actor = 'dispatcher', pullRequestLogin, membershipStatus = 204, collaboratorStatus = 200, permission = 'write', token = 'token', apiError }) => {
+            const failures = []
+            const github = { rest: { orgs: { checkMembershipForUser: async () => { if (apiError === 'membership') throw new Error('membership'); return { status: membershipStatus } } }, repos: { getCollaboratorPermissionLevel: async () => { if (apiError === 'permission') throw new Error('permission'); return { status: collaboratorStatus, data: { permission } } } } } }
+            const context = { actor, payload: pullRequestLogin === undefined ? {} : { pull_request: { user: { login: pullRequestLogin } } }, repo: { owner: 'ecamp', repo: 'ecamp3' } }
+            const core = { setFailed: (message) => failures.push(message), info: () => {} }
+            await new Function('github', 'context', 'core', 'process', `return (async () => {${script}\n})()`)(github, context, core, { env: { REPO_ACCESS_TOKEN: token } })
+            return failures.length === 0
+          }
+
+          ;(async () => {
+            for (const [input, expected] of [
+              [{ pullRequestLogin: 'member', permission: 'write' }, true],
+              [{ pullRequestLogin: 'member', permission: 'maintain' }, true],
+              [{ pullRequestLogin: 'member', permission: 'admin' }, true],
+              [{ pullRequestLogin: 'outsider', membershipStatus: 404 }, false],
+              [{ pullRequestLogin: 'member', permission: 'read' }, false],
+              [{ pullRequestLogin: 'member', permission: 'triage' }, false],
+              [{ pullRequestLogin: 'member', apiError: 'membership' }, false],
+              [{ pullRequestLogin: 'member', apiError: 'permission' }, false],
+              [{ actor: 'bad login!', pullRequestLogin: undefined }, false],
+              [{ pullRequestLogin: 'member', token: '' }, false],
+              [{ actor: 'dispatcher', pullRequestLogin: undefined, permission: 'write' }, true],
+            ]) assert.equal(await run(input), expected)
+            console.log('reusable gate matrix and both caller wiring passed')
+          })().catch((error) => { console.error(error); process.exitCode = 1 })
+          NODE
