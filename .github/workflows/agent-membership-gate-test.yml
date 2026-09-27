@@ -51,7 +51,7 @@ jobs:
                 [{ actor: 'dispatcher', pullRequestLogin: 'member', permission: 'maintain' }, true],
                 [{ actor: 'dispatcher', pullRequestLogin: 'member', permission: 'admin' }, true],
                 [{ actor: 'dispatcher', pullRequestLogin: 'outsider', membershipStatus: 404 }, false],
-                ...['read', 'triage', undefined].map((permission) => [{ actor: 'dispatcher', pullRequestLogin: 'member', permission }, false]),
+                ...['read', 'triage', null].map((permission) => [{ actor: 'dispatcher', pullRequestLogin: 'member', permission }, false]),
                 [{ actor: 'dispatcher', pullRequestLogin: 'member', token: '' }, false],
                 [{ actor: 'dispatcher', pullRequestLogin: 'bad/login' }, false],
                 [{ actor: 'dispatcher', pullRequestLogin: 'member', failure: 'membership' }, false],
