@@ -11,69 +11,60 @@ jobs:
     name: Check write access permission
     runs-on: ubuntu-latest
     steps:
-      - name: Check if user has write access to this repository
+      - name: Check if the branch repository owner has write access to this repository
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.REPO_ACCESS_TOKEN }}
           script: |
             if (!process.env.REPO_ACCESS_TOKEN) {
-              core.setFailed('REPO_ACCESS_TOKEN is required to verify write access.');
-              return;
+              core.setFailed('REPO_ACCESS_TOKEN is required to check repository write access.')
+              return
             }
 
-            // Authorize the account that owns the repository the branch comes
-            // from, not the account that opened the pull request: an account
-            // without write access can push to its own fork and open a pull
-            // request from it. workflow_dispatch has no pull request and can
-            // only be triggered by an account with write access here.
-            const pullRequest = context.payload.pull_request;
-            const login = pullRequest ? pullRequest.head?.repo?.owner?.login : context.actor;
-            const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
+            const pr = context.payload.pull_request
+            const headRepo = pr?.head?.repo
+            const login = pr ? headRepo?.owner?.login : context.actor
+            const baseOwner = context.repo.owner
+            const baseRepo = context.repo.repo
 
-            if (!validLogin) {
-              core.setFailed('Unable to determine a valid account to authorize.');
-              return;
-            }
-
-            const target = `${context.repo.owner}/${context.repo.repo}`;
-            // A branch can only exist in the base repository if the account
-            // behind it has push access there, so a same-repository head needs
-            // no API call. Compare the GitHub assigned numeric id, never
-            // full_name: a fork is named by its owner. head.repo is null for a
-            // deleted fork, which the guard above already failed closed.
-            const sameRepository =
-              pullRequest && pullRequest.head.repo.id === pullRequest.base.repo.id;
-            let allowed = Boolean(sameRepository);
-            let permission;
-
-            if (!allowed) {
-              try {
-                const collaborator = await github.rest.repos.getCollaboratorPermissionLevel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  username: login,
-                });
-                permission =
-                  collaborator.status === 200 ? collaborator.data?.permission : undefined;
-                allowed = ['write', 'admin'].includes(permission);
-              } catch (error) {
-                core.setFailed(
-                  `Unable to verify access for ${login}: ${error?.message ?? 'GitHub API error'}`
-                );
-                return;
-              }
-            }
-
-            core.info(
-              sameRepository
-                ? `head branch lives in ${target} itself, so its owner has write access there: allow`
-                : `${login} has permission="${permission ?? 'unknown'}" on ${target}: ${allowed ? 'allow' : 'deny'}`
-            );
-
-            if (!allowed) {
+            if (!/^[a-zA-Z0-9-]+$/.test(login ?? '')) {
               core.setFailed(
-                `The account owning the pull request branch repository (${login}) must have write or admin access to ${target}.`
-              );
+                `The owner of the branch repository is unknown or invalid (${login ?? 'none'}).`
+              )
+              return
+            }
+
+            if (headRepo?.full_name === `${baseOwner}/${baseRepo}`) {
+              core.info(
+                `${login} branches from ${baseOwner}/${baseRepo} itself, no access check needed.`
+              )
+              return
+            }
+
+            try {
+              const { status, data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: baseOwner,
+                repo: baseRepo,
+                username: login,
+              })
+              const permission = status === 200 ? data?.permission : undefined
+              const allowed = ['write', 'maintain', 'admin'].includes(permission)
+
+              core.info(
+                `${login} has "${permission ?? 'no access'}" on ${baseOwner}/${baseRepo}: ${
+                  allowed ? 'allow' : 'deny'
+                }`
+              )
+
+              if (!allowed) {
+                core.setFailed(
+                  `The owner of the branch repository must have write, maintain or admin access to ${baseOwner}/${baseRepo}.`
+                )
+              }
+            } catch (error) {
+              core.setFailed(
+                `Could not check the access of ${login}: ${error?.message ?? 'GitHub API error'}`
+              )
             }
         env:
           REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}

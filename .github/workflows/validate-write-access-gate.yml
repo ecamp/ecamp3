@@ -29,20 +29,35 @@ jobs:
             assert.match(caller, /build-and-push:\n\s+needs: check-write-access/)
           }
 
+          const conditions = [...deployment.matchAll(/^ {4}if: (.+)$/gm)].map((match) => match[1])
+          assert.equal(conditions.length, 2, 'deployment-pr.yml gates two jobs')
+          assert.equal(conditions[0], conditions[1], 'gate and build share the deploy condition')
+          assert.match(
+            conditions[0],
+            /github\.event_name == 'workflow_dispatch'\).*'deploy!'.*state == 'open'/,
+            'deploy condition is dispatch or an open deploy! pull request'
+          )
+
           const match = reusable.match(/\n          script: \|\n([\s\S]*?)\n        env:/)
           assert.ok(match, 'github-script body is present')
           const script = match[1].split('\n').map((line) => line.slice(12)).join('\n')
-          const baseId = 1403477
-          const forkId = 1360608096
-          // The author never decides the outcome, so it deliberately differs
-          // from the head owner in every case below.
-          const pullRequest = ({ author, headOwner, headId = forkId, headRepo = true }) => ({
-            user: { login: author },
-            head: { repo: headRepo ? { id: headId, owner: { login: headOwner } } : null },
-            base: { repo: { id: baseId } },
+          assert.ok(!/user\?\.login/.test(script), 'gate must not authorize the pull request author')
+          assert.ok(!/checkMembershipForUser/.test(script), 'gate must not check org membership')
+
+          const withDefaults = (input = {}) => ({
+            actor: 'dispatcher',
+            headRepoOwner: 'trusted-fork-owner',
+            sameRepo: false,
+            headRepoNull: false,
+            noPullRequest: false,
+            collaboratorStatus: 200,
+            permission: 'write',
+            token: 'token',
+            apiError: undefined,
+            ...input,
           })
 
-          const run = async ({ actor = 'dispatcher', payload, permission = 'write', permissionStatus = 200, token = 'token', apiError }) => {
+          const run = async (i) => {
             const failures = []
             const users = []
             const github = {
@@ -50,51 +65,84 @@ jobs:
                 repos: {
                   getCollaboratorPermissionLevel: async ({ username }) => {
                     users.push(username)
-                    if (apiError) throw new Error('permission')
-                    return { status: permissionStatus, data: { permission } }
+                    if (i.apiError === 'permission') throw new Error('permission')
+                    return { status: i.collaboratorStatus, data: { permission: i.permission } }
                   },
                 },
               },
             }
+            const pullRequest = i.noPullRequest
+              ? undefined
+              : {
+                  user: { login: 'trusted-human' },
+                  head: {
+                    repo: i.headRepoNull
+                      ? null
+                      : {
+                          full_name: i.sameRepo ? 'ecamp/ecamp3' : `${i.headRepoOwner}/ecamp3`,
+                          owner: { login: i.headRepoOwner },
+                        },
+                  },
+                }
             const context = {
-              actor,
-              payload: payload ? { pull_request: payload } : {},
+              actor: i.actor,
+              payload: pullRequest ? { pull_request: pullRequest } : {},
               repo: { owner: 'ecamp', repo: 'ecamp3' },
             }
             const core = { setFailed: (message) => failures.push(message), info: () => {} }
-            await new Function('github', 'context', 'core', 'process', `return (async () => {${script}\n})()`)(
-              github,
-              context,
-              core,
-              { env: { REPO_ACCESS_TOKEN: token } }
-            )
-            return { passed: failures.length === 0, users }
+            await new Function(
+              'github',
+              'context',
+              'core',
+              'process',
+              `return (async () => {${script}\n})()`
+            )(github, context, core, { env: { REPO_ACCESS_TOKEN: i.token } })
+            return { passed: failures.length === 0, user: users[0] }
+          }
+
+          // Mirrors the gate control flow: no token, no resolvable login, or the
+          // same-repo fast path all return before the collaborator endpoint.
+          const expectedQueriedLogin = (i) => {
+            if (!i.token) return undefined
+            const login = i.noPullRequest ? i.actor : i.headRepoNull ? undefined : i.headRepoOwner
+            if (!/^[a-zA-Z0-9-]+$/.test(login ?? '')) return undefined
+            if (!i.noPullRequest && i.sameRepo) return undefined
+            return login
           }
 
           ;(async () => {
-            const matrix = [
-              ['fork PR, fork owner has write', { payload: pullRequest({ author: 'outside-author', headOwner: 'trusted-fork' }) }, true, ['trusted-fork']],
-              ['fork PR, fork owner has admin', { payload: pullRequest({ author: 'outside-author', headOwner: 'trusted-fork' }), permission: 'admin' }, true, ['trusted-fork']],
-              ['fork PR, fork owner has read', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permission: 'read' }, false, ['unknown-fork']],
-              ['fork PR, fork owner has triage', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permission: 'triage' }, false, ['unknown-fork']],
-              ['fork PR, fork owner has none', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permission: 'none' }, false, ['unknown-fork']],
-              ['fork PR, permission endpoint 404', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permissionStatus: 404, permission: undefined }, false, ['unknown-fork']],
-              ['fork PR, permission endpoint throws', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), apiError: true }, false, ['unknown-fork']],
-              ['fork PR, head repository deleted', { payload: pullRequest({ author: 'trusted-fork', headRepo: false }) }, false, []],
-              ['fork PR, head owner login malformed', { payload: pullRequest({ author: 'outside-author', headOwner: 'bad login!' }) }, false, []],
-              ['fork PR, REPO_ACCESS_TOKEN empty', { payload: pullRequest({ author: 'outside-author', headOwner: 'trusted-fork' }), token: '' }, false, []],
-              ['same-repository PR by a maintainer', { payload: pullRequest({ author: 'BacLuc', headOwner: 'ecamp', headId: baseId }), permission: 'read' }, true, []],
-              ['same-repository renovate PR', { payload: pullRequest({ author: 'renovate[bot]', headOwner: 'ecamp', headId: baseId }), permission: 'read' }, true, []],
-              ['workflow_dispatch, actor has write', { actor: 'maintainer', permission: 'write' }, true, ['maintainer']],
-              ['workflow_dispatch, actor has admin', { actor: 'maintainer', permission: 'admin' }, true, ['maintainer']],
-              ['workflow_dispatch, actor has read', { actor: 'outsider', permission: 'read' }, false, ['outsider']],
-              ['workflow_dispatch, actor login malformed', { actor: 'bad login!' }, false, []],
+            const cases = [
+              ['same-repo branch', { sameRepo: true, headRepoOwner: 'ecamp' }, true],
+              ['fork owner write', { headRepoOwner: 'acme', permission: 'write' }, true],
+              ['fork owner maintain', { headRepoOwner: 'acme', permission: 'maintain' }, true],
+              ['fork owner admin', { headRepoOwner: 'acme', permission: 'admin' }, true],
+              ['fork owner read', { headRepoOwner: 'acme', permission: 'read' }, false],
+              ['fork owner triage', { headRepoOwner: 'acme', permission: 'triage' }, false],
+              ['agent fork owner read', { headRepoOwner: 'agent-fork-bot', permission: 'read' }, false],
+              ['agent fork owner write', { headRepoOwner: 'agent-fork-bot', permission: 'write' }, true],
+              ['collaborator not 200', { headRepoOwner: 'acme', collaboratorStatus: 404 }, false],
+              ['deleted fork', { headRepoOwner: 'acme', headRepoNull: true }, false],
+              ['malformed head owner', { headRepoOwner: 'bad owner!' }, false],
+              ['dispatch write actor', { noPullRequest: true, actor: 'maintainer' }, true],
+              ['dispatch malformed actor', { noPullRequest: true, actor: 'bad actor!' }, false],
+              ['empty token', { headRepoOwner: 'acme', token: '' }, false],
+              ['collaborator api throw', { headRepoOwner: 'acme', apiError: 'permission' }, false],
             ]
-            for (const [label, input, expected, expectedUsers] of matrix) {
-              const result = await run(input)
-              assert.equal(result.passed, expected, `${label}: pass=${result.passed}`)
-              assert.deepEqual(result.users, expectedUsers, `${label}: users=${JSON.stringify(result.users)}`)
+
+            for (const [label, input, expected] of cases) {
+              const i = withDefaults(input)
+              const result = await run(i)
+              assert.equal(result.passed, expected, label)
+              assert.equal(result.user, expectedQueriedLogin(i), `${label}: queried login`)
+              if (!i.noPullRequest) {
+                assert.notEqual(
+                  result.user,
+                  'trusted-human',
+                  `${label}: the pull request author must never be authorized`
+                )
+              }
+              console.log(`${expected ? 'allow' : 'deny '} ${label} (queried ${result.user ?? 'nothing'})`)
             }
-            console.log(`reusable gate matrix (${matrix.length} cases) and both caller wiring passed`)
+            console.log('reusable gate matrix and both caller wiring passed')
           })().catch((error) => { console.error(error); process.exitCode = 1 })
           NODE
