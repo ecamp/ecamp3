@@ -51,11 +51,11 @@ jobs:
             const failures = []
             const messages = []
             const queried = []
-            const github = { rest: { repos: { getCollaboratorPermissionLevel: async ({ username }) => { queried.push(username); if (apiError) throw new Error(apiError); return { status, data: { permission: typeof permission === 'string' ? permission : permission[username] } } } } } }
+            const github = { rest: { repos: { getCollaboratorPermissionLevel: async ({ owner, repo, username }) => { queried.push({ username, target: `${owner}/${repo}` }); if (apiError) throw new Error(apiError); return { status, data: { permission: typeof permission === 'string' ? permission : permission[username] } } } } } }
             const context = { actor, payload, repo: { owner: 'ecamp', repo: 'ecamp3' } }
             const core = { setFailed: (message) => failures.push(message), info: (message) => messages.push(message) }
             await execute(github, context, core, { env: { REPO_ACCESS_TOKEN: token } })
-            return { passed: failures.length === 0, queried: queried[0], messages: [...failures, ...messages] }
+            return { passed: failures.length === 0, queried: queried[0]?.username, target: queried[0]?.target, messages: [...failures, ...messages] }
           }
 
           // 16 rows; a row may hold several shapes that must share one expectation.
@@ -106,6 +106,7 @@ jobs:
                 const label = `${name} [shape ${index}]`
                 assert.equal(result.passed, expected[index], `${label}: expected ${expected[index] ? 'allow' : 'deny'}`)
                 assert.equal(result.queried, queried[index], `${label}: authorized the wrong account`)
+                assert.equal(result.target, queried[index] && 'ecamp/ecamp3', `${label}: checked the wrong repository`)
                 assert.ok(result.messages.length > 0, `${label}: logged nothing`)
                 for (const message of result.messages) {
                   assert.doesNotMatch(message, /member/i, `${label}: still talks about membership: ${message}`)
