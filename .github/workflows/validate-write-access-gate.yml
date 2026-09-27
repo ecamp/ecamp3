@@ -24,7 +24,7 @@ jobs:
           assert.match(reusable, /workflow_call:/)
           assert.match(reusable, /REPO_ACCESS_TOKEN:\n\s+required: true/)
           assert.doesNotMatch(reusable, /checkMembershipForUser|orgs\./, 'gate must not use organization membership')
-          assert.doesNotMatch(reusable, /maintain/, 'maintain is unreachable, the endpoint maps it to write')
+          assert.match(reusable, /\['write', 'maintain', 'admin'\]\.includes\(permission\)/, 'allow-list is write, maintain, admin')
           for (const caller of [deployment, restore]) {
             assert.match(caller, /uses: \.\/\.github\/workflows\/reusable-check-write-access\.yml/)
             assert.match(caller, /REPO_ACCESS_TOKEN: \$\{\{ secrets\.REPO_ACCESS_TOKEN \}\}/)
@@ -69,8 +69,8 @@ jobs:
               [{ payload: pr(repo(fork.id, 'maintainer')), permission: 'write' }], [true], ['maintainer']],
             ['fork whose owner has admin access is allowed',
               [{ payload: pr(repo(fork.id, 'admin-user')), permission: 'admin' }], [true], ['admin-user']],
-            ['fork whose owner has maintain is allowed, because the endpoint reports maintain as write',
-              [{ payload: pr(repo(fork.id, 'maintainer')), permission: 'write' }], [true], ['maintainer']],
+            ['fork whose owner has maintain access is allowed',
+              [{ payload: pr(repo(fork.id, 'maintainer')), permission: 'maintain' }], [true], ['maintainer']],
             ['fork whose owner only has read access is denied',
               [{ payload: pr(repo(fork.id, 'reader')), permission: 'read' }], [false], ['reader']],
             ['fork whose owner is no collaborator is denied',

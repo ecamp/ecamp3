@@ -46,7 +46,7 @@ jobs:
               const permission = collaborator.status === 200 && collaborator.data && typeof collaborator.data.permission === 'string'
                 ? collaborator.data.permission
                 : undefined;
-              const allowed = ['write', 'admin'].includes(permission);
+              const allowed = ['write', 'maintain', 'admin'].includes(permission);
 
               core.info(
                 `the branch repository owner ${login} has permission="${permission ?? 'unknown'}" on ${target}: ${allowed ? 'allow' : 'deny'}`
@@ -54,7 +54,7 @@ jobs:
 
               if (!allowed) {
                 core.setFailed(
-                  `The account owning the pull request branch repository (${login}) must have write or admin access to ${target}.`
+                  `The account owning the pull request branch repository (${login}) must have write, maintain or admin access to ${target}.`
                 );
               }
             } catch (error) {
