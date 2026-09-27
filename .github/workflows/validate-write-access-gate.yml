@@ -2,6 +2,11 @@ name: Validate write access gate
 
 on:
   push:
+    paths:
+      - .github/workflows/deployment-pr.yml
+      - .github/workflows/reusable-check-write-access.yml
+      - .github/workflows/restore-backup-dev-pr.yml
+      - .github/workflows/validate-write-access-gate.yml
   workflow_dispatch:
 
 permissions:
