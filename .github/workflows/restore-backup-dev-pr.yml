@@ -31,62 +31,7 @@ on:
           - deploy
 
 jobs:
-  check-write-access:
-    name: Check write access permission
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check if user has write access to this repository
-        uses: actions/github-script@v9
-        with:
-          github-token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          script: |
-            if (!process.env.REPO_ACCESS_TOKEN) {
-              core.setFailed('REPO_ACCESS_TOKEN is required to verify ecamp membership.');
-              return;
-            }
-
-            const login = context.actor;
-            const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
-
-            if (!validLogin) {
-              core.setFailed('Unable to determine a valid user to authorize.');
-              return;
-            }
-
-            try {
-              const membership = await github.rest.orgs.checkMembershipForUser({
-                org: 'ecamp',
-                username: login,
-              });
-              const collaborator = await github.rest.repos.getCollaboratorPermissionLevel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                username: login,
-              });
-
-              const activeMember = membership.status === 204;
-              const permission = collaborator.status === 200 && collaborator.data && typeof collaborator.data.permission === 'string'
-                ? collaborator.data.permission
-                : undefined;
-              const allowed = activeMember && ['write', 'maintain', 'admin'].includes(permission);
-
-              core.info(
-                `${login} has active membership=${activeMember} and permission="${permission ?? 'unknown'}" on ${context.repo.owner}/${context.repo.repo}: ${allowed ? 'allow' : 'deny'}`
-              );
-
-              if (!allowed) {
-                core.setFailed(
-                  `User ${login} must be an active ecamp member with write, maintain, or admin access to ${context.repo.owner}/${context.repo.repo}.`
-                );
-              }
-            } catch (error) {
-              core.setFailed(`Unable to verify access for ${login}: ${error?.message ?? 'GitHub API error'}`);
-            }
-        env:
-          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-
   build-and-push:
-    needs: check-write-access
     name: Build and push docker images
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
