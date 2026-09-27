@@ -9,6 +9,7 @@ use ApiPlatform\Validator\Exception\ValidationException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Exception\PartialDenormalizationException;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -50,7 +51,7 @@ class DenormalizationViolationFactory implements DenormalizationViolationFactory
                 $pathMessages = $dateMessages[$path] ?? [];
                 $message = array_shift($pathMessages);
                 $dateMessages[$path] = $pathMessages;
-                $violations->add(null === $message ? $violation : $this->withMessage($violation, $message));
+                $violations->add(null === $message || Type::INVALID_TYPE_ERROR !== $violation->getCode() ? $violation : $this->withMessage($violation, $message));
             }
 
             throw new ValidationException($violations);
@@ -64,7 +65,7 @@ class DenormalizationViolationFactory implements DenormalizationViolationFactory
         $messages = [];
 
         foreach ($errors as $error) {
-            if ($error instanceof NotNormalizableValueException && (str_starts_with($error->getMessage(), 'Parsing datetime string ') || str_starts_with($error->getMessage(), 'Failed to parse time string '))) {
+            if ($error instanceof NotNormalizableValueException && (str_starts_with($error->getMessage(), 'Parsing datetime string ') || str_starts_with($error->getMessage(), 'Failed to parse time string ') || str_starts_with($error->getMessage(), 'The data is either not an string'))) {
                 $messages[$error->getPath()][] = $error->getMessage();
             }
         }

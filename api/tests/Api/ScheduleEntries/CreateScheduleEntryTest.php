@@ -211,11 +211,11 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'start: This value should be of type string.',
+            'detail' => 'start: The data is either not an string, an empty string, or null; you should pass a string that can be parsed with the passed format or a valid DateTime string.',
             'violations' => [
                 [
                     'propertyPath' => 'start',
-                    'message' => 'This value should be of type string.',
+                    'message' => 'The data is either not an string, an empty string, or null; you should pass a string that can be parsed with the passed format or a valid DateTime string.',
                 ],
             ],
         ]);
