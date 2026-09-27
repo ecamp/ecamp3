@@ -30,35 +30,42 @@ jobs:
         uses: actions/github-script@v9
         with:
           script: |
-            // This workflow runs on pull_request_target, so the only trusted input
-            // is the author of the pull request. A manual run is done by a
-            // collaborator anyway, and context.actor is who triggered it.
-            const login = context.payload.pull_request?.user.login ?? context.actor;
+            const login = context.payload.pull_request?.user?.login ?? context.actor;
+            const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
 
-            let permission;
+            if (!validLogin) {
+              core.setFailed('Unable to determine a valid user to authorize.');
+              return;
+            }
+
             try {
-              const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+              const membership = await github.rest.orgs.checkMembershipForUser({
+                org: 'ecamp',
+                username: login,
+              });
+              const collaborator = await github.rest.repos.getCollaboratorPermissionLevel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 username: login,
               });
-              permission = data.permission;
-            } catch (error) {
-              // 404 for an unknown login, 401/403 for a token problem. Deny.
-              permission = `unreadable (${error.status})`;
-            }
 
-            // The permission field is the base role of the repository: maintain
-            // maps to write, triage maps to read, everything else denies.
-            const allowed = ['write', 'admin'].includes(permission);
-            core.info(
-              `${login} has "${permission}" on ${context.repo.owner}/${context.repo.repo}: ${allowed ? 'allow' : 'deny'}`
-            );
+              const activeMember = membership.status === 204;
+              const permission = collaborator.status === 200 && collaborator.data && typeof collaborator.data.permission === 'string'
+                ? collaborator.data.permission
+                : undefined;
+              const allowed = activeMember && ['write', 'maintain', 'admin'].includes(permission);
 
-            if (!allowed) {
-              core.setFailed(
-                `User ${login} does not have write access to ${context.repo.owner}/${context.repo.repo}. Required permission: write or admin.`
+              core.info(
+                `${login} has active membership=${activeMember} and permission="${permission ?? 'unknown'}" on ${context.repo.owner}/${context.repo.repo}: ${allowed ? 'allow' : 'deny'}`
               );
+
+              if (!allowed) {
+                core.setFailed(
+                  `User ${login} must be an active ecamp member with write, maintain, or admin access to ${context.repo.owner}/${context.repo.repo}.`
+                );
+              }
+            } catch (error) {
+              core.setFailed(`Unable to verify access for ${login}: ${error?.message ?? 'GitHub API error'}`);
             }
 
   build-and-push:
