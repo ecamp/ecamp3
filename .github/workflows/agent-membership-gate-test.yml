@@ -1,0 +1,52 @@
+name: Agent membership gate test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorization-paths:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const assert = require('node:assert/strict');
+            const authorize = async ({ pullRequestLogin, actor, token, membership, collaborator }) => {
+              if (!token) return false;
+              const login = pullRequestLogin ?? actor;
+              if (typeof login !== 'string' || !/^[a-zA-Z0-9-]+$/.test(login)) return false;
+              try {
+                const membershipResponse = await membership(login);
+                const collaboratorResponse = await collaborator(login);
+                const activeMember = membershipResponse.status === 204;
+                const permission = collaboratorResponse.status === 200 && collaboratorResponse.data && typeof collaboratorResponse.data.permission === 'string'
+                  ? collaboratorResponse.data.permission
+                  : undefined;
+                return activeMember && ['write', 'maintain', 'admin'].includes(permission);
+              } catch {
+                return false;
+              }
+            };
+            const allow = { status: 204 };
+            const write = { status: 200, data: { permission: 'write' } };
+            const maintain = { status: 200, data: { permission: 'maintain' } };
+            const admin = { status: 200, data: { permission: 'admin' } };
+            const membership = async () => allow;
+            const collaborator = async () => write;
+
+            assert.equal(await authorize({ pullRequestLogin: 'author', actor: 'dispatcher', token: 'token', membership, collaborator }), true);
+            assert.equal(await authorize({ actor: 'dispatcher', token: 'token', membership, collaborator }), true);
+            for (const permission of [maintain, admin]) {
+              assert.equal(await authorize({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership, collaborator: async () => permission }), true);
+            }
+            assert.equal(await authorize({ pullRequestLogin: 'outsider', actor: 'dispatcher', token: 'token', membership: async () => ({ status: 404 }), collaborator }), false);
+            for (const permission of ['read', 'triage', undefined]) {
+              assert.equal(await authorize({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership, collaborator: async () => ({ status: 200, data: permission === undefined ? {} : { permission } }) }), false);
+            }
+            assert.equal(await authorize({ pullRequestLogin: 'member', actor: 'dispatcher', membership, collaborator }), false);
+            assert.equal(await authorize({ pullRequestLogin: 'bad/login', actor: 'dispatcher', token: 'token', membership, collaborator }), false);
+            assert.equal(await authorize({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership: async () => { throw new Error('membership API failure'); }, collaborator }), false);
+            assert.equal(await authorize({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership, collaborator: async () => { throw new Error('permission API failure'); } }), false);
