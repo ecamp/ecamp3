@@ -5,12 +5,12 @@ exports[`An ESwitch > looks like a switch > checked 1`] = `
      <div class="e-form-container"
           name="test"
           value="true">
-          <div class="v-input v-input--horizontal v-input--center-affix v-input--density-default v-theme--light v-locale--is-ltr v-input--dirty v-switch v-switch--inset">
+          <div class="v-input v-input--center-affix v-input--density-default v-input--dirty v-input--horizontal v-locale--is-ltr v-switch v-switch--inset v-theme--light">
                <!---->
                <div class="v-input__control">
-                    <div class="v-selection-control v-selection-control--dirty v-selection-control--density-default">
-                         <div class="v-selection-control__wrapper text-primary">
-                              <div class="v-switch__track bg-primary">
+                    <div class="v-selection-control v-selection-control--density-default v-selection-control--dirty">
+                         <div class="text-primary v-selection-control__wrapper">
+                              <div class="bg-primary v-switch__track">
                                    <!---->
                                    <!---->
                               </div>
@@ -33,8 +33,7 @@ exports[`An ESwitch > looks like a switch > checked 1`] = `
                          </div>
                          <label class="v-label v-label--clickable"
                                 for>
-                              <!---->
-                              test
+                              <!---->test
                          </label>
                     </div>
                </div>
@@ -50,7 +49,7 @@ exports[`An ESwitch > looks like a switch > unchecked 1`] = `
      <div class="e-form-container"
           name="test"
           value="false">
-          <div class="v-input v-input--horizontal v-input--center-affix v-input--density-default v-theme--light v-locale--is-ltr v-input--dirty v-switch v-switch--inset">
+          <div class="v-input v-input--center-affix v-input--density-default v-input--dirty v-input--horizontal v-locale--is-ltr v-switch v-switch--inset v-theme--light">
                <!---->
                <div class="v-input__control">
                     <div class="v-selection-control v-selection-control--density-default">
@@ -77,8 +76,7 @@ exports[`An ESwitch > looks like a switch > unchecked 1`] = `
                          </div>
                          <label class="v-label v-label--clickable"
                                 for>
-                              <!---->
-                              test
+                              <!---->test
                          </label>
                     </div>
                </div>
