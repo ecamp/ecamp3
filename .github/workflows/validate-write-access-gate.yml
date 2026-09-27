@@ -32,35 +32,69 @@ jobs:
           const match = reusable.match(/\n          script: \|\n([\s\S]*?)\n        env:/)
           assert.ok(match, 'github-script body is present')
           const script = match[1].split('\n').map((line) => line.slice(12)).join('\n')
-          const run = async ({ actor = 'dispatcher', pullRequestLogin, membershipStatus = 204, collaboratorStatus = 200, permission = 'write', token = 'token', apiError }) => {
+          const baseId = 1403477
+          const forkId = 1360608096
+          // The author never decides the outcome, so it deliberately differs
+          // from the head owner in every case below.
+          const pullRequest = ({ author, headOwner, headId = forkId, headRepo = true }) => ({
+            user: { login: author },
+            head: { repo: headRepo ? { id: headId, owner: { login: headOwner } } : null },
+            base: { repo: { id: baseId } },
+          })
+
+          const run = async ({ actor = 'dispatcher', payload, permission = 'write', permissionStatus = 200, token = 'token', apiError }) => {
             const failures = []
             const users = []
-            const github = { rest: { orgs: { checkMembershipForUser: async ({ username }) => { users.push(username); if (apiError === 'membership') throw new Error('membership'); return { status: membershipStatus } } }, repos: { getCollaboratorPermissionLevel: async () => { if (apiError === 'permission') throw new Error('permission'); return { status: collaboratorStatus, data: { permission } } } } } }
-            const context = { actor, payload: pullRequestLogin === undefined ? {} : { pull_request: { user: { login: pullRequestLogin } } }, repo: { owner: 'ecamp', repo: 'ecamp3' } }
+            const github = {
+              rest: {
+                repos: {
+                  getCollaboratorPermissionLevel: async ({ username }) => {
+                    users.push(username)
+                    if (apiError) throw new Error('permission')
+                    return { status: permissionStatus, data: { permission } }
+                  },
+                },
+              },
+            }
+            const context = {
+              actor,
+              payload: payload ? { pull_request: payload } : {},
+              repo: { owner: 'ecamp', repo: 'ecamp3' },
+            }
             const core = { setFailed: (message) => failures.push(message), info: () => {} }
-            await new Function('github', 'context', 'core', 'process', `return (async () => {${script}\n})()`)(github, context, core, { env: { REPO_ACCESS_TOKEN: token } })
-            return { passed: failures.length === 0, user: users[0] }
+            await new Function('github', 'context', 'core', 'process', `return (async () => {${script}\n})()`)(
+              github,
+              context,
+              core,
+              { env: { REPO_ACCESS_TOKEN: token } }
+            )
+            return { passed: failures.length === 0, users }
           }
 
           ;(async () => {
-            for (const [input, expected] of [
-              [{ pullRequestLogin: 'member', permission: 'write' }, true],
-              [{ pullRequestLogin: 'member', permission: 'maintain' }, true],
-              [{ pullRequestLogin: 'member', permission: 'admin' }, true],
-              [{ pullRequestLogin: 'outsider', membershipStatus: 404 }, false],
-              [{ pullRequestLogin: 'member', permission: 'read' }, false],
-              [{ pullRequestLogin: 'member', permission: 'triage' }, false],
-              [{ pullRequestLogin: 'member', apiError: 'membership' }, false],
-              [{ pullRequestLogin: 'member', apiError: 'permission' }, false],
-              [{ actor: 'bad login!', pullRequestLogin: undefined }, false],
-              [{ pullRequestLogin: 'member', token: '' }, false],
-              [{ actor: 'dispatcher', pullRequestLogin: undefined, permission: 'write' }, true],
-            ]) {
+            const matrix = [
+              ['fork PR, fork owner has write', { payload: pullRequest({ author: 'outside-author', headOwner: 'trusted-fork' }) }, true, ['trusted-fork']],
+              ['fork PR, fork owner has admin', { payload: pullRequest({ author: 'outside-author', headOwner: 'trusted-fork' }), permission: 'admin' }, true, ['trusted-fork']],
+              ['fork PR, fork owner has read', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permission: 'read' }, false, ['unknown-fork']],
+              ['fork PR, fork owner has triage', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permission: 'triage' }, false, ['unknown-fork']],
+              ['fork PR, fork owner has none', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permission: 'none' }, false, ['unknown-fork']],
+              ['fork PR, permission endpoint 404', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), permissionStatus: 404, permission: undefined }, false, ['unknown-fork']],
+              ['fork PR, permission endpoint throws', { payload: pullRequest({ author: 'outside-author', headOwner: 'unknown-fork' }), apiError: true }, false, ['unknown-fork']],
+              ['fork PR, head repository deleted', { payload: pullRequest({ author: 'trusted-fork', headRepo: false }) }, false, []],
+              ['fork PR, head owner login malformed', { payload: pullRequest({ author: 'outside-author', headOwner: 'bad login!' }) }, false, []],
+              ['fork PR, REPO_ACCESS_TOKEN empty', { payload: pullRequest({ author: 'outside-author', headOwner: 'trusted-fork' }), token: '' }, false, []],
+              ['same-repository PR by a maintainer', { payload: pullRequest({ author: 'BacLuc', headOwner: 'ecamp', headId: baseId }), permission: 'read' }, true, []],
+              ['same-repository renovate PR', { payload: pullRequest({ author: 'renovate[bot]', headOwner: 'ecamp', headId: baseId }), permission: 'read' }, true, []],
+              ['workflow_dispatch, actor has write', { actor: 'maintainer', permission: 'write' }, true, ['maintainer']],
+              ['workflow_dispatch, actor has admin', { actor: 'maintainer', permission: 'admin' }, true, ['maintainer']],
+              ['workflow_dispatch, actor has read', { actor: 'outsider', permission: 'read' }, false, ['outsider']],
+              ['workflow_dispatch, actor login malformed', { actor: 'bad login!' }, false, []],
+            ]
+            for (const [label, input, expected, expectedUsers] of matrix) {
               const result = await run(input)
-              assert.equal(result.passed, expected)
-              const expectedUser = input.token === '' || /[^a-zA-Z0-9-]/.test(input.pullRequestLogin ?? input.actor) ? undefined : input.pullRequestLogin ?? input.actor
-              assert.equal(result.user, expectedUser)
+              assert.equal(result.passed, expected, `${label}: pass=${result.passed}`)
+              assert.deepEqual(result.users, expectedUsers, `${label}: users=${JSON.stringify(result.users)}`)
             }
-            console.log('reusable gate matrix and both caller wiring passed')
+            console.log(`reusable gate matrix (${matrix.length} cases) and both caller wiring passed`)
           })().catch((error) => { console.error(error); process.exitCode = 1 })
           NODE
