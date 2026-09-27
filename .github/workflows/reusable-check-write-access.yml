@@ -23,7 +23,9 @@ jobs:
 
             const target = `${context.repo.owner}/${context.repo.repo}`;
             const pullRequest = context.payload.pull_request;
-            const login = pullRequest ? pullRequest.head?.repo?.owner?.login : context.actor;
+            const headRepository = pullRequest?.head?.repo;
+            const baseRepository = pullRequest?.base?.repo;
+            const login = pullRequest ? headRepository?.owner?.login : context.actor;
             const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
 
             if (!validLogin) {
@@ -31,7 +33,12 @@ jobs:
               return;
             }
 
-            if (pullRequest && pullRequest.head.repo.id === pullRequest.base.repo.id) {
+            if (pullRequest && (!Number.isInteger(headRepository?.id) || !Number.isInteger(baseRepository?.id))) {
+              core.setFailed('Unable to determine the pull request repositories to authorize.');
+              return;
+            }
+
+            if (pullRequest && headRepository.id === baseRepository.id) {
               core.info(`head branch lives in ${target} itself, so its owner has write access there: allow`);
               return;
             }
