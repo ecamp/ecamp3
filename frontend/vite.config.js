@@ -159,6 +159,13 @@ export default defineConfig(({ mode }) => ({
         find: '~inter-ui',
         replacement: path.resolve(__dirname, 'node_modules', 'inter-ui'),
       },
+      {
+        find: /^vue$/,
+        replacement: path.resolve(
+          __dirname,
+          'node_modules/vue/dist/vue.runtime.esm-bundler.js'
+        ),
+      },
 
       // find dayjs from commons
       {
