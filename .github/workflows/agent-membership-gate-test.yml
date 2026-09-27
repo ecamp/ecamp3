@@ -14,51 +14,48 @@ jobs:
         with:
           script: |
             const assert = require('node:assert/strict');
-            const authorize = async ({ pullRequestLogin, actor, token, membership, collaborator }) => {
-              if (!token) return { allowed: false, reason: 'missing token' };
-              const login = pullRequestLogin ?? actor;
-              if (typeof login !== 'string' || !/^[a-zA-Z0-9-]+$/.test(login)) return { allowed: false, reason: 'invalid login' };
-              try {
-                const membershipResponse = await membership(login);
-                const collaboratorResponse = await collaborator(login);
-                const activeMember = membershipResponse.status === 204;
-                const permission = collaboratorResponse.status === 200 && collaboratorResponse.data && typeof collaboratorResponse.data.permission === 'string'
-                  ? collaboratorResponse.data.permission
-                  : undefined;
-                return { allowed: activeMember && ['write', 'maintain', 'admin'].includes(permission), login, permission };
-              } catch (error) {
-                return { allowed: false, reason: error.message };
-              }
-            };
-            const allow = { status: 204 };
-            const write = { status: 200, data: { permission: 'write' } };
-            const maintain = { status: 200, data: { permission: 'maintain' } };
-            const admin = { status: 200, data: { permission: 'admin' } };
-            const membership = async () => allow;
-            const collaborator = async () => write;
-
-            const assertAllowed = async (input) => assert.equal((await authorize(input)).allowed, true);
-            const assertDenied = async (input) => assert.equal((await authorize(input)).allowed, false);
-
-            assert.equal((await authorize({ pullRequestLogin: 'author', actor: 'dispatcher', token: 'token', membership, collaborator })).login, 'author');
-            await assertAllowed({ actor: 'dispatcher', token: 'token', membership, collaborator });
-            for (const permission of [maintain, admin]) {
-              await assertAllowed({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership, collaborator: async () => permission });
-            }
-            await assertDenied({ pullRequestLogin: 'outsider', actor: 'dispatcher', token: 'token', membership: async () => ({ status: 404 }), collaborator });
-            for (const permission of ['read', 'triage', undefined]) {
-              await assertDenied({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership, collaborator: async () => ({ status: 200, data: permission === undefined ? {} : { permission } }) });
-            }
-            await assertDenied({ pullRequestLogin: 'member', actor: 'dispatcher', membership, collaborator });
-            await assertDenied({ pullRequestLogin: 'bad/login', actor: 'dispatcher', token: 'token', membership, collaborator });
-            await assertDenied({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership: async () => { throw new Error('membership API failure'); }, collaborator });
-            await assertDenied({ pullRequestLogin: 'member', actor: 'dispatcher', token: 'token', membership, collaborator: async () => { throw new Error('permission API failure'); } });
-
-            const workflow = Buffer.from((await github.rest.repos.getContent({
+            const { execFileSync } = require('node:child_process');
+            const files = ['deployment-pr.yml', 'restore-backup-dev-pr.yml'];
+            const readWorkflow = async (file) => Buffer.from((await github.rest.repos.getContent({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              path: '.github/workflows/deployment-pr.yml',
+              path: `.github/workflows/${file}`,
               ref: context.sha,
             })).data.content, 'base64').toString();
-            assert.match(workflow, /build-and-push:\n\s+needs: check-write-access/);
-            assert.match(workflow, /upgrade-or-install-deployment:[\s\S]+needs: build-and-push/);
+            const parseWorkflow = (source) => JSON.parse(execFileSync('ruby', ['-e', "require 'yaml'; require 'json'; puts JSON.generate(YAML.safe_load(STDIN.read, aliases: true))"], { input: source }));
+            const runScript = async (script, { actor, pullRequestLogin, token = 'token', membershipStatus = 204, permission = 'write', failure }) => {
+              const failures = [];
+              const calls = { membership: 0, collaborator: 0 };
+              const fail = (name) => { if (failure === name) throw new Error(`${name} API failure`); };
+              const fakeGithub = { rest: { orgs: { checkMembershipForUser: async () => { calls.membership++; fail('membership'); return { status: membershipStatus }; } }, repos: { getCollaboratorPermissionLevel: async () => { calls.collaborator++; fail('permission'); return { status: 200, data: permission === undefined ? {} : { permission } }; } } } };
+              const fakeContext = { actor, repo: { owner: 'ecamp', repo: 'ecamp3' }, payload: pullRequestLogin === undefined ? {} : { pull_request: { user: { login: pullRequestLogin } } } };
+              const fakeCore = { info() {}, setFailed(message) { failures.push(message); } };
+              const fakeProcess = { env: { REPO_ACCESS_TOKEN: token } };
+              await new Function('github', 'context', 'core', 'process', `return (async () => { ${script} })()`)(fakeGithub, fakeContext, fakeCore, fakeProcess);
+              return { failures, calls };
+            };
+            for (const file of files) {
+              const source = await readWorkflow(file);
+              const workflow = parseWorkflow(source);
+              const gate = workflow.jobs['check-write-access'];
+              const build = workflow.jobs['build-and-push'];
+              const deploy = workflow.jobs['upgrade-or-install-deployment'];
+              assert.equal(gate.steps.find((step) => step.name === 'Check if user has write access to this repository').uses, 'actions/github-script@v9');
+              assert.equal(build.needs, 'check-write-access');
+              assert.equal(deploy.needs, 'build-and-push');
+              const script = gate.steps.find((step) => step.with?.script).with.script;
+              assert.match(script, /checkMembershipForUser/);
+              assert.match(script, /getCollaboratorPermissionLevel/);
+              const cases = [
+                [{ actor: 'dispatcher', pullRequestLogin: file === 'deployment-pr.yml' ? 'author' : undefined }, true],
+                [{ actor: 'dispatcher', pullRequestLogin: 'member', permission: 'maintain' }, true],
+                [{ actor: 'dispatcher', pullRequestLogin: 'member', permission: 'admin' }, true],
+                [{ actor: 'dispatcher', pullRequestLogin: 'outsider', membershipStatus: 404 }, false],
+                ...['read', 'triage', undefined].map((permission) => [{ actor: 'dispatcher', pullRequestLogin: 'member', permission }, false]),
+                [{ actor: 'dispatcher', pullRequestLogin: 'member', token: '' }, false],
+                [{ actor: 'dispatcher', pullRequestLogin: 'bad/login' }, false],
+                [{ actor: 'dispatcher', pullRequestLogin: 'member', failure: 'membership' }, false],
+                [{ actor: 'dispatcher', pullRequestLogin: 'member', failure: 'permission' }, false],
+              ];
+              for (const [input, allowed] of cases) assert.equal((await runScript(script, input)).failures.length === 0, allowed, `${file}: ${JSON.stringify(input)}`);
+            }
