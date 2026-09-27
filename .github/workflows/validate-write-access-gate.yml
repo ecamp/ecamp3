@@ -34,11 +34,12 @@ jobs:
           const script = match[1].split('\n').map((line) => line.slice(12)).join('\n')
           const run = async ({ actor = 'dispatcher', pullRequestLogin, membershipStatus = 204, collaboratorStatus = 200, permission = 'write', token = 'token', apiError }) => {
             const failures = []
-            const github = { rest: { orgs: { checkMembershipForUser: async () => { if (apiError === 'membership') throw new Error('membership'); return { status: membershipStatus } } }, repos: { getCollaboratorPermissionLevel: async () => { if (apiError === 'permission') throw new Error('permission'); return { status: collaboratorStatus, data: { permission } } } } } }
+            const users = []
+            const github = { rest: { orgs: { checkMembershipForUser: async ({ username }) => { users.push(username); if (apiError === 'membership') throw new Error('membership'); return { status: membershipStatus } } }, repos: { getCollaboratorPermissionLevel: async () => { if (apiError === 'permission') throw new Error('permission'); return { status: collaboratorStatus, data: { permission } } } } } }
             const context = { actor, payload: pullRequestLogin === undefined ? {} : { pull_request: { user: { login: pullRequestLogin } } }, repo: { owner: 'ecamp', repo: 'ecamp3' } }
             const core = { setFailed: (message) => failures.push(message), info: () => {} }
             await new Function('github', 'context', 'core', 'process', `return (async () => {${script}\n})()`)(github, context, core, { env: { REPO_ACCESS_TOKEN: token } })
-            return failures.length === 0
+            return { passed: failures.length === 0, user: users[0] }
           }
 
           ;(async () => {
@@ -54,7 +55,12 @@ jobs:
               [{ actor: 'bad login!', pullRequestLogin: undefined }, false],
               [{ pullRequestLogin: 'member', token: '' }, false],
               [{ actor: 'dispatcher', pullRequestLogin: undefined, permission: 'write' }, true],
-            ]) assert.equal(await run(input), expected)
+            ]) {
+              const result = await run(input)
+              assert.equal(result.passed, expected)
+              const expectedUser = input.token === '' || /[^a-zA-Z0-9-]/.test(input.pullRequestLogin ?? input.actor) ? undefined : input.pullRequestLogin ?? input.actor
+              assert.equal(result.user, expectedUser)
+            }
             console.log('reusable gate matrix and both caller wiring passed')
           })().catch((error) => { console.error(error); process.exitCode = 1 })
           NODE
