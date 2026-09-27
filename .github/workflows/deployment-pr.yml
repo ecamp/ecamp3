@@ -29,7 +29,13 @@ jobs:
       - name: Check if user has write access to this repository
         uses: actions/github-script@v9
         with:
+          github-token: ${{ secrets.REPO_ACCESS_TOKEN }}
           script: |
+            if (!process.env.REPO_ACCESS_TOKEN) {
+              core.setFailed('REPO_ACCESS_TOKEN is required to verify ecamp membership.');
+              return;
+            }
+
             const login = context.payload.pull_request?.user?.login ?? context.actor;
             const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
 
@@ -67,6 +73,8 @@ jobs:
             } catch (error) {
               core.setFailed(`Unable to verify access for ${login}: ${error?.message ?? 'GitHub API error'}`);
             }
+        env:
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
   build-and-push:
     needs: check-write-access
