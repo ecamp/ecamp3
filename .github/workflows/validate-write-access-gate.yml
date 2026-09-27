@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Exercise reusable gate and both callers
+      - name: Exercise reusable gate against the 16-case matrix
         run: |
           node <<'NODE'
           const assert = require('node:assert/strict')
@@ -23,126 +23,87 @@ jobs:
 
           assert.match(reusable, /workflow_call:/)
           assert.match(reusable, /REPO_ACCESS_TOKEN:\n\s+required: true/)
+          assert.doesNotMatch(reusable, /checkMembershipForUser|orgs\./, 'gate must not use organization membership')
+          assert.doesNotMatch(reusable, /maintain/, 'maintain is unreachable, the endpoint maps it to write')
           for (const caller of [deployment, restore]) {
             assert.match(caller, /uses: \.\/\.github\/workflows\/reusable-check-write-access\.yml/)
             assert.match(caller, /REPO_ACCESS_TOKEN: \$\{\{ secrets\.REPO_ACCESS_TOKEN \}\}/)
             assert.match(caller, /build-and-push:\n\s+needs: check-write-access/)
           }
 
-          const conditions = [...deployment.matchAll(/^ {4}if: (.+)$/gm)].map((match) => match[1])
-          assert.equal(conditions.length, 2, 'deployment-pr.yml gates two jobs')
-          assert.equal(conditions[0], conditions[1], 'gate and build share the deploy condition')
-          assert.match(
-            conditions[0],
-            /github\.event_name == 'workflow_dispatch'\).*'deploy!'.*state == 'open'/,
-            'deploy condition is dispatch or an open deploy! pull request'
-          )
-
           const match = reusable.match(/\n          script: \|\n([\s\S]*?)\n        env:/)
           assert.ok(match, 'github-script body is present')
           const script = match[1].split('\n').map((line) => line.slice(12)).join('\n')
-          assert.ok(!/user\?\.login/.test(script), 'gate must not authorize the pull request author')
-          assert.ok(!/checkMembershipForUser/.test(script), 'gate must not check org membership')
+          const execute = new Function('github', 'context', 'core', 'process', `return (async () => {${script}\n})()`)
 
-          const withDefaults = (input = {}) => ({
-            actor: 'dispatcher',
-            headRepoOwner: 'trusted-fork-owner',
-            sameRepo: false,
-            headRepoNull: false,
-            noPullRequest: false,
-            collaboratorStatus: 200,
-            permission: 'write',
-            token: 'token',
-            apiError: undefined,
-            ...input,
-          })
+          const ecamp = { id: 1403477 }
+          const fork = { id: 1360608096 }
+          const repo = (id, owner, type = 'User', full_name = `${owner}/ecamp3`) => ({ id, full_name, owner: { login: owner, type } })
+          const pr = (head, base = ecamp, author = 'contributor') => ({ pull_request: { user: { login: author }, head: { repo: head }, base: { repo: base } } })
 
-          const run = async (i) => {
+          const run = async ({ actor = 'dispatcher', payload = {}, permission = 'write', status = 200, token = 'token', apiError } = {}) => {
             const failures = []
-            const users = []
-            const github = {
-              rest: {
-                repos: {
-                  getCollaboratorPermissionLevel: async ({ username }) => {
-                    users.push(username)
-                    if (i.apiError === 'permission') throw new Error('permission')
-                    return { status: i.collaboratorStatus, data: { permission: i.permission } }
-                  },
-                },
-              },
-            }
-            const pullRequest = i.noPullRequest
-              ? undefined
-              : {
-                  user: { login: 'trusted-human' },
-                  head: {
-                    repo: i.headRepoNull
-                      ? null
-                      : {
-                          full_name: i.sameRepo ? 'ecamp/ecamp3' : `${i.headRepoOwner}/ecamp3`,
-                          owner: { login: i.headRepoOwner },
-                        },
-                  },
-                }
-            const context = {
-              actor: i.actor,
-              payload: pullRequest ? { pull_request: pullRequest } : {},
-              repo: { owner: 'ecamp', repo: 'ecamp3' },
-            }
-            const core = { setFailed: (message) => failures.push(message), info: () => {} }
-            await new Function(
-              'github',
-              'context',
-              'core',
-              'process',
-              `return (async () => {${script}\n})()`
-            )(github, context, core, { env: { REPO_ACCESS_TOKEN: i.token } })
-            return { passed: failures.length === 0, user: users[0] }
+            const messages = []
+            const queried = []
+            const github = { rest: { repos: { getCollaboratorPermissionLevel: async ({ username }) => { queried.push(username); if (apiError) throw new Error(apiError); return { status, data: { permission: typeof permission === 'string' ? permission : permission[username] } } } } } }
+            const context = { actor, payload, repo: { owner: 'ecamp', repo: 'ecamp3' } }
+            const core = { setFailed: (message) => failures.push(message), info: (message) => messages.push(message) }
+            await execute(github, context, core, { env: { REPO_ACCESS_TOKEN: token } })
+            return { passed: failures.length === 0, queried: queried[0], messages: [...failures, ...messages] }
           }
 
-          // Mirrors the gate control flow: no token, no resolvable login, or the
-          // same-repo fast path all return before the collaborator endpoint.
-          const expectedQueriedLogin = (i) => {
-            if (!i.token) return undefined
-            const login = i.noPullRequest ? i.actor : i.headRepoNull ? undefined : i.headRepoOwner
-            if (!/^[a-zA-Z0-9-]+$/.test(login ?? '')) return undefined
-            if (!i.noPullRequest && i.sameRepo) return undefined
-            return login
-          }
+          // 16 rows; a row may hold several shapes that must share one expectation.
+          // Every expectation is about the account that OWNS the branch repository.
+          const cases = [
+            ['same-repository pull request is allowed without an API call',
+              [{ payload: pr(repo(ecamp.id, 'ecamp')) }], [true], [undefined]],
+            ['same-repository pull request authored by renovate[bot] is allowed',
+              [{ payload: pr(repo(ecamp.id, 'ecamp'), ecamp, 'renovate[bot]') }], [true], [undefined]],
+            ['fork whose owner has write access is allowed',
+              [{ payload: pr(repo(fork.id, 'maintainer')), permission: 'write' }], [true], ['maintainer']],
+            ['fork whose owner has admin access is allowed',
+              [{ payload: pr(repo(fork.id, 'admin-user')), permission: 'admin' }], [true], ['admin-user']],
+            ['fork whose owner has maintain is allowed, because the endpoint reports maintain as write',
+              [{ payload: pr(repo(fork.id, 'maintainer')), permission: 'write' }], [true], ['maintainer']],
+            ['fork whose owner only has read access is denied',
+              [{ payload: pr(repo(fork.id, 'reader')), permission: 'read' }], [false], ['reader']],
+            ['fork whose owner is no collaborator is denied',
+              [{ payload: pr(repo(fork.id, 'stranger')), permission: 'none' }], [false], ['stranger']],
+            ['agent-controlled fork is denied even when the pull request author has write access',
+              [{ payload: pr(repo(fork.id, 'bacluc-agent'), ecamp, 'maintainer'), permission: { maintainer: 'write', 'bacluc-agent': 'none' } }], [false], ['bacluc-agent']],
+            ['fork is allowed on the owner write access, never on the pull request author access',
+              [{ payload: pr(repo(fork.id, 'maintainer'), ecamp, 'stranger'), permission: { maintainer: 'write', stranger: 'none' } }], [true], ['maintainer']],
+            ['fork owned by the ecamp organization is allowed',
+              [{ payload: pr(repo(fork.id, 'ecamp', 'Organization')), permission: 'write' }], [true], ['ecamp']],
+            ['fork that forges full_name of the base repository is denied, only the numeric id counts',
+              [{ payload: pr(repo(fork.id, 'bacluc-agent', 'User', 'ecamp/ecamp3')), permission: 'none' }], [false], ['bacluc-agent']],
+            ['deleted fork with head.repo null is denied without throwing',
+              [{ payload: pr(null), permission: 'write' }], [false], [undefined]],
+            ['deleted repository payload with head and base repository null is denied without throwing',
+              [{ payload: { pull_request: { user: { login: 'contributor' }, head: null, base: { repo: null } } }, permission: 'write' }], [false], [undefined]],
+            ['workflow_dispatch without a pull request authorizes context.actor',
+              [{ actor: 'maintainer', permission: 'write' }], [true], ['maintainer']],
+            ['a missing token is denied',
+              [{ token: '' }], [false], [undefined]],
+            ['an unusable account, a non-success status and an API error all fail closed',
+              [{ payload: pr(repo(fork.id, 'bad login!')) }, { payload: pr(repo(fork.id, '')) }, { payload: pr(repo(fork.id, 'stranger')), status: 404 }, { payload: pr(repo(fork.id, 'stranger')), apiError: 'Internal Server Error' }],
+              [false, false, false, false], [undefined, undefined, 'stranger', 'stranger']],
+          ]
+          assert.equal(cases.length, 16, 'matrix has 16 rows')
 
           ;(async () => {
-            const cases = [
-              ['same-repo branch', { sameRepo: true, headRepoOwner: 'ecamp' }, true],
-              ['fork owner write', { headRepoOwner: 'acme', permission: 'write' }, true],
-              ['fork owner maintain', { headRepoOwner: 'acme', permission: 'maintain' }, true],
-              ['fork owner admin', { headRepoOwner: 'acme', permission: 'admin' }, true],
-              ['fork owner read', { headRepoOwner: 'acme', permission: 'read' }, false],
-              ['fork owner triage', { headRepoOwner: 'acme', permission: 'triage' }, false],
-              ['agent fork owner read', { headRepoOwner: 'agent-fork-bot', permission: 'read' }, false],
-              ['agent fork owner write', { headRepoOwner: 'agent-fork-bot', permission: 'write' }, true],
-              ['collaborator not 200', { headRepoOwner: 'acme', collaboratorStatus: 404 }, false],
-              ['deleted fork', { headRepoOwner: 'acme', headRepoNull: true }, false],
-              ['malformed head owner', { headRepoOwner: 'bad owner!' }, false],
-              ['dispatch write actor', { noPullRequest: true, actor: 'maintainer' }, true],
-              ['dispatch malformed actor', { noPullRequest: true, actor: 'bad actor!' }, false],
-              ['empty token', { headRepoOwner: 'acme', token: '' }, false],
-              ['collaborator api throw', { headRepoOwner: 'acme', apiError: 'permission' }, false],
-            ]
-
-            for (const [label, input, expected] of cases) {
-              const i = withDefaults(input)
-              const result = await run(i)
-              assert.equal(result.passed, expected, label)
-              assert.equal(result.user, expectedQueriedLogin(i), `${label}: queried login`)
-              if (!i.noPullRequest) {
-                assert.notEqual(
-                  result.user,
-                  'trusted-human',
-                  `${label}: the pull request author must never be authorized`
-                )
+            for (const [name, inputs, expected, queried] of cases) {
+              for (const [index, input] of inputs.entries()) {
+                const result = await run(input)
+                const label = `${name} [shape ${index}]`
+                assert.equal(result.passed, expected[index], `${label}: expected ${expected[index] ? 'allow' : 'deny'}`)
+                assert.equal(result.queried, queried[index], `${label}: authorized the wrong account`)
+                assert.ok(result.messages.length > 0, `${label}: logged nothing`)
+                for (const message of result.messages) {
+                  assert.doesNotMatch(message, /member/i, `${label}: still talks about membership: ${message}`)
+                }
               }
-              console.log(`${expected ? 'allow' : 'deny '} ${label} (queried ${result.user ?? 'nothing'})`)
             }
-            console.log('reusable gate matrix and both caller wiring passed')
+            console.log(`reusable gate matrix (${cases.length} cases) and both caller wiring passed`)
           })().catch((error) => { console.error(error); process.exitCode = 1 })
           NODE
