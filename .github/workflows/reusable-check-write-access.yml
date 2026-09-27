@@ -11,60 +11,54 @@ jobs:
     name: Check write access permission
     runs-on: ubuntu-latest
     steps:
-      - name: Check if the branch repository owner has write access to this repository
+      - name: Check if user has write access to this repository
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.REPO_ACCESS_TOKEN }}
           script: |
             if (!process.env.REPO_ACCESS_TOKEN) {
-              core.setFailed('REPO_ACCESS_TOKEN is required to check repository write access.')
-              return
+              core.setFailed('REPO_ACCESS_TOKEN is required to verify write access.');
+              return;
             }
 
-            const pr = context.payload.pull_request
-            const headRepo = pr?.head?.repo
-            const login = pr ? headRepo?.owner?.login : context.actor
-            const baseOwner = context.repo.owner
-            const baseRepo = context.repo.repo
+            const target = `${context.repo.owner}/${context.repo.repo}`;
+            const pullRequest = context.payload.pull_request;
+            const login = pullRequest ? pullRequest.head?.repo?.owner?.login : context.actor;
+            const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
 
-            if (!/^[a-zA-Z0-9-]+$/.test(login ?? '')) {
-              core.setFailed(
-                `The owner of the branch repository is unknown or invalid (${login ?? 'none'}).`
-              )
-              return
+            if (!validLogin) {
+              core.setFailed('Unable to determine a valid account to authorize.');
+              return;
             }
 
-            if (headRepo?.full_name === `${baseOwner}/${baseRepo}`) {
-              core.info(
-                `${login} branches from ${baseOwner}/${baseRepo} itself, no access check needed.`
-              )
-              return
+            if (pullRequest && pullRequest.head.repo.id === pullRequest.base.repo.id) {
+              core.info(`head branch lives in ${target} itself, so its owner has write access there: allow`);
+              return;
             }
 
             try {
-              const { status, data } = await github.rest.repos.getCollaboratorPermissionLevel({
-                owner: baseOwner,
-                repo: baseRepo,
+              const collaborator = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
                 username: login,
-              })
-              const permission = status === 200 ? data?.permission : undefined
-              const allowed = ['write', 'maintain', 'admin'].includes(permission)
+              });
+
+              const permission = collaborator.status === 200 && collaborator.data && typeof collaborator.data.permission === 'string'
+                ? collaborator.data.permission
+                : undefined;
+              const allowed = ['write', 'admin'].includes(permission);
 
               core.info(
-                `${login} has "${permission ?? 'no access'}" on ${baseOwner}/${baseRepo}: ${
-                  allowed ? 'allow' : 'deny'
-                }`
-              )
+                `the branch repository owner ${login} has permission="${permission ?? 'unknown'}" on ${target}: ${allowed ? 'allow' : 'deny'}`
+              );
 
               if (!allowed) {
                 core.setFailed(
-                  `The owner of the branch repository must have write, maintain or admin access to ${baseOwner}/${baseRepo}.`
-                )
+                  `The account owning the pull request branch repository (${login}) must have write or admin access to ${target}.`
+                );
               }
             } catch (error) {
-              core.setFailed(
-                `Could not check the access of ${login}: ${error?.message ?? 'GitHub API error'}`
-              )
+              core.setFailed(`Unable to verify access for ${login}: ${error?.message ?? 'GitHub API error'}`);
             }
         env:
           REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
