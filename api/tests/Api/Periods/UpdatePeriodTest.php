@@ -258,7 +258,13 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'start: This value should be of type string.',
+            'detail' => "start: Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => "Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+                ],
+            ],
         ]);
     }
 
@@ -270,7 +276,13 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'start: This value should be of type string.',
+            'detail' => "start: Parsing datetime string \"2023-05-01+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => "Parsing datetime string \"2023-05-01+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+                ],
+            ],
         ]);
     }
 
@@ -282,7 +294,13 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'end: This value should be of type string.',
+            'detail' => "end: Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+            'violations' => [
+                [
+                    'propertyPath' => 'end',
+                    'message' => "Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+                ],
+            ],
         ]);
     }
 
@@ -294,7 +312,13 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'end: This value should be of type string.',
+            'detail' => "end: Parsing datetime string \"2023-05-03T01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+            'violations' => [
+                [
+                    'propertyPath' => 'end',
+                    'message' => "Parsing datetime string \"2023-05-03T01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+                ],
+            ],
         ]);
     }
 

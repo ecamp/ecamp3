@@ -326,6 +326,15 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'start: Failed to parse time string (2023-05-01T00:00:00+InvalidTimezone) at position 19 (+): Unexpected character',
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => 'Failed to parse time string (2023-05-01T00:00:00+InvalidTimezone) at position 19 (+): Unexpected character',
+                ],
+            ],
+        ]);
     }
 
     #[TestWith(['20206-01-01T00:00:00'])]
@@ -337,6 +346,18 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
+        $expectedMessage = '20206-01-01T00:00:00' === $invalidDateTime
+            ? 'Failed to parse time string (20206-01-01T00:00:00) at position 11 (T): Double time specification'
+            : 'Failed to parse time string (2026-31-12T00:00:00) at position 6 (1): Unexpected character';
+        $this->assertJsonContains([
+            'detail' => 'start: '.$expectedMessage,
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => $expectedMessage,
+                ],
+            ],
+        ]);
     }
 
     public function testPatchScheduleEntryAllowsToEndAtMidnightOfLastDay() {

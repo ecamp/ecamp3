@@ -5,9 +5,13 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\DenormalizationViolationFactoryInterface;
 use ApiPlatform\Symfony\Validator\ValidationGroupsGeneratorInterface;
+use ApiPlatform\Validator\Exception\ValidationException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Exception\PartialDenormalizationException;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 /**
  * api-platform/validator hands operation.validationContext['groups'] straight to
@@ -32,6 +36,53 @@ class DenormalizationViolationFactory implements DenormalizationViolationFactory
             ]);
         }
 
-        $this->decorated->handle($exception, $operation);
+        try {
+            $this->decorated->handle($exception, $operation);
+        } catch (ValidationException $validationException) {
+            $dateMessages = $this->dateMessages($exception);
+            if ([] === $dateMessages) {
+                throw $validationException;
+            }
+
+            $violations = new ConstraintViolationList();
+            foreach ($validationException->getConstraintViolationList() as $violation) {
+                $path = $violation->getPropertyPath();
+                $pathMessages = $dateMessages[$path] ?? [];
+                $message = array_shift($pathMessages);
+                $dateMessages[$path] = $pathMessages;
+                $violations->add(null === $message ? $violation : $this->withMessage($violation, $message));
+            }
+
+            throw new ValidationException($violations);
+        }
+    }
+
+    private function dateMessages(NotNormalizableValueException|PartialDenormalizationException $exception): array {
+        $errors = $exception instanceof NotNormalizableValueException
+            ? [$exception]
+            : $exception->getNotNormalizableValueErrors();
+        $messages = [];
+
+        foreach ($errors as $error) {
+            if ($error instanceof NotNormalizableValueException && (str_starts_with($error->getMessage(), 'Parsing datetime string ') || str_starts_with($error->getMessage(), 'Failed to parse time string '))) {
+                $messages[$error->getPath()][] = $error->getMessage();
+            }
+        }
+
+        return $messages;
+    }
+
+    private function withMessage(ConstraintViolationInterface $violation, string $message): ConstraintViolation {
+        return new ConstraintViolation(
+            $message,
+            $message,
+            $violation->getParameters(),
+            $violation->getRoot(),
+            $violation->getPropertyPath(),
+            $violation->getInvalidValue(),
+            $violation->getPlural(),
+            $violation->getCode(),
+            $violation->getConstraint(),
+        );
     }
 }
