@@ -21,38 +21,45 @@ concurrency:
 jobs:
   check-write-access:
     name: Check write access permission
+    # Same condition as build-and-push, so pull requests that would not be
+    # deployed anyway do not get a red check.
+    if: (github.event_name == 'workflow_dispatch') || (contains(github.event.pull_request.labels.*.name, 'deploy!') && github.event.pull_request.state == 'open')
     runs-on: ubuntu-latest
     steps:
-      - name: Check if user has write access to ecamp/ecamp3
-        run: |
-          set -eo pipefail
+      - name: Check if user has write access to this repository
+        uses: actions/github-script@v9
+        with:
+          script: |
+            // This workflow runs on pull_request_target, so the only trusted input
+            // is the author of the pull request. A manual run is done by a
+            // collaborator anyway, and context.actor is who triggered it.
+            const login = context.payload.pull_request?.user.login ?? context.actor;
 
-          # Determine the user to check based on event type
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            USER="${{ github.actor }}"
-          else
-            USER="${{ github.event.pull_request.user.login }}"
-          fi
+            let permission;
+            try {
+              const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: login,
+              });
+              permission = data.permission;
+            } catch (error) {
+              // 404 for an unknown login, 401/403 for a token problem. Deny.
+              permission = `unreadable (${error.status})`;
+            }
 
-          echo "Checking write access for user: $USER"
+            // The permission field is the base role of the repository: maintain
+            // maps to write, triage maps to read, everything else denies.
+            const allowed = ['write', 'admin'].includes(permission);
+            core.info(
+              `${login} has "${permission}" on ${context.repo.owner}/${context.repo.repo}: ${allowed ? 'allow' : 'deny'}`
+            );
 
-          # Query collaborators of ecamp/ecamp3; permission is on the edge
-          RESULT=$(curl -s -X POST "https://api.github.com/graphql" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-            -d "{\"query\": \"query { repository(owner: \\\"ecamp\\\", name: \\\"ecamp3\\\") { collaborators(first: 100) { edges { node { login } permission } } } }\"}" || true)
-
-          echo "GraphQL result: $RESULT"
-
-          # Allow only WRITE, MAINTAIN or ADMIN permission
-          HAS_ACCESS=$(echo "$RESULT" | jq -r --arg user "$USER" '.data.repository.collaborators.edges[]? | select(.node.login == $user) | .permission' | grep -E '^(WRITE|MAINTAIN|ADMIN)$' | head -1 || true)
-
-          if [ -n "$HAS_ACCESS" ]; then
-            echo "User $USER has write access (role: $HAS_ACCESS)"
-          else
-            echo "::error::User $USER does not have write access to ecamp/ecamp3. Required role: WRITE, MAINTAIN or ADMIN."
-            exit 1
-          fi
+            if (!allowed) {
+              core.setFailed(
+                `User ${login} does not have write access to ${context.repo.owner}/${context.repo.repo}. Required permission: write or admin.`
+              );
+            }
 
   build-and-push:
     needs: check-write-access
