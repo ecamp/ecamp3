@@ -1,33 +1,34 @@
-import { describe, beforeEach, afterEach, expect, it } from 'vitest'
+import { describe, beforeEach, afterEach, expect, it, vi } from 'vitest'
 import { getters, loadFromLocalStorage, mutations } from '@/plugins/store/preferences'
 
 const CAMP_URI = '/camps/1a2b3c4d'
 
-let originalLocalStorage
 beforeEach(() => {
-  originalLocalStorage = window.localStorage
-  window.localStorage = (() => {
-    let store = {}
+  vi.stubGlobal(
+    'localStorage',
+    (() => {
+      let store = {}
 
-    return {
-      getItem: (key) => store[key] ?? null,
-      setItem: (key, value) => {
-        store[key] = value?.toString() ?? 'undefined'
-      },
-      removeItem: (key) => {
-        delete store[key]
-      },
-      clear: () => {
-        store = {}
-      },
-      key: () => '',
-      length: Object.keys(store).length,
-    }
-  })()
+      return {
+        getItem: (key) => store[key] ?? null,
+        setItem: (key, value) => {
+          store[key] = value?.toString() ?? 'undefined'
+        },
+        removeItem: (key) => {
+          delete store[key]
+        },
+        clear: () => {
+          store = {}
+        },
+        key: () => '',
+        length: Object.keys(store).length,
+      }
+    })()
+  )
 })
 
 afterEach(() => {
-  window.localStorage = originalLocalStorage
+  vi.unstubAllGlobals()
 })
 
 describe('reading state', () => {
