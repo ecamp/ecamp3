@@ -49,6 +49,8 @@ security:
         - { path: ^/content_types, roles: PUBLIC_ACCESS } # Content types is more or less static and the same for all camps
         - { path: ^/invitations/.*/(find|reject), roles: PUBLIC_ACCESS }
         - { path: ^/token/refresh, roles: PUBLIC_ACCESS }
+        # Hitobito OAuth endpoint must be publicly accessible, see HitobitoAPIOAuthController
+        - { path: '^/hitobito/[^/]+/oauth/callback$', roles: PUBLIC_ACCESS }
         - { path: ^/users$, methods: [POST], roles: PUBLIC_ACCESS } # register
         - { path: ^/users/.*/activate$, methods: [PATCH], roles: PUBLIC_ACCESS }
         - { path: .*, roles: [ROLE_USER] } # Protect all other routes must be at the end

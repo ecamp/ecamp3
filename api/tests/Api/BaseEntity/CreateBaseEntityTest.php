@@ -92,7 +92,7 @@ class CreateBaseEntityTest extends ECampApiTestCase {
 
     #[\Override]
     public function getExampleWritePayload($attributes = [], $except = []): array {
-        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype'], $except);
+        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype', 'hitobitoProvider', 'hitobitoEventId'], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []): array {
@@ -100,7 +100,7 @@ class CreateBaseEntityTest extends ECampApiTestCase {
             Camp::class,
             Get::class,
             $attributes,
-            ['periods'],
+            ['periods', 'hitobitoProvider', 'hitobitoEventId'],
             $except
         );
     }

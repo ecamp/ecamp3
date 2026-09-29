@@ -9,10 +9,15 @@ use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\User;
+use App\Repository\CampRepository;
+use App\Service\Hitobito\ClientProvider;
+use App\Service\Hitobito\EventAccessChecker;
+use App\Service\Hitobito\HitobitoProvider;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
  * @template-extends AbstractPersistProcessor<Camp>
@@ -21,7 +26,10 @@ class CampCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
         private readonly Security $security,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly ClientProvider $hitobitoClientProvider,
+        private readonly EventAccessChecker $hitobitoEventAccessChecker,
+        private readonly CampRepository $campRepository
     ) {
         parent::__construct($decorated);
     }
@@ -31,6 +39,11 @@ class CampCreateProcessor extends AbstractPersistProcessor {
      */
     #[\Override]
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): BaseEntity {
+        // When linking the camp to a Hitobito event, check that user has permissions to do so and that no existing linked camp exists
+        if (null !== $data->hitobitoProvider && null !== $data->hitobitoEventId) {
+            $this->checkHitobitoEvent($data->hitobitoProvider, $data->hitobitoEventId);
+        }
+
         /** @var User $user */
         $user = $this->security->getUser();
         $data->creator = $user;
@@ -67,5 +80,20 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         $this->em->persist($materialList);
 
         $this->em->flush();
+    }
+
+    /**
+     * Checks that
+     * - the current user is a leader of the given Hitobito event
+     * - no camp exists that is linked to the specified event.
+     */
+    private function checkHitobitoEvent(HitobitoProvider $provider, string $eventId): void {
+        $client = $this->hitobitoClientProvider->getClientForCurrentUser($provider);
+        $this->hitobitoEventAccessChecker->checkAccess($provider, $client, $eventId);
+
+        $existingCamp = $this->campRepository->findOneBy(['hitobitoProvider' => $provider, 'hitobitoEventId' => $eventId]);
+        if (null !== $existingCamp) {
+            throw new ConflictHttpException("A camp already exists for the event \"{$eventId}\"");
+        }
     }
 }

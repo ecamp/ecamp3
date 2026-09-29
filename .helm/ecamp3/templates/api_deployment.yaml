@@ -78,6 +78,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: recaptcha-secret
+            - name: HITOBITO_TOKEN_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: hitobito-token-encryption-key
             {{- if .Values.api.oauth.google.clientId }}
             - name: OAUTH_GOOGLE_CLIENT_ID
               valueFrom:

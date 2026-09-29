@@ -5,6 +5,7 @@
     "php": ">=8.5.5",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-sodium": "*",
     "api-platform/doctrine-orm": "4.4.0",
     "api-platform/doctrine-common": "4.4.0",
     "api-platform/documentation": "4.4.0",

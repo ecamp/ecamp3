@@ -94,6 +94,11 @@
         },
         "title": "Zona di pericolo"
       },
+      "campHitobitoSync": {
+        "linked": "Questo campo è collegato a {provider}.",
+        "sync": "Sincronizzare",
+        "title": "Sincronizzare le info del campo"
+      },
       "campMaterialLists": {
         "createMaterialList": "Crea l'elenco dei materiali",
         "title": "Elenchi di materiali"
@@ -194,6 +199,46 @@
         "submitTooltipPrototype": "È ancora necessario selezionare se e quale modello di campo si desidera utilizzare."
       }
     },
+    "campHitobitoSync": {
+      "hitobitoSyncDiffTable": {
+        "current": "Attuale (eCamp)",
+        "field": "Campo",
+        "updated": "Nuovo ({provider})"
+      }
+    },
+    "campImport": {
+      "campImport": {
+        "steps": {
+          "event": "Campo",
+          "template": "Modello"
+        }
+      },
+      "campImportStep1": {
+        "alreadyImported": "Già importato",
+        "event": "Campo",
+        "noEvents": "Nessun campo trovato",
+        "search": "Cercare un campo",
+        "submitTooltip": "Selezionare un campo."
+      },
+      "errors": {
+        "alreadyExists": "Esiste già un campo eCamp per questo campo {provider}.",
+        "generic": "Non è stato possibile caricare i campi. Riprovare più tardi.",
+        "noAccess": "Non hai accesso a questo campo.",
+        "notFound": "Questo campo non è stato trovato."
+      },
+      "hitobitoEventSummary": {
+        "field": "Campo",
+        "fields": {
+          "address": "Indirizzo",
+          "end": "Fine",
+          "motto": "Tema",
+          "start": "Inizio",
+          "title": "Titolo"
+        },
+        "period": "Periodo {number}",
+        "value": "Valore"
+      }
+    },
     "category": {
       "categoryTemplate": {
         "contents": "Contenuti",
@@ -230,6 +275,9 @@
       "collaboratorForm": {
         "overrideAvatar": "Sovrascrivere l'avatar per questo campo",
         "roleHint": "Ogni campo ha bisogno di almeno una persona con diritti di amministratore."
+      },
+      "collaboratorHitobitoInvite": {
+        "inviteCta": "Invitare da {provider}"
       },
       "promptCollaboratorDeactivate": {
         "deactivate": "Disattivare",
@@ -511,6 +559,11 @@
     "datetime": {
       "vuetifyTimePickerFormat": "24hr"
     },
+    "hitobito": {
+      "providers": {
+        "pbsmidata": "MiData"
+      }
+    },
     "info": {
       "offline": {
         "description": "Impossibile salvare/caricare dati.",
@@ -678,6 +731,35 @@
         "today": "Oggi",
         "welcome": "Benvenuto nel tuo nuovo campo. Non ci sono ancora attività definite."
       },
+      "hitobitoInvite": {
+        "allInvited": "Tutti i co-responsabili di {provider} sono già stati invitati.",
+        "errors": {
+          "invite": "Non è stato possibile inviare gli inviti: {emails}",
+          "loading": "Non è stato possibile caricare i co-responsabili. Riprovare più tardi.",
+          "noAccess": "Non hai accesso a questo evento {provider}.",
+          "notFound": "Questo evento {provider} non è stato trovato."
+        },
+        "existingParticipants": "Già parte del campo",
+        "existingParticipantsDescription": "Queste persone fanno già parte del campo.",
+        "intro": "Le seguenti persone sono co-responsabili dell’evento {provider}:",
+        "invite": "Inviare gli inviti",
+        "newParticipants": "Inviti al campo",
+        "newParticipantsDescription": "Queste persone non fanno ancora parte del campo e saranno invitate via e-mail.",
+        "title": "Invitare da {provider}"
+      },
+      "hitobitoSync": {
+        "errors": {
+          "forbidden": "Non hai le autorizzazioni necessarie per modificare questo campo.",
+          "loading": "Non è stato possibile caricare i dati da {provider}. Riprovare più tardi.",
+          "noAccess": "Non hai accesso a questo evento {provider}.",
+          "notFound": "Questo evento {provider} non è stato trovato.",
+          "sync": "Non è stato possibile sincronizzare i dati. Riprovare più tardi."
+        },
+        "intro": "I seguenti campi sono stati modificati in {provider} e saranno sovrascritti durante la sincronizzazione:",
+        "noChanges": "Dall’ultima sincronizzazione non è cambiato alcun dato.",
+        "sync": "Sincronizzare",
+        "title": "Sincronizzare il campo con {provider}"
+      },
       "invitation": {
         "acceptCurrentAuth": "Accetta l'invito con un conto corrente",
         "backToHome": "Torna a casa",
@@ -739,8 +821,20 @@
     "campCreate": {
       "title": "Creare il campo"
     },
+    "campHitobitoDeepLink": {
+      "errors": {
+        "campForbidden": "Questo magazzino è già stato importato, ma non hai accesso. Ti preghiamo di contattare l'amministratore del magazzino.",
+        "eventForbidden": "Non hai l'autorizzazione per importare questo magazzino.",
+        "generic": "Non è stato possibile aprire il campo. Riprovare più tardi."
+      },
+      "title": "Aprire il campo"
+    },
+    "campImport": {
+      "title": "Importare un campo da {provider}"
+    },
     "camps": {
       "create": "Creare il campo",
+      "import": "Importare un campo",
       "pastCamps": "Campi passati",
       "prototypeCamps": "Prototipi",
       "title": "I miei campi"
