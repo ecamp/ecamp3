@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0de83645f93da44bc8583bc12d4b5f4b",
+    "content-hash": "ff0fece5cb7f1cd20004931ffe7cf84f",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -409,7 +409,7 @@
         },
         {
             "name": "api-platform/hydra",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/hydra.git",
@@ -490,7 +490,7 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/api-platform/hydra/tree/v4.4.0"
+                "source": "https://github.com/api-platform/hydra/tree/v4.4.1"
             },
             "time": "2026-09-16T09:03:39+00:00"
         },
