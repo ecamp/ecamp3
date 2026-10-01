@@ -24,7 +24,9 @@
         </td>
         <td
           :class="
-            row.changed ? 'text-success font-weight-medium' : 'text-medium-emphasis'
+            row.changed
+              ? 'text-green-darken-3 font-weight-medium'
+              : 'text-medium-emphasis'
           "
         >
           {{ row.updated || emptyValue }}
