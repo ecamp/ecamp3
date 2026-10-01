@@ -236,6 +236,7 @@
           "title": "Titolo"
         },
         "period": "Periodo {number}",
+        "title": "Info sul campo",
         "value": "Valore"
       }
     },

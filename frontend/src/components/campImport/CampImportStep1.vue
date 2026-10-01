@@ -29,10 +29,10 @@
           </v-chip>
         </template>
       </e-autocomplete>
-
-      <v-skeleton-loader v-if="isLoadingEvent" type="table" />
-      <HitobitoEventSummary v-else-if="camp" :camp="camp" />
     </v-card-text>
+
+    <v-skeleton-loader v-if="isLoadingEvent" type="table-tbody" class="ma-4" />
+    <HitobitoEventSummary v-else-if="camp" :camp="camp" />
 
     <v-divider />
     <ContentActions>

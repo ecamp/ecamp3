@@ -275,6 +275,7 @@
           "title": "Titel"
         },
         "period": "Lagerabschnitt {number}",
+        "title": "Lagerinfos",
         "value": "Wert"
       }
     },

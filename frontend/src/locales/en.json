@@ -275,6 +275,7 @@
           "title": "Title"
         },
         "period": "Period {number}",
+        "title": "Camp infos",
         "value": "Value"
       }
     },
