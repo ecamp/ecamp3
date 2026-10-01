@@ -5,10 +5,10 @@
     </caption>
     <thead>
       <tr>
-        <th class="text-left">
+        <th class="text-left w-0">
           {{ $t('components.campImport.hitobitoEventSummary.field') }}
         </th>
-        <th class="text-left w-100">
+        <th class="text-left">
           {{ $t('components.campImport.hitobitoEventSummary.value') }}
         </th>
       </tr>
