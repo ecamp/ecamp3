@@ -911,12 +911,10 @@
           "noAccess": "You do not have access to this {provider} event.",
           "notFound": "This {provider} event could not be found."
         },
-        "existingParticipants": "Already part of the camp",
-        "existingParticipantsDescription": "These people are already part of the camp.",
-        "intro": "The following people are co-leaders of the {provider} event:",
-        "invite": "Send invitations",
-        "newParticipants": "Invitations to the camp",
-        "newParticipantsDescription": "These people are not part of the camp yet and will be invited by email.",
+        "existingParticipants": "Already invited or part of the camp",
+        "intro": "The following co-leaders were found in the {provider} event:",
+        "invite": "Send invitation | Send {count} invitations",
+        "newParticipants": "Who will be invited",
         "title": "Invite from {provider}"
       },
       "hitobitoSync": {

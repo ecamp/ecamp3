@@ -877,12 +877,10 @@
           "noAccess": "Tu n’as pas accès à cet événement {provider}.",
           "notFound": "Cet événement {provider} n’a pas été trouvé."
         },
-        "existingParticipants": "Font déjà partie du camp",
-        "existingParticipantsDescription": "Ces personnes font déjà partie du camp.",
-        "intro": "Les personnes suivantes sont co-responsables de l’événement {provider} :",
-        "invite": "Envoyer les invitations",
-        "newParticipants": "Invitations au camp",
-        "newParticipantsDescription": "Ces personnes ne font pas encore partie du camp et seront invitées par e-mail.",
+        "existingParticipants": "Déjà invitées ou membres du camp",
+        "intro": "Les personnes co-responsables suivantes ont été trouvées dans l’événement {provider} :",
+        "invite": "Envoyer l’invitation | Envoyer {count} invitations",
+        "newParticipants": "Personnes qui seront invitées",
         "title": "Inviter depuis {provider}"
       },
       "hitobitoSync": {

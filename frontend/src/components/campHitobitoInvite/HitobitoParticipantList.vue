@@ -1,5 +1,8 @@
 <template>
-  <v-list class="mx-n2">
+  <v-card-text class="text-body-1 pb-0">
+    <h3>{{ title }}</h3>
+  </v-card-text>
+  <v-list v-bind="$attrs" class="my-0">
     <v-list-item
       v-for="participant in participants"
       :key="participant.email"
@@ -7,8 +10,11 @@
       :subtitle="participant.email"
     >
       <template #prepend>
-        <v-avatar :color="avatarColor">
-          <v-icon :color="iconColor" :icon="icon" />
+        <v-avatar :color="type === 'existing' ? 'grey-lighten-3' : 'green-lighten-4'">
+          <v-icon
+            :color="type === 'existing' ? 'grey-darken-1' : 'green-darken-3'"
+            :icon="type === 'existing' ? 'mdi-account-check' : 'mdi-email-outline'"
+          />
         </v-avatar>
       </template>
     </v-list-item>
@@ -20,11 +26,15 @@ import { participantDisplayName } from '@/components/campHitobitoInvite/particip
 
 export default {
   name: 'HitobitoParticipantList',
+  inheritAttrs: false,
   props: {
+    title: { type: String, required: true },
     participants: { type: Array, required: true },
-    icon: { type: String, required: true },
-    iconColor: { type: String, required: true },
-    avatarColor: { type: String, required: true },
+    type: {
+      type: String,
+      required: true,
+      validator: (value) => ['invites', 'existing'].includes(value),
+    },
   },
   methods: {
     displayName: participantDisplayName,

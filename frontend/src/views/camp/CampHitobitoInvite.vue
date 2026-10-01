@@ -1,96 +1,70 @@
 <template>
   <v-container fluid>
     <content-card :title="title" max-width="800" toolbar>
-      <template v-if="loading">
-        <v-card-text>
-          <v-skeleton-loader type="text, list-item-avatar-two-line@3" class="px-0" />
-        </v-card-text>
-        <v-divider />
-        <ContentActions>
-          <ButtonCancel class="ml-auto" :to="collaboratorsRoute" />
-        </ContentActions>
-      </template>
+      <v-skeleton-loader
+        v-if="loading"
+        type="heading, list-item-avatar-two-line"
+        class="pa-4"
+      />
 
-      <template v-else-if="loadError">
-        <v-card-text>
-          <v-alert type="error" variant="tonal" data-testid="hitobito-invite-error">
-            {{ loadError }}
-          </v-alert>
-        </v-card-text>
-        <v-divider />
-        <ContentActions>
-          <ButtonBack visible-label class="mr-auto" />
-        </ContentActions>
-      </template>
-
-      <template v-else-if="newParticipants.length === 0">
-        <v-card-text class="text-center py-8" data-testid="hitobito-invite-nothing-to-do">
-          <p>{{ $t('views.camp.hitobitoInvite.allInvited', { provider }) }}</p>
-        </v-card-text>
-        <v-divider />
-        <ContentActions>
-          <ButtonBack visible-label class="mr-auto" />
-        </ContentActions>
-      </template>
+      <v-card-text v-else-if="loadError" class="text-body-1">
+        <v-alert type="error" variant="tonal" :text="loadError" />
+      </v-card-text>
 
       <template v-else>
-        <v-card-text>
-          <v-alert
-            v-if="inviteError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-            data-testid="hitobito-invite-error"
-          >
-            {{ inviteError }}
-          </v-alert>
+        <v-alert
+          v-if="inviteError"
+          class="mt-4 mx-4"
+          type="error"
+          variant="tonal"
+          :text="inviteError"
+        />
 
-          <p class="mb-4">{{ $t('views.camp.hitobitoInvite.intro', { provider }) }}</p>
-
-          <h3 class="mb-1">{{ $t('views.camp.hitobitoInvite.newParticipants') }}</h3>
-          <p class="text-body-2 text-medium-emphasis mb-2">
-            {{ $t('views.camp.hitobitoInvite.newParticipantsDescription') }}
-          </p>
-          <HitobitoParticipantList
-            :participants="newParticipants"
-            avatar-color="blue-lighten-4"
-            icon-color="blue-darken-2"
-            icon="mdi-account-plus"
-            class="mb-4"
-            data-testid="hitobito-invite-new-participants"
-          />
-
-          <template v-if="existingParticipants.length > 0">
-            <h3 class="mb-1">
-              {{ $t('views.camp.hitobitoInvite.existingParticipants') }}
-            </h3>
-            <p class="text-body-2 text-medium-emphasis mb-2">
-              {{ $t('views.camp.hitobitoInvite.existingParticipantsDescription') }}
-            </p>
-            <HitobitoParticipantList
-              :participants="existingParticipants"
-              avatar-color="grey-lighten-3"
-              icon-color="grey-darken-1"
-              icon="mdi-account-check"
-              data-testid="hitobito-invite-existing-participants"
-            />
-          </template>
+        <v-card-text v-if="newParticipants.length > 0" class="text-body-1 pb-0">
+          <p>{{ $t('views.camp.hitobitoInvite.intro', { provider }) }}</p>
         </v-card-text>
-        <v-divider />
-        <ContentActions>
-          <ButtonCancel class="ml-auto" :disabled="isSaving" :to="collaboratorsRoute" />
-          <v-btn
-            color="success"
-            variant="elevated"
-            prepend-icon="mdi-email-fast"
-            :loading="isSaving"
-            data-testid="invite-button"
-            @click="invite"
-          >
-            {{ $t('views.camp.hitobitoInvite.invite') }}
-          </v-btn>
-        </ContentActions>
+        <HitobitoParticipantList
+          v-if="newParticipants.length > 0"
+          :title="$t('views.camp.hitobitoInvite.newParticipants')"
+          :participants="newParticipants"
+          type="invites"
+        />
+
+        <HitobitoParticipantList
+          v-if="existingParticipants.length > 0 || newParticipants.length === 0"
+          :title="$t('views.camp.hitobitoInvite.existingParticipants')"
+          :participants="existingParticipants"
+          type="existing"
+        />
+
+        <v-alert
+          v-if="newParticipants.length === 0"
+          type="info"
+          class="mx-4 mb-4"
+          variant="tonal"
+          color="blue-darken-2"
+          :text="$t('views.camp.hitobitoInvite.allInvited', { provider })"
+        />
       </template>
+
+      <v-divider />
+      <ContentActions>
+        <ButtonBack
+          visible-label
+          class="mr-auto"
+          :disabled="isSaving"
+          :to="collaboratorsRoute"
+        />
+        <ButtonCancel v-if="canInvite" :disabled="isSaving" :to="collaboratorsRoute" />
+        <ButtonAdd
+          v-if="canInvite"
+          icon="mdi-email-fast"
+          :loading="isSaving"
+          @click="invite"
+        >
+          {{ $t('views.camp.hitobitoInvite.invite', newParticipants.length) }}
+        </ButtonAdd>
+      </ContentActions>
     </content-card>
   </v-container>
 </template>
@@ -152,6 +126,9 @@ export default {
     },
     existingParticipants() {
       return this.partitionedParticipants.existingParticipants
+    },
+    canInvite() {
+      return !this.loading && !this.loadError && this.newParticipants.length > 0
     },
     collaboratorsRoute() {
       return adminRoute(this.camp, 'collaborators')
