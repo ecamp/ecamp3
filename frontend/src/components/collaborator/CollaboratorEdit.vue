@@ -52,8 +52,8 @@
         <CollaboratorListItem
           :collaborator="collaborator"
           editable
+          v-bind="props"
           @click="showDialog = true"
-          v-on="props"
         />
       </slot>
     </template>
