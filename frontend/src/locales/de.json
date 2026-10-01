@@ -275,6 +275,7 @@
           "title": "Titel"
         },
         "period": "Lagerabschnitt {number}",
+        "title": "Lagerinfos",
         "value": "Wert"
       }
     },
@@ -903,19 +904,17 @@
         "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "hitobitoInvite": {
-        "allInvited": "Es wurden bereits alle Mitleitenden aus {provider} eingeladen.",
+        "allInvited": "Alle Mitleitenden aus {provider} wurden bereits eingeladen.",
         "errors": {
           "invite": "Die Einladungen konnten nicht verschickt werden: {emails}",
           "loading": "Die Mitleitenden konnten nicht geladen werden. Bitte versuche es später erneut.",
           "noAccess": "Du hast keinen Zugriff auf dieses {provider}-Event.",
           "notFound": "Dieses {provider}-Event wurde nicht gefunden."
         },
-        "existingParticipants": "Bereits Teil des Lagers",
-        "existingParticipantsDescription": "Diese Personen sind bereits Teil des Lagers.",
-        "intro": "Die folgenden Personen sind Mitleitende im {provider}-Event:",
-        "invite": "Einladungen verschicken",
-        "newParticipants": "Einladungen ins Lager",
-        "newParticipantsDescription": "Diese Personen sind noch nicht Teil vom Lager und werden per E-Mail eingeladen.",
+        "existingParticipants": "Bereits eingeladen oder im Lager",
+        "intro": "Die folgenden Mitleitenden wurden im {provider}-Event gefunden:",
+        "invite": "Einladung senden | {count} Einladungen senden",
+        "newParticipants": "Wer eingeladen wird",
         "title": "Aus {provider} einladen"
       },
       "hitobitoSync": {

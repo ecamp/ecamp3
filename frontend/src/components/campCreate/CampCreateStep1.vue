@@ -30,7 +30,6 @@
 
       <v-divider />
       <ContentActions>
-        <v-spacer />
         <ButtonCancel :disabled="isSaving" @click="$router.go(-1)" />
         <ButtonContinue
           v-if="meta.dirty && meta.valid"

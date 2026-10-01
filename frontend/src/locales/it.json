@@ -236,6 +236,7 @@
           "title": "Titolo"
         },
         "period": "Periodo {number}",
+        "title": "Info sul campo",
         "value": "Valore"
       }
     },
@@ -739,12 +740,10 @@
           "noAccess": "Non hai accesso a questo evento {provider}.",
           "notFound": "Questo evento {provider} non è stato trovato."
         },
-        "existingParticipants": "Già parte del campo",
-        "existingParticipantsDescription": "Queste persone fanno già parte del campo.",
-        "intro": "Le seguenti persone sono co-responsabili dell’evento {provider}:",
-        "invite": "Inviare gli inviti",
-        "newParticipants": "Inviti al campo",
-        "newParticipantsDescription": "Queste persone non fanno ancora parte del campo e saranno invitate via e-mail.",
+        "existingParticipants": "Già invitati o parte del campo",
+        "intro": "I seguenti co-responsabili sono stati trovati nell’evento {provider}:",
+        "invite": "Invia invito | Invia {count} inviti",
+        "newParticipants": "Chi sarà invitato",
         "title": "Invitare da {provider}"
       },
       "hitobitoSync": {
