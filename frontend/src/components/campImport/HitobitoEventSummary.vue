@@ -5,17 +5,17 @@
     </caption>
     <thead>
       <tr>
-        <th class="text-left w-0">
+        <th class="text-left w-0" scope="col">
           {{ $t('components.campImport.hitobitoEventSummary.field') }}
         </th>
-        <th class="text-left">
+        <th class="text-left" scope="col">
           {{ $t('components.campImport.hitobitoEventSummary.value') }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="row in campRows" :key="row.label">
-        <td>{{ row.label }}</td>
+        <th class="font-weight-regular" scope="row">{{ row.label }}</th>
         <td :class="{ 'text-medium-emphasis': !row.value }">
           {{ row.value || emptyValue }}
         </td>
@@ -33,7 +33,7 @@
         </th>
       </tr>
       <tr v-for="row in periodRows" :key="row.label">
-        <td>{{ row.label }}</td>
+        <th class="font-weight-regular" scope="row">{{ row.label }}</th>
         <td :class="{ 'text-medium-emphasis': !row.value }">
           {{ row.value || emptyValue }}
         </td>
