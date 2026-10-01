@@ -1,14 +1,14 @@
 <template>
-  <v-table density="comfortable" class="hitobito-table">
+  <v-table density="compact" class="mb-4">
     <thead>
       <tr>
         <th class="text-left">
           {{ $t('components.campHitobitoSync.hitobitoSyncDiffTable.field') }}
         </th>
-        <th class="text-left">
+        <th class="text-left current-column">
           {{ $t('components.campHitobitoSync.hitobitoSyncDiffTable.current') }}
         </th>
-        <th class="text-left">
+        <th class="text-left w-100">
           {{
             $t('components.campHitobitoSync.hitobitoSyncDiffTable.updated', { provider })
           }}
@@ -18,7 +18,7 @@
     <tbody>
       <tr v-for="row in rows" :key="row.label">
         <td class="font-weight-medium">{{ row.label }}</td>
-        <td class="text-medium-emphasis">
+        <td class="text-medium-emphasis current-column">
           <s v-if="row.changed">{{ row.current || emptyValue }}</s>
           <template v-else>{{ row.current || emptyValue }}</template>
         </td>
@@ -50,11 +50,7 @@ export default {
 </script>
 
 <style scoped>
-.hitobito-table :deep(table) {
-  table-layout: fixed;
-}
-.hitobito-table :deep(th:first-child),
-.hitobito-table :deep(td:first-child) {
-  width: 10rem;
+.current-column {
+  min-width: 150px;
 }
 </style>

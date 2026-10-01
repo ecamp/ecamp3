@@ -1,9 +1,7 @@
 <template>
   <v-container fluid>
     <content-card :title="title" max-width="800" toolbar>
-      <v-card-text v-if="loading">
-        <v-skeleton-loader type="table" class="px-0" />
-      </v-card-text>
+      <v-skeleton-loader v-if="loading" type="table-tbody" class="ma-4" />
 
       <v-card-text v-else>
         <v-alert
@@ -27,15 +25,16 @@
 
           <template v-else>
             <p class="mb-4">{{ $t('views.camp.hitobitoSync.intro', { provider }) }}</p>
-
-            <HitobitoSyncDiffTable
-              :rows="campRows"
-              :provider="provider"
-              data-testid="hitobito-sync-camp"
-            />
           </template>
         </template>
       </v-card-text>
+
+      <HitobitoSyncDiffTable
+        v-if="!loading && !loadError && sync.hasChanges"
+        :rows="campRows"
+        :provider="provider"
+        data-testid="hitobito-sync-camp"
+      />
 
       <v-divider />
       <ContentActions>
