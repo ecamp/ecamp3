@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isAdmin, isLoggedIn } from '@/plugins/auth'
 import { isValidProvider } from '@/plugins/hitobito'
-import { apiStore } from '@/plugins/store'
+import { apiStore, store } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
 import {
@@ -563,7 +563,12 @@ const router = createRouter({
         navigation: NavigationCamp,
         default: () => import('./views/camp/CampHitobitoInvite.vue'),
       },
-      beforeEnter: all([requireAuth, requireCamp, requireHitobitoCamp]),
+      beforeEnter: all([
+        requireAuth,
+        requireCamp,
+        requireCampManager,
+        requireHitobitoCamp,
+      ]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({ camp: campFromRoute(route) }),
@@ -576,7 +581,12 @@ const router = createRouter({
         navigation: NavigationCamp,
         default: () => import('./views/camp/CampHitobitoSync.vue'),
       },
-      beforeEnter: all([requireAuth, requireCamp, requireHitobitoCamp]),
+      beforeEnter: all([
+        requireAuth,
+        requireCamp,
+        requireCampManager,
+        requireHitobitoCamp,
+      ]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({ camp: campFromRoute(route) }),
@@ -704,6 +714,29 @@ async function requireCamp(to) {
       replace: true,
     })
   )
+}
+
+/**
+ * Only allow entering the route when the current user is a manager of the camp.
+ * Must run after requireCamp, which ensures the camp is loaded.
+ */
+async function requireCampManager(to) {
+  const camp = campFromRoute(to)
+  const userLink = store.getters.getLoggedInUser?._meta.self
+  const collaborations = await camp.campCollaborations().$loadItems()
+  const isManager = collaborations.items.some(
+    (collaboration) =>
+      collaboration.status === 'established' &&
+      collaboration.role === 'manager' &&
+      collaboration.user?.()._meta.self === userLink
+  )
+  if (isManager) return
+
+  return {
+    name: 'PageNotFound',
+    params: [to.fullPath, ''],
+    replace: true,
+  }
 }
 
 async function requireActivityScheduleEntry(to) {
