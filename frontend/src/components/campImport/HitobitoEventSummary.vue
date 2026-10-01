@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-table density="compact" class="mb-4">
+    <v-table density="compact" class="hitobito-table mb-4">
       <thead>
         <tr>
           <th class="text-left">
@@ -25,7 +25,7 @@
       <h3 class="font-weight-bold mb-1">
         {{ $t('components.campImport.hitobitoEventSummary.period', { number: idx + 1 }) }}
       </h3>
-      <v-table density="compact">
+      <v-table density="compact" class="hitobito-table">
         <thead>
           <tr>
             <th class="text-left">
@@ -100,3 +100,13 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.hitobito-table :deep(table) {
+  table-layout: fixed;
+}
+.hitobito-table :deep(th:first-child),
+.hitobito-table :deep(td:first-child) {
+  width: 10rem;
+}
+</style>

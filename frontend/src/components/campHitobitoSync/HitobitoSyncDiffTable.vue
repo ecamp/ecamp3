@@ -1,5 +1,5 @@
 <template>
-  <v-table density="comfortable">
+  <v-table density="comfortable" class="hitobito-table">
     <thead>
       <tr>
         <th class="text-left">
@@ -48,3 +48,13 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.hitobito-table :deep(table) {
+  table-layout: fixed;
+}
+.hitobito-table :deep(th:first-child),
+.hitobito-table :deep(td:first-child) {
+  width: 10rem;
+}
+</style>
