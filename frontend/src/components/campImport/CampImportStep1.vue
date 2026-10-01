@@ -36,7 +36,6 @@
 
     <v-divider />
     <ContentActions>
-      <v-spacer />
       <ButtonCancel :disabled="isSaving" @click="$router.push({ name: 'camps' })" />
       <ButtonContinue v-if="camp" data-testid="import-camp-next-step" />
       <v-tooltip v-else location="top">

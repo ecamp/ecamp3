@@ -17,7 +17,7 @@
             :periods="upcomingPeriods"
           />
         </template>
-        <div class="v-card-actions justify-end">
+        <ContentActions>
           <v-menu location="bottom end">
             <template #activator="{ props }">
               <button-add
@@ -54,7 +54,7 @@
           >
             {{ $t('views.camps.create') }}
           </button-add>
-        </div>
+        </ContentActions>
       </v-list>
       <v-expansion-panels
         v-if="
