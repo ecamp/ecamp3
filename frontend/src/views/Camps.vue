@@ -17,7 +17,7 @@
             :periods="upcomingPeriods"
           />
         </template>
-        <div class="d-flex flex-wrap justify-end gap-2 pa-4">
+        <div class="v-card-actions justify-end">
           <v-menu location="bottom end">
             <template #activator="{ props }">
               <button-add
