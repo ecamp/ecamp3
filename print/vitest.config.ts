@@ -5,6 +5,11 @@ import { defineVitestConfig } from '@nuxt/test-utils/config'
 export default defineVitestConfig({
   test: {
     environment: 'nuxt',
+    environmentOptions: {
+      nuxt: {
+        h3Version: 1,
+      },
+    },
     exclude: ['node_modules/**', 'common/**'],
     coverage: {
       include: ['test/**/*'],
