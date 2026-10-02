@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4716a6a9695188109876bfde0ee118d",
+    "content-hash": "c82db6300fb5c0cd1685a86993190132",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -3392,31 +3392,37 @@
         },
         {
             "name": "google/recaptcha",
-            "version": "1.5.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/recaptcha.git",
-                "reference": "ee4352ff2fe5ee23f2a8fbd165375dab3a1bad17"
+                "reference": "05a576b66e1a356c7a3ad8a3beff09ff91b50961"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/recaptcha/zipball/ee4352ff2fe5ee23f2a8fbd165375dab3a1bad17",
-                "reference": "ee4352ff2fe5ee23f2a8fbd165375dab3a1bad17",
+                "url": "https://api.github.com/repos/google/recaptcha/zipball/05a576b66e1a356c7a3ad8a3beff09ff91b50961",
+                "reference": "05a576b66e1a356c7a3ad8a3beff09ff91b50961",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.4"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.95",
+                "friendsofphp/php-cs-fixer": "^3.95.27",
                 "php-coveralls/php-coveralls": "^2.9.1",
-                "phpstan/phpstan": "^2.1.51",
-                "phpunit/phpunit": "^13.1"
+                "phpstan/phpstan": "^2.2.15",
+                "phpstan/phpstan-phpunit": "^2.0.18",
+                "phpstan/phpstan-strict-rules": "^2.0.12",
+                "phpunit/phpunit": "^13.3.4"
+            },
+            "suggest": {
+                "ext-curl": "Recommended for sending requests via CurlPost",
+                "ext-openssl": "Required for sending TLS requests via Post or SocketPost"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.5.x-dev"
+                    "dev-main": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -3441,7 +3447,7 @@
                 "issues": "https://github.com/google/recaptcha/issues",
                 "source": "https://github.com/google/recaptcha"
             },
-            "time": "2026-09-22T09:50:41+00:00"
+            "time": "2026-09-23T21:32:33+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
