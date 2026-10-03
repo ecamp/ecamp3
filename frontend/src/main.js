@@ -90,7 +90,9 @@ app.directive('resizeobserver', ResizeObserver.directive)
 
 app.mount('#app')
 
-warnAboutSelfXss()
+if (import.meta.env.PROD) {
+  warnAboutSelfXss()
+}
 
 // noinspection JSIgnoredPromiseFromCall
 initRefresh()
