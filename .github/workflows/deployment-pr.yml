@@ -23,6 +23,7 @@ jobs:
     name: Check write access permission
     # Same condition as build-and-push, so pull requests that would not be
     # deployed anyway do not get a red check.
+    # test
     if: (github.event_name == 'workflow_dispatch') || (contains(github.event.pull_request.labels.*.name, 'deploy!') && github.event.pull_request.state == 'open')
     uses: ./.github/workflows/reusable-check-write-access.yml
     secrets:
