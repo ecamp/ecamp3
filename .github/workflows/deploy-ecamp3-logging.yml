@@ -1,5 +1,8 @@
 name: Deploy ecamp3-logging
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
