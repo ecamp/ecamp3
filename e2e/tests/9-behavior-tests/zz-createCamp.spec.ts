@@ -71,7 +71,7 @@ test('without prototype step by step via page objects', async ({ loginPage, runI
 
   await expect(createCampDialogStep2.noPrototypeAlert).toBeVisible()
 
-  const campInfo = await createCampDialogStep2.submit()
+  const { campInfo } = await createCampDialogStep2.submit()
 
   await expect(campInfo.heading).toBeVisible()
   await expect(campInfo.titleField).toHaveValue(title)
