@@ -123,7 +123,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     #[ORM\JoinTable(name: 'category_contenttype')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'contenttype_id', referencedColumnName: 'id')]
-    #[ORM\OrderBy(['name' => 'ASC'])]
+    #[ORM\OrderBy(['name' => \SortDirection::Ascending])]
     public Collection $preferredContentTypes;
 
     /**

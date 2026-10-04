@@ -83,7 +83,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Day::class, mappedBy: 'period', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['dayOffset' => 'ASC'])]
+    #[ORM\OrderBy(['dayOffset' => \SortDirection::Ascending])]
     public Collection $days;
 
     /**
@@ -99,7 +99,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'period')]
-    #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['startOffset' => \SortDirection::Ascending, 'left' => \SortDirection::Ascending, 'endOffset' => \SortDirection::Descending, 'createTime' => \SortDirection::Ascending])]
     public Collection $scheduleEntries;
 
     /**
@@ -107,7 +107,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * activities.
      */
     #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'period')]
-    #[ORM\OrderBy(['article' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['article' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $materialItems;
 
     /**

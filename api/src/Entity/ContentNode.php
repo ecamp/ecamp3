@@ -99,7 +99,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
-    #[ORM\OrderBy(['slot' => 'ASC', 'position' => 'ASC'])]
+    #[ORM\OrderBy(['slot' => \SortDirection::Ascending, 'position' => \SortDirection::Ascending])]
     public Collection $children;
 
     /**

@@ -56,7 +56,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
-    order: ['createTime' => 'ASC'],
+    order: ['createTime' => \SortDirection::Ascending],
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['camp', 'activity'])]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
