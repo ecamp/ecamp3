@@ -18,10 +18,37 @@ describe('vue pdf style plugin', () => {
     )
   })
 
+  test('ignores comments inside supported rules', () => {
+    const result = vuePdfStylePlugin.transform(
+      '.page { /* ignored */ color: red; }',
+      'component.vue?vue&type=pdf-style&lang.css'
+    )
+
+    expect(result.code).toContain('component.pdfStyle = {"page":{"color":"red"}}')
+  })
+
   test('rejects unsupported at-rules', () => {
     expect(() =>
       vuePdfStylePlugin.transform(
         '@media print { .nested { color: blue; } }',
+        'component.vue?vue&type=pdf-style&lang.css'
+      )
+    ).toThrow('Unsupported CSS node "atrule" in pdf-style')
+  })
+
+  test('rejects nested rules', () => {
+    expect(() =>
+      vuePdfStylePlugin.transform(
+        '.page { color: red; .nested { color: blue; } }',
+        'component.vue?vue&type=pdf-style&lang.css'
+      )
+    ).toThrow('Unsupported CSS node "rule" in pdf-style')
+  })
+
+  test('rejects at-rules nested in rules', () => {
+    expect(() =>
+      vuePdfStylePlugin.transform(
+        '.page { color: red; @media print { color: blue; } }',
         'component.vue?vue&type=pdf-style&lang.css'
       )
     ).toThrow('Unsupported CSS node "atrule" in pdf-style')
