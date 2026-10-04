@@ -65,13 +65,17 @@ function transformCssRules(rules) {
       }
       const className = selector.substring(1)
       transformed[className] = transformed[className] || {}
-      rule.nodes
-        .filter((node) => node.type === 'decl')
-        .forEach((declaration) => {
-          // TODO validate and warn on invalid properties or values or property-value combinations
-          const camelCasedProperty = camelCase(declaration.prop)
-          return (transformed[className][camelCasedProperty] = declaration.value)
-        })
+      rule.nodes.forEach((declaration) => {
+        if (declaration.type === 'comment') {
+          return
+        }
+        if (declaration.type !== 'decl') {
+          throw new Error(`Unsupported CSS node "${declaration.type}" in pdf-style`)
+        }
+        // TODO validate and warn on invalid properties or values or property-value combinations
+        const camelCasedProperty = camelCase(declaration.prop)
+        return (transformed[className][camelCasedProperty] = declaration.value)
+      })
     })
     return transformed
   }, {})
