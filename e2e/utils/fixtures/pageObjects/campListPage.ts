@@ -19,12 +19,20 @@ export const camplistPageFixture = {
 export class CampListPage {
   constructor(
     private readonly _page: Page,
-    private readonly _createCampButton = _page.getByTestId('create-camp-button')
+    private readonly _createCampButton = _page.getByTestId('create-camp-button'),
+    private readonly _campListSkeletons = _page.locator('.v-skeleton-loader')
   ) {}
+
+  @boxedStep
+  async goto() {
+    await this._page.goto('/camps')
+    return this.loaded()
+  }
 
   @boxedStep
   async loaded() {
     await expect(this._createCampButton).toBeVisible()
+    await expect(this._campListSkeletons).toHaveCount(0, { timeout: 10_000 })
     return this
   }
 
@@ -34,5 +42,11 @@ export class CampListPage {
     const createCampDialogStep1 = new CreateCampDialogStep1(this._page)
     await createCampDialogStep1.loaded()
     return createCampDialogStep1
+  }
+
+  @boxedStep
+  async expectCampNotListed(campTitle: string) {
+    await expect(this._page.getByText(campTitle)).toBeHidden()
+    return this
   }
 }
