@@ -48,8 +48,11 @@ function transformReactPdfStyleBlocks(code) {
 
 function transformCssRules(rules) {
   return rules.reduce((transformed, rule) => {
-    if (rule.type !== 'rule') {
+    if (rule.type === 'comment') {
       return transformed
+    }
+    if (rule.type !== 'rule') {
+      throw new Error(`Unsupported CSS node "${rule.type}" in pdf-style`)
     }
     rule.selector.split(',').forEach((rawSelector) => {
       const selector = rawSelector.trim()

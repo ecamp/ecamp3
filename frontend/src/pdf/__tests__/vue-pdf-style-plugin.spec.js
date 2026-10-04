@@ -9,7 +9,6 @@ describe('vue pdf style plugin', () => {
         .page { font-size: 12px; line-height: 1.5; }
         .page { color: red; }
         .page-number { font-weight: bold; }
-        @media print { .nested { color: blue; } }
       `,
       'component.vue?vue&type=pdf-style&lang.css'
     )
@@ -17,6 +16,15 @@ describe('vue pdf style plugin', () => {
     expect(result.code).toContain(
       'component.pdfStyle = {"page":{"fontSize":"12px","lineHeight":"1.5","color":"red"},"page-number":{"fontWeight":"bold"}}'
     )
+  })
+
+  test('rejects unsupported at-rules', () => {
+    expect(() =>
+      vuePdfStylePlugin.transform(
+        '@media print { .nested { color: blue; } }',
+        'component.vue?vue&type=pdf-style&lang.css'
+      )
+    ).toThrow('Unsupported CSS node "atrule" in pdf-style')
   })
 
   test('logs and skips complex selectors', () => {
