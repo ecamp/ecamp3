@@ -140,7 +140,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     #[ApiProperty(writable: false, example: '["/checklist_items/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ChecklistItem::class, mappedBy: 'parent', cascade: ['persist'])]
-    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending])]
     public Collection $children;
 
     /**
