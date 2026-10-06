@@ -169,7 +169,8 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     expect(notFoundRes.status()).toBe(404)
 
     // delete old emails
-    await apiDelete(bipiApi, '/mail/email/all')
+    const deleteMailsRes = await bipiApi.delete('/mail/email/all')
+    expect(deleteMailsRes.status()).toBe(200)
 
     // invite Castor
     await bipiPage.locator('.v-list-item-title', { hasText: 'Castor' }).click()
@@ -183,9 +184,24 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     ])
 
     // accept invitation as Castor
-    const emailRes = await castorApi.get('/mail/email')
-    const emails = await emailRes.json()
-    const emailHtmlContent = emails[0].html
+    let emailHtmlContent = ''
+    await expect
+      .poll(
+        async () => {
+          const emailRes = await castorApi.get('/mail/email')
+          const emails = (await emailRes.json()) as Array<{
+            to: Array<{ address: string }>
+            html: string
+          }>
+          const castorEmails = emails.filter((email) =>
+            email.to.some((recipient) => recipient.address === castorUser)
+          )
+          emailHtmlContent = castorEmails.at(-1)?.html ?? ''
+          return emailHtmlContent
+        },
+        { timeout: 10000 }
+      )
+      .toBeTruthy()
     await castorPage.setContent(emailHtmlContent)
     const [newPage] = await Promise.all([
       castorContext.waitForEvent('page'),
@@ -201,7 +217,6 @@ test.describe('cache test: /camps/{campId}/categories', () => {
         .click(),
     ])
     await newPage.goto('/camps')
-    await newPage.getByText('Alte Lager').click()
     await expect(newPage.locator('body')).toContainText('GRGR')
   })
 
