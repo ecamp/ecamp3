@@ -28,7 +28,7 @@ export const campFixture = {
     { page }: { page: Page },
     use: (a: CampRegistry) => Promise<void>
   ) => {
-    const camps: Camp[] = []
+    let camps: Camp[] = []
     await use({
       register: (campInfo, campTitle) => {
         const camp = new Camp(page, campInfo.campId, campTitle, campInfo)
@@ -36,8 +36,10 @@ export const campFixture = {
         return camp
       },
       cleanup: async () => {
-        for (const camp of camps) await camp.delete()
-        camps.length = 0
+        for (const camp of camps) {
+          await camp.delete()
+        }
+        camps = []
       },
     })
   },
