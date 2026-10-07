@@ -9,7 +9,7 @@ COPY common /common
 
 WORKDIR /app
 
-COPY print/package*.json ./
+COPY print/package*.json print/.npmrc ./
 
 ENV NUXT_SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 ENV NUXT_SENTRY_ORG=$SENTRY_ORG
