@@ -8,7 +8,7 @@ ARG SENTRY_RELEASE_NAME
 COPY common /common
 
 WORKDIR /app
-COPY frontend/package*.json ./
+COPY frontend/package*.json frontend/.npmrc ./
 COPY frontend/public ./public
 COPY frontend/scripts ./scripts
 COPY frontend/patches ./patches
