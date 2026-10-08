@@ -10,7 +10,7 @@
         "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{json,md,mjs,ts}"
     },
     "dependencies": {
-        "@pulumi/pulumi": "3.266.0",
+        "@pulumi/pulumi": "3.267.0",
         "@pulumi/aws": "7.48.0",
         "@pulumi/awsx": "3.10.0"
     },
