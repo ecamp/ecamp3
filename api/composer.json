@@ -70,7 +70,7 @@
     "ext-intl": "*",
     "api-platform/graphql": "4.4.3",
     "api-platform/hydra": "4.4.2",
-    "api-platform/json-schema": "4.4.0",
+    "api-platform/json-schema": "4.4.3",
     "brianium/paratest": "7.25.0",
     "friendsofphp/php-cs-fixer": "3.95.27",
     "hautelook/alice-bundle": "2.17.3",
