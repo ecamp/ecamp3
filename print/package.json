@@ -67,5 +67,11 @@
   },
   "overrides": {
     "uri-js": "npm:uri-js-replace"
+  },
+  "allowScripts": {
+    "esbuild": false,
+    "@parcel/watcher": false,
+    "vue-demi": false,
+    "unrs-resolver": false
   }
 }

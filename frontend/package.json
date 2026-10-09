@@ -163,5 +163,13 @@
       "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
       "git add"
     ]
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "@sentry/cli": false,
+    "core-js": false,
+    "esbuild": false,
+    "vue-demi": false,
+    "jest-serializer-vue-tjw": false
   }
 }
