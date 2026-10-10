@@ -1024,7 +1024,6 @@
     },
     "profile": {
       "profile": "Profile",
-      "changePassword": "Change",
       "password": "Password"
     }
   }
