@@ -1,0 +1,20 @@
+name: 'Tests: All End-to-End (marker trigger)'
+
+on:
+  push:
+    branches-ignore:
+      - devel
+      - gh-readonly-queue/**
+      - staging
+      - prod
+    paths:
+      - e2e/playwright.version
+  pull_request:
+    paths:
+      - e2e/playwright.version
+
+jobs:
+  e2e-tests-all:
+    uses: ./.github/workflows/e2e-tests-all.yml
+    with:
+      force: true
