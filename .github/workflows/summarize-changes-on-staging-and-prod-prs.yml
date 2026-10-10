@@ -1,5 +1,9 @@
 name: 'Summarize changes on staging and prod PRs'
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   pull_request:
     branches: [staging, prod]

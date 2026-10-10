@@ -1,5 +1,8 @@
 name: CI + CD for staging and prod
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -22,6 +25,8 @@ on:
 jobs:
   build-and-push:
     name: Build and push docker images
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
       tag: ${{ github.ref_name }}
@@ -33,6 +38,10 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
     uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: ${{ github.ref_name }}

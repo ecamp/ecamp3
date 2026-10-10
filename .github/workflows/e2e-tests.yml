@@ -1,5 +1,8 @@
 name: 'Tests: End to End to detect flaky tests'
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -43,6 +46,8 @@ jobs:
     name: 'Tests: End-to-end build to detect flaky tests'
     needs:
       - create-array
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
 
   e2e-tests-run:
@@ -50,6 +55,9 @@ jobs:
     needs:
       - create-array
       - e2e-tests-build
+    permissions:
+      contents: read
+      actions: write
     uses: ./.github/workflows/reusable-e2e-tests-run.yml
     with:
       run-identifier: ${{ matrix.array }}

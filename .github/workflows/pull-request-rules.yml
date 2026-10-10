@@ -1,5 +1,8 @@
 name: PR (additional rules)
 
+permissions:
+  issues: read
+
 on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
