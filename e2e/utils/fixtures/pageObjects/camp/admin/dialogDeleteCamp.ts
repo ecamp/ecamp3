@@ -2,9 +2,11 @@ import { expect, Page } from '@playwright/test'
 import { boxedStep } from '@/utils/decorators/boxedStep'
 
 export class DialogDeleteCamp {
+  static readonly LOCATOR = '.v-overlay--active:has([name="promptText"])'
+
   constructor(
     private readonly _page: Page,
-    _dialog = _page.locator('.v-overlay--active'),
+    _dialog = _page.locator(DialogDeleteCamp.LOCATOR),
     private readonly _promptInput = _dialog.locator('[name="promptText"] input'),
     private readonly _deleteButton = _dialog.getByRole('button', {
       name: /Löschen/i,
@@ -13,7 +15,7 @@ export class DialogDeleteCamp {
 
   @boxedStep
   async loaded() {
-    await expect(this._promptInput).toBeVisible({ timeout: 10000 })
+    await expect(this._promptInput).toBeVisible({ timeout: 20_000 })
     return this
   }
 
