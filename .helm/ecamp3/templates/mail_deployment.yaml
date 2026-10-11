@@ -43,7 +43,7 @@ spec:
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: {{ .Values.mail.subpath }}
+              path: {{ .Values.mail.subpath }}/api/healthz
               port: 1080
             initialDelaySeconds: 10
             periodSeconds: 5
