@@ -207,7 +207,7 @@ services:
     working_dir: /e2e
 
   mock-oauth2:
-    image: ghcr.io/navikt/mock-oauth2-server:4.0.0
+    image: ghcr.io/navikt/mock-oauth2-server:6.0.5
     volumes:
       - ./dev-setup/mock-oauth/mock-oauth2-config.json:/app/config.json:ro
       - ./dev-setup/mock-oauth/mock-oauth2-login.html:/app/login.html:ro
