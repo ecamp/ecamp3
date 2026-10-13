@@ -1,5 +1,8 @@
 name: Deploy Traefik API Gateway
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:

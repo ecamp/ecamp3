@@ -1,4 +1,8 @@
 name: check-renovate-config.yml
+
+permissions:
+  contents: read
+
 on:
   push:
     paths:
