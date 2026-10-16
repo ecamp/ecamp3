@@ -31,7 +31,14 @@ on:
           - deploy
 
 jobs:
+  check-write-access:
+    name: Check write access permission
+    uses: ./.github/workflows/reusable-check-write-access.yml
+    secrets:
+      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+
   build-and-push:
+    needs: check-write-access
     name: Build and push docker images
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:

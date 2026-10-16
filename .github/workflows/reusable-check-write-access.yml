@@ -1,0 +1,71 @@
+name: Check write access
+
+on:
+  workflow_call:
+    secrets:
+      REPO_ACCESS_TOKEN:
+        required: true
+
+jobs:
+  check-write-access:
+    name: Check write access permission
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if user has write access to this repository
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          script: |
+            if (!process.env.REPO_ACCESS_TOKEN) {
+              core.setFailed('REPO_ACCESS_TOKEN is required to verify write access.');
+              return;
+            }
+
+            const target = `${context.repo.owner}/${context.repo.repo}`;
+            const pullRequest = context.payload.pull_request;
+            const headRepository = pullRequest?.head?.repo;
+            const baseRepository = pullRequest?.base?.repo;
+            const login = pullRequest ? headRepository?.owner?.login : context.actor;
+            const validLogin = typeof login === 'string' && /^[a-zA-Z0-9-]+$/.test(login);
+
+            if (!validLogin) {
+              core.setFailed('Unable to determine a valid account to authorize.');
+              return;
+            }
+
+            if (pullRequest && (!Number.isInteger(headRepository?.id) || !Number.isInteger(baseRepository?.id))) {
+              core.setFailed('Unable to determine the pull request repositories to authorize.');
+              return;
+            }
+
+            if (pullRequest && headRepository.id === baseRepository.id) {
+              core.info(`head branch lives in ${target} itself, so its owner has write access there: allow`);
+              return;
+            }
+
+            try {
+              const collaborator = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: login,
+              });
+
+              const permission = collaborator.status === 200 && collaborator.data && typeof collaborator.data.permission === 'string'
+                ? collaborator.data.permission
+                : undefined;
+              const allowed = ['write', 'maintain', 'admin'].includes(permission);
+
+              core.info(
+                `the branch repository owner ${login} has permission="${permission ?? 'unknown'}" on ${target}: ${allowed ? 'allow' : 'deny'}`
+              );
+
+              if (!allowed) {
+                core.setFailed(
+                  `The account owning the pull request branch repository (${login}) must have write, maintain or admin access to ${target}.`
+                );
+              }
+            } catch (error) {
+              core.setFailed(`Unable to verify access for ${login}: ${error?.message ?? 'GitHub API error'}`);
+            }
+        env:
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
