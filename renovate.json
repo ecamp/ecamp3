@@ -96,7 +96,8 @@
     },
     {
       "groupName": "playwright",
-      "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"]
+      "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"],
+      "automerge": false
     },
     {
       "matchPackageNames": ["mcr.microsoft.com/playwright"],
@@ -104,6 +105,13 @@
     }
   ],
   "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^e2e/playwright\\.version$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[^\\s]+) depName=(?<depName>[^\\s]+)\\n[A-Z_]+=(?<currentValue>[0-9][\\w.-]*)"
+      ]
+    },
     {
       "customType": "regex",
       "managerFilePatterns": ["/^api/phpunit.xml.dist$/"],
