@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test'
 import { boxedStep } from '@/utils/decorators/boxedStep'
 import { CampListPage } from '@/utils/fixtures/pageObjects/campListPage'
+import { bipiUser } from '@/utils/constants'
 
 export const loginPageFixture = {
   loginPage: async (
@@ -30,7 +31,7 @@ export class LoginPage {
 
   @boxedStep
   async open() {
-    await this._page.goto('/login')
+    await this._page.goto('/login', { timeout: 30_000 })
     return this.loaded()
   }
 
@@ -44,10 +45,11 @@ export class LoginPage {
   }
 
   @boxedStep
-  async loginToCampList(user: string, password: string = 'test') {
+  async loginToCampList(user: string = bipiUser, password: string = 'test') {
     await this.loaded()
     await this._emailField.fill(user)
     await this._passwordField.fill(password)
+    await expect(this._loginButton).toBeEnabled({ timeout: 10_000 })
     await this._loginButton.click()
     const campListPage = new CampListPage(this._page)
     await campListPage.loaded()

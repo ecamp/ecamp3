@@ -5,7 +5,9 @@ export class ESelect {
   constructor(
     private readonly _locator: Locator,
     private readonly _selectOpenLocator = _locator.page().locator('.v-overlay--active'),
-    private readonly _selectClosedLocator = _locator.page().locator('.v-overlay')
+    private readonly _selectClosedLocator = _locator
+      .page()
+      .locator('.v-overlay--active:not(.v-dialog)')
   ) {}
 
   @boxedStep
@@ -19,7 +21,9 @@ export class ESelect {
 
   @boxedStep
   async select(value: string) {
-    await this._selectOpenLocator.getByText(value, { exact: true }).click()
+    const option = this._selectOpenLocator.getByText(value, { exact: true })
+    await expect(option).toBeVisible()
+    await option.click()
 
     await expect(this._selectClosedLocator).toBeHidden({
       timeout: 10000,
