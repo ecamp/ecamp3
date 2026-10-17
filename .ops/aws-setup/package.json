@@ -24,7 +24,7 @@
         "eslint-plugin-prettier": "5.5.6",
         "eslint-plugin-promise": "7.3.0",
         "globals": "17.13.0",
-        "prettier": "3.9.9"
+        "prettier": "3.9.10"
     },
     "allowScripts": {
         "@pulumi/docker": false,
