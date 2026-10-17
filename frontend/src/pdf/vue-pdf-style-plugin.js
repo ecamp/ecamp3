@@ -1,5 +1,5 @@
-import { parse } from 'css'
 import camelCase from 'lodash-es/camelCase.js'
+import postcss from 'postcss'
 
 export const vueStyleReactPdfPlugin = {
   name: 'vue-pdf-style-plugin',
@@ -17,9 +17,7 @@ export const vuePdfStylePlugin = {
     if (!/vue&type=pdf-style/.test(id)) {
       return
     }
-    const parsed = parse(code)
-    const rules = parsed.stylesheet.rules
-    const transformedRules = transformCssRules(rules)
+    const transformedRules = transformCssRules(postcss.parse(code).nodes)
     return {
       code: `export default (component) => {
         component.pdfStyle = ${JSON.stringify(transformedRules)};
@@ -50,7 +48,14 @@ function transformReactPdfStyleBlocks(code) {
 
 function transformCssRules(rules) {
   return rules.reduce((transformed, rule) => {
-    rule.selectors.forEach((selector) => {
+    if (rule.type === 'comment') {
+      return transformed
+    }
+    if (rule.type !== 'rule') {
+      throw new Error(`Unsupported CSS node "${rule.type}" in pdf-style`)
+    }
+    rule.selector.split(',').forEach((rawSelector) => {
+      const selector = rawSelector.trim()
       if (!/^\.[a-zA-Z][a-zA-Z0-9_-]*$/.test(selector)) {
         console.error(
           'Only simple single-class selectors are supported in pdf-style. Got the selector',
@@ -60,9 +65,15 @@ function transformCssRules(rules) {
       }
       const className = selector.substring(1)
       transformed[className] = transformed[className] || {}
-      rule.declarations.forEach((declaration) => {
+      rule.nodes.forEach((declaration) => {
+        if (declaration.type === 'comment') {
+          return
+        }
+        if (declaration.type !== 'decl') {
+          throw new Error(`Unsupported CSS node "${declaration.type}" in pdf-style`)
+        }
         // TODO validate and warn on invalid properties or values or property-value combinations
-        const camelCasedProperty = camelCase(declaration.property)
+        const camelCasedProperty = camelCase(declaration.prop)
         return (transformed[className][camelCasedProperty] = declaration.value)
       })
     })
