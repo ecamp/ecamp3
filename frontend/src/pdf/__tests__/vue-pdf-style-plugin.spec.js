@@ -69,4 +69,36 @@ describe('vue pdf style plugin', () => {
     )
     error.mockRestore()
   })
+
+  describe('font-feature-settings', () => {
+    const fontFeatureSettings = (value) => {
+      const { code } = vuePdfStylePlugin.transform(
+        `.a { font-feature-settings: ${value}; }`,
+        'component.vue?vue&type=pdf-style&lang.css'
+      )
+      return JSON.parse(code.match(/component\.pdfStyle = (.*);/s)[1]).a
+        .fontFeatureSettings
+    }
+
+    test('converts feature tags to the format expected by react-pdf', () => {
+      expect(fontFeatureSettings(`'tnum', "lnum"`)).toEqual({ tnum: 1, lnum: 1 })
+    })
+
+    test('supports switching font features on and off', () => {
+      expect(fontFeatureSettings("'liga' off, 'tnum' on, 'kern' 0, 'lnum' 1")).toEqual({
+        liga: 0,
+        tnum: 1,
+        kern: 0,
+        lnum: 1,
+      })
+    })
+
+    test('supports numeric feature values', () => {
+      expect(fontFeatureSettings("'swsh' 2")).toEqual({ swsh: 2 })
+    })
+
+    test('applies no font features for the normal keyword', () => {
+      expect(fontFeatureSettings('normal')).toEqual({})
+    })
+  })
 })
