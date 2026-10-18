@@ -4,17 +4,34 @@
     data-testid="comment-composer"
     @keydown.capture.ctrl.enter.prevent.stop="submit"
     @keydown.capture.meta.enter.prevent.stop="submit"
+    @keydown.capture.esc="cancel"
   >
     <ERichtext
       v-model="textHtml"
       vee-id="textHtml"
-      :placeholder="$t('components.comments.commentComposer.placeholder')"
+      :placeholder="
+        parent
+          ? $t('components.comments.commentComposer.replyPlaceholder')
+          : $t('components.comments.commentComposer.placeholder')
+      "
       :error-messages="errorMessages"
+      :autofocus="autofocus ? 'end' : false"
       :disabled="saving"
       variant="outlined"
       density="compact"
     >
       <template #append-inner>
+        <v-btn
+          v-if="cancelable"
+          icon="mdi-close"
+          variant="text"
+          density="comfortable"
+          class="align-self-end"
+          :disabled="saving"
+          :aria-label="$t('global.button.cancel')"
+          data-testid="comment-cancel"
+          @click="cancel"
+        />
         <v-btn
           icon="mdi-send"
           variant="text"
@@ -40,10 +57,13 @@ export default {
   name: 'CommentComposer',
   components: { ERichtext },
   props: {
-    camp: { type: Object, required: true },
+    camp: { type: Object, default: null },
     activity: { type: Object, default: null },
+    parent: { type: Object, default: null },
+    cancelable: { type: Boolean, default: false },
+    autofocus: { type: Boolean, default: false },
   },
-  emits: ['created'],
+  emits: ['created', 'cancel'],
   data() {
     return {
       textHtml: '',
@@ -52,16 +72,27 @@ export default {
     }
   },
   methods: {
+    cancel(event) {
+      if (!this.cancelable || this.saving) return
+      // keep Escape from also closing the fullscreen panel on mobile
+      event?.stopPropagation()
+      this.$emit('cancel')
+    },
     async submit() {
       if (!this.textHtml || this.saving) return
       this.saving = true
       this.errorMessages = []
       try {
-        await this.api.post(await this.api.href(this.api.get(), 'comments'), {
-          textHtml: this.textHtml,
-          camp: this.camp._meta.self,
-          ...(this.activity ? { activity: this.activity._meta.self } : {}),
-        })
+        await this.api.post(
+          await this.api.href(this.api.get(), 'comments'),
+          this.parent
+            ? { textHtml: this.textHtml, parent: this.parent._meta.self }
+            : {
+                textHtml: this.textHtml,
+                camp: this.camp._meta.self,
+                ...(this.activity ? { activity: this.activity._meta.self } : {}),
+              }
+        )
         this.textHtml = ''
         this.$emit('created')
       } catch (e) {

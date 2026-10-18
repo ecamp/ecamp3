@@ -353,18 +353,32 @@
     "comments": {
       "commentCard": {
         "campComment": "Ganzes Lager",
+        "deleteDisabledReplies": "Kommentare mit Antworten von anderen Personen können nicht gelöscht werden.",
         "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
+        "deleteWithRepliesWarning": "Möchtest du deinen Kommentar zusammen mit deinen Antworten darauf wirklich löschen?",
+        "deletedAuthor": "Gelöschte Person",
         "deleted": "(gelöscht)"
       },
       "commentComposer": {
-        "placeholder": "Kommentar schreiben"
+        "placeholder": "Kommentar schreiben",
+        "replyPlaceholder": "Antwort schreiben"
+      },
+      "commentThread": {
+        "reopen": "Wieder öffnen",
+        "reply": "Antworten",
+        "resolve": "Erledigt",
+        "resolvedBy": "Erledigt von {user} am {date}",
+        "resolvedOn": "Erledigt am {date}"
       },
       "commentsList": {
-        "empty": "Noch keine Kommentare."
+        "empty": "Noch keine Kommentare.",
+        "noOpenComments": "Keine offenen Kommentare. Wechsle zu \"Alle\", um die erledigten zu sehen."
       },
       "commentsPanel": {
-        "activityCommentsElsewhere": "Ein weiterer Kommentar befindet sich bei einer einzelnen Aktivität. | {count} weitere Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "activityCommentsElsewhere": "Ein weiterer offener Kommentar befindet sich bei einer Aktivität. | {count} weitere offene Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "all": "Alle",
         "commentsOnThisActivity": "Kommentare zu dieser Aktivität",
+        "open": "Offen",
         "title": "Kommentare"
       },
       "commentsToggleButton": {

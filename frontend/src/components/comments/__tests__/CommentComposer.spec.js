@@ -22,7 +22,7 @@ function mountComposer(props = {}) {
       stubs: {
         ERichtext: {
           name: 'ERichtext',
-          props: ['modelValue'],
+          props: ['modelValue', 'autofocus'],
           template: '<div class="richtext"><slot name="append-inner" /></div>',
         },
       },
@@ -89,6 +89,64 @@ describe('CommentComposer', () => {
       camp: '/camps/1',
       activity: '/activities/1',
     })
+  })
+
+  it('posts a reply with only its parent, leaving camp and activity to the API', async () => {
+    const wrapper = mountComposer({
+      activity,
+      parent: { _meta: { self: '/comments/1' } },
+    })
+    await type(wrapper, '<p>Hallo</p>')
+
+    await send(wrapper).trigger('click')
+
+    expect(post).toHaveBeenCalledWith('/comments', {
+      textHtml: '<p>Hallo</p>',
+      parent: '/comments/1',
+    })
+  })
+
+  it('offers no cancel button unless it is cancelable', () => {
+    expect(mountComposer().find('[data-testid="comment-cancel"]').exists()).toBe(false)
+  })
+
+  it('asks to be closed through its cancel button', async () => {
+    const wrapper = mountComposer({ cancelable: true })
+
+    await wrapper.find('[data-testid="comment-cancel"]').trigger('click')
+
+    expect(wrapper.emitted('cancel')).toHaveLength(1)
+  })
+
+  it('asks to be closed on escape, without letting escape close anything else', async () => {
+    const wrapper = mountComposer({ cancelable: true })
+    const outside = vi.fn()
+    wrapper.element.parentElement.addEventListener('keydown', outside)
+
+    await wrapper.trigger('keydown', { key: 'Escape' })
+
+    expect(wrapper.emitted('cancel')).toHaveLength(1)
+    expect(outside).not.toHaveBeenCalled()
+  })
+
+  it('ignores escape unless it is cancelable', async () => {
+    const wrapper = mountComposer()
+
+    await wrapper.trigger('keydown', { key: 'Escape' })
+
+    expect(wrapper.emitted('cancel')).toBeUndefined()
+  })
+
+  it('asks the editor to focus the end of its text once mounted', () => {
+    const wrapper = mountComposer({ autofocus: true })
+
+    expect(wrapper.findComponent({ name: 'ERichtext' }).props().autofocus).toBe('end')
+  })
+
+  it('does not focus itself by default', () => {
+    expect(mountComposer().findComponent({ name: 'ERichtext' }).props().autofocus).toBe(
+      false
+    )
   })
 
   it('clears the input and announces the new comment', async () => {

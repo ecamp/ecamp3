@@ -353,18 +353,32 @@
     "comments": {
       "commentCard": {
         "campComment": "Whole camp",
+        "deleteDisabledReplies": "Comments with replies by other people cannot be deleted.",
         "deleteWarning": "Do you really want to delete your comment?",
+        "deleteWithRepliesWarning": "Do you really want to delete your comment together with your replies to it?",
+        "deletedAuthor": "Deleted person",
         "deleted": "(deleted)"
       },
       "commentComposer": {
-        "placeholder": "Write a comment"
+        "placeholder": "Write a comment",
+        "replyPlaceholder": "Write a reply"
+      },
+      "commentThread": {
+        "reopen": "Reopen",
+        "reply": "Reply",
+        "resolve": "Resolve",
+        "resolvedBy": "Resolved by {user} on {date}",
+        "resolvedOn": "Resolved on {date}"
       },
       "commentsList": {
-        "empty": "No comments yet."
+        "empty": "No comments yet.",
+        "noOpenComments": "No open comments. Switch to \"All\" to see the resolved ones."
       },
       "commentsPanel": {
-        "activityCommentsElsewhere": "One more comment is on an individual activity. | {count} more comments are on individual activities.",
+        "activityCommentsElsewhere": "One more open comment is on an activity. | {count} more open comments are on individual activities.",
+        "all": "All",
         "commentsOnThisActivity": "Comments on this activity",
+        "open": "Open",
         "title": "Comments"
       },
       "commentsToggleButton": {

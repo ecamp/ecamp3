@@ -1,3 +1,5 @@
+import { isResolved } from '@/components/comments/commentThreads.js'
+
 /**
  * The comments the panel shows for a scope, and the same list the toggle button counts.
  *
@@ -9,16 +11,25 @@
  * @param {Object} comments the camp's comment collection
  * @param {?Object} activity the activity the panel is scoped to, if any
  * @param {boolean} includeActivityComments whether camp scope also lists activity comments
+ * @param {boolean} includeResolved whether resolved threads are listed too
  * @return {Array}
  */
-export function scopedComments(comments, activity, includeActivityComments) {
+export function scopedComments(
+  comments,
+  activity,
+  includeActivityComments,
+  includeResolved = false
+) {
+  const shown = includeResolved
+    ? comments.items
+    : comments.items.filter((comment) => !isResolved(comment))
   if (activity) {
-    return comments.items.filter(
+    return shown.filter(
       (comment) =>
         typeof comment.activity === 'function' &&
         comment.activity()._meta.self === activity._meta.self
     )
   }
-  if (includeActivityComments) return comments.items
-  return comments.items.filter((comment) => typeof comment.activity !== 'function')
+  if (includeActivityComments) return shown
+  return shown.filter((comment) => typeof comment.activity !== 'function')
 }

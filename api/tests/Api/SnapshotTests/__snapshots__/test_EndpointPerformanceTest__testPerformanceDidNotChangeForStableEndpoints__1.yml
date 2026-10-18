@@ -53,4 +53,4 @@
 '/days/{id}/day_responsibles': 8
 '/periods/{id}/days': 13
 '/periods/{id}/schedule_entries': 13
-'/activities/{id}/comments': 9
+'/activities/{id}/comments': 8

@@ -50,6 +50,20 @@ class CreateCommentTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload());
     }
 
+    public function testCreateCommentSetsTheCampCollaborationAsAuthor() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('POST', '/comments', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'authorDisplayName' => null,
+            '_links' => [
+                'author' => ['href' => $this->getIriFor('campCollaboration2member')],
+            ],
+        ]);
+    }
+
     public function testCreateCommentIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/comments', ['json' => $this->getExampleWritePayload()]);
 
@@ -164,6 +178,188 @@ class CreateCommentTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload(['textHtml' => '<b>testText</b>']));
     }
 
+    public function testCreateReply() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('POST', '/comments', ['json' => [
+                'parent' => $this->getIriFor('comment1'),
+                'textHtml' => 'A reply',
+            ]])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'textHtml' => 'A reply',
+            '_links' => [
+                'parent' => ['href' => $this->getIriFor('comment1')],
+                'camp' => ['href' => $this->getIriFor('camp1')],
+                'activity' => ['href' => $this->getIriFor('activity1')],
+                'author' => ['href' => $this->getIriFor('campCollaboration2member')],
+            ],
+        ]);
+    }
+
+    public function testCreateReplyMayRepeatTheAnchorOfItsParent() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => $this->getExampleWritePayload([
+            'parent' => $this->getIriFor('comment1'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '_links' => [
+                'activity' => ['href' => $this->getIriFor('activity1')],
+            ],
+        ]);
+    }
+
+    public function testCreateReplyToCampLevelComment() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'parent' => $this->getIriFor('comment4resolved'),
+            'textHtml' => 'A reply',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '_links' => [
+                'activity' => null,
+                'parent' => ['href' => $this->getIriFor('comment4resolved')],
+                'camp' => ['href' => $this->getIriFor('camp1')],
+            ],
+        ]);
+    }
+
+    public function testCreateReplyToOrphanedCommentKeepsItsDescription() {
+        $parent = $this->getEntityManager()->getRepository(Comment::class)->find(static::getFixture('comment3')->getId());
+        $parent->activity = null;
+        $parent->orphanDescription = 'LS Sportolympiade';
+        $this->getEntityManager()->flush();
+
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'parent' => $this->getIriFor('comment3'),
+            'textHtml' => 'A reply',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'orphanDescription' => 'LS Sportolympiade',
+        ]);
+    }
+
+    public function testCreateReplyIsNotPossibleForUnrelatedUser() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('POST', '/comments', ['json' => [
+                'parent' => $this->getIriFor('comment1'),
+                'textHtml' => 'A reply',
+            ]])
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Item not found for "'.$this->getIriFor('comment1').'".',
+        ]);
+    }
+
+    public function testCreateReplyIsDeniedForInactiveCollaborator() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
+            ->request('POST', '/comments', ['json' => [
+                'parent' => $this->getIriFor('comment1'),
+                'textHtml' => 'A reply',
+            ]])
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testCreateReplyToReplyIsNotAllowed() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'parent' => $this->getIriFor('comment3reply'),
+            'textHtml' => 'A reply',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'parent',
+                    'message' => 'Cannot reply to a reply.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateReplyValidatesActivityOfParent() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'activity' => $this->getIriFor('activity2'),
+            'parent' => $this->getIriFor('comment1'),
+            'textHtml' => 'A reply',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'parent',
+                    'message' => 'Must be about the same activity as the comment it replies to.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateReplyWithActivityToCampLevelCommentIsNotAllowed() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'activity' => $this->getIriFor('activity1'),
+            'parent' => $this->getIriFor('comment4resolved'),
+            'textHtml' => 'A reply',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'parent',
+                    'message' => 'Must be about the same activity as the comment it replies to.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateReplyValidatesCampOfParent() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'camp' => $this->getIriFor('camp2'),
+            'parent' => $this->getIriFor('comment4resolved'),
+            'textHtml' => 'A reply',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'parent',
+                    'message' => 'Must belong to the same camp.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCommentWithoutCampOrParentIsNotAllowed() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => [
+            'textHtml' => 'A comment about nothing',
+        ]]);
+
+        // without a camp, nobody is a collaborator of it
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testCreateCommentRejectsResolvedInPayload() {
+        static::createClientWithCredentials()->request('POST', '/comments', ['json' => $this->getExampleWritePayload([
+            'resolved' => true,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("resolved" is unknown).',
+        ]);
+    }
+
     #[\Override]
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
@@ -173,7 +369,7 @@ class CreateCommentTest extends ECampApiTestCase {
                 'camp' => $this->getIriFor('camp1'),
                 'activity' => $this->getIriFor('activity1'),
             ], $attributes),
-            ['author'],
+            ['author', 'parent'],
             $except
         );
     }
@@ -183,7 +379,7 @@ class CreateCommentTest extends ECampApiTestCase {
             Comment::class,
             Get::class,
             $attributes,
-            ['camp', 'activity', 'author'],
+            ['camp', 'activity', 'author', 'parent', 'children', 'resolvedBy', 'authorDisplayName'],
             $except
         );
     }

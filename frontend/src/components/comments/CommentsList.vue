@@ -4,32 +4,51 @@
       <v-skeleton-loader type="list-item-two-line" />
       <v-skeleton-loader type="list-item-two-line" />
     </template>
-    <p v-else-if="!comments.length" class="text-body-2 text-medium-emphasis mb-0">
-      {{ $t('components.comments.commentsList.empty') }}
+    <p
+      v-else-if="!comments.length && emptyText"
+      class="text-body-2 text-medium-emphasis mb-0"
+    >
+      {{ emptyText }}
     </p>
-    <CommentCard
-      v-for="comment in comments"
+    <CommentThread
+      v-for="root in roots"
       v-else
-      :key="comment._meta.self"
-      :comment="comment"
+      :key="root._meta.self"
+      :root="root"
+      :replies="repliesTo(root)"
       :show-context="showContext"
+      @replied="$emit('replied')"
     />
     <slot name="after" />
   </div>
 </template>
 
 <script>
-import CommentCard from '@/components/comments/CommentCard.vue'
+import CommentThread from '@/components/comments/CommentThread.vue'
 
 export default {
   name: 'CommentsList',
-  components: { CommentCard },
+  components: { CommentThread },
   props: {
     comments: { type: Array, required: true },
     loading: { type: Boolean, default: false },
     showContext: { type: Boolean, default: false },
+    emptyText: { type: String, default: null },
+  },
+  emits: ['replied'],
+  computed: {
+    roots() {
+      return this.comments.filter((comment) => typeof comment.parent !== 'function')
+    },
   },
   methods: {
+    repliesTo(root) {
+      return this.comments.filter(
+        (comment) =>
+          typeof comment.parent === 'function' &&
+          comment.parent()._meta.self === root._meta.self
+      )
+    },
     scrollToBottom() {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       this.$el.scrollTo({
