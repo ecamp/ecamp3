@@ -74,11 +74,41 @@ function transformCssRules(rules) {
         }
         // TODO validate and warn on invalid properties or values or property-value combinations
         const camelCasedProperty = camelCase(declaration.prop)
-        return (transformed[className][camelCasedProperty] = declaration.value)
+        return (transformed[className][camelCasedProperty] = transformValue(
+          camelCasedProperty,
+          declaration.value
+        ))
       })
     })
     return transformed
   }, {})
+}
+
+function transformValue(property, value) {
+  if (property === 'fontFeatureSettings') {
+    return transformFontFeatureSettings(value)
+  }
+  return value
+}
+
+// react-pdf expects OpenType feature tags instead of the CSS string. See
+// https://drafts.csswg.org/css-fonts/#font-feature-settings-prop for the syntax.
+function transformFontFeatureSettings(value) {
+  if (value === 'normal') {
+    return {}
+  }
+  return Object.fromEntries(
+    postcss.list.comma(value).map((featureTagValue) => {
+      const [tag, setting = 'on'] = postcss.list.space(featureTagValue)
+      return [tag.replace(/^['"]|['"]$/g, ''), transformFontFeatureSetting(setting)]
+    })
+  )
+}
+
+function transformFontFeatureSetting(setting) {
+  if (setting === 'on') return 1
+  if (setting === 'off') return 0
+  return parseInt(setting, 10)
 }
 
 export default vuePdfStylePlugin
