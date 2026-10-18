@@ -12,7 +12,6 @@ test('warns about self-XSS in the production browser console', async ({ page }) 
 
   await page.goto('/')
 
-  // CI serves a production build. Locally, use the production setup in e2e/README.md.
   // eslint-disable-next-line playwright/no-skipped-test -- Requires a production build.
   test.skip(
     (await page.locator('script[src="/@vite/client"]').count()) > 0,
