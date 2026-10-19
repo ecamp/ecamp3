@@ -356,8 +356,8 @@
         "deleteDisabledReplies": "Comments with replies by other people cannot be deleted.",
         "deleteWarning": "Do you really want to delete your comment?",
         "deleteWithRepliesWarning": "Do you really want to delete your comment together with your replies to it?",
-        "deletedAuthor": "Deleted person",
-        "deleted": "(deleted)"
+        "deleted": "(deleted)",
+        "deletedAuthor": "Deleted person"
       },
       "commentComposer": {
         "placeholder": "Write a comment",
@@ -367,8 +367,12 @@
         "reopen": "Reopen",
         "reply": "Reply",
         "resolve": "Resolve",
-        "resolvedBy": "Resolved by {user} on {date}",
-        "resolvedOn": "Resolved on {date}"
+        "resolved": "Resolved",
+        "resolvedBy": "Resolved by {user}"
+      },
+      "commentTime": {
+        "today": "Today, {time}",
+        "yesterday": "Yesterday, {time}"
       },
       "commentsList": {
         "empty": "No comments yet.",

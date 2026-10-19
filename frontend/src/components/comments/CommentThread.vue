@@ -15,47 +15,52 @@
     <div class="ec-comment-thread__actions d-flex align-center flex-wrap ga-1 mt-1">
       <span
         v-if="resolved"
-        class="text-caption text-medium-emphasis d-flex align-center ga-1 mr-auto"
+        class="ec-comment-thread__resolved text-caption text-medium-emphasis d-flex align-center ga-1 mr-auto"
         data-testid="comment-thread-resolved"
       >
         <v-icon icon="mdi-check-circle-outline" size="16" />
-        <template v-if="resolverName">
-          {{
-            $t('components.comments.commentThread.resolvedBy', {
-              user: resolverName,
-              date: resolvedDate,
-            })
-          }}
-        </template>
-        <template v-else>
-          {{ $t('components.comments.commentThread.resolvedOn', { date: resolvedDate }) }}
-        </template>
+        {{
+          resolverName
+            ? $t('components.comments.commentThread.resolvedBy', { user: resolverName })
+            : $t('components.comments.commentThread.resolved')
+        }}
+        ·
+        <CommentTime :value="root.resolvedAt" />
       </span>
       <v-spacer v-else />
-      <v-btn
+      <v-tooltip
         v-if="!resolved && !replying"
-        variant="text"
-        size="small"
-        prepend-icon="mdi-reply"
-        data-testid="comment-thread-reply"
-        @click="replying = true"
+        location="bottom"
+        :text="$t('components.comments.commentThread.reply')"
       >
-        {{ $t('components.comments.commentThread.reply') }}
-      </v-btn>
-      <v-btn
-        variant="text"
-        size="small"
-        :prepend-icon="resolved ? 'mdi-restore' : 'mdi-check'"
-        :loading="saving"
-        data-testid="comment-thread-resolve"
-        @click="toggleResolved"
-      >
-        {{
-          resolved
-            ? $t('components.comments.commentThread.reopen')
-            : $t('components.comments.commentThread.resolve')
-        }}
-      </v-btn>
+        <template #activator="{ props }">
+          <v-btn
+            icon="mdi-reply"
+            variant="text"
+            size="small"
+            density="comfortable"
+            :aria-label="$t('components.comments.commentThread.reply')"
+            data-testid="comment-thread-reply"
+            v-bind="props"
+            @click="replying = true"
+          />
+        </template>
+      </v-tooltip>
+      <v-tooltip location="bottom" :text="resolveLabel">
+        <template #activator="{ props }">
+          <v-btn
+            :icon="resolved ? 'mdi-restore' : 'mdi-check'"
+            variant="text"
+            size="small"
+            density="comfortable"
+            :loading="saving"
+            :aria-label="resolveLabel"
+            data-testid="comment-thread-resolve"
+            v-bind="props"
+            @click="toggleResolved"
+          />
+        </template>
+      </v-tooltip>
     </div>
     <p v-if="errorMessage" class="text-caption text-error mb-0">{{ errorMessage }}</p>
     <CommentComposer
@@ -72,12 +77,13 @@
 <script>
 import CommentCard from '@/components/comments/CommentCard.vue'
 import CommentComposer from '@/components/comments/CommentComposer.vue'
+import CommentTime from '@/components/comments/CommentTime.vue'
 import userDisplayName from '@/common/helpers/userDisplayName.js'
 import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'CommentThread',
-  components: { CommentCard, CommentComposer },
+  components: { CommentCard, CommentComposer, CommentTime },
   props: {
     root: { type: Object, required: true },
     replies: { type: Array, default: () => [] },
@@ -106,10 +112,10 @@ export default {
         ? userDisplayName(this.root.resolvedBy())
         : null
     },
-    resolvedDate() {
-      return this.$date(this.root.resolvedAt).format(
-        this.$t('global.datetime.dateTimeLong')
-      )
+    resolveLabel() {
+      return this.resolved
+        ? this.$t('components.comments.commentThread.reopen')
+        : this.$t('components.comments.commentThread.resolve')
     },
   },
   methods: {
@@ -138,7 +144,19 @@ export default {
 </script>
 
 <style scoped>
+.ec-comment-thread {
+  --ec-guide-offset: 12px;
+  --ec-guide-width: 2px;
+}
+
 .ec-comment-thread__replies {
-  margin-left: 24px;
+  margin-left: var(--ec-guide-offset);
+  padding-left: 10px;
+  border-left: var(--ec-guide-width) solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+.ec-comment-thread__resolved .v-icon {
+  margin-left: calc(var(--ec-guide-offset) + var(--ec-guide-width) / 2 - 8px);
 }
 </style>

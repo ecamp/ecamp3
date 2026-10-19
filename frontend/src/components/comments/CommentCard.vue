@@ -1,5 +1,5 @@
 <template>
-  <v-sheet tag="article" rounded="lg" color="surface-light">
+  <v-sheet tag="article" rounded="lg" color="surface-light" class="ec-comment">
     <div
       v-if="comment.orphanDescription || showContext"
       class="ec-comment-card__activity text-body-2 mx-2 my-1"
@@ -42,9 +42,10 @@
           authorName
         }}</strong>
         <v-spacer />
-        <span class="text-caption text-medium-emphasis flex-0-0 mx-2">
-          {{ $date(comment.createTime).format($t('global.datetime.dateTimeLong')) }}
-        </span>
+        <CommentTime
+          :value="comment.createTime"
+          class="text-caption text-medium-emphasis flex-0-0 mx-2"
+        />
         <v-tooltip v-if="isOwnComment && hasRepliesByOthers" location="bottom">
           <template #activator="{ props }">
             <span
@@ -96,6 +97,7 @@
 </template>
 
 <script>
+import CommentTime from '@/components/comments/CommentTime.vue'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 import ScheduleEntryLinks from '@/components/material/ScheduleEntryLinks.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
@@ -106,7 +108,13 @@ import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisp
 
 export default {
   name: 'CommentCard',
-  components: { PromptEntityDelete, ScheduleEntryLinks, TiptapEditor, UserAvatar },
+  components: {
+    CommentTime,
+    PromptEntityDelete,
+    ScheduleEntryLinks,
+    TiptapEditor,
+    UserAvatar,
+  },
   props: {
     comment: { type: Object, required: true },
     showContext: { type: Boolean, default: false },
@@ -141,6 +149,10 @@ export default {
 </script>
 
 <style scoped>
+.ec-comment {
+  display: flow-root;
+}
+
 .ec-comment-card__meta {
   min-height: 32px;
 }

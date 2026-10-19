@@ -1,9 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
+import dayjs from '@/common/helpers/dayjs.js'
 import CommentThread from '@/components/comments/CommentThread.vue'
 
 setupVuetify()
+
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 enableAutoUnmount(afterEach)
 
 const currentUser = { _meta: { self: '/users/me' } }
@@ -50,8 +53,11 @@ function mountThread({ root = comment(1), replies = [], showContext = false } = 
     props: { root, replies, showContext },
     global: {
       mocks: {
-        $t: (key, named) => [key, ...Object.values(named ?? {})].join(' '),
-        $date: (value) => ({ format: () => value }),
+        $t: (key, named) =>
+          key.startsWith('global.datetime.')
+            ? DATE_FORMAT
+            : [key, ...Object.values(named ?? {})].join(' '),
+        $date: dayjs,
         $store: { getters: { getLoggedInUser: currentUser } },
         api: { patch },
       },
@@ -212,7 +218,7 @@ describe('CommentThread', () => {
     const root = comment(1)
     const wrapper = mountThread({ root })
 
-    expect(button(wrapper, 'comment-thread-resolve').text()).toContain(
+    expect(button(wrapper, 'comment-thread-resolve').attributes('aria-label')).toBe(
       'components.comments.commentThread.resolve'
     )
     await button(wrapper, 'comment-thread-resolve').trigger('click')
@@ -228,8 +234,11 @@ describe('CommentThread', () => {
       }),
     })
 
-    expect(button(wrapper, 'comment-thread-resolved').text()).toBe(
-      'components.comments.commentThread.resolvedBy Coach 2026-08-02T12:00:00+00:00'
+    expect(button(wrapper, 'comment-thread-resolved').text()).toContain(
+      'components.comments.commentThread.resolvedBy Coach ·'
+    )
+    expect(wrapper.findAllComponents({ name: 'CommentTime' }).at(-1).props().value).toBe(
+      '2026-08-02T12:00:00+00:00'
     )
   })
 
@@ -238,8 +247,11 @@ describe('CommentThread', () => {
       root: comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' }),
     })
 
-    expect(button(wrapper, 'comment-thread-resolved').text()).toBe(
-      'components.comments.commentThread.resolvedOn 2026-08-02T12:00:00+00:00'
+    expect(button(wrapper, 'comment-thread-resolved').text()).toContain(
+      'components.comments.commentThread.resolved ·'
+    )
+    expect(wrapper.findAllComponents({ name: 'CommentTime' }).at(-1).props().value).toBe(
+      '2026-08-02T12:00:00+00:00'
     )
   })
 
@@ -260,7 +272,7 @@ describe('CommentThread', () => {
     const root = comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' })
     const wrapper = mountThread({ root })
 
-    expect(button(wrapper, 'comment-thread-resolve').text()).toContain(
+    expect(button(wrapper, 'comment-thread-resolve').attributes('aria-label')).toBe(
       'components.comments.commentThread.reopen'
     )
     await button(wrapper, 'comment-thread-resolve').trigger('click')

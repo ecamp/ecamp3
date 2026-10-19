@@ -356,8 +356,8 @@
         "deleteDisabledReplies": "Kommentare mit Antworten von anderen Personen können nicht gelöscht werden.",
         "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
         "deleteWithRepliesWarning": "Möchtest du deinen Kommentar zusammen mit deinen Antworten darauf wirklich löschen?",
-        "deletedAuthor": "Gelöschte Person",
-        "deleted": "(gelöscht)"
+        "deleted": "(gelöscht)",
+        "deletedAuthor": "Gelöschte Person"
       },
       "commentComposer": {
         "placeholder": "Kommentar schreiben",
@@ -367,8 +367,12 @@
         "reopen": "Wieder öffnen",
         "reply": "Antworten",
         "resolve": "Erledigt",
-        "resolvedBy": "Erledigt von {user} am {date}",
-        "resolvedOn": "Erledigt am {date}"
+        "resolved": "Erledigt",
+        "resolvedBy": "Erledigt von {user}"
+      },
+      "commentTime": {
+        "today": "Heute, {time}",
+        "yesterday": "Gestern, {time}"
       },
       "commentsList": {
         "empty": "Noch keine Kommentare.",

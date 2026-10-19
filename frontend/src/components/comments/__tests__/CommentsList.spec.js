@@ -1,9 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
+import dayjs from '@/common/helpers/dayjs.js'
 import CommentsList from '@/components/comments/CommentsList.vue'
 
 setupVuetify()
+
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 enableAutoUnmount(afterEach)
 
 afterEach(() => {
@@ -55,8 +58,11 @@ function mountList({
     props: { comments, loading, showContext, emptyText },
     global: {
       mocks: {
-        $t: (key, named) => [key, ...Object.values(named ?? {})].join(' '),
-        $date: (value) => ({ format: () => value }),
+        $t: (key, named) =>
+          key.startsWith('global.datetime.')
+            ? DATE_FORMAT
+            : [key, ...Object.values(named ?? {})].join(' '),
+        $date: dayjs,
         $store: { getters: { getLoggedInUser: currentUser } },
       },
       stubs: {
