@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
-import axios from 'axios'
-import HalJsonVuex from 'hal-json-vuex'
+import { createHalc, createFetchTransport } from 'halc'
+import { hal } from 'halc/hal'
+import { halcVue } from 'halc/vue'
+import { createVuexStore } from 'halc/vuex'
 import lang from './lang'
 import auth from './auth'
 import preferences from './preferences'
@@ -19,24 +21,16 @@ export default {
 
     app.use(store)
 
-    const axiosInstance = axios.create({
-      withCredentials: true,
-      baseURL: getEnv().API_ROOT_URL,
-      headers: { common: { Accept: 'application/hal+json' } },
-    })
-    axiosInstance.interceptors.request.use(function (config) {
-      if (config.method === 'patch') {
-        config.headers['Content-Type'] = 'application/merge-patch+json'
-      }
-      return config
-    })
-
     // create and inject API
-    apiStore = new HalJsonVuex(store, axiosInstance, {
+    apiStore = createHalc({
+      adapter: hal,
+      baseUrl: getEnv().API_ROOT_URL,
+      store: createVuexStore(store),
+      transport: createFetchTransport({ credentials: 'include' }),
       forceRequestedSelfLink: true,
     })
 
-    app.use(apiStore)
+    app.use(halcVue(apiStore))
   },
 }
 
