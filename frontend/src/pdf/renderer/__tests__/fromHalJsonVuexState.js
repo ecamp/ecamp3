@@ -1,9 +1,5 @@
 import { hal } from 'halc/hal'
 
-/**
- * Converts the state of a hal-json-vuex store (the format of the JSON fixtures in this folder)
- * into the records of a halc store, so the fixtures could stay unchanged.
- */
 export default function fromHalJsonVuexState(state) {
   const records = {}
   for (const [uri, entry] of Object.entries(state)) {
@@ -12,7 +8,6 @@ export default function fromHalJsonVuexState(state) {
     for (const [key, value] of Object.entries(entry)) {
       if (key === '_meta') continue
       if (value?.virtual === true) {
-        // Embedded lists were stored under a virtual key, halc keeps them in the owner.
         data[key] = { hrefs: state[value.href].items.map((item) => item.href) }
       } else if (key === 'items' && Array.isArray(value)) {
         data[key] = { hrefs: value.map((item) => item.href) }
