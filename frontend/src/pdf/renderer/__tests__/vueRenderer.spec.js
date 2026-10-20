@@ -20,7 +20,6 @@ import {
   translate,
 } from '@intlify/core'
 
-// The API client is passed to the document as prop; its internals are not part of the output.
 expect.addSnapshotSerializer({
   test: (value) => value instanceof HalcClient,
   serialize: () => '[halc client]',

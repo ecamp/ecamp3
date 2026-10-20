@@ -29,10 +29,9 @@ function authorizationInterceptor(apiRootUrl) {
     const headers = { ...request.headers }
     let url = request.url
     if (new URL(apiRootUrl).origin === new URL(url, apiRootUrl).origin) {
-      // add cookie header, if origin is the same as the API
+      // add cookie header, if origin is the same as baseUri
       if (requestHeaders.cookie) headers['Cookie'] = requestHeaders.cookie
     } else {
-      // never send requests (and cookies) to other origins
       url = apiRootUrl
     }
 
