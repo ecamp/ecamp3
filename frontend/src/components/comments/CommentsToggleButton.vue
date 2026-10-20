@@ -43,12 +43,8 @@ export default {
       return this.api.get().comments({ camp: this.camp._meta.self })
     },
     commentCount() {
-      return scopedComments(
-        this.comments,
-        this.activity,
-        this.$vuetify.display.smAndDown,
-        commentsState.showResolved
-      ).length
+      return scopedComments(this.comments, this.activity, this.$vuetify.display.smAndDown)
+        .length
     },
     featureComments() {
       return getEnv().FEATURE_COMMENTS ?? false

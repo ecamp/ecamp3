@@ -1,7 +1,7 @@
 import { isResolved } from '@/components/comments/commentThreads.js'
 
 /**
- * The comments the panel shows for a scope, and the same list the toggle button counts.
+ * The comments the panel shows for a scope.
  *
  * Activity scope shows that activity's comments. Camp scope shows the comments that belong
  * to no activity - the camp-level ones and the orphans - and adds the activity comments
