@@ -68,7 +68,7 @@
       >
         <template #after>
           <p
-            v-if="!activity && !mobile && hiddenThreadCount"
+            v-if="!activity && !mobile && hiddenCommentCount"
             class="text-body-2 text-medium-emphasis pl-6"
             data-testid="comments-elsewhere-notice"
           >
@@ -76,8 +76,8 @@
             {{
               $t(
                 'components.comments.commentsPanel.activityCommentsElsewhere',
-                { count: hiddenThreadCount },
-                hiddenThreadCount
+                { count: hiddenCommentCount },
+                hiddenCommentCount
               )
             }}
           </p>
@@ -153,12 +153,9 @@ export default {
     showContext() {
       return !this.activity && this.mobile
     },
-    hiddenThreadCount() {
+    hiddenCommentCount() {
       return this.comments.items.filter(
-        (comment) =>
-          typeof comment.activity === 'function' &&
-          typeof comment.parent !== 'function' &&
-          !isResolved(comment)
+        (comment) => typeof comment.activity === 'function' && !isResolved(comment)
       ).length
     },
     category() {

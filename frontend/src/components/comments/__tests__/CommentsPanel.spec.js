@@ -466,18 +466,18 @@ describe('CommentsPanel', () => {
       )
     })
 
-    it('counts open threads on activities, not their replies or resolved ones', async () => {
+    it('counts open comments on activities with their replies, but not resolved ones', async () => {
       activityFromRoute.mockReturnValue(undefined)
       const wrapper = mountPanel({ items: [campLevel, ...thread] })
       commentsState.open = true
       await nextTick()
 
       expect(wrapper.find('[data-testid="comments-elsewhere-notice"]').text()).toBe(
-        'components.comments.commentsPanel.activityCommentsElsewhere 1'
+        'components.comments.commentsPanel.activityCommentsElsewhere 2'
       )
     })
 
-    it('counts the same threads elsewhere under "All"', async () => {
+    it('counts the same comments elsewhere under "All"', async () => {
       activityFromRoute.mockReturnValue(undefined)
       const wrapper = mountPanel({ items: [campLevel, ...thread] })
       commentsState.showResolved = true
@@ -485,7 +485,7 @@ describe('CommentsPanel', () => {
       await nextTick()
 
       expect(wrapper.find('[data-testid="comments-elsewhere-notice"]').text()).toBe(
-        'components.comments.commentsPanel.activityCommentsElsewhere 1'
+        'components.comments.commentsPanel.activityCommentsElsewhere 2'
       )
     })
 
