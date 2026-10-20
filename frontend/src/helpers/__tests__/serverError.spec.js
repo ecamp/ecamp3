@@ -195,7 +195,7 @@ describe('transformViolations', () => {
 })
 
 const unauthorizedError = {
-  name: 'ServerException',
+  name: 'ApiError',
   response: {
     status: 401,
     data: {
@@ -207,7 +207,7 @@ const unauthorizedError = {
 
 function createValidationError() {
   const validationError = {
-    name: 'ServerException',
+    name: 'ApiError',
     response: {
       status: 422,
       data: {
