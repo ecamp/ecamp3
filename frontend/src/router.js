@@ -706,7 +706,7 @@ async function requireCamp(to) {
       replace: true,
     }
   }
-  return camp._meta.load.then(
+  return loadForNavigation(camp).then(
     () => undefined,
     () => ({
       name: 'PageNotFound',
@@ -790,14 +790,18 @@ async function requirePeriod(to) {
       replace: true,
     }
   }
-  return period._meta.load.then(
+  return loadForNavigation(period).then(
     () => undefined,
     () => campRoute(campFromRoute(to))
   )
 }
 
 async function requireCategory(to) {
-  const category = await categoryFromRoute(to)
+  await campFromRoute(to)
+    ?.categories()
+    .$loadItems()
+    .catch(() => {})
+  const category = categoryFromRoute(to)
   if (category === undefined) {
     return {
       name: 'PageNotFound',
@@ -805,7 +809,7 @@ async function requireCategory(to) {
       replace: true,
     }
   }
-  return category._meta.load.then(
+  return loadForNavigation(category).then(
     () => undefined,
     () => ({
       name: 'PageNotFound',
@@ -824,14 +828,18 @@ async function requireMaterialList(to) {
       replace: true,
     }
   }
-  return materialList._meta.load.then(
+  return loadForNavigation(materialList).then(
     () => undefined,
     () => campRoute(campFromRoute(to))
   )
 }
 
 async function requireChecklist(to) {
-  const checklist = await checklistFromRoute(to)
+  await campFromRoute(to)
+    ?.checklists()
+    .$loadItems()
+    .catch(() => {})
+  const checklist = checklistFromRoute(to)
   if (checklist === undefined) {
     return {
       name: 'PageNotFound',
@@ -839,10 +847,14 @@ async function requireChecklist(to) {
       replace: true,
     }
   }
-  return checklist._meta.load.then(
+  return loadForNavigation(checklist).then(
     () => undefined,
     () => campRoute(campFromRoute(to))
   )
+}
+
+function loadForNavigation(entity) {
+  return entity._meta.error ? entity.$reload() : entity._meta.load
 }
 
 export function campFromRoute(route) {
