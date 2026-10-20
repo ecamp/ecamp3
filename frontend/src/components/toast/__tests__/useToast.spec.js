@@ -34,6 +34,15 @@ describe('useToast', () => {
     ])
   })
 
+  it('keeps the actions of a message', () => {
+    const toast = useToast()
+    const actions = [{ label: 'Undo', onClick: () => {} }]
+
+    toast.info('Resolved', { actions })
+
+    expect(visibleToasts.value[0].actions).toBe(actions)
+  })
+
   it('shows at most two messages and queues the rest', () => {
     const toast = useToast()
 

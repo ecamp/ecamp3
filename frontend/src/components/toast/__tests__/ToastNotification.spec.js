@@ -53,6 +53,38 @@ describe('ToastNotification', () => {
     expect(wrapper.emitted('dismiss')).toEqual([[1]])
   })
 
+  it('offers no actions unless it has some', () => {
+    const wrapper = mount(ToastNotification, {
+      props: { toast: createToast() },
+    })
+
+    expect(wrapper.find('[data-testid="toast-action"]').exists()).toBe(false)
+  })
+
+  it('runs the action used and dismisses itself', async () => {
+    vi.useFakeTimers()
+    const undo = vi.fn()
+    const showAll = vi.fn()
+    const wrapper = mount(ToastNotification, {
+      props: {
+        toast: createToast({
+          actions: [
+            { label: 'Undo', onClick: undo },
+            { label: 'Show all', onClick: showAll },
+          ],
+        }),
+      },
+    })
+
+    const actions = wrapper.findAll('[data-testid="toast-action"]')
+    expect(actions.map((action) => action.text())).toEqual(['Undo', 'Show all'])
+    await actions[1].trigger('click')
+
+    expect(showAll).toHaveBeenCalledOnce()
+    expect(undo).not.toHaveBeenCalled()
+    expect(wrapper.emitted('dismiss')).toEqual([[1]])
+  })
+
   it('renders at most three multiline error details and an ellipsis', () => {
     vi.useFakeTimers()
     const wrapper = mount(ToastNotification, {

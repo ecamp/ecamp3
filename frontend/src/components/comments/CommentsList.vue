@@ -10,15 +10,16 @@
     >
       {{ emptyText }}
     </p>
-    <CommentThread
-      v-for="root in roots"
-      v-else
-      :key="root._meta.self"
-      :root="root"
-      :replies="repliesTo(root)"
-      :show-context="showContext"
-      @replied="$emit('replied')"
-    />
+    <TransitionGroup v-else name="ec-thread">
+      <div v-for="root in roots" :key="root._meta.self" class="ec-comments-list__item">
+        <CommentThread
+          :root="root"
+          :replies="repliesTo(root)"
+          :show-context="showContext"
+          @replied="$emit('replied')"
+        />
+      </div>
+    </TransitionGroup>
     <slot name="after" />
   </div>
 </template>
@@ -74,5 +75,41 @@ export default {
     #000 calc(100% - var(--fade)),
     transparent 100%
   );
+}
+
+.ec-comments-list__item {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.ec-comments-list__item > * {
+  min-height: 0;
+}
+
+.ec-thread-enter-active,
+.ec-thread-leave-active {
+  transition:
+    grid-template-rows 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s;
+}
+
+.ec-thread-enter-active > *,
+.ec-thread-leave-active > * {
+  overflow: hidden;
+}
+
+.ec-thread-enter-from,
+.ec-thread-leave-to {
+  grid-template-rows: 0fr;
+  margin-bottom: -16px;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ec-thread-enter-active,
+  .ec-thread-leave-active {
+    transition: none;
+  }
 }
 </style>

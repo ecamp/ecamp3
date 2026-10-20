@@ -368,7 +368,9 @@
         "reply": "Antworten",
         "resolve": "Erledigt",
         "resolved": "Erledigt",
-        "resolvedBy": "Erledigt von {user}"
+        "resolvedBy": "Erledigt von {user}",
+        "resolvedToast": "Kommentar erledigt. Erledigte Kommentare werden nur unter \"Alle\" angezeigt.",
+        "showAll": "Alle anzeigen"
       },
       "commentTime": {
         "today": "Heute, {time}",
@@ -715,6 +717,7 @@
       "showPassword": "Passwort anzeigen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "undo": "Rückgängig",
       "unlock": "Entsperren",
       "update": "Aktualisieren"
     },

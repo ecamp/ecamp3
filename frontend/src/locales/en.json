@@ -368,7 +368,9 @@
         "reply": "Reply",
         "resolve": "Resolve",
         "resolved": "Resolved",
-        "resolvedBy": "Resolved by {user}"
+        "resolvedBy": "Resolved by {user}",
+        "resolvedToast": "Comment resolved. Resolved comments are only shown under \"All\".",
+        "showAll": "Show all"
       },
       "commentTime": {
         "today": "Today, {time}",
@@ -715,6 +717,7 @@
       "showPassword": "Show password",
       "submit": "Submit",
       "tryagain": "Try again",
+      "undo": "Undo",
       "unlock": "Unlock",
       "update": "Update"
     },
