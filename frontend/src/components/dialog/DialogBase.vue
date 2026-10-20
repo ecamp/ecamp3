@@ -1,4 +1,6 @@
 <script>
+import { cloneDeep, mapValues } from 'lodash-es'
+
 export default {
   name: 'DialogBase',
   props: {
@@ -57,7 +59,9 @@ export default {
     },
     setEntityData(data) {
       const loadingPromises = []
-      this.entityData = data
+      this.entityData = mapValues({ ...data }, (value, key) =>
+        key === '_meta' || typeof value === 'function' ? value : cloneDeep(value)
+      )
       this.embeddedEntities.forEach((key) => {
         if (data[key]) {
           const promise =
