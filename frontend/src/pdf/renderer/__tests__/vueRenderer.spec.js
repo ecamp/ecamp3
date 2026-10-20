@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, expect, it, describe } from 'vitest'
-import wrap from './minimalHalJsonVuex.js'
+import { createPrintApi } from '@/components/print/print-client/createPrintApi.js'
+import fromHalJsonVuexState from './fromHalJsonVuexState.js'
+import { HalcClient } from 'halc'
 import fullCampStoreContent from './fullCampStoreContent.json'
 import courseActivityListStoreContent from './courseActivityListStoreContent.json'
 import activityWithSingleText from './activityWithSingleText.json'
@@ -17,6 +19,12 @@ import {
   resolveValue,
   translate,
 } from '@intlify/core'
+
+// The API client is passed to the document as prop; its internals are not part of the output.
+expect.addSnapshotSerializer({
+  test: (value) => value instanceof HalcClient,
+  serialize: () => '[halc client]',
+})
 
 const context = createCoreContext({
   locale: 'en',
@@ -47,7 +55,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
   describe('rendering a full camp', () => {
     it('renders the cover page', async () => {
       // given
-      const store = wrap(fullCampStoreContent)
+      const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
@@ -86,7 +94,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
 
         it('renders the picasso', async () => {
           // given
-          const store = wrap(fullCampStoreContent)
+          const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
           // when
           const result = renderVueToPdfStructure(CampPrint, {
@@ -127,7 +135,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
 
     it('renders the story overview', async () => {
       // given
-      const store = wrap(fullCampStoreContent)
+      const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
@@ -159,7 +167,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
 
     it('renders the safety considerations overview', async () => {
       // given
-      const store = wrap(fullCampStoreContent)
+      const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
@@ -191,7 +199,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
 
     it('renders the program', async () => {
       // given
-      const store = wrap(fullCampStoreContent)
+      const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
@@ -222,7 +230,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
 
     it('renders a single activity', async () => {
       // given
-      const store = wrap(fullCampStoreContent)
+      const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
@@ -254,7 +262,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
 
     it('renders the table of contents', async () => {
       // given
-      const store = wrap(fullCampStoreContent)
+      const store = createPrintApi(fromHalJsonVuexState(fullCampStoreContent))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
@@ -284,7 +292,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
     describe('rendering a course activity list', () => {
       it('renders the activity list', async () => {
         // given
-        const store = wrap(courseActivityListStoreContent)
+        const store = createPrintApi(fromHalJsonVuexState(courseActivityListStoreContent))
 
         // when
         const result = renderVueToPdfStructure(CampPrint, {
@@ -339,7 +347,7 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
       const storeWithSingleActivity = cloneDeep(activityWithSingleText)
       storeWithSingleActivity['/content_node/single_texts/4300e3355d22'].data.html = text
 
-      const store = wrap(storeWithSingleActivity)
+      const store = createPrintApi(fromHalJsonVuexState(storeWithSingleActivity))
 
       // when
       const result = renderVueToPdfStructure(CampPrint, {
