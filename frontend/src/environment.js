@@ -23,6 +23,7 @@ export function getEnv() {
     FEATURE_DEVELOPER: (env.VITE_FEATURE_DEVELOPER ?? 'true') === 'true',
     FEATURE_CHECKLIST: (env.VITE_FEATURE_CHECKLIST ?? 'true') === 'true',
     FEATURE_COMMENTS: (env.VITE_FEATURE_COMMENTS ?? 'true') === 'true',
+    FEATURE_HITOBITO: (env.VITE_FEATURE_HITOBITO ?? 'true') === 'true',
     LOGIN_INFO_TEXT_KEY: env.VITE_LOGIN_INFO_TEXT_KEY ?? 'dev',
   }
 }

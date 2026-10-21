@@ -231,36 +231,40 @@ const router = createRouter({
       },
       beforeEnter: requireAuth,
     },
-    {
-      path: '/camps/hitobito/:provider/import',
-      name: 'camps/import',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import('./views/CampImport.vue'),
-      },
-      props: {
-        default: (route) => ({
-          provider: route.params.provider,
-          eventId: route.query.eventId ?? null,
-        }),
-      },
-      beforeEnter: all([requireAuth, requireHitobitoProvider]),
-    },
-    {
-      path: '/camps/hitobito/:provider/:eventId',
-      name: 'camps/hitobitoDeepLink',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import('./views/CampHitobitoDeepLink.vue'),
-      },
-      props: {
-        default: (route) => ({
-          provider: route.params.provider,
-          eventId: route.params.eventId,
-        }),
-      },
-      beforeEnter: all([requireAuth, requireHitobitoProvider]),
-    },
+    ...(getEnv().FEATURE_HITOBITO
+      ? [
+          {
+            path: '/camps/hitobito/:provider/import',
+            name: 'camps/import',
+            components: {
+              navigation: NavigationDefault,
+              default: () => import('./views/CampImport.vue'),
+            },
+            props: {
+              default: (route) => ({
+                provider: route.params.provider,
+                eventId: route.query.eventId ?? null,
+              }),
+            },
+            beforeEnter: all([requireAuth, requireHitobitoProvider]),
+          },
+          {
+            path: '/camps/hitobito/:provider/:eventId',
+            name: 'camps/hitobitoDeepLink',
+            components: {
+              navigation: NavigationDefault,
+              default: () => import('./views/CampHitobitoDeepLink.vue'),
+            },
+            props: {
+              default: (route) => ({
+                provider: route.params.provider,
+                eventId: route.params.eventId,
+              }),
+            },
+            beforeEnter: all([requireAuth, requireHitobitoProvider]),
+          },
+        ]
+      : []),
     {
       path: '/camps/invitation/rejected',
       name: 'invitationRejected',
@@ -556,42 +560,46 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: '/camps/:campId/:campShortTitle?/hitobito/invite',
-      name: 'camp/hitobitoInvite',
-      components: {
-        navigation: NavigationCamp,
-        default: () => import('./views/camp/CampHitobitoInvite.vue'),
-      },
-      beforeEnter: all([
-        requireAuth,
-        requireCamp,
-        requireCampManager,
-        requireHitobitoCamp,
-      ]),
-      props: {
-        navigation: (route) => ({ camp: campFromRoute(route) }),
-        default: (route) => ({ camp: campFromRoute(route) }),
-      },
-    },
-    {
-      path: '/camps/:campId/:campShortTitle?/hitobito/sync',
-      name: 'camp/hitobitoSync',
-      components: {
-        navigation: NavigationCamp,
-        default: () => import('./views/camp/CampHitobitoSync.vue'),
-      },
-      beforeEnter: all([
-        requireAuth,
-        requireCamp,
-        requireCampManager,
-        requireHitobitoCamp,
-      ]),
-      props: {
-        navigation: (route) => ({ camp: campFromRoute(route) }),
-        default: (route) => ({ camp: campFromRoute(route) }),
-      },
-    },
+    ...(getEnv().FEATURE_HITOBITO
+      ? [
+          {
+            path: '/camps/:campId/:campShortTitle?/hitobito/invite',
+            name: 'camp/hitobitoInvite',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/camp/CampHitobitoInvite.vue'),
+            },
+            beforeEnter: all([
+              requireAuth,
+              requireCamp,
+              requireCampManager,
+              requireHitobitoCamp,
+            ]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({ camp: campFromRoute(route) }),
+            },
+          },
+          {
+            path: '/camps/:campId/:campShortTitle?/hitobito/sync',
+            name: 'camp/hitobitoSync',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/camp/CampHitobitoSync.vue'),
+            },
+            beforeEnter: all([
+              requireAuth,
+              requireCamp,
+              requireCampManager,
+              requireHitobitoCamp,
+            ]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({ camp: campFromRoute(route) }),
+            },
+          },
+        ]
+      : []),
     {
       path: '/camps/:campId/:campShortTitle/program/activity/:activityId/:scheduleEntryId?/:activityName?',
       name: 'camp/activity',
