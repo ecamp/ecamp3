@@ -63,7 +63,6 @@
 <script>
 import { camelCase } from 'lodash-es'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import { getEnv } from '@/environment.js'
 import contentTypeIcons from './content/contentTypeIcons.js'
 import { useToast } from '@/components/toast/useToast.js'
 
@@ -114,9 +113,6 @@ export default {
     contentTypesLoading() {
       return this.api.get().contentTypes()._meta.loading
     },
-    featureChecklistEnabled() {
-      return getEnv().FEATURE_CHECKLIST ?? false
-    },
   },
   methods: {
     contentTypeNameKey(contentType) {
@@ -129,8 +125,6 @@ export default {
       switch (contentType.name) {
         case 'ResponsiveLayout':
           return this.parentContentNode.parent === null
-        case 'Checklist':
-          return this.featureChecklistEnabled
         default:
           return true
       }
