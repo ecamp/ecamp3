@@ -1,5 +1,5 @@
 # build stage
-FROM node:24.20.0 AS build-stage
+FROM node:24.21.0 AS build-stage
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
 ARG SENTRY_PRINT_PROJECT
@@ -9,7 +9,7 @@ COPY common /common
 
 WORKDIR /app
 
-COPY print/package*.json ./
+COPY print/package*.json print/.npmrc ./
 
 ENV NUXT_SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 ENV NUXT_SENTRY_ORG=$SENTRY_ORG
@@ -22,7 +22,7 @@ COPY print .
 RUN npm run build
 
 # production stage
-FROM node:24.20.0 AS production-stage
+FROM node:24.21.0 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/.output ./.output

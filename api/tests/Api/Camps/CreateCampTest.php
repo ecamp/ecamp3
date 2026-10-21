@@ -825,7 +825,7 @@ class CreateCampTest extends ECampApiTestCase {
 
     #[\Override]
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype'], $except);
+        return $this->getExamplePayload(Camp::class, Post::class, $attributes, ['campPrototype', 'hitobitoProvider', 'hitobitoEventId'], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
@@ -833,7 +833,7 @@ class CreateCampTest extends ECampApiTestCase {
             Camp::class,
             Get::class,
             $attributes,
-            ['periods', 'sharedBy', 'sharedSince'],
+            ['periods', 'sharedBy', 'sharedSince', 'hitobitoProvider', 'hitobitoEventId'],
             $except
         );
     }

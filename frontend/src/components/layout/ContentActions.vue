@@ -1,8 +1,6 @@
 <template>
-  <v-card-actions>
-    <div class="d-flex gap-2 flex-wrap flex-grow-1">
-      <slot />
-    </div>
+  <v-card-actions class="flex-wrap justify-end">
+    <slot />
   </v-card-actions>
 </template>
 

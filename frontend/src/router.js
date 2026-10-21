@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isAdmin, isLoggedIn } from '@/plugins/auth'
-import { apiStore } from '@/plugins/store'
+import { isValidProvider } from '@/plugins/hitobito'
+import { apiStore, store } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
 import {
@@ -229,6 +230,36 @@ const router = createRouter({
         default: () => import('./views/CampCreate.vue'),
       },
       beforeEnter: requireAuth,
+    },
+    {
+      path: '/camps/hitobito/:provider/import',
+      name: 'camps/import',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/CampImport.vue'),
+      },
+      props: {
+        default: (route) => ({
+          provider: route.params.provider,
+          eventId: route.query.eventId ?? null,
+        }),
+      },
+      beforeEnter: all([requireAuth, requireHitobitoProvider]),
+    },
+    {
+      path: '/camps/hitobito/:provider/:eventId',
+      name: 'camps/hitobitoDeepLink',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import('./views/CampHitobitoDeepLink.vue'),
+      },
+      props: {
+        default: (route) => ({
+          provider: route.params.provider,
+          eventId: route.params.eventId,
+        }),
+      },
+      beforeEnter: all([requireAuth, requireHitobitoProvider]),
     },
     {
       path: '/camps/invitation/rejected',
@@ -526,6 +557,42 @@ const router = createRouter({
       ],
     },
     {
+      path: '/camps/:campId/:campShortTitle?/hitobito/invite',
+      name: 'camp/hitobitoInvite',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/CampHitobitoInvite.vue'),
+      },
+      beforeEnter: all([
+        requireAuth,
+        requireCamp,
+        requireCampManager,
+        requireHitobitoCamp,
+      ]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({ camp: campFromRoute(route) }),
+      },
+    },
+    {
+      path: '/camps/:campId/:campShortTitle?/hitobito/sync',
+      name: 'camp/hitobitoSync',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/CampHitobitoSync.vue'),
+      },
+      beforeEnter: all([
+        requireAuth,
+        requireCamp,
+        requireCampManager,
+        requireHitobitoCamp,
+      ]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({ camp: campFromRoute(route) }),
+      },
+    },
+    {
       path: '/camps/:campId/:campShortTitle/program/activity/:activityId/:scheduleEntryId?/:activityName?',
       name: 'camp/activity',
       components: {
@@ -605,6 +672,31 @@ function requireAdmin(to) {
   }
 }
 
+function requireHitobitoProvider(to) {
+  if (!isValidProvider(to.params.provider)) {
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+}
+
+/**
+ * Only allow entering the route when the camp is linked to a Hitobito event.
+ * Must run after requireCamp, which ensures the camp is loaded.
+ */
+function requireHitobitoCamp(to) {
+  const camp = campFromRoute(to)
+  if (!(camp && isValidProvider(camp.hitobitoProvider) && camp.hitobitoEventId)) {
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+}
+
 async function requireCamp(to) {
   const camp = await campFromRoute(to)
   if (camp === undefined) {
@@ -622,6 +714,29 @@ async function requireCamp(to) {
       replace: true,
     })
   )
+}
+
+/**
+ * Only allow entering the route when the current user is a manager of the camp.
+ * Must run after requireCamp, which ensures the camp is loaded.
+ */
+async function requireCampManager(to) {
+  const camp = campFromRoute(to)
+  const userLink = store.getters.getLoggedInUser?._meta.self
+  const collaborations = await camp.campCollaborations().$loadItems()
+  const isManager = collaborations.items.some(
+    (collaboration) =>
+      collaboration.status === 'established' &&
+      collaboration.role === 'manager' &&
+      collaboration.user?.()._meta.self === userLink
+  )
+  if (isManager) return
+
+  return {
+    name: 'PageNotFound',
+    params: [to.fullPath, ''],
+    replace: true,
+  }
 }
 
 async function requireActivityScheduleEntry(to) {
@@ -797,7 +912,7 @@ function getContentLayout(route) {
 
 /**
  * @param camp
- * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'print' }
+ * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'print' | 'hitobitoInvite' | 'hitobitoSync' }
  * @param query
  */
 export function campRoute(camp, subroute = 'dashboard', query = {}) {

@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.20.0
+    image: node:24.21.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -23,7 +23,7 @@ services:
     stop_signal: SIGKILL
 
   frontend-old:
-    image: node:24.20.0
+    image: node:24.21.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -82,7 +82,7 @@ services:
       - 'host.docker.internal:host-gateway'
 
   http-cache:
-    image: varnish:9.0.3
+    image: varnish:9.1.0
     container_name: 'ecamp3-http-cache'
     depends_on:
       api:
@@ -98,7 +98,7 @@ services:
       - VARNISH_HTTP_PORT=8080
 
   http-cache-logs:
-    image: varnish:9.0.3
+    image: varnish:9.1.0
     container_name: 'ecamp3-http-cache-logs'
     depends_on:
       - http-cache
@@ -107,7 +107,7 @@ services:
     command: varnishncsa
 
   print:
-    image: node:24.20.0
+    image: node:24.21.0
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
@@ -164,7 +164,7 @@ services:
       - ./pgadmin-servers.json:/pgadmin4/servers.json
 
   mail:
-    image: maildev/maildev:2.2.1
+    image: maildev/maildev:3.0.0
     container_name: 'ecamp3-mail'
     environment:
       - MAILDEV_BASE_PATHNAME=/mail
@@ -174,7 +174,7 @@ services:
           'CMD',
           'node',
           '-e',
-          "fetch('http://localhost:1080/mail').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))",
+          "fetch('http://127.0.0.1:1080/mail/api/healthz').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))",
         ]
 
   docker-host:
@@ -196,7 +196,7 @@ services:
       - ENABLE_DEBUGGER=false
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    image: mcr.microsoft.com/playwright:v1.64.1-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
@@ -207,7 +207,7 @@ services:
     working_dir: /e2e
 
   mock-oauth2:
-    image: ghcr.io/navikt/mock-oauth2-server:4.0.0
+    image: ghcr.io/navikt/mock-oauth2-server:6.0.5
     volumes:
       - ./dev-setup/mock-oauth/mock-oauth2-config.json:/app/config.json:ro
       - ./dev-setup/mock-oauth/mock-oauth2-login.html:/app/login.html:ro
@@ -216,7 +216,7 @@ services:
       SERVER_PORT: 8080
 
   reverse-proxy:
-    image: traefik:v3.7.13
+    image: traefik:v3.7.14
     container_name: 'ecamp3-reverse-proxy'
     volumes:
       - ./dev-setup/traefik/.:/etc/traefik/.:ro
@@ -239,7 +239,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.20.0
+    image: node:24.21.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -251,7 +251,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.20.0
+    image: node:24.21.0
     profiles: ['prettier']
     stdin_open: true
     tty: true

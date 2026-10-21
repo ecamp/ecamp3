@@ -15,6 +15,7 @@ use App\Doctrine\Filter\IsTrueFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\Service\Hitobito\HitobitoProvider;
 use App\State\CampCreateProcessor;
 use App\State\CampRemoveProcessor;
 use App\State\CampUpdateProcessor;
@@ -69,6 +70,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(filterClass: IsTrueFilter::class, properties: ['isPrototype'])]
 #[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
+#[ORM\UniqueConstraint(name: 'hitobitoprovider_hitobitoeventid_unique', columns: ['hitobitoProvider', 'hitobitoEventId'])]
 #[ORM\Index(columns: ['isPrototype'])]
 #[ORM\Index(columns: ['isShared'])]
 #[ORM\Index(columns: ['isPublic'])]
@@ -84,7 +86,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[SerializedName('campCollaborations')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'camp', orphanRemoval: true)]
-    #[ORM\OrderBy(['status' => 'ASC', 'role' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['status' => \SortDirection::Ascending, 'role' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $collaborations;
 
     /**
@@ -109,7 +111,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['start' => 'ASC'])]
+    #[ORM\OrderBy(['start' => \SortDirection::Ascending])]
     public Collection $periods;
 
     /**
@@ -122,7 +124,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['short' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['short' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $categories;
 
     /**
@@ -135,7 +137,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ActivityProgressLabel::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending])]
     public Collection $progressLabels;
 
     /**
@@ -149,7 +151,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'camp', orphanRemoval: true)]
-    #[ORM\OrderBy(['title' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['title' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $activities;
 
     /**
@@ -159,14 +161,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: MaterialList::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['name' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['name' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $materialLists;
 
     /**
      * List of MaterialItems that belong to this Camp.
      */
     #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['article' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['article' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $materialItems;
 
     /**
@@ -175,7 +177,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ApiProperty(writable: false, uriTemplate: Checklist::CAMP_SUBRESOURCE_URI_TEMPLATE)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Checklist::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['name' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['name' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $checklists;
 
     /**
@@ -426,6 +428,36 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public bool $printYSLogoOnPicasso = false;
 
     /**
+     * The Hitobito provider (such as MiData) this camp was created from, if any.
+     * May only be set when creating a camp, and only together with hitobitoEventId.
+     */
+    #[Assert\Expression(
+        '(this.hitobitoProvider == null) == (this.hitobitoEventId == null)',
+        message: 'hitobitoProvider and hitobitoEventId must be set together.',
+        groups: ['create']
+    )]
+    #[Assert\Expression(
+        'value == null or value.isSupported()',
+        message: 'This Hitobito provider is not supported.',
+        groups: ['create']
+    )]
+    #[ApiProperty(example: HitobitoProvider::PBSMIDATA->value)]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 16, nullable: true, enumType: HitobitoProvider::class)]
+    public ?HitobitoProvider $hitobitoProvider = null;
+
+    /**
+     * The id of the corresponding event in Hitobito, if this camp was created from one.
+     * May only be set when creating a camp, and only together with hitobitoProvider.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Length(max: 255)]
+    #[ApiProperty(example: '1234')]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $hitobitoEventId = null;
+
+    /**
      * The person that created the camp. This value never changes, even when the person
      * leaves the camp.
      */
@@ -451,7 +483,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'camp', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $comments;
 
     public function __construct() {

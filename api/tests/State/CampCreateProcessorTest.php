@@ -9,6 +9,9 @@ use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Repository\CampRepository;
+use App\Service\Hitobito\ClientProvider;
+use App\Service\Hitobito\EventAccessChecker;
 use App\State\CampCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -32,7 +35,14 @@ class CampCreateProcessorTest extends TestCase {
         $this->security = $this->createStub(Security::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
         $decoratedProcessor = $this->createStub(ProcessorInterface::class);
-        $this->processor = new CampCreateProcessor($decoratedProcessor, $this->security, $this->em);
+        $this->processor = new CampCreateProcessor(
+            $decoratedProcessor,
+            $this->security,
+            $this->em,
+            $this->createStub(ClientProvider::class),
+            $this->createStub(EventAccessChecker::class),
+            $this->createStub(CampRepository::class),
+        );
     }
 
     #[AllowMockObjectsWithoutExpectations]

@@ -85,7 +85,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Camp::class, mappedBy: 'owner')]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $ownedCamps;
 
     /**
@@ -93,7 +93,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'user', orphanRemoval: true)]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $collaborations;
 
     /**
@@ -189,7 +189,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $comments;
 
     public function __construct() {

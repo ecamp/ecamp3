@@ -25,6 +25,8 @@ data:
   SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
+  HITOBITO_PBSMIDATA_API_BASE_URL: {{ .Values.api.hitobito.pbsmidataApiBaseUrl | quote }}
+  HITOBITO_API_OAUTH_SCOPES: {{ .Values.api.hitobito.oauthScopes | quote }}
   CADDY_GLOBAL_OPTIONS: {{ .Values.api.caddyGlobalOptions | quote }}
   API_CACHE_ENABLED: {{ .Values.apiCache.enabled | quote }}
   {{- if .Values.apiCache.enabled }}

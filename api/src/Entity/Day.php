@@ -92,7 +92,7 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: DayResponsible::class, mappedBy: 'day', orphanRemoval: true)]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $dayResponsibles;
 
     /**

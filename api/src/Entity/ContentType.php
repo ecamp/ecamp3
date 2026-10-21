@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
     ],
     normalizationContext: ['groups' => ['read']],
-    order: ['name' => 'ASC']
+    order: ['name' => \SortDirection::Ascending]
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['name', 'categories'])]
 #[ORM\Entity]
