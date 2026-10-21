@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0e287758e86f057d092703653abe87a",
+    "content-hash": "1602b3337bb6d00188f222c5dfe3bbef",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -13545,16 +13545,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "13.3.6",
+            "version": "13.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b7d0ee4ea89121cb963302b8708b1c09d9ebc7d6"
+                "reference": "7b9ba83328f01ce299ef82161720195bd827a4bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b7d0ee4ea89121cb963302b8708b1c09d9ebc7d6",
-                "reference": "b7d0ee4ea89121cb963302b8708b1c09d9ebc7d6",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7b9ba83328f01ce299ef82161720195bd827a4bb",
+                "reference": "7b9ba83328f01ce299ef82161720195bd827a4bb",
                 "shasum": ""
             },
             "require": {
@@ -13568,15 +13568,15 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.4.1",
-                "phpunit/php-code-coverage": "^14.3.5",
+                "phpunit/php-code-coverage": "^14.4.1",
                 "phpunit/php-file-iterator": "^7.0.2",
                 "phpunit/php-invoker": "^7.0.0",
-                "phpunit/php-text-template": "^6.0.0",
+                "phpunit/php-text-template": "^6.0.1",
                 "phpunit/php-timer": "^9.0.0",
                 "sebastian/cli-parser": "^5.0.1",
                 "sebastian/comparator": "^8.4",
                 "sebastian/diff": "^9.0.1",
-                "sebastian/environment": "^9.3.2",
+                "sebastian/environment": "^9.3.3",
                 "sebastian/exporter": "^8.2.1",
                 "sebastian/file-filter": "^1.0",
                 "sebastian/git-state": "^1.0",
@@ -13584,7 +13584,7 @@
                 "sebastian/object-enumerator": "^8.1.0",
                 "sebastian/recursion-context": "^8.0.1",
                 "sebastian/type": "^7.0.2",
-                "sebastian/version": "^7.0.0",
+                "sebastian/version": "^7.0.1",
                 "staabm/side-effects-detector": "^1.0.5"
             },
             "bin": [
@@ -13593,7 +13593,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "13.3-dev"
+                    "dev-main": "13.4-dev"
                 }
             },
             "autoload": {
@@ -13625,7 +13625,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.3.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.4.2"
             },
             "funding": [
                 {
@@ -13633,7 +13633,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-09-29T12:12:05+00:00"
+            "time": "2026-10-12T15:29:04+00:00"
         },
         {
             "name": "psalm/phar",
