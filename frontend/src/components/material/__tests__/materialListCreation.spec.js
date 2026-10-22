@@ -92,6 +92,13 @@ describe('material item submission while creating a material list', () => {
       article: 'Seil',
       quantity: null,
       unit: '',
+      $toData: () => ({
+        camp: camp._meta.self,
+        materialList: list._meta.self,
+        article: 'Seil',
+        quantity: null,
+        unit: '',
+      }),
     }
     materialItem._meta.load = Promise.resolve(materialItem)
     const api = {
