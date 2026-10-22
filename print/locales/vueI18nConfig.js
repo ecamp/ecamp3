@@ -21,11 +21,12 @@ import deCommon from '@/common/locales/de.json'
 import deCHScoutCommon from '@/common/locales/de-CH-scout.json'
 import rmCommon from '@/common/locales/rm.json'
 import rmCHScoutCommon from '@/common/locales/rm-CH-scout.json'
+import { FALLBACK_LOCALE } from "./fallbackLocale.js";
 
 export default defineI18nConfig(() => ({
   fallbackLocale: {
     rm: ['de'],
-    default: ['en'],
+    default: [FALLBACK_LOCALE],
   },
   messages: deepmerge(
     {
