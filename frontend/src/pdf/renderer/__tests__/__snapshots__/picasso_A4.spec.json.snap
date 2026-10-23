@@ -9146,10 +9146,7 @@
   "props": {
     "locale": "de",
     "pdfVersion": "1.7",
-    "store": {
-      "get": [Function],
-      "href": [Function],
-    },
+    "store": [halc client],
     "tc": [Function],
   },
   "style": {},

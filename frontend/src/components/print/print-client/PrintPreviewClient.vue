@@ -93,7 +93,7 @@ export default {
 
       const { error, blob } = await generatePdf(
         {
-          config: { ...this.config, apiGet: this.api.get.bind(this) },
+          config: { ...this.config, apiGet: this.api.get },
           storeData: this.$store.state,
           translationData: componentI18n.messages.value,
           renderInWorker: RENDER_IN_WORKER,

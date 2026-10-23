@@ -66,7 +66,7 @@
     "deepmerge": "4.3.1",
     "emoji-regex": "11.0.0",
     "file-saver": "2.0.5",
-    "hal-json-vuex": "3.0.0-alpha.10",
+    "halc": "file:../common/packages/halc-1.0.0.tgz",
     "html-entities": "2.6.0",
     "html-parse-stringify": "4.0.1",
     "inter-ui": "3.19.3",

@@ -1,12 +1,12 @@
 /**
- * Parses an error object returned by hal-json-vuex and returns as message string
+ * Parses an error object returned by halc and returns as message string
  */
 import fallbackLocalesFor from '@/plugins/i18n/apiFallbackLocalesFor'
 
 const serverErrorToString = (error) => {
   // API error
   // error.response is in API Problem Details format: https://www.rfc-editor.org/rfc/rfc7807
-  if (error.name === 'ServerException' && error.response) {
+  if (error.name === 'ApiError' && error.response) {
     if (
       error.response?.headers?.['content-type']?.startsWith('application/problem+json')
     ) {
@@ -31,13 +31,13 @@ function getApiTranslation(locale, violation) {
 }
 
 /**
- * Parses an error object returned by hal-json-vuex and returns an object of propertypath => violationMessages[]
+ * Parses an error object returned by halc and returns an object of propertypath => violationMessages[]
  * i18n is nullable if someone wants to use it without initialized localisation
  */
 const transformViolations = (error, i18n = null) => {
   const serverErrorMessages = {}
 
-  if (error.name === 'ServerException' && error.response?.status !== 422) {
+  if (error.name === 'ApiError' && error.response?.status !== 422) {
     serverErrorMessages[0] = serverErrorToString(error)
     return serverErrorMessages
   }
