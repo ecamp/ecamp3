@@ -1,5 +1,8 @@
 name: DB Restore for dev and feature branches
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -33,6 +36,8 @@ on:
 jobs:
   build-and-push:
     name: Build and push docker images
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
       sha: ${{ github.sha }}
@@ -43,6 +48,10 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
     uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: ${{ inputs.pr-number == null && 'dev' || format('pr{0}', inputs.pr-number) }}

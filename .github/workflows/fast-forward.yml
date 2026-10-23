@@ -1,5 +1,9 @@
 name: Fast Forward Merge
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   issue_comment:
     types: [created]
