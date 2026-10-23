@@ -2,7 +2,7 @@
   <div class="px-md-4">
     <e-select
       v-if="!loading"
-      v-model="optionsScheduleEntry"
+      :v-model="optionsScheduleEntry.activity ? optionsScheduleEntry : null"
       path="optionsScheduleEntry"
       :items="scheduleEntries"
       :label="$t('components.print.config.activityConfig.activity')"
