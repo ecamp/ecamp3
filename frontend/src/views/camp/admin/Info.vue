@@ -36,6 +36,7 @@ import CampPeriods from '@/components/campAdmin/CampPeriods.vue'
 import CampDangerZone from '@/components/campAdmin/CampDangerZone.vue'
 import CampHitobitoSync from '@/components/campAdmin/CampHitobitoSync.vue'
 import { isValidProvider } from '@/plugins/hitobito.js'
+import { getEnv } from '@/environment.js'
 import CampSharingSettings from '../../../components/campAdmin/CampSharingSettings.vue'
 
 export default {
@@ -65,6 +66,7 @@ export default {
   computed: {
     showHitobitoSync() {
       return (
+        (getEnv().FEATURE_HITOBITO ?? false) &&
         this.isManager &&
         isValidProvider(this.camp.hitobitoProvider) &&
         !!this.camp.hitobitoEventId
