@@ -12,65 +12,76 @@
     >
       <CommentCard v-for="reply in replies" :key="reply._meta.self" :comment="reply" />
     </div>
-    <div class="ec-comment-thread__actions d-flex align-center flex-wrap ga-1 mt-1">
-      <span
-        v-if="resolved"
-        class="ec-comment-thread__resolved text-caption text-medium-emphasis d-flex align-center ga-1 mr-auto"
-        data-testid="comment-thread-resolved"
-      >
-        <v-icon icon="mdi-check-circle-outline" size="16" />
-        {{
-          resolverName
-            ? $t('components.comments.commentThread.resolvedBy', { user: resolverName })
-            : $t('components.comments.commentThread.resolved')
-        }}
-        ·
-        <CommentTime :value="root.resolvedAt" />
-      </span>
-      <v-spacer v-else />
-      <v-tooltip
-        v-if="!resolved && !replying"
-        location="bottom"
-        :text="$t('components.comments.commentThread.reply')"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            icon="mdi-reply"
-            variant="text"
-            size="small"
-            density="comfortable"
-            :aria-label="$t('components.comments.commentThread.reply')"
-            data-testid="comment-thread-reply"
-            v-bind="props"
-            @click="replying = true"
-          />
-        </template>
-      </v-tooltip>
+    <div class="ec-comment-thread__actions d-flex align-start mt-1">
       <v-tooltip location="bottom" :text="resolveLabel">
         <template #activator="{ props }">
           <v-btn
-            :icon="resolved ? 'mdi-restore' : 'mdi-check'"
+            :icon="!resolved"
             variant="text"
-            size="small"
-            density="comfortable"
-            :loading="saving"
+            class="ec-comment-thread__resolve"
+            :class="resolved ? 'pl-1' : 'ec-comment-thread__resolve--unresolved'"
+            :size="resolved ? 'small' : 'no-size'"
+            :loading="saving && !resolved"
+            :disabled="saving"
             :aria-label="resolveLabel"
             data-testid="comment-thread-resolve"
             v-bind="props"
             @click="toggleResolved"
-          />
+          >
+            <span
+              v-if="resolved"
+              class="ec-comment-thread__resolved text-caption text-medium-emphasis d-flex align-center ga-1"
+              data-testid="comment-thread-resolved"
+            >
+              <v-progress-circular v-if="saving" indeterminate size="16" width="2" />
+              <template v-else>
+                <v-icon
+                  class="ec-comment-thread__resolved-icon"
+                  icon="mdi-check-circle-outline"
+                  size="16"
+                />
+                <v-icon
+                  class="ec-comment-thread__reopen-icon"
+                  icon="mdi-rotate-left"
+                  size="18"
+                />
+              </template>
+              {{
+                resolverName
+                  ? $t('components.comments.commentThread.resolvedBy', {
+                      user: resolverName,
+                    })
+                  : $t('components.comments.commentThread.resolved')
+              }}
+              ·
+              <CommentTime :value="root.resolvedAt" />
+            </span>
+            <v-icon v-else class="ec-comment-thread__check-icon" icon="mdi-check" />
+          </v-btn>
         </template>
       </v-tooltip>
+      <v-btn
+        v-if="!resolved && !replying"
+        prepend-icon="mdi-arrow-right-bottom"
+        variant="text"
+        size="small"
+        density="default"
+        data-testid="comment-thread-reply"
+        @click="replying = true"
+      >
+        {{ $t('components.comments.commentThread.reply') }}
+      </v-btn>
+      <CommentComposer
+        v-if="replying"
+        :parent="root"
+        cancelable
+        autofocus
+        class="flex-grow-1 mt-1"
+        @created="onReplied"
+        @cancel="replying = false"
+      />
     </div>
     <p v-if="errorMessage" class="text-caption text-error mb-0">{{ errorMessage }}</p>
-    <CommentComposer
-      v-if="replying"
-      :parent="root"
-      cancelable
-      autofocus
-      @created="onReplied"
-      @cancel="replying = false"
-    />
   </section>
 </template>
 
@@ -178,12 +189,36 @@ export default {
 
 .ec-comment-thread__replies {
   margin-left: var(--ec-guide-offset);
-  padding-left: 10px;
+  padding-left: 16px;
   border-left: var(--ec-guide-width) solid
     rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
-.ec-comment-thread__resolved .v-icon {
-  margin-left: calc(var(--ec-guide-offset) + var(--ec-guide-width) / 2 - 8px);
+.ec-comment-thread__actions {
+  gap: 6px;
+}
+
+.ec-comment-thread__check-icon {
+  padding: 2px;
+}
+
+.ec-comment-thread__resolved {
+  margin-left: 1px;
+}
+
+.ec-comment-thread__resolve--unresolved {
+  margin-top: 2px;
+  margin-left: 1px;
+  margin-right: -1px;
+}
+
+.ec-comment-thread__reopen-icon,
+.ec-comment-thread__resolve:hover .ec-comment-thread__resolved-icon {
+  display: none;
+}
+
+.ec-comment-thread__resolve:hover .ec-comment-thread__reopen-icon {
+  display: inline-flex;
+  margin: -1px;
 }
 </style>

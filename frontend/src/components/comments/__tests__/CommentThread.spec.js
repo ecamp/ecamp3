@@ -372,6 +372,36 @@ describe('CommentThread', () => {
     expect(button(wrapper, 'comment-thread-reply').exists()).toBe(false)
   })
 
+  it('keeps the resolved text visible and replaces its icon while reopening', async () => {
+    const wrapper = mountThread({
+      root: comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' }),
+    })
+    let finishReopening
+    patch.mockImplementation(() => new Promise((resolve) => (finishReopening = resolve)))
+    const resolvedText = button(wrapper, 'comment-thread-resolved').text()
+
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+
+    const status = button(wrapper, 'comment-thread-resolved')
+    expect(status.text()).toBe(resolvedText)
+    expect(status.findComponent({ name: 'VProgressCircular' }).props()).toMatchObject({
+      indeterminate: true,
+      size: '16',
+      width: '2',
+    })
+    expect(status.findComponent({ name: 'VIcon' }).exists()).toBe(false)
+    expect(button(wrapper, 'comment-thread-resolve').attributes('disabled')).toBeDefined()
+
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    expect(patch).toHaveBeenCalledOnce()
+
+    finishReopening()
+    await vi.waitFor(() =>
+      expect(status.findComponent({ name: 'VProgressCircular' }).exists()).toBe(false)
+    )
+    expect(status.find('.ec-comment-thread__resolved-icon').exists()).toBe(true)
+  })
+
   it('shows an error when resolving failed', async () => {
     const wrapper = mountThread()
     patch.mockRejectedValue(new Error('network down'))
