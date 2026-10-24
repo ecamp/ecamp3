@@ -25,7 +25,7 @@ export default {
 </script>
 <style lang="react-pdf">
 .category-label {
-  padding: 2pt 8pt;
+  padding: 1pt 5pt;
   border-radius: 18pt;
   align-self: center;
 }

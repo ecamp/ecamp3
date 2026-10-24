@@ -1,6 +1,13 @@
 <template>
-  <View class="picasso-schedule-entry" :style="{ backgroundColor: color }">
-    <View class="picasso-schedule-entry-spacer" />
+  <View
+    class="picasso-schedule-entry"
+    :class="{ 'picasso-schedule-entry-compact': compact }"
+    :style="{ backgroundColor: color }"
+  >
+    <View
+      class="picasso-schedule-entry-spacer"
+      :class="{ 'picasso-schedule-entry-spacer-compact': compact }"
+    />
     <Link class="picasso-schedule-entry-link" :href="linkTarget">
       <Text
         class="picasso-schedule-entry-title"
@@ -11,7 +18,10 @@
         {{ title }}{{ ysPhysicalActivityDurationAfterTitle }}
       </Text>
     </Link>
-    <View class="picasso-schedule-entry-spacer" />
+    <View
+      class="picasso-schedule-entry-spacer"
+      :class="{ 'picasso-schedule-entry-spacer-compact': compact }"
+    />
     <View
       v-if="showYSPhysicalActivityDuration && ysPhysicalActivityDuration && twoLinesFit"
       class="picasso-schedule-entry-ys-physical-activity-duration-container"
@@ -21,9 +31,13 @@
     </View>
     <View
       class="picasso-schedule-entry-responsibles-container"
+      :class="{ 'picasso-schedule-entry-compact': compact }"
       :style="{ fontSize: fontSize, color: textColor }"
     >
-      <View class="picasso-schedule-entry-spacer" />
+      <View
+        class="picasso-schedule-entry-spacer"
+        :class="{ 'picasso-schedule-entry-spacer-compact': compact }"
+      />
       <Responsibles
         class="picasso-schedule-entry-responsibles"
         :activity="scheduleEntry.activity()"
@@ -116,10 +130,16 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
 }
+.picasso-schedule-entry-compact {
+  padding: 0 1pt;
+}
 .picasso-schedule-entry-spacer {
   height: 0;
   max-height: 4pt;
   flex-grow: 1;
+}
+.picasso-schedule-entry-spacer-compact {
+  max-height: 1pt;
 }
 .picasso-schedule-entry-title {
   height: 16pt;

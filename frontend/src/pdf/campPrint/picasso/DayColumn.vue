@@ -103,7 +103,7 @@ export default {
   flex-basis: 0;
 }
 .picasso-day-column-grid-row-grey {
-  background-color: lightgrey;
+  background-color: #eceff1;
 }
 .picasso-day-column-schedule-entry-container {
   margin: 0 2pt;
