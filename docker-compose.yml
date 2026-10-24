@@ -113,13 +113,22 @@ services:
     environment:
       # Uncomment the following line to disable HTTPS,
       SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
-      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      # The hub verifies tokens signed by the API with the same RSA key pair that is used for the login JWT.
+      # It only needs the public key, which is read from the mounted file on startup (see command below).
+      MERCURE_PUBLISHER_JWT_ALG: RS256
+      MERCURE_SUBSCRIBER_JWT_ALG: RS256
       # Must match the "iss" claim configured in api/config/packages/mercure.yaml
       MERCURE_TRUSTED_ISSUERS: 'ecamp3-api'
       # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
       MERCURE_EXTRA_DIRECTIVES: |
         cors_origins http://localhost:3000
+    command:
+      - sh
+      - -c
+      - |
+        export MERCURE_PUBLISHER_JWT_KEY="$$(cat /jwt/public.pem)"
+        export MERCURE_SUBSCRIBER_JWT_KEY="$$MERCURE_PUBLISHER_JWT_KEY"
+        exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
     ports:
       - '3020:80'
     healthcheck:
@@ -130,6 +139,7 @@ services:
     volumes:
       - mercure_data:/data
       - mercure_config:/config
+      - ./api/config/jwt/public.pem:/jwt/public.pem:ro
   ###< symfony/mercure-bundle ###
 
   pdf:
