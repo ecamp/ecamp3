@@ -1,11 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import { mount, shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import MultiSelect from '../MultiSelect.vue'
-import YSActivityCharacteristics from '../YSActivityCharacteristics.vue'
-import LAThematicArea from '../LAThematicArea.vue'
-import ESelect from '@/components/form/base/ESelect.vue'
 
 setupVuetify()
 
