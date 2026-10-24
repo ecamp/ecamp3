@@ -10,22 +10,26 @@
       :readonly="periods.length === 1"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
-    <e-select
-      v-model="options.orientation"
-      :label="$t('components.print.config.picassoConfig.orientation')"
-      :items="orientations"
-      path="orientation"
-      variant="underlined"
-      @update:model-value="$emit('update:modelValue', modelValue)"
-    />
-    <e-select
-      v-model="options.responsibles"
-      :label="$t('components.print.config.picassoConfig.responsibles')"
-      :items="responsiblesDisplays"
-      path="responsibles"
-      variant="underlined"
-      @update:model-value="$emit('update:modelValue', modelValue)"
-    />
+    <div :class="{ 'e-picasso-config__row': landscape }">
+      <e-select
+        v-model="options.orientation"
+        :label="$t('components.print.config.picassoConfig.orientation')"
+        :items="orientations"
+        path="orientation"
+        variant="underlined"
+        class="flex-grow-1"
+        @update:model-value="$emit('update:modelValue', modelValue)"
+      />
+      <e-select
+        v-model="options.responsibles"
+        :label="$t('components.print.config.picassoConfig.responsibles')"
+        :items="responsiblesDisplays"
+        path="responsibles"
+        variant="underlined"
+        class="flex-grow-1"
+        @update:model-value="$emit('update:modelValue', modelValue)"
+      />
+    </div>
     <div class="flex-grow-1"></div>
     <DialogScheduleEntryFilter
       :camp="camp"
@@ -82,6 +86,9 @@ export default {
       set(v) {
         this.$emit('update:modelValue', v)
       },
+    },
+    landscape() {
+      return this.options.orientation === 'L'
     },
     periods() {
       return this.camp.periods().items.map((p) => ({
@@ -145,3 +152,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.e-picasso-config__row {
+  display: flex;
+  gap: 8px;
+}
+
+.e-picasso-config__row > :deep(.e-form-container + .e-form-container) {
+  margin-top: 0;
+}
+</style>
