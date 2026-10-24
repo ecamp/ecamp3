@@ -95,10 +95,14 @@ function rangeLongEnd(start, end, tc) {
 
 // format of date range
 function dateRange(start, end, tc) {
-  if (dateLong(start, tc) === dateLong(end, tc)) {
-    return dateLong(start, tc)
+  const startTime = dayjs.utc(start)
+  const endTime = dayjs.utc(end)
+  const endDate = endTime.format(tc('global.datetime.dateRangeEnd'))
+  if (startTime.isSame(endTime, 'day')) {
+    return endDate
   }
-  return `${dateShort(start, tc)} - ${dateLong(end, tc)}`
+  const startDate = startTime.format(tc('global.datetime.dateRangeStart'))
+  return `${startDate} - ${endDate}`
 }
 
 export {

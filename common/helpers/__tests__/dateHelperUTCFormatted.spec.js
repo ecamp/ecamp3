@@ -22,6 +22,10 @@ const tcMockString = (string) => {
       return 'dd L'
     case 'global.datetime.dateShort':
       return 'dd D.M.'
+    case 'global.datetime.dateRangeStart':
+      return 'dd DD.MM.'
+    case 'global.datetime.dateRangeEnd':
+      return 'dd L'
     case 'global.datetime.dateTimeLong':
       return 'dd L HH:mm'
     case 'global.datetime.hourLong':
@@ -88,15 +92,28 @@ describe('rangeLongEnd', () => {
 })
 
 describe('dateRange', () => {
+  it.each([
+    ['2023-03-02', '2023-03-04', '02.03. - 04.03.2023'],
+    ['2023-03-02', '2023-03-02', '02.03.2023'],
+  ])('uses the dedicated range formats for %s to %s', (start, end, expected) => {
+    const translate = (key) =>
+      ({
+        'global.datetime.dateRangeStart': 'DD.MM.',
+        'global.datetime.dateRangeEnd': 'DD.MM.YYYY',
+      })[key]
+
+    expect(dateRange(start, end, translate)).toEqual(expected)
+  })
+
   it('omits end date if it is the same as start date: Tu 01/01/2019', () => {
     expect(
       dateRange('2019-01-01T20:00:00.000Z', '2019-01-01T22:00:00.000Z', tcMock)
     ).toEqual('Tu 01/01/2019')
   })
-  it('prints end date if it another date: Tu 1.1. - We 01/02/2019', () => {
+  it('pads the start day and month and includes the year in the end date', () => {
     expect(
       dateRange('2019-01-01T14:00:00.000Z', '2019-01-02T10:00:00.000Z', tcMock)
-    ).toEqual('Tu 1.1. - We 01/02/2019')
+    ).toEqual('Tu 01.01. - We 01/02/2019')
   })
 })
 
