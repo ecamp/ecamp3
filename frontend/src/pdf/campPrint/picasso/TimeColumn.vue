@@ -9,7 +9,7 @@
           alignItems: align === 'left' ? 'flex-start' : 'flex-end',
         }"
       >
-        <Text class="picasso-time-column-text">{{ time }}</Text>
+        <Text class="picasso-time-column-text tabular-nums">{{ time }}</Text>
       </View>
     </View>
   </View>

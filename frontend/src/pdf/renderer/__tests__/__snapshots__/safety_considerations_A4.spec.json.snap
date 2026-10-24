@@ -132,9 +132,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "1.4",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "1.4 Takeoff",
+                  "value": " Takeoff",
                 },
               ],
               "parent": [Circular],
@@ -290,9 +310,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "2.6",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "2.6 Angriff der Aborigines",
+                  "value": " Angriff der Aborigines",
                 },
               ],
               "parent": [Circular],
@@ -390,9 +430,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "2.7",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "2.7 Pfadiversprechen",
+                  "value": " Pfadiversprechen",
                 },
               ],
               "parent": [Circular],
@@ -490,9 +550,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "2.9",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "2.9 Essen zurückerobern",
+                  "value": " Essen zurückerobern",
                 },
               ],
               "parent": [Circular],
@@ -666,9 +746,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "3.A",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "3.A Pfadiversprechen",
+                  "value": " Pfadiversprechen",
                 },
               ],
               "parent": [Circular],
@@ -766,9 +866,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "3.5",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "3.5 Abschluss geländegame",
+                  "value": " Abschluss geländegame",
                 },
               ],
               "parent": [Circular],
@@ -924,9 +1044,29 @@
               "box": {},
               "children": [
                 {
+                  "box": {},
+                  "children": [
+                    {
+                      "parent": [Circular],
+                      "type": "TEXT_INSTANCE",
+                      "value": "4.1",
+                    },
+                  ],
+                  "parent": [Circular],
+                  "props": {
+                    "class": "tabular-nums",
+                  },
+                  "style": {
+                    "fontFeatureSettings": {
+                      "tnum": 1,
+                    },
+                  },
+                  "type": "TEXT",
+                },
+                {
                   "parent": [Circular],
                   "type": "TEXT_INSTANCE",
-                  "value": "4.1 Morgenturnen",
+                  "value": " Morgenturnen",
                 },
               ],
               "parent": [Circular],

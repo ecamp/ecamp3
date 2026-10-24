@@ -147,6 +147,7 @@ export default {
 .program-day-table-number {
   width: 30pt;
   flex-shrink: 0;
+  font-feature-settings: 'tnum';
 }
 .program-day-table-activity {
   display: flex;

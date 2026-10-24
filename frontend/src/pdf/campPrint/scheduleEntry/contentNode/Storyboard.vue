@@ -88,6 +88,7 @@ export default {
   padding-bottom: 3pt;
 }
 .storyboard-column-1 {
+  font-feature-settings: 'tnum';
   width: 28pt;
   flex-shrink: 0;
   flex-grow: 0;

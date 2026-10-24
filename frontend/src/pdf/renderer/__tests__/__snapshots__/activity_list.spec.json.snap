@@ -91,9 +91,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.1 Beginn & Anreise",
+                          "value": " Beginn & Anreise",
                         },
                       ],
                       "parent": [Circular],
@@ -283,6 +303,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -477,9 +511,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.A LA Lagerbau",
+                          "value": " LA Lagerbau",
                         },
                       ],
                       "parent": [Circular],
@@ -1101,7 +1155,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -1176,7 +1232,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -1251,7 +1309,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -1387,9 +1447,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.2 Newgames neben Lagerbau",
+                          "value": " Newgames neben Lagerbau",
                         },
                       ],
                       "parent": [Circular],
@@ -1858,7 +1938,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -1933,7 +2015,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -2008,7 +2092,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -2143,6 +2229,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -2337,9 +2437,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.3 Sportblock",
+                          "value": " Sportblock",
                         },
                       ],
                       "parent": [Circular],
@@ -2907,7 +3027,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -2982,7 +3104,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -3057,7 +3181,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -3132,7 +3258,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -3207,7 +3335,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -3343,9 +3473,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.1 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -3535,6 +3685,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -3729,9 +3893,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.2 Quidditch",
+                          "value": " Quidditch",
                         },
                       ],
                       "parent": [Circular],
@@ -4332,7 +4516,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4407,7 +4593,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4482,7 +4670,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4557,7 +4747,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4632,7 +4824,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4707,7 +4901,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4782,7 +4978,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -4917,6 +5115,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -5111,9 +5323,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.A Atelier",
+                          "value": " Atelier",
                         },
                       ],
                       "parent": [Circular],
@@ -5801,7 +6033,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -5937,9 +6171,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.3 Grundlagen Zaubertränke",
+                          "value": " Grundlagen Zaubertränke",
                         },
                       ],
                       "parent": [Circular],
@@ -6129,6 +6383,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -6323,9 +6591,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.4 Fähnliabend Pfadis",
+                          "value": " Fähnliabend Pfadis",
                         },
                       ],
                       "parent": [Circular],
@@ -6516,9 +6804,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.5",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.5 Horkrux",
+                          "value": " Horkrux",
                         },
                       ],
                       "parent": [Circular],
@@ -6709,9 +7017,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.6",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.6 Silent Disco",
+                          "value": " Silent Disco",
                         },
                       ],
                       "parent": [Circular],
@@ -7477,7 +7805,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -7552,7 +7882,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -7627,7 +7959,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -7702,7 +8036,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -7838,9 +8174,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.1 Einbruch Verbotene Abteilung",
+                          "value": " Einbruch Verbotene Abteilung",
                         },
                       ],
                       "parent": [Circular],
@@ -8031,9 +8387,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.2 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -8223,6 +8599,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -8417,9 +8807,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.A SpezEx Erste Hilfe",
+                          "value": " SpezEx Erste Hilfe",
                         },
                       ],
                       "parent": [Circular],
@@ -9020,7 +9430,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -9095,7 +9507,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -9170,7 +9584,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -9245,7 +9661,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -9380,6 +9798,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -9574,9 +10006,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.3 Besuch bei Hagrid",
+                          "value": " Besuch bei Hagrid",
                         },
                       ],
                       "parent": [Circular],
@@ -10467,9 +10919,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.4 SpoBlo",
+                          "value": " SpoBlo",
                         },
                       ],
                       "parent": [Circular],
@@ -10883,6 +11355,20 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
                           "value": " Znacht",
@@ -11076,9 +11562,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.5",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.5 Spieleabend im Gemeinschaftsraum",
+                          "value": " Spieleabend im Gemeinschaftsraum",
                         },
                       ],
                       "parent": [Circular],
@@ -11269,9 +11775,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.1 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -11461,6 +11987,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -11655,9 +12195,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.2 Trolle bekämpfen",
+                          "value": " Trolle bekämpfen",
                         },
                       ],
                       "parent": [Circular],
@@ -12390,7 +12950,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -12465,7 +13027,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -12540,7 +13104,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -12615,7 +13181,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -12690,7 +13258,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -12825,6 +13395,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -13019,9 +13603,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.3 Hajk Flucht vor den Dementoren",
+                          "value": " Hajk Flucht vor den Dementoren",
                         },
                       ],
                       "parent": [Circular],
@@ -13473,6 +14077,20 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
                           "value": " Znacht",
@@ -13666,9 +14284,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "5.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "5.1 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -13858,6 +14496,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -14052,6 +14704,20 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
                           "value": " Zmittag",
@@ -14245,9 +14911,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "5.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "5.2 Wasserspiele in Badi",
+                          "value": " Wasserspiele in Badi",
                         },
                       ],
                       "parent": [Circular],
@@ -14970,7 +15656,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15045,7 +15733,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15120,7 +15810,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15195,7 +15887,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15270,7 +15964,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15345,7 +16041,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15420,7 +16118,9 @@
                             "flexBasis": "17pt",
                             "flexGrow": "0",
                             "flexShrink": "0",
-                            "fontVariantNumeric": "tabular-nums",
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "paddingRight": "2pt",
                           },
                           "type": "VIEW",
@@ -15555,6 +16255,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -15749,9 +16463,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "5.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "5.3 Fühlsch mi Gspürsch mi",
+                          "value": " Fühlsch mi Gspürsch mi",
                         },
                       ],
                       "parent": [Circular],
@@ -15942,9 +16676,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.1 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -16134,6 +16888,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -16328,9 +17096,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.2 Quidditch finale",
+                          "value": " Quidditch finale",
                         },
                       ],
                       "parent": [Circular],
@@ -16520,6 +17308,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -16714,9 +17516,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.A SpezEx Erste Hilfe",
+                          "value": " SpezEx Erste Hilfe",
                         },
                       ],
                       "parent": [Circular],
@@ -16907,9 +17729,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.3 Spieleturnier",
+                          "value": " Spieleturnier",
                         },
                       ],
                       "parent": [Circular],
@@ -17100,9 +17942,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.B",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.B SpezEx Erste Hilfe",
+                          "value": " SpezEx Erste Hilfe",
                         },
                       ],
                       "parent": [Circular],
@@ -17293,9 +18155,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.4 Spieleturnier",
+                          "value": " Spieleturnier",
                         },
                       ],
                       "parent": [Circular],
@@ -17485,6 +18367,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -17679,9 +18575,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "6.5",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "6.5 Endgame Kampf gegen Voldemort",
+                          "value": " Endgame Kampf gegen Voldemort",
                         },
                       ],
                       "parent": [Circular],
@@ -17872,9 +18788,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "7.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "7.1 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -18064,6 +19000,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -18258,9 +19208,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "7.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "7.2 Nachsitzen bei Snape",
+                          "value": " Nachsitzen bei Snape",
                         },
                       ],
                       "parent": [Circular],
@@ -18450,6 +19420,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -18644,9 +19628,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "7.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "7.A Lagerabbau",
+                          "value": " Lagerabbau",
                         },
                       ],
                       "parent": [Circular],
@@ -18837,9 +19841,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "7.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "7.3 Vorbereitung Abschlussabend",
+                          "value": " Vorbereitung Abschlussabend",
                         },
                       ],
                       "parent": [Circular],
@@ -19030,9 +20054,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "7.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "7.4 Newgames",
+                          "value": " Newgames",
                         },
                       ],
                       "parent": [Circular],
@@ -19222,6 +20266,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -19416,9 +20474,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "8.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "8.1 Morgefit",
+                          "value": " Morgefit",
                         },
                       ],
                       "parent": [Circular],
@@ -19608,6 +20686,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -19802,9 +20894,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "8.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "8.A Lagerabbau",
+                          "value": " Lagerabbau",
                         },
                       ],
                       "parent": [Circular],
@@ -19994,6 +21106,20 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
@@ -20188,9 +21314,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "8.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "8.2 Totto Lotto",
+                          "value": " Totto Lotto",
                         },
                       ],
                       "parent": [Circular],

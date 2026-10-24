@@ -6,7 +6,9 @@
         class="picasso-schedule-entry-title"
         :style="{ fontSize: fontSize, color: textColor }"
       >
-        {{ category }} {{ scheduleEntry.number }} {{ title }}
+        {{ category }}
+        <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+        {{ title }}
       </Text>
     </Link>
     <View class="picasso-schedule-entry-spacer" />

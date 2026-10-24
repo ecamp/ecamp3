@@ -11,7 +11,8 @@
           style="font-size: 10pt"
         />
         <Text :id="`${id}-${period.id}-${scheduleEntry.id}`" style="margin: 0 3pt">
-          {{ scheduleEntry.number }} {{ chapter.title }}
+          <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+          {{ chapter.title }}
         </Text>
       </View>
       <View style="line-height: 1">

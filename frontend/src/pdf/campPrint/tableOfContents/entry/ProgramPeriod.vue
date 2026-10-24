@@ -11,7 +11,7 @@
     >
       <Text>
         {{ scheduleEntry.category }}
-        {{ scheduleEntry.number }}
+        <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
         {{ scheduleEntry.title }}
       </Text>
       <TocEntryPageNumber

@@ -91,9 +91,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.1 Stadt Game 🐭",
+                          "value": " Stadt Game 🐭",
                         },
                       ],
                       "parent": [Circular],
@@ -482,6 +502,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -591,6 +614,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -759,6 +785,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -909,6 +938,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -1053,6 +1085,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -1563,9 +1598,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.2 Anreise",
+                          "value": " Anreise",
                         },
                       ],
                       "parent": [Circular],
@@ -1771,6 +1826,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -1880,6 +1938,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -1988,6 +2049,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -2096,6 +2160,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -2204,6 +2271,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -2769,9 +2839,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.A Lagerbau",
+                          "value": " Lagerbau",
                         },
                       ],
                       "parent": [Circular],
@@ -2977,6 +3067,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -3086,6 +3179,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -3266,6 +3362,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -3374,6 +3473,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -3518,6 +3620,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -4061,9 +4166,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.3 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -4286,9 +4411,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.4 Takeoff",
+                          "value": " Takeoff",
                         },
                       ],
                       "parent": [Circular],
@@ -4494,6 +4639,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -4609,6 +4757,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -4729,6 +4880,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -4849,6 +5003,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -5754,9 +5911,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.5",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.5 Flugzeugabsturz",
+                          "value": " Flugzeugabsturz",
                         },
                       ],
                       "parent": [Circular],
@@ -5962,6 +6139,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -6077,6 +6257,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -6191,6 +6374,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -6305,6 +6491,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -6419,6 +6608,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -7225,9 +7417,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.1 Morgenturnen",
+                          "value": " Morgenturnen",
                         },
                       ],
                       "parent": [Circular],
@@ -7433,6 +7645,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -7548,6 +7763,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -7662,6 +7880,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -7776,6 +7997,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -8267,9 +8491,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.2 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -8492,9 +8736,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.3 Lagerbau",
+                          "value": " Lagerbau",
                         },
                       ],
                       "parent": [Circular],
@@ -8700,6 +8964,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -8809,6 +9076,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -9300,9 +9570,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.4 Insel erkunden",
+                          "value": " Insel erkunden",
                         },
                       ],
                       "parent": [Circular],
@@ -9508,6 +9798,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -9623,6 +9916,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -9737,6 +10033,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -9851,6 +10150,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -10583,9 +10885,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.5",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.5 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -10808,9 +11130,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.6",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.6 Angriff der Aborigines",
+                          "value": " Angriff der Aborigines",
                         },
                       ],
                       "parent": [Circular],
@@ -11016,6 +11358,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -11131,6 +11476,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -11245,6 +11593,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -11449,6 +11800,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -11563,6 +11917,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -11677,6 +12034,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -11791,6 +12151,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -12838,9 +13201,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.7",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.7 Pfadiversprechen",
+                          "value": " Pfadiversprechen",
                         },
                       ],
                       "parent": [Circular],
@@ -13046,6 +13429,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -13161,6 +13547,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -13563,6 +13952,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -13695,6 +14087,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -13809,6 +14204,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -13923,6 +14321,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -14822,9 +15223,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.8",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.8 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -15047,9 +15468,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.9",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.9 Essen zurückerobern",
+                          "value": " Essen zurückerobern",
                         },
                       ],
                       "parent": [Circular],
@@ -15255,6 +15696,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -15370,6 +15814,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -15484,6 +15931,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -15598,6 +16048,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -15712,6 +16165,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -16555,9 +17011,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.1 Morgenturnern",
+                          "value": " Morgenturnern",
                         },
                       ],
                       "parent": [Circular],
@@ -16763,6 +17239,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -16878,6 +17357,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -16992,6 +17474,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -17106,6 +17591,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -17597,9 +18085,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.2 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -17822,9 +18330,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.3 Atelier",
+                          "value": " Atelier",
                         },
                       ],
                       "parent": [Circular],
@@ -18030,6 +18558,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -18139,6 +18670,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -18247,6 +18781,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -18409,6 +18946,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -18607,6 +19147,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -18823,6 +19366,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -19665,9 +20211,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.4 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -19890,9 +20456,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.A Pfadiversprechen",
+                          "value": " Pfadiversprechen",
                         },
                       ],
                       "parent": [Circular],
@@ -20098,6 +20684,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -20213,6 +20802,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -20471,6 +21063,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -21170,9 +21765,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.5",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.5 Abschluss geländegame",
+                          "value": " Abschluss geländegame",
                         },
                       ],
                       "parent": [Circular],
@@ -21378,6 +21993,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -21493,6 +22111,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -21607,6 +22228,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -21739,6 +22363,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -21943,6 +22570,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -22075,6 +22705,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -22189,6 +22822,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -22321,6 +22957,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -22998,9 +23637,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.6",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.6 Vorbereitung BiPi Feuer",
+                          "value": " Vorbereitung BiPi Feuer",
                         },
                       ],
                       "parent": [Circular],
@@ -23206,6 +23865,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -23315,6 +23977,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -24004,9 +24669,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.7",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.7 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -24229,9 +24914,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "3.8",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "3.8 Bi-Pi Feuer",
+                          "value": " Bi-Pi Feuer",
                         },
                       ],
                       "parent": [Circular],
@@ -24437,6 +25142,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -24546,6 +25254,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -24744,6 +25455,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -24924,6 +25638,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -25433,9 +26150,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.1 Morgenturnen",
+                          "value": " Morgenturnen",
                         },
                       ],
                       "parent": [Circular],
@@ -25641,6 +26378,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -25756,6 +26496,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -25870,6 +26613,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -25984,6 +26730,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -26660,9 +27409,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.2",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.2 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -26885,9 +27654,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.A",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.A Lagerabbau",
+                          "value": " Lagerabbau",
                         },
                       ],
                       "parent": [Circular],
@@ -27093,6 +27882,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -27202,6 +27994,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -27346,6 +28141,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -27454,6 +28252,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -28234,9 +29035,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.3",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.3 Essen",
+                          "value": " Essen",
                         },
                       ],
                       "parent": [Circular],
@@ -28459,9 +29280,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "4.4",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "4.4 Heimreise",
+                          "value": " Heimreise",
                         },
                       ],
                       "parent": [Circular],
@@ -28667,6 +29508,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -28776,6 +29620,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -28884,6 +29731,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",

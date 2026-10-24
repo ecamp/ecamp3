@@ -66,9 +66,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.1 Morgenturnen",
+                          "value": " Morgenturnen",
                         },
                       ],
                       "parent": [Circular],
