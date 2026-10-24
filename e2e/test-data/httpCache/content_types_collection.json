@@ -36,10 +36,13 @@
       },
       {
         "href": "/api/content_types/318e064ea0c9"
+      },
+      {
+        "href": "/api/content_types/c9a61096ef01"
       }
     ]
   },
-  "totalItems": 11,
+  "totalItems": 12,
   "_embedded": {
     "items": [
       {
@@ -184,6 +187,19 @@
         "name": "Storycontext",
         "active": true,
         "id": "318e064ea0c9"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/c9a61096ef01"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/multi_selects?contentType=%2Fapi%2Fcontent_types%2Fc9a61096ef01"
+          }
+        },
+        "name": "YSActivityCharacteristics",
+        "active": true,
+        "id": "c9a61096ef01"
       }
     ]
   }
