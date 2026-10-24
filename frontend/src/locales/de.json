@@ -21,6 +21,9 @@
             "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
             "title": "Wirklich löschen?"
           }
+        },
+        "ysActivityCharacteristics": {
+          "placeholder": "Erscheinungsformen auswählen"
         }
       },
       "dialog": {

@@ -18,6 +18,9 @@
             "deleteWarning": "Vuoi davvero rimuovere questa sezione?",
             "title": "Cancellare davvero?"
           }
+        },
+        "ysActivityCharacteristics": {
+          "placeholder": "Selezionare le forme caratteristiche"
         }
       },
       "dialog": {

@@ -38,6 +38,42 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
         ]);
     }
 
+    public function testYSActivityCharacteristicsCanBeSelectedChangedAndCleared() {
+        $this->defaultContentType = static::getFixture('contentTypeYSActivityCharacteristics');
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+        $response = $client->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+        $created = $response->toArray();
+        $options = array_fill_keys([
+            'outdoorTechnique', 'travellingSafety', 'gamesAndSports',
+            'gettingInvolved', 'community', 'natureAndEnvironment',
+        ], ['checked' => false]);
+        ksort($options);
+        $createdOptions = $created['data']['options'];
+        ksort($createdOptions);
+        $this->assertSame($options, $createdOptions);
+        $this->assertSame('YSActivityCharacteristics', $created['contentTypeName']);
+        $iri = $created['_links']['self']['href'];
+
+        foreach ([
+            ['outdoorTechnique', 'community'],
+            ['travellingSafety', 'gamesAndSports', 'gettingInvolved', 'natureAndEnvironment'],
+            [],
+        ] as $selected) {
+            foreach ($options as $key => &$option) {
+                $option['checked'] = in_array($key, $selected, true);
+            }
+            $client->request('PATCH', $iri, ['json' => ['data' => ['options' => $options]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+            $this->assertResponseStatusCodeSame(200);
+            $reloaded = $client->request('GET', $iri);
+            $this->assertResponseStatusCodeSame(200);
+            $reloadedOptions = $reloaded->toArray()['data']['options'];
+            ksort($reloadedOptions);
+            $this->assertSame($options, $reloadedOptions);
+        }
+    }
+
     public function testCreateDoesNotAcceptOptions() {
         $this->create($this->getExampleWritePayload([
             'data' => [

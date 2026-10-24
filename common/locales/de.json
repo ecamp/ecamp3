@@ -94,6 +94,32 @@
     "storycontext": {
       "info": "Beschreibe, wie sich dieser Block in die Geschichte vom Lager einbettet.{br}Eine Zusammenstellung aller Geschichts-Elemente findest du im Menu 'Geschichte'.{br}Ihr könnt auch erst im Menu 'Geschichte' zuerst eine durchgängige Geschichte erarbeiten - so dass man den Block-Inhalt perfekt in die Geschichte einbetten kann.",
       "name": "Geschichte"
+    },
+    "ysActivityCharacteristics": {
+      "entity": {
+        "option": {
+          "community": {
+            "name": "Die Gemeinschaft wohlwollend stärken"
+          },
+          "gamesAndSports": {
+            "name": "Vielfältige Spiel- und Sportaktivitäten kreativ mitgestalten"
+          },
+          "gettingInvolved": {
+            "name": "Eigene Bedürfnisse und Ideen bewusst einbringen"
+          },
+          "natureAndEnvironment": {
+            "name": "Respektvoll mit Natur und Umwelt umgehen"
+          },
+          "outdoorTechnique": {
+            "name": "Outdoor- und Lagerbautechniken wirksam anwenden"
+          },
+          "travellingSafety": {
+            "name": "Sicher und vorausschauend unterwegs sein"
+          }
+        }
+      },
+      "info": "Wähle die Erscheinungsformen aus, die in diesem Block behandelt werden.",
+      "name": "J+S Erscheinungsformen"
     }
   },
   "entity": {

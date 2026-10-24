@@ -21,6 +21,9 @@
             "deleteWarning": "Veux-tu vraiment supprimer cette ligne ?",
             "title": "Confirmer la suppression ?"
           }
+        },
+        "ysActivityCharacteristics": {
+          "placeholder": "Sélectionner les formes caractéristiques"
         }
       },
       "dialog": {
