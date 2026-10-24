@@ -21,6 +21,10 @@ function timeDurationShort(start, end, tc) {
   const endTime = dayjs.utc(end)
   const duration = dayjs.duration(endTime.diff(startTime))
 
+  return durationShort(duration, tc)
+}
+
+function durationShort(duration, tc) {
   return tc(
     Math.abs(duration.asDays()) >= 1
         ? duration.hours() === 0
@@ -100,6 +104,7 @@ function dateRange(start, end, tc) {
 export {
   dateShort,
   dateLong,
+  durationShort,
   timeDurationShort,
   hourShort,
   hourLong,

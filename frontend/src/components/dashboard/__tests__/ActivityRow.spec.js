@@ -34,13 +34,13 @@ const scheduleEntry = {
 
 function mountRow(
   commentCount = 0,
-  { mobile = false, scheduleEntryOverrides = {} } = {}
+  { mobile = false, ysPhysicalActivityDurationMinutes = null } = {}
 ) {
   push = vi.fn()
   resize(mobile ? 375 : 1280)
   return mount(ActivityRow, {
     props: {
-      scheduleEntry: { ...scheduleEntry, ...scheduleEntryOverrides },
+      scheduleEntry: { ...scheduleEntry, ysPhysicalActivityDurationMinutes },
       loadingEndpoints: {
         categories: false,
         periods: false,
@@ -85,7 +85,7 @@ describe('ActivityRow', () => {
 
   it('shows the physical activity duration', () => {
     const wrapper = mountRow(0, {
-      scheduleEntryOverrides: { ysPhysicalActivityDurationMinutes: 60 },
+      ysPhysicalActivityDurationMinutes: 60,
     })
 
     expect(wrapper.text()).toContain(
@@ -95,7 +95,7 @@ describe('ActivityRow', () => {
 
   it('shows no physical activity duration if it is not specified', () => {
     const wrapper = mountRow(0, {
-      scheduleEntryOverrides: { ysPhysicalActivityDurationMinutes: null },
+      ysPhysicalActivityDurationMinutes: null,
     })
 
     expect(wrapper.text()).not.toContain(

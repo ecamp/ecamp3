@@ -698,6 +698,29 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertSame([60, null], array_map(fn ($se) => $se['ysPhysicalActivityDurationMinutes'], $scheduleEntries));
     }
 
+    public function testCreateActivityFromCopySourceRejectsInvalidYsPhysicalActivityDurationMinutes() {
+        static::createClientWithCredentials()->request('POST', '/activities', ['json' => $this->getExampleWritePayload([
+            'copyActivitySource' => $this->getIriFor('activity1'),
+            'category' => $this->getIriFor('category1'),
+            'scheduleEntries' => [[
+                'period' => $this->getIriFor('period1'),
+                'start' => '2023-05-01T15:00:00+00:00',
+                'end' => '2023-05-01T16:00:00+00:00',
+                'ysPhysicalActivityDurationMinutes' => 42,
+            ]],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'scheduleEntries[0].ysPhysicalActivityDurationMinutes',
+                    'message' => 'The value you selected is not a valid choice.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateActivityFromCopySourceAcrossCamp() {
         $response = static::createClientWithCredentials()->request(
             'POST',

@@ -428,6 +428,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     #[TestWith([0])]
     #[TestWith([-30])]
+    #[TestWith([42])]
     #[TestWith([50])]
     #[TestWith([135])]
     public function testPatchYsPhysicalActivityDurationMinutesRejectsInvalidValues(int $minutes) {
