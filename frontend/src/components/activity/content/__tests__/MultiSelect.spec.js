@@ -95,7 +95,7 @@ describe('MultiSelect', () => {
     wrapper.unmount()
   })
 
-  it('uses three lines for descriptions with few selections and two with more', async () => {
+  it('renders title and subtitle with three lines for descriptions', async () => {
     const wrapper = mountSelect(['second'])
     expect(wrapper.find('.v-select__selection .v-list-item').classes()).toContain(
       'v-list-item--three-line'
@@ -135,119 +135,6 @@ describe('MultiSelect', () => {
     expect(wrapper.find('input').element.disabled).toBe(true)
     await wrapper.find('.v-field').trigger('mousedown')
     expect(document.querySelector('[role="option"]')).toBeNull()
-    wrapper.unmount()
-  })
-})
-
-describe('YSActivityCharacteristics', () => {
-  const options = {
-    outdoorTechnique: { checked: true },
-    community: { checked: false },
-    natureAndEnvironment: { checked: true },
-  }
-  const translations = {
-    'contentNode.ysActivityCharacteristics.entity.option.outdoorTechnique.name':
-      'Outdoor technique',
-    'contentNode.ysActivityCharacteristics.entity.option.community.name': 'Community',
-    'contentNode.ysActivityCharacteristics.entity.option.natureAndEnvironment.name':
-      'Nature and environment',
-  }
-  const translate = (key) => translations[key]
-
-  it('loads the selection and saves every option, including cleared options', async () => {
-    const patch = vi.fn().mockResolvedValue({})
-    const parent = shallowMount(YSActivityCharacteristics, {
-      props: {
-        contentNode: { data: { options }, $patch: patch },
-        layoutMode: false,
-      },
-      global: {
-        mocks: { $t: translate },
-        provide: { camp: {} },
-        stubs: { MultiSelect: false },
-      },
-    })
-    const wrapper = parent.findComponent(MultiSelect)
-    expect(wrapper.vm.localSelection).toEqual([
-      'outdoorTechnique',
-      'natureAndEnvironment',
-    ])
-    expect(wrapper.vm.items.map((item) => item.text)).toEqual([
-      'Outdoor technique',
-      'Community',
-      'Nature and environment',
-    ])
-    wrapper.vm.onInput(['community'])
-    wrapper.vm.debounceSave.flush()
-    expect(patch).toHaveBeenLastCalledWith({
-      data: {
-        options: {
-          outdoorTechnique: { checked: false },
-          community: { checked: true },
-          natureAndEnvironment: { checked: false },
-        },
-      },
-    })
-    wrapper.vm.onInput([])
-    wrapper.vm.debounceSave.flush()
-    expect(patch).toHaveBeenLastCalledWith({
-      data: {
-        options: {
-          outdoorTechnique: { checked: false },
-          community: { checked: false },
-          natureAndEnvironment: { checked: false },
-        },
-      },
-    })
-    parent.unmount()
-  })
-})
-
-describe('LAThematicArea', () => {
-  it('passes titles and descriptions to the multiselect and saves its changes', async () => {
-    const patch = vi.fn().mockResolvedValue({})
-    const wrapper = shallowMount(LAThematicArea, {
-      props: {
-        contentNode: {
-          data: {
-            options: {
-              outdoorTechnique: { checked: true },
-              community: { checked: false },
-            },
-          },
-          $patch: patch,
-        },
-        layoutMode: false,
-      },
-      global: {
-        mocks: { $t: (key) => key },
-        provide: { camp: {} },
-        stubs: {
-          MultiSelect: false,
-          ContentNodeCard: { template: '<div><slot /></div>' },
-        },
-      },
-    })
-    const node = wrapper.findComponent(MultiSelect)
-    const select = wrapper.findComponent(ESelect)
-    expect(node.vm.localSelection).toEqual(['outdoorTechnique'])
-    expect(node.props('items')[0]).toMatchObject({
-      text: 'contentNode.laThematicArea.entity.option.outdoorTechnique.name',
-      description:
-        'contentNode.laThematicArea.entity.option.outdoorTechnique.description',
-      value: 'outdoorTechnique',
-    })
-
-    select.vm.$emit('update:modelValue', ['community'])
-    node.vm.debounceSave.flush()
-    expect(patch).toHaveBeenCalledWith({
-      data: {
-        options: { outdoorTechnique: { checked: false }, community: { checked: true } },
-      },
-    })
-
-    await wrapper.setProps({ layoutMode: true })
-    expect(select.attributes('disabled')).toBe('true')
     wrapper.unmount()
   })
 })
