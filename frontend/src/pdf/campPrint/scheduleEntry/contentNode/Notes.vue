@@ -1,6 +1,6 @@
 <template>
   <View class="content-node">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiPen" />
     <View style="line-height: 0.8">
       <RichText :rich-text="contentNode.data.html" />
     </View>
@@ -9,6 +9,7 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiPen } from '@mdi/js'
 import RichText from '../../RichText.vue'
 
 export default {
@@ -17,6 +18,9 @@ export default {
   extends: PdfComponent,
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return { mdiPen }
   },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <View class="content-node storyboard-container">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiScriptTextOutline" />
     <View v-if="anyContent" class="storyboard-header-row">
       <View class="storyboard-header-cell storyboard-column-1">
         <Text>{{ $tc('contentNode.storyboard.entity.section.fields.column1') }}</Text>
@@ -28,6 +28,7 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiScriptTextOutline } from '@mdi/js'
 import RichText from '../../RichText.vue'
 import sortBy from 'lodash-es/sortBy.js'
 import { isEmptyHtml } from '../../helpers.js'
@@ -38,6 +39,9 @@ export default {
   extends: PdfComponent,
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return { mdiScriptTextOutline }
   },
   computed: {
     sections() {

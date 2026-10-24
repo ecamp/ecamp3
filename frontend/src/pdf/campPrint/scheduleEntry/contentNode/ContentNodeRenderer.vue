@@ -3,6 +3,7 @@
     :is="contentNodeComponent"
     v-if="contentNodeComponent"
     :content-node="contentNode"
+    :class="{ 'content-node-compact': compact && !isLayout }"
   />
   <Text v-else>{{ contentTypeName }}</Text>
 </template>
@@ -30,6 +31,9 @@ export default {
     contentTypeName() {
       return this.contentNode.contentTypeName
     },
+    isLayout() {
+      return ['ColumnLayout', 'ResponsiveLayout'].includes(this.contentTypeName)
+    },
     contentNodeComponent() {
       return {
         ColumnLayout,
@@ -50,6 +54,9 @@ export default {
 </script>
 <style lang="react-pdf">
 .content-node {
+  margin-bottom: 9pt;
+}
+.content-node-compact {
   margin-bottom: 6pt;
 }
 </style>

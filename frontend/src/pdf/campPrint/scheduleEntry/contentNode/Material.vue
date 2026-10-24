@@ -1,6 +1,6 @@
 <template>
   <View class="content-node material">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiPackageVariant" />
     <View v-for="item in sortedMaterialItems" class="material-item">
       <View class="material-item-column material-item-column-1">
         <Text>{{ item.quantity }} {{ item.unit }} {{ item.article }}</Text>
@@ -14,6 +14,7 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiPackageVariant } from '@mdi/js'
 import sortBy from 'lodash-es/sortBy.js'
 
 export default {
@@ -22,6 +23,9 @@ export default {
   extends: PdfComponent,
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return { mdiPackageVariant }
   },
   computed: {
     sortedMaterialItems() {
