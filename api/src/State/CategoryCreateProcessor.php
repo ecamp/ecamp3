@@ -4,6 +4,7 @@ namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use App\Entity\Activity;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
@@ -38,9 +39,19 @@ class CategoryCreateProcessor extends AbstractPersistProcessor {
         $data->setRootContentNode($rootContentNode);
 
         if (null !== $data->copyCategorySource) {
-            // CopyActivity Source is set -> copy it's content (rootContentNode)
+            // A source to copy is set -> copy it's content (rootContentNode)
             $entityMap = new EntityMap($data->camp);
             $rootContentNode->copyFromPrototype($data->copyCategorySource->getRootContentNode(), $entityMap);
+
+            $sourceCategory = $data->copyCategorySource;
+            if ($sourceCategory instanceof Activity) {
+                $sourceCategory = $sourceCategory->category;
+            }
+
+            // copy preferredContentTypes
+            foreach ($sourceCategory->getPreferredContentTypes() as $contentType) {
+                $data->addPreferredContentType($contentType);
+            }
         }
 
         return $data;
