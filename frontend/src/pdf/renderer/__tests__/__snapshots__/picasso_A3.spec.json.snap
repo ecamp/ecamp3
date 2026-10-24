@@ -159,8 +159,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -171,6 +171,7 @@
                 "class": "picasso-day-header picasso-day-header-left-border",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderLeft": "1pt solid white",
                 "borderRight": "1pt solid white",
                 "display": "flex",
@@ -199,8 +200,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -211,6 +212,7 @@
                 "class": "picasso-day-header",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderRight": "1pt solid white",
                 "display": "flex",
                 "flexBasis": "0",
@@ -238,8 +240,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -250,6 +252,7 @@
                 "class": "picasso-day-header",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderRight": "1pt solid white",
                 "display": "flex",
                 "flexBasis": "0",
@@ -277,8 +280,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -289,6 +292,7 @@
                 "class": "picasso-day-header",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderRight": "1pt solid white",
                 "display": "flex",
                 "flexBasis": "0",
@@ -1158,7 +1162,7 @@
               "props": {
                 "class": "picasso-time-column",
                 "style": {
-                  "width": 40,
+                  "width": 47,
                 },
               },
               "style": {
@@ -1166,7 +1170,7 @@
                 "flexDirection": "column",
                 "flexGrow": "0",
                 "flexShrink": "0",
-                "width": 40,
+                "width": 47,
               },
               "type": "VIEW",
             },
@@ -1204,7 +1208,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1239,7 +1243,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1274,7 +1278,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1309,7 +1313,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1344,7 +1348,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1379,7 +1383,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1414,7 +1418,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1449,7 +1453,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1484,7 +1488,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1519,7 +1523,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -2831,10 +2835,9 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "picasso-day-column picasso-day-column-left-border",
+                "class": "picasso-day-column",
               },
               "style": {
-                "borderLeft": "1pt solid grey",
                 "display": "flex",
                 "flexBasis": "0",
                 "flexDirection": "column",
@@ -2878,7 +2881,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2913,7 +2916,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2948,7 +2951,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2983,7 +2986,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -3018,7 +3021,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -3053,7 +3056,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -3088,7 +3091,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -3123,7 +3126,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -3158,7 +3161,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -3193,7 +3196,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -5163,7 +5166,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5198,7 +5201,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5233,7 +5236,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5268,7 +5271,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5303,7 +5306,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5338,7 +5341,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5373,7 +5376,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5408,7 +5411,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5443,7 +5446,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5478,7 +5481,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -7448,7 +7451,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7483,7 +7486,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7518,7 +7521,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7553,7 +7556,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7588,7 +7591,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7623,7 +7626,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7658,7 +7661,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7693,7 +7696,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7728,7 +7731,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7763,7 +7766,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -9667,7 +9670,7 @@
               "props": {
                 "class": "picasso-time-column",
                 "style": {
-                  "width": 40,
+                  "width": 47,
                 },
               },
               "style": {
@@ -9675,7 +9678,7 @@
                 "flexDirection": "column",
                 "flexGrow": "0",
                 "flexShrink": "0",
-                "width": 40,
+                "width": 47,
               },
               "type": "VIEW",
             },
@@ -9685,7 +9688,6 @@
             "class": "picasso-calendar-container",
           },
           "style": {
-            "border": "1pt solid grey",
             "display": "flex",
             "flexDirection": "row",
             "flexGrow": "1",
@@ -9722,7 +9724,7 @@
                     "borderRadius": "18pt",
                     "color": "#000",
                     "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "padding": "1pt 5pt",
                   },
                   "type": "TEXT",
                 },
@@ -9781,7 +9783,7 @@
                     "borderRadius": "18pt",
                     "color": "#000",
                     "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "padding": "1pt 5pt",
                   },
                   "type": "TEXT",
                 },
@@ -9840,7 +9842,7 @@
                     "borderRadius": "18pt",
                     "color": "#000",
                     "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "padding": "1pt 5pt",
                   },
                   "type": "TEXT",
                 },
@@ -9899,7 +9901,7 @@
                     "borderRadius": "18pt",
                     "color": "#000",
                     "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "padding": "1pt 5pt",
                   },
                   "type": "TEXT",
                 },

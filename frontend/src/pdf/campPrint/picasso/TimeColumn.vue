@@ -28,7 +28,7 @@ export default {
   computed: {
     width() {
       // we could do better than this heuristic...
-      return 5 * longestTime(this.times, this.$date).length
+      return Math.ceil(5.3 * longestTime(this.times, this.$date).length) + 4
     },
     displayedTimes() {
       return this.times.map(([time, weight], index) => {

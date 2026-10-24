@@ -58,7 +58,7 @@
                         "flexShrink": "0",
                         "fontSize": "12pt",
                         "margin": "4pt 0",
-                        "padding": "2pt 8pt",
+                        "padding": "1pt 5pt",
                       },
                       "type": "TEXT",
                     },
