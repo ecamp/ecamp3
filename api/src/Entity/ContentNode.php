@@ -152,7 +152,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ORM\ManyToOne(targetEntity: ContentType::class)]
     #[ORM\JoinColumn(nullable: false)]
     public ?ContentType $contentType = null;
-    
+
     /*
      * Ownership via view_camp_root_content_nodes is kept as a lazy collection despite being logically OneToOne.
      * An inverse OneToOne can trigger a view lookup per hydrated node, including non-root nodes (N+1 queries).
