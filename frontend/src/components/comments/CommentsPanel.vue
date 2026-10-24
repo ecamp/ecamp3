@@ -61,6 +61,8 @@
         v-if="commentsState.open"
         ref="list"
         :comments="visibleComments"
+        :all-comments="comments.items"
+        :camp="camp"
         :loading="comments._meta.loading"
         :show-context="showContext"
         :empty-text="emptyText"
@@ -105,8 +107,7 @@ import {
   commentsState,
   resetCommentsState,
 } from '@/components/comments/commentsState.js'
-import { scopedComments } from '@/components/comments/scopedComments.js'
-import { isResolved } from '@/components/comments/commentThreads.js'
+import { scopedComments, isResolved } from '@/components/comments/commentHelpers.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { activityFromRoute, campFromRoute } from '@/router.js'
 

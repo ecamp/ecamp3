@@ -1,14 +1,7 @@
 <template>
-  <v-tooltip location="bottom" :text="long">
-    <template #activator="{ props }">
-      <time
-        :datetime="value"
-        data-testid="comment-time"
-        v-bind="{ ...$attrs, ...props }"
-        >{{ short }}</time
-      >
-    </template>
-  </v-tooltip>
+  <time :datetime="value" :title="long" data-testid="comment-time" v-bind="$attrs">{{
+    short
+  }}</time>
 </template>
 
 <script>

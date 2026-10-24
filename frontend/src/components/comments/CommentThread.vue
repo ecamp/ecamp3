@@ -10,7 +10,12 @@
       v-if="replies.length"
       class="ec-comment-thread__replies d-flex flex-column ga-2 mt-2"
     >
-      <CommentCard v-for="reply in replies" :key="reply._meta.self" :comment="reply" />
+      <CommentCard
+        v-for="reply in replies"
+        :key="reply._meta.self"
+        :comment="reply"
+        :is-reply="true"
+      />
     </div>
     <div class="ec-comment-thread__actions d-flex align-start mt-1">
       <v-tooltip location="bottom" :text="resolveLabel">
@@ -94,12 +99,15 @@ import { serverErrorToString } from '@/helpers/serverError.js'
 import { useToast } from '@/components/toast/useToast.js'
 import { commentsState } from '@/components/comments/commentsState.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CommentThread',
   components: { CommentCard, CommentComposer, CommentTime },
   props: {
     root: { type: Object, required: true },
+    camp: { type: Object, default: null },
+    enableAllCommentsTabHint: { type: Boolean, default: true },
     replies: { type: Array, default: () => [] },
     showContext: { type: Boolean, default: false },
   },
@@ -155,6 +163,9 @@ export default {
       }
     },
     offerUndo() {
+      if (!this.enableAllCommentsTabHint) {
+        return
+      }
       const { api, root, toast } = this
       const actions = [
         {

@@ -1,7 +1,7 @@
 <template>
   <v-sheet tag="article" rounded="lg" color="surface-light" class="ec-comment">
     <div
-      v-if="comment.orphanDescription || showContext"
+      v-if="(comment.orphanDescription || showContext) && !isReply"
       class="ec-comment-card__activity text-body-2 mx-2 my-1"
       :class="{ 'font-weight-medium': showContext }"
     >
@@ -120,6 +120,7 @@ export default {
     showContext: { type: Boolean, default: false },
     hasReplies: { type: Boolean, default: false },
     hasRepliesByOthers: { type: Boolean, default: false },
+    isReply: { type: Boolean, default: false },
   },
   computed: {
     ...mapGetters({ authUser: 'getLoggedInUser' }),
