@@ -61,20 +61,18 @@ spec:
               value: {{ .Values.mercure.trustedIssuer | quote }}
             - name: MERCURE_EXTRA_DIRECTIVES
               value: {{ printf "cors_origins %s" (include "frontend.url" .) | quote }}
+          # The health endpoints are only served by the Caddy admin API on the container's loopback interface
+          # (IPv4 only, so don't use "localhost"), which is why exec probes are needed.
           readinessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /healthz
-              port: mercure-http
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /healthz
-              port: mercure-http
-            initialDelaySeconds: 15
+            exec:
+              command: ["wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/mercure/health/ready"]
+            initialDelaySeconds: 10
             periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/mercure/health/live"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
           resources:
             {{- toYaml .Values.mercure.resources | nindent 12 }}
           volumeMounts:

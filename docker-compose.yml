@@ -132,7 +132,7 @@ services:
     ports:
       - '3020:80'
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'https://localhost/healthz']
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:2019/mercure/health/ready']
       timeout: 5s
       retries: 5
       start_period: 60s
