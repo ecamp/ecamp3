@@ -28,6 +28,7 @@
       <View
         v-for="scheduleEntry in scheduleEntries"
         class="program-day-table-row"
+        :class="{ 'program-day-table-row-compact': compact }"
         :wrap="false"
       >
         <Text class="program-day-table-time">
@@ -110,7 +111,7 @@ export default {
   background-color: black;
   color: white;
   font-size: 15pt;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 4pt;
   padding: 5pt;
 }
@@ -133,6 +134,9 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   border-bottom: 0.5pt solid #d1d5db;
+  padding: 5pt 0;
+}
+.program-day-table-row-compact {
   padding: 3pt 0;
 }
 .program-day-table-header {
@@ -161,9 +165,10 @@ export default {
   color: unset;
 }
 .program-day-category {
-  font-size: 7pt;
+  font-size: 8pt;
   margin-right: 4pt;
-  margin-bottom: auto;
+  margin-top: 1pt;
+  align-self: flex-start;
 }
 .program-day-activity-title {
   flex-grow: 1;
