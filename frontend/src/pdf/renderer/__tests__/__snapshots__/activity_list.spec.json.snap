@@ -34,7 +34,7 @@
           },
           "style": {
             "fontSize": "10pt",
-            "fontWeight": "bold",
+            "fontWeight": "600",
             "textAlign": "center",
           },
           "type": "TEXT",
