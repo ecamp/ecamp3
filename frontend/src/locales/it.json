@@ -456,6 +456,7 @@
       },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
+        "compact": "Layout compatto (meno spaziatura, nascondi i campi vuoti)",
         "config": {
           "Activity": "Attività singola",
           "Cover": "Pagina di copertina",

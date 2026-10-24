@@ -45,6 +45,12 @@ const originalHyphenationCallback = wordHyphenation()
 export default {
   name: 'CampPrint',
   extends: PdfComponent,
+  provide() {
+    return {
+      compact: this.config.options.compact === true,
+      pageSize: this.config.options.pageSize || 'A4',
+    }
+  },
   props: {
     config: { type: Object, required: true },
   },
