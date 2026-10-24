@@ -1,6 +1,6 @@
 <template>
   <View class="content-node">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiClipboardListOutline" />
 
     <View v-for="entry in checklistsWithItems" class="checklist">
       <Text class="checklist-title">{{ entry.checklist.name }}</Text>
@@ -70,11 +70,15 @@ const checklistsWithItems = checklists.map((checklist) => ({
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiClipboardListOutline } from '@mdi/js'
 
 export default {
   name: 'Checklist',
   components: { InstanceName },
   extends: PdfComponent,
+  data() {
+    return { mdiClipboardListOutline }
+  },
 }
 </script>
 <style lang="react-pdf">
