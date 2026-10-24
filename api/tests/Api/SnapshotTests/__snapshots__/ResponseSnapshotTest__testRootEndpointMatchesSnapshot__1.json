@@ -83,6 +83,10 @@
             "href": "/content_node/multi_selects{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
+        "noDatas": {
+            "href": "/content_node/no_datas{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
+            "templated": true
+        },
         "oauthCevidb": {
             "href": "/auth/cevidb{?callback}",
             "templated": true

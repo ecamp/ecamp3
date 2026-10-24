@@ -1,0 +1,22 @@
+App\Entity\ContentNode\NoData:
+  noDataCampUnrelated:
+    root: '@columnLayout1campUnrelated'
+    parent: '@columnLayout1campUnrelated'
+    slot: '1'
+    position: 6
+    instanceName: <word()>
+    contentType: '@contentTypeYSPhysicalActivityDuration'
+  noDataCampPrototype:
+    root: '@columnLayout1campPrototype'
+    parent: '@columnLayout1campPrototype'
+    slot: '1'
+    position: 6
+    instanceName: <word()>
+    contentType: '@contentTypeYSPhysicalActivityDuration'
+  noDataCampShared:
+    root: '@columnLayout1campShared'
+    parent: '@columnLayout1campShared'
+    slot: '1'
+    position: 6
+    instanceName: <word()>
+    contentType: '@contentTypeYSPhysicalActivityDuration'

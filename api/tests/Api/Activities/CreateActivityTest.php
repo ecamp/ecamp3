@@ -660,6 +660,44 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertSame($this->getIriFor('checklistItem1_1_1'), $this->getIriFor($connectedChecklistItem));
     }
 
+    public function testCreateActivityFromCopySourceCopiesYsPhysicalActivityDurationContentNode() {
+        $response = static::createClientWithCredentials()->request(
+            'POST',
+            '/activities',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'copyActivitySource' => $this->getIriFor('activity1'),
+                    'category' => $this->getIriFor('category1'),
+                    'scheduleEntries' => [
+                        [
+                            'period' => $this->getIriFor('period1'),
+                            'start' => '2023-05-01T15:00:00+00:00',
+                            'end' => '2023-05-01T16:00:00+00:00',
+                            'ysPhysicalActivityDuration' => 60,
+                        ],
+                        [
+                            'period' => $this->getIriFor('period1'),
+                            'start' => '2023-05-02T15:00:00+00:00',
+                            'end' => '2023-05-02T16:00:00+00:00',
+                        ],
+                    ],
+                ],
+                []
+            )]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $responseArray = $response->toArray();
+
+        $contentNodes = $responseArray['_embedded']['contentNodes'];
+        $physicalActivityDurationNodes = array_filter($contentNodes, fn ($cn) => 'YSPhysicalActivityDuration' == $cn['contentTypeName']);
+        $this->assertCount(1, $physicalActivityDurationNodes);
+        $this->assertNull(reset($physicalActivityDurationNodes)['data']);
+
+        $scheduleEntries = $responseArray['_embedded']['scheduleEntries'];
+        $this->assertSame([60, null], array_map(fn ($se) => $se['ysPhysicalActivityDuration'], $scheduleEntries));
+    }
+
     public function testCreateActivityFromCopySourceAcrossCamp() {
         $response = static::createClientWithCredentials()->request(
             'POST',

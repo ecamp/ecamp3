@@ -39,10 +39,13 @@
       },
       {
         "href": "/api/content_types/c9a61096ef01"
+      },
+      {
+        "href": "/api/content_types/e87751a6291b"
       }
     ]
   },
-  "totalItems": 12,
+  "totalItems": 13,
   "_embedded": {
     "items": [
       {
@@ -200,6 +203,19 @@
         "name": "YSActivityCharacteristics",
         "active": true,
         "id": "c9a61096ef01"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/e87751a6291b"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/no_datas?contentType=%2Fapi%2Fcontent_types%2Fe87751a6291b"
+          }
+        },
+        "name": "YSPhysicalActivityDuration",
+        "active": true,
+        "id": "e87751a6291b"
       }
     ]
   }

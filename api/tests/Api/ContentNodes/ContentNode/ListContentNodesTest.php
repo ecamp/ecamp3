@@ -29,7 +29,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 14,
+            'totalItems' => 15,
             '_links' => [
                 'items' => [],
             ],
@@ -40,6 +40,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('columnLayout1')],
             ['href' => $this->getIriFor('checklistNode1')],
+            ['href' => $this->getIriFor('noData1')],
             ['href' => $this->getIriFor('columnLayoutChild1')],
             ['href' => $this->getIriFor('columnLayout3')],
             ['href' => $this->getIriFor('checklistNode3')],
@@ -88,7 +89,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 8,
+            'totalItems' => 9,
             '_links' => [
                 'items' => [],
             ],
@@ -98,6 +99,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('checklistNodeCampPrototype')],
+            ['href' => $this->getIriFor('noDataCampPrototype')],
             ['href' => $this->getIriFor('columnLayout1campPrototype')],
             ['href' => $this->getIriFor('columnLayout3campPrototype')],
             ['href' => $this->getIriFor('materialNodeCampPrototype')],
@@ -113,7 +115,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 8,
+            'totalItems' => 9,
             '_links' => [
                 'items' => [],
             ],
@@ -123,6 +125,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('checklistNodeCampShared')],
+            ['href' => $this->getIriFor('noDataCampShared')],
             ['href' => $this->getIriFor('columnLayout1campShared')],
             ['href' => $this->getIriFor('columnLayout3campShared')],
             ['href' => $this->getIriFor('materialNodeCampShared')],
@@ -140,7 +143,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 8,
+            'totalItems' => 9,
             '_links' => [
                 'items' => [],
             ],
@@ -150,6 +153,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('checklistNodeCampShared')],
+            ['href' => $this->getIriFor('noDataCampShared')],
             ['href' => $this->getIriFor('columnLayout1campShared')],
             ['href' => $this->getIriFor('columnLayout3campShared')],
             ['href' => $this->getIriFor('materialNodeCampShared')],
@@ -167,7 +171,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 8,
+            'totalItems' => 9,
             '_links' => [
                 'items' => [],
             ],
@@ -177,6 +181,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('checklistNodeCampShared')],
+            ['href' => $this->getIriFor('noDataCampShared')],
             ['href' => $this->getIriFor('columnLayout1campShared')],
             ['href' => $this->getIriFor('columnLayout3campShared')],
             ['href' => $this->getIriFor('materialNodeCampShared')],
@@ -211,7 +216,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes?isRoot=false&period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 12,
+            'totalItems' => 13,
             '_links' => [
                 'items' => [],
             ],
@@ -221,6 +226,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('checklistNode1')],
+            ['href' => $this->getIriFor('noData1')],
             ['href' => $this->getIriFor('columnLayoutChild1')],
             ['href' => $this->getIriFor('checklistNode3')],
             ['href' => $this->getIriFor('singleText1')],
@@ -241,10 +247,11 @@ class ListContentNodesTest extends ECampApiTestCase {
             ->request('GET', '/content_nodes?root=%2Fcontent_nodes%2F'.$root->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains(['totalItems' => 12]);
+        $this->assertJsonContains(['totalItems' => 13]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('columnLayout1')],
             ['href' => $this->getIriFor('checklistNode1')],
+            ['href' => $this->getIriFor('noData1')],
             ['href' => $this->getIriFor('columnLayoutChild1')],
             ['href' => $this->getIriFor('responsiveLayout1')],
             ['href' => $this->getIriFor('storyboard1')],
@@ -274,7 +281,7 @@ class ListContentNodesTest extends ECampApiTestCase {
             ->request('GET', '/content_nodes?camp=%2Fcamps%2F'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains(['totalItems' => 14]);
+        $this->assertJsonContains(['totalItems' => 15]);
     }
 
     public function testListContentNodesFilteredByCampIsDeniedForUnrelatedUser() {
