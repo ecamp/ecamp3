@@ -257,6 +257,8 @@
   "global": {
     "datetime": {
       "dateLong": "dd L",
+      "dateRangeStart": "dd DD/MM",
+      "dateRangeEnd": "dd L",
       "dateShort": "dd D/M",
       "dateTimeLong": "dd L LT",
       "duration": {
