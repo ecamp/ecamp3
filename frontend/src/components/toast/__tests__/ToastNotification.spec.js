@@ -27,12 +27,16 @@ describe('ToastNotification', () => {
     })
 
     await vi.advanceTimersByTimeAsync(12000)
-    expect(wrapper.getComponent({ name: 'VProgressLinear' }).props('modelValue')).toBe(60)
+    expect(wrapper.getComponent({ name: 'VProgressCircular' }).props('modelValue')).toBe(
+      40
+    )
 
     await wrapper.trigger('mouseenter')
     await vi.advanceTimersByTimeAsync(10000)
     expect(wrapper.emitted('dismiss')).toBeUndefined()
-    expect(wrapper.getComponent({ name: 'VProgressLinear' }).props('modelValue')).toBe(60)
+    expect(wrapper.getComponent({ name: 'VProgressCircular' }).props('modelValue')).toBe(
+      40
+    )
 
     await wrapper.trigger('mouseleave')
     await vi.advanceTimersByTimeAsync(17999)
@@ -50,6 +54,28 @@ describe('ToastNotification', () => {
 
     wrapper.getComponent({ name: 'VAlert' }).vm.$emit('click:close')
 
+    expect(wrapper.emitted('dismiss')).toEqual([[1]])
+  })
+
+  it('cancels its timeout on click and stays open until explicitly closed', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(ToastNotification, {
+      props: { toast: createToast() },
+    })
+
+    await wrapper.get('.v-alert__content').trigger('click')
+    expect(wrapper.findComponent({ name: 'VProgressCircular' }).exists()).toBe(false)
+
+    await wrapper.trigger('mouseleave')
+    await vi.advanceTimersByTimeAsync(30000)
+    expect(wrapper.emitted('dismiss')).toBeUndefined()
+
+    await wrapper.trigger('mouseenter')
+    await wrapper.trigger('mouseleave')
+    await vi.advanceTimersByTimeAsync(30000)
+    expect(wrapper.emitted('dismiss')).toBeUndefined()
+
+    await wrapper.get('.v-alert__close button').trigger('click')
     expect(wrapper.emitted('dismiss')).toEqual([[1]])
   })
 
