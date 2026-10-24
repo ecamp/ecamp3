@@ -448,10 +448,12 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchYsPhysicalActivityDurationMinutesRejectsNonIntegerValues() {
+    #[TestWith(['60'])]
+    #[TestWith([60.5])]
+    public function testPatchYsPhysicalActivityDurationMinutesRejectsNonIntegerValues(float|string $minutes) {
         $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'ysPhysicalActivityDurationMinutes' => '60',
+            'ysPhysicalActivityDurationMinutes' => $minutes,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(400);
