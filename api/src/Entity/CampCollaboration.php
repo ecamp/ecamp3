@@ -16,6 +16,7 @@ use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use App\InputFilter;
 use App\Repository\CampCollaborationRepository;
 use App\State\CampCollaborationCreateProcessor;
+use App\State\CampCollaborationRemoveProcessor;
 use App\State\CampCollaborationResendInvitationProcessor;
 use App\State\CampCollaborationUpdateProcessor;
 use App\Validator\AllowTransition\AssertAllowTransitions;
@@ -47,7 +48,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['delete']],
-            validate: true
+            validate: true,
+            processor: CampCollaborationRemoveProcessor::class
         ),
         new Patch(
             uriTemplate: 'camp_collaborations/{id}/'.self::RESEND_INVITATION,

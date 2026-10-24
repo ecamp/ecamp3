@@ -3,6 +3,7 @@
 namespace App\Tests\Api\CampCollaborations;
 
 use App\Entity\CampCollaboration;
+use App\Entity\Comment;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -72,6 +73,20 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
         static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(CampCollaboration::class)->find($campCollaboration->getId()));
+    }
+
+    public function testDeleteCampCollaborationKeepsTheNameOnItsComments() {
+        $campCollaboration = static::getFixture('campCollaboration5inactive');
+        $displayName = static::getFixture('user5inactive')->getDisplayName();
+        $authored = static::getFixture('comment2');
+
+        static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
+        $this->assertResponseStatusCodeSame(204);
+
+        $this->getEntityManager()->clear();
+        $authored = $this->getEntityManager()->getRepository(Comment::class)->find($authored->getId());
+        $this->assertNull($authored->author);
+        $this->assertEquals($displayName, $authored->authorDisplayName);
     }
 
     public function testDeleteCampCollaborationIsDeniedIfStatusNotInactive() {
