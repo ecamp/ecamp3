@@ -55,8 +55,10 @@
         "
         class="e-subtitle e-subtitle--smaller mr-2"
       >
-        {{ progressLabel }}
-      </span>
+        <span v-if="ysPhysicalActivityDuration" class="mr-2" aria-hidden="true"
+          >&centerdot;</span
+        >{{ progressLabel }}</span
+      >
 
       <button
         v-if="$vuetify.display.mdAndUp && commentCount"
