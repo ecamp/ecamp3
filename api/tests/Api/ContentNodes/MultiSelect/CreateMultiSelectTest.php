@@ -64,7 +64,6 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
             foreach ($options as $key => &$option) {
                 $option['checked'] = in_array($key, $selected, true);
             }
-            unset($option);
             $client->request('PATCH', $iri, ['json' => ['data' => ['options' => $options]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
             $this->assertResponseStatusCodeSame(200);
             $reloaded = $client->request('GET', $iri);
