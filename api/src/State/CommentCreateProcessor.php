@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Repository\CampCollaborationRepository;
 use App\State\Util\AbstractPersistProcessor;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -13,7 +14,11 @@ use Symfony\Bundle\SecurityBundle\Security;
  * @template-extends AbstractPersistProcessor<Comment>
  */
 class CommentCreateProcessor extends AbstractPersistProcessor {
-    public function __construct(ProcessorInterface $decorated, private readonly Security $security) {
+    public function __construct(
+        ProcessorInterface $decorated,
+        private readonly Security $security,
+        private readonly CampCollaborationRepository $campCollaborationRepository,
+    ) {
         parent::__construct($decorated);
     }
 
@@ -25,8 +30,16 @@ class CommentCreateProcessor extends AbstractPersistProcessor {
         /** @var User $user */
         $user = $this->security->getUser();
 
-        // Set the user as the author of the comment
-        $data->author = $user;
+        // A reply is about whatever its thread is about
+        if (null !== $data->parent) {
+            $data->camp = $data->parent->camp;
+            foreach (Comment::ANCHOR_FIELDS as $field) {
+                $data->{$field} = $data->parent->{$field};
+            }
+            $data->orphanDescription = $data->parent->orphanDescription;
+        }
+
+        $data->author = $this->campCollaborationRepository->findByUserAndCamp($user, $data->camp);
 
         return $data;
     }

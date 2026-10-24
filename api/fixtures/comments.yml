@@ -3,29 +3,44 @@ App\Entity\Comment:
     camp: '@camp1'
     activity: '@activity1'
     textHtml: <sentence()>
-    author: '@user1manager'
+    author: '@campCollaboration1manager'
     orphanDescription: null
   comment2:
     camp: '@camp1'
     activity: '@activity1'
     textHtml: <sentence()>
-    author: '@user4unrelated'
+    author: '@campCollaboration5inactive'
     orphanDescription: null
   comment3:
     camp: '@camp1'
     activity: '@activity2'
     textHtml: <sentence()>
-    author: '@user1manager'
+    author: '@campCollaboration1manager'
     orphanDescription: null
+  comment3reply:
+    camp: '@camp1'
+    activity: '@activity2'
+    parent: '@comment3'
+    textHtml: <sentence()>
+    author: '@campCollaboration2member'
+    orphanDescription: null
+  comment4resolved:
+    camp: '@camp1'
+    activity: null
+    textHtml: <sentence()>
+    author: '@campCollaboration1manager'
+    orphanDescription: null
+    resolvedAt: '<(new DateTime("2023-05-01T12:00:00+00:00"))>'
+    resolvedBy: '@campCollaboration2member'
   comment1campPrototype:
     camp: '@campPrototype'
     activity: '@activity1campPrototype'
     textHtml: <sentence()>
-    author: '@user4unrelated'
+    author: '@campCollaboration1campPrototype'
     orphanDescription: null
   comment1campShared:
     camp: '@campShared'
     activity: '@activity1campShared'
     textHtml: <sentence()>
-    author: '@user4unrelated'
+    author: '@campCollaboration1campShared'
     orphanDescription: null

@@ -14,6 +14,7 @@ function addToast(type, content, options = {}) {
     type,
     content,
     timeout: options.timeout ?? DEFAULT_TIMEOUT,
+    ...(options.actions?.length ? { actions: options.actions } : {}),
   })
 
   return id

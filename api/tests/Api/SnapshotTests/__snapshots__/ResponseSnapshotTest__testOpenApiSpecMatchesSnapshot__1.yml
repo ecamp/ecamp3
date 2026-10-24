@@ -6550,6 +6550,62 @@ components:
         - role
         - status
       type: object
+    CampCollaboration-create_write.jsonMergePatch:
+      description: 'A user participating in some way in the planning or realization of a camp.'
+      properties:
+        abbreviation:
+          description: 'The abbreviation in the avatar.'
+          example: AB
+          maxLength: 2
+          type:
+            - 'null'
+            - string
+        camp:
+          $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
+          description: 'The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.'
+          example: /camps/1a2b3c4d
+        color:
+          description: 'The color of the avatar as a hex color string.'
+          example: '#4DBB52'
+          maxLength: 8
+          pattern: '^(#[0-9a-zA-Z]{6})$'
+          type:
+            - 'null'
+            - string
+        inviteEmail:
+          description: |-
+            The receiver email address of the invitation email, in case the collaboration does not yet have
+            a user account. Either this field or the user field should be null.
+          example: some-email@example.com
+          externalDocs:
+            url: 'https://schema.org/email'
+          format: email
+          maxLength: 128
+          minLength: 1
+          type:
+            - 'null'
+            - string
+        role:
+          description: |-
+            The role that this person has in the camp. Depending on the role, the collaborator might have
+            different access rights. There must always be at least one manager in a camp.
+          enum:
+            - guest
+            - manager
+            - member
+          example: member
+          maxLength: 16
+          type: string
+        user:
+          anyOf:
+            - $ref: '#/components/schemas/User-create_write.jsonMergePatch'
+            - type: 'null'
+          description: |-
+            The person that is collaborating in the camp. Cannot be changed once the
+            campCollaboration is established. Either this field or the inviteEmail field should
+            be null.
+          example: /users/1a2b3c4d
+      type: object
     CampCollaboration-read:
       description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
@@ -11156,7 +11212,9 @@ components:
         for notes which are only relevant during camp planning, or for other communication.
       properties:
         activity:
-          description: 'The activity this comment belongs to.'
+          description: |-
+            The activity this comment belongs to. If the comment is a reply, this is automatically
+            inherited from the replied comment.
           example: /activities/1a2b3c4d
           format: iri-reference
           readOnly: true
@@ -11164,17 +11222,43 @@ components:
             - 'null'
             - string
         author:
-          description: 'The author of the comment.'
-          example: /users/1a2b3c4d
+          description: |-
+            The camp collaboration of the person who wrote the comment. Null once that person is
+            removed completely from the camp.
+          example: /camp_collaborations/1a2b3c4d
           format: iri-reference
           readOnly: true
-          type: string
+          type:
+            - 'null'
+            - string
+        authorDisplayName:
+          description: |-
+            The display name of the author, saved when they were removed completely from the
+            camp. Null as long as the author is still part of the camp.
+          example: Bi-Pi
+          readOnly: true
+          type:
+            - 'null'
+            - string
         camp:
-          description: 'The camp this comment belongs to.'
+          description: |-
+            The camp this comment belongs to. Can be left out on a reply, which always belongs to
+            the camp of the comment it replies to.
           example: /camps/1a2b3c4d
           format: iri-reference
           readOnly: true
           type: string
+        children:
+          description: |-
+            The replies to this comment, oldest first. Always empty on a reply. Deleting a comment
+            also deletes its replies.
+          example: '["/comments/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
         createTime:
           format: date-time
           readOnly: true
@@ -11196,6 +11280,36 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          description: |-
+            The comment this one replies to, or null if it starts a thread. Threads are flat, so
+            a reply always points at the root comment of its thread.
+          example: /comments/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedAt:
+          description: |-
+            When the thread was resolved. Null if the comment is a reply or if the thread is
+            still open.
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          description: |-
+            The camp collaboration of the person who resolved the thread. Null if the comment is
+            a reply, if the thread is still open, or if that person was removed from the camp.
+          example: /camp_collaborations/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -11204,6 +11318,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-create_write:
@@ -11215,16 +11330,24 @@ components:
           anyOf:
             - $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
             - type: 'null'
-          description: 'The activity this comment belongs to.'
+          description: |-
+            The activity this comment belongs to. If the comment is a reply, this is automatically
+            inherited from the replied comment.
           example: /activities/1a2b3c4d
         author:
-          $ref: '#/components/schemas/User-create_write.jsonMergePatch'
-          description: 'The author of the comment.'
-          example: /users/1a2b3c4d
+          anyOf:
+            - $ref: '#/components/schemas/CampCollaboration-create_write.jsonMergePatch'
+            - type: 'null'
+          description: |-
+            The camp collaboration of the person who wrote the comment. Null once that person is
+            removed completely from the camp.
+          example: /camp_collaborations/1a2b3c4d
           readOnly: true
         camp:
           $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
-          description: 'The camp this comment belongs to.'
+          description: |-
+            The camp this comment belongs to. Can be left out on a reply, which always belongs to
+            the camp of the comment it replies to.
           example: /camps/1a2b3c4d
         orphanDescription:
           description: |-
@@ -11237,6 +11360,14 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            - $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
+            - type: 'null'
+          description: |-
+            The comment this one replies to, or null if it starts a thread. Threads are flat, so
+            a reply always points at the root comment of its thread.
+          example: /comments/1a2b3c4d
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -11245,6 +11376,59 @@ components:
       required:
         - camp
         - textHtml
+      type: object
+    Comment-create_write.jsonMergePatch:
+      description: |-
+        A Comment someone left on an activity, to give feedback on the planned programme,
+        for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        activity:
+          anyOf:
+            - $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
+            - type: 'null'
+          description: |-
+            The activity this comment belongs to. If the comment is a reply, this is automatically
+            inherited from the replied comment.
+          example: /activities/1a2b3c4d
+        author:
+          anyOf:
+            - $ref: '#/components/schemas/CampCollaboration-create_write.jsonMergePatch'
+            - type: 'null'
+          description: |-
+            The camp collaboration of the person who wrote the comment. Null once that person is
+            removed completely from the camp.
+          example: /camp_collaborations/1a2b3c4d
+          readOnly: true
+        camp:
+          $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
+          description: |-
+            The camp this comment belongs to. Can be left out on a reply, which always belongs to
+            the camp of the comment it replies to.
+          example: /camps/1a2b3c4d
+        orphanDescription:
+          description: |-
+            Persisted description of the context where the comment was originally written. Only
+            non-null when activity pointer is null, i.e. activity was deleted. Currently defined
+            as the category shortname plus title of the activity when it was deleted.
+          example: 'LS Sportolympiade'
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            - $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
+            - type: 'null'
+          description: |-
+            The comment this one replies to, or null if it starts a thread. Threads are flat, so
+            a reply always points at the root comment of its thread.
+          example: /comments/1a2b3c4d
+        textHtml:
+          description: 'The actual comment.'
+          example: 'This activity is great!'
+          maxLength: 1024
+          type: string
       type: object
     Comment-read:
       description: |-
@@ -11252,23 +11436,51 @@ components:
         for notes which are only relevant during camp planning, or for other communication.
       properties:
         activity:
-          description: 'The activity this comment belongs to.'
+          description: |-
+            The activity this comment belongs to. If the comment is a reply, this is automatically
+            inherited from the replied comment.
           example: /activities/1a2b3c4d
           format: iri-reference
           type:
             - 'null'
             - string
         author:
-          description: 'The author of the comment.'
-          example: /users/1a2b3c4d
+          description: |-
+            The camp collaboration of the person who wrote the comment. Null once that person is
+            removed completely from the camp.
+          example: /camp_collaborations/1a2b3c4d
           format: iri-reference
           readOnly: true
-          type: string
+          type:
+            - 'null'
+            - string
+        authorDisplayName:
+          description: |-
+            The display name of the author, saved when they were removed completely from the
+            camp. Null as long as the author is still part of the camp.
+          example: Bi-Pi
+          readOnly: true
+          type:
+            - 'null'
+            - string
         camp:
-          description: 'The camp this comment belongs to.'
+          description: |-
+            The camp this comment belongs to. Can be left out on a reply, which always belongs to
+            the camp of the comment it replies to.
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        children:
+          description: |-
+            The replies to this comment, oldest first. Always empty on a reply. Deleting a comment
+            also deletes its replies.
+          example: '["/comments/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
         createTime:
           format: date-time
           readOnly: true
@@ -11290,6 +11502,35 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          description: |-
+            The comment this one replies to, or null if it starts a thread. Threads are flat, so
+            a reply always points at the root comment of its thread.
+          example: /comments/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        resolvedAt:
+          description: |-
+            When the thread was resolved. Null if the comment is a reply or if the thread is
+            still open.
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          description: |-
+            The camp collaboration of the person who resolved the thread. Null if the comment is
+            a reply, if the thread is still open, or if that person was removed from the camp.
+          example: /camp_collaborations/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -11297,7 +11538,23 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
+      type: object
+    Comment-update.jsonMergePatch:
+      description: |-
+        A Comment someone left on an activity, to give feedback on the planned programme,
+        for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        resolved:
+          description: |-
+            Write-only flag for resolving (true) or reopening (false) a thread. Only the root
+            comment of a thread can be resolved, not an individual reply.
+          example: true
+          type:
+            - boolean
+            - 'null'
+          writeOnly: true
       type: object
     Comment.html-read:
       description: |-
@@ -11305,23 +11562,51 @@ components:
         for notes which are only relevant during camp planning, or for other communication.
       properties:
         activity:
-          description: 'The activity this comment belongs to.'
+          description: |-
+            The activity this comment belongs to. If the comment is a reply, this is automatically
+            inherited from the replied comment.
           example: /activities/1a2b3c4d
           format: iri-reference
           type:
             - 'null'
             - string
         author:
-          description: 'The author of the comment.'
-          example: /users/1a2b3c4d
+          description: |-
+            The camp collaboration of the person who wrote the comment. Null once that person is
+            removed completely from the camp.
+          example: /camp_collaborations/1a2b3c4d
           format: iri-reference
           readOnly: true
-          type: string
+          type:
+            - 'null'
+            - string
+        authorDisplayName:
+          description: |-
+            The display name of the author, saved when they were removed completely from the
+            camp. Null as long as the author is still part of the camp.
+          example: Bi-Pi
+          readOnly: true
+          type:
+            - 'null'
+            - string
         camp:
-          description: 'The camp this comment belongs to.'
+          description: |-
+            The camp this comment belongs to. Can be left out on a reply, which always belongs to
+            the camp of the comment it replies to.
           example: /camps/1a2b3c4d
           format: iri-reference
           type: string
+        children:
+          description: |-
+            The replies to this comment, oldest first. Always empty on a reply. Deleting a comment
+            also deletes its replies.
+          example: '["/comments/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
         createTime:
           format: date-time
           readOnly: true
@@ -11343,6 +11628,35 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          description: |-
+            The comment this one replies to, or null if it starts a thread. Threads are flat, so
+            a reply always points at the root comment of its thread.
+          example: /comments/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        resolvedAt:
+          description: |-
+            When the thread was resolved. Null if the comment is a reply or if the thread is
+            still open.
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          description: |-
+            The camp collaboration of the person who resolved the thread. Null if the comment is
+            a reply, if the thread is still open, or if that person was removed from the camp.
+          example: /camp_collaborations/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type:
+            - 'null'
+            - string
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -11350,6 +11664,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.jsonapi:
@@ -11364,6 +11679,13 @@ components:
                   maxLength: 16
                   readOnly: true
                   type: string
+                authorDisplayName:
+                  description: |-
+                    The display name of the author, saved when they were removed completely from the
+                    camp. Null as long as the author is still part of the camp.
+                  example: Bi-Pi
+                  readOnly: true
+                  type: ['null', string]
                 createTime:
                   format: date-time
                   readOnly: true
@@ -11375,6 +11697,14 @@ components:
                     as the category shortname plus title of the activity when it was deleted.
                   example: 'LS Sportolympiade'
                   maxLength: 32
+                  readOnly: true
+                  type: ['null', string]
+                resolvedAt:
+                  description: |-
+                    When the thread was resolved. Null if the comment is a reply or if the thread is
+                    still open.
+                  example: '2022-01-01T00:00:00+00:00'
+                  format: date-time
                   readOnly: true
                   type: ['null', string]
                 textHtml:
@@ -11394,6 +11724,12 @@ components:
                   properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
                 camp:
                   properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
+                children:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } }
+                parent:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
+                resolvedBy:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
               type: object
             type:
               type: string
@@ -11409,7 +11745,8 @@ components:
             anyOf:
               - $ref: '#/components/schemas/Activity.jsonapi'
               - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/User.jsonapi'
+              - $ref: '#/components/schemas/CampCollaboration.jsonapi'
+              - $ref: '#/components/schemas/Comment.jsonapi'
           readOnly: true
           type: array
     Comment.jsonhal-create_write:
@@ -11448,23 +11785,51 @@ components:
         -
           properties:
             activity:
-              description: 'The activity this comment belongs to.'
+              description: |-
+                The activity this comment belongs to. If the comment is a reply, this is automatically
+                inherited from the replied comment.
               example: /activities/1a2b3c4d
               format: iri-reference
               type:
                 - 'null'
                 - string
             author:
-              description: 'The author of the comment.'
-              example: /users/1a2b3c4d
+              description: |-
+                The camp collaboration of the person who wrote the comment. Null once that person is
+                removed completely from the camp.
+              example: /camp_collaborations/1a2b3c4d
               format: iri-reference
               readOnly: true
-              type: string
+              type:
+                - 'null'
+                - string
+            authorDisplayName:
+              description: |-
+                The display name of the author, saved when they were removed completely from the
+                camp. Null as long as the author is still part of the camp.
+              example: Bi-Pi
+              readOnly: true
+              type:
+                - 'null'
+                - string
             camp:
-              description: 'The camp this comment belongs to.'
+              description: |-
+                The camp this comment belongs to. Can be left out on a reply, which always belongs to
+                the camp of the comment it replies to.
               example: /camps/1a2b3c4d
               format: iri-reference
               type: string
+            children:
+              description: |-
+                The replies to this comment, oldest first. Always empty on a reply. Deleting a comment
+                also deletes its replies.
+              example: '["/comments/1a2b3c4d"]'
+              items:
+                example: 'https://example.com/'
+                format: iri-reference
+                type: string
+              readOnly: true
+              type: array
             createTime:
               format: date-time
               readOnly: true
@@ -11486,6 +11851,35 @@ components:
               type:
                 - 'null'
                 - string
+            parent:
+              description: |-
+                The comment this one replies to, or null if it starts a thread. Threads are flat, so
+                a reply always points at the root comment of its thread.
+              example: /comments/1a2b3c4d
+              format: iri-reference
+              type:
+                - 'null'
+                - string
+            resolvedAt:
+              description: |-
+                When the thread was resolved. Null if the comment is a reply or if the thread is
+                still open.
+              example: '2022-01-01T00:00:00+00:00'
+              format: date-time
+              readOnly: true
+              type:
+                - 'null'
+                - string
+            resolvedBy:
+              description: |-
+                The camp collaboration of the person who resolved the thread. Null if the comment is
+                a reply, if the thread is still open, or if that person was removed from the camp.
+              example: /camp_collaborations/1a2b3c4d
+              format: iri-reference
+              readOnly: true
+              type:
+                - 'null'
+                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -11493,6 +11887,7 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
@@ -24433,7 +24828,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/User.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, authorDisplayName: { description: "The display name of the author, saved when they were removed completely from the\ncamp. Null as long as the author is still part of the camp.", example: Bi-Pi, readOnly: true, type: ['null', string] }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, resolvedAt: { description: "When the thread was resolved. Null if the comment is a reply or if the thread is\nstill open.", example: '2022-01-01T00:00:00+00:00', format: date-time, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/CampCollaboration.jsonapi' }, { $ref: '#/components/schemas/Comment.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'Comment.jsonapi collection.'
             text/html:
               schema:
@@ -28277,7 +28672,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/User.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, authorDisplayName: { description: "The display name of the author, saved when they were removed completely from the\ncamp. Null as long as the author is still part of the camp.", example: Bi-Pi, readOnly: true, type: ['null', string] }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, resolvedAt: { description: "When the thread was resolved. Null if the comment is a reply or if the thread is\nstill open.", example: '2022-01-01T00:00:00+00:00', format: date-time, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/CampCollaboration.jsonapi' }, { $ref: '#/components/schemas/Comment.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'Comment.jsonapi collection.'
             text/html:
               schema:
@@ -28480,6 +28875,105 @@ paths:
           description: 'Not found'
           links: []
       summary: 'Retrieves a Comment resource.'
+      tags:
+        - Comment
+    patch:
+      description: 'Updates the Comment resource.'
+      operationId: api_comments_id_patch
+      parameters:
+        -
+          deprecated: false
+          description: 'Comment identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Comment-update.jsonMergePatch'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Comment-update.jsonMergePatch'
+        description: 'The updated Comment resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Comment.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Comment.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Comment.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Comment.html-read'
+          description: 'Comment resource updated'
+          links: []
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          description: 'An error occurred'
+          links: []
+      summary: 'Updates the Comment resource.'
       tags:
         - Comment
   /content_node/checklist_nodes:

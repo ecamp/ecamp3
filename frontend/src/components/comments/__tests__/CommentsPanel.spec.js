@@ -46,11 +46,30 @@ const otherActivity = {
   category: () => category('LA'),
 }
 
-function comment(id, { on = null, orphanDescription = null } = {}) {
+function user(self, displayName) {
+  return { _meta: { self }, displayName }
+}
+
+const me = user('/users/me', 'Me')
+const somebody = user('/users/somebody', 'Somebody')
+
+function comment(
+  id,
+  {
+    on = null,
+    orphanDescription = null,
+    author = me,
+    parent = null,
+    resolvedAt = null,
+  } = {}
+) {
   return {
     _meta: { self: `/comments/${id}` },
     orphanDescription,
+    resolvedAt,
+    author: () => author,
     ...(on ? { activity: () => on } : {}),
+    ...(parent ? { parent: () => parent } : {}),
   }
 }
 
@@ -97,7 +116,7 @@ function mountPanel({
         VDialog: { template: '<div class="dialog"><slot /></div>' },
         CommentsList: {
           name: 'CommentsList',
-          props: ['comments', 'loading', 'showContext'],
+          props: ['comments', 'loading', 'showContext', 'emptyText'],
           template: '<div class="list"><slot name="after" /></div>',
           methods: { scrollToBottom: () => scrollToBottom() },
         },
@@ -123,6 +142,7 @@ describe('CommentsPanel', () => {
   beforeEach(() => {
     commentsState.open = false
     commentsState.activityFilter = null
+    commentsState.showResolved = false
     resize(1280)
     campFromRoute.mockReturnValue(camp([collaboration('guest', '/users/me')]))
     activityFromRoute.mockReturnValue(activity)
@@ -378,5 +398,127 @@ describe('CommentsPanel', () => {
 
     commentsState.open = false
     await vi.waitFor(() => expect(commentsState.activityFilter).toBe(null))
+  })
+
+  describe('threads', () => {
+    const resolvedRoot = comment(5, {
+      on: activity,
+      resolvedAt: '2026-08-01T12:00:00+00:00',
+    })
+    const replyToResolved = comment(6, { on: activity, parent: resolvedRoot })
+    const openRoot = comment(7, { on: activity, author: somebody })
+    const replyToOpen = comment(8, { on: activity, parent: openRoot })
+    const thread = [resolvedRoot, replyToResolved, openRoot, replyToOpen]
+
+    it('leaves out resolved threads by default', async () => {
+      const wrapper = mountPanel({ items: thread })
+      commentsState.open = true
+      await nextTick()
+
+      expect(listedComments(wrapper)).toEqual(['/comments/7', '/comments/8'])
+    })
+
+    it('lists resolved threads in full under "All"', async () => {
+      const wrapper = mountPanel({ items: thread })
+      commentsState.showResolved = true
+      commentsState.open = true
+      await nextTick()
+
+      expect(listedComments(wrapper)).toEqual([
+        '/comments/5',
+        '/comments/6',
+        '/comments/7',
+        '/comments/8',
+      ])
+    })
+
+    it('switches to "All" through the toggle in its header', async () => {
+      const wrapper = mountPanel({ items: thread })
+      commentsState.open = true
+      await nextTick()
+
+      const chips = wrapper
+        .find('[data-testid="comments-resolved-toggle"]')
+        .findAll('.v-chip')
+      await chips[1].trigger('click')
+
+      expect(commentsState.showResolved).toBe(true)
+      expect(listedComments(wrapper)).toContain('/comments/5')
+    })
+
+    it('says that only resolved comments exist when none are open', async () => {
+      const wrapper = mountPanel({ items: [resolvedRoot, replyToResolved] })
+      commentsState.open = true
+      await nextTick()
+
+      expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
+        'components.comments.commentsList.noOpenComments'
+      )
+    })
+
+    it('uses the default empty state when there are no comments at all', async () => {
+      const wrapper = mountPanel({ items: [] })
+      commentsState.open = true
+      await nextTick()
+
+      expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
+        'components.comments.commentsList.empty'
+      )
+    })
+
+    it('counts open comments on activities with their replies, but not resolved ones', async () => {
+      activityFromRoute.mockReturnValue(undefined)
+      const wrapper = mountPanel({ items: [campLevel, ...thread] })
+      commentsState.open = true
+      await nextTick()
+
+      expect(wrapper.find('[data-testid="comments-elsewhere-notice"]').text()).toBe(
+        'components.comments.commentsPanel.activityCommentsElsewhere 2'
+      )
+    })
+
+    it('counts the same comments elsewhere under "All"', async () => {
+      activityFromRoute.mockReturnValue(undefined)
+      const wrapper = mountPanel({ items: [campLevel, ...thread] })
+      commentsState.showResolved = true
+      commentsState.open = true
+      await nextTick()
+
+      expect(wrapper.find('[data-testid="comments-elsewhere-notice"]').text()).toBe(
+        'components.comments.commentsPanel.activityCommentsElsewhere 2'
+      )
+    })
+
+    it('reloads the comments after a reply', async () => {
+      const wrapper = mountPanel({ items: thread })
+      commentsState.open = true
+      await nextTick()
+
+      wrapper.findComponent({ name: 'CommentsList' }).vm.$emit('replied')
+
+      expect(reload).toHaveBeenCalled()
+      expect(scrollToBottom).not.toHaveBeenCalled()
+    })
+
+    it('keeps showing resolved threads after it was closed', async () => {
+      mountPanel({ items: thread })
+      commentsState.open = true
+      commentsState.showResolved = true
+      await nextTick()
+
+      commentsState.open = false
+      await nextTick()
+      expect(commentsState.showResolved).toBe(true)
+    })
+
+    it('goes back to "Open" on camp change', async () => {
+      const route = reactive({ path: '/camps/1/dashboard', params: { campId: '1' } })
+      mountPanel({ route })
+      commentsState.open = true
+      commentsState.showResolved = true
+
+      route.params.campId = '2'
+      await vi.waitFor(() => expect(commentsState.showResolved).toBe(false))
+    })
   })
 })

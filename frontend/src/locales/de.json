@@ -356,18 +356,38 @@
     "comments": {
       "commentCard": {
         "campComment": "Ganzes Lager",
+        "deleteDisabledReplies": "Kommentare mit Antworten von anderen Personen können nicht gelöscht werden.",
         "deleteWarning": "Möchtest du deinen Kommentar wirklich löschen?",
-        "deleted": "(gelöscht)"
+        "deleteWithRepliesWarning": "Möchtest du deinen Kommentar zusammen mit deinen Antworten darauf wirklich löschen?",
+        "deleted": "(gelöscht)",
+        "deletedAuthor": "Gelöschte Person"
       },
       "commentComposer": {
-        "placeholder": "Kommentar schreiben"
+        "placeholder": "Kommentar schreiben",
+        "replyPlaceholder": "Antwort schreiben"
+      },
+      "commentThread": {
+        "reopen": "Wieder öffnen",
+        "reply": "Antworten",
+        "resolve": "Erledigt",
+        "resolved": "Erledigt",
+        "resolvedBy": "Erledigt von {user}",
+        "resolvedToast": "Kommentar erledigt. Erledigte Kommentare werden nur unter \"Alle\" angezeigt.",
+        "showAll": "Alle anzeigen"
+      },
+      "commentTime": {
+        "today": "Heute, {time}",
+        "yesterday": "Gestern, {time}"
       },
       "commentsList": {
-        "empty": "Noch keine Kommentare."
+        "empty": "Noch keine Kommentare.",
+        "noOpenComments": "Keine offenen Kommentare. Wechsle zu \"Alle\", um die erledigten zu sehen."
       },
       "commentsPanel": {
-        "activityCommentsElsewhere": "Ein weiterer Kommentar befindet sich bei einer einzelnen Aktivität. | {count} weitere Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "activityCommentsElsewhere": "Ein weiterer offener Kommentar befindet sich bei einer Aktivität. | {count} weitere offene Kommentare befinden sich bei einzelnen Aktivitäten.",
+        "all": "Alle",
         "commentsOnThisActivity": "Kommentare zu dieser Aktivität",
+        "open": "Offen",
         "title": "Kommentare"
       },
       "commentsToggleButton": {
@@ -700,6 +720,7 @@
       "showPassword": "Passwort anzeigen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "undo": "Rückgängig",
       "unlock": "Entsperren",
       "update": "Aktualisieren"
     },

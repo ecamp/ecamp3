@@ -20,7 +20,7 @@
 <script>
 import CommentCountIcon from '@/components/comments/CommentCountIcon.vue'
 import { commentsState } from '@/components/comments/commentsState.js'
-import { scopedComments } from '@/components/comments/scopedComments.js'
+import { scopedComments } from '@/components/comments/commentHelpers.js'
 import { getEnv } from '@/environment.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { activityFromRoute, campFromRoute } from '@/router.js'

@@ -3,22 +3,27 @@
         "items": [
             {
                 "_links": {
-                    "activity": {
-                        "href": "escaped_value"
-                    },
+                    "activity": "escaped_value",
                     "author": {
                         "href": "escaped_value"
                     },
                     "camp": {
                         "href": "escaped_value"
                     },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "resolvedBy": {
+                        "href": "escaped_value"
+                    },
                     "self": {
                         "href": "escaped_value"
                     }
                 },
+                "authorDisplayName": "escaped_value",
                 "createTime": "escaped_value",
                 "id": "escaped_value",
                 "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
                 "textHtml": "escaped_value"
             },
             {
@@ -32,13 +37,18 @@
                     "camp": {
                         "href": "escaped_value"
                     },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "resolvedBy": "escaped_value",
                     "self": {
                         "href": "escaped_value"
                     }
                 },
+                "authorDisplayName": "escaped_value",
                 "createTime": "escaped_value",
                 "id": "escaped_value",
                 "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
                 "textHtml": "escaped_value"
             },
             {
@@ -52,19 +62,86 @@
                     "camp": {
                         "href": "escaped_value"
                     },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "resolvedBy": "escaped_value",
                     "self": {
                         "href": "escaped_value"
                     }
                 },
+                "authorDisplayName": "escaped_value",
                 "createTime": "escaped_value",
                 "id": "escaped_value",
                 "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
+                "textHtml": "escaped_value"
+            },
+            {
+                "_links": {
+                    "activity": {
+                        "href": "escaped_value"
+                    },
+                    "author": {
+                        "href": "escaped_value"
+                    },
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "children": [],
+                    "parent": {
+                        "href": "escaped_value"
+                    },
+                    "resolvedBy": "escaped_value",
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "authorDisplayName": "escaped_value",
+                "createTime": "escaped_value",
+                "id": "escaped_value",
+                "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
+                "textHtml": "escaped_value"
+            },
+            {
+                "_links": {
+                    "activity": {
+                        "href": "escaped_value"
+                    },
+                    "author": {
+                        "href": "escaped_value"
+                    },
+                    "camp": {
+                        "href": "escaped_value"
+                    },
+                    "children": [
+                        {
+                            "href": "escaped_value"
+                        }
+                    ],
+                    "parent": "escaped_value",
+                    "resolvedBy": "escaped_value",
+                    "self": {
+                        "href": "escaped_value"
+                    }
+                },
+                "authorDisplayName": "escaped_value",
+                "createTime": "escaped_value",
+                "id": "escaped_value",
+                "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
                 "textHtml": "escaped_value"
             }
         ]
     },
     "_links": {
         "items": [
+            {
+                "href": "escaped_value"
+            },
+            {
+                "href": "escaped_value"
+            },
             {
                 "href": "escaped_value"
             },

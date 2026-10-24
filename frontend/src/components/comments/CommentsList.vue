@@ -4,32 +4,75 @@
       <v-skeleton-loader type="list-item-two-line" />
       <v-skeleton-loader type="list-item-two-line" />
     </template>
-    <p v-else-if="!comments.length" class="text-body-2 text-medium-emphasis mb-0">
-      {{ $t('components.comments.commentsList.empty') }}
+    <p
+      v-else-if="!comments.length && emptyText"
+      class="text-body-2 text-medium-emphasis mb-0"
+    >
+      {{ emptyText }}
     </p>
-    <CommentCard
-      v-for="comment in comments"
-      v-else
-      :key="comment._meta.self"
-      :comment="comment"
-      :show-context="showContext"
-    />
+    <TransitionGroup v-else name="ec-thread">
+      <div v-for="root in roots" :key="root._meta.self" class="ec-comments-list__item">
+        <CommentThread
+          :root="root"
+          :camp="camp"
+          :enable-all-comments-tab-hint="enableAllCommentsTabHint"
+          :replies="repliesTo(root)"
+          :show-context="showContext"
+          @replied="$emit('replied')"
+        />
+      </div>
+    </TransitionGroup>
     <slot name="after" />
   </div>
 </template>
 
 <script>
-import CommentCard from '@/components/comments/CommentCard.vue'
+import CommentThread from '@/components/comments/CommentThread.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CommentsList',
-  components: { CommentCard },
+  components: { CommentThread },
   props: {
     comments: { type: Array, required: true },
+    camp: { type: Object, default: null },
+    allComments: { type: Array, default: () => [] },
     loading: { type: Boolean, default: false },
     showContext: { type: Boolean, default: false },
+    emptyText: { type: String, default: null },
+  },
+  emits: ['replied'],
+  computed: {
+    roots() {
+      return this.comments.filter((comment) => typeof comment.parent !== 'function')
+    },
+    ...mapGetters({ authUser: 'getLoggedInUser' }),
+    enableAllCommentsTabHint() {
+      const hasResolvedCommentByMe = this.allComments.some((comment) => {
+        if (
+          typeof comment.parent === 'function' ||
+          !comment.resolvedAt ||
+          typeof comment.resolvedBy !== 'function'
+        ) {
+          return false
+        }
+        const resolver = comment.resolvedBy()
+        return (
+          typeof resolver?.user === 'function' &&
+          resolver.user()._meta.self === this.authUser?._meta.self
+        )
+      })
+      return !hasResolvedCommentByMe
+    },
   },
   methods: {
+    repliesTo(root) {
+      return this.comments.filter(
+        (comment) =>
+          typeof comment.parent === 'function' &&
+          comment.parent()._meta.self === root._meta.self
+      )
+    },
     scrollToBottom() {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       this.$el.scrollTo({
@@ -55,5 +98,41 @@ export default {
     #000 calc(100% - var(--fade)),
     transparent 100%
   );
+}
+
+.ec-comments-list__item {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.ec-comments-list__item > * {
+  min-height: 0;
+}
+
+.ec-thread-enter-active,
+.ec-thread-leave-active {
+  transition:
+    grid-template-rows 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s;
+}
+
+.ec-thread-enter-active > *,
+.ec-thread-leave-active > * {
+  overflow: hidden;
+}
+
+.ec-thread-enter-from,
+.ec-thread-leave-to {
+  grid-template-rows: 0fr;
+  margin-bottom: -16px;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ec-thread-enter-active,
+  .ec-thread-leave-active {
+    transition: none;
+  }
 }
 </style>
