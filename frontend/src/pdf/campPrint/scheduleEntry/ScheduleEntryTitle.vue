@@ -8,6 +8,7 @@
       <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
         <CategoryLabel
           :category="activity.category()"
+          :size="18"
           class="schedule-entry-category-label"
         />
         <Text :id="id" :bookmark="bookmarkTitle" class="schedule-entry-number-and-title">
@@ -24,9 +25,7 @@
     <View v-if="showHeaderData" class="schedule-entry-header">
       <View class="schedule-entry-header-metadata">
         <View class="schedule-entry-header-metadata-entry"
-          ><Text
-            v-if="!compact || activity.location"
-            class="schedule-entry-header-metadata-label"
+          ><Text class="schedule-entry-header-metadata-label"
             >{{ $tc('entity.activity.fields.location') }}:</Text
           ><Text>{{ activity.location }}</Text></View
         >
@@ -85,12 +84,7 @@ export default {
       return `${dateShort(end, this.$tc)} ${hourShort(end, this.$tc)}`
     },
     showHeaderData() {
-      if (!this.showHeader) return false
-      if (!this.compact) return true
-      return (
-        this.activity.location.length > 0 ||
-        this.activity.activityResponsibles().items.length > 0
-      )
+      return this.showHeader
     },
   },
 }
@@ -109,17 +103,15 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
+  gap: 4pt;
+  padding: 4pt 0;
   font-size: 18pt;
   font-weight: 600;
 }
 .schedule-entry-category-label {
-  margin: 7pt 0 4pt;
-  font-size: 14pt;
   flex-shrink: 0;
-  align-self: flex-start;
 }
 .schedule-entry-number-and-title {
-  margin: 4pt 4pt;
   flex-shrink: 1;
 }
 .schedule-entry-date {

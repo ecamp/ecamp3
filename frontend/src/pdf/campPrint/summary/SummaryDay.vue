@@ -6,11 +6,8 @@
   <template v-for="{ scheduleEntry, contentNodes } in entriesWithContentNodes">
     <template v-for="chapter in contentNodes">
       <View class="summary-chapter-title" :min-presence-ahead="30">
-        <CategoryLabel
-          :category="scheduleEntry.activity().category()"
-          class="summary-chapter-category"
-        />
-        <Text :id="`${id}-${period.id}-${scheduleEntry.id}`" style="margin: 0 3pt">
+        <CategoryLabel :category="scheduleEntry.activity().category()" :size="11" />
+        <Text :id="`${id}-${period.id}-${scheduleEntry.id}`">
           <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
           {{ chapter.title }}
         </Text>
@@ -104,7 +101,8 @@ export default {
 .summary-chapter-title {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
+  gap: 4pt;
   font-size: 11pt;
   font-weight: 600;
   margin: 10pt 0 4.5pt;
@@ -112,9 +110,5 @@ export default {
 .summary-chapter-text {
   font-size: 10pt;
   line-height: 1.5;
-}
-.summary-chapter-category {
-  font-size: 9pt;
-  margin-bottom: -0.5pt;
 }
 </style>

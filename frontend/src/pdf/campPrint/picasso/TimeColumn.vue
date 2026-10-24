@@ -16,7 +16,7 @@
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import longestTime from './longestTime.js'
+import { timeColumnWidth } from './longestTime.js'
 
 export default {
   name: 'TimeColumn',
@@ -27,8 +27,7 @@ export default {
   },
   computed: {
     width() {
-      // we could do better than this heuristic...
-      return Math.ceil(5.3 * longestTime(this.times, this.$date).length) + 4
+      return timeColumnWidth(this.times, this.$date)
     },
     displayedTimes() {
       return this.times.map(([time, weight], index) => {
