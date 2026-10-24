@@ -30,7 +30,7 @@ import vuetifyIt from 'vuetify/lib/locale/it'
 
 const fallbackLocales = {
   rm: ['de'],
-  default: 'en',
+  default: ['en', 'de'],
 }
 
 const i18n = createI18n({
