@@ -78,7 +78,7 @@
 import CommentCard from '@/components/comments/CommentCard.vue'
 import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentTime from '@/components/comments/CommentTime.vue'
-import userDisplayName from '@/common/helpers/userDisplayName.js'
+import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import { useToast } from '@/components/toast/useToast.js'
 import { commentsState } from '@/components/comments/commentsState.js'
@@ -115,7 +115,7 @@ export default {
     },
     resolverName() {
       return typeof this.root.resolvedBy === 'function'
-        ? userDisplayName(this.root.resolvedBy())
+        ? campCollaborationDisplayName(this.root.resolvedBy(), this.$t.bind(this))
         : null
     },
     resolveLabel() {

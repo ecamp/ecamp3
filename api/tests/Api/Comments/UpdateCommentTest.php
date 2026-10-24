@@ -64,7 +64,7 @@ class UpdateCommentTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
-                'resolvedBy' => ['href' => $this->getIriFor('user3guest')],
+                'resolvedBy' => ['href' => $this->getIriFor('campCollaboration3guest')],
             ],
         ]);
     }
@@ -80,7 +80,7 @@ class UpdateCommentTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
-                'resolvedBy' => ['href' => $this->getIriFor('user2member')],
+                'resolvedBy' => ['href' => $this->getIriFor('campCollaboration2member')],
             ],
         ]);
         $this->assertNotNull($response->toArray()['resolvedAt']);
@@ -96,7 +96,7 @@ class UpdateCommentTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
-                'resolvedBy' => ['href' => $this->getIriFor('user1manager')],
+                'resolvedBy' => ['href' => $this->getIriFor('campCollaboration1manager')],
             ],
         ]);
         $this->assertNotNull($response->toArray()['resolvedAt']);
@@ -111,7 +111,7 @@ class UpdateCommentTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
-                'resolvedBy' => ['href' => $this->getIriFor('user2member')],
+                'resolvedBy' => ['href' => $this->getIriFor('campCollaboration2member')],
             ],
         ]);
         $this->assertEquals(

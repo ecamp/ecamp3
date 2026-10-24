@@ -187,15 +187,15 @@ class Comment extends BaseEntity implements BelongsToCampInterface {
     public ?\DateTimeInterface $resolvedAt = null;
 
     /**
-     * The user who resolved the thread. Null if the comment is a reply or if the thread is
-     * still open.
+     * The camp collaboration of the person who resolved the thread. Null if the comment is
+     * a reply, if the thread is still open, or if that person was removed from the camp.
      */
     #[Assert\DisableAutoMapping]
-    #[ApiProperty(writable: false, example: '/users/1a2b3c4d')]
+    #[ApiProperty(writable: false, example: '/camp_collaborations/1a2b3c4d')]
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: CampCollaboration::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'set null')]
-    public ?User $resolvedBy = null;
+    public ?CampCollaboration $resolvedBy = null;
 
     /**
      * Write-only flag for resolving (true) or reopening (false) a thread. Only the root

@@ -11302,9 +11302,9 @@ components:
             - string
         resolvedBy:
           description: |-
-            The user who resolved the thread. Null if the comment is a reply or if the thread is
-            still open.
-          example: /users/1a2b3c4d
+            The camp collaboration of the person who resolved the thread. Null if the comment is
+            a reply, if the thread is still open, or if that person was removed from the camp.
+          example: /camp_collaborations/1a2b3c4d
           format: iri-reference
           readOnly: true
           type:
@@ -11523,9 +11523,9 @@ components:
             - string
         resolvedBy:
           description: |-
-            The user who resolved the thread. Null if the comment is a reply or if the thread is
-            still open.
-          example: /users/1a2b3c4d
+            The camp collaboration of the person who resolved the thread. Null if the comment is
+            a reply, if the thread is still open, or if that person was removed from the camp.
+          example: /camp_collaborations/1a2b3c4d
           format: iri-reference
           readOnly: true
           type:
@@ -11649,9 +11649,9 @@ components:
             - string
         resolvedBy:
           description: |-
-            The user who resolved the thread. Null if the comment is a reply or if the thread is
-            still open.
-          example: /users/1a2b3c4d
+            The camp collaboration of the person who resolved the thread. Null if the comment is
+            a reply, if the thread is still open, or if that person was removed from the camp.
+          example: /camp_collaborations/1a2b3c4d
           format: iri-reference
           readOnly: true
           type:
@@ -11747,7 +11747,6 @@ components:
               - $ref: '#/components/schemas/Camp.jsonapi'
               - $ref: '#/components/schemas/CampCollaboration.jsonapi'
               - $ref: '#/components/schemas/Comment.jsonapi'
-              - $ref: '#/components/schemas/User.jsonapi'
           readOnly: true
           type: array
     Comment.jsonhal-create_write:
@@ -11873,9 +11872,9 @@ components:
                 - string
             resolvedBy:
               description: |-
-                The user who resolved the thread. Null if the comment is a reply or if the thread is
-                still open.
-              example: /users/1a2b3c4d
+                The camp collaboration of the person who resolved the thread. Null if the comment is
+                a reply, if the thread is still open, or if that person was removed from the camp.
+              example: /camp_collaborations/1a2b3c4d
               format: iri-reference
               readOnly: true
               type:
@@ -24829,7 +24828,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, authorDisplayName: { description: "The display name of the author, saved when they were removed completely from the\ncamp. Null as long as the author is still part of the camp.", example: Bi-Pi, readOnly: true, type: ['null', string] }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, resolvedAt: { description: "When the thread was resolved. Null if the comment is a reply or if the thread is\nstill open.", example: '2022-01-01T00:00:00+00:00', format: date-time, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/CampCollaboration.jsonapi' }, { $ref: '#/components/schemas/Comment.jsonapi' }, { $ref: '#/components/schemas/User.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, authorDisplayName: { description: "The display name of the author, saved when they were removed completely from the\ncamp. Null as long as the author is still part of the camp.", example: Bi-Pi, readOnly: true, type: ['null', string] }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, resolvedAt: { description: "When the thread was resolved. Null if the comment is a reply or if the thread is\nstill open.", example: '2022-01-01T00:00:00+00:00', format: date-time, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/CampCollaboration.jsonapi' }, { $ref: '#/components/schemas/Comment.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'Comment.jsonapi collection.'
             text/html:
               schema:
@@ -28673,7 +28672,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, authorDisplayName: { description: "The display name of the author, saved when they were removed completely from the\ncamp. Null as long as the author is still part of the camp.", example: Bi-Pi, readOnly: true, type: ['null', string] }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, resolvedAt: { description: "When the thread was resolved. Null if the comment is a reply or if the thread is\nstill open.", example: '2022-01-01T00:00:00+00:00', format: date-time, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/CampCollaboration.jsonapi' }, { $ref: '#/components/schemas/Comment.jsonapi' }, { $ref: '#/components/schemas/User.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, authorDisplayName: { description: "The display name of the author, saved when they were removed completely from the\ncamp. Null as long as the author is still part of the camp.", example: Bi-Pi, readOnly: true, type: ['null', string] }, createTime: { format: date-time, readOnly: true, type: string }, orphanDescription: { description: "Persisted description of the context where the comment was originally written. Only\nnon-null when activity pointer is null, i.e. activity was deleted. Currently defined\nas the category shortname plus title of the activity when it was deleted.", example: 'LS Sportolympiade', maxLength: 32, readOnly: true, type: ['null', string] }, resolvedAt: { description: "When the thread was resolved. Null if the comment is a reply or if the thread is\nstill open.", example: '2022-01-01T00:00:00+00:00', format: date-time, readOnly: true, type: ['null', string] }, textHtml: { description: 'The actual comment.', example: 'This activity is great!', maxLength: 1024, readOnly: true, type: string } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Camp.jsonapi' }, { $ref: '#/components/schemas/CampCollaboration.jsonapi' }, { $ref: '#/components/schemas/Comment.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'Comment.jsonapi collection.'
             text/html:
               schema:

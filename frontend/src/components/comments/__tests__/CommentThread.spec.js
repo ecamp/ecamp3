@@ -236,7 +236,7 @@ describe('CommentThread', () => {
     const wrapper = mountThread({
       root: comment(1, {
         resolvedAt: '2026-08-02T12:00:00+00:00',
-        resolvedBy: { _meta: { self: '/users/coach' }, displayName: 'Coach' },
+        resolvedBy: collaboration('/users/coach', 'Coach'),
       }),
     })
 
@@ -245,6 +245,19 @@ describe('CommentThread', () => {
     )
     expect(wrapper.findAllComponents({ name: 'CommentTime' }).at(-1).props().value).toBe(
       '2026-08-02T12:00:00+00:00'
+    )
+  })
+
+  it('marks a resolver who is inactive in the camp', () => {
+    const wrapper = mountThread({
+      root: comment(1, {
+        resolvedAt: '2026-08-02T12:00:00+00:00',
+        resolvedBy: { ...collaboration('/users/coach', 'Coach'), status: 'inactive' },
+      }),
+    })
+
+    expect(button(wrapper, 'comment-thread-resolved').text()).toContain(
+      'components.comments.commentThread.resolvedBy Coach (entity.campCollaboration.status.inactive) ·'
     )
   })
 

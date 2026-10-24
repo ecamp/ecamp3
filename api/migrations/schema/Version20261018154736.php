@@ -32,7 +32,7 @@ final class Version20261018154736 extends AbstractMigration {
             SQL);
 
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C10EE4CEE FOREIGN KEY (parentId) REFERENCES comment (id) NOT DEFERRABLE');
-        $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C31AD1E75 FOREIGN KEY (resolvedById) REFERENCES "user" (id) ON DELETE SET NULL NOT DEFERRABLE');
+        $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C31AD1E75 FOREIGN KEY (resolvedById) REFERENCES camp_collaboration (id) ON DELETE SET NULL NOT DEFERRABLE');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CA196F9FD FOREIGN KEY (authorId) REFERENCES camp_collaboration (id) ON DELETE SET NULL NOT DEFERRABLE');
         $this->addSql('CREATE INDEX IDX_9474526C10EE4CEE ON comment (parentId)');
         $this->addSql('CREATE INDEX IDX_9474526C31AD1E75 ON comment (resolvedById)');
