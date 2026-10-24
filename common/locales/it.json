@@ -87,22 +87,22 @@
       "entity": {
         "option": {
           "community": {
-            "name": "Rafforzare la comunità con benevolenza"
+            "name": "Rafforzare la coesione del gruppo con sollecitudine"
           },
           "gamesAndSports": {
-            "name": "Contribuire creativamente a giochi e attività sportive variate"
+            "name": "Partecipare con creatività all’ideazione di giochi e di attività sportive variate"
           },
           "gettingInvolved": {
-            "name": "Esprimere consapevolmente i propri bisogni e le proprie idee"
+            "name": "Prendere coscienza dei propri bisogni e delle proprie idee e farle valere consapevolmente"
           },
           "natureAndEnvironment": {
-            "name": "Trattare la natura e l’ambiente con rispetto"
+            "name": "Interagire in maniera rispettosa con l’ambiente"
           },
           "outdoorTechnique": {
-            "name": "Applicare efficacemente le tecniche di vita all’aperto e di costruzione del campo"
+            "name": "Utilizzare efficacemente le tecniche outdoor e di costruzioni da campo"
           },
           "travellingSafety": {
-            "name": "Spostarsi in sicurezza e con lungimiranza"
+            "name": "Praticare escursionismo in modo sicuro e previdente"
           }
         }
       },

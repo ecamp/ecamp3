@@ -96,28 +96,6 @@
       "name": "Story"
     },
     "ysActivityCharacteristics": {
-      "entity": {
-        "option": {
-          "community": {
-            "name": "Strengthen the community with goodwill"
-          },
-          "gamesAndSports": {
-            "name": "Help creatively shape varied games and sports activities"
-          },
-          "gettingInvolved": {
-            "name": "Consciously contribute your own needs and ideas"
-          },
-          "natureAndEnvironment": {
-            "name": "Treat nature and the environment with respect"
-          },
-          "outdoorTechnique": {
-            "name": "Apply outdoor and camp construction techniques effectively"
-          },
-          "travellingSafety": {
-            "name": "Travel safely and with foresight"
-          }
-        }
-      },
       "info": "Select the activity characteristics covered in this activity.",
       "name": "Y+S activity characteristics"
     }
