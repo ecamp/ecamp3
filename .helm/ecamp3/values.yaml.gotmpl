@@ -169,6 +169,24 @@ mail:
       cpu: 10m
       memory: 10Mi
 
+mercure:
+  enabled: true
+  subpath: "/.well-known/mercure"
+  # Must match the iss claim configured in api/config/packages/mercure.yaml
+  trustedIssuer: "ecamp3-api"
+  image:
+    repository: "docker.io/dunglas/mercure"
+    pullPolicy: IfNotPresent
+    # renovate: datasource=docker depName=docker.io/dunglas/mercure
+    tag: "v1.1.4"
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests:
+      cpu: {{ .Environment.Values | getOrNil "MERCURE_CPU" | default "10m" | quote }}
+      memory: {{ .Environment.Values | getOrNil "MERCURE_MEMORY" | default "50Mi" | quote }}
+
 postgresql:
   url: "{{ .Environment.Values | getOrNil "POSTGRES_URL" | required "POSTGRES_URL is required" }}/ecamp3{{ $dbNameSuffix }}?sslmode=require"
   dropDBOnUninstall: {{ .Environment.Values | getOrNil "DROP_DB_ON_UNINSTALL" | default false }}

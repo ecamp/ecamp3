@@ -25,6 +25,10 @@ data:
   SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
+  {{- if .Values.mercure.enabled }}
+  MERCURE_URL: {{ printf "http://%s:%d%s" (include "mercure.name" .) (.Values.mercure.service.port | int) .Values.mercure.subpath | quote }}
+  MERCURE_PUBLIC_URL: {{ include "mercure.url" . | quote }}
+  {{- end }}
   HITOBITO_PBSMIDATA_API_BASE_URL: {{ .Values.api.hitobito.pbsmidataApiBaseUrl | quote }}
   HITOBITO_API_OAUTH_SCOPES: {{ .Values.api.hitobito.oauthScopes | quote }}
   CADDY_GLOBAL_OPTIONS: {{ .Values.api.caddyGlobalOptions | quote }}

@@ -1,0 +1,90 @@
+{{- if .Values.mercure.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mercure.name" . }}
+  labels:
+    {{- include "mercure.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  # The hub uses a local Bolt transport, so it cannot be scaled horizontally
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "mercure.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secrets: {{ include (print $.Template.BasePath "/mercure_secrets.yaml") . | sha256sum }}
+      labels:
+        {{- include "mercure.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
+      containers:
+        - name: {{ .Chart.Name }}-mercure
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.mercure.image.repository }}:{{ .Values.mercure.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.mercure.image.pullPolicy }}
+          ports:
+            - name: mercure-http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: SERVER_NAME
+              value: ":80"
+            # Tokens are signed by the API with its RSA key pair, the hub only needs the public key
+            - name: MERCURE_PUBLISHER_JWT_ALG
+              value: RS256
+            - name: MERCURE_SUBSCRIBER_JWT_ALG
+              value: RS256
+            - name: MERCURE_PUBLISHER_JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mercure.name" . }}
+                  key: jwt-public-key
+            - name: MERCURE_SUBSCRIBER_JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mercure.name" . }}
+                  key: jwt-public-key
+            - name: MERCURE_TRUSTED_ISSUERS
+              value: {{ .Values.mercure.trustedIssuer | quote }}
+            - name: MERCURE_EXTRA_DIRECTIVES
+              value: {{ printf "cors_origins %s" (include "frontend.url" .) | quote }}
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: mercure-http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: mercure-http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.mercure.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          emptyDir: {}
+{{- end }}
