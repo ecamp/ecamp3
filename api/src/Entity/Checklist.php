@@ -110,6 +110,7 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
     #[ApiProperty(writable: false, uriTemplate: ChecklistItem::CHECKLIST_SUBRESOURCE_URI_TEMPLATE)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ChecklistItem::class, mappedBy: 'checklist', cascade: ['persist'])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending, 'id' => \SortDirection::Ascending])]
     public Collection $checklistItems;
 
     /**

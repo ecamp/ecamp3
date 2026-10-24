@@ -8,6 +8,16 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class ListChecklistItemsTest extends ECampApiTestCase {
+    public function testListChecklistItemsIsSortedByPositionAndId() {
+        $checklistId = static::getFixture('checklist1')->getId();
+        $this->assertChecklistItemsAreSortedByPositionAndId('/checklist_items?checklist=%2Fchecklists%2F'.$checklistId);
+    }
+
+    public function testListChecklistItemsAsChecklistSubresourceIsSortedByPositionAndId() {
+        $checklistId = static::getFixture('checklist1')->getId();
+        $this->assertChecklistItemsAreSortedByPositionAndId('/checklists/'.$checklistId.'/checklist_items');
+    }
+
     public function testListChecklistItemsIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('GET', '/checklist_items');
         $this->assertResponseStatusCodeSame(401);
@@ -162,5 +172,33 @@ class ListChecklistItemsTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 0]);
         $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+    }
+
+    private function assertChecklistItemsAreSortedByPositionAndId(string $url): void {
+        $items = [
+            static::getFixture('checklistItem1_1_1'),
+            static::getFixture('checklistItem1_1_2'),
+            static::getFixture('checklistItem1_1_2_3'),
+            static::getFixture('checklistItem1_1_2_3_4'),
+        ];
+        foreach ($items as $index => $item) {
+            // Set explicit positions without the sortable listener renumbering them.
+            $this->getEntityManager()->getConnection()->executeStatement(
+                'UPDATE checklist_item SET position = :position WHERE id = :id',
+                ['position' => 0 === $index % 2 ? 10 : 2, 'id' => $item->getId()]
+            );
+        }
+        $this->getEntityManager()->clear();
+
+        $response = static::createClientWithCredentials()->request('GET', $url);
+
+        $this->assertResponseStatusCodeSame(200);
+        $result = $response->toArray()['_embedded']['items'];
+        $this->assertSame([2, 2, 10, 10], array_column($result, 'position'));
+        $lowerPositions = [$items[1]->getId(), $items[3]->getId()];
+        $higherPositions = [$items[0]->getId(), $items[2]->getId()];
+        sort($lowerPositions);
+        sort($higherPositions);
+        $this->assertSame([...$lowerPositions, ...$higherPositions], array_column($result, 'id'));
     }
 }

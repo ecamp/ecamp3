@@ -93,7 +93,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
-    order: ['checklist.id', 'id'],
+    order: ['checklist.id', 'position', 'id'],
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist', 'checklist.camp'])]
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
@@ -140,7 +140,7 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     #[ApiProperty(writable: false, example: '["/checklist_items/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ChecklistItem::class, mappedBy: 'parent', cascade: ['persist'])]
-    #[ORM\OrderBy(['position' => \SortDirection::Ascending])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending, 'id' => \SortDirection::Ascending])]
     public Collection $children;
 
     /**
