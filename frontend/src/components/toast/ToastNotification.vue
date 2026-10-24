@@ -1,11 +1,12 @@
 <template>
   <v-alert
-    class="relative"
+    class="relative bg-surface"
     :type="toast.type"
-    variant="elevated"
+    :variant="toast.type === 'error' ? 'elevated' : 'tonal'"
     closable
     :role="toast.type === 'error' ? 'alert' : 'status'"
     data-testid="toast-notification"
+    @click="cancelTimeout"
     @click:close="dismiss"
     @mouseenter="pauseTimeout"
     @mouseleave="resumeTimeout"
@@ -14,15 +15,23 @@
       {{ toast.content }}
     </template>
     <MultiLineToast v-else v-bind="toast.content" />
-    <v-progress-linear
-      v-if="remainingTimeout !== null"
-      class="opacity-50"
-      :model-value="timeoutProgress"
-      height="3"
-      absolute
-      aria-hidden="true"
-      location="bottom"
-    />
+    <template #close="{ props }">
+      <v-btn
+        v-bind="props"
+        :variant="remainingTimeout !== null ? 'text' : 'tonal'"
+        @click.stop
+      >
+        <v-progress-circular
+          v-if="remainingTimeout !== null"
+          class="absolute pointer-events-none opacity-50"
+          :model-value="100 - timeoutProgress"
+          :size="32"
+          :width="2"
+          aria-hidden="true"
+        />
+        <v-icon icon="$close" :size="remainingTimeout !== null ? 'small' : 'default'" />
+      </v-btn>
+    </template>
   </v-alert>
 </template>
 
@@ -63,6 +72,10 @@ export default {
       window.clearTimeout(this.timeoutId)
       this.progressIntervalId = null
       this.timeoutId = null
+    },
+    cancelTimeout() {
+      this.clearTimers()
+      this.remainingTimeout = null
     },
     dismiss() {
       this.timeoutProgress = 0
