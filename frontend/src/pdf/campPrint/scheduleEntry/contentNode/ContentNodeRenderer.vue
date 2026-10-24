@@ -20,6 +20,7 @@ import SafetyConsiderations from './SafetyConsiderations.vue'
 import Material from './Material.vue'
 import Storycontext from './Storycontext.vue'
 import Checklist from './Checklist.vue'
+import YSPhysicalActivityDuration from './YSPhysicalActivityDuration.vue'
 
 export default {
   name: 'ContentNodeRenderer',
@@ -45,6 +46,7 @@ export default {
         Material,
         Storycontext,
         Checklist,
+        YSPhysicalActivityDuration,
       }[this.contentTypeName]
     },
   },
