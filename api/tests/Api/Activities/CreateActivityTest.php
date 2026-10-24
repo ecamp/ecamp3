@@ -660,7 +660,7 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertSame($this->getIriFor('checklistItem1_1_1'), $this->getIriFor($connectedChecklistItem));
     }
 
-    public function testCreateActivityFromCopySourceCopiesYsPhysicalActivityDurationContentNode() {
+    public function testCreateActivityFromCopySourceCopiesYsPhysicalActivityDurationMinutesContentNode() {
         $response = static::createClientWithCredentials()->request(
             'POST',
             '/activities',
@@ -673,7 +673,7 @@ class CreateActivityTest extends ECampApiTestCase {
                             'period' => $this->getIriFor('period1'),
                             'start' => '2023-05-01T15:00:00+00:00',
                             'end' => '2023-05-01T16:00:00+00:00',
-                            'ysPhysicalActivityDuration' => 60,
+                            'ysPhysicalActivityDurationMinutes' => 60,
                         ],
                         [
                             'period' => $this->getIriFor('period1'),
@@ -695,7 +695,7 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertNull(reset($physicalActivityDurationNodes)['data']);
 
         $scheduleEntries = $responseArray['_embedded']['scheduleEntries'];
-        $this->assertSame([60, null], array_map(fn ($se) => $se['ysPhysicalActivityDuration'], $scheduleEntries));
+        $this->assertSame([60, null], array_map(fn ($se) => $se['ysPhysicalActivityDurationMinutes'], $scheduleEntries));
     }
 
     public function testCreateActivityFromCopySourceAcrossCamp() {

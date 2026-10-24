@@ -255,7 +255,7 @@ export default {
     ysPhysicalActivityDuration() {
       if (this.scheduleEntry.tmpEvent) return ''
       return ysPhysicalActivityDurationShort(
-        this.scheduleEntry.ysPhysicalActivityDuration,
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$t.bind(this)
       )
     },

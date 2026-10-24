@@ -189,7 +189,7 @@ export default {
     },
     ysPhysicalActivityDuration() {
       return ysPhysicalActivityDurationShort(
-        this.scheduleEntry.ysPhysicalActivityDuration,
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$t.bind(this)
       )
     },

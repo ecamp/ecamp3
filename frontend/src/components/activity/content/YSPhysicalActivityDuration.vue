@@ -8,7 +8,7 @@
         v-for="scheduleEntry in scheduleEntries"
         :key="scheduleEntry._meta.self"
         :uri="scheduleEntry._meta.self"
-        path="ysPhysicalActivityDuration"
+        path="ysPhysicalActivityDurationMinutes"
         :label="scheduleEntryLabel(scheduleEntry)"
         :items="items"
         :placeholder="$t('contentNode.ysPhysicalActivityDuration.none')"

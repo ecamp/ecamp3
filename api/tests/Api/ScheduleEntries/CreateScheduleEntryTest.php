@@ -248,36 +248,36 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateScheduleEntryUsesNullForMissingYsPhysicalActivityDuration() {
-        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['ysPhysicalActivityDuration'])]);
+    public function testCreateScheduleEntryUsesNullForMissingYsPhysicalActivityDurationMinutes() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['ysPhysicalActivityDurationMinutes'])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => null,
+            'ysPhysicalActivityDurationMinutes' => null,
         ]);
     }
 
-    public function testCreateScheduleEntryAcceptsYsPhysicalActivityDuration() {
+    public function testCreateScheduleEntryAcceptsYsPhysicalActivityDurationMinutes() {
         static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
-            'ysPhysicalActivityDuration' => 120,
+            'ysPhysicalActivityDurationMinutes' => 120,
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => 120,
+            'ysPhysicalActivityDurationMinutes' => 120,
         ]);
     }
 
-    public function testCreateScheduleEntryValidatesInvalidYsPhysicalActivityDuration() {
+    public function testCreateScheduleEntryValidatesInvalidYsPhysicalActivityDurationMinutes() {
         static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
-            'ysPhysicalActivityDuration' => 150,
+            'ysPhysicalActivityDurationMinutes' => 150,
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'ysPhysicalActivityDuration',
+                    'propertyPath' => 'ysPhysicalActivityDurationMinutes',
                     'message' => 'The value you selected is not a valid choice.',
                 ],
             ],

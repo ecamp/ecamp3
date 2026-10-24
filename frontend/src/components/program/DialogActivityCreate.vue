@@ -211,7 +211,7 @@ export default {
         this.clipboardEntity
           ?.scheduleEntries()
           .items.find((entry) => entry.id === this.clipboardScheduleEntryId)
-          ?.ysPhysicalActivityDuration ?? null
+          ?.ysPhysicalActivityDurationMinutes ?? null
       )
     },
   },
@@ -259,7 +259,7 @@ export default {
               period: entry.period()._meta.self,
               start: entry.start,
               end: entry.end,
-              ysPhysicalActivityDuration: this.copiedYsPhysicalActivityDuration,
+              ysPhysicalActivityDurationMinutes: this.copiedYsPhysicalActivityDuration,
             })) || [],
       }
 

@@ -163,7 +163,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
     #[ApiProperty(example: 60)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'integer', nullable: true)]
-    public ?int $ysPhysicalActivityDuration = null;
+    public ?int $ysPhysicalActivityDurationMinutes = null;
 
     /**
      * internal cache of 'start' and 'end' property during denormalization

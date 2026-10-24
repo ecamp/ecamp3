@@ -371,11 +371,11 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $this->assertEquals((24 + 9) * 60, $scheduleEntry->endOffset);
     }
 
-    public function testPatchYsPhysicalActivityDurationIsDeniedForGuest() {
+    public function testPatchYsPhysicalActivityDurationMinutesIsDeniedForGuest() {
         $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-                'ysPhysicalActivityDuration' => 90,
+                'ysPhysicalActivityDurationMinutes' => 90,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(403);
@@ -388,41 +388,41 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     #[TestWith([90])]
     #[TestWith([105])]
     #[TestWith([120])]
-    public function testPatchYsPhysicalActivityDurationAcceptsAllowedValues(int $minutes) {
+    public function testPatchYsPhysicalActivityDurationMinutesAcceptsAllowedValues(int $minutes) {
         $scheduleEntry = static::getFixture('scheduleEntry2');
         $client = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()]);
         $client->disableReboot();
         $client->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'ysPhysicalActivityDuration' => $minutes,
+            'ysPhysicalActivityDurationMinutes' => $minutes,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => $minutes,
+            'ysPhysicalActivityDurationMinutes' => $minutes,
         ]);
 
         $client->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => $minutes,
+            'ysPhysicalActivityDurationMinutes' => $minutes,
         ]);
     }
 
-    public function testPatchYsPhysicalActivityDurationAcceptsNull() {
+    public function testPatchYsPhysicalActivityDurationMinutesAcceptsNull() {
         $scheduleEntry = static::getFixture('scheduleEntry1');
         $client = static::createClientWithCredentials();
         $client->disableReboot();
         $client->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'ysPhysicalActivityDuration' => null,
+            'ysPhysicalActivityDurationMinutes' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => null,
+            'ysPhysicalActivityDurationMinutes' => null,
         ]);
 
         $client->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => null,
+            'ysPhysicalActivityDurationMinutes' => null,
         ]);
     }
 
@@ -430,54 +430,54 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     #[TestWith([-30])]
     #[TestWith([50])]
     #[TestWith([135])]
-    public function testPatchYsPhysicalActivityDurationRejectsInvalidValues(int $minutes) {
+    public function testPatchYsPhysicalActivityDurationMinutesRejectsInvalidValues(int $minutes) {
         $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'ysPhysicalActivityDuration' => $minutes,
+            'ysPhysicalActivityDurationMinutes' => $minutes,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'ysPhysicalActivityDuration',
+                    'propertyPath' => 'ysPhysicalActivityDurationMinutes',
                     'message' => 'The value you selected is not a valid choice.',
                 ],
             ],
         ]);
     }
 
-    public function testPatchYsPhysicalActivityDurationRejectsNonIntegerValues() {
+    public function testPatchYsPhysicalActivityDurationMinutesRejectsNonIntegerValues() {
         $scheduleEntry = static::getFixture('scheduleEntry1');
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'ysPhysicalActivityDuration' => '60',
+            'ysPhysicalActivityDurationMinutes' => '60',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(400);
     }
 
-    public function testPatchYsPhysicalActivityDurationOnlyChangesOneScheduleEntry() {
+    public function testPatchYsPhysicalActivityDurationMinutesOnlyChangesOneScheduleEntry() {
         $scheduleEntry1 = static::getFixture('scheduleEntry1');
         $scheduleEntry2 = static::getFixture('scheduleEntry2');
         $client = static::createClientWithCredentials();
         $client->disableReboot();
 
         $client->request('PATCH', '/schedule_entries/'.$scheduleEntry2->getId(), ['json' => [
-            'ysPhysicalActivityDuration' => 90,
+            'ysPhysicalActivityDurationMinutes' => 90,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
 
         $client->request('PATCH', '/schedule_entries/'.$scheduleEntry1->getId(), ['json' => [
-            'ysPhysicalActivityDuration' => null,
+            'ysPhysicalActivityDurationMinutes' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => null,
+            'ysPhysicalActivityDurationMinutes' => null,
         ]);
 
         $client->request('GET', '/schedule_entries/'.$scheduleEntry2->getId());
         $this->assertJsonContains([
-            'ysPhysicalActivityDuration' => 90,
+            'ysPhysicalActivityDurationMinutes' => 90,
         ]);
     }
 }

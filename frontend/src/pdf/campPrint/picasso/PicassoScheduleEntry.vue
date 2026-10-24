@@ -55,7 +55,7 @@ export default {
     },
     ysPhysicalActivityDurationSuffix() {
       const duration = ysPhysicalActivityDurationShort(
-        this.scheduleEntry.ysPhysicalActivityDuration,
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$tc.bind(this)
       )
       return duration ? ` (${duration})` : ''

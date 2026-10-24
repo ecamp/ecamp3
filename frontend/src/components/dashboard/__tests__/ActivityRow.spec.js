@@ -85,7 +85,7 @@ describe('ActivityRow', () => {
 
   it('shows the physical activity duration', () => {
     const wrapper = mountRow(0, {
-      scheduleEntryOverrides: { ysPhysicalActivityDuration: 60 },
+      scheduleEntryOverrides: { ysPhysicalActivityDurationMinutes: 60 },
     })
 
     expect(wrapper.text()).toContain(
@@ -95,7 +95,7 @@ describe('ActivityRow', () => {
 
   it('shows no physical activity duration if it is not specified', () => {
     const wrapper = mountRow(0, {
-      scheduleEntryOverrides: { ysPhysicalActivityDuration: null },
+      scheduleEntryOverrides: { ysPhysicalActivityDurationMinutes: null },
     })
 
     expect(wrapper.text()).not.toContain(
