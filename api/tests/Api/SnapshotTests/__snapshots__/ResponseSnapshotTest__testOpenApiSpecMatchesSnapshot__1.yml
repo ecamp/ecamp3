@@ -20535,6 +20535,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20588,6 +20602,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       type: object
     ScheduleEntry-read:
       description: |-
@@ -20674,6 +20702,12 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - end
         - start
@@ -20761,6 +20795,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20849,6 +20897,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20938,6 +21000,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20985,6 +21061,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       type: object
     ScheduleEntry-write_create:
       description: |-
@@ -21034,6 +21124,12 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - end
         - start
@@ -21086,6 +21182,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       type: object
     ScheduleEntry.html-read:
       description: |-
@@ -21172,6 +21282,12 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - end
         - start
@@ -21259,6 +21375,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -21347,6 +21477,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -21436,6 +21580,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDuration:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -21504,6 +21662,11 @@ components:
                     between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
                   example: 0.4
                   type: ['null', number]
+                ysPhysicalActivityDuration:
+                  description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+                  enum: [105, 120, 30, 45, 60, 75, 90]
+                  example: 60
+                  type: [integer, 'null']
               type: object
             id:
               type: string
@@ -21663,6 +21826,12 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDuration:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - end
             - start
@@ -21756,6 +21925,20 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDuration:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              enum:
+                - 105
+                - 120
+                - 30
+                - 45
+                - 60
+                - 75
+                - 90
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - activity
             - end
@@ -21850,6 +22033,20 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDuration:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              enum:
+                - 105
+                - 120
+                - 30
+                - 45
+                - 60
+                - 75
+                - 90
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - activity
             - end
@@ -21942,6 +22139,20 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDuration:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              enum:
+                - 105
+                - 120
+                - 30
+                - 45
+                - 60
+                - 75
+                - 90
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - activity
             - end
@@ -34156,7 +34367,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] }, ysPhysicalActivityDuration: { description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.', enum: [105, 120, 30, 45, 60, 75, 90], example: 60, type: [integer, 'null'] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'ScheduleEntry.jsonapi collection.'
             text/html:
               schema:
@@ -34895,7 +35106,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] }, ysPhysicalActivityDuration: { description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.', enum: [105, 120, 30, 45, 60, 75, 90], example: 60, type: [integer, 'null'] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'ScheduleEntry.jsonapi collection.'
             text/html:
               schema:
