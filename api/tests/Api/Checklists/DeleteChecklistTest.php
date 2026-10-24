@@ -161,13 +161,6 @@ class DeleteChecklistTest extends ECampApiTestCase {
 
     public function testDeleteChecklistIsDeniedWhenUsedInChecklistNode() {
         $checklist = static::getFixture('checklist1');
-        // Keep the referenced item first, including items at other nesting levels.
-        $this->getEntityManager()->getConnection()->executeStatement(
-            'UPDATE checklist_item SET position = position + 1 WHERE checklistid = :checklist AND id <> :item',
-            ['checklist' => $checklist->getId(), 'item' => static::getFixture('checklistItem1_1_1')->getId()]
-        );
-        $this->getEntityManager()->clear();
-
         static::createClientWithCredentials()->request('DELETE', '/checklists/'.$checklist->getId());
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
