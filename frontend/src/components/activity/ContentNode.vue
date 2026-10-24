@@ -18,6 +18,7 @@ import ResponsiveLayout from './content/ResponsiveLayout.vue'
 import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
 import LAThematicArea from './content/LAThematicArea.vue'
+import YSActivityCharacteristics from './content/YSActivityCharacteristics.vue'
 import LearningObjectives from './content/LearningObjectives.vue'
 import LearningTopics from './content/LearningTopics.vue'
 import SafetyConsiderations from './content/SafetyConsiderations.vue'
@@ -31,6 +32,7 @@ const contentNodeComponents = {
   Notes,
   Material,
   LAThematicArea,
+  YSActivityCharacteristics,
   LearningObjectives,
   LearningTopics,
   SafetyConsiderations,

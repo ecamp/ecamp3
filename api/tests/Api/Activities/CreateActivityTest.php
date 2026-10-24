@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ChecklistNode;
+use App\Entity\ContentNode\MultiSelect;
+use App\Entity\ContentType;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
@@ -582,6 +584,35 @@ class CreateActivityTest extends ECampApiTestCase {
 
         // No Access on activity1 -> BadRequest
         $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testCopyActivityPreservesYSActivityCharacteristics() {
+        $source = $this->getEntityManager()->find(MultiSelect::class, static::getFixture('multiSelect1')->getId());
+        $source->contentType = $this->getEntityManager()->find(ContentType::class, static::getFixture('contentTypeYSActivityCharacteristics')->getId());
+        $source->data = ['options' => [
+            'outdoorTechnique' => ['checked' => true],
+            'travellingSafety' => ['checked' => false],
+            'gamesAndSports' => ['checked' => true],
+            'gettingInvolved' => ['checked' => false],
+            'community' => ['checked' => true],
+            'natureAndEnvironment' => ['checked' => false],
+        ]];
+        $this->getEntityManager()->flush();
+
+        $response = static::createClientWithCredentials()->request('POST', '/activities', [
+            'json' => $this->getExampleWritePayload([
+                'copyActivitySource' => $this->getIriFor('activity1'),
+                'category' => $this->getIriFor('category1'),
+            ]),
+        ]);
+        $this->assertResponseStatusCodeSame(201);
+        $nodes = array_values(array_filter(
+            $response->toArray()['_embedded']['contentNodes'],
+            fn ($node) => 'YSActivityCharacteristics' === $node['contentTypeName']
+        ));
+        $this->assertCount(1, $nodes);
+        $this->assertNotSame($source->getId(), $nodes[0]['id']);
+        $this->assertEquals($source->data, $nodes[0]['data']);
     }
 
     public function testCreateActivityFromCopySourceWithinSameCamp() {

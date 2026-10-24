@@ -5,6 +5,7 @@ const contentTypeIcons = {
   checklist: 'mdi-clipboard-list-outline',
   columnLayout: 'mdi-view-column',
   laThematicArea: 'mdi-shape',
+  ysActivityCharacteristics: 'mdi-shape',
   learningObjectives: 'mdi-school',
   learningTopics: 'mdi-school',
   material: 'mdi-package-variant',

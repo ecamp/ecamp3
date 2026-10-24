@@ -94,6 +94,10 @@
     "storycontext": {
       "info": "Describe how this block fits into the story of the camp.{br}You can find a summary of all story elements in the menu 'Story'.{br}You can also first work out a continuous story in the 'Story' menu - so that you can perfectly embed the block content into the story.",
       "name": "Story"
+    },
+    "ysActivityCharacteristics": {
+      "info": "Select the activity characteristics covered in this activity.",
+      "name": "Y+S activity characteristics"
     }
   },
   "entity": {
