@@ -1,6 +1,7 @@
 <template>
   <div
-    class="ec-comment-composer pa-3"
+    class="ec-comment-composer"
+    :class="{ 'ec-comment-composer--reply': parent }"
     data-testid="comment-composer"
     @keydown.capture.ctrl.enter.prevent.stop="submit"
     @keydown.capture.meta.enter.prevent.stop="submit"
@@ -18,32 +19,35 @@
       :autofocus="autofocus ? 'end' : false"
       :disabled="saving"
       variant="outlined"
-      density="compact"
     >
       <template #append-inner>
         <v-btn
-          v-if="cancelable"
-          icon="mdi-close"
-          variant="text"
-          density="comfortable"
-          class="align-self-end"
-          :disabled="saving"
-          :aria-label="$t('global.button.cancel')"
-          data-testid="comment-cancel"
-          @click="cancel"
-        />
-        <v-btn
-          icon="mdi-send"
-          variant="text"
+          variant="flat"
           density="comfortable"
           color="primary"
-          class="align-self-end"
+          size="small"
+          class="ec-comment-composer__action align-self-end"
           :disabled="!textHtml"
           :loading="saving"
           :aria-label="$t('global.button.submit')"
           data-testid="comment-submit"
           @click="submit"
-        />
+        >
+          <v-icon icon="mdi-send-variant" />
+        </v-btn>
+        <v-btn
+          v-if="cancelable"
+          variant="flat"
+          density="comfortable"
+          color="grey"
+          class="ec-comment-composer__action align-self-end"
+          :disabled="saving"
+          :aria-label="$t('global.button.cancel')"
+          data-testid="comment-cancel"
+          @click="cancel"
+        >
+          <v-icon icon="mdi-close" />
+        </v-btn>
       </template>
     </ERichtext>
   </div>
@@ -106,7 +110,21 @@ export default {
 </script>
 
 <style scoped>
+.ec-comment-composer__action {
+  height: 36px;
+  width: 36px;
+  min-width: 36px;
+}
+
+.ec-comment-composer--reply :deep(.v-field.v-field--variant-outlined) {
+  padding: 4px 4px 4px 12px;
+}
+
 .ec-comment-composer :deep(.v-field__append-inner) {
   padding-top: 0;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-content: flex-start;
+  margin-left: 4px;
 }
 </style>

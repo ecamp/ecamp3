@@ -88,6 +88,7 @@
         v-if="commentsState.open"
         :camp="camp"
         :activity="activity"
+        class="pa-3"
         @created="reloadAndScrollToBottom"
       />
     </v-sheet>
