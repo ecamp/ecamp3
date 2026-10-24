@@ -8,7 +8,8 @@ export class CampInfo {
   constructor(
     private readonly _page: Page,
     private readonly _campId: string,
-    private readonly _titleField = _page.locator('[data-testid="title"] input')
+    private readonly _titleField = _page.locator('[data-testid="title"] input'),
+    private readonly _heading = _page.getByRole('heading', { name: 'Lagerinfos' })
   ) {}
 
   async goto() {
@@ -45,5 +46,9 @@ export class CampInfo {
 
   get titleField(): Locator {
     return this._titleField
+  }
+
+  get heading(): Locator {
+    return this._heading
   }
 }

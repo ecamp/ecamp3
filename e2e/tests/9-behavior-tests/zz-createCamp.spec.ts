@@ -54,3 +54,25 @@ test('without prototype via page objects', async ({ createCamp }) => {
 
   await expect(camp.campInfo.titleField).toHaveValue(camp.campTitle)
 })
+
+test('without prototype step by step via page objects', async ({ loginPage, runId }) => {
+  const title = `camp ${runId}`
+
+  await loginPage.open()
+  const campListPage = await loginPage.loginToCampList(bipiUser)
+
+  await expect(campListPage.campTitle('GRGR')).toBeVisible()
+
+  const createCampDialogStep1 = await campListPage.openCreateCampDialog()
+  await createCampDialogStep1.fillForm(tomorrow, in2Days, title)
+
+  const createCampDialogStep2 = await createCampDialogStep1.next()
+  await createCampDialogStep2.selectPrototype('Keine Vorlage')
+
+  await expect(createCampDialogStep2.noPrototypeAlert).toBeVisible()
+
+  const campInfo = await createCampDialogStep2.submit()
+
+  await expect(campInfo.heading).toBeVisible()
+  await expect(campInfo.titleField).toHaveValue(title)
+})
