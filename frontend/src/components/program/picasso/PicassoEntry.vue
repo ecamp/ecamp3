@@ -72,12 +72,14 @@
         {{ location }}
       </small>
     </template>
-    <template v-if="ysPhysicalActivityDuration">
-      <br v-if="!isTinyDuration" />
-      <small class="e-picasso-entry__ys-physical-activity-duration">
-        {{ ysPhysicalActivityDuration }}
-      </small>
-    </template>
+    <PhysicalActivityDurationIndicator
+      v-if="ysPhysicalActivityDuration"
+      class="e-picasso-entry__ys-physical-activity-duration"
+      :duration="ysPhysicalActivityDuration"
+      :minutes="scheduleEntry.ysPhysicalActivityDurationMinutes"
+      :entry-duration="duration"
+      :visible="showPhysicalActivityDuration"
+    />
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
@@ -127,10 +129,14 @@
         {{ location }}
       </small>
     </template>
-    <template v-if="ysPhysicalActivityDuration">
-      <br v-if="!isTinyDuration" />
-      <small>{{ ysPhysicalActivityDuration }}</small>
-    </template>
+    <PhysicalActivityDurationIndicator
+      v-if="ysPhysicalActivityDuration"
+      class="e-picasso-entry__ys-physical-activity-duration"
+      :duration="ysPhysicalActivityDuration"
+      :minutes="scheduleEntry.ysPhysicalActivityDurationMinutes"
+      :entry-duration="duration"
+      :visible="showPhysicalActivityDuration"
+    />
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
@@ -160,14 +166,21 @@ import AvatarRow from '@/components/generic/AvatarRow.vue'
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
 import { useToast } from '@/components/toast/useToast.js'
+import PhysicalActivityDurationIndicator from './PhysicalActivityDurationIndicator.vue'
 
 export default {
   name: 'PicassoEntry',
-  components: { AvatarRow, DialogActivityEdit, ClipboardInfoDialog },
+  components: {
+    AvatarRow,
+    DialogActivityEdit,
+    ClipboardInfoDialog,
+    PhysicalActivityDurationIndicator,
+  },
   mixins: [dateHelperUTCFormatted],
   props: {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
+    showPhysicalActivityDuration: { type: Boolean, default: false },
   },
   emits: ['startResize', 'finishEdit'],
   setup(props) {
