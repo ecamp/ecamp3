@@ -509,7 +509,8 @@
           "Toc": "Table des matières"
         },
         "options": "Paramètres",
-        "pageNumbers": "Numéros de page"
+        "pageNumbers": "Numéros de page",
+        "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)"
       },
       "printNuxt": {
         "downloadNuxtPdfButton": {

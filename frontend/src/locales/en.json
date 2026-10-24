@@ -536,8 +536,9 @@
           "Story": "Story",
           "Toc": "Table of contents"
         },
-        "options": "Einstellungen",
-        "pageNumbers": "Seitenzahlen",
+        "options": "Settings",
+        "pageNumbers": "Page numbers",
+        "compact": "Compact layout (less spacing, hide empty fields)",
         "fontSize": "Font size",
         "fontSizes": {
           "A3": "Smaller (for printing on A4 or A3)",

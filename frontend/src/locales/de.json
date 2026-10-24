@@ -538,6 +538,7 @@
         },
         "options": "Einstellungen",
         "pageNumbers": "Seitenzahlen",
+        "compact": "Kompaktes Layout (weniger Abstände, leere Felder ausblenden)",
         "fontSize": "Schriftgrösse",
         "fontSizes": {
           "A3": "Kleinere Schrift (optimiert für A4 oder A3)",
