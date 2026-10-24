@@ -34,6 +34,7 @@
 
 <script>
 import DialogActivityCreate from './DialogActivityCreate.vue'
+import { subscribeToMercureTopic } from '@/plugins/mercure.js'
 
 export default {
   name: 'ScheduleEntries',
@@ -55,8 +56,10 @@ export default {
         start: null,
         end: null,
       },
+      unsubscribe: null,
     }
   },
+
   computed: {
     scheduleEntries() {
       // TODO for SideBar, add filtering for the current day, now that the API supports it
@@ -75,6 +78,28 @@ export default {
         this.period.camp().categories()._meta.loading
       )
     },
+  },
+
+  async mounted() {
+    this.unsubscribe = subscribeToMercureTopic(
+      '/api' + this.period.scheduleEntries()._meta.self,
+      (data) => {
+        if (data.op === 'remove') {
+          // Delete entity locally. This will trigger reload of collections automatically through hal-json-vuex
+          this.api.localDel(data.path)
+          return
+        }
+
+        // for create and update operations, store received HAL data
+        // and reload collection
+        this.api.storeHalJsonData(JSON.parse(data.value))
+        this.api.reload(this.period.scheduleEntries())
+      }
+    )
+  },
+
+  unmounted() {
+    this.unsubscribe?.()
   },
 
   methods: {

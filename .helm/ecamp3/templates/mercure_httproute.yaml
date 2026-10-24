@@ -1,0 +1,35 @@
+{{- if and .Values.mercure.enabled .Values.gateway.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "mercure.name" . }}
+  labels:
+    {{- include "mercure.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: api-gateway
+  hostnames:
+    - {{ .Values.domain | quote }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ .Values.mercure.subpath }}
+      filters:
+        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
+        - type: ExtensionRef
+          extensionRef:
+            group: traefik.io
+            kind: Middleware
+            name: {{ printf "%s-basic-auth" (include "app.name" .) | quote }}
+        {{- end }}
+      backendRefs:
+        - name: {{ include "mercure.name" . }}
+          port: {{ .Values.mercure.service.port }}
+      # Mercure keeps long-lived SSE connections open
+      timeouts:
+        request: "0s"
+        backendRequest: "0s"
+{{- end }}

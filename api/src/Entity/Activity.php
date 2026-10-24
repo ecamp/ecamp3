@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             security: 'is_granted("CAMP_COLLABORATOR", object) or
-                       is_granted("CAMP_IS_PUBLIC", object)'
+                       is_granted("CAMP_IS_PUBLIC", object)',
         ),
         new Patch(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,

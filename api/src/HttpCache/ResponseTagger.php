@@ -35,7 +35,7 @@ class ResponseTagger {
     private function isCacheable(): bool {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (!$request->isMethodCacheable()) {
+        if (null === $request || !$request->isMethodCacheable()) {
             return false;
         }
 

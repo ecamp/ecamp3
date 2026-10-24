@@ -30,6 +30,11 @@ services:
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-500M}
       PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
     user: ${USER_ID:-1000}
+  ###> symfony/mercure-bundle ###
+  mercure:
+    ports:
+      - '80'
+  ###< symfony/mercure-bundle ###
 
   playwright-cli:
     profiles:

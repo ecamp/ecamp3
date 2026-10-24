@@ -70,6 +70,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{/*
+Name for all mercure-related resources.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mercure.name" -}}
+{{- $name := default .Chart.Name .Values.chartNameOverride }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-mercure" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-mercure" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Name for all dummy-mailserver-related resources.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
@@ -163,6 +176,13 @@ The full URL where the frontend will be available.
 {{- end }}
 
 {{/*
+The full URL where the Mercure hub will be available.
+*/}}
+{{- define "mercure.url" -}}
+{{- printf "https://%s%s" .Values.domain .Values.mercure.subpath }}
+{{- end }}
+
+{{/*
 The full URL where the print service will be available.
 */}}
 {{- define "print.url" -}}
@@ -231,6 +251,14 @@ Selector labels for Mail
 */}}
 {{- define "mail.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "chart.name" . }}-mail
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for Mercure
+*/}}
+{{- define "mercure.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-mercure
 {{ include "app.commonSelectorLabels" . }}
 {{- end }}
 

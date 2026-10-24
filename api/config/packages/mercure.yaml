@@ -1,0 +1,17 @@
+mercure:
+    hubs:
+        default:
+            url: '%env(default::MERCURE_URL)%'
+            public_url: '%env(default::MERCURE_PUBLIC_URL)%'
+            protocol_version: '1.0'
+            jwt:
+                # Signed with the same RSA key pair as the login JWT. The hub only verifies with the public key and
+                # tells the tokens apart by the "iss" claim (see MERCURE_TRUSTED_ISSUERS), which login JWTs don't have.
+                secret: '%env(file:resolve:JWT_SECRET_KEY)%'
+                passphrase: '%env(JWT_PASSPHRASE)%'
+                algorithm: 'rsa.sha256'
+                publish: '*'
+                claims:
+                    iss: 'ecamp3-api'
+                    sub: 'ecamp3-api'
+                    client_id: 'ecamp3-api'

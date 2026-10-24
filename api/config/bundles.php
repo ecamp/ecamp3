@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
@@ -19,6 +17,7 @@ use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MakerBundle\MakerBundle;
+use Symfony\Bundle\MercureBundle\MercureBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -48,4 +47,5 @@ return [
     TwigExtraBundle::class => ['all' => true],
     FOSHttpCacheBundle::class => ['all' => true],
     GesdinetJWTRefreshTokenBundle::class => ['all' => true],
+    MercureBundle::class => ['all' => true],
 ];

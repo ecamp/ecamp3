@@ -6,6 +6,9 @@
 parameters:
     app.httpCache.maxHeaderSize: 31500 # lower than Vanish default http_resp_size (32k)
 
+imports:
+    - { resource: services/doctrine_orm_mercure_publisher.php }
+
 services:
     # default configuration for services in *this* file
     _defaults:

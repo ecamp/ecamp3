@@ -372,7 +372,6 @@ export default {
       layoutMode: false,
       editActivityTitle: false,
       categoryChangeState: null,
-      scheduleEntry: null,
       loading: true,
     }
   },
@@ -396,6 +395,9 @@ export default {
     },
     activity() {
       return this.api.get().activities({ id: this.activityId })
+    },
+    scheduleEntry() {
+      return this.api.get().scheduleEntries({ id: this.scheduleEntryId })
     },
     camp() {
       return this.activity.camp()

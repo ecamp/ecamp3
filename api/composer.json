@@ -50,6 +50,7 @@
     "symfony/http-foundation": "8.1.4",
     "symfony/intl": "8.1.4",
     "symfony/mailer": "8.1.2",
+    "symfony/mercure-bundle": "0.6.1",
     "symfony/monolog-bundle": "4.1.0",
     "symfony/property-access": "8.1.4",
     "symfony/property-info": "8.1.4",

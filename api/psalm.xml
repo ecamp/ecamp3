@@ -18,5 +18,16 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
+        <!-- Copied from api-platform: optional integrations (Messenger, MongoDB ODM) are not installed -->
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <file name="src/Mercure/PublishMercureUpdatesListener.php" />
+            </errorLevel>
+        </UndefinedClass>
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="src/Mercure/PublishMercureUpdatesListener.php" />
+            </errorLevel>
+        </UndefinedMethod>
     </issueHandlers>
 </psalm>
