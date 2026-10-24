@@ -1722,18 +1722,12 @@
                               ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -1928,21 +1922,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2137,21 +2134,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2346,21 +2346,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2555,21 +2558,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2764,21 +2770,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3377,21 +3386,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3586,21 +3598,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3795,21 +3810,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4004,21 +4022,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4213,21 +4234,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4422,21 +4446,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4631,21 +4658,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4840,21 +4870,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5049,21 +5082,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5662,21 +5698,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5871,21 +5910,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6080,21 +6122,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6289,21 +6334,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6498,21 +6546,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6707,21 +6758,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6916,21 +6970,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7125,21 +7182,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7334,21 +7394,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7947,21 +8010,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -8156,21 +8222,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -8365,21 +8434,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -8574,21 +8646,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -8783,21 +8858,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "picasso-schedule-entry-responsibles",
+                                "class": "picasso-schedule-entry-responsibles-names",
                                 "key": 1,
-                                "style": {
-                                  "display": "flex",
-                                  "flex-direction": "row",
-                                  "flex-wrap": "wrap",
-                                },
                               },
                               "style": {
-                                "display": "flex",
-                                "flexDirection": "row",
-                                "flexWrap": "wrap",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },

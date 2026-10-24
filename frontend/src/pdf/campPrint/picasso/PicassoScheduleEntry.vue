@@ -39,10 +39,14 @@
         :class="{ 'picasso-schedule-entry-spacer-compact': compact }"
       />
       <Responsibles
+        v-if="avatars"
         class="picasso-schedule-entry-responsibles"
         :activity="scheduleEntry.activity()"
-        :avatars="config.options?.pageSize !== 'A3'"
+        avatars
       />
+      <View v-else class="picasso-schedule-entry-responsibles-names">
+        <Text>{{ responsibleNames }}</Text>
+      </View>
       <View class="picasso-schedule-entry-spacer" />
     </View>
   </View>
@@ -52,6 +56,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import Responsibles from '../Responsibles.vue'
 import { contrastColor } from '../../../common/helpers/colors.js'
 import { ysPhysicalActivityDurationFormatted } from '../../../common/helpers/ysPhysicalActivityDuration.js'
+import { activityResponsiblesCommaSeparated } from '../../../common/helpers/activityResponsibles.js'
 
 const MAX_FONT_SIZE = 8
 
@@ -62,6 +67,7 @@ export default {
   props: {
     scheduleEntry: { type: Object, required: true },
     percentageHeight: { type: Number, default: 10 },
+    avatars: { type: Boolean, default: false },
     config: { type: Object, required: true },
     showYSPhysicalActivityDuration: { type: Boolean, default: false },
   },
@@ -93,6 +99,12 @@ export default {
         return ''
       }
       return ` (${this.ysPhysicalActivityDuration})`
+    },
+    responsibleNames() {
+      return activityResponsiblesCommaSeparated(
+        this.scheduleEntry.activity(),
+        this.$tc.bind(this)
+      )
     },
     linkTarget() {
       return `#scheduleEntry_${this.scheduleEntry.id}`
@@ -154,6 +166,10 @@ export default {
   left: 0;
   justify-content: flex-end;
   padding: 0 4pt 2pt;
+}
+.picasso-schedule-entry-responsibles-names {
+  font-style: italic;
+  text-align: right;
 }
 .picasso-schedule-entry-responsibles-container {
   position: absolute;

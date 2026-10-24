@@ -32,6 +32,7 @@
         :times="times"
         :day="day"
         :schedule-entries="scheduleEntries"
+        :avatars="content.options.responsibles === 'avatars'"
         :config="config"
         :show-y-s-physical-activity-duration="
           content.options.showYSPhysicalActivityDuration === true

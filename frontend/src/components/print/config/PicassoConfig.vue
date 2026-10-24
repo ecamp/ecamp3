@@ -18,6 +18,14 @@
       variant="underlined"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
+    <e-select
+      v-model="options.responsibles"
+      :label="$t('components.print.config.picassoConfig.responsibles')"
+      :items="responsiblesDisplays"
+      path="responsibles"
+      variant="underlined"
+      @update:model-value="$emit('update:modelValue', modelValue)"
+    />
     <e-checkbox
       v-if="hasYSPhysicalActivityDuration"
       v-model="options.showYSPhysicalActivityDuration"
@@ -59,6 +67,16 @@ export default {
         {
           value: 'P',
           text: this.$t('components.print.config.picassoConfig.portrait'),
+        },
+      ],
+      responsiblesDisplays: [
+        {
+          value: 'names',
+          text: this.$t('components.print.config.picassoConfig.responsiblesNames'),
+        },
+        {
+          value: 'avatars',
+          text: this.$t('components.print.config.picassoConfig.responsiblesAvatars'),
         },
       ],
     }
@@ -111,6 +129,7 @@ export default {
         camp.periods().items.length === 1 ? [camp.periods().items[0]._meta.self] : [],
       orientation: 'L',
       showYSPhysicalActivityDuration: false,
+      responsibles: 'names',
       filter: repairFilterConfig(null, camp),
     }
   },
@@ -130,6 +149,9 @@ export default {
     }
     if (!['L', 'P'].includes(config.options.orientation)) {
       config.options.orientation = 'L'
+    }
+    if (!['names', 'avatars'].includes(config.options.responsibles)) {
+      config.options.responsibles = 'names'
     }
     config.options.filter = repairFilterConfig(config.options.filter, camp)
     return config

@@ -510,7 +510,10 @@
           "orientation": "Seitenlayout",
           "landscape": "Querformat",
           "periods": "Lagerabschnitt(e)",
-          "portrait": "Hochformat"
+          "portrait": "Hochformat",
+          "responsibles": "Verantwortliche",
+          "responsiblesNames": "Namen",
+          "responsiblesAvatars": "Avatare"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht"

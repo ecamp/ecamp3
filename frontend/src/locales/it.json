@@ -422,7 +422,10 @@
           "activity": "Attività"
         },
         "picassoConfig": {
-          "orientation": "Layout della pagina"
+          "orientation": "Layout della pagina",
+          "responsibles": "Responsabili",
+          "responsiblesNames": "Nomi",
+          "responsiblesAvatars": "Avatar"
         },
         "programConfig": {
           "dayOverview": "Panoramica della giornata di stampa"
