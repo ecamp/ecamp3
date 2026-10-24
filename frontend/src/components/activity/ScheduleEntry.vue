@@ -321,7 +321,6 @@ import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.
 import scheduleEntryRouteChange from '@/helpers/scheduleEntryRouteChange.js'
 import ClipboardInfoDialog from '../generic/ClipboardInfoDialog.vue'
 import { useToast } from '@/components/toast/useToast.js'
-import { subscribeToMercureTopic } from '@/plugins/mercure.js'
 
 export default {
   name: 'ScheduleEntry',
@@ -374,7 +373,6 @@ export default {
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
-      unsubscribe: null,
     }
   },
   head() {
@@ -475,15 +473,6 @@ export default {
     await this.scheduleEntry.activity()._meta.load // wait if activity is being loaded as part of a collection
     this.loading = false
     // no refresh of activity here because the requireActivityScheduleEntry guard already does a refresh
-
-    this.unsubscribe = subscribeToMercureTopic(
-      '/api' + this.scheduleEntry.activity()._meta.self,
-      (data) => this.api.storeHalJsonData(data)
-    )
-  },
-
-  unmounted() {
-    this.unsubscribe?.()
   },
 
   methods: {
