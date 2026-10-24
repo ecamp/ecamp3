@@ -3,10 +3,12 @@ import { isEqual } from 'lodash-es'
 export default function repairFilterConfig(filter, camp) {
   if (!filter || typeof filter !== 'object') {
     return {
+      period: null,
       category: [],
       day: [],
       responsible: [],
       progressLabel: [],
+      activityCount: 0,
     }
   }
   if (!filter.period) filter.period = null

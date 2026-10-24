@@ -148,7 +148,7 @@ import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'PicassoEntry',

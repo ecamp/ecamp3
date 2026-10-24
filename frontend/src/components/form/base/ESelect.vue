@@ -18,7 +18,7 @@
       @update:model-value="
         ($event) => {
           handleChange($event)
-          $emit('update:model-value', $event)
+          $emit('update:modelValue', $event)
           $emit('input', $event)
         }
       "
@@ -49,6 +49,6 @@ export default {
     skipIfEmpty: { type: Boolean, default: true },
     readonly: { type: Boolean, default: false },
   },
-  emits: ['input', 'update:model-value'],
+  emits: ['input', 'update:modelValue'],
 }
 </script>

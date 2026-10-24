@@ -11,7 +11,7 @@ return (new PhpCsFixer\Config())
         '@PSR2' => true,
         '@DoctrineAnnotation' => true,
         '@PhpCsFixer' => true,
-        'curly_braces_position' => [
+        'braces_position' => [
             'functions_opening_brace' => 'same_line',
             'classes_opening_brace' => 'same_line'
         ],

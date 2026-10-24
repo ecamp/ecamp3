@@ -4,7 +4,7 @@ import { cloneDeep } from 'lodash-es'
 import axios from 'axios'
 import { getEnv } from '@/environment.js'
 import * as Sentry from '@sentry/browser'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactiveValue.js'
 
 const PRINT_URL = getEnv().PRINT_URL

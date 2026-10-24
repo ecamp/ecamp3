@@ -19,7 +19,7 @@ on:
           Repeat the branch name to confirm. (e.g. staging or prod)
         required: true
       action:
-        description: "Choose action"
+        description: 'Choose action'
         type: choice
         required: true
         default: diff

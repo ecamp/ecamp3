@@ -68,7 +68,7 @@ import { errorToMultiLineToast } from '../toast/toasts.js'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import DialogPersonalInvitationReject from './DialogPersonalInvitationReject.vue'
 import { mapGetters } from 'vuex'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 const ignoreNavigationFailure = (e) => {
   if (!isNavigationFailure(e, NavigationFailureType.redirected)) {

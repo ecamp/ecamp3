@@ -102,7 +102,7 @@ import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import ButtonBack from '@/components/buttons/ButtonBack.vue'
 import UserMeta from '@/components/navigation/UserMeta.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 const ignoreNavigationFailure = (e) => {
   if (!isNavigationFailure(e, NavigationFailureType.duplicated)) {
@@ -185,6 +185,7 @@ export default {
         .then((postUrl) => this.api.patch(postUrl, {}))
         .then(
           (_) => {
+            this.api.get().personalInvitations().$reload()
             this.$router.push(this.campLink).catch(ignoreNavigationFailure)
           },
           () => {
@@ -204,6 +205,7 @@ export default {
         .then((postUrl) => this.api.patch(postUrl, {}))
         .then(
           (_) => {
+            this.api.get().personalInvitations().$reload()
             this.$router
               .push({ name: 'invitationRejected' })
               .catch(ignoreNavigationFailure)

@@ -1,15 +1,15 @@
 {
-    "Servers": {
-        "1": {
-            "Group": "Servers",
-            "Name": "ecamp3-database",
-            "Host": "database",
-            "Port": 5432,
-            "Username": "ecamp3",
-            "PasswordExecCommand": "echo 'ecamp3'",
-            "MaintenanceDB": "postgres",
-            "SSLMode": "prefer",
-            "DBRestriction": "ecamp3dev"
-        }
+  "Servers": {
+    "1": {
+      "Group": "Servers",
+      "Name": "ecamp3-database",
+      "Host": "database",
+      "Port": 5432,
+      "Username": "ecamp3",
+      "PasswordExecCommand": "echo 'ecamp3'",
+      "MaintenanceDB": "postgres",
+      "SSLMode": "prefer",
+      "DBRestriction": "ecamp3dev"
     }
+  }
 }

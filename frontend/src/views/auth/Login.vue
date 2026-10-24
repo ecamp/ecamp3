@@ -76,16 +76,14 @@
         autocomplete="username"
       />
 
-      <e-text-field
+      <e-password-field
         id="inputPassword"
         v-model="password"
         :label="$t('views.auth.login.password')"
         vee-rules="required"
         name="password"
         path="email"
-        append-inner-icon="mdi-lock-outline"
         :density="$vuetify.display.xs ? 'compact' : 'default'"
-        type="password"
         autocomplete="current-password"
       />
       <small class="ml-2">
@@ -211,11 +209,9 @@ export default {
     HorizontalRule,
     AuthContainer,
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter(to) {
     if (isLoggedIn()) {
-      next(to.query.redirect || '/')
-    } else {
-      next()
+      return to.query.redirect || '/'
     }
   },
   data() {

@@ -1,12 +1,10 @@
 import { computed, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import * as XLSX from 'xlsx'
 import { slugify } from '@/plugins/slugify.js'
 import { componentI18n } from '@/plugins/i18n/index.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import { campShortTitle } from '@/common/helpers/campShortTitle.js'
 import { apiStore } from '@/plugins/store/index.js'
-import { materialListFromRoute } from '@/router.js'
 import shortScheduleEntryDescription from './shortScheduleEntryDescription.js'
 
 function generateFilename(camp, materialList) {
@@ -97,15 +95,15 @@ export function toWorkbook(sheets) {
 /**
  * @param {object} camp
  * @param {{value: {period: object, materialItems: {items: array}}[]}} collection
- * @param {string} materialList materialList name if set
+ * @param {ComputedRef} materialListName
  */
-function downloadMaterialList(camp, collection, materialList) {
+function downloadMaterialList(camp, collection, materialListName) {
   return async () => {
     await camp.activities().$loadItems()
 
-    const sheets = await getSheets(camp, collection.value, materialList)
+    const sheets = await getSheets(camp, collection.value, materialListName.value)
     const workbook = toWorkbook(sheets)
-    XLSX.writeFile(workbook, generateFilename(camp, materialList))
+    XLSX.writeFile(workbook, generateFilename(camp, materialListName.value))
   }
 }
 
@@ -125,23 +123,36 @@ function loadPeriods(camp) {
 
 /**
  * @param {Object} camp
- * @param {boolean} [list]
+ * @param {Ref<Object>|null} [materialList]
  */
-export function useMaterialViewHelper(camp, list) {
-  const computedList = computed(() => (list ? materialListFromRoute(useRoute()) : null))
+export function useMaterialViewHelper(camp, materialList = null) {
+  const materialListUri = computed(() => materialList?.value?._meta.self)
+  const materialListName = computed((previous) =>
+    typeof materialList?.value?.name === 'string'
+      ? materialList.value.name
+      : (previous ?? '')
+  )
 
   const collection = computed(() => {
-    const materialList = computedList.value?._meta.self
     return camp.periods().items.map((period) => ({
       period,
       materialItems: apiStore.get().materialItems({
         period: period._meta.self,
-        materialList,
+        materialList: materialListUri.value,
       }),
     }))
   })
 
-  const downloadXlsx = downloadMaterialList(camp, collection, computedList.value?.name)
+  const isDownloadingXlsx = ref(false)
+  const _download = downloadMaterialList(camp, collection, materialListName)
+  const downloadXlsx = async () => {
+    isDownloadingXlsx.value = true
+    try {
+      await _download()
+    } finally {
+      isDownloadingXlsx.value = false
+    }
+  }
   const openPeriods = loadPeriods(camp)
 
   onMounted(async () => {
@@ -161,7 +172,9 @@ export function useMaterialViewHelper(camp, list) {
   return {
     collection,
     downloadXlsx,
+    isDownloadingXlsx,
     downloadMaterialList,
+    materialListName,
     openPeriods,
   }
 }

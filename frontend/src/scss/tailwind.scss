@@ -10,6 +10,10 @@
   flex: none;
 }
 
+.flex-grow-10 {
+  flex-grow: 10;
+}
+
 .whitespace-normal {
   white-space: normal;
 }
@@ -40,6 +44,10 @@
 
 .gap-x-1 {
   column-gap: 4px;
+}
+
+.gap-y-1 {
+  row-gap: 4px;
 }
 
 .gap-2 {

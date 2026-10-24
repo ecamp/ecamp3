@@ -26,6 +26,8 @@ api_platform:
     swagger:
         versions: [3]
     defaults:
+        securityMessage: 'Access Denied.'
+        securityPostDenormalizeMessage: 'Access Denied.'
         stateless: true
         pagination_enabled: false
         itemOperations: ['get', 'patch', 'delete']
@@ -42,3 +44,4 @@ api_platform:
         ApiPlatform\Metadata\Exception\InvalidArgumentException: 400
         ApiPlatform\ParameterValidator\Exception\ValidationExceptionInterface: 400
         Doctrine\ORM\OptimisticLockException: 409
+        \DateMalformedStringException: 400

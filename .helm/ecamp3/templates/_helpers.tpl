@@ -177,21 +177,10 @@ The full URL where the dummy mail catcher service will be available.
 {{- end }}
 
 {{/*
-Ingress basic auth secret name
+Gateway basic auth secret name
 */}}
-{{- define "ingress.basicAuth.secret.name" -}}
+{{- define "gateway.basicAuth.secret.name" -}}
 {{- printf "%s-basic-auth" (include "app.name" .) }}
-{{- end }}
-
-{{/*
-Ingress annotations for basic auth
-*/}}
-{{- define "ingress.basicAuth.annotations" -}}
-{{- if .Values.ingress.basicAuth.enabled }}
-nginx.ingress.kubernetes.io/auth-type: "basic"
-nginx.ingress.kubernetes.io/auth-secret: {{ include "ingress.basicAuth.secret.name" . | quote }}
-nginx.ingress.kubernetes.io/auth-realm: {{ printf "Authentication Required - %s is protected and needs authentication" .Values.domain | quote }}
-{{- end }}
 {{- end }}
 
 {{/*

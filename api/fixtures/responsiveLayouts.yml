@@ -4,7 +4,7 @@ App\Entity\ContentNode\ResponsiveLayout:
     parent: '@columnLayout1campUnrelated'
     slot: '1'
     position: 0
-    data: { items: [{ slot: 'main' }, {slot: 'aside-top' }, {slot: 'aside-bottom'}] }
+    data: { items: [{ slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' }] }
     instanceName: 'responsiveLayoutCampUnrelated'
     contentType: '@contentTypeResponsiveLayout'
   responsiveLayoutCampPrototype:
@@ -12,7 +12,7 @@ App\Entity\ContentNode\ResponsiveLayout:
     parent: '@columnLayout1campPrototype'
     slot: '1'
     position: 0
-    data: { items: [{ slot: 'main' }, {slot: 'aside-top' }, {slot: 'aside-bottom'}] }
+    data: { items: [{ slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' }] }
     instanceName: 'responsiveLayoutCampPrototype'
     contentType: '@contentTypeResponsiveLayout'
   responsiveLayoutCampShared:
@@ -20,6 +20,6 @@ App\Entity\ContentNode\ResponsiveLayout:
     parent: '@columnLayout1campShared'
     slot: '1'
     position: 0
-    data: { items: [{ slot: 'main' }, {slot: 'aside-top' }, {slot: 'aside-bottom'}] }
+    data: { items: [{ slot: 'main' }, { slot: 'aside-top' }, { slot: 'aside-bottom' }] }
     instanceName: 'responsiveLayoutCampShared'
     contentType: '@contentTypeResponsiveLayout'

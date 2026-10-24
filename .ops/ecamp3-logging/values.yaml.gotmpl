@@ -22,12 +22,15 @@ fluent-operator:
         # enable to debug fluentbit
         enable: false
   fluentd:
+    forward:
+      retainMetadataInForwardMode: false
     image:
       # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluentd
       tag: "v1.17.1"
     watchedNamespaces:
+      - api-gateway
+      - external-dns-gateway-api
       - default
-      - ingress-nginx
     envVars: 
       - name: TRIGGER_FLUENTD_RECREATE
         value: {{ exec "uuidgen" (list) }}
@@ -62,7 +65,7 @@ elasticsearch:
     maxIndexAge: {{ .Environment.Values | get "ELASTIC_NODE_MAX_INDEX_AGE" "15" }}
     image: node
     # renovate: datasource=docker depName=node
-    tag: "24.15.0"
+    tag: "24.22.1"
 
 kibana:
   name: kibana

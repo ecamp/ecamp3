@@ -111,4 +111,56 @@ class ListChecklistItemsTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testListChecklistItemsAsChecklistNodeSubresourceIsAllowedForCollaborator() {
+        $checklistNode = static::getFixture('checklistNode1');
+        $response = static::createClientWithCredentials()->request('GET', '/content_node/checklist_nodes/'.$checklistNode->getId().'/checklist_items');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('checklistItem1_1_1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListChecklistItemsAsChecklistNodeSubresourceIsDeniedForUnrelatedUser() {
+        $checklistNode = static::getFixture('checklistNode1');
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/content_node/checklist_nodes/'.$checklistNode->getId().'/checklist_items')
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testListChecklistItemsFilteredByCampIsAllowedForCollaborator() {
+        $camp = static::getFixture('camp1');
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/checklist_items?checklist.camp=%2Fcamps%2F'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 4]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('checklistItem1_1_1')],
+            ['href' => $this->getIriFor('checklistItem1_1_2')],
+            ['href' => $this->getIriFor('checklistItem1_1_2_3')],
+            ['href' => $this->getIriFor('checklistItem1_1_2_3_4')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListChecklistItemsFilteredByCampIsDeniedForUnrelatedUser() {
+        $camp = static::getFixture('camp1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/checklist_items?checklist.camp=%2Fcamps%2F'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+    }
 }

@@ -176,7 +176,7 @@ async function redirectToOAuthLogin(provider) {
   return apiStore
     .href(apiStore.get(), provider, { callback: encodeURI(returnUrl) })
     .then((url) => {
-      window.location.href = url
+      window.location.replace(url)
     })
 }
 

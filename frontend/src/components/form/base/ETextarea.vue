@@ -2,7 +2,7 @@
   <ValidationField
     v-slot="{ handleChange, errors: veeErrors }"
     :label="validationLabel"
-    :name="veeId ?? path"
+    :name="veeId ?? path ?? validationLabel"
     :vee-rules="veeRules"
   >
     <v-tiptap-editor

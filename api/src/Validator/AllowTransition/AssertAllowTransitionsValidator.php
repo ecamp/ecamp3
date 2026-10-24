@@ -57,7 +57,7 @@ class AssertAllowTransitionsValidator extends ConstraintValidator {
 
         $this->context->buildViolation(self::FROM_VIOLATION_MESSAGE)
             ->setParameter('{{ from }}', join(',', $allFrom))
-            ->setParameter('{{ previousValue }}', $previousValue)
+            ->setParameter('{{ previousValue }}', (string) $previousValue)
             ->addViolation()
         ;
     }

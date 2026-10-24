@@ -14,7 +14,6 @@ use App\Entity\ChecklistItem;
 use App\Entity\ContentNode;
 use App\Repository\ChecklistNodeRepository;
 use App\State\ContentNode\ChecklistNodePersistProcessor;
-use App\State\ContentNodeCollectionProvider;
 use App\Util\EntityMap;
 use App\Validator\ChecklistItem\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,7 +38,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
@@ -57,13 +58,16 @@ class ChecklistNode extends ContentNode {
     /**
      * List of selected ChecklistItems.
      */
-    #[ApiProperty(example: '["/checklist_items/1a2b3c4d"]')]
+    #[ApiProperty(
+        example: '["/checklist_items/1a2b3c4d"]',
+        uriTemplate: ChecklistItem::CHECKLISTNODE_SUBRESOURCE_URI_TEMPLATE
+    )]
     #[Groups(['read'])]
     #[ORM\ManyToMany(targetEntity: ChecklistItem::class, inversedBy: 'checklistNodes')]
     #[ORM\JoinTable(name: 'checklistnode_checklistitem')]
     #[ORM\JoinColumn(name: 'checklistnode_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'checklistitem_id', referencedColumnName: 'id', onDelete: 'RESTRICT')]
-    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending])]
     public Collection $checklistItems;
 
     #[AssertBelongsToSameCamp(groups: ['update'])]

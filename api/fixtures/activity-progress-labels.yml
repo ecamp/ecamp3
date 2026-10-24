@@ -43,4 +43,3 @@ App\Entity\ActivityProgressLabel:
     camp: '@campShared'
     position: 1
     title: 'Geplant'
-  

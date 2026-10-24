@@ -19,9 +19,16 @@
                 </v-list-item>
               </template>
             </DialogMaterialListCreate>
-            <v-list-item @click="downloadXlsx">
+            <v-list-item :disabled="isDownloadingXlsx" @click.stop="downloadXlsx">
               <template #prepend>
-                <v-icon>mdi-microsoft-excel</v-icon>
+                <v-progress-circular
+                  v-if="isDownloadingXlsx"
+                  class="mr-2"
+                  indeterminate
+                  size="24"
+                  width="2"
+                />
+                <v-icon v-else>mdi-microsoft-excel</v-icon>
               </template>
               {{ $t('views.camp.material.materialOverview.download') }}
             </v-list-item>

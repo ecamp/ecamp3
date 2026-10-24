@@ -63,11 +63,6 @@ export default {
       isSaving: false,
     }
   },
-  computed: {
-    campsUrl() {
-      return this.api.get().camps()._meta.self
-    },
-  },
   created() {},
   methods: {
     camelCase,
@@ -75,9 +70,9 @@ export default {
       this.isSaving = true
 
       try {
-        const camp = await this.api.post(this.campsUrl, this.camp)
+        const campsUrl = await this.api.href(this.api.get(), 'camps')
+        const camp = await this.api.post(campsUrl, this.camp)
         await this.$router.push(campRoute(camp, 'admin'))
-        this.api.reload(this.campsUrl)
       } catch (error) {
         this.serverError = error
       }

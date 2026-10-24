@@ -17,27 +17,12 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListActivityResponsiblesIsAllowedForLoggedInUserButFiltered() {
+    public function testListActivityResponsiblesWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is an activity responsible that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['activityResponsible1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 4,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('activityResponsible1')],
-            ['href' => $this->getIriFor('activityResponsible2')],
-            ['href' => $this->getIriFor('activityResponsible1campPrototype')],
-            ['href' => $this->getIriFor('activityResponsible1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/activity_responsibles');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListActivityResponsiblesFilteredByActivityIsAllowedForCollaborator() {

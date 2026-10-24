@@ -3,7 +3,7 @@
     v-bind="$attrs"
     :icon="!visibleLabel"
     :aria-label="$t('global.button.back')"
-    @click="$router.go(-1)"
+    @click="goBack"
   >
     <v-icon :start="visibleLabel" icon="mdi-arrow-left" />
     <template v-if="visibleLabel">
@@ -16,9 +16,23 @@
 export default {
   name: 'ButtonBack',
   props: {
+    to: {
+      type: [String, Object],
+      default: null,
+    },
     visibleLabel: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    goBack() {
+      if (this.to) {
+        this.$router.push(this.to)
+        return
+      }
+
+      this.$router.back()
     },
   },
 }

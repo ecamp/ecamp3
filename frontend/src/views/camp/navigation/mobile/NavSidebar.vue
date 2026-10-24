@@ -21,7 +21,7 @@
             user.profile().nickname &&
             user.profile().firstname + ' ' + user.profile().surname
           "
-          :to="{ name: 'profile', query: { isDetail: true } }"
+          :to="{ name: 'profile' }"
         >
           <template #pre>
             <UserAvatar
@@ -34,7 +34,7 @@
         <SidebarListItem
           :title="$t('views.camp.navigation.mobile.navSidebar.itemCamps', 2)"
           icon="mdi-format-list-bulleted-triangle"
-          :to="{ name: 'camps', query: { isDetail: true } }"
+          :to="{ name: 'camps' }"
         />
       </v-list>
 

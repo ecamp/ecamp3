@@ -40,7 +40,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             validate: true
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['camp'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
@@ -65,7 +68,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'materialList')]
-    #[ORM\OrderBy(['article' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['article' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $materialItems;
 
     /**

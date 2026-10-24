@@ -1,7 +1,7 @@
-Cannot delete the last entry.: "Der letzte Eintrag kann nicht gelöscht werden."
-Cannot delete the last schedule entry.: "Der letzte Kalendereintrag kann nicht gelöscht werden."
-"Either this value or {{ other }} should not be null.": "Dieser Wert und {{ other }} dürfen nicht beide null sein."
-This inviteEmail is already present in the camp.: "Diese eingeladene E-Mail ist bereits im Lager vorhanden."
-This is a test message for i18n variants: "de"
-This user is already present in the camp.: "Diese Person oder jemand mit dieser E-Mail-Adresse ist bereits am Lager beteiligt."
-"value must be one of {{ to }}, was {{ value }}": "Wert muss einer von {{ to }} sein, war {{ value }}"
+Cannot delete the last entry.: 'Der letzte Eintrag kann nicht gelöscht werden.'
+Cannot delete the last schedule entry.: 'Der letzte Kalendereintrag kann nicht gelöscht werden.'
+'Either this value or {{ other }} should not be null.': 'Dieser Wert und {{ other }} dürfen nicht beide null sein.'
+This inviteEmail is already present in the camp.: 'Diese eingeladene E-Mail ist bereits im Lager vorhanden.'
+This is a test message for i18n variants: 'de'
+This user is already present in the camp.: 'Diese Person oder jemand mit dieser E-Mail-Adresse ist bereits am Lager beteiligt.'
+'value must be one of {{ to }}, was {{ value }}': 'Wert muss einer von {{ to }} sein, war {{ value }}'

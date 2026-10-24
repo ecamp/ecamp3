@@ -4,7 +4,10 @@ namespace App\Tests\Api\Periods;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Entity\Camp;
 use App\Entity\Period;
+use App\Service\Hitobito\HitobitoProvider;
+use App\Service\Hitobito\MockClient;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -377,13 +380,44 @@ class CreatePeriodTest extends ECampApiTestCase {
         assertThat($createArray, CompatibleHalResponse::isHalCompatibleWith($getPeriodResponse->toArray()));
     }
 
+    public function testCreatePeriodStoresTheHitobitoIdWhenCampIsLinkedToAHitobitoEvent() {
+        /** @var Camp $camp */
+        $camp = $this->getEntityManager()->getRepository(Camp::class)->find(static::getFixture('camp1')->getId());
+        $camp->hitobitoProvider = HitobitoProvider::PBSMIDATA;
+        $camp->hitobitoEventId = MockClient::EVENT_ID_LEADER;
+        $this->getEntityManager()->flush();
+
+        static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'hitobitoId' => '5678',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains(['hitobitoId' => '5678']);
+    }
+
+    public function testCreatePeriodValidatesHitobitoIdWhenCampIsNotLinkedToAHitobitoEvent() {
+        static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'hitobitoId' => '5678',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'hitobitoId',
+                    'message' => 'hitobitoId may only be set on periods of a camp that is linked to a Hitobito event.',
+                ],
+            ],
+        ]);
+    }
+
     #[\Override]
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Period::class,
             Post::class,
             array_merge(['camp' => $this->getIriFor('camp1')], $attributes),
-            [],
+            ['hitobitoId'],
             $except
         );
     }
@@ -393,7 +427,7 @@ class CreatePeriodTest extends ECampApiTestCase {
             Period::class,
             Get::class,
             $attributes,
-            ['camp'],
+            ['camp', 'hitobitoId'],
             $except
         );
     }

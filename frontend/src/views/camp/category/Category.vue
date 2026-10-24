@@ -4,11 +4,11 @@
       v-if="category"
       class="ec-category"
       toolbar
-      back
+      :back="adminRoute(camp, 'activity')"
       :max-width="isPaperDisplaySize ? '944px' : ''"
     >
       <template #title>
-        <v-toolbar-title class="font-weight-bold">
+        <v-toolbar-title class="font-weight-bold ml-0">
           <CategoryChip :category="category" dense large />
           {{ category.name }}
         </v-toolbar-title>
@@ -41,6 +41,7 @@
               :warning-text-entity="category.name"
               :dialog-title="$t('views.camp.category.category.deleteCategory')"
               :success-handler="goToActivityAdmin"
+              :submit-enabled="!activitiesLoading"
             >
               <template #activator="{ props }">
                 <v-list-item v-bind="props">
@@ -52,6 +53,7 @@
                   </v-list-item-title>
                 </v-list-item>
               </template>
+              <v-skeleton-loader v-if="activitiesLoading" type="article" />
               <template v-if="findActivities(category).length > 0" #error>
                 <ErrorExistingActivitiesList
                   :camp="camp"
@@ -107,9 +109,9 @@ import ErrorExistingActivitiesList from '@/components/campAdmin/ErrorExistingAct
 import CategoryProperties from '@/components/category/CategoryProperties.vue'
 import CategoryTemplate from '@/components/category/CategoryTemplate.vue'
 import TogglePaperSize from '@/components/activity/TogglePaperSize.vue'
-import router, { categoryRoute } from '@/router.js'
+import router, { adminRoute, categoryRoute } from '@/router.js'
 import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'Category',
@@ -161,6 +163,9 @@ export default {
     }
   },
   computed: {
+    activitiesLoading() {
+      return this.camp.activities()._meta.loading
+    },
     contentNodes() {
       return this.category.contentNodes()
     },
@@ -195,6 +200,7 @@ export default {
     this.loading = false
   },
   methods: {
+    adminRoute,
     findActivities(category) {
       return this.camp
         .activities()

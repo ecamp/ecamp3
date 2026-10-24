@@ -13,15 +13,18 @@ use App\Repository\UserRepository;
 use App\State\UserActivateProcessor;
 use App\State\UserCreateProcessor;
 use App\State\UserUpdateProcessor;
+use App\Validator\PwnedPasswords\NotPwnedPassword;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\When;
 
 /**
  * A person using eCamp.
@@ -46,7 +49,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'false'
         ),
         new GetCollection(
-            security: 'false'
+            security: 'false',
+            extraProperties: [
+                'scoping_filters' => false,
+            ]
         ),
         new Post(
             normalizationContext: ['groups' => ['read', 'User:create']],
@@ -79,7 +85,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Camp::class, mappedBy: 'owner')]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $ownedCamps;
 
     /**
@@ -87,7 +93,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'user', orphanRemoval: true)]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $collaborations;
 
     /**
@@ -142,9 +148,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[SerializedName('password')]
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 12, max: 128)]
+    #[NotPwnedPassword]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     #[Groups(['write'])]
     public ?string $plainPassword = null;
+
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['write'])]
+    #[When(
+        expression: 'this.plainPassword !== null and this.password !== null',
+        constraints: [new UserPassword(message: 'The current password you entered is incorrect.')],
+    )]
+    public ?string $currentPassword = null;
 
     /**
      * The hashed password-reset-key. Of course not exposed through the API.
@@ -174,7 +189,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $comments;
 
     public function __construct() {

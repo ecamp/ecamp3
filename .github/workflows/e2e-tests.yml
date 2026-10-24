@@ -1,4 +1,4 @@
-name: "Tests: End to End to detect flaky tests"
+name: 'Tests: End to End to detect flaky tests'
 
 on:
   workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
     needs:
       - create-array
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
-  
+
   e2e-tests-run:
     name: 'Tests: End-to-end run to detect flaky tests'
     needs:

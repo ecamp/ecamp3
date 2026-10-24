@@ -13,7 +13,6 @@ use App\Entity\ContentNode;
 use App\Entity\SupportsContentNodeChildren;
 use App\Repository\ResponsiveLayoutRepository;
 use App\State\ContentNode\ContentNodePersistProcessor;
-use App\State\ContentNodeCollectionProvider;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,7 +38,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

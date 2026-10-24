@@ -33,6 +33,7 @@ use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -200,10 +201,22 @@ final readonly class PurgeHttpCacheListener {
         $oldIri = '';
 
         if ($this->canGenerateIri($operation, $entity)) {
-            $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+            try {
+                $iri = $this->iriConverter->getIriFromResource($entity, UrlGeneratorInterface::ABS_PATH, $operation);
+            } catch (NoSuchPropertyException $e) { // @phpstan-ignore catch.neverThrown
+                // NoSuchPropertyException is thrown for cases where uri parameters cannot determined automatically
+                // (for example for the folowing route '/content_node/checklist_nodes/{checklistNodeId}/checklist_items{._format}')
+                // if such routes should be cached, custom logic is needed to purge the correct IRIs
+            }
         }
         if ($oldEntity && $this->canGenerateIri($operation, $oldEntity)) {
-            $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
+            try {
+                $oldIri = $this->iriConverter->getIriFromResource($oldEntity, UrlGeneratorInterface::ABS_PATH, $operation);
+            } catch (NoSuchPropertyException $e) { // @phpstan-ignore catch.neverThrown
+                // NoSuchPropertyException is thrown for cases where uri parameters cannot determined automatically
+                // (for example for the folowing route '/content_node/checklist_nodes/{checklistNodeId}/checklist_items{._format}')
+                // if such routes should be cached, custom logic is needed to purge the correct IRIs
+            }
         }
         if ($iri !== $oldIri) {
             if ($iri) {

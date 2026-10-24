@@ -8,20 +8,20 @@ The docker-compose.yml file makes it easy to build and push the image locally.\
 
 1. If you want to change the variables (e.g. container registry, docker hub user)
 
-    ```shell
-    export CONTAINER_REGISTRY=docker.io
-    export REPO_OWNER=bacluc
-    export VERSION=local
-    ```
+   ```shell
+   export CONTAINER_REGISTRY=docker.io
+   export REPO_OWNER=bacluc
+   export VERSION=local
+   ```
 
 2. build the image
 
-    ```shell
-    docker compose build
-    ```
+   ```shell
+   docker compose build
+   ```
 
 3. push the image
 
-    ```shell
-    docker compose push
-    ```
+   ```shell
+   docker compose push
+   ```

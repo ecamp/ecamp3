@@ -3,10 +3,14 @@ Displays collaborators of a single camp.
 -->
 <template>
   <content-card :title="$t('views.camp.admin.collaborators.title')" toolbar>
+    <template v-if="showHitobitoInvite" #title-actions>
+      <CollaboratorHitobitoInvite :camp="camp" />
+    </template>
     <v-card-text>
       <ContentGroup :title="$t('views.camp.admin.collaborators.members')">
         <template #title-actions>
           <CollaboratorCreate v-if="isManager" :camp="camp" />
+          <CollaboratorBulkCreate v-if="isManager" :camp="camp" />
         </template>
         <CollaboratorList :collaborators="established" :is-manager="isManager" />
       </ContentGroup>
@@ -28,10 +32,14 @@ Displays collaborators of a single camp.
   </content-card>
 </template>
 <script>
+import CollaboratorBulkCreate from '@/components/collaborator/CollaboratorBulkCreate.vue'
 import CollaboratorCreate from '@/components/collaborator/CollaboratorCreate.vue'
+import CollaboratorHitobitoInvite from '@/components/collaborator/CollaboratorHitobitoInvite.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
+import { isValidProvider } from '@/plugins/hitobito.js'
+import { getEnv } from '@/environment.js'
 import CollaboratorList from '@/components/collaborator/CollaboratorList.vue'
 
 export default {
@@ -39,6 +47,8 @@ export default {
   components: {
     CollaboratorList,
     CollaboratorCreate,
+    CollaboratorBulkCreate,
+    CollaboratorHitobitoInvite,
     ContentGroup,
     ContentCard,
   },
@@ -52,6 +62,14 @@ export default {
     }
   },
   computed: {
+    showHitobitoInvite() {
+      return (
+        (getEnv().FEATURE_HITOBITO ?? false) &&
+        this.isManager &&
+        isValidProvider(this.camp.hitobitoProvider) &&
+        !!this.camp.hitobitoEventId
+      )
+    },
     collaborators() {
       return this.camp.campCollaborations().items
     },

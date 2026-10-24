@@ -4,7 +4,7 @@
  * a set of filter criteria is implemented here, because this can be
  * used more flexibly in the application.
  */
-const filterMatchScheduleEntry = (scheduleEntry, filter) => {
+const filterMatchScheduleEntry = (scheduleEntry, filter, context = {}) => {
   if (!filter) return true
   return (
     // filter by period
@@ -41,9 +41,13 @@ const filterMatchScheduleEntry = (scheduleEntry, filter) => {
     (filter.progressLabel === null ||
       filter.progressLabel === undefined ||
       filter.progressLabel.length === 0 ||
-      filter.progressLabel.includes(
-        scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
-      ))
+      (!scheduleEntry.activity()._meta?.loading &&
+        filter.progressLabel.includes(
+          scheduleEntry.activity().progressLabel?.()._meta.self ?? 'none'
+        ))) &&
+    // filter by presence of comments
+    (!filter.hasComments ||
+      !!context.activitiesWithComments?.has(scheduleEntry.activity()._meta.self))
   )
 }
 

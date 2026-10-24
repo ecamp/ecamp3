@@ -15,7 +15,6 @@ use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -124,13 +123,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createStub(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createStub(Request::class);
+        $requestMock = Request::create('/', 'GET', ['state' => $state, 'code' => $state], ['test_prefix_oauth_state_jwt' => 'test jwt value']);
         $requestStackMock = $this->createStub(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
-        $cookieBag = new InputBag();
-        $cookieBag->set('test_prefix_oauth_state_jwt', 'test jwt value');
-        $requestMock->cookies = $cookieBag;
-        $requestMock->query = new InputBag(['state' => $state, 'code' => $state]);
 
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())
@@ -169,13 +164,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createStub(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createStub(Request::class);
+        $requestMock = Request::create('/', 'GET', ['state' => $state, 'code' => $state], ['test_prefix_oauth_state_jwt' => 'test jwt value']);
         $requestStackMock = $this->createStub(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
-        $cookieBag = new InputBag();
-        $cookieBag->set('test_prefix_oauth_state_jwt', 'test jwt value');
-        $requestMock->cookies = $cookieBag;
-        $requestMock->query = new InputBag(['state' => $state, 'code' => $state]);
 
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())
@@ -214,13 +205,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createStub(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createStub(Request::class);
+        $requestMock = Request::create('/', 'GET', ['state' => $state, 'code' => $state], ['test_prefix_oauth_state_jwt' => 'test jwt value']);
         $requestStackMock = $this->createStub(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
-        $cookieBag = new InputBag();
-        $cookieBag->set('test_prefix_oauth_state_jwt', 'test jwt value');
-        $requestMock->cookies = $cookieBag;
-        $requestMock->query = new InputBag(['state' => $state, 'code' => $state]);
 
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())
@@ -259,13 +246,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createMock(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createStub(Request::class);
+        $requestMock = Request::create('/', 'GET', ['state' => $state, 'code' => $state], ['test_prefix_oauth_state_jwt' => 'test jwt value']);
         $requestStackMock = $this->createMock(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
-        $cookieBag = new InputBag();
-        $cookieBag->set('test_prefix_oauth_state_jwt', 'test jwt value');
-        $requestMock->cookies = $cookieBag;
-        $requestMock->query = new InputBag(['state' => $state, 'code' => $state]);
 
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())
@@ -305,13 +288,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createMock(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createStub(Request::class);
+        $requestMock = Request::create('/', 'GET', ['state' => $state, 'code' => $state], ['test_prefix_oauth_state_jwt' => 'test jwt value']);
         $requestStackMock = $this->createMock(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
-        $cookieBag = new InputBag();
-        $cookieBag->set('test_prefix_oauth_state_jwt', 'test jwt value');
-        $requestMock->cookies = $cookieBag;
-        $requestMock->query = new InputBag(['state' => $state, 'code' => $state]);
 
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())
@@ -351,13 +330,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $providerMock = $this->createMock(Hitobito::class);
         $providerMock->method('getAccessToken')->willReturn(new AccessToken(['access_token' => 'test access token']));
 
-        $requestMock = $this->createStub(Request::class);
+        $requestMock = Request::create('/', 'GET', ['state' => $state, 'code' => $state], ['test_prefix_oauth_state_jwt' => 'test jwt value']);
         $requestStackMock = $this->createMock(RequestStack::class);
         $requestStackMock->method('getCurrentRequest')->willReturn($requestMock);
-        $cookieBag = new InputBag();
-        $cookieBag->set('test_prefix_oauth_state_jwt', 'test jwt value');
-        $requestMock->cookies = $cookieBag;
-        $requestMock->query = new InputBag(['state' => $state, 'code' => $state]);
 
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->expects($this->once())

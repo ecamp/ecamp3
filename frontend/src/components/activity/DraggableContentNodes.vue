@@ -53,11 +53,11 @@
   </div>
 </template>
 <script>
-import { keyBy, sortBy } from 'lodash'
+import { keyBy, sortBy } from 'lodash-es'
 import Draggable from 'vuedraggable'
 import ButtonNestedContentNodeAdd from '@/components/activity/ButtonNestedContentNodeAdd.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'DraggableContentNodes',

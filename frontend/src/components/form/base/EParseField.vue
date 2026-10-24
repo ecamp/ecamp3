@@ -107,7 +107,7 @@ export default {
      */
     inputFilter: { type: Function, required: false, default: null },
   },
-  emits: ['update:model-value', 'blur'],
+  emits: ['update:modelValue', 'blur'],
   data() {
     return {
       /**
@@ -193,7 +193,7 @@ export default {
         this.internalValue = val
 
         this.serializedValue = this.serialize?.(val) ?? val
-        this.$emit('update:model-value', this.serialize?.(val) ?? val)
+        this.$emit('update:modelValue', this.serialize?.(val) ?? val)
       }
     },
     async parseValue(val) {

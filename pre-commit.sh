@@ -35,9 +35,6 @@ execute_or_run "api" "ecamp3-api" "php" "composer cs-fix" &
 # Print
 execute_or_run "print" "ecamp3-print" "print" "npm run lint" &
 
-# PDF
-execute_or_run "pdf" "ecamp3-pdf" "pdf" "npm run lint" &
-
 # E2E
 execute_or_run "e2e" "ecamp3-e2e" "e2e" "npm run lint" true
 

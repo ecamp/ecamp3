@@ -17,30 +17,12 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListDayResponsiblesIsAllowedForLoggedInUserButFiltered() {
+    public function testListDayResponsiblesWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a day responsible that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['dayResponsible1day1period1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/day_responsibles');
-        $this->assertJsonContains([
-            'totalItems' => 8,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('dayResponsible1')],
-            ['href' => $this->getIriFor('dayResponsible1day2period1')],
-            ['href' => $this->getIriFor('dayResponsible1day1period2')],
-            ['href' => $this->getIriFor('dayResponsible1day2period2')],
-            ['href' => $this->getIriFor('dayResponsible1day3period2')],
-            ['href' => $this->getIriFor('dayResponsible2day3period2')],
-            ['href' => $this->getIriFor('dayResponsible1day1period1campPrototype')],
-            ['href' => $this->getIriFor('dayResponsible1day1period1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/day_responsibles');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListDayResponsiblesFilteredByDayIsAllowedForCollaborator() {
@@ -186,5 +168,28 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testListDayResponsiblesFilteredByPeriodIsAllowedForCollaborator() {
+        $period = static::getFixture('period1');
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/day_responsibles?day.period=%2Fperiods%2F'.$period->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 2]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('dayResponsible1')],
+            ['href' => $this->getIriFor('dayResponsible1day2period1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListDayResponsiblesFilteredByPeriodIsDeniedForUnrelatedUser() {
+        $period = static::getFixture('period1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/day_responsibles?day.period=%2Fperiods%2F'.$period->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 }

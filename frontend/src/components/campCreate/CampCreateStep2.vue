@@ -1,7 +1,7 @@
 <template>
   <Form ref="form" v-slot="{ meta, validate }" @submit="() => $emit('createCamp')">
     <v-card-text>
-      <server-error :server-error="serverError" />
+      <server-error :server-error="serverError" class="mb-4" />
 
       <e-select
         v-model="selectedPrototypeValue"
@@ -26,12 +26,13 @@
           :vee-rules="{ required: true }"
           class="flex-grow-1"
           path="campPrototypeUrl"
-          @input="setClipboardEntityUrl"
+          @update:model-value="setClipboardEntityUrl"
         />
         <ClipboardInfoDialog
           v-if="showClipboardPrompt"
           ref="clipboardInfoDialog"
           translation-context-i18n-key="components.campCreate.campCreateStep2.clipboardInfoDialog"
+          @clipboard-text="setClipboardEntityUrl"
           @closed="attemptLoadingEntityFromClipboard"
         >
           <template #activator="{ props }">
@@ -191,7 +192,7 @@
   </Form>
 </template>
 <script>
-import camelCase from 'lodash-es/camelCase.js'
+import { camelCase } from 'lodash-es'
 import { Form } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'

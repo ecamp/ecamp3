@@ -17,11 +17,7 @@
         {{ $t('components.print.printClient.printPreviewClient.previewError') }}
       </div>
       <div v-else class="d-flex flex-column gap-3 align-center h-100 justify-center">
-        <v-progress-circular
-          :model-value="progress"
-          :rotate="270"
-          size="24"
-        ></v-progress-circular>
+        <v-progress-circular :model-value="progress" size="24"></v-progress-circular>
         <div>{{ state }}</div>
       </div>
     </v-overlay>
@@ -32,7 +28,7 @@
 import { generatePdf } from './generatePdf.js'
 import { generatePdfMixin } from './generatePdfMixin.js'
 import { componentI18n } from '@/plugins/index.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 const RENDER_IN_WORKER = true
 

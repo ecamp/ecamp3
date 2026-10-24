@@ -141,6 +141,16 @@
       }
     },
     "collaborator": {
+      "collaboratorBulkCreate": {
+        "validationFailed": "Gia en il camp u email invalida:",
+        "emailsHint": "Endatescha in'adressa e-mail per lingia u separadas cun virglas",
+        "emailsLabel": "Adressas e-mail",
+        "failedEmails": "Invitaziun fallida: {emails}",
+        "invite": "Trametter las invitaziuns",
+        "inviteCta": "Envidar pliras persunas",
+        "successCount": "{count} invitaziun(s) tramessa(s)",
+        "title": "Envidar pliras persunas"
+      },
       "collaboratorCreate": {
         "invite": "Trametter l'invitaziun",
         "inviteCta": "Envidar en il team",
@@ -340,6 +350,7 @@
       "scheduleEntryFilters": {
         "category": "Categoria",
         "clearFilters": "Allontanar il filter",
+        "allMyActivities": "Tut mias activitads",
         "onlyMyActivities": "Mo mias activitads",
         "period": "Part dal champ",
         "progressLabel": "Status",
@@ -372,6 +383,14 @@
         "message": "L'adressa dad e-mail vegn midada...",
         "success": "Midà cun success l'adressa dad e-mail.",
         "title": "Midar l'adressa dad e-mail"
+      },
+      "dialogChangePassword": {
+        "title": "Midar il pled-clav",
+        "currentPassword": "Pled-clav actual",
+        "newPassword": "Nov pled-clav",
+        "newPasswordConfirmation": "Confirmar il nov pled-clav",
+        "success": "Tes pled-clav è vegnì midà cun success.",
+        "error": "D'ina errur èsi dà."
       }
     }
   },
@@ -380,6 +399,7 @@
       "add": "Agiuntar",
       "back": "Enavos",
       "cancel": "Interrumper",
+      "change": "Midar",
       "close": "Serrar",
       "content": "Cuntegn",
       "create": "Crear",
@@ -389,6 +409,7 @@
       "edit": "Modifitgar",
       "editable": "Modifitgabel",
       "filter": "Filtrar",
+      "hidePassword": "Zuppentar la pled-clav",
       "lock": "Bloccar",
       "login": "S'annunziar",
       "logout": "Sortir",
@@ -401,6 +422,7 @@
       "save": "Memorisar",
       "saving": "Memorisà",
       "search": "Tschertgar",
+      "showPassword": "Mussar la pled-clav",
       "submit": "Trametter",
       "tryagain": "Empruvar anc ina giada",
       "unlock": "Debloccar",
@@ -429,6 +451,12 @@
       },
       "help": "Agid",
       "news": "Noviteds"
+    },
+    "newVersion": {
+      "title": "Ina nova versiun è disponibla",
+      "description": "Questa funcziun na è betg disponibla fin che ti actualiseschas a l’ultima versiun.",
+      "update": "Actualisar ussa",
+      "updateLater": "Actualisar plus tard"
     },
     "serverError": {
       "409": "Uuuups... Questa acziun ha chaschunà ina errur sin il server."
@@ -637,8 +665,8 @@
       "detail": "Hopla. Ti has pers la via…{br}Questa colliaziun na funcziuna deplorablamain betg."
     },
     "profile": {
-      "changeEmail": "Midar",
-      "profile": "Profil"
+      "profile": "Profil",
+      "password": "Pled-clav"
     }
   }
 }

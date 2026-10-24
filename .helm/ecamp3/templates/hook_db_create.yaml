@@ -24,7 +24,11 @@ spec:
       containers:
         - name: db-create-job
           image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Values.imageTag }}"
-          command: ["php", "bin/console", "doctrine:database:create", "--if-not-exists"]
+          command:
+            - sh
+            - "-c"
+            - |
+              php bin/console dbal:run-sql 'CREATE DATABASE "{{ .Values.postgresql.dbName }}" OWNER "{{ .Values.postgresql.user }}"'
           env:
             - name: DATABASE_URL
               valueFrom:

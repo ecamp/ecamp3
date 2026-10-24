@@ -7,9 +7,10 @@ on:
 jobs:
   summarize-changes:
     name: Summarize changes
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -25,10 +26,10 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Update PR description with summary
-        uses: nefrob/pr-description@4dcc9f3ad5ec06b2a197c5f8f93db5e69d2fdca7 # v1.2.0
+        uses: nefrob/pr-description@30859d560129561327a48ec569ec3b6aa62dd2c9 # v1.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          regex: ".*"
+          regex: '.*'
           regexFlags: s
           content: |
             ### <span aria-hidden="true">🏗️</span> Changes in this deployment

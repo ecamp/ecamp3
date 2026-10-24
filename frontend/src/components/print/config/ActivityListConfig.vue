@@ -50,9 +50,9 @@ export default {
       }))
     },
     selectedPeriods() {
-      if (!this.options.filter.period) return this.camp.periods().items
+      if (!this.options.periods) return this.camp.periods().items
       return this.camp.periods().items.filter((period) => {
-        return this.filter.periods.includes(period._meta.self)
+        return this.options.periods.includes(period._meta.self)
       })
     },
     selectedScheduleEntries() {
@@ -63,6 +63,7 @@ export default {
     return {
       periods:
         camp.periods().items.length === 1 ? [camp.periods().items[0]._meta.self] : [],
+      filter: repairFilterConfig(null, camp),
     }
   },
   methods: {

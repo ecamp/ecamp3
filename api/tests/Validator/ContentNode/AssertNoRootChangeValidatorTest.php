@@ -10,7 +10,6 @@ use App\Entity\ContentNode\ColumnLayout;
 use App\Validator\ContentNode\AssertNoRootChange;
 use App\Validator\ContentNode\AssertNoRootChangeValidator;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
@@ -67,8 +66,8 @@ class AssertNoRootChangeValidatorTest extends ConstraintValidatorTestCase {
         $current->parent = null;
         $this->setProperty($current, 'parent');
 
-        $request = $this->createStub(Request::class);
-        $request->attributes = new ParameterBag(['previous_data' => $previous]);
+        $request = Request::create('/');
+        $request->attributes->set('previous_data', $previous);
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         // when

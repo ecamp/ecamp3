@@ -1,21 +1,23 @@
 import { Extension } from '@tiptap/vue-3'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import LinkifyIt from 'linkify-it'
+import { LinkifyIt } from 'linkify-it'
 
 export const AutoLinkKey = new PluginKey('autoLinkDecoration')
 
 export const AutoLinkDecoration = Extension.create({
   name: 'autoLinkDecoration',
   addProseMirrorPlugins() {
-    const linkify = new LinkifyIt()
+    const linkify = new LinkifyIt({
+      fuzzyLink: true,
+    })
     /**
      * @param {import('prosemirror-model').Node} doc
      */
     const urlDecoration = (doc) => {
       const decorations = []
       doc.descendants((node, pos) => {
-        if (node.isText && linkify.pretest(node.text)) {
+        if (node.isText && linkify.test(node.text)) {
           const matches = linkify.match(node.text)
           matches?.forEach(({ index, lastIndex, url }) => {
             if (url.charAt(0) === '/') {

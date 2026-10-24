@@ -22,12 +22,12 @@ jobs:
     name: 'Api Platform check dependencies'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5.5'
-          tools: composer:2.9.0
+          php-version: '8.5.12'
+          tools: composer:2.10.3
           coverage: xdebug
 
       - run: composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mock OAuth2 Sign-in</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 480px;
+        margin: 60px auto;
+        padding: 0 16px;
+      }
+      h2 {
+        margin-bottom: 4px;
+      }
+      p.subtitle {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 0;
+        margin-bottom: 24px;
+      }
+      .user-btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px 16px;
+        font-size: 1em;
+        text-align: left;
+        cursor: pointer;
+        background: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .user-btn:hover {
+        background: #e8e8e8;
+      }
+      .user-email {
+        font-weight: bold;
+      }
+      .user-name {
+        color: #555;
+        font-size: 0.9em;
+      }
+      hr {
+        margin: 24px 0;
+      }
+      .custom-row {
+        display: flex;
+        gap: 8px;
+      }
+      .custom-row input {
+        flex: 1;
+        padding: 8px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .custom-row button {
+        padding: 8px 16px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #aaa;
+      }
+      textarea[name='claims'] {
+        min-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Mock OAuth2 Sign-in</h2>
+    <p class="subtitle">Local development only – not present in production.</p>
+
+    <!-- ── Pre-configured test users ─────────────────────────────────────── -->
+    <!--
+    Claims are universal: include both OIDC fields (given_name/family_name for
+    GoogleUser) and Hitobito fields (first_name/last_name/id for HitobitoUser).
+    The username becomes the token sub when sub is not in the claims JSON.
+  -->
+
+    <form method="post">
+      <input type="hidden" name="username" value="test@example.com" />
+      <input
+        type="hidden"
+        name="claims"
+        value='{"email":"test@example.com","name":"Test User","given_name":"Test","family_name":"User","id":1001,"first_name":"Test","last_name":"User","nickname":"test"}'
+      />
+      <button type="submit" class="user-btn">
+        <span class="user-email">test@example.com</span><br />
+        <span class="user-name">Test User</span>
+      </button>
+    </form>
+
+    <form method="post">
+      <input type="hidden" name="username" value="test2@example.com" />
+      <input
+        type="hidden"
+        name="claims"
+        value='{"email":"test2@example.com","name":"Test User 2","given_name":"Test","family_name":"User2","id":1002,"first_name":"Test","last_name":"User2","nickname":"test2"}'
+      />
+      <button type="submit" class="user-btn">
+        <span class="user-email">test2@example.com</span><br />
+        <span class="user-name">Test User 2</span>
+      </button>
+    </form>
+
+    <form method="post">
+      <input type="hidden" name="username" value="admin@example.com" />
+      <input
+        type="hidden"
+        name="claims"
+        value='{"email":"admin@example.com","name":"Admin User","given_name":"Admin","family_name":"User","id":1003,"first_name":"Admin","last_name":"User","nickname":"admin"}'
+      />
+      <button type="submit" class="user-btn">
+        <span class="user-email">admin@example.com</span><br />
+        <span class="user-name">Admin User</span>
+      </button>
+    </form>
+
+    <hr />
+    <form method="post">
+      <div class="custom-row">
+        <input type="hidden" name="username" placeholder="Enter email (or leave empty)" />
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <textarea name="claims" rows="10">
+        {
+          "email":"my@email.com",
+          "given_name":"Custom",
+          "family_name":"User",
+          "first_name":"Custom",
+          "last_name":"User",
+          "nickname": "nickname",
+          "id":9999
+        }
+      </textarea
+        >
+      </div>
+      <div class="custom-row">
+        <button type="submit">Sign in</button>
+      </div>
+    </form>
+  </body>
+</html>

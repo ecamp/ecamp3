@@ -20,6 +20,8 @@ describe.skip('lessThanOrEqual_date validation', () => {
       [['2.1.2020', { max: '02.01.2020' }], false], // invalid date
       [['3.1.2020', { max: '02.01.2020' }], false], // invalid date
       [['today', { max: '02.01.2020' }], false], // invalid date
+      [['', { max: '02.01.2020' }], true],
+      [[null, { max: '02.01.2020' }], true],
     ])('validates %p as %p', (input, expected) => {
       // given
       const rule = lessThanOrEqual_date(dayjs, mockI18n)
@@ -44,6 +46,9 @@ describe.skip('lessThanOrEqual_date validation', () => {
       [['1/2/2020', { max: '01/02/2020' }], false], // invalid date
       [['1/3/2020', { max: '01/02/2020' }], false], // invalid date
       [['today', { max: '01/02/2020' }], false], // invalid date
+      [['', { max: '01/02/2020' }], true],
+      [[null, { max: '01/02/2020' }], true],
+      [[undefined, { max: '01/02/2020' }], true],
     ])('validates %p as %p', (input, expected) => {
       // given
       const rule = lessThanOrEqual_date(dayjs, mockI18n)

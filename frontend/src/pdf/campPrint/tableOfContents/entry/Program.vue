@@ -1,0 +1,29 @@
+<template>
+  <ProgramPeriod
+    v-for="period in periods"
+    :id="id"
+    :period="period"
+    :filter="entry.options.filter"
+    :config="config"
+  />
+</template>
+<script>
+import PdfComponent from '@/pdf/PdfComponent.js'
+import ProgramPeriod from './ProgramPeriod.vue'
+
+export default {
+  name: 'Program',
+  components: { ProgramPeriod },
+  extends: PdfComponent,
+  props: {
+    entry: { type: Object, required: true },
+    config: { type: Object, required: true },
+  },
+  computed: {
+    periods() {
+      return this.entry.options.periods.map((periodUri) => this.api.get(periodUri))
+    },
+  },
+}
+</script>
+<style lang="react-pdf"></style>

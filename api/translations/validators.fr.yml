@@ -1,7 +1,7 @@
-Cannot delete the last entry.: "Impossible de supprimer la dernière saisie."
-Cannot delete the last schedule entry.: "Impossible de supprimer la dernière entrée du calendrier."
-"Either this value or {{ other }} should not be null.": "Cette valeur ou {{ other }} ne doit pas être nulle."
-This inviteEmail is already present in the camp.: "Cet email a déjà été invité à rejoindre le camp."
-This is a test message for i18n variants: "fr"
-This user is already present in the camp.: "Cette personne ou une personne avec cette adresse e-mail participe déjà au camp."
-"value must be one of {{ to }}, was {{ value }}": "la valeur \"{{ value }}\" doit être l'une des valeurs suivantes : {{ to }}"
+Cannot delete the last entry.: 'Impossible de supprimer la dernière saisie.'
+Cannot delete the last schedule entry.: 'Impossible de supprimer la dernière entrée du calendrier.'
+'Either this value or {{ other }} should not be null.': 'Cette valeur ou {{ other }} ne doit pas être nulle.'
+This inviteEmail is already present in the camp.: 'Cet email a déjà été invité à rejoindre le camp.'
+This is a test message for i18n variants: 'fr'
+This user is already present in the camp.: 'Cette personne ou une personne avec cette adresse e-mail participe déjà au camp.'
+'value must be one of {{ to }}, was {{ value }}': 'la valeur "{{ value }}" doit être l''une des valeurs suivantes : {{ to }}'

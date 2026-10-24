@@ -66,8 +66,8 @@ import { idToColor } from '@/common/helpers/colors.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
 import LayoutNodeCard from '@/components/activity/content/layout/LayoutNodeCard.vue'
-import camelCase from 'lodash-es/camelCase.js'
-import { useToast } from 'vue-toastification'
+import { camelCase } from 'lodash-es'
+import { useToast } from '@/components/toast/useToast.js'
 
 function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)

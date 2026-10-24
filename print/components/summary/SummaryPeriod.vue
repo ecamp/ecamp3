@@ -4,7 +4,7 @@
       :id="`content_${index}_period_${period.id}`"
       class="tw-text-center tw-font-semibold tw-mb-6"
     >
-      {{ $t('print.' + camelCase(contentType) + '.title') }}:
+      {{ $t('print.' + camelCase(type) + '.title') }}:
       {{ period.description }}
     </h1>
 
@@ -34,6 +34,7 @@ const props = defineProps({
   },
   index: { type: Number, required: true },
   contentType: { type: String, default: 'Storycontext' },
+  type: { type: String, default: 'Story' },
   filter: { type: Object, default: () => ({}) },
   pageSize: { type: String, default: 'a4' },
 })

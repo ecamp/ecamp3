@@ -17,39 +17,12 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCampCollaborationsIsAllowedForLoggedInUserButFiltered() {
+    public function testListCampCollaborationsWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a camp collaboration that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['campCollaboration1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 16,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('campCollaboration1manager')],
-            ['href' => $this->getIriFor('campCollaboration2member')],
-            ['href' => $this->getIriFor('campCollaboration6invitedWithUser')],
-            ['href' => $this->getIriFor('campCollaboration3guest')],
-            ['href' => $this->getIriFor('campCollaboration4invited')],
-            ['href' => $this->getIriFor('campCollaboration5inactive')],
-            ['href' => $this->getIriFor('campCollaboration6manager')],
-            ['href' => $this->getIriFor('campCollaboration1camp2manager')],
-            ['href' => $this->getIriFor('campCollaboration2camp2member')],
-            ['href' => $this->getIriFor('campCollaboration3camp2guest')],
-            ['href' => $this->getIriFor('campCollaboration4camp2member')],
-            ['href' => $this->getIriFor('campCollaboration1campPrototype')],
-            ['href' => $this->getIriFor('campCollaboration1campShared')],
-            ['href' => $this->getIriFor('campCollaboration2invitedCampShared')],
-            ['href' => $this->getIriFor('campCollaboration3inactiveCampShared')],
-            ['href' => $this->getIriFor('campCollaboration4invitedCampShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/camp_collaborations');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListCampCollaborationsFilteredByCampIsAllowedForCollaborator() {
@@ -152,5 +125,27 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('campCollaboration1campPrototype')],
         ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListCampCollaborationsFilteredByActivityResponsibleIsAllowedForCollaborator() {
+        $activity = static::getFixture('activity1');
+        $response = static::createClientWithCredentials()
+            ->request('GET', '/camp_collaborations?activityResponsibles.activity=%2Factivities%2F'.$activity->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 1]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('campCollaboration1manager')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListCampCollaborationsFilteredByActivityResponsibleIsDeniedForUnrelatedUser() {
+        $activity = static::getFixture('activity1');
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
+            ->request('GET', '/camp_collaborations?activityResponsibles.activity=%2Factivities%2F'.$activity->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 }

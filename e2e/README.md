@@ -29,19 +29,6 @@ they might influence the state of other tests.
 
 ## Option A: Run end-to-end tests in Docker container (headless)
 
-### Preparation
-
-```shell
-# Only necessary on Mac OS: install xhost. Restart your Mac after this.
-brew cask install xquartz
-```
-
-```shell
-# Only necessary on Mac OS and Linux, and only once per computer restart:
-# Allow the Cypress Docker container to open a window on the host
-xhost local:root
-```
-
 ### Install dependencies
 
 ```shell
@@ -60,6 +47,15 @@ or
 docker compose --profile e2e run --rm e2e "npm update <dependency>"
 ```
 
+### Optional preparation to simulate conditions closer to CI
+
+This switches off HMR and starts the frontend using a production build, like on CI.
+Please note that in this mode, when changing things in the frontend e.g. to fix a broken e2e test, you will have to run this command again every time (takes roughly 10 seconds).
+
+```shell
+CI=true docker compose up -d --force-recreate frontend
+```
+
 ### Run all e2e tests
 
 ```shell
@@ -69,7 +65,7 @@ docker compose --profile e2e run --rm e2e npx playwright test
 ### Run a specific e2e test
 
 ```shell
-docker compose --profile e2e run --rm e2e npx playwright test tests/login.spec.js
+docker compose --profile e2e run --rm e2e npx playwright test tests/5-cross-browser-tests/login.spec.ts
 ```
 
 ### Run tests using a specific browser
@@ -80,11 +76,13 @@ Supported browsers: `chromium`, `firefox`, `webkit`
 docker compose --profile e2e run --rm e2e npx playwright test --project firefox
 ```
 
-### Open cypress test ui in container
+### Open Playwright UI mode in container
 
 ```shell
-docker compose --profile e2e run --rm e2e npm run test:ui
+docker compose --profile e2e run --rm e2e npx playwright test --ui-host=localhost --ui-port=8080
 ```
+
+Then open <http://localhost:8080> in your browser.
 
 ### Show test report
 
@@ -95,8 +93,33 @@ open playwright-report/index.html
 ### Show trace
 
 ```shell
-docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file>
+docker compose --profile e2e run --rm e2e npx playwright show-trace <your-trace-zip-file> --host=localhost --port=8080
 ```
+
+Then open <http://localhost:8080> in your browser.
+
+### Update snapshots
+
+Here the example of tests/0-snapshot-tests/loginPage.spec.ts
+
+```shell
+docker compose --profile e2e run --rm e2e npx playwright test --update-snapshots changed tests/0-snapshot-tests/loginPage.spec.ts
+```
+
+### Cleanup the frontend to run with HMR again
+
+You can skip this in case you didn't do the optional `CI=true` setup step above.
+
+```shell
+docker compose up -d --force-recreate frontend
+```
+
+### Update browser after branch switch
+
+If a branch switch leads to a different playwright version, the local playwright version might be outdated.
+To update the local playwright version, run npm ci:
+
+See [Install dependencies](#install-dependencies)
 
 ## Option B: Run end-to-end tests locally
 

@@ -1,5 +1,11 @@
 import { AccessKey, Policy, User, UserPolicyAttachment } from '@pulumi/aws/iam'
-import { Bucket } from '@pulumi/aws/s3'
+import {
+  Bucket,
+  BucketAcl,
+  BucketLifecycleConfiguration,
+  BucketObjectLockConfiguration,
+  BucketVersioning,
+} from '@pulumi/aws/s3'
 import { Config, interpolate } from '@pulumi/pulumi'
 
 const config = new Config()
@@ -24,25 +30,41 @@ if (environment === 'dev') {
   objectLockRetentionDays = 8
 }
 
-const backupBucket = new Bucket(`ecamp3-${environment}-bucket`, {
+const backupBucket = new Bucket(`ecamp3-${environment}-bucket`, {})
+
+new BucketAcl(`ecamp3-${environment}-bucket-acl`, {
+  bucket: backupBucket.id,
   acl: 'private',
-  versioning: {
-    enabled: true,
+})
+
+new BucketVersioning(`ecamp3-${environment}-bucket-versioning`, {
+  bucket: backupBucket.id,
+  versioningConfiguration: {
+    status: 'Enabled',
   },
-  lifecycleRules: [
+})
+
+new BucketLifecycleConfiguration(`ecamp3-${environment}-bucket-lifecycle`, {
+  bucket: backupBucket.id,
+  rules: [
     {
-      enabled: true,
-      abortIncompleteMultipartUploadDays: 1,
+      id: 'retention',
+      status: 'Enabled',
+      filter: {},
+      abortIncompleteMultipartUpload: {
+        daysAfterInitiation: 1,
+      },
       ...retentionPolicies,
     },
   ],
-  objectLockConfiguration: {
-    objectLockEnabled: 'Enabled',
-    rule: {
-      defaultRetention: {
-        mode: 'GOVERNANCE',
-        days: objectLockRetentionDays,
-      },
+})
+
+new BucketObjectLockConfiguration(`ecamp3-${environment}-bucket-object-lock`, {
+  bucket: backupBucket.id,
+  rule: {
+    defaultRetention: {
+      mode: 'GOVERNANCE',
+      days: objectLockRetentionDays,
     },
   },
 })

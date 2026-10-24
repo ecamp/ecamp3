@@ -30,7 +30,9 @@
           @click="addContentNode(contentType)"
         >
           <template #prepend>
-            <v-icon>{{ $t(contentTypeIconKey(contentType)) }}</v-icon>
+            <v-icon>{{
+              $t(contentTypeIconKey(contentType), null, { missingWarn: false })
+            }}</v-icon>
           </template>
           <v-list-item-title>
             {{ $t(contentTypeNameKey(contentType)) }}
@@ -46,7 +48,9 @@
           @click="addContentNode(contentType)"
         >
           <template #prepend>
-            <v-icon>{{ $t(contentTypeIconKey(contentType)) }}</v-icon>
+            <v-icon>{{
+              $t(contentTypeIconKey(contentType), null, { missingWarn: false })
+            }}</v-icon>
           </template>
           <v-list-item-title>
             {{ $t(contentTypeNameKey(contentType)) }}
@@ -59,10 +63,8 @@
 <script>
 import { camelCase } from 'lodash-es'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import { getEnv } from '@/environment.js'
 import contentTypeIcons from './content/contentTypeIcons.js'
-import { useToast } from 'vue-toastification'
-import { componentI18n } from '@/plugins/i18n/index.js'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
@@ -111,9 +113,6 @@ export default {
     contentTypesLoading() {
       return this.api.get().contentTypes()._meta.loading
     },
-    featureChecklistEnabled() {
-      return getEnv().FEATURE_CHECKLIST ?? false
-    },
   },
   methods: {
     contentTypeNameKey(contentType) {
@@ -126,15 +125,13 @@ export default {
       switch (contentType.name) {
         case 'ResponsiveLayout':
           return this.parentContentNode.parent === null
-        case 'Checklist':
-          return this.featureChecklistEnabled
         default:
           return true
       }
     },
     sortContentTypeByTranslatedName(ct1, ct2) {
-      const ct1name = componentI18n.t(this.contentTypeNameKey(ct1))
-      const ct2name = componentI18n.t(this.contentTypeNameKey(ct2))
+      const ct1name = this.$t(this.contentTypeNameKey(ct1))
+      const ct2name = this.$t(this.contentTypeNameKey(ct2))
       return ct1name.localeCompare(ct2name)
     },
     async addContentNode(contentType) {

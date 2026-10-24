@@ -15,6 +15,10 @@
     margin: 35px auto;
   }
 
+  .a3.tw-break-after-page {
+    max-width: 1123px; /* page width: A3 width of 297mm at 96dpi */
+    min-height: 1588px; /* page height: A3 height of 420mm at 96dpi */
+  }
   .a4.tw-break-after-page {
     max-width: 794px; /* page width: A4 width of 210mm at 96dpi */
     min-height: 1123px; /* page height: A4 height of 297mm at 96dpi */
@@ -24,6 +28,10 @@
     min-height: 794px; /* page height: A5 height of 210mm at 96dpi */
   }
 
+  .a3.tw-break-after-page.landscape-page {
+    max-width: 1588px; /* page width: A3 landscape width of 420mm at 96dpi */
+    min-height: 1123px; /* page height: A3 landscape height of 297mm at 96dpi */
+  }
   .a4.tw-break-after-page.landscape-page {
     max-width: 1123px; /* page width: A4 landscape width of 297mm at 96dpi */
     min-height: 794px; /* page height: A4 landscape height of 210mm at 96dpi */

@@ -27,11 +27,14 @@
               <span v-else>{{ part.text }}</span>
             </span>
           </v-list-item-title>
+          <template v-if="$slots['item-append']" #append>
+            <slot name="item-append" :item="item.raw" />
+          </template>
         </v-list-item>
       </template>
 
-      <!-- passing through all slots -->
-      <template v-for="(_, slot) of $slots" #[slot]="slotData">
+      <!-- passing through all slots this component does not render itself -->
+      <template v-for="slot of passthroughSlots" :key="slot" #[slot]="slotData">
         <slot :name="slot" v-bind="slotData || {}"></slot>
       </template>
     </v-autocomplete>
@@ -60,6 +63,11 @@ export default {
       search: null,
       searchInfos: new Map(),
     }
+  },
+  computed: {
+    passthroughSlots() {
+      return Object.keys(this.$slots).filter((slot) => slot !== 'item-append')
+    },
   },
   methods: {
     tokensFilter(value, queryText) {

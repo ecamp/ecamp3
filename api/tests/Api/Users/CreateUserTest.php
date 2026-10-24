@@ -896,7 +896,7 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => "Extra attributes are not allowed (\"{$property}\" is unknown).",
+            'detail' => "Extra attributes are not allowed (\"profile.{$property}\" is unknown).",
         ]);
     }
 

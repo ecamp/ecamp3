@@ -44,7 +44,7 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         $this->assertJsonContains([
             '_links' => [
                 'checklistItems' => [
-                    'href' => '/checklist_items?checklistNodes=%2Fcontent_node%2Fchecklist_nodes%2F'.$this->defaultEntity->getId(),
+                    'href' => "/content_node/checklist_nodes/{$this->defaultEntity->getId()}/checklist_items",
                 ],
             ],
         ]);
@@ -60,7 +60,7 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
         $this->assertJsonContains([
             '_links' => [
                 'checklistItems' => [
-                    'href' => '/checklist_items?checklistNodes=%2Fcontent_node%2Fchecklist_nodes%2F'.$this->defaultEntity->getId(),
+                    'href' => "/content_node/checklist_nodes/{$this->defaultEntity->getId()}/checklist_items",
                 ],
             ],
         ]);
@@ -161,6 +161,86 @@ class UpdateChecklistNodeTest extends UpdateContentNodeTestCase {
             'title' => 'An error occurred',
             'detail' => 'Access Denied.',
         ]);
+    }
+
+    public function testAddMultipleChecklistItemsForMember() {
+        $checklistItem1 = static::getFixture('checklistItem1_1_2');
+        $checklistItem2 = static::getFixture('checklistItem1_1_2_3');
+        static::createClientWithCredentials(['email' => static::getFixture('user2member')->getEmail()])
+            ->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+                'addChecklistItemIds' => [$checklistItem1->getId(), $checklistItem2->getId()],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            '_links' => [
+                'checklistItems' => [
+                    'href' => "/content_node/checklist_nodes/{$this->defaultEntity->getId()}/checklist_items",
+                ],
+            ],
+        ]);
+        $checklistNode = $this->getEntityManager()->getRepository(ChecklistNode::class)->find($this->defaultEntity->getId());
+        $actualIds = array_map(fn ($item) => $item->getId(), $checklistNode->getChecklistItems());
+        $this->assertContains($checklistItem1->getId(), $actualIds);
+        $this->assertContains($checklistItem2->getId(), $actualIds);
+    }
+
+    public function testAddMultipleChecklistItemsForManager() {
+        $checklistItem1 = static::getFixture('checklistItem1_1_2');
+        $checklistItem2 = static::getFixture('checklistItem1_1_2_3');
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+            'addChecklistItemIds' => [$checklistItem1->getId(), $checklistItem2->getId()],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            '_links' => [
+                'checklistItems' => [
+                    'href' => "/content_node/checklist_nodes/{$this->defaultEntity->getId()}/checklist_items",
+                ],
+            ],
+        ]);
+        $checklistNode = $this->getEntityManager()->getRepository(ChecklistNode::class)->find($this->defaultEntity->getId());
+        $actualIds = array_map(fn ($item) => $item->getId(), $checklistNode->getChecklistItems());
+        $this->assertContains($checklistItem1->getId(), $actualIds);
+        $this->assertContains($checklistItem2->getId(), $actualIds);
+    }
+
+    public function testRemoveMultipleChecklistItemsForMember() {
+        $checklistItem1 = static::getFixture('checklistItem1_1_1');
+        $checklistItem2 = static::getFixture('checklistItem1_1_2');
+        static::createClientWithCredentials(['email' => static::getFixture('user2member')->getEmail()])
+            ->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+                'addChecklistItemIds' => [$checklistItem2->getId()],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        static::createClientWithCredentials(['email' => static::getFixture('user2member')->getEmail()])
+            ->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+                'removeChecklistItemIds' => [$checklistItem1->getId(), $checklistItem2->getId()],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $checklistNode = $this->getEntityManager()->getRepository(ChecklistNode::class)->find($this->defaultEntity->getId());
+        $actualIds = array_map(fn ($item) => $item->getId(), $checklistNode->getChecklistItems());
+        $this->assertNotContains($checklistItem1->getId(), $actualIds);
+        $this->assertNotContains($checklistItem2->getId(), $actualIds);
+    }
+
+    public function testRemoveMultipleChecklistItemsForManager() {
+        $checklistItem1 = static::getFixture('checklistItem1_1_1');
+        $checklistItem2 = static::getFixture('checklistItem1_1_2');
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+            'addChecklistItemIds' => [$checklistItem2->getId()],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [
+            'removeChecklistItemIds' => [$checklistItem1->getId(), $checklistItem2->getId()],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $checklistNode = $this->getEntityManager()->getRepository(ChecklistNode::class)->find($this->defaultEntity->getId());
+        $actualIds = array_map(fn ($item) => $item->getId(), $checklistNode->getChecklistItems());
+        $this->assertNotContains($checklistItem1->getId(), $actualIds);
+        $this->assertNotContains($checklistItem2->getId(), $actualIds);
     }
 
     public function testAddChecklistItemOfOtherCampIsDenied() {

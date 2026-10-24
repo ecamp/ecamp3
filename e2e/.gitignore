@@ -2,6 +2,7 @@
 node_modules
 /data
 /dist
+/core
 
 playwright-report/
 blob-report/

@@ -25,9 +25,6 @@
     "clue/stream-filter": {
         "version": "v1.6.0"
     },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.1"
-    },
     "composer/pcre": {
         "version": "1.0.0"
     },

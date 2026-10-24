@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -12,9 +11,11 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\CampCollaboratorFilter;
+use App\Doctrine\Filter\IsTrueFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\Service\Hitobito\HitobitoProvider;
 use App\State\CampCreateProcessor;
 use App\State\CampRemoveProcessor;
 use App\State\CampUpdateProcessor;
@@ -49,7 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: CampRemoveProcessor::class,
         ),
         new GetCollection(
-            security: 'is_authenticated()'
+            security: 'is_authenticated()',
+            extraProperties: [
+                'scoping_filters' => ['campCollaborator', 'isPrototype'],
+            ]
         ),
         new Post(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
@@ -63,12 +67,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     forceEager: false,
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
+#[ApiFilter(filterClass: IsTrueFilter::class, properties: ['isPrototype'])]
 #[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
+#[ORM\UniqueConstraint(name: 'hitobitoprovider_hitobitoeventid_unique', columns: ['hitobitoProvider', 'hitobitoEventId'])]
 #[ORM\Index(columns: ['isPrototype'])]
 #[ORM\Index(columns: ['isShared'])]
 #[ORM\Index(columns: ['isPublic'])]
+#[ORM\Index(columns: ['randomlyGenerated'])]
 #[ORM\Index(columns: ['updateTime'])] // TODO unclear why this is necessary, but doctrine forgot about this index from BaseEntity...
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
@@ -80,7 +86,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[SerializedName('campCollaborations')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'camp', orphanRemoval: true)]
-    #[ORM\OrderBy(['status' => 'ASC', 'role' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['status' => \SortDirection::Ascending, 'role' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $collaborations;
 
     /**
@@ -91,9 +97,10 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public Collection $userCamps;
 
     /**
-     * The time periods of the camp, there must be at least one. Periods in a camp may not overlap.
-     * When creating a camp, the initial periods may be specified as nested payload, but updating,
-     * adding or removing periods later should be done through the period endpoints.
+     * The time periods of the camp, there must be at least one. Periods in a camp may not
+     * overlap. When creating a camp, the initial periods may be specified as nested payload,
+     * but updating, adding or removing periods later should be done through the period
+     * endpoints.
      */
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['create'])]
@@ -104,7 +111,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['start' => 'ASC'])]
+    #[ORM\OrderBy(['start' => \SortDirection::Ascending])]
     public Collection $periods;
 
     /**
@@ -117,7 +124,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['short' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['short' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $categories;
 
     /**
@@ -130,7 +137,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ActivityProgressLabel::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending])]
     public Collection $progressLabels;
 
     /**
@@ -144,7 +151,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     )]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'camp', orphanRemoval: true)]
-    #[ORM\OrderBy(['title' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['title' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $activities;
 
     /**
@@ -154,24 +161,23 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: MaterialList::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['name' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['name' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $materialLists;
 
     /**
      * List of MaterialItems that belong to this Camp.
      */
     #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['article' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['article' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $materialItems;
 
     /**
-     * List of all Checklists of this Camp.
-     * Each Checklist is a List of ChecklistItems.
+     * List of all Checklists of this Camp. Each Checklist is a List of ChecklistItems.
      */
     #[ApiProperty(writable: false, uriTemplate: Checklist::CAMP_SUBRESOURCE_URI_TEMPLATE)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Checklist::class, mappedBy: 'camp', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['name' => 'ASC', 'createTime' => 'ASC'])]
+    #[ORM\OrderBy(['name' => \SortDirection::Ascending, 'createTime' => \SortDirection::Ascending])]
     public Collection $checklists;
 
     /**
@@ -189,8 +195,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $campPrototypeId = null;
 
     /**
-     * The prototype camp that will be used as a template to create this camp.
-     * Only the ID will be persisted.
+     * The prototype camp that will be used as a template to create this camp. Only the ID
+     * will be persisted.
      */
     #[ApiProperty(readable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['create'])]
@@ -242,6 +248,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isPublic = false;
+
+    /**
+     * Whether this camp was created by the data generator command. Internal flag,
+     * not published through the API. Used to easily identify and clean generated camps.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $randomlyGenerated = false;
 
     /**
      * An optional short title for the camp. Can be used in the UI where space is tight. If
@@ -325,11 +339,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $addressCity = null;
 
     /**
-     * The name of the organization which plans and carries out the camp.
-     * Organisator (Name der Jugendorganisation)
-     * Organisateur (nom de l’organisation de jeunesse)
-     * Organizzatore (nome dell’organizzazione giovanile)
-     * This field is required on picassos of Y+S camps.
+     * The name of the organization which plans and carries out the camp, required on
+     * picassos of Y+S camps: Organisator (Name der Jugendorganisation) / Organisateur (nom
+     * de l’organisation de jeunesse) / Organizzatore (nome dell’organizzazione giovanile).
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
@@ -340,11 +352,11 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $organizer = null;
 
     /**
-     * Rough categorization of the camp (house, tent, traveling, summer, autumn).
-     * Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-, Herbstlager)
-     * Forme de camp (camp sous toit, camp sous tente, camp itinérant, camp d’été, camp d’automne)
-     * Tipo di campo (campo sotto tetto, in tenda, itinerante, estivo, autunnale)
-     * This field is required on picassos of Y+S camps.
+     * Rough categorization of the camp (house, tent, traveling, summer, autumn), required
+     * on picassos of Y+S camps: Lagerart (Haus-, Zelt-, Unterwegslager, Sommer-,
+     * Herbstlager) / Forme de camp (camp sous toit, camp sous tente, camp itinérant, camp
+     * d’été, camp d’automne) / Tipo di campo (campo sotto tetto, in tenda, itinerante,
+     * estivo, autunnale).
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
@@ -355,11 +367,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $kind = null;
 
     /**
-     * The name of the Y+S coach who is in charge of the camp.
-     * Name des J+S-Coachs
-     * Nom du coach J+S
-     * Nome del coach G+S
-     * This field is required on picassos of Y+S camps.
+     * The name of the Y+S coach who is in charge of the camp, required on picassos of Y+S
+     * camps: Name des J+S-Coachs / Nom du coach J+S / Nome del coach G+S.
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
@@ -370,11 +379,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $coachName = null;
 
     /**
-     * The official course number, identifying this course.
-     * Kursnummer
-     * Le numéro du cours
-     * Numero di corso
-     * This field is required on picassos of youth organization courses.
+     * The official course number, identifying this course, required on picassos of youth
+     * organization courses: Kursnummer / Le numéro du cours / Numero di corso.
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
@@ -385,11 +391,10 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $courseNumber = null;
 
     /**
-     * The official name for the type of this course.
-     * Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)
-     * Description (cours de base, d’animation, etc.)
-     * Nome del corso (in caso di corso G+S: tipo di corso G+S)
-     * This field is required on picassos of youth organization courses.
+     * The official name for the type of this course, required on picassos of youth
+     * organization courses: Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung) / Description
+     * (cours de base, d’animation, etc.) / Nome del corso (in caso di corso G+S: tipo di
+     * corso G+S).
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
@@ -400,11 +405,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $courseKind = null;
 
     /**
-     * The name of the training advisor who is in charge of the course.
-     * Bürgerlicher Name von LKB
-     * Le nom d’origine du CàF
-     * Cognome e nome (non totem) del CaF
-     * This field is required on picassos of youth organization courses.
+     * The name of the training advisor who is in charge of the course, required on picassos
+     * of youth organization courses: Bürgerlicher Name von LKB / Le nom d’origine du CàF /
+     * Cognome e nome (non totem) del CaF.
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
@@ -415,16 +418,44 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     public ?string $trainingAdvisorName = null;
 
     /**
-     * Whether the Y+S logo should be printed on the picasso of this camp.
-     * J+S-Logo (bei J+S-Kurs)
-     * Le logo J+S (pour des cours J+S)
-     * Logo G+S (solamente per corsi G+S)
-     * The logo is required for Y+S courses.
+     * Whether the Y+S logo should be printed on the picasso of this camp, required for Y+S
+     * courses: J+S-Logo (bei J+S-Kurs) / Le logo J+S (pour des cours J+S) / Logo G+S
+     * (solamente per corsi G+S).
      */
     #[ApiProperty(default: null, example: true)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $printYSLogoOnPicasso = false;
+
+    /**
+     * The Hitobito provider (such as MiData) this camp was created from, if any.
+     * May only be set when creating a camp, and only together with hitobitoEventId.
+     */
+    #[Assert\Expression(
+        '(this.hitobitoProvider == null) == (this.hitobitoEventId == null)',
+        message: 'hitobitoProvider and hitobitoEventId must be set together.',
+        groups: ['create']
+    )]
+    #[Assert\Expression(
+        'value == null or value.isSupported()',
+        message: 'This Hitobito provider is not supported.',
+        groups: ['create']
+    )]
+    #[ApiProperty(example: HitobitoProvider::PBSMIDATA->value)]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 16, nullable: true, enumType: HitobitoProvider::class)]
+    public ?HitobitoProvider $hitobitoProvider = null;
+
+    /**
+     * The id of the corresponding event in Hitobito, if this camp was created from one.
+     * May only be set when creating a camp, and only together with hitobitoProvider.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Length(max: 255)]
+    #[ApiProperty(example: '1234')]
+    #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $hitobitoEventId = null;
 
     /**
      * The person that created the camp. This value never changes, even when the person
@@ -452,7 +483,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'camp', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(['createTime' => 'ASC'])]
+    #[ORM\OrderBy(['createTime' => \SortDirection::Ascending])]
     public Collection $comments;
 
     public function __construct() {

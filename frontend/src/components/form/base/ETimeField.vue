@@ -11,7 +11,7 @@
     :vee-id="veeId"
     :vee-rules="veeRules"
     reset-on-blur
-    @update:model-value="$emit('update:model-value', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <!-- passing through all slots -->
     <template v-for="(_, slot) of $slots" #[slot]="slotData">
@@ -33,7 +33,7 @@ export default {
     // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'HH:mm' },
   },
-  emits: ['update:model-value'],
+  emits: ['update:modelValue'],
   data() {
     return {
       date: null,

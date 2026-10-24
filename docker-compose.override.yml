@@ -12,7 +12,9 @@ services:
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
       - ./.cache/composer:/tmp/composer/cache:delegated
     environment:
-      DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3?serverVersion=15\
+      APP_ENV: dev
+      APP_DEBUG: 1
+      DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3?serverVersion=18\
         &charset=utf8"
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
@@ -21,7 +23,7 @@ services:
       XDEBUG_MODE: ${XDEBUG_MODE:-off}
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
-      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG:-}
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
@@ -33,3 +35,19 @@ services:
     ports:
       - '80'
   ###< symfony/mercure-bundle ###
+
+  playwright-cli:
+    profiles:
+      - playwright-cli
+    build:
+      context: .agents/.ecamp/playwright-cli
+      dockerfile: Dockerfile
+    network_mode: host
+    user: ${USER_ID:-1000}
+    command: tail -f /dev/null
+    environment:
+      PLAYWRIGHT_DAEMON_SESSION_DIR: /tmp/playwright-cli-daemon
+      HOME: /tmp
+    volumes:
+      - ./:/workspace:delegated
+    working_dir: /workspace

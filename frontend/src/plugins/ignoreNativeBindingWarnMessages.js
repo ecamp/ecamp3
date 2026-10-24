@@ -11,9 +11,7 @@ class IgnoreNativeBindingWarnMessagesPlugin {
     Vue.config.warnHandler = function (msg, vm, trace) {
       // `trace` is the component hierarchy trace
       if (msg.startsWith(ignoreWarnMessage)) {
-        msg = null
-        vm = null
-        trace = null
+        // suppress this warning
       } else {
         console.error(`[Vue warn]: ${msg}${trace}`)
       }

@@ -31,18 +31,16 @@
         type="email"
       />
 
-      <e-text-field
+      <e-password-field
         v-model="password"
         :density="$vuetify.display.xs ? 'compact' : 'default'"
         :label="$t('views.auth.resetPassword.password')"
-        append-inner-icon="mdi-lock-outline"
         autocomplete="new-password"
         autofocus
         maxlength="128"
         minlength="12"
         passwordrules="minlength: 12; maxlength: 128;"
         path="password"
-        type="password"
         validate-on-blur
         vee-rules="required|min:12|max:128"
         @input="(event) => debouncedPasswordStrengthCheck(event.target.value)"
@@ -55,19 +53,17 @@
             height="5"
           />
         </template>
-      </e-text-field>
+      </e-password-field>
 
-      <e-text-field
+      <e-password-field
         v-model="confirmation"
         :density="$vuetify.display.xs ? 'compact' : 'default'"
         :label="$t('views.auth.resetPassword.passwordConfirmation')"
-        append-inner-icon="mdi-lock-outline"
         autocomplete="new-password"
         maxlength="128"
         minlength="12"
         passwordrules="minlength: 12; maxlength: 128;"
         path="passwordConfirmation"
-        type="password"
         validate-on-blur
         vee-rules="required|confirmed:@password"
       />

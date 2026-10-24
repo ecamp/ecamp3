@@ -17,29 +17,12 @@ class ListCategoriesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCategoriesIsAllowedForLoggedInUserButFiltered() {
+    public function testListCategoriesWithoutFilterIsNotAllowedForLoggedInUser() {
         // precondition: There is a category that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['category1campUnrelated']);
 
-        $response = static::createClientWithCredentials()->request('GET', '/categories');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 6,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('category1')],
-            ['href' => $this->getIriFor('category2')],
-            ['href' => $this->getIriFor('categoryWithNoActivities')],
-            ['href' => $this->getIriFor('category1camp2')],
-            ['href' => $this->getIriFor('category1campPrototype')],
-            ['href' => $this->getIriFor('category1campShared')],
-        ], $response->toArray()['_links']['items']);
+        static::createClientWithCredentials()->request('GET', '/categories');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListCategoriesFilteredByCampIsAllowedForCollaborator() {

@@ -24,10 +24,14 @@ spec:
             reserve_data true
             remove_key_name_field false
             hash_value_field json
+            time_key StartUTC
+            time_format %Y-%m-%dT%H:%M:%S.%L%z
             <parse>
               @type multi_format
               <pattern>
                 format json
+                time_key StartUTC
+                time_format %Y-%m-%dT%H:%M:%S.%L%z
               </pattern>
               <pattern>
                 format none
@@ -38,14 +42,17 @@ spec:
             @type record_transformer
             enable_ruby
             <record>
-              requestUrl ${if record['json'] && record['json']['httpRequest'] && record['json']['httpRequest']['requestUrl']; then record['json']['httpRequest']['requestUrl']; else nil; end}
+              method ${if record['json'] && record['json']['RequestMethod']; then record['json']['RequestMethod']; else nil; end}
+              path ${if record['json'] && record['json']['RequestPath']; then record['json']['RequestPath']; else nil; end}
+              status ${if record['json'] && record['json']['OriginStatus']; then record['json']['OriginStatus']; else nil; end}
+              duration ${if record['json'] && record['json']['OriginDuration']; then record['json']['OriginDuration']; else nil; end}
             </record>
           </filter>
           <filter **>
             @type record_transformer
             enable_ruby
             <record>
-              escapedUrl ${if record['requestUrl']; then record['requestUrl'].gsub(/\/[0-9a-f]{6,}\/?/, "/{id}/").gsub(/%2F[0-9a-f]{6,}(%2F)?/, "%2F{id}%2F"); else nil; end}
+              escapedUrl ${if record['path']; then record['path'].gsub(/\/[0-9a-f]{6,}\/?/, "/{id}/").gsub(/%2F[0-9a-f]{6,}(%2F)?/, "%2F{id}%2F"); else nil; end}
             </record>
           </filter>
           <filter **>

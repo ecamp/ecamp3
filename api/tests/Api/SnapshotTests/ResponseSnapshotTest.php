@@ -6,7 +6,6 @@ use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
-use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use App\Util\ArrayDeepSort;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -70,7 +69,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
             | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
         );
 
-        $this->assertMatchesSnapshot($openApiYaml, new ECampYamlSnapshotDriver());
+        $this->assertMatchesYamlSnapshot($openApiYaml);
     }
 
     /**
@@ -83,6 +82,10 @@ class ResponseSnapshotTest extends ECampApiTestCase {
     #[DataProvider('getCollectionEndpoints')]
     #[DataProvider('getCollectionEndpointsFiltered')]
     public function testGetCollectionMatchesStructure(Client $client, string $endpoint) {
+        if (!str_contains($endpoint, '?')) {
+            $endpoint .= self::scopingFilterFor($endpoint);
+        }
+
         $response = $client->request('GET', $endpoint);
 
         assertThat($response->getStatusCode(), equalTo(200));
@@ -169,6 +172,8 @@ class ResponseSnapshotTest extends ECampApiTestCase {
             [$client, '/content_node/storyboards?camp=/camps/'.self::getFixtureFor('/camps')->getId()],
             [$client, '/checklist_items?checklist=/checklists/'.self::getFixtureFor('/checklists')->getId()],
             [$client, '/material_items?camp=/camps/'.self::getFixtureFor('/camps')->getId()],
+            [$client, '/comments?camp=/camps/'.self::getFixtureFor('/camps')->getId()],
+            [$client, '/activities/'.self::getFixtureFor('/activities')->getId().'/comments'],
         ];
     }
 
@@ -281,6 +286,10 @@ class ResponseSnapshotTest extends ECampApiTestCase {
 
         assertThat($response->getStatusCode(), equalTo(200));
         $this->assertMatchesEscapedResponseSnapshot($response);
+    }
+
+    private static function scopingFilterFor(string $collectionEndpoint): string {
+        return CollectionScopingFilterMap::get($collectionEndpoint, FixtureStore::getFixtures());
     }
 
     private static function getFixtureFor(string $collectionEndpoint) {

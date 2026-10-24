@@ -10,7 +10,7 @@ grafana:
   enabled: true
   persistence:
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     enabled: true
     size: 5Gi
     storageClassName: do-block-storage
@@ -21,7 +21,7 @@ kubeScheduler:
 prometheus:
   enabled: true
   additionalServiceMonitors:
-    - name: "caddy"
+    - name: 'caddy'
       selector:
         matchLabels:
           app.kubernetes.io/instance: ecamp3-dev
@@ -30,8 +30,8 @@ prometheus:
         matchNames:
           - default
       endpoints:
-        - port: "api-metrics"
-    - name: "varnish"
+        - port: 'api-metrics'
+    - name: 'varnish'
       selector:
         matchLabels:
           app.kubernetes.io/instance: ecamp3-dev
@@ -40,13 +40,13 @@ prometheus:
         matchNames:
           - default
       endpoints:
-        - port: "api-cache-metrics"
+        - port: 'api-cache-metrics'
   prometheusSpec:
     storageSpec:
       volumeClaimTemplate:
         spec:
           accessModes:
-          - ReadWriteOnce
+            - ReadWriteOnce
           resources:
             requests:
               storage: 5Gi

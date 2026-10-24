@@ -9,8 +9,8 @@ App\Entity\CampCollaboration:
     camp: '@camp1'
     status: established
     role: member
-    abbreviation: "🧑🏽‍🚀"
-    color: "#11a1e1"
+    abbreviation: '🧑🏽‍🚀'
+    color: '#11a1e1'
   campCollaboration3guest:
     user: '@user3guest'
     camp: '@camp1'
@@ -18,9 +18,9 @@ App\Entity\CampCollaboration:
     role: guest
   campCollaboration4invited:
     camp: '@camp1'
-    inviteKey: "myInviteKey"
-    inviteKeyHash: "sl3hC12VkIUzT89mMggYyoMmFuo="
-    inviteEmail: "e.mail@test.com"
+    inviteKey: 'myInviteKey'
+    inviteKeyHash: 'sl3hC12VkIUzT89mMggYyoMmFuo='
+    inviteEmail: 'e.mail@test.com'
     status: invited
     role: member
   campCollaboration5inactive:
@@ -55,9 +55,9 @@ App\Entity\CampCollaboration:
     role: member
   campCollaboration2invitedCampUnrelated:
     camp: '@campUnrelated'
-    inviteKey: "myInviteKey2"
-    inviteKeyHash: "oNp2IShH2P5DIgvcdBZOwCqExZ0="
-    inviteEmail: "e.mail2@test.com"
+    inviteKey: 'myInviteKey2'
+    inviteKeyHash: 'oNp2IShH2P5DIgvcdBZOwCqExZ0='
+    inviteEmail: 'e.mail2@test.com'
     status: invited
     role: member
   campCollaboration1campUnrelated:
@@ -68,8 +68,8 @@ App\Entity\CampCollaboration:
   campCollaboration6invitedWithUser:
     user: '@user6invited'
     camp: '@camp2'
-    inviteKey: "myInviteKeyCamp2"
-    inviteKeyHash: "ufVn1nkIodzMXLPB/ZI4JwNwSRg="
+    inviteKey: 'myInviteKeyCamp2'
+    inviteKeyHash: 'ufVn1nkIodzMXLPB/ZI4JwNwSRg='
     status: invited
     role: member
   campCollaboration1campPrototype:
@@ -85,8 +85,8 @@ App\Entity\CampCollaboration:
   campCollaboration2invitedCampShared:
     user: '@user6invited'
     camp: '@campShared'
-    inviteKey: "myInviteKeyCampShared"
-    inviteKeyHash: "sl3hC12VkIUzT89mMggYyoMmFup="
+    inviteKey: 'myInviteKeyCampShared'
+    inviteKeyHash: 'sl3hC12VkIUzT89mMggYyoMmFup='
     status: invited
     role: manager
   campCollaboration3inactiveCampShared:
@@ -96,8 +96,8 @@ App\Entity\CampCollaboration:
     role: manager
   campCollaboration4invitedCampShared:
     camp: '@campShared'
-    inviteKey: "myInviteKeyCampShared"
-    inviteKeyHash: "sl3hC12VkIUzT89mMggYyoMmFuq="
-    inviteEmail: "e.mail@test.com"
+    inviteKey: 'myInviteKeyCampShared'
+    inviteKeyHash: 'sl3hC12VkIUzT89mMggYyoMmFuq='
+    inviteEmail: 'e.mail@test.com'
     status: invited
     role: manager

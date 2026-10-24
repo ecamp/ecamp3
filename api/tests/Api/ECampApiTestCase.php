@@ -16,12 +16,15 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
+use App\Service\Hitobito\AccessTokenProvider;
+use App\Service\Hitobito\HitobitoProvider;
 use App\Tests\HttpCache\CacheManagerMock;
 use App\Util\ArrayDeepSort;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\HttpCacheBundle\CacheManager;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use League\OAuth2\Client\Token\AccessToken;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -54,6 +57,12 @@ abstract class ECampApiTestCase extends ApiTestCase {
     public function setUp(): void {
         self::bootKernel();
         parent::setUp();
+
+        // After populateDatabase() runs on the first test, the EntityManager's identity map
+        // may contain entities with stale inverse-side collection state (e.g. Camp::collaborations
+        // not reflecting all loaded CampCollaborations). Clearing the EM ensures subsequent
+        // requests load entities fresh from the database instead of using the stale cache.
+        static::getContainer()->get('doctrine')->getManager()->clear();
 
         // backup current timezone, in case it's change in one of the tests
         $this->currentTimezone = date_default_timezone_get();
@@ -120,6 +129,38 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     protected static function createBasicClient(?array $headers = null): Client {
         return static::createClient([], ['headers' => $headers ?: ['accept' => 'application/hal+json', 'content-type' => 'application/ld+json']]);
+    }
+
+    /**
+     * Adds a fake Hitobito access token to the CookieJar of the provided client. The access token is valid for the user
+     * test@example.com, as configured in createClientWithCredentials.
+     */
+    protected static function addHitobitoAccessTokenCookie(Client $client, HitobitoProvider $provider = HitobitoProvider::PBSMIDATA, string $hitobitoUserId = '1', ?array $credentials = null): void {
+        $profile = static::getContainer()->get(ProfileRepository::class)
+            ->findOneBy(
+                array_diff_key($credentials ?: ['email' => 'test@example.com'], ['password' => ''])
+            )
+        ;
+
+        $cookie = static::getContainer()->get(AccessTokenProvider::class)->createCookie(
+            $provider,
+            $profile->user->getId(),
+            (int) $hitobitoUserId,
+            new AccessToken(['access_token' => 'hitobito-access-token']),
+        );
+
+        // Set cookie (converting from HttpFoundation\Cookie to BrowserKit\Cookie
+        $client->getCookieJar()->set(new Cookie(
+            $cookie->getName(),
+            $cookie->getValue(),
+            $cookie->getExpiresTime(),
+            $cookie->getPath(),
+            $cookie->getDomain() ?: 'localhost',
+            $cookie->isSecure(),
+            $cookie->isHttpOnly(),
+            false,
+            $cookie->getSameSite(),
+        ));
     }
 
     protected function getIriConverter(): IriConverterInterface {
@@ -353,6 +394,15 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $sortedResponseArray = ArrayDeepSort::sort($responseArray);
         $this->assertMatchesJsonSnapshot($sortedResponseArray);
+    }
+
+    /**
+     * Resets the mailer message log. Use this before a request when multiple requests
+     * are made in one test (with disableReboot()) and only emails from the last request
+     * should be counted.
+     */
+    protected function resetMailerEvents(): void {
+        static::getContainer()->get('mailer.message_logger_listener')->reset();
     }
 
     /**

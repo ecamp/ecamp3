@@ -1,5 +1,5 @@
 <template>
-  <v-menu :close-on-content-click="!multiple" :multiple="null">
+  <v-menu :close-on-content-click="!multiple">
     <template #activator="{ props }">
       <v-chip
         :color="active ? 'primary' : 'surface'"
@@ -101,7 +101,9 @@ export default {
     },
     labelValue() {
       if (this.multiple) {
-        const list = (this.modelValue || []).map((item) => this.processedItems[item].text)
+        const list = (this.modelValue || [])
+          .map((item) => this.processedItems[item]?.text)
+          .filter(Boolean)
         const lang = this.$store.state.lang.language
         if ('Intl' in window && 'ListFormat' in Intl) {
           const listFormat = new Intl.ListFormat(lang, {

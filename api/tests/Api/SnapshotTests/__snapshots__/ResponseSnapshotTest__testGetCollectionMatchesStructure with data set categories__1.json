@@ -72,92 +72,11 @@
                 "name": "escaped_value",
                 "numberingStyle": "escaped_value",
                 "short": "escaped_value"
-            },
-            {
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "contentNodes": {
-                        "href": "escaped_value"
-                    },
-                    "preferredContentTypes": {
-                        "href": "escaped_value"
-                    },
-                    "rootContentNode": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    }
-                },
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "name": "escaped_value",
-                "numberingStyle": "escaped_value",
-                "short": "escaped_value"
-            },
-            {
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "contentNodes": {
-                        "href": "escaped_value"
-                    },
-                    "preferredContentTypes": {
-                        "href": "escaped_value"
-                    },
-                    "rootContentNode": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    }
-                },
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "name": "escaped_value",
-                "numberingStyle": "escaped_value",
-                "short": "escaped_value"
-            },
-            {
-                "_links": {
-                    "camp": {
-                        "href": "escaped_value"
-                    },
-                    "contentNodes": {
-                        "href": "escaped_value"
-                    },
-                    "preferredContentTypes": {
-                        "href": "escaped_value"
-                    },
-                    "rootContentNode": {
-                        "href": "escaped_value"
-                    },
-                    "self": {
-                        "href": "escaped_value"
-                    }
-                },
-                "color": "escaped_value",
-                "id": "escaped_value",
-                "name": "escaped_value",
-                "numberingStyle": "escaped_value",
-                "short": "escaped_value"
             }
         ]
     },
     "_links": {
         "items": [
-            {
-                "href": "escaped_value"
-            },
-            {
-                "href": "escaped_value"
-            },
-            {
-                "href": "escaped_value"
-            },
             {
                 "href": "escaped_value"
             },

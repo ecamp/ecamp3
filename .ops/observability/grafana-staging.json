@@ -137,17 +137,13 @@
           "select": [
             [
               {
-                "params": [
-                  "id"
-                ],
+                "params": ["id"],
                 "type": "column"
               }
             ],
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -203,9 +199,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -227,9 +221,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -284,9 +276,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -308,9 +298,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -419,9 +407,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -476,9 +462,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -500,9 +484,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -557,9 +539,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -581,9 +561,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -639,9 +617,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "first"
-          ],
+          "calcs": ["first"],
           "fields": "",
           "values": false
         },
@@ -663,9 +639,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -787,9 +761,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -844,9 +816,7 @@
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
@@ -868,9 +838,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]
@@ -930,9 +898,7 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
@@ -954,9 +920,7 @@
           "select": [
             [
               {
-                "params": [
-                  "quantity"
-                ],
+                "params": ["quantity"],
                 "type": "column"
               }
             ]

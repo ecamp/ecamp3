@@ -2,7 +2,7 @@ name: Fast Forward Merge
 
 on:
   issue_comment:
-    types: [ created ]
+    types: [created]
 
 jobs:
   fast_forward_job:
@@ -58,7 +58,7 @@ jobs:
 
       # To use this repository's private action, you must check out the repository
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fast Forward PR
         id: ff-action

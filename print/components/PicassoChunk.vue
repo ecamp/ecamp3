@@ -174,6 +174,9 @@ $a4-portrait-content-height: 1009; /* 1123px minus 114px (=2*15mm margin) */
 $a5-portrait-content-width: 391; /* 505px minus 114px (=2*15mm margin) */
 $a5-portrait-content-height: 680; /* 794px minus 114px (=2*15mm margin) */
 
+@page a3landscape {
+  size: a3 landscape;
+}
 @page a4landscape {
   size: a4 landscape;
 }
@@ -181,6 +184,9 @@ $a5-portrait-content-height: 680; /* 794px minus 114px (=2*15mm margin) */
   size: a5 landscape;
 }
 
+.a3.landscape-page {
+  page: a3landscape;
+}
 .a4.landscape-page {
   page: a4landscape;
 }
@@ -188,6 +194,10 @@ $a5-portrait-content-height: 680; /* 794px minus 114px (=2*15mm margin) */
   page: a5landscape;
 }
 
+.a3.landscape {
+  width: #{$a3-portrait-content-height}px;
+  height: #{$a3-portrait-content-width}px;
+}
 .a4.landscape {
   width: #{$a4-portrait-content-height}px;
   height: #{$a4-portrait-content-width}px;
@@ -203,6 +213,10 @@ $a5-portrait-content-height: 680; /* 794px minus 114px (=2*15mm margin) */
   overflow: visible;
 }
 
+.a3.portrait {
+  width: #{$a3-portrait-content-width}px;
+  height: #{$a3-portrait-content-height}px;
+}
 .a4.portrait {
   width: #{$a4-portrait-content-width}px;
   height: #{$a4-portrait-content-height}px;
@@ -220,6 +234,9 @@ $a5-portrait-content-height: 680; /* 794px minus 114px (=2*15mm margin) */
   margin-right: 4px;
 }
 
+.a3.fullwidth {
+  width: $a3-portrait-content-width;
+}
 .a4.fullwidth {
   width: $a4-portrait-content-width;
 }

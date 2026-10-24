@@ -4,6 +4,7 @@ namespace App\Tests\Api\ScheduleEntries;
 
 use App\Entity\ScheduleEntry;
 use App\Tests\Api\ECampApiTestCase;
+use PHPUnit\Framework\Attributes\TestWith;
 
 /**
  * @internal
@@ -316,6 +317,26 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    public function testPatchScheduleEntryValidatesStartWithInvalidTimezone() {
+        $scheduleEntry = static::getFixture('scheduleEntry1');
+        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'start' => '2023-05-01T00:00:00+InvalidTimezone',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    #[TestWith(['20206-01-01T00:00:00'])]
+    #[TestWith(['2026-31-12T00:00:00'])]
+    public function testPatchScheduleEntryValidatesStartWithInvalidDateTime($invalidDateTime) {
+        $scheduleEntry = static::getFixture('scheduleEntry1');
+        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'start' => $invalidDateTime,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testPatchScheduleEntryAllowsToEndAtMidnightOfLastDay() {

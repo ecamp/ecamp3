@@ -56,6 +56,7 @@ export default defineEventHandler(async (event) => {
   }
   const logOutput = {
     timestamp: new Date(),
+    type: 'nuxt',
   }
 
   try {
@@ -159,7 +160,7 @@ export default defineEventHandler(async (event) => {
       browser.disconnect()
     }
 
-    let errorMessage = null
+    let errorMessage
     status = 500
     if (error.error) {
       // error is a WebSocket ErrorEvent Object which contains an error property

@@ -12,9 +12,8 @@ imports:
 services:
     # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
+        autowire: true # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
 
     _instanceof:
         App\State\Util\AbstractPersistProcessor:
@@ -24,7 +23,6 @@ services:
         App\State\Util\AbstractRemoveProcessor:
             bind:
                 $decorated: '@api_platform.doctrine.orm.state.remove_processor'
-
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -40,6 +38,10 @@ services:
 
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
+
+    App\EventListener\DebugExceptionHeadersSubscriber:
+        arguments:
+            $env: '%kernel.environment%'
 
     # Since the input filter classes are resolved at runtime instead
     # of with constructor dependency injection, we create a service
@@ -81,25 +83,19 @@ services:
             - '@service.translation_to_all_locales'
             - '@serializer.name_converter.metadata_aware'
 
-    App\State\ContentNodeCollectionProvider:
+    App\State\RequireCollectionFilterProvider:
+        decorates: 'api_platform.doctrine.orm.state.collection_provider'
         arguments:
-            - '@api_platform.doctrine.orm.state.collection_provider'
-
-    App\State\ChecklistItemCollectionProvider:
-        arguments:
-            - '@api_platform.doctrine.orm.state.collection_provider'
-            
-    App\State\MaterialItemCollectionProvider:
-        arguments:
-            - '@api_platform.doctrine.orm.state.collection_provider'
+            - '@.inner'
+            - '@request_stack'
 
     App\Serializer\SerializerContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
 
     ApiPlatform\Metadata\Property\Factory\AttributePropertyMetadataFactory:
-      decorates: 'api_platform.metadata.property.metadata_factory'
-      # Reverts change here: https://github.com/api-platform/symfony/compare/v4.1.23...v4.1.24
-      decoration_priority: 20
+        decorates: 'api_platform.metadata.property.metadata_factory'
+        # Reverts change here: https://github.com/api-platform/symfony/compare/v4.1.23...v4.1.24
+        decoration_priority: 20
 
     App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory:
         decorates: 'api_platform.metadata.property.metadata_factory'
@@ -130,7 +126,7 @@ services:
         class: App\OAuth\UrlGeneratorDecorator
         arguments:
             - '@Symfony\Component\Routing\Generator\UrlGeneratorInterface'
-            - "%kernel.environment%"
+            - '%kernel.environment%'
 
     knpu.oauth2.provider_factory:
         class: KnpU\OAuth2ClientBundle\DependencyInjection\ProviderFactory
@@ -147,6 +143,22 @@ services:
             - '@lexik_jwt_authentication.handler.authentication_success'
             - '%env(COOKIE_PREFIX)%'
 
+    App\Service\Hitobito\AccessTokenProvider:
+        arguments:
+            - '%env(COOKIE_PREFIX)%'
+            - '%env(HITOBITO_TOKEN_ENCRYPTION_KEY)%'
+            - '%env(bool:COOKIE_SECURE)%'
+
+    App\Controller\HitobitoAPIOAuthController:
+        arguments:
+            - '%env(COOKIE_PREFIX)%'
+            - '%env(FRONTEND_BASE_URL)%'
+            - '%env(csv:HITOBITO_API_OAUTH_SCOPES)%'
+
+    App\Service\Hitobito\ClientProvider:
+        arguments:
+            $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
+
     App\Security\ReCaptcha\ReCaptchaWrapper:
         public: true # necessary to be able to mock ReCaptcha in the container in Api tests
         arguments:
@@ -159,9 +171,9 @@ services:
             - '@Symfony\Component\Mailer\MailerInterface'
             - '@translator'
             - '@Twig\Environment'
-            - "%env(FRONTEND_BASE_URL)%"
-            - "%env(MAIL_FROM_EMAIL)%"
-            - "%env(MAIL_FROM_NAME)%"
+            - '%env(FRONTEND_BASE_URL)%'
+            - '%env(MAIL_FROM_EMAIL)%'
+            - '%env(MAIL_FROM_NAME)%'
 
     service.translation_to_all_locales:
         class: App\Service\TranslateToAllLocalesService
@@ -176,7 +188,11 @@ services:
 
     App\EventListener\JWTCreatedListener:
         tags:
-            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+            - {
+                  name: kernel.event_listener,
+                  event: lexik_jwt_authentication.on_jwt_created,
+                  method: onJWTCreated,
+              }
 
     App\HttpCache\PurgeHttpCacheListener:
         arguments:
@@ -193,7 +209,12 @@ services:
 
     App\HttpCache\AddCollectionTagsListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: 12 }
+            - {
+                  name: kernel.event_listener,
+                  event: kernel.response,
+                  method: onKernelResponse,
+                  priority: 12,
+              }
 
     App\HttpCache\CacheControlListener:
         arguments:
@@ -201,7 +222,12 @@ services:
             $maxHeaderSize: '%app.httpCache.maxHeaderSize%'
             $headerKey: '%fos_http_cache.tag_handler.response_header%'
         tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: -1 } # priority -1, executed after FOSHttpCacheBundle Listeners
+            - {
+                  name: kernel.event_listener,
+                  event: kernel.response,
+                  method: onKernelResponse,
+                  priority: -1,
+              } # priority -1, executed after FOSHttpCacheBundle Listeners
 
     App\HttpCache\VarnishProxyClient:
         arguments:
@@ -216,7 +242,10 @@ services:
     App\Doctrine\FilterByCurrentUserExtension:
         tags:
             # FilterEagerLoadingExtension has Priority -17 and breaks the DQL generated in ContentNodeRepository => Priority -20 ensures this runs after FilterEagerLoadingExtension
-            - { name: api_platform.doctrine.orm.query_extension.collection, priority: -20 }
+            - {
+                  name: api_platform.doctrine.orm.query_extension.collection,
+                  priority: -20,
+              }
             - { name: api_platform.doctrine.orm.query_extension.item }
 
     App\Metadata\Resource\Factory\UriTemplateFactory:
@@ -239,22 +268,22 @@ services:
     # https://github.com/api-platform/core/issues/4975#issuecomment-1253617780
     api_platform.cache.metadata.property:
         parent: cache.system
-        tags: [ cache.pool ]
+        tags: [cache.pool]
     api_platform.cache.metadata.resource:
         parent: cache.system
-        tags: [ cache.pool ]
+        tags: [cache.pool]
     api_platform.cache.metadata.resource_collection:
         parent: cache.system
-        tags: [ cache.pool ]
+        tags: [cache.pool]
     api_platform.cache.route_name_resolver:
         parent: cache.system
-        tags: [ cache.pool ]
+        tags: [cache.pool]
     api_platform.cache.identifiers_extractor:
         parent: cache.system
-        tags: [ cache.pool ]
+        tags: [cache.pool]
     api_platform.elasticsearch.cache.metadata.document:
         parent: cache.system
-        tags: [ cache.pool ]
+        tags: [cache.pool]
 
     # https://github.com/api-platform/core/issues/4975#issuecomment-1327620795
     # Speeds up api-platform cache build substantially
@@ -262,4 +291,28 @@ services:
     # see vendor/api-platform/core/src/Symfony/Bundle/Resources/config/metadata/property.xml:41
     api_platform.cache.metadata.identifier:
         parent: cache.adapter.array
-        tags: [ cache.pool ]
+        tags: [cache.pool]
+
+# when running the dev environment (locally) or testing, mock Hitobito client
+
+when@dev:
+    services:
+        _defaults:
+            autowire: true # Automatically injects dependencies in your services.
+            autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        App\Service\Hitobito\ClientProvider:
+            arguments:
+                $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
+                $useMockClient: true
+
+when@test:
+    services:
+        _defaults:
+            autowire: true # Automatically injects dependencies in your services.
+            autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        App\Service\Hitobito\ClientProvider:
+            arguments:
+                $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
+                $useMockClient: true

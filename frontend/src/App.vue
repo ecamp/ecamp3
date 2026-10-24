@@ -9,6 +9,8 @@
       <router-view />
     </v-main>
 
+    <CommentsPanel v-if="featureComments" />
+
     <FooterSharedCamp ref="footerSharedCamp" />
 
     <v-footer v-if="offline" app class="ec-footer offline">
@@ -17,18 +19,24 @@
         {{ $t('global.info.offline.description') }}
       </p>
     </v-footer>
-    <v-snackbar-queue v-model="snackbarMessages"></v-snackbar-queue>
+    <ToastHost />
+
+    <NewVersionAvailableDialog />
   </v-app>
 </template>
 
 <script>
 import VueI18n from '@/plugins/i18n'
 import { headEnvironment } from '@/plugins/index.js'
-import { mapGetters } from 'vuex'
 import { useHead } from '@unhead/vue'
+import NewVersionAvailableDialog from '@/components/NewVersionAvailableDialog.vue'
+import CommentsPanel from '@/components/comments/CommentsPanel.vue'
+import ToastHost from '@/components/toast/ToastHost.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
+  components: { CommentsPanel, NewVersionAvailableDialog, ToastHost },
   setup() {
     useHead({
       title: null,
@@ -47,7 +55,9 @@ export default {
     mutationObserver: null,
   }),
   computed: {
-    ...mapGetters(['snackbarMessages']),
+    featureComments() {
+      return getEnv().FEATURE_COMMENTS ?? false
+    },
   },
   watch: {
     offline() {
@@ -199,7 +209,7 @@ export default {
   font-feature-settings: 'tnum';
 }
 
-@media #{map-get(settings.$display-breakpoints, 'sm-and-down')} {
+@media #{map.get(settings.$display-breakpoints, 'sm-and-down')} {
   // TODO: this changes look & feel of all v-containers. Do we really want this?
   .v-container.v-container--fluid {
     padding: 0;

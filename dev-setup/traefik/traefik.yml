@@ -1,0 +1,12 @@
+entryPoints:
+  web:
+    address: ':3000'
+  cached:
+    address: ':3004'
+  internal:
+    address: ':3005'
+
+providers:
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true

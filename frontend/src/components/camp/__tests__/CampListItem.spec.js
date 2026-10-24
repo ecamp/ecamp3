@@ -7,12 +7,6 @@ vi.mock('@/router.js', () => ({
   campRoute: vi.fn((camp) => `/camps/${camp.id}`),
 }))
 
-vi.mock('@/plugins/i18n/index.js', () => ({
-  componentI18n: {
-    locale: 'en-US',
-  },
-}))
-
 describe('CampListItem.vue - Date Display', () => {
   const defaultCamp = {
     id: 1,
@@ -44,6 +38,13 @@ describe('CampListItem.vue - Date Display', () => {
         },
         mocks: {
           $t: (msg) => msg,
+          $store: {
+            state: {
+              lang: {
+                language: 'en-US',
+              },
+            },
+          },
         },
       },
     })

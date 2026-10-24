@@ -33,7 +33,7 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import PopoverPrompt from '@/components/prompt/PopoverPrompt.vue'
 import isOwnCampCollaboration from './isOwnCampCollaboration.js'
 import campShortTitle from '@/common/helpers/campShortTitle.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'PromptCollaboratorDeactivate',

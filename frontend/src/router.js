@@ -1,9 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { slugify } from '@/plugins/slugify.js'
 import { isAdmin, isLoggedIn } from '@/plugins/auth'
-import { apiStore } from '@/plugins/store'
+import { isValidProvider } from '@/plugins/hitobito'
+import { apiStore, store } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
+import {
+  clearChunkReloadGuard,
+  reloadOnChunkLoadError,
+} from '@/helpers/chunkLoadError.js'
+import * as Sentry from '@sentry/browser'
 
 const NavigationAuth = () => import('./views/auth/NavigationAuth.vue')
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
@@ -26,6 +32,16 @@ const router = createRouter({
               default: () => import('./views/dev/Controls.vue'),
             },
             beforeEnter: requireAuth,
+          },
+          // Render a single form component selected via the URL, so form
+          // components can be driven and asserted on with Playwright.
+          // No auth required: the base components work without API/store.
+          {
+            path: '/form-test/:component?',
+            name: 'formTest',
+            components: {
+              default: () => import('./views/dev/FormComponentTest.vue'),
+            },
           },
         ]
       : []),
@@ -58,29 +74,25 @@ const router = createRouter({
             default: () => import('./views/admin/Debug.vue'),
           },
         },
-        ...(getEnv().FEATURE_CHECKLIST
-          ? [
-              {
-                path: 'checklists',
-                name: 'admin/checklists',
-                components: {
-                  default: () => import('./views/admin/Checklists.vue'),
-                },
-              },
-              {
-                path: 'checklist/:checklistId/:checklistName?',
-                name: 'admin/checklists/checklist',
-                components: {
-                  default: () => import('./views/admin/Checklist.vue'),
-                },
-                props: {
-                  default: (route) => ({
-                    checklist: checklistFromRoute(route),
-                  }),
-                },
-              },
-            ]
-          : []),
+        {
+          path: 'checklists',
+          name: 'admin/checklists',
+          components: {
+            default: () => import('./views/admin/Checklists.vue'),
+          },
+        },
+        {
+          path: 'checklist/:checklistId/:checklistName?',
+          name: 'admin/checklists/checklist',
+          components: {
+            default: () => import('./views/admin/Checklist.vue'),
+          },
+          props: {
+            default: (route) => ({
+              checklist: checklistFromRoute(route),
+            }),
+          },
+        },
       ],
     },
 
@@ -166,6 +178,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/Profile.vue'),
@@ -207,12 +220,47 @@ const router = createRouter({
     {
       path: '/camps/create',
       name: 'camps/create',
+      meta: { back: { name: 'camps' } },
       components: {
         navigation: NavigationDefault,
         default: () => import('./views/CampCreate.vue'),
       },
       beforeEnter: requireAuth,
     },
+    ...(getEnv().FEATURE_HITOBITO
+      ? [
+          {
+            path: '/camps/hitobito/:provider/import',
+            name: 'camps/import',
+            components: {
+              navigation: NavigationDefault,
+              default: () => import('./views/CampImport.vue'),
+            },
+            props: {
+              default: (route) => ({
+                provider: route.params.provider,
+                eventId: route.query.eventId ?? null,
+              }),
+            },
+            beforeEnter: all([requireAuth, requireHitobitoProvider]),
+          },
+          {
+            path: '/camps/hitobito/:provider/:eventId',
+            name: 'camps/hitobitoDeepLink',
+            components: {
+              navigation: NavigationDefault,
+              default: () => import('./views/CampHitobitoDeepLink.vue'),
+            },
+            props: {
+              default: (route) => ({
+                provider: route.params.provider,
+                eventId: route.params.eventId,
+              }),
+            },
+            beforeEnter: all([requireAuth, requireHitobitoProvider]),
+          },
+        ]
+      : []),
     {
       path: '/camps/invitation/rejected',
       name: 'invitationRejected',
@@ -278,9 +326,7 @@ const router = createRouter({
         {
           path: 'program',
           name: 'camp/program',
-          async beforeEnter(to, from, next) {
-            return redirectToPeriod(to, from, next, 'camp/period/program')
-          },
+          beforeEnter: (to) => redirectToPeriod(to, 'camp/period/program'),
         },
         {
           path: 'overview/checklists',
@@ -296,9 +342,7 @@ const router = createRouter({
         {
           path: 'story',
           name: 'camp/story',
-          async beforeEnter(to, from, next) {
-            return redirectToPeriod(to, from, next, 'camp/period/story')
-          },
+          beforeEnter: (to) => redirectToPeriod(to, 'camp/period/story'),
         },
         {
           path: 'dashboard',
@@ -315,6 +359,7 @@ const router = createRouter({
     {
       name: 'camp/material/all',
       path: '/camps/:campId/:campShortTitle?/material/all',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/material/MaterialOverview.vue'),
@@ -332,6 +377,7 @@ const router = createRouter({
     {
       name: 'camp/material/unassigned',
       path: '/camps/:campId/:campShortTitle?/material/unassigned',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/material/MaterialUnassigned.vue'),
@@ -349,6 +395,7 @@ const router = createRouter({
     {
       name: 'camp/overview/checklists/checklist',
       path: '/camps/:campId/:campShortTitle?/overview/checklists/:checklistId/:checklistName?',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/checklistOverview/ChecklistOverview.vue'),
@@ -383,6 +430,7 @@ const router = createRouter({
     {
       name: 'camp/material/detail',
       path: '/camps/:campId/:campShortTitle?/material/:materialId/:materialName?',
+      meta: { backMobile: true },
       components: {
         navigation: NavigationCamp,
         default: () => import('./views/camp/material/MaterialDetail.vue'),
@@ -416,29 +464,25 @@ const router = createRouter({
         }),
       },
     },
-    ...(getEnv().FEATURE_CHECKLIST
-      ? [
-          // Checklist-Pages:
-          {
-            name: 'camp/admin/checklists/checklist',
-            path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
-            components: {
-              navigation: NavigationCamp,
-              default: () => import('./views/camp/checklist/Checklist.vue'),
-              aside: () => import('./views/camp/checklist/SideBarChecklist.vue'),
-            },
-            beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
-            props: {
-              navigation: (route) => ({ camp: campFromRoute(route) }),
-              aside: (route) => ({ camp: campFromRoute(route) }),
-              default: (route) => ({
-                camp: campFromRoute(route),
-                checklist: checklistFromRoute(route),
-              }),
-            },
-          },
-        ]
-      : []),
+    // Checklist-Pages:
+    {
+      name: 'camp/admin/checklists/checklist',
+      path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/checklist/Checklist.vue'),
+        aside: () => import('./views/camp/checklist/SideBarChecklist.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+          checklist: checklistFromRoute(route),
+        }),
+      },
+    },
     {
       path: '/camps/:campId/:campShortTitle?/admin',
       components: {
@@ -485,17 +529,13 @@ const router = createRouter({
           component: () => import('./views/camp/admin/Print.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
-        ...(getEnv().FEATURE_CHECKLIST
-          ? [
-              // Checklist-Pages:
-              {
-                path: 'checklists',
-                name: 'camp/admin/checklists',
-                component: () => import('./views/camp/admin/Checklists.vue'),
-                props: (route) => ({ camp: campFromRoute(route) }),
-              },
-            ]
-          : []),
+        // Checklist-Pages:
+        {
+          path: 'checklists',
+          name: 'camp/admin/checklists',
+          component: () => import('./views/camp/admin/Checklists.vue'),
+          props: (route) => ({ camp: campFromRoute(route) }),
+        },
         {
           path: 'materiallists',
           name: 'camp/material',
@@ -508,6 +548,46 @@ const router = createRouter({
         },
       ],
     },
+    ...(getEnv().FEATURE_HITOBITO
+      ? [
+          {
+            path: '/camps/:campId/:campShortTitle?/hitobito/invite',
+            name: 'camp/hitobitoInvite',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/camp/CampHitobitoInvite.vue'),
+            },
+            beforeEnter: all([
+              requireAuth,
+              requireCamp,
+              requireCampManager,
+              requireHitobitoCamp,
+            ]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({ camp: campFromRoute(route) }),
+            },
+          },
+          {
+            path: '/camps/:campId/:campShortTitle?/hitobito/sync',
+            name: 'camp/hitobitoSync',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/camp/CampHitobitoSync.vue'),
+            },
+            beforeEnter: all([
+              requireAuth,
+              requireCamp,
+              requireCampManager,
+              requireHitobitoCamp,
+            ]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({ camp: campFromRoute(route) }),
+            },
+          },
+        ]
+      : []),
     {
       path: '/camps/:campId/:campShortTitle/program/activity/:activityId/:scheduleEntryId?/:activityName?',
       name: 'camp/activity',
@@ -550,76 +630,113 @@ const router = createRouter({
     },
   ],
 })
+router.onError((error, to) => {
+  Sentry.captureMessage('Chunk load failed after deployment')
+  reloadOnChunkLoadError(error, to)
+})
+
+router.afterEach(() => {
+  clearChunkReloadGuard()
+})
 
 export default router
 
-function evaluateGuards(guards, to, from, next) {
-  const guardsLeft = guards.slice(0)
-  const nextGuard = guardsLeft.shift()
-
-  if (nextGuard === undefined) {
-    next()
-    return
-  }
-
-  nextGuard(to, from, (nextArg) => {
-    if (nextArg === undefined) {
-      evaluateGuards(guardsLeft, to, from, next)
-      return
-    }
-    next(nextArg)
-  })
-}
-
 function all(guards) {
-  return (to, from, next) => evaluateGuards(guards, to, from, next)
-}
-
-function requireAuth(to, from, next) {
-  if (isLoggedIn()) {
-    next()
-  } else {
-    next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+  return async (to, from) => {
+    for (const guard of guards) {
+      const result = await guard(to, from)
+      if (result !== undefined) {
+        return result
+      }
+    }
   }
 }
 
-function requireAdmin(to, from, next) {
-  if (isAdmin()) {
-    next()
-  } else {
-    next({
+function requireAuth(to) {
+  if (!isLoggedIn()) {
+    return { name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } }
+  }
+}
+
+function requireAdmin(to) {
+  if (!isAdmin()) {
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
+    }
   }
 }
 
-async function requireCamp(to, from, next) {
+function requireHitobitoProvider(to) {
+  if (!isValidProvider(to.params.provider)) {
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+}
+
+/**
+ * Only allow entering the route when the camp is linked to a Hitobito event.
+ * Must run after requireCamp, which ensures the camp is loaded.
+ */
+function requireHitobitoCamp(to) {
+  const camp = campFromRoute(to)
+  if (!(camp && isValidProvider(camp.hitobitoProvider) && camp.hitobitoEventId)) {
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+}
+
+async function requireCamp(to) {
   const camp = await campFromRoute(to)
   if (camp === undefined) {
-    next({
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+  return camp._meta.load.then(
+    () => undefined,
+    () => ({
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
     })
-  } else {
-    await camp._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next({
-          name: 'PageNotFound',
-          params: [to.fullPath, ''],
-          replace: true,
-        })
-      })
+  )
+}
+
+/**
+ * Only allow entering the route when the current user is a manager of the camp.
+ * Must run after requireCamp, which ensures the camp is loaded.
+ */
+async function requireCampManager(to) {
+  const camp = campFromRoute(to)
+  const userLink = store.getters.getLoggedInUser?._meta.self
+  const collaborations = await camp.campCollaborations().$loadItems()
+  const isManager = collaborations.items.some(
+    (collaboration) =>
+      collaboration.status === 'established' &&
+      collaboration.role === 'manager' &&
+      collaboration.user?.()._meta.self === userLink
+  )
+  if (isManager) return
+
+  return {
+    name: 'PageNotFound',
+    params: [to.fullPath, ''],
+    replace: true,
   }
 }
 
-async function requireActivityScheduleEntry(to, from, next) {
-  await apiStore
+async function requireActivityScheduleEntry(to) {
+  return apiStore
     .get()
     .activities({ id: to.params.activityId })
     .$reload()
@@ -633,112 +750,95 @@ async function requireActivityScheduleEntry(to, from, next) {
 
       if (scheduleEntry) {
         // activity and scheduleEntry exist
-        next()
-      } else {
-        // scheduleEntry is not found, use first activity scheduleEntry
-        to.params.scheduleEntryId = (await firstActivityScheduleEntry(activity)).id
-        next(to)
+        return undefined
       }
+      // scheduleEntry is not found, use first activity scheduleEntry
+      to.params.scheduleEntryId = (await firstActivityScheduleEntry(activity)).id
+      return to
     })
-    .catch(() => {
+    .catch(async () => {
       // activityId does not exist, check if scheduleEntryId exists
       if (to.params.scheduleEntryId) {
-        apiStore
+        return apiStore
           .get()
           .scheduleEntries({ id: to.params.scheduleEntryId })
-          ._meta.load.then(async (scheduleEntry) => {
-            to.params.activityId = scheduleEntry.activity().id
-            next(to)
-          })
-          .catch(async () => {
-            // scheduleEntry and activity are not found, fallback to camp program
-            next({
+          ._meta.load.then(
+            (scheduleEntry) => {
+              to.params.activityId = scheduleEntry.activity().id
+              return to
+            },
+            () => ({
+              // scheduleEntry and activity are not found, fallback to camp program
               ...to,
               name: 'camp/program',
             })
-          })
+          )
       }
     })
 }
 
-async function requirePeriod(to, from, next) {
+async function requirePeriod(to) {
   const period = await periodFromRoute(to)
   if (period === undefined) {
-    next({
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
-  } else {
-    await period._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next(campRoute(campFromRoute(to)))
-      })
+    }
   }
+  return period._meta.load.then(
+    () => undefined,
+    () => campRoute(campFromRoute(to))
+  )
 }
 
-async function requireCategory(to, from, next) {
+async function requireCategory(to) {
   const category = await categoryFromRoute(to)
   if (category === undefined) {
-    next({
+    return {
+      name: 'PageNotFound',
+      params: [to.fullPath, ''],
+      replace: true,
+    }
+  }
+  return category._meta.load.then(
+    () => undefined,
+    () => ({
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
     })
-  } else {
-    await category._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next({
-          name: 'PageNotFound',
-          params: [to.fullPath, ''],
-          replace: true,
-        })
-      })
-  }
+  )
 }
 
-async function requireMaterialList(to, from, next) {
+async function requireMaterialList(to) {
   const materialList = await materialListFromRoute(to)
   if (materialList === undefined) {
-    next({
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
-  } else {
-    await materialList._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next(campRoute(campFromRoute(to)))
-      })
+    }
   }
+  return materialList._meta.load.then(
+    () => undefined,
+    () => campRoute(campFromRoute(to))
+  )
 }
 
-async function requireChecklist(to, from, next) {
+async function requireChecklist(to) {
   const checklist = await checklistFromRoute(to)
   if (checklist === undefined) {
-    next({
+    return {
       name: 'PageNotFound',
       params: [to.fullPath, ''],
       replace: true,
-    })
-  } else {
-    await checklist._meta.load
-      .then(() => {
-        next()
-      })
-      .catch(() => {
-        next(campRoute(campFromRoute(to)))
-      })
+    }
   }
+  return checklist._meta.load.then(
+    () => undefined,
+    () => campRoute(campFromRoute(to))
+  )
 }
 
 export function campFromRoute(route) {
@@ -753,6 +853,13 @@ export function periodFromRoute(route) {
     return undefined
   }
   return apiStore.get().periods({ id: route.params.periodId })
+}
+
+export function activityFromRoute(route) {
+  if (!route.params.activityId) {
+    return undefined
+  }
+  return apiStore.get().activities({ id: route.params.activityId })
 }
 
 function categoryFromRoute(route) {
@@ -801,7 +908,7 @@ function getContentLayout(route) {
 
 /**
  * @param camp
- * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'print' }
+ * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'print' | 'hitobitoInvite' | 'hitobitoSync' }
  * @param query
  */
 export function campRoute(camp, subroute = 'dashboard', query = {}) {
@@ -891,6 +998,21 @@ export function scheduleEntryRoute(scheduleEntry, query = {}) {
       activityName: slugify(activity.title),
     },
     query,
+    state: activityBackState(camp.id),
+  }
+}
+
+function activityBackState(campId) {
+  const from = router.currentRoute.value
+  if (!from.matched.length) return {}
+
+  return {
+    activityBack:
+      from.name === 'camp/activity'
+        ? window.history.state?.activityBack
+        : from.params.campId === campId
+          ? from.fullPath
+          : null,
   }
 }
 
@@ -912,6 +1034,7 @@ export async function firstActivityScheduleEntryRoute(activity, query = {}) {
       activityName: slugify(activity.title),
     },
     query,
+    state: activityBackState(camp.id),
   }
 }
 
@@ -1026,13 +1149,12 @@ export async function firstActivityScheduleEntry(activity) {
     )
 }
 
-async function redirectToPeriod(to, from, next, routeName) {
+async function redirectToPeriod(to, routeName) {
   const period = await firstFuturePeriod(to)
   if (period) {
     await period.camp()._meta.load
-    next(periodRoute(period, routeName, to.query))
-  } else {
-    const camp = await apiStore.get().camps({ id: to.params.campId })
-    next(campRoute(camp, 'camp/admin', to.query))
+    return periodRoute(period, routeName, to.query)
   }
+  const camp = await apiStore.get().camps({ id: to.params.campId })
+  return campRoute(camp, 'camp/admin', to.query)
 }

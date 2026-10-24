@@ -12,7 +12,6 @@ use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
 use App\Repository\StoryboardRepository;
 use App\State\ContentNode\StoryboardPersistProcessor;
-use App\State\ContentNodeCollectionProvider;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -35,7 +34,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
-            provider: ContentNodeCollectionProvider::class
+            extraProperties: [
+                'scoping_filters' => ['root', 'camp', 'period'],
+            ]
         ),
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],

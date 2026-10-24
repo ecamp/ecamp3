@@ -6,7 +6,7 @@ Here you also have some scripts to deploy ecamp3 from your local machine.
 
 First you need to have the following dependencies:
 
-- jq
+- yq
 - kubectl (with a kubeconfig for the cluster you want to deploy to)
 - helm
 - helmfile
@@ -20,6 +20,7 @@ If you don't have JWT Passphrase, public and private key yet, you have to run:
 ```shell
 ./generate-jwt-values.sh
 ```
+
 This copies [env.example.yaml](ecamp3/env.example.yaml) to [env.yaml](ecamp3/env.yaml)
 if not exists and sets the jwt values.
 

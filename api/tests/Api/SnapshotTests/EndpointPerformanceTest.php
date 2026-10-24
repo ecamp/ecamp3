@@ -3,7 +3,6 @@
 namespace App\Tests\Api\SnapshotTests;
 
 use App\Tests\Api\ECampApiTestCase;
-use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -38,7 +37,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
         $collectionEndpoints = self::getCollectionEndpoints();
         foreach ($collectionEndpoints as $collectionEndpoint) {
             if ('/users' !== $collectionEndpoint && !str_contains($collectionEndpoint, '/content_node')) {
-                [$statusCode, $queryCount, $executionTimeSeconds] = $this->measurePerformanceFor($collectionEndpoint);
+                [$statusCode, $queryCount, $executionTimeSeconds] = $this->measurePerformanceFor($collectionEndpoint.self::scopingFilterFor($collectionEndpoint));
                 $responseCodes[$collectionEndpoint] = $statusCode;
                 $numberOfQueries[$collectionEndpoint] = $queryCount;
                 $queryExecutionTime[$collectionEndpoint] = $executionTimeSeconds;
@@ -76,7 +75,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
 
         $endpointsWithTooLongExecutionTime = array_filter($queryExecutionTime, fn ($value) => MAX_EXECUTION_TIME_SECONDS < $value);
 
-        $this->assertMatchesSnapshot($numberOfQueries, new ECampYamlSnapshotDriver());
+        $this->assertMatchesYamlSnapshot($numberOfQueries);
         if ([] !== $endpointsWithTooLongExecutionTime) {
             self::markTestSkipped('Some endpoints have too long execution time, were: '.join(',', array_keys($endpointsWithTooLongExecutionTime)));
         }
@@ -262,13 +261,14 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/camp_collaborations?camp=' => urlencode($this->getIriFor('camp1')),
             '/camp_collaborations?activityResponsibles.activity=' => urlencode($this->getIriFor('activity1')),
             '/categories?camp=' => urlencode($this->getIriFor('camp1')),
+            '/comments?camp=' => urlencode($this->getIriFor('camp1')),
             '/content_types?categories=' => urlencode($this->getIriFor('category1')),
             '/day_responsibles?day.period=' => urlencode($this->getIriFor('period1')),
             '/material_items?materialList=' => urlencode($this->getIriFor('materialList1')),
             '/material_items?materialNode=' => urlencode($this->getIriFor('materialNode1')),
             '/material_items?period=' => urlencode($this->getIriFor('period1')),
             '/material_lists?camp=' => urlencode($this->getIriFor('camp1')),
-            '/profiles?user.collaboration.camp=' => urlencode($this->getIriFor('camp1')),
+            '/profiles?user.collaborations.camp=' => urlencode($this->getIriFor('camp1')),
             '/schedule_entries?period=' => urlencode($this->getIriFor('period1')),
         ];
     }
@@ -289,7 +289,12 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/days/{id}/day_responsibles' => $dayId,
             '/periods/{id}/days' => $periodId,
             '/periods/{id}/schedule_entries' => $periodId,
+            '/activities/{id}/comments' => $this->getFixture('activity1')->getId(),
         ];
+    }
+
+    private static function scopingFilterFor(string $collectionEndpoint): string {
+        return CollectionScopingFilterMap::get($collectionEndpoint, FixtureStore::getFixtures());
     }
 
     private static function getFixtureFor(string $collectionEndpoint) {

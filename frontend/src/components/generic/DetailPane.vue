@@ -4,7 +4,7 @@
     :saving-override.sync="isSaving"
     :model-value
     v-bind="$props"
-    @update:model-value="$emit('update:model-value', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <!-- passing through all slots -->
     <template v-for="(_, slot) of $slots" #[slot]="slotData">
@@ -18,7 +18,7 @@
     eager
     :model-value
     v-bind="$props"
-    @update:model-value="$emit('update:model-value', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <!-- passing through all slots -->
     <template v-for="(_, slot) of $slots" #[slot]="slotData">
@@ -36,6 +36,6 @@ export default {
   name: 'DetailPane',
   components: { DialogBottomSheet, DialogForm },
   extends: DialogUiBase,
-  emits: ['update:model-value'],
+  emits: ['update:modelValue'],
 }
 </script>

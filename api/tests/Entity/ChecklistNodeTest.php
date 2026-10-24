@@ -6,6 +6,7 @@ use App\Entity\Camp;
 use App\Entity\CampRootContentNode;
 use App\Entity\Checklist;
 use App\Entity\ChecklistItem;
+use App\Entity\ContentNode;
 use App\Entity\ContentNode\ChecklistNode;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Util\EntityMap;
@@ -32,7 +33,8 @@ class ChecklistNodeTest extends TestCase {
         $campRootContentNode = new CampRootContentNode();
         $campRootContentNode->camp = $this->camp;
         $campRootContentNode->rootContentNode = $rootNode;
-        $rootNode->campRootContentNodes->add($campRootContentNode);
+        $campRootContentNodes = new \ReflectionProperty(ContentNode::class, 'campRootContentNodes');
+        $campRootContentNodes->getValue($rootNode)->add($campRootContentNode);
 
         $this->itemPrototype1 = new ChecklistItem();
         $this->itemPrototype1->text = 'item1';

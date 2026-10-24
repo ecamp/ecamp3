@@ -4,7 +4,6 @@
 <br/>
 <a href="https://translate.ecamp3.ch" target="_blank"><img alt="Deutsche Übersetzung" src="https://img.shields.io/badge/dynamic/json?color=blue&label=deutsch&style=flat&logo=crowdin&query=%24.progress.0.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a> <a href="https://translate.ecamp3.ch" target="_blank"><img alt="traduction française" src="https://img.shields.io/badge/dynamic/json?color=blue&label=fran%C3%A7ais&style=flat&logo=crowdin&query=%24.progress.4.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a> <a href="https://translate.ecamp3.ch" target="_blank"><img alt="Traduzione italiana" src="https://img.shields.io/badge/dynamic/json?color=blue&label=italiano&style=flat&logo=crowdin&query=%24.progress.6.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a> <a href="https://translate.ecamp3.ch" target="_blank"><img alt="translaziun rumantscha" src="https://img.shields.io/badge/dynamic/json?color=blue&label=rumantsch&style=flat&logo=crowdin&query=%24.progress.8.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16183080-639884.json"></a></p>
 
-
 ## English
 
 _(deutsche Übersetzung weiter unten)_

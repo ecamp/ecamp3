@@ -6,7 +6,6 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -16,8 +15,7 @@ class AssertBelongsToSameCampValidator extends ConstraintValidator {
     use GetCampFromContentNodeTrait;
 
     public function __construct(
-        public RequestStack $requestStack,
-        private EntityManagerInterface $em
+        private readonly EntityManagerInterface $em
     ) {}
 
     public function validate($value, Constraint $constraint): void {
@@ -36,11 +34,6 @@ class AssertBelongsToSameCampValidator extends ConstraintValidator {
 
         if (!$value instanceof BelongsToCampInterface && !$value instanceof BelongsToContentNodeTreeInterface) {
             throw new UnexpectedValueException($value, BelongsToCampInterface::class.' or '.BelongsToContentNodeTreeInterface::class);
-        }
-
-        if ($constraint->compareToPrevious) {
-            // Get the old state of the entity before the changes were applied.
-            $object = $this->requestStack->getCurrentRequest()->attributes->get('previous_data');
         }
 
         $valueCamp = $this->getCampFromInterface($value, $this->em);

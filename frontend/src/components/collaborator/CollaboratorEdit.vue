@@ -52,8 +52,8 @@
         <CollaboratorListItem
           :collaborator="collaborator"
           editable
+          v-bind="props"
           @click="showDialog = true"
-          v-on="props"
         />
       </slot>
     </template>
@@ -127,7 +127,7 @@ import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 import campCollaborationDisplayName from '../../../../common/helpers/campCollaborationDisplayName'
 import isOwnCampCollaboration from './isOwnCampCollaboration.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 export default {
   name: 'CollaboratorEdit',

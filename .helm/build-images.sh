@@ -5,9 +5,9 @@ set -e
 SCRIPT_DIR=$(realpath "$(dirname "$0")")
 REPO_DIR=$(realpath "$SCRIPT_DIR"/..)
 
-version=$(jq -r '.IMAGE_TAG' $SCRIPT_DIR/ecamp3/env.yaml)
-docker_hub_account=$(jq -r '.DOCKER_HUB_USERNAME' $SCRIPT_DIR/ecamp3/env.yaml)
-SENTRY_AUTH_TOKEN=$(jq -r '.SENTRY_AUTH_TOKEN' $SCRIPT_DIR/ecamp3/env.yaml)
+version=$(yq -r '.IMAGE_TAG' $SCRIPT_DIR/ecamp3/env.yaml)
+docker_hub_account=$(yq -r '.DOCKER_HUB_USERNAME' $SCRIPT_DIR/ecamp3/env.yaml)
+SENTRY_AUTH_TOKEN=$(yq -r '.SENTRY_AUTH_TOKEN' $SCRIPT_DIR/ecamp3/env.yaml)
 
 sentry_build_args="--build-arg SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN --build-arg SENTRY_ORG=$SENTRY_ORG"
 sentry_build_args="$sentry_build_args --build-arg SENTRY_RELEASE_NAME=$SENTRY_RELEASE_NAME"

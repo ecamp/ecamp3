@@ -6,7 +6,6 @@ use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AllowTransition\AssertAllowTransitionsValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
@@ -31,8 +30,8 @@ class AssertAllowTransitionTest extends ConstraintValidatorTestCase {
         $this->before = new TestClass('2');
 
         $this->requestStack = $this->createStub(RequestStack::class);
-        $request = $this->createStub(Request::class);
-        $request->attributes = new ParameterBag(['previous_data' => $this->before]);
+        $request = Request::create('/');
+        $request->attributes->set('previous_data', $this->before);
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         parent::setUp();

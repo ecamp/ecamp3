@@ -6,6 +6,11 @@ on:
       run-identifier:
         required: false
         type: string
+      grep-filter:
+        required: false
+        type: string
+        default: ''
+        description: 'Playwright --grep filter, e.g. "@mature". Empty means run all tests.'
 
 jobs:
   e2e-tests-run:
@@ -23,7 +28,7 @@ jobs:
           - webkit
           - behavior-tests
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - run: cp .env.ci .env
 
@@ -43,7 +48,7 @@ jobs:
           docker image ls -a --digests
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: .cache
           key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
@@ -65,7 +70,7 @@ jobs:
       - run: docker compose -f docker-compose.yml run --rm api migrate-database
 
       # start necessary containers
-      - run: docker compose -f docker-compose.yml up -d api frontend pdf print browserless database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
+      - run: docker compose -f docker-compose.yml up -d api frontend print browserless database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
 
       # pull playwright while container are starting up
       - run: docker compose pull e2e
@@ -75,10 +80,11 @@ jobs:
       - run: sh -x wait-for-container-startup.sh
 
       - run: >
-          docker compose --profile e2e run 
-          -e CI=true 
-          -e PLAYWRIGHT_BLOB_OUTPUT_NAME=report-${{ matrix.browser }}${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}.zip 
+          docker compose --profile e2e run
+          -e CI=true
+          -e PLAYWRIGHT_BLOB_OUTPUT_NAME=report-${{ matrix.browser }}${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}.zip
           --rm e2e npx playwright test --project ${{ matrix.browser }}
+          ${{ inputs.grep-filter != '' && format('--grep "{0}"', inputs.grep-filter) || '' }}
 
       - run: sudo chown -R $USER e2e
         if: always()
@@ -90,7 +96,7 @@ jobs:
           name: blob-report${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}-${{ matrix.browser }}
           path: e2e/blob-report/
           retention-days: 1
-          
+
       - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
@@ -111,10 +117,10 @@ jobs:
     needs: [e2e-tests-run]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '24.15.0'
+          node-version: '24.22.1'
 
       - name: Install dependencies
         working-directory: e2e

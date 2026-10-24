@@ -7,7 +7,7 @@ App\Entity\ContentNode\ChecklistNode:
     instanceName: <word()>
     contentType: '@contentTypeChecklist'
     checklistItems:
-    - '@checklistItem1_1_1'
+      - '@checklistItem1_1_1'
   checklistNode3:
     root: '@columnLayout3'
     parent: '@columnLayout3'

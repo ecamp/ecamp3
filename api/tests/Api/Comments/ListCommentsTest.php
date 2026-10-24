@@ -20,24 +20,9 @@ class ListCommentsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCommentsIsAllowedForLoggedInUser() {
-        /** @noRector */
-        $response = static::createClientWithCredentials()->request('GET', '/comments');
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 5,
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('comment1')],
-            ['href' => $this->getIriFor('comment2')],
-            ['href' => $this->getIriFor('comment3')],
-            ['href' => $this->getIriFor('comment1campPrototype')],
-            ['href' => $this->getIriFor('comment1campShared')],
-        ], $response->toArray()['_links']['items']);
+    public function testListCommentsWithoutFilterIsNotAllowedForLoggedInUser() {
+        static::createClientWithCredentials()->request('GET', '/comments');
+        $this->assertResponseStatusCodeSame(400);
     }
 
     public function testListCommentsSortyByCreateTime() {
@@ -58,12 +43,12 @@ class ListCommentsTest extends ECampApiTestCase {
             []
         )])->toArray();
 
-        $response = $client->request('GET', '/comments');
+        $response = $client->request('GET', '/comments?camp='.$this->getIriFor('camp1'));
         $items = $response->toArray()['_embedded']['items'];
 
-        $this->assertCount(6, $items);
-        $this->assertGreaterThanOrEqual($items[0]['createTime'], $items[3]['createTime']);
-        $this->assertEquals($items[5]['createTime'], $lastComment['createTime']);
+        $this->assertCount(4, $items);
+        $this->assertGreaterThanOrEqual($items[0]['createTime'], $items[2]['createTime']);
+        $this->assertEquals($items[3]['createTime'], $lastComment['createTime']);
     }
 
     public function testListCommentsFilteredByActivity() {
@@ -97,47 +82,55 @@ class ListCommentsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCommentsActivitySubresourceInCampPrototypeIsAllowedForUnrelatedUser() {
+    public function testListCommentsActivitySubresourceInCampPrototypeIsDeniedForUnrelatedUser() {
         $activity = static::getFixture('activity1campPrototype');
-        static::createClientWithCredentials()->request('GET', $this->getIriFor($activity).'/comments');
+        static::createClientWithCredentials()
+            ->request('GET', $this->getIriFor($activity).'/comments')
+        ;
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 
-    public function testListCommentsActivitySubresourceInSharedCampIsAllowedForUnrelatedUser() {
+    public function testListCommentsActivitySubresourceInSharedCampIsDeniedForUnrelatedUser() {
         $activity = static::getFixture('activity1campShared');
-        static::createClientWithCredentials()->request('GET', $this->getIriFor($activity).'/comments');
+        static::createClientWithCredentials()
+            ->request('GET', $this->getIriFor($activity).'/comments')
+        ;
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 
-    public function testListCommentsActivitySubresourceInSharedCampIsAllowedForInactiveUser() {
+    public function testListCommentsActivitySubresourceInSharedCampIsDeniedForInactiveUser() {
         $activity = static::getFixture('activity1campShared');
         static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', $this->getIriFor($activity).'/comments')
         ;
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 
-    public function testListCommentsActivitySubresourceInSharedCampIsAllowedForInvitedUser() {
+    public function testListCommentsActivitySubresourceInSharedCampIsDeniedForInvitedUser() {
         $activity = static::getFixture('activity1campShared');
         static::createClientWithCredentials(['email' => static::$fixtures['user6invited']->getEmail()])
             ->request('GET', $this->getIriFor($activity).'/comments')
         ;
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 }

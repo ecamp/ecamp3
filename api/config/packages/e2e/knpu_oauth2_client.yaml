@@ -1,0 +1,2 @@
+imports:
+    - { resource: ../dev/knpu_oauth2_client.yaml }

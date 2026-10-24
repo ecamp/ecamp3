@@ -11,65 +11,15 @@
         <slot name="statusChange" />
       </template>
     </e-text-field>
-    <e-select
+    <CollaboratorRoleSelect
       v-if="readonlyRole"
       v-model="localCollaboration.role"
-      path="role"
       readonly
       aria-readonly="true"
       aria-describedby="readonly"
-      :items="items"
       :hint="$t('components.collaborator.collaboratorForm.roleHint')"
-      persistent-hint
-      vee-rules="required"
-    >
-      <template #selection="{ item }">
-        <span>
-          {{ item.title }} &middot;
-          <span class="text-grey">
-            <template v-for="icon in item.raw.icons" :key="icon">
-              <v-icon size="x-small">{{ icon }}</v-icon>
-              &thinsp;
-            </template>
-          </span>
-        </span>
-      </template>
-    </e-select>
-    <e-select
-      v-else
-      v-model="localCollaboration.role"
-      path="role"
-      :items="items"
-      persistent-hint
-      item-title="role"
-      item-value="key"
-      vee-rules="required"
-    >
-      <template #item="{ item, props }">
-        <v-list-item lines="two" v-bind="props">
-          <v-list-item-subtitle>{{ item.raw.abilities }}</v-list-item-subtitle>
-          <template #append>
-            <span>
-              <template v-for="icon in item.raw.icons" :key="icon">
-                <v-icon size="small">{{ icon }}</v-icon>
-                &thinsp;
-              </template>
-            </span>
-          </template>
-        </v-list-item>
-      </template>
-      <template #selection="{ item }">
-        <span>
-          {{ item.title }} &middot;
-          <span class="text-grey">
-            <template v-for="icon in item.raw.icons" :key="icon">
-              <v-icon size="x-small">{{ icon }}</v-icon>
-              &thinsp;
-            </template>
-          </span>
-        </span>
-      </template>
-    </e-select>
+    />
+    <CollaboratorRoleSelect v-else v-model="localCollaboration.role" />
 
     <fieldset
       v-if="!!initialCollaboration"
@@ -105,10 +55,11 @@
 
 <script>
 import UserAvatar from '@/components/user/UserAvatar.vue'
+import CollaboratorRoleSelect from '@/components/collaborator/CollaboratorRoleSelect.vue'
 
 export default {
   name: 'SettingsCollaboratorForm',
-  components: { UserAvatar },
+  components: { UserAvatar, CollaboratorRoleSelect },
   props: {
     collaboration: { type: Object, required: true },
     status: { type: [String, Boolean], required: false, default: false },
@@ -116,28 +67,6 @@ export default {
     initialCollaboration: { type: Object, required: false, default: null },
   },
   computed: {
-    items() {
-      return [
-        {
-          value: 'manager',
-          text: this.$t('entity.camp.collaborators.manager'),
-          abilities: this.$t('global.collaborationAbilities.manager'),
-          icons: ['mdi-eye-outline', 'mdi-pencil-outline', 'mdi-cog-outline'],
-        },
-        {
-          value: 'member',
-          text: this.$t('entity.camp.collaborators.member'),
-          abilities: this.$t('global.collaborationAbilities.member'),
-          icons: ['mdi-eye-outline', 'mdi-pencil-outline'],
-        },
-        {
-          value: 'guest',
-          text: this.$t('entity.camp.collaborators.guest'),
-          abilities: this.$t('global.collaborationAbilities.guest'),
-          icons: ['mdi-eye-outline'],
-        },
-      ]
-    },
     localCollaboration() {
       return this.collaboration
     },

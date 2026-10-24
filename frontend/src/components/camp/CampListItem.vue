@@ -24,9 +24,7 @@
 
 <script>
 import { campRoute } from '@/router.js'
-import { componentI18n } from '@/plugins/i18n/index.js'
-import groupBy from 'lodash-es/groupBy.js'
-import uniq from 'lodash-es/uniq.js'
+import { groupBy, uniq } from 'lodash-es'
 
 const YEAR_JOINER = '-'
 
@@ -37,14 +35,17 @@ export default {
     periods: { type: Array, default: () => [] },
   },
   computed: {
+    locale() {
+      return this.$store.state.lang.language
+    },
     formatMY() {
-      return new Intl.DateTimeFormat(componentI18n.locale, {
+      return new Intl.DateTimeFormat(this.locale, {
         year: 'numeric',
         month: 'short',
       })
     },
     formatM() {
-      return new Intl.DateTimeFormat(componentI18n.locale, { month: 'short' })
+      return new Intl.DateTimeFormat(this.locale, { month: 'short' })
     },
     date() {
       return Object.entries(this.groupedPeriods).map(([key, periods]) => {

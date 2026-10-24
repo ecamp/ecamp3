@@ -47,6 +47,7 @@ Displays a field as a picker (can be used with v-model)
                 :aria-label="
                   $t(buttonAriaLabelI18nKey, 0, { label: labelOrEntityFieldLabel })
                 "
+                tabindex="-1"
                 @click="(...args) => onMenuOpen(props, ...args)"
               >
                 {{ icon }}

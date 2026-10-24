@@ -8,7 +8,7 @@ App\Entity\Profile:
     language: en
     abbreviation: '⚜️'
     color: '#6a209b'
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile2member:
     user: '@user2member'
     email: <email()>
@@ -16,7 +16,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile3guest:
     user: '@user3guest'
     email: <email()>
@@ -24,7 +24,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile4unrelated:
     user: '@user4unrelated'
     email: <email()>
@@ -32,7 +32,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile5inactive:
     user: '@user5inactive'
     email: <email()>
@@ -40,7 +40,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile6invited:
     user: '@user6invited'
     email: <email()>
@@ -48,7 +48,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile7manager:
     user: '@user7manager'
     email: <email()>
@@ -56,7 +56,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profile8memberOnlyInCamp2:
     user: '@user8memberOnlyInCamp2'
     email: <email()>
@@ -64,7 +64,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profileAdmin:
     user: '@admin'
     email: admin@example.com
@@ -72,7 +72,7 @@ App\Entity\Profile:
     surname: Nistrator
     nickname: Administrator
     language: de
-    roles: [ 'ROLE_USER', 'ROLE_ADMIN' ]
+    roles: ['ROLE_USER', 'ROLE_ADMIN']
   profileWithoutCampCollaborations:
     user: '@userWithoutCampCollaborations'
     email: <email()>
@@ -80,7 +80,7 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']
   profileWithStateDeleted:
     user: '@userWithStateDeleted'
     email: <email()>
@@ -88,4 +88,4 @@ App\Entity\Profile:
     surname: <lastName()>
     nickname: <word()>
     language: en
-    roles: [ 'ROLE_USER' ]
+    roles: ['ROLE_USER']

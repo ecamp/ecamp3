@@ -18,13 +18,37 @@
     <!-- skeleton loader (slot #body overrides all others) -->
     <template
       v-if="materialItemCollection._meta.loading || camp.materialLists()._meta.loading"
-      #body="{ headers }"
+      #body
     >
       <tr v-for="row in 3" :key="row">
-        <td v-for="col in headers.length" :key="col">
+        <td v-for="col in tableHeaders.length" :key="col">
           <v-skeleton-loader height="25" class="pr-5 mt-1" type="text" />
         </td>
       </tr>
+    </template>
+
+    <template #[`item.done`]="{ item }">
+      <api-checkbox
+        v-if="layoutMode || isContributor"
+        :disabled="disabled || !item.materialList"
+        class="ec-material-table__done"
+        density="compact"
+        hide-details
+        :label="null"
+        :uri="item.uri"
+        path="done"
+      />
+      <v-checkbox-btn
+        v-else
+        class="ec-material-table__done"
+        density="compact"
+        hide-details
+        :ripple="false"
+        :label="null"
+        :model-value="item.done"
+        :disabled="layoutMode || disabled"
+        readonly
+      />
     </template>
 
     <template #[`item.quantity`]="{ item }">
@@ -103,6 +127,7 @@
             class: 'v-btn--has-bg',
             disabled: layoutMode || disabled,
             bg: true,
+            variant: 'text',
             width: !isDefaultVariant ? '100%' : null,
             iconOnly: true,
             btnIcon: false,
@@ -171,13 +196,13 @@
       </button>
     </template>
 
-    <template #[`body.append`]="{ headers }">
+    <template #[`body.append`]>
       <!-- add new item (desktop view) -->
       <MaterialCreateItem
-        v-if="!layoutMode && isDefaultVariant && !disabled"
+        v-if="!layoutMode && isDefaultVariant && !disabled && isContributor"
         key="addItemRow"
         :camp="camp"
-        :columns="headers.length"
+        :columns="tableHeaders.length"
         :material-list="materialList"
         @item-adding="add"
       />
@@ -186,7 +211,7 @@
     <template #bottom>
       <!-- add new item (mobile view) -->
       <DialogMaterialItemCreate
-        v-if="!layoutMode && !isDefaultVariant && !disabled"
+        v-if="!layoutMode && !isDefaultVariant && !disabled && isContributor"
         :camp="camp"
         :material-item-collection="materialItemCollection"
         :material-list="materialList"
@@ -207,6 +232,7 @@
 <script>
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import DialogMaterialItemCreate from './DialogMaterialItemCreate.vue'
@@ -221,7 +247,7 @@ import * as Sentry from '@sentry/browser'
 import { serverErrorToString } from '@/helpers/serverError.js'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
 import ApiNumberField from '@/components/form/api/ApiNumberField.vue'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 
 // Non-breaking space
 const nbsp = '\u00A0'
@@ -230,6 +256,7 @@ export default {
   name: 'MaterialTable',
   components: {
     PromptEntityDelete,
+    ApiCheckbox,
     ApiTextField,
     ApiNumberField,
     ApiSelect,
@@ -243,6 +270,7 @@ export default {
     ScheduleEntryLinks,
     ServerErrorContent,
   },
+  inject: ['isContributor'],
   props: {
     // camp Entity
     camp: { type: Object, required: true },
@@ -283,6 +311,13 @@ export default {
     tableHeaders() {
       const headers = []
 
+      headers.push({
+        value: 'done',
+        align: 'center',
+        sortable: true,
+        width: '48px',
+      })
+
       if (this.isDefaultVariant) {
         headers.push(
           {
@@ -301,11 +336,13 @@ export default {
           {
             title: this.$t('entity.materialItem.fields.article'),
             value: 'article',
+            sortable: true,
             cellClass: 'font-weight-bold',
           },
           {
             title: this.$t('entity.materialList.name'),
             value: 'listName',
+            sortable: true,
             width: '20%',
           }
         )
@@ -354,6 +391,8 @@ export default {
           uri: item._meta.self,
           quantity: item.quantity,
           unit: item.unit,
+          done: item.done,
+          materialList: item.materialList,
           combinedQuantity: this.renderQuantity(item),
           article: item.article,
           listName: item.materialList ? item.materialList()?.name : '',
@@ -369,6 +408,7 @@ export default {
           id: key,
           quantity: mi.quantity,
           unit: mi.unit,
+          done: mi.done ?? false,
           combinedQuantity: this.renderQuantity(mi),
           article: mi.article,
           listName: this.materialLists.find(

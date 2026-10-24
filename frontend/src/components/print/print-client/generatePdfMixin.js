@@ -2,7 +2,7 @@ import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 import * as Sentry from '@sentry/browser'
 import { generatePdf } from './generatePdf.js'
-import { useToast } from 'vue-toastification'
+import { useToast } from '@/components/toast/useToast.js'
 import { componentI18n } from '@/plugins/index.js'
 
 const RENDER_IN_WORKER = true
@@ -106,7 +106,6 @@ export const generatePdfMixin = {
       this.progress = progress
       this.state = this.$t(
         'components.print.printClient.generatePdfMixin.progress.' + state,
-        1,
         params
       )
     },

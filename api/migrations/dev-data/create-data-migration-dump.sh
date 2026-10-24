@@ -20,8 +20,10 @@ docker compose exec database pg_dump \
                                 --column-inserts \
                                 --exclude-table=doctrine_migration_versions \
                                 --exclude-table=content_type \
+                                --exclude-table=refresh_tokens \
                                 --rows-per-insert 10000 \
   | grep -v -e "pg_dump" \
+  | grep -v -e "^\\\\restrict" -e "^\\\\unrestrict" \
   | grep -v "^--" \
   | grep -v "pg_dump" \
   | grep -v "^SET" \
