@@ -1,4 +1,3 @@
-import { expect, it, vi } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import MaterialTable from '../MaterialTable.vue'
 import PromptEntityDelete from '@/components/prompt/PromptEntityDelete.vue'
