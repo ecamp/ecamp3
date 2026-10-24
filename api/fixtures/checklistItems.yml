@@ -1,17 +1,21 @@
 App\Entity\ChecklistItem:
   checklistItem1_1_1:
     checklist: '@checklist1'
+    position: 0
     text: 'Camp1_List1_Item1'
   checklistItem1_1_2:
     checklist: '@checklist1'
+    position: 1
     text: 'Camp1_List1_Item2'
   checklistItem1_1_2_3:
     checklist: '@checklist1'
     parent: '@checklistItem1_1_2'
+    position: 2
     text: 'Camp1_List1_Item2_Item3'
   checklistItem1_1_2_3_4:
     checklist: '@checklist1'
     parent: '@checklistItem1_1_2_3'
+    position: 3
     text: 'Camp1_List1_Item2_Item3_Itme4'
   checklistItem2_1_1:
     checklist: '@checklist1camp2'
