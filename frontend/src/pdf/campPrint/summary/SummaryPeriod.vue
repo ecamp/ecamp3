@@ -58,7 +58,7 @@ export default {
 <style lang="react-pdf">
 .summary-period-title {
   font-size: 10pt;
-  font-weight: bold;
+  font-weight: 600;
   text-align: center;
 }
 </style>

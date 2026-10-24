@@ -117,7 +117,7 @@ export default {
 }
 .picasso-title {
   flex-grow: 1;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14pt;
 }
 .picasso-organizer {

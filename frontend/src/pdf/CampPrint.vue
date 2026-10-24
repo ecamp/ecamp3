@@ -107,6 +107,7 @@ const registerFonts = async () => {
 
   return await Promise.all([
     Font.load({ fontFamily: 'InterDisplay' }),
+    Font.load({ fontFamily: 'InterDisplay', fontWeight: 500 }),
     Font.load({ fontFamily: 'InterDisplay', fontWeight: 600 }),
     Font.load({ fontFamily: 'InterDisplay', fontWeight: 700 }),
     Font.load({ fontFamily: 'InterDisplay', fontStyle: 'italic' }),

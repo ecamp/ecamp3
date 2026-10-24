@@ -71,7 +71,7 @@
               "style": {
                 "flexGrow": "1",
                 "fontSize": "14pt",
-                "fontWeight": "bold",
+                "fontWeight": "600",
               },
               "type": "TEXT",
             },
