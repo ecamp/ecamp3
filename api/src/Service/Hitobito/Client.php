@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Hitobito;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -20,7 +21,8 @@ class Client implements ClientInterface {
     public function __construct(
         HttpClientInterface $client,
         string $baseUrl,
-        AuthContext $authContext
+        AuthContext $authContext,
+        private readonly LoggerInterface $logger
     ) {
         $this->httpClient = $client->withOptions([
             // add a trailing slash, if not given (if no trailing slash is present in base uri, its path will be overwritten upon any request)
@@ -33,6 +35,13 @@ class Client implements ClientInterface {
 
     public function getUpcomingEvents(array $roleTypes): array {
         if ([] === $roleTypes) {
+            $this->logger->info(
+                '{class}::getUpcomingEvents: No role types given, returning empty event array',
+                [
+                    'class' => self::class,
+                ]
+            );
+
             return [];
         }
 
@@ -254,6 +263,14 @@ class Client implements ClientInterface {
      * @return Event[]
      */
     private function extractEvents(array $response): array {
+        $this->logger->info(
+            '{class}::extractEvents: Found {count} events',
+            [
+                'count' => count($response['included']),
+                'class' => self::class,
+            ]
+        );
+
         // Gather the included participations and the ids of those holding one of the requested roles
         $participationIdsWithRole = [];
         $participations = [];
@@ -284,6 +301,14 @@ class Client implements ClientInterface {
 
             $events[] = new Event($event['id'], $event['attributes']['name'], null, null, []);
         }
+
+        $this->logger->info(
+            '{class}::extractEvents: Extracted {count} events',
+            [
+                'count' => count($events),
+                'class' => self::class,
+            ]
+        );
 
         return $events;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Hitobito;
 
 use App\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,6 +19,7 @@ class ClientProvider {
         private readonly RequestStack $requestStack,
         private readonly AccessTokenProvider $accessTokenProvider,
         private readonly string $pbsmidataBaseUrl,
+        private readonly LoggerInterface $logger,
         private readonly bool $useMockClient = false,
     ) {}
 
@@ -29,7 +31,7 @@ class ClientProvider {
         $authContext = $this->getAuthContext($provider);
 
         if ($this->useMockClient) {
-            return new MockClient();
+            return new MockClient($this->logger);
         }
 
         $baseUrl = match ($provider) {
@@ -37,7 +39,7 @@ class ClientProvider {
             HitobitoProvider::CEVIDB, HitobitoProvider::JUBLADB => throw new \InvalidArgumentException("Unsupported Hitobito provider \"{$provider->value}\""),
         };
 
-        return new Client($this->client, $baseUrl, $authContext);
+        return new Client($this->client, $baseUrl, $authContext, $this->logger);
     }
 
     private function getAuthContext(HitobitoProvider $provider): AuthContext {
