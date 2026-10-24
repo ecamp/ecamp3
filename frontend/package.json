@@ -121,7 +121,6 @@
     "eslint-plugin-vue-scoped-css": "3.1.3",
     "flush-promises": "1.0.2",
     "globals": "17.13.0",
-    "jest-serializer-vue-tjw": "4.0.0",
     "jsdom": "30.1.2",
     "lint-staged": "17.6.0",
     "patch-package": "8.0.1",
@@ -136,7 +135,8 @@
     "vite-svg-loader": "5.1.3",
     "vitest": "5.0.3",
     "vitest-canvas-mock": "1.2.0",
-    "vue-template-compiler": "2.7.16"
+    "vue-template-compiler": "2.7.16",
+    "vue3-snapshot-serializer": "2.13.4"
   },
   "overrides": {
     "uri-js": "npm:uri-js-replace"
@@ -169,7 +169,6 @@
     "@sentry/cli": false,
     "core-js": false,
     "esbuild": false,
-    "vue-demi": false,
-    "jest-serializer-vue-tjw": false
+    "vue-demi": false
   }
 }
