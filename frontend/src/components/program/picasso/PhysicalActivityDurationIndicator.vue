@@ -7,11 +7,12 @@
       class="e-physical-activity-duration__line"
       :style="{ height: `${visible ? fraction * 100 : 0}%` }"
     />
-    <span class="e-physical-activity-duration__text" :aria-hidden="!visible">
+    <span
+      class="e-physical-activity-duration__text"
+      :aria-hidden="!visible"
+      :title="$t('entity.scheduleEntry.fields.ysPhysicalActivityDuration')"
+    >
       {{ duration }}
-      <v-tooltip :disabled="!visible" activator="parent" location="top">
-        {{ $t('entity.scheduleEntry.fields.ysPhysicalActivityDuration') }}
-      </v-tooltip>
     </span>
   </div>
 </template>

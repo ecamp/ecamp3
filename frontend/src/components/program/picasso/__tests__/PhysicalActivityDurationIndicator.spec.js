@@ -13,7 +13,6 @@ function mountIndicator(props = {}) {
     },
     global: {
       mocks: { $t: (key) => key },
-      stubs: { VTooltip: true },
     },
   })
 }
