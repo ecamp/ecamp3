@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\DependencyInjection\HalNormalizerDefaultContextCompilerPass;
 use App\DependencyInjection\JWTOAuthStateCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,5 +15,6 @@ class Kernel extends BaseKernel {
         parent::build($container);
 
         $container->addCompilerPass(new JWTOAuthStateCompilerPass());
+        $container->addCompilerPass(new HalNormalizerDefaultContextCompilerPass());
     }
 }

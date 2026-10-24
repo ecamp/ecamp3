@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\HttpCache\CanGenerateTagsInterface;
 use App\Repository\ScheduleEntryRepository;
@@ -33,7 +34,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             security: 'is_granted("CAMP_COLLABORATOR", object) or
                        is_granted("CAMP_IS_PUBLIC", object)',
-            mercure: true
         ),
         new Patch(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
@@ -58,7 +58,6 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ),
             ],
             security: 'is_fully_authenticated()',
-            mercure: true,
             extraProperties: [
                 'filter_by_current_user' => false,
             ]
@@ -72,6 +71,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
+    mercure: [
+        'topics' => [
+            '@=iri(object, '.UrlGeneratorInterface::ABS_PATH.')',
+            '@=iri(object, '.UrlGeneratorInterface::ABS_PATH.', get_operation(object, "'.self::PERIOD_SUBRESOURCE_URI_TEMPLATE.'"))',
+        ],
+    ]
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['period', 'activity'])]
 #[ApiFilter(filterClass: ExpressionDateTimeFilter::class, properties: [

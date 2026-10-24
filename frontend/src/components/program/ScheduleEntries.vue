@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import jsonStringifyReactiveValue from '../print/jsonStringifyReactiveValue.js'
 import DialogActivityCreate from './DialogActivityCreate.vue'
 
 export default {
@@ -70,7 +71,19 @@ export default {
       (event) => {
         let data = JSON.parse(event.data)
         console.log(data)
-        this.api.storeHalJsonData(data)
+
+        if (data.op === 'remove') {
+          // Delete entity locally. This will trigger reload of collections automatically through hal-json-vuex
+          this.api.localDel(data.path)
+          return
+        }
+
+        // for create and update operations, store received HAL data
+        // and reload collection
+        let halData = JSON.parse(data.value)
+        //console.log(halData)
+        this.api.storeHalJsonData(halData)
+        this.api.reload(this.period.scheduleEntries())
       },
       false
     )

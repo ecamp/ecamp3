@@ -36,13 +36,14 @@ use Symfony\Component\Mercure\HubRegistry;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * Publishes resources updates to the Mercure hub.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class PublishMercureUpdatesListener {
+final class PublishMercureUpdatesListener implements ResetInterface {
     use DispatchTrait;
     use ResourceClassInfoTrait;
     private const ALLOWED_KEYS = [
@@ -90,7 +91,7 @@ final class PublishMercureUpdatesListener {
                 new ExpressionFunction('get_operation', static fn (string $apiResource, string $name): string => \sprintf('getOperation(%s, %s)', $apiResource, $name), static fn (array $arguments, $apiResource, string $name): Operation => $resourceMetadataFactory->create($resourceClassResolver->getResourceClass($apiResource))->getOperation($name))
             );
             $this->expressionLanguage->addFunction(
-                new ExpressionFunction('iri', static fn (string $apiResource, int $referenceType = UrlGeneratorInterface::ABS_URL, ?string $operation = null): string => \sprintf('iri(%s, %d, %s)', $apiResource, $referenceType, $operation), static fn (array $arguments, $apiResource, int $referenceType = UrlGeneratorInterface::ABS_URL, $operation = null): string => $iriConverter->getIriFromResource($apiResource, $referenceType, $operation))
+                new ExpressionFunction('iri', static fn (string $apiResource, int $referenceType = UrlGeneratorInterface::ABS_PATH, ?string $operation = null): string => \sprintf('iri(%s, %d, %s)', $apiResource, $referenceType, $operation), static fn (array $arguments, $apiResource, int $referenceType = UrlGeneratorInterface::ABS_PATH, $operation = null): string => $iriConverter->getIriFromResource($apiResource, $referenceType, $operation))
             );
         }
     }
@@ -148,7 +149,7 @@ final class PublishMercureUpdatesListener {
         }
     }
 
-    private function reset(): void {
+    public function reset(): void {
         $this->createdObjects = [];
         $this->updatedObjects = [];
         $this->deletedObjects = [];
@@ -161,71 +162,75 @@ final class PublishMercureUpdatesListener {
 
         $resourceMetadataCollection = $this->resourceMetadataFactory->create($resourceClass);
 
-        // trigger publish for all operations with mercure: true
         foreach ($resourceMetadataCollection as $resourceMetadata) {
-            foreach ($resourceMetadata->getOperations() ?? [] as $operation) {
-                $options = $operation->getMercure();
-                if ($options) {
-                    $this->storeObjectToPublishForOperation($object, $property, $operation);
+            /** @var ?HttpOperation $operation */
+            $operation = null;
+            foreach ($resourceMetadata->getOperations() ?? [] as $op) {
+                if (!$op instanceof CollectionOperationInterface) {
+                    $operation = $op;
+
+                    break;
                 }
             }
-        }
-    }
 
-    private function storeObjectToPublishForOperation(object $object, string $property, HttpOperation $operation): void {
-        $options = $operation->getMercure() ?? false;
-
-        if (\is_string($options)) {
-            if (null === $this->expressionLanguage) {
-                throw new RuntimeException('The Expression Language component is not installed. Try running "composer require symfony/expression-language".');
+            if (null === $operation) {
+                continue;
             }
 
-            $options = $this->expressionLanguage->evaluate($options, ['object' => $object]);
-        }
+            $options = $operation->getMercure() ?? false;
 
-        if (false === $options) {
-            return;
-        }
+            if (\is_string($options)) {
+                if (null === $this->expressionLanguage) {
+                    throw new RuntimeException('The Expression Language component is not installed. Try running "composer require symfony/expression-language".');
+                }
 
-        if (true === $options) {
-            $options = [];
-        }
-
-        if (!\is_array($options)) {
-            throw new InvalidArgumentException(\sprintf('The value of the "mercure" attribute of the "%s" resource class must be a boolean, an array of options or an expression returning this array, "%s" given.', $resourceClass, \gettype($options)));
-        }
-
-        foreach ($options as $key => $value) {
-            if (!isset(self::ALLOWED_KEYS[$key])) {
-                throw new InvalidArgumentException(\sprintf('The option "%s" set in the "mercure" attribute of the "%s" resource does not exist. Existing options: "%s"', $key, $resourceClass, implode('", "', array_keys(self::ALLOWED_KEYS))));
-            }
-        }
-
-        $options['enable_async_update'] ??= true;
-
-        if ('deletedObjects' === $property) {
-            $types = $operation->getTypes();
-            if (null === $types) {
-                $types = [$operation->getShortName()];
+                $options = $this->expressionLanguage->evaluate($options, ['object' => $object]);
             }
 
-            // We need to evaluate it here, because in publishUpdate() the resource would be already deleted
-            $this->evaluateTopics($options, $object);
+            if (false === $options) {
+                continue;
+            }
 
-            $this->deletedObjects[] = [
-                'object' => (object) [
-                    'id' => $this->iriConverter->getIriFromResource($object, UrlGeneratorInterface::ABS_PATH, $operation),
-                    'iri' => $this->iriConverter->getIriFromResource($object, UrlGeneratorInterface::ABS_URL, $operation),
-                    'type' => 1 === \count($types) ? $types[0] : $types,
-                ],
-                'options' => $options,
-                'operation' => $operation,
-            ];
+            if (true === $options) {
+                $options = [];
+            }
 
-            return;
+            if (!\is_array($options)) {
+                throw new InvalidArgumentException(\sprintf('The value of the "mercure" attribute of the "%s" resource class must be a boolean, an array of options or an expression returning this array, "%s" given.', $resourceClass, \gettype($options)));
+            }
+
+            foreach ($options as $key => $value) {
+                if (!isset(self::ALLOWED_KEYS[$key])) {
+                    throw new InvalidArgumentException(\sprintf('The option "%s" set in the "mercure" attribute of the "%s" resource does not exist. Existing options: "%s"', $key, $resourceClass, implode('", "', array_keys(self::ALLOWED_KEYS))));
+                }
+            }
+
+            $options['enable_async_update'] ??= true;
+
+            if ('deletedObjects' === $property) {
+                $types = $operation->getTypes();
+                if (null === $types) {
+                    $types = [$operation->getShortName()];
+                }
+
+                // We need to evaluate it here, because in publishUpdate() the resource would be already deleted
+                $this->evaluateTopics($options, $object);
+
+                $this->deletedObjects[] = [
+                    'object' => (object) [
+                        'id' => $this->iriConverter->getIriFromResource($object, UrlGeneratorInterface::ABS_PATH, $operation),
+                        'iri' => $this->iriConverter->getIriFromResource($object, UrlGeneratorInterface::ABS_PATH, $operation),
+                        'type' => 1 === \count($types) ? $types[0] : $types,
+                    ],
+                    'options' => $options,
+                    'operation' => $operation,
+                ];
+
+                continue;
+            }
+
+            $this->{$property}[] = ['object' => $object, 'options' => $options, 'operation' => $operation];
         }
-
-        $this->{$property}[] = ['object' => $object, 'options' => $options, 'operation' => $operation];
     }
 
     private function publishUpdate(object $object, array $options, string $type, ?Operation $operation = null): void {
@@ -233,21 +238,37 @@ final class PublishMercureUpdatesListener {
             // By convention, if the object has been deleted, we send only its IRI and its type.
             // This may change in the feature, because it's not JSON Merge Patch compliant,
             // and I'm not a fond of this approach.
-            $iri = $options['topics'] ?? $object->iri;
+            $topics = $options['topics'] ?? $object->iri;
 
+            // wrap object in JSON Patch compatible format
             /** @var non-empty-string $data */
-            $data = json_encode(['@id' => $object->id] + ($this->includeType ? ['@type' => $object->type] : []), \JSON_THROW_ON_ERROR);
+            $data = json_encode([
+                'op' => 'remove',
+                'path' => $object->iri,
+                'value' => null,
+            ]);
         } else {
             $context = $options['normalization_context'] ?? $operation?->getNormalizationContext() ?? [];
 
             // We need to evaluate it here, because in storeObjectToPublish() the resource would not have been persisted yet
             $this->evaluateTopics($options, $object);
 
-            $iri = $options['topics'] ?? $this->iriConverter->getIriFromResource($object, UrlGeneratorInterface::ABS_PATH, $operation);
-            $data = $options['data'] ?? $this->serializer->serialize($object, key($this->formats), $context);
+            $iri = $this->iriConverter->getIriFromResource($object, UrlGeneratorInterface::ABS_PATH, $operation);
+            $topics = $options['topics'] ?? $iri;
+
+            // wrap object in JSON Patch compatible format
+            $data = $options['data'] ?? json_encode([
+                'op' => match ($type) {
+                    'create' => 'add',
+                    'update' => 'replace',
+                    'default' => null
+                },
+                'path' => $iri,
+                'value' => $this->serializer->serialize($object, key($this->formats), $context),
+            ]);
         }
 
-        $updates = array_merge([$this->buildUpdate($iri, $data, $options)], $this->getGraphQlSubscriptionUpdates($object, $options, $type));
+        $updates = array_merge([$this->buildUpdate($topics, $data, $options)], $this->getGraphQlSubscriptionUpdates($object, $options, $type));
         foreach ($updates as $update) {
             if ($options['enable_async_update'] && $this->messageBus) {
                 $this->dispatch($update);
