@@ -481,7 +481,10 @@
           "orientation": "Page layout",
           "landscape": "Landscape",
           "periods": "Period(s)",
-          "portrait": "Portrait"
+          "portrait": "Portrait",
+          "responsibles": "Responsibles",
+          "responsiblesNames": "Names",
+          "responsiblesAvatars": "Avatars"
         },
         "programConfig": {
           "dayOverview": "print day overview"

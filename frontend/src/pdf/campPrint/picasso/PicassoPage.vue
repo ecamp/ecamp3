@@ -32,6 +32,7 @@
         :times="times"
         :day="day"
         :schedule-entries="scheduleEntries"
+        :avatars="content.options.responsibles === 'avatars'"
         :config="config"
       />
       <TimeColumn :times="times.slice(0, times.length - 1)" align="left" />
