@@ -122,6 +122,7 @@
         <PromptEntityDelete
           v-if="isDefaultVariant"
           :entity="item.uri"
+          :success-handler="() => reloadMaterialList(item)"
           :warning-text-entity="item.article"
           :btn-attrs="{
             class: 'v-btn--has-bg',
@@ -133,7 +134,11 @@
             btnIcon: false,
           }"
         />
-        <DialogMaterialItemEdit v-else :material-item-uri="item.uri">
+        <DialogMaterialItemEdit
+          v-else
+          :material-item-uri="item.uri"
+          :delete-success-handler="() => reloadMaterialList(item)"
+        >
           <template #activator="{ props }">
             <ButtonEdit v-bind="props" variant="tonal" small text />
           </template>
@@ -439,6 +444,9 @@ export default {
     }
   },
   methods: {
+    reloadMaterialList(item) {
+      return item.materialList?.().$reload()
+    },
     onResize({ width }) {
       this.clientWidth = width
     },
