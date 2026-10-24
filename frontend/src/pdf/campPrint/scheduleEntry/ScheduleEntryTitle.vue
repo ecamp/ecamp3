@@ -8,10 +8,12 @@
       <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
         <CategoryLabel
           :category="activity.category()"
+          :size="18"
           class="schedule-entry-category-label"
         />
         <Text :id="id" :bookmark="bookmarkTitle" class="schedule-entry-number-and-title">
-          {{ scheduleEntry.number }} {{ activity.title }}
+          <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+          {{ activity.title }}
         </Text>
       </View>
       <View class="schedule-entry-date">
@@ -23,7 +25,7 @@
     <View v-if="showHeaderData" class="schedule-entry-header">
       <View class="schedule-entry-header-metadata">
         <View class="schedule-entry-header-metadata-entry"
-          ><Text v-if="activity.location" class="schedule-entry-header-metadata-label"
+          ><Text class="schedule-entry-header-metadata-label"
             >{{ $tc('entity.activity.fields.location') }}:</Text
           ><Text>{{ activity.location }}</Text></View
         >
@@ -32,7 +34,7 @@
       <View class="schedule-entry-header-metadata">
         <View class="schedule-entry-header-metadata-entry">
           <Text
-            v-if="activity.activityResponsibles().items.length"
+            v-if="!compact || activity.activityResponsibles().items.length"
             class="schedule-entry-header-metadata-label"
             >{{ $tc('entity.activity.fields.responsible') }}:</Text
           >
@@ -47,6 +49,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import Responsibles from '../Responsibles.vue'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
+import { dateShort, hourShort } from '../../../common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'ScheduleEntryTitle',
@@ -69,26 +72,19 @@ export default {
         .filter((entry) => entry)
         .join(' ')
     },
-    start() {
-      return this.$date.utc(this.scheduleEntry.start)
-    },
-    end() {
-      return this.$date.utc(this.scheduleEntry.end)
-    },
     startAt() {
-      return this.start.format('ddd l LT')
+      const start = this.scheduleEntry.start
+      return `${dateShort(start, this.$tc)} ${hourShort(start, this.$tc)}`
     },
     endAt() {
-      return this.start.format('ddd l') === this.end.format('ddd l')
-        ? this.end.format('LT')
-        : this.end.format('ddd l LT')
+      const { start, end } = this.scheduleEntry
+      if (dateShort(start, this.$tc) === dateShort(end, this.$tc)) {
+        return hourShort(end, this.$tc)
+      }
+      return `${dateShort(end, this.$tc)} ${hourShort(end, this.$tc)}`
     },
     showHeaderData() {
-      return (
-        (this.activity.location.length ||
-          this.activity.activityResponsibles().items.length) &&
-        this.showHeader
-      )
+      return this.showHeader
     },
   },
 }
@@ -107,16 +103,15 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  font-size: 14pt;
+  gap: 4pt;
+  padding: 4pt 0;
+  font-size: 18pt;
   font-weight: 600;
 }
 .schedule-entry-category-label {
-  margin: 4pt 0;
-  font-size: 12pt;
   flex-shrink: 0;
 }
 .schedule-entry-number-and-title {
-  margin: 4pt 4pt;
   flex-shrink: 1;
 }
 .schedule-entry-date {

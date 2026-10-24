@@ -2,7 +2,7 @@
   <Link v-if="scheduleEntry" class="toc-entry" :href="`#${id}-${scheduleEntry.id}`">
     <Text>
       {{ scheduleEntry.category }}
-      {{ scheduleEntry.number }}
+      <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
       {{ scheduleEntry.title }}
     </Text>
     <TocEntryPageNumber

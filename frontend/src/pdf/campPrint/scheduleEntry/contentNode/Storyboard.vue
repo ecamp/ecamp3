@@ -1,25 +1,31 @@
 <template>
   <View class="content-node storyboard-container">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiScriptTextOutline" />
     <View v-if="anyContent" class="storyboard-header-row">
-      <View class="storyboard-header-cell storyboard-column-1">
+      <View class="storyboard-header-cell storyboard-column-1" :class="headerClass">
         <Text>{{ $tc('contentNode.storyboard.entity.section.fields.column1') }}</Text>
       </View>
-      <View class="storyboard-header-cell storyboard-column-2">
+      <View class="storyboard-header-cell storyboard-column-2" :class="headerClass">
         <Text>{{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}</Text>
       </View>
-      <View class="storyboard-header-cell storyboard-column-3">
+      <View
+        class="storyboard-header-cell storyboard-column-3"
+        :class="[headerClass, column3Class]"
+      >
         <Text>{{ $tc('contentNode.storyboard.entity.section.fields.column3') }}</Text>
       </View>
     </View>
     <View v-for="section in sections" class="storyboard-row">
-      <View class="storyboard-cell storyboard-column-1">
+      <View class="storyboard-cell storyboard-column-1" :class="cellClass">
         <Text>{{ section.column1 }}</Text>
       </View>
-      <View class="storyboard-cell storyboard-column-2">
+      <View class="storyboard-cell storyboard-column-2" :class="cellClass">
         <RichText :rich-text="section.column2Html" />
       </View>
-      <View class="storyboard-cell storyboard-column-3">
+      <View
+        class="storyboard-cell storyboard-column-3"
+        :class="[cellClass, column3Class]"
+      >
         <Text>{{ section.column3 }}</Text>
       </View>
     </View>
@@ -28,9 +34,10 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiScriptTextOutline } from '@mdi/js'
 import RichText from '../../RichText.vue'
 import sortBy from 'lodash-es/sortBy.js'
-import { isEmptyHtml } from '../../helpers.js'
+import { storyboardSectionHasContent } from './emptyContentNode.js'
 
 export default {
   name: 'Storyboard',
@@ -39,7 +46,19 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
   },
+  data() {
+    return { mdiScriptTextOutline }
+  },
   computed: {
+    headerClass() {
+      return { 'storyboard-header-cell-compact': this.compact }
+    },
+    cellClass() {
+      return { 'storyboard-cell-compact': this.compact || this.pageSize === 'A5' }
+    },
+    column3Class() {
+      return { 'storyboard-column-3-wide': this.pageSize !== 'A5' }
+    },
     sections() {
       const sections = this.contentNode.data.sections
       return sortBy(
@@ -54,12 +73,7 @@ export default {
       )
     },
     anyContent() {
-      return (
-        this.sections.length &&
-        (this.sections[0].column1.length ||
-          !isEmptyHtml(this.sections[0].column2Html) ||
-          this.sections[0].column3.length)
-      )
+      return this.sections.some(storyboardSectionHasContent)
     },
   },
 }
@@ -81,14 +95,25 @@ export default {
 .storyboard-header-cell {
   line-height: 0.8;
   font-weight: 600;
+  padding-top: 2pt;
+  padding-bottom: 2pt;
+}
+.storyboard-header-cell-compact {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .storyboard-cell {
   line-height: 0.8;
+  padding-top: 2pt;
+  padding-bottom: 6pt;
+}
+.storyboard-cell-compact {
   padding-top: 1pt;
   padding-bottom: 3pt;
 }
 .storyboard-column-1 {
-  width: 28pt;
+  font-feature-settings: 'tnum';
+  width: 42pt;
   flex-shrink: 0;
   flex-grow: 0;
   padding-right: 2pt;
@@ -107,5 +132,8 @@ export default {
   border-left: 0.75pt solid #94A3B8;
   padding-left: 2pt;
   overflow: hidden;
+}
+.storyboard-column-3-wide {
+  flex-basis: 70pt;
 }
 </style>

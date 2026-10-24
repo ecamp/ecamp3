@@ -1,6 +1,6 @@
 <template>
   <View class="content-node">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiClipboardListOutline" />
 
     <View v-for="entry in checklistsWithItems" class="checklist">
       <Text class="checklist-title">{{ entry.checklist.name }}</Text>
@@ -20,6 +20,7 @@
 import uniqWith from 'lodash-es/uniqWith.js'
 import sortBy from 'lodash-es/sortBy.js'
 import { inject } from 'vue'
+import { checklistItemsFor } from './emptyContentNode.js'
 
 const props = defineProps({
   contentNode: { type: Object, required: true },
@@ -34,22 +35,13 @@ function calculateItemNumber(item) {
 }
 
 const camp = inject('camp')
-const allChecklists = camp.checklists().items
-const allItems = allChecklists.flatMap((checklist) => checklist.checklistItems().items)
-const items = allItems
-  .filter((item) => {
-    const connectedChecklistNodes = item
-      .checklistNodes()
-      .items.map((checklistNode) => checklistNode._meta.self)
-    return connectedChecklistNodes.includes(props.contentNode._meta.self)
-  })
-  .map((item) => {
-    const number = calculateItemNumber(item)
-    return {
-      ...item,
-      number,
-    }
-  })
+const items = checklistItemsFor(props.contentNode, camp).map((item) => {
+  const number = calculateItemNumber(item)
+  return {
+    ...item,
+    number,
+  }
+})
 
 const checklists = uniqWith(
   items.map((checklistItem) => checklistItem.checklist()),
@@ -70,11 +62,15 @@ const checklistsWithItems = checklists.map((checklist) => ({
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiClipboardListOutline } from '@mdi/js'
 
 export default {
   name: 'Checklist',
   components: { InstanceName },
   extends: PdfComponent,
+  data() {
+    return { mdiClipboardListOutline }
+  },
 }
 </script>
 <style lang="react-pdf">
@@ -101,7 +97,7 @@ export default {
   flex-shrink: 0;
   flex-grow: 0;
   padding-right: 2pt;
-  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
 }
 .checklist-item-column-2 {
   flex-basis: 0;

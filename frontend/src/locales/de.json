@@ -484,7 +484,10 @@
           "orientation": "Seitenlayout",
           "landscape": "Querformat",
           "periods": "Lagerabschnitt(e)",
-          "portrait": "Hochformat"
+          "portrait": "Hochformat",
+          "responsibles": "Verantwortliche",
+          "responsiblesNames": "Namen",
+          "responsiblesAvatars": "Avatare"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht"
@@ -541,6 +544,7 @@
         },
         "options": "Einstellungen",
         "pageNumbers": "Seitenzahlen",
+        "compact": "Kompaktes Layout (weniger Abstände, leere Felder ausblenden)",
         "fontSize": "Schriftgrösse",
         "fontSizes": {
           "A3": "Kleinere Schrift (optimiert für A4 oder A3)",

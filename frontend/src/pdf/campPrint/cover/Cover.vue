@@ -40,7 +40,7 @@ export default {
 }
 .cover-camp-organizer {
   font-size: 18pt;
-  font-weight: 600;
+  font-weight: 500;
 }
 .cover-camp-title {
   font-size: 38pt;

@@ -45,6 +45,12 @@ const originalHyphenationCallback = wordHyphenation()
 export default {
   name: 'CampPrint',
   extends: PdfComponent,
+  provide() {
+    return {
+      compact: this.config.options.compact === true,
+      pageSize: this.config.options.pageSize || 'A4',
+    }
+  },
   props: {
     config: { type: Object, required: true },
   },
@@ -101,6 +107,7 @@ const registerFonts = async () => {
 
   return await Promise.all([
     Font.load({ fontFamily: 'InterDisplay' }),
+    Font.load({ fontFamily: 'InterDisplay', fontWeight: 500 }),
     Font.load({ fontFamily: 'InterDisplay', fontWeight: 600 }),
     Font.load({ fontFamily: 'InterDisplay', fontWeight: 700 }),
     Font.load({ fontFamily: 'InterDisplay', fontStyle: 'italic' }),
@@ -135,6 +142,9 @@ export const prepare = async (config) => {
   font-size: 12pt;
   font-weight: 600;
   margin: 8pt 0 3pt;
+}
+.tabular-nums {
+  font-feature-settings: 'tnum';
 }
 .page-number {
   position: absolute;

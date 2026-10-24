@@ -32,7 +32,7 @@
         :times="times"
         :day="day"
         :schedule-entries="scheduleEntries"
-        :class="{ 'picasso-day-column-left-border': day.id === days[0].id }"
+        :avatars="content.options.responsibles === 'avatars'"
         :config="config"
       />
       <TimeColumn :times="times.slice(0, times.length - 1)" align="left" />
@@ -114,7 +114,7 @@ export default {
 }
 .picasso-title {
   flex-grow: 1;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14pt;
 }
 .picasso-organizer {
@@ -134,12 +134,12 @@ export default {
   line-height: 0.8;
 }
 .picasso-calendar-container {
-  border: 1pt solid grey;
   flex-grow: 1;
   display: flex;
   flex-direction: row;
 }
 .picasso-day-header {
+  background-color: #cfd8dc;
   border-right: 1pt solid white;
   flex-basis: 0;
   flex-grow: 1;
@@ -159,8 +159,5 @@ export default {
 }
 .picasso-time-column-text {
   font-size: 8pt;
-}
-.picasso-day-column-left-border {
-  border-left: 1pt solid grey;
 }
 </style>

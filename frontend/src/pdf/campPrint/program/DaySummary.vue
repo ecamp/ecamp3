@@ -28,6 +28,7 @@
       <View
         v-for="scheduleEntry in scheduleEntries"
         class="program-day-table-row"
+        :class="{ 'program-day-table-row-compact': compact }"
         :wrap="false"
       >
         <Text class="program-day-table-time">
@@ -38,10 +39,7 @@
           class="program-day-table-activity"
           :href="`#scheduleEntry_${scheduleEntry.id}`"
         >
-          <CategoryLabel
-            :category="scheduleEntry.activity().category()"
-            class="program-day-category"
-          />
+          <CategoryLabel :category="scheduleEntry.activity().category()" :size="10" />
           <Text class="program-day-activity-title">
             {{ scheduleEntry.activity().title }}
           </Text>
@@ -110,7 +108,7 @@ export default {
   background-color: black;
   color: white;
   font-size: 15pt;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 4pt;
   padding: 5pt;
 }
@@ -133,7 +131,10 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   border-bottom: 0.5pt solid #d1d5db;
-  padding: 3pt 0;
+  padding: 5pt 0 3.5pt;
+}
+.program-day-table-row-compact {
+  padding: 3pt 0 1.5pt;
 }
 .program-day-table-header {
   border-bottom: 0.5pt solid black;
@@ -147,6 +148,7 @@ export default {
 .program-day-table-number {
   width: 30pt;
   flex-shrink: 0;
+  font-feature-settings: 'tnum';
 }
 .program-day-table-activity {
   display: flex;
@@ -156,13 +158,9 @@ export default {
   flex-grow: 1;
   flex-shrink: 0;
   padding-right: 5pt;
+  gap: 4pt;
   text-decoration: none;
   color: unset;
-}
-.program-day-category {
-  font-size: 7pt;
-  margin-right: 4pt;
-  margin-bottom: auto;
 }
 .program-day-activity-title {
   flex-grow: 1;

@@ -61,6 +61,11 @@
                 :label="$t('components.print.printConfigurator.pageNumbers')"
                 @update:model-value="onChange"
               />
+              <e-checkbox
+                v-model="cnf.options.compact"
+                :label="$t('components.print.printConfigurator.compact')"
+                @update:model-value="onChange"
+              />
               <e-select
                 v-model="cnf.options.pageSize"
                 class="mt-4"
@@ -212,7 +217,7 @@ export default {
       return {
         language: this.lang,
         documentName: campShortTitle(this.camp),
-        options: { pageNumbers: false, pageSize: 'A4' },
+        options: { pageNumbers: false, pageSize: 'A4', compact: false },
         camp: this.camp._meta.self,
         contents: this.defaultContents(),
       }

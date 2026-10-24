@@ -1,6 +1,10 @@
 <template>
   <View>
-    <Text class="picasso-day-header-text">{{ date }}</Text>
+    <Text
+      class="picasso-day-header-text"
+      :class="{ 'picasso-day-header-text-compact': compact }"
+      >{{ date }}</Text
+    >
     <View v-if="showDayResponsibles" class="picasso-day-responsibles">
       <Text class="picasso-day-responsibles-text">{{ dayResponsibles }}</Text>
     </View>
@@ -40,9 +44,12 @@ export default {
 </script>
 <style lang="react-pdf">
 .picasso-day-header-text {
-  font-size: 8pt;
-  font-weight: bold;
+  font-size: 10pt;
+  font-weight: 600;
   margin: 0 auto 2pt;
+}
+.picasso-day-header-text-compact {
+  font-size: 8pt;
 }
 .picasso-day-responsibles {
   font-size: 8pt;

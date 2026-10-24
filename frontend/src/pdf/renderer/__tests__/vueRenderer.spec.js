@@ -281,6 +281,116 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
       )
     })
 
+    describe('in compact mode', () => {
+      it('renders the picasso with avatars', async () => {
+        // given
+        const store = wrap(fullCampStoreContent)
+
+        // when
+        const result = renderVueToPdfStructure(CampPrint, {
+          store,
+          $tc: tcMock,
+          locale: 'de',
+          config: {
+            language: 'de',
+            documentName: 'Pfila 2023.pdf',
+            options: { pageNumbers: false, pageSize, compact: true },
+            camp: store.get('/camps/c4cca3a51342'),
+            contents: [
+              {
+                type: 'Picasso',
+                options: {
+                  periods: ['/periods/16b2fcffdd8e'],
+                  orientation: 'L',
+                  responsibles: 'avatars',
+                  filter: {
+                    period: null,
+                    responsible: [],
+                    day: [],
+                    progressLabel: [],
+                    category: [],
+                  },
+                },
+              },
+            ],
+          },
+        })
+
+        // then
+        await expect(result).toMatchFileSnapshot(
+          `./__snapshots__/picasso_compact_${pageSize}.spec.json.snap`
+        )
+      })
+
+      it('renders the program', async () => {
+        // given
+        const store = wrap(fullCampStoreContent)
+
+        // when
+        const result = renderVueToPdfStructure(CampPrint, {
+          store,
+          $tc: tcMock,
+          locale: 'de',
+          config: {
+            language: 'de',
+            documentName: 'Pfila 2023.pdf',
+            options: { pageNumbers: false, pageSize, compact: true },
+            camp: store.get('/camps/c4cca3a51342'),
+            contents: [
+              {
+                type: 'Program',
+                options: {
+                  periods: ['/periods/16b2fcffdd8e'],
+                  dayOverview: true,
+                },
+              },
+            ],
+          },
+        })
+
+        // then
+        await expect(result).toMatchFileSnapshot(
+          `./__snapshots__/program_compact_${pageSize}.spec.json.snap`
+        )
+      })
+
+      it('renders the table of contents', async () => {
+        // given
+        const store = wrap(fullCampStoreContent)
+
+        // when
+        const result = renderVueToPdfStructure(CampPrint, {
+          store,
+          $tc: tcMock,
+          locale: 'de',
+          config: {
+            language: 'de',
+            documentName: 'Pfila 2023.pdf',
+            options: { pageNumbers: true, pageSize, compact: true },
+            camp: store.get('/camps/c4cca3a51342'),
+            contents: [
+              {
+                type: 'Toc',
+                options: {},
+              },
+              {
+                type: 'Program',
+                options: {
+                  periods: ['/periods/16b2fcffdd8e'],
+                  dayOverview: true,
+                },
+              },
+            ],
+          },
+        })
+
+        // then
+        await expect(result).toMatchFileSnapshot(
+          `./__snapshots__/table_of_contents_compact_${pageSize}.spec.json.snap`
+        )
+      })
+    })
+
     describe('rendering a course activity list', () => {
       it('renders the activity list', async () => {
         // given
