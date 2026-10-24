@@ -99,7 +99,6 @@ import { serverErrorToString } from '@/helpers/serverError.js'
 import { useToast } from '@/components/toast/useToast.js'
 import { commentsState } from '@/components/comments/commentsState.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts.js'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'CommentThread',

@@ -53,7 +53,8 @@ export default {
         if (!isResolved(comment)) {
           return false
         }
-        const resolver = comment.resolvedBy()
+        const resolver =
+          typeof comment.resolvedBy === 'function' ? comment.resolvedBy() : null
         return (
           typeof resolver?.user === 'function' &&
           resolver.user()._meta.self === this.authUser?._meta.self
