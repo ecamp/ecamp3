@@ -14,6 +14,7 @@ const contentTypeIcons = {
   safetyConsiderations: 'mdi-security',
   storyboard: 'mdi-script-text-outline',
   storycontext: 'mdi-book-open-variant',
+  ysPhysicalActivityDuration: 'mdi-run',
 }
 
 export default contentTypeIcons

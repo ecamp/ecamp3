@@ -71,3 +71,7 @@ App\Entity\ContentType:
             'natureAndEnvironment',
           ],
       }
+  contentTypeYSPhysicalActivityDuration:
+    name: 'YSPhysicalActivityDuration'
+    active: true
+    entityClass: 'App\Entity\ContentNode\NoData'

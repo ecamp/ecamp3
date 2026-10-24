@@ -120,6 +120,12 @@
       },
       "info": "Sélectionne les formes caractéristiques abordées dans cette activité.",
       "name": "Formes caractéristiques J+S"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Saisis le temps consacré à l'exercice d'une activité sportive J+S pour chaque inscription au calendrier de cette activité. Il est aussi affiché dans le programme général.",
+      "name": "Temps consacré à l'exercice d'une activité sportive J+S",
+      "none": "Non spécifié",
+      "templateHint": "Le temps consacré à l'exercice d'une activité sportive J+S est saisi dans chaque activité, par inscription au calendrier."
     }
   },
   "entity": {
@@ -263,7 +269,9 @@
         "nr": "No.",
         "startDate": "Date de début",
         "startDatetime": "Heure de début",
-        "time": "Moment"
+        "time": "Moment",
+        "ysPhysicalActivityDuration": "Temps consacré à l'exercice d'une activité sportive J+S",
+        "ysPhysicalActivityDurationFormatted": "TAS {duration}"
       },
       "name": "Inscription au calendrier"
     }

@@ -120,6 +120,12 @@
       },
       "info": "Wähle die Erscheinungsformen aus, die in diesem Block behandelt werden.",
       "name": "J+S Erscheinungsformen"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Erfasse für jeden Zeitplaneintrag dieser Aktivität die J+S-Bewegungszeit. Sie wird auch im Grobprogramm angezeigt.",
+      "name": "J+S-Bewegungszeit",
+      "none": "Keine Angabe",
+      "templateHint": "Die J+S-Bewegungszeit wird in jeder Aktivität pro Zeitplaneintrag erfasst."
     }
   },
   "entity": {
@@ -263,7 +269,9 @@
         "nr": "Nr.",
         "startDate": "Startdatum",
         "startDatetime": "Startzeit",
-        "time": "Zeitpunkt"
+        "time": "Zeitpunkt",
+        "ysPhysicalActivityDuration": "J+S-Bewegungszeit",
+        "ysPhysicalActivityDurationFormatted": "BZ {duration}"
       },
       "name": "Zeitplaneintrag"
     }

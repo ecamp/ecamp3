@@ -10037,6 +10037,7 @@
   "/schedule_entries/4bc1873a73f2": {
     "left": 0,
     "width": 1,
+    "ysPhysicalActivityDurationMinutes": 60,
     "id": "4bc1873a73f2",
     "start": "2024-05-10T17:00:00+00:00",
     "end": "2024-05-10T18:00:00+00:00",
