@@ -169,7 +169,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     expect(notFoundRes.status()).toBe(404)
 
     // delete old emails
-    const deleteMailsRes = await bipiApi.delete('/mail/email/all')
+    const deleteMailsRes = await bipiApi.delete('/mail/api/email/all')
     expect(deleteMailsRes.status()).toBe(200)
 
     // invite Castor
@@ -188,7 +188,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     await expect
       .poll(
         async () => {
-          const emailRes = await castorApi.get('/mail/email')
+          const emailRes = await castorApi.get('/mail/api/email')
           const emails = (await emailRes.json()) as Array<{
             to: Array<{ address: string }>
             html: string
