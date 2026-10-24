@@ -1,11 +1,13 @@
 <template>
-  <component
-    :is="contentNodeComponent"
-    v-if="contentNodeComponent"
-    :content-node="contentNode"
-    :class="{ 'content-node-compact': compact && !isLayout }"
-  />
-  <Text v-else>{{ contentTypeName }}</Text>
+  <template v-if="!hidden">
+    <component
+      :is="contentNodeComponent"
+      v-if="contentNodeComponent"
+      :content-node="contentNode"
+      :class="{ 'content-node-compact': compact && !isLayout }"
+    />
+    <Text v-else>{{ contentTypeName }}</Text>
+  </template>
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
@@ -22,10 +24,14 @@ import Material from './Material.vue'
 import Storycontext from './Storycontext.vue'
 import Checklist from './Checklist.vue'
 import YSPhysicalActivityDuration from './YSPhysicalActivityDuration.vue'
+import { isEmptyContentNode } from './emptyContentNode.js'
 
 export default {
   name: 'ContentNodeRenderer',
   extends: PdfComponent,
+  inject: {
+    camp: { default: null },
+  },
   props: {
     contentNode: { type: Object, required: true },
   },
@@ -35,6 +41,9 @@ export default {
     },
     isLayout() {
       return ['ColumnLayout', 'ResponsiveLayout'].includes(this.contentTypeName)
+    },
+    hidden() {
+      return this.compact && isEmptyContentNode(this.contentNode, this.camp)
     },
     contentNodeComponent() {
       return {

@@ -37,7 +37,7 @@ import InstanceName from '../InstanceName.vue'
 import { mdiScriptTextOutline } from '@mdi/js'
 import RichText from '../../RichText.vue'
 import sortBy from 'lodash-es/sortBy.js'
-import { isEmptyHtml } from '../../helpers.js'
+import { storyboardSectionHasContent } from './emptyContentNode.js'
 
 export default {
   name: 'Storyboard',
@@ -73,12 +73,7 @@ export default {
       )
     },
     anyContent() {
-      return (
-        this.sections.length &&
-        (this.sections[0].column1.length ||
-          !isEmptyHtml(this.sections[0].column2Html) ||
-          this.sections[0].column3.length)
-      )
+      return this.sections.some(storyboardSectionHasContent)
     },
   },
 }
