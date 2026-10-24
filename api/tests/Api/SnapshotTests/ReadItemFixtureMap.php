@@ -26,6 +26,7 @@ class ReadItemFixtureMap {
             '/material_lists' => $fixtures['materialList1'],
             '/content_node/material_nodes' => $fixtures['materialNode2'],
             '/content_node/multi_selects' => $fixtures['multiSelect1'],
+            '/content_node/no_datas' => $fixtures['noData1'],
             '/periods' => $fixtures['period1'],
             '/profiles' => $fixtures['profile1manager'],
             '/schedule_entries' => $fixtures['scheduleEntry1period1camp1'],

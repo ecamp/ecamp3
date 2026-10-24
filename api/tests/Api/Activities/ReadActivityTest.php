@@ -92,7 +92,7 @@ class ReadActivityTest extends ECampApiTestCase {
         ]);
 
         $data = $result->toArray();
-        $this->assertCount(12, $data['_embedded']['contentNodes']);
+        $this->assertCount(13, $data['_embedded']['contentNodes']);
     }
 
     public function testGetSingleActivityIsAllowedForManager() {

@@ -155,6 +155,7 @@ services:
     App\Service\Hitobito\ClientProvider:
         arguments:
             $pbsmidataBaseUrl: '%env(HITOBITO_PBSMIDATA_API_BASE_URL)%'
+            $useMockClient: false
 
     App\Security\ReCaptcha\ReCaptchaWrapper:
         public: true # necessary to be able to mock ReCaptcha in the container in Api tests

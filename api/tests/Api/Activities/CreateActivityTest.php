@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ChecklistNode;
+use App\Entity\ContentNode\MultiSelect;
+use App\Entity\ContentType;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
@@ -584,6 +586,35 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
     }
 
+    public function testCopyActivityPreservesYSActivityCharacteristics() {
+        $source = $this->getEntityManager()->find(MultiSelect::class, static::getFixture('multiSelect1')->getId());
+        $source->contentType = $this->getEntityManager()->find(ContentType::class, static::getFixture('contentTypeYSActivityCharacteristics')->getId());
+        $source->data = ['options' => [
+            'outdoorTechnique' => ['checked' => true],
+            'travellingSafety' => ['checked' => false],
+            'gamesAndSports' => ['checked' => true],
+            'gettingInvolved' => ['checked' => false],
+            'community' => ['checked' => true],
+            'natureAndEnvironment' => ['checked' => false],
+        ]];
+        $this->getEntityManager()->flush();
+
+        $response = static::createClientWithCredentials()->request('POST', '/activities', [
+            'json' => $this->getExampleWritePayload([
+                'copyActivitySource' => $this->getIriFor('activity1'),
+                'category' => $this->getIriFor('category1'),
+            ]),
+        ]);
+        $this->assertResponseStatusCodeSame(201);
+        $nodes = array_values(array_filter(
+            $response->toArray()['_embedded']['contentNodes'],
+            fn ($node) => 'YSActivityCharacteristics' === $node['contentTypeName']
+        ));
+        $this->assertCount(1, $nodes);
+        $this->assertNotSame($source->getId(), $nodes[0]['id']);
+        $this->assertEquals($source->data, $nodes[0]['data']);
+    }
+
     public function testCreateActivityFromCopySourceWithinSameCamp() {
         $response = static::createClientWithCredentials()->request(
             'POST',
@@ -627,6 +658,67 @@ class CreateActivityTest extends ECampApiTestCase {
         $connectedChecklistItem = reset($connectedChecklistItems);
 
         $this->assertSame($this->getIriFor('checklistItem1_1_1'), $this->getIriFor($connectedChecklistItem));
+    }
+
+    public function testCreateActivityFromCopySourceCopiesYsPhysicalActivityDurationMinutesContentNode() {
+        $response = static::createClientWithCredentials()->request(
+            'POST',
+            '/activities',
+            ['json' => $this->getExampleWritePayload(
+                [
+                    'copyActivitySource' => $this->getIriFor('activity1'),
+                    'category' => $this->getIriFor('category1'),
+                    'scheduleEntries' => [
+                        [
+                            'period' => $this->getIriFor('period1'),
+                            'start' => '2023-05-01T15:00:00+00:00',
+                            'end' => '2023-05-01T16:00:00+00:00',
+                            'ysPhysicalActivityDurationMinutes' => 60,
+                        ],
+                        [
+                            'period' => $this->getIriFor('period1'),
+                            'start' => '2023-05-02T15:00:00+00:00',
+                            'end' => '2023-05-02T16:00:00+00:00',
+                        ],
+                    ],
+                ],
+                []
+            )]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $responseArray = $response->toArray();
+
+        $contentNodes = $responseArray['_embedded']['contentNodes'];
+        $physicalActivityDurationNodes = array_filter($contentNodes, fn ($cn) => 'YSPhysicalActivityDuration' == $cn['contentTypeName']);
+        $this->assertCount(1, $physicalActivityDurationNodes);
+        $this->assertNull(reset($physicalActivityDurationNodes)['data']);
+
+        $scheduleEntries = $responseArray['_embedded']['scheduleEntries'];
+        $this->assertSame([60, null], array_map(fn ($se) => $se['ysPhysicalActivityDurationMinutes'], $scheduleEntries));
+    }
+
+    public function testCreateActivityFromCopySourceRejectsInvalidYsPhysicalActivityDurationMinutes() {
+        static::createClientWithCredentials()->request('POST', '/activities', ['json' => $this->getExampleWritePayload([
+            'copyActivitySource' => $this->getIriFor('activity1'),
+            'category' => $this->getIriFor('category1'),
+            'scheduleEntries' => [[
+                'period' => $this->getIriFor('period1'),
+                'start' => '2023-05-01T15:00:00+00:00',
+                'end' => '2023-05-01T16:00:00+00:00',
+                'ysPhysicalActivityDurationMinutes' => 42,
+            ]],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'scheduleEntries[0].ysPhysicalActivityDurationMinutes',
+                    'message' => 'The value you selected is not a valid choice.',
+                ],
+            ],
+        ]);
     }
 
     public function testCreateActivityFromCopySourceAcrossCamp() {

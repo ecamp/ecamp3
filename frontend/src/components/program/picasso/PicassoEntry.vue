@@ -72,6 +72,14 @@
         {{ location }}
       </small>
     </template>
+    <PhysicalActivityDurationIndicator
+      v-if="ysPhysicalActivityDuration"
+      class="e-picasso-entry__ys-physical-activity-duration"
+      :duration="ysPhysicalActivityDuration"
+      :minutes="scheduleEntry.ysPhysicalActivityDurationMinutes"
+      :entry-duration="duration"
+      :visible="showPhysicalActivityDuration"
+    />
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
@@ -121,6 +129,14 @@
         {{ location }}
       </small>
     </template>
+    <PhysicalActivityDurationIndicator
+      v-if="ysPhysicalActivityDuration"
+      class="e-picasso-entry__ys-physical-activity-duration"
+      :duration="ysPhysicalActivityDuration"
+      :minutes="scheduleEntry.ysPhysicalActivityDurationMinutes"
+      :entry-duration="duration"
+      :visible="showPhysicalActivityDuration"
+    />
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
@@ -144,19 +160,27 @@ import { timestampToUtcString } from './dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import router, { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
+import { ysPhysicalActivityDurationFormatted } from '@/common/helpers/ysPhysicalActivityDuration.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
 import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
 import { useToast } from '@/components/toast/useToast.js'
+import PhysicalActivityDurationIndicator from './PhysicalActivityDurationIndicator.vue'
 
 export default {
   name: 'PicassoEntry',
-  components: { AvatarRow, DialogActivityEdit, ClipboardInfoDialog },
+  components: {
+    AvatarRow,
+    DialogActivityEdit,
+    ClipboardInfoDialog,
+    PhysicalActivityDurationIndicator,
+  },
   mixins: [dateHelperUTCFormatted],
   props: {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
+    showPhysicalActivityDuration: { type: Boolean, default: false },
   },
   emits: ['startResize', 'finishEdit'],
   setup(props) {
@@ -240,6 +264,13 @@ export default {
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
       return this.activity.location
+    },
+    ysPhysicalActivityDuration() {
+      if (this.scheduleEntry.tmpEvent) return ''
+      return ysPhysicalActivityDurationFormatted(
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
+        this.$t.bind(this)
+      )
     },
     activityLoading() {
       return (
@@ -434,6 +465,7 @@ export default {
 .e-picasso-entry {
   .e-picasso-entry__title,
   .e-picasso-entry__location,
+  .e-picasso-entry__ys-physical-activity-duration,
   .e-picasso-entry__responsible,
   /* eslint-disable-next-line vue-scoped-css/no-unused-selector */
   .e-avatarrow {
@@ -445,6 +477,7 @@ export default {
 .e-picasso-entry--temporary {
   .e-picasso-entry__title,
   .e-picasso-entry__location,
+  .e-picasso-entry__ys-physical-activity-duration,
   .e-picasso-entry__responsible,
   /* eslint-disable-next-line vue-scoped-css/no-unused-selector */
   .e-avatarrow {

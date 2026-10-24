@@ -11,6 +11,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import ColumnLayout from './ColumnLayout.vue'
 import ResponsiveLayout from './ResponsiveLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
+import YSActivityCharacteristics from './YSActivityCharacteristics.vue'
 import LearningObjectives from './LearningObjectives.vue'
 import LearningTopics from './LearningTopics.vue'
 import Storyboard from './Storyboard.vue'
@@ -19,6 +20,7 @@ import SafetyConsiderations from './SafetyConsiderations.vue'
 import Material from './Material.vue'
 import Storycontext from './Storycontext.vue'
 import Checklist from './Checklist.vue'
+import YSPhysicalActivityDuration from './YSPhysicalActivityDuration.vue'
 
 export default {
   name: 'ContentNodeRenderer',
@@ -35,6 +37,7 @@ export default {
         ColumnLayout,
         ResponsiveLayout,
         LAThematicArea,
+        YSActivityCharacteristics,
         LearningObjectives,
         LearningTopics,
         Storyboard,
@@ -43,6 +46,7 @@ export default {
         Material,
         Storycontext,
         Checklist,
+        YSPhysicalActivityDuration,
       }[this.contentTypeName]
     },
   },

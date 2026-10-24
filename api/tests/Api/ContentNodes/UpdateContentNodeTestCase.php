@@ -109,6 +109,10 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
             'multiSelect1',
         ];
 
+        yield ContentNode\NoData::class => [
+            'noData1',
+        ];
+
         yield ContentNode\SingleText::class => [
             'singleText1',
         ];

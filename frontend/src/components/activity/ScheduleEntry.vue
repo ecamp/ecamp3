@@ -346,6 +346,7 @@ export default {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
+      activity: () => this.activity,
       camp: this.camp,
       isPaperDisplaySize: () => this.isPaperDisplaySize,
     }

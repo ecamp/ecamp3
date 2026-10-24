@@ -94,6 +94,38 @@
     "storycontext": {
       "info": "Décris comment ce bloc s'intègre dans l'histoire du camp.{br}Tu peux trouver un résumé de tous les éléments de l'histoire dans le menu 'Histoire'.{br}Tu peux aussi d'abord élaborer une histoire continue dans le menu 'Histoire' - pour que tu puisses parfaitement intégrer le contenu du bloc dans l'histoire.",
       "name": "Histoire"
+    },
+    "ysActivityCharacteristics": {
+      "entity": {
+        "option": {
+          "community": {
+            "name": "Renforcer la cohésion du groupe avec bienveillance"
+          },
+          "gamesAndSports": {
+            "name": "Participer avec créativité à la conception de jeux et d’activités sportives variées"
+          },
+          "gettingInvolved": {
+            "name": "Prendre conscience de ses propres besoins et idées et les faire valoir consciemment"
+          },
+          "natureAndEnvironment": {
+            "name": "Interagir de manière respectueuse avec son environnement"
+          },
+          "outdoorTechnique": {
+            "name": "Utiliser efficacement des techniques de vie en plein air et de construction de camp"
+          },
+          "travellingSafety": {
+            "name": "Pratiquer des activités itinérantes de manière sûre et prévoyante"
+          }
+        }
+      },
+      "info": "Sélectionne les formes caractéristiques abordées dans cette activité.",
+      "name": "Formes caractéristiques J+S"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Saisis le temps consacré à l'exercice d'une activité sportive J+S pour chaque inscription au calendrier de cette activité. Il est aussi affiché dans le programme général.",
+      "name": "Temps consacré à l'exercice d'une activité sportive J+S",
+      "none": "Non spécifié",
+      "templateHint": "Le temps consacré à l'exercice d'une activité sportive J+S est saisi dans chaque activité, par inscription au calendrier."
     }
   },
   "entity": {
@@ -237,7 +269,9 @@
         "nr": "No.",
         "startDate": "Date de début",
         "startDatetime": "Heure de début",
-        "time": "Moment"
+        "time": "Moment",
+        "ysPhysicalActivityDuration": "Temps consacré à l'exercice d'une activité sportive J+S",
+        "ysPhysicalActivityDurationFormatted": "TAS {duration}"
       },
       "name": "Inscription au calendrier"
     }
