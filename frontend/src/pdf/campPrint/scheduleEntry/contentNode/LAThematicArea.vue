@@ -2,7 +2,11 @@
   <View class="content-node">
     <InstanceName :content-node="contentNode" />
     <template v-for="(data, key) in contentNode.data.options">
-      <View v-if="data.checked" class="la-thematic-area-entry">
+      <View
+        v-if="data.checked"
+        class="la-thematic-area-entry"
+        :class="{ 'la-thematic-area-entry-compact': compact }"
+      >
         <Checkmark :size="8" />
         <Text style="margin-left: 2pt">{{ translation(key) }}</Text>
       </View>
@@ -32,6 +36,10 @@ export default {
 .la-thematic-area-entry {
   display: flex;
   flex-direction: row;
-  align-items: top;
+  align-items: flex-start;
+  padding: 1pt 0;
+}
+.la-thematic-area-entry-compact {
+  padding: 0;
 }
 </style>
