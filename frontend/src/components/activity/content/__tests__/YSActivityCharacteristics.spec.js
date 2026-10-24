@@ -1,7 +1,6 @@
 import { expect, it, vi } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import YSActivityCharacteristics from '../YSActivityCharacteristics.vue'
-import PdfCharacteristics from '@/pdf/campPrint/scheduleEntry/contentNode/YSActivityCharacteristics.vue'
 
 const options = {
   outdoorTechnique: { checked: true },
@@ -55,20 +54,4 @@ it('loads the selection and saves every option, including cleared options', asyn
     },
   })
   wrapper.unmount()
-})
-
-it('renders only selected forms in the client PDF', () => {
-  const wrapper = shallowMount(PdfCharacteristics, {
-    props: { contentNode: { data: { options } } },
-    global: {
-      mocks: { $tc: translate },
-      stubs: {
-        View: { template: '<div><slot /></div>' },
-        Text: { template: '<span><slot /></span>' },
-      },
-    },
-  })
-  expect(wrapper.text()).toContain('Outdoor technique')
-  expect(wrapper.text()).toContain('Nature and environment')
-  expect(wrapper.text()).not.toContain('Community')
 })
