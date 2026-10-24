@@ -56,8 +56,8 @@
                 "class": "summary-day-title",
               },
               "style": {
-                "fontSize": "14pt",
-                "fontWeight": "600",
+                "fontSize": "12pt",
+                "fontWeight": "500",
                 "margin": "10pt 0 3pt",
               },
               "type": "TEXT",
@@ -76,7 +76,7 @@
                 "class": "summary-day-date",
               },
               "style": {
-                "fontSize": "11pt",
+                "fontSize": "12pt",
               },
               "type": "TEXT",
             },
@@ -111,11 +111,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#90B7E4",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -123,7 +122,8 @@
                 "backgroundColor": "#90B7E4",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -176,10 +176,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -208,12 +209,11 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
@@ -234,8 +234,8 @@
                 "class": "summary-day-title",
               },
               "style": {
-                "fontSize": "14pt",
-                "fontWeight": "600",
+                "fontSize": "12pt",
+                "fontWeight": "500",
                 "margin": "10pt 0 3pt",
               },
               "type": "TEXT",
@@ -254,7 +254,7 @@
                 "class": "summary-day-date",
               },
               "style": {
-                "fontSize": "11pt",
+                "fontSize": "12pt",
               },
               "type": "TEXT",
             },
@@ -289,11 +289,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#4DBB52",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -301,7 +300,8 @@
                 "backgroundColor": "#4DBB52",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -354,10 +354,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -386,12 +387,11 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
@@ -409,11 +409,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#90B7E4",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -421,7 +420,8 @@
                 "backgroundColor": "#90B7E4",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -474,10 +474,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -506,12 +507,11 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
@@ -529,11 +529,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#90B7E4",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -541,7 +540,8 @@
                 "backgroundColor": "#90B7E4",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -594,10 +594,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -644,12 +645,11 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
@@ -670,8 +670,8 @@
                 "class": "summary-day-title",
               },
               "style": {
-                "fontSize": "14pt",
-                "fontWeight": "600",
+                "fontSize": "12pt",
+                "fontWeight": "500",
                 "margin": "10pt 0 3pt",
               },
               "type": "TEXT",
@@ -690,7 +690,7 @@
                 "class": "summary-day-date",
               },
               "style": {
-                "fontSize": "11pt",
+                "fontSize": "12pt",
               },
               "type": "TEXT",
             },
@@ -725,11 +725,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#FF9800",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -737,7 +736,8 @@
                 "backgroundColor": "#FF9800",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -790,10 +790,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -822,12 +823,11 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
@@ -845,11 +845,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#4DBB52",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -857,7 +856,8 @@
                 "backgroundColor": "#4DBB52",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -910,10 +910,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -942,12 +943,11 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
@@ -968,8 +968,8 @@
                 "class": "summary-day-title",
               },
               "style": {
-                "fontSize": "14pt",
-                "fontWeight": "600",
+                "fontSize": "12pt",
+                "fontWeight": "500",
                 "margin": "10pt 0 3pt",
               },
               "type": "TEXT",
@@ -988,7 +988,7 @@
                 "class": "summary-day-date",
               },
               "style": {
-                "fontSize": "11pt",
+                "fontSize": "12pt",
               },
               "type": "TEXT",
             },
@@ -1023,11 +1023,10 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "category-label",
+                "class": "category-label summary-chapter-category",
                 "style": {
                   "backgroundColor": "#4DBB52",
                   "color": "#000",
-                  "font-size": "10pt",
                 },
               },
               "style": {
@@ -1035,7 +1034,8 @@
                 "backgroundColor": "#4DBB52",
                 "borderRadius": "18pt",
                 "color": "#000",
-                "fontSize": "10pt",
+                "fontSize": "9pt",
+                "marginBottom": "-0.5pt",
                 "padding": "1pt 5pt",
               },
               "type": "TEXT",
@@ -1088,10 +1088,11 @@
             "minPresenceAhead": 30,
           },
           "style": {
-            "alignItems": "center",
+            "alignItems": "flex-end",
             "display": "flex",
             "flexDirection": "row",
-            "fontWeight": "bold",
+            "fontSize": "11pt",
+            "fontWeight": "600",
             "margin": "10pt 0 4.5pt",
           },
           "type": "VIEW",
@@ -1138,19 +1139,18 @@
           ],
           "parent": [Circular],
           "props": {
-            "style": {
-              "line-height": "1",
-            },
+            "class": "summary-chapter-text",
           },
           "style": {
-            "lineHeight": "1",
+            "fontSize": "10pt",
+            "lineHeight": "1.5",
           },
           "type": "VIEW",
         },
       ],
       "parent": [Circular],
       "props": {
-        "class": "page",
+        "class": "page summary-page",
         "id": "entry-0",
         "size": "A4",
       },
@@ -1158,7 +1158,7 @@
         "display": "flex",
         "flexDirection": "column",
         "fontFamily": "InterDisplay",
-        "fontSize": "12pt",
+        "fontSize": "10pt",
         "padding": "30pt",
       },
       "type": "PAGE",
