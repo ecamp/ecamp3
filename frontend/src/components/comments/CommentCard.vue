@@ -28,7 +28,7 @@
       class="ec-comment-card px-3 py-2"
       data-testid="comment-card"
     >
-      <header class="ec-comment-card__meta d-flex align-center">
+      <header v-if="showMeta" class="ec-comment-card__meta d-flex align-center">
         <UserAvatar
           v-if="author"
           :camp-collaboration="author"
@@ -120,6 +120,7 @@ export default {
     showContext: { type: Boolean, default: false },
     hasReplies: { type: Boolean, default: false },
     hasRepliesByOthers: { type: Boolean, default: false },
+    showMeta: { type: Boolean, default: true },
   },
   computed: {
     ...mapGetters({ authUser: 'getLoggedInUser' }),

@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import dayjs from '@/common/helpers/dayjs.js'
+import { nextTick, reactive } from 'vue'
 import CommentsList from '@/components/comments/CommentsList.vue'
 
 setupVuetify()
@@ -29,6 +30,7 @@ function comment(
     orphanDescription = null,
     parent = null,
     resolvedAt = null,
+    resolvedBy,
   } = {}
 ) {
   return {
@@ -45,17 +47,19 @@ function comment(
     camp: () => ({ _meta: { self: '/camps/1' } }),
     ...(on ? { activity: () => on } : {}),
     ...(parent ? { parent: () => parent } : {}),
+    ...(resolvedBy ? { resolvedBy: () => resolvedBy } : {}),
   }
 }
 
 function mountList({
   loading = false,
   comments = [],
+  allComments = comments,
   showContext = false,
   emptyText = null,
 } = {}) {
   return mount(CommentsList, {
-    props: { comments, loading, showContext, emptyText },
+    props: { comments, allComments, loading, showContext, emptyText },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -133,6 +137,56 @@ describe('CommentsList', () => {
       ['/comments/1', '/comments/3', '/comments/4'],
       ['/comments/2'],
     ])
+  })
+
+  it('shares the All hint state with every thread and recomputes after resolution', async () => {
+    const comments = reactive([comment(1), comment(2)])
+    const wrapper = mountList({ comments })
+    const threads = wrapper.findAllComponents({ name: 'CommentThread' })
+    expect(threads.map((thread) => thread.props().enableAllCommentsTabHint)).toEqual([
+      true,
+      true,
+    ])
+
+    comments[0].resolvedAt = '2026-08-01T12:00:00+00:00'
+    comments[0].resolvedBy = () => ({ user: () => currentUser })
+    await nextTick()
+    expect(
+      wrapper
+        .findAllComponents({ name: 'CommentThread' })
+        .map((thread) => thread.props().enableAllCommentsTabHint)
+    ).toEqual([false, false])
+  })
+
+  it.each([
+    [
+      'another user resolved it',
+      comment(1, {
+        resolvedAt: '2026-08-01T12:00:00+00:00',
+        resolvedBy: { user: () => ({ _meta: { self: '/users/other' } }) },
+      }),
+    ],
+    [
+      'the comment is unresolved',
+      comment(1, {
+        resolvedBy: { user: () => currentUser },
+      }),
+    ],
+    ['the resolver is missing', comment(1, { resolvedAt: '2026-08-01T12:00:00+00:00' })],
+    [
+      'only a reply was resolved',
+      comment(1, {
+        parent: comment(2),
+        resolvedAt: '2026-08-01T12:00:00+00:00',
+        resolvedBy: { user: () => currentUser },
+      }),
+    ],
+  ])('enables the hint when %s', (_case, priorComment) => {
+    const wrapper = mountList({ comments: [comment(2)], allComments: [priorComment] })
+
+    expect(
+      wrapper.findComponent({ name: 'CommentThread' }).props().enableAllCommentsTabHint
+    ).toBe(true)
   })
 
   it('lists resolved threads in chronological order among the open ones', () => {

@@ -14,6 +14,8 @@
       <div v-for="root in roots" :key="root._meta.self" class="ec-comments-list__item">
         <CommentThread
           :root="root"
+          :camp="camp"
+          :enable-all-comments-tab-hint="enableAllCommentsTabHint"
           :replies="repliesTo(root)"
           :show-context="showContext"
           @replied="$emit('replied')"
@@ -26,12 +28,15 @@
 
 <script>
 import CommentThread from '@/components/comments/CommentThread.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CommentsList',
   components: { CommentThread },
   props: {
     comments: { type: Array, required: true },
+    camp: { type: Object, default: null },
+    allComments: { type: Array, default: () => [] },
     loading: { type: Boolean, default: false },
     showContext: { type: Boolean, default: false },
     emptyText: { type: String, default: null },
@@ -40,6 +45,24 @@ export default {
   computed: {
     roots() {
       return this.comments.filter((comment) => typeof comment.parent !== 'function')
+    },
+    ...mapGetters({ authUser: 'getLoggedInUser' }),
+    enableAllCommentsTabHint() {
+      const hasResolvedCommentByMe = this.allComments.some((comment) => {
+        if (
+          typeof comment.parent === 'function' ||
+          !comment.resolvedAt ||
+          typeof comment.resolvedBy !== 'function'
+        ) {
+          return false
+        }
+        const resolver = comment.resolvedBy()
+        return (
+          typeof resolver?.user === 'function' &&
+          resolver.user()._meta.self === this.authUser?._meta.self
+        )
+      })
+      return !hasResolvedCommentByMe
     },
   },
   methods: {

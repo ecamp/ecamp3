@@ -13,6 +13,7 @@ enableAutoUnmount(afterEach)
 afterEach(() => {
   clearToasts()
   commentsState.showResolved = false
+  window.localStorage.clear()
 })
 
 const currentUser = { _meta: { self: '/users/me' } }
@@ -53,10 +54,16 @@ function comment(
 
 let patch
 
-function mountThread({ root = comment(1), replies = [], showContext = false } = {}) {
+function mountThread({
+  root = comment(1),
+  replies = [],
+  enableAllCommentsTabHint = true,
+  showContext = false,
+  camp: campProp = camp,
+} = {}) {
   patch = vi.fn().mockResolvedValue({})
   return mount(CommentThread, {
-    props: { root, replies, showContext },
+    props: { root, replies, enableAllCommentsTabHint, showContext, camp: campProp },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -114,7 +121,7 @@ describe('CommentThread', () => {
     expect(cards.map((card) => card.props().showContext)).toEqual([true, false])
   })
 
-  it('disables deleting the root comment while it has replies by others', () => {
+  it('disables deleting the root comment while it has replies by others and hides reply metadata', () => {
     const wrapper = mountThread({
       replies: [
         comment(2),
@@ -125,9 +132,7 @@ describe('CommentThread', () => {
     const cards = wrapper.findAllComponents({ name: 'CommentCard' })
     expect(cards[0].props().hasReplies).toBe(true)
     expect(cards[0].find('.ec-comment-card__delete').attributes('disabled')).toBeDefined()
-    expect(
-      cards[1].find('.ec-comment-card__delete').attributes('disabled')
-    ).toBeUndefined()
+    expect(cards[1].props().showMeta).toBe(false)
   })
 
   it('allows deleting a root comment whose replies are all by its author', () => {
@@ -317,6 +322,25 @@ describe('CommentThread', () => {
     expect(commentsState.showResolved).toBe(true)
   })
 
+  it('keeps Undo but hides All after the shared hint is dismissed', async () => {
+    clearToasts()
+    const first = mountThread({ enableAllCommentsTabHint: true })
+    await button(first, 'comment-thread-resolve').trigger('click')
+    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
+    first.unmount()
+    clearToasts()
+
+    const second = mountThread({ enableAllCommentsTabHint: false })
+    await button(second, 'comment-thread-resolve').trigger('click')
+    await vi.waitFor(() => expect(patch).toHaveBeenCalled())
+    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
+    expect(visibleToasts.value[0].actions.map((action) => action.label)).toEqual([
+      'global.button.undo',
+    ])
+    second.unmount()
+    clearToasts()
+  })
+
   it('offers no way to "All" when the panel already shows it', async () => {
     commentsState.showResolved = true
     const wrapper = mountThread()
@@ -325,6 +349,29 @@ describe('CommentThread', () => {
 
     expect(visibleToasts.value[0].actions.map((action) => action.label)).toEqual([
       'global.button.undo',
+    ])
+  })
+
+  it('does not offer "All" when told the current user resolved another thread', async () => {
+    const wrapper = mountThread({ enableAllCommentsTabHint: false })
+
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
+
+    expect(visibleToasts.value[0].actions.map((action) => action.label)).toEqual([
+      'global.button.undo',
+    ])
+  })
+
+  it('offers "All" when told the current user has not resolved another thread', async () => {
+    const wrapper = mountThread()
+
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
+
+    expect(visibleToasts.value[0].actions.map((action) => action.label)).toEqual([
+      'global.button.undo',
+      'components.comments.commentThread.showAll',
     ])
   })
 

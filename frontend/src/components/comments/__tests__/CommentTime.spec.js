@@ -78,7 +78,7 @@ describe('CommentTime', () => {
     const createTime = localTime('2026-10-19T09:30').toISOString()
     const wrapper = mountTime(createTime)
 
-    expect(wrapper.findComponent({ name: 'VTooltip' }).props().text).toBe(
+    expect(wrapper.find('time').attributes('title')).toBe(
       dayjs(createTime).format('dd DD.MM.YYYY HH:mm')
     )
     expect(wrapper.find('time').attributes('datetime')).toBe(createTime)

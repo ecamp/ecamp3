@@ -1,5 +1,41 @@
 {
   "components": {
+    "comments": {
+      "commentCard": {
+        "campComment": "Tout le camp",
+        "deleteDisabledReplies": "Les commentaires avec des réponses d'autres personnes ne peuvent pas être supprimés.",
+        "deleteWarning": "Veux-tu vraiment supprimer ton commentaire ?",
+        "deleteWithRepliesWarning": "Veux-tu vraiment supprimer ton commentaire et ses réponses ?",
+        "deleted": "(supprimé)",
+        "deletedAuthor": "Personne supprimée"
+      },
+      "commentComposer": { "placeholder": "Écrire un commentaire", "replyPlaceholder": "Écrire une réponse" },
+      "commentThread": {
+        "reopen": "Rouvrir",
+        "reply": "Répondre",
+        "resolve": "Résoudre",
+        "resolved": "Résolu",
+        "resolvedBy": "Résolu par {user}",
+        "resolvedToast": "Commentaire résolu. Les commentaires résolus sont uniquement affichés sous « Tous ».",
+        "showAll": "Tout afficher"
+      },
+      "commentTime": { "today": "Aujourd’hui, {time}", "yesterday": "Hier, {time}" },
+      "commentsList": {
+        "empty": "Aucun commentaire pour le moment.",
+        "noOpenComments": "Aucun commentaire ouvert. Passe à « Tous » pour voir les commentaires résolus."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "Un autre commentaire ouvert concerne une activité. | {count} autres commentaires ouverts concernent des activités.",
+        "all": "Tous",
+        "commentsOnThisActivity": "Commentaires sur cette activité",
+        "open": "Ouverts",
+        "title": "Commentaires"
+      },
+      "commentsToggleButton": {
+        "hide": "Masquer les commentaires",
+        "show": "Afficher les commentaires | Afficher un commentaire | Afficher {count} commentaires"
+      }
+    },
     "activity": {
       "content": {
         "checklist": {

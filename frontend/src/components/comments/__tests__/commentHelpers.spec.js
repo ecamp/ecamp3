@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { commentCountsByActivity } from '@/components/comments/commentCounts.js'
-import { scopedComments } from '@/components/comments/scopedComments.js'
-import { isResolved } from '@/components/comments/commentThreads.js'
+import {
+  commentCountsByActivity,
+  scopedComments,
+  isResolved,
+} from '@/components/comments/commentHelpers.js'
 
 const activity = { _meta: { self: '/activities/1' } }
 
