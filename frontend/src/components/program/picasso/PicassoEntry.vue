@@ -154,7 +154,7 @@ import { timestampToUtcString } from './dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import router, { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
-import { ysPhysicalActivityDurationShort } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDurationFormatted } from '@/common/helpers/ysPhysicalActivityDuration.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
@@ -254,7 +254,7 @@ export default {
     },
     ysPhysicalActivityDuration() {
       if (this.scheduleEntry.tmpEvent) return ''
-      return ysPhysicalActivityDurationShort(
+      return ysPhysicalActivityDurationFormatted(
         this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$t.bind(this)
       )

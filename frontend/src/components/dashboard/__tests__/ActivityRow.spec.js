@@ -89,7 +89,7 @@ describe('ActivityRow', () => {
     })
 
     expect(wrapper.text()).toContain(
-      'entity.scheduleEntry.fields.ysPhysicalActivityDurationShort'
+      'entity.scheduleEntry.fields.ysPhysicalActivityDurationFormatted'
     )
   })
 
@@ -99,7 +99,7 @@ describe('ActivityRow', () => {
     })
 
     expect(wrapper.text()).not.toContain(
-      'entity.scheduleEntry.fields.ysPhysicalActivityDurationShort'
+      'entity.scheduleEntry.fields.ysPhysicalActivityDurationFormatted'
     )
   })
 

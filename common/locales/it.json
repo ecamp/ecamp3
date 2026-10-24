@@ -236,7 +236,7 @@
         "startDatetime": "Ora di inizio",
         "time": "Tempo",
         "ysPhysicalActivityDuration": "Tempo dedicato all'attività fisica G+S",
-        "ysPhysicalActivityDurationShort": "TAF {minutes} min"
+        "ysPhysicalActivityDurationFormatted": "TAF {duration}"
       },
       "name": "Inserimento nel programma"
     }

@@ -25,7 +25,7 @@
 <script>
 import { activityResponsiblesCommaSeparated } from '@/common/helpers/activityResponsibles.js'
 import { contrastColor } from '@/common/helpers/colors.js'
-import { ysPhysicalActivityDurationShort } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDurationFormatted } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   props: {
@@ -40,7 +40,7 @@ export default {
       return contrastColor(color)
     },
     ysPhysicalActivityDuration(scheduleEntry) {
-      return ysPhysicalActivityDurationShort(
+      return ysPhysicalActivityDurationFormatted(
         scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$t.bind(this)
       )

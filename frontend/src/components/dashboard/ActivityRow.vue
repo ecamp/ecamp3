@@ -134,7 +134,7 @@ import {
   openCommentsForActivity,
 } from '@/components/comments/commentsState.js'
 import { scheduleEntryRoute } from '@/router.js'
-import { ysPhysicalActivityDurationShort } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDurationFormatted } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'ActivityRow',
@@ -188,7 +188,7 @@ export default {
       return this.timeDurationShort(this.scheduleEntry.start, this.scheduleEntry.end)
     },
     ysPhysicalActivityDuration() {
-      return ysPhysicalActivityDurationShort(
+      return ysPhysicalActivityDurationFormatted(
         this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$t.bind(this)
       )

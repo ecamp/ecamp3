@@ -7,7 +7,7 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
-import { ysPhysicalActivityDurationLong } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDuration } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'YSPhysicalActivityDuration',
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     duration() {
-      return ysPhysicalActivityDurationLong(
+      return ysPhysicalActivityDuration(
         this.scheduleEntry?.ysPhysicalActivityDurationMinutes,
         this.$tc.bind(this)
       )

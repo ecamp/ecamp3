@@ -271,7 +271,7 @@
         "startDatetime": "Startzeit",
         "time": "Zeitpunkt",
         "ysPhysicalActivityDuration": "J+S-Bewegungszeit",
-        "ysPhysicalActivityDurationShort": "BZ {minutes} min"
+        "ysPhysicalActivityDurationFormatted": "BZ {duration}"
       },
       "name": "Zeitplaneintrag"
     }

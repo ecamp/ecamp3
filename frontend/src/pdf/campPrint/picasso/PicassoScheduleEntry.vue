@@ -29,7 +29,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import Responsibles from '../Responsibles.vue'
 import { contrastColor } from '../../../common/helpers/colors.js'
-import { ysPhysicalActivityDurationShort } from '../../../common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDurationFormatted } from '../../../common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'PicassoScheduleEntry',
@@ -54,7 +54,7 @@ export default {
       return this.scheduleEntry.activity().title
     },
     ysPhysicalActivityDurationSuffix() {
-      const duration = ysPhysicalActivityDurationShort(
+      const duration = ysPhysicalActivityDurationFormatted(
         this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$tc.bind(this)
       )

@@ -7,7 +7,7 @@
 <script>
 import ContentNodeContent from './ContentNodeContent.vue'
 import { mdiRun } from '@mdi/js'
-import { ysPhysicalActivityDurationLong } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDuration } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   components: {
@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     duration() {
-      return ysPhysicalActivityDurationLong(
+      return ysPhysicalActivityDuration(
         this.scheduleEntry?.ysPhysicalActivityDurationMinutes,
         this.$t.bind(this)
       )

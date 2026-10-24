@@ -25,7 +25,7 @@ import ContentNodeCard from '@/components/activity/content/layout/ContentNodeCar
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import {
-  ysPhysicalActivityDurationLong,
+  ysPhysicalActivityDuration,
   ysPhysicalActivityDurationOptions,
 } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
@@ -48,7 +48,7 @@ export default {
         { value: null, text: this.$t('contentNode.ysPhysicalActivityDuration.none') },
         ...ysPhysicalActivityDurationOptions.map((minutes) => ({
           value: minutes,
-          text: ysPhysicalActivityDurationLong(minutes, this.$t.bind(this)),
+          text: ysPhysicalActivityDuration(minutes, this.$t.bind(this)),
         })),
       ]
     },
