@@ -321,6 +321,7 @@ import DialogActivityEdit from '@/components/activity/dialog/DialogActivityEdit.
 import scheduleEntryRouteChange from '@/helpers/scheduleEntryRouteChange.js'
 import ClipboardInfoDialog from '../generic/ClipboardInfoDialog.vue'
 import { useToast } from '@/components/toast/useToast.js'
+import { subscribeToMercureTopic } from '@/plugins/mercure.js'
 
 export default {
   name: 'ScheduleEntry',
@@ -373,7 +374,7 @@ export default {
       editActivityTitle: false,
       categoryChangeState: null,
       loading: true,
-      eventSource: null,
+      unsubscribe: null,
     }
   },
   head() {
@@ -475,25 +476,14 @@ export default {
     this.loading = false
     // no refresh of activity here because the requireActivityScheduleEntry guard already does a refresh
 
-    const url = new URL('http://localhost:3020/.well-known/mercure')
-    url.searchParams.append('topic', '/api' + this.scheduleEntry.activity()._meta.self)
-    this.eventSource = new EventSource(url)
-
-    console.log('Mercure Subscription to ' + this.scheduleEntry.activity()._meta.self)
-    this.eventSource.addEventListener(
-      'message',
-      (event) => {
-        let data = JSON.parse(event.data)
-        console.log(data)
-        this.api.storeHalJsonData(data)
-      },
-      false
+    this.unsubscribe = subscribeToMercureTopic(
+      '/api' + this.scheduleEntry.activity()._meta.self,
+      (data) => this.api.storeHalJsonData(data)
     )
   },
 
-  async unmounted() {
-    console.log('Mercure Unsubscribe')
-    this.eventSource.close()
+  unmounted() {
+    this.unsubscribe?.()
   },
 
   methods: {

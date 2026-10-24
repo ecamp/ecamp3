@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "a0aa04e008fddf9df8567e1d064b8bf9",
+  "content-hash": "a2da05acff9675f44b8997bb482845f1",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -8375,40 +8375,42 @@
     },
     {
       "name": "symfony/mercure-bundle",
-      "version": "v0.4.2",
+      "version": "v0.6.1",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/mercure-bundle.git",
-        "reference": "eae8bf5a75b4e1203bd9aa4181c7950a4df4b3e3"
+        "reference": "a9f1affc1cbd81413938d2035141732b614a9507"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/symfony/mercure-bundle/zipball/eae8bf5a75b4e1203bd9aa4181c7950a4df4b3e3",
-        "reference": "eae8bf5a75b4e1203bd9aa4181c7950a4df4b3e3",
+        "url": "https://api.github.com/repos/symfony/mercure-bundle/zipball/a9f1affc1cbd81413938d2035141732b614a9507",
+        "reference": "a9f1affc1cbd81413938d2035141732b614a9507",
         "shasum": ""
       },
       "require": {
         "lcobucci/jwt": "^3.4|^4.0|^5.0",
-        "php": ">=8.1",
+        "php": ">=8.2",
         "symfony/config": "^6.4|^7.3|^8.0",
         "symfony/dependency-injection": "^6.4|^7.3|^8.0",
         "symfony/http-kernel": "^6.4|^7.3|^8.0",
-        "symfony/mercure": "*",
+        "symfony/mercure": "^0.8|^0.9",
         "symfony/web-link": "^6.4|^7.3|^8.0"
       },
       "require-dev": {
         "symfony/phpunit-bridge": "^7.3.4|^8.0",
         "symfony/stopwatch": "^6.4|^7.3|^8.0",
         "symfony/ux-turbo": "*",
-        "symfony/var-dumper": "^6.4|^7.3|^8.0"
+        "symfony/var-dumper": "^6.4|^7.3|^8.0",
+        "web-token/jwt-library": "^4.1"
       },
       "suggest": {
-        "symfony/messenger": "To use the Messenger integration"
+        "symfony/messenger": "To use the Messenger integration",
+        "web-token/jwt-library": "To build Mercure protocol 1.0-compatible JSON Web Tokens from a \"jwt.jwks_uri\" option"
       },
       "type": "symfony-bundle",
       "extra": {
         "branch-alias": {
-          "dev-main": "0.3.x-dev"
+          "dev-main": "0.6.x-dev"
         }
       },
       "autoload": {
@@ -8440,7 +8442,7 @@
       ],
       "support": {
         "issues": "https://github.com/symfony/mercure-bundle/issues",
-        "source": "https://github.com/symfony/mercure-bundle/tree/v0.4.2"
+        "source": "https://github.com/symfony/mercure-bundle/tree/v0.6.1"
       },
       "funding": [
         {
@@ -8452,7 +8454,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2025-11-25T12:51:49+00:00"
+      "time": "2026-10-11T21:01:28+00:00"
     },
     {
       "name": "symfony/mime",

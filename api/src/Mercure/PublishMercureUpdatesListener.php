@@ -207,6 +207,8 @@ final class PublishMercureUpdatesListener implements ResetInterface {
 
             $options['enable_async_update'] ??= true;
 
+            $options['private'] ??= true;
+
             if ('deletedObjects' === $property) {
                 $types = $operation->getTypes();
                 if (null === $types) {

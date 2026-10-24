@@ -107,7 +107,7 @@ services:
 
   ###> symfony/mercure-bundle ###
   mercure:
-    image: dunglas/mercure
+    image: dunglas/mercure:v1.1.4
     container_name: 'ecamp3-mercure'
     restart: unless-stopped
     environment:
@@ -115,13 +115,13 @@ services:
       SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      # Must match the "iss" claim configured in api/config/packages/mercure.yaml
+      MERCURE_TRUSTED_ISSUERS: 'ecamp3-api'
       # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
       MERCURE_EXTRA_DIRECTIVES: |
         cors_origins http://localhost:3000
     ports:
       - '3020:80'
-    # Comment the following line to disable the development mode
-    command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
     healthcheck:
       test: ['CMD', 'curl', '-f', 'https://localhost/healthz']
       timeout: 5s
