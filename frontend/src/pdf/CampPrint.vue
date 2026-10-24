@@ -142,6 +142,9 @@ export const prepare = async (config) => {
   font-weight: 600;
   margin: 8pt 0 3pt;
 }
+.tabular-nums {
+  font-feature-settings: 'tnum';
+}
 .page-number {
   position: absolute;
   bottom: 15pt;

@@ -374,9 +374,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -412,9 +415,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -450,9 +456,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -488,9 +497,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -526,9 +538,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -564,9 +579,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -602,9 +620,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -640,9 +661,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -678,9 +702,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -716,9 +743,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -754,9 +784,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -792,9 +825,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -830,9 +866,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -868,9 +907,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -906,9 +948,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -944,9 +989,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -982,9 +1030,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -1020,9 +1071,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -1058,9 +1112,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -1513,7 +1570,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 1.1 Stadt Game 🐭",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Stadt Game 🐭",
                                 },
                               ],
                               "parent": [Circular],
@@ -1779,7 +1861,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 1.2 Anreise",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Anreise",
                                 },
                               ],
                               "parent": [Circular],
@@ -1958,7 +2065,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LA 1.A Lagerbau",
+                                  "value": "LA ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.A",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Lagerbau",
                                 },
                               ],
                               "parent": [Circular],
@@ -2137,7 +2269,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 1.3 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -2316,7 +2473,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 1.4 Takeoff",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Takeoff",
                                 },
                               ],
                               "parent": [Circular],
@@ -2495,7 +2677,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 1.5 Flugzeugabsturz",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.5",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Flugzeugabsturz",
                                 },
                               ],
                               "parent": [Circular],
@@ -3079,7 +3286,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 2.1 Morgenturnen",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Morgenturnen",
                                 },
                               ],
                               "parent": [Circular],
@@ -3258,7 +3490,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 2.2 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -3437,7 +3694,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 2.3 Lagerbau",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Lagerbau",
                                 },
                               ],
                               "parent": [Circular],
@@ -3616,7 +3898,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 2.4 Insel erkunden",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Insel erkunden",
                                 },
                               ],
                               "parent": [Circular],
@@ -3795,7 +4102,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 2.5 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.5",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -3974,7 +4306,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 2.6 Angriff der Aborigines",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.6",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Angriff der Aborigines",
                                 },
                               ],
                               "parent": [Circular],
@@ -4153,7 +4510,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 2.7 Pfadiversprechen",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.7",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Pfadiversprechen",
                                 },
                               ],
                               "parent": [Circular],
@@ -4332,7 +4714,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 2.8 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.8",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -4511,7 +4918,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 2.9 Essen zurückerobern",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.9",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen zurückerobern",
                                 },
                               ],
                               "parent": [Circular],
@@ -5094,7 +5526,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 3.1 Morgenturnern",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Morgenturnern",
                                 },
                               ],
                               "parent": [Circular],
@@ -5273,7 +5730,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 3.2 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -5452,7 +5934,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 3.3 Atelier",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Atelier",
                                 },
                               ],
                               "parent": [Circular],
@@ -5631,7 +6138,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 3.4 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -5810,7 +6342,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LA 3.A Pfadiversprechen",
+                                  "value": "LA ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.A",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Pfadiversprechen",
                                 },
                               ],
                               "parent": [Circular],
@@ -5989,7 +6546,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 3.5 Abschluss geländegame",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.5",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Abschluss geländegame",
                                 },
                               ],
                               "parent": [Circular],
@@ -6168,7 +6750,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 3.6 Vorbereitung BiPi Feuer",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.6",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Vorbereitung BiPi Feuer",
                                 },
                               ],
                               "parent": [Circular],
@@ -6347,7 +6954,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 3.7 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.7",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -6526,7 +7158,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 3.8 Bi-Pi Feuer",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.8",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Bi-Pi Feuer",
                                 },
                               ],
                               "parent": [Circular],
@@ -7109,7 +7766,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 4.1 Morgenturnen",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Morgenturnen",
                                 },
                               ],
                               "parent": [Circular],
@@ -7288,7 +7970,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 4.2 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -7467,7 +8174,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LA 4.A Lagerabbau",
+                                  "value": "LA ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.A",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Lagerabbau",
                                 },
                               ],
                               "parent": [Circular],
@@ -7646,7 +8378,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 4.3 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -7825,7 +8582,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 4.4 Heimreise",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Heimreise",
                                 },
                               ],
                               "parent": [Circular],
@@ -8028,9 +8810,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8066,9 +8851,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8104,9 +8892,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8142,9 +8933,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8180,9 +8974,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8218,9 +9015,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8256,9 +9056,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8294,9 +9097,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8332,9 +9138,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8370,9 +9179,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8408,9 +9220,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8446,9 +9261,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8484,9 +9302,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8522,9 +9343,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8560,9 +9384,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8598,9 +9425,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8636,9 +9466,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8674,9 +9507,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8712,9 +9548,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",

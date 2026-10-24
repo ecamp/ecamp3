@@ -66,9 +66,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "1.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "1.1 Stadt Game 🐭",
+                          "value": " Stadt Game 🐭",
                         },
                       ],
                       "parent": [Circular],
@@ -457,6 +477,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
@@ -566,6 +589,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -734,6 +760,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -884,6 +913,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",
@@ -1028,6 +1060,9 @@
                                       "style": {
                                         "flexGrow": "0",
                                         "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
                                         "paddingBottom": "3pt",

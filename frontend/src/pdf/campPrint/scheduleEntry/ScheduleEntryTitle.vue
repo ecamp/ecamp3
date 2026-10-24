@@ -11,7 +11,8 @@
           class="schedule-entry-category-label"
         />
         <Text :id="id" :bookmark="bookmarkTitle" class="schedule-entry-number-and-title">
-          {{ scheduleEntry.number }} {{ activity.title }}
+          <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+          {{ activity.title }}
         </Text>
       </View>
       <View class="schedule-entry-date">

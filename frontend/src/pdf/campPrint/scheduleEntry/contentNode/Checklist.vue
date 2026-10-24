@@ -101,7 +101,7 @@ export default {
   flex-shrink: 0;
   flex-grow: 0;
   padding-right: 2pt;
-  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
 }
 .checklist-item-column-2 {
   flex-basis: 0;

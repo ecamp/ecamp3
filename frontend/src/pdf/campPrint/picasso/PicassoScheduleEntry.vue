@@ -6,8 +6,9 @@
         class="picasso-schedule-entry-title"
         :style="{ fontSize: fontSize, color: textColor }"
       >
-        {{ category }} {{ scheduleEntry.number }} {{ title
-        }}{{ ysPhysicalActivityDurationAfterTitle }}
+        {{ category }}
+        <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+        {{ title }}{{ ysPhysicalActivityDurationAfterTitle }}
       </Text>
     </Link>
     <View class="picasso-schedule-entry-spacer" />
