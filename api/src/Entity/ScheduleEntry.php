@@ -90,6 +90,8 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
         'swagger_definition_name' => 'read',
     ];
 
+    public const YS_PHYSICAL_ACTIVITY_DURATION_CHOICES = [30, 45, 60, 75, 90, 105, 120];
+
     /**
      * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
      */
@@ -150,6 +152,18 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'float', nullable: true)]
     public ?float $width = 1;
+
+    /**
+     * The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.
+     * Null if not specified. Each schedule entry of an activity has its own value, because e.g. a
+     * repeated activity or an activity split into multiple schedule entries may contain different
+     * amounts of physical activity.
+     */
+    #[Assert\Choice(choices: self::YS_PHYSICAL_ACTIVITY_DURATION_CHOICES)]
+    #[ApiProperty(example: 60)]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    public ?int $ysPhysicalActivityDurationMinutes = null;
 
     /**
      * internal cache of 'start' and 'end' property during denormalization

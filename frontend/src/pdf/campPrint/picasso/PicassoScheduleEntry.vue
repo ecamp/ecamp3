@@ -6,7 +6,8 @@
         class="picasso-schedule-entry-title"
         :style="{ fontSize: fontSize, color: textColor }"
       >
-        {{ category }} {{ scheduleEntry.number }} {{ title }}
+        {{ category }} {{ scheduleEntry.number }} {{ title
+        }}{{ ysPhysicalActivityDurationSuffix }}
       </Text>
     </Link>
     <View class="picasso-schedule-entry-spacer" />
@@ -28,6 +29,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import Responsibles from '../Responsibles.vue'
 import { contrastColor } from '../../../common/helpers/colors.js'
+import { ysPhysicalActivityDurationShort } from '../../../common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'PicassoScheduleEntry',
@@ -50,6 +52,13 @@ export default {
     },
     title() {
       return this.scheduleEntry.activity().title
+    },
+    ysPhysicalActivityDurationSuffix() {
+      const duration = ysPhysicalActivityDurationShort(
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
+        this.$tc.bind(this)
+      )
+      return duration ? ` (${duration})` : ''
     },
     linkTarget() {
       return `#scheduleEntry_${this.scheduleEntry.id}`

@@ -139,6 +139,7 @@ export default {
   emits: ['activityCreated'],
   setup() {
     const showCopyActivityUrlPopover = ref(false)
+    const clipboardScheduleEntryId = ref(null)
 
     // Hack: In this case we need access to a method defined in the options API
     // because moving this method to the composition API would force us to move
@@ -156,6 +157,7 @@ export default {
         const match = router.resolve(url)
 
         if (match.name !== 'camp/activity') return null
+        clipboardScheduleEntryId.value = match.params['scheduleEntryId'] ?? null
         const result = await api.get().activities({ id: match.params['activityId'] })
 
         // if Paste-Popover is shown, close it now
@@ -177,6 +179,7 @@ export default {
 
     return {
       ...clipboard,
+      clipboardScheduleEntryId,
       showCopyActivityUrlPopover,
     }
   },
@@ -201,6 +204,15 @@ export default {
       set(val) {
         this.setCopyContentCheckbox(val)
       },
+    },
+    copiedYsPhysicalActivityDuration() {
+      if (!this.copyContent) return null
+      return (
+        this.clipboardEntity
+          ?.scheduleEntries()
+          .items.find((entry) => entry.id === this.clipboardScheduleEntryId)
+          ?.ysPhysicalActivityDurationMinutes ?? null
+      )
     },
   },
   watch: {
@@ -247,6 +259,7 @@ export default {
               period: entry.period()._meta.self,
               start: entry.start,
               end: entry.end,
+              ysPhysicalActivityDurationMinutes: this.copiedYsPhysicalActivityDuration,
             })) || [],
       }
 

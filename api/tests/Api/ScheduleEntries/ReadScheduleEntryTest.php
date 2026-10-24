@@ -59,6 +59,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
 
             'left' => 0,
             'width' => 1,
+            'ysPhysicalActivityDurationMinutes' => 60,
             'dayNumber' => 4,
             'scheduleEntryNumber' => 1,
             'number' => '4.1',

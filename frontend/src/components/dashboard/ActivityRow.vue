@@ -43,6 +43,13 @@
       </router-link>
 
       <span
+        v-if="ysPhysicalActivityDuration"
+        class="e-subtitle e-subtitle--smaller mr-2 nowrap"
+      >
+        {{ ysPhysicalActivityDuration }}
+      </span>
+
+      <span
         v-if="
           !loadingEndpoints?.progressLabels && $vuetify.display.mdAndUp && progressLabel
         "
@@ -127,6 +134,7 @@ import {
   openCommentsForActivity,
 } from '@/components/comments/commentsState.js'
 import { scheduleEntryRoute } from '@/router.js'
+import { ysPhysicalActivityDurationShort } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'ActivityRow',
@@ -178,6 +186,12 @@ export default {
     },
     duration() {
       return this.timeDurationShort(this.scheduleEntry.start, this.scheduleEntry.end)
+    },
+    ysPhysicalActivityDuration() {
+      return ysPhysicalActivityDurationShort(
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
+        this.$t.bind(this)
+      )
     },
     routerLink() {
       return scheduleEntryRoute(this.scheduleEntry)

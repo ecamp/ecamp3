@@ -25,6 +25,7 @@ import SafetyConsiderations from './content/SafetyConsiderations.vue'
 import Storyboard from './content/Storyboard.vue'
 import Storycontext from './content/Storycontext.vue'
 import Checklist from './content/Checklist.vue'
+import YSPhysicalActivityDuration from './content/YSPhysicalActivityDuration.vue'
 
 const contentNodeComponents = {
   ColumnLayout,
@@ -39,6 +40,7 @@ const contentNodeComponents = {
   Storyboard,
   Storycontext,
   Checklist,
+  YSPhysicalActivityDuration,
 }
 
 export default {

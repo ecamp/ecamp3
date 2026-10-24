@@ -39,6 +39,7 @@ import SafetyConsiderations from './SafetyConsiderations.vue'
 import Storycontext from './Storycontext.vue'
 import Storyboard from './Storyboard.vue'
 import Checklist from './Checklist.vue'
+import YSPhysicalActivityDuration from './YSPhysicalActivityDuration.vue'
 
 export default defineNuxtComponent({
   components: {
@@ -55,6 +56,7 @@ export default defineNuxtComponent({
     Storyboard,
     Storycontext,
     Checklist,
+    YSPhysicalActivityDuration,
   },
   methods: {
     componentFor(contentNode) {

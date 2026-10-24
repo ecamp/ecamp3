@@ -72,6 +72,12 @@
         {{ location }}
       </small>
     </template>
+    <template v-if="ysPhysicalActivityDuration">
+      <br v-if="!isTinyDuration" />
+      <small class="e-picasso-entry__ys-physical-activity-duration">
+        {{ ysPhysicalActivityDuration }}
+      </small>
+    </template>
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
@@ -121,6 +127,10 @@
         {{ location }}
       </small>
     </template>
+    <template v-if="ysPhysicalActivityDuration">
+      <br v-if="!isTinyDuration" />
+      <small>{{ ysPhysicalActivityDuration }}</small>
+    </template>
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
@@ -144,6 +154,7 @@ import { timestampToUtcString } from './dateHelperVCalendar.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import router, { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
+import { ysPhysicalActivityDurationShort } from '@/common/helpers/ysPhysicalActivityDuration.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
@@ -240,6 +251,13 @@ export default {
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
       return this.activity.location
+    },
+    ysPhysicalActivityDuration() {
+      if (this.scheduleEntry.tmpEvent) return ''
+      return ysPhysicalActivityDurationShort(
+        this.scheduleEntry.ysPhysicalActivityDurationMinutes,
+        this.$t.bind(this)
+      )
     },
     activityLoading() {
       return (
@@ -434,6 +452,7 @@ export default {
 .e-picasso-entry {
   .e-picasso-entry__title,
   .e-picasso-entry__location,
+  .e-picasso-entry__ys-physical-activity-duration,
   .e-picasso-entry__responsible,
   /* eslint-disable-next-line vue-scoped-css/no-unused-selector */
   .e-avatarrow {
@@ -445,6 +464,7 @@ export default {
 .e-picasso-entry--temporary {
   .e-picasso-entry__title,
   .e-picasso-entry__location,
+  .e-picasso-entry__ys-physical-activity-duration,
   .e-picasso-entry__responsible,
   /* eslint-disable-next-line vue-scoped-css/no-unused-selector */
   .e-avatarrow {

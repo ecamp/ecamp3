@@ -35,3 +35,12 @@ App\Entity\ContentNode\SingleText:
     instanceName: 'safetyConsiderations1'
     contentType: '@contentTypeSafetyConsiderations'
     data: { html: <sentence()> }
+
+App\Entity\ContentNode\NoData:
+  noData1:
+    root: '@columnLayout1'
+    parent: '@responsiveLayout1'
+    slot: 'aside-top'
+    position: 4
+    instanceName: 'noData1'
+    contentType: '@contentTypeYSPhysicalActivityDuration'

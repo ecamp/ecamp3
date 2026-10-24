@@ -44,7 +44,7 @@
           }
         }
       },
-      "info": "Un'attività del campo Y+S deve trattare almeno uno degli argomenti elencati.{br}Seleziona gli argomenti da trattare in questo blocco.",
+      "info": "Un'attività del campo G+S deve trattare almeno uno degli argomenti elencati.{br}Seleziona gli argomenti da trattare in questo blocco.",
       "name": "Area tematica AC"
     },
     "material": {
@@ -108,6 +108,12 @@
       },
       "info": "Seleziona le forme caratteristiche trattate in questa attività.",
       "name": "Forme caratteristiche G+S"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Registra il tempo dedicato all'attività fisica G+S per ogni inserimento nel programma di questa attività. Viene mostrato anche nel programma generale.",
+      "name": "Tempo dedicato all'attività fisica G+S",
+      "none": "Non specificato",
+      "templateHint": "Il tempo dedicato all'attività fisica G+S viene registrato in ogni attività, per inserimento nel programma."
     }
   },
   "entity": {
@@ -228,7 +234,9 @@
         "nr": "N.",
         "startDate": "Data di inizio",
         "startDatetime": "Ora di inizio",
-        "time": "Tempo"
+        "time": "Tempo",
+        "ysPhysicalActivityDuration": "Tempo dedicato all'attività fisica G+S",
+        "ysPhysicalActivityDurationShort": "TAF {minutes} min"
       },
       "name": "Inserimento nel programma"
     }

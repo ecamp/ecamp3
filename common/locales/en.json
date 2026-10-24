@@ -98,6 +98,12 @@
     "ysActivityCharacteristics": {
       "info": "Select the activity characteristics covered in this activity.",
       "name": "Y+S activity characteristics"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Record the Y+S physical activity time for each scheduled occurrence of this activity. It is also shown in the picasso.",
+      "name": "Y+S physical activity time",
+      "none": "Not specified",
+      "templateHint": "The Y+S physical activity time is recorded per scheduled occurrence in each activity."
     }
   },
   "entity": {
@@ -241,7 +247,9 @@
         "nr": "No.",
         "startDate": "Startdate",
         "startDatetime": "Starttime",
-        "time": "Time"
+        "time": "Time",
+        "ysPhysicalActivityDuration": "Y+S physical activity time",
+        "ysPhysicalActivityDurationShort": "PA {minutes} min"
       },
       "name": "Activity scheduled"
     }

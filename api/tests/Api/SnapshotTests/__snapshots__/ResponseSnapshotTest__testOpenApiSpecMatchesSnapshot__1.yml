@@ -17185,6 +17185,599 @@ components:
             - position
             - root
           type: object
+    NoData:
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+      properties:
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: |-
+            Always null, this content node does not hold any data
+            (overridden from abstract class in order to add specific validation).
+          items:
+            type:
+              - 'null'
+              - string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: '0'
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type: string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - children
+        - contentType
+        - position
+        - root
+      type: object
+    NoData-read:
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+      properties:
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: |-
+            Always null, this content node does not hold any data
+            (overridden from abstract class in order to add specific validation).
+          items:
+            type:
+              - 'null'
+              - string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: '0'
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type: string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - children
+        - contentType
+        - position
+        - root
+      type: object
+    NoData-write_create:
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+      properties:
+        contentType:
+          $ref: '#/components/schemas/ContentType-write_create'
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+        data:
+          description: |-
+            Always null, this content node does not hold any data
+            (overridden from abstract class in order to add specific validation).
+          items:
+            type:
+              - 'null'
+              - string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            - $ref: '#/components/schemas/ContentNode-write_create'
+            - type: 'null'
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: '0'
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - parent
+        - position
+      type: object
+    NoData-write_update.jsonMergePatch:
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+      properties:
+        data:
+          description: |-
+            Always null, this content node does not hold any data
+            (overridden from abstract class in order to add specific validation).
+          items:
+            type:
+              - 'null'
+              - string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            - $ref: '#/components/schemas/ContentNode-write_update'
+            - type: 'null'
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: '0'
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      type: object
+    NoData.html-read:
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+      properties:
+        children:
+          description: 'All content nodes that are direct children of this content node.'
+          example: '["/content_nodes/1a2b3c4d"]'
+          items:
+            example: 'https://example.com/'
+            format: iri-reference
+            type: string
+          readOnly: true
+          type: array
+        contentType:
+          description: |-
+            Defines the type of this content node. There is a fixed list of types that are implemented
+            in eCamp. Depending on the type, different content data and different slots may be allowed
+            in a content node. The content type may not be changed once the content node is created.
+          example: /content_types/1a2b3c4d
+          format: iri-reference
+          type: string
+        contentTypeName:
+          description: 'The name of the content type of this content node. Read-only, for convenience.'
+          example: SafetyConsiderations
+          readOnly: true
+          type: string
+        data:
+          description: |-
+            Always null, this content node does not hold any data
+            (overridden from abstract class in order to add specific validation).
+          items:
+            type:
+              - 'null'
+              - string
+          type:
+            - array
+            - 'null'
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          description: |-
+            The parent to which this content node belongs. Is null in case this content node is the
+            root of a content node tree. For non-root content nodes, the parent can be changed, as long
+            as the new parent is in the same camp as the old one.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: '0'
+          type: integer
+        root:
+          description: |-
+            The content node that is the root of the content node tree. Refers to itself in case this
+            content node is the root.
+          example: /content_nodes/1a2b3c4d
+          format: iri-reference
+          readOnly: true
+          type: string
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - children
+        - contentType
+        - position
+        - root
+      type: object
+    NoData.jsonapi:
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                _id:
+                  description: 'An internal, unique, randomly generated identifier of this entity.'
+                  example: 1a2b3c4d
+                  maxLength: 16
+                  readOnly: true
+                  type: string
+                contentTypeName:
+                  description: 'The name of the content type of this content node. Read-only, for convenience.'
+                  example: SafetyConsiderations
+                  readOnly: true
+                  type: string
+                data:
+                  description: |-
+                    Always null, this content node does not hold any data
+                    (overridden from abstract class in order to add specific validation).
+                  items: { type: ['null', string] }
+                  type: [array, 'null']
+                instanceName:
+                  description: |-
+                    An optional name for this content node. This is useful when planning e.g. an alternative
+                    version of the programme suited for bad weather, in addition to the normal version.
+                  example: Schlechtwetterprogramm
+                  maxLength: 32
+                  type: ['null', string]
+                position:
+                  default: -1
+                  description: |-
+                    A whole number used for ordering multiple content nodes that are in the same slot of the
+                    same parent. The API does not guarantee the uniqueness of parent+slot+position.
+                  example: '0'
+                  type: integer
+                slot:
+                  description: |-
+                    The name of the slot in the parent in which this content node resides. The valid slot names
+                    are defined by the content type of the parent.
+                  example: '1'
+                  maxLength: 32
+                  type: ['null', string]
+              type: object
+            id:
+              type: string
+            relationships:
+              properties:
+                children:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } }
+                contentType:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
+                parent:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
+                root:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } }
+              type: object
+            type:
+              type: string
+          required:
+            - id
+            - type
+          type: object
+        included:
+          description: 'Related resources requested via the "include" query parameter.'
+          externalDocs:
+            url: 'https://jsonapi.org/format/#fetching-includes'
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              - $ref: '#/components/schemas/ContentType.jsonapi'
+          readOnly: true
+          type: array
+    NoData.jsonhal-read:
+      allOf:
+        - $ref: '#/components/schemas/NoData-read'
+        -
+          properties:
+            _links:
+              properties:
+                self:
+                  properties: { href: { format: iri-reference, type: string } }
+                  type: object
+              type: object
+          type: object
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+    NoData.jsonhal-write_create:
+      allOf:
+        - $ref: '#/components/schemas/NoData-write_create'
+        -
+          properties:
+            _links:
+              properties:
+                self:
+                  properties: { href: { format: iri-reference, type: string } }
+                  type: object
+              type: object
+          type: object
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+    NoData.jsonld-read:
+      allOf:
+        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          properties:
+            children:
+              description: 'All content nodes that are direct children of this content node.'
+              example: '["/content_nodes/1a2b3c4d"]'
+              items:
+                example: 'https://example.com/'
+                format: iri-reference
+                type: string
+              readOnly: true
+              type: array
+            contentType:
+              description: |-
+                Defines the type of this content node. There is a fixed list of types that are implemented
+                in eCamp. Depending on the type, different content data and different slots may be allowed
+                in a content node. The content type may not be changed once the content node is created.
+              example: /content_types/1a2b3c4d
+              format: iri-reference
+              type: string
+            contentTypeName:
+              description: 'The name of the content type of this content node. Read-only, for convenience.'
+              example: SafetyConsiderations
+              readOnly: true
+              type: string
+            data:
+              description: |-
+                Always null, this content node does not hold any data
+                (overridden from abstract class in order to add specific validation).
+              items:
+                type:
+                  - 'null'
+                  - string
+              type:
+                - array
+                - 'null'
+            id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            instanceName:
+              description: |-
+                An optional name for this content node. This is useful when planning e.g. an alternative
+                version of the programme suited for bad weather, in addition to the normal version.
+              example: Schlechtwetterprogramm
+              maxLength: 32
+              type:
+                - 'null'
+                - string
+            parent:
+              description: |-
+                The parent to which this content node belongs. Is null in case this content node is the
+                root of a content node tree. For non-root content nodes, the parent can be changed, as long
+                as the new parent is in the same camp as the old one.
+              example: /content_nodes/1a2b3c4d
+              format: iri-reference
+              type:
+                - 'null'
+                - string
+            position:
+              default: -1
+              description: |-
+                A whole number used for ordering multiple content nodes that are in the same slot of the
+                same parent. The API does not guarantee the uniqueness of parent+slot+position.
+              example: '0'
+              type: integer
+            root:
+              description: |-
+                The content node that is the root of the content node tree. Refers to itself in case this
+                content node is the root.
+              example: /content_nodes/1a2b3c4d
+              format: iri-reference
+              readOnly: true
+              type: string
+            slot:
+              description: |-
+                The name of the slot in the parent in which this content node resides. The valid slot names
+                are defined by the content type of the parent.
+              example: '1'
+              maxLength: 32
+              type:
+                - 'null'
+                - string
+          required:
+            - children
+            - contentType
+            - position
+            - root
+          type: object
+      description: |-
+        A content node which does not store any data itself. Useful for content types which only
+        display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
     Period:
       properties:
         camp:
@@ -20535,6 +21128,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20588,6 +21195,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       type: object
     ScheduleEntry-read:
       description: |-
@@ -20674,6 +21295,12 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - end
         - start
@@ -20761,6 +21388,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20849,6 +21490,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20938,6 +21593,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -20985,6 +21654,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       type: object
     ScheduleEntry-write_create:
       description: |-
@@ -21034,6 +21717,12 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - end
         - start
@@ -21086,6 +21775,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       type: object
     ScheduleEntry.html-read:
       description: |-
@@ -21172,6 +21875,12 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - end
         - start
@@ -21259,6 +21968,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -21347,6 +22070,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -21436,6 +22173,20 @@ components:
           type:
             - 'null'
             - number
+        ysPhysicalActivityDurationMinutes:
+          description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
       required:
         - activity
         - end
@@ -21504,6 +22255,11 @@ components:
                     between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
                   example: 0.4
                   type: ['null', number]
+                ysPhysicalActivityDurationMinutes:
+                  description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+                  enum: [105, 120, 30, 45, 60, 75, 90]
+                  example: 60
+                  type: [integer, 'null']
               type: object
             id:
               type: string
@@ -21663,6 +22419,12 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDurationMinutes:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - end
             - start
@@ -21756,6 +22518,20 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDurationMinutes:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              enum:
+                - 105
+                - 120
+                - 30
+                - 45
+                - 60
+                - 75
+                - 90
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - activity
             - end
@@ -21850,6 +22626,20 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDurationMinutes:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              enum:
+                - 105
+                - 120
+                - 30
+                - 45
+                - 60
+                - 75
+                - 90
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - activity
             - end
@@ -21942,6 +22732,20 @@ components:
               type:
                 - 'null'
                 - number
+            ysPhysicalActivityDurationMinutes:
+              description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.'
+              enum:
+                - 105
+                - 120
+                - 30
+                - 45
+                - 60
+                - 75
+                - 90
+              example: 60
+              type:
+                - integer
+                - 'null'
           required:
             - activity
             - end
@@ -30209,6 +31013,414 @@ paths:
       summary: 'Updates the MultiSelect resource.'
       tags:
         - MultiSelect
+  /content_node/no_datas:
+    get:
+      description: 'Retrieves the collection of NoData resources.'
+      operationId: api_content_nodeno_datas_get_collection
+      parameters:
+        -
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: contentType
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
+          style: form
+        -
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: ''
+          explode: false
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'contentType[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+        -
+          deprecated: false
+          description: ''
+          explode: true
+          in: query
+          name: 'root[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/HalCollectionBaseSchemaNoPagination' }
+                  - { properties: { _embedded: { additionalProperties: { items: { $ref: '#/components/schemas/NoData.jsonhal-read' }, type: array } } }, type: object }
+                description: 'NoData.jsonhal-read collection.'
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/NoData-read'
+                type: array
+            application/ld+json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/HydraCollectionBaseSchemaNoPagination' }
+                  - { properties: { member: { items: { $ref: '#/components/schemas/NoData.jsonld-read' }, type: array } }, required: [member], type: object }
+                description: 'NoData.jsonld-read collection.'
+                type: object
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, contentTypeName: { description: 'The name of the content type of this content node. Read-only, for convenience.', example: SafetyConsiderations, readOnly: true, type: string }, data: { description: "Always null, this content node does not hold any data\n(overridden from abstract class in order to add specific validation).", items: { type: ['null', string] }, type: [array, 'null'] }, instanceName: { description: "An optional name for this content node. This is useful when planning e.g. an alternative\nversion of the programme suited for bad weather, in addition to the normal version.", example: Schlechtwetterprogramm, maxLength: 32, type: ['null', string] }, position: { default: -1, description: "A whole number used for ordering multiple content nodes that are in the same slot of the\nsame parent. The API does not guarantee the uniqueness of parent+slot+position.", example: '0', type: integer }, slot: { description: "The name of the slot in the parent in which this content node resides. The valid slot names\nare defined by the content type of the parent.", example: '1', maxLength: 32, type: ['null', string] } }, type: object }, id: { type: string }, relationships: { properties: { children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, type: array } } }, contentType: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, root: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/ColumnLayout.jsonapi' }, { $ref: '#/components/schemas/ContentType.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                description: 'NoData.jsonapi collection.'
+            text/html:
+              schema:
+                items:
+                  $ref: '#/components/schemas/NoData.html-read'
+                type: array
+          description: 'NoData collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+      summary: 'Retrieves the collection of NoData resources.'
+      tags:
+        - NoData
+    post:
+      description: 'Creates a NoData resource.'
+      operationId: api_content_nodeno_datas_post
+      parameters: []
+      requestBody:
+        content:
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/NoData.jsonhal-write_create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoData-write_create'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/NoData-write_create'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/NoData-write_create'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/NoData-write_create'
+        description: 'The new NoData resource'
+        required: true
+      responses:
+        201:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoData-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/NoData.html-read'
+          description: 'NoData resource created'
+          links: []
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Invalid input'
+          links: []
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          description: 'An error occurred'
+          links: []
+      summary: 'Creates a NoData resource.'
+      tags:
+        - NoData
+  '/content_node/no_datas/{id}':
+    delete:
+      description: 'Removes the NoData resource.'
+      operationId: api_content_nodeno_datas_id_delete
+      parameters:
+        -
+          deprecated: false
+          description: 'NoData identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        204:
+          description: 'NoData resource deleted'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+      summary: 'Removes the NoData resource.'
+      tags:
+        - NoData
+    get:
+      description: 'Retrieves a NoData resource.'
+      operationId: api_content_nodeno_datas_id_get
+      parameters:
+        -
+          deprecated: false
+          description: 'NoData identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoData-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/NoData.html-read'
+          description: 'NoData resource'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+      summary: 'Retrieves a NoData resource.'
+      tags:
+        - NoData
+    patch:
+      description: 'Updates the NoData resource.'
+      operationId: api_content_nodeno_datas_id_patch
+      parameters:
+        -
+          deprecated: false
+          description: 'NoData identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/NoData-write_update.jsonMergePatch'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/NoData-write_update.jsonMergePatch'
+        description: 'The updated NoData resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoData-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NoData.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/NoData.html-read'
+          description: 'NoData resource updated'
+          links: []
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          description: 'An error occurred'
+          links: []
+      summary: 'Updates the NoData resource.'
+      tags:
+        - NoData
   /content_node/responsive_layouts:
     get:
       description: 'Retrieves the collection of ResponsiveLayout resources.'
@@ -34156,7 +35368,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] }, ysPhysicalActivityDurationMinutes: { description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.', enum: [105, 120, 30, 45, 60, 75, 90], example: 60, type: [integer, 'null'] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'ScheduleEntry.jsonapi collection.'
             text/html:
               schema:
@@ -34895,7 +36107,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { properties: { _id: { description: 'An internal, unique, randomly generated identifier of this entity.', example: 1a2b3c4d, maxLength: 16, readOnly: true, type: string }, dayNumber: { description: 'The day number of the day on which this schedule entry starts.', example: '1', readOnly: true, type: integer }, end: { description: 'End date and time of the schedule entry.', example: '2022-01-02T01:30:00+00:00', format: date-time, type: string }, left: { default: 0, description: "When rendering a period in a calendar view: Specifies how far offset the rendered calendar event\nshould be from the left border of the day column, as a fractional amount of the width of the whole\nday. This is useful to arrange multiple overlapping schedule entries such that all of them are\nvisible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the\nAPI currently does not enforce this.", example: 0.6, type: ['null', number] }, number: { description: "Uniquely identifies this schedule entry in the period. This uses the day number, followed\nby a period, followed by the cardinal number of the schedule entry in the numbering scheme\ndefined by the activity's category.", example: 1.b, readOnly: true, type: string }, scheduleEntryNumber: { description: "The cardinal number of this schedule entry, when chronologically ordering all\nschedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if\nthe schedule entry is the second entry with roman numbering on a given day, its\nnumber will be 2.", example: '2', readOnly: true, type: integer }, start: { description: 'Start date and time of the schedule entry.', example: '2022-01-02T00:00:00+00:00', format: date-time, type: string }, width: { default: 1, description: "When rendering a period in a calendar view: Specifies how wide the rendered calendar event should\nbe, as a fractional amount of the width of the whole day. This is useful to arrange multiple\noverlapping schedule entries such that all of them are visible. Should be a decimal number\nbetween 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.", example: 0.4, type: ['null', number] }, ysPhysicalActivityDurationMinutes: { description: 'The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.', enum: [105, 120, 30, 45, 60, 75, 90], example: 60, type: [integer, 'null'] } }, type: object }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, day: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } }, period: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array }, included: { description: 'Related resources requested via the "include" query parameter.', externalDocs: { url: 'https://jsonapi.org/format/#fetching-includes' }, items: { anyOf: [{ $ref: '#/components/schemas/Activity.jsonapi' }, { $ref: '#/components/schemas/Day.jsonapi' }, { $ref: '#/components/schemas/Period.jsonapi' }] }, readOnly: true, type: array } }, type: object }
                 description: 'ScheduleEntry.jsonapi collection.'
             text/html:
               schema:
@@ -35664,6 +36876,10 @@ tags:
       A calendar event in a period of the camp, at which some activity will take place. The start time
       is specified as an offset in minutes from the period's start time.
     name: ScheduleEntry
+  - description: |-
+      A content node which does not store any data itself. Useful for content types which only
+      display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
+    name: NoData
   - description: |-
       A day in a time period of a camp. This is represented as a reference to the time period
       along with a number of days offset from the period's starting date. This is to make it

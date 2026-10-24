@@ -8,6 +8,9 @@
       >
         {{ scheduleEntry.number }} {{ scheduleEntry.activity().category().short }}:
         {{ scheduleEntry.activity().title }}
+        <template v-if="ysPhysicalActivityDuration(scheduleEntry)">
+          ({{ ysPhysicalActivityDuration(scheduleEntry) }})
+        </template>
       </a>
     </div>
     <span
@@ -22,6 +25,7 @@
 <script>
 import { activityResponsiblesCommaSeparated } from '@/common/helpers/activityResponsibles.js'
 import { contrastColor } from '@/common/helpers/colors.js'
+import { ysPhysicalActivityDurationShort } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   props: {
@@ -34,6 +38,12 @@ export default {
     getActivityTextColor(scheduleEntry) {
       const color = this.getActivityColor(scheduleEntry)
       return contrastColor(color)
+    },
+    ysPhysicalActivityDuration(scheduleEntry) {
+      return ysPhysicalActivityDurationShort(
+        scheduleEntry.ysPhysicalActivityDurationMinutes,
+        this.$t.bind(this)
+      )
     },
     activityResponsiblesCommaSeparated(scheduleEntry) {
       const responsibles = activityResponsiblesCommaSeparated(

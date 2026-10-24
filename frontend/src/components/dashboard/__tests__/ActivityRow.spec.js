@@ -32,12 +32,15 @@ const scheduleEntry = {
   }),
 }
 
-function mountRow(commentCount = 0, { mobile = false } = {}) {
+function mountRow(
+  commentCount = 0,
+  { mobile = false, ysPhysicalActivityDurationMinutes = null } = {}
+) {
   push = vi.fn()
   resize(mobile ? 375 : 1280)
   return mount(ActivityRow, {
     props: {
-      scheduleEntry,
+      scheduleEntry: { ...scheduleEntry, ysPhysicalActivityDurationMinutes },
       loadingEndpoints: {
         categories: false,
         periods: false,
@@ -77,6 +80,26 @@ describe('ActivityRow', () => {
     expect(badge.text()).toContain('3')
     expect(badge.attributes('aria-label')).toBe(
       'components.dashboard.activityRow.comments 3'
+    )
+  })
+
+  it('shows the physical activity duration', () => {
+    const wrapper = mountRow(0, {
+      ysPhysicalActivityDurationMinutes: 60,
+    })
+
+    expect(wrapper.text()).toContain(
+      'entity.scheduleEntry.fields.ysPhysicalActivityDurationShort'
+    )
+  })
+
+  it('shows no physical activity duration if it is not specified', () => {
+    const wrapper = mountRow(0, {
+      ysPhysicalActivityDurationMinutes: null,
+    })
+
+    expect(wrapper.text()).not.toContain(
+      'entity.scheduleEntry.fields.ysPhysicalActivityDurationShort'
     )
   })
 
