@@ -11,6 +11,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import ColumnLayout from './ColumnLayout.vue'
 import ResponsiveLayout from './ResponsiveLayout.vue'
 import LAThematicArea from './LAThematicArea.vue'
+import YSActivityCharacteristics from './YSActivityCharacteristics.vue'
 import LearningObjectives from './LearningObjectives.vue'
 import LearningTopics from './LearningTopics.vue'
 import Storyboard from './Storyboard.vue'
@@ -35,6 +36,7 @@ export default {
         ColumnLayout,
         ResponsiveLayout,
         LAThematicArea,
+        YSActivityCharacteristics,
         LearningObjectives,
         LearningTopics,
         Storyboard,

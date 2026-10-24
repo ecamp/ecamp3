@@ -55,3 +55,19 @@ App\Entity\ContentType:
     name: 'Checklist'
     active: true
     entityClass: 'App\Entity\ContentNode\ChecklistNode'
+  contentTypeYSActivityCharacteristics:
+    name: 'YSActivityCharacteristics'
+    active: true
+    entityClass: 'App\Entity\ContentNode\MultiSelect'
+    jsonConfig:
+      {
+        items:
+          [
+            'outdoorTechnique',
+            'travellingSafety',
+            'gamesAndSports',
+            'gettingInvolved',
+            'community',
+            'natureAndEnvironment',
+          ],
+      }

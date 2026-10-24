@@ -82,6 +82,32 @@
     "storycontext": {
       "info": "Descrivi come questo blocco si inserisce nella storia del campo.{br}Puoi trovare un riepilogo di tutti gli elementi della storia nel menu \"Storia\".{br}Puoi anche elaborare prima una storia continua nel menu \"Storia\", in modo da incorporare perfettamente il contenuto del blocco nella storia.",
       "name": "Storia"
+    },
+    "ysActivityCharacteristics": {
+      "entity": {
+        "option": {
+          "community": {
+            "name": "Rafforzare la comunità con benevolenza"
+          },
+          "gamesAndSports": {
+            "name": "Contribuire creativamente a giochi e attività sportive variate"
+          },
+          "gettingInvolved": {
+            "name": "Esprimere consapevolmente i propri bisogni e le proprie idee"
+          },
+          "natureAndEnvironment": {
+            "name": "Trattare la natura e l’ambiente con rispetto"
+          },
+          "outdoorTechnique": {
+            "name": "Applicare efficacemente le tecniche di vita all’aperto e di costruzione del campo"
+          },
+          "travellingSafety": {
+            "name": "Spostarsi in sicurezza e con lungimiranza"
+          }
+        }
+      },
+      "info": "Seleziona le forme caratteristiche trattate in questa attività.",
+      "name": "Forme caratteristiche G+S"
     }
   },
   "entity": {
