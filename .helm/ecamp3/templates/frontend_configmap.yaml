@@ -34,4 +34,3 @@ data:
       FEATURE_HITOBITO: {{ .Values.featureToggle.hitobito | default false }},
       LOGIN_INFO_TEXT_KEY: '{{ .Values.frontend.loginInfoTextKey }}',
     }
-  deployedVersion: {{ .Values.deployedVersion | quote }}

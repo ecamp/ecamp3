@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
 
-if [ -n $VERSION ]; then
-  sed -i "s|<script src=\"/environment.js\"|<script src=\"/environment.js?version=$VERSION\"|" /app/index.html
-fi
+DIGEST=$(sha256sum /app/environment.js | cut -d ' ' -f 1)
+sed -i "s|<script src=\"/environment.js\"|<script src=\"/environment.js?version=$DIGEST\"|" /app/index.html
