@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import jsonStringifyReactiveValue from '../print/jsonStringifyReactiveValue.js'
 import DialogActivityCreate from './DialogActivityCreate.vue'
 import { subscribeToMercureTopic } from '@/plugins/mercure.js'
 

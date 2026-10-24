@@ -3,3 +3,8 @@ parameters:
 	paths:
 		- src
 	treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		# Copied from api-platform: optional integrations (Messenger, MongoDB ODM) are not installed
+		-
+			identifier: class.notFound
+			path: src/Mercure/PublishMercureUpdatesListener.php

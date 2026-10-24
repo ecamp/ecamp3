@@ -17,6 +17,7 @@ namespace App\Mercure;
 use ApiPlatform\Doctrine\Common\Messenger\DispatchTrait;
 use ApiPlatform\GraphQl\Subscription\MercureSubscriptionIriGeneratorInterface as GraphQlMercureSubscriptionIriGeneratorInterface;
 use ApiPlatform\GraphQl\Subscription\SubscriptionManagerInterface as GraphQlSubscriptionManagerInterface;
+use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Exception\RuntimeException;
 use ApiPlatform\Metadata\HttpOperation;
@@ -263,7 +264,7 @@ final class PublishMercureUpdatesListener implements ResetInterface {
                 'op' => match ($type) {
                     'create' => 'add',
                     'update' => 'replace',
-                    'default' => null
+                    default => null
                 },
                 'path' => $iri,
                 'value' => $this->serializer->serialize($object, key($this->formats), $context),
